@@ -551,6 +551,7 @@ export type GPUInstanceProfile = string;
 // @public
 export interface GPUProfile {
     driver?: GPUDriver;
+    nvidia?: NvidiaGPUProfile;
 }
 
 // @public
@@ -615,6 +616,9 @@ export interface IdentityBindingsOperations {
     get: (resourceGroupName: string, resourceName: string, identityBindingName: string, options?: IdentityBindingsGetOptionalParams) => Promise<IdentityBinding>;
     listByManagedCluster: (resourceGroupName: string, resourceName: string, options?: IdentityBindingsListByManagedClusterOptionalParams) => PagedAsyncIterableIterator<IdentityBinding>;
 }
+
+// @public
+export type InfrastructureEncryption = string;
 
 // @public
 export type IpFamily = string;
@@ -819,6 +823,11 @@ export enum KnownIdentityBindingProvisioningState {
 }
 
 // @public
+export enum KnownInfrastructureEncryption {
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownIpFamily {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
@@ -938,6 +947,12 @@ export enum KnownManagedClusterSKUTier {
 export enum KnownManagedGatewayType {
     Disabled = "Disabled",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownManagementMode {
+    Managed = "Managed",
+    Unmanaged = "Unmanaged"
 }
 
 // @public
@@ -1180,7 +1195,9 @@ export enum KnownVersions {
     V20260301 = "2026-03-01",
     V20260401 = "2026-04-01",
     V20260501 = "2026-05-01",
-    V20260601 = "2026-06-01"
+    V20260601 = "2026-06-01",
+    V20260701 = "2026-07-01",
+    V20260801 = "2026-08-01"
 }
 
 // @public
@@ -1222,6 +1239,11 @@ export type KubeletDiskType = string;
 // @public
 export interface KubernetesPatchVersion {
     upgrades?: string[];
+}
+
+// @public
+export interface KubernetesResourceObjectEncryptionProfile {
+    infrastructureEncryption?: InfrastructureEncryption;
 }
 
 // @public
@@ -1402,6 +1424,7 @@ export interface ManagedCluster extends TrackedResource {
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
+    enableFips?: boolean;
     enableRbac?: boolean;
     readonly eTag?: string;
     extendedLocation?: ExtendedLocation;
@@ -1830,6 +1853,7 @@ export interface ManagedClusterProperties {
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
+    enableFips?: boolean;
     enableRbac?: boolean;
     readonly fqdn?: string;
     fqdnSubdomain?: string;
@@ -1913,6 +1937,7 @@ export interface ManagedClusterSecurityProfile {
     customCATrustCertificates?: Uint8Array[];
     defender?: ManagedClusterSecurityProfileDefender;
     imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
+    kubernetesResourceObjectEncryptionProfile?: KubernetesResourceObjectEncryptionProfile;
     workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
 }
 
@@ -2289,6 +2314,9 @@ export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
 }
 
 // @public
+export type ManagementMode = string;
+
+// @public
 export interface ManualScaleProfile {
     count?: number;
     size?: string;
@@ -2367,6 +2395,11 @@ export type NodeProvisioningDefaultNodePools = string;
 
 // @public
 export type NodeProvisioningMode = string;
+
+// @public
+export interface NvidiaGPUProfile {
+    managementMode?: ManagementMode;
+}
 
 // @public
 export interface OperationsListOptionalParams extends OperationOptions {

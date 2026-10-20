@@ -1,45 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { ServiceNetworkingManagementContext as Client } from "../index.js";
+import type {
   SecurityPolicy,
-  securityPolicySerializer,
-  securityPolicyDeserializer,
   SecurityPolicyUpdate,
-  securityPolicyUpdateSerializer,
   _SecurityPolicyListResult,
-  _securityPolicyListResultDeserializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  securityPolicySerializer,
+  securityPolicyDeserializer,
+  securityPolicyUpdateSerializer,
+  _securityPolicyListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
   SecurityPoliciesInterfaceDeleteOptionalParams,
   SecurityPoliciesInterfaceUpdateOptionalParams,
   SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
   SecurityPoliciesInterfaceGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByTrafficControllerSend(
   context: Client,
   resourceGroupName: string,
   trafficControllerName: string,
-  options: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams = {
-    requestOptions: {},
-  },
+  options: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies{?api%2Dversion}",
@@ -47,7 +41,7 @@ export function _listByTrafficControllerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       trafficControllerName: trafficControllerName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,10 +49,7 @@ export function _listByTrafficControllerSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -68,7 +59,10 @@ export async function _listByTrafficControllerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -80,16 +74,14 @@ export function listByTrafficController(
   context: Client,
   resourceGroupName: string,
   trafficControllerName: string,
-  options: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams = {
-    requestOptions: {},
-  },
+  options: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SecurityPolicy> {
   return buildPagedAsyncIterator(
     context,
     () => _listByTrafficControllerSend(context, resourceGroupName, trafficControllerName, options),
     _listByTrafficControllerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -98,9 +90,7 @@ export function _$deleteSend(
   resourceGroupName: string,
   trafficControllerName: string,
   securityPolicyName: string,
-  options: SecurityPoliciesInterfaceDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: SecurityPoliciesInterfaceDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies/{securityPolicyName}{?api%2Dversion}",
@@ -109,26 +99,23 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       trafficControllerName: trafficControllerName,
       securityPolicyName: securityPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -136,19 +123,12 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a SecurityPolicy */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
   trafficControllerName: string,
   securityPolicyName: string,
-  options: SecurityPoliciesInterfaceDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: SecurityPoliciesInterfaceDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -156,6 +136,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, trafficControllerName, securityPolicyName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -165,9 +146,7 @@ export function _updateSend(
   trafficControllerName: string,
   securityPolicyName: string,
   properties: SecurityPolicyUpdate,
-  options: SecurityPoliciesInterfaceUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: SecurityPoliciesInterfaceUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies/{securityPolicyName}{?api%2Dversion}",
@@ -176,7 +155,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       trafficControllerName: trafficControllerName,
       securityPolicyName: securityPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -185,10 +164,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: securityPolicyUpdateSerializer(properties),
   });
 }
@@ -197,7 +173,10 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -211,9 +190,7 @@ export async function update(
   trafficControllerName: string,
   securityPolicyName: string,
   properties: SecurityPolicyUpdate,
-  options: SecurityPoliciesInterfaceUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: SecurityPoliciesInterfaceUpdateOptionalParams = { requestOptions: {} },
 ): Promise<SecurityPolicy> {
   const result = await _updateSend(
     context,
@@ -232,9 +209,7 @@ export function _createOrUpdateSend(
   trafficControllerName: string,
   securityPolicyName: string,
   resource: SecurityPolicy,
-  options: SecurityPoliciesInterfaceCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: SecurityPoliciesInterfaceCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies/{securityPolicyName}{?api%2Dversion}",
@@ -243,7 +218,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       trafficControllerName: trafficControllerName,
       securityPolicyName: securityPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -252,10 +227,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: securityPolicySerializer(resource),
   });
 }
@@ -263,10 +235,13 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SecurityPolicy> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -280,11 +255,9 @@ export function createOrUpdate(
   trafficControllerName: string,
   securityPolicyName: string,
   resource: SecurityPolicy,
-  options: SecurityPoliciesInterfaceCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: SecurityPoliciesInterfaceCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SecurityPolicy>, SecurityPolicy> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -297,6 +270,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<SecurityPolicy>, SecurityPolicy>;
 }
 
@@ -314,7 +288,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       trafficControllerName: trafficControllerName,
       securityPolicyName: securityPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -322,10 +296,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -333,7 +304,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Se
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

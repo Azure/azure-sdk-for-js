@@ -9,7 +9,7 @@ import type {
   VirtualRouterPeeringsCreateOrUpdateOptionalParams,
   VirtualRouterPeeringsGetOptionalParams,
 } from "../../api/virtualRouterPeerings/options.js";
-import type { VirtualRouterPeering } from "../../models/microsoft/network/models.js";
+import type { VirtualRouterPeering } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

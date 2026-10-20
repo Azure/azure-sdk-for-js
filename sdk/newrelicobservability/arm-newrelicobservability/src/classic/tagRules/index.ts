@@ -91,7 +91,6 @@ export interface TagRulesOperations {
     options?: TagRulesGetOptionalParams,
   ) => Promise<TagRule>;
 }
-
 function _getTagRules(context: NewRelicObservabilityContext) {
   return {
     listByNewRelicMonitorResource: (
@@ -179,7 +178,6 @@ function _getTagRules(context: NewRelicObservabilityContext) {
     ) => get(context, resourceGroupName, monitorName, ruleSetName, options),
   };
 }
-
 export function _getTagRulesOperations(context: NewRelicObservabilityContext): TagRulesOperations {
   return {
     ..._getTagRules(context),

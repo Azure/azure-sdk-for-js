@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a dropped database's short term retention policy list.
  *
  * @summary gets a dropped database's short term retention policy list.
- * x-ms-original-file: 2025-01-01/GetListManagedShortTermRetentionPolicyRestorableDropped.json
+ * x-ms-original-file: 2025-08-01-preview/GetListManagedShortTermRetentionPolicyRestorableDropped.json
  */
 async function getTheShortTermRetentionPolicyListForTheDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

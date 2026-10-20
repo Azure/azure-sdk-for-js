@@ -111,7 +111,6 @@ export interface JobExecutionsOperations {
     options?: JobExecutionsGetOptionalParams,
   ) => Promise<JobExecution>;
 }
-
 function _getJobExecutions(context: SqlManagementContext) {
   return {
     create: (
@@ -237,7 +236,6 @@ function _getJobExecutions(context: SqlManagementContext) {
       get(context, resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, options),
   };
 }
-
 export function _getJobExecutionsOperations(
   context: SqlManagementContext,
 ): JobExecutionsOperations {

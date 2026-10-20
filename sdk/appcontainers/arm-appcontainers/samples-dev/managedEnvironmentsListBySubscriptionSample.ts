@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all Managed Environments for a subscription.
  *
  * @summary get all Managed Environments for a subscription.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironments_ListBySubscription.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironments_ListBySubscription.json
  */
 async function listEnvironmentsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

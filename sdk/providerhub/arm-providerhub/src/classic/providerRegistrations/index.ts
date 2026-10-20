@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext } from "../../api/providerHubContext.js";
+import type { ProviderHubContext } from "../../api/providerHubContext.js";
 import {
   generateOperations,
   list,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/providerRegistrations/operations.js";
-import {
+import type {
   ProviderRegistrationsGenerateOperationsOptionalParams,
   ProviderRegistrationsListOptionalParams,
   ProviderRegistrationsDeleteOptionalParams,
   ProviderRegistrationsCreateOrUpdateOptionalParams,
   ProviderRegistrationsGetOptionalParams,
 } from "../../api/providerRegistrations/options.js";
-import { OperationsDefinition, ProviderRegistration } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { OperationsDefinition, ProviderRegistration } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ProviderRegistrations operations. */
 export interface ProviderRegistrationsOperations {

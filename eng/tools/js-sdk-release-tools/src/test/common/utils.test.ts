@@ -174,10 +174,10 @@ describe("cleanUpPackageDirectory", () => {
   // Test the cleanup behavior based on package type and run mode:
   // - RestLevelClient (@azure-rest/*):
   //   * Release/Local mode: Cleanup is skipped (handled by emitter)
-  //   * SpecPullRequest/Batch modes: All files are cleaned up
+  //   * SpecPullRequest/Batch modes: All files are cleaned up unless root generated/ exists
   // - Data Plane (non-arm, non-rest):
   //   * Release/Local mode: Cleanup is skipped (handled by emitter)
-  //   * SpecPullRequest/Batch modes: All files are cleaned up
+  //   * SpecPullRequest/Batch modes: All files are cleaned up unless root generated/ exists
   // - Management Plane (arm-*) HighLevelClient:
   //   * Release/Local mode: Preserves test and assets.json, cleans up everything else including src
   //   * SpecPullRequest/Batch modes: All files are cleaned up
@@ -368,6 +368,34 @@ describe("cleanUpPackageDirectory", () => {
         expect(finalEntries.length).toBe(0);
       } finally {
         await remove(tempPackageDir);
+      }
+    }
+  });
+
+  test("preserves merge-based data-plane customizations in SpecPullRequest and Batch mode", async () => {
+    const runModes = [RunMode.SpecPullRequest, RunMode.Batch];
+    const packageTypes = ["dataplane", "restlevel"] as const;
+
+    for (const packageType of packageTypes) {
+      for (const runMode of runModes) {
+        const tempPackageDir = await createTestDirectoryStructure(__dirname, packageType);
+
+        try {
+          await ensureDir(path.join(tempPackageDir, "generated"));
+          await writeFile(
+            path.join(tempPackageDir, "generated", "index.ts"),
+            "// Generated baseline",
+            "utf8",
+          );
+
+          await cleanUpPackageDirectory(tempPackageDir, runMode);
+
+          expect(await pathExists(path.join(tempPackageDir, "generated", "index.ts"))).toBe(true);
+          expect(await pathExists(path.join(tempPackageDir, "src", "index.ts"))).toBe(true);
+          expect(await pathExists(path.join(tempPackageDir, "package.json"))).toBe(true);
+        } finally {
+          await remove(tempPackageDir);
+        }
       }
     }
   });

@@ -2,7 +2,7 @@
   "name": "@azure/monitor-opentelemetry-exporter",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.0.0-beta.45",
+  "version": "1.0.0-beta.47",
   "description": "Application Insights exporter for the OpenTelemetry JavaScript (Node.js) SDK",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -123,6 +123,16 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./_configuration": {
+      "import": {
+        "types": "./dist/esm/_configuration/index.d.ts",
+        "default": "./dist/esm/_configuration/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/_configuration/index.d.ts",
+        "default": "./dist/commonjs/_configuration/index.js"
       }
     }
   },

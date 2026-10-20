@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: 2025-09-01/FirewallPolicyNatRuleCollectionGroupPut.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyNatRuleCollectionGroupPut.json
  */
 async function createFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function createFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
  * This sample demonstrates how to creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: 2025-09-01/FirewallPolicyRuleCollectionGroupPut.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupPut.json
  */
 async function createFirewallPolicyRuleCollectionGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -76,6 +76,8 @@ async function createFirewallPolicyRuleCollectionGroup(): Promise<void> {
               ipProtocols: ["TCP"],
               ruleType: "NetworkRule",
               sourceAddresses: ["10.1.25.0/24"],
+              sourceGeoLocations: ["CA", "US"],
+              destinationGeoLocations: ["US"],
             },
           ],
         },
@@ -89,7 +91,7 @@ async function createFirewallPolicyRuleCollectionGroup(): Promise<void> {
  * This sample demonstrates how to creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: 2025-09-01/FirewallPolicyRuleCollectionGroupWithHttpHeadersToInsert.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupWithHttpHeadersToInsert.json
  */
 async function createFirewallPolicyRuleCollectionGroupWithHttpHeaderToInsert(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -133,7 +135,7 @@ async function createFirewallPolicyRuleCollectionGroupWithHttpHeaderToInsert(): 
  * This sample demonstrates how to creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: 2025-09-01/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
  */
 async function createFirewallPolicyRuleCollectionGroupWithIPGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -175,7 +177,7 @@ async function createFirewallPolicyRuleCollectionGroupWithIPGroups(): Promise<vo
  * This sample demonstrates how to creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: 2025-09-01/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
  */
 async function createFirewallPolicyRuleCollectionGroupWithWebCategories(): Promise<void> {
   const credential = new DefaultAzureCredential();

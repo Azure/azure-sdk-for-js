@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to tells a cache to write all dirty data to the Storage Target(s). During the flush, clients will see errors returned until the flush is complete.
  *
  * @summary tells a cache to write all dirty data to the Storage Target(s). During the flush, clients will see errors returned until the flush is complete.
- * x-ms-original-file: 2026-01-01/Caches_Flush.json
+ * x-ms-original-file: 2026-08-01/Caches_Flush.json
  */
 async function cachesFlush(): Promise<void> {
   const credential = new DefaultAzureCredential();

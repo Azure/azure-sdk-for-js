@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the list of diagnostics for a Managed Environment used to host container apps.
  *
  * @summary get the list of diagnostics for a Managed Environment used to host container apps.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironmentDiagnostics_List.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentDiagnostics_List.json
  */
 async function getTheListOfAvailableDiagnosticDataForAManagedEnvironments(): Promise<void> {
   const credential = new DefaultAzureCredential();

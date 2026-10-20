@@ -64,7 +64,7 @@
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
-    "concurrently": "^9.2.1",
+    "concurrently": "^10.0.5",
     "cross-env": "catalog:",
     "eslint": "catalog:",
     "express": "catalog:internal",

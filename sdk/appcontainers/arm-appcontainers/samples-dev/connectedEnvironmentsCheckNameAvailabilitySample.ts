@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks if resource connectedEnvironmentName is available.
  *
  * @summary checks if resource connectedEnvironmentName is available.
- * x-ms-original-file: 2025-10-02-preview/ConnectedEnvironmentsCertificates_CheckNameAvailability.json
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironmentsCertificates_CheckNameAvailability.json
  */
 async function certificatesCheckNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();

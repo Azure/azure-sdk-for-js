@@ -13,9 +13,13 @@ import {
   get,
   list,
   listVersions,
-  uploadFile,
-  uploadFolder,
+  deleteGenerationJob,
+  cancelGenerationJob,
+  createGenerationJob,
+  listGenerationJobs,
+  getGenerationJob,
 } from "../../api/datasets/operations.js";
+import { uploadFile, uploadFolder } from "#platform/api/datasets/uploads";
 import type {
   DatasetsGetCredentialsOptionalParams,
   DatasetsPendingUploadOptionalParams,
@@ -24,18 +28,51 @@ import type {
   DatasetsGetOptionalParams,
   DatasetsListOptionalParams,
   DatasetsListVersionsOptionalParams,
+  DatasetsDeleteGenerationJobOptionalParams,
+  DatasetsCancelGenerationJobOptionalParams,
+  DatasetsCreateGenerationJobOptionalParams,
+  DatasetsListGenerationJobsOptionalParams,
+  DatasetsGetGenerationJobOptionalParams,
 } from "../../api/datasets/options.js";
 import type {
   DatasetVersionUnion,
   PendingUploadRequest,
   PendingUploadResponse,
   DatasetCredential,
+  DataGenerationJobUnion,
+  DataGenerationJobResult,
+  DataGenerationJobInputsUnion,
 } from "../../models/models.js";
 import type { DatasetUploadOptions } from "../../api/index.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { JobPoller } from "../../static-helpers/pollingHelpers.js";
 
 /** Interface representing a Datasets operations. */
 export interface DatasetsOperations {
+  /** Removes the specified data generation job and its associated output. */
+  deleteGenerationJob: (
+    jobId: string,
+    options?: DatasetsDeleteGenerationJobOptionalParams,
+  ) => Promise<void>;
+  /** Cancels the specified data generation job if it is still in progress. */
+  cancelGenerationJob: (
+    jobId: string,
+    options?: DatasetsCancelGenerationJobOptionalParams,
+  ) => Promise<DataGenerationJobUnion>;
+  /** Submits a new data generation job for asynchronous execution. */
+  createGenerationJob: (
+    job: DataGenerationJobInputsUnion,
+    options?: DatasetsCreateGenerationJobOptionalParams,
+  ) => JobPoller<DataGenerationJobResult>;
+  /** Returns a list of data generation jobs. */
+  listGenerationJobs: (
+    options?: DatasetsListGenerationJobsOptionalParams,
+  ) => PagedAsyncIterableIterator<DataGenerationJobUnion>;
+  /** Retrieves the specified data generation job and its current status. */
+  getGenerationJob: (
+    jobId: string,
+    options?: DatasetsGetGenerationJobOptionalParams,
+  ) => Promise<DataGenerationJobUnion>;
   /** Get the SAS credential to access the storage account associated with a Dataset version. */
   getCredentials: (
     name: string,
@@ -71,14 +108,14 @@ export interface DatasetsOperations {
     name: string,
     options?: DatasetsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<DatasetVersionUnion>;
-  /** Upload a file to the DatasetVersion */
+  /** Upload a file to the DatasetVersion. Only supported in Node.js. */
   uploadFile: (
     name: string,
     version: string,
     filePath: string,
     options?: DatasetUploadOptions,
   ) => Promise<DatasetVersionUnion>;
-  /** Upload a folder to the DatasetVersion */
+  /** Upload a folder to the DatasetVersion. Only supported in Node.js. */
   uploadFolder: (
     name: string,
     version: string,
@@ -92,6 +129,18 @@ function _getDatasets(
   projectOptions: AIProjectClientOptionalParams = {},
 ) {
   return {
+    deleteGenerationJob: (jobId: string, options?: DatasetsDeleteGenerationJobOptionalParams) =>
+      deleteGenerationJob(context, jobId, options),
+    cancelGenerationJob: (jobId: string, options?: DatasetsCancelGenerationJobOptionalParams) =>
+      cancelGenerationJob(context, jobId, options),
+    createGenerationJob: (
+      job: DataGenerationJobInputsUnion,
+      options?: DatasetsCreateGenerationJobOptionalParams,
+    ) => createGenerationJob(context, job, options),
+    listGenerationJobs: (options?: DatasetsListGenerationJobsOptionalParams) =>
+      listGenerationJobs(context, options),
+    getGenerationJob: (jobId: string, options?: DatasetsGetGenerationJobOptionalParams) =>
+      getGenerationJob(context, jobId, options),
     getCredentials: (
       name: string,
       version: string,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
+import type { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
 import {
   createOrUpdate,
   createOrUpdateParent,
@@ -10,7 +10,7 @@ import {
   get,
   getParent,
 } from "../../api/applyUpdates/operations.js";
-import {
+import type {
   ApplyUpdatesCreateOrUpdateOptionalParams,
   ApplyUpdatesCreateOrUpdateParentOptionalParams,
   ApplyUpdatesListOptionalParams,
@@ -18,8 +18,8 @@ import {
   ApplyUpdatesGetOptionalParams,
   ApplyUpdatesGetParentOptionalParams,
 } from "../../api/applyUpdates/options.js";
-import { ApplyUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ApplyUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApplyUpdates operations. */
 export interface ApplyUpdatesOperations {

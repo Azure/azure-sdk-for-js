@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to resolve the token to get the SaaS resource ID and activate the SaaS resource
  *
  * @summary resolve the token to get the SaaS resource ID and activate the SaaS resource
- * x-ms-original-file: 2025-05-01-preview/ActivateSaaS.json
+ * x-ms-original-file: 2026-06-01/ActivateSaaS.json
  */
 async function activateSaaS(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import { list, get } from "../../api/containerAppsFunctions/operations.js";
-import {
+import type {
   ContainerAppsFunctionsListOptionalParams,
   ContainerAppsFunctionsGetOptionalParams,
 } from "../../api/containerAppsFunctions/options.js";
-import { ContainerAppsFunction } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ContainerAppsFunction } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ContainerAppsFunctions operations. */
 export interface ContainerAppsFunctionsOperations {
-  /** List the functions for a given Container App from the latest Revision. */
+  /** Lists the functions available in the latest revision of a Container App. */
   list: (
     resourceGroupName: string,
     containerAppName: string,
     options?: ContainerAppsFunctionsListOptionalParams,
   ) => PagedAsyncIterableIterator<ContainerAppsFunction>;
-  /** Get a specific function of a Container App from the latest Revision. */
+  /** Gets the details of a specific function from the latest Container App revision. */
   get: (
     resourceGroupName: string,
     containerAppName: string,

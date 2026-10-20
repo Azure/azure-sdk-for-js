@@ -8,17 +8,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to generate verification code for Proof of Possession.
  *
  * @summary generate verification code for Proof of Possession.
- * x-ms-original-file: 2025-02-01-preview/DPSGenerateVerificationCode.json
+ * x-ms-original-file: 2026-08-31/DPSGenerateVerificationCode.json
  */
 async function dpsGenerateVerificationCode(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const client = new IotDpsClient(credential, subscriptionId);
   const result = await client.dpsCertificate.generateVerificationCode(
-    "myResourceGroup",
-    "myFirstProvisioningService",
     "cert",
     "AAAAAAAADGk=",
+    "myResourceGroup",
+    "myFirstProvisioningService",
   );
   console.log(result);
 }

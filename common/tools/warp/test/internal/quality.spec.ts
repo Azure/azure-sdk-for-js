@@ -574,7 +574,7 @@ describe("module type shim from compiler options", () => {
   it("writes commonjs shim when moduleType is explicit", async () => {
     await fs.writeFile(
       path.join(tmpDir, "package.json"),
-      `${JSON.stringify({ name: "test" }, null, 2)}\n`,
+      `${JSON.stringify({ name: "test", version: "1.2.3" }, null, 2)}\n`,
     );
     await fs.mkdir(path.join(tmpDir, "dist/cjs"), { recursive: true });
 
@@ -599,6 +599,13 @@ describe("module type shim from compiler options", () => {
 
     const shim = await readJsonObject(path.join(tmpDir, "dist/cjs/package.json"));
     expect(shim["type"]).toBe("commonjs");
+    // Shim must carry the root package's name/version and a self-pointing
+    // exports entry so Node's package self-reference resolution (used by
+    // generated code importing "<pkg>/package.json") succeeds from here,
+    // the nearest ancestor package.json to files under dist/cjs.
+    expect(shim["name"]).toBe("test");
+    expect(shim["version"]).toBe("1.2.3");
+    expect(shim["exports"]).toEqual({ "./package.json": "./package.json" });
   });
 
   it("defaults to module when no explicit moduleType", async () => {
@@ -624,6 +631,11 @@ describe("module type shim from compiler options", () => {
 
     const shim = await readJsonObject(path.join(tmpDir, "dist/esm/package.json"));
     expect(shim["type"]).toBe("module");
+    expect(shim["name"]).toBe("test");
+    // No version in the root package.json here — key should be omitted
+    // entirely rather than written as null/undefined.
+    expect("version" in shim).toBe(false);
+    expect(shim["exports"]).toEqual({ "./package.json": "./package.json" });
   });
 });
 

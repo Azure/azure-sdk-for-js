@@ -58,7 +58,6 @@ export interface ManagedInstanceDtcsOperations {
     options?: ManagedInstanceDtcsGetOptionalParams,
   ) => Promise<ManagedInstanceDtc>;
 }
-
 function _getManagedInstanceDtcs(context: SqlManagementContext) {
   return {
     listByManagedInstance: (
@@ -116,7 +115,6 @@ function _getManagedInstanceDtcs(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, dtcName, options),
   };
 }
-
 export function _getManagedInstanceDtcsOperations(
   context: SqlManagementContext,
 ): ManagedInstanceDtcsOperations {

@@ -113,6 +113,7 @@ export interface DiskEncryptionSetsOperations {
     options?: DiskEncryptionSetsGetOptionalParams,
   ) => Promise<DiskEncryptionSet>;
 }
+
 function _getDiskEncryptionSets(context: ComputeManagementContext) {
   return {
     listAssociatedResources: (
@@ -226,6 +227,7 @@ function _getDiskEncryptionSets(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, diskEncryptionSetName, options),
   };
 }
+
 export function _getDiskEncryptionSetsOperations(
   context: ComputeManagementContext,
 ): DiskEncryptionSetsOperations {

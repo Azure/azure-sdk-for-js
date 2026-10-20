@@ -9,11 +9,11 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
-  type ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
-  type ExascaleDbStorageVaultsDeleteOptionalParams,
-  type ExascaleDbStorageVaultsUpdateOptionalParams,
-  type ExascaleDbStorageVaultsCreateOptionalParams,
-  type ExascaleDbStorageVaultsGetOptionalParams,
+export type {
+  ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
+  ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
+  ExascaleDbStorageVaultsDeleteOptionalParams,
+  ExascaleDbStorageVaultsUpdateOptionalParams,
+  ExascaleDbStorageVaultsCreateOptionalParams,
+  ExascaleDbStorageVaultsGetOptionalParams,
 } from "./options.js";

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all search services in the given subscription.
  *
  * @summary gets a list of all search services in the given subscription.
- * x-ms-original-file: 2026-03-01-preview/SearchListServicesBySubscription.json
+ * x-ms-original-file: 2026-09-01-preview/SearchListServicesBySubscription.json
  */
 async function searchListServicesBySubscription() {
   const credential = new DefaultAzureCredential();

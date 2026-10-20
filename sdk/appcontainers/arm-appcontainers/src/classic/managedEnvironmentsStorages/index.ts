@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/managedEnvironmentsStorages/operations.js";
-import {
+import type {
   ManagedEnvironmentsStoragesListOptionalParams,
   ManagedEnvironmentsStoragesDeleteOptionalParams,
   ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams,
   ManagedEnvironmentsStoragesGetOptionalParams,
 } from "../../api/managedEnvironmentsStorages/options.js";
-import {
+import type {
   ManagedEnvironmentStorage,
   ManagedEnvironmentStoragesCollection,
 } from "../../models/models.js";

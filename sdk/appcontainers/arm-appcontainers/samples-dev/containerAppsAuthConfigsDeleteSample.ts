@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Container App AuthConfig.
  *
  * @summary delete a Container App AuthConfig.
- * x-ms-original-file: 2025-10-02-preview/AuthConfigs_Delete.json
+ * x-ms-original-file: 2026-07-01/AuthConfigs_Delete.json
  */
 async function deleteContainerAppAuthConfig(): Promise<void> {
   const credential = new DefaultAzureCredential();

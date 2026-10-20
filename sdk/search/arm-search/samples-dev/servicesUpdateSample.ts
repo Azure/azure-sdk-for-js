@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateService.json
+ * x-ms-original-file: 2026-09-01-preview/SearchUpdateService.json
  */
 async function searchUpdateService(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function searchUpdateService(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceAuthOptions.json
+ * x-ms-original-file: 2026-09-01-preview/SearchUpdateServiceAuthOptions.json
  */
 async function searchUpdateServiceAuthOptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -43,7 +43,7 @@ async function searchUpdateServiceAuthOptions(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceDisableLocalAuth.json
+ * x-ms-original-file: 2026-09-01-preview/SearchUpdateServiceDisableLocalAuth.json
  */
 async function searchUpdateServiceDisableLocalAuth(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -61,7 +61,7 @@ async function searchUpdateServiceDisableLocalAuth(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceToAllowAccessFromPrivateEndpoints.json
+ * x-ms-original-file: 2026-09-01-preview/SearchUpdateServiceToAllowAccessFromPrivateEndpoints.json
  */
 async function searchUpdateServiceToAllowAccessFromPrivateEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -79,7 +79,7 @@ async function searchUpdateServiceToAllowAccessFromPrivateEndpoints(): Promise<v
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceToAllowAccessFromPublicCustomIPs.json
+ * x-ms-original-file: 2026-09-01-preview/SearchUpdateServiceToAllowAccessFromPublicCustomIPs.json
  */
 async function searchUpdateServiceToAllowAccessFromPublicCustomIPs(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -101,7 +101,7 @@ async function searchUpdateServiceToAllowAccessFromPublicCustomIPs(): Promise<vo
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
+ * x-ms-original-file: 2026-09-01-preview/SearchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
  */
 async function searchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -123,7 +123,7 @@ async function searchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass(): P
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceToRemoveIdentity.json
+ * x-ms-original-file: 2026-09-01-preview/SearchUpdateServiceToRemoveIdentity.json
  */
 async function searchUpdateServiceToRemoveIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -140,7 +140,7 @@ async function searchUpdateServiceToRemoveIdentity(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceWithCmkEnforcement.json
+ * x-ms-original-file: 2026-09-01-preview/SearchUpdateServiceWithCmkEnforcement.json
  */
 async function searchUpdateServiceWithCmkEnforcement(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -158,7 +158,7 @@ async function searchUpdateServiceWithCmkEnforcement(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceWithDataExfiltration.json
+ * x-ms-original-file: 2026-09-01-preview/SearchUpdateServiceWithDataExfiltration.json
  */
 async function searchUpdateServiceWithDataExfiltration(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -176,7 +176,7 @@ async function searchUpdateServiceWithDataExfiltration(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceWithKnowledgeRetrieval.json
+ * x-ms-original-file: 2026-09-01-preview/SearchUpdateServiceWithKnowledgeRetrieval.json
  */
 async function searchUpdateServiceWithKnowledgeRetrieval(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -194,7 +194,7 @@ async function searchUpdateServiceWithKnowledgeRetrieval(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceWithSemanticSearch.json
+ * x-ms-original-file: 2026-09-01-preview/SearchUpdateServiceWithSemanticSearch.json
  */
 async function searchUpdateServiceWithSemanticSearch(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -212,7 +212,7 @@ async function searchUpdateServiceWithSemanticSearch(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceWithSku.json
+ * x-ms-original-file: 2026-09-01-preview/SearchUpdateServiceWithSku.json
  */
 async function searchUpdateServiceWithSku(): Promise<void> {
   const credential = new DefaultAzureCredential();

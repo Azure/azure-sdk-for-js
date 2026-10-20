@@ -373,6 +373,7 @@ export interface Database extends TrackedResource {
     readonly pausedDate?: Date;
     performCutover?: boolean;
     preferredEnclaveType?: AlwaysEncryptedEnclaveType;
+    readonly provisioningState?: string;
     readScale?: DatabaseReadScale;
     recoverableDatabaseId?: string;
     recoveryServicesRecoveryPointId?: string;
@@ -747,6 +748,7 @@ export interface DatabaseProperties {
     readonly pausedDate?: Date;
     performCutover?: boolean;
     preferredEnclaveType?: AlwaysEncryptedEnclaveType;
+    readonly provisioningState?: string;
     readScale?: DatabaseReadScale;
     recoverableDatabaseId?: string;
     recoveryServicesRecoveryPointId?: string;
@@ -875,8 +877,10 @@ export interface DatabasesListByElasticPoolOptionalParams extends OperationOptio
 
 // @public
 export interface DatabasesListByServerOptionalParams extends OperationOptions {
-    // (undocumented)
-    skipToken?: string;
+    filter?: string;
+    orderby?: string;
+    skip?: number;
+    top?: number;
 }
 
 // @public
@@ -1171,6 +1175,7 @@ export interface DatabaseUpdate {
     readonly pausedDate?: Date;
     performCutover?: boolean;
     preferredEnclaveType?: AlwaysEncryptedEnclaveType;
+    readonly provisioningState?: string;
     readScale?: DatabaseReadScale;
     recoverableDatabaseId?: string;
     recoveryServicesRecoveryPointId?: string;
@@ -1223,6 +1228,7 @@ export interface DatabaseUpdateProperties {
     readonly pausedDate?: Date;
     performCutover?: boolean;
     preferredEnclaveType?: AlwaysEncryptedEnclaveType;
+    readonly provisioningState?: string;
     readScale?: DatabaseReadScale;
     recoverableDatabaseId?: string;
     recoveryServicesRecoveryPointId?: string;
@@ -1385,7 +1391,7 @@ export interface DatabaseVulnerabilityAssessmentsOperations {
 }
 
 // @public
-export type DataMaskingFunction = "Default" | "CCN" | "Email" | "Number" | "SSN" | "Text";
+export type DataMaskingFunction = string;
 
 // @public
 export interface DataMaskingPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -1459,6 +1465,7 @@ export interface DataMaskingRulesCreateOrUpdateOptionalParams extends OperationO
 
 // @public
 export interface DataMaskingRulesListByDatabaseOptionalParams extends OperationOptions {
+    skip?: number;
 }
 
 // @public
@@ -1468,10 +1475,26 @@ export interface DataMaskingRulesOperations {
 }
 
 // @public
-export type DataMaskingRuleState = "Enabled" | "Disabled";
+export type DataMaskingRuleState = string;
 
 // @public
 export type DataMaskingState = "Enabled" | "Disabled";
+
+// @public
+export interface DataSyncParticipantIdentity {
+    tenantId?: string;
+    type: DataSyncParticipantIdentityType;
+    userAssignedIdentities?: Record<string, DataSyncParticipantUserAssignedIdentity>;
+}
+
+// @public
+export type DataSyncParticipantIdentityType = string;
+
+// @public
+export interface DataSyncParticipantUserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // @public
 export interface DataWarehouseUserActivities extends ProxyResource {
@@ -1508,6 +1531,8 @@ export interface DeletedServer extends ProxyResource {
     readonly deletionTime?: Date;
     readonly fullyQualifiedDomainName?: string;
     readonly originalId?: string;
+    readonly originalResourceGroup?: string;
+    readonly scheduledPurgeTime?: Date;
     readonly version?: string;
 }
 
@@ -1516,6 +1541,8 @@ export interface DeletedServerProperties {
     readonly deletionTime?: Date;
     readonly fullyQualifiedDomainName?: string;
     readonly originalId?: string;
+    readonly originalResourceGroup?: string;
+    readonly scheduledPurgeTime?: Date;
     readonly version?: string;
 }
 
@@ -1562,6 +1589,7 @@ export interface DistributedAvailabilityGroup extends ProxyResource {
     failoverMode?: FailoverModeType;
     instanceAvailabilityGroupName?: string;
     instanceLinkRole?: LinkRole;
+    linkMode?: LinkModeType;
     partnerAvailabilityGroupName?: string;
     partnerEndpoint?: string;
     readonly partnerLinkRole?: LinkRole;
@@ -1602,6 +1630,7 @@ export interface DistributedAvailabilityGroupProperties {
     failoverMode?: FailoverModeType;
     instanceAvailabilityGroupName?: string;
     instanceLinkRole?: LinkRole;
+    linkMode?: LinkModeType;
     partnerAvailabilityGroupName?: string;
     partnerEndpoint?: string;
     readonly partnerLinkRole?: LinkRole;
@@ -1707,6 +1736,7 @@ export interface ElasticPool extends TrackedResource {
     autoPauseDelay?: number;
     availabilityZone?: AvailabilityZoneType;
     readonly creationDate?: Date;
+    readonly currentSku?: Sku;
     highAvailabilityReplicaCount?: number;
     readonly kind?: string;
     licenseType?: ElasticPoolLicenseType;
@@ -1832,6 +1862,7 @@ export interface ElasticPoolProperties {
     autoPauseDelay?: number;
     availabilityZone?: AvailabilityZoneType;
     readonly creationDate?: Date;
+    readonly currentSku?: Sku;
     highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
@@ -1905,6 +1936,7 @@ export interface ElasticPoolsUpdateOptionalParams extends OperationOptions {
 export interface ElasticPoolUpdate {
     autoPauseDelay?: number;
     availabilityZone?: AvailabilityZoneType;
+    readonly currentSku?: Sku;
     highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
@@ -1921,6 +1953,7 @@ export interface ElasticPoolUpdate {
 export interface ElasticPoolUpdateProperties {
     autoPauseDelay?: number;
     availabilityZone?: AvailabilityZoneType;
+    readonly currentSku?: Sku;
     highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
@@ -1995,11 +2028,13 @@ export interface EncryptionProtectorsRevalidateOptionalParams extends OperationO
 // @public
 export interface EndpointCertificate extends ProxyResource {
     publicBlob?: string;
+    readonly trustedRootCertificates?: EndpointTrustedRootCertificateInfo[];
 }
 
 // @public
 export interface EndpointCertificateProperties {
     publicBlob?: string;
+    readonly trustedRootCertificates?: EndpointTrustedRootCertificateInfo[];
 }
 
 // @public
@@ -2025,6 +2060,12 @@ export interface EndpointDependency {
 // @public
 export interface EndpointDetail {
     readonly port?: number;
+}
+
+// @public
+export interface EndpointTrustedRootCertificateInfo {
+    publicBlob?: string;
+    subject?: string;
 }
 
 // @public
@@ -2344,7 +2385,7 @@ export interface FirewallRulesOperations {
     delete: (resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesGetOptionalParams) => Promise<FirewallRule>;
     listByServer: (resourceGroupName: string, serverName: string, options?: FirewallRulesListByServerOptionalParams) => PagedAsyncIterableIterator<FirewallRule>;
-    replace: (resourceGroupName: string, serverName: string, parameters: FirewallRuleList, options?: FirewallRulesReplaceOptionalParams) => Promise<FirewallRule | undefined>;
+    replace: (resourceGroupName: string, serverName: string, parameters: FirewallRuleList, options?: FirewallRulesReplaceOptionalParams) => Promise<FirewallRule | void>;
 }
 
 // @public
@@ -3562,6 +3603,30 @@ export enum KnownDatabaseStatus {
 }
 
 // @public
+export enum KnownDataMaskingFunction {
+    CCN = "CCN",
+    Default = "Default",
+    Email = "Email",
+    Number = "Number",
+    SSN = "SSN",
+    Text = "Text"
+}
+
+// @public
+export enum KnownDataMaskingRuleState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDataSyncParticipantIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssignedUserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownDataWarehouseUserActivityName {
     Current = "current"
 }
@@ -3771,6 +3836,12 @@ export enum KnownLedgerDigestUploadsName {
 }
 
 // @public
+export enum KnownLinkModeType {
+    MultiDatabase = "MultiDatabase",
+    SingleDatabase = "SingleDatabase"
+}
+
+// @public
 export enum KnownLinkRole {
     Primary = "Primary",
     Secondary = "Secondary"
@@ -3813,6 +3884,13 @@ export enum KnownManagedDatabaseStatus {
     Stopped = "Stopped",
     Stopping = "Stopping",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownManagedInstanceAdministratorPrincipalType {
+    Application = "Application",
+    Group = "Group",
+    User = "User"
 }
 
 // @public
@@ -3958,11 +4036,11 @@ export enum KnownPrincipalType {
 
 // @public
 export enum KnownPrivateEndpointProvisioningState {
-    Approving = "Approving",
-    Dropping = "Dropping",
+    Canceled = "Canceled",
+    Created = "Created",
     Failed = "Failed",
-    Ready = "Ready",
-    Rejecting = "Rejecting"
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -4164,7 +4242,8 @@ export enum KnownServerKeyType {
 // @public
 export enum KnownServerNetworkAccessFlag {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 // @public
@@ -4353,7 +4432,9 @@ export enum KnownUpsertManagedServerOperationStepWithEstimatesAndDurationStatus 
 
 // @public
 export enum KnownVersions {
-    V20250101 = "2025-01-01"
+    V20250101 = "2025-01-01",
+    V20250201Preview = "2025-02-01-preview",
+    V20250801Preview = "2025-08-01-preview"
 }
 
 // @public
@@ -4443,6 +4524,9 @@ export interface LicenseTypeCapability {
     reason?: string;
     readonly status?: CapabilityStatus;
 }
+
+// @public
+export type LinkModeType = string;
 
 // @public
 export type LinkRole = string;
@@ -5684,14 +5768,19 @@ export interface ManagedInstance extends TrackedResource {
 export interface ManagedInstanceAdministrator extends ProxyResource {
     administratorType?: ManagedInstanceAdministratorType;
     login?: string;
+    principalType?: ManagedInstanceAdministratorPrincipalType;
     sid?: string;
     tenantId?: string;
 }
 
 // @public
+export type ManagedInstanceAdministratorPrincipalType = string;
+
+// @public
 export interface ManagedInstanceAdministratorProperties {
     administratorType: ManagedInstanceAdministratorType;
     login: string;
+    principalType?: ManagedInstanceAdministratorPrincipalType;
     sid: string;
     tenantId?: string;
 }
@@ -5815,6 +5904,7 @@ export interface ManagedInstanceDtc extends ProxyResource {
     dtcEnabled?: boolean;
     readonly dtcHostNameDnsSuffix?: string;
     externalDnsSuffixSearchList?: string[];
+    fqdnEnabled?: boolean;
     readonly provisioningState?: ProvisioningState;
     securitySettings?: ManagedInstanceDtcSecuritySettings;
 }
@@ -5824,6 +5914,7 @@ export interface ManagedInstanceDtcProperties {
     dtcEnabled?: boolean;
     readonly dtcHostNameDnsSuffix?: string;
     externalDnsSuffixSearchList?: string[];
+    fqdnEnabled?: boolean;
     readonly provisioningState?: ProvisioningState;
     securitySettings?: ManagedInstanceDtcSecuritySettings;
 }
@@ -8906,6 +8997,8 @@ export interface ServerUsage extends ProxyResource {
     readonly currentValue?: number;
     readonly displayName?: string;
     readonly limit?: number;
+    readonly nextResetTime?: Date;
+    readonly resourceName?: string;
     readonly unit?: string;
 }
 
@@ -8914,6 +9007,8 @@ export interface ServerUsageProperties {
     readonly currentValue?: number;
     readonly displayName?: string;
     readonly limit?: number;
+    readonly nextResetTime?: Date;
+    readonly resourceName?: string;
     readonly unit?: string;
 }
 
@@ -9695,6 +9790,7 @@ export interface SyncGroup extends ProxyResource {
     enableConflictLogging?: boolean;
     hubDatabasePassword?: string;
     hubDatabaseUserName?: string;
+    identity?: DataSyncParticipantIdentity;
     interval?: number;
     readonly lastSyncTime?: Date;
     readonly privateEndpointName?: string;
@@ -9843,6 +9939,7 @@ export interface SyncGroupsUpdateOptionalParams extends OperationOptions {
 export interface SyncMember extends ProxyResource {
     databaseName?: string;
     databaseType?: SyncMemberDbType;
+    identity?: DataSyncParticipantIdentity;
     password?: string;
     readonly privateEndpointName?: string;
     serverName?: string;

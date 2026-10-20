@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of server encryption protectors
  *
  * @summary gets a list of server encryption protectors
- * x-ms-original-file: 2025-01-01/EncryptionProtectorList.json
+ * x-ms-original-file: 2025-08-01-preview/EncryptionProtectorList.json
  */
 async function listEncryptionProtectorsByServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

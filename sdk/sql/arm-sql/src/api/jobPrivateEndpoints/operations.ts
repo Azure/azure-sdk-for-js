@@ -37,7 +37,7 @@ export function _listByAgentSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       jobAgentName: jobAgentName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,6 @@ export async function _listByAgentDeserialize(
 
   return _jobPrivateEndpointListResultDeserializer(result.body);
 }
-
 /** Gets a list of job agent private endpoints. */
 export function listByAgent(
   context: Client,
@@ -78,7 +77,11 @@ export function listByAgent(
     () => _listByAgentSend(context, resourceGroupName, serverName, jobAgentName, options),
     _listByAgentDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -98,7 +101,7 @@ export function _$deleteSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       privateEndpointName: privateEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +123,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a private endpoint. */
 export function $delete(
   context: Client,
@@ -143,7 +145,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -164,7 +166,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       privateEndpointName: privateEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,7 +195,6 @@ export async function _createOrUpdateDeserialize(
 
   return jobPrivateEndpointDeserializer(result.body);
 }
-
 /** Creates or updates a private endpoint. */
 export function createOrUpdate(
   context: Client,
@@ -218,7 +219,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<JobPrivateEndpoint>, JobPrivateEndpoint>;
 }
 
@@ -238,7 +239,7 @@ export function _getSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       privateEndpointName: privateEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -263,7 +264,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Jo
 
   return jobPrivateEndpointDeserializer(result.body);
 }
-
 /** Gets a private endpoint. */
 export async function get(
   context: Client,

@@ -9,7 +9,7 @@ import type {
   ScopeConnectionsCreateOrUpdateOptionalParams,
   ScopeConnectionsGetOptionalParams,
 } from "../../api/scopeConnections/options.js";
-import type { ScopeConnection } from "../../models/microsoft/network/models.js";
+import type { ScopeConnection } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ScopeConnections operations. */

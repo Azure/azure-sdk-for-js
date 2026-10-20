@@ -26,7 +26,10 @@ import { GeospatialType } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 import { skipTestForSignOff } from "../common/_testConfig.js";
 
-describe("Containers", { timeout: 10000 }, () => {
+// Must exceed the SDK's default requestTimeout (60s, ConnectionPolicy.ts): a tighter
+// budget kills the test mid-await with no diagnostics when the emulator stalls on a
+// single control-plane request. See https://github.com/Azure/azure-sdk-for-js/issues/39659.
+describe("Containers", { timeout: 120000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });

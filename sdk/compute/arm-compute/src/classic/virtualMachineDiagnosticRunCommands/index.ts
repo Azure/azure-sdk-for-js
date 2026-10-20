@@ -110,6 +110,7 @@ export interface VirtualMachineDiagnosticRunCommandsOperations {
     options?: VirtualMachineDiagnosticRunCommandsGetByVirtualMachineOptionalParams,
   ) => Promise<VirtualMachineDiagnosticRunCommand>;
 }
+
 function _getVirtualMachineDiagnosticRunCommands(context: ComputeManagementContext) {
   return {
     diagnosticListByVirtualMachine: (
@@ -224,6 +225,7 @@ function _getVirtualMachineDiagnosticRunCommands(context: ComputeManagementConte
     ) => getByVirtualMachine(context, resourceGroupName, vmName, runCommandName, options),
   };
 }
+
 export function _getVirtualMachineDiagnosticRunCommandsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineDiagnosticRunCommandsOperations {

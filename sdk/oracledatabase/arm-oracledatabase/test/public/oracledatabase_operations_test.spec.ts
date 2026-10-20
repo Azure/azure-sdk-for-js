@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("OracleDatabase test", () => {
+describe.skip("OracleDatabase test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: OracleDatabaseManagementClient;

@@ -27,6 +27,11 @@ const providerMocks = vi.hoisted(() => {
   };
 });
 
+const configurationMocks = vi.hoisted(() => ({
+  initialize: vi.fn(),
+  registerCallback: vi.fn(),
+}));
+
 vi.mock("../../src/export/statsbeat/networkStatsbeatMetrics.js", () => ({
   NetworkStatsbeatMetrics: {
     getInstance: providerMocks.getNetworkInstance,
@@ -39,8 +44,21 @@ vi.mock("../../src/export/statsbeat/longIntervalStatsbeatMetrics.js", () => ({
   },
 }));
 
+vi.mock("../../src/_configuration/configurationManager.js", () => ({
+  ConfigurationManager: {
+    getInstance: vi.fn(() => configurationMocks),
+  },
+}));
+
 import { StatsbeatManager } from "../../src/export/statsbeat/statsbeatManager.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
+import type { ConfigurationChangeCallback } from "../../src/_configuration/configurationManager.js";
+
+function getConfigurationCallback(): ConfigurationChangeCallback {
+  const callback = configurationMocks.registerCallback.mock.calls[0]?.[0];
+  expect(callback).toBeTypeOf("function");
+  return callback;
+}
 
 describe("StatsbeatManager", () => {
   const options = {
@@ -69,6 +87,70 @@ describe("StatsbeatManager", () => {
     expect(providerMocks.getLongIntervalInstance).toHaveBeenCalledOnce();
     expect(manager.networkStatsbeatMetrics).toBe(providerMocks.network);
     expect(manager.longIntervalStatsbeatMetrics).toBe(providerMocks.longInterval);
+  });
+
+  it("registers the OneSettings callback once", () => {
+    const manager = StatsbeatManager.getInstance();
+
+    manager.initialize(options);
+    manager.initialize(options);
+
+    expect(configurationMocks.registerCallback).toHaveBeenCalledOnce();
+  });
+
+  it("does not duplicate registration when cached enabled settings are replayed", () => {
+    configurationMocks.registerCallback.mockImplementationOnce(
+      (callback: ConfigurationChangeCallback) => {
+        void callback({ FEATURE_SDK_STATS: '{"default":"enabled"}' });
+      },
+    );
+    const manager = StatsbeatManager.getInstance();
+
+    manager.initialize(options);
+
+    expect(configurationMocks.registerCallback).toHaveBeenCalledOnce();
+    expect(providerMocks.getNetworkInstance).toHaveBeenCalledOnce();
+    expect(providerMocks.getLongIntervalInstance).toHaveBeenCalledOnce();
+  });
+
+  it("stops and restarts internal Statsbeat when OneSettings changes", async () => {
+    const manager = StatsbeatManager.getInstance();
+    manager.initialize(options);
+    const callback = getConfigurationCallback();
+
+    await callback({ FEATURE_SDK_STATS: '{"default":"disabled"}' });
+
+    expect(providerMocks.network.shutdown).toHaveBeenCalledOnce();
+    expect(providerMocks.longInterval.shutdown).toHaveBeenCalledOnce();
+    expect(manager.networkStatsbeatMetrics).toBeUndefined();
+    expect(manager.longIntervalStatsbeatMetrics).toBeUndefined();
+
+    manager.initialize(options);
+    expect(providerMocks.getNetworkInstance).toHaveBeenCalledOnce();
+    expect(providerMocks.getLongIntervalInstance).toHaveBeenCalledOnce();
+
+    await callback({ FEATURE_SDK_STATS: '{"default":"enabled"}' });
+
+    expect(providerMocks.getNetworkInstance).toHaveBeenCalledTimes(2);
+    expect(providerMocks.getLongIntervalInstance).toHaveBeenCalledTimes(2);
+    expect(manager.networkStatsbeatMetrics).toBe(providerMocks.network);
+    expect(manager.longIntervalStatsbeatMetrics).toBe(providerMocks.longInterval);
+  });
+
+  it.each([
+    ["missing", { unrelated: "setting" }],
+    ["invalid", { FEATURE_SDK_STATS: "not-json" }],
+  ])("stops internal Statsbeat when the OneSettings feature is %s", async (_, settings) => {
+    const manager = StatsbeatManager.getInstance();
+    manager.initialize(options);
+    const callback = getConfigurationCallback();
+
+    await callback(settings);
+
+    expect(providerMocks.network.shutdown).toHaveBeenCalledOnce();
+    expect(providerMocks.longInterval.shutdown).toHaveBeenCalledOnce();
+    expect(manager.networkStatsbeatMetrics).toBeUndefined();
+    expect(manager.longIntervalStatsbeatMetrics).toBeUndefined();
   });
 
   it("coordinates shutdown and restarts with the last configuration", async () => {

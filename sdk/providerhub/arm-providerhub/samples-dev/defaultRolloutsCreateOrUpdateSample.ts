@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the rollout details.
  *
  * @summary creates or updates the rollout details.
- * x-ms-original-file: 2024-09-01/DefaultRollouts_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01/DefaultRollouts_CreateOrUpdate.json
  */
 async function defaultRolloutsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,9 +17,16 @@ async function defaultRolloutsCreateOrUpdate(): Promise<void> {
   const result = await client.defaultRollouts.createOrUpdate("Microsoft.Contoso", "2020week10", {
     properties: {
       specification: {
-        canary: { skipRegions: ["eastus2euap"] },
         expeditedRollout: { enabled: true },
+        canary: { skipRegions: ["eastus2euap"] },
         restOfTheWorldGroupTwo: { waitDuration: "PT4H" },
+        manifestCheckinSpecification: {
+          manifestCheckinOption: "AttemptAutomaticManifestCheckin",
+          manifestCheckinParams: {
+            baselineArmManifestLocation: "EastUS2EUAP",
+            environment: "Prod",
+          },
+        },
       },
     },
   });

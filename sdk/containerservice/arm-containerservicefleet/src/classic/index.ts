@@ -3,6 +3,7 @@
 
 export type { AutoUpgradeProfileOperationsOperations } from "./autoUpgradeProfileOperations/index.js";
 export type { AutoUpgradeProfilesOperations } from "./autoUpgradeProfiles/index.js";
+export type { ClusterMeshProfilesOperations } from "./clusterMeshProfiles/index.js";
 export type { FleetManagedNamespacesOperations } from "./fleetManagedNamespaces/index.js";
 export type { FleetMembersOperations } from "./fleetMembers/index.js";
 export type { FleetsOperations } from "./fleets/index.js";

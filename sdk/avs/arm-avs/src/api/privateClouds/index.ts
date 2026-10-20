@@ -13,15 +13,15 @@ export {
   listInSubscription,
   list,
 } from "./operations.js";
-export {
-  type PrivateCloudsGetVcfLicenseOptionalParams,
-  type PrivateCloudsListAdminCredentialsOptionalParams,
-  type PrivateCloudsRotateNsxtPasswordOptionalParams,
-  type PrivateCloudsRotateVcenterPasswordOptionalParams,
-  type PrivateCloudsDeleteOptionalParams,
-  type PrivateCloudsUpdateOptionalParams,
-  type PrivateCloudsCreateOrUpdateOptionalParams,
-  type PrivateCloudsGetOptionalParams,
-  type PrivateCloudsListInSubscriptionOptionalParams,
-  type PrivateCloudsListOptionalParams,
+export type {
+  PrivateCloudsGetVcfLicenseOptionalParams,
+  PrivateCloudsListAdminCredentialsOptionalParams,
+  PrivateCloudsRotateNsxtPasswordOptionalParams,
+  PrivateCloudsRotateVcenterPasswordOptionalParams,
+  PrivateCloudsDeleteOptionalParams,
+  PrivateCloudsUpdateOptionalParams,
+  PrivateCloudsCreateOrUpdateOptionalParams,
+  PrivateCloudsGetOptionalParams,
+  PrivateCloudsListInSubscriptionOptionalParams,
+  PrivateCloudsListOptionalParams,
 } from "./options.js";

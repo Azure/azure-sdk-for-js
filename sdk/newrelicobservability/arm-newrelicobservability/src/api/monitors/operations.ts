@@ -87,7 +87,7 @@ export function _resubscribeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,7 +116,6 @@ export async function _resubscribeDeserialize(
 
   return newRelicMonitorResourceDeserializer(result.body);
 }
-
 /** A long-running resource action. */
 export function resubscribe(
   context: Client,
@@ -129,7 +128,7 @@ export function resubscribe(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _resubscribeSend(context, resourceGroupName, monitorName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
 }
 
@@ -146,7 +145,7 @@ export function _linkSaaSSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,7 +174,6 @@ export async function _linkSaaSDeserialize(
 
   return newRelicMonitorResourceDeserializer(result.body);
 }
-
 /** Links a new SaaS to the newrelic organization of the underlying monitor. */
 export function linkSaaS(
   context: Client,
@@ -189,7 +187,7 @@ export function linkSaaS(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _linkSaaSSend(context, resourceGroupName, monitorName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
 }
 
@@ -205,7 +203,7 @@ export function _latestLinkedSaaSSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -232,7 +230,6 @@ export async function _latestLinkedSaaSDeserialize(
 
   return latestLinkedSaaSResponseDeserializer(result.body);
 }
-
 /** Returns the latest SaaS linked to the newrelic organization of the underlying monitor. */
 export async function latestLinkedSaaS(
   context: Client,
@@ -256,7 +253,7 @@ export function _vmHostPayloadSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -283,7 +280,6 @@ export async function _vmHostPayloadDeserialize(
 
   return vmExtensionPayloadDeserializer(result.body);
 }
-
 /** Returns the payload that needs to be passed in the request body for installing the New Relic agent on a VM, providing the necessary configuration details */
 export async function vmHostPayload(
   context: Client,
@@ -307,7 +303,7 @@ export function _listLinkedResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -334,7 +330,6 @@ export async function _listLinkedResourcesDeserialize(
 
   return _linkedResourceListResponseDeserializer(result.body);
 }
-
 /** Lists all Azure resources that are linked to the same New Relic organization as the specified monitor resource, helping you understand the scope of integration */
 export function listLinkedResources(
   context: Client,
@@ -347,11 +342,7 @@ export function listLinkedResources(
     () => _listLinkedResourcesSend(context, resourceGroupName, monitorName, options),
     _listLinkedResourcesDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -367,7 +358,7 @@ export function _listMonitoredResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -394,7 +385,6 @@ export async function _listMonitoredResourcesDeserialize(
 
   return _monitoredResourceListResponseDeserializer(result.body);
 }
-
 /** Lists all Azure resources that are currently being monitored by the specified New Relic monitor resource, providing insight into the coverage of your observability setup */
 export function listMonitoredResources(
   context: Client,
@@ -407,11 +397,7 @@ export function listMonitoredResources(
     () => _listMonitoredResourcesSend(context, resourceGroupName, monitorName, options),
     _listMonitoredResourcesDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -427,7 +413,7 @@ export function _refreshIngestionKeySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -451,7 +437,6 @@ export async function _refreshIngestionKeyDeserialize(
 
   return;
 }
-
 /** Refreshes the ingestion key for all monitors linked to the same account associated to the underlying monitor. */
 export async function refreshIngestionKey(
   context: Client,
@@ -476,7 +461,7 @@ export function _listHostsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -505,7 +490,6 @@ export async function _listHostsDeserialize(
 
   return _vmHostsListResponseDeserializer(result.body);
 }
-
 /** Lists all VM resources currently being monitored by the New Relic monitor resource, helping you manage observability */
 export function listHosts(
   context: Client,
@@ -519,11 +503,7 @@ export function listHosts(
     () => _listHostsSend(context, resourceGroupName, monitorName, request, options),
     _listHostsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -540,7 +520,7 @@ export function _switchBillingSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -556,7 +536,7 @@ export function _switchBillingSend(
 
 export async function _switchBillingDeserialize(
   result: PathUncheckedResponse,
-): Promise<NewRelicMonitorResource | undefined> {
+): Promise<NewRelicMonitorResource | void> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -567,9 +547,12 @@ export async function _switchBillingDeserialize(
     throw error;
   }
 
-  return result.body ? newRelicMonitorResourceDeserializer(result.body) : undefined;
-}
+  if (!result.body) {
+    return;
+  }
 
+  return newRelicMonitorResourceDeserializer(result.body);
+}
 /** Switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace */
 export async function switchBilling(
   context: Client,
@@ -577,7 +560,7 @@ export async function switchBilling(
   monitorName: string,
   request: SwitchBillingRequest,
   options: MonitorsSwitchBillingOptionalParams = { requestOptions: {} },
-): Promise<NewRelicMonitorResource | undefined> {
+): Promise<NewRelicMonitorResource | void> {
   const result = await _switchBillingSend(
     context,
     resourceGroupName,
@@ -601,7 +584,7 @@ export function _listAppServicesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -630,7 +613,6 @@ export async function _listAppServicesDeserialize(
 
   return _appServicesListResponseDeserializer(result.body);
 }
-
 /** Lists the app service resources currently being monitored by the New Relic resource, helping you understand which app services are under monitoring */
 export function listAppServices(
   context: Client,
@@ -644,11 +626,7 @@ export function listAppServices(
     () => _listAppServicesSend(context, resourceGroupName, monitorName, request, options),
     _listAppServicesDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -665,7 +643,7 @@ export function _getMetricStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -694,7 +672,6 @@ export async function _getMetricStatusDeserialize(
 
   return metricsStatusResponseDeserializer(result.body);
 }
-
 /** Retrieves the metric status that are configured in the New Relic monitor resource */
 export async function getMetricStatus(
   context: Client,
@@ -726,7 +703,7 @@ export function _getMetricRulesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -755,7 +732,6 @@ export async function _getMetricRulesDeserialize(
 
   return metricRulesDeserializer(result.body);
 }
-
 /** Retrieves the metric rules that are configured in the New Relic monitor resource */
 export async function getMetricRules(
   context: Client,
@@ -782,7 +758,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/monitors{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -809,7 +785,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _newRelicMonitorResourceListResultDeserializer(result.body);
 }
-
 /** Lists all New Relic monitor resources either within a specific subscription */
 export function listBySubscription(
   context: Client,
@@ -820,11 +795,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -838,7 +809,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -865,7 +836,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _newRelicMonitorResourceListResultDeserializer(result.body);
 }
-
 /** Retrieves a list of all New Relic monitor resources either a specific resource group */
 export function listByResourceGroup(
   context: Client,
@@ -877,11 +847,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -898,7 +864,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       userEmail: userEmail,
     },
     {
@@ -921,7 +887,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes an existing New Relic monitor resource from your Azure subscription, removing the integration and stopping the observability of your Azure resources through New Relic */
 export function $delete(
   context: Client,
@@ -936,7 +901,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, monitorName, userEmail, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -953,7 +918,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -982,7 +947,6 @@ export async function _updateDeserialize(
 
   return newRelicMonitorResourceDeserializer(result.body);
 }
-
 /** Updates an existing New Relic monitor resource from your Azure subscription */
 export function update(
   context: Client,
@@ -997,7 +961,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, monitorName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
 }
 
@@ -1014,7 +978,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1043,7 +1007,6 @@ export async function _createOrUpdateDeserialize(
 
   return newRelicMonitorResourceDeserializer(result.body);
 }
-
 /** Creates a new or updates an existing New Relic monitor resource in your Azure subscription. This sets up the integration between Azure and your New Relic account, enabling observability and monitoring of your Azure resources through New Relic */
 export function createOrUpdate(
   context: Client,
@@ -1058,7 +1021,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, monitorName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
 }
 
@@ -1074,7 +1037,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1101,7 +1064,6 @@ export async function _getDeserialize(
 
   return newRelicMonitorResourceDeserializer(result.body);
 }
-
 /** Retrieves the properties and configuration details of a specific New Relic monitor resource, providing insight into its setup and status */
 export async function get(
   context: Client,

@@ -26,7 +26,6 @@ export interface RecoverableDatabasesOperations {
     options?: RecoverableDatabasesGetOptionalParams,
   ) => Promise<RecoverableDatabase>;
 }
-
 function _getRecoverableDatabases(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -42,7 +41,6 @@ function _getRecoverableDatabases(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, options),
   };
 }
-
 export function _getRecoverableDatabasesOperations(
   context: SqlManagementContext,
 ): RecoverableDatabasesOperations {

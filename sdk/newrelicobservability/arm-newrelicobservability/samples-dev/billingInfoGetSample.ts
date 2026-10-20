@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to a synchronous resource action.
  *
  * @summary a synchronous resource action.
- * x-ms-original-file: 2025-05-01-preview/BillingInfo_Get.json
+ * x-ms-original-file: 2026-06-01/BillingInfo_Get.json
  */
 async function billingInfoGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

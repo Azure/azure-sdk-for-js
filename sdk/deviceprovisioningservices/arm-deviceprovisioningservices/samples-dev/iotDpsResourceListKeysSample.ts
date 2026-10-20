@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list the primary and secondary keys for a provisioning service.
  *
  * @summary list the primary and secondary keys for a provisioning service.
- * x-ms-original-file: 2025-02-01-preview/DPSListKeys.json
+ * x-ms-original-file: 2026-08-31/DPSListKeys.json
  */
 async function dpsListKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,8 +16,8 @@ async function dpsListKeys(): Promise<void> {
   const client = new IotDpsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.iotDpsResource.listKeys(
-    "myResourceGroup",
     "myFirstProvisioningService",
+    "myResourceGroup",
   )) {
     resArray.push(item);
   }

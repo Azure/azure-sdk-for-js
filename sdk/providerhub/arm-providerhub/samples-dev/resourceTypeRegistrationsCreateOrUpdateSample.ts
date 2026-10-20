@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a resource type.
  *
  * @summary creates or updates a resource type.
- * x-ms-original-file: 2024-09-01/DirectResourceTypeRegistrations_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01/DirectResourceTypeRegistrations_CreateOrUpdate.json
  */
 async function directResourceTypeRegistrationsCreateOrUpdateJson(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,22 +19,9 @@ async function directResourceTypeRegistrationsCreateOrUpdateJson(): Promise<void
     "employees",
     {
       properties: {
-        addResourceListTargetLocations: true,
+        routingType: "Default",
+        regionality: "Regional",
         additionalOptions: "ProtectedAsyncOperationPolling",
-        allowEmptyRoleAssignments: false,
-        allowedResourceNames: [{ name: "name1", getActionVerb: "list" }, { name: "name2" }],
-        allowedTemplateDeploymentReferenceActions: ["ListKeys", "ListSAS"],
-        apiProfiles: [
-          { apiVersion: "2018-02-01", profileVersion: "2018-03-01-hybrid" },
-          { apiVersion: "2016-06-01", profileVersion: "2019-03-01-hybrid" },
-        ],
-        asyncTimeoutRules: [
-          { actionName: "Microsoft.ClassicCompute/domainNames/write", timeout: "PT12H" },
-        ],
-        availabilityZoneRule: { availabilityZonePolicy: "MultiZoned" },
-        capacityRule: { capacityPolicy: "Restricted", skuAlias: "incorrectAlias" },
-        commonApiVersions: ["2021-01-01"],
-        dstsConfiguration: { serviceDnsName: "prds.sparta.azure.com", serviceName: "prds-shim" },
         endpoints: [
           {
             apiVersions: ["2020-06-01-preview"],
@@ -42,63 +29,11 @@ async function directResourceTypeRegistrationsCreateOrUpdateJson(): Promise<void
             requiredFeatures: ["<feature flag>"],
           },
         ],
-        groupingTag: "groupingTag",
-        legacyName: "legacyName",
-        legacyNames: ["legacyName"],
-        legacyPolicy: {
-          disallowedConditions: [
-            {
-              disallowedLegacyOperations: ["Create", "Delete"],
-              feature: "Microsoft.RP/ArmOnlyJobCollections",
-            },
-          ],
-          disallowedLegacyOperations: ["Create"],
-        },
-        linkedOperationRules: [
-          { linkedAction: "Blocked", linkedOperation: "CrossSubscriptionResourceMove" },
-          { linkedAction: "Validate", linkedOperation: "CrossResourceGroupResourceMove" },
-        ],
-        management: {
-          authorizationOwners: ["RPAAS-PlatformServiceAdministrator"],
-          incidentContactEmail: "helpme@contoso.com",
-          incidentRoutingService: "",
-          incidentRoutingTeam: "",
-          manifestOwners: ["SPARTA-PlatformServiceAdministrator"],
-          resourceAccessPolicy: "NotSpecified",
-          serviceTreeInfos: [
-            {
-              componentId: "d1b7d8ba-05e2-48e6-90d6-d781b99c6e69",
-              readiness: "InDevelopment",
-              serviceId: "d1b7d8ba-05e2-48e6-90d6-d781b99c6e69",
-            },
-          ],
-        },
-        manifestLink: "https://azure.com",
-        marketplaceOptions: { addOnPlanConversionAllowed: true },
-        metadata: {},
-        notifications: [
-          { notificationType: "SubscriptionNotification", skipNotifications: "Disabled" },
-        ],
-        openApiConfiguration: { validation: { allowNoncompliantCollectionResponse: true } },
-        policyExecutionType: "BypassPolicies",
-        regionality: "Regional",
-        requestHeaderOptions: { optOutHeaders: "SystemDataCreatedByLastModifiedBy" },
-        resourceCache: { enableResourceCache: true, resourceCacheExpirationTimespan: "PT2M" },
         resourceConcurrencyControlOptions: {
+          put: { policy: "SynchronizeBeginExtension" },
           patch: { policy: "SynchronizeBeginExtension" },
           post: { policy: "SynchronizeBeginExtension" },
-          put: { policy: "SynchronizeBeginExtension" },
         },
-        resourceGraphConfiguration: { apiVersion: "2019-01-01", enabled: true },
-        resourceManagementOptions: {
-          batchProvisioningSupport: { supportedOperations: "Get, Delete" },
-          deleteDependencies: [{ linkedProperty: "properties.edgeProfile.subscription.id" }],
-        },
-        resourceQueryManagement: { filterOption: "EnableSubscriptionFilterOnTenant" },
-        resourceTypeCommonAttributeManagement: { commonApiVersionsMergeMode: "Merge" },
-        routingRule: { hostResourceType: "servers/databases" },
-        routingType: "Default",
-        supportsTags: true,
         swaggerSpecifications: [
           {
             apiVersions: ["2020-06-01-preview"],
@@ -106,11 +41,79 @@ async function directResourceTypeRegistrationsCreateOrUpdateJson(): Promise<void
               "https://github.com/Azure/azure-rest-api-specs/blob/feature/azure/contoso/specification/contoso/resource-manager/Microsoft.SampleRP/",
           },
         ],
+        resourceGraphConfiguration: { enabled: true, apiVersion: "2019-01-01" },
+        management: {
+          manifestOwners: ["Contoso-PlatformServiceAdministrator"],
+          authorizationOwners: ["RPAAS-PlatformServiceAdministrator"],
+          incidentRoutingService: "",
+          incidentRoutingTeam: "",
+          incidentContactEmail: "helpme@contoso.com",
+          resourceAccessPolicy: "NotSpecified",
+        },
+        metadata: {},
+        notifications: [
+          { notificationType: "SubscriptionNotification", skipNotifications: "Disabled" },
+        ],
+        openApiConfiguration: { validation: { allowNoncompliantCollectionResponse: true } },
+        requestHeaderOptions: { optOutHeaders: "SystemDataCreatedByLastModifiedBy" },
+        privateEndpointConfiguration: {
+          minApiVersion: "2022-10-01",
+          groupConnectivityInformation: [
+            {
+              groupId: "Sql",
+              requiredMembers: ["Sql_Member"],
+              requiredZoneNames: ["Zone"],
+              redirectMapId: "test",
+            },
+          ],
+        },
         templateDeploymentPolicy: {
           capabilities: "Preflight",
-          preflightNotifications: "None",
           preflightOptions: "ValidationRequests, DeploymentRequests",
+          preflightNotifications: "None",
         },
+        allowEmptyRoleAssignments: false,
+        policyExecutionType: "BypassPolicies",
+        availabilityZoneRule: { availabilityZonePolicy: "MultiZoned" },
+        asyncTimeoutRules: [
+          { actionName: "Microsoft.ClassicCompute/domainNames/write", timeout: "PT12H" },
+        ],
+        commonApiVersions: ["2021-01-01"],
+        apiProfiles: [
+          { profileVersion: "2018-03-01-hybrid", apiVersion: "2018-02-01" },
+          { profileVersion: "2019-03-01-hybrid", apiVersion: "2016-06-01" },
+        ],
+        linkedOperationRules: [
+          { linkedOperation: "CrossSubscriptionResourceMove", linkedAction: "Blocked" },
+          { linkedOperation: "CrossResourceGroupResourceMove", linkedAction: "Validate" },
+        ],
+        legacyName: "legacyName",
+        legacyNames: ["legacyName"],
+        allowedTemplateDeploymentReferenceActions: ["ListKeys", "ListSAS"],
+        legacyPolicy: {
+          disallowedLegacyOperations: ["Create"],
+          disallowedConditions: [
+            {
+              disallowedLegacyOperations: ["Create", "Delete"],
+              feature: "Microsoft.RP/ArmOnlyJobCollections",
+            },
+          ],
+        },
+        manifestLink: "https://azure.com",
+        capacityRule: { capacityPolicy: "Restricted", skuAlias: "incorrectAlias" },
+        marketplaceOptions: { addOnPlanConversionAllowed: true },
+        allowedResourceNames: [{ name: "name1", getActionVerb: "list" }, { name: "name2" }],
+        resourceCache: { enableResourceCache: true, resourceCacheExpirationTimespan: "PT2M" },
+        resourceQueryManagement: { filterOption: "EnableSubscriptionFilterOnTenant" },
+        supportsTags: true,
+        resourceManagementOptions: {
+          batchProvisioningSupport: { supportedOperations: "Get, Delete" },
+          deleteDependencies: [{ linkedProperty: "properties.edgeProfile.subscription.id" }],
+        },
+        groupingTag: "groupingTag",
+        addResourceListTargetLocations: true,
+        resourceTypeCommonAttributeManagement: { commonApiVersionsMergeMode: "Merge" },
+        routingRule: { hostResourceType: "servers/databases" },
       },
     },
   );
@@ -121,7 +124,7 @@ async function directResourceTypeRegistrationsCreateOrUpdateJson(): Promise<void
  * This sample demonstrates how to creates or updates a resource type.
  *
  * @summary creates or updates a resource type.
- * x-ms-original-file: 2024-09-01/ResourceTypeRegistrations_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01/ResourceTypeRegistrations_CreateOrUpdate.json
  */
 async function resourceTypeRegistrationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -132,6 +135,8 @@ async function resourceTypeRegistrationsCreateOrUpdate(): Promise<void> {
     "employees",
     {
       properties: {
+        routingType: "Default",
+        regionality: "Regional",
         crossTenantTokenValidation: "EnsureSecureValidation",
         endpoints: [
           {
@@ -140,35 +145,11 @@ async function resourceTypeRegistrationsCreateOrUpdate(): Promise<void> {
             requiredFeatures: ["<feature flag>"],
           },
         ],
-        management: {
-          authorizationOwners: ["RPAAS-PlatformServiceAdministrator"],
-          incidentContactEmail: "helpme@contoso.com",
-          incidentRoutingService: "",
-          incidentRoutingTeam: "",
-          manifestOwners: ["SPARTA-PlatformServiceAdministrator"],
-          resourceAccessPolicy: "NotSpecified",
-          serviceTreeInfos: [
-            {
-              componentId: "d1b7d8ba-05e2-48e6-90d6-d781b99c6e69",
-              readiness: "InDevelopment",
-              serviceId: "d1b7d8ba-05e2-48e6-90d6-d781b99c6e69",
-            },
-          ],
-        },
-        metadata: {},
-        notifications: [
-          { notificationType: "SubscriptionNotification", skipNotifications: "Disabled" },
-        ],
-        openApiConfiguration: { validation: { allowNoncompliantCollectionResponse: true } },
-        regionality: "Regional",
-        requestHeaderOptions: { optOutHeaders: "SystemDataCreatedByLastModifiedBy" },
         resourceConcurrencyControlOptions: {
+          put: { policy: "SynchronizeBeginExtension" },
           patch: { policy: "SynchronizeBeginExtension" },
           post: { policy: "SynchronizeBeginExtension" },
-          put: { policy: "SynchronizeBeginExtension" },
         },
-        resourceGraphConfiguration: { apiVersion: "2019-01-01", enabled: true },
-        routingType: "Default",
         swaggerSpecifications: [
           {
             apiVersions: ["2020-06-01-preview"],
@@ -176,6 +157,52 @@ async function resourceTypeRegistrationsCreateOrUpdate(): Promise<void> {
               "https://github.com/Azure/azure-rest-api-specs/blob/feature/azure/contoso/specification/contoso/resource-manager/Microsoft.SampleRP/",
           },
         ],
+        resourceGraphConfiguration: { enabled: true, apiVersion: "2019-01-01" },
+        management: {
+          manifestOwners: ["Contoso-PlatformServiceAdministrator"],
+          authorizationOwners: ["RPAAS-PlatformServiceAdministrator"],
+          incidentRoutingService: "",
+          incidentRoutingTeam: "",
+          incidentContactEmail: "helpme@contoso.com",
+          resourceAccessPolicy: "NotSpecified",
+        },
+        metadata: {},
+        notifications: [
+          { notificationType: "SubscriptionNotification", skipNotifications: "Disabled" },
+        ],
+        openApiConfiguration: { validation: { allowNoncompliantCollectionResponse: true } },
+        requestHeaderOptions: { optOutHeaders: "SystemDataCreatedByLastModifiedBy" },
+        throttlingRules: [
+          {
+            action: "Microsoft.Foo/checkNameAvailability/write",
+            metrics: [{ type: "NumberOfRequests", bucketSize: "XLarge", limit: 1 }],
+          },
+        ],
+        privateEndpointConfiguration: {
+          minApiVersion: "2022-10-01",
+          groupConnectivityInformation: [
+            {
+              groupId: "Sql",
+              requiredMembers: ["Sql_Member"],
+              requiredZoneNames: ["Zone"],
+              redirectMapId: "test",
+            },
+          ],
+        },
+        writeLock: { state: "Enabled" },
+        marketplaceType: "ProviderHub",
+        resourceManagementOptions: {
+          batchProvisioningSupport: {
+            maxBatchSize: 10,
+            actionConfigurations: [
+              { authorizationAction: "Microsoft.Contoso/authorize", maxBatchSize: 5 },
+            ],
+            batchContractVersion: "2020-06-01-preview",
+            maxNestedBatchSize: 5,
+            requiredFeatures: ["Microsoft.Contoso/feature1"],
+            supportedOperations: "Get",
+          },
+        },
       },
     },
   );

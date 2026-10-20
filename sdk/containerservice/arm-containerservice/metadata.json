@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ContainerService": "2026-06-01"
+    "Microsoft.ContainerService": "2026-08-01"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerService",
     "CrossLanguageDefinitionId": {
@@ -21,6 +21,7 @@
       "@azure/arm-containerservice!AgentPoolWindowsProfile:interface": "Microsoft.ContainerService.AgentPoolWindowsProfile",
       "@azure/arm-containerservice!AgentPoolSecurityProfile:interface": "Microsoft.ContainerService.AgentPoolSecurityProfile",
       "@azure/arm-containerservice!GPUProfile:interface": "Microsoft.ContainerService.GPUProfile",
+      "@azure/arm-containerservice!NvidiaGPUProfile:interface": "Microsoft.ContainerService.NvidiaGPUProfile",
       "@azure/arm-containerservice!AgentPoolGatewayProfile:interface": "Microsoft.ContainerService.AgentPoolGatewayProfile",
       "@azure/arm-containerservice!AgentPoolArtifactStreamingProfile:interface": "Microsoft.ContainerService.AgentPoolArtifactStreamingProfile",
       "@azure/arm-containerservice!VirtualMachinesProfile:interface": "Microsoft.ContainerService.VirtualMachinesProfile",
@@ -97,6 +98,7 @@
       "@azure/arm-containerservice!ManagedClusterSecurityProfileDefenderSecurityGating:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileDefenderSecurityGating",
       "@azure/arm-containerservice!ManagedClusterSecurityProfileDefenderSecurityGatingIdentity:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileDefenderSecurityGatingIdentity",
       "@azure/arm-containerservice!AzureKeyVaultKms:interface": "Microsoft.ContainerService.AzureKeyVaultKms",
+      "@azure/arm-containerservice!KubernetesResourceObjectEncryptionProfile:interface": "Microsoft.ContainerService.KubernetesResourceObjectEncryptionProfile",
       "@azure/arm-containerservice!ManagedClusterSecurityProfileWorkloadIdentity:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileWorkloadIdentity",
       "@azure/arm-containerservice!ManagedClusterSecurityProfileImageCleaner:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileImageCleaner",
       "@azure/arm-containerservice!ManagedClusterStorageProfile:interface": "Microsoft.ContainerService.ManagedClusterStorageProfile",
@@ -236,6 +238,7 @@
       "@azure/arm-containerservice!KnownDRANETMode:enum": "Microsoft.ContainerService.DRANETMode",
       "@azure/arm-containerservice!KnownAgentPoolSSHAccess:enum": "Microsoft.ContainerService.AgentPoolSSHAccess",
       "@azure/arm-containerservice!KnownGPUDriver:enum": "Microsoft.ContainerService.GPUDriver",
+      "@azure/arm-containerservice!KnownManagementMode:enum": "Microsoft.ContainerService.ManagementMode",
       "@azure/arm-containerservice!KnownLocalDNSMode:enum": "Microsoft.ContainerService.LocalDNSMode",
       "@azure/arm-containerservice!KnownLocalDNSState:enum": "Microsoft.ContainerService.LocalDNSState",
       "@azure/arm-containerservice!KnownLocalDNSQueryLogging:enum": "Microsoft.ContainerService.LocalDNSQueryLogging",
@@ -266,6 +269,7 @@
       "@azure/arm-containerservice!KnownNodeOSUpgradeChannel:enum": "Microsoft.ContainerService.NodeOSUpgradeChannel",
       "@azure/arm-containerservice!KnownExpander:enum": "Microsoft.ContainerService.Expander",
       "@azure/arm-containerservice!KnownKeyVaultNetworkAccessTypes:enum": "Microsoft.ContainerService.KeyVaultNetworkAccessTypes",
+      "@azure/arm-containerservice!KnownInfrastructureEncryption:enum": "Microsoft.ContainerService.InfrastructureEncryption",
       "@azure/arm-containerservice!KnownGatewayAPIIstioEnabled:enum": "Microsoft.ContainerService.GatewayAPIIstioEnabled",
       "@azure/arm-containerservice!KnownNginxIngressControllerType:enum": "Microsoft.ContainerService.NginxIngressControllerType",
       "@azure/arm-containerservice!KnownManagedGatewayType:enum": "Microsoft.ContainerService.ManagedGatewayType",

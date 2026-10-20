@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import { list } from "../../api/managedEnvironmentUsages/operations.js";
-import { ManagedEnvironmentUsagesListOptionalParams } from "../../api/managedEnvironmentUsages/options.js";
-import { Usage } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ManagedEnvironmentUsagesListOptionalParams } from "../../api/managedEnvironmentUsages/options.js";
+import type { Usage } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagedEnvironmentUsages operations. */
 export interface ManagedEnvironmentUsagesOperations {

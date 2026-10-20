@@ -1,0 +1,25 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ProviderHubClient } from "@azure/arm-providerhub";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to gets the manifest from the manifest repository.
+ *
+ * @summary gets the manifest from the manifest repository.
+ * x-ms-original-file: 2025-10-01/Manifests_Get.json
+ */
+async function manifestsGet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ab7a8701-f7ef-471a-a2f4-d0ebbf494f77";
+  const client = new ProviderHubClient(credential, subscriptionId);
+  const result = await client.manifests.get("Microsoft.Contoso", "prod");
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await manifestsGet();
+}
+
+main().catch(console.error);

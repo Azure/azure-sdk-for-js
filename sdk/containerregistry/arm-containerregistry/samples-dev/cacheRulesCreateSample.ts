@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a cache rule for a container registry with the specified parameters.
  *
  * @summary creates a cache rule for a container registry with the specified parameters.
- * x-ms-original-file: 2026-03-01-preview/CacheRuleCreate.json
+ * x-ms-original-file: 2026-09-01-preview/CacheRuleCreate.json
  */
 async function cacheRuleCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function cacheRuleCreate(): Promise<void> {
  * This sample demonstrates how to creates a cache rule for a container registry with the specified parameters.
  *
  * @summary creates a cache rule for a container registry with the specified parameters.
- * x-ms-original-file: 2026-03-01-preview/CacheRuleCreateUserAssignedMIAuthentication.json
+ * x-ms-original-file: 2026-09-01-preview/CacheRuleCreateUserAssignedMIAuthentication.json
  */
 async function cacheRuleCreateUserAssignedMIAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -51,7 +51,7 @@ async function cacheRuleCreateUserAssignedMIAuthentication(): Promise<void> {
  * This sample demonstrates how to creates a cache rule for a container registry with the specified parameters.
  *
  * @summary creates a cache rule for a container registry with the specified parameters.
- * x-ms-original-file: 2026-03-01-preview/CacheRuleCreateUserAssignedMIGoogle.json
+ * x-ms-original-file: 2026-09-01-preview/CacheRuleCreateUserAssignedMIGoogle.json
  */
 async function cacheRuleCreateUserAssignedMIAuthGoogle(): Promise<void> {
   const credential = new DefaultAzureCredential();

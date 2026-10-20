@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicenetworking/arm-servicenetworking)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-servicenetworking)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-servicenetworking?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-servicenetworking)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicenetworking/arm-servicenetworking/samples)
 
 ## Getting started

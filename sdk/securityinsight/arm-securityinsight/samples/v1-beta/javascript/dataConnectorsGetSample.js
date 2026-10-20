@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetAPIPolling.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetAPIPolling.json
  */
 async function getAAPIPollingDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getAAPIPollingDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetAmazonWebServicesCloudTrailById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetAmazonWebServicesCloudTrailById.json
  */
 async function getAnAwsCloudTrailDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function getAnAwsCloudTrailDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetAmazonWebServicesS3ById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetAmazonWebServicesS3ById.json
  */
 async function getAnAwsS3DataConnector() {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function getAnAwsS3DataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetAzureActiveDirectoryById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetAzureActiveDirectoryById.json
  */
 async function getAnAadipAzureActiveDirectoryIdentityProtectionDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function getAnAadipAzureActiveDirectoryIdentityProtectionDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetAzureAdvancedThreatProtectionById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetAzureAdvancedThreatProtectionById.json
  */
 async function getAnAatpDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -98,7 +98,7 @@ async function getAnAatpDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetAzureSecurityCenterById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetAzureSecurityCenterById.json
  */
 async function getAASCDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -116,7 +116,7 @@ async function getAASCDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetDynamics365DataConnectorById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetDynamics365DataConnectorById.json
  */
 async function getADynamics365DataConnector() {
   const credential = new DefaultAzureCredential();
@@ -134,7 +134,7 @@ async function getADynamics365DataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetGenericUI.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetGenericUI.json
  */
 async function getAGenericUIDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -152,7 +152,7 @@ async function getAGenericUIDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetGoogleCloudPlatformById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetGoogleCloudPlatformById.json
  */
 async function getAGCPDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -170,7 +170,7 @@ async function getAGCPDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetIoTById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetIoTById.json
  */
 async function getAIoTDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -188,7 +188,7 @@ async function getAIoTDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetMicrosoftCloudAppSecurityById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetMicrosoftCloudAppSecurityById.json
  */
 async function getAMcasDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -206,7 +206,7 @@ async function getAMcasDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetMicrosoftDefenderAdvancedThreatProtectionById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetMicrosoftDefenderAdvancedThreatProtectionById.json
  */
 async function getAMdatpDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -224,7 +224,7 @@ async function getAMdatpDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetMicrosoftInsiderRiskManagementById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetMicrosoftInsiderRiskManagementById.json
  */
 async function getAnOfficeIRMDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -242,7 +242,7 @@ async function getAnOfficeIRMDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetMicrosoftPurviewInformationProtectionDataConnetorById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetMicrosoftPurviewInformationProtectionDataConnetorById.json
  */
 async function getAMicrosoftPurviewInformationProtectionDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -260,7 +260,7 @@ async function getAMicrosoftPurviewInformationProtectionDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetMicrosoftThreatIntelligenceById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetMicrosoftThreatIntelligenceById.json
  */
 async function getAMicrosoftThreatIntelligenceDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -278,7 +278,7 @@ async function getAMicrosoftThreatIntelligenceDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetMicrosoftThreatProtectionById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetMicrosoftThreatProtectionById.json
  */
 async function getAMicrosoftThreatProtectionDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -296,7 +296,7 @@ async function getAMicrosoftThreatProtectionDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetOffice365AdvancedThreatProtectionById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetOffice365AdvancedThreatProtectionById.json
  */
 async function getAnOfficeATPDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -314,7 +314,7 @@ async function getAnOfficeATPDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetOffice365ProjectDataConnetorById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetOffice365ProjectDataConnetorById.json
  */
 async function getAnOffice365ProjectDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -332,7 +332,7 @@ async function getAnOffice365ProjectDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetOfficeDataConnetorById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetOfficeDataConnetorById.json
  */
 async function getAnOffice365DataConnector() {
   const credential = new DefaultAzureCredential();
@@ -350,7 +350,7 @@ async function getAnOffice365DataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetOfficePowerBIDataConnetorById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetOfficePowerBIDataConnetorById.json
  */
 async function getAnOffice365PowerBIDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -368,7 +368,7 @@ async function getAnOffice365PowerBIDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetPremiumMicrosoftDefenderForThreatIntelligenceById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetPremiumMicrosoftDefenderForThreatIntelligenceById.json
  */
 async function getAPremiumMicrosoftDefenderForThreatIntelligenceDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -386,7 +386,7 @@ async function getAPremiumMicrosoftDefenderForThreatIntelligenceDataConnector() 
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetPurviewAuditDataConnectorById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetPurviewAuditDataConnectorById.json
  */
 async function getAPurviewAuditDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -404,7 +404,7 @@ async function getAPurviewAuditDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetRestApiPollerById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetRestApiPollerById.json
  */
 async function getARestApiPollerDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -422,7 +422,7 @@ async function getARestApiPollerDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetThreatIntelligenceById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetThreatIntelligenceById.json
  */
 async function getATIDataConnector() {
   const credential = new DefaultAzureCredential();
@@ -440,7 +440,7 @@ async function getATIDataConnector() {
  * This sample demonstrates how to gets a data connector.
  *
  * @summary gets a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetThreatIntelligenceTaxiiById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetThreatIntelligenceTaxiiById.json
  */
 async function getATITaxiiDataConnector() {
   const credential = new DefaultAzureCredential();

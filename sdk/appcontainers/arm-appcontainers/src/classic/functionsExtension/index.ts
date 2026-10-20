@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import { invokeFunctionsHost } from "../../api/functionsExtension/operations.js";
-import { FunctionsExtensionInvokeFunctionsHostOptionalParams } from "../../api/functionsExtension/options.js";
-import { FunctionsExtensionInvokeFunctionsHostResponse } from "../../models/models.js";
+import type { FunctionsExtensionInvokeFunctionsHostOptionalParams } from "../../api/functionsExtension/options.js";
+import type { FunctionsExtensionInvokeFunctionsHostResponse } from "../../models/models.js";
 
 /** Interface representing a FunctionsExtension operations. */
 export interface FunctionsExtensionOperations {

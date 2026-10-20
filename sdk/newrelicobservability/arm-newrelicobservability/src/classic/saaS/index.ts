@@ -17,7 +17,6 @@ export interface SaaSOperations {
     options?: SaaSActivateResourceOptionalParams,
   ) => Promise<SaaSResourceDetailsResponse>;
 }
-
 function _getSaaS(context: NewRelicObservabilityContext) {
   return {
     activateResource: (
@@ -26,7 +25,6 @@ function _getSaaS(context: NewRelicObservabilityContext) {
     ) => activateResource(context, request, options),
   };
 }
-
 export function _getSaaSOperations(context: NewRelicObservabilityContext): SaaSOperations {
   return {
     ..._getSaaS(context),

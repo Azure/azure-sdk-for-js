@@ -38,7 +38,7 @@ export function _listByQuerySend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       queryId: queryId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       startTime: options?.startTime,
       endTime: options?.endTime,
       interval: options?.interval,
@@ -68,7 +68,6 @@ export async function _listByQueryDeserialize(
 
   return _managedInstanceQueryStatisticsDeserializer(result.body);
 }
-
 /** Get query execution statistics by query id. */
 export function listByQuery(
   context: Client,
@@ -91,7 +90,11 @@ export function listByQuery(
       ),
     _listByQueryDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -111,7 +114,7 @@ export function _getSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       queryId: queryId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,7 +141,6 @@ export async function _getDeserialize(
 
   return managedInstanceQueryDeserializer(result.body);
 }
-
 /** Get query by query id. */
 export async function get(
   context: Client,

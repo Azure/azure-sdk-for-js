@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation deletes the policy set definition version in the given subscription with the given name and version.
  *
  * @summary this operation deletes the policy set definition version in the given subscription with the given name and version.
- * x-ms-original-file: 2025-03-01/deletePolicySetDefinitionVersion.json
+ * x-ms-original-file: 2026-06-01/deletePolicySetDefinitionVersion.json
  */
 async function deleteAPolicySetDefinitionVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

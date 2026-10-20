@@ -13,6 +13,7 @@ import type {
   BlobDownloadResponseModel,
 } from "./generatedModels.js";
 import { EncryptionAlgorithmAES25 } from "./utils/constants.js";
+import type { RawHttpHeaders } from "@azure/core-http-compat";
 import { StoragePipelineOptions } from "./Pipeline.js";
 
 /**
@@ -207,6 +208,79 @@ export function toAccessTier(
   }
 
   return tier as AccessTier; // No more check if string is a valid AccessTier, and left this to underlay logic to decide(service).
+}
+
+export function toTspImmutabilityPolicyMode(
+  mode: BlobImmutabilityPolicyMode | string | undefined,
+): "mutable" | "unlocked" | "locked" | undefined {
+  if (mode === undefined) {
+    return undefined;
+  }
+  switch (mode) {
+    case "Mutable":
+      return "mutable";
+    case "Unlocked":
+      return "unlocked";
+    case "Locked":
+      return "locked";
+    default:
+      throw new RangeError(`Invalid BlobImmutabilityPolicyMode value: ${mode}`);
+  }
+}
+
+export function fromTspImmutabilityPolicyMode(
+  generatedMode: "mutable" | "unlocked" | "locked" | undefined,
+): BlobImmutabilityPolicyMode | undefined {
+  if (generatedMode === undefined) {
+    return undefined;
+  }
+  switch (generatedMode) {
+    case "mutable":
+      return "Mutable";
+    case "unlocked":
+      return "Unlocked";
+    case "locked":
+      return "Locked";
+    default:
+      throw new RangeError(`Invalid BlobImmutabilityPolicyMode value: ${generatedMode}`);
+  }
+}
+
+const xMsMetaPrefix = "x-ms-meta-";
+
+export function metadataToRawHeaders(metadata: Metadata | undefined): RawHttpHeaders {
+  const metadataHeaders: RawHttpHeaders = {};
+  if (metadata) {
+    for (const key of Object.keys(metadata)) {
+      metadataHeaders[`${xMsMetaPrefix}${key.toLowerCase()}`] = metadata[key];
+    }
+  }
+  return metadataHeaders;
+}
+
+export function rawHeadersToMetadata(rawHeaders: RawHttpHeaders): Metadata {
+  const metadata: Metadata = {};
+  for (const key of Object.keys(rawHeaders)) {
+    if (key.toLowerCase().startsWith(xMsMetaPrefix)) {
+      const metadataKey = key.substring(xMsMetaPrefix.length);
+      metadata[metadataKey] = rawHeaders[key] as string;
+    }
+  }
+  return metadata;
+}
+
+const xMsOrPrefix = "x-ms-or-";
+export function rawHeadersToObjectReplicationRules(
+  rawHeaders: RawHttpHeaders,
+): Record<string, string> {
+  const orRules: Record<string, string> = {};
+  for (const [k, v] of Object.entries(rawHeaders)) {
+    if (k.toLowerCase().startsWith(xMsOrPrefix)) {
+      const orKey = k.substring(xMsOrPrefix.length);
+      orRules[orKey] = v as string;
+    }
+  }
+  return orRules;
 }
 
 export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {

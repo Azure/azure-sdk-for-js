@@ -49,7 +49,7 @@ export function _testExistingConnectionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       connectorName: connectorName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +106,7 @@ export function testExistingConnection(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<TestConnectionResponse>, TestConnectionResponse>;
 }
 
@@ -122,7 +122,7 @@ export function _listByStorageAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -162,7 +162,7 @@ export function listByStorageAccount(
     () => _listByStorageAccountSend(context, resourceGroupName, accountName, options),
     _listByStorageAccountDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -180,7 +180,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       connectorName: connectorName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -217,7 +217,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, connectorName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -236,7 +236,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       connectorName: connectorName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -279,7 +279,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, connectorName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<Connector>, Connector>;
 }
 
@@ -298,7 +298,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       connectorName: connectorName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -341,7 +341,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, accountName, connectorName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<Connector>, Connector>;
 }
 
@@ -359,7 +359,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       connectorName: connectorName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

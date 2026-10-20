@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks if resource name is available.
  *
  * @summary checks if resource name is available.
- * x-ms-original-file: 2025-10-02-preview/Certificates_CheckNameAvailability.json
+ * x-ms-original-file: 2026-07-01/Certificates_CheckNameAvailability.json
  */
 async function certificatesCheckNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function certificatesCheckNameAvailability(): Promise<void> {
  * This sample demonstrates how to checks if resource name is available.
  *
  * @summary checks if resource name is available.
- * x-ms-original-file: 2025-10-02-preview/ContainerApps_CheckNameAvailability.json
+ * x-ms-original-file: 2026-07-01/ContainerApps_CheckNameAvailability.json
  */
 async function containerAppsCheckNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();
