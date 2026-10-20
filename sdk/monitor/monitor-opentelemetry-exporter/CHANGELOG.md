@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added automatic gzip request compression for Azure Monitor ingestion, including internal Statsbeat and customer SDK Stats, while preserving uncompressed requests to custom ingestion domains.
+- Added automatic gzip request compression for Azure Monitor ingestion, including internal Statsbeat and customer SDK Stats, while preserving uncompressed requests to custom ingestion domains. [#40414](https://github.com/Azure/azure-sdk-for-js/pull/40414)
 
 ### Breaking Changes
 
