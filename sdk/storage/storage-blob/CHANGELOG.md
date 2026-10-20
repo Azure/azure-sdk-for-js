@@ -13,6 +13,7 @@
   - The service doesn't compute a Content-MD5 property for the blob, so `getProperties`, `download` and blob listings return no `contentMD5` unless `blobHTTPHeaders.blobContentMD5` is set.
   - The response comes from `commitBlockList`: it has no `contentMD5` or `structuredBodyType`, and its `xMsContentCrc64` covers the block list rather than the data.
   - Blob created events report the `PutBlockList` operation instead of `PutBlob`.
+  - When another upload to the same blob finishes while this one is still staging blocks, the service discards this upload's staged blocks, so it fails with a 400 error (`InvalidBlockList` or `InvalidBlobOrBlock`) instead of overwriting the blob.
 
 ### Bugs Fixed
 
