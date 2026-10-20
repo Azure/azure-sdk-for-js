@@ -39,6 +39,11 @@ regeneration script falls back to it when the strict run fails.
 - Type unions and unique literal switch cases that terminate without fallthrough
   merge by identity even when their display order changes. Conflicting bodies,
   dynamic cases, and order-sensitive runtime lists still require resolution.
+- When a feature flag advances, post-emitter review must apply the
+  [schema replacement rule](../post-emitter-workarounds.md#feature-flag-version-increments)
+  rather than accepting an additive union with the previous version's schema.
+  A strict or recovery merge that retained old-version-only fields or literals
+  is a starting point for reconciliation, not a completed migration.
 - An object literal whose members are all emitter-generated converter mappings
   (plain data reads plus generated `*Serializer`/`*Deserializer` calls, the
   conversions the emitter wraps around them, and no spreads, methods, or

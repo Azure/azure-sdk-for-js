@@ -38,7 +38,16 @@ import type {
   VoiceAgentInputTranscription,
 } from "../../src/models/index.js";
 import type {
+  BetaRoutinesCreateOrUpdateOptionalParams,
+  BetaRoutinesDeleteOptionalParams,
+  BetaRoutinesDisableOptionalParams,
+  BetaRoutinesDispatchOptionalParams,
+  BetaRoutinesEnableOptionalParams,
+  BetaRoutinesGetOptionalParams,
+  BetaRoutinesListOptionalParams,
+  BetaRoutinesListRunsOptionalParams,
   FoundryFeaturesOptInKeys,
+  PageOrder,
   TelephonyCallLifecycleEventSource,
   TelephonyProvider,
   TeamsPhoneExtensibilityTelephonyBinding,
@@ -100,6 +109,49 @@ describe("regenerated model wire contracts", () => {
   it("exports the upstream voice transports and fine-tuning preview opt-in", () => {
     expectTypeOf<VoiceAgentTransport>().toEqualTypeOf<"websocket" | "webrtc">();
     expectTypeOf<"FineTuningSessions=V1Preview">().toExtend<FoundryFeaturesOptInKeys>();
+  });
+
+  it("uses only the generated V2 routines feature flag", () => {
+    expectTypeOf<
+      (
+        | BetaRoutinesCreateOrUpdateOptionalParams
+        | BetaRoutinesDeleteOptionalParams
+        | BetaRoutinesDisableOptionalParams
+        | BetaRoutinesDispatchOptionalParams
+        | BetaRoutinesEnableOptionalParams
+        | BetaRoutinesGetOptionalParams
+        | BetaRoutinesListOptionalParams
+        | BetaRoutinesListRunsOptionalParams
+      )["foundryFeatures"]
+    >().toEqualTypeOf<"Routines=V2Preview" | undefined>();
+    expectTypeOf<
+      Extract<FoundryFeaturesOptInKeys, `Routines=${string}`>
+    >().toEqualTypeOf<"Routines=V2Preview">();
+  });
+
+  it("uses the generated routines list parameters without backward pagination", () => {
+    expectTypeOf<
+      Pick<BetaRoutinesListOptionalParams, "limit" | "after" | "order">
+    >().toEqualTypeOf<{
+      limit?: number;
+      after?: string;
+      order?: PageOrder;
+    }>();
+    expectTypeOf<Extract<keyof BetaRoutinesListOptionalParams, "before">>().toEqualTypeOf<never>();
+  });
+
+  it("uses the generated routine-run list parameters without backward pagination", () => {
+    expectTypeOf<
+      Pick<BetaRoutinesListRunsOptionalParams, "filter" | "limit" | "after" | "order">
+    >().toEqualTypeOf<{
+      filter?: string;
+      limit?: number;
+      after?: string;
+      order?: PageOrder;
+    }>();
+    expectTypeOf<
+      Extract<keyof BetaRoutinesListRunsOptionalParams, "before">
+    >().toEqualTypeOf<never>();
   });
 
   it("uses the Teams Phone extensibility discriminator on all binding shapes", () => {

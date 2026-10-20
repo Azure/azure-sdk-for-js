@@ -1677,53 +1677,51 @@ export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptio
     authorization?: RoutineAuthorization;
     description?: string;
     enabled?: boolean;
-    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
+    foundryFeatures?: "Routines=V2Preview";
     triggers?: Record<string, RoutineTriggerUnion>;
 }
 
 // @public
 export interface BetaRoutinesDeleteOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
+    foundryFeatures?: "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesDisableOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
+    foundryFeatures?: "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesDispatchOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
+    foundryFeatures?: "Routines=V2Preview";
     payload?: RoutineDispatchPayloadUnion;
 }
 
 // @public
 export interface BetaRoutinesEnableOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
+    foundryFeatures?: "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesGetOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
+    foundryFeatures?: "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesListOptionalParams extends OperationOptions {
     after?: string;
-    before?: string;
-    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
+    foundryFeatures?: "Routines=V2Preview";
     limit?: number;
-    order?: string;
+    order?: PageOrder;
 }
 
 // @public
 export interface BetaRoutinesListRunsOptionalParams extends OperationOptions {
     after?: string;
-    before?: string;
     filter?: string;
-    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
+    foundryFeatures?: "Routines=V2Preview";
     limit?: number;
-    order?: string;
+    order?: PageOrder;
 }
 
 // @public
@@ -3387,7 +3385,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 // @public
-export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "AgentInsights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Routines=V2Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "ModelRouterControls=V1Preview" | "FineTuningSessions=V1Preview";
+export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "AgentInsights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V2Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "ModelRouterControls=V1Preview" | "FineTuningSessions=V1Preview";
 
 // @public
 export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";

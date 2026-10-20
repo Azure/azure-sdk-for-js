@@ -14491,7 +14491,6 @@ export type FoundryFeaturesOptInKeys =
   | "Insights=V1Preview"
   | "AgentInsights=V1Preview"
   | "MemoryStores=V1Preview"
-  | "Routines=V1Preview"
   | "Routines=V2Preview"
   | "Skills=V1Preview"
   | "DataGenerationJobs=V1Preview"
