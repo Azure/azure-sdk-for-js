@@ -47,6 +47,23 @@ function createProtocolClient(
 }
 
 describe("knowledge retrieval stream HTTP transport", () => {
+  it.each(["application/json", "text/plain", undefined])(
+    "rejects a non-SSE convenience response (%s) and closes its stream",
+    async (contentType) => {
+      const body = Readable.from([Buffer.from("{}")]);
+      const client = createClient(async (request) => ({
+        request,
+        status: 200,
+        headers: createHttpHeaders(contentType ? { "content-type": contentType } : {}),
+        readableStreamBody: body,
+      }));
+      await expect(
+        client.retrieveStream({ intents: [{ type: "semantic", search: "status" }] }),
+      ).rejects.toMatchObject({ statusCode: 200 });
+      assert.isTrue(body.destroyed);
+    },
+  );
+
   it.each(["response.completed", "error"])(
     "streams typed protocol events and stops after %s",
     async (terminalEvent) => {
@@ -164,7 +181,7 @@ describe("knowledge retrieval stream HTTP transport", () => {
       return {
         request,
         status: 200,
-        headers: request.headers,
+        headers: createHttpHeaders({ "content-type": "text/event-stream; charset=utf-8" }),
         readableStreamBody: Readable.from([Buffer.from(payload.join(""))]),
       };
     });

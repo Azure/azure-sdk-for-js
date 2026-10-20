@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import { assert, describe, expect, it } from "vitest";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type {
   AzureBlobKnowledgeSource,
   FileKnowledgeSource,
@@ -9,7 +10,7 @@ import type {
   IndexedSharePointKnowledgeSource,
   IndexedSqlKnowledgeSource,
 } from "../../../src/index.js";
-import { AzureKeyCredential, KnowledgeRetrievalClient } from "../../../src/index.js";
+import { AzureKeyCredential, KnowledgeRetrievalClient, SearchClient } from "../../../src/index.js";
 import { SearchIndexClient } from "../../../src/searchIndexClient.js";
 import { SearchIndexerClient } from "../../../src/searchIndexerClient.js";
 
@@ -70,6 +71,183 @@ function captureIndexerClient(
 }
 
 describe("convenience layer carries generated fields", () => {
+  it.each([204, 404])("targets the correct file for deletion (HTTP %i)", async (status) => {
+    const captured: PipelineRequest[] = [];
+    const client = captureClient(undefined, captured, status);
+
+    await client.deleteKnowledgeSourceFile("test-source", "file-123");
+
+    assert.equal(captured.length, 1);
+    assert.equal(captured[0].method, "DELETE");
+    assert.equal(
+      new URL(captured[0].url).pathname,
+      "/knowledgesources('test-source')/files('file-123')",
+    );
+  });
+
+  it.each([0, 10, 100_000])("returns document count %i as a number", async (count) => {
+    const captured: PipelineRequest[] = [];
+    const client = new SearchClient(
+      "https://example.search.windows.net",
+      "hotels",
+      new AzureKeyCredential("k"),
+      {
+        httpClient: {
+          async sendRequest(request): Promise<PipelineResponse> {
+            captured.push(request);
+            return {
+              request,
+              status: 200,
+              headers: createHttpHeaders({ "content-type": "text/plain; charset=utf-8" }),
+              bodyAsText: String(count),
+            };
+          },
+        },
+      },
+    );
+
+    assert.strictEqual(await client.getDocumentsCount(), count);
+    assert.equal(captured.length, 1);
+    assert.equal(captured[0].method, "GET");
+    assert.include(new URL(captured[0].url).pathname, "/docs/$count");
+  });
+
+  it("searches for similar documents without sending search text", async () => {
+    const captured: PipelineRequest[] = [];
+    const client = new SearchClient<{ id: string; description: string; score: number }>(
+      "https://example.search.windows.net",
+      "hotels",
+      new AzureKeyCredential("k"),
+      {
+        additionalPolicies: [
+          {
+            position: "perCall",
+            policy: {
+              name: "capture",
+              async sendRequest(request): Promise<PipelineResponse> {
+                captured.push(request);
+                return {
+                  request,
+                  status: 200,
+                  headers: request.headers,
+                  bodyAsText: JSON.stringify({
+                    value: [
+                      {
+                        "@search.score": 1,
+                        id: "hotel-2",
+                        description: "A similar hotel",
+                        score: 45,
+                      },
+                    ],
+                  }),
+                };
+              },
+            },
+          },
+        ],
+      },
+    );
+
+    const response = await client.search(undefined, {
+      moreLikeThis: "hotel/1",
+      searchFields: ["description"],
+      top: 5,
+    });
+    const documents = [];
+    for await (const result of response.results) {
+      assert.equal(result.score, 1);
+      documents.push(result.document);
+    }
+
+    const body = JSON.parse(captured[0].body as string);
+    assert.equal(body.moreLikeThis, "hotel/1");
+    assert.equal(body.searchFields, "description");
+    assert.equal(body.top, 5);
+    assert.notProperty(body, "search");
+    assert.deepEqual(documents, [{ id: "hotel-2", description: "A similar hotel", score: 45 }]);
+  });
+
+  it.each([true, false, undefined])(
+    "round-trips organization link expiration and SharePoint registration (%s)",
+    async (organizationAccessExpiration) => {
+      const captured: PipelineRequest[] = [];
+      const sharePointConnectorAppRegistration = {
+        applicationId: "application-id",
+        federatedCredentialId: "federated-credential-id",
+        tenantId: "tenant-id",
+      };
+      const fields = [
+        { name: "id", type: "Edm.String" as const, key: true },
+        {
+          name: "organizationLinkExpiresAt",
+          type: "Edm.DateTimeOffset" as const,
+          organizationAccessExpiration,
+        },
+      ];
+      const client = captureClient(
+        { name: "permission-index", fields, sharePointConnectorAppRegistration },
+        captured,
+        201,
+      );
+
+      const result = await client.createIndex({
+        name: "permission-index",
+        fields,
+        sharePointConnectorAppRegistration,
+      });
+
+      const body = JSON.parse(captured[0].body as string);
+      assert.equal(body.fields[1].organizationAccessExpiration, organizationAccessExpiration);
+      assert.equal(
+        "organizationAccessExpiration" in body.fields[1],
+        organizationAccessExpiration !== undefined,
+      );
+      assert.deepEqual(body.sharePointConnectorAppRegistration, sharePointConnectorAppRegistration);
+      assert.deepInclude(result.fields[1], { organizationAccessExpiration });
+      assert.deepEqual(
+        result.sharePointConnectorAppRegistration,
+        sharePointConnectorAppRegistration,
+      );
+    },
+  );
+
+  it.each([true, false, undefined])(
+    "round-trips the ADLS permission refresh setting (%s)",
+    async (refreshAllAcls) => {
+      const captured: PipelineRequest[] = [];
+      const definition = {
+        name: "permission-indexer",
+        dataSourceName: "adls-source",
+        targetIndexName: "permission-index",
+        parameters: { configuration: { refreshAllAcls } },
+      };
+      const client = captureIndexerClient(definition, captured, 201);
+      const result = await client.createIndexer(definition);
+
+      const body = JSON.parse(captured[0].body as string);
+      assert.equal(body.parameters.configuration.refreshAllAcls, refreshAllAcls);
+      assert.equal("refreshAllAcls" in body.parameters.configuration, refreshAllAcls !== undefined);
+      assert.equal(result.parameters?.configuration?.refreshAllAcls, refreshAllAcls);
+    },
+  );
+
+  it("returns File knowledge source capacity", async () => {
+    const captured: PipelineRequest[] = [];
+    const fileCapacity = {
+      maxFileCount: 100,
+      remainingFileCount: 99,
+      maxFileSizeBytes: 5000000,
+    };
+    const client = captureClient(
+      { kind: "file", synchronizationStatus: "active", fileCapacity },
+      captured,
+    );
+
+    const status = await client.getKnowledgeSourceStatus("file-source");
+
+    assert.deepEqual(status.fileCapacity, fileCapacity);
+  });
+
   it("forwards Search query authorization", async () => {
     const captured: PipelineRequest[] = [];
     const client = new KnowledgeRetrievalClient(

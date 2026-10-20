@@ -7,16 +7,23 @@ import {
   KnownKnowledgeBaseActivityRecordType,
   KnownKnowledgeBaseRetrievalStatusCode,
   KnownKnowledgeSourceNetworkAccessMode,
+  KnownKnowledgeRetrievalReasoningEffortKind,
+  KnownIndexedSharePointContainerName,
   KnownVectorFilterMode,
   KnownVectorQueryKind,
 } from "../../../src/index.js";
 import type {
   FileKnowledgeSourceParameters,
   KnowledgeBase,
+  KnowledgeSourceFileCapacity,
+  KnowledgeSourceStatus,
+  IndexingParametersConfiguration,
   SearchIndexKnowledgeSource,
   VectorFilterMode,
   VectorQueryKind,
   VectorSearchVectorizer,
+  SearchOptions,
+  SimpleField,
 } from "../../../src/index.js";
 
 describe("GA root exports", () => {
@@ -30,6 +37,9 @@ describe("GA root exports", () => {
     assert.equal(KnownKnowledgeSourceNetworkAccessMode.Private, "private");
     assert.equal(KnownKnowledgeBaseRetrievalStatusCode.PartialContent, 206);
     assert.equal(KnownKnowledgeBaseActivityRecordType.SearchIndex, "searchIndex");
+    assert.equal(KnownIndexedSharePointContainerName.AllSiteLists, "allSiteLists");
+    assert.equal(KnownIndexedSharePointContainerName.AllSitePages, "allSitePages");
+    assert.equal(KnownIndexedSharePointContainerName.AllSiteContent, "allSiteContent");
   });
 
   it("limits vector APIs to the GA specification", () => {
@@ -40,7 +50,29 @@ describe("GA root exports", () => {
     expectTypeOf<VectorSearchVectorizer["kind"]>().toEqualTypeOf<"azureOpenAI" | "customWebApi">();
   });
 
+  it("exposes only supported GA reasoning modes and model properties", () => {
+    assert.sameMembers(Object.values(KnownKnowledgeRetrievalReasoningEffortKind), [
+      "minimal",
+      "low",
+      "medium",
+    ]);
+    expectTypeOf<keyof KnowledgeBase>().extract<"tags">().toEqualTypeOf<never>();
+    expectTypeOf<keyof SimpleField>()
+      .extract<"sensitivityLabelName" | "sourceDocumentId">()
+      .toEqualTypeOf<never>();
+  });
+
   it("keeps GA knowledge models nameable from the root", () => {
+    expectTypeOf<KnowledgeSourceStatus["fileCapacity"]>().toEqualTypeOf<
+      KnowledgeSourceFileCapacity | undefined
+    >();
+    expectTypeOf<SearchOptions<object>["moreLikeThis"]>().toEqualTypeOf<string | undefined>();
+    expectTypeOf<SimpleField["organizationAccessExpiration"]>().toEqualTypeOf<
+      boolean | undefined
+    >();
+    expectTypeOf<IndexingParametersConfiguration["refreshAllAcls"]>().toEqualTypeOf<
+      boolean | undefined
+    >();
     expectTypeOf<KnowledgeBase["knowledgeSources"]>().not.toBeNever();
     expectTypeOf<
       SearchIndexKnowledgeSource["searchIndexParameters"]["searchIndexName"]

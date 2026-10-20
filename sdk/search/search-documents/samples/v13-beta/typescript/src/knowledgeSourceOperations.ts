@@ -4,16 +4,16 @@
 /**
  * @summary Demonstrates generic CRUD operations on knowledge sources:
  * create / get / update / list / status / delete. For samples specific
- * to each knowledge source kind (e.g. `searchIndex`, `file`,
- * `indexedSharePoint`, `indexedOneLake`, `indexedSql`) see the corresponding
- * `*KnowledgeSource*` sample
- * files in this directory.
+ * to direct file upload, see `knowledgeSourceFile.ts`. This sample also
+ * demonstrates private Blob ingestion, the GA SharePoint all-site scope,
+ * web retrieval settings, and an indexed SQL source when its connection settings are provided.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import type { AzureBlobKnowledgeSource, SearchIndexKnowledgeSource } from "@azure/search-documents";
 import {
   KnownKnowledgeSourceNetworkAccessMode,
+  KnownIndexedSharePointContainerName,
   SearchIndexClient,
   SearchIndexerClient,
 } from "@azure/search-documents";
@@ -27,6 +27,9 @@ const blobContainerName = process.env.AZURE_BLOB_CONTAINER_NAME || "";
 const aiServicesEndpoint = process.env.AZURE_AI_SERVICES_ENDPOINT || "";
 const expectedAnalyzer = process.env.EXPECTED_LANGUAGE_ANALYZER || "";
 const expectedFallbackAnalyzer = process.env.EXPECTED_FALLBACK_ANALYZER || "";
+const sharePointConnectionString = process.env.SHAREPOINT_CONNECTION_STRING || "";
+const sqlConnectionString = process.env.AZURE_SQL_CONNECTION_STRING || "";
+const sqlTableOrView = process.env.AZURE_SQL_TABLE_OR_VIEW || "";
 
 const TEST_KNOWLEDGE_SOURCE_NAME = "example-knowledge-source-sample-1";
 const TEST_INDEX_NAME = "example-index-for-source-sample";
@@ -141,6 +144,79 @@ async function getAndUpdateKnowledgeSource(
   console.log(`Updated knowledge source description: ${updatedSource.description}`);
 }
 
+async function demonstrateSharePointScope(client: SearchIndexClient): Promise<void> {
+  if (!sharePointConnectionString) {
+    console.log(
+      "Set SHAREPOINT_CONNECTION_STRING to demonstrate indexing all SharePoint site content.",
+    );
+    return;
+  }
+
+  const sourceName = "example-all-site-content-source";
+  await client.createKnowledgeSource({
+    name: sourceName,
+    kind: "indexedSharePoint",
+    indexedSharePointParameters: {
+      connectionString: sharePointConnectionString,
+      containerName: KnownIndexedSharePointContainerName.AllSiteContent,
+    },
+  });
+  try {
+    const source = await client.getKnowledgeSource(sourceName);
+    if (source.kind === "indexedSharePoint" && "indexedSharePointParameters" in source) {
+      console.log(`SharePoint scope: ${source.indexedSharePointParameters.containerName}`);
+    }
+  } finally {
+    await client.deleteKnowledgeSource(sourceName);
+  }
+}
+
+async function demonstrateIndexedSqlSource(client: SearchIndexClient): Promise<void> {
+  if (!sqlConnectionString || !sqlTableOrView) {
+    console.log(
+      "Set AZURE_SQL_CONNECTION_STRING and AZURE_SQL_TABLE_OR_VIEW to demonstrate indexed SQL.",
+    );
+    return;
+  }
+
+  const sourceName = "example-indexed-sql-source";
+  await client.createKnowledgeSource({
+    name: sourceName,
+    kind: "indexedSql",
+    indexedSqlParameters: {
+      connectionString: sqlConnectionString,
+      tableOrView: sqlTableOrView,
+      contentColumns: [{ name: "content", sourceField: "content", searchFieldType: "Edm.String" }],
+    },
+  });
+  try {
+    const status = await client.getKnowledgeSourceStatus(sourceName);
+    console.log(`Indexed SQL synchronization: ${status.synchronizationStatus}`);
+  } finally {
+    await client.deleteKnowledgeSource(sourceName);
+  }
+}
+
+async function demonstrateWebSettings(client: SearchIndexClient): Promise<void> {
+  const sourceName = "example-web-source";
+  await client.createKnowledgeSource({
+    name: sourceName,
+    kind: "web",
+    webParameters: {
+      language: "en",
+      market: "en-US",
+      count: 5,
+      freshness: "Month",
+    },
+  });
+  try {
+    const source = await client.getKnowledgeSource(sourceName);
+    console.log(`Created web knowledge source: ${source.name}`);
+  } finally {
+    await client.deleteKnowledgeSource(sourceName);
+  }
+}
+
 async function getKnowledgeSourceStatus(
   sourceName: string,
   client: SearchIndexClient,
@@ -185,6 +261,9 @@ async function main(): Promise<void> {
     await getKnowledgeSourceStatus(TEST_KNOWLEDGE_SOURCE_NAME, client);
     await listKnowledgeSources(client);
     await createPrivateBlobSource(client, indexerClient);
+    await demonstrateSharePointScope(client);
+    await demonstrateIndexedSqlSource(client);
+    await demonstrateWebSettings(client);
   } finally {
     await client.deleteKnowledgeSource(PRIVATE_BLOB_SOURCE_NAME).catch(() => {});
     await deleteKnowledgeSource(TEST_KNOWLEDGE_SOURCE_NAME, client).catch(() => {});

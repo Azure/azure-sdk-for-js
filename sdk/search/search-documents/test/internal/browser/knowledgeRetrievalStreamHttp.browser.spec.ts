@@ -28,6 +28,31 @@ describe("knowledge retrieval stream browser transport", () => {
     vi.unstubAllGlobals();
   });
 
+  it.each(["application/json", "text/plain", ""])(
+    "rejects a non-SSE convenience response (%s) and releases its stream",
+    async (contentType) => {
+      const stream = new ReadableStream<Uint8Array>({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode("{}"));
+          controller.close();
+        },
+      });
+      vi.stubGlobal(
+        "fetch",
+        vi
+          .fn()
+          .mockResolvedValue(
+            new Response(stream, { status: 200, headers: { "content-type": contentType } }),
+          ),
+      );
+      const client = getClient("https://example.search.windows.net");
+      await expect(
+        getSseStream(client.pathUnchecked("/knowledgebases/base").get()),
+      ).rejects.toMatchObject({ statusCode: 200 });
+      expect(stream.locked).toBe(false);
+    },
+  );
+
   it("streams typed events from the protocol browser client", async () => {
     const fetch = vi.fn().mockResolvedValue(
       createResponse(

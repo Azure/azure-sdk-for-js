@@ -312,6 +312,11 @@ export interface BaseSearchRequestOptions<
    */
   minimumCoverage?: number;
   /**
+   * The key of a document to use as the basis for finding similar documents. Do not supply search
+   * text with this option. Use `searchFields` to select top-level searchable text fields.
+   */
+  moreLikeThis?: string;
+  /**
    * The list of OData $orderby expressions by which to sort the results. Each
    * expression can be either a field name or a call to either the geo.distance() or the
    * search.score() functions. Each expression can be followed by asc to indicate ascending, or

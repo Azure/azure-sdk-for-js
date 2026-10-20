@@ -64,6 +64,9 @@ import type {
   StopAnalyzer,
   TokenFilterUnion,
   BlobIndexerParsingMode,
+  PIIDetectionSkill as GeneratedPIIDetectionSkill,
+  SplitSkill as GeneratedSplitSkill,
+  CustomAnalyzer as GeneratedCustomAnalyzer,
 } from "./models/azure/search/documents/indexes/index.js";
 import type {
   SearchResult,
@@ -124,6 +127,8 @@ import type {
   VectorSearchVectorizer,
   WebApiParameters,
   WebApiVectorizer,
+  PIIDetectionSkill,
+  SplitSkill,
 } from "./serviceModels.js";
 import { isComplexField } from "./serviceModels.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
@@ -168,7 +173,39 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
   }
 
   // This validation has already GAed
-  return skills.filter((skill): skill is SearchIndexerSkill => knownSkills[skill.odatatype]);
+  return skills
+    .filter((skill) => knownSkills[skill.odatatype])
+    .map((skill): SearchIndexerSkill => {
+      switch (skill.odatatype) {
+        case "#Microsoft.Skills.Text.PIIDetectionSkill": {
+          const pii = skill as GeneratedPIIDetectionSkill;
+          return {
+            ...pii,
+            maskingCharacter: pii.mask,
+            categories: pii.piiCategories,
+          } as PIIDetectionSkill;
+        }
+        case "#Microsoft.Skills.Text.SplitSkill": {
+          const split = skill as GeneratedSplitSkill;
+          return { ...split, maxPageLength: split.maximumPageLength } as SplitSkill;
+        }
+        default:
+          return skill as SearchIndexerSkill;
+      }
+    });
+}
+
+function convertSkillsToGenerated(skills: SearchIndexerSkill[]): SearchIndexerSkillUnion[] {
+  return skills.map((skill) => {
+    switch (skill.odatatype) {
+      case "#Microsoft.Skills.Text.PIIDetectionSkill":
+        return { ...skill, mask: skill.maskingCharacter, piiCategories: skill.categories };
+      case "#Microsoft.Skills.Text.SplitSkill":
+        return { ...skill, maximumPageLength: skill.maxPageLength };
+      default:
+        return skill;
+    }
+  });
 }
 
 export function convertCognitiveServicesAccountToGenerated(
@@ -297,9 +334,11 @@ function convertAnalyzersToPublic(
           ...analyzer,
         } as PatternAnalyzer);
         break;
-      case "#Microsoft.Azure.Search.CustomAnalyzer":
-        result.push(analyzer as LexicalAnalyzer);
+      case "#Microsoft.Azure.Search.CustomAnalyzer": {
+        const custom = analyzer as GeneratedCustomAnalyzer;
+        result.push({ ...custom, tokenizerName: custom.tokenizer });
         break;
+      }
     }
   }
   return result;
@@ -454,10 +493,12 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     fields,
     similarity,
     vectorSearch,
+    eTag,
     ...rest
   } = generatedIndex;
   return {
     ...rest,
+    etag: eTag,
     scoringProfiles: scoringProfiles as ScoringProfile[],
     tokenFilters: tokenFilters as TokenFilter[],
     charFilters: charFilters as CharFilter[],
@@ -659,6 +700,15 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
 
   return {
     ...index,
+    eTag: index.etag,
+    vectorSearch: index.vectorSearch && {
+      ...index.vectorSearch,
+      vectorizers: index.vectorSearch.vectorizers?.map((vectorizer) =>
+        vectorizer.kind === "customWebApi"
+          ? { ...vectorizer, webApiParameters: vectorizer.parameters }
+          : vectorizer,
+      ),
+    },
     encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
     tokenFilters: convertTokenFiltersToGenerated(tokenFilters),
     analyzers: convertAnalyzersToGenerated(analyzers),
@@ -676,10 +726,12 @@ export function generatedSkillsetToPublicSkillset(
     knowledgeStore,
     encryptionKey,
     indexProjection,
+    eTag,
     ...props
   } = generatedSkillset;
   return {
     ...props,
+    etag: eTag,
     skills: convertSkillsToPublic(skills),
     cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(cognitiveServicesAccount),
     knowledgeStore: convertKnowledgeStoreToPublic(knowledgeStore),
@@ -695,6 +747,8 @@ export function publicSkillsetToGeneratedSkillset(
 
   return {
     ...skillset,
+    eTag: skillset.etag,
+    skills: convertSkillsToGenerated(skillset.skills),
     cognitiveServicesAccount: convertCognitiveServicesAccountToGenerated(cognitiveServicesAccount),
     encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
   };
@@ -734,6 +788,14 @@ export function publicSearchIndexerToGeneratedSearchIndexer(
 ): GeneratedSearchIndexer {
   return {
     ...indexer,
+    eTag: indexer.etag,
+    parameters: indexer.parameters && {
+      ...indexer.parameters,
+      configuration: indexer.parameters.configuration && {
+        ...indexer.parameters.configuration,
+        additionalProperties: indexer.parameters.configuration,
+      },
+    },
     encryptionKey: convertEncryptionKeyToGenerated(indexer.encryptionKey),
   };
 }
@@ -747,11 +809,14 @@ export function generatedSearchIndexerToPublicSearchIndexer(
     imageAction,
     pdfTextRotationAlgorithm,
     executionEnvironment,
+    additionalProperties,
+    ...configurationProperties
   } = indexer.parameters?.configuration ?? {};
 
   const configuration: IndexingParametersConfiguration | undefined = indexer.parameters
     ?.configuration && {
-    ...indexer.parameters?.configuration,
+    ...additionalProperties,
+    ...configurationProperties,
     parsingMode: parsingMode as BlobIndexerParsingMode | undefined,
     dataToExtract: dataToExtract as BlobIndexerDataToExtract | undefined,
     imageAction: imageAction as BlobIndexerImageAction | undefined,
@@ -771,6 +836,7 @@ export function generatedSearchIndexerToPublicSearchIndexer(
 
   return {
     ...indexer,
+    etag: indexer.eTag,
     parameters,
     encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey),
     schedule: indexer.schedule,
@@ -1126,7 +1192,7 @@ export function mapPagedAsyncIterable<T, U>(
     async *byPage(settings) {
       const iteratorByPage = iter.byPage(settings);
       for await (const page of iteratorByPage) {
-        yield page.map(mapper);
+        yield Object.assign(page.map(mapper), { continuationToken: page.continuationToken });
       }
     },
   };

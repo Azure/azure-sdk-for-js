@@ -353,6 +353,7 @@ export {
   type ContentColumnMapping,
   type EmbeddingColumnMapping,
   type KnowledgeSourceFile,
+  type KnowledgeSourceFileCapacity,
   type FileUploadMetadata,
   type UpdateKnowledgeSourceFileRequest,
   type UploadKnowledgeSourceFileMultipartRequest,

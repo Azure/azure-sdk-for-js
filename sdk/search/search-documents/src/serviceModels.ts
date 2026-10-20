@@ -1175,15 +1175,17 @@ export interface SimpleField {
    * The encoding format to interpret the field contents.
    */
   vectorEncodingFormat?: VectorEncodingFormat;
-  /** A value indicating whether the field should be used for sensitivity label filtering. This enables document-level filtering based on Microsoft Purview sensitivity labels. */
-  /** A value indicating whether the field stores the sensitivity label name associated with each document for Microsoft Purview. */
-  sensitivityLabelName?: boolean;
-  /** A value indicating whether the field stores the source document ID used by Microsoft Purview to reference the underlying document. */
-  sourceDocumentId?: boolean;
   /** A value indicating whether the field stores the SharePoint site URL used by Microsoft Purview. */
   sharepointSiteUrl?: boolean;
   /** A value indicating which permission filter applies when querying this field. Used together with index-level permission filtering. */
   permissionFilter?: PermissionFilter;
+  /**
+   * Whether this field stores the expiration timestamp for organization-scoped SharePoint
+   * sharing links. At most one top-level Edm.DateTimeOffset field can enable this option.
+   * Permission-filtered queries apply it to matching `orgLink:<tenantId>` grants in a userIds
+   * permission-filter field; expired or missing timestamps do not grant access.
+   */
+  organizationAccessExpiration?: boolean;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
@@ -2648,6 +2650,12 @@ export interface IndexingParametersConfiguration {
    * specified in the format "hh:mm:ss".
    */
   queryTimeout?: string;
+  /**
+   * Whether ADLS Gen2 indexers refresh permissions for documents whose content has not changed.
+   * Defaults to true. Refreshes run at most once every 24 hours and update permission metadata
+   * without reprocessing content or enriched fields. Set to false to disable.
+   */
+  refreshAllAcls?: boolean;
 }
 
 /**

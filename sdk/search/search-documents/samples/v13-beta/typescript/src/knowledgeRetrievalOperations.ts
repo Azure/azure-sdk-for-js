@@ -3,8 +3,8 @@
 
 /**
  * @summary Demonstrates Knowledge Retrieval against a `KnowledgeBase` that
- * is composed of multiple knowledge source kinds, including the preview
- * kinds added in `13.1.0-beta.1` (e.g. `file`).
+ * is composed of search-index and File knowledge sources using the
+ * `2026-10-01` GA API.
  *
  * The sample provisions a `searchIndex` knowledge source and a `file`
  * knowledge source (with a real file upload), bundles them into a
@@ -33,6 +33,8 @@ const endpoint = process.env.ENDPOINT || "";
 const azureOpenAIEndpoint = process.env.AZURE_OPENAI_ENDPOINT || "";
 const azureOpenAIEmbeddingDeployment =
   process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME || "text-embedding-ada-002";
+const azureOpenAIEmbeddingModel =
+  process.env.AZURE_OPENAI_EMBEDDING_MODEL_NAME || "text-embedding-ada-002";
 
 const PROVISIONED_KNOWLEDGE_BASE_NAME = process.env.KNOWLEDGE_BASE_NAME || "";
 
@@ -74,7 +76,7 @@ async function provisionKnowledgeBase(client: SearchIndexClient): Promise<string
             azureOpenAIParameters: {
               deploymentId: azureOpenAIEmbeddingDeployment,
               resourceUrl: azureOpenAIEndpoint,
-              modelName: azureOpenAIEmbeddingDeployment,
+              modelName: azureOpenAIEmbeddingModel,
             },
           },
         },
@@ -170,8 +172,7 @@ async function retrieveKnowledgeWithOptions(
     ],
     maxRuntimeInSeconds: 30,
     includeActivity: true,
-    // New in 13.1.0-beta.1: control the output shape and reasoning effort
-    // applied during retrieval. These options are optional.
+    // Explicit intents bypass model query planning; outputMode controls answer synthesis.
     outputMode: "extractiveData",
     retrievalReasoningEffort: { kind: "medium" },
   };
