@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets the specified occurrence.
  * x-ms-original-file: 2026-10-06-preview/Occurrences_Get_BasicSuccess.json
  */
-async function _01ReadARecurringScheduledActionOccurrence(): Promise<void> {
+async function _01ReadARecurringBulkActionOccurrence(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function _01ReadARecurringScheduledActionOccurrence(): Promise<void> {
  * @summary gets the specified occurrence.
  * x-ms-original-file: 2026-10-06-preview/Occurrences_Get_ComprehensiveSuccess.json
  */
-async function _02ReadARecurringScheduledActionOccurrenceWithMixedResults(): Promise<void> {
+async function _02ReadARecurringBulkActionOccurrenceWithMixedResults(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -41,8 +41,8 @@ async function _02ReadARecurringScheduledActionOccurrenceWithMixedResults(): Pro
 }
 
 async function main(): Promise<void> {
-  await _01ReadARecurringScheduledActionOccurrence();
-  await _02ReadARecurringScheduledActionOccurrenceWithMixedResults();
+  await _01ReadARecurringBulkActionOccurrence();
+  await _02ReadARecurringBulkActionOccurrenceWithMixedResults();
 }
 
 main().catch(console.error);

@@ -11,6 +11,7 @@ import type {
   ConnectionType,
   CreateTelephonyBindingRequest,
   CreateTelephonyBindingRequestUnion,
+  CreateTeamsPhoneExtensibilityTelephonyBindingRequest,
   CreateTelephonyCallJobRequest,
   DataGenerationJobConfigurationUnion,
   DataGenerationJobInputsUnion,
@@ -36,6 +37,14 @@ import type {
   UpdateTelephonyBindingRequest,
   VoiceAgentInputTranscription,
 } from "../../src/models/index.js";
+import type {
+  FoundryFeaturesOptInKeys,
+  TelephonyCallLifecycleEventSource,
+  TelephonyProvider,
+  TeamsPhoneExtensibilityTelephonyBinding,
+  TeamsPhoneExtensibilityTelephonyBindingListItem,
+  VoiceAgentTransport,
+} from "../../src/index.js";
 import {
   agentSessionResourceDeserializer,
   apiErrorDeserializer,
@@ -88,6 +97,37 @@ const timestamp = 1_789_200_000;
 const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
+  it("exports the upstream voice transports and fine-tuning preview opt-in", () => {
+    expectTypeOf<VoiceAgentTransport>().toEqualTypeOf<"websocket" | "webrtc">();
+    expectTypeOf<"FineTuningSessions=V1Preview">().toExtend<FoundryFeaturesOptInKeys>();
+  });
+
+  it("uses the Teams Phone extensibility discriminator on all binding shapes", () => {
+    expectTypeOf<TelephonyProvider>().toEqualTypeOf<"teams_phone_extensibility" | "twilio">();
+    expectTypeOf<
+      CreateTeamsPhoneExtensibilityTelephonyBindingRequest["provider"]
+    >().toEqualTypeOf<"teams_phone_extensibility">();
+    expectTypeOf<
+      TeamsPhoneExtensibilityTelephonyBinding["provider"]
+    >().toEqualTypeOf<"teams_phone_extensibility">();
+    expectTypeOf<
+      TeamsPhoneExtensibilityTelephonyBindingListItem["provider"]
+    >().toEqualTypeOf<"teams_phone_extensibility">();
+    expectTypeOf<TelephonyCallLifecycleEventSource>().toEqualTypeOf<
+      "gateway" | "teams_phone_extensibility" | "twilio" | "voice_agent"
+    >();
+    expect(
+      telephonyCallLifecycleEventDeserializer({
+        sequence: 1,
+        name: "telephony.call.answer",
+        source: "teams_phone_extensibility",
+        outcome: "succeeded",
+        observed_at: timestamp,
+        timestamp_source: "provider",
+      }).source,
+    ).toBe("teams_phone_extensibility");
+  });
+
   it("uses exactly the upstream data-generation discriminator values", () => {
     expectTypeOf<DataGenerationJobType>().toEqualTypeOf<
       "simple_qna" | "traces" | "tool_use" | "simulation_seed"
@@ -215,7 +255,7 @@ describe("regenerated model wire contracts", () => {
       label: "Twilio binding",
     },
     {
-      provider: "teams_phone_extension",
+      provider: "teams_phone_extensibility",
       connection_name: connectionName,
       resource_account_object_id: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
       label: "Teams binding",

@@ -10,10 +10,17 @@ export interface RaiPoliciesListOptionalParams extends OperationOptions {}
 export interface RaiPoliciesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** Proceed only when the current resource ETag matches this value. */
+  ifMatch?: string;
 }
 
 /** Optional parameters. */
-export interface RaiPoliciesCreateOrUpdateOptionalParams extends OperationOptions {}
+export interface RaiPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
+  /** Proceed only when the current resource ETag matches this value. */
+  ifMatch?: string;
+  /** Proceed only when no current resource ETag matches this value. */
+  ifNoneMatch?: string;
+}
 
 /** Optional parameters. */
 export interface RaiPoliciesGetOptionalParams extends OperationOptions {}

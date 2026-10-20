@@ -1128,6 +1128,10 @@ export interface LocationBasedBulkCreateCustom extends ProxyResource {
   properties?: BulkCreateCustomProperties;
   /** Zones in which the BulkCreateCustom is available */
   zones?: string[];
+  /** The extended location of the virtual machines created by the BulkCreateCustom operation. */
+  extendedLocation?: ExtendedLocation;
+  /** The availability zone placement constraints applied to the virtual machines created by the BulkCreateCustom operation. */
+  placement?: Placement;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The managed service identities assigned to this resource. */
@@ -1146,6 +1150,10 @@ export function locationBasedBulkCreateCustomSerializer(item: LocationBasedBulkC
       : item["zones"].map((p: any) => {
           return p;
         }),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationSerializer(item["extendedLocation"]),
+    placement: !item["placement"] ? item["placement"] : placementSerializer(item["placement"]),
     tags: item["tags"],
     identity: !item["identity"]
       ? item["identity"]
@@ -1172,6 +1180,10 @@ export function locationBasedBulkCreateCustomDeserializer(
       : item["zones"].map((p: any) => {
           return p;
         }),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationDeserializer(item["extendedLocation"]),
+    placement: !item["placement"] ? item["placement"] : placementDeserializer(item["placement"]),
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
@@ -1192,14 +1204,8 @@ export interface BulkCreateCustomProperties {
   capacity: number;
   /** Specifies capacity type for launching instances. It can be in terms of VMs or vCPUs. */
   capacityType?: CapacityType;
-  /** The minimum capacity, expressed in units specified by capacityType, that Azure must be able to allocate for the request to proceed. If Azure cannot allocate at least this capacity with high confidence, the request is rejected with 409 Conflict (InsufficientCapacity) and no VMs are created. Otherwise, Azure allocates as much capacity as possible, up to the requested capacity. Must be greater than 0, less than capacity, and requires partialFulfillmentPolicy.mode to be Enabled. */
-  minCapacity?: number;
-  /** Controls how partial fulfillment is handled for a BulkCreateCustom request. When enabled, Azure creates only the VMs or vCPUs it has high confidence can be successfully allocated, instead of attempting the entire request and potentially returning allocation failures. */
-  partialFulfillmentPolicy?: PartialFulfillmentPolicy;
   /** The virtual machine resources resolved for the operation. */
   readonly resources?: BulkCreateCustomResource[];
-  /** Configuration Options for Regular or Spot instances in BulkCreateCustom. */
-  priorityProfile: BulkCreateCustomPriorityProfile;
   /** Compute Profile to configure the Virtual Machines. */
   computeProfile: ComputeProfile;
   /** Per-VM overrides and the shared name prefix, specified when the operation is created. */
@@ -1212,11 +1218,6 @@ export function bulkCreateCustomPropertiesSerializer(item: BulkCreateCustomPrope
   return {
     capacity: item["capacity"],
     capacityType: item["capacityType"],
-    minCapacity: item["minCapacity"],
-    partialFulfillmentPolicy: !item["partialFulfillmentPolicy"]
-      ? item["partialFulfillmentPolicy"]
-      : partialFulfillmentPolicySerializer(item["partialFulfillmentPolicy"]),
-    priorityProfile: bulkCreateCustomPriorityProfileSerializer(item["priorityProfile"]),
     computeProfile: computeProfileSerializer(item["computeProfile"]),
     overridesProfile: !item["overridesProfile"]
       ? item["overridesProfile"]
@@ -1233,14 +1234,9 @@ export function bulkCreateCustomPropertiesDeserializer(item: any): BulkCreateCus
     provisioningState: item["provisioningState"],
     capacity: item["capacity"],
     capacityType: item["capacityType"],
-    minCapacity: item["minCapacity"],
-    partialFulfillmentPolicy: !item["partialFulfillmentPolicy"]
-      ? item["partialFulfillmentPolicy"]
-      : partialFulfillmentPolicyDeserializer(item["partialFulfillmentPolicy"]),
     resources: !item["resources"]
       ? item["resources"]
       : bulkCreateCustomResourceArrayDeserializer(item["resources"]),
-    priorityProfile: bulkCreateCustomPriorityProfileDeserializer(item["priorityProfile"]),
     computeProfile: computeProfileDeserializer(item["computeProfile"]),
     overridesProfile: !item["overridesProfile"]
       ? item["overridesProfile"]
@@ -1296,67 +1292,6 @@ export enum KnownCapacityType {
  */
 export type CapacityType = string;
 
-/** Controls how partial fulfillment is handled for a BulkCreateCustom request. When enabled, Azure creates only the VMs or vCPUs it has high confidence can be successfully allocated, instead of attempting the entire request and potentially returning allocation failures. */
-export interface PartialFulfillmentPolicy {
-  /** The amount of capacity that was actually attempted, expressed in the units specified by capacityType. When partial fulfillment is enabled, this value can be less than the requested capacity. */
-  readonly fulfilledCapacity?: number;
-  /** Specifies whether partial fulfillment is allowed. When Enabled, Azure creates as many VMs as it has high confidence can be successfully allocated. When Disabled, Azure attempts to create all requested VMs, which may result into allocation failures. */
-  mode?: PartialFulfillmentMode;
-  /** Indicates why the fulfilled capacity is less than the requested capacity. Possible values include InsufficientCapacity and InsufficientQuota. Returned only in the create response when partial fulfillment is enabled and the request cannot be fully satisfied. */
-  readonly reason?: PartialFulfillmentReason;
-}
-
-export function partialFulfillmentPolicySerializer(item: PartialFulfillmentPolicy): any {
-  return { mode: item["mode"] };
-}
-
-export function partialFulfillmentPolicyDeserializer(item: any): PartialFulfillmentPolicy {
-  return {
-    fulfilledCapacity: item["fulfilledCapacity"],
-    mode: item["mode"],
-    reason: item["reason"],
-  };
-}
-
-/** Whether the service may launch fewer instances than requested when the full capacity cannot be satisfied. */
-export enum KnownPartialFulfillmentMode {
-  /** Partial fulfillment is allowed. */
-  Enabled = "Enabled",
-  /** Partial fulfillment is not allowed. */
-  Disabled = "Disabled",
-}
-
-/**
- * Whether the service may launch fewer instances than requested when the full capacity cannot be satisfied. \
- * {@link KnownPartialFulfillmentMode} can be used interchangeably with PartialFulfillmentMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled**: Partial fulfillment is allowed. \
- * **Disabled**: Partial fulfillment is not allowed.
- */
-export type PartialFulfillmentMode = string;
-
-/** The reason the requested capacity could only be partially fulfilled. */
-export enum KnownPartialFulfillmentReason {
-  /** The requested capacity could not be fully satisfied due to insufficient capacity in the region. */
-  InsufficientCapacity = "InsufficientCapacity",
-  /** The requested capacity could not be fully satisfied due to insufficient quota in the subscription. */
-  InsufficientQuota = "InsufficientQuota",
-  /** The requested capacity was successfully satisfied without any partial fulfillment. */
-  None = "None",
-}
-
-/**
- * The reason the requested capacity could only be partially fulfilled. \
- * {@link KnownPartialFulfillmentReason} can be used interchangeably with PartialFulfillmentReason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InsufficientCapacity**: The requested capacity could not be fully satisfied due to insufficient capacity in the region. \
- * **InsufficientQuota**: The requested capacity could not be fully satisfied due to insufficient quota in the subscription. \
- * **None**: The requested capacity was successfully satisfied without any partial fulfillment.
- */
-export type PartialFulfillmentReason = string;
-
 export function bulkCreateCustomResourceArrayDeserializer(
   result: Array<BulkCreateCustomResource>,
 ): any[] {
@@ -1398,72 +1333,6 @@ export function bulkCreateCustomVirtualMachineInfoDeserializer(
     zone: item["zone"],
   };
 }
-
-/** Configuration options for Regular or Spot instances in BulkCreateCustom. */
-export interface BulkCreateCustomPriorityProfile {
-  /** The priority type for VM allocation */
-  type?: PriorityType;
-  /** Price per hour of each Spot VM will never exceed this. */
-  maxPricePerVM?: number;
-  /** Eviction Policy to follow when evicting Spot VMs. */
-  evictionPolicy?: EvictionPolicy;
-}
-
-export function bulkCreateCustomPriorityProfileSerializer(
-  item: BulkCreateCustomPriorityProfile,
-): any {
-  return {
-    type: item["type"],
-    maxPricePerVM: item["maxPricePerVM"],
-    evictionPolicy: item["evictionPolicy"],
-  };
-}
-
-export function bulkCreateCustomPriorityProfileDeserializer(
-  item: any,
-): BulkCreateCustomPriorityProfile {
-  return {
-    type: item["type"],
-    maxPricePerVM: item["maxPricePerVM"],
-    evictionPolicy: item["evictionPolicy"],
-  };
-}
-
-/** The priority type for virtual machine allocation. */
-export enum KnownPriorityType {
-  /** Regular, non-Spot virtual machines. */
-  Regular = "Regular",
-  /** Azure Spot Virtual Machines. */
-  Spot = "Spot",
-}
-
-/**
- * The priority type for virtual machine allocation. \
- * {@link KnownPriorityType} can be used interchangeably with PriorityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Regular**: Regular, non-Spot virtual machines. \
- * **Spot**: Azure Spot Virtual Machines.
- */
-export type PriorityType = string;
-
-/** Different kind of eviction policies */
-export enum KnownEvictionPolicy {
-  /** When evicted, the Spot VM will be deleted and the corresponding capacity will be updated to reflect this. */
-  Delete = "Delete",
-  /** When evicted, the Spot VM will be deallocated/stopped */
-  Deallocate = "Deallocate",
-}
-
-/**
- * Different kind of eviction policies \
- * {@link KnownEvictionPolicy} can be used interchangeably with EvictionPolicy,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Delete**: When evicted, the Spot VM will be deleted and the corresponding capacity will be updated to reflect this. \
- * **Deallocate**: When evicted, the Spot VM will be deallocated\/stopped
- */
-export type EvictionPolicy = string;
 
 /** Compute Profile to configure the Virtual Machines. */
 export interface ComputeProfile {
@@ -1527,6 +1396,12 @@ export interface BulkactionVMProperties {
   applicationProfile?: ApplicationProfile;
   /** Virtual Machine Extensions Array to be applied to the Virtual Machines. */
   vmExtensions?: BulkactionVMExtension[];
+  /** Specifies the priority for the virtual machines. Mirrors the priority property on Microsoft.Compute/virtualMachines. */
+  priority?: PriorityType;
+  /** Specifies the billing related details of the Azure Spot virtual machines. Mirrors the billingProfile property on Microsoft.Compute/virtualMachines. Only applies when priority is Spot. */
+  billingProfile?: BillingProfile;
+  /** Specifies the eviction policy for the Azure Spot virtual machines. Both Deallocate and Delete are supported. Mirrors the evictionPolicy property on Microsoft.Compute/virtualMachines. Only applies when priority is Spot. */
+  evictionPolicy?: EvictionPolicy;
 }
 
 export function bulkactionVMPropertiesSerializer(item: BulkactionVMProperties): any {
@@ -1568,6 +1443,11 @@ export function bulkactionVMPropertiesSerializer(item: BulkactionVMProperties): 
     vmExtensions: !item["vmExtensions"]
       ? item["vmExtensions"]
       : bulkactionVMExtensionArraySerializer(item["vmExtensions"]),
+    priority: item["priority"],
+    billingProfile: !item["billingProfile"]
+      ? item["billingProfile"]
+      : billingProfileSerializer(item["billingProfile"]),
+    evictionPolicy: item["evictionPolicy"],
   };
 }
 
@@ -1610,6 +1490,11 @@ export function bulkactionVMPropertiesDeserializer(item: any): BulkactionVMPrope
     vmExtensions: !item["vmExtensions"]
       ? item["vmExtensions"]
       : bulkactionVMExtensionArrayDeserializer(item["vmExtensions"]),
+    priority: item["priority"],
+    billingProfile: !item["billingProfile"]
+      ? item["billingProfile"]
+      : billingProfileDeserializer(item["billingProfile"]),
+    evictionPolicy: item["evictionPolicy"],
   };
 }
 
@@ -4392,6 +4277,58 @@ export function bulkActionVmExtensionPropertiesDeserializer(
   };
 }
 
+/** The priority type for virtual machine allocation. */
+export enum KnownPriorityType {
+  /** Regular, non-Spot virtual machines. */
+  Regular = "Regular",
+  /** Azure Spot Virtual Machines. */
+  Spot = "Spot",
+}
+
+/**
+ * The priority type for virtual machine allocation. \
+ * {@link KnownPriorityType} can be used interchangeably with PriorityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Regular**: Regular, non-Spot virtual machines. \
+ * **Spot**: Azure Spot Virtual Machines.
+ */
+export type PriorityType = string;
+
+/** Specifies the billing related details of the Azure Spot virtual machines. */
+export interface BillingProfile {
+  /** Specifies the maximum price, in US Dollars, you are willing to pay per hour for each Azure Spot virtual machine. This price is compared with the current Azure Spot price for the virtual machine size at create time, and the operation only succeeds if maxPrice is greater than the current Azure Spot price. It is also used to evict a virtual machine if the current Azure Spot price rises above it after creation. Possible values are any decimal value greater than zero, or -1 to indicate the default price is up-to on-demand and the virtual machine should not be evicted for price reasons. The default is -1 when not provided. */
+  maxPrice?: number;
+}
+
+export function billingProfileSerializer(item: BillingProfile): any {
+  return { maxPrice: item["maxPrice"] };
+}
+
+export function billingProfileDeserializer(item: any): BillingProfile {
+  return {
+    maxPrice: item["maxPrice"],
+  };
+}
+
+/** Different kind of eviction policies */
+export enum KnownEvictionPolicy {
+  /** When evicted, the Spot VM will be deleted and the corresponding capacity will be updated to reflect this. */
+  Delete = "Delete",
+  /** When evicted, the Spot VM will be deallocated/stopped */
+  Deallocate = "Deallocate",
+}
+
+/**
+ * Different kind of eviction policies \
+ * {@link KnownEvictionPolicy} can be used interchangeably with EvictionPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Delete**: When evicted, the Spot VM will be deleted and the corresponding capacity will be updated to reflect this. \
+ * **Deallocate**: When evicted, the Spot VM will be deallocated\/stopped
+ */
+export type EvictionPolicy = string;
+
 /** Groups the per-VM overrides with the name prefix that names any override that does not supply its own VM name. */
 export interface BulkCreateCustomOverridesProfile {
   /** Prefix used to build the ARM VM name ({prefix}_{index}) for overrides that omit a virtualMachineName. Required when any override is unnamed and rejected when every override is named. */
@@ -4442,6 +4379,12 @@ export function bulkCreateCustomOverrideArrayDeserializer(
 export interface BulkCreateCustomOverride {
   /** ARM VM name for this VM. Optional; when omitted the name is generated from the prefix as {prefix}_{index}. */
   virtualMachineName?: string;
+  /** The availability zone this VM is created in. Overrides the operation-level zones for this VM only. A null value does not override, so the VM is placed using the operation-level zones; an empty value does override and deploys this VM as a regional (non-zonal) VM. */
+  zone?: string;
+  /** The extended location this VM is created in. Overrides the operation-level extendedLocation for this VM only; when omitted the VM inherits the operation-level extendedLocation. */
+  extendedLocation?: ExtendedLocation;
+  /** The placement constraints applied to this VM. Overrides the operation-level placement for this VM only; when omitted the VM inherits the operation-level placement. */
+  placement?: Placement;
   /** VM profile, the same shape as operation-level ComputeProfile.virtualMachineProfile. Overrides the operation-level VM profile. */
   virtualMachineProfile?: BulkactionVMProperties;
   /** Tags overriding the operation-level tags. */
@@ -4457,6 +4400,11 @@ export interface BulkCreateCustomOverride {
 export function bulkCreateCustomOverrideSerializer(item: BulkCreateCustomOverride): any {
   return {
     virtualMachineName: item["virtualMachineName"],
+    zone: item["zone"],
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationSerializer(item["extendedLocation"]),
+    placement: !item["placement"] ? item["placement"] : placementSerializer(item["placement"]),
     virtualMachineProfile: !item["virtualMachineProfile"]
       ? item["virtualMachineProfile"]
       : bulkactionVMPropertiesSerializer(item["virtualMachineProfile"]),
@@ -4474,6 +4422,11 @@ export function bulkCreateCustomOverrideSerializer(item: BulkCreateCustomOverrid
 export function bulkCreateCustomOverrideDeserializer(item: any): BulkCreateCustomOverride {
   return {
     virtualMachineName: item["virtualMachineName"],
+    zone: item["zone"],
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationDeserializer(item["extendedLocation"]),
+    placement: !item["placement"] ? item["placement"] : placementDeserializer(item["placement"]),
     virtualMachineProfile: !item["virtualMachineProfile"]
       ? item["virtualMachineProfile"]
       : bulkactionVMPropertiesDeserializer(item["virtualMachineProfile"]),
@@ -4489,6 +4442,103 @@ export function bulkCreateCustomOverrideDeserializer(item: any): BulkCreateCusto
       : bulkactionVMExtensionArrayDeserializer(item["extensions"]),
   };
 }
+
+/** The complex type of the extended location. */
+export interface ExtendedLocation {
+  /** The name of the extended location. */
+  name: string;
+  /** The type of the extended location. */
+  type: ExtendedLocationType;
+}
+
+export function extendedLocationSerializer(item: ExtendedLocation): any {
+  return { name: item["name"], type: item["type"] };
+}
+
+export function extendedLocationDeserializer(item: any): ExtendedLocation {
+  return {
+    name: item["name"],
+    type: item["type"],
+  };
+}
+
+/** The supported ExtendedLocation types. */
+export enum KnownExtendedLocationType {
+  /** Azure Edge Zones location type */
+  EdgeZone = "EdgeZone",
+  /** Azure Custom Locations type */
+  CustomLocation = "CustomLocation",
+}
+
+/**
+ * The supported ExtendedLocation types. \
+ * {@link KnownExtendedLocationType} can be used interchangeably with ExtendedLocationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EdgeZone**: Azure Edge Zones location type \
+ * **CustomLocation**: Azure Custom Locations type
+ */
+export type ExtendedLocationType = string;
+
+/** The customer-defined constraints for virtual machine placement. */
+export interface Placement {
+  /** The policy used to select an availability zone. */
+  zonePlacementPolicy?: ZonePlacementPolicyType;
+  /** The availability zones that Bulk Actions can select. When omitted, Bulk Actions can consider any supported zone in the region. */
+  includeZones?: string[];
+  /** The availability zones that Bulk Actions must not select. */
+  excludeZones?: string[];
+}
+
+export function placementSerializer(item: Placement): any {
+  return {
+    zonePlacementPolicy: item["zonePlacementPolicy"],
+    includeZones: !item["includeZones"]
+      ? item["includeZones"]
+      : item["includeZones"].map((p: any) => {
+          return p;
+        }),
+    excludeZones: !item["excludeZones"]
+      ? item["excludeZones"]
+      : item["excludeZones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function placementDeserializer(item: any): Placement {
+  return {
+    zonePlacementPolicy: item["zonePlacementPolicy"],
+    includeZones: !item["includeZones"]
+      ? item["includeZones"]
+      : item["includeZones"].map((p: any) => {
+          return p;
+        }),
+    excludeZones: !item["excludeZones"]
+      ? item["excludeZones"]
+      : item["excludeZones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The policy used to select an availability zone for the virtual machine. */
+export enum KnownZonePlacementPolicyType {
+  /** Any */
+  Any = "Any",
+  /** Bulk Actions automatically selects an availability zone based on the request. */
+  Auto = "Auto",
+}
+
+/**
+ * The policy used to select an availability zone for the virtual machine. \
+ * {@link KnownZonePlacementPolicyType} can be used interchangeably with ZonePlacementPolicyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Any** \
+ * **Auto**: Bulk Actions automatically selects an availability zone based on the request.
+ */
+export type ZonePlacementPolicyType = string;
 
 /** Identity for the virtual machine. */
 export interface VirtualMachineIdentity {
@@ -4872,6 +4922,10 @@ export interface LocationBasedBulkCreate extends ProxyResource {
   properties?: BulkCreateProperties;
   /** Zones in which the BulkCreate is available */
   zones?: string[];
+  /** The extended location of the virtual machines created by the BulkCreate operation. */
+  extendedLocation?: ExtendedLocation;
+  /** The availability zone placement constraints applied to the virtual machines created by the BulkCreate operation. */
+  placement?: Placement;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The managed service identities assigned to this resource. */
@@ -4890,6 +4944,10 @@ export function locationBasedBulkCreateSerializer(item: LocationBasedBulkCreate)
       : item["zones"].map((p: any) => {
           return p;
         }),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationSerializer(item["extendedLocation"]),
+    placement: !item["placement"] ? item["placement"] : placementSerializer(item["placement"]),
     tags: item["tags"],
     identity: !item["identity"]
       ? item["identity"]
@@ -4914,6 +4972,10 @@ export function locationBasedBulkCreateDeserializer(item: any): LocationBasedBul
       : item["zones"].map((p: any) => {
           return p;
         }),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationDeserializer(item["extendedLocation"]),
+    placement: !item["placement"] ? item["placement"] : placementDeserializer(item["placement"]),
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
@@ -4934,12 +4996,6 @@ export interface BulkCreateProperties {
   capacity: number;
   /** Specifies capacity type for launching instances. It can be in terms of VMs or vCPUs. */
   capacityType?: CapacityType;
-  /** The minimum capacity, expressed in units specified by capacityType, that Azure must be able to allocate for the request to proceed. If Azure cannot allocate at least this capacity with high confidence, the request is rejected with 409 Conflict (InsufficientCapacity) and no VMs are created. Otherwise, Azure allocates as much capacity as possible, up to the requested capacity. Must be greater than 0, less than capacity, and requires partialFulfillmentPolicy.mode to be Enabled. */
-  minCapacity?: number;
-  /** Controls how partial fulfillment is handled for a BulkCreate request. When enabled, Azure creates only the VMs or vCPUs it has high confidence can be successfully allocated, instead of attempting the entire request and potentially returning allocation failures. */
-  partialFulfillmentPolicy?: PartialFulfillmentPolicy;
-  /** Configuration Options for Regular or Spot instances in BulkCreate. */
-  priorityProfile: PriorityProfile;
   /** Compute Profile to configure the Virtual Machines. Applied uniformly to every virtual machine created by the operation. */
   computeProfile: ComputeProfile;
   /** Extra parameters that control how the request is executed, including the retry policy. */
@@ -4950,11 +5006,6 @@ export function bulkCreatePropertiesSerializer(item: BulkCreateProperties): any 
   return {
     capacity: item["capacity"],
     capacityType: item["capacityType"],
-    minCapacity: item["minCapacity"],
-    partialFulfillmentPolicy: !item["partialFulfillmentPolicy"]
-      ? item["partialFulfillmentPolicy"]
-      : partialFulfillmentPolicySerializer(item["partialFulfillmentPolicy"]),
-    priorityProfile: priorityProfileSerializer(item["priorityProfile"]),
     computeProfile: computeProfileSerializer(item["computeProfile"]),
     executionParameters: !item["executionParameters"]
       ? item["executionParameters"]
@@ -4968,41 +5019,10 @@ export function bulkCreatePropertiesDeserializer(item: any): BulkCreatePropertie
     provisioningState: item["provisioningState"],
     capacity: item["capacity"],
     capacityType: item["capacityType"],
-    minCapacity: item["minCapacity"],
-    partialFulfillmentPolicy: !item["partialFulfillmentPolicy"]
-      ? item["partialFulfillmentPolicy"]
-      : partialFulfillmentPolicyDeserializer(item["partialFulfillmentPolicy"]),
-    priorityProfile: priorityProfileDeserializer(item["priorityProfile"]),
     computeProfile: computeProfileDeserializer(item["computeProfile"]),
     executionParameters: !item["executionParameters"]
       ? item["executionParameters"]
       : executionParametersDeserializer(item["executionParameters"]),
-  };
-}
-
-/** The priority and allocation preferences for virtual machines. */
-export interface PriorityProfile {
-  /** The priority type for virtual machine allocation. */
-  type?: PriorityType;
-  /** The maximum hourly price, in US dollars, for each Spot virtual machine. */
-  maxPricePerVM?: number;
-  /** The action applied to a Spot virtual machine when Azure evicts it. */
-  evictionPolicy?: EvictionPolicy;
-}
-
-export function priorityProfileSerializer(item: PriorityProfile): any {
-  return {
-    type: item["type"],
-    maxPricePerVM: item["maxPricePerVM"],
-    evictionPolicy: item["evictionPolicy"],
-  };
-}
-
-export function priorityProfileDeserializer(item: any): PriorityProfile {
-  return {
-    type: item["type"],
-    maxPricePerVM: item["maxPricePerVM"],
-    evictionPolicy: item["evictionPolicy"],
   };
 }
 
@@ -5054,7 +5074,7 @@ export function locationBasedBulkCreateArrayDeserializer(
   });
 }
 
-/** A recurring action that operates on specified compute resources. */
+/** A recurring bulk action that operates on specified compute resources. */
 export interface ScheduledAction extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: ScheduledActionProperties;
@@ -5088,7 +5108,7 @@ export function scheduledActionDeserializer(item: any): ScheduledAction {
   };
 }
 
-/** Configuration and status of a scheduled action. */
+/** Configuration and status of a recurring bulk action. */
 export interface ScheduledActionProperties {
   /** The type of compute resource targeted by the action. */
   resourceType: ResourceType;
@@ -5100,11 +5120,11 @@ export interface ScheduledActionProperties {
   endTime?: string;
   /** The recurring schedule. */
   schedule: ScheduledActionsSchedule;
-  /** Notification settings that apply to the scheduled action. */
+  /** Notification settings that apply to the recurring bulk action. */
   notificationSettings: NotificationProperties[];
   /** Indicates whether new occurrences are disabled. */
   disabled?: boolean;
-  /** Read-only. The provisioning state of the scheduled action. */
+  /** Read-only. The provisioning state of the recurring bulk action. */
   readonly provisioningState?: ScheduledActionsProvisioningState;
 }
 
@@ -5133,7 +5153,7 @@ export function scheduledActionPropertiesDeserializer(item: any): ScheduledActio
   };
 }
 
-/** The type of compute resource targeted by the scheduled action. */
+/** The type of compute resource targeted by the recurring bulk action. */
 export enum KnownResourceType {
   /** Azure virtual machines. */
   VirtualMachine = "VirtualMachine",
@@ -5142,7 +5162,7 @@ export enum KnownResourceType {
 }
 
 /**
- * The type of compute resource targeted by the scheduled action. \
+ * The type of compute resource targeted by the recurring bulk action. \
  * {@link KnownResourceType} can be used interchangeably with ResourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -5151,7 +5171,7 @@ export enum KnownResourceType {
  */
 export type ResourceType = string;
 
-/** The operation performed by the scheduled action. */
+/** The operation performed by the recurring bulk action. */
 export enum KnownScheduledActionType {
   /** Starts the targeted resources. */
   Start = "Start",
@@ -5162,7 +5182,7 @@ export enum KnownScheduledActionType {
 }
 
 /**
- * The operation performed by the scheduled action. \
+ * The operation performed by the recurring bulk action. \
  * {@link KnownScheduledActionType} can be used interchangeably with ScheduledActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -5172,9 +5192,9 @@ export enum KnownScheduledActionType {
  */
 export type ScheduledActionType = string;
 
-/** The recurring schedule for a scheduled action. */
+/** The recurring schedule for a recurring bulk action. */
 export interface ScheduledActionsSchedule {
-  /** The local time of day when the scheduled action runs. */
+  /** The local time of day when the recurring bulk action runs. */
   scheduledTime: string;
   /** The time zone used to interpret the scheduled time. */
   timeZone: string;
@@ -5242,94 +5262,94 @@ export function scheduledActionsScheduleDeserializer(item: any): ScheduledAction
   };
 }
 
-/** A day of the week on which the scheduled action can run. */
+/** A day of the week on which the recurring bulk action can run. */
 export enum KnownWeekDay {
-  /** The scheduled action can run on Monday. */
+  /** The recurring bulk action can run on Monday. */
   Monday = "Monday",
-  /** The scheduled action can run on Tuesday. */
+  /** The recurring bulk action can run on Tuesday. */
   Tuesday = "Tuesday",
-  /** The scheduled action can run on Wednesday. */
+  /** The recurring bulk action can run on Wednesday. */
   Wednesday = "Wednesday",
-  /** The scheduled action can run on Thursday. */
+  /** The recurring bulk action can run on Thursday. */
   Thursday = "Thursday",
-  /** The scheduled action can run on Friday. */
+  /** The recurring bulk action can run on Friday. */
   Friday = "Friday",
-  /** The scheduled action can run on Saturday. */
+  /** The recurring bulk action can run on Saturday. */
   Saturday = "Saturday",
-  /** The scheduled action can run on Sunday. */
+  /** The recurring bulk action can run on Sunday. */
   Sunday = "Sunday",
   /** Every day of the week. */
   All = "All",
 }
 
 /**
- * A day of the week on which the scheduled action can run. \
+ * A day of the week on which the recurring bulk action can run. \
  * {@link KnownWeekDay} can be used interchangeably with WeekDay,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Monday**: The scheduled action can run on Monday. \
- * **Tuesday**: The scheduled action can run on Tuesday. \
- * **Wednesday**: The scheduled action can run on Wednesday. \
- * **Thursday**: The scheduled action can run on Thursday. \
- * **Friday**: The scheduled action can run on Friday. \
- * **Saturday**: The scheduled action can run on Saturday. \
- * **Sunday**: The scheduled action can run on Sunday. \
+ * **Monday**: The recurring bulk action can run on Monday. \
+ * **Tuesday**: The recurring bulk action can run on Tuesday. \
+ * **Wednesday**: The recurring bulk action can run on Wednesday. \
+ * **Thursday**: The recurring bulk action can run on Thursday. \
+ * **Friday**: The recurring bulk action can run on Friday. \
+ * **Saturday**: The recurring bulk action can run on Saturday. \
+ * **Sunday**: The recurring bulk action can run on Sunday. \
  * **All**: Every day of the week.
  */
 export type WeekDay = string;
 
-/** A month in which the scheduled action can run. */
+/** A month in which the recurring bulk action can run. */
 export enum KnownMonth {
-  /** The scheduled action can run in January. */
+  /** The recurring bulk action can run in January. */
   January = "January",
-  /** The scheduled action can run in February. */
+  /** The recurring bulk action can run in February. */
   February = "February",
-  /** The scheduled action can run in March. */
+  /** The recurring bulk action can run in March. */
   March = "March",
-  /** The scheduled action can run in April. */
+  /** The recurring bulk action can run in April. */
   April = "April",
-  /** The scheduled action can run in May. */
+  /** The recurring bulk action can run in May. */
   May = "May",
-  /** The scheduled action can run in June. */
+  /** The recurring bulk action can run in June. */
   June = "June",
-  /** The scheduled action can run in July. */
+  /** The recurring bulk action can run in July. */
   July = "July",
-  /** The scheduled action can run in August. */
+  /** The recurring bulk action can run in August. */
   August = "August",
-  /** The scheduled action can run in September. */
+  /** The recurring bulk action can run in September. */
   September = "September",
-  /** The scheduled action can run in October. */
+  /** The recurring bulk action can run in October. */
   October = "October",
-  /** The scheduled action can run in November. */
+  /** The recurring bulk action can run in November. */
   November = "November",
-  /** The scheduled action can run in December. */
+  /** The recurring bulk action can run in December. */
   December = "December",
   /** Every month. */
   All = "All",
 }
 
 /**
- * A month in which the scheduled action can run. \
+ * A month in which the recurring bulk action can run. \
  * {@link KnownMonth} can be used interchangeably with Month,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **January**: The scheduled action can run in January. \
- * **February**: The scheduled action can run in February. \
- * **March**: The scheduled action can run in March. \
- * **April**: The scheduled action can run in April. \
- * **May**: The scheduled action can run in May. \
- * **June**: The scheduled action can run in June. \
- * **July**: The scheduled action can run in July. \
- * **August**: The scheduled action can run in August. \
- * **September**: The scheduled action can run in September. \
- * **October**: The scheduled action can run in October. \
- * **November**: The scheduled action can run in November. \
- * **December**: The scheduled action can run in December. \
+ * **January**: The recurring bulk action can run in January. \
+ * **February**: The recurring bulk action can run in February. \
+ * **March**: The recurring bulk action can run in March. \
+ * **April**: The recurring bulk action can run in April. \
+ * **May**: The recurring bulk action can run in May. \
+ * **June**: The recurring bulk action can run in June. \
+ * **July**: The recurring bulk action can run in July. \
+ * **August**: The recurring bulk action can run in August. \
+ * **September**: The recurring bulk action can run in September. \
+ * **October**: The recurring bulk action can run in October. \
+ * **November**: The recurring bulk action can run in November. \
+ * **December**: The recurring bulk action can run in December. \
  * **All**: Every month.
  */
 export type Month = string;
 
-/** Settings that control how the scheduled action operation is executed. */
+/** Settings that control how the recurring bulk action operation is executed. */
 export interface ScheduledActionsExecutionParameters {
   /** The retry settings for failed resource operations. */
   retryPolicy?: ScheduledActionsRetryPolicy;
@@ -5355,7 +5375,7 @@ export function scheduledActionsExecutionParametersDeserializer(
   };
 }
 
-/** Retry settings for a scheduled action operation. */
+/** Retry settings for a recurring bulk action operation. */
 export interface ScheduledActionsRetryPolicy {
   /** The maximum number of retry attempts. */
   retryCount?: number;
@@ -5381,7 +5401,7 @@ export function scheduledActionsRetryPolicyDeserializer(item: any): ScheduledAct
   };
 }
 
-/** The operation to retry when a scheduled action fails. */
+/** The operation to retry when a recurring bulk action fails. */
 export enum KnownScheduledActionsResourceOperationType {
   /** Starts the resources. */
   Start = "Start",
@@ -5396,7 +5416,7 @@ export enum KnownScheduledActionsResourceOperationType {
 }
 
 /**
- * The operation to retry when a scheduled action fails. \
+ * The operation to retry when a recurring bulk action fails. \
  * {@link KnownScheduledActionsResourceOperationType} can be used interchangeably with ScheduledActionsResourceOperationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -5442,7 +5462,7 @@ export function notificationPropertiesArrayDeserializer(
   });
 }
 
-/** Settings for notifications about upcoming scheduled action operations. */
+/** Settings for notifications about upcoming recurring bulk action operations. */
 export interface NotificationProperties {
   /** The notification destination. For email notifications, specify a valid email address. */
   destination: string;
@@ -5472,14 +5492,14 @@ export function notificationPropertiesDeserializer(item: any): NotificationPrope
   };
 }
 
-/** The delivery method for scheduled action notifications. */
+/** The delivery method for recurring bulk action notifications. */
 export enum KnownNotificationType {
   /** Sends notifications by email. */
   Email = "Email",
 }
 
 /**
- * The delivery method for scheduled action notifications. \
+ * The delivery method for recurring bulk action notifications. \
  * {@link KnownNotificationType} can be used interchangeably with NotificationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -5487,14 +5507,14 @@ export enum KnownNotificationType {
  */
 export type NotificationType = string;
 
-/** The language used for scheduled action notifications. */
+/** The language used for recurring bulk action notifications. */
 export enum KnownLanguage {
   /** English (United States). */
   EnUs = "en-us",
 }
 
 /**
- * The language used for scheduled action notifications. \
+ * The language used for recurring bulk action notifications. \
  * {@link KnownLanguage} can be used interchangeably with Language,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -5502,7 +5522,7 @@ export enum KnownLanguage {
  */
 export type Language = string;
 
-/** The provisioning state of the scheduled action. */
+/** The provisioning state of the recurring bulk action. */
 export enum KnownScheduledActionsProvisioningState {
   /** Resource has been created. */
   Succeeded = "Succeeded",
@@ -5510,22 +5530,22 @@ export enum KnownScheduledActionsProvisioningState {
   Failed = "Failed",
   /** Resource creation was canceled. */
   Canceled = "Canceled",
-  /** The scheduled action is being deleted. */
+  /** The recurring bulk action is being deleted. */
   Deleting = "Deleting",
-  /** The scheduled action is being updated. */
+  /** The recurring bulk action is being updated. */
   Updating = "Updating",
 }
 
 /**
- * The provisioning state of the scheduled action. \
+ * The provisioning state of the recurring bulk action. \
  * {@link KnownScheduledActionsProvisioningState} can be used interchangeably with ScheduledActionsProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Resource has been created. \
  * **Failed**: Resource creation failed. \
  * **Canceled**: Resource creation was canceled. \
- * **Deleting**: The scheduled action is being deleted. \
- * **Updating**: The scheduled action is being updated.
+ * **Deleting**: The recurring bulk action is being deleted. \
+ * **Updating**: The recurring bulk action is being updated.
  */
 export type ScheduledActionsProvisioningState = string;
 
@@ -5585,7 +5605,7 @@ export interface ScheduledActionUpdateProperties {
   endTime?: string;
   /** Changes to the recurring schedule. */
   schedule?: ScheduledActionsScheduleUpdate;
-  /** Notification settings that apply to the scheduled action. */
+  /** Notification settings that apply to the recurring bulk action. */
   notificationSettings?: NotificationProperties[];
   /** Indicates whether new occurrences are disabled. */
   disabled?: boolean;
@@ -5609,9 +5629,9 @@ export function scheduledActionUpdatePropertiesSerializer(
   };
 }
 
-/** Schedule changes for a scheduled action. Omitted properties keep their current values. */
+/** Schedule changes for a recurring bulk action. Omitted properties keep their current values. */
 export interface ScheduledActionsScheduleUpdate {
-  /** The local time of day when the scheduled action runs. */
+  /** The local time of day when the recurring bulk action runs. */
   scheduledTime?: string;
   /** The time zone used to interpret the scheduled time. */
   timeZone?: string;
@@ -5682,9 +5702,9 @@ export function scheduledActionArrayDeserializer(result: Array<ScheduledAction>)
   });
 }
 
-/** A paged list of compute resources associated with a scheduled action. */
+/** A paged list of compute resources associated with a recurring bulk action. */
 export interface _ResourceListResponse {
-  /** The compute resources associated with the scheduled action. */
+  /** The compute resources associated with the recurring bulk action. */
   value: ScheduledActionResource[];
   /** The link to the next page of items */
   nextLink?: string;
@@ -5705,7 +5725,7 @@ export function scheduledActionResourceArrayDeserializer(
   });
 }
 
-/** A compute resource associated with a scheduled action. */
+/** A compute resource associated with a recurring bulk action. */
 export interface ScheduledActionResource {
   /** Read-only. The name of the association resource. */
   readonly name: string;
@@ -5731,9 +5751,9 @@ export function scheduledActionResourceDeserializer(item: any): ScheduledActionR
   };
 }
 
-/** Resources to attach to a scheduled action. */
+/** Resources to attach to a recurring bulk action. */
 export interface ResourceAttachRequest {
-  /** The list of resources to attach to the scheduled action. */
+  /** The list of resources to attach to the recurring bulk action. */
   resources: ScheduledActionResourceInput[];
 }
 
@@ -5749,7 +5769,7 @@ export function scheduledActionResourceInputArraySerializer(
   });
 }
 
-/** A compute resource to add to or update in a scheduled action. */
+/** A compute resource to add to or update in a recurring bulk action. */
 export interface ScheduledActionResourceInput {
   /** The Azure resource ID of the targeted virtual machine. */
   resourceId: string;
@@ -5766,7 +5786,7 @@ export function scheduledActionResourceInputSerializer(item: ScheduledActionReso
   };
 }
 
-/** Results of a scheduled action operation for targeted resources. */
+/** Results of a recurring bulk action operation for targeted resources. */
 export interface ResourceOperationResponse {
   /** The number of resources included in the operation. */
   totalResources: number;
@@ -5787,7 +5807,7 @@ export function resourceStatusArrayDeserializer(result: Array<ResourceStatus>): 
   });
 }
 
-/** Current status for a targeted resource in a scheduled action occurrence. */
+/** Current status for a targeted resource in a recurring bulk action occurrence. */
 export interface ResourceStatus {
   /** The Azure resource ID of the targeted resource. */
   resourceId: string;
@@ -5823,7 +5843,7 @@ export enum KnownResourceOperationStatus {
  */
 export type ResourceOperationStatus = string;
 
-/** Resources to remove from a scheduled action. */
+/** Resources to remove from a recurring bulk action. */
 export interface ResourceDetachRequest {
   /** The Azure resource IDs of the resources to remove. */
   resources: string[];
@@ -5837,7 +5857,7 @@ export function resourceDetachRequestSerializer(item: ResourceDetachRequest): an
   };
 }
 
-/** Resource-specific settings to update in a scheduled action. */
+/** Resource-specific settings to update in a recurring bulk action. */
 export interface ResourcePatchRequest {
   /** The resources and notification settings to update. */
   resources: ScheduledActionResourceInput[];
@@ -5847,7 +5867,7 @@ export function resourcePatchRequestSerializer(item: ResourcePatchRequest): any 
   return { resources: scheduledActionResourceInputArraySerializer(item["resources"]) };
 }
 
-/** Request body for canceling a scheduled action occurrence. */
+/** Request body for canceling a recurring bulk action occurrence. */
 export interface CancelOccurrenceRequest {
   /** The resources for which operations should be canceled. An empty array cancels all operations for all resources for the occurrence. */
   resourceIds: string[];
@@ -5861,7 +5881,7 @@ export function cancelOccurrenceRequestSerializer(item: CancelOccurrenceRequest)
   };
 }
 
-/** One scheduled execution of a scheduled action. */
+/** One scheduled execution of a recurring bulk action. */
 export interface Occurrence extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: OccurrenceProperties;
@@ -5881,7 +5901,7 @@ export function occurrenceDeserializer(item: any): Occurrence {
   };
 }
 
-/** Properties of a scheduled action occurrence. */
+/** Properties of a recurring bulk action occurrence. */
 export interface OccurrenceProperties {
   /** Read-only. The UTC date and time when the occurrence is scheduled to run. */
   readonly scheduledTime: Date;
@@ -5899,7 +5919,7 @@ export function occurrencePropertiesDeserializer(item: any): OccurrencePropertie
   };
 }
 
-/** Summary of results for a scheduled action occurrence. */
+/** Summary of results for a recurring bulk action occurrence. */
 export interface OccurrenceResultSummary {
   /** The number of resources targeted by the occurrence. */
   total: number;
@@ -5940,7 +5960,7 @@ export function resourceResultSummaryDeserializer(item: any): ResourceResultSumm
   };
 }
 
-/** The current state of a scheduled action occurrence. */
+/** The current state of a recurring bulk action occurrence. */
 export enum KnownOccurrenceState {
   /** The occurrence has been created. */
   Created = "Created",
@@ -5959,7 +5979,7 @@ export enum KnownOccurrenceState {
 }
 
 /**
- * The current state of a scheduled action occurrence. \
+ * The current state of a recurring bulk action occurrence. \
  * {@link KnownOccurrenceState} can be used interchangeably with OccurrenceState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -5998,7 +6018,7 @@ export function scheduledActionResourcesArrayDeserializer(
   });
 }
 
-/** A scheduled action associated with a specific compute resource. */
+/** A recurring bulk action associated with a specific compute resource. */
 export interface ScheduledActionResources extends ExtensionResource {
   /** The resource-specific properties for this resource. */
   properties?: ScheduledActionsExtensionProperties;
@@ -6018,7 +6038,7 @@ export function scheduledActionResourcesDeserializer(item: any): ScheduledAction
   };
 }
 
-/** A scheduled action associated with a specific compute resource. */
+/** A recurring bulk action associated with a specific compute resource. */
 export interface ScheduledActionsExtensionProperties {
   /** The type of compute resource targeted by the action. */
   resourceType: ResourceType;
@@ -6030,11 +6050,11 @@ export interface ScheduledActionsExtensionProperties {
   endTime?: string;
   /** The recurring schedule. */
   schedule: ScheduledActionsSchedule;
-  /** Notification settings that apply to the scheduled action. */
+  /** Notification settings that apply to the recurring bulk action. */
   notificationSettings: NotificationProperties[];
   /** Indicates whether new occurrences are disabled. */
   disabled?: boolean;
-  /** Read-only. The provisioning state of the scheduled action. */
+  /** Read-only. The provisioning state of the recurring bulk action. */
   readonly provisioningState?: ScheduledActionsProvisioningState;
   /** Read-only. Notification settings that apply only to the specified compute resource. */
   readonly resourceNotificationSettings?: NotificationProperties[];
@@ -6093,7 +6113,7 @@ export function occurrenceArrayDeserializer(result: Array<Occurrence>): any[] {
   });
 }
 
-/** Paged list of resources included in a scheduled action occurrence. */
+/** Paged list of resources included in a recurring bulk action occurrence. */
 export interface _OccurrenceResourceListResponse {
   /** The OccurrenceResource items on this page */
   value: OccurrenceResource[];
@@ -6116,7 +6136,7 @@ export function occurrenceResourceArrayDeserializer(result: Array<OccurrenceReso
   });
 }
 
-/** Scheduling and status details for a resource included in a scheduled action occurrence. */
+/** Scheduling and status details for a resource included in a recurring bulk action occurrence. */
 export interface OccurrenceResource {
   /** Read-only. The name of the association resource. */
   readonly name: string;
@@ -6151,7 +6171,7 @@ export function occurrenceResourceDeserializer(item: any): OccurrenceResource {
   };
 }
 
-/** The provisioning state of a scheduled-action resource within an occurrence. */
+/** The provisioning state of a recurring bulk action resource within an occurrence. */
 export enum KnownOccurrenceResourceProvisioningState {
   /** Resource has been created. */
   Succeeded = "Succeeded",
@@ -6172,7 +6192,7 @@ export enum KnownOccurrenceResourceProvisioningState {
 }
 
 /**
- * The provisioning state of a scheduled-action resource within an occurrence. \
+ * The provisioning state of a recurring bulk action resource within an occurrence. \
  * {@link KnownOccurrenceResourceProvisioningState} can be used interchangeably with OccurrenceResourceProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -6187,7 +6207,7 @@ export enum KnownOccurrenceResourceProvisioningState {
  */
 export type OccurrenceResourceProvisioningState = string;
 
-/** Request body for delaying a scheduled action occurrence. */
+/** Request body for delaying a recurring bulk action occurrence. */
 export interface DelayRequest {
   /** The new date and time for the occurrence, including the UTC offset. */
   delay: string;
@@ -6229,7 +6249,7 @@ export function occurrenceExtensionResourceArrayDeserializer(
   });
 }
 
-/** A scheduled action occurrence associated with a specific compute resource. */
+/** A recurring bulk action occurrence associated with a specific compute resource. */
 export interface OccurrenceExtensionResource extends ExtensionResource {
   /** The resource-specific properties for this resource. */
   properties?: OccurrenceExtensionProperties;
@@ -6261,7 +6281,7 @@ export interface OccurrenceExtensionProperties {
   readonly provisioningState?: OccurrenceResourceProvisioningState;
   /** Read-only. Error details when the operation fails for this resource. */
   readonly errorDetails?: ErrorModel;
-  /** The Azure resource ID of the scheduled action that owns the occurrence. */
+  /** The Azure resource ID of the recurring bulk action that owns the occurrence. */
   scheduledActionId: string;
 }
 
