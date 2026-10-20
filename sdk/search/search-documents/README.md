@@ -47,8 +47,8 @@ npm install @azure/search-documents
 ```
 
 Version 14 targets the `2026-10-01` GA service API by default. When upgrading from
-version 13, review the [GA-to-GA breaking changes](./CHANGELOG.md#1400-2026-10-19).
-Updated TypeScript and JavaScript examples are available in [samples/v14](./samples/v14).
+version 13, review the [GA-to-GA breaking changes](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1400-2026-10-19).
+Updated TypeScript and JavaScript examples are available in [samples/v14](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples/v14).
 
 ### Currently supported environments
 
@@ -245,10 +245,10 @@ The examples below use the stable `2026-10-01` service API, which is the client'
 They extend the existing index, indexer, knowledge source, and retrieval workflows rather than
 requiring a separate set of clients.
 
-For complete runnable workflows, the [sample sources](./samples-dev) also cover indexed SQL content
+For complete runnable workflows, the [sample sources](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples-dev) also cover indexed SQL content
 columns, private ingestion and service-selected analyzers, Content Understanding image-description
 models and semantic chunking, service/indexer runtime budgets, and Search-owned citation URLs.
-The optional resource settings and prerequisites are listed in [sample.env](./sample.env).
+The optional resource settings and prerequisites are listed in [sample.env](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/sample.env).
 
 ### Find Similar Documents
 
