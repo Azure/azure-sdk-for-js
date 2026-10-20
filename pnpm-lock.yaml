@@ -678,8 +678,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
       simple-git:
-        specifier: ^3.36.0
-        version: 3.36.0(supports-color@10.2.2)
+        specifier: ^4.0.2
+        version: 4.0.2(supports-color@10.2.2)
       string-template:
         specifier: ^1.0.0
         version: 1.0.0
@@ -38326,8 +38326,8 @@ packages:
   '@simple-git/args-pathspec@1.0.4':
     resolution: {integrity: sha512-EtMX6XjRWSastG2SdkmSQByPtJ9dx/NIjnHbpQPCYt62j4RmSx5rgLTGpw0YCjF5h191gZOmBfheOT23cRSFdw==}
 
-  '@simple-git/argv-parser@1.1.1':
-    resolution: {integrity: sha1-J1uDnG7rUDCHLHOx6oOaQWiF2p0=}
+  '@simple-git/argv-parser@2.0.1':
+    resolution: {integrity: sha512-M++IaVWrN+vYalilOHfwvT2IL3wYZtVEBQpmX6DLSOJLtxbZ+SUeIDE3IiPogzhPACLajwtxfa5rp+ZX1FczzQ==}
 
   '@sinclair/typebox@0.27.12':
     resolution: {integrity: sha1-DKzTz/BHoyk2sazkfqfIbqq2Cn8=}
@@ -42128,8 +42128,8 @@ packages:
   simple-get@4.0.1:
     resolution: {integrity: sha1-SjnbVJKHyXnTUhEvoD/Zn9a8NUM=}
 
-  simple-git@3.36.0:
-    resolution: {integrity: sha1-AZsowKNYR+40KZxvtjdwqxst/7c=}
+  simple-git@4.0.2:
+    resolution: {integrity: sha512-l0sIsv9VrPwovKELFDBOj/lhmIcbMvxBk2B+hRhsMM4/VL3gKtuZvYnBNixVo+N/0HnqQx2cBdLvxnAbygHpqA==}
 
   sirv@3.0.2:
     resolution: {integrity: sha1-93X8zxDiKkCDJoSEjWNjRvQc2XA=}
@@ -45680,7 +45680,7 @@ snapshots:
 
   '@simple-git/args-pathspec@1.0.4': {}
 
-  '@simple-git/argv-parser@1.1.1':
+  '@simple-git/argv-parser@2.0.1':
     dependencies:
       '@simple-git/args-pathspec': 1.0.4
 
@@ -50043,12 +50043,12 @@ snapshots:
       once: 1.4.0
       simple-concat: 1.0.1
 
-  simple-git@3.36.0(supports-color@10.2.2):
+  simple-git@4.0.2(supports-color@10.2.2):
     dependencies:
       '@kwsites/file-exists': 1.1.1(supports-color@10.2.2)
       '@kwsites/promise-deferred': 1.1.1
       '@simple-git/args-pathspec': 1.0.4
-      '@simple-git/argv-parser': 1.1.1
+      '@simple-git/argv-parser': 2.0.1
       debug: 4.4.3(supports-color@10.2.2)
     transitivePeerDependencies:
       - supports-color
