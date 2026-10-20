@@ -129,7 +129,8 @@ resource groups, polling query secrets (`t`, `c`, `s`, `h`, `sig`, `token`),
 identity metadata, authentication tokens, cookies, and trace headers.
 It also redacts encoded resource-group cleanup operation IDs, which can contain
 internal job metadata, and unrelated Edge Action names, tag values, and attachment
-identifiers returned by subscription-wide lists. Tag keys still require inspection.
+identifiers returned by subscription-wide lists, including profile, rule-set/rule,
+and AFD endpoint/route names. Tag keys still require inspection.
 It preserves URL structure, API versions, status fields, resource types, and
 test-generated Edge Action names so assertions still check the service contract.
 Only synthetic handler code and synthetic execution-filter values are used.

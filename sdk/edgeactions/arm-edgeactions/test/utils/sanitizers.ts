@@ -9,7 +9,8 @@ export const resourceGroupOperationPattern =
   '(/providers/Microsoft\\.Resources/locations/[^/]+/operationresults/)[^/\\s"\\\\?#]+';
 export const unrelatedEdgeActionPattern =
   '(/providers/Microsoft\\.Cdn/edgeActions/)(?!eajavascript[0-9a-f]{20}(?:[/\\s"\\\\?#]|$))[^/\\s"\\\\?#]+';
-export const attachedResourceNamePattern = '(/(?:profiles|ruleSets|rules)/)[^/\\s"\\\\?#]+';
+export const attachedResourceNamePattern =
+  '(/(?:profiles|ruleSets|rules|afdEndpoints|routes)/)[^/\\s"\\\\?#]+';
 const unrelatedEdgeActions =
   "$.value[?(@.type =~ /^Microsoft[.]Cdn\\/EdgeActions$/i && @.name =~ /^(?!eajavascript[0-9a-f]{20}$)/)]";
 

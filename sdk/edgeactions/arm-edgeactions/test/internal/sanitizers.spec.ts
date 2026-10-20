@@ -61,6 +61,10 @@ describe("Edge Actions recording sanitizers", () => {
                 id: "private-attachment",
                 attachedResourceId: `${resourcePrefix}/profiles/private-profile/ruleSets/private-ruleset/rules/private-rule`,
               },
+              {
+                id: "private-route-attachment",
+                attachedResourceId: `${resourcePrefix}/profiles/private-profile/afdEndpoints/private-endpoint/routes/private-route`,
+              },
             ],
           },
         },
@@ -178,6 +182,9 @@ describe("Edge Actions recording sanitizers", () => {
         "private-profile",
         "private-ruleset",
         "private-rule",
+        "private-route-attachment",
+        "private-endpoint",
+        "private-route",
       ]) {
         expect(all).not.toContain(secret);
       }
@@ -199,6 +206,10 @@ describe("Edge Actions recording sanitizers", () => {
           {
             id: "Sanitized",
             attachedResourceId: `/subscriptions/${sanitizedSubscription}/resourceGroups/edgeactions-test-rg/providers/Microsoft.Cdn/profiles/Sanitized/ruleSets/Sanitized/rules/Sanitized`,
+          },
+          {
+            id: "Sanitized",
+            attachedResourceId: `/subscriptions/${sanitizedSubscription}/resourceGroups/edgeactions-test-rg/providers/Microsoft.Cdn/profiles/Sanitized/afdEndpoints/Sanitized/routes/Sanitized`,
           },
         ],
       });
