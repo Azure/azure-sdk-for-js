@@ -78,13 +78,14 @@ $env:TEST_MODE = "playback"
 pnpm exec tsc -b --noEmit
 pnpm test:node -- -- test\internal
 
-# Full suite after recording the expanded lifecycles locally:
+# Full suite using the published recordings referenced by assets.json:
 $env:TEST_MODE = "playback"
 pnpm test
 ```
 
-The expanded lifecycles require new recordings; the old four smoke-test
-recordings do not cover these request sequences. Never manufacture or edit
+Asset sync restores the published lifecycle recordings automatically when needed.
+Local rerecordings can be replayed before publishing a replacement asset tag.
+The old four smoke-test recordings have been replaced. Never manufacture or edit
 recordings to make the contract assertions pass.
 
 To record, copy `sample.env` to `.env` in this package directory, populate
@@ -124,8 +125,11 @@ $env:ASPNETCORE_URLS = "http://127.0.0.1:5100;https://127.0.0.1:5101"
 The recorder replaces configured environment values, subscription IDs and
 resource groups, polling query secrets (`t`, `c`, `s`, `h`, `sig`, `token`),
 identity metadata, authentication tokens, cookies, and trace headers.
-It preserves URL paths, API versions, status fields, resource types, and
-test-generated resource names so assertions still check the service contract.
+It also redacts encoded resource-group cleanup operation IDs, which can contain
+internal job metadata, and unrelated Edge Action names, tag values, and attachment
+identifiers returned by subscription-wide lists. Tag keys still require inspection.
+It preserves URL structure, API versions, status fields, resource types, and
+test-generated Edge Action names so assertions still check the service contract.
 Only synthetic handler code and synthetic execution-filter values are used.
 
 Inspect **all** new recording files for sensitive data before publishing. Run

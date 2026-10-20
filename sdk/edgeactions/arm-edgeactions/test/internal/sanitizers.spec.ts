@@ -13,6 +13,17 @@ describe("Edge Actions recording sanitizers", () => {
     const subscription = "11111111-2222-3333-4444-555555555555";
     const operation = `https://management.azure.com/subscriptions/${subscription}/resourceGroups/private-group/providers/Microsoft.Cdn/locations/global/operationStatuses/op?api-version=2026-10-01&t=secret-t&c=secret-c&s=secret-s&h=secret-h`;
     const resultUrl = operation.replace("operationStatuses", "operationResults");
+    const cleanupToken = Buffer.from(
+      JSON.stringify({
+        jobId: "private-group",
+        jobLocation: "eastus",
+        jobStorageAccount: "private-storage",
+      }),
+    ).toString("base64url");
+    const cleanupPath = `/providers/Microsoft.Resources/locations/eastus/operationresults/${cleanupToken}?api-version=2021-04-01`;
+    const cleanupUrl = `https://management.azure.com${cleanupPath}`;
+    const ownName = "eajavascript0123456789abcdef0123";
+    const resourcePrefix = `/subscriptions/${subscription}/resourceGroups/private-group/providers/Microsoft.Cdn`;
     const payload = {
       id: `/subscriptions/${subscription}/resourceGroups/private-group/providers/Microsoft.Cdn/edgeActions/test`,
       name: "test",
@@ -29,6 +40,31 @@ describe("Edge Actions recording sanitizers", () => {
       client_secret: "secret-client",
       statusUrl: operation,
       resultUrl,
+      cleanupUrl,
+      value: [
+        {
+          id: `${resourcePrefix}/edgeActions/${ownName}`,
+          name: ownName,
+          type: "Microsoft.Cdn/EdgeActions",
+          tags: { purpose: "initial" },
+          properties: { provisioningState: "Succeeded", attachments: [] },
+        },
+        {
+          id: `${resourcePrefix}/edgeActions/private-action`,
+          name: "private-action",
+          type: "Microsoft.Cdn/EdgeActions",
+          tags: { purpose: "private-tag" },
+          properties: {
+            provisioningState: "Succeeded",
+            attachments: [
+              {
+                id: "private-attachment",
+                attachedResourceId: `${resourcePrefix}/profiles/private-profile/ruleSets/private-ruleset/rules/private-rule`,
+              },
+            ],
+          },
+        },
+      ],
     };
     const server = createServer((_request, response) => {
       response.writeHead(200, {
@@ -39,6 +75,7 @@ describe("Edge Actions recording sanitizers", () => {
         "retry-after": "3",
         "set-cookie": "private-cookie",
         "x-ms-correlation-request-id": "private-trace",
+        "x-cleanup-location": cleanupUrl,
       });
       response.end(JSON.stringify(payload));
     });
@@ -91,6 +128,15 @@ describe("Edge Actions recording sanitizers", () => {
       });
       expect(recorded.status).toBe(200);
       await recorded.text();
+      const recordedCleanup = await fetch(`${proxy}${cleanupPath}`, {
+        headers: {
+          "x-recording-id": recordingId,
+          "x-recording-mode": "record",
+          "x-recording-upstream-base-uri": upstream,
+        },
+      });
+      expect(recordedCleanup.status).toBe(200);
+      await recordedCleanup.text();
       await admin("/record/stop", recordingId, {}, { "x-recording-save": "true" });
       const playback = await admin("/playback/start", recordingId);
       playbackId = playback.headers.get("x-recording-id")!;
@@ -124,6 +170,14 @@ describe("Edge Actions recording sanitizers", () => {
         "secret-client",
         "private-cookie",
         "private-trace",
+        cleanupToken,
+        "private-storage",
+        "private-action",
+        "private-tag",
+        "private-attachment",
+        "private-profile",
+        "private-ruleset",
+        "private-rule",
       ]) {
         expect(all).not.toContain(secret);
       }
@@ -131,6 +185,35 @@ describe("Edge Actions recording sanitizers", () => {
       expect(body.name).toBe("test");
       expect(body.status).toBe("Succeeded");
       expect(body.id).toContain(`/subscriptions/${sanitizedSubscription}/`);
+      expect(body.value).toHaveLength(2);
+      expect(body.value[0]).toEqual({
+        ...payload.value[0],
+        id: `/subscriptions/${sanitizedSubscription}/resourceGroups/edgeactions-test-rg/providers/Microsoft.Cdn/edgeActions/${ownName}`,
+      });
+      expect(body.value[1].name).toBe("Sanitized");
+      expect(body.value[1].id).toMatch(/\/edgeActions\/Sanitized$/);
+      expect(body.value[1].tags).toEqual({ purpose: "Sanitized" });
+      expect(body.value[1].properties).toEqual({
+        provisioningState: "Succeeded",
+        attachments: [
+          {
+            id: "Sanitized",
+            attachedResourceId: `/subscriptions/${sanitizedSubscription}/resourceGroups/edgeactions-test-rg/providers/Microsoft.Cdn/profiles/Sanitized/ruleSets/Sanitized/rules/Sanitized`,
+          },
+        ],
+      });
+      const sanitizedCleanupPath = cleanupPath.replace(cleanupToken, "Sanitized");
+      expect(body.cleanupUrl).toBe(`https://management.azure.com${sanitizedCleanupPath}`);
+      expect(replayed.headers.get("x-cleanup-location")).toBe(body.cleanupUrl);
+      const replayedCleanup = await fetch(`${proxy}${sanitizedCleanupPath}`, {
+        headers: {
+          "x-recording-id": playbackId,
+          "x-recording-mode": "playback",
+          "x-recording-upstream-base-uri": upstream,
+        },
+      });
+      expect(replayedCleanup.status).toBe(200);
+      expect(await replayedCleanup.json()).toEqual(body);
       for (const header of ["azure-asyncoperation", "location", "operation-location"]) {
         const url = new URL(replayed.headers.get(header)!);
         expect(url.protocol).toBe("https:");

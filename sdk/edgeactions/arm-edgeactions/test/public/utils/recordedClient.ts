@@ -19,8 +19,8 @@ const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
   sanitizerOptions: sanitizers,
   removeCentralSanitizers: [
-    "AZSDK3493", // .name in the body is not a secret
-    "AZSDK3430", // .id in the body is not a secret
+    "AZSDK3493", // Preserve test-generated names; package sanitizers redact unrelated resources.
+    "AZSDK3430", // Preserve ARM ID structure; package sanitizers redact identifying segments.
     "AZSDK2030", // Preserve Operation-Location; signed query values are sanitized separately.
   ],
 };
