@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This file is a direct copy of the tokenCycler implementation in core-rest-pipeline.
+// Adapted from core-rest-pipeline to isolate request-scoped cancellation during shared refreshes.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { delay } from "@azure/core-util";
+import { logger } from "./logger.js";
 
 /**
  * A function that gets a promise of an access token and allows providing
@@ -111,6 +112,9 @@ export function createTokenCycler(
   tokenCyclerOptions?: Partial<TokenCyclerOptions>,
 ): AccessTokenGetter {
   let refreshWorker: Promise<AccessToken> | null = null;
+  let refreshOptions: GetTokenOptions | undefined;
+  let refreshGeneration = 0;
+  let tokenGeneration = 0;
   let token: AccessToken | null = null;
   let tenantId: string | undefined;
 
@@ -156,41 +160,59 @@ export function createTokenCycler(
   };
 
   /**
-   * Starts a refresh job or returns the existing job if one is already
-   * running.
+   * Shares a refresh only when callers have the same cancellation context.
    */
   function refresh(
     scopes: string | string[],
     getTokenOptions: GetTokenOptions,
   ): Promise<AccessToken> {
-    if (!cycler.isRefreshing) {
+    // Equal timeout durations still have different deadlines when requests start at different times.
+    const canShareRefresh =
+      refreshWorker !== null &&
+      refreshOptions?.abortSignal === getTokenOptions.abortSignal &&
+      !refreshOptions?.requestOptions?.timeout &&
+      !getTokenOptions.requestOptions?.timeout;
+    if (!canShareRefresh) {
+      const generation = ++refreshGeneration;
+      const previousToken = token;
       // We bind `scopes` here to avoid passing it around a lot
       const tryGetAccessToken = (): Promise<AccessToken | null> =>
         credential.getToken(scopes, getTokenOptions);
 
       // Take advantage of promise chaining to insert an assignment to `token`
       // before the refresh can be considered done.
-      refreshWorker = beginRefresh(
+      const worker = beginRefresh(
         tryGetAccessToken,
         options.retryIntervalInMs,
         // If we don't have a token, then we should timeout immediately
         token?.expiresOnTimestamp ?? Date.now(),
       )
         .then((_token) => {
-          refreshWorker = null;
-          token = _token;
-          tenantId = getTokenOptions.tenantId;
-          return token;
+          if (refreshWorker === worker) {
+            refreshWorker = null;
+            refreshOptions = undefined;
+          }
+          if (generation > tokenGeneration) {
+            token = _token;
+            tenantId = getTokenOptions.tenantId;
+            tokenGeneration = generation;
+          }
+          return _token;
         })
         .catch((reason) => {
-          // We also should reset the refresher if we enter a failed state.  All
-          // existing awaiters will throw, but subsequent requests will start a
-          // new retry chain.
-          refreshWorker = null;
-          token = null;
-          tenantId = undefined;
+          if (refreshWorker === worker) {
+            refreshWorker = null;
+            refreshOptions = undefined;
+            // A different request may already have refreshed the token successfully.
+            if (token === previousToken) {
+              token = null;
+              tenantId = undefined;
+            }
+          }
           throw reason;
         });
+      refreshWorker = worker;
+      refreshOptions = getTokenOptions;
     }
 
     return refreshWorker as Promise<AccessToken>;
@@ -226,7 +248,9 @@ export function createTokenCycler(
     }
 
     if (cycler.shouldRefresh) {
-      refresh(scopes, tokenOptions);
+      refresh(scopes, tokenOptions).catch(() => {
+        logger.warning("Failed to refresh access token in the background.");
+      });
     }
 
     return token as AccessToken;

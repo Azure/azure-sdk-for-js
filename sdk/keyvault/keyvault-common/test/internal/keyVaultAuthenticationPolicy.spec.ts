@@ -16,6 +16,7 @@ import {
 import { parseWWWAuthenticateHeader } from "../../src/parseWWWAuthenticate.js";
 import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
+import { createAbortablePromise } from "@azure/core-util";
 import { keyVaultAuthenticationPolicy } from "../../src/keyVaultAuthenticationPolicy.js";
 
 const caeChallenge = `Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`;
@@ -514,6 +515,39 @@ describe("Challenge based authentication tests", function () {
       await pipeline.sendRequest({ sendRequest }, createPipelineRequest({ url: request.url }));
       expect(getToken).toHaveBeenCalledTimes(2);
       expect(sendRequest).toHaveBeenCalledTimes(2);
+    });
+
+    it("does not let a cancelled request fail another request using the same challenge", async () => {
+      const controller = new AbortController();
+      request.abortSignal = controller.signal;
+      getToken.mockImplementationOnce((_scopes, options) =>
+        createAbortablePromise<AccessToken>(() => {}, { abortSignal: options?.abortSignal }),
+      );
+      const sendRequest = vi
+        .fn<SendRequest>()
+        .mockImplementationOnce(challengeResponse)
+        .mockImplementation(successfulResponseWith());
+      const cancelled = expect(
+        pipeline.sendRequest({ sendRequest }, request),
+      ).rejects.toMatchObject({
+        name: "AbortError",
+      });
+      await vi.waitFor(() => expect(getToken).toHaveBeenCalledTimes(1));
+
+      const otherRequest = createPipelineRequest({ url: request.url });
+      const other = expect(
+        pipeline.sendRequest({ sendRequest }, otherRequest),
+      ).resolves.toMatchObject({
+        status: 204,
+      });
+      controller.abort();
+      await Promise.all([cancelled, other]);
+
+      expect(request.headers.has("Authorization")).toBe(false);
+      expect(otherRequest.headers.get("Authorization")).toBe("Bearer access_token");
+      await pipeline.sendRequest({ sendRequest }, createPipelineRequest({ url: request.url }));
+      expect(getToken).toHaveBeenCalledTimes(2);
+      expect(sendRequest).toHaveBeenCalledTimes(3);
     });
 
     it("surfaces a null credential result without caching an unusable token", async () => {
