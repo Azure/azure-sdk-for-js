@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added automatic gzip request compression for Azure Monitor ingestion, including internal Statsbeat and customer SDK Stats, while preserving uncompressed requests to custom ingestion domains.
+
 ### Breaking Changes
 
 ### Bugs Fixed

@@ -17,6 +17,7 @@ describe("Metric Exporter Scenarios", () => {
     let ingest: Envelope[] = [];
     beforeAll(() => {
       nock(DEFAULT_BREEZE_ENDPOINT)
+        .matchHeader("Content-Encoding", "gzip")
         .post("/v2.1/track", (body: Envelope[]) => {
           ingest.push(...body);
           return true;

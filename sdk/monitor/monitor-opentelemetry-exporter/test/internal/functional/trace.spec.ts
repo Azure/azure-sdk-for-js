@@ -20,10 +20,8 @@ describe("Trace Exporter Scenarios", () => {
 
     beforeAll(() => {
       nock(DEFAULT_BREEZE_ENDPOINT)
+        .matchHeader("Content-Encoding", "gzip")
         .post("/v2.1/track", (body: Envelope[]) => {
-          // todo: gzip is not supported by generated applicationInsightsClient
-          // const buffer = gunzipSync(Buffer.from(body, "hex"));
-          // ingest.push(...(JSON.parse(buffer.toString("utf8")) as Envelope[]));
           ingest.push(...body);
           return true;
         })
@@ -57,10 +55,8 @@ describe("Trace Exporter Scenarios", () => {
     beforeAll(() => {
       process.env[ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED] = "true";
       nock(DEFAULT_BREEZE_ENDPOINT)
+        .matchHeader("Content-Encoding", "gzip")
         .post("/v2.1/track", (body: Envelope[]) => {
-          // todo: gzip is not supported by generated applicationInsightsClient
-          // const buffer = gunzipSync(Buffer.from(body, "hex"));
-          // ingest.push(...(JSON.parse(buffer.toString("utf8")) as Envelope[]));
           ingest.push(...body);
           return true;
         })
