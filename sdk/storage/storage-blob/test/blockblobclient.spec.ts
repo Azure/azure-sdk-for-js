@@ -528,6 +528,15 @@ describe("BlockBlobClient request bodies", () => {
 
     await client.upload(body, body.byteLength);
 
-    assert.strictEqual(requestBody, body);
+    // The transport can get a Uint8Array over the same memory instead of the caller's object.
+    const bytesOf = (value: unknown): Uint8Array => {
+      if (value instanceof ArrayBuffer) {
+        return new Uint8Array(value);
+      }
+      assert.isTrue(ArrayBuffer.isView(value), "the body must be sent as binary data");
+      const view = value as ArrayBufferView;
+      return new Uint8Array(view.buffer, view.byteOffset, view.byteLength);
+    };
+    assert.deepEqual(bytesOf(requestBody), bytesOf(body));
   });
 });
