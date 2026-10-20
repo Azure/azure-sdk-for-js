@@ -13,8 +13,10 @@ and `createTestCredential()`. Run commands below from this package directory.
   each test also creates and deletes its own resource group.
 - `internal/operations.spec.ts`: deterministic HTTP-client tests for all LROs,
   synchronous completion, Location-only polling, API-version preservation,
-  poller restoration, pagination, service errors, and cancellation. These are
-  synthetic responses, not service recordings.
+  poller restoration, pagination, service errors, and cancellation. The mock
+  transport checks raw API-version parameters before URL normalization, and
+  identical signed polling URLs fail without exposing their values in diagnostics.
+  These are synthetic responses, not service recordings.
 - `internal/responseSpec.spec.ts`: regression tests for the response validator.
 - `internal/sanitizers.spec.ts`: synthetic, loopback-only record/playback through
   the real test proxy. Its in-memory recording is purged; no Azure access is needed.

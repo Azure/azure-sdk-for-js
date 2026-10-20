@@ -230,7 +230,12 @@ export async function completeLro<T>(
   if (initial.status === 202) {
     assert(statusUrl || location, "Accepted operations must advertise a polling URL.");
   }
-  if (statusUrl && location) assert.notEqual(urlKey(statusUrl), urlKey(location));
+  if (statusUrl && location) {
+    assert(
+      urlKey(statusUrl) !== urlKey(location),
+      "Azure-AsyncOperation and Location must identify different URLs.",
+    );
+  }
   const statusResponses = statusUrl
     ? captured.slice(1).filter((response) => urlKey(response.url) === urlKey(statusUrl))
     : [];

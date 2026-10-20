@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import { describe, expect, it } from "vitest";
+import { inspect } from "node:util";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { AbortError } from "@azure/abort-controller";
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import type { OperationState, PollerLike } from "@azure/core-lro";
 import { EdgeActionsManagementClient, restorePoller } from "../../src/index.js";
@@ -75,6 +76,10 @@ function setup(replies: Reply[]) {
       const expected = new URL(reply.url);
       if (!expected.searchParams.has("api-version"))
         expected.searchParams.set("api-version", apiVersion);
+      expect(
+        new URL(request.url).searchParams.getAll("api-version"),
+        "Transport requests must include exactly one expected API version.",
+      ).toEqual([apiVersion]);
       expect(urlKey(request.url)).toBe(urlKey(expected.href));
       requests.push(request);
       return {
@@ -94,6 +99,7 @@ function setup(replies: Reply[]) {
   return {
     client: new EdgeActionsManagementClient(credential, subscription, options),
     context: createEdgeActionsManagement(credential, subscription, options),
+    httpClient,
     responses,
     requests,
     assertConsumed() {
@@ -203,6 +209,18 @@ const scenarios: Scenario[] = [
 ];
 
 describe("Edge Actions SDK HTTP contracts (no network)", () => {
+  it.each([
+    "",
+    "?api-version=2025-12-01-preview",
+    `?api-version=${apiVersion}&api-version=${apiVersion}`,
+  ])("rejects missing, incorrect, or duplicate transport API versions %#", async (query) => {
+    const test = setup([{ method: "GET", url: resource, status: 200, body: edgeAction }]);
+    await expect(
+      test.httpClient.sendRequest(createPipelineRequest({ url: `${resource}${query}` })),
+    ).rejects.toThrow("Transport requests must include exactly one expected API version.");
+    test.assertConsumed();
+  });
+
   it.each(scenarios)("handles synchronous completion of $name", async (scenario) => {
     const test = setup([
       {
@@ -282,6 +300,31 @@ describe("Edge Actions SDK HTTP contracts (no network)", () => {
     );
     expect(await resumed.pollUntilDone()).toEqual({ name: "handler", content: "YQ==" });
     expect(resumed.isDone).toBe(true);
+    test.assertConsumed();
+  });
+
+  it("does not expose signed URLs when polling headers identify the same URL", async () => {
+    const secret = "signed-query-do-not-log";
+    const signedUrl = `${statusUrl}&sig=${secret}`;
+    const test = setup([
+      {
+        method: "POST",
+        url: `${version}/getVersionCode`,
+        status: 202,
+        headers: { "azure-asyncoperation": signedUrl, location: signedUrl },
+      },
+      { method: "GET", url: signedUrl, status: 200, body: { status: "Succeeded" } },
+      { method: "GET", url: signedUrl, status: 200, body: { name: "handler", content: "YQ==" } },
+    ]);
+    const failure = await completeLro(test.context, test.responses, () =>
+      test.client.edgeActionVersions.getVersionCode("test", "action", "v1", polling),
+    ).catch((error: unknown) => error);
+    expect(failure).toMatchObject({
+      message: "Azure-AsyncOperation and Location must identify different URLs.",
+      actual: false,
+      expected: true,
+    });
+    expect(inspect(failure)).not.toContain(secret);
     test.assertConsumed();
   });
 
