@@ -44,7 +44,15 @@ export async function parseSseErrorResponse(response: SseResponse): Promise<Path
 
 function parseErrorBody(body: string, contentType: string | undefined): unknown {
   const mediaType = contentType?.split(";", 1)[0].trim().toLowerCase();
-  return mediaType?.endsWith("/json") || mediaType?.endsWith("+json") ? JSON.parse(body) : body;
+  if (mediaType?.endsWith("/json") || mediaType?.endsWith("+json")) {
+    try {
+      return JSON.parse(body);
+    } catch {
+      return body;
+    }
+  }
+
+  return body;
 }
 
 function getContentType(headers: Record<string, string>): string | undefined {

@@ -225,6 +225,26 @@ describe("knowledge retrieval stream HTTP transport", () => {
     });
   });
 
+  it.each(["   ", "{ invalid"])(
+    "preserves the HTTP error for malformed JSON preflight body %j",
+    async (body) => {
+      const client = createProtocolClient(async (request) => ({
+        request,
+        status: 404,
+        headers: createHttpHeaders({ "content-type": "application/json" }),
+        readableStreamBody: Readable.from([Buffer.from(body)]),
+      }));
+
+      await expect(
+        client.retrieveStream({ intents: [{ type: "semantic", search: "status" }] }),
+      ).rejects.toMatchObject({
+        statusCode: 404,
+        response: { status: 404 },
+        name: "RestError",
+      });
+    },
+  );
+
   it("preserves streamed errors from the raw protocol client", async () => {
     const client = new ProtocolKnowledgeBaseRetrievalClient(
       "https://example.search.windows.net",

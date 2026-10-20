@@ -181,6 +181,33 @@ describe("knowledge retrieval stream browser transport", () => {
     });
   });
 
+  it.each(["   ", "{ invalid"])(
+    "preserves the HTTP error for malformed JSON preflight body %j",
+    async (body) => {
+      vi.stubGlobal(
+        "fetch",
+        vi
+          .fn()
+          .mockResolvedValue(
+            new Response(body, { status: 404, headers: { "content-type": "application/json" } }),
+          ),
+      );
+      const client = new ProtocolKnowledgeBaseRetrievalClient(
+        "https://example.search.windows.net",
+        new AzureKeyCredential("key"),
+        "base",
+      );
+
+      await expect(
+        client.retrieveStream({ intents: [{ type: "semantic", search: "status" }] }),
+      ).rejects.toMatchObject({
+        statusCode: 404,
+        response: { status: 404 },
+        name: "RestError",
+      });
+    },
+  );
+
   it("preserves streamed errors from the raw protocol client", async () => {
     vi.stubGlobal(
       "fetch",
