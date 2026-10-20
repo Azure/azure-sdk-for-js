@@ -6,7 +6,7 @@ This script generates a health status report for the Azure SDK for JavaScript. T
 
 1. `pnpm install`
 2. `az login` to use `DefaultAzureCredential`
-3. Set `GH_TOKEN` to a [fine-grained GitHub PAT](https://github.com/settings/personal-access-tokens) scoped to `Azure/azure-sdk-for-js` with read-only **Issues** and **Contents** access.
+3. Set `GH_TOKEN` to a [fine-grained GitHub PAT](https://github.com/settings/personal-access-tokens) scoped to `Azure/azure-sdk-for-js` with read-only **Issues** access.
 4. run the script: `pnpm run run-tool`
 
 The command writes `health_report.csv` locally. To also upload the result, run
