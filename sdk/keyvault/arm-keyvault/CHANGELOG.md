@@ -1,5 +1,9 @@
 # Release History
 
+## 6.0.1 (2026-10-20)
+
+### Features Added
+
 ## 6.0.0 (2026-10-06)
 
 ### Features Added

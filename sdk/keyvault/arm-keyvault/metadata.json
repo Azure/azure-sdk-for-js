@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.KeyVault": "2026-05-15"
   },
-  "emitterVersion": "0.57.0",
+  "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.KeyVault",
     "CrossLanguageDefinitionId": {
