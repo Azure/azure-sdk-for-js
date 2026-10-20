@@ -14,11 +14,10 @@ import type {
 } from "../../api/carbonService/options.js";
 import type {
   QueryFilterUnion,
-  CarbonEmissionDataUnion,
+  CarbonEmissionDataListResult,
   CarbonEmissionDataAvailableDateRange,
   BillingAccountQueryFilterUnion,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CarbonService operations. */
 export interface CarbonServiceOperations {
@@ -27,7 +26,7 @@ export interface CarbonServiceOperations {
     scope: string,
     queryParameters: BillingAccountQueryFilterUnion,
     options?: CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams,
-  ) => PagedAsyncIterableIterator<CarbonEmissionDataUnion>;
+  ) => Promise<CarbonEmissionDataListResult>;
   /** API for query carbon emission data available date range */
   queryCarbonEmissionDataAvailableDateRange: (
     options?: CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
@@ -36,7 +35,7 @@ export interface CarbonServiceOperations {
   queryCarbonEmissionReports: (
     queryParameters: QueryFilterUnion,
     options?: CarbonServiceQueryCarbonEmissionReportsOptionalParams,
-  ) => PagedAsyncIterableIterator<CarbonEmissionDataUnion>;
+  ) => Promise<CarbonEmissionDataListResult>;
 }
 
 function _getCarbonService(context: CarbonOptimizationManagementContext) {

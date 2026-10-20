@@ -599,7 +599,7 @@ export enum KnownSortDirectionEnum {
 export type SortDirectionEnum = string;
 
 /** List of carbon emission results */
-export interface _CarbonEmissionDataListResult {
+export interface CarbonEmissionDataListResult {
   /** The CarbonEmissionData items on this page */
   value: CarbonEmissionDataUnion[];
   /** The pagination token to fetch next page data, it's null or empty if it doesn't have next page data */
@@ -608,9 +608,7 @@ export interface _CarbonEmissionDataListResult {
   subscriptionAccessDecisionList?: SubscriptionAccessDecision[];
 }
 
-export function _carbonEmissionDataListResultDeserializer(
-  item: any,
-): _CarbonEmissionDataListResult {
+export function carbonEmissionDataListResultDeserializer(item: any): CarbonEmissionDataListResult {
   return {
     value: carbonEmissionDataUnionArrayDeserializer(item["value"]),
     skipToken: item["skipToken"],

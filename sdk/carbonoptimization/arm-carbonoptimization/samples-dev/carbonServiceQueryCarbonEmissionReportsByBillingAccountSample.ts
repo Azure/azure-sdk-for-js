@@ -13,19 +13,15 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function queryCarbonEmissionByBillingAccountMonthlySummaryReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReportsByBillingAccount(
+  const result = await client.carbonService.queryCarbonEmissionReportsByBillingAccount(
     "providers/Microsoft.Billing/billingAccounts/12345678",
     {
       reportType: "MonthlySummaryReport",
       carbonScopeList: ["Scope1", "Scope2", "Scope3"],
       dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
     },
-  )) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -37,19 +33,15 @@ async function queryCarbonEmissionByBillingAccountMonthlySummaryReport(): Promis
 async function queryCarbonEmissionByBillingAccountOverallSummaryReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReportsByBillingAccount(
+  const result = await client.carbonService.queryCarbonEmissionReportsByBillingAccount(
     "providers/Microsoft.Billing/billingAccounts/12345678",
     {
       reportType: "OverallSummaryReport",
       carbonScopeList: ["Scope1", "Scope2", "Scope3"],
       dateRange: { start: new Date("2024-01-01"), end: new Date("2024-06-01") },
     },
-  )) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -61,8 +53,7 @@ async function queryCarbonEmissionByBillingAccountOverallSummaryReport(): Promis
 async function queryCarbonEmissionByBillingAccountSubscriptionItemDetailsReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReportsByBillingAccount(
+  const result = await client.carbonService.queryCarbonEmissionReportsByBillingAccount(
     "providers/Microsoft.Billing/billingAccounts/12345678",
     {
       reportType: "ItemDetailsReport",
@@ -73,11 +64,8 @@ async function queryCarbonEmissionByBillingAccountSubscriptionItemDetailsReport(
       sortDirection: "Desc",
       pageSize: 100,
     },
-  )) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -89,8 +77,7 @@ async function queryCarbonEmissionByBillingAccountSubscriptionItemDetailsReport(
 async function queryCarbonEmissionByBillingAccountTopNSubscriptionsMonthlyReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReportsByBillingAccount(
+  const result = await client.carbonService.queryCarbonEmissionReportsByBillingAccount(
     "providers/Microsoft.Billing/billingAccounts/12345678",
     {
       reportType: "TopItemsMonthlySummaryReport",
@@ -99,11 +86,8 @@ async function queryCarbonEmissionByBillingAccountTopNSubscriptionsMonthlyReport
       categoryType: "Subscription",
       topItems: 2,
     },
-  )) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -115,8 +99,7 @@ async function queryCarbonEmissionByBillingAccountTopNSubscriptionsMonthlyReport
 async function queryCarbonEmissionByBillingAccountTopNSubscriptionsReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReportsByBillingAccount(
+  const result = await client.carbonService.queryCarbonEmissionReportsByBillingAccount(
     "providers/Microsoft.Billing/billingAccounts/12345678",
     {
       reportType: "TopItemsSummaryReport",
@@ -125,11 +108,8 @@ async function queryCarbonEmissionByBillingAccountTopNSubscriptionsReport(): Pro
       categoryType: "Subscription",
       topItems: 2,
     },
-  )) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

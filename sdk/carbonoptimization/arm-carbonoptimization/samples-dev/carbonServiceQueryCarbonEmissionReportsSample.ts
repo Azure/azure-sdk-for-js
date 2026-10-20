@@ -13,8 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function queryCarbonEmissionLocationItemDetailsReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "ItemDetailsReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -33,11 +32,8 @@ async function queryCarbonEmissionLocationItemDetailsReport(): Promise<void> {
     orderBy: "LatestMonthEmissions",
     sortDirection: "Desc",
     pageSize: 100,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -49,17 +45,13 @@ async function queryCarbonEmissionLocationItemDetailsReport(): Promise<void> {
 async function queryCarbonEmissionOverallMonthlySummaryReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "MonthlySummaryReport",
     subscriptionList: ["00000000-0000-0000-0000-000000000000"],
     carbonScopeList: ["Scope1", "Scope3"],
     dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -71,8 +63,7 @@ async function queryCarbonEmissionOverallMonthlySummaryReport(): Promise<void> {
 async function queryCarbonEmissionMonthlySummaryReportWithOptionalFilterLocationListResourceTypeListResourceGroupUrlList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "MonthlySummaryReport",
     subscriptionList: ["00000000-0000-0000-0000-000000000000"],
     carbonScopeList: ["Scope1", "Scope3"],
@@ -82,11 +73,8 @@ async function queryCarbonEmissionMonthlySummaryReportWithOptionalFilterLocation
     resourceGroupUrlList: [
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg-name",
     ],
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -98,17 +86,13 @@ async function queryCarbonEmissionMonthlySummaryReportWithOptionalFilterLocation
 async function queryCarbonEmissionOverallSummaryReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "OverallSummaryReport",
     subscriptionList: ["00000000-0000-0000-0000-000000000000"],
     carbonScopeList: ["Scope1", "Scope3"],
     dateRange: { start: new Date("2023-06-01"), end: new Date("2023-06-01") },
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -120,8 +104,7 @@ async function queryCarbonEmissionOverallSummaryReport(): Promise<void> {
 async function queryCarbonEmissionOverallSummaryReportWithOptionalFilterLocationListResourceTypeListResourceGroupUrlList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "OverallSummaryReport",
     subscriptionList: ["00000000-0000-0000-0000-000000000000"],
     carbonScopeList: ["Scope1", "Scope3"],
@@ -131,11 +114,8 @@ async function queryCarbonEmissionOverallSummaryReportWithOptionalFilterLocation
     resourceGroupUrlList: [
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg-name",
     ],
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -147,8 +127,7 @@ async function queryCarbonEmissionOverallSummaryReportWithOptionalFilterLocation
 async function queryCarbonEmissionResourceGroupItemDetailsReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "ItemDetailsReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -167,11 +146,8 @@ async function queryCarbonEmissionResourceGroupItemDetailsReport(): Promise<void
     orderBy: "LatestMonthEmissions",
     sortDirection: "Desc",
     pageSize: 100,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -183,8 +159,7 @@ async function queryCarbonEmissionResourceGroupItemDetailsReport(): Promise<void
 async function queryCarbonEmissionResourceItemDetailsReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "ItemDetailsReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -203,11 +178,8 @@ async function queryCarbonEmissionResourceItemDetailsReport(): Promise<void> {
     orderBy: "LatestMonthEmissions",
     sortDirection: "Desc",
     pageSize: 100,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -219,8 +191,7 @@ async function queryCarbonEmissionResourceItemDetailsReport(): Promise<void> {
 async function queryCarbonEmissionResourceItemDetailsReportWithPaginationToken(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "ItemDetailsReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -240,11 +211,8 @@ async function queryCarbonEmissionResourceItemDetailsReportWithPaginationToken()
     sortDirection: "Desc",
     pageSize: 100,
     skipToken: "dGVzZGZhZGZzZnNkZg==",
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -256,8 +224,7 @@ async function queryCarbonEmissionResourceItemDetailsReportWithPaginationToken()
 async function queryCarbonEmissionResourceTypeItemDetailsReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "ItemDetailsReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -276,11 +243,8 @@ async function queryCarbonEmissionResourceTypeItemDetailsReport(): Promise<void>
     orderBy: "LatestMonthEmissions",
     sortDirection: "Desc",
     pageSize: 100,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -292,8 +256,7 @@ async function queryCarbonEmissionResourceTypeItemDetailsReport(): Promise<void>
 async function queryCarbonEmissionSubscriptionsItemDetailsReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "ItemDetailsReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -312,11 +275,8 @@ async function queryCarbonEmissionSubscriptionsItemDetailsReport(): Promise<void
     orderBy: "LatestMonthEmissions",
     sortDirection: "Desc",
     pageSize: 100,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -328,8 +288,7 @@ async function queryCarbonEmissionSubscriptionsItemDetailsReport(): Promise<void
 async function queryCarbonEmissionTopNLocationsMonthlyReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "TopItemsMonthlySummaryReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -346,11 +305,8 @@ async function queryCarbonEmissionTopNLocationsMonthlyReport(): Promise<void> {
     dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
     categoryType: "Location",
     topItems: 2,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -362,8 +318,7 @@ async function queryCarbonEmissionTopNLocationsMonthlyReport(): Promise<void> {
 async function queryCarbonEmissionTopNLocationsReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "TopItemsSummaryReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -380,11 +335,8 @@ async function queryCarbonEmissionTopNLocationsReport(): Promise<void> {
     dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "Location",
     topItems: 5,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -396,8 +348,7 @@ async function queryCarbonEmissionTopNLocationsReport(): Promise<void> {
 async function queryCarbonEmissionTopNResourceGroupMonthlyReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "TopItemsMonthlySummaryReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -414,11 +365,8 @@ async function queryCarbonEmissionTopNResourceGroupMonthlyReport(): Promise<void
     dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
     categoryType: "ResourceGroup",
     topItems: 2,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -430,8 +378,7 @@ async function queryCarbonEmissionTopNResourceGroupMonthlyReport(): Promise<void
 async function queryCarbonEmissionTopNResourceGroupReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "TopItemsSummaryReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -448,11 +395,8 @@ async function queryCarbonEmissionTopNResourceGroupReport(): Promise<void> {
     dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "ResourceGroup",
     topItems: 5,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -464,8 +408,7 @@ async function queryCarbonEmissionTopNResourceGroupReport(): Promise<void> {
 async function queryCarbonEmissionTopNResourceMonthlyReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "TopItemsMonthlySummaryReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -482,11 +425,8 @@ async function queryCarbonEmissionTopNResourceMonthlyReport(): Promise<void> {
     dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
     categoryType: "Resource",
     topItems: 2,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -498,8 +438,7 @@ async function queryCarbonEmissionTopNResourceMonthlyReport(): Promise<void> {
 async function queryCarbonEmissionTopNResourceReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "TopItemsSummaryReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -516,11 +455,8 @@ async function queryCarbonEmissionTopNResourceReport(): Promise<void> {
     dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "Resource",
     topItems: 5,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -532,8 +468,7 @@ async function queryCarbonEmissionTopNResourceReport(): Promise<void> {
 async function queryCarbonEmissionTopNResourceTypeMonthlyReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "TopItemsMonthlySummaryReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -550,11 +485,8 @@ async function queryCarbonEmissionTopNResourceTypeMonthlyReport(): Promise<void>
     dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
     categoryType: "ResourceType",
     topItems: 2,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -566,8 +498,7 @@ async function queryCarbonEmissionTopNResourceTypeMonthlyReport(): Promise<void>
 async function queryCarbonEmissionTopNResourceTypeReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "TopItemsSummaryReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -584,11 +515,8 @@ async function queryCarbonEmissionTopNResourceTypeReport(): Promise<void> {
     dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "ResourceType",
     topItems: 5,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -600,8 +528,7 @@ async function queryCarbonEmissionTopNResourceTypeReport(): Promise<void> {
 async function queryCarbonEmissionTopNSubscriptionsMonthlyReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "TopItemsMonthlySummaryReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -618,11 +545,8 @@ async function queryCarbonEmissionTopNSubscriptionsMonthlyReport(): Promise<void
     dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
     categoryType: "Subscription",
     topItems: 2,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 /**
@@ -634,8 +558,7 @@ async function queryCarbonEmissionTopNSubscriptionsMonthlyReport(): Promise<void
 async function queryCarbonEmissionTopNSubscriptionsReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.carbonService.queryCarbonEmissionReports({
+  const result = await client.carbonService.queryCarbonEmissionReports({
     reportType: "TopItemsSummaryReport",
     subscriptionList: [
       "00000000-0000-0000-0000-000000000000",
@@ -652,11 +575,8 @@ async function queryCarbonEmissionTopNSubscriptionsReport(): Promise<void> {
     dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "Subscription",
     topItems: 5,
-  })) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  });
+  console.log(result);
 }
 
 async function main(): Promise<void> {

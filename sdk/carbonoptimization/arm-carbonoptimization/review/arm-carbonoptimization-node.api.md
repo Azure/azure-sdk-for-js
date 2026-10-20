@@ -96,6 +96,13 @@ export interface CarbonEmissionDataAvailableDateRange {
 }
 
 // @public
+export interface CarbonEmissionDataListResult {
+    skipToken?: string;
+    subscriptionAccessDecisionList?: SubscriptionAccessDecision[];
+    value: CarbonEmissionDataUnion[];
+}
+
+// @public
 export type CarbonEmissionDataUnion = CarbonEmissionOverallSummaryData | CarbonEmissionMonthlySummaryData | CarbonEmissionTopItemsSummaryData | ResourceCarbonEmissionTopItemsSummaryData | ResourceGroupCarbonEmissionTopItemsSummaryData | CarbonEmissionTopItemMonthlySummaryData | ResourceCarbonEmissionTopItemMonthlySummaryData | ResourceGroupCarbonEmissionTopItemMonthlySummaryData | CarbonEmissionItemDetailData | ResourceCarbonEmissionItemDetailData | ResourceGroupCarbonEmissionItemDetailData | CarbonEmissionData;
 
 // @public
@@ -149,8 +156,8 @@ export interface CarbonOptimizationManagementClientOptionalParams extends Client
 // @public
 export interface CarbonServiceOperations {
     queryCarbonEmissionDataAvailableDateRange: (options?: CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams) => Promise<CarbonEmissionDataAvailableDateRange>;
-    queryCarbonEmissionReports: (queryParameters: QueryFilterUnion, options?: CarbonServiceQueryCarbonEmissionReportsOptionalParams) => PagedAsyncIterableIterator<CarbonEmissionDataUnion>;
-    queryCarbonEmissionReportsByBillingAccount: (scope: string, queryParameters: BillingAccountQueryFilterUnion, options?: CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams) => PagedAsyncIterableIterator<CarbonEmissionDataUnion>;
+    queryCarbonEmissionReports: (queryParameters: QueryFilterUnion, options?: CarbonServiceQueryCarbonEmissionReportsOptionalParams) => Promise<CarbonEmissionDataListResult>;
+    queryCarbonEmissionReportsByBillingAccount: (scope: string, queryParameters: BillingAccountQueryFilterUnion, options?: CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams) => Promise<CarbonEmissionDataListResult>;
 }
 
 // @public

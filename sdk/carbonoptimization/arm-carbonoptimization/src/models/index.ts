@@ -22,6 +22,7 @@ export type {
   ItemDetailsQueryFilter,
   OrderByColumnEnum,
   SortDirectionEnum,
+  CarbonEmissionDataListResult,
   CarbonEmissionData,
   CarbonEmissionDataUnion,
   ResponseDataTypeEnum,
