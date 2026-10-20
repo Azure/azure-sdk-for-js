@@ -24,10 +24,18 @@ import {
   type ScopeExpression,
 } from "../../constructs/resource/resource.js";
 import { Stack } from "../../constructs/stack.js";
-import { wrapExpression, isExpression, type Expression } from "../../expression/expressions.js";
+import {
+  wrapExpression,
+  unwrapExpression,
+  isExpression,
+  type Expression,
+} from "../../expression/expressions.js";
 import { namingRequiredPolicy } from "../../naming/naming-policy.js";
 import { getShape } from "../../shape/shape-registry.js";
-import { symbolicValueExpressionNode } from "../../expression/ast-nodes.js";
+import {
+  identifierExpressionNode,
+  symbolicValueExpressionNode,
+} from "../../expression/ast-nodes.js";
 import { resolveResource } from "../../constructs/resource/resource-registry.js";
 import { type ProvisioningComponent } from "../../constructs/provisioning-component.js";
 
@@ -43,6 +51,7 @@ import {
 import { restoreExpression, type DeclarationReferenceMap } from "../ast/expression-restorer.js";
 import { convertFromArmObject } from "../arm-object-conversion.js";
 import { collectDependenciesForDeclaration } from "../ast/declaration-dependencies.js";
+import { getScopeFunctionTarget } from "../../expression/utils.js";
 
 // ---------------------------------------------------------------------------
 // Public API
@@ -519,12 +528,48 @@ function buildResource(
   ) {
     throw new Error(`Resource "${res.bicepIdentifier}" has an invalid "parent" reference.`);
   }
-  if (!res.existing && scopeNode !== undefined && scopeNode.kind !== "identifier") {
-    throw new Error(`Resource "${res.bicepIdentifier}" has an invalid "scope" reference.`);
+  let relationship = parentNode;
+  let relationshipKind: "parent" | "scope" = "parent";
+  let resolvedScope = false;
+  if (parentNode === undefined && scopeNode !== undefined) {
+    const scopeTargetSymbolName =
+      scopeNode.kind === "identifier"
+        ? scopeNode.id
+        : scopeNode.kind === "array-access" &&
+            scopeNode.base.kind === "identifier" &&
+            !scopeNode.nullish &&
+            !scopeNode.fromEnd
+          ? scopeNode.base.id
+          : undefined;
+    const scopeTarget =
+      scopeTargetSymbolName === undefined ? undefined : symbols.get(scopeTargetSymbolName);
+    if (scopeNode.kind === "identifier" && isLoopedResource(scopeTarget)) {
+      throw new Error(
+        `Resource "${res.bicepIdentifier}" references resource collection ` +
+          `"${scopeNode.id}" in "scope"; expected a single resource.`,
+      );
+    }
+    if (
+      (scopeNode.kind === "identifier" && isResource(scopeTarget)) ||
+      (scopeNode.kind === "array-access" &&
+        isLoopedResource(scopeTarget) &&
+        !scopeNode.nullish &&
+        !scopeNode.fromEnd &&
+        scopeNode.base.kind === "identifier")
+    ) {
+      relationship = scopeNode;
+      relationshipKind = "scope";
+      resolvedScope = true;
+    }
   }
-  if (parentNode?.kind === "identifier") {
-    context = resolveResourceReference(parentNode.id, symbols, res.bicepIdentifier, "parent");
-  } else if (parentNode?.kind === "array-access") {
+  if (relationship?.kind === "identifier") {
+    context = resolveResourceReference(
+      relationship.id,
+      symbols,
+      res.bicepIdentifier,
+      relationshipKind,
+    );
+  } else if (relationship?.kind === "array-access") {
     // `parent: parentSym[<index>]` — the serializer emitted this because
     // the authoring code created the child under `parents.at(i)` /
     // `parents.current()`. To round-trip the shape, reconstruct the
@@ -532,15 +577,15 @@ function buildResource(
     // `state.parentIndex` from the same index expression. Passing the
     // raw parent here would erase the array-access — the child would
     // re-serialize as `parent: parentSym` and lose the index.
-    const baseNode = parentNode.base;
+    const baseNode = relationship.base;
     if (baseNode.kind === "identifier") {
       const rawParent = resolveResourceReference(
         baseNode.id,
         symbols,
         res.bicepIdentifier,
-        "parent",
+        relationshipKind,
       );
-      const indexValue = restoreExpression(parentNode.index, symbols);
+      const indexValue = restoreExpression(relationship.index, symbols);
       context = createIndexedResourceProxy(
         rawParent,
         indexValue as number,
@@ -548,32 +593,30 @@ function buildResource(
     } else {
       throw new Error(`Resource "${res.bicepIdentifier}" has an invalid "parent" reference.`);
     }
-  } else if (scopeNode?.kind === "identifier") {
-    const scopeResource = resolveResourceReference(
-      scopeNode.id,
-      symbols,
-      res.bicepIdentifier,
-      "scope",
-    );
-    if (isLoopedResource(scopeResource)) {
-      throw new Error(
-        `Resource "${res.bicepIdentifier}" references resource collection ` +
-          `"${scopeNode.id}" in "scope"; expected a single resource.`,
-      );
-    }
-    context = scopeResource;
   }
 
   let existingScope: ScopeExpression | undefined;
-  if (res.existing && scopeNode !== undefined && scopeNode.kind !== "identifier") {
-    const scope = restoreExpression(scopeNode, symbols);
+  let preservedScope: ScopeExpression | undefined;
+  if (scopeNode !== undefined && !resolvedScope) {
+    const value = restoreExpression(scopeNode, symbols);
+    const scope = isResource(value) ? wrapExpression(identifierExpressionNode(value)) : value;
     if (!isExpression(scope)) {
       throw new Error(
         `Resource "${res.bicepIdentifier}" has an invalid "scope" value: ` +
           `expected an expression, received "${scopeNode.kind}".`,
       );
     }
-    existingScope = scope;
+    const currentStackScope =
+      parentNode === undefined &&
+      defaultScope instanceof Stack &&
+      scopeNode.kind === "function-call" &&
+      scopeNode.args.length === 0 &&
+      getScopeFunctionTarget(scopeNode) === defaultScope.targetScope;
+    if (res.existing && getScopeFunctionTarget(scopeNode) !== undefined) {
+      existingScope = scope;
+    } else if (!currentStackScope) {
+      preservedScope = scope;
+    }
   }
 
   // Collect non-reserved properties
@@ -682,6 +725,14 @@ function buildResource(
   if (authoring?.condition !== undefined) {
     const state = unwrapResourceHandle(handle) as unknown as Record<string, unknown>;
     state.condition = authoring.condition;
+  }
+  if (preservedScope !== undefined) {
+    Object.defineProperty(unwrapResourceHandle(handle), "scope", {
+      value: unwrapExpression(preservedScope),
+      enumerable: true,
+      configurable: true,
+      writable: true,
+    });
   }
 
   return handle;

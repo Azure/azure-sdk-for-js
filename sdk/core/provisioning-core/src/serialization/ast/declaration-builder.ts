@@ -111,9 +111,7 @@ function buildResourceProperties(
     }
   }
 
-  // Existing resources may carry an explicit scope expression for cross-RG
-  // / cross-sub / cross-MG / cross-tenant lookups. Read from state directly;
-  // non-existing resources never have `scope` on state.
+  // Explicit scope comes from existing lookups or preserved import data.
   const scopeValue = getResourceScope(resource);
   if (scopeValue !== undefined) {
     properties.scope = buildExpression(scopeValue, symbolMap);

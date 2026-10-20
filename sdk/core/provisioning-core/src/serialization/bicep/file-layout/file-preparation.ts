@@ -100,16 +100,30 @@ function getExistingResourceCandidatesForPlan(
   const result = new Map<string, ResourceDeclarationNode>();
   for (const [name, resource] of stackAst.resources) {
     if (!pureExistingResources.has(name)) continue;
+    if (plan !== entryPlan) {
+      let passThroughExplicitScope = false;
+      for (
+        let ancestor: string | undefined = name;
+        ancestor !== undefined;
+        ancestor = authoredContexts.get(ancestor)!.authoredParent
+      ) {
+        if (authoredContexts.get(ancestor)!.scopeOrigin === "pass-through-explicit") {
+          passThroughExplicitScope = true;
+          break;
+        }
+      }
+      if (passThroughExplicitScope) continue;
+    }
     // Do not relocate relative lookups across authored deployment boundaries.
     if (
       plan !== entryPlan &&
       (existingResourceToAuthoredResourceGroup.get(name) !== plan.authoredResourceGroup ||
         (plan.boundary !== undefined &&
-          authoredContexts.get(plan.boundary)!.scopeOrigin === "explicit") ||
+          authoredContexts.get(plan.boundary)!.scopeOrigin === "existing-explicit") ||
         (plan.authoredResourceGroup === undefined && plan.moduleScope !== undefined) ||
         (existingResourcesWithExplicitScope.has(name) &&
           plan.authoredResourceGroup !== undefined &&
-          authoredContexts.get(plan.authoredResourceGroup)!.scopeOrigin === "explicit"))
+          authoredContexts.get(plan.authoredResourceGroup)!.scopeOrigin === "existing-explicit"))
     ) {
       continue;
     }
@@ -203,6 +217,9 @@ export function prepareDeploymentFiles(
       false,
     );
     for (const name of plan.resources) {
+      if (authoredContexts.get(name)!.scopeOrigin === "pass-through-explicit") {
+        continue;
+      }
       if (name !== plan.boundary && hasArmParent(name, stackAst.resources, authoredContexts)) {
         continue;
       }

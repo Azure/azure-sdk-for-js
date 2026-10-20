@@ -67,21 +67,12 @@ export interface ResourceState<TType extends string = string> {
   readonly apiVersion: string;
   readonly existing?: boolean | undefined;
   /**
-   * Optional Bicep `scope:` expression. Currently emitted only on `existing`
-   * resource references (e.g. `scope: resourceGroup('shared')` for a
-   * cross-RG lookup). Future scope-hoisted resource types may emit it on
-   * deployable resources too — for example, deploying a
-   * `Microsoft.Management/managementGroups` from a subscription-targeted
-   * file requires `scope: tenant()`. See `contributing/bicep/bicep-scope.md` section 2.2.
+   * Explicit scope expression. Authoring populates this for existing-resource
+   * lookups; restoration can retain uninterpreted scope expressions on any
+   * declaration. Expressions are normalized to raw nodes.
    *
-   * For ordinary deployable resources this field is `undefined` — their
-   * deployment scope is determined by the file's `targetScope` (or by the
-   * containing `ResourceGroup` / module the resource lives in).
-   *
-   * Stored as a raw `ExpressionNode` (the user-facing `ScopeExpression`
-   * proxy is unwrapped at the constructor boundary, matching the
-   * "`state` holds normalized raw nodes" invariant that
-   * `normalizeAssignedValue` maintains for every other field).
+   * New-resource authoring still derives placement from the Stack and parent
+   * context rather than accepting an explicit scope override.
    */
   readonly scope?: ExpressionNode | undefined;
   readonly condition?: ExpressionOrValue<boolean> | undefined;

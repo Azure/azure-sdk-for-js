@@ -11,11 +11,22 @@ import {
   getResourceScope,
 } from "../../../constructs/resource/resource-relationships.js";
 import type { DeclarationSymbolMap } from "../../symbol-map.js";
+import { getScopeFunctionTarget } from "../../../expression/utils.js";
 
 export interface AuthoredResourceContext {
   /** Nearest authored resource ancestor, including resource groups. */
   readonly authoredParent: string | undefined;
-  readonly scopeOrigin: "explicit" | "resourceGroup" | "none";
+  /** Existing-explicit lookups affect placement; pass-through-explicit scopes only affect emitted bodies. */
+  readonly scopeOrigin: "existing-explicit" | "pass-through-explicit" | "resourceGroup" | "none";
+}
+
+/** Distinguishes pass-through declaration data from supported existing lookups. */
+function usesPassThroughExplicitScope(resource: ResourceDeclaration): boolean {
+  const scope = getResourceScope(resource);
+  return (
+    scope !== undefined &&
+    (resource.existing !== true || getScopeFunctionTarget(scope) === undefined)
+  );
 }
 
 export function validateResourceAncestry(
@@ -58,9 +69,10 @@ export function collectAuthoredResourceContexts(
     }
     resourceContexts.set(identifier, {
       authoredParent,
-      scopeOrigin:
-        getResourceScope(resource) !== undefined
-          ? "explicit"
+      scopeOrigin: usesPassThroughExplicitScope(resource)
+        ? "pass-through-explicit"
+        : getResourceScope(resource) !== undefined
+          ? "existing-explicit"
           : getArmParent(resource) === undefined && getResourceGroupAncestor(resource) !== undefined
             ? "resourceGroup"
             : "none",

@@ -43,8 +43,14 @@ export function planDeploymentFiles(
   const existingResourcesWithExplicitScope = new Set<string>();
   for (const [root, treeResources] of armResourcesByRoot) {
     const resource = stackAst.resources.get(root)!;
-    const authoredResourceGroup = authoredContexts.get(root)!.authoredParent;
-    const moduleScope = getResourceBody(resource.value).value.scope;
+    const rootContext = authoredContexts.get(root)!;
+    const authoredResourceGroup = rootContext.authoredParent;
+    const moduleScope =
+      rootContext.scopeOrigin === "pass-through-explicit"
+        ? authoredResourceGroup === undefined
+          ? undefined
+          : { kind: "identifier" as const, id: authoredResourceGroup }
+        : getResourceBody(resource.value).value.scope;
     if (
       resource.type === ResourceGroup.resourceType ||
       (stackAst.targetScope === "subscription" && moduleScope === undefined)
@@ -59,7 +65,8 @@ export function planDeploymentFiles(
           ancestor !== undefined && ancestor !== authoredResourceGroup;
           ancestor = authoredContexts.get(ancestor)!.authoredParent
         ) {
-          if (authoredContexts.get(ancestor)!.scopeOrigin === "explicit") {
+          const origin = authoredContexts.get(ancestor)!.scopeOrigin;
+          if (origin === "existing-explicit" || origin === "pass-through-explicit") {
             existingResourcesWithExplicitScope.add(name);
             break;
           }
@@ -72,7 +79,9 @@ export function planDeploymentFiles(
         authoredResourceGroup,
         moduleScope,
         targetScope:
-          authoredContexts.get(root)!.scopeOrigin === "resourceGroup"
+          rootContext.scopeOrigin === "resourceGroup" ||
+          (rootContext.scopeOrigin === "pass-through-explicit" &&
+            authoredResourceGroup !== undefined)
             ? "resourceGroup"
             : getTargetScope(moduleScope, stackAst.targetScope),
       });

@@ -4,6 +4,7 @@
 import { ResourceGroup } from "../../../constructs/built-in-resources/resource-group.js";
 import type { ExpressionNode, ResourceDeclarationNode, TargetScope } from "../../ast/index.js";
 import { getResourceArmParentIdentifier, updateResourceBody } from "../../ast/resource-utils.js";
+import { getScopeFunctionTarget } from "../../../expression/utils.js";
 import type { AuthoredResourceContext } from "./authored-context.js";
 import type { BicepAst } from "./file-preparation.js";
 
@@ -51,22 +52,11 @@ export function getTargetScope(
   if (scope.kind !== "function-call" || typeof scope.target !== "string") {
     throw new Error("Unsupported authored deployment scope expression.");
   }
-  switch (scope.target) {
-    case "resourceGroup":
-    case "az.resourceGroup":
-      return "resourceGroup";
-    case "subscription":
-    case "az.subscription":
-      return "subscription";
-    case "managementGroup":
-    case "az.managementGroup":
-      return "managementGroup";
-    case "tenant":
-    case "az.tenant":
-      return "tenant";
-    default:
-      throw new Error(`Unsupported deployment scope function "${scope.target}".`);
+  const target = getScopeFunctionTarget(scope);
+  if (target !== undefined) {
+    return target;
   }
+  throw new Error(`Unsupported deployment scope function "${scope.target}".`);
 }
 
 export function normalizeExtensionScopes(stackAst: BicepAst): void {
