@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -22,25 +22,23 @@
+@@ -20,26 +20,24 @@
  import type { ContainerRenameResponse } from '@azure/storage-blob';
  import type { ContainerUndeleteResponse } from '@azure/storage-blob';
  import { Credential as Credential_2 } from '@azure/storage-common';
@@ -23,6 +23,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -import { isRestError } from '@azure/core-rest-pipeline';
  import type { KeepAliveOptions } from '@azure/core-http-compat';
  import { LayoutAwareRouting } from '@azure/storage-blob';
+ import { LayoutEndpoint } from '@azure/storage-blob';
  import { Lease } from '@azure/storage-blob';
  import { LeaseAccessConditions } from '@azure/storage-blob';
  import { LeaseOperationOptions } from '@azure/storage-blob';
@@ -232,7 +233,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -948,8 +843,9 @@
+@@ -939,8 +834,9 @@
  }
  
  // @public
@@ -242,7 +243,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public (undocumented)
-@@ -1096,25 +992,8 @@
+@@ -1087,25 +983,8 @@
  
  // @public
  export type FileSystemRenameResponse = ContainerRenameResponse;
@@ -268,7 +269,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface FileSystemSetAccessPolicyHeaders {
      // (undocumented)
      clientRequestId?: string;
-@@ -1185,17 +1064,8 @@
+@@ -1176,17 +1055,8 @@
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -286,7 +287,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { HttpHeaders }
  
-@@ -1204,10 +1074,8 @@
+@@ -1195,10 +1065,8 @@
  export { HttpRequestBody }
  
  export { isPipelineLike }
@@ -295,9 +296,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
  export { LayoutAwareRouting }
  
- export { Lease }
+ export { LayoutEndpoint }
  
-@@ -1308,10 +1176,8 @@
+@@ -1301,10 +1169,8 @@
  
  // @public
  export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
@@ -308,7 +309,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface Path {
      // (undocumented)
      contentLength?: number;
-@@ -2063,78 +1929,8 @@
+@@ -2056,78 +1922,8 @@
      // (undocumented)
      write: boolean;
  }
@@ -387,7 +388,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ServiceGenerateAccountSasUrlOptions {
-@@ -2247,12 +2043,8 @@
+@@ -2240,12 +2036,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }

@@ -8,7 +8,7 @@
 - Added opt-in session token authentication for blob downloads with a `TokenCredential`. Set `sessionOptions.mode` to `"enabled"` to sign eligible downloads with a container-scoped session token instead of a bearer token; disabled by default and Node.js only.
 - Added opt-in data locality support to `downloadToBuffer`. Set `layoutAwareRouting` to `"enabled"` to read blocks from the endpoints that hold them when the service hints at it; disabled by default and Node.js only.
 - Added `BlobClient.getLayout`, which pages through the blob's layout so callers can orchestrate their own routed reads. Each page carries the ranges and the endpoints that serve them.
-- Added `layoutEndpoint` to `BlobDownloadOptions`, to route a single `download` call.
+- Added `layoutEndpoint` to `BlobDownloadOptions`, to route a single `download` call to an endpoint returned by `getLayout`. Both use the new `LayoutEndpoint` type.
 - Added `downloadHint` to the blob download response.
 - `listBlobsFlat` and `listBlobsByHierarchy` now use the Apache Arrow response format by default (`StorageResponseFormat.Auto` now resolves to `StorageResponseFormat.Arrow`), so `endBefore` no longer requires setting `responseFormat`. The service falls back to XML for accounts that don't support Apache Arrow. Set `responseFormat` to `StorageResponseFormat.Xml` to keep requesting XML.
 
