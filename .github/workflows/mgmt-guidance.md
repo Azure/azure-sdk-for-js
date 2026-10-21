@@ -152,7 +152,11 @@ All CI checks have finished on this PR's head commit. Determine whether the PR i
 
 Before evaluating merge readiness, fetch all PR files through the GitHub API, following pagination. A newly onboarded management package has an `added` root manifest at `sdk/<service>/arm-<package>/package.json` relative to the PR base. Modified or renamed manifests, new source files in existing packages, sample manifests, and data-plane packages do not qualify. Do not infer onboarding from an incomplete file list.
 
-If at least one package qualifies, include this action once in the **Next Steps to Merge** comment, whether CI passes or fails:
+If at least one package qualifies, check all PR conversation comments (following pagination, including earlier runs) and the PR's check runs/statuses before recommending pipeline setup. Omit the action if a standalone, unquoted `/azp run prepare-pipelines` command comment already requested setup, or an Azure Pipelines response/check/status explicitly identifies a queued, running, or completed `prepare-pipelines` run for this PR. A request alone does not prove execution. Do not count an explicitly rejected command as a valid setup request unless there is separate run evidence.
+
+Do not count mentions inside prose, inline/fenced code, blockquotes, or previous **Next Steps to Merge** guidance as command requests. Do not conclude that no previous request exists from an incomplete comment list.
+
+Only when a new package qualifies and setup has not already been requested or triggered, include this action once in the **Next Steps to Merge** comment, whether CI passes or fails:
 
 ```markdown
 - New package onboarding: Post `/azp run prepare-pipelines` as a separate PR comment to create the release pipelines.
