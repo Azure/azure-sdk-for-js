@@ -323,6 +323,126 @@ these names or unsupported values rejects `connect()` with `TypeError` before au
 Use the existing typed options instead. In particular, use `structuredInputs` for agent prompt
 variables; custom query parameters do not automatically become prompt inputs.
 
+### GPT Live voice agents
+
+`project.beta.voiceAgents.live` is the native GPT Live sibling of
+`project.beta.voiceAgents.realtime`. Create a voice agent with `sub_protocol: "live"`,
+`model_type: "self_deployed"`, and the name of a GPT Live deployment. Use the existing
+`VoiceAgents=V1Preview` opt-in when creating it.
+
+The short example below reads the first transcript fragment. Use the linked samples for
+complete spoken-output handling and audio playback.
+
+```ts snippet:ReadmeSampleVoiceAgentLive
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+const connection = await project.beta.voiceAgents.live.connect("<GPT Live agent name>", {
+  store: false,
+});
+const receive = (async () => {
+  // Foundry starts this session; do not send session.start or a Realtime audio-buffer commit.
+  await connection.appendCommentary("Say hello briefly.");
+  for await (const event of connection) {
+    if (event.type === "session.output_transcript.delta") {
+      console.log(event.delta);
+      break;
+    }
+    if (event.type === "error") {
+      throw new Error(`Live service error: ${event.error.code}`);
+    }
+  }
+})();
+const audioClock = (async () => {
+  // This example uses an agent configured for raw mono PCM16LE at 24 kHz.
+  while (connection.state === "connected") {
+    await connection.sendAudio(new Uint8Array(4800));
+    await new Promise<void>((resolve) => setTimeout(resolve, 100));
+  }
+})();
+try {
+  await Promise.all([receive, audioClock]);
+} finally {
+  try {
+    await connection.close();
+  } finally {
+    await Promise.allSettled([receive, audioClock]);
+  }
+}
+```
+
+The Live client uses `/agents/{agent_name}/endpoint/protocols/voice/live/sessions`
+and does not negotiate the Realtime WebSocket subprotocol. Foundry sends the initial
+configuration; `connect()` waits for `session.started`, and `connection.session` exposes
+the resolved snapshot. Use typed `on`/`off`/`once` listeners or one async iterator.
+
+Live is a continuous speech session, not a sequence of Realtime responses:
+
+- Send raw audio using `sendAudio()`. Live detects speech boundaries; there is no
+  `commitAudio()` or `clearInputAudio()`. Audio deltas retain the native base64 string.
+- Read `session.input_transcript.delta`, `session.output_transcript.delta`, and
+  `session.output_audio.delta`. Transcript fragments have no transcript-done event.
+- Append instruction, thinking, or commentary context with the corresponding helpers.
+  Text appended this way is context, not a user conversation item.
+- Responses delegation carries backend streaming events inside `response.event`.
+  `sendResponseItem()`, `sendToolOutput()`, and `requestResponse()` apply only to that
+  delegation mode. For client-owned delegations, reply using `appendThinking()` or
+  `appendCommentary()` with the event's delegation ID.
+- Live has no Realtime `response.cancel` command. Abort signals cancel SDK connection/send
+  operations; `muteInputAudio()` pauses model input, and `close()` terminates the session.
+  A graceful close waits for `session.closed`; its absence is not successful finalization.
+
+Use `liveOptions` on `AIProjectClient` to override connection, session-start, or graceful-close
+timeouts. It otherwise inherits the project's endpoint, credential scopes, and user-agent prefix.
+The existing Realtime API is unchanged. Persisted Live conversations use
+`project.beta.voiceAgents.liveConversations` and require `store` to be enabled, as well as
+persistence support on the service deployment.
+
+Browser builds use native `WebSocket` and a browser `TokenCredential`, such as
+`InteractiveBrowserCredential` for a public-client app registration. The shared transport
+carries the short-lived Entra token in the authentication subprotocol, not a URL parameter.
+Never embed API keys, client secrets, or long-lived tokens in browser code.
+
+The current Live TypeSpec contract does not define browser-authentication negotiation, and
+direct browser connections returned HTTP 400 on the tested service. Do not infer Live browser
+authentication support from Realtime. Use the Node client with header authentication, or an
+authenticated backend relay supplied through `webSocketFactory`, when direct browser
+authentication is unavailable. Do not put tokens in the URL or negotiate `realtime` on Live.
+
+See the [text](./samples-dev/agents/agentVoiceLiveText.ts),
+[PCM input/output](./samples-dev/agents/agentVoiceLiveAudio.ts),
+[Responses function calling](./samples-dev/agents/agentVoiceLiveFunctions.ts), and
+[browser audio](./samples-dev/agents/agentVoiceLiveBrowser.ts) samples.
+
+Set `FOUNDRY_PROJECT_ENDPOINT` and `FOUNDRY_LIVE_MODEL` before running the Node samples.
+The model setting is a **deployment name**, not a catalog model ID. The function sample also
+requires `FOUNDRY_LIVE_BACKEND_MODEL`, the Responses backend deployment name. These settings
+and optional PCM file paths are listed in [sample.env](./sample.env).
+
+The text sample runs one greeting by default. Set `FOUNDRY_LIVE_INTERACTIVE=true` and
+`FOUNDRY_LIVE_BACKEND_MODEL` for sequential typed questions; enter `/quit` to stop.
+Typed questions are sent as Responses user-context items, not as microphone audio.
+Frontend transcript fragments are buffered while a console prompt is active so they do not
+overwrite typed input. The Node text example prints captions and counts received audio;
+it does not open a local speaker.
+
+Live needs a continuously advancing audio timeline even for text and tool-driven speech.
+The spoken samples stream paced silent PCM while idle, including while waiting for terminal
+input. **Voice-session usage remains billable during that wait.** They require both audible
+output and a nonblank frontend transcript, then use one second of speech/transcript inactivity
+as a sample-level completion heuristic. Silent/very-low-level PCM does not restart that timer.
+There is no native speech-finished event: a long speech pause can still split an utterance.
+Timeouts, failed/incomplete backend responses, and premature disconnects fail explicitly rather
+than being reported as successful completion.
+
+The audio samples take **raw mono PCM16LE at 24 kHz**, not WAV/MP3/Opus containers. The Node
+example saves PCM output; the browser example plays it and drains queued playback before
+closing its audio context. These examples use a prerecorded input file; they do not capture
+a microphone. The function example handles completed `response.output_item.done` calls,
+validates arguments, deduplicates call IDs, and returns queued results after backend completion
+before requesting one continuation. Backend working text is not presented as the spoken reply.
+
 ### Using Agent tools
 
 Agents can be enhanced with specialized tools for various capabilities. Tools are organized by their connection requirements:
