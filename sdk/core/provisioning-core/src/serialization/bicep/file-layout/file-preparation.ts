@@ -16,6 +16,7 @@ import { hasArmParent, normalizeExtensionScopes } from "./deployment-resource-ut
 import { BicepNamer } from "./bicep-namer.js";
 import type { DeploymentFilePlan, DeploymentLayout } from "./deployment-planning.js";
 import { resolveFileDependencies } from "./file-dependencies.js";
+import { joinFilePath } from "./file-paths.js";
 
 export interface BicepAst {
   readonly targetScope: TargetScope;
@@ -71,7 +72,7 @@ function createFile(
 }
 
 function resourceFileName(stackName: string, name: string): string {
-  return `${stackName}/${name}.bicep`;
+  return joinFilePath(stackName, `${name}.bicep`);
 }
 
 /**

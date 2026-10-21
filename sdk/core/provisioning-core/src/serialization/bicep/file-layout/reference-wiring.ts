@@ -11,26 +11,9 @@ import {
 } from "../../ast/expression-rewriter.js";
 import type { DeclarationNode, ExpressionNode, ParameterDeclarationNode } from "../../ast/index.js";
 import { resolveFileDependencies } from "./file-dependencies.js";
+import { relativeImportPath } from "./file-paths.js";
 import type { BicepAst, PreparedDeploymentFiles, PreparedModule } from "./file-preparation.js";
 import { getResourceBody, updateResourceBody } from "../../ast/resource-utils.js";
-
-function relativeImportPath(from: string, to: string): string {
-  const fromDirectory = from.split("/");
-  fromDirectory.pop();
-  const target = to.split("/");
-  let commonSegments = 0;
-  while (
-    fromDirectory[commonSegments] === target[commonSegments] &&
-    commonSegments < fromDirectory.length
-  ) {
-    commonSegments++;
-  }
-  const relative = [
-    ...fromDirectory.slice(commonSegments).map(() => ".."),
-    ...target.slice(commonSegments),
-  ].join("/");
-  return relative.startsWith(".") ? relative : `./${relative}`;
-}
 
 function rewriteFileReferences(ast: BicepAst, resolve: ExpressionReferenceResolver): void {
   const rewrite = (expression: ExpressionNode): ExpressionNode =>
