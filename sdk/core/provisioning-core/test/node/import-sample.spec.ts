@@ -13,7 +13,7 @@ describe("deserialize", () => {
 
   it("works with existing sample JSON", () => {
     const samplePath = new URL(
-      "../../demo/samples/hello-storage/js/output/json/hello-storage.json",
+      "../demo/samples/hello-storage/js/output/json/hello-storage.json",
       import.meta.url,
     );
     const json = readFileSync(samplePath, "utf-8");

@@ -27,7 +27,7 @@ import {
 import { wireDeploymentFiles } from "../../../src/serialization/bicep/file-layout/reference-wiring.js";
 import { storage, subscriptionStack } from "./support.js";
 import { renderBicepFile } from "../../../src/serialization/bicep/render.js";
-import { validateRenderedBicepFiles } from "../../../scripts/lib/bicep-validator.js";
+import { validateRenderedBicepFiles } from "../../scripts/lib/bicep-validator.js";
 
 function buildStackFixture(stack: Stack) {
   const resources = collectResourceDeclarations(stack);
