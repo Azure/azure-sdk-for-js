@@ -83,8 +83,8 @@ jobs:
 if: needs.pre_activation.outputs.ready == 'true' && needs.pre_activation.outputs.pr_number != ''
 
 concurrency:
-  group: "gh-aw-mgmt-guidance-${{ github.event.check_suite.pull_requests[0].number || github.event.inputs.item_number || github.run_id }}"
-  cancel-in-progress: false
+  group: "gh-aw-mgmt-guidance-${{ github.event.check_suite.app.id || 'workflow-dispatch' }}-${{ github.event.check_suite.pull_requests[0].number || github.event.inputs.item_number || github.run_id }}"
+  cancel-in-progress: true
 
 description: "Post Next Steps to Merge once all CI checks complete on management-plane SDK PRs"
 permissions:
@@ -106,6 +106,7 @@ tools:
     toolsets: [context, repos, pull_requests, actions]
   bash: true
 safe-outputs:
+  concurrency-group: "gh-aw-mgmt-guidance-publish-${{ github.event.check_suite.pull_requests[0].number || github.event.inputs.item_number || github.run_id }}"
   env:
     MGMT_GUIDANCE_PR_NUMBER: ${{ github.event.check_suite.pull_requests[0].number || github.event.inputs.item_number }}
   scripts:
