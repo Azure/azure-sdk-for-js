@@ -18,12 +18,6 @@ export async function generateTypeScriptCodeFromTypeSpec(
   originalVersion: string | undefined,
   packageDirectory: string,
 ): Promise<void> {
-  // if (options.emitterName === provisioningEmitterName) {
-  //   await generateProvisioningCodeFromTypeSpec(options, packageDirectory);
-  //   if (originalVersion) await updatePackageVersion(packageDirectory, originalVersion);
-  //   return;
-  // }
-
   const tspConfigPath = join(options.typeSpecDirectory, "tspconfig.yaml");
   logger.info("Start to generate code by tsp-client.");
   const repoUrl = generateRepoDataInTspLocation(options.repoUrl);
