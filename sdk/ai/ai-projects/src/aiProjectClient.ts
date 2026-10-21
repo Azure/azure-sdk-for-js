@@ -136,6 +136,12 @@ export class AIProjectClient {
       options.endpoint ?? endpoint,
       resolveRealtimeOptions(options, prefixFromOptions),
       this._tracingConfig,
+      {
+        ...options.liveOptions,
+        apiVersion: options.liveOptions?.apiVersion ?? options.apiVersion,
+        credentialScopes: options.liveOptions?.credentialScopes ?? options.credentials?.scopes,
+        userAgentPrefix: options.liveOptions?.userAgentPrefix ?? prefixFromOptions,
+      },
     );
     this.telemetry = _getTelemetryOperations(this.connections);
   }
@@ -168,6 +174,7 @@ export class AIProjectClient {
    * - routines
    * - models
    * - realtime (voice-agent WebSocket connections)
+   * - live (native GPT Live voice-agent WebSocket connections)
    */
   public readonly beta: BetaOperations;
   /** The operation groups for telemetry */

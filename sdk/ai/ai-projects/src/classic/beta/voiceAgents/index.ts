@@ -17,18 +17,22 @@ import type { BetaVoiceAgentsCampaignsOperations } from "./campaigns/index.js";
 import { _getBetaVoiceAgentsCampaignsOperations } from "./campaigns/index.js";
 import type { BetaVoiceAgentsLiveConversationsOperations } from "./liveConversations/index.js";
 import { _getBetaVoiceAgentsLiveConversationsOperations } from "./liveConversations/index.js";
+import { VoiceAgentLiveClient } from "../../../live/voiceAgentLiveClient.js";
+import type { VoiceAgentLiveClientOptions } from "../../../live/voiceAgentLiveClient.js";
 
-/** Operations for managing voice agent conversations and telephony. */
+/** Voice agent Realtime/Live connections, persisted conversations, and telephony. */
 export interface BetaVoiceAgentsOperations {
   campaigns: BetaVoiceAgentsCampaignsOperations;
   /** Operations for managing telephony bindings and calls. */
   telephony: BetaVoiceAgentsTelephonyOperations;
-  /** Operations for reading persisted Live conversations and audio. */
+  /** Operations for reading persisted GPT Live conversations and audio. */
   liveConversations: BetaVoiceAgentsLiveConversationsOperations;
   /** Operations for reading persisted voice conversations and audio. */
   conversations: BetaVoiceAgentsConversationsOperations;
   /** Realtime voice-agent connections. */
   realtime: VoiceAgentRealtimeClient;
+  /** Native GPT Live voice-agent connections. */
+  live: VoiceAgentLiveClient;
 }
 
 export function _getBetaVoiceAgentsOperations(
@@ -37,6 +41,7 @@ export function _getBetaVoiceAgentsOperations(
   endpoint: string,
   realtimeOptions?: VoiceAgentRealtimeClientOptions,
   tracingConfig?: ResolvedTracingConfig,
+  liveOptions?: VoiceAgentLiveClientOptions,
 ): BetaVoiceAgentsOperations {
   return {
     campaigns: _getBetaVoiceAgentsCampaignsOperations(context),
@@ -47,5 +52,6 @@ export function _getBetaVoiceAgentsOperations(
     // constructor), so eagerly constructing it here doesn't reject callers who intentionally use an
     // insecure local endpoint for the REST surface and never touch realtime connections.
     realtime: createVoiceAgentRealtimeClient(endpoint, credential, realtimeOptions, tracingConfig),
+    live: new VoiceAgentLiveClient(endpoint, credential, liveOptions),
   };
 }

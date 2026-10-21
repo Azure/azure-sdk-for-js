@@ -11,7 +11,7 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
-} from "./realtime/webSocketTransportLike.js";
+} from "./realtime/webSocketTransport.js";
 
 export class NodeWebSocketTransport implements VoiceAgentWebSocketTransport {
   private webSocket?: WebSocket;
