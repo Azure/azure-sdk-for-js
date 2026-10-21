@@ -20,7 +20,7 @@ import type {
 import { getResourceBody } from "../../../src/serialization/ast/resource-utils.js";
 import { getResourceScope } from "../../../src/constructs/resource/resource-relationships.js";
 import { getLoopedResources } from "../../../src/internal-loop.js";
-import { validateRenderedBicepFiles } from "../../scripts/lib/bicep-validator.js";
+import { validateRenderedBicepFiles } from "../../scripts/test/bicep-validator.js";
 
 // .NET JSON shape verified against Azure/azure-sdk-for-net#57322 at 565c3ce2.
 const roleType = "Microsoft.Authorization/roleAssignments";
