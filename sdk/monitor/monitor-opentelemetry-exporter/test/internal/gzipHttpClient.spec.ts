@@ -12,7 +12,8 @@ import {
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { diag } from "@opentelemetry/api";
 import { createGzipHttpClient } from "../../src/platform/nodejs/gzipHttpClient.js";
 
 vi.mock("node:zlib", async (importOriginal) => {
@@ -36,6 +37,10 @@ function createTransport(): HttpClient & {
 }
 
 describe("gzip HTTP client", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it.each([
     ingestionUrl,
     "https://westus-0.in.applicationinsights.azure.com/v2/track",
@@ -126,21 +131,56 @@ describe("gzip HTTP client", () => {
     expect(transport.sendRequest.mock.calls[0][0]).toBe(request);
   });
 
-  it("propagates compression errors without sending plain JSON", async () => {
-    const error = new Error("gzip failed");
-    vi.mocked(gzip).mockImplementationOnce((...args) => {
-      const callback = args.at(-1);
-      if (typeof callback === "function") {
-        callback(error, Buffer.alloc(0));
+  it.each([false, true])(
+    "sends the original request if gzip fails, with transport failure = %s",
+    async (transportFails) => {
+      const error = new Error("gzip failed");
+      vi.mocked(gzip).mockImplementationOnce((...args) => {
+        const callback = args.at(-1);
+        if (typeof callback === "function") {
+          callback(error, Buffer.alloc(0));
+        }
+      });
+      const warning = vi.spyOn(diag, "warn").mockImplementation(() => {});
+      const transport = createTransport();
+      const transportError = new Error("transport failed");
+      if (transportFails) {
+        transport.sendRequest.mockRejectedValueOnce(transportError);
       }
-    });
-    const transport = createTransport();
-    const request = createPipelineRequest({ url: ingestionUrl, method: "POST", body: json });
-    await expect(createGzipHttpClient(transport).sendRequest(request)).rejects.toBe(error);
-    expect(transport.sendRequest).not.toHaveBeenCalled();
-    expect(request.body).toBe(json);
-    expect(request.headers.has("Content-Encoding")).toBe(false);
-  });
+      const request = createPipelineRequest({
+        url: ingestionUrl,
+        method: "POST",
+        body: json,
+        headers: createHttpHeaders({
+          "Content-Type": "application/json",
+          "Content-Length": String(Buffer.byteLength(json)),
+        }),
+      });
+      const originalHeaders = request.headers.toJSON();
+      const client = createGzipHttpClient(transport);
+      const response = client.sendRequest(request);
+      if (transportFails) {
+        await expect(response).rejects.toBe(transportError);
+      } else {
+        await expect(response).resolves.toMatchObject({ status: 200, request });
+      }
+      expect(warning).toHaveBeenCalledExactlyOnceWith(
+        "Failed to gzip telemetry. Sending the uncompressed request.",
+        error,
+      );
+      expect(transport.sendRequest).toHaveBeenCalledExactlyOnceWith(request);
+      expect(transport.sendRequest.mock.calls[0][0]).toBe(request);
+      expect(transport.sendRequest.mock.contexts[0]).toBe(transport);
+      expect(request.body).toBe(json);
+      expect(request.headers.toJSON()).toEqual(originalHeaders);
+      expect(request.headers.has("Content-Encoding")).toBe(false);
+
+      await client.sendRequest(request);
+      const subsequentRequest = transport.sendRequest.mock.calls[1][0];
+      expect(subsequentRequest.headers.get("Content-Encoding")).toBe("gzip");
+      expect(gunzipSync(subsequentRequest.body as Buffer).toString("utf8")).toBe(json);
+    },
+  );
 
   it("propagates transport errors without mutating the original request", async () => {
     const error = new Error("transport failed");
@@ -148,6 +188,8 @@ describe("gzip HTTP client", () => {
     transport.sendRequest.mockRejectedValueOnce(error);
     const request = createPipelineRequest({ url: ingestionUrl, method: "POST", body: json });
     await expect(createGzipHttpClient(transport).sendRequest(request)).rejects.toBe(error);
+    expect(transport.sendRequest).toHaveBeenCalledOnce();
+    expect(transport.sendRequest.mock.calls[0][0].headers.get("Content-Encoding")).toBe("gzip");
     expect(request.body).toBe(json);
     expect(request.headers.has("Content-Encoding")).toBe(false);
   });

@@ -5,6 +5,7 @@ import { promisify } from "node:util";
 import { gzip } from "node:zlib";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { HttpClient } from "@azure/core-rest-pipeline";
+import { diag } from "@opentelemetry/api";
 import { ALLOWED_REDIRECT_DOMAIN_SUFFIX_GROUPS } from "../../Declarations/Constants.js";
 
 const gzipAsync = promisify(gzip);
@@ -43,7 +44,13 @@ export function createGzipHttpClient(httpClient: HttpClient): HttpClient {
         return httpClient.sendRequest(request);
       }
 
-      const body = await gzipAsync(request.body);
+      let body: Buffer;
+      try {
+        body = await gzipAsync(request.body);
+      } catch (error) {
+        diag.warn("Failed to gzip telemetry. Sending the uncompressed request.", error);
+        return httpClient.sendRequest(request);
+      }
       const headers = createHttpHeaders(request.headers.toJSON());
       headers.set("Content-Encoding", "gzip");
       headers.set("Content-Length", String(body.length));

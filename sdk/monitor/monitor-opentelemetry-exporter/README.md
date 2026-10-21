@@ -181,6 +181,8 @@ The exporter automatically gzip-compresses telemetry sent over HTTPS to Azure Mo
 
 Compression happens after pipeline policies run. A custom `httpClient` receives the compressed body with `Content-Encoding: gzip` and the compressed `Content-Length`. Requests with an existing `Content-Encoding` are left unchanged. Offline telemetry is stored as envelopes and compressed only when sent or replayed. This does not change Live Metrics, OTLP exporters, or other Azure SDK clients.
 
+If gzip compression fails, the exporter logs a diagnostic warning and sends the original uncompressed request. Normal retry and offline storage behavior still applies if sending that request fails.
+
 ## Troubleshooting
 
 ### Enable debug logging

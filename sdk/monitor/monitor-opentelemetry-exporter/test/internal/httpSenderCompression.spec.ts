@@ -4,7 +4,8 @@
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { gunzipSync } from "node:zlib";
+import { gzip, gunzipSync } from "node:zlib";
+import type * as Zlib from "node:zlib";
 import {
   createDefaultHttpClient,
   createPipelineFromOptions,
@@ -29,6 +30,11 @@ import { CustomSDKStatsCounter, StatsbeatCounter } from "../../src/export/statsb
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { HttpSender } from "../../src/platform/nodejs/httpSender.js";
 import { partialBreezeResponse, successfulBreezeResponse } from "../utils/breezeTestUtils.js";
+
+vi.mock("node:zlib", async (importOriginal) => {
+  const original = await importOriginal<typeof Zlib>();
+  return { ...original, gzip: vi.fn(original.gzip) };
+});
 
 const instrumentationKey = "00000000-0000-4000-8000-000000000001";
 const envelope: Envelope = { name: "test", time: new Date(0) };
@@ -190,6 +196,54 @@ describe("HttpSender compression", () => {
     expect(request.body).toBe(JSON.stringify([envelope]));
     expect(request.headers.has("Content-Encoding")).toBe(false);
   });
+
+  it.each([200, 503])(
+    "uses normal export handling when gzip fails and ingestion returns %s",
+    async (status) => {
+      storageDirectory = await mkdtemp(join(tmpdir(), "azmon-gzip-fallback-"));
+      vi.mocked(gzip).mockImplementationOnce((...args) => {
+        const callback = args.at(-1);
+        if (typeof callback === "function") {
+          callback(new Error("gzip failed"), Buffer.alloc(0));
+        }
+      });
+      let requests = 0;
+      const sendRequest = vi.fn<HttpClient["sendRequest"]>(async (request) => ({
+        request,
+        status: ++requests === 1 ? status : 200,
+        headers: createHttpHeaders(),
+        bodyAsText: JSON.stringify(successfulBreezeResponse(1)),
+      }));
+      const sender = createSender({
+        httpClient: { sendRequest },
+        storageDirectory,
+        disableOfflineStorage: false,
+      });
+
+      expect((await sender.exportEnvelopes([envelope])).code).toBe(ExportResultCode.SUCCESS);
+      expect(sendRequest).toHaveBeenCalledOnce();
+      const request = sendRequest.mock.calls[0][0];
+      expect(request.body).toBe(JSON.stringify([envelope]));
+      expect(request.headers.has("Content-Encoding")).toBe(false);
+
+      const persisted = await sender["persister"].shift();
+      if (status === 200) {
+        expect(persisted).toBeNull();
+      } else {
+        expect(persisted).toEqual([envelope]);
+        if (!Array.isArray(persisted)) {
+          throw new Error("Expected persisted envelopes");
+        }
+        expect(await sender["persister"].push(persisted)).toBe(true);
+        await sender["sendFirstPersistedFile"]();
+        expect(sendRequest).toHaveBeenCalledTimes(2);
+        expect(readRequest(sendRequest.mock.calls[1][0])).toEqual(
+          JSON.parse(JSON.stringify([envelope])),
+        );
+        expect(await sender["persister"].shift()).toBeNull();
+      }
+    },
+  );
 
   it("leaves policy-encoded bodies and headers untouched", async () => {
     const sendRequest = vi.fn<HttpClient["sendRequest"]>(async (request) => ({
