@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
 /** The key create parameters. */
 export interface KeyCreateParameters {
   /** The type of key to create. For valid values, see JsonWebKeyType. */
@@ -934,11 +934,11 @@ export enum KnownJsonWebKeyWrapAlgorithm {
   /** 256-bit AES key wrap. */
   A256KW = "A256KW",
   /** 128-bit AES key wrap with padding. */
-  A256Kwpad = "A256KWPAD",
-  /** 192-bit AES key wrap with padding. */
   A128Kwpad = "A128KWPAD",
-  /** 256-bit AES key wrap with padding. */
+  /** 192-bit AES key wrap with padding. */
   A192Kwpad = "A192KWPAD",
+  /** 256-bit AES key wrap with padding. */
+  A256Kwpad = "A256KWPAD",
   /** CKM AES key wrap. */
   CKMAESKEYWrap = "CKM_AES_KEY_WRAP",
   /** CKM AES key wrap with padding. */
@@ -954,9 +954,9 @@ export enum KnownJsonWebKeyWrapAlgorithm {
  * **A128KW**: 128-bit AES key wrap. \
  * **A192KW**: 192-bit AES key wrap. \
  * **A256KW**: 256-bit AES key wrap. \
- * **A256KWPAD**: 128-bit AES key wrap with padding. \
- * **A128KWPAD**: 192-bit AES key wrap with padding. \
- * **A192KWPAD**: 256-bit AES key wrap with padding. \
+ * **A128KWPAD**: 128-bit AES key wrap with padding. \
+ * **A192KWPAD**: 192-bit AES key wrap with padding. \
+ * **A256KWPAD**: 256-bit AES key wrap with padding. \
  * **CKM_AES_KEY_WRAP**: CKM AES key wrap. \
  * **CKM_AES_KEY_WRAP_PAD**: CKM AES key wrap with padding.
  */
@@ -1275,4 +1275,6 @@ export enum KnownVersions {
   V20250701 = "2025-07-01",
   /** The 2026-01-01-preview API version. */
   V20260101Preview = "2026-01-01-preview",
+  /** The 2026-03-01-preview API version. */
+  V20260301Preview = "2026-03-01-preview",
 }
