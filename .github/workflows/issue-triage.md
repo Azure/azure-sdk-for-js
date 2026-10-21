@@ -6,6 +6,8 @@ description: |
   analysis notes including debugging strategies and resource links
   Implements the initial issue triage rules for the Azure SDK repository
 
+run-name: "${{ vars.ENABLE_ISSUE_INVESTIGATION == 'true' && format('Agentic Triage #{0}', github.event.issue.number || github.event.inputs.issue_number) || 'Agentic Triage' }}"
+
 on:
   issues:
     types: [opened]
