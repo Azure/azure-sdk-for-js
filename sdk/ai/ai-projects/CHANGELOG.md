@@ -6,6 +6,16 @@
 
 - Align routine options with the generated V2 preview contract introduced in [#39782](https://github.com/Azure/azure-sdk-for-js/pull/39782). Remove `Routines=V1Preview` from routine options and `FoundryFeaturesOptInKeys`, remove the unsupported `before` parameter from routine and run lists, and narrow `order` to `PageOrder` (`"asc" | "desc"`).
 
+### Features Added
+
+- Add `CloudComputerUsePreviewTool` and `CloudComputerUsePreviewToolboxTool` for configuring the parameterless `cloud_computer_use_preview` tool on agents and toolboxes. [#40423](https://github.com/Azure/azure-sdk-for-js/issues/40423)
+- Add `enable_memory_snapshot` to `HostedAgentDefinition` for starting hosted-agent sessions from an initialized process snapshot. [#40423](https://github.com/Azure/azure-sdk-for-js/issues/40423)
+- Add GPT Image 2.5 Sunburst and Flare models, including their `2026-09-08` snapshots, and `xhigh` and `max` quality options to `ImageGenTool`. [#40423](https://github.com/Azure/azure-sdk-for-js/issues/40423)
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `b2cf9e36ed967aae8c43ed56973e1d1ac99255b3`, retaining existing client, paging, preview-header, error-model, and poller customizations. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/b2cf9e36ed967aae8c43ed56973e1d1ac99255b3). [#40423](https://github.com/Azure/azure-sdk-for-js/issues/40423)
+
 ## 2.9.0 (2026-10-19)
 
 ### Breaking Changes
