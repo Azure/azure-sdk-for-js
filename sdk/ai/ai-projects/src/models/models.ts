@@ -396,6 +396,8 @@ export interface HostedAgentDefinition extends AgentDefinition {
   telemetry_config?: TelemetryConfig;
   /** Optional session defaults (for example, the idle timeout) applied to sessions created for this agent version. */
   session_configuration?: SessionConfiguration;
+  /** Whether this agent version uses memory snapshots. Sessions for a snapshot-enabled version start from a snapshot of the agent's initialized process rather than starting the process from its image. Defaults to false. */
+  enable_memory_snapshot?: boolean;
 }
 
 export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): any {
@@ -420,6 +422,7 @@ export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): an
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationSerializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -447,6 +450,7 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationDeserializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -514,7 +518,8 @@ export type ToolUnion =
   | NamespaceToolParam
   | ToolSearchToolParam
   | Tool
-  | MicrosoftCopilotToolsetPreview;
+  | MicrosoftCopilotToolsetPreview
+  | CloudComputerUsePreviewTool;
 
 export function toolUnionSerializer(item: ToolUnion): any {
   switch (item.type) {
@@ -618,6 +623,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
       return toolSearchToolParamSerializer(item as ToolSearchToolParam);
     case "microsoft_copilot_toolset_preview":
       return microsoftCopilotToolsetPreviewSerializer(item as MicrosoftCopilotToolsetPreview);
+
+    case "cloud_computer_use_preview":
+      return cloudComputerUsePreviewToolSerializer(item as CloudComputerUsePreviewTool);
 
     default:
       return toolSerializer(item);
@@ -727,6 +735,9 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "microsoft_copilot_toolset_preview":
       return microsoftCopilotToolsetPreviewDeserializer(item as MicrosoftCopilotToolsetPreview);
 
+    case "cloud_computer_use_preview":
+      return cloudComputerUsePreviewToolDeserializer(item as CloudComputerUsePreviewTool);
+
     default:
       return toolDeserializer(item);
   }
@@ -768,7 +779,8 @@ export type ToolType =
   | "capture_structured_outputs"
   | "openapi"
   | "browser_automation"
-  | "microsoft_copilot_toolset_preview";
+  | "microsoft_copilot_toolset_preview"
+  | "cloud_computer_use_preview";
 
 /** The input definition information for a bing grounding search tool as used to configure an agent. */
 export interface BingGroundingTool extends Tool {
@@ -2992,13 +3004,23 @@ export interface ImageGenTool extends Tool {
   type: "image_generation";
   /** The model to use for image generation. */
   model?:
-    "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5" | "gpt-image-2" | "gpt-image-2-2026-04-21";
+    | "gpt-image-1"
+    | "gpt-image-1-mini"
+    | "gpt-image-1.5"
+    | "gpt-image-2"
+    | "gpt-image-2-2026-04-21"
+    | "gpt-image-2.5-sunburst"
+    | "gpt-image-2.5-sunburst-2026-09-08"
+    | "gpt-image-2.5-flare"
+    | "gpt-image-2.5-flare-2026-09-08";
   /**
-   * The quality of the generated image. One of `low`, `medium`, `high`,
-   *   or `auto`. Default: `auto`.
+   * The quality of the generated image. The GPT image models support `low`,
+   *   `medium`, and `high`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`,
+   *   including their `2026-09-08` snapshots, also support `xhigh` and `max`.
+   *   Default: `auto`.
    */
-  quality?: "low" | "medium" | "high" | "auto";
-  /** The size of the generated images. For `gpt-image-2` and `gpt-image-2-2026-04-21`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
+  quality?: "low" | "medium" | "high" | "xhigh" | "max" | "auto";
+  /** The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
   size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
   /**
    * The output format of the generated image. One of `png`, `webp`, or
@@ -7731,6 +7753,7 @@ export type ToolboxToolUnion =
   | A2AToolboxTool
   | A2APreviewToolboxTool
   | BrowserAutomationPreviewToolboxTool
+  | CloudComputerUsePreviewToolboxTool
   | BrowserAutomationToolboxTool
   | ReminderPreviewToolboxTool
   | WorkIQPreviewToolboxTool
@@ -7772,6 +7795,11 @@ export function toolboxToolUnionSerializer(item: ToolboxToolUnion): any {
     case "browser_automation_preview":
       return browserAutomationPreviewToolboxToolSerializer(
         item as BrowserAutomationPreviewToolboxTool,
+      );
+
+    case "cloud_computer_use_preview":
+      return cloudComputerUsePreviewToolboxToolSerializer(
+        item as CloudComputerUsePreviewToolboxTool,
       );
 
     case "browser_automation":
@@ -7834,6 +7862,11 @@ export function toolboxToolUnionDeserializer(item: any): ToolboxToolUnion {
         item as BrowserAutomationPreviewToolboxTool,
       );
 
+    case "cloud_computer_use_preview":
+      return cloudComputerUsePreviewToolboxToolDeserializer(
+        item as CloudComputerUsePreviewToolboxTool,
+      );
+
     case "browser_automation":
       return browserAutomationToolboxToolDeserializer(item as BrowserAutomationToolboxTool);
 
@@ -7878,7 +7911,8 @@ export type ToolboxToolType =
   | "a2a"
   | "shell"
   | "web_iq_preview"
-  | "browser_automation";
+  | "browser_automation"
+  | "cloud_computer_use_preview";
 
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
@@ -28259,3 +28293,50 @@ export function microsoftCopilotToolsetConfigDeserializer(
 /** A customer-configurable Microsoft Copilot built-in tool. */
 export type MicrosoftCopilotBuiltInTool =
   "filesystem_read" | "filesystem_write" | "shell" | "web" | "subagents";
+
+/** The input definition information for a cloud computer use tool, as used to configure an agent. */
+export interface CloudComputerUsePreviewTool extends Tool {
+  /** The object type, which is always `cloud_computer_use_preview`. */
+  type: "cloud_computer_use_preview";
+}
+
+export function cloudComputerUsePreviewToolSerializer(item: CloudComputerUsePreviewTool): any {
+  return { type: item["type"] };
+}
+
+export function cloudComputerUsePreviewToolDeserializer(item: any): CloudComputerUsePreviewTool {
+  return {
+    type: item["type"],
+  };
+}
+
+/** A cloud computer use tool stored in a toolbox. */
+export interface CloudComputerUsePreviewToolboxTool extends ToolboxTool {
+  type: "cloud_computer_use_preview";
+}
+
+export function cloudComputerUsePreviewToolboxToolSerializer(
+  item: CloudComputerUsePreviewToolboxTool,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+export function cloudComputerUsePreviewToolboxToolDeserializer(
+  item: any,
+): CloudComputerUsePreviewToolboxTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+  };
+}
