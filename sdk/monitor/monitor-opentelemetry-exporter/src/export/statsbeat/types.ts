@@ -213,6 +213,7 @@ export interface NetworkStatsbeatProperties {
 export interface StatsbeatOptions {
   instrumentationKey: string;
   endpointUrl: string;
+  connectionString?: string;
   networkCollectionInterval?: number;
   longCollectionInterval?: number;
   disableOfflineStorage?: boolean;
