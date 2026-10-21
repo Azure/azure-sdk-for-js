@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi } from "vitest";
+import * as http from "node:http";
+import type { AddressInfo } from "node:net";
 import { Readable } from "node:stream";
 import { finished } from "node:stream/promises";
 import type { WebResourceLike } from "@azure/core-http-compat";
@@ -12,7 +14,11 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  createDefaultHttpClient,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
 import { newPipeline } from "../../src/Pipeline.js";
 import { storageSessionAuthenticationPolicy } from "../../src/policies/StorageSessionAuthenticationPolicy.js";
 import { SESSION_REFRESH_BUFFER_MS } from "../../src/session/models.js";
@@ -192,6 +198,86 @@ describe("storageSessionAuthenticationPolicy", () => {
     await finished(rejectedBody);
     assert.strictEqual(response.readableStreamBody, returnedBody);
     assert.isNull(returnedBody.readableFlowing, "the returned body is left for the caller");
+  });
+
+  it("reuses the connection of a rejected session download for the bearer retry", async () => {
+    let connections = 0;
+    const server = http.createServer((req, res) => {
+      req.resume();
+      const rejected = req.headers.authorization?.startsWith("Session ") ?? false;
+      const body = rejected
+        ? "<Error><Code>InvalidAuthenticationInfo</Code></Error>"
+        : "blob content";
+      res.writeHead(rejected ? 401 : 200, { "content-length": Buffer.byteLength(body) });
+      res.end(body);
+    });
+    // A connection held by an unread body is only freed when the server closes it.
+    server.keepAliveTimeout = 60_000;
+    server.on("connection", () => connections++);
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+    const localServer = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+    // With one socket, the bearer retry can only start once the rejected response frees it.
+    const agent = new http.Agent({ keepAlive: true, maxSockets: 1 });
+    const transport = createDefaultHttpClient();
+    const bearerPolicy: PipelinePolicy = {
+      name: "fakeBearerPolicy",
+      sendRequest: (request, next) => {
+        request.headers.set("authorization", "Bearer token");
+        return next(request);
+      },
+    };
+    const policy = storageSessionAuthenticationPolicy({
+      bearerPolicy,
+      pipeline: newPipeline(fakeTokenCredential, {
+        httpClient: fakeHttpClient(sessionIssuer()).httpClient,
+        retryOptions: { maxTries: 1 },
+        sessionOptions: { mode: "enabled" },
+      }),
+    });
+    // Requests are signed for the account URL; only the transport sends them to the local server.
+    const toLocalServer = async (request: PipelineRequest): Promise<PipelineResponse> => {
+      const accountUrl = request.url;
+      request.url = accountUrl.replace(ACCOUNT, localServer);
+      request.allowInsecureConnection = true;
+      request.agent = agent;
+      try {
+        return await transport.sendRequest(request);
+      } finally {
+        request.url = accountUrl;
+      }
+    };
+    const request = createPipelineRequest({
+      url: `${ACCOUNT}/mycontainer/blob.txt`,
+      method: "GET",
+      streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
+    });
+
+    const sending = policy.sendRequest(request, toLocalServer);
+    sending.catch(() => undefined);
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    try {
+      const response = await Promise.race([
+        sending,
+        new Promise<never>((_resolve, reject) => {
+          timer = setTimeout(
+            () => reject(new Error("The bearer retry never got the connection back.")),
+            2000,
+          );
+        }),
+      ]);
+      assert.strictEqual(response.status, 200);
+      const chunks: Buffer[] = [];
+      for await (const chunk of response.readableStreamBody!) {
+        chunks.push(chunk as Buffer);
+      }
+      assert.strictEqual(Buffer.concat(chunks).toString(), "blob content");
+      assert.strictEqual(connections, 1, "the bearer retry must reuse the connection");
+    } finally {
+      clearTimeout(timer);
+      agent.destroy();
+      server.closeAllConnections();
+      await new Promise((resolve) => server.close(resolve));
+    }
   });
 
   it("does not retry again when the bearer fallback also gets a 401", async () => {
