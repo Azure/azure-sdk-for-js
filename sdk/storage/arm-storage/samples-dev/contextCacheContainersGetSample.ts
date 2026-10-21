@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a container in a Context Cache.
  *
  * @summary get a container in a Context Cache.
- * x-ms-original-file: 2026-06-01/StorageContextCacheContainerCRUD/ContextCacheContainers_Get.json
+ * x-ms-original-file: 2026-09-01/StorageContextCacheContainerCRUD/ContextCacheContainers_Get.json
  */
 async function getAContextCacheContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

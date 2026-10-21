@@ -2,23 +2,16 @@
   "compilerOptions": {
     "target": "ES2023",
     "module": "nodenext",
-    "lib": [
-      "ESNext"
-    ],
-    "importHelpers": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "types": [
-      "node"
-    ],
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
-    "moduleResolution": "nodenext"
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "outDir": "dist",
+    "rootDir": "src"
   },
   "include": [
-    "./src"
+    "src/**/*.ts"
   ]
 }
