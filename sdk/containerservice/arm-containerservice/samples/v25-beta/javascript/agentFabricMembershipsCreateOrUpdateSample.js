@@ -1,0 +1,34 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ContainerServiceClient } = require("@azure/arm-containerservice");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to creates or updates the AgentFabric membership of a managed cluster.
+ *
+ * @summary creates or updates the AgentFabric membership of a managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentFabricMemberships_CreateOrUpdate.json
+ */
+async function createOrUpdateAgentFabricMembership() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentFabricMemberships.createOrUpdate(
+    "rg1",
+    "clustername1",
+    "default",
+    {
+      managedBy:
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.NetworkSecurity/agentFabrics/fabric1",
+      properties: { sku: "Standard" },
+    },
+  );
+  console.log(result);
+}
+
+async function main() {
+  await createOrUpdateAgentFabricMembership();
+}
+
+main().catch(console.error);
