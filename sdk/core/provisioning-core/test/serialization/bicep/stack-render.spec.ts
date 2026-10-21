@@ -14,7 +14,7 @@ import * as publicCore from "@azure/provisioning-core";
 import { renderBicepFiles } from "../../../src/internal.js";
 import * as bicep from "../../../src/internal.js";
 import { createLoopedResource, Loop } from "../../../src/internal-loop.js";
-import { validateRenderedBicepFiles } from "../../scripts/lib/bicep-validator.js";
+import { validateRenderedBicepFiles } from "../../../scripts/lib/bicep-validator.js";
 
 describe("direct Stack AST generation", () => {
   beforeEach(() => Stack.clearRoots());

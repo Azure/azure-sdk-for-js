@@ -10,7 +10,7 @@ import {
 import { buildBicepFiles } from "../../../src/serialization/bicep/file-layout/build-bicep-files.js";
 import type { InfraNode } from "../../../src/serialization/ast/index.js";
 import { renderBicepFiles, type RenderedBicepFile } from "../../../src/internal.js";
-import { validateRenderedBicepFiles } from "../../scripts/lib/bicep-validator.js";
+import { validateRenderedBicepFiles } from "../../../scripts/lib/bicep-validator.js";
 
 export function widget(
   parent: ProvisioningComponent,

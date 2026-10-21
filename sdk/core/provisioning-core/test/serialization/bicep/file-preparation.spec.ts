@@ -27,7 +27,7 @@ import {
 import { wireDeploymentFiles } from "../../../src/serialization/bicep/file-layout/reference-wiring.js";
 import { storage, subscriptionStack } from "./support.js";
 import { renderBicepFile } from "../../../src/serialization/bicep/render.js";
-import { validateRenderedBicepFiles } from "../../scripts/lib/bicep-validator.js";
+import { validateRenderedBicepFiles } from "../../../scripts/lib/bicep-validator.js";
 
 function buildStackFixture(stack: Stack) {
   const resources = collectResourceDeclarations(stack);
@@ -121,14 +121,19 @@ describe("prepared file metadata and AST contents", () => {
     expect(prepared.stackAst.outputs.size).toBe(0);
   });
 
-  it("resolves module imports relative to a nested entry path", () => {
-    const { stack, group } = subscriptionStack("nested/prepared");
+  it.each([
+    ["nested/prepared", "nested/prepared/storageAccount.bicep"],
+    ["nested//./prepared", "nested/prepared/storageAccount.bicep"],
+    ["nested/../prepared", "prepared/storageAccount.bicep"],
+    ["nested\\prepared", "nested/prepared/storageAccount.bicep"],
+  ])("normalizes module paths and resolves imports for entry %s", (stackName, moduleFileName) => {
+    const { stack, group } = subscriptionStack(stackName);
     storage(group, "nestedstorage");
     const { prepared } = prepare(stack);
     wireDeploymentFiles(stack.name, prepared);
 
-    expect(prepared.entry.fileName).toBe("nested/prepared.bicep");
-    expect(prepared.modules[0]!.file.fileName).toBe("nested/prepared/storageAccount.bicep");
+    expect(prepared.entry.fileName).toBe(`${stackName}.bicep`);
+    expect(prepared.modules[0]!.file.fileName).toBe(moduleFileName);
     expect(prepared.entry.ast.modules.get(prepared.modules[0]!.moduleName)!.path).toBe(
       "./prepared/storageAccount.bicep",
     );
