@@ -76,7 +76,10 @@ describe("Concurrent CAE challenge acquisition", () => {
   let getToken: ReturnType<typeof vi.fn<TokenCredential["getToken"]>>;
   let sendRequest: ReturnType<typeof vi.fn<SendRequest>>;
 
-  function run(path: string, options: { abortSignal?: AbortSignal; timeout?: number } = {}) {
+  function run(
+    path: string,
+    options: { abortSignal?: AbortSignal; timeout?: number } = {},
+  ): Promise<PipelineResponse> {
     return pipeline.sendRequest(
       { sendRequest },
       createPipelineRequest({ url: `${url}${path}`, ...options }),
