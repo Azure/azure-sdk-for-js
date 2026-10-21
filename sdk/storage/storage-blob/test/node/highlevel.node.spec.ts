@@ -21,7 +21,10 @@ import type {
   BlobServiceClient,
 } from "../../src/index.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
-import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
+import {
+  BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
+  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
+} from "../../src/utils/constants.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { streamToBuffer2 } from "../../src/utils/utils.js";
 import { isNodeLike } from "@azure/core-util";
@@ -176,6 +179,7 @@ describe("Highlevel", () => {
     await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 20,
+      maxSingleShotSize: BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
     });
 
     const downloadResponse = await blockBlobClient.download(0);
@@ -237,6 +241,7 @@ describe("Highlevel", () => {
         abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         concurrency: 20,
+        maxSingleShotSize: BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
       });
       assert.fail();
     } catch (err: any) {
@@ -278,6 +283,7 @@ describe("Highlevel", () => {
         abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
         concurrency: 20,
+        maxSingleShotSize: BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
         onProgress: (ev) => {
           assert.isDefined(ev.loadedBytes);
           eventTriggered = true;
