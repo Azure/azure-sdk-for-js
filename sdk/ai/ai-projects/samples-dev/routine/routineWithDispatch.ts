@@ -2,103 +2,230 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to create a Routine with a manual (custom)
- * trigger and fire it on demand via `dispatch(...)`, then poll the run
- * history until it reaches a terminal state.
+ * This sample demonstrates how to create a Routine with a timer trigger and
+ * manually dispatch it using the Azure AI Projects SDK. The sample:
  *
- * The routine is bound to an existing hosted agent. Because the trigger is
- * a `CustomRoutineTrigger`, the routine never fires on its own; the sample
- * explicitly invokes it with `project.beta.routines.dispatch(...)` passing
- * an `InvokeAgentResponsesApiDispatchPayload` carrying the input sent to
- * the agent.
+ * - Uploads the code in `assets/responses-echo-agent.zip` as a temporary
+ *   Hosted Agent version.
+ * - Creates a Routine associated with the Hosted Agent.
+ * - Dispatches the Routine using an
+ *   `InvokeAgentResponsesApiDispatchPayload`.
+ * - Polls the Routine run history until execution reaches a terminal state.
+ * - Prints status transitions during execution.
+ * - Deletes the created Routine and Hosted Agent version when finished.
  *
- * Routines are a preview feature. In the JS SDK, you access
- * these operations via `project.beta.routines`.
+ * Because the Routine uses a `TimerRoutineTrigger` set far in the future, it
+ * does not run automatically on its own schedule; the sample explicitly
+ * invokes it through `project.beta.routines.dispatch()` before the scheduled
+ * fire time.
  *
- * @summary Demonstrates dispatching a routine on demand and polling runs.
+ * Routines are currently a preview feature and are available through
+ * `project.beta.routines`.
+ *
+ * @summary Demonstrates dispatching a timer routine on demand and polling runs.
  */
 
 import type {
-  CustomRoutineTrigger,
+  TimerRoutineTrigger,
   InvokeAgentResponsesApiRoutineAction,
   InvokeAgentResponsesApiDispatchPayload,
+  CreateAgentVersionFromCodeContent,
+  HostedAgentDefinition,
+  CodeDependencyResolution,
+  AgentEndpointConfig,
 } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import "dotenv/config";
 
-const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
-const agentName = process.env["FOUNDRY_HOSTED_AGENT_NAME"] || "<hosted agent name>";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const agentName = process.env["FOUNDRY_HOSTED_AGENT_NAME"] || "MyHostedAgent";
+const modelName = process.env["FOUNDRY_MODEL_NAME"] || "<model name>";
+const useRemoteBuild =
+  (process.env["FOUNDRY_HOSTED_AGENT_REMOTE_BUILD"] || "false").trim().toLowerCase() === "true";
+
+const codeZipPath = path.resolve(__dirname, "../assets/responses-echo-agent.zip");
 const routineName = "sample-routine-dispatch";
+
+function sha256Hex(data: Uint8Array): string {
+  return createHash("sha256").update(data).digest("hex");
+}
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  // Clean up any leftover routine from a prior run
-  try {
-    await project.beta.routines.delete(routineName);
-  } catch {
-    // ignore 404
-  }
+  const dependencyResolution: CodeDependencyResolution = useRemoteBuild
+    ? "remote_build"
+    : "bundled";
 
-  // Create a routine with a custom (manual) trigger
-  const routine = await project.beta.routines.createOrUpdate(routineName, {
-    description: "Routine used by the dispatch sample.",
-    enabled: true,
-    triggers: {
-      manual: {
-        type: "custom",
-        provider: "sample-provider",
-        event_name: "sample-event",
-        parameters: {},
-      } as CustomRoutineTrigger,
+  // ── Upload a temporary hosted agent version ───────────────────────────
+  const codeZip = readFileSync(codeZipPath);
+  const codeZipSha256 = sha256Hex(codeZip);
+
+  const definition: HostedAgentDefinition = {
+    kind: "hosted",
+    cpu: "0.5",
+    memory: "1Gi",
+    protocol_versions: [{ protocol: "responses", version: "2.0.0" }],
+    code_configuration: {
+      runtime: "python_3_14",
+      entry_point: ["python", "main.py"],
+      dependency_resolution: dependencyResolution,
     },
-    action: {
-      type: "invoke_agent_responses_api",
-      agent_name: agentName,
-    } as InvokeAgentResponsesApiRoutineAction,
-  });
-  console.log(`Created routine: ${routine.name} enabled=${routine.enabled}`);
+    environment_variables: {
+      FOUNDRY_PROJECT_ENDPOINT: projectEndpoint,
+      FOUNDRY_MODEL_NAME: modelName,
+    },
+  };
 
-  // Dispatch the routine manually
-  const dispatchResult = await project.beta.routines.dispatch(routineName, {
-    payload: {
-      type: "invoke_agent_responses_api",
-      input: "Say hello from a manually dispatched routine.",
-    } as InvokeAgentResponsesApiDispatchPayload,
-  });
   console.log(
-    `Dispatched routine: dispatch_id=${dispatchResult.dispatch_id} task_id=${dispatchResult.task_id}`,
+    `Creating code-based agent version (dependency_resolution=${dependencyResolution})...`,
   );
+  const content: CreateAgentVersionFromCodeContent = {
+    metadata: {
+      description: "Routines dispatch hosted agent uploaded from assets.",
+      definition,
+    },
+    code: { contents: codeZip, contentType: "application/zip", filename: "code.zip" },
+  };
 
-  // Poll run history until a terminal state is reached
-  const deadline = Date.now() + 180_000;
-  let finished = false;
-  while (Date.now() < deadline && !finished) {
-    await new Promise((resolve) => setTimeout(resolve, 5_000));
-    for await (const run of project.beta.routines.listRuns(routineName, {
-      limit: 20,
-      order: "desc",
-    })) {
-      console.log(
-        `  run_id=${run.id} phase=${run.phase} status=${run.status} ` +
-          `trigger_type=${run.trigger_type} triggered_at=${run.triggered_at}`,
-      );
-      if (run.status?.toLowerCase() === "finished") {
-        finished = true;
-        break;
+  const created = await project.agents.createVersionFromCode(agentName, codeZipSha256, content);
+  const createdVersion = created.version;
+  console.log(`Created code-based hosted agent version: ${createdVersion}`);
+
+  let originalAgentEndpoint: AgentEndpointConfig | undefined;
+
+  try {
+    // ── Poll until agent version is active ────────────────────────────
+    for (let attempt = 0; attempt < 60; attempt++) {
+      await new Promise((resolve) => setTimeout(resolve, 10_000));
+      const versionDetails = await project.agents.getVersion(agentName, createdVersion);
+      const status = versionDetails.status;
+      console.log(`Agent version status: ${status} (attempt ${attempt + 1})`);
+      if (status === "active") break;
+      if (status === "failed") {
+        throw new Error(`Agent version provisioning failed: ${JSON.stringify(versionDetails)}`);
+      }
+      if (attempt === 59) {
+        throw new Error("Timed out waiting for agent version to become active");
       }
     }
-  }
 
-  if (!finished) {
-    console.log("Dispatch did not produce a terminal run within the deadline.");
-  }
+    // ── Point agent endpoint at the new version ───────────────────────
+    const agent = await project.agents.get(agentName);
+    originalAgentEndpoint = agent.agent_endpoint;
 
-  // Clean up
-  await project.beta.routines.delete(routineName);
-  console.log("Routine deleted");
+    await project.agents.updateAgent(agentName, {
+      agentEndpoint: {
+        version_selector: {
+          version_selection_rules: [
+            { agent_version: createdVersion, traffic_percentage: 100 },
+          ],
+        },
+        protocol_configuration: {
+          responses: {},
+        },
+      },
+    });
+    console.log(`Agent endpoint configured for version ${createdVersion}`);
+
+    // ── Clean up any leftover routine from a prior run ────────────────
+    try {
+      await project.beta.routines.delete(routineName);
+      console.log(`Routine \`${routineName}\` deleted`);
+    } catch {
+      // ignore 404
+    }
+
+    // ── Create a routine with a timer trigger set 1 hour in the future
+    const fireAt = new Date(Date.now() + 60 * 60 * 1000);
+
+    const routine = await project.beta.routines.createOrUpdate(routineName, {
+      description: "Long-timer routine dispatched before its scheduled fire time.",
+      enabled: true,
+      triggers: {
+        once: {
+          type: "timer",
+          at: fireAt,
+        } as TimerRoutineTrigger,
+      },
+      action: {
+        type: "invoke_agent_responses_api",
+        agent_name: agentName,
+      } as InvokeAgentResponsesApiRoutineAction,
+    });
+    console.log(
+      `Created routine: ${routine.name} enabled=${routine.enabled} fire_at=${fireAt.toISOString()}`,
+    );
+
+    // ── Dispatch the routine manually ─────────────────────────────────
+    const dispatchResult = await project.beta.routines.dispatch(routineName, {
+      payload: {
+        type: "invoke_agent_responses_api",
+        input: "Say hello from a timer routine dispatched before its scheduled fire time.",
+      } as InvokeAgentResponsesApiDispatchPayload,
+    });
+    console.log(
+      `Dispatched routine: dispatch_id=${dispatchResult.dispatch_id} task_id=${dispatchResult.task_id}`,
+    );
+
+    // ── Poll run history until a terminal state is reached ────────────
+    const deadline = Date.now() + 180_000;
+    let finalRun: Record<string, unknown> | undefined;
+    while (Date.now() < deadline) {
+      await new Promise((resolve) => setTimeout(resolve, 5_000));
+      for await (const run of project.beta.routines.listRuns(routineName, {
+        limit: 20,
+        order: "desc",
+      })) {
+        if (
+          run.dispatch_id === dispatchResult.dispatch_id &&
+          (run.phase === "completed" || run.phase === "failed")
+        ) {
+          finalRun = run as unknown as Record<string, unknown>;
+          break;
+        }
+      }
+      if (finalRun) break;
+    }
+
+    if (finalRun) {
+      console.log("Final run:");
+      console.log(JSON.stringify(finalRun, null, 2));
+      const triggeredAt = finalRun.triggered_at
+        ? new Date(finalRun.triggered_at as string)
+        : undefined;
+      if (triggeredAt) {
+        console.log(
+          `Routine was scheduled to trigger around ${fireAt.toLocaleTimeString()}, ` +
+            `but dispatch caused it to trigger at ${triggeredAt.toLocaleTimeString()}.`,
+        );
+      }
+    } else {
+      console.log("Dispatch did not produce a terminal run within the deadline.");
+    }
+
+    // ── Clean up routine ──────────────────────────────────────────────
+    await project.beta.routines.delete(routineName);
+    console.log("Routine deleted");
+  } finally {
+    // ── Restore original agent endpoint and delete the version ─────────
+    if (originalAgentEndpoint) {
+      await project.agents.updateAgent(agentName, {
+        agentEndpoint: originalAgentEndpoint,
+      });
+      console.log("Agent endpoint restored");
+    }
+
+    await project.agents.deleteVersion(agentName, createdVersion, { force: true });
+    console.log(`Hosted agent version ${createdVersion} deleted`);
+  }
 }
 
 main().catch(console.error);
