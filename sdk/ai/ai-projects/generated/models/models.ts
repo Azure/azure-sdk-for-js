@@ -519,6 +519,8 @@ export interface HostedAgentDefinition extends AgentDefinition {
   telemetry_config?: TelemetryConfig;
   /** Optional session defaults (for example, the idle timeout) applied to sessions created for this agent version. */
   session_configuration?: SessionConfiguration;
+  /** Whether this agent version uses memory snapshots. Sessions for a snapshot-enabled version start from a snapshot of the agent's initialized process rather than starting the process from its image. Defaults to false. */
+  enable_memory_snapshot?: boolean;
 }
 
 export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): any {
@@ -543,6 +545,7 @@ export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): an
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationSerializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -574,6 +577,7 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationDeserializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -2157,6 +2161,22 @@ export function browserAutomationToolConnectionParametersDeserializer(
 ): BrowserAutomationToolConnectionParameters {
   return {
     project_connection_id: item["project_connection_id"],
+  };
+}
+
+/** The input definition information for a cloud computer use tool, as used to configure an agent. */
+export interface CloudComputerUsePreviewTool extends Tool {
+  /** The object type, which is always `cloud_computer_use_preview`. */
+  type: "cloud_computer_use_preview";
+}
+
+export function cloudComputerUsePreviewToolSerializer(item: CloudComputerUsePreviewTool): any {
+  return { type: item["type"] };
+}
+
+export function cloudComputerUsePreviewToolDeserializer(item: any): CloudComputerUsePreviewTool {
+  return {
+    type: item["type"],
   };
 }
 
@@ -3794,7 +3814,7 @@ export interface VoiceAgentInputTranscription {
   /**
    * An optional text to guide the model's style or continue a previous audio
    *   segment.
-   *   For `whisper-1`, the [prompt is a list of keywords](/docs/guides/speech-to-text#prompting).
+   *   For `whisper-1`, the [prompt is a list of keywords](https://developers.openai.com/api/docs/guides/speech-to-text#prompting).
    *   For `gpt-4o-transcribe` models (excluding `gpt-4o-transcribe-diarize`), the prompt is a free text string, for example "expect words related to technology".
    *   Prompt is not supported with `gpt-realtime-whisper` in GA Realtime sessions.
    */
@@ -11112,7 +11132,7 @@ export function toolboxToolUnionArrayDeserializer(result: Array<ToolboxToolUnion
 /** An abstract representation of a tool stored in a toolbox. */
 export interface ToolboxTool {
   /** The type of tool. */
-  /** The discriminator possible values: code_interpreter, file_search, web_search, shell, mcp, azure_ai_search, openapi, a2a, a2a_preview, browser_automation_preview, browser_automation, reminder_preview, work_iq_preview, fabric_iq_preview, web_iq_preview, toolbox_search_preview, toolbox_search */
+  /** The discriminator possible values: code_interpreter, file_search, web_search, shell, mcp, azure_ai_search, openapi, a2a, a2a_preview, browser_automation_preview, cloud_computer_use_preview, browser_automation, reminder_preview, work_iq_preview, fabric_iq_preview, web_iq_preview, toolbox_search_preview, toolbox_search */
   type: ToolboxToolType;
   /** Optional user-defined name for this tool or configuration. */
   name?: string;
@@ -11160,6 +11180,7 @@ export type ToolboxToolUnion =
   | A2AToolboxTool
   | A2APreviewToolboxTool
   | BrowserAutomationPreviewToolboxTool
+  | CloudComputerUsePreviewToolboxTool
   | BrowserAutomationToolboxTool
   | ReminderPreviewToolboxTool
   | WorkIQPreviewToolboxTool
@@ -11201,6 +11222,11 @@ export function toolboxToolUnionSerializer(item: ToolboxToolUnion): any {
     case "browser_automation_preview":
       return browserAutomationPreviewToolboxToolSerializer(
         item as BrowserAutomationPreviewToolboxTool,
+      );
+
+    case "cloud_computer_use_preview":
+      return cloudComputerUsePreviewToolboxToolSerializer(
+        item as CloudComputerUsePreviewToolboxTool,
       );
 
     case "browser_automation":
@@ -11263,6 +11289,11 @@ export function toolboxToolUnionDeserializer(item: any): ToolboxToolUnion {
         item as BrowserAutomationPreviewToolboxTool,
       );
 
+    case "cloud_computer_use_preview":
+      return cloudComputerUsePreviewToolboxToolDeserializer(
+        item as CloudComputerUsePreviewToolboxTool,
+      );
+
     case "browser_automation":
       return browserAutomationToolboxToolDeserializer(item as BrowserAutomationToolboxTool);
 
@@ -11307,7 +11338,8 @@ export type ToolboxToolType =
   | "a2a"
   | "shell"
   | "web_iq_preview"
-  | "browser_automation";
+  | "browser_automation"
+  | "cloud_computer_use_preview";
 
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
@@ -11420,6 +11452,11 @@ export interface WebSearchToolboxTool extends ToolboxTool {
   /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
   external_web_access?: boolean;
   filters?: WebSearchToolFilters;
+  /**
+   * The approximate location of the user. If omitted or null, defaults to the
+   *   United States. To avoid this fallback, pass `{"type": "approximate"}` without
+   *   location fields. To localize results, provide the relevant location fields.
+   */
   user_location?: WebSearchApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: "low" | "medium" | "high";
@@ -11722,7 +11759,10 @@ export interface MCPToolboxTool extends ToolboxTool {
   /**
    * Identifier for service connectors, like those available in ChatGPT. One of
    *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
-   *   about service connectors [here](/docs/guides/tools-remote-mcp#connectors).
+   *   about service connectors [here](https://developers.openai.com/api/docs/guides/tools-connectors-mcp#connectors).
+   *   This field is deprecated for models released after September 1, 2026.
+   *   Use `server_url` to connect to a remote MCP server, or `tunnel_id` to
+   *   connect through a Secure MCP Tunnel.
    *   Currently supported `connector_id` values are:
    *   - Dropbox: `connector_dropbox`
    *   - Gmail: `connector_gmail`
@@ -12039,6 +12079,37 @@ export function browserAutomationPreviewToolboxToolDeserializer(
     browser_automation_preview: browserAutomationToolParametersDeserializer(
       item["browser_automation_preview"],
     ),
+  };
+}
+
+/** A cloud computer use tool stored in a toolbox. */
+export interface CloudComputerUsePreviewToolboxTool extends ToolboxTool {
+  type: "cloud_computer_use_preview";
+}
+
+export function cloudComputerUsePreviewToolboxToolSerializer(
+  item: CloudComputerUsePreviewToolboxTool,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+export function cloudComputerUsePreviewToolboxToolDeserializer(
+  item: any,
+): CloudComputerUsePreviewToolboxTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
