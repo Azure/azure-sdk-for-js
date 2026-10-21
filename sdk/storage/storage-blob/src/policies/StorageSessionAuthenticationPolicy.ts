@@ -93,6 +93,8 @@ export function storageSessionAuthenticationPolicy(
       // only that session so the next request to this container mints a fresh one, then retry
       // this request once with bearer authentication.
       getProvider(request).invalidateSession(request, session);
+      // An unread body keeps its connection busy, so drain the rejected response before retrying.
+      response.readableStreamBody?.resume();
       request.headers.delete(HeaderConstants.AUTHORIZATION);
       request.headers.delete(HeaderConstants.X_MS_DATE);
       return bearerPolicy.sendRequest(request, next);
