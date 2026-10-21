@@ -7,6 +7,10 @@ import {
   _getBetaVoiceAgentsConversationsOperations,
 } from "./conversations/index.js";
 import {
+  BetaVoiceAgentsLiveConversationsOperations,
+  _getBetaVoiceAgentsLiveConversationsOperations,
+} from "./liveConversations/index.js";
+import {
   BetaVoiceAgentsTelephonyOperations,
   _getBetaVoiceAgentsTelephonyOperations,
 } from "./telephony/index.js";
@@ -14,6 +18,7 @@ import {
 /** Interface representing a BetaVoiceAgents operations. */
 export interface BetaVoiceAgentsOperations {
   telephony: BetaVoiceAgentsTelephonyOperations;
+  liveConversations: BetaVoiceAgentsLiveConversationsOperations;
   conversations: BetaVoiceAgentsConversationsOperations;
 }
 
@@ -22,6 +27,7 @@ export function _getBetaVoiceAgentsOperations(
 ): BetaVoiceAgentsOperations {
   return {
     telephony: _getBetaVoiceAgentsTelephonyOperations(context),
+    liveConversations: _getBetaVoiceAgentsLiveConversationsOperations(context),
     conversations: _getBetaVoiceAgentsConversationsOperations(context),
   };
 }
