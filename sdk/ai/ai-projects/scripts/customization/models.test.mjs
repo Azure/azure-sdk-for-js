@@ -5,11 +5,16 @@ import assert from "node:assert/strict";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { runInNewContext } from "node:vm";
-import test from "node:test";
-import ts from "typescript";
+import test, { after } from "node:test";
+import * as ts from "typescript/ast";
+import { createFileSystemLayer } from "typescript/fs";
+import { ModuleKind, formatDiagnostics } from "typescript/sync";
 import { mergeDeclaration } from "./ast-merge.mjs";
 import { reconcileModels } from "./models.mjs";
 import { readBaseline, readTree } from "./trees.mjs";
+import { closeTypeScriptApi, getTypeScriptApi, parseSource, transpile } from "./typescript-api.mjs";
+
+after(closeTypeScriptApi);
 
 const modelFile = "models/models.ts";
 const barrelFile = "models/index.ts";
@@ -34,10 +39,7 @@ function succeeded(base, custom, incoming) {
 }
 
 function evaluate(text) {
-  const compiled = ts.transpileModule(text, {
-    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS },
-    reportDiagnostics: true,
-  });
+  const compiled = transpile(text, { target: ts.ScriptTarget.ES2022, module: ModuleKind.CommonJS });
   assert.deepEqual(compiled.diagnostics, []);
   const sandbox = { exports: {} };
   runInNewContext(compiled.outputText, sandbox, { timeout: 1000 });
@@ -101,60 +103,44 @@ export interface Legacy extends Other { kind: "legacy"; }
 });
 
 function assertModelTypes(files, packageRoot) {
-  const configuration = ts.readConfigFile(
-    path.join(packageRoot, "tsconfig.test.node.json"),
-    ts.sys.readFile,
-  );
-  assert.equal(configuration.error, undefined);
-  const parsed = ts.parseJsonConfigFileContent(configuration.config, ts.sys, packageRoot);
+  const api = getTypeScriptApi();
+  const configFile = path.join(packageRoot, "tsconfig.test.node.json").replaceAll("\\", "/");
+  const parsed = api.parseConfigFile(configFile);
   assert.deepEqual(parsed.errors, []);
   const options = { ...parsed.options, noEmit: true };
-  const key = (file) => {
-    const absolute = path.resolve(file);
-    return ts.sys.useCaseSensitiveFileNames ? absolute : absolute.toLowerCase();
-  };
-  const virtual = new Map(
-    [...files].map(([file, text]) => [
-      key(path.join(packageRoot, "src", ...file.split("/"))),
-      text,
-    ]),
-  );
-  const host = ts.createCompilerHost(options);
-  const original = {
-    getSourceFile: host.getSourceFile.bind(host),
-    fileExists: host.fileExists.bind(host),
-    directoryExists: host.directoryExists.bind(host),
-    readFile: host.readFile.bind(host),
-  };
-  host.getSourceFile = (file, ...args) =>
-    virtual.has(key(file))
-      ? ts.createSourceFile(file, virtual.get(key(file)), options.target, true)
-      : original.getSourceFile(file, ...args);
-  host.fileExists = (file) => virtual.has(key(file)) || original.fileExists(file);
-  host.readFile = (file) => virtual.get(key(file)) ?? original.readFile(file);
-  host.directoryExists = (directory) =>
-    [...virtual.keys()].some((file) => file.startsWith(key(directory) + path.sep)) ||
-    original.directoryExists(directory);
-  host.writeFile = () => {
-    throw new Error("The virtual model check must not write SDK files.");
-  };
-  const sourceRoot = key(path.join(packageRoot, "src")) + path.sep;
-  const initial = ts.createProgram([...virtual.keys()], options, host);
-  const roots = initial
-    .getSourceFiles()
-    .filter((source) => !source.isDeclarationFile && key(source.fileName).startsWith(sourceRoot))
-    .map((source) => source.fileName);
-  const program = ts.createProgram(roots, options, host);
-  const diagnostics = ts.getPreEmitDiagnostics(program);
-  assert.equal(
-    diagnostics.length,
-    0,
-    ts.formatDiagnostics(diagnostics, {
-      getCurrentDirectory: () => packageRoot,
-      getCanonicalFileName: key,
-      getNewLine: () => "\n",
-    }),
-  );
+  const virtual = [...files].map(([file, text]) => [
+    path.join(packageRoot, "src", ...file.split("/")).replaceAll("\\", "/"),
+    text,
+  ]);
+  const sourceRoot = path.join(packageRoot, "src").replaceAll("\\", "/") + "/";
+  const check = (rootFiles) =>
+    api.createSnapshot({
+      fileSystem: createFileSystemLayer(virtual),
+      createPrograms: [{ rootFiles, compilerOptions: options }],
+    });
+  const initial = check(virtual.map(([file]) => file));
+  let roots;
+  try {
+    const initialProgram = initial.operation.createdPrograms[0];
+    roots = initialProgram
+      .getSourceFileNames()
+      .filter((file) => !file.endsWith(".d.ts") && file.startsWith(sourceRoot));
+  } finally {
+    initial.dispose();
+  }
+  const snapshot = check(roots);
+  try {
+    const program = snapshot.operation.createdPrograms[0];
+    const diagnostics = [
+      ...program.getGlobalDiagnostics(),
+      ...program.getProgramDiagnostics(),
+      ...program.getSyntacticDiagnostics(),
+      ...program.getSemanticDiagnostics(),
+    ];
+    assert.equal(diagnostics.length, 0, formatDiagnostics(diagnostics, api));
+  } finally {
+    snapshot.dispose();
+  }
 }
 
 const publicExample = 'export type { Example } from "./models.js";';
@@ -303,7 +289,7 @@ test("retained legacy models keep their discriminator and dispatch registrations
     tree(polymorphicTools({ added: true })),
   );
   const text = result.files.get(modelFile);
-  const source = ts.createSourceFile(modelFile, text, ts.ScriptTarget.Latest, true);
+  const source = parseSource(text, modelFile);
   const type = (name) =>
     source.statements.find((node) => node.name?.text === name).type.getText(source);
   assert.match(type("ToolKind"), /"legacy"/);
@@ -792,12 +778,7 @@ export type TelephonyCallJobTerminalReason = "cancelled";
 export type OtherReason = "bounded";
 `);
   const result = succeeded(new Map(), new Map(), incoming);
-  const source = ts.createSourceFile(
-    modelFile,
-    result.files.get(modelFile),
-    ts.ScriptTarget.Latest,
-    true,
-  );
+  const source = parseSource(result.files.get(modelFile), modelFile);
   for (const declaration of source.statements.filter(ts.isTypeAliasDeclaration)) {
     const members = ts.isUnionTypeNode(declaration.type)
       ? declaration.type.types
@@ -832,18 +813,8 @@ test(
     const incoming = readTree(process.env.AI_PROJECTS_CUSTOMIZATION_PREVIEW_DIR);
     const result = plan(baseline.generated, baseline.source, incoming);
     assert.deepEqual(result.diagnostics, []);
-    const before = ts.createSourceFile(
-      modelFile,
-      baseline.source.get(modelFile),
-      ts.ScriptTarget.Latest,
-      true,
-    );
-    const after = ts.createSourceFile(
-      modelFile,
-      result.files.get(modelFile),
-      ts.ScriptTarget.Latest,
-      true,
-    );
+    const before = parseSource(baseline.source.get(modelFile), modelFile);
+    const after = parseSource(result.files.get(modelFile), modelFile);
     const names = new Set(after.statements.map((node) => node.name?.text).filter(Boolean));
     for (const node of before.statements)
       if (node.name?.text) assert.ok(names.has(node.name.text), node.name.text);

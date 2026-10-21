@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { retainCustomizedOnConflict } from "./customization/ast-merge.mjs";
 import { planCustomization } from "./customization/planner.mjs";
 import { validateCustomization } from "./customization/guards.mjs";
+import { withTypeScriptApi } from "./customization/typescript-api.mjs";
 import { changedFiles, readBaseline, readTree, writeTree } from "./customization/trees.mjs";
 import { key, renderWorklist } from "./customization/worklist.mjs";
 
@@ -110,7 +111,7 @@ function reportRetained(options, retained, commit, unapplied) {
 }
 
 try {
-  main();
+  withTypeScriptApi(main);
 } catch (error) {
   console.error(`[ERROR] ${error instanceof Error ? error.message : String(error)}`);
   process.exitCode = 1;

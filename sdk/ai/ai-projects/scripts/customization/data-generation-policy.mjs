@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ts from "typescript";
+import * as ts from "typescript/ast";
 
 /** The user-approved upstream values; other discriminator changes require review. */
 export function isUpstreamDataGenerationType(node, allowLegacy = false) {

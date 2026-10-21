@@ -5,7 +5,13 @@ import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import ts from "typescript";
+import * as ts from "typescript/ast";
+import {
+  isFunctionLike,
+  parseSource,
+  withSources,
+  withTypeScriptApi,
+} from "../../../../scripts/customization/typescript-api.mjs";
 import { planModelRemovals } from "./sync-generated-model-removals.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
@@ -59,13 +65,17 @@ function identifiers(node) {
   const names = new Set();
   function visit(child) {
     if (ts.isIdentifier(child)) names.add(child.text);
-    ts.forEachChild(child, visit);
+    child.forEachChild(visit);
   }
   visit(node);
   return names;
 }
 
-export function findPromotedOptionRemovals({ previousGenerated, currentGenerated, currentSource }) {
+export function findPromotedOptionRemovals(...args) {
+  return withSources(() => findPromotedOptionRemovalsWithin(...args));
+}
+
+function findPromotedOptionRemovalsWithin({ previousGenerated, currentGenerated, currentSource }) {
   const parse = (files, file) => parseSource(files.get(file) ?? "", file);
 
   // Conservatively follow declaration and import-alias dependencies, including
@@ -228,10 +238,6 @@ function propertyName(name) {
   return undefined;
 }
 
-function parseSource(source, fileName) {
-  return ts.createSourceFile(fileName, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
-}
-
 function collectInterfaces(sourceFile) {
   const interfaces = new Map();
   for (const statement of sourceFile.statements) {
@@ -315,7 +321,7 @@ function collectSendBodyProperties(sourceFile) {
           }
         }
       }
-      ts.forEachChild(node, visit);
+      node.forEachChild(visit);
     }
     visit(statement.body);
     functions.set(functionName, properties);
@@ -342,7 +348,7 @@ function collectModelConverterProperties(sourceFile) {
 
     const properties = new Set();
     function visit(node) {
-      if (ts.isFunctionLike(node)) {
+      if (isFunctionLike(node)) {
         return;
       }
       if (
@@ -359,7 +365,7 @@ function collectModelConverterProperties(sourceFile) {
           }
         }
       }
-      ts.forEachChild(node, visit);
+      node.forEachChild(visit);
     }
     visit(statement.body);
     functions.set(functionName, { kind, properties });
@@ -371,7 +377,11 @@ function addedValues(previous, current) {
   return [...current].filter((value) => !previous.has(value));
 }
 
-export function findMissingPreservedExports({ previousSource, currentSource, file }) {
+export function findMissingPreservedExports(...args) {
+  return withSources(() => findMissingPreservedExportsWithin(...args));
+}
+
+function findMissingPreservedExportsWithin({ previousSource, currentSource, file }) {
   const previousFile = parseSource(previousSource, `previous-src/${file}`);
   const currentFile = parseSource(currentSource, `src/${file}`);
   const previousExports = collectExportedNames(previousFile);
@@ -382,7 +392,11 @@ export function findMissingPreservedExports({ previousSource, currentSource, fil
     .map((name) => ({ file, name }));
 }
 
-export function findIndexInvariantViolations(source) {
+export function findIndexInvariantViolations(...args) {
+  return withSources(() => findIndexInvariantViolationsWithin(...args));
+}
+
+function findIndexInvariantViolationsWithin(source) {
   const sourceFile = parseSource(source, "src/index.ts");
   const violations = [];
   const imports = new Map();
@@ -425,7 +439,11 @@ export function findIndexInvariantViolations(source) {
   return violations;
 }
 
-export function findMissingAdditions({ previousGenerated, currentGenerated, currentSource, file }) {
+export function findMissingAdditions(...args) {
+  return withSources(() => findMissingAdditionsWithin(...args));
+}
+
+function findMissingAdditionsWithin({ previousGenerated, currentGenerated, currentSource, file }) {
   const previousFile = parseSource(previousGenerated, `previous-generated/${file}`);
   const currentFile = parseSource(currentGenerated, `generated/${file}`);
   const sourceFile = parseSource(currentSource, `src/${file}`);
@@ -758,5 +776,5 @@ function main() {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === scriptPath) {
-  main();
+  withTypeScriptApi(main);
 }

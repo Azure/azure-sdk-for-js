@@ -2,7 +2,16 @@
 // Licensed under the MIT License.
 
 import path from "node:path";
-import ts from "typescript";
+import * as ts from "typescript/ast";
+import {
+  flattenDiagnostic,
+  heritageExpression,
+  isFunctionLike,
+  isStringLiteralLike,
+  parseSource,
+  syntaxDiagnostics,
+  withSources,
+} from "./typescript-api.mjs";
 import { canonicalize } from "./ast-merge.mjs";
 import { isUpstreamDataGenerationType } from "./data-generation-policy.mjs";
 import { parse } from "./modules.mjs";
@@ -38,10 +47,10 @@ const behaviorProperties = new Set([
 
 function nameOf(node) {
   if (!node) return undefined;
-  if (ts.isIdentifier(node) || ts.isStringLiteralLike(node) || ts.isNumericLiteral(node)) {
+  if (ts.isIdentifier(node) || isStringLiteralLike(node) || ts.isNumericLiteral(node)) {
     return node.text;
   }
-  if (ts.isComputedPropertyName(node) && ts.isStringLiteralLike(node.expression)) {
+  if (ts.isComputedPropertyName(node) && isStringLiteralLike(node.expression)) {
     return node.expression.text;
   }
   return undefined;
@@ -49,7 +58,7 @@ function nameOf(node) {
 
 function walk(node, visit) {
   visit(node);
-  ts.forEachChild(node, (child) => walk(child, visit));
+  node.forEachChild((child) => walk(child, visit));
 }
 
 function unwrap(node) {
@@ -78,13 +87,13 @@ function mapped(name, renames) {
 
 function renameText(text, renames) {
   if (!renames.size) return text;
-  const scanner = ts.createScanner(ts.ScriptTarget.Latest, true, ts.LanguageVariant.Standard, text);
+  const scanner = ts.createScanner(true, ts.LanguageVariant.Standard, text);
   const edits = [];
-  for (let token = scanner.scan(); token !== ts.SyntaxKind.EndOfFileToken; token = scanner.scan()) {
+  for (let token = scanner.scan(); token !== ts.SyntaxKind.EndOfFile; token = scanner.scan()) {
     if (token === ts.SyntaxKind.Identifier && renames.has(scanner.getTokenText())) {
       edits.push({
-        start: scanner.getTokenPos(),
-        end: scanner.getTextPos(),
+        start: scanner.getTokenStart(),
+        end: scanner.getTokenEnd(),
         text: mapped(scanner.getTokenText(), renames),
       });
     }
@@ -144,7 +153,7 @@ function validOverloads(nodes) {
       (node) =>
         ts.isFunctionDeclaration(node) ||
         ts.isMethodDeclaration(node) ||
-        ts.isMethodSignature(node) ||
+        ts.isMethodSignatureDeclaration(node) ||
         ts.isConstructorDeclaration(node),
     ) &&
     new Set(nodes.map((node) => node.kind)).size === 1 &&
@@ -225,16 +234,16 @@ function parseTree(tree, label, report) {
       report(file, "<file>", "Unresolved merge conflict markers remain in customized source.");
     }
     if (!/\.(?:ts|mts|cts)$/.test(file)) continue;
-    const source = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
-    for (const error of source.parseDiagnostics) {
-      const position = source.getLineAndCharacterOfPosition(error.start ?? 0);
+    const diagnostics = syntaxDiagnostics(text, file);
+    for (const error of diagnostics) {
       report(
         file,
         "<file>",
-        `${label} TypeScript parse error at ${position.line + 1}:${position.character + 1}: ${ts.flattenDiagnosticMessageText(error.messageText, " ")}`,
+        `${label} TypeScript parse error at ${error.startPosition.line + 1}:${error.startPosition.character + 1}: ${flattenDiagnostic(error, " ")}`,
       );
     }
-    if (source.parseDiagnostics.length) continue;
+    if (diagnostics.length) continue;
+    const source = parseSource(text, file);
     if (label === "source") validateDuplicates(source, file, report);
     const entries = directDeclarations(source).map((item) => ({ ...item, file, source }));
     modules.set(file, {
@@ -358,7 +367,7 @@ function members(entry, index, renames, report, seen = new Set()) {
   );
   for (const clause of node.heritageClauses ?? []) {
     for (const heritage of clause.types) {
-      const name = nameOf(heritage.expression);
+      const name = nameOf(heritageExpression(heritage));
       if (!name) continue;
       const parent = find(index, name, entry.file, renames, report);
       for (const [member, value] of members(parent, index, renames, report, seen)) {
@@ -406,14 +415,14 @@ function mappings(entry, kind) {
   const result = new Map();
   if (!entry) return result;
   function visit(node) {
-    if (node !== entry.node && ts.isFunctionLike(node)) return;
+    if (node !== entry.node && isFunctionLike(node)) return;
     if (kind === "body" && ts.isPropertyAssignment(node) && nameOf(node.name) === "body") {
       objectProperties(node.initializer, "", result);
     }
     if (kind === "return" && ts.isReturnStatement(node) && node.expression) {
       objectProperties(node.expression, "", result);
     }
-    ts.forEachChild(node, visit);
+    node.forEachChild(visit);
   }
   visit(entry.node);
   return result;
@@ -591,7 +600,7 @@ function retiredTaskGeneration(name, base, custom, incoming) {
     legacy &&
     ts.isInterfaceDeclaration(legacy) &&
     legacy.heritageClauses?.some((clause) =>
-      clause.types.some((type) => nameOf(type.expression) === "DataGenerationJobOptions"),
+      clause.types.some((type) => nameOf(heritageExpression(type)) === "DataGenerationJobOptions"),
     ) &&
     legacy.members.some(
       (member) =>
@@ -1358,7 +1367,7 @@ function classInitializers(entry) {
     }
     if (!ts.isConstructorDeclaration(member) || !member.body) continue;
     function visit(node) {
-      if (ts.isFunctionLike(node) || ts.isClassDeclaration(node)) return;
+      if (isFunctionLike(node) || ts.isClassDeclaration(node)) return;
       if (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.EqualsToken) {
         const left = unwrap(node.left);
         if (
@@ -1374,7 +1383,7 @@ function classInitializers(entry) {
           result.set(nameOf(left.argumentExpression), node.right);
         }
       }
-      ts.forEachChild(node, visit);
+      node.forEachChild(visit);
     }
     visit(member.body);
   }
@@ -1558,7 +1567,7 @@ function checkVoicePaging(entry, report) {
     if (
       !properties
         .get(name)
-        ?.some((node) => ts.isStringLiteralLike(unwrap(node)) && unwrap(node).text === value)
+        ?.some((node) => isStringLiteralLike(unwrap(node)) && unwrap(node).text === value)
     ) {
       report(entry.file, entry.name, `Voice/telephony paging requires ${name}: "${value}".`, name);
     }
@@ -1767,9 +1776,9 @@ function checkKnownPolicies(trees, modelIndexes, renames, report) {
     const parameter = converter?.node.parameters?.[0];
     const returns = [];
     function visit(node) {
-      if (node !== converter.node && ts.isFunctionLike(node)) return;
+      if (node !== converter.node && isFunctionLike(node)) return;
       if (ts.isReturnStatement(node)) returns.push(unwrap(node.expression));
-      ts.forEachChild(node, visit);
+      node.forEachChild(visit);
     }
     if (parameter) visit(converter.node);
     const preservesRecord =
@@ -1811,7 +1820,11 @@ function checkKnownPolicies(trees, modelIndexes, renames, report) {
  * in `unapplied` instead of being returned as a diagnostic. Every other check,
  * and every missing addition in a declaration that was not kept, is unchanged.
  */
-export function validateCustomization({
+export function validateCustomization(inputs) {
+  return withSources(() => validateTrees(inputs));
+}
+
+function validateTrees({
   baseGenerated,
   baseSource,
   generated,

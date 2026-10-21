@@ -5,14 +5,18 @@ import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import ts from "typescript";
+import * as ts from "typescript/ast";
+import { updateVariableDeclarationList } from "typescript/ast/factory";
+import {
+  getTypeScriptApi,
+  parseSource,
+  withProgram,
+  withSources,
+  withTypeScriptApi,
+} from "../../../../scripts/customization/typescript-api.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
 const packageRoot = path.resolve(path.dirname(scriptPath), "../../../..");
-
-function parseSource(source, fileName) {
-  return ts.createSourceFile(fileName, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
-}
 
 function declarationEntries(statement) {
   if (
@@ -44,54 +48,60 @@ function isExported(statement) {
   return statement.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword);
 }
 
+// The graph holds AST nodes and checker symbols, which live only as long as the program, so the
+// analysis runs inside `withProgram` and callers receive whatever `use` returns.
+function analyzeDeclarations(source, fileName, use) {
+  return withProgram(new Map([[fileName, source]]), [fileName], ({ checker, sourceFile: open }) => {
+    const sourceFile = open(fileName);
+    const entries = sourceFile.statements
+      .flatMap((statement) => declarationEntries(statement))
+      .map((entry) => ({
+        ...entry,
+        names: entry.nameNodes.map((name) => name.text),
+        exported: isExported(entry.statement),
+      }));
+    const identifiers = new Map();
+    for (const entry of entries) {
+      const found = [];
+      (function visit(node) {
+        if (ts.isIdentifier(node)) found.push(node);
+        node.forEachChild(visit);
+      })(entry.node);
+      identifiers.set(entry, found);
+    }
+    const names = entries.flatMap((entry) => entry.nameNodes);
+    const named = checker.getSymbolAtLocation(names);
+    const topLevelSymbols = new Map();
+    names.forEach((nameNode, index) => {
+      if (named[index]) topLevelSymbols.set(named[index], nameNode.text);
+    });
+
+    for (const entry of entries) {
+      const nodes = identifiers.get(entry);
+      const symbols = nodes.length ? checker.getSymbolAtLocation(nodes) : [];
+      const references = new Set();
+      symbols.forEach((symbol) => {
+        const referencedName = topLevelSymbols.get(symbol);
+        if (referencedName) references.add(referencedName);
+      });
+      for (const name of entry.names) {
+        references.delete(name);
+      }
+      entry.references = references;
+    }
+
+    const exportedNames = new Set(
+      entries.filter((entry) => entry.exported).flatMap((entry) => entry.names),
+    );
+    return use({ sourceFile, entries, exportedNames });
+  });
+}
+
 function collectDeclarationGraph(source, fileName) {
-  const compilerOptions = { noLib: true, target: ts.ScriptTarget.Latest };
-  const sourceFile = parseSource(source, fileName);
-  const host = ts.createCompilerHost(compilerOptions);
-  host.getSourceFile = (requestedFileName) =>
-    requestedFileName === fileName ? sourceFile : undefined;
-  host.fileExists = (requestedFileName) => requestedFileName === fileName;
-  host.readFile = (requestedFileName) => (requestedFileName === fileName ? source : undefined);
-  const checker = ts.createProgram([fileName], compilerOptions, host).getTypeChecker();
-  const entries = sourceFile.statements
-    .flatMap((statement) => declarationEntries(statement))
-    .map((entry) => ({
-      ...entry,
-      names: entry.nameNodes.map((name) => name.text),
-      exported: isExported(entry.statement),
-    }));
-  const topLevelSymbols = new Map();
-  for (const entry of entries) {
-    for (const nameNode of entry.nameNodes) {
-      const symbol = checker.getSymbolAtLocation(nameNode);
-      if (symbol) {
-        topLevelSymbols.set(symbol, nameNode.text);
-      }
-    }
-  }
-
-  for (const entry of entries) {
-    const references = new Set();
-    function visit(node) {
-      if (ts.isIdentifier(node)) {
-        const referencedName = topLevelSymbols.get(checker.getSymbolAtLocation(node));
-        if (referencedName) {
-          references.add(referencedName);
-        }
-      }
-      ts.forEachChild(node, visit);
-    }
-    visit(entry.node);
-    for (const name of entry.names) {
-      references.delete(name);
-    }
-    entry.references = references;
-  }
-
-  const exportedNames = new Set(
-    entries.filter((entry) => entry.exported).flatMap((entry) => entry.names),
-  );
-  return { sourceFile, entries, exportedNames };
+  return analyzeDeclarations(source, fileName, ({ entries, exportedNames }) => ({
+    entries: entries.map(({ names, exported, references }) => ({ names, exported, references })),
+    exportedNames,
+  }));
 }
 
 export function planModelRemovals({
@@ -174,55 +184,56 @@ function applyEdits(source, edits) {
 }
 
 export function removeModelDeclarations(source, namesToRemove) {
-  const graph = collectDeclarationGraph(source, "src/models/models.ts");
-  const edits = [];
-  const variableRemovals = new Map();
+  return analyzeDeclarations(source, "src/models/models.ts", (graph) => {
+    const edits = [];
+    const variableRemovals = new Map();
 
-  for (const entry of graph.entries) {
-    if (!entry.names.some((name) => namesToRemove.has(name))) {
-      continue;
-    }
+    for (const entry of graph.entries) {
+      if (!entry.names.some((name) => namesToRemove.has(name))) {
+        continue;
+      }
 
-    if (entry.declaration) {
-      const declarations = variableRemovals.get(entry.statement) ?? new Set();
-      declarations.add(entry.declaration);
-      variableRemovals.set(entry.statement, declarations);
-      continue;
-    }
+      if (entry.declaration) {
+        const declarations = variableRemovals.get(entry.statement) ?? new Set();
+        declarations.add(entry.declaration);
+        variableRemovals.set(entry.statement, declarations);
+        continue;
+      }
 
-    edits.push({
-      start: entry.statement.getFullStart(),
-      end: entry.statement.getEnd(),
-      text: "",
-    });
-  }
-
-  const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
-  for (const [statement, declarationsToRemove] of variableRemovals) {
-    const keptDeclarations = statement.declarationList.declarations.filter(
-      (declaration) => !declarationsToRemove.has(declaration),
-    );
-    if (keptDeclarations.length === 0) {
       edits.push({
-        start: statement.getFullStart(),
-        end: statement.getEnd(),
+        start: entry.statement.getFullStart(),
+        end: entry.statement.getEnd(),
         text: "",
       });
-      continue;
     }
 
-    const nextDeclarationList = ts.factory.updateVariableDeclarationList(
-      statement.declarationList,
-      keptDeclarations,
-    );
-    edits.push({
-      start: statement.declarationList.getStart(graph.sourceFile),
-      end: statement.declarationList.getEnd(),
-      text: printer.printNode(ts.EmitHint.Unspecified, nextDeclarationList, graph.sourceFile),
-    });
-  }
+    const { printer } = getTypeScriptApi();
+    for (const [statement, declarationsToRemove] of variableRemovals) {
+      const keptDeclarations = statement.declarationList.declarations.filter(
+        (declaration) => !declarationsToRemove.has(declaration),
+      );
+      if (keptDeclarations.length === 0) {
+        edits.push({
+          start: statement.getFullStart(),
+          end: statement.getEnd(),
+          text: "",
+        });
+        continue;
+      }
 
-  return applyEdits(source, edits);
+      const nextDeclarationList = updateVariableDeclarationList(
+        statement.declarationList,
+        keptDeclarations,
+      );
+      edits.push({
+        start: statement.declarationList.getStart(graph.sourceFile),
+        end: statement.declarationList.getEnd(),
+        text: printer.printNode(nextDeclarationList),
+      });
+    }
+
+    return applyEdits(source, edits);
+  });
 }
 
 export function collectModelExports(source) {
@@ -230,6 +241,10 @@ export function collectModelExports(source) {
 }
 
 export function filterModelReexports(source, moduleName, availableNames, fileName) {
+  return withSources(() => filterReexports(source, moduleName, availableNames, fileName));
+}
+
+function filterReexports(source, moduleName, availableNames, fileName) {
   const sourceFile = parseSource(source, fileName);
   const edits = [];
 
@@ -371,5 +386,5 @@ function main() {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === scriptPath) {
-  main();
+  withTypeScriptApi(main);
 }

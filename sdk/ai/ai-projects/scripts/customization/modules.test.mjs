@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
-import { test } from "node:test";
+import { after, test } from "node:test";
 import { exportEntries, parse, renderExports, renderImports } from "./modules.mjs";
+import { closeTypeScriptApi } from "./typescript-api.mjs";
+
+after(closeTypeScriptApi);
 
 test("round-trips local type exports without adding a module clause", () => {
   const entries = exportEntries(parse("export type { PageSettings, Local as Public };"));

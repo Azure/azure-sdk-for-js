@@ -1,7 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ts from "typescript";
+import * as ts from "typescript/ast";
+import {
+  flattenDiagnostic,
+  grammarDiagnostics,
+  isClassLike,
+  isFunctionLike,
+  parseSource,
+  withSources,
+} from "./typescript-api.mjs";
 
 const conflict = Symbol("conflict");
 const schemas = new Map();
@@ -154,32 +162,10 @@ register(["CaseClause", "DefaultClause"], { expression: "atomic", statements: "s
  */
 
 function parse(text) {
-  const file = ts.createSourceFile(
-    "declaration.ts",
-    text,
-    ts.ScriptTarget.Latest,
-    true,
-    ts.ScriptKind.TS,
-  );
-  const host = {
-    getSourceFile: (name) => (name === file.fileName ? file : undefined),
-    getDefaultLibFileName: () => "lib.d.ts",
-    getCurrentDirectory: () => "",
-    getCanonicalFileName: (name) => name,
-    useCaseSensitiveFileNames: () => true,
-    getNewLine: () => "\n",
-    fileExists: (name) => name === file.fileName,
-    readFile: (name) => (name === file.fileName ? text : undefined),
-    writeFile: () => {
-      throw new Error("The declaration merger cannot write files.");
-    },
+  return {
+    file: parseSource(text, "declaration.ts"),
+    diagnostics: grammarDiagnostics(text, "declaration.ts"),
   };
-  const program = ts.createProgram(
-    [file.fileName],
-    { noLib: true, noResolve: true, types: [], target: ts.ScriptTarget.Latest },
-    host,
-  );
-  return { file, diagnostics: program.getSyntacticDiagnostics(file) };
 }
 
 function isDocumentation(node) {
@@ -226,13 +212,13 @@ function fingerprints() {
  */
 export function canonicalize(text) {
   if (typeof text !== "string") throw new TypeError("Expected TypeScript source text.");
-  const { file, diagnostics } = parse(text);
-  if (diagnostics.length) {
-    throw new SyntaxError(
-      diagnostics.map((d) => ts.flattenDiagnosticMessageText(d.messageText, "\n")).join("\n"),
-    );
-  }
-  return fingerprints()(file);
+  return withSources(() => {
+    const { file, diagnostics } = parse(text);
+    if (diagnostics.length) {
+      throw new SyntaxError(diagnostics.map((d) => flattenDiagnostic(d, "\n")).join("\n"));
+    }
+    return fingerprints()(file);
+  });
 }
 
 function piece(node) {
@@ -351,7 +337,11 @@ function memberKey(node) {
   const name = staticName(node.name);
   if (name === null) return null;
   const scope = Boolean(node.modifiers?.some((m) => m.kind === ts.SyntaxKind.StaticKeyword));
-  const accessor = ts.isGetAccessor(node) ? "get" : ts.isSetAccessor(node) ? "set" : "member";
+  const accessor = ts.isGetAccessorDeclaration(node)
+    ? "get"
+    : ts.isSetAccessorDeclaration(node)
+      ? "set"
+      : "member";
   return JSON.stringify([scope, ts.isPrivateIdentifier(node.name), accessor, name]);
 }
 
@@ -430,11 +420,11 @@ function validateTree(root, side, state) {
       ? node.properties
       : ts.isInterfaceDeclaration(node) ||
           ts.isTypeLiteralNode(node) ||
-          ts.isClassLike(node) ||
+          isClassLike(node) ||
           ts.isEnumDeclaration(node)
         ? node.members
         : undefined;
-    if (ts.isClassLike(node)) {
+    if (isClassLike(node)) {
       const constructors = node.members.filter(ts.isConstructorDeclaration);
       if (constructors.length > 1) state.fail(path, `${side}: duplicate constructor declarations.`);
       const parameterProperties = constructors.flatMap((constructor) =>
@@ -464,8 +454,8 @@ function validateTree(root, side, state) {
         const previous = seen.get(key) ?? [];
         const complementaryAccessor =
           previous.length === 1 &&
-          ((ts.isGetAccessor(previous[0]) && ts.isSetAccessor(member)) ||
-            (ts.isSetAccessor(previous[0]) && ts.isGetAccessor(member)));
+          ((ts.isGetAccessorDeclaration(previous[0]) && ts.isSetAccessorDeclaration(member)) ||
+            (ts.isSetAccessorDeclaration(previous[0]) && ts.isGetAccessorDeclaration(member)));
         if (previous.length && !complementaryAccessor) {
           state.fail(childPath(path, label), `${side}: duplicate named member "${label}".`);
         }
@@ -486,7 +476,7 @@ function validateTree(root, side, state) {
         defaultSeen ||= Boolean(parameter.default);
       }
     }
-    if (ts.isFunctionLike(node)) {
+    if (isFunctionLike(node)) {
       const names = node.parameters.flatMap((p) => bindingNames(p.name));
       unique(names, path, "parameter");
       if (node.body && ts.isBlock(node.body)) {
@@ -541,7 +531,7 @@ function validateTree(root, side, state) {
       );
     }
     if (
-      ts.isPropertySignature(node) &&
+      ts.isPropertySignatureDeclaration(node) &&
       node.getChildren().some((child) => child.kind === ts.SyntaxKind.EqualsToken)
     ) {
       state.fail(path, `${side}: malformed TypeScript: a type member cannot have an initializer.`);
@@ -569,7 +559,7 @@ function validateTree(root, side, state) {
         `${side}: malformed TypeScript: an object property cannot be optional or definite.`,
       );
     }
-    ts.forEachChild(node, (child) => {
+    node.forEachChild((child) => {
       const name = child.name ? staticName(child.name) : null;
       visit(child, name === null ? path : childPath(path, name));
     });
@@ -1235,7 +1225,7 @@ export function retainCustomized(entry) {
  * @returns {{ text: string | null, diagnostics: Diagnostic[] }}
  */
 export function mergeDeclaration(baseText, customText, incomingText, context = {}) {
-  const merged = mergeStrict(baseText, customText, incomingText, context);
+  const merged = withSources(() => mergeStrict(baseText, customText, incomingText, context));
   if (merged.text !== null || !merged.diagnostics.length) return merged;
   const retained = retainCustomized({
     file: context.file,
@@ -1271,10 +1261,7 @@ function mergeStrict(baseText, customText, incomingText, context) {
     }
     const { file, diagnostics: errors } = parse(text);
     for (const error of errors) {
-      state.fail(
-        "",
-        `${side}: malformed TypeScript: ${ts.flattenDiagnosticMessageText(error.messageText, "\n")}`,
-      );
+      state.fail("", `${side}: malformed TypeScript: ${flattenDiagnostic(error, "\n")}`);
     }
     if (!errors.length && file.statements.length !== 1) {
       state.fail("", `${side}: expected exactly one top-level declaration or statement.`);

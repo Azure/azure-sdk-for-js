@@ -2,7 +2,14 @@
 // Licensed under the MIT License.
 
 import path from "node:path";
-import ts from "typescript";
+import * as ts from "typescript/ast";
+import {
+  flattenDiagnostic,
+  parseSource,
+  syntaxDiagnostics,
+  withProgram,
+  withSources,
+} from "./typescript-api.mjs";
 import { retainedModelBases } from "./model-retention.mjs";
 import { isUpstreamDataGenerationType } from "./data-generation-policy.mjs";
 import { canonicalize } from "./ast-merge.mjs";
@@ -71,15 +78,15 @@ function sourceText(node, source) {
 }
 
 function parse(text, file, diagnostics) {
-  const source = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
-  for (const diagnostic of source.parseDiagnostics) {
+  const errors = syntaxDiagnostics(text, file);
+  for (const diagnostic of errors) {
     diagnostics.push({
       file,
       declaration: "<module>",
-      message: ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"),
+      message: flattenDiagnostic(diagnostic, "\n"),
     });
   }
-  return source;
+  return errors.length ? undefined : parseSource(text, file);
 }
 
 function inventory(tree, diagnostics, replacements = new Map()) {
@@ -99,7 +106,7 @@ function inventory(tree, diagnostics, replacements = new Map()) {
       continue;
     }
     const source = parse(original, file, diagnostics);
-    if (source.parseDiagnostics.length) continue;
+    if (!source) continue;
     const scopedRenames = new Map(replacements);
     for (const item of importsOf(source)) {
       if (!internalModelImport(file, item.module) || item.sideEffect) continue;
@@ -115,6 +122,7 @@ function inventory(tree, diagnostics, replacements = new Map()) {
       }
     }
     const normalized = parse(renameSymbols(original, scopedRenames, file), file, diagnostics);
+    if (!normalized) continue;
     modules.set(file, normalized);
     for (const node of normalized.statements) {
       if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node) || ts.isEmptyStatement(node))
@@ -257,7 +265,7 @@ function upstreamDiscriminators(before, custom, incoming, diagnostics) {
 function policyText(name, text, context, diagnostics) {
   if (text === null) return null;
   const source = parse(text, context.file, diagnostics);
-  if (source.parseDiagnostics.length) return text;
+  if (!source) return text;
   const node = source.statements[0];
   const changes = [];
   if (name === "RealtimeFunctionToolParameters") {
@@ -304,7 +312,7 @@ function policyText(name, text, context, diagnostics) {
   }
   if (name === "ErrorModel" && ts.isInterfaceDeclaration(node)) {
     for (const member of node.members) {
-      if (!ts.isPropertySignature(member) || !member.type) continue;
+      if (!ts.isPropertySignatureDeclaration(member) || !member.type) continue;
       const memberName = member.name.getText(source);
       if (["additionalInfo", "debugInfo"].includes(memberName) && simpleRecord(member.type)) {
         changes.push({
@@ -388,7 +396,7 @@ function policyText(name, text, context, diagnostics) {
         });
       }
     }
-    ts.forEachChild(current, dates);
+    current.forEachChild(dates);
   }
   dates(node);
   return edit(text, changes);
@@ -608,29 +616,31 @@ function importCandidates(inventory) {
 }
 
 function freeReferences(body) {
-  const file = ts.createSourceFile(canonicalFile, body, ts.ScriptTarget.Latest, true);
-  const options = { noLib: true, noResolve: true, types: [] };
-  const host = ts.createCompilerHost(options);
-  host.getSourceFile = (name) => (name === canonicalFile ? file : undefined);
-  host.fileExists = (name) => name === canonicalFile;
-  host.readFile = (name) => (name === canonicalFile ? body : undefined);
-  const checker = ts.createProgram([canonicalFile], options, host).getTypeChecker();
-  const references = new Set();
-  function visit(node) {
-    if (ts.isIdentifier(node)) {
-      const parent = node.parent;
-      const property =
-        (ts.isPropertyAccessExpression(parent) && parent.name === node) ||
-        (ts.isQualifiedName(parent) && parent.right === node) ||
-        (parent.name === node && !ts.isShorthandPropertyAssignment(parent));
-      if (!property && !checker.getSymbolAtLocation(node)?.declarations?.length) {
-        references.add(node.text);
-      }
-    }
-    ts.forEachChild(node, visit);
-  }
-  visit(file);
-  return references;
+  return withProgram(
+    new Map([[canonicalFile, body]]),
+    [canonicalFile],
+    ({ checker, sourceFile }) => {
+      const file = sourceFile(canonicalFile);
+      const identifiers = [];
+      (function collect(node) {
+        if (ts.isIdentifier(node)) identifiers.push(node);
+        node.forEachChild(collect);
+      })(file);
+      const symbols = checker.getSymbolAtLocation(identifiers);
+      const references = new Set();
+      identifiers.forEach((node, index) => {
+        const parent = node.parent;
+        const property =
+          (ts.isPropertyAccessExpression(parent) && parent.name === node) ||
+          (ts.isQualifiedName(parent) && parent.right === node) ||
+          (parent.name === node && !ts.isShorthandPropertyAssignment(parent));
+        if (!property && !symbols[index]?.declarations?.length) {
+          references.add(node.text);
+        }
+      });
+      return references;
+    },
+  );
 }
 
 function mergedImports(references, base, custom, incoming, diagnostics) {
@@ -707,7 +717,11 @@ function mergedImports(references, base, custom, incoming, diagnostics) {
  * @returns {{files: Map<string,string>, diagnostics: object[],
  * exports: {name:string,isTypeOnly:boolean}[], renames: Map<string,string>}}
  */
-export function reconcileModels({ baseGenerated, baseSource, generated, mergeDeclaration }) {
+export function reconcileModels(inputs) {
+  return withSources(() => reconcile(inputs));
+}
+
+function reconcile({ baseGenerated, baseSource, generated, mergeDeclaration }) {
   const diagnostics = [];
   const result = {
     files: new Map(),
@@ -836,7 +850,9 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
       });
       continue;
     }
-    const declaration = parse(merged.get(entry.imported), canonicalFile, diagnostics).statements[0];
+    const parsed = parse(merged.get(entry.imported), canonicalFile, diagnostics);
+    if (!parsed) continue;
+    const declaration = parsed.statements[0];
     if (!exported(declaration))
       localExports.push(`export ${isTypeOnly(declaration) ? "type " : ""}{ ${entry.imported} };`);
   }

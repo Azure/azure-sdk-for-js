@@ -2,10 +2,13 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
-import { test } from "node:test";
+import { after, test } from "node:test";
 import { retainCustomizedOnConflict } from "./ast-merge.mjs";
 import { validateCustomization } from "./guards.mjs";
 import { planCustomization } from "./planner.mjs";
+import { closeTypeScriptApi } from "./typescript-api.mjs";
+
+after(closeTypeScriptApi);
 
 function models() {
   return new Map([

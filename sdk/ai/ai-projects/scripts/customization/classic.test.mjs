@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
-import { test } from "node:test";
+import { after, test } from "node:test";
 import { retainCustomizedOnConflict } from "./ast-merge.mjs";
 import {
   ClassicRenderError,
@@ -13,6 +13,9 @@ import { validateCustomization } from "./guards.mjs";
 import { parse } from "./modules.mjs";
 import { classicFromOperations } from "./operations.mjs";
 import { planCustomization } from "./planner.mjs";
+import { closeTypeScriptApi } from "./typescript-api.mjs";
+
+after(closeTypeScriptApi);
 
 function models() {
   return {

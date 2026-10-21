@@ -2,9 +2,12 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
-import { test } from "node:test";
+import { after, test } from "node:test";
 import { customizeNewOperation } from "./new-operations.mjs";
 import { parse } from "./modules.mjs";
+import { closeTypeScriptApi } from "./typescript-api.mjs";
+
+after(closeTypeScriptApi);
 
 const sendText = `export function _send(context: Client, options: Options) {
   const foundryFeatures = "Preview=V1";

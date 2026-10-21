@@ -4,7 +4,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
-import test from "node:test";
+import test, { after } from "node:test";
 import { fileURLToPath } from "node:url";
 import {
   findMissingAdditions,
@@ -12,6 +12,9 @@ import {
   findIndexInvariantViolations,
   findPromotedOptionRemovals,
 } from "./check-generated-member-parity.mjs";
+import { closeTypeScriptApi } from "../../../../scripts/customization/typescript-api.mjs";
+
+after(closeTypeScriptApi);
 
 const scriptPath = path.join(
   path.dirname(fileURLToPath(import.meta.url)),

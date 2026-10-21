@@ -2,9 +2,12 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
-import { test } from "node:test";
+import { after, test } from "node:test";
 import { planOperations, normalizeOperationCode, classicFromOperations } from "./operations.mjs";
 import { parse, renameSymbols } from "./modules.mjs";
+import { closeTypeScriptApi } from "./typescript-api.mjs";
+
+after(closeTypeScriptApi);
 
 function operation(name, optionName, { custom = false, addition = false } = {}) {
   return `

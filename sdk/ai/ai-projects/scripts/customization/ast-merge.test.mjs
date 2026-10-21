@@ -2,18 +2,19 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
-import test from "node:test";
+import test, { after } from "node:test";
 import { runInNewContext } from "node:vm";
-import ts from "typescript";
+import { ScriptTarget } from "typescript/ast";
+import { ModuleKind } from "typescript/sync";
 import { canonicalize, mergeDeclaration, retainCustomizedOnConflict } from "./ast-merge.mjs";
+import { closeTypeScriptApi, transpile } from "./typescript-api.mjs";
+
+after(closeTypeScriptApi);
 
 const context = { file: "models\\models.ts", declaration: "Example" };
 
 function evaluate(text, globals) {
-  const compiled = ts.transpileModule(text, {
-    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS },
-    reportDiagnostics: true,
-  });
+  const compiled = transpile(text, { target: ScriptTarget.ES2022, module: ModuleKind.CommonJS });
   assert.deepEqual(compiled.diagnostics, []);
   const sandbox = { exports: {}, ...globals };
   runInNewContext(compiled.outputText, sandbox, { timeout: 1000 });

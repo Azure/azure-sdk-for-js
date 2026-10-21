@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
-import { test } from "node:test";
+import { after, test } from "node:test";
 import { canonicalize } from "./ast-merge.mjs";
 import { validateCustomization } from "./guards.mjs";
 import { parse } from "./modules.mjs";
@@ -13,6 +13,9 @@ import {
   retirePreviewHeaders,
   sendsPreviewHeader,
 } from "./preview-headers.mjs";
+import { closeTypeScriptApi } from "./typescript-api.mjs";
+
+after(closeTypeScriptApi);
 
 const optional =
   '...(options?.foundryFeatures !== undefined ? { "foundry-features": options?.foundryFeatures } : {}),';

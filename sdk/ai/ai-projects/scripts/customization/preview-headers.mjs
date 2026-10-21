@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ts from "typescript";
+import * as ts from "typescript/ast";
 import { edit, nameOf, parse } from "./modules.mjs";
 
 export const previewHeader = "foundry-features";
@@ -43,7 +43,7 @@ function requestHeaders(node) {
         }
       }
     }
-    ts.forEachChild(current, visit);
+    current.forEachChild(visit);
   }
   visit(node);
   return found.length === 1 ? found[0] : undefined;
@@ -120,7 +120,7 @@ function constantPreviewHeader(node) {
 export function previewLiteral(optionsNode) {
   if (!optionsNode || !ts.isInterfaceDeclaration(optionsNode)) return undefined;
   const member = optionsNode.members.find(
-    (item) => ts.isPropertySignature(item) && nameOf(item.name) === "foundryFeatures",
+    (item) => ts.isPropertySignatureDeclaration(item) && nameOf(item.name) === "foundryFeatures",
   );
   const type = member?.type;
   return type && ts.isLiteralTypeNode(type) && ts.isStringLiteral(type.literal)
@@ -174,7 +174,7 @@ export function sendsPreviewHeader(text) {
   let found = false;
   function visit(node) {
     if (ts.isPropertyAssignment(node) && nameOf(node.name) === previewHeader) found = true;
-    else ts.forEachChild(node, visit);
+    else node.forEachChild(visit);
   }
   visit(parse(text));
   return found;
@@ -254,7 +254,7 @@ export function retirePreviewHeaders(text) {
       }
       if (headers.length) return;
     }
-    ts.forEachChild(node, visit);
+    node.forEachChild(visit);
   }
   visit(source);
   if (!edits.length) return text;
@@ -273,7 +273,7 @@ export function retirePreviewHeaders(text) {
       if (ts.isIdentifier(current) && current.text === name && current.parent?.name !== current)
         reads++;
       else if (ts.isShorthandPropertyAssignment(current) && current.name.text === name) reads++;
-      ts.forEachChild(current, count);
+      current.forEachChild(count);
     }
     count(node.body);
     if (!reads) unused.push({ start: statement.getStart(source), end: statement.end, text: "" });

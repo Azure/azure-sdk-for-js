@@ -85,7 +85,7 @@
     "prettier": "catalog:",
     "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "typescript": "catalog:",
+    "typescript": "7.1.0-beta",
     "vite": "^8.0.0",
     "vitest": "catalog:testing",
     "zod": "^4.2.1"

@@ -2,21 +2,27 @@
 // Licensed under the MIT License.
 
 import path from "node:path";
-import ts from "typescript";
+import * as ts from "typescript/ast";
+import {
+  displayName,
+  flattenDiagnostic,
+  parseSource,
+  releaseSource,
+  syntaxDiagnostics,
+  withProgram,
+} from "./typescript-api.mjs";
 
 export const header =
   "// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\n\n";
 
 export function parse(text, file = "module.ts") {
-  const source = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
-  if (source.parseDiagnostics.length) {
+  const diagnostics = syntaxDiagnostics(text, file);
+  if (diagnostics.length) {
     throw new Error(
-      `${file}: ${source.parseDiagnostics
-        .map((diagnostic) => ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"))
-        .join("; ")}`,
+      `${file}: ${diagnostics.map((diagnostic) => flattenDiagnostic(diagnostic, "\n")).join("; ")}`,
     );
   }
-  return source;
+  return parseSource(text, file);
 }
 
 export function nameOf(node) {
@@ -34,11 +40,11 @@ export function declarations(source) {
     if (ts.isVariableStatement(statement)) {
       const names = statement.declarationList.declarations.map((item) => nameOf(item.name));
       if (names.some((item) => !item))
-        throw new Error(`${source.fileName}: unsupported top-level binding`);
+        throw new Error(`${displayName(source)}: unsupported top-level binding`);
       name = names.join(",");
     }
     if (!name) continue;
-    if (result.has(name)) throw new Error(`${source.fileName}: duplicate declaration ${name}`);
+    if (result.has(name)) throw new Error(`${displayName(source)}: duplicate declaration ${name}`);
     result.set(name, statement);
   }
   return result;
@@ -61,52 +67,62 @@ export function edit(text, edits) {
 
 export function renameSymbols(text, replacements, file = "module.ts") {
   if (!replacements.size) return text;
-  const source = parse(text, file);
-  const options = { noLib: true, target: ts.ScriptTarget.Latest };
-  const host = ts.createCompilerHost(options);
-  host.getSourceFile = (name) => (name === file ? source : undefined);
-  host.fileExists = (name) => name === file;
-  host.readFile = (name) => (name === file ? text : undefined);
-  const checker = ts.createProgram([file], options, host).getTypeChecker();
-  const symbols = new Map();
-  function findBindings(node) {
-    if (
-      ts.isIdentifier(node) &&
-      replacements.has(node.text) &&
-      node.parent?.name === node &&
-      !ts.isPropertyAssignment(node.parent) &&
-      !ts.isPropertySignature(node.parent) &&
-      !ts.isPropertyAccessExpression(node.parent)
-    ) {
-      const symbol = checker.getSymbolAtLocation(node);
-      if (symbol) symbols.set(symbol, replacements.get(node.text));
-    }
-    ts.forEachChild(node, findBindings);
+  const diagnostics = syntaxDiagnostics(text, file);
+  if (diagnostics.length) {
+    throw new Error(
+      `${file}: ${diagnostics.map((diagnostic) => flattenDiagnostic(diagnostic, "\n")).join("; ")}`,
+    );
   }
-  findBindings(source);
-  const edits = [];
-  function visit(node) {
-    if (ts.isShorthandPropertyAssignment(node)) {
-      const renamed = symbols.get(checker.getShorthandAssignmentValueSymbol(node));
-      if (renamed && renamed !== node.name.text) {
-        edits.push({
-          start: node.getStart(source),
-          end: node.end,
-          text: `${node.name.text}: ${renamed}`,
-        });
-        return;
+  return withProgram(new Map([[file, text]]), [file], ({ checker, sourceFile }) => {
+    const source = sourceFile(file);
+    const identifiers = [];
+    (function collect(node) {
+      if (ts.isIdentifier(node)) identifiers.push(node);
+      node.forEachChild(collect);
+    })(source);
+    const resolved = new Map(
+      checker.getSymbolAtLocation(identifiers).map((symbol, index) => [identifiers[index], symbol]),
+    );
+    const symbols = new Map();
+    function findBindings(node) {
+      if (
+        ts.isIdentifier(node) &&
+        replacements.has(node.text) &&
+        node.parent?.name === node &&
+        !ts.isPropertyAssignment(node.parent) &&
+        !ts.isPropertySignatureDeclaration(node.parent) &&
+        !ts.isPropertyAccessExpression(node.parent)
+      ) {
+        const symbol = resolved.get(node);
+        if (symbol) symbols.set(symbol, replacements.get(node.text));
       }
+      node.forEachChild(findBindings);
     }
-    if (ts.isIdentifier(node)) {
-      const renamed = symbols.get(checker.getSymbolAtLocation(node));
-      if (renamed && renamed !== node.text) {
-        edits.push({ start: node.getStart(source), end: node.end, text: renamed });
+    findBindings(source);
+    const edits = [];
+    function visit(node) {
+      if (ts.isShorthandPropertyAssignment(node)) {
+        const renamed = symbols.get(checker.getShorthandAssignmentValueSymbol(node));
+        if (renamed && renamed !== node.name.text) {
+          edits.push({
+            start: node.getStart(source),
+            end: node.end,
+            text: `${node.name.text}: ${renamed}`,
+          });
+          return;
+        }
       }
+      if (ts.isIdentifier(node)) {
+        const renamed = symbols.get(resolved.get(node));
+        if (renamed && renamed !== node.text) {
+          edits.push({ start: node.getStart(source), end: node.end, text: renamed });
+        }
+      }
+      node.forEachChild(visit);
     }
-    ts.forEachChild(node, visit);
-  }
-  visit(source);
-  return edit(text, edits);
+    visit(source);
+    return edit(text, edits);
+  });
 }
 
 export function importsOf(source) {
@@ -187,9 +203,13 @@ export function renderImports(file, body, candidates, mapImport = (item) => item
         references.set(node.text, kinds);
       }
     }
-    ts.forEachChild(node, visit);
+    node.forEachChild(visit);
   }
-  visit(source);
+  try {
+    visit(source);
+  } finally {
+    releaseSource(source);
+  }
   const selected = new Map();
   const sideEffects = new Set();
   for (const original of candidates) {
@@ -237,7 +257,7 @@ export function exportEntries(source) {
   for (const statement of source.statements.filter(ts.isExportDeclaration)) {
     if (!statement.exportClause || !ts.isNamedExports(statement.exportClause)) {
       throw new Error(
-        `${source.fileName}: unsupported wildcard export ${statement.getText(source)}`,
+        `${displayName(source)}: unsupported wildcard export ${statement.getText(source)}`,
       );
     }
     for (const item of statement.exportClause.elements) {

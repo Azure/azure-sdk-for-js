@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ts from "typescript";
+import * as ts from "typescript/ast";
 import { edit, nameOf, parse } from "./modules.mjs";
 
 export function modelMemberIndex(tree) {
@@ -51,7 +51,7 @@ function requestHeaders(sendText) {
       );
       if (property) headers = property.initializer;
     }
-    ts.forEachChild(node, visit);
+    node.forEachChild(visit);
   }
   visit(source);
   if (!headers) return "options.requestOptions?.headers";
@@ -69,7 +69,7 @@ function requestHeaders(sendText) {
         text: literals.get(node.text),
       });
     }
-    ts.forEachChild(node, replace);
+    node.forEachChild(replace);
   }
   replace(headers);
   return edit(headers.getText(source), replacements);
@@ -110,7 +110,7 @@ export function customizeNewOperation({ text, sendText, deserializeText, members
         }
       }
     }
-    ts.forEachChild(node, visit);
+    node.forEachChild(visit);
   }
   visit(source);
   return edit(text, changes);

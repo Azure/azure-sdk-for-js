@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 import path from "node:path";
-import ts from "typescript";
+import * as ts from "typescript/ast";
+import { parseSource, releaseSource } from "./typescript-api.mjs";
+import { isStringLiteralLike } from "./typescript-api.mjs";
 import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
 import {
   ClassicRenderError,
@@ -71,7 +73,7 @@ function normalizeGroupOrder(text, customized, file) {
       ts.isInterfaceDeclaration(node) &&
       node.members.every(
         (member) =>
-          ts.isPropertySignature(member) &&
+          ts.isPropertySignatureDeclaration(member) &&
           ts.isIdentifier(member.name) &&
           member.type &&
           ts.isTypeReferenceNode(member.type) &&
@@ -153,7 +155,7 @@ function knownImport(item) {
 function importedFiles(file, text) {
   const targets = new Set();
   const add = (specifier) => {
-    if (!specifier || !ts.isStringLiteralLike(specifier) || !specifier.text.startsWith(".")) return;
+    if (!specifier || !isStringLiteralLike(specifier) || !specifier.text.startsWith(".")) return;
     const target = resolveImport(file, specifier.text);
     const script = /\.([mc]?)js$/.exec(target);
     if (script) targets.add(`${target.slice(0, script.index)}.${script[1]}ts`);
@@ -166,9 +168,14 @@ function importedFiles(file, text) {
     else if (ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword)
       add(node.arguments[0]);
     else if (ts.isExternalModuleReference(node)) add(node.expression);
-    ts.forEachChild(node, visit);
+    node.forEachChild(visit);
   };
-  visit(ts.createSourceFile(file, text, ts.ScriptTarget.Latest));
+  const source = parseSource(text, file);
+  try {
+    visit(source);
+  } finally {
+    releaseSource(source);
+  }
   return targets;
 }
 

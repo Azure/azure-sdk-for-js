@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ts from "typescript";
+import * as ts from "typescript/ast";
 import { canonicalize, mergeDeclaration, retainCustomized } from "./ast-merge.mjs";
 import {
   declarations,
@@ -229,15 +229,10 @@ function shapeOf(source, interfaceName) {
 }
 
 function layoutless(text) {
-  const scanner = ts.createScanner(
-    ts.ScriptTarget.Latest,
-    false,
-    ts.LanguageVariant.Standard,
-    text ?? "",
-  );
+  const scanner = ts.createScanner(false, ts.LanguageVariant.Standard, text ?? "");
   const tokens = [];
   let kind;
-  while ((kind = scanner.scan()) !== ts.SyntaxKind.EndOfFileToken) {
+  while ((kind = scanner.scan()) !== ts.SyntaxKind.EndOfFile) {
     if (kind === ts.SyntaxKind.WhitespaceTrivia || kind === ts.SyntaxKind.NewLineTrivia) continue;
     tokens.push({ kind, text: scanner.getTokenText() });
   }
@@ -273,7 +268,11 @@ function isSimpleMember(members, properties, contextName) {
   if (members?.length !== 1 || properties?.length !== 1) return false;
   const [member] = members;
   const [property] = properties;
-  if (!ts.isPropertySignature(member) || !member.type || !ts.isFunctionTypeNode(member.type))
+  if (
+    !ts.isPropertySignatureDeclaration(member) ||
+    !member.type ||
+    !ts.isFunctionTypeNode(member.type)
+  )
     return false;
   if (!ts.isPropertyAssignment(property) || !ts.isArrowFunction(property.initializer)) return false;
   const arrow = property.initializer;

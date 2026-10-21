@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ts from "typescript";
+import * as ts from "typescript/ast";
 import { edit, nameOf, parse } from "./modules.mjs";
+import { heritageExpression } from "./typescript-api.mjs";
 
 function alternatives(type) {
   return ts.isUnionTypeNode(type) ? [...type.types] : [type];
@@ -11,7 +12,7 @@ function alternatives(type) {
 function referencesType(node, name) {
   if (!node) return false;
   if (ts.isTypeReferenceNode(node) && nameOf(node.typeName) === name) return true;
-  return Boolean(ts.forEachChild(node, (child) => referencesType(child, name) || undefined));
+  return Boolean(node.forEachChild((child) => referencesType(child, name) || undefined));
 }
 
 function switchProperty(node) {
@@ -55,7 +56,7 @@ export function retainedModelBases(
     const tags = entry.node.members
       .filter(
         (member) =>
-          ts.isPropertySignature(member) &&
+          ts.isPropertySignatureDeclaration(member) &&
           member.type &&
           ts.isLiteralTypeNode(member.type) &&
           ts.isStringLiteral(member.type.literal) &&
@@ -91,7 +92,7 @@ export function retainedModelBases(
     if (member) return member;
     for (const clause of parent.heritageClauses ?? []) {
       for (const type of clause.types) {
-        const inherited = parentMember(nameOf(type.expression), property, visited);
+        const inherited = parentMember(nameOf(heritageExpression(type)), property, visited);
         if (inherited) return inherited;
       }
     }
@@ -101,7 +102,7 @@ export function retainedModelBases(
     for (const clause of entry.node.heritageClauses ?? []) {
       for (const parent of clause.types) {
         for (const tag of tags) {
-          const member = parentMember(nameOf(parent.expression), tag.property);
+          const member = parentMember(nameOf(heritageExpression(parent)), tag.property);
           if (!member?.type || !ts.isTypeReferenceNode(member.type)) continue;
           const alias = nameOf(member.type.typeName);
           const declaration = custom.get(alias)?.node;
@@ -184,7 +185,7 @@ export function retainedModelBases(
           }
         }
       }
-      ts.forEachChild(node, collect);
+      node.forEachChild(collect);
     }
     collect(customized);
     const changes = [];
@@ -216,7 +217,7 @@ export function retainedModelBases(
           }
         }
       }
-      ts.forEachChild(node, visit);
+      node.forEachChild(visit);
     }
     visit(source);
     if (changes.length) overrides.set(name, edit(entry.text, changes));

@@ -172,6 +172,45 @@ Recovery holds a decision; it does not make one:
 `generate-client.ps1` runs strict customization first and falls back to recovery
 by itself; see the `regenerate-from-typespec` skill.
 
+## TypeScript compiler API
+
+The resolver, the guards, and the skill scripts under
+`.github/skills/apply-post-emitter-edits/scripts/` use the TypeScript 7.1 API
+(`typescript/ast`, `typescript/sync`, and `typescript/fs`) rather than the
+TypeScript 6 compiler object. `typescript-api.mjs` is the only module that talks
+to the native compiler process; everything else imports node classifiers and
+enums from `typescript/ast` and calls the helpers there.
+
+Native objects must be released explicitly:
+
+- The API process is closed by `closeTypeScriptApi()`. CLI entry points run
+  inside `withTypeScriptApi(fn)`, and test files register
+  `after(closeTypeScriptApi)`; a file that forgets to will not exit.
+- Syntax trees are retained by `parseSource()`. Release one with
+  `releaseSource()`, or parse inside `withSources(fn)` to release every tree the
+  call creates. Do not return nodes from such a scope.
+- Programs and snapshots exist only inside `withProgram()`, which disposes both.
+  Nodes, symbols, and checker results must not outlive the callback, so callers
+  extract plain data (names, offsets, text) inside it.
+
+Differences from the TypeScript 6 API that the tooling accounts for:
+
+- A parsed file has no `parseDiagnostics`. `syntaxDiagnostics()` reports parse
+  errors through `transpileModule`. TypeScript 7.1 checks some grammar rules
+  semantically (for example TS2706, required type parameters after optional
+  ones), so `grammarDiagnostics()` builds a program to keep rejecting them.
+- File names are resolved against the current directory, so use
+  `displayName(source)` for messages and import paths.
+- `forEachChild` is a node method, scanner positions are `getTokenStart()` and
+  `getTokenEnd()`, `EndOfFile` replaces `EndOfFileToken`, and property and method
+  signatures are `isPropertySignatureDeclaration` and
+  `isMethodSignatureDeclaration`. `isFunctionLike`, `isClassLike`, and
+  `isStringLiteralLike` are provided by the helper module.
+- `extends` entries of an interface and `implements` entries of a class are type
+  references, not expressions with type arguments; use `heritageExpression()`.
+- Checker queries go through the project's checker and accept arrays, which the
+  tooling uses to avoid one round trip per identifier.
+
 ## Development
 
 Run the resolver's fixture tests independently of the Foundry service tests:

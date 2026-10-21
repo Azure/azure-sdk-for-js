@@ -2,13 +2,16 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
-import test from "node:test";
+import test, { after } from "node:test";
 import {
   collectModelExports,
   filterModelReexports,
   planModelRemovals,
   removeModelDeclarations,
 } from "./sync-generated-model-removals.mjs";
+import { closeTypeScriptApi } from "../../../../scripts/customization/typescript-api.mjs";
+
+after(closeTypeScriptApi);
 
 test("plans generated removals and downstream custom dependents", () => {
   const previousGenerated = `

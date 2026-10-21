@@ -2,9 +2,12 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
-import { test } from "node:test";
-import ts from "typescript";
+import { after, test } from "node:test";
+import * as ts from "typescript/ast";
 import { validateCustomization } from "./guards.mjs";
+import { closeTypeScriptApi, parseSource } from "./typescript-api.mjs";
+
+after(closeTypeScriptApi);
 
 const scaffold = `
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -632,7 +635,7 @@ test("rejects polluted paging import scaffolds and generated-only poller restore
 });
 
 function operation(file, text) {
-  const source = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
+  const source = parseSource(text, file);
   const nodes = new Map(
     source.statements.filter(ts.isFunctionDeclaration).map((node) => [node.name.text, node]),
   );

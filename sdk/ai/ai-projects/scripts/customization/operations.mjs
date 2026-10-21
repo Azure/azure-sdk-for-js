@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import path from "node:path";
-import ts from "typescript";
+import * as ts from "typescript/ast";
+import { displayName } from "./typescript-api.mjs";
 import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
 import { classicApiFile, classicMember, resolvedOperationImports } from "./classic.mjs";
 import { customizeNewOperation, modelMemberIndex } from "./new-operations.mjs";
@@ -30,7 +31,7 @@ function calls(node, predicate) {
   const result = [];
   function visit(current) {
     if (ts.isCallExpression(current) && predicate(current)) result.push(current);
-    ts.forEachChild(current, visit);
+    current.forEachChild(visit);
   }
   visit(node);
   return result;
@@ -149,7 +150,7 @@ export function normalizeOperationCode(text, file) {
         }
       }
     }
-    ts.forEachChild(node, visit);
+    node.forEachChild(visit);
   }
   visit(source);
   return edit(text, changes);
@@ -260,7 +261,7 @@ function normalizePoller(text, customized) {
     if (ts.isIdentifier(node) && node.text === "getLongRunningPoller") {
       changes.push({ start: node.getStart(source), end: node.end, text: target });
     }
-    ts.forEachChild(node, visit);
+    node.forEachChild(visit);
   }
   visit(source);
   return edit(text, changes);
@@ -569,7 +570,9 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
     const body = [...nodes.values()].join("\n\n");
     const candidates = contexts
       .get(file)
-      .flatMap((source) => importsOf(source).map((item) => mapImport(item, source.fileName, file)));
+      .flatMap((source) =>
+        importsOf(source).map((item) => mapImport(item, displayName(source), file)),
+      );
     const imports = renderImports(file, body, candidates);
     files.set(file, `${header}${imports}\n\n${body}\n`);
   }
