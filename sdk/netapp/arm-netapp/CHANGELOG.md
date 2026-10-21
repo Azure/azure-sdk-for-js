@@ -1,6 +1,6 @@
 # Release History
 
-## 25.0.0 (2026-10-20)
+## 25.0.0 (2026-10-21)
 
 ### Features Added
   - Added operation AccountsOperations.refreshLdapBindPassword
