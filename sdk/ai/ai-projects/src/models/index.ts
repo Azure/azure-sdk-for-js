@@ -948,4 +948,6 @@ export type {
   MicrosoftCopilotToolsetDefaultConfig,
   MicrosoftCopilotToolsetConfig,
   MicrosoftCopilotBuiltInTool,
+  CloudComputerUsePreviewTool,
+  CloudComputerUsePreviewToolboxTool,
 } from "./models.js";
