@@ -216,11 +216,7 @@ export class DocumentProducer {
       return headerResponse;
     } catch (err: any) {
       if (DocumentProducer._needPartitionKeyRangeCacheRefresh(err)) {
-        // Split just happend
-        // Buffer the error so the execution context can still get the feedResponses in the itemBuffer
-        const bufferedError = new FetchResult(undefined, err);
-        this.fetchResults.push(bufferedError);
-        return err.headers;
+        throw err;
       } else {
         this._updateStates(err, err.resources === undefined);
         throw err;

@@ -970,6 +970,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               }
             } catch (err) {
               if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
+                if (err.headers) {
+                  this._mergeWithActiveResponseHeaders(err.headers);
+                }
                 // We want the document producer enqueued
                 // So that later parts of the code can repair the execution context
                 // refresh the partition key ranges and ctreate new document producers and add it to the queue
