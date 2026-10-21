@@ -106,58 +106,6 @@ tools:
     toolsets: [context, repos, pull_requests, actions]
   bash: true
 safe-outputs:
-  concurrency-group: "gh-aw-mgmt-guidance-publish-${{ github.event.check_suite.pull_requests[0].number || github.event.inputs.item_number || github.run_id }}"
-  env:
-    MGMT_GUIDANCE_PR_NUMBER: ${{ github.event.check_suite.pull_requests[0].number || github.event.inputs.item_number }}
-  scripts:
-    prepare-new-package-pipelines:
-      description: "Request release pipeline setup once for an open management AutoPR adding package manifests"
-      script: |
-        const prNumber = Number(process.env.MGMT_GUIDANCE_PR_NUMBER);
-        if (!Number.isSafeInteger(prNumber) || prNumber <= 0) {
-          throw new Error('Missing or invalid management guidance PR number');
-        }
-        const target = { ...context.repo, pull_number: prNumber };
-        const { data: pr } = await github.rest.pulls.get(target);
-        if (pr.state !== 'open' || !pr.labels.some(l => l.name === 'Mgmt') || !pr.title.includes('AutoPR')) {
-          core.info('Not an open management AutoPR; no pipeline setup needed.');
-          return { success: true };
-        }
-
-        // listFiles reports additions relative to the PR base, not new files in existing packages.
-        const files = await github.paginate(github.rest.pulls.listFiles, { ...target, per_page: 100 });
-        if (files.length !== pr.changed_files) {
-          throw new Error('Incomplete PR file list; cannot safely determine package onboarding');
-        }
-        const newPackages = files.filter(file =>
-          file.status === 'added' && /^sdk\/[^/]+\/arm-[^/]+\/package\.json$/.test(file.filename)
-        );
-        if (newPackages.length === 0) {
-          core.info('No new management package manifests; no pipeline setup needed.');
-          return { success: true };
-        }
-
-        const commentTarget = { ...context.repo, issue_number: prNumber };
-        const comments = await github.paginate(github.rest.issues.listComments, {
-          ...commentTarget, per_page: 100,
-        });
-        const command = '/azp run prepare-pipelines';
-        if (comments.some(comment => /^\/azp run prepare-pipelines[ \t]*(?:\r?\n|$)/.test((comment.body || '').trim()))) {
-          core.info('Pipeline setup was already requested; not posting a duplicate command.');
-          return { success: true };
-        }
-        if (process.env.GH_AW_SAFE_OUTPUTS_STAGED === 'true') {
-          core.info(`Would post ${command} on PR #${prNumber} for ${newPackages.length} new package(s).`);
-          return { success: true };
-        }
-
-        // Built-in add-comment neutralizes slash commands. Keep this fixed command plain,
-        // without the guidance marker so hide-older-comments never hides it.
-        const { data: comment } = await github.rest.issues.createComment({
-          ...commentTarget, body: command,
-        });
-        core.info(`Requested pipeline setup: ${comment.html_url}`);
-        return { success: true };
   threat-detection:
     engine:
       id: copilot
@@ -198,19 +146,25 @@ You provide merge readiness guidance for Azure SDK for JS management-plane PRs.
 
 **PR to evaluate:** `${{ needs.pre_activation.outputs.pr_number }}`
 
-All CI checks have finished on this PR's head commit. Request pipeline setup if needed, then determine whether the PR is ready to merge or has blocking failures and post a single guidance comment.
+All CI checks have finished on this PR's head commit. Determine whether the PR is ready to merge or has blocking failures, then post a single comment.
 
-## Step 0. Prepare pipelines for newly onboarded packages
+## Step 0. Identify newly onboarded packages
 
-Call the `prepare_new_package_pipelines` safe-output tool exactly once, before evaluating merge readiness, on both successful and failed CI paths. The handler checks all changed files for added root management package manifests (`sdk/<service>/arm-<package>/package.json`) and posts one plain `/azp run prepare-pipelines` comment for the entire PR only when needed. Existing-package updates, sample manifests, closed PRs, and PRs with an existing command are no-ops.
+Before evaluating merge readiness, fetch all PR files through the GitHub API, following pagination. A newly onboarded management package has an `added` root manifest at `sdk/<service>/arm-<package>/package.json` relative to the PR base. Modified or renamed manifests, new source files in existing packages, sample manifests, and data-plane packages do not qualify. Do not infer onboarding from an incomplete file list.
 
-Do not post the command with `add-comment`, embed it in the guidance, or use direct GitHub writes. Continue with the existing merge guidance below; the command uses a separate safe-output handler and does not consume the single guidance comment.
+If at least one package qualifies, include this action once in the **Next Steps to Merge** comment, whether CI passes or fails:
+
+```markdown
+- New package onboarding: Post `/azp run prepare-pipelines` as a separate PR comment to create the release pipelines.
+```
+
+This is guidance for the PR author, not an instruction for you to execute. Do not run the command or post a standalone command comment. For ordinary package updates, omit this action.
 
 ## Step 1. Confirm merge readiness
 
 Fetch the PR using the GitHub API. If `mergeable_state == "clean"` and no check has `conclusion: "failure"`, `"cancelled"`, or `"timed_out"`:
 
-Post this comment and stop:
+Post this comment, adding the onboarding action from Step 0 when applicable, and stop:
 ```markdown
 ## Next Steps to Merge
 ✅ All CI checks have passed — this PR is ready for review!
@@ -260,7 +214,7 @@ Extra rules:
 
 ## Step 3. Post the result
 
-Post a single `add-comment`. Include marker `<!-- gh-aw-workflow-id: mgmt-guidance -->` in the body. Keep the comment concise (≤ 15 lines). Do NOT include passed checks.
+Post a single `add-comment`. Include the onboarding action from Step 0 when applicable and marker `<!-- gh-aw-workflow-id: mgmt-guidance -->` in the body. Keep the comment concise (≤ 15 lines). Do NOT include passed checks.
 
 ```markdown
 ## Next Steps to Merge
