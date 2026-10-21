@@ -25,7 +25,7 @@ import type { VoiceAgentRealtimeEvent } from "./events.js";
 import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketTransport,
-} from "./webSocketTransportLike.js";
+} from "./webSocketTransport.js";
 import type { ResolvedTracingConfig } from "../tracing/configuration.js";
 import { VoiceAgentRealtimeTracing } from "../tracing/voiceAgentTracing.js";
 
@@ -685,7 +685,8 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
   }
 }
 
-function normalizeEndpoint(endpoint: string): string {
+/** @internal */
+export function normalizeEndpoint(endpoint: string): string {
   const normalized = endpoint.trim();
   if (!normalized) {
     throw new TypeError("endpoint must not be empty.");
@@ -699,15 +700,17 @@ function normalizeEndpoint(endpoint: string): string {
   return url.toString();
 }
 
-function buildWebSocketUrl(
+/** @internal */
+export function buildWebSocketUrl(
   endpoint: string,
   agentName: string,
   apiVersion: string,
   options: VoiceAgentRealtimeClientConnectOptions,
+  suffix = "",
 ): string {
   const url = new URL(endpoint);
   url.protocol = "wss:";
-  url.pathname = `${url.pathname.replace(/\/+$/, "")}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice`;
+  url.pathname = `${url.pathname.replace(/\/+$/, "")}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice${suffix}`;
   if (
     options.query !== undefined &&
     (options.query === null ||
@@ -752,10 +755,11 @@ function buildWebSocketUrl(
   return url.toString();
 }
 
-function buildHeaders(
+/** @internal */
+export function buildHeaders(
   token: string,
   clientOptions: VoiceAgentRealtimeClientOptions,
-  serializedStructuredInputs: string | undefined,
+  serializedStructuredInputs?: string,
 ): Record<string, string> {
   const sdkUserAgent = `azsdk-js-ai-projects/${SDK_VERSION}`;
   const headers: Record<string, string> = {

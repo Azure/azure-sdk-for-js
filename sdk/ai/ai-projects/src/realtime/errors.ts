@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** Error codes raised by the Voice Agents realtime client. */
+/** Error codes raised by the Voice Agents WebSocket clients. */
 export type VoiceAgentRealtimeErrorCode =
   | "authenticationFailed"
   | "connectionFailed"
@@ -11,7 +11,7 @@ export type VoiceAgentRealtimeErrorCode =
   | "protocolError"
   | "sendFailed";
 
-/** Base error raised by the Voice Agents realtime client. */
+/** Base error raised by the Voice Agents WebSocket clients. */
 export class VoiceAgentRealtimeError extends Error {
   /** A stable code identifying the error category. */
   public readonly code: VoiceAgentRealtimeErrorCode;

@@ -18,7 +18,7 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
-} from "$internal/realtime/webSocketTransportLike.js";
+} from "$internal/realtime/webSocketTransport.js";
 
 const endpoint = "https://example.test/api/projects/test";
 const restCredential = {
