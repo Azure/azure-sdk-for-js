@@ -70,7 +70,7 @@ jobs:
   
         - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
 
-          - task: EsrpRelease@11
+          - task: EsrpRelease@12
             displayName: 'Publish ${{ parameters.ArtifactName }} via ESRP'
             condition: and(succeeded(), ne(variables['SkipPublishing'], 'true'))
             inputs:
@@ -82,11 +82,12 @@ jobs:
               SignCertName: 'azure-sdk-esrp-release-certificate'
               Intent: 'PackageDistribution'
               ContentType: 'npm'
+              waitforreleasecompletion: false
               FolderLocation: $(ArtifactPath)
               Owners: ${{ coalesce(variables['Build.RequestedForEmail'], 'azuresdk@microsoft.com') }}
               Approvers: ${{ coalesce(variables['Build.RequestedForEmail'], 'azuresdk@microsoft.com') }}
               ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
-              MainPublisher: 'ESRPRELPACMANTEST'
+              MainPublisher: 'ESRPRELPACMAN'
               productstate: $(TagName)
 
           - pwsh: |
