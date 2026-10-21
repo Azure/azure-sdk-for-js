@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type ts from "typescript";
+import type { Node } from "typescript/ast";
 
 /**
  * A simple helper library for storing node information defined as a pair of a predicate function and a selector.
@@ -18,7 +18,7 @@ type Accumulator<Result> = {
   /**
    * If defined, determines whether or not to consider a node (default: true).
    */
-  predicate?: (node: ts.Node) => boolean;
+  predicate?: (node: Node) => boolean;
 };
 
 /**
@@ -32,7 +32,7 @@ type AccumulatorSpecTemplate = { [k: string]: Accumulator<unknown> } & {
 /**
  * A function to add a node to an accumulator.
  */
-type AddNode = (node: ts.Node) => void;
+type AddNode = (node: Node) => void;
 
 /**
  * A working accumulator. The result is a map from fields of the spec to arrays of the `select` results.
@@ -42,9 +42,9 @@ type AddNode = (node: ts.Node) => void;
  * ```typescript
  * const { result, addNode } = createAccumulator({
  *   identifiers: {
- *     predicate: ts.isIdentifier,
+ *     predicate: isIdentifier,
  *     select: (identifier) => identifier.text
- *   } as Accumulator<ts.Identifier, string>
+ *   } as Accumulator<Identifier, string>
  * });
  * ```
  *

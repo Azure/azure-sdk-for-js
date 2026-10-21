@@ -3,11 +3,39 @@
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import ts from "typescript";
+import type {
+  CallExpression,
+  ClassDeclaration,
+  ElementAccessExpression,
+  FunctionDeclaration,
+  Identifier,
+  ImportDeclaration,
+  JSDocTag,
+  Node,
+  PropertyAccessExpression,
+  SourceFile,
+  Statement,
+  StringLiteral,
+  VariableStatement,
+} from "typescript/ast";
+import { SyntaxKind, getJSDocTags, getTrailingCommentRanges } from "typescript/ast";
+import {
+  isCallExpression,
+  isClassDeclaration,
+  isElementAccessExpression,
+  isFunctionDeclaration,
+  isIdentifier,
+  isImportDeclaration,
+  isPropertyAccessExpression,
+  isStringLiteralLikeNode,
+  isVariableStatement,
+} from "typescript/ast/is";
 import { convert } from "./convert.ts";
 import { createPrinter } from "../printer.ts";
 import { createAccumulator } from "../typescript/accumulator.ts";
 import { createDiagnosticEmitter } from "../typescript/diagnostic.ts";
+import type { SourceRewriter, TextEdit } from "../typescript/edits.ts";
+import { getModifiers } from "../typescript/nodes.ts";
 import type { AzSdkMetaTags, ModuleInfo } from "./info.ts";
 import { AZSDK_META_TAG_PREFIX, VALID_AZSDK_META_TAGS } from "./info.ts";
 import { testSyntax } from "./syntax.ts";
@@ -38,41 +66,38 @@ export async function processSources(
     const accumulator = createAccumulator({
       importedModules: {
         predicate: isImportOrStaticRequire,
-        select: (node: ts.ImportDeclaration | ts.CallExpression) => {
-          if (ts.isImportDeclaration(node)) {
-            return (node.moduleSpecifier as ts.StringLiteral).text;
+        select: (node: ImportDeclaration | CallExpression) => {
+          if (isImportDeclaration(node)) {
+            return (node.moduleSpecifier as StringLiteral).text;
           } else {
-            return (node.arguments[0] as ts.StringLiteralLike).text;
+            return (node.arguments[0] as StringLiteral).text;
           }
         },
       },
       usedEnvironmentVariables: {
         predicate: isProcessEnvAccess,
-        select: (node: ts.PropertyAccessExpression | ts.ElementAccessExpression) => {
-          if (ts.isPropertyAccessExpression(node)) {
+        select: (node: PropertyAccessExpression | ElementAccessExpression) => {
+          if (isPropertyAccessExpression(node)) {
             return node.name.text;
           } else {
-            return (node.argumentExpression as ts.StringLiteralLike).text;
+            return (node.argumentExpression as StringLiteral).text;
           }
         },
       },
       exports: {
         predicate: (node) => {
-          if (!ts.canHaveModifiers(node)) {
-            return false;
-          }
-          const modifiers = ts.getModifiers(node);
+          const modifiers = getModifiers(node);
           return (
-            (modifiers?.some(({ kind }) => kind === ts.SyntaxKind.ExportKeyword) &&
-              !modifiers.some(({ kind }) => kind === ts.SyntaxKind.DefaultKeyword)) ??
+            (modifiers?.some(({ kind }) => kind === SyntaxKind.ExportKeyword) &&
+              !modifiers.some(({ kind }) => kind === SyntaxKind.DefaultKeyword)) ??
             false
           );
         },
-        select: (node: ts.FunctionDeclaration | ts.ClassDeclaration | ts.VariableStatement) => {
-          if (ts.isVariableStatement(node)) {
+        select: (node: FunctionDeclaration | ClassDeclaration | VariableStatement) => {
+          if (isVariableStatement(node)) {
             return node.declarationList.declarations
-              .filter((decl) => ts.isIdentifier(decl.name))
-              .map((decl) => (decl.name as ts.Identifier).text);
+              .filter((decl) => isIdentifier(decl.name))
+              .map((decl) => (decl.name as Identifier).text);
           } else {
             return node.name?.text;
           }
@@ -80,46 +105,44 @@ export async function processSources(
       },
     });
 
-    const sourceProcessor: ts.TransformerFactory<ts.SourceFile> =
-      (context) => (sourceFile: ts.SourceFile) => {
-        const emitError = createDiagnosticEmitter(sourceFile);
+    const sourceProcessor: SourceRewriter = ({ sourceFile }) => {
+      const emitError = createDiagnosticEmitter(sourceFile);
 
-        const visitor: ts.Visitor = (node: ts.Node) => {
-          const syntaxSupportError = testSyntax(node);
-          if (syntaxSupportError) {
-            hadUnsupportedSyntax = true;
-            emitError(syntaxSupportError.message, node, syntaxSupportError.suggest);
+      const visit = (node: Node): void => {
+        const syntaxSupportError = testSyntax(node);
+        if (syntaxSupportError) {
+          hadUnsupportedSyntax = true;
+          emitError(syntaxSupportError.message, node, syntaxSupportError.suggest);
 
-            // We won't check the children of erroneous nodes. It can get confusing quickly to do so.
-            return undefined;
-          }
+          // We won't check the children of erroneous nodes. It can get confusing quickly to do so.
+          return;
+        }
 
-          accumulator.addNode(node);
+        accumulator.addNode(node);
 
-          const tags = ts.getJSDocTags(node);
+        const tags = getJSDocTags(node);
 
-          // Process azsdk tags. This function returns the summary tag if it was found and also inserts @azsdk-<name>
-          // tags into the azSdkTags object.
-          summary ??= extractAzSdkTags(tags, relativeSourcePath, node, sourceFile, azSdkTags);
+        // Process azsdk tags. This function returns the summary tag if it was found and also inserts @azsdk-<name>
+        // tags into the azSdkTags object.
+        summary ??= extractAzSdkTags(tags, relativeSourcePath, node, sourceFile, azSdkTags);
 
-          return ts.visitEachChild(node, visitor, context);
-        };
-
-        const importTypeProcessed = processImportType(
-          ts.visitNode(sourceFile, visitor) as ts.SourceFile,
-          context.factory,
-        );
-        return addCommonJsExports(context, importTypeProcessed, accumulator.exports);
+        node.forEachChild(visit);
       };
 
-    // Where the work happens. This runs the conversion step from the ts-to-js command with the visitor we've defined
+      visit(sourceFile);
+
+      return [
+        ...processImportType(sourceFile),
+        ...addCommonJsExports(sourceFile, accumulator.exports),
+      ];
+    };
+
+    // Where the work happens. This runs the conversion step from the ts-to-js command with the rewriter we've defined
     // above and the CommonJS transforms (see transforms.ts).
     const jsModuleText = await convert(sourceText, {
       fileName: source,
-      transformers: {
-        before: [sourceProcessor],
-        after: [createToCommonJsTransform(requireInScope)],
-      },
+      before: [sourceProcessor],
+      after: [createToCommonJsTransform(requireInScope)],
     });
 
     // Check the imports for any relative module imports (these could be util files), and compute a relative path to the
@@ -171,13 +194,13 @@ export async function processSources(
   });
 }
 
-function isImportOrStaticRequire(node: ts.Node): node is ts.ImportDeclaration | ts.CallExpression {
+function isImportOrStaticRequire(node: Node): node is ImportDeclaration | CallExpression {
   return (
-    ts.isImportDeclaration(node) ||
-    (ts.isCallExpression(node) &&
-      ((ts.isIdentifier(node.expression) && node.expression.text === "require") ||
-        node.expression.kind === ts.SyntaxKind.ImportKeyword) &&
-      ts.isStringLiteralLike(node.arguments[0]))
+    isImportDeclaration(node) ||
+    (isCallExpression(node) &&
+      ((isIdentifier(node.expression) && node.expression.text === "require") ||
+        node.expression.kind === SyntaxKind.ImportKeyword) &&
+      isStringLiteralLikeNode(node.arguments[0]))
   );
 }
 
@@ -199,11 +222,11 @@ function isImportOrStaticRequire(node: ts.Node): node is ts.ImportDeclaration | 
  * @returns true if the node appears to be a process.env access.
  */
 function isProcessEnvAccess(
-  node: ts.Node,
-  sourceFile?: ts.SourceFile,
-): node is ts.PropertyAccessExpression | ts.ElementAccessExpression {
+  node: Node,
+  sourceFile?: SourceFile,
+): node is PropertyAccessExpression | ElementAccessExpression {
   return (
-    (ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node)) &&
+    (isPropertyAccessExpression(node) || isElementAccessExpression(node)) &&
     // This is cheating a bit, but it will work and doesn't require us to test the node any deeper
     node.expression.getText(sourceFile) === "process.env"
   );
@@ -220,20 +243,18 @@ function isProcessEnvAccess(
  * @returns the summary tag's value or undefined if none was found
  */
 function extractAzSdkTags(
-  tags: readonly ts.JSDocTag[],
+  tags: readonly JSDocTag[],
   relativeSourcePath: string,
-  node: ts.Node,
-  sourceFile: ts.SourceFile,
+  node: Node,
+  sourceFile: SourceFile,
   azSdkTags: AzSdkMetaTags,
 ): string | undefined {
   let summary: string | undefined;
   for (const tag of tags) {
     log.debug(`File ${relativeSourcePath} has tag ${tag.tagName.text}`);
 
-    // New TS introduced comment: NodeArray, so we join the text if it is made of many nodes.
-    const comment = Array.isArray(tag.comment)
-      ? tag.comment.map((node: ts.JSDocText) => node.text ?? " ").join(" ")
-      : (tag.comment as string | undefined);
+    // The comment is made of many nodes (text and links), so we join their text.
+    const comment = tag.comment?.map((part) => part.text ?? " ").join(" ");
 
     if (tag.tagName.text === "summary") {
       log.debug("Found summary tag on node:", node.getText(sourceFile));
@@ -263,49 +284,36 @@ function extractAzSdkTags(
 }
 
 /**
- * Adds a node to the end of a source file containing a CommonJS module.exports = block.
+ * Describes the edits that turn a source file into a CommonJS module: they handle `export default` and add a
+ * `module.exports = { ... }` statement to the end of the file.
  *
- * @param context - transformation context from the compiler API
  * @param sourceFile - the source file to process
  * @param exports - a list of exported symbols in the file
- * @returns the updated SourceFile node
+ * @returns the edits to apply to the source file's text
  */
-function addCommonJsExports(
-  context: ts.TransformationContext,
-  sourceFile: ts.SourceFile | undefined,
-  exports: string[],
-): ts.SourceFile {
+function addCommonJsExports(sourceFile: SourceFile, exports: string[]): TextEdit[] {
   log.debug("Adding exports:", exports);
 
-  if (!sourceFile) {
-    throw new Error("invalid sourceFile");
-  }
-
-  const factory = context.factory;
-
-  const exportEntries: ts.ObjectLiteralElementLike[] = exports.map((name) =>
-    factory.createShorthandPropertyAssignment(name),
-  );
-
-  const transformedOriginalStatements = processExportDefault(sourceFile, factory, exportEntries);
+  const exportEntries = [...exports];
+  const edits = processExportDefault(sourceFile, exportEntries);
 
   if (exportEntries.length > 0) {
-    transformedOriginalStatements.push(
-      factory.createEmptyStatement(),
+    // The statement goes after the last statement and the comments that trail it on its line, but before any
+    // comments that end the file.
+    const lastStatement = sourceFile.statements.at(-1);
+    const insertAt = lastStatement
+      ? (getTrailingCommentRanges(sourceFile.text, lastStatement.getEnd())?.at(-1)?.end ??
+        lastStatement.getEnd())
+      : 0;
+    edits.push({
+      start: insertAt,
+      end: insertAt,
       // module.exports = { ... }
-      factory.createExpressionStatement(
-        factory.createAssignment(
-          factory.createPropertyAccessExpression(
-            factory.createIdentifier("module"),
-            factory.createIdentifier("exports"),
-          ),
-          factory.createObjectLiteralExpression(exportEntries),
-        ),
-      ),
-    );
+      text: `\n;\nmodule.exports = { ${exportEntries.join(", ")} };\n`,
+    });
   }
 
-  return factory.updateSourceFile(sourceFile, transformedOriginalStatements);
+  return edits;
 }
 
 /**
@@ -319,110 +327,79 @@ function addCommonJsExports(
  * `export default class`
  *
  * @param sourceFile - the source file to process
- * @param factory - a context-bound NodeFactory
  * @param exportEntries - a list to add the new default property assignments to
- * @returns a new list of statements for the source file
+ * @returns the edits to apply to the source file's text
  */
-function processExportDefault(
-  sourceFile: ts.SourceFile,
-  factory: ts.NodeFactory,
-  exportEntries: ts.ObjectLiteralElementLike[],
-): ts.Statement[] {
-  return sourceFile.statements.map((statement) => {
-    if (!ts.canHaveModifiers(statement)) {
-      return statement;
+function processExportDefault(sourceFile: SourceFile, exportEntries: string[]): TextEdit[] {
+  const edits: TextEdit[] = [];
+
+  for (const statement of sourceFile.statements) {
+    const modifiers = getModifiers(statement);
+    const exportModifier = modifiers?.find(({ kind }) => kind === SyntaxKind.ExportKeyword);
+    const defaultModifier = modifiers?.find(({ kind }) => kind === SyntaxKind.DefaultKeyword);
+
+    // Only function and class declarations have modifiers that make a statement a default export, and anything else
+    // that has them (such as an interface) doesn't exist at runtime.
+    if (
+      !exportModifier ||
+      !defaultModifier ||
+      !(isFunctionDeclaration(statement) || isClassDeclaration(statement))
+    ) {
+      continue;
     }
-    const isDefault =
-      statement.modifiers?.some(({ kind }) => kind === ts.SyntaxKind.DefaultKeyword) &&
-      statement.modifiers.some(({ kind }) => kind === ts.SyntaxKind.ExportKeyword);
 
-    if (!isDefault) {
-      return statement;
-    }
-
-    // The only forms that can have `export default` modifiers are the following.
-    const decl = statement as ts.FunctionDeclaration | ts.ClassDeclaration;
-    const updatedModifiers = decl.modifiers?.filter(
-      ({ kind }) => kind !== ts.SyntaxKind.DefaultKeyword && kind !== ts.SyntaxKind.ExportKeyword,
-    );
-
-    if (!decl.name) {
-      // If there is no name, the declaration is anonymous, and we will bind it as an expression in module.exports
-      const initializer = ts.isClassDeclaration(decl)
-        ? factory.createClassExpression(
-            updatedModifiers,
-            undefined,
-            decl.typeParameters,
-            decl.heritageClauses,
-            decl.members,
-          )
-        : decl.body === undefined // This is a strange case that I assume has to do with overload declarations.
-          ? undefined
-          : factory.createFunctionExpression(
-              updatedModifiers as readonly ts.Modifier[], // it's not legal to decorate function expressions so these should all be modifiers.
-              decl.asteriskToken,
-              undefined,
-              decl.typeParameters,
-              decl.parameters,
-              decl.type,
-              decl.body,
-            );
-
-      if (initializer) {
-        exportEntries.push(factory.createPropertyAssignment("default", initializer));
+    // The ranges of the `export` and `default` keywords and the whitespace after them. Everything else about the
+    // declaration (other modifiers, decorators, comments) is kept as written.
+    const removedRanges = [exportModifier, defaultModifier].map((modifier) => {
+      let end = modifier.getEnd();
+      while (/\s/.test(sourceFile.text[end] ?? "")) {
+        end++;
       }
+      return { start: modifier.getStart(), end };
+    });
 
-      return factory.createEmptyStatement();
+    if (statement.name) {
+      exportEntries.push(`default: ${statement.name.text}`);
+      edits.push(...removedRanges.map((range) => ({ ...range, text: "" })));
+      continue;
     }
 
-    exportEntries.push(factory.createPropertyAssignment("default", decl.name));
+    // If there is no name, the declaration is anonymous, and we will bind it as an expression in module.exports
+    const start = statement.getStart();
+    let expression = "";
+    let position = start;
+    for (const range of removedRanges.sort((a, b) => a.start - b.start)) {
+      expression += sourceFile.text.slice(position, range.start);
+      position = range.end;
+    }
+    expression += sourceFile.text.slice(position, statement.getEnd());
 
-    return ts.isClassDeclaration(decl)
-      ? factory.updateClassDeclaration(
-          decl,
-          updatedModifiers,
-          decl.name,
-          decl.typeParameters,
-          decl.heritageClauses,
-          decl.members,
-        )
-      : factory.updateFunctionDeclaration(
-          decl,
-          updatedModifiers,
-          decl.asteriskToken,
-          decl.name,
-          decl.typeParameters,
-          decl.parameters,
-          decl.type,
-          decl.body,
-        );
-  });
+    // A function without a body is a strange case that I assume has to do with overload declarations.
+    if (isClassDeclaration(statement) || statement.body !== undefined) {
+      exportEntries.push(`default: ${expression}`);
+    }
+
+    edits.push({ start, end: statement.getEnd(), text: ";" });
+  }
+
+  return edits;
 }
 
 /**
  * Handles `import type {...}` statements.
  *
- * We want to replace import type declaration with a node whose comments will
+ * We want to replace import type declaration with a statement that will
  * not be eliminated by the compiler during transpilation to JavaScript so that
- * the comments can be preserved.
+ * the comments around it can be preserved.
  *
  * @param sourceFile - the source file to process
- * @param factory - a context-bound NodeFactory
- * @returns a new list of statements for the source file
+ * @returns the edits to apply to the source file's text
  */
-function processImportType(sourceFile: ts.SourceFile, factory: ts.NodeFactory): ts.SourceFile {
-  return factory.updateSourceFile(
-    sourceFile,
-    sourceFile.statements.map((node) => {
-      if (ts.isImportDeclaration(node)) {
-        if (node.importClause?.isTypeOnly) {
-          const outerComments = ts.getCommentRange(node);
-          const dummyNode = factory.createEmptyStatement();
-          return ts.setCommentRange(dummyNode, outerComments);
-        }
-      }
-
-      return node;
-    }),
-  );
+function processImportType(sourceFile: SourceFile): TextEdit[] {
+  return sourceFile.statements
+    .filter(
+      (node: Statement) =>
+        isImportDeclaration(node) && node.importClause?.phaseModifier === SyntaxKind.TypeKeyword,
+    )
+    .map((node) => ({ start: node.getStart(), end: node.getEnd(), text: ";" }));
 }

@@ -2,7 +2,26 @@ import fs from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { EOL } from "node:os";
 import path from "node:path";
-import ts from "typescript";
+import type {
+  Block,
+  ImportClause,
+  ImportDeclaration,
+  Node,
+  SourceFile,
+  StringLiteral,
+} from "typescript/ast";
+import { getTrailingCommentRanges } from "typescript/ast";
+import {
+  isArrowFunction,
+  isBlock,
+  isCallExpression,
+  isFunctionExpression,
+  isIdentifier,
+  isImportClause,
+  isImportDeclaration,
+  isStringLiteral,
+} from "typescript/ast/is";
+import type { API, Project } from "typescript/sync";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import { findMatchingFiles } from "../../util/findMatchingFiles.ts";
 import { format } from "../../util/prettier.ts";
@@ -11,7 +30,10 @@ import type { ProjectInfo } from "../../util/resolveProject.ts";
 import { resolveProject } from "../../util/resolveProject.ts";
 import { convert } from "../../util/samples/convert.ts";
 import { testSyntax } from "../../util/samples/syntax.ts";
+import { withTypeScriptApi } from "../../util/typescript/api.ts";
 import { createDiagnosticEmitter } from "../../util/typescript/diagnostic.ts";
+import type { SourceRewriter } from "../../util/typescript/edits.ts";
+import { printStatementsWithComments } from "../../util/typescript/printing.ts";
 
 export const commandInfo = makeCommandInfo(
   "update-snippets",
@@ -182,6 +204,30 @@ interface SnippetDefinition {
 }
 
 /**
+ * Prints the statements of a block as they are, with their comments. The printer doesn't preserve the blank lines
+ * between statements (see `@ts-preserve-whitespace`) and leaves out the braces of the block.
+ *
+ * The statements are printed by wrapping them in a source file that has the text of the statements, because that is
+ * where the printer finds their comments. Only the comments that trail the last statement on its line are printed,
+ * not the ones between it and the closing brace.
+ *
+ * KNOWN GAP: the TypeScript 7.1 printer prints a number from its value (`1.0` becomes `1` and `0xFF` becomes
+ * `255`), where the TypeScript 6 printer kept the text as it was written. The API has no option to print the source
+ * text of a literal.
+ *
+ * @param api - the TypeScript API client
+ * @param sourceFile - the source file that contains the block
+ * @param block - the block to print the statements of
+ */
+function printStatements(api: API, sourceFile: SourceFile, block: Block): string {
+  const start = block.statements.pos;
+  const end =
+    getTrailingCommentRanges(sourceFile.text, block.statements.end)?.at(-1)?.end ??
+    block.statements.end;
+  return printStatementsWithComments(api, sourceFile, block.statements, { start, end });
+}
+
+/**
  * Parses the snippets file for a project and extracts the text of snippet tests.
  *
  * @param project - the project to extract snippets for
@@ -190,31 +236,42 @@ interface SnippetDefinition {
 async function parseSnippetDefinitions(
   project: ProjectInfo,
 ): Promise<Map<string, SnippetDefinition>> {
-  const results = new Map<string, SnippetDefinition>();
-
   const snippetFile = path.join(project.path, ...SNIPPET_PATH);
+
+  return withTypeScriptApi((api) => {
+    const program = api.createProgram([snippetFile], {});
+    try {
+      return extractSnippetDefinitions(api, program.getProject(), project, snippetFile);
+    } finally {
+      program.dispose();
+    }
+  });
+}
+
+/**
+ * Finds the snippet tests in a program's snippets file and extracts their definitions.
+ *
+ * @param api - the TypeScript API client, which prints the snippets
+ * @param programProject - the project of the program that contains the snippets file, to resolve symbols
+ * @param project - the project to extract snippets for
+ * @param snippetFile - the path of the project's snippets file
+ */
+function extractSnippetDefinitions(
+  api: API,
+  programProject: Project,
+  project: ProjectInfo,
+  snippetFile: string,
+): Map<string, SnippetDefinition> {
+  const results = new Map<string, SnippetDefinition>();
 
   const relativeIndexPath = path
     .relative(path.dirname(snippetFile), path.join(project.path, "src"))
     .replaceAll("\\", "/");
 
-  const program = ts.createProgram({
-    rootNames: [snippetFile],
-    options: {},
-  });
+  const sourceFile = programProject.program.getSourceFile(snippetFile)!;
+  const checker = programProject.checker;
 
-  const sourceFile = program.getSourceFile(snippetFile)!;
-  const checker = program.getTypeChecker();
-
-  const printer = ts.createPrinter({
-    newLine: EOL === "\r\n" ? ts.NewLineKind.CarriageReturnLineFeed : ts.NewLineKind.LineFeed,
-    removeComments: false,
-    noEmitHelpers: true,
-  });
-
-  const visitSnippetDefinition: ts.Visitor = (node: ts.Node) => {
-    let expr: ts.Expression;
-
+  const visitSnippetDefinition = (node: Node): void => {
     // We accept any test definition that calls the exact symbol 'it' with a
     // string literal and a function expression where the body of the function
     // is a block. We don't care whether the function is named or async or what
@@ -226,28 +283,24 @@ async function parseSnippetDefinitions(
     //   | 'async'? function $_:ident? ( ) { $body:statements }
     if (
       node &&
-      ts.isCallExpression(node) &&
-      ts.isIdentifier((expr = node.expression)) &&
-      (expr as ts.Identifier).escapedText === "it" &&
-      ts.isStringLiteral(node.arguments[0]) &&
-      (ts.isFunctionExpression(node.arguments[1]) ||
-        (ts.isArrowFunction(node.arguments[1]) && ts.isBlock(node.arguments[1].body)))
+      isCallExpression(node) &&
+      isIdentifier(node.expression) &&
+      node.expression.text === "it" &&
+      isStringLiteral(node.arguments[0]) &&
+      (isFunctionExpression(node.arguments[1]) ||
+        (isArrowFunction(node.arguments[1]) && isBlock(node.arguments[1].body)))
     ) {
-      const name = node.arguments[0] as ts.StringLiteral;
-      const body = (node.arguments[1] as ts.ArrowFunction | ts.FunctionExpression).body as ts.Block;
+      const name = node.arguments[0];
+      const body = node.arguments[1].body as Block;
 
       // Print the statements out as they are. We're going to recompile them later.
-      const contents = printer.printList(
-        ts.ListFormat.MultiLineBlockStatements,
-        body.statements,
-        sourceFile,
-      );
+      const contents = printStatements(api, sourceFile, body);
 
       const imports: { name: string; moduleSpecifier: string; isDefault: boolean }[] = [];
 
       // This nested visitor is just for extracting the imports of a symbol.
-      const symbolImportVisitor: ts.Visitor = (node: ts.Node) => {
-        if (ts.isIdentifier(node)) {
+      const symbolImportVisitor = (node: Node): void => {
+        if (isIdentifier(node)) {
           const importLocations = extractImportLocations(node);
           if (importLocations.length > 1) {
             // We can probably handle this, but it's an obscure case and it's probably better to let it error out and
@@ -267,12 +320,10 @@ async function parseSnippetDefinitions(
           // module, so we don't need to generate any code for it.
         }
 
-        ts.forEachChild(node, symbolImportVisitor);
-
-        return undefined;
+        node.forEachChild(symbolImportVisitor);
       };
 
-      ts.visitNodes(body.statements, symbolImportVisitor);
+      body.statements.forEach(symbolImportVisitor);
 
       // We've found a snippet. No need to recur any farther. We'll take the body of this snippet and transpile it as a
       // file using `convert`.
@@ -347,55 +398,22 @@ async function parseSnippetDefinitions(
 
       // Run the same syntax validation pass that we run on samples when we convert to JS. This will prevent you from
       // using any syntax that isn't supported by our min node in snippets!
-      const checkSyntax: ts.TransformerFactory<ts.SourceFile> = (context) => (sourceFile) => {
+      const checkSyntax: SourceRewriter = ({ sourceFile }) => {
         const emitError = createDiagnosticEmitter(sourceFile);
 
-        const visitor: ts.Visitor = (node) => {
+        const visit = (node: Node): void => {
           const syntaxError = testSyntax(node);
 
           if (syntaxError) {
             emitError(syntaxError.message, node, syntaxError.suggest);
           }
 
-          return ts.visitEachChild(node, visitor, context);
+          node.forEachChild(visit);
         };
 
-        ts.visitNode(sourceFile, visitor);
+        visit(sourceFile);
 
-        return sourceFile;
-      };
-
-      // TODO: how can we run this on the TS source without emitting to JS?
-      // We'll also simplify the snippets a bit by getting rid of any expressions of the form
-      //
-      // EnvLookup ::= 'process' . 'env' . $_:ident ElseOp $e:expr
-      // ElseOp ::= '??' | '||'
-      //
-      // We'll just replace them with the expr $e, simplifying the snippets a bit.
-      const replaceEnvLookup: ts.TransformerFactory<ts.SourceFile> = (context) => (sourceFile) => {
-        const visitor: ts.Visitor = (node) => {
-          if (
-            // Nullish coalesce is simply defined as a BinaryExpression where the operatorToken is a '??'.
-            ts.isNullishCoalesce(node) ||
-            (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.BarBarToken)
-          ) {
-            const left = (node as ts.BinaryExpression).left;
-
-            if (
-              ts.isPropertyAccessExpression(left) &&
-              // Won't bother checking the AST any further than this. It's sufficient I think to just see if the text of
-              // the expression is something of the form `'process' '.' 'env'`
-              /^\s*process\s*\.\s*env\s*/.test(left.expression.getText(sourceFile))
-            ) {
-              return (node as ts.BinaryExpression).right;
-            }
-          }
-          return ts.visitEachChild(node, visitor, context);
-        };
-
-        ts.visitNode(sourceFile, visitor);
-
-        return sourceFile;
+        return [];
       };
 
       results.set(name.text, {
@@ -404,20 +422,13 @@ async function parseSnippetDefinitions(
           res.split(/\r?\n/),
         ),
         async convert() {
-          const res = await convert(fullSnippetTypeScriptText, {
-            transformers: {
-              before: [replaceEnvLookup, checkSyntax],
-              after: [],
-            },
-          });
+          const res = await convert(fullSnippetTypeScriptText, { before: [checkSyntax] });
           return res.trim().split(/\r?\n/);
         },
       });
     }
 
-    ts.forEachChild(node, visitSnippetDefinition);
-
-    return undefined;
+    node.forEachChild(visitSnippetDefinition);
   };
 
   visitSnippetDefinition(sourceFile);
@@ -434,51 +445,45 @@ async function parseSnippetDefinitions(
    * @param node - the node to check for imports
    * @returns a list of module specifiers that form the definition of the node's symbol, or undefined
    */
-  function extractImportLocations(node: ts.Node): {
+  function extractImportLocations(node: Node): {
     isDefault: boolean;
     moduleSpecifier: string;
   }[] {
     const sym = checker.getSymbolAtLocation(node);
 
+    // Symbols refer to their declarations by handle. Get the ones that are in the snippets file.
+    const declarations = (sym?.declarations ?? [])
+      .filter((handle) => handle.path === sourceFile.path)
+      .map((handle) => handle.resolve(programProject)!);
+
     // Get all the decls that are in source files and where the decl comes from an import clause.
-    const nonDefaultExports = sym?.declarations
-      ?.filter(
-        (decl) =>
-          decl.getSourceFile() === sourceFile &&
-          decl.parent?.parent &&
-          ts.isImportClause(decl.parent.parent),
-      )
+    const nonDefaultExports = declarations
+      .filter((decl) => decl.parent?.parent && isImportClause(decl.parent.parent))
       .map(
         // It is a grammar error for moduleSpecifier to be anything other than a string literal. In future versions of
         // ES, that might become untrue, but it seems unlikely.
         (decl) => {
           const moduleSpecifierText = (
-            (decl.parent.parent as ts.ImportClause).parent.moduleSpecifier as ts.StringLiteral
-          ).text;
+            (decl.parent.parent as ImportClause).parent as ImportDeclaration
+          ).moduleSpecifier as StringLiteral;
 
           if (
-            moduleSpecifierText === relativeIndexPath ||
-            moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
-            moduleSpecifierText === path.posix.join(relativeIndexPath, "index")
+            moduleSpecifierText.text === relativeIndexPath ||
+            moduleSpecifierText.text === path.posix.join(relativeIndexPath, "index.js") ||
+            moduleSpecifierText.text === path.posix.join(relativeIndexPath, "index")
           ) {
             return { moduleSpecifier: project.name, isDefault: false };
           } else {
-            return { moduleSpecifier: moduleSpecifierText, isDefault: false };
+            return { moduleSpecifier: moduleSpecifierText.text, isDefault: false };
           }
         },
       );
 
-    const defaultExports = sym?.declarations
-      ?.filter(
-        (decl) =>
-          decl.getSourceFile() === sourceFile &&
-          ts.isImportClause(decl) &&
-          ts.isImportDeclaration(decl.parent) &&
-          decl.name,
-      )
+    const defaultExports = declarations
+      .filter((decl) => isImportClause(decl) && isImportDeclaration(decl.parent) && decl.name)
       .map((decl) => {
         const moduleSpecifierText = (
-          (decl.parent as ts.ImportDeclaration).moduleSpecifier as ts.StringLiteral
+          (decl.parent as ImportDeclaration).moduleSpecifier as StringLiteral
         ).text;
 
         if (
@@ -492,7 +497,7 @@ async function parseSnippetDefinitions(
         }
       });
 
-    return [...(nonDefaultExports ?? []), ...(defaultExports ?? [])];
+    return [...nonDefaultExports, ...defaultExports];
   }
 }
 
@@ -615,7 +620,10 @@ export default leafCommand(commandInfo, async (_) => {
     return false;
   }
 
-  const snippetDefinitions = await parseSnippetDefinitions(project);
+  // Converting snippets to JavaScript also needs the TypeScript API, so share one client for the whole command.
+  return withTypeScriptApi(async () => {
+    const snippetDefinitions = await parseSnippetDefinitions(project);
 
-  return replaceSnippetsWithNew(snippetLocations, snippetDefinitions);
+    return replaceSnippetsWithNew(snippetLocations, snippetDefinitions);
+  });
 });

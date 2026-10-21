@@ -1,48 +1,79 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ts from "typescript";
 import { builtinModules } from "node:module";
-
 import nodeBuiltins from "builtin-modules";
+import type {
+  BindingName,
+  ImportClause,
+  ImportDeclaration,
+  NamedImportBindings,
+  NamedImports,
+  Node,
+  ObjectBindingPattern,
+  Statement,
+  StringLiteral,
+} from "typescript/ast";
+import { NodeFlags, SyntaxKind, TokenFlags } from "typescript/ast";
+import {
+  createBindingElement,
+  createCallExpression,
+  createEmptyStatement,
+  createExpressionStatement,
+  createIdentifier,
+  createObjectBindingPattern,
+  createPropertyAccessExpression,
+  createStringLiteral,
+  createVariableDeclaration,
+  createVariableDeclarationList,
+  createVariableStatement,
+} from "typescript/ast/factory";
+import {
+  isExportAssignment,
+  isExportDeclaration,
+  isIdentifier,
+  isImportDeclaration,
+  isNamedImports,
+  isNamespaceImport,
+} from "typescript/ast/is";
+import type { SourceRewriter, TextEdit } from "../typescript/edits.ts";
+import { replaceStatement } from "../typescript/edits.ts";
 
 // Retain deprecated built-ins supported by the running Node.js version.
 const supportedNodeBuiltins = new Set([...nodeBuiltins, ...builtinModules]);
 
 /**
- * A TypeScript API transformer that replaces imports with CommonJS `require` calls.
+ * A source rewriter that replaces imports with CommonJS `require` calls.
  *
  * The CommonJS emitter that is built into TypeScript is designed for semantic accuracy and compliance with the ES
  * specification. This transform is a best-effort conversion that maintains readability.
  *
  * Syntactic forms that are not handled by this transform are rejected by the source processor (see processor.ts).
  *
- * @param context - the compiler API context
- * @returns a visitor that performs the transform to CommonJS
+ * @param getPackage - loads a module, to decide whether it has default exports
+ * @returns a rewriter that performs the transform to CommonJS
  */
 export const createToCommonJsTransform: (
   getPackage: (moduleSpecifier: string) => unknown,
-) => ts.TransformerFactory<ts.SourceFile> = (getPackage) => (context) => (sourceFile) => {
-  const visitor: ts.Visitor = (node) => {
-    if (ts.isImportDeclaration(node)) {
-      return ts.visitNode(
-        importDeclarationToCommonJs(node, getPackage, context.factory, sourceFile),
-        visitor,
-      );
-    } else if (ts.isExportDeclaration(node) || ts.isExportAssignment(node)) {
-      // TypeScript can choose to emit `export {}` in some cases, so we will remove any export declarations.
-      return context.factory.createEmptyStatement();
-    }
+) => SourceRewriter =
+  (getPackage) =>
+  ({ api, sourceFile }) => {
+    const edits: TextEdit[] = [];
 
-    return ts.visitEachChild(node, visitor, context);
+    const visit = (node: Node): void => {
+      if (isImportDeclaration(node)) {
+        edits.push(replaceStatement(api, node, importDeclarationToCommonJs(node, getPackage)));
+      } else if (isExportDeclaration(node) || isExportAssignment(node)) {
+        // TypeScript can choose to emit `export {}` in some cases, so we will remove any export declarations.
+        edits.push(replaceStatement(api, node, createEmptyStatement()));
+      } else {
+        node.forEachChild(visit);
+      }
+    };
+
+    visit(sourceFile);
+    return edits;
   };
-
-  const visited = ts.visitNode(sourceFile, visitor);
-  if (!visited) {
-    throw new Error("Expect valid visited node");
-  }
-  return visited as ts.SourceFile;
-};
 
 interface TranspiledModule {
   __esModule?: boolean;
@@ -64,20 +95,20 @@ interface TranspiledModule {
  * We can transpile ES Modules by synthesizing a call `require(<module specifier>)` and then, if an import clause was
  * specified, binding the names using a variable declaration.
  *
+ * Replacing the declaration through a text edit (see edits.ts) keeps its comments, because they are not part of the
+ * replaced range.
+ *
  * @param decl - an ImportDeclaration
- * @param nodeFactory - a context-bound factory instance
- * @param sourceFile - the source file
+ * @param requireInScope - loads a module, to decide whether it has default exports
  * @returns a new statement to replace the import declaration
  */
 export function importDeclarationToCommonJs(
-  decl: ts.ImportDeclaration,
+  decl: ImportDeclaration,
   requireInScope: (moduleSpecifier: string) => unknown,
-  nodeFactory?: ts.NodeFactory,
-  sourceFile?: ts.SourceFile,
-): ts.Statement {
-  if (decl.moduleSpecifier.kind !== ts.SyntaxKind.StringLiteral) {
-    const file = sourceFile ?? decl.getSourceFile();
-    const { line, character } = file.getLineAndCharacterOfPosition(decl.pos);
+): Statement {
+  if (decl.moduleSpecifier.kind !== SyntaxKind.StringLiteral) {
+    const file = decl.getSourceFile();
+    const { line, character } = file.getLineAndCharacterOfPosition(decl.getFullStart());
     throw new Error(
       `[Internal Error] ${
         file.fileName + ":" + line + ":" + character
@@ -85,36 +116,34 @@ export function importDeclarationToCommonJs(
     );
   }
 
-  const factory = nodeFactory ?? ts.factory;
-
-  // We are creating new nodes, so comments must be manually preserved whenever we replace nodes.
-  const outerComments = ts.getCommentRange(decl);
+  const moduleSpecifierText = (decl.moduleSpecifier as StringLiteral).text;
 
   const requireCall = () =>
-    factory.createCallExpression(
-      factory.createIdentifier("require"),
+    createCallExpression(
+      createIdentifier("require"),
+      /* questionDotToken: */ undefined,
       /* typeArguments: */ undefined,
-      [factory.createStringLiteral((decl.moduleSpecifier as ts.StringLiteral).text)],
+      [createStringLiteral(moduleSpecifierText, TokenFlags.None)],
+      NodeFlags.None,
     );
 
   if (!decl.importClause) {
     // import "foo";
-    return ts.setCommentRange(factory.createExpressionStatement(requireCall()), outerComments);
+    return createExpressionStatement(requireCall());
   }
 
   // import <clause> from "foo";
 
-  const primaryBinding = importClauseToBinding(decl.importClause, factory);
+  const primaryBinding = importClauseToBinding(decl.importClause);
 
   const namedBindings = decl.importClause.namedBindings;
-  const moduleSpecifierText = (decl.moduleSpecifier as ts.StringLiteral).text;
 
   const isDefaultImport =
-    ts.isIdentifier(primaryBinding) &&
+    isIdentifier(primaryBinding) &&
     // Node builtins are never treated as default imports.
     !isNodeBuiltin(moduleSpecifierText) &&
     // If this is a namespace import, then it's not a default import.
-    !(namedBindings && ts.isNamespaceImport(namedBindings)) &&
+    !(namedBindings && isNamespaceImport(namedBindings)) &&
     // @azure imports are treated as defaults
     (/^@azure(-[a-z0-9]*)?\//.test(moduleSpecifierText) ||
       // Relative imports are treated as defaults
@@ -132,24 +161,29 @@ export function importDeclarationToCommonJs(
   //
   // const a = require("foo").default, { b } = require("foo");
   const declarationList = [
-    factory.createVariableDeclaration(
+    createVariableDeclaration(
       primaryBinding,
       /* exclamationToken: */ undefined,
       /* type: */ undefined,
       // If the binding was a name, and this isn't a namespace import, then we need to access .default on it.
       isDefaultImport
-        ? factory.createPropertyAccessExpression(requireCall(), "default")
+        ? createPropertyAccessExpression(
+            requireCall(),
+            /* questionDotToken: */ undefined,
+            createIdentifier("default"),
+            NodeFlags.None,
+          )
         : requireCall(),
     ),
   ];
 
   // If the main binding is an identifier (simple symbol) and we had named imports, then we need to add the named
   // imports as well
-  if (ts.isIdentifier(primaryBinding) && namedBindings && ts.isNamedImports(namedBindings)) {
+  if (isIdentifier(primaryBinding) && namedBindings && isNamedImports(namedBindings)) {
     // import a, { b } from "foo";
     declarationList.push(
-      factory.createVariableDeclaration(
-        namedImportsToObjectBindingPattern(namedBindings, factory),
+      createVariableDeclaration(
+        namedImportsToObjectBindingPattern(namedBindings),
         /* exclamationToken: */ undefined,
         /* type: */ undefined,
         requireCall(),
@@ -157,12 +191,9 @@ export function importDeclarationToCommonJs(
     );
   }
 
-  return ts.setCommentRange(
-    factory.createVariableStatement(
-      /* modifiers: */ undefined,
-      factory.createVariableDeclarationList(declarationList, ts.NodeFlags.Const),
-    ),
-    outerComments,
+  return createVariableStatement(
+    /* modifiers: */ undefined,
+    createVariableDeclarationList(declarationList, NodeFlags.Const),
   );
 }
 
@@ -170,20 +201,19 @@ export function importDeclarationToCommonJs(
  * Gets the primary binding for an import clause.
  *
  * @param clause - the import clause to convert into a binding
- * @param factory - a context-bound node factory
  * @returns an identifier or binding pattern for a variable declaration
  */
-function importClauseToBinding(clause: ts.ImportClause, factory: ts.NodeFactory): ts.BindingName {
+function importClauseToBinding(clause: ImportClause): BindingName {
   if (clause.name) {
     // import name from "foo";
     return clause.name;
   } else {
-    const bindings = clause.namedBindings as ts.NamedImportBindings;
+    const bindings = clause.namedBindings as NamedImportBindings;
 
-    if (ts.isNamespaceImport(bindings)) {
+    if (isNamespaceImport(bindings)) {
       return bindings.name;
-    } else if (ts.isNamedImports(bindings)) {
-      return namedImportsToObjectBindingPattern(bindings, factory);
+    } else if (isNamedImports(bindings)) {
+      return namedImportsToObjectBindingPattern(bindings);
     } else {
       throw new Error("[Internal Error] Unknown ImportClause.namedBindings form.");
     }
@@ -194,16 +224,12 @@ function importClauseToBinding(clause: ts.ImportClause, factory: ts.NodeFactory)
  * Convert named imports into an object binding pattern.
  *
  * @param imports - the named imports of an import clause
- * @param factory - a context-bound node factory
  * @returns an object binding (destructuring) pattern
  */
-function namedImportsToObjectBindingPattern(
-  imports: ts.NamedImports,
-  factory: ts.NodeFactory,
-): ts.ObjectBindingPattern {
-  return factory.createObjectBindingPattern(
+function namedImportsToObjectBindingPattern(imports: NamedImports): ObjectBindingPattern {
+  return createObjectBindingPattern(
     imports.elements.map((element) =>
-      factory.createBindingElement(
+      createBindingElement(
         /* dotDotDotToken: */ undefined, // Not allowed in named imports
         element.propertyName,
         element.name,

@@ -8,12 +8,47 @@ import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { structuredPatch } from "diff";
 import semver from "semver";
-import ts from "typescript";
+import type {
+  Declaration,
+  ExportSpecifier,
+  Identifier,
+  ImportDeclaration,
+  ImportSpecifier,
+  Node,
+  PathKey,
+  StringLiteral,
+} from "typescript/ast";
+import { SyntaxKind, getNameOfDeclaration } from "typescript/ast";
+import {
+  isExportSpecifier,
+  isIdentifier,
+  isImportClause,
+  isImportSpecifier,
+  isImportTypeNode,
+  isLiteralTypeNode,
+  isNamespaceImport,
+  isPropertyAccessExpression,
+  isQualifiedName,
+  isSourceFile,
+  isStringLiteral,
+  isVariableDeclaration,
+} from "typescript/ast/is";
+import { ModuleKind, ModuleResolutionKind, SymbolFlags } from "typescript/sync";
+import type {
+  API,
+  Checker,
+  Program,
+  Project,
+  RawCompilerOptions,
+  Symbol as CompilerSymbol,
+} from "typescript/sync";
 import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "../pnpm.ts";
+import { withTypeScriptApi } from "../typescript/api.ts";
+import { flattenDiagnosticMessage } from "../typescript/diagnostic.ts";
 import type {
   Code,
   ConditionDiff,
-  Declaration,
+  Declaration as ReviewDeclaration,
   DependencyType,
   DiffLine,
   ExportSection,
@@ -21,18 +56,10 @@ import type {
   Review,
 } from "./model.ts";
 import { codeText } from "./model.ts";
+import type { ReferenceNames } from "./printDeclarations.ts";
+import { isPrivateMember, printDeclarations } from "./printDeclarations.ts";
 
 type ExportConditions = Record<string, { types: string }>;
-
-/**
- * How references inside printed declarations appear in the review.
- */
-interface ReferenceNames {
-  /** The exported name a reference prints as, when it differs from the source. */
-  rewritten(node: ts.Node): string | undefined;
-  /** The name of a package-local declaration that no export path exposes. */
-  forgotten(identifier: ts.Identifier): string | undefined;
-}
 
 // Non-ESM conditions, in the order the review lists them.
 const runtimeConditions = ["require", "browser", "react-native", "workerd"];
@@ -78,6 +105,10 @@ function compatibleVersion(specifier: string): string {
 }
 
 export async function buildReview(packageRoot: string): Promise<Review> {
+  return withTypeScriptApi((api) => buildReviewWith(api, packageRoot));
+}
+
+async function buildReviewWith(api: API, packageRoot: string): Promise<Review> {
   const packageJson = JSON.parse(await readFile(path.join(packageRoot, "package.json"), "utf8"));
   const exportEntries = Object.entries<ExportConditions>(packageJson.exports)
     .filter(([exportPath]) => exportPath !== "./package.json")
@@ -90,6 +121,7 @@ export async function buildReview(packageRoot: string): Promise<Review> {
     }));
 
   const { references, sections } = buildExportSections(
+    api,
     packageRoot,
     "import",
     exportFiles("import"),
@@ -101,7 +133,7 @@ export async function buildReview(packageRoot: string): Promise<Review> {
     { references, sections },
     presentConditions.map((condition) => ({
       condition,
-      ...buildExportSections(packageRoot, condition, exportFiles(condition)),
+      ...buildExportSections(api, packageRoot, condition, exportFiles(condition)),
     })),
   );
 
@@ -201,8 +233,8 @@ function compareConditions(
  */
 // ESM [{ name: "A", code: a }, { name: "B", code: b }] vs browser [{ name: "B", code: b2 }, { name: "C", code: c }]
 //   -> [lines("removed", a), diffItem(b, b2), lines("added", c)]
-function diffItems(esm: Declaration[], other: Declaration[]): DiffLine[][] {
-  const textByName = (declarations: Declaration[]): Map<string, string> =>
+function diffItems(esm: ReviewDeclaration[], other: ReviewDeclaration[]): DiffLine[][] {
+  const textByName = (declarations: ReviewDeclaration[]): Map<string, string> =>
     new Map(declarations.map((declaration) => [declaration.name, codeText(declaration.code)]));
   const esmByName = textByName(esm);
   const otherByName = textByName(other);
@@ -262,16 +294,14 @@ function diffItem(before: string, after: string): DiffLine[] {
   return result;
 }
 
-const compilerHost = createLibCachingHost({ skipLibCheck: true });
-
 /**
  * `import` and `require` resolve like Node.js (the module format comes from the nearest
  * package.json); other conditions resolve like a bundler that targets that condition.
  * Every view gets the package's own `@types/node`, because declarations shared across targets
  * (and some browser builds) reference Node.js built-in modules.
  */
-function compilerOptionsFor(condition: string, packageRoot: string): ts.CompilerOptions {
-  const shared: ts.CompilerOptions = {
+function compilerOptionsFor(condition: string, packageRoot: string): RawCompilerOptions {
+  const shared: RawCompilerOptions = {
     // assertComplete relies on diagnostics for the package's own declaration files.
     skipDefaultLibCheck: true,
     types: ["node"],
@@ -280,13 +310,13 @@ function compilerOptionsFor(condition: string, packageRoot: string): ts.Compiler
   return condition === "import" || condition === "require"
     ? {
         ...shared,
-        module: ts.ModuleKind.NodeNext,
-        moduleResolution: ts.ModuleResolutionKind.NodeNext,
+        module: ModuleKind.NodeNext,
+        moduleResolution: ModuleResolutionKind.NodeNext,
       }
     : {
         ...shared,
-        module: ts.ModuleKind.ESNext,
-        moduleResolution: ts.ModuleResolutionKind.Bundler,
+        module: ModuleKind.ESNext,
+        moduleResolution: ModuleResolutionKind.Bundler,
         customConditions: [condition],
       };
 }
@@ -296,56 +326,176 @@ function compilerOptionsFor(condition: string, packageRoot: string): ts.Compiler
 const resolutionErrorCodes = new Set([2307, 2792, 2305, 2614, 2694, 2724, 2688]);
 
 /**
+ * The compiler objects of one program: the program itself, its project and its type checker, and
+ * what has been looked up in them so far. Every lookup is a request to the compiler process, so
+ * the answers are kept.
+ */
+interface CompilerContext {
+  api: API;
+  program: Program;
+  project: Project;
+  checker: Checker;
+  symbolsAtLocation: Map<Node, CompilerSymbol | undefined>;
+  aliasTargets: Map<number, CompilerSymbol>;
+  externalImports: Map<number, ExternalImport | undefined>;
+  /** Whether each file is an external library (`true`) or the package's own file (`false`). */
+  libraryFiles: Map<PathKey, { external: boolean; defaultLibrary: boolean }>;
+}
+
+/**
  * Throws when the review would be silently incomplete: implementation files in the program, or
  * modules and names that don't resolve (they would otherwise quietly become unresolved types).
  */
-function assertComplete(program: ts.Program, condition: string, packageRoot: string): void {
-  const packageFiles = program
-    .getSourceFiles()
-    .filter(
-      (file) =>
-        !program.isSourceFileFromExternalLibrary(file) && !program.isSourceFileDefaultLibrary(file),
-    );
+function assertComplete(context: CompilerContext, condition: string, packageRoot: string): void {
+  const { program } = context;
+  const packageFiles = program.getSourceFileNames().filter((fileName) => {
+    const metadata = program.getSourceFileMetadata(fileName);
+    return metadata && !metadata.isFromExternalLibrary && !metadata.isDefaultLibrary;
+  });
+  const relativeName = (fileName: string): string =>
+    path.relative(packageRoot, fileName).split(path.sep).join("/");
 
-  for (const file of packageFiles) {
-    if (!file.isDeclarationFile) {
+  for (const fileName of packageFiles) {
+    if (!program.getSourceFile(fileName)!.isDeclarationFile) {
       throw new Error(
-        `[${condition}] ${path.relative(packageRoot, file.fileName).split(path.sep).join("/")}: Implementation file is part of the review program`,
+        `[${condition}] ${relativeName(fileName)}: Implementation file is part of the review program`,
       );
     }
   }
-  for (const file of packageFiles) {
+  for (const fileName of packageFiles) {
     const unresolved = program
-      .getSemanticDiagnostics(file)
+      .getSemanticDiagnostics(fileName)
       .find((diagnostic) => resolutionErrorCodes.has(diagnostic.code));
     if (unresolved) {
       throw new Error(
-        `[${condition}] ${path.relative(packageRoot, file.fileName).split(path.sep).join("/")}: ${ts.flattenDiagnosticMessageText(unresolved.messageText, " ")}`,
+        `[${condition}] ${relativeName(fileName)}: ${flattenDiagnosticMessage(unresolved, " ")}`,
       );
     }
   }
 }
 
 /**
- * Parsing TypeScript's default lib files dominates program creation, so parse them once per
- * process and share them across programs (as the language service's DocumentRegistry does).
+ * Returns the symbol a name refers to. Names are looked up together by {@link prefetchSymbols}.
  */
-function createLibCachingHost(options: ts.CompilerOptions): ts.CompilerHost {
-  const host = ts.createCompilerHost(options);
-  const libDirectory = path.dirname(ts.getDefaultLibFilePath(options));
-  const libFiles = new Map<string, ts.SourceFile | undefined>();
-  const getSourceFile = host.getSourceFile;
-  host.getSourceFile = (fileName, languageVersion, ...rest) => {
-    if (path.dirname(fileName) !== libDirectory) {
-      return getSourceFile(fileName, languageVersion, ...rest);
+function symbolAt(context: CompilerContext, node: Node): CompilerSymbol | undefined {
+  if (!context.symbolsAtLocation.has(node)) {
+    context.symbolsAtLocation.set(node, context.checker.getSymbolAtLocation(node));
+  }
+  return context.symbolsAtLocation.get(node);
+}
+
+/**
+ * Looks up the symbols of all the names under a node with one request, instead of one per name.
+ */
+function prefetchSymbols(context: CompilerContext, root: Node): void {
+  const names: Node[] = [];
+  const walk = (node: Node): void => {
+    if (
+      (node.kind === SyntaxKind.Identifier ||
+        node.kind === SyntaxKind.QualifiedName ||
+        node.kind === SyntaxKind.PropertyAccessExpression) &&
+      !context.symbolsAtLocation.has(node)
+    ) {
+      names.push(node);
     }
-    const key = `${fileName}:${JSON.stringify(languageVersion)}`;
-    if (!libFiles.has(key)) {
-      libFiles.set(key, getSourceFile(fileName, languageVersion, ...rest));
-    }
-    return libFiles.get(key);
+    node.forEachChild(walk);
   };
-  return host;
+  walk(root);
+  if (names.length > 0) {
+    const symbols = context.checker.getSymbolAtLocation(names);
+    names.forEach((name, index) => context.symbolsAtLocation.set(name, symbols[index]));
+  }
+}
+
+function resolveAlias(context: CompilerContext, symbol: CompilerSymbol): CompilerSymbol {
+  if (!(symbol.flags & SymbolFlags.Alias)) {
+    return symbol;
+  }
+  let target = context.aliasTargets.get(symbol.id);
+  if (!target) {
+    target = context.checker.getAliasedSymbol(symbol);
+    context.aliasTargets.set(symbol.id, target);
+  }
+  return target;
+}
+
+/**
+ * Symbols refer to their declarations by handle. This gets the declaration nodes.
+ */
+function declarationsOf(context: CompilerContext, symbol: CompilerSymbol): Declaration[] {
+  return (symbol.declarations ?? []).map((handle) => handle.resolve(context.project)!);
+}
+
+/**
+ * Where a symbol is declared tells whether it belongs to an external library or the default lib.
+ */
+function declaredIn(
+  context: CompilerContext,
+  symbol: CompilerSymbol | undefined,
+): { external: boolean; defaultLibrary: boolean } | undefined {
+  const handle = symbol?.declarations?.[0];
+  return handle && fileKind(context, handle.path);
+}
+
+function fileKind(
+  context: CompilerContext,
+  filePath: PathKey,
+): { external: boolean; defaultLibrary: boolean } {
+  let kind = context.libraryFiles.get(filePath);
+  if (!kind) {
+    const metadata = context.program.getSourceFileMetadataByPath(filePath);
+    kind = {
+      external: metadata?.isFromExternalLibrary === true,
+      defaultLibrary: metadata?.isDefaultLibrary === true,
+    };
+    context.libraryFiles.set(filePath, kind);
+  }
+  return kind;
+}
+
+function isExternal(context: CompilerContext, symbol: CompilerSymbol | undefined): boolean {
+  return declaredIn(context, symbol)?.external ?? false;
+}
+
+// `export * as fn from "./fn.js"` and `import * as fn ...; export { fn }` export a whole module.
+function isModuleObject(symbol: CompilerSymbol): boolean {
+  return symbol.declarations?.some((handle) => handle.kind === SyntaxKind.SourceFile) ?? false;
+}
+
+function exportsOf(context: CompilerContext, moduleSymbol: CompilerSymbol): CompilerSymbol[] {
+  return [...context.checker.getExportsOfModule(moduleSymbol)].sort((a, b) =>
+    a.name.localeCompare(b.name, "en"),
+  );
+}
+
+function isTypeOnlyExport(context: CompilerContext, symbol: CompilerSymbol): boolean {
+  let current: CompilerSymbol | undefined = symbol;
+  while (current && current.flags & SymbolFlags.Alias) {
+    const declaration = declarationsOf(context, current)[0];
+    if (declaration) {
+      // The parents of a specifier are its list of named imports or exports, and the clause or
+      // declaration the list belongs to.
+      if (isExportSpecifier(declaration)) {
+        if (
+          declaration.isTypeOnly ||
+          (declaration.parent.parent as { isTypeOnly?: boolean }).isTypeOnly
+        ) {
+          return true;
+        }
+      } else if (
+        isImportSpecifier(declaration) &&
+        (declaration.isTypeOnly || isTypeOnlyImportClause(declaration.parent.parent))
+      ) {
+        return true;
+      }
+    }
+    current = context.checker.getImmediateAliasedSymbol(current);
+  }
+  return false;
+}
+
+function isTypeOnlyImportClause(node: Node): boolean {
+  return isImportClause(node) && node.phaseModifier === SyntaxKind.TypeKeyword;
 }
 
 /**
@@ -354,6 +504,7 @@ function createLibCachingHost(options: ts.CompilerOptions): ts.CompilerHost {
  * export's name goes under "Differs from".
  */
 function buildExportSections(
+  api: API,
   packageRoot: string,
   condition: string,
   exportFiles: { path: string; file: string }[],
@@ -361,79 +512,74 @@ function buildExportSections(
   references: NamedImports[];
   sections: ExportSection[];
 } {
-  const program = ts.createProgram(
+  const program = api.createProgram(
     exportFiles.map((exportFile) => exportFile.file),
     compilerOptionsFor(condition, packageRoot),
-    compilerHost,
   );
-  assertComplete(program, condition, packageRoot);
-  const checker = program.getTypeChecker();
-  const printer = ts.createPrinter();
-  const shownUnder = new Map<ts.Symbol, string>();
+  try {
+    const project = program.getProject();
+    const context: CompilerContext = {
+      api,
+      program,
+      project,
+      checker: project.checker,
+      symbolsAtLocation: new Map(),
+      aliasTargets: new Map(),
+      externalImports: new Map(),
+      libraryFiles: new Map(),
+    };
+    assertComplete(context, condition, packageRoot);
+    return buildSections(context, exportFiles);
+  } finally {
+    program.dispose();
+  }
+}
+
+function buildSections(
+  context: CompilerContext,
+  exportFiles: { path: string; file: string }[],
+): {
+  references: NamedImports[];
+  sections: ExportSection[];
+} {
+  const { api, checker } = context;
+  const shownUnder = new Map<number, string>();
   const rootNames = new Set<string>();
   const references = new Map<string, Map<string, string>>();
 
-  const resolveAlias = (symbol: ts.Symbol): ts.Symbol =>
-    symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
-
-  const isTypeOnlyExport = (symbol: ts.Symbol): boolean => {
-    let current: ts.Symbol | undefined = symbol;
-    while (current && current.flags & ts.SymbolFlags.Alias) {
-      const declaration = current.declarations?.[0];
-      if (
-        declaration &&
-        ((ts.isExportSpecifier(declaration) &&
-          (declaration.isTypeOnly || declaration.parent.parent.isTypeOnly)) ||
-          (ts.isImportSpecifier(declaration) &&
-            (declaration.isTypeOnly || declaration.parent.parent.isTypeOnly)))
-      ) {
-        return true;
-      }
-      current = checker.getImmediateAliasedSymbol(current);
-    }
-    return false;
-  };
-
-  const exportsOf = (moduleSymbol: ts.Symbol): ts.Symbol[] =>
-    checker.getExportsOfModule(moduleSymbol).sort((a, b) => a.name.localeCompare(b.name, "en"));
-
-  // `export * as fn from "./fn.js"` and `import * as fn ...; export { fn }` export a whole module.
-  const isModuleObject = (symbol: ts.Symbol): boolean =>
-    symbol.declarations?.some(ts.isSourceFile) ?? false;
-
   const exportsByFile = exportFiles.map(({ file }) =>
-    exportsOf(checker.getSymbolAtLocation(program.getSourceFile(file)!)!),
+    exportsOf(context, checker.getSymbolOfSourceFile(file)!),
   );
 
   // A local symbol keeps the public name used by its first export path.
   // AddPolicyOptions -> AddPipelineOptions, both at the declaration and its usages.
-  const localNames = new Map<ts.Symbol, string>();
+  const localNames = new Map<number, string>();
   for (const exported of exportsByFile.flat()) {
-    const symbol = resolveAlias(exported);
-    if (exported.name !== "default" && !isExternal(program, symbol) && !localNames.has(symbol)) {
-      localNames.set(symbol, exported.name);
+    const symbol = resolveAlias(context, exported);
+    if (exported.name !== "default" && !isExternal(context, symbol) && !localNames.has(symbol.id)) {
+      localNames.set(symbol.id, exported.name);
     }
   }
 
   // Everything reachable through an export path, including members of exported module objects.
-  const exposed = new Set<ts.Symbol>();
-  const expose = (symbols: ts.Symbol[]): void => {
-    for (const symbol of symbols.map(resolveAlias)) {
-      if (!exposed.has(symbol)) {
-        exposed.add(symbol);
+  const exposed = new Map<number, CompilerSymbol>();
+  const expose = (symbols: CompilerSymbol[]): void => {
+    for (const symbol of symbols.map((symbol) => resolveAlias(context, symbol))) {
+      if (!exposed.has(symbol.id)) {
+        exposed.set(symbol.id, symbol);
         if (isModuleObject(symbol)) {
-          expose(exportsOf(symbol));
+          expose(exportsOf(context, symbol));
         }
       }
     }
   };
   expose(exportsByFile.flat());
 
-  const collectReferences = (node: ts.Node): void => {
+  const collectReferences = (node: Node): void => {
     if (isPrivateMember(node)) {
       return;
     }
-    const reference = resolveReference(program, node);
+    const reference = resolveReference(context, node);
     if (reference?.module) {
       references.set(
         reference.module,
@@ -444,28 +590,28 @@ function buildExportSections(
       );
     }
     if (reference) {
-      if (ts.isImportTypeNode(node)) {
+      if (isImportTypeNode(node)) {
         node.typeArguments?.forEach(collectReferences);
       }
       return;
     }
-    ts.forEachChild(node, collectReferences);
+    node.forEachChild(collectReferences);
   };
-  for (const symbol of exposed) {
-    if (isExternal(program, symbol) || isModuleObject(symbol)) {
+  for (const symbol of exposed.values()) {
+    if (isExternal(context, symbol) || isModuleObject(symbol)) {
       continue;
     }
-    for (const declaration of symbol.declarations ?? []) {
-      collectReferences(
-        ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration,
-      );
+    for (const declaration of declarationsOf(context, symbol)) {
+      const node = isVariableDeclaration(declaration) ? declaration.parent.parent : declaration;
+      prefetchSymbols(context, node);
+      collectReferences(node);
     }
   }
 
   const usedNames = new Set(
     exportsByFile
       .flat()
-      .filter((symbol) => !isExternal(program, resolveAlias(symbol)))
+      .filter((symbol) => !isExternal(context, resolveAlias(context, symbol)))
       .map((symbol) => symbol.name),
   );
   const importedNames = new Set([...references.values()].flatMap((names) => [...names.values()]));
@@ -495,50 +641,63 @@ function buildExportSections(
     });
 
   // A module object is a group: `export declare namespace <name> {`, its exports, `}`.
-  const printModuleObject = (name: string, moduleSymbol: ts.Symbol): Code => ({
+  const printModuleObject = (name: string, moduleSymbol: CompilerSymbol): Code => ({
     open: `export declare namespace ${name} {`,
-    children: exportsOf(moduleSymbol).map((member) => {
-      const target = resolveAlias(member);
+    children: exportsOf(context, moduleSymbol).map((member) => {
+      const target = resolveAlias(context, member);
       return isModuleObject(target)
         ? printModuleObject(member.name, target)
-        : printDeclarations(target, member.name, printer, referenceNames).join("\n\n");
+        : printSymbol(target, member.name);
     }),
     close: "}",
   });
 
   const referenceNames: ReferenceNames = {
     rewritten: (node) => {
-      const reference = resolveReference(program, node);
+      const reference = resolveReference(context, node);
       if (reference?.module) {
         return aliases.get(reference.module)!.get(reference.name)!;
       }
-      const localReference = ts.isImportTypeNode(node)
+      const localReference = isImportTypeNode(node)
         ? node.qualifier
-        : ts.isIdentifier(node) || ts.isQualifiedName(node) || ts.isPropertyAccessExpression(node)
+        : isIdentifier(node) || isQualifiedName(node) || isPropertyAccessExpression(node)
           ? node
           : undefined;
-      const symbol = localReference && checker.getSymbolAtLocation(localReference);
-      return (symbol && localNames.get(resolveAlias(symbol))) ?? reference?.name;
+      const symbol = localReference && symbolAt(context, localReference);
+      return (symbol && localNames.get(resolveAlias(context, symbol).id)) ?? reference?.name;
     },
     forgotten: (identifier) => {
-      const symbol = checker.getSymbolAtLocation(identifier);
-      const target = symbol && resolveAlias(symbol);
-      const parent = target?.declarations?.[0]?.parent;
-      if (!target || !parent || !ts.isSourceFile(parent) || exposed.has(target)) {
+      const symbol = symbolAt(context, identifier);
+      const target = symbol && resolveAlias(context, symbol);
+      const handle = target?.declarations?.[0];
+      if (!target || !handle) {
         return undefined;
       }
-      return program.isSourceFileFromExternalLibrary(parent) ||
-        program.isSourceFileDefaultLibrary(parent)
-        ? undefined
-        : target.name;
+      const parent = handle.resolve(context.project)?.parent;
+      if (!parent || !isSourceFile(parent) || exposed.has(target.id)) {
+        return undefined;
+      }
+      const kind = fileKind(context, parent.path);
+      return kind.external || kind.defaultLibrary ? undefined : target.name;
     },
+  };
+
+  const printSymbol = (symbol: CompilerSymbol, publicName: string): string => {
+    const declarations = declarationsOf(context, symbol);
+    for (const declaration of declarations) {
+      prefetchSymbols(
+        context,
+        isVariableDeclaration(declaration) ? declaration.parent.parent : declaration,
+      );
+    }
+    return printDeclarations(api, declarations, publicName, referenceNames).join("\n\n");
   };
 
   const sections = exportFiles.map(({ path: exportPath }, index) => {
     const isRoot = index === 0;
     const exportedSymbols = exportsByFile[index];
 
-    const declarations: Declaration[] = [];
+    const declarations: ReviewDeclaration[] = [];
     const reExports: { module: string; name: string }[] = [];
     const differsFromRoot: Code[] = [];
     const alsoExported: { path: string; name: string }[] = [];
@@ -546,15 +705,15 @@ function buildExportSections(
       if (isRoot) {
         rootNames.add(exportedSymbol.name);
       }
-      const symbol = resolveAlias(exportedSymbol);
-      const earlierPath = shownUnder.get(symbol);
+      const symbol = resolveAlias(context, exportedSymbol);
+      const earlierPath = shownUnder.get(symbol.id);
       if (earlierPath !== undefined) {
         alsoExported.push({ path: earlierPath, name: exportedSymbol.name });
         continue;
       }
-      shownUnder.set(symbol, exportPath);
-      const typeOnly = isTypeOnlyExport(exportedSymbol);
-      const reExport = externalImport(program, exportedSymbol);
+      shownUnder.set(symbol.id, exportPath);
+      const typeOnly = isTypeOnlyExport(context, exportedSymbol);
+      const reExport = externalImport(context, exportedSymbol);
       if (reExport) {
         const exportedName =
           reExport.importedName === reExport.exportedName
@@ -568,8 +727,8 @@ function buildExportSections(
       }
       let printed = isModuleObject(symbol)
         ? printModuleObject(exportedSymbol.name, symbol)
-        : printDeclarations(symbol, exportedSymbol.name, printer, referenceNames).join("\n\n");
-      if (typeOnly && symbol.flags & ts.SymbolFlags.Value) {
+        : printSymbol(symbol, exportedSymbol.name);
+      if (typeOnly && symbol.flags & SymbolFlags.Value) {
         printed =
           typeof printed === "string"
             ? `// type-only export\n${printed}`
@@ -604,62 +763,76 @@ function buildExportSections(
   };
 }
 
+interface ExternalImport {
+  module: string;
+  importedName: string;
+  exportedName: string;
+  preferredName?: string;
+}
+
 /**
  * Returns the external module, the name exported by that module, and the public name exposed by
  * this package for named or default imports/re-exports, following local hops.
  */
 function externalImport(
-  program: ts.Program,
-  symbol: ts.Symbol,
-):
-  | { module: string; importedName: string; exportedName: string; preferredName?: string }
-  | undefined {
-  const checker = program.getTypeChecker();
+  context: CompilerContext,
+  symbol: CompilerSymbol,
+): ExternalImport | undefined {
+  if (!context.externalImports.has(symbol.id)) {
+    context.externalImports.set(symbol.id, findExternalImport(context, symbol));
+  }
+  return context.externalImports.get(symbol.id);
+}
+
+function findExternalImport(
+  context: CompilerContext,
+  symbol: CompilerSymbol,
+): ExternalImport | undefined {
+  const { checker } = context;
   const exportedName = symbol.name;
-  let current: ts.Symbol | undefined = symbol;
-  while (current && current.flags & ts.SymbolFlags.Alias) {
-    const declaration = current.declarations?.[0];
+  let current: CompilerSymbol | undefined = symbol;
+  while (current && current.flags & SymbolFlags.Alias) {
+    const handle = current.declarations?.[0];
     const next = checker.getImmediateAliasedSymbol(current);
     if (
-      !declaration ||
+      !handle ||
       !(
-        ts.isImportSpecifier(declaration) ||
-        ts.isExportSpecifier(declaration) ||
-        ts.isImportClause(declaration)
+        handle.kind === SyntaxKind.ImportSpecifier ||
+        handle.kind === SyntaxKind.ExportSpecifier ||
+        handle.kind === SyntaxKind.ImportClause
       )
     ) {
       return undefined;
     }
-    if (isExternal(program, next)) {
-      const moduleSpecifier = ts.isImportClause(declaration)
-        ? declaration.parent.moduleSpecifier
-        : ts.isImportSpecifier(declaration)
-          ? declaration.parent.parent.parent.moduleSpecifier
-          : declaration.parent.parent.moduleSpecifier;
-      const declaredName = ts.getNameOfDeclaration(
-        checker.getAliasedSymbol(current).declarations?.[0],
+    if (isExternal(context, next)) {
+      const declaration = handle.resolve(context.project)!;
+      // The parents of a specifier are its list of named imports or exports, the clause or
+      // declaration the list belongs to, and for imports the declaration the clause belongs to.
+      const moduleSpecifier = isImportClause(declaration)
+        ? (declaration.parent as ImportDeclaration).moduleSpecifier
+        : isImportSpecifier(declaration)
+          ? (declaration.parent.parent.parent as ImportDeclaration).moduleSpecifier
+          : (declaration.parent.parent as ImportDeclaration).moduleSpecifier;
+      const declaredName = getNameOfDeclaration(
+        declarationsOf(context, checker.getAliasedSymbol(current))[0],
       );
+      const specifier = isImportClause(declaration)
+        ? undefined
+        : (declaration as ImportSpecifier | ExportSpecifier);
       return {
-        module: (moduleSpecifier as ts.StringLiteral).text,
-        importedName: ts.isImportClause(declaration)
-          ? "default"
-          : (declaration.propertyName ?? declaration.name).text,
+        module: (moduleSpecifier as StringLiteral).text,
+        importedName: specifier ? (specifier.propertyName ?? specifier.name).text : "default",
         exportedName,
-        preferredName: ts.isImportClause(declaration)
-          ? declaredName && ts.isIdentifier(declaredName)
+        preferredName: specifier
+          ? undefined
+          : declaredName && isIdentifier(declaredName)
             ? declaredName.text
-            : exportedName
-          : undefined,
+            : exportedName,
       };
     }
     current = next;
   }
   return undefined;
-}
-
-function isExternal(program: ts.Program, symbol: ts.Symbol | undefined): boolean {
-  const file = symbol?.declarations?.[0]?.getSourceFile();
-  return file !== undefined && program.isSourceFileFromExternalLibrary(file);
 }
 
 /**
@@ -668,13 +841,12 @@ function isExternal(program: ts.Program, symbol: ts.Symbol | undefined): boolean
  * default imports, and `import("m").X`.
  */
 function resolveReference(
-  program: ts.Program,
-  node: ts.Node,
+  context: CompilerContext,
+  node: Node,
 ): { name: string; module?: string; preferredName?: string } | undefined {
-  const checker = program.getTypeChecker();
-  if (ts.isIdentifier(node)) {
-    const symbol = checker.getSymbolAtLocation(node);
-    const external = symbol && externalImport(program, symbol);
+  if (isIdentifier(node)) {
+    const symbol = symbolAt(context, node);
+    const external = symbol && externalImport(context, symbol);
     return (
       external && {
         module: external.module,
@@ -683,184 +855,34 @@ function resolveReference(
       }
     );
   }
-  if (ts.isQualifiedName(node) || ts.isPropertyAccessExpression(node)) {
-    const left = ts.isQualifiedName(node) ? node.left : node.expression;
-    const right = ts.isQualifiedName(node) ? node.right : node.name;
-    const namespace = ts.isIdentifier(left)
-      ? checker.getSymbolAtLocation(left)?.declarations?.[0]
-      : undefined;
+  if (isQualifiedName(node) || isPropertyAccessExpression(node)) {
+    const left = isQualifiedName(node) ? node.left : node.expression;
+    const right = isQualifiedName(node) ? node.right : node.name;
+    const leftSymbol = isIdentifier(left) ? symbolAt(context, left) : undefined;
+    const namespace = leftSymbol && declarationsOf(context, leftSymbol)[0];
     if (
       namespace &&
-      ts.isNamespaceImport(namespace) &&
-      isExternal(program, checker.getSymbolAtLocation(right))
+      isNamespaceImport(namespace) &&
+      isExternal(context, symbolAt(context, right))
     ) {
-      const moduleSpecifier = namespace.parent.parent.moduleSpecifier as ts.StringLiteral;
+      // The parents of a namespace import are its import clause and the import declaration.
+      const moduleSpecifier = (namespace.parent.parent as ImportDeclaration)
+        .moduleSpecifier as StringLiteral;
       return { module: moduleSpecifier.text, name: right.text };
     }
     return undefined;
   }
   if (
-    ts.isImportTypeNode(node) &&
+    isImportTypeNode(node) &&
     node.qualifier &&
-    ts.isIdentifier(node.qualifier) &&
-    ts.isLiteralTypeNode(node.argument) &&
-    ts.isStringLiteral(node.argument.literal)
+    isIdentifier(node.qualifier) &&
+    isLiteralTypeNode(node.argument) &&
+    isStringLiteral(node.argument.literal)
   ) {
-    const name = node.qualifier.text;
-    return isExternal(program, checker.getSymbolAtLocation(node.qualifier))
-      ? { module: node.argument.literal.text, name }
+    const name = (node.qualifier as Identifier).text;
+    return isExternal(context, symbolAt(context, node.qualifier))
+      ? { module: (node.argument.literal as StringLiteral).text, name }
       : { name };
   }
   return undefined;
-}
-
-function printDeclarations(
-  symbol: ts.Symbol,
-  publicName: string,
-  printer: ts.Printer,
-  referenceNames: ReferenceNames,
-): string[] {
-  return (symbol.declarations ?? []).map((declaration) => {
-    const node = ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration;
-    const declaredName = ts.getNameOfDeclaration(declaration);
-
-    // Like API Extractor's ae-forgotten-export, warn on the member (or the declaration itself)
-    // that uses a declaration no export path exposes.
-    const members: readonly ts.Node[] =
-      ts.isClassDeclaration(node) || ts.isInterfaceDeclaration(node) ? node.members : [];
-    const forgotten = new Map<ts.Node, string[]>([
-      [node, forgottenNamesIn(node, referenceNames, new Set(members))],
-      ...members.map((member): [ts.Node, string[]] => [
-        member,
-        forgottenNamesIn(member, referenceNames),
-      ]),
-    ]);
-
-    const [reviewNode] = ts.transform(node, [
-      (context) =>
-        toReviewShape(context, declaredName, publicName, referenceNames.rewritten, forgotten),
-    ]).transformed;
-    return printer.printNode(ts.EmitHint.Unspecified, reviewNode, node.getSourceFile());
-  });
-}
-
-function forgottenNamesIn(
-  node: ts.Node,
-  referenceNames: ReferenceNames,
-  skip: ReadonlySet<ts.Node> = new Set(),
-): string[] {
-  const names = new Set<string>();
-  const walk = (child: ts.Node): void => {
-    if (skip.has(child)) {
-      return;
-    }
-    const name = ts.isIdentifier(child) ? referenceNames.forgotten(child) : undefined;
-    if (name) {
-      names.add(name);
-    }
-    ts.forEachChild(child, walk);
-  };
-  walk(node);
-  return [...names];
-}
-
-const statusTags = new Set(["alpha", "beta", "internal", "deprecated"]);
-
-function isPrivateMember(node: ts.Node): boolean {
-  if (!ts.isClassElement(node)) {
-    return false;
-  }
-  const hasPrivateModifier =
-    ts.canHaveModifiers(node) &&
-    ts.getModifiers(node)?.some((modifier) => modifier.kind === ts.SyntaxKind.PrivateKeyword);
-  return (
-    Boolean(hasPrivateModifier) || (node.name !== undefined && ts.isPrivateIdentifier(node.name))
-  );
-}
-
-/**
- * Drops comments (keeping status tags as `// @tag`), private class members, and `declare` on classes.
- * Renames the declaration to its public export name and references to their exported names.
- */
-function toReviewShape(
-  context: ts.TransformationContext,
-  declaredName: ts.Node | undefined,
-  publicName: string,
-  referenceName: (node: ts.Node) => string | undefined,
-  forgotten: ReadonlyMap<ts.Node, string[]>,
-): ts.Transformer<ts.Node> {
-  let printed: ts.Node | undefined;
-  const visit = (node: ts.Node): ts.Node | undefined => {
-    if (isPrivateMember(node)) {
-      return undefined;
-    }
-    // A default export keeps its declared name: `export default function createClient(...)`.
-    if (node === declaredName && publicName !== "default") {
-      return context.factory.createIdentifier(publicName);
-    }
-    const name = referenceName(node);
-    if (name) {
-      return ts.isImportTypeNode(node)
-        ? context.factory.createTypeReferenceNode(
-            name,
-            ts.visitNodes(node.typeArguments, visit, ts.isTypeNode),
-          )
-        : context.factory.createIdentifier(name);
-    }
-    let result = ts.visitEachChild(node, visit, context);
-    if (ts.isClassDeclaration(result)) {
-      result = context.factory.updateClassDeclaration(
-        result,
-        result.modifiers?.filter((modifier) => modifier.kind !== ts.SyntaxKind.DeclareKeyword),
-        result.name,
-        result.typeParameters,
-        result.heritageClauses,
-        result.members,
-      );
-    }
-    // The printed statement shows how the export path exposes it (a named or default export),
-    // whatever `export`/`default` modifiers (or none) its own file used.
-    if (node === printed && ts.canHaveModifiers(result)) {
-      const kept = (ts.getModifiers(result) ?? []).filter(
-        (modifier) =>
-          modifier.kind !== ts.SyntaxKind.ExportKeyword &&
-          modifier.kind !== ts.SyntaxKind.DefaultKeyword,
-      );
-      const exportModifiers =
-        publicName === "default"
-          ? ([ts.SyntaxKind.ExportKeyword, ts.SyntaxKind.DefaultKeyword] as const)
-          : ([ts.SyntaxKind.ExportKeyword] as const);
-      result = context.factory.replaceModifiers(result, [
-        ...exportModifiers.map((kind) => context.factory.createModifier(kind)),
-        ...kept,
-      ]);
-    }
-    ts.setEmitFlags(result, ts.EmitFlags.NoComments);
-    for (const name of forgotten.get(node) ?? []) {
-      ts.addSyntheticLeadingComment(
-        result,
-        ts.SyntaxKind.SingleLineCommentTrivia,
-        ` Warning: (arh-forgotten-export: ${name})`,
-        true,
-      );
-    }
-    // getJSDocTags also reports a variable statement's tags on its declarations; print them once,
-    // on the statement.
-    const tags = ts.isVariableDeclaration(node) ? [] : ts.getJSDocTags(node);
-    for (const tag of tags) {
-      if (statusTags.has(tag.tagName.text)) {
-        ts.addSyntheticLeadingComment(
-          result,
-          ts.SyntaxKind.SingleLineCommentTrivia,
-          ` @${tag.tagName.text}`,
-          true,
-        );
-      }
-    }
-    return result;
-  };
-  return (node) => {
-    printed = node;
-    return visit(node)!;
-  };
 }

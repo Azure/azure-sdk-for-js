@@ -6,7 +6,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import ts from "typescript";
+import { version } from "typescript";
 import { parse } from "yaml";
 import generateApiReviewCommand from "../src/commands/run/generate-api-review.ts";
 import { generateApiReview } from "../src/util/apiReview.ts";
@@ -232,6 +232,122 @@ describe("generateApiReview", () => {
       const { apiMd } = await generateApiReview(root);
 
       expect(apiMd).toContain("export class Stack {\n    name: string;\n}");
+    });
+
+    it("prints status tags above the members of interfaces, type literals, enums and namespaces", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          "export interface Options {",
+          "    /** @beta */",
+          "    preview?: boolean;",
+          "    stable: string;",
+          "    nested: {",
+          "        /** @deprecated */",
+          "        old: string;",
+          "    };",
+          "}",
+          "export declare enum Mode {",
+          "    Fast = 1,",
+          "    /** @alpha */",
+          "    Experimental = 2",
+          "}",
+          "export declare namespace Tools {",
+          "    /** @internal */",
+          "    function hidden(): void;",
+          "    function shown(): void;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "export declare enum Mode {",
+          "    Fast = 1,",
+          "    // @alpha",
+          "    Experimental = 2",
+          "}",
+          "",
+          "export interface Options {",
+          "    // @beta",
+          "    preview?: boolean;",
+          "    stable: string;",
+          "    nested: {",
+          "        // @deprecated",
+          "        old: string;",
+          "    };",
+          "}",
+          "",
+          "export declare namespace Tools {",
+          "    // @internal",
+          "    function hidden(): void;",
+          "    function shown(): void;",
+          "}",
+        ].join("\n"),
+      );
+    });
+
+    it("prints a forgotten-export warning ahead of the status tags of the same member", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": ['export { Client } from "./client.js";'].join("\n"),
+        "dist/esm/client.d.ts": [
+          "interface Hidden {",
+          "    id: string;",
+          "}",
+          "export declare class Client {",
+          "    /** @beta */",
+          "    get(): Hidden;",
+          "}",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "export class Client {",
+          "    // Warning: (arh-forgotten-export: Hidden)",
+          "    // @beta",
+          "    get(): Hidden;",
+          "}",
+        ].join("\n"),
+      );
+    });
+
+    it("throws instead of dropping a status tag it has nowhere to place", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts": [
+          "export declare function connect(",
+          "    /** @deprecated */",
+          "    legacy: string,",
+          "    modern: string",
+          "): void;",
+        ].join("\n"),
+      });
+
+      await expect(generateApiReview(root)).rejects.toThrow(
+        /Cannot print the comments above Parameter in connect/,
+      );
+    });
+
+    it("generates reviews of several packages at the same time", async () => {
+      const roots = ["First", "Second", "Third"].map((name) =>
+        fixture({
+          "dist/esm/index.d.ts": `export declare class ${name} {\n    /** @beta */\n    run(): void;\n}`,
+        }),
+      );
+
+      const reviews = await Promise.all(roots.map((root) => generateApiReview(root)));
+
+      expect(reviews.map(({ apiMd }) => /export class (\w+)/.exec(apiMd)?.[1])).toEqual([
+        "First",
+        "Second",
+        "Third",
+      ]);
+      for (const { apiMd } of reviews) {
+        expect(apiMd).toContain("    // @beta\n    run(): void;");
+      }
     });
   });
 
@@ -489,7 +605,7 @@ export interface Pipeline {
         apiMdSha256: expect.stringMatching(/^[0-9a-f]{64}$/),
         packageVersion: "1.2.3",
         parserVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/),
-        typescriptVersion: ts.version,
+        typescriptVersion: version,
       });
     });
 

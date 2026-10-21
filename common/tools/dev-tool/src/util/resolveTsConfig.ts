@@ -5,7 +5,21 @@ import path from "node:path";
 import fs from "node:fs/promises";
 import stripJsonComments from "strip-json-comments";
 
-import type { CompilerOptions } from "typescript";
+import type { RawCompilerOptions } from "typescript/sync";
+
+/**
+ * The options whose values are enumerations. In a tsconfig file they are written as strings
+ * (`"nodenext"`), whereas the compiler API takes numeric enum members.
+ */
+type EnumeratedOption =
+  "jsx" | "module" | "moduleDetection" | "moduleResolution" | "newLine" | "target";
+
+/**
+ * Compiler options as written in a tsconfig file.
+ */
+export type CompilerOptions = Omit<RawCompilerOptions, EnumeratedOption> & {
+  [Option in EnumeratedOption]?: string;
+};
 
 export type Config = {
   compilerOptions: CompilerOptions;

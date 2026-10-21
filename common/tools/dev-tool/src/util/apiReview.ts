@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createHash } from "node:crypto";
-import ts from "typescript";
+import { version } from "typescript";
 import { buildReview } from "./apiReview/buildReview.ts";
 import { layoutReview } from "./apiReview/layoutReview.ts";
 import type { Review } from "./apiReview/model.ts";
@@ -38,7 +38,7 @@ export async function generateApiReview(packageRoot: string): Promise<{
       apiMdSha256: hashApiMd(review),
       packageVersion: review.version,
       parserVersion,
-      typescriptVersion: ts.version,
+      typescriptVersion: version,
     },
   };
 }

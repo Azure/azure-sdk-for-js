@@ -1,12 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ts from "typescript";
+import type { Node } from "typescript/ast";
+import { SyntaxKind } from "typescript/ast";
+import {
+  isCallExpression,
+  isExportAssignment,
+  isExportDeclaration,
+  isIdentifier,
+  isImportEqualsDeclaration,
+  isStringLiteral,
+} from "typescript/ast/is";
 
 /**
  * Tests for syntax compatibility.
  *
- * This is a Map from Category -> Name -> Test, where Test is a predicate that determines if a ts.Node is an instance
+ * This is a Map from Category -> Name -> Test, where Test is a predicate that determines if a Node is an instance
  * of the syntax form.
  *
  * If the test returns true, then the syntax is considered unsupported by the compiler, and an error will be generated
@@ -16,28 +25,28 @@ const SYNTAX_VIABILITY_TESTS = {
   // This is just not possible to support due to the way we track dependency usage in samples.
   CommonJS: {
     // require(<not a literal string>)
-    DynamicRequire: (node: ts.Node) =>
-      ts.isCallExpression(node) &&
-      ts.isIdentifier(node.expression) &&
+    DynamicRequire: (node: Node) =>
+      isCallExpression(node) &&
+      isIdentifier(node.expression) &&
       node.expression.text === "require" &&
-      !ts.isStringLiteral(node.arguments[0]),
+      !isStringLiteral(node.arguments[0]),
   },
   // These are not supported because they are niche syntaxes that are difficult to represent in CommonJS. Samples cannot
   // rely on these to work, so we will just deny them.
   ESModule: {
     // TODO: this is difficult to support well, but we could do it by enforcing that the RHS is a static require call
-    ImportEquals: ts.isImportEqualsDeclaration,
+    ImportEquals: isImportEqualsDeclaration,
     // These are possible to support, but samples that really need them should probably have their own unique setup
     // export { ... }, export foo from "bar", export * as foo from "bar", and export { ... } from "foo";
     //
     // NOTE: This does not refer to exported function/class/variable declarations.
-    ExportDeclaration: ts.isExportDeclaration,
+    ExportDeclaration: isExportDeclaration,
     // export = { ... }, export default <expression>;
     // Doesn't apply to `export default function` or `export default class`
-    ExportAssignment: ts.isExportAssignment,
+    ExportAssignment: isExportAssignment,
     // import("foo")
-    ImportExpression: (node: ts.Node) =>
-      ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword,
+    ImportExpression: (node: Node) =>
+      isCallExpression(node) && node.expression.kind === SyntaxKind.ImportKeyword,
   },
 } as const;
 
@@ -51,7 +60,7 @@ type UnionToIntersection<Union> =
     ? Intersection
     : never;
 
-type SyntaxTest = (node: ts.Node) => boolean;
+type SyntaxTest = (node: Node) => boolean;
 
 type SyntaxName = keyof UnionToIntersection<
   (typeof SYNTAX_VIABILITY_TESTS)[keyof typeof SYNTAX_VIABILITY_TESTS]
@@ -62,7 +71,7 @@ type SyntaxName = keyof UnionToIntersection<
  * strings or functions of nodes that yield strings.
  */
 const SUGGEST_SYNTAX: {
-  [K in SyntaxName]?: ((node: ts.Node) => string) | string;
+  [K in SyntaxName]?: ((node: Node) => string) | string;
 } = {
   DynamicRequire: "use static import/exports in samples for the best TypeScript experience",
   ExportAssignment: "export each symbol individually instead of using `export =`",
@@ -90,7 +99,7 @@ export interface SyntaxSupportError {
  * @param node - the node to test
  * @returns an error or undefined (if the syntax node is okay)
  */
-export function testSyntax(node: ts.Node): SyntaxSupportError | undefined {
+export function testSyntax(node: Node): SyntaxSupportError | undefined {
   for (const [category, tests] of Object.entries(SYNTAX_VIABILITY_TESTS)) {
     for (const [syntaxName, test] of Object.entries(tests) as [SyntaxName, SyntaxTest][]) {
       if (test(node)) {

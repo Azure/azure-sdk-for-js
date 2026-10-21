@@ -228,6 +228,15 @@ Each variant supports an optional `shortName` field that specifies a one-letter 
 - Using the `subCommand` and `leafCommand` helpers is not required. If a command module exports any function with the signature `(...args: string[]) => Promise<boolean>` as its default export, it will run when the command is invoked and will be given the arguments passed in the parameters. **However**, only `subCommand` and `leafCommand` provide automatic argument parsing and handling of `--help`. The functions used to provide this behavior are located in the `src/util/commandBuilder.ts` module.
 - Some additional helper modules can be found in `src/util` such as `resolveProject.ts` which walks up the directory hierarchy and finds the absolute path of the nearest SDK package directory (useful for commands like `samples` which always operate relative to the package directory)
 
+### Using the TypeScript compiler API
+
+dev-tool uses the TypeScript 7.1 API (`typescript/sync`, `typescript/ast`, `typescript/ast/is` and `typescript/ast/factory`) for API review generation (`src/util/apiReview/`), samples processing (`src/util/samples/`) and `update-snippets`. The root `typescript` export only has the version, so the TypeScript 6 API (`ts.createProgram`, `ts.transform`, `ts.createPrinter`, ...) is not available. (`dev-tool run check-api` is the exception: it deliberately tests a package's types with the oldest and newest supported TypeScript versions, through the `@_ts/min` and `@_ts/max` aliases.) The helpers in `src/util/typescript/` cover what the API requires or no longer provides:
+
+- The compiler runs as a native process, and everything the API returns for it (the client, programs, snapshots, retained source files) holds resources there. Run work with `withTypeScriptApi` (`api.ts`), which shares one client between overlapping operations and closes it afterwards, and dispose of programs and retained source files before the work ends. `withSourceFile` parses and disposes of a source file for you.
+- There are no transformation contexts or custom transformers. Rewriting source describes its changes as `TextEdit`s positioned by the AST (`edits.ts`), which keeps the comments around the edited ranges, and builds replacement code with the factory.
+- Comments live in the text of the source file, not in nodes, and synthesized nodes have none. `printStatementsWithComments` (`printing.ts`) prints statements with the comments their source has, and API review prints comments above declarations through markers (`src/util/apiReview/printDeclarations.ts`).
+- Symbols refer to their declarations by `NodeHandle`, and every lookup in a checker is a request to the compiler process. Prefer the array overloads (`getSymbolAtLocation(nodes)`) and keep answers instead of asking again.
+
 ## Checks
 
 `dev-tool check` is a command which can be used to run pass/fail checks on SDK packages.

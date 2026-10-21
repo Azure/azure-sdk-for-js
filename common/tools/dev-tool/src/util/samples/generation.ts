@@ -21,12 +21,9 @@ import {
   OutputKind,
 } from "./info.ts";
 import { processSources } from "./processor.ts";
-import devToolPackageJson from "../../../package.json" with { type: "json" };
 import instantiateSampleReadme from "../../templates/sampleReadme.md.ts";
 import { resolveModule } from "./transforms.ts";
-import type { Config } from "../resolveTsConfig.ts";
 import { resolveConfig } from "../resolveTsConfig.ts";
-import type { CompilerOptions } from "typescript";
 import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "../pnpm.ts";
 
 const log = createPrinter("generator");
@@ -277,7 +274,8 @@ export async function makeSampleGenerationInfo(
                 "@types/node": `^${MIN_SUPPORTED_NODE_VERSION}`,
                 "cross-env": "latest",
                 rimraf: "latest",
-                typescript: devToolPackageJson.dependencies.typescript,
+                // The samples are built with the TypeScript version of the repository, which is not the one dev-tool uses.
+                typescript: resolveDependencyVersion("typescript", "catalog:"),
               },
             }
           : {
@@ -350,15 +348,7 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
   if (!(await fileExists(tsconfigFilePath))) {
     return jsonify(DEFAULT_TYPESCRIPT_CONFIG);
   }
-  type SerializableConfig = Omit<Config, "compilerOptions"> & {
-    compilerOptions: Omit<CompilerOptions, "moduleResolution" | "module"> & {
-      moduleResolution?: string;
-      module?: string;
-    };
-  };
-  const { config: tsconfig } = (await resolveConfig(tsconfigFilePath)) as {
-    config: SerializableConfig;
-  };
+  const { config: tsconfig } = await resolveConfig(tsconfigFilePath);
   delete tsconfig.compilerOptions.paths;
   delete tsconfig.exclude;
   delete tsconfig.compilerOptions.composite;
@@ -373,8 +363,8 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
   tsconfig.compilerOptions.rootDir = "./src";
   tsconfig.compilerOptions.resolveJsonModule = true;
 
-  tsconfig.compilerOptions.moduleResolution = "nodenext"; // ts.ModuleResolutionKind.NodeNext
-  tsconfig.compilerOptions.module = "nodenext"; // ts.ModuleKind.NodeNext
+  tsconfig.compilerOptions.moduleResolution = "nodenext";
+  tsconfig.compilerOptions.module = "nodenext";
   return jsonify(tsconfig);
 }
 
