@@ -1,5 +1,6 @@
 {
   "extends": "../../../tsconfig.browser.base.json",
+  "files": ["samples-dev/agents/utils/liveAudio.ts", "samples-dev/agents/agentVoiceLiveBrowser.ts"],
   "compilerOptions": {
     "paths": {
       "@azure/ai-projects": ["./dist/browser/index.d.ts"],
