@@ -262,22 +262,11 @@ Agent definitions and their detailed review guidelines are stored in:
 - **`eng/tools/pr-review/review-request.cjs`** — Shared deterministic routing and
   request validation for all seven label-triggered reviewers. Its tests run
   locally with `node --test eng/tools/pr-review/review-request.test.cjs`.
-- **`.github/workflows/mgmt-guidance.md`** — Merge guidance for management SDK
-  AutoPRs. Before either the successful or failed CI guidance path, a safe-output
-  handler checks for added root `sdk/<service>/arm-<package>/package.json`
-  manifests relative to the PR base. It posts one plain
-  `/azp run prepare-pipelines` comment per PR to provision release pipelines,
-  skipping ordinary package updates and existing command comments. This fixed
-  command is separate from the guidance comment because built-in comment
-  sanitization neutralizes slash commands; it carries no guidance marker, so
-  hiding older guidance does not hide the command. Regression tests run with
-  `node --test eng/tools/pr-review/prepare-pipelines.test.cjs`.
 - **`eng/tools/pr-review/ci.yml`** — Tool-owned Azure Pipelines definition for
-  the routing and management guidance tests (`node --test *.test.cjs` from
-  `eng/tools/pr-review`), following the dev-tool CI pattern. Branch and PR triggers
-  are path-filtered to the routing tools, reviewer and guidance workflows, rather
-  than running in every SDK package's Analyze job. Register a pipeline against
-  this YAML file in Azure DevOps to enable automatic runs.
+  the routing tests, following the dev-tool CI pattern. Branch and PR triggers
+  are path-filtered to the routing tools and reviewer workflows, rather than
+  running in every SDK package's Analyze job. Register a pipeline against this
+  YAML file in Azure DevOps to enable automatic runs.
 
 To modify an agent's behavior, edit the corresponding `.agent.md` and/or
 guidelines file. For CI trigger changes, edit the workflow `.md` file and
