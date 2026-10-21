@@ -83,10 +83,10 @@ jobs:
 if: needs.pre_activation.outputs.ready == 'true' && needs.pre_activation.outputs.pr_number != ''
 
 concurrency:
-  group: "gh-aw-mgmt-guidance-${{ github.event.check_suite.app.id || 'workflow-dispatch' }}-${{ github.event.check_suite.pull_requests[0].number || github.event.inputs.item_number || github.run_id }}"
-  cancel-in-progress: true
+  group: "gh-aw-mgmt-guidance-${{ github.event.check_suite.pull_requests[0].number || github.event.inputs.item_number || github.run_id }}"
+  cancel-in-progress: false
 
-description: "Post Next Steps to Merge once all CI checks complete on management-plane SDK PRs"
+description: "Post merge guidance and prepare release pipelines for newly onboarded management SDK packages"
 permissions:
   contents: read
   pull-requests: read
@@ -106,6 +106,57 @@ tools:
     toolsets: [context, repos, pull_requests, actions]
   bash: true
 safe-outputs:
+  env:
+    MGMT_GUIDANCE_PR_NUMBER: ${{ github.event.check_suite.pull_requests[0].number || github.event.inputs.item_number }}
+  scripts:
+    prepare-new-package-pipelines:
+      description: "Request release pipeline setup once for an open management AutoPR adding package manifests"
+      script: |
+        const prNumber = Number(process.env.MGMT_GUIDANCE_PR_NUMBER);
+        if (!Number.isSafeInteger(prNumber) || prNumber <= 0) {
+          throw new Error('Missing or invalid management guidance PR number');
+        }
+        const target = { ...context.repo, pull_number: prNumber };
+        const { data: pr } = await github.rest.pulls.get(target);
+        if (pr.state !== 'open' || !pr.labels.some(l => l.name === 'Mgmt') || !pr.title.includes('AutoPR')) {
+          core.info('Not an open management AutoPR; no pipeline setup needed.');
+          return { success: true };
+        }
+
+        // listFiles reports additions relative to the PR base, not new files in existing packages.
+        const files = await github.paginate(github.rest.pulls.listFiles, { ...target, per_page: 100 });
+        if (files.length !== pr.changed_files) {
+          throw new Error('Incomplete PR file list; cannot safely determine package onboarding');
+        }
+        const newPackages = files.filter(file =>
+          file.status === 'added' && /^sdk\/[^/]+\/arm-[^/]+\/package\.json$/.test(file.filename)
+        );
+        if (newPackages.length === 0) {
+          core.info('No new management package manifests; no pipeline setup needed.');
+          return { success: true };
+        }
+
+        const commentTarget = { ...context.repo, issue_number: prNumber };
+        const comments = await github.paginate(github.rest.issues.listComments, {
+          ...commentTarget, per_page: 100,
+        });
+        const command = '/azp run prepare-pipelines';
+        if (comments.some(comment => /^\/azp run prepare-pipelines[ \t]*(?:\r?\n|$)/.test((comment.body || '').trim()))) {
+          core.info('Pipeline setup was already requested; not posting a duplicate command.');
+          return { success: true };
+        }
+        if (process.env.GH_AW_SAFE_OUTPUTS_STAGED === 'true') {
+          core.info(`Would post ${command} on PR #${prNumber} for ${newPackages.length} new package(s).`);
+          return { success: true };
+        }
+
+        // Built-in add-comment neutralizes slash commands. Keep this fixed command plain,
+        // without the guidance marker so hide-older-comments never hides it.
+        const { data: comment } = await github.rest.issues.createComment({
+          ...commentTarget, body: command,
+        });
+        core.info(`Requested pipeline setup: ${comment.html_url}`);
+        return { success: true };
   threat-detection:
     engine:
       id: copilot
@@ -146,7 +197,13 @@ You provide merge readiness guidance for Azure SDK for JS management-plane PRs.
 
 **PR to evaluate:** `${{ needs.pre_activation.outputs.pr_number }}`
 
-All CI checks have finished on this PR's head commit. Determine whether the PR is ready to merge or has blocking failures, then post a single comment.
+All CI checks have finished on this PR's head commit. Request pipeline setup if needed, then determine whether the PR is ready to merge or has blocking failures and post a single guidance comment.
+
+## Step 0. Prepare pipelines for newly onboarded packages
+
+Call the `prepare_new_package_pipelines` safe-output tool exactly once, before evaluating merge readiness, on both successful and failed CI paths. The handler checks all changed files for added root management package manifests (`sdk/<service>/arm-<package>/package.json`) and posts one plain `/azp run prepare-pipelines` comment for the entire PR only when needed. Existing-package updates, sample manifests, closed PRs, and PRs with an existing command are no-ops.
+
+Do not post the command with `add-comment`, embed it in the guidance, or use direct GitHub writes. Continue with the existing merge guidance below; the command uses a separate safe-output handler and does not consume the single guidance comment.
 
 ## Step 1. Confirm merge readiness
 

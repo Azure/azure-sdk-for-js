@@ -12,6 +12,7 @@ trigger:
       - .github/workflows/dash.*
       - .github/workflows/dexter.*
       - .github/workflows/mgmt-review.*
+      - .github/workflows/mgmt-guidance.*
       - .github/workflows/scribe.*
       - .github/workflows/sentinel.*
       - .github/workflows/tester.*
@@ -30,13 +31,14 @@ pr:
       - .github/workflows/dash.*
       - .github/workflows/dexter.*
       - .github/workflows/mgmt-review.*
+      - .github/workflows/mgmt-guidance.*
       - .github/workflows/scribe.*
       - .github/workflows/sentinel.*
       - .github/workflows/tester.*
 
 jobs:
   - job: PRReview
-    displayName: "PR review routing validation"
+    displayName: "PR review and management guidance validation"
 
     variables:
       - template: /eng/pipelines/templates/variables/globals.yml
@@ -50,6 +52,6 @@ jobs:
       - template: /eng/pipelines/templates/steps/common.yml
 
       - script: |
-          node --test review-request.test.cjs
-        displayName: "Run PR review routing tests"
+          node --test *.test.cjs
+        displayName: "Run PR review and management guidance tests"
         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/pr-review
