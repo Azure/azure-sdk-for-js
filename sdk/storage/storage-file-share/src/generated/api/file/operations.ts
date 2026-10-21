@@ -10,6 +10,8 @@ import {
   shareFileRangeListXmlDeserializer,
   ShareFileRangeListSegment,
   shareFileRangeListSegmentXmlDeserializer,
+  HardLinkList,
+  hardLinkListXmlDeserializer,
   NfsFileType,
   CopyStatus,
   FileRangeWriteType,
@@ -23,6 +25,7 @@ import {
 } from "../../static-helpers/storageCompatResponse.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
+  FileGetHardLinksOptionalParams,
   FileCreateHardLinkOptionalParams,
   FileGetSymbolicLinkOptionalParams,
   FileCreateSymbolicLinkOptionalParams,
@@ -54,6 +57,377 @@ import {
   getBinaryStreamResponse,
 } from "@azure-rest/core-client";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
+export function _getHardLinksSend(
+  context: Client,
+  options: FileGetHardLinksOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "?comp=hardlinks{?sharesnapshot,timeout}",
+    {
+      sharesnapshot: options?.shareSnapshot,
+      timeout: options?.timeoutInSeconds,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "x-ms-version": context.version ?? "2027-03-07",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
+        ...(options?.allowTrailingDot !== undefined
+          ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }
+          : {}),
+        ...(options?.fileRequestIntent !== undefined
+          ? { "x-ms-file-request-intent": options?.fileRequestIntent }
+          : {}),
+        accept: "application/xml",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getHardLinksDeserialize(
+  result: PathUncheckedResponse,
+): Promise<HardLinkList> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._getHardLinksDeserializeExceptionHeaders(result),
+    };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
+    throw error;
+  }
+
+  return hardLinkListXmlDeserializer(result.body);
+}
+
+export function _getHardLinksDeserializeHeaders(result: PathUncheckedResponse): {
+  lastModified: Date;
+  fileType: "File";
+  etag: string;
+  fileContentType?: string;
+  fileContentLength: number;
+  fileContentMD5?: Uint8Array;
+  fileContentEncoding?: string;
+  fileContentLanguage?: string;
+  fileCacheControl?: string;
+  fileContentDisposition?: string;
+  copyCompletedOn?: Date;
+  copyStatusDescription?: string;
+  copyId?: string;
+  copyProgress?: string;
+  copySource?: string;
+  copyStatus?: CopyStatus;
+  serverEncrypted?: boolean;
+  filePermissionKey?: string;
+  fileAttributes?: string;
+  fileCreatedOn?: Date;
+  fileLastWriteOn?: Date;
+  fileChangeOn?: Date;
+  fileId?: string;
+  fileParentId?: string;
+  fileName?: string;
+  leaseDuration?: string;
+  leaseState?: string;
+  leaseStatus?: string;
+  fileMode?: string;
+  owner?: string;
+  group?: string;
+  nfsFileType?: NfsFileType;
+  linkCount?: number;
+  version: string;
+  requestId: string;
+  clientRequestId?: string;
+  date: Date;
+  contentType: "application/xml";
+} {
+  return {
+    lastModified: new Date(result.headers["last-modified"]),
+    fileType: result.headers["x-ms-type"] as any,
+    etag: result.headers["etag"],
+    fileContentType:
+      result.headers["x-ms-content-type"] === undefined ||
+      result.headers["x-ms-content-type"] === null
+        ? result.headers["x-ms-content-type"]
+        : result.headers["x-ms-content-type"],
+    fileContentLength: Number(result.headers["x-ms-content-length"]),
+    fileContentMD5:
+      result.headers["x-ms-content-md5"] === undefined ||
+      result.headers["x-ms-content-md5"] === null
+        ? result.headers["x-ms-content-md5"]
+        : typeof result.headers["x-ms-content-md5"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-md5"], "base64")
+          : result.headers["x-ms-content-md5"],
+    fileContentEncoding:
+      result.headers["x-ms-content-encoding"] === undefined ||
+      result.headers["x-ms-content-encoding"] === null
+        ? result.headers["x-ms-content-encoding"]
+        : result.headers["x-ms-content-encoding"],
+    fileContentLanguage:
+      result.headers["x-ms-content-language"] === undefined ||
+      result.headers["x-ms-content-language"] === null
+        ? result.headers["x-ms-content-language"]
+        : result.headers["x-ms-content-language"],
+    fileCacheControl:
+      result.headers["x-ms-cache-control"] === undefined ||
+      result.headers["x-ms-cache-control"] === null
+        ? result.headers["x-ms-cache-control"]
+        : result.headers["x-ms-cache-control"],
+    fileContentDisposition:
+      result.headers["x-ms-content-disposition"] === undefined ||
+      result.headers["x-ms-content-disposition"] === null
+        ? result.headers["x-ms-content-disposition"]
+        : result.headers["x-ms-content-disposition"],
+    copyCompletedOn:
+      result.headers["x-ms-copy-completion-time"] === undefined ||
+      result.headers["x-ms-copy-completion-time"] === null
+        ? result.headers["x-ms-copy-completion-time"]
+        : new Date(result.headers["x-ms-copy-completion-time"]),
+    copyStatusDescription:
+      result.headers["x-ms-copy-status-description"] === undefined ||
+      result.headers["x-ms-copy-status-description"] === null
+        ? result.headers["x-ms-copy-status-description"]
+        : result.headers["x-ms-copy-status-description"],
+    copyId:
+      result.headers["x-ms-copy-id"] === undefined || result.headers["x-ms-copy-id"] === null
+        ? result.headers["x-ms-copy-id"]
+        : result.headers["x-ms-copy-id"],
+    copyProgress:
+      result.headers["x-ms-copy-progress"] === undefined ||
+      result.headers["x-ms-copy-progress"] === null
+        ? result.headers["x-ms-copy-progress"]
+        : result.headers["x-ms-copy-progress"],
+    copySource:
+      result.headers["x-ms-copy-source"] === undefined ||
+      result.headers["x-ms-copy-source"] === null
+        ? result.headers["x-ms-copy-source"]
+        : result.headers["x-ms-copy-source"],
+    copyStatus: result.headers["x-ms-copy-status"] as any,
+    serverEncrypted:
+      result.headers["x-ms-server-encrypted"] === undefined ||
+      result.headers["x-ms-server-encrypted"] === null
+        ? result.headers["x-ms-server-encrypted"]
+        : result.headers["x-ms-server-encrypted"].trim().toLowerCase() === "true",
+    filePermissionKey:
+      result.headers["x-ms-file-permission-key"] === undefined ||
+      result.headers["x-ms-file-permission-key"] === null
+        ? result.headers["x-ms-file-permission-key"]
+        : result.headers["x-ms-file-permission-key"],
+    fileAttributes:
+      result.headers["x-ms-file-attributes"] === undefined ||
+      result.headers["x-ms-file-attributes"] === null
+        ? result.headers["x-ms-file-attributes"]
+        : result.headers["x-ms-file-attributes"],
+    fileCreatedOn:
+      result.headers["x-ms-file-creation-time"] === undefined ||
+      result.headers["x-ms-file-creation-time"] === null
+        ? result.headers["x-ms-file-creation-time"]
+        : new Date(result.headers["x-ms-file-creation-time"]),
+    fileLastWriteOn:
+      result.headers["x-ms-file-last-write-time"] === undefined ||
+      result.headers["x-ms-file-last-write-time"] === null
+        ? result.headers["x-ms-file-last-write-time"]
+        : new Date(result.headers["x-ms-file-last-write-time"]),
+    fileChangeOn:
+      result.headers["x-ms-file-change-time"] === undefined ||
+      result.headers["x-ms-file-change-time"] === null
+        ? result.headers["x-ms-file-change-time"]
+        : new Date(result.headers["x-ms-file-change-time"]),
+    fileId:
+      result.headers["x-ms-file-id"] === undefined || result.headers["x-ms-file-id"] === null
+        ? result.headers["x-ms-file-id"]
+        : result.headers["x-ms-file-id"],
+    fileParentId:
+      result.headers["x-ms-file-parent-id"] === undefined ||
+      result.headers["x-ms-file-parent-id"] === null
+        ? result.headers["x-ms-file-parent-id"]
+        : result.headers["x-ms-file-parent-id"],
+    fileName:
+      result.headers["x-ms-file-name"] === undefined || result.headers["x-ms-file-name"] === null
+        ? result.headers["x-ms-file-name"]
+        : result.headers["x-ms-file-name"],
+    leaseDuration:
+      result.headers["x-ms-lease-duration"] === undefined ||
+      result.headers["x-ms-lease-duration"] === null
+        ? result.headers["x-ms-lease-duration"]
+        : result.headers["x-ms-lease-duration"],
+    leaseState:
+      result.headers["x-ms-lease-state"] === undefined ||
+      result.headers["x-ms-lease-state"] === null
+        ? result.headers["x-ms-lease-state"]
+        : result.headers["x-ms-lease-state"],
+    leaseStatus:
+      result.headers["x-ms-lease-status"] === undefined ||
+      result.headers["x-ms-lease-status"] === null
+        ? result.headers["x-ms-lease-status"]
+        : result.headers["x-ms-lease-status"],
+    fileMode:
+      result.headers["x-ms-mode"] === undefined || result.headers["x-ms-mode"] === null
+        ? result.headers["x-ms-mode"]
+        : result.headers["x-ms-mode"],
+    owner:
+      result.headers["x-ms-owner"] === undefined || result.headers["x-ms-owner"] === null
+        ? result.headers["x-ms-owner"]
+        : result.headers["x-ms-owner"],
+    group:
+      result.headers["x-ms-group"] === undefined || result.headers["x-ms-group"] === null
+        ? result.headers["x-ms-group"]
+        : result.headers["x-ms-group"],
+    nfsFileType: result.headers["x-ms-file-file-type"] as any,
+    linkCount:
+      result.headers["x-ms-link-count"] === undefined || result.headers["x-ms-link-count"] === null
+        ? result.headers["x-ms-link-count"]
+        : Number(result.headers["x-ms-link-count"]),
+    version: result.headers["x-ms-version"],
+    requestId: result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    date: new Date(result.headers["date"]),
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _getHardLinksDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  xMsCopySourceErrorCode?: string;
+  xMsCopySourceStatusCode?: number;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
+  };
+}
+
+/** Returns the hard links of a file, along with all user-defined metadata, content properties, and system properties for the file. NFS only. */
+export async function getHardLinks(
+  context: Client,
+  options: FileGetHardLinksOptionalParams = { requestOptions: {} },
+): Promise<
+  {
+    lastModified: Date;
+    fileType: "File";
+    etag: string;
+    fileContentType?: string;
+    fileContentLength: number;
+    fileContentMD5?: Uint8Array;
+    fileContentEncoding?: string;
+    fileContentLanguage?: string;
+    fileCacheControl?: string;
+    fileContentDisposition?: string;
+    copyCompletedOn?: Date;
+    copyStatusDescription?: string;
+    copyId?: string;
+    copyProgress?: string;
+    copySource?: string;
+    copyStatus?: CopyStatus;
+    serverEncrypted?: boolean;
+    filePermissionKey?: string;
+    fileAttributes?: string;
+    fileCreatedOn?: Date;
+    fileLastWriteOn?: Date;
+    fileChangeOn?: Date;
+    fileId?: string;
+    fileParentId?: string;
+    fileName?: string;
+    leaseDuration?: string;
+    leaseState?: string;
+    leaseStatus?: string;
+    fileMode?: string;
+    owner?: string;
+    group?: string;
+    nfsFileType?: NfsFileType;
+    linkCount?: number;
+    version: string;
+    requestId: string;
+    clientRequestId?: string;
+    date: Date;
+    contentType: "application/xml";
+  } & HardLinkList &
+    StorageCompatResponseInfo<
+      HardLinkList,
+      {
+        lastModified: Date;
+        fileType: "File";
+        etag: string;
+        fileContentType?: string;
+        fileContentLength: number;
+        fileContentMD5?: Uint8Array;
+        fileContentEncoding?: string;
+        fileContentLanguage?: string;
+        fileCacheControl?: string;
+        fileContentDisposition?: string;
+        copyCompletedOn?: Date;
+        copyStatusDescription?: string;
+        copyId?: string;
+        copyProgress?: string;
+        copySource?: string;
+        copyStatus?: CopyStatus;
+        serverEncrypted?: boolean;
+        filePermissionKey?: string;
+        fileAttributes?: string;
+        fileCreatedOn?: Date;
+        fileLastWriteOn?: Date;
+        fileChangeOn?: Date;
+        fileId?: string;
+        fileParentId?: string;
+        fileName?: string;
+        leaseDuration?: string;
+        leaseState?: string;
+        leaseStatus?: string;
+        fileMode?: string;
+        owner?: string;
+        group?: string;
+        nfsFileType?: NfsFileType;
+        linkCount?: number;
+        version: string;
+        requestId: string;
+        clientRequestId?: string;
+        date: Date;
+        contentType: "application/xml";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _getHardLinksSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const parsedBody = await _getHardLinksDeserialize(result);
+  const parsedHeaders = _getHardLinksDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
+}
 
 export function _createHardLinkSend(
   context: Client,
@@ -3366,6 +3740,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   fileChangeOn?: Date;
   fileId?: string;
   fileParentId?: string;
+  fileName?: string;
   leaseDuration?: string;
   leaseState?: string;
   leaseStatus?: string;
@@ -3480,6 +3855,10 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-file-parent-id"] === null
         ? result.headers["x-ms-file-parent-id"]
         : result.headers["x-ms-file-parent-id"],
+    fileName:
+      result.headers["x-ms-file-name"] === undefined || result.headers["x-ms-file-name"] === null
+        ? result.headers["x-ms-file-name"]
+        : result.headers["x-ms-file-name"],
     leaseDuration:
       result.headers["x-ms-lease-duration"] === undefined ||
       result.headers["x-ms-lease-duration"] === null
@@ -3576,6 +3955,7 @@ export async function getProperties(
     fileChangeOn?: Date;
     fileId?: string;
     fileParentId?: string;
+    fileName?: string;
     leaseDuration?: string;
     leaseState?: string;
     leaseStatus?: string;
@@ -3615,6 +3995,7 @@ export async function getProperties(
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
+      fileName?: string;
       leaseDuration?: string;
       leaseState?: string;
       leaseStatus?: string;
