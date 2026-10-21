@@ -445,10 +445,10 @@ Remove-Item -ErrorAction SilentlyContinue `
   src/restorePollerHelpers.ts, `
   metadata.json, `
   agent_version_lines.txt, `
-  review/ai-projects-browser.api.diff.md, `
-  review/ai-projects-react-native.api.diff.md, `
   src/**/*.tmp, src/**/*.tmp2, src/**/*.bak
 ```
+
+Treat `review/*.api.diff.md` as API review snapshots, not scratch files. Do not delete tracked reports during cleanup. After the build and API extraction in Step 6, review and commit their regenerated contents, including hunk line offsets, together with the Node API report. Do not restore stale snapshots merely to make the working tree look clean.
 
 `src/restorePollerHelpers.ts` should not exist — there's a single `restorePollerHelpers.ts` under `generated/` only. `.tmp`, `.tmp2`, and `.bak` files are subagent scratch from earlier in the workflow.
 
