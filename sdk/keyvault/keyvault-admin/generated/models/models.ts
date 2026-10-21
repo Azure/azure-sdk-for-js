@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
 /** Full backup operation */
 export interface FullBackupOperation {
   /** Status of the backup operation. */
@@ -62,6 +62,7 @@ export enum KnownOperationStatus {
  * **Failed**: The operation failed.
  */
 export type OperationStatus = string;
+
 /** The key vault server error. */
 export type ErrorModel = {
   code?: string;
@@ -829,6 +830,8 @@ export enum KnownVersions {
   V20250701 = "2025-07-01",
   /** The 2026-01-01-preview API version. */
   V20260101Preview = "2026-01-01-preview",
+  /** The 2026-03-01-preview API version. */
+  V20260301Preview = "2026-03-01-preview",
 }
 
 export function _roleDefinitionPropertiesSerializer(item: RoleDefinition): any {
