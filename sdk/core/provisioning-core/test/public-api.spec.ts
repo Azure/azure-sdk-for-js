@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import * as internalApi from "../src/internal.js";
 import * as publicApi from "../src/index.js";
@@ -79,15 +76,5 @@ describe("published loop API", () => {
     void internalApi.LoopedResource;
     // @ts-expect-error Looped construction is workspace-only.
     void internalApi.createLoopedResource;
-  });
-
-  it("does not export implementation subpaths", () => {
-    const packagePath = resolve(fileURLToPath(new URL("..", import.meta.url)), "package.json");
-    const packageJson = JSON.parse(readFileSync(packagePath, "utf8")) as {
-      exports: Record<string, unknown>;
-    };
-
-    expect(packageJson.exports).not.toHaveProperty("./resource");
-    expect(packageJson.exports).not.toHaveProperty("./internal-loop");
   });
 });

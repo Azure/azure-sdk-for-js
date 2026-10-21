@@ -632,7 +632,7 @@ describe("deserializer symbol resolution", () => {
     expect(serialize(restored!)).toEqual(document);
   });
 
-  it.each([
+  it.each<ExpressionNode>([
     { kind: "string", value: "resourceGroup" },
     { kind: "null", value: null },
     { kind: "integer", value: "0" },
@@ -644,41 +644,38 @@ describe("deserializer symbol resolution", () => {
       value: { name: propertyReference("resourceGroup", "name") },
     },
     { kind: "array", items: [propertyReference("resourceGroup", "name")] },
-  ] satisfies ExpressionNode[])(
-    "rejects a non-expression existing scope ($kind) on the first import",
-    (scope) => {
-      const file: InfraNode = {
-        fileName: "invalid-existing-scope.bicep",
-        targetScope: "subscription",
-        resources: {
-          resourceGroup: {
-            ...resourceNode(
-              "resourceGroup",
-              {
-                name: { kind: "string", value: "shared" },
-                location: { kind: "string", value: "eastus" },
-              },
-              ResourceGroup.resourceType,
-            ),
-            apiVersion: ResourceGroup.apiVersion,
-          },
-          lookup: {
-            ...resourceNode("lookup", {
-              name: { kind: "string", value: "lookup" },
-              scope,
-            }),
-            existing: true,
-          },
+  ])("rejects a non-expression existing scope ($kind) on the first import", (scope) => {
+    const file: InfraNode = {
+      fileName: "invalid-existing-scope.bicep",
+      targetScope: "subscription",
+      resources: {
+        resourceGroup: {
+          ...resourceNode(
+            "resourceGroup",
+            {
+              name: { kind: "string", value: "shared" },
+              location: { kind: "string", value: "eastus" },
+            },
+            ResourceGroup.resourceType,
+          ),
+          apiVersion: ResourceGroup.apiVersion,
         },
-      };
+        lookup: {
+          ...resourceNode("lookup", {
+            name: { kind: "string", value: "lookup" },
+            scope,
+          }),
+          existing: true,
+        },
+      },
+    };
 
-      expect(() => deserialize(JSON.stringify({ infras: [file] }))).toThrow(
-        `Resource "lookup" has an invalid "scope" value: expected an expression, received "${scope.kind}".`,
-      );
-      expect(Stack.roots[0]!.getResources()).toHaveLength(1);
-      expect(Stack.roots[0]!.getResources()[0]).toBeInstanceOf(ResourceGroup);
-    },
-  );
+    expect(() => deserialize(JSON.stringify({ infras: [file] }))).toThrow(
+      `Resource "lookup" has an invalid "scope" value: expected an expression, received "${scope.kind}".`,
+    );
+    expect(Stack.roots[0]!.getResources()).toHaveLength(1);
+    expect(Stack.roots[0]!.getResources()[0]).toBeInstanceOf(ResourceGroup);
+  });
 
   it.each([
     "currentGroup",

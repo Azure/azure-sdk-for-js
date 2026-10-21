@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { readFileSync } from "node:fs";
-import { resolve, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
 import { describe, it, expect, beforeEach } from "vitest";
 import { renderBicepFiles } from "../../../src/internal.js";
 import { buildBicepFiles } from "../../../src/serialization/bicep/file-layout/build-bicep-files.js";
@@ -35,8 +32,6 @@ import {
   createStringShape,
 } from "../../../src/shape/shape.js";
 import { registerShape } from "../../../src/shape/shape-registry.js";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 interface RegisteredWidgetProps {
   name: ExpressionOrValue<string>;
@@ -610,24 +605,6 @@ describe("deserialize", () => {
     const emptyDoc = JSON.stringify({ infras: [] });
 
     expect(() => deserialize(emptyDoc)).toThrow("Empty SerializationDocument");
-  });
-
-  it.skip("works with existing sample JSON", () => {
-    const samplePath = resolve(
-      __dirname,
-      "../../../../demo/samples/hello-storage/js/output/json/hello-storage.json",
-    );
-    const json = readFileSync(samplePath, "utf-8");
-
-    const imported = deserialize(json);
-
-    expect(imported.length).toBeGreaterThan(0);
-
-    const allResources = collectResources(imported);
-    const storageResource = allResources.find(
-      (r) => r.type === "Microsoft.Storage/storageAccounts",
-    );
-    expect(storageResource).toBeDefined();
   });
 
   describe("resource dependency order", () => {

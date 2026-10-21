@@ -21,11 +21,6 @@ import {
 // These mirror the structure the emitter generates but are small enough
 // to reason about.
 
-const leaf = {
-  armPath: ["name"] as const,
-  value: { kind: "any" as const },
-};
-
 // Simple rename: .foo -> "fooArm"
 const renameDescriptor: FlatModelShape = createFlatModelShape({
   foo: {

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { renderBicepFiles } from "../src/internal.js";
-import { serialize } from "../src/serialization/index.js";
 import { describe, expect, it } from "vitest";
 import type { ProvisioningComponent } from "../src/constructs/provisioning-component.js";
 import { createLoopedResource, Loop, Resource } from "../src/constructs/resource/resource.js";

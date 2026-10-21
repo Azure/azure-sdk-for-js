@@ -8,7 +8,6 @@ import {
   Resource,
   ResourceGroup,
   Stack,
-  fn,
   namingRequiredPolicy,
 } from "@azure/provisioning-core";
 import { childResource as childResourceHandle, resource } from "../../support.js";

@@ -18,7 +18,7 @@ describe("built-in name aliases", () => {
       const stack = new Stack(`alias-${name}`, {
         targetScope: "resourceGroup",
       });
-      const resource = new Resource(stack, {
+      new Resource(stack, {
         type: `Contoso.Test/${name}s`,
         apiVersion: "2024-01-01",
         name: "existing",

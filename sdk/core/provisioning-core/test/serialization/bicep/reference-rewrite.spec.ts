@@ -9,7 +9,6 @@ import {
   identifierExpressionNode,
   propertyAccessExpressionNode,
   arrayAccessExpressionNode,
-  functionCallExpressionNode,
 } from "../../../src/expression/ast-nodes.js";
 import { Loop, createLoopedResource } from "../../../src/internal-loop.js";
 import { renderBicepFiles } from "../../../src/internal.js";

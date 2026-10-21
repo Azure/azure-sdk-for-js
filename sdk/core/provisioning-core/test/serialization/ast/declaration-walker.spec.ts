@@ -202,6 +202,7 @@ describe("walkDeclarationExpressions", () => {
     walkDeclarationExpressions(node, (expression) => {
       visited.push(expression);
       if (expression.kind === "array") return false;
+      return undefined;
     });
     expect(visited).toEqual([node.defaultValue, metadata, allowed, metadata, allowed]);
   });

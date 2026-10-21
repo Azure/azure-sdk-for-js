@@ -269,6 +269,14 @@ describe("resolveResource — best-effort fallback", () => {
       ).toBe(FlatV1);
     });
 
+    it("returns the exact preview class when apiVersion matches", () => {
+      expect(
+        resolveResource("Contoso.Test/flatType", FlatPreview.apiVersion, {
+          name: "anything",
+        }),
+      ).toBe(FlatPreview);
+    });
+
     it("falls back to the highest registered version when apiVersion is unknown", () => {
       // 2025-06-01 > 2025-06-01-preview > 2024-01-01 lexicographically.
       // Stable outranks preview at the same base date (ASCII `-` < digits).

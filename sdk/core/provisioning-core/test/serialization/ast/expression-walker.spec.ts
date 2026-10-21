@@ -55,6 +55,7 @@ describe("walkExpressionNode", () => {
     const result = walkExpressionNode(expression, (node) => {
       visited.push(node.kind);
       if (node.kind === "array") return false;
+      return undefined;
     });
     expect(visited).toEqual(["object", "array"]);
     expect(result).toBeUndefined();

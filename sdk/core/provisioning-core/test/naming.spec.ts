@@ -13,7 +13,6 @@ import {
   namingRequiredPolicy,
 } from "@azure/provisioning-core";
 import { resource } from "./support.js";
-import { serialize } from "../src/serialization/index.js";
 
 const storageRules: ResourceNamingRules = {
   abbreviation: "st",

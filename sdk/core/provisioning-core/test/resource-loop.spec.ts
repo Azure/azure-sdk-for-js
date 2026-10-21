@@ -81,7 +81,6 @@ describe("internal looped resource construction", () => {
       name: regions.item as any,
     });
 
-    const doc = serialize([stack]);
     const bicep = renderBicepFiles(stack)
       .map((f) => f.contents)
       .join("\n");
@@ -182,7 +181,6 @@ describe("indexed parent context — `parents.at(i)` as child ctx", () => {
       name: "c1",
     });
 
-    const doc = serialize([stack]);
     const bicep = renderBicepFiles(stack)
       .map((f) => f.contents)
       .join("\n");
@@ -209,7 +207,6 @@ describe("indexed parent context — `parents.at(i)` as child ctx", () => {
       name: regions.item as any,
     });
 
-    const doc = serialize([stack]);
     const bicep = renderBicepFiles(stack)
       .map((f) => f.contents)
       .join("\n");
