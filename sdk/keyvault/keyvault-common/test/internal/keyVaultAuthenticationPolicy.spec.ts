@@ -805,9 +805,11 @@ describe("Challenge based authentication tests", function () {
     });
 
     for (const retainInitial of [false, true]) {
-      it.each(["challenge", "CAE"])(
+      it.each(retainInitial ? ["challenge", "CAE", "CAE with late join"] : ["challenge", "CAE"])(
         `rejects stale %s cache updates after A/B/A transitions (retained initial: ${retainInitial})`,
         async (kind) => {
+          const isCae = kind !== "challenge";
+          let expectedAuthorization = "Bearer token_tenantA";
           const initialController = new AbortController();
           let finishInitial!: (token: AccessToken) => void;
           let finishStale!: (token: AccessToken) => void;
@@ -839,12 +841,12 @@ describe("Challenge based authentication tests", function () {
               return resourceChallenge("https://vault.azure.net", "resource", "tenantB")(req);
             }
             if (path === "/slow" && authorization === "Bearer token_tenantA") {
-              return kind === "CAE"
+              return isCae
                 ? caeChallengeResponse(req)
                 : resourceChallenge("https://special.vault.azure.net", "resource", "tenantC")(req);
             }
             if (path === "/healthy") {
-              expect(authorization).toBe("Bearer token_tenantA");
+              expect(authorization).toBe(expectedAuthorization);
             }
             return successfulResponseWith()(req);
           });
@@ -870,10 +872,7 @@ describe("Challenge based authentication tests", function () {
             const stale = pipeline.sendRequest(
               { sendRequest },
               createPipelineRequest({
-                url:
-                  kind === "CAE"
-                    ? `${request.url}/slow`
-                    : "https://child.special.vault.azure.net/slow",
+                url: isCae ? `${request.url}/slow` : "https://child.special.vault.azure.net/slow",
               }),
             );
             await vi.waitFor(() => expect(getToken).toHaveBeenCalledTimes(retainInitial ? 3 : 2));
@@ -885,6 +884,20 @@ describe("Challenge based authentication tests", function () {
               { sendRequest },
               createPipelineRequest({ url: `${request.url}/a` }),
             );
+            if (kind === "CAE with late join") {
+              const previousCalls = getToken.mock.calls.length;
+              getToken.mockResolvedValueOnce({
+                token: "fresh_cae_token",
+                expiresOnTimestamp: Date.now() + 60 * 60 * 1000,
+              });
+              const late = pipeline.sendRequest(
+                { sendRequest },
+                createPipelineRequest({ url: `${request.url}/slow` }),
+              );
+              await vi.waitFor(() => expect(getToken).toHaveBeenCalledTimes(previousCalls + 1));
+              await late;
+              expectedAuthorization = "Bearer fresh_cae_token";
+            }
             finishStale({
               token: "stale_token",
               expiresOnTimestamp: Date.now() + 60 * 60 * 1000,

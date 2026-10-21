@@ -105,6 +105,10 @@ export function keyVaultAuthenticationPolicy(
   // Pending acquisitions can reuse an earlier cached object, so identity alone cannot detect updates.
   let cachedChallengeRevision = 0;
   const pendingChallenges = new Map<string, PendingAuthenticationChallenge>();
+  const pendingCaeChallenges = new WeakMap<
+    AuthenticationChallenge,
+    Map<string, PendingAuthenticationChallenge>
+  >();
 
   function requestToOptions(request: PipelineRequest): GetTokenOptions {
     return {
@@ -238,15 +242,35 @@ export function keyVaultAuthenticationPolicy(
     const claims = uint8ArrayToString(stringToUint8Array(base64EncodedClaims, "base64"), "utf-8");
     const previousRevision = cachedChallengeRevision;
 
-    // A refresh already in flight may have different claims, so it cannot satisfy this challenge.
-    const caeState: AuthenticationChallenge = {
-      ...state,
-      getAccessToken: createTokenCycler(credential),
-    };
-    await authorizeRequestWithChallenge(request, caeState, claims);
-    if (cachedChallengeRevision === previousRevision && cachedChallenge === state) {
-      cachedChallenge = caeState;
-      cachedChallengeRevision++;
+    // Do not let a caller from a newer cache revision join and promote an older acquisition.
+    const pendingKey = JSON.stringify([claims, previousRevision]);
+    let stateChallenges = pendingCaeChallenges.get(state);
+    if (!stateChallenges) {
+      stateChallenges = new Map();
+      pendingCaeChallenges.set(state, stateChallenges);
+    }
+    let pending = stateChallenges.get(pendingKey);
+    if (!pending) {
+      pending = {
+        challenge: { ...state, getAccessToken: createTokenCycler(credential) },
+        requests: 0,
+      };
+      stateChallenges.set(pendingKey, pending);
+    }
+    pending.requests++;
+    try {
+      await authorizeRequestWithChallenge(request, pending.challenge, claims);
+      if (cachedChallengeRevision === previousRevision && cachedChallenge === state) {
+        cachedChallenge = pending.challenge;
+        cachedChallengeRevision++;
+      }
+    } finally {
+      if (--pending.requests === 0) {
+        stateChallenges.delete(pendingKey);
+        if (stateChallenges.size === 0) {
+          pendingCaeChallenges.delete(state);
+        }
+      }
     }
 
     return next(request);
