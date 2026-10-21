@@ -16,19 +16,14 @@ export type {
 export { WarpError } from "./types.ts";
 export type { CompileResult, ParsedTargetConfig } from "./compiler.ts";
 export {
-  SharedSourceFileCache,
-  createCachedHost,
-  createPolyfillHost,
+  Compiler,
+  parseTargetTsConfig,
   discoverPolyfills,
   optionsSignature,
-  programIdentity,
   sourceIdentity,
-  groupBySignature,
-  copyDtsFiles,
   validateOutDirs,
   cleanOutDir,
   copyDir,
-  buildTransformedOutput,
 } from "./compiler.ts";
 export { verifyDistFiles } from "./exports.ts";
 export type { SizeReport, TargetSizeMetrics, ApiSurfaceMetrics } from "./sizeReport.ts";

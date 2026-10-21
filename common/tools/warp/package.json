@@ -32,9 +32,8 @@
   "private": true,
   "prettier": "../eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "esbuild": "^0.28.1",
     "tsx": "catalog:",
-    "typescript": "catalog:",
+    "typescript": "7.1.0-beta",
     "yaml": "^2.9.0"
   },
   "devDependencies": {
@@ -49,7 +48,6 @@
   },
   "files": [
     "src/",
-    "launch.js",
-    "workerBoot.js"
+    "launch.js"
   ]
 }

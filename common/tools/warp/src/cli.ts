@@ -125,7 +125,7 @@ Options:
   --config <path>   Path to warp config file (resolved relative to cwd)
   --dry-run         Validate config and show exports diff without compiling
   --no-clean        Skip cleaning outDirs before compilation
-  --parallel        Compile in parallel using worker threads (default: off)
+  --parallel        Deprecated compatibility flag; native TypeScript manages parallelism
   --target <name>   Only build targets matching the given name(s) (repeatable)
   --stats           Compute and display size and API surface report
   --json            Output machine-readable JSON (implies --quiet)

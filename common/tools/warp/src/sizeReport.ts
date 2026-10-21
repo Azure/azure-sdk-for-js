@@ -5,7 +5,10 @@ import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import * as zlib from "node:zlib";
 import { promisify } from "node:util";
-import * as ts from "typescript";
+import { API } from "typescript/async";
+import { ScriptTarget, SyntaxKind } from "typescript/ast";
+import { createScanner } from "typescript/ast/scanner";
+import { nativePath, withCompilerApi } from "./compilerApi.ts";
 import type { CompileResult } from "./compiler.ts";
 
 const gzipAsync = promisify(zlib.gzip);
@@ -88,22 +91,21 @@ function buildLineStarts(content: string): number[] {
  * token positions.
  */
 function countJsLoc(content: string): number {
-  const scanner = ts.createScanner(ts.ScriptTarget.Latest, /* skipTrivia */ false);
-  scanner.setText(content);
+  const scanner = createScanner(false, undefined, content);
 
   const lineStarts = buildLineStarts(content);
 
   // Track which lines contain at least one non-trivial token
   const codeLines = new Set<number>();
   let lineIdx = 0;
-  let token: ts.SyntaxKind;
+  let token: SyntaxKind;
 
-  while ((token = scanner.scan()) !== ts.SyntaxKind.EndOfFileToken) {
+  while ((token = scanner.scan()) !== SyntaxKind.EndOfFile) {
     switch (token) {
-      case ts.SyntaxKind.WhitespaceTrivia:
-      case ts.SyntaxKind.NewLineTrivia:
-      case ts.SyntaxKind.SingleLineCommentTrivia:
-      case ts.SyntaxKind.MultiLineCommentTrivia:
+      case SyntaxKind.WhitespaceTrivia:
+      case SyntaxKind.NewLineTrivia:
+      case SyntaxKind.SingleLineCommentTrivia:
+      case SyntaxKind.MultiLineCommentTrivia:
         // skip trivia — don't count these as code
         break;
       default: {
@@ -163,9 +165,12 @@ async function computeTargetMetrics(outDir: string): Promise<TargetSizeMetrics> 
 
 /**
  * Count exported symbols from .d.ts entry-point files.
- * Uses a single ts.createProgram for all entry files (#12).
+ * Uses one native program for all entry files.
  */
-async function countExports(dtsEntryFiles: string[]): Promise<ApiSurfaceMetrics> {
+async function countExports(dtsEntryFiles: string[], api?: API): Promise<ApiSurfaceMetrics> {
+  if (!api) {
+    return withCompilerApi(undefined, (client) => countExports(dtsEntryFiles, client));
+  }
   const existingFiles = (
     await Promise.all(
       dtsEntryFiles.map(async (f) => {
@@ -182,23 +187,25 @@ async function countExports(dtsEntryFiles: string[]): Promise<ApiSurfaceMetrics>
     return { exportCount: 0, dtsFiles: 0 };
   }
 
-  const program = ts.createProgram(existingFiles, {
-    target: ts.ScriptTarget.ESNext,
+  const program = await api.createProgram(existingFiles.map(nativePath), {
+    target: ScriptTarget.ESNext,
     declaration: true,
   });
-  const checker = program.getTypeChecker();
-
-  let exportCount = 0;
-  for (const entryFile of existingFiles) {
-    const sourceFile = program.getSourceFile(entryFile);
-    if (!sourceFile) continue;
-    const symbol = checker.getSymbolAtLocation(sourceFile);
-    if (symbol) {
-      exportCount += checker.getExportsOfModule(symbol).length;
+  try {
+    const checker = program.getProject().checker;
+    let exportCount = 0;
+    for (const entryFile of existingFiles) {
+      const sourceFile = await program.getSourceFile(nativePath(entryFile));
+      if (!sourceFile) continue;
+      const symbol = await checker.getSymbolAtLocation(sourceFile);
+      if (symbol) {
+        exportCount += (await checker.getExportsOfModule(symbol)).length;
+      }
     }
+    return { exportCount, dtsFiles: existingFiles.length };
+  } finally {
+    await program.dispose();
   }
-
-  return { exportCount, dtsFiles: existingFiles.length };
 }
 
 /**
@@ -208,6 +215,7 @@ export async function generateSizeReport(
   results: CompileResult[],
   config: { exports: Record<string, string> },
   packageRoot: string,
+  api?: API,
 ): Promise<SizeReport> {
   // Compute all target metrics in parallel
   const entries = await Promise.all(
@@ -233,7 +241,7 @@ export async function generateSizeReport(
     }
   }
 
-  const apiSurface = await countExports(dtsEntryFiles);
+  const apiSurface = await countExports(dtsEntryFiles, api);
   return { targets, apiSurface };
 }
 

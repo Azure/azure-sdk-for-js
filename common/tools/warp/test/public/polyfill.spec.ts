@@ -5,6 +5,7 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
+import { fileURLToPath } from "node:url";
 import { stringify } from "yaml";
 import { build, discoverPolyfills } from "../../src/index.ts";
 
@@ -173,6 +174,7 @@ describe("polyfill substitution build", () => {
         declaration: true,
         strict: true,
         types: ["node"],
+        typeRoots: [fileURLToPath(new URL("../../node_modules/@types", import.meta.url))],
       },
       include: ["src/**/*.ts"],
     };
@@ -186,6 +188,7 @@ describe("polyfill substitution build", () => {
         declaration: true,
         strict: true,
         types: ["node"],
+        typeRoots: [fileURLToPath(new URL("../../node_modules/@types", import.meta.url))],
       },
       include: ["src/**/*.ts"],
     };
@@ -269,6 +272,7 @@ describe("polyfill substitution build", () => {
         declaration: true,
         strict: true,
         types: ["node"],
+        typeRoots: [fileURLToPath(new URL("../../node_modules/@types", import.meta.url))],
       },
       include: ["src/**/*.ts"],
     };
@@ -420,12 +424,11 @@ describe("polyfill substitution build", () => {
       compilerOptions: {
         outDir: "./dist/commonjs",
         rootDir: "./src",
-        module: "CommonJS",
-        moduleResolution: "Node10",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
         target: "ES2023",
         declaration: true,
         strict: true,
-        ignoreDeprecations: "6.0",
       },
       include: ["src/**/*.ts"],
     };
@@ -445,6 +448,7 @@ describe("polyfill substitution build", () => {
             condition: "require",
             tsconfig: "./tsconfig.cjs.json",
             polyfillSuffix: "-cjs",
+            moduleType: "commonjs",
           },
         ],
       }),

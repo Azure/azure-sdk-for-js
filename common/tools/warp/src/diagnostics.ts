@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as ts from "typescript";
+import { DiagnosticCategory, formatDiagnostics as formatNativeDiagnostics } from "typescript/async";
+import type { Diagnostic } from "typescript/async";
 import type { CompileResult } from "./compiler.ts";
 
 /**
- * Map a ts.DiagnosticCategory to a human-readable label.
- * Shared between sequential formatting and worker-thread formatting.
+ * Map a native diagnostic category to a human-readable label.
  */
-export function diagnosticCategoryLabel(category: ts.DiagnosticCategory): string {
+export function diagnosticCategoryLabel(category: number): string {
   switch (category) {
-    case ts.DiagnosticCategory.Error:
+    case DiagnosticCategory.Error:
       return "error";
-    case ts.DiagnosticCategory.Warning:
+    case DiagnosticCategory.Warning:
       return "warning";
-    case ts.DiagnosticCategory.Suggestion:
+    case DiagnosticCategory.Suggestion:
       return "suggestion";
-    case ts.DiagnosticCategory.Message:
+    case DiagnosticCategory.Message:
       return "message";
     default:
       return "unknown";
@@ -24,18 +24,18 @@ export function diagnosticCategoryLabel(category: ts.DiagnosticCategory): string
 }
 
 /**
- * Format a single ts.Diagnostic into a prefixed string.
- * Reusable from both the main thread and worker threads.
+ * Preserve native message chains, positions, and related information.
  */
-export function formatSingleDiagnostic(diag: ts.Diagnostic, prefix: string): string {
-  const category = diagnosticCategoryLabel(diag.category);
-  const message = ts.flattenDiagnosticMessageText(diag.messageText, "\n");
-
-  if (diag.file && diag.start !== undefined) {
-    const { line, character } = diag.file.getLineAndCharacterOfPosition(diag.start);
-    return `${prefix} ${diag.file.fileName}(${line + 1},${character + 1}): ${category} TS${diag.code}: ${message}`;
-  }
-  return `${prefix} ${category} TS${diag.code}: ${message}`;
+export function formatSingleDiagnostic(diag: Diagnostic, prefix: string): string {
+  return formatNativeDiagnostics([diag], {
+    getCurrentDirectory: () => process.cwd(),
+    getCanonicalFileName: (fileName) => fileName,
+    getNewLine: () => "\n",
+  })
+    .trimEnd()
+    .split("\n")
+    .map((line) => `${prefix} ${line}`)
+    .join("\n");
 }
 
 /**

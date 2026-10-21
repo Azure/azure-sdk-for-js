@@ -230,12 +230,12 @@ describe("resolveImportsInContent", () => {
   const rootDir = "/pkg/src";
   const packageRoot = "/pkg";
 
-  it("resolves #platform/* in ESM import for browser target", () => {
+  it("resolves #platform/* in ESM import for browser target", async () => {
     const content = 'import { PipelineRequest } from "#platform/interfaces";\n';
     const outDir = "/pkg/dist/browser";
     const outputFile = path.join(outDir, "pipeline.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       importsMap,
@@ -249,12 +249,12 @@ describe("resolveImportsInContent", () => {
     expect(result.content).toBe('import { PipelineRequest } from "./interfaces-browser.mjs";\n');
   });
 
-  it("resolves #platform/* in ESM import for node target", () => {
+  it("resolves #platform/* in ESM import for node target", async () => {
     const content = 'import { PipelineRequest } from "#platform/interfaces";\n';
     const outDir = "/pkg/dist/esm";
     const outputFile = path.join(outDir, "pipeline.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       importsMap,
@@ -268,12 +268,12 @@ describe("resolveImportsInContent", () => {
     expect(result.content).toBe('import { PipelineRequest } from "./interfaces.js";\n');
   });
 
-  it("resolves nested path imports", () => {
+  it("resolves nested path imports", async () => {
     const content = 'import { getClient } from "#platform/client/getClient";\n';
     const outDir = "/pkg/dist/browser";
     const outputFile = path.join(outDir, "pipeline.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       importsMap,
@@ -287,12 +287,12 @@ describe("resolveImportsInContent", () => {
     expect(result.content).toBe('import { getClient } from "./client/getClient-browser.mjs";\n');
   });
 
-  it("resolves from a nested file to a top-level target", () => {
+  it("resolves from a nested file to a top-level target", async () => {
     const content = 'import { X } from "#platform/interfaces";\n';
     const outDir = "/pkg/dist/browser";
     const outputFile = path.join(outDir, "client", "getClient.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       importsMap,
@@ -306,12 +306,12 @@ describe("resolveImportsInContent", () => {
     expect(result.content).toBe('import { X } from "../interfaces-browser.mjs";\n');
   });
 
-  it("resolves export { } from specifiers", () => {
+  it("resolves export { } from specifiers", async () => {
     const content = 'export { PipelineRequest } from "#platform/interfaces";\n';
     const outDir = "/pkg/dist/browser";
     const outputFile = path.join(outDir, "index.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       importsMap,
@@ -325,12 +325,12 @@ describe("resolveImportsInContent", () => {
     expect(result.content).toBe('export { PipelineRequest } from "./interfaces-browser.mjs";\n');
   });
 
-  it("resolves dynamic import()", () => {
+  it("resolves dynamic import()", async () => {
     const content = 'const mod = await import("#platform/interfaces");\n';
     const outDir = "/pkg/dist/browser";
     const outputFile = path.join(outDir, "index.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       importsMap,
@@ -344,12 +344,12 @@ describe("resolveImportsInContent", () => {
     expect(result.content).toBe('const mod = await import("./interfaces-browser.mjs");\n');
   });
 
-  it("resolves require()", () => {
+  it("resolves require()", async () => {
     const content = 'const { PipelineRequest } = require("#platform/interfaces");\n';
     const outDir = "/pkg/dist/commonjs";
     const outputFile = path.join(outDir, "index.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       importsMap,
@@ -363,12 +363,12 @@ describe("resolveImportsInContent", () => {
     expect(result.content).toBe('const { PipelineRequest } = require("./interfaces.js");\n');
   });
 
-  it("leaves non-# imports unchanged", () => {
+  it("leaves non-# imports unchanged", async () => {
     const content = 'import { X } from "./interfaces.js";\nimport { Y } from "@azure/core-auth";\n';
     const outDir = "/pkg/dist/browser";
     const outputFile = path.join(outDir, "index.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       importsMap,
@@ -382,7 +382,7 @@ describe("resolveImportsInContent", () => {
     expect(result.content).toBe(content);
   });
 
-  it("ignores # in comments, strings, and template literals", () => {
+  it("ignores # in comments, strings, and template literals", async () => {
     const content = [
       '// This comment mentions "#platform/interfaces"',
       '/* Also "#platform/client" */',
@@ -394,7 +394,7 @@ describe("resolveImportsInContent", () => {
     const outDir = "/pkg/dist/browser";
     const outputFile = path.join(outDir, "index.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       importsMap,
@@ -413,7 +413,7 @@ describe("resolveImportsInContent", () => {
     expect(result.content).toContain('import { A } from "./interfaces-browser.mjs";');
   });
 
-  it("handles multiple #platform imports in one file", () => {
+  it("handles multiple #platform imports in one file", async () => {
     const content = [
       'import { A } from "#platform/interfaces";',
       'import { B } from "#platform/client/getClient";',
@@ -423,7 +423,7 @@ describe("resolveImportsInContent", () => {
     const outDir = "/pkg/dist/browser";
     const outputFile = path.join(outDir, "index.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       importsMap,
@@ -534,7 +534,7 @@ describe("build with resolveImports", () => {
           outDir: "./dist/esm",
           rootDir: "./src",
           lib: ["ES2022"],
-          types: ["node"],
+          types: [],
           skipLibCheck: true,
         },
         include: ["./src/**/*.ts"],
@@ -601,7 +601,7 @@ describe("resolveImportsInContent unresolved tracking", () => {
   const outDir = "/pkg/dist/browser";
   const packageRoot = "/pkg";
 
-  it("reports unresolved specifiers that don't match any import entry", () => {
+  it("reports unresolved specifiers that don't match any import entry", async () => {
     const content = [
       'import { A } from "#platform/interfaces";',
       'import { B } from "#unknown/foo";',
@@ -609,7 +609,7 @@ describe("resolveImportsInContent unresolved tracking", () => {
     ].join("\n");
     const outputFile = path.join(outDir, "index.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       importsMap,
@@ -627,11 +627,11 @@ describe("resolveImportsInContent unresolved tracking", () => {
     expect(result.content).toContain("#unknown/foo");
   });
 
-  it("returns empty unresolved array when all specifiers resolve", () => {
+  it("returns empty unresolved array when all specifiers resolve", async () => {
     const content = 'import { A } from "#platform/interfaces";\n';
     const outputFile = path.join(outDir, "index.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       importsMap,
@@ -645,7 +645,7 @@ describe("resolveImportsInContent unresolved tracking", () => {
     expect(result.unresolved).toEqual([]);
   });
 
-  it("reports unresolved when no condition matches", () => {
+  it("reports unresolved when no condition matches", async () => {
     const map: ImportsMap = {
       "#foo": { browser: "./src/foo-browser.ts" },
     };
@@ -653,7 +653,7 @@ describe("resolveImportsInContent unresolved tracking", () => {
     const content = 'import { X } from "#foo";\n';
     const outputFile = path.join(outDir, "index.js");
 
-    const result = resolveImportsInContent(
+    const result = await resolveImportsInContent(
       content,
       outputFile,
       map,
@@ -820,7 +820,7 @@ describe("build with default-on resolveImports", () => {
           outDir: "./dist/esm",
           rootDir: "./src",
           lib: ["ES2022"],
-          types: ["node"],
+          types: [],
           skipLibCheck: true,
         },
         include: ["./src/**/*.ts"],
@@ -1075,7 +1075,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/consumer.ts")],
       importsMap,
       tmpDir,
@@ -1100,7 +1100,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/consumer.ts")],
       importsMap,
       tmpDir,
@@ -1127,7 +1127,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/nodeTypes.ts")],
       importsMap,
       tmpDir,
@@ -1164,7 +1164,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/createPipelineFromOptions.ts")],
       importsMap,
       tmpDir,
@@ -1187,7 +1187,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/consumer.ts")],
       importsMap,
       tmpDir,
@@ -1215,7 +1215,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/consumer.ts")],
       importsMap,
       tmpDir,
@@ -1243,7 +1243,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/consumer.ts")],
       importsMap,
       tmpDir,
@@ -1272,7 +1272,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/consumer.ts")],
       importsMap,
       tmpDir,
@@ -1296,7 +1296,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/consumer.ts")],
       importsMap,
       tmpDir,
@@ -1320,7 +1320,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/consumer.ts")],
       importsMap,
       tmpDir,
@@ -1345,7 +1345,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/consumer.ts")],
       importsMap,
       tmpDir,
@@ -1373,7 +1373,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/consumer.ts")],
       importsMap,
       tmpDir,
@@ -1398,7 +1398,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/consumer.ts")],
       importsMap,
       tmpDir,
@@ -1428,7 +1428,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/state-cjs.cts")],
       importsMap,
       tmpDir,
@@ -1459,7 +1459,7 @@ describe("validateNoDirectImports", () => {
       },
     };
 
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [path.join(tmpDir, "src/consumer.ts")],
       importsMap,
       tmpDir,

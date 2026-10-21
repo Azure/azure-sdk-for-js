@@ -3,8 +3,8 @@
 
 /**
  * Public integration, stress, chaos, and fault injection tests for the warp
- * parallel mode.  These tests exercise the public `build()` API — no internal
- * WorkerPool access is used.
+ * --parallel compatibility flag. These tests exercise the same bounded native
+ * compiler path as ordinary builds.
  */
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
@@ -562,7 +562,7 @@ describe("parallel E2E integration", () => {
   // .d.ts copy optimization
   // -----------------------------------------------------------------------
 
-  it("secondary target with same sources gets .d.ts files copied from primary", async () => {
+  it("secondary module format emits complete .d.ts files", async () => {
     await setupProject(tmpDir, {
       sources: {
         "index.ts": [

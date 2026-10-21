@@ -7,7 +7,7 @@ import * as path from "node:path";
 import * as os from "node:os";
 import { stringify } from "yaml";
 import { build, sourceIdentity, optionsSignature } from "../../src/index.ts";
-import type ts from "typescript";
+import type { RawCompilerOptions } from "typescript/async";
 
 async function exists(p: string): Promise<boolean> {
   return fs.access(p).then(
@@ -45,7 +45,7 @@ describe("sourceIdentity", () => {
   });
 });
 
-describe("skip-typecheck optimization", () => {
+describe("native multi-target emit", () => {
   let tmpDir: string;
 
   beforeEach(async () => {
@@ -56,9 +56,8 @@ describe("skip-typecheck optimization", () => {
     await cleanup(tmpDir);
   });
 
-  it("skips type checking on secondary targets sharing same sources", async () => {
+  it("independently compiles different module formats sharing the same sources", async () => {
     // ESM and CJS share same source files but different module format.
-    // CJS should skip type checking (already done by ESM).
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.writeFile(
       path.join(tmpDir, "src/index.ts"),
@@ -122,10 +121,12 @@ describe("skip-typecheck optimization", () => {
     expect(await exists(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
     expect(await exists(path.join(tmpDir, "dist/cjs/index.js"))).toBe(true);
 
-    // CJS should have .d.ts files (copied from ESM)
+    expect(result.compileResults?.every((target) => !target.deduped)).toBe(true);
+
+    // Each compiler pass emits its own declarations.
     expect(await exists(path.join(tmpDir, "dist/cjs/index.d.ts"))).toBe(true);
 
-    // .d.ts files should be identical (copied)
+    // The declarations describe the same public API.
     const esmDts = await fs.readFile(path.join(tmpDir, "dist/esm/index.d.ts"), "utf-8");
     const cjsDts = await fs.readFile(path.join(tmpDir, "dist/cjs/index.d.ts"), "utf-8");
     expect(esmDts).toBe(cjsDts);
@@ -140,7 +141,7 @@ describe("skip-typecheck optimization", () => {
     expect(cjsJs).toMatch(/exports[.,]/);
   });
 
-  it("keeps NodeNext secondary target output as ESM on transpile fast path", async () => {
+  it("keeps NodeNext targets as ESM with different source-map options", async () => {
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.writeFile(path.join(tmpDir, "src/index.ts"), "export const marker = 1;\n");
 
@@ -198,7 +199,6 @@ describe("skip-typecheck optimization", () => {
     const esmJs = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
 
     expect(browserJs).toContain("export const marker = 1");
-    // esbuild splits "export const x = 1" into "const x = 1; export { x }"
     expect(esmJs).toMatch(/export\b/);
     expect(esmJs).toContain("marker");
     expect(esmJs).not.toContain("Object.defineProperty(exports");
@@ -222,8 +222,7 @@ describe("skip-typecheck optimization", () => {
       include: ["src/**/*.ts"],
     };
 
-    // Keep module=NodeNext but alter a non-semantic option so this target
-    // is not dedup-copied and must compile separately (skip-typecheck path).
+    // Changing source-map options requires an independent emit.
     const esmFastTsconfig = {
       compilerOptions: {
         outDir: "./dist/esm-fast",
@@ -295,13 +294,13 @@ describe("skip-typecheck optimization", () => {
     expect(esmFastJs).not.toMatch(/exports[.,]/);
     expect(cjsFastJs).toMatch(/exports[.,]/);
 
-    // Declarations are copied from the source group's primary output.
+    // Both native compiler passes emit declarations.
     expect(await exists(path.join(tmpDir, "dist/esm-fast/index.d.ts"))).toBe(true);
     expect(await exists(path.join(tmpDir, "dist/cjs-fast/index.d.ts"))).toBe(true);
   });
 });
 
-describe("polyfill + skip-typecheck interaction", () => {
+describe("polyfill + module-format isolation", () => {
   let tmpDir: string;
 
   beforeEach(async () => {
@@ -312,7 +311,7 @@ describe("polyfill + skip-typecheck interaction", () => {
     await cleanup(tmpDir);
   });
 
-  it("polyfill target gets its own type check, non-polyfill CJS skips", async () => {
+  it("independently compiles polyfill and CommonJS targets", async () => {
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.writeFile(
       path.join(tmpDir, "src/index.ts"),
@@ -404,7 +403,7 @@ describe("polyfill + skip-typecheck interaction", () => {
     const browserGreeter = await fs.readFile(path.join(tmpDir, "dist/browser/greeter.js"), "utf-8");
     expect(browserGreeter).toContain('"browser"');
 
-    // CJS: node implementation (skipped type check, copied dts)
+    // CJS: independently compiled node implementation.
     const cjsGreeter = await fs.readFile(path.join(tmpDir, "dist/cjs/greeter.js"), "utf-8");
     expect(cjsGreeter).toContain('"node"');
 
@@ -539,7 +538,7 @@ describe("parallel compilation", () => {
 
 describe("optionsSignature", () => {
   it("same options + same files + same suffix → same signature", () => {
-    const opts: ts.CompilerOptions = { module: 99, target: 99, strict: true };
+    const opts: RawCompilerOptions = { module: 99, target: 99, strict: true };
     const files = ["/a/b.ts", "/a/c.ts"];
     expect(optionsSignature(opts, files, "-browser")).toBe(
       optionsSignature(opts, files, "-browser"),
@@ -548,27 +547,27 @@ describe("optionsSignature", () => {
 
   it("different options → different signature", () => {
     const files = ["/a/b.ts"];
-    const optsA: ts.CompilerOptions = { module: 99, strict: true };
-    const optsB: ts.CompilerOptions = { module: 99, strict: false };
+    const optsA: RawCompilerOptions = { module: 99, strict: true };
+    const optsB: RawCompilerOptions = { module: 99, strict: false };
     expect(optionsSignature(optsA, files)).not.toBe(optionsSignature(optsB, files));
   });
 
   it("different lib sets → different signature", () => {
     const files = ["/a/b.ts"];
-    const optsA: ts.CompilerOptions = { module: 99, lib: ["lib.dom.d.ts"] };
-    const optsB: ts.CompilerOptions = { module: 99, lib: ["lib.webworker.d.ts"] };
+    const optsA: RawCompilerOptions = { module: 99, lib: ["lib.dom.d.ts"] };
+    const optsB: RawCompilerOptions = { module: 99, lib: ["lib.webworker.d.ts"] };
     expect(optionsSignature(optsA, files)).not.toBe(optionsSignature(optsB, files));
   });
 
   it("outDir is ignored in signature", () => {
     const files = ["/a/b.ts"];
-    const optsA: ts.CompilerOptions = { module: 99, outDir: "/dist/esm" };
-    const optsB: ts.CompilerOptions = { module: 99, outDir: "/dist/browser" };
+    const optsA: RawCompilerOptions = { module: 99, outDir: "/dist/esm" };
+    const optsB: RawCompilerOptions = { module: 99, outDir: "/dist/browser" };
     expect(optionsSignature(optsA, files)).toBe(optionsSignature(optsB, files));
   });
 
   it("same options + different suffix → different signature", () => {
-    const opts: ts.CompilerOptions = { module: 99 };
+    const opts: RawCompilerOptions = { module: 99 };
     const files = ["/a/b.ts"];
     expect(optionsSignature(opts, files, "-browser")).not.toBe(
       optionsSignature(opts, files, "-node"),
@@ -576,7 +575,7 @@ describe("optionsSignature", () => {
   });
 
   it("suffix vs no suffix → different signature", () => {
-    const opts: ts.CompilerOptions = { module: 99 };
+    const opts: RawCompilerOptions = { module: 99 };
     const files = ["/a/b.ts"];
     expect(optionsSignature(opts, files, "-browser")).not.toBe(
       optionsSignature(opts, files, undefined),

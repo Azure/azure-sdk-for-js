@@ -14,7 +14,8 @@ import * as path from "node:path";
 import { build } from "./build.ts";
 import type { BuildOptions } from "./build.ts";
 import { findWarpConfig } from "./config.ts";
-import { parseTargetTsConfig } from "./compiler.ts";
+import { Compiler } from "./compiler.ts";
+import type { ParsedTargetConfig } from "./compiler.ts";
 import { getLogger } from "./logger.ts";
 import { WarpError } from "./types.ts";
 
@@ -59,7 +60,13 @@ export async function watch(options: WatchOptions = {}): Promise<AbortController
       `[warp] No Warp configuration found in ${packageRoot}.\nCreate a warp.config.yml/warp.config.json file or add a "warp" key to package.json.`,
     );
   }
-  const parsedConfigs = resolved.config.targets.map((t) => parseTargetTsConfig(t, packageRoot));
+  const compiler = new Compiler(packageRoot);
+  let parsedConfigs: ParsedTargetConfig[];
+  try {
+    parsedConfigs = await compiler.parseTargets(resolved.config.targets, packageRoot);
+  } finally {
+    await compiler.close();
+  }
 
   // Collect unique rootDirs to watch
   const watchDirs = [...new Set(parsedConfigs.map((pc) => path.resolve(pc.rootDir)))];

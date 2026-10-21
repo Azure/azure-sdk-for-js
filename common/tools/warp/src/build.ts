@@ -3,8 +3,9 @@
 
 import * as path from "node:path";
 import { findWarpConfig, validateTsconfigPaths } from "./config.ts";
-import { compileAllTargets, parseTargetTsConfig } from "./compiler.ts";
+import { Compiler } from "./compiler.ts";
 import type { CompileResult, ParsedTargetConfig } from "./compiler.ts";
+import type { API } from "typescript/async";
 import { formatDiagnostics } from "./diagnostics.ts";
 import {
   resolveExportsMap,
@@ -37,7 +38,7 @@ export interface BuildOptions {
   dryRun?: boolean;
   /** When true (default), remove outDirs before compilation. */
   clean?: boolean;
-  /** When true, compile independent targets in parallel using worker threads. */
+  /** @deprecated Native TypeScript manages parallelism; this compatibility flag is ignored. */
   parallel?: boolean;
   /** When true, compute and display the size/API-surface report after building. */
   stats?: boolean;
@@ -63,6 +64,7 @@ export interface BuildResult {
 /** Step 1: Resolve and validate configuration. */
 async function resolveStep(
   packageRoot: string,
+  compiler: Compiler,
   configPath?: string,
   target?: string[],
   preResolved?: ResolvedWarpConfig,
@@ -113,9 +115,9 @@ async function resolveStep(
   );
   log.info(`[warp] Targets: ${config.targets.map((t) => `${t.name} (${t.condition})`).join(", ")}`);
 
-  const parsedConfigs = config.targets.map((t) => parseTargetTsConfig(t, packageRoot));
+  const parsedConfigs = await compiler.parseTargets(config.targets, packageRoot);
 
-  // Populate resolvedImports so programIdentity can differentiate targets
+  // Populate resolvedImports so deduplication can differentiate targets
   // that resolve #-prefixed imports to different files (e.g., browser vs
   // react-native mapping #platform/* to different platform variants).
   // Note: this resolves all keys in package.json "imports", which may
@@ -152,54 +154,22 @@ async function resolveStep(
   return { resolved, parsedConfigs, importsMap };
 }
 
-/** Step 2: Compile all targets. */
-async function compileStep(
-  parsedConfigs: ParsedTargetConfig[],
-  options: BuildOptions,
-  packageRoot: string,
-): Promise<{ results: CompileResult[]; compileTimeMs: number }> {
-  const log = getLogger();
-  const targetCount = parsedConfigs.length;
-  log.info("");
-  log.info(`[warp] Compiling ${targetCount} target(s)...`);
-  const compileStart = performance.now();
-
-  let results: CompileResult[];
-
-  if (options.parallel) {
-    const { compileAllTargetsParallel } = await import("./parallel.js");
-    results = await compileAllTargetsParallel(parsedConfigs, {
-      clean: options.clean ?? true,
-      packageRoot,
-    });
-  } else {
-    results = await compileAllTargets(parsedConfigs, {
-      clean: options.clean ?? true,
-      packageRoot,
-    });
-  }
-
-  return { results, compileTimeMs: performance.now() - compileStart };
-}
-
 /** Step 3: Report diagnostics, rewrite exports, optionally generate size report. */
 async function postCompileStep(
   results: CompileResult[],
   config: WarpConfig,
   packageRoot: string,
-  parallel: boolean,
   stats: boolean,
   skipPackageJsonUpdate: boolean,
+  api: API,
 ): Promise<{ sizeReport: SizeReport | undefined; missingFiles: string[] }> {
   const log = getLogger();
 
   // Report diagnostics
-  if (!parallel) {
-    const diagnosticOutput = formatDiagnostics(results);
-    if (diagnosticOutput) {
-      log.info("");
-      log.info(diagnosticOutput);
-    }
+  const diagnosticOutput = formatDiagnostics(results);
+  if (diagnosticOutput) {
+    log.info("");
+    log.info(diagnosticOutput);
   }
 
   // Rewrite exports in package.json
@@ -223,7 +193,7 @@ async function postCompileStep(
   // Size report (opt-in via --stats)
   let sizeReport: SizeReport | undefined;
   if (stats) {
-    sizeReport = await generateSizeReport(results, config, packageRoot);
+    sizeReport = await generateSizeReport(results, config, packageRoot, api);
     log.info("");
     log.info(formatSizeReport(sizeReport));
 
@@ -244,14 +214,27 @@ async function postCompileStep(
  * Run the Warp build pipeline.
  */
 export async function build(options: BuildOptions = {}): Promise<BuildResult> {
+  const compiler = new Compiler(options.cwd ?? process.cwd());
+  try {
+    return await buildWithCompiler(options, compiler);
+  } finally {
+    await compiler.close();
+  }
+}
+
+async function buildWithCompiler(options: BuildOptions, compiler: Compiler): Promise<BuildResult> {
   const log = getLogger();
   const buildStart = performance.now();
   const cwd = options.cwd ?? process.cwd();
   const packageRoot = path.resolve(cwd);
+  if (options.parallel) {
+    log.warn("[warp] --parallel is deprecated: native TypeScript manages compiler parallelism.");
+  }
 
   // Step 1: Resolve config
   const { resolved, parsedConfigs, importsMap } = await resolveStep(
     packageRoot,
+    compiler,
     options.configPath,
     options.target,
     options.config,
@@ -293,11 +276,12 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     // If polyfillSuffix is configured but no files exist, the build will fail
     // later anyway. Calling discoverPolyfills here would add I/O overhead.
     const usesPolyfill = config.targets.some((t) => t.polyfillSuffix);
-    const violations = validateNoDirectImports(
+    const violations = await validateNoDirectImports(
       [...allSourceFiles],
       importsMap,
       packageRoot,
       !usesPolyfill,
+      compiler.api,
     );
 
     if (violations.length > 0) {
@@ -342,17 +326,15 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   }
 
   // Step 2: Compile
-  const { results, compileTimeMs } = await compileStep(parsedConfigs, options, packageRoot);
+  const { results, compileTimeMs } = await compiler.compileTargets(parsedConfigs, options);
 
   // Check for errors
   const hasErrors = results.some((r) => !r.success);
   if (hasErrors) {
-    if (!options.parallel) {
-      const diagnosticOutput = formatDiagnostics(results);
-      if (diagnosticOutput) {
-        log.info("");
-        log.info(diagnosticOutput);
-      }
+    const diagnosticOutput = formatDiagnostics(results);
+    if (diagnosticOutput) {
+      log.info("");
+      log.info(diagnosticOutput);
     }
     const failedTargets = results.filter((r) => !r.success).map((r) => r.target.name);
     log.error(`\n[warp] Build failed for targets: ${failedTargets.join(", ")}`);
@@ -383,6 +365,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
         conditions,
         pc.rootDir,
         packageRoot,
+        compiler.api,
       );
       if (filesChanged > 0) {
         log.info(`[warp] [${pc.target.name}] resolveImports: ${filesChanged} file(s) updated`);
@@ -434,9 +417,9 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     results,
     config,
     packageRoot,
-    !!options.parallel,
     !!options.stats,
     !!(options.target && options.target.length > 0),
+    compiler.api,
   );
 
   // Fail the build if expected dist files are missing

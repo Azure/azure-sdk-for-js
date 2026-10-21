@@ -7,7 +7,6 @@ import * as path from "node:path";
 import * as os from "node:os";
 import { validateNoDirectImports } from "../../src/resolveImports.ts";
 import type { ImportsMap } from "../../src/resolveImports.ts";
-import ts from "typescript";
 
 async function createTmpDir(): Promise<string> {
   return await fs.mkdtemp(path.join(os.tmpdir(), "warp-platform-validation-"));
@@ -15,14 +14,11 @@ async function createTmpDir(): Promise<string> {
 
 async function collectSourceFiles(srcDir: string): Promise<string[]> {
   const sourceFiles: string[] = [];
-  if (!ts.sys.directoryExists(srcDir)) return sourceFiles;
-  for (const entry of ts.sys.readDirectory(srcDir, [".ts", ".mts", ".cts"], [], [])) {
-    // Normalize to OS-native separators so paths match regex patterns
-    // built by buildImportTargetIndex (which uses path.resolve).
-    sourceFiles.push(path.resolve(entry));
-  }
-  for (const subdir of ts.sys.getDirectories(srcDir)) {
-    sourceFiles.push(...(await collectSourceFiles(path.join(srcDir, subdir))));
+  const entries = await fs.readdir(srcDir, { withFileTypes: true, recursive: true });
+  for (const entry of entries) {
+    if (entry.isFile() && /\.(?:ts|mts|cts)$/.test(entry.name)) {
+      sourceFiles.push(path.join(entry.parentPath, entry.name));
+    }
   }
   return sourceFiles;
 }
@@ -49,7 +45,7 @@ describe("validateNoDirectImports with platform file validation", () => {
   async function validate() {
     const srcDir = path.join(tmpDir, "src");
     const sourceFiles = await collectSourceFiles(srcDir);
-    return validateNoDirectImports(sourceFiles, importsMap, tmpDir, true);
+    return await validateNoDirectImports(sourceFiles, importsMap, tmpDir, true);
   }
 
   it("returns empty array when no platform files exist", async () => {
@@ -208,7 +204,7 @@ export { a, b };`,
 
     const srcDir = path.join(tmpDir, "src");
     const sourceFiles = await collectSourceFiles(srcDir);
-    const violations = validateNoDirectImports(sourceFiles, exactImportsMap, tmpDir, true);
+    const violations = await validateNoDirectImports(sourceFiles, exactImportsMap, tmpDir, true);
 
     expect(violations).toHaveLength(1);
     expect(violations[0].targetPlatform).toBe("browser");
@@ -233,7 +229,7 @@ export { a, b };`,
 
     const srcDir = path.join(tmpDir, "src");
     const sourceFiles = await collectSourceFiles(srcDir);
-    const violations = validateNoDirectImports(sourceFiles, ctsImportsMap, tmpDir, true);
+    const violations = await validateNoDirectImports(sourceFiles, ctsImportsMap, tmpDir, true);
 
     expect(violations).toHaveLength(1);
     expect(violations[0].targetPlatform).toBe("require");
@@ -255,11 +251,16 @@ export { a, b };`,
     const sourceFiles = await collectSourceFiles(srcDir);
 
     // With validatePlatformFiles=false, no violations should be reported
-    const violations = validateNoDirectImports(sourceFiles, importsMap, tmpDir, false);
+    const violations = await validateNoDirectImports(sourceFiles, importsMap, tmpDir, false);
     expect(violations).toEqual([]);
 
     // Verify that with validatePlatformFiles=true, it would find a violation
-    const violationsWithValidation = validateNoDirectImports(sourceFiles, importsMap, tmpDir, true);
+    const violationsWithValidation = await validateNoDirectImports(
+      sourceFiles,
+      importsMap,
+      tmpDir,
+      true,
+    );
     expect(violationsWithValidation).toHaveLength(1);
   });
 
@@ -281,7 +282,7 @@ export { a, b };`,
 
     const srcDir = path.join(tmpDir, "src");
     const sourceFiles = await collectSourceFiles(srcDir);
-    const violations = validateNoDirectImports(sourceFiles, importsMap, tmpDir, true);
+    const violations = await validateNoDirectImports(sourceFiles, importsMap, tmpDir, true);
 
     expect(violations).toHaveLength(2);
     const platforms = violations.map((v) => v.targetPlatform).sort();
@@ -303,7 +304,7 @@ export { a, b };`,
     const sourceFiles = await collectSourceFiles(srcDir);
 
     // Call without explicit validatePlatformFiles parameter (should default to false)
-    const violations = validateNoDirectImports(sourceFiles, importsMap, tmpDir);
+    const violations = await validateNoDirectImports(sourceFiles, importsMap, tmpDir);
     expect(violations).toEqual([]);
   });
 });

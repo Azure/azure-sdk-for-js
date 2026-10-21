@@ -2,41 +2,39 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect } from "vitest";
-import * as ts from "typescript";
+import { DiagnosticCategory } from "typescript/async";
+import type { Diagnostic } from "typescript/async";
+import { toRootedFilePath } from "typescript/path";
+import * as path from "node:path";
 import { formatDiagnostics } from "../../src/index.ts";
 import type { CompileResult } from "../../src/index.ts";
 
 function makeDiagnostic(
-  category: ts.DiagnosticCategory,
+  category: DiagnosticCategory,
   code: number,
   messageText: string,
   fileName?: string,
   line?: number,
   character?: number,
-): ts.Diagnostic {
+): Diagnostic {
   if (fileName && line !== undefined && character !== undefined) {
-    // Create a minimal source file to test file-based diagnostics
-    const sourceText = "\n".repeat(line) + " ".repeat(character) + "x";
-    const sourceFile = ts.createSourceFile(fileName, sourceText, ts.ScriptTarget.Latest);
-    const start = ts.getPositionOfLineAndCharacter(sourceFile, line, character);
-
     return {
       category,
       code,
-      messageText,
-      file: sourceFile,
-      start,
-      length: 1,
+      text: messageText,
+      fileName: toRootedFilePath(path.resolve(fileName).split(path.sep).join("/"), undefined),
+      pos: 0,
+      end: 1,
+      startPosition: { line, character },
     };
   }
 
   return {
     category,
     code,
-    messageText,
-    file: undefined,
-    start: undefined,
-    length: undefined,
+    text: messageText,
+    pos: 0,
+    end: 0,
   };
 }
 
@@ -60,7 +58,7 @@ describe("formatDiagnostics", () => {
     const results: CompileResult[] = [
       {
         target: { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
-        diagnostics: [makeDiagnostic(ts.DiagnosticCategory.Error, 2322, "Type mismatch")],
+        diagnostics: [makeDiagnostic(DiagnosticCategory.Error, 2322, "Type mismatch")],
         success: false,
         outDir: "dist/esm",
         rootDir: "src",
@@ -80,7 +78,7 @@ describe("formatDiagnostics", () => {
         target: { name: "browser", condition: "browser", tsconfig: "./tsconfig.browser.json" },
         diagnostics: [
           makeDiagnostic(
-            ts.DiagnosticCategory.Error,
+            DiagnosticCategory.Error,
             2339,
             "Property 'subtle' does not exist",
             "src/crypto/subtle.ts",
@@ -105,7 +103,7 @@ describe("formatDiagnostics", () => {
     const results: CompileResult[] = [
       {
         target: { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
-        diagnostics: [makeDiagnostic(ts.DiagnosticCategory.Error, 2322, "Error in ESM")],
+        diagnostics: [makeDiagnostic(DiagnosticCategory.Error, 2322, "Error in ESM")],
         success: false,
         outDir: "dist/esm",
         rootDir: "src",
@@ -114,7 +112,7 @@ describe("formatDiagnostics", () => {
       },
       {
         target: { name: "cjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
-        diagnostics: [makeDiagnostic(ts.DiagnosticCategory.Warning, 6059, "Warning in CJS")],
+        diagnostics: [makeDiagnostic(DiagnosticCategory.Warning, 6059, "Warning in CJS")],
         success: true,
         outDir: "dist/commonjs",
         rootDir: "src",

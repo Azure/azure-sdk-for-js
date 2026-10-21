@@ -46,7 +46,7 @@ describe("parseTargetTsConfig", () => {
       tsconfig: "./tsconfig.esm.json",
     };
 
-    const result = parseTargetTsConfig(target, tmpDir);
+    const result = await parseTargetTsConfig(target, tmpDir);
     expect(result.outDir).toContain("dist/esm");
     expect(result.rootDir).toContain("src");
     expect(result.parsedConfig.fileNames.length).toBeGreaterThan(0);
@@ -71,7 +71,7 @@ describe("parseTargetTsConfig", () => {
       tsconfig: "./tsconfig.esm.json",
     };
 
-    expect(() => parseTargetTsConfig(target, tmpDir)).toThrow('must specify "outDir"');
+    await expect(parseTargetTsConfig(target, tmpDir)).rejects.toThrow('must specify "outDir"');
   });
 
   it("warns but does not throw when rootDir is missing", async () => {
@@ -94,7 +94,7 @@ describe("parseTargetTsConfig", () => {
     };
 
     // Should not throw
-    const result = parseTargetTsConfig(target, tmpDir);
+    const result = await parseTargetTsConfig(target, tmpDir);
     expect(result.outDir).toContain("dist/esm");
   });
 
@@ -118,8 +118,8 @@ describe("parseTargetTsConfig", () => {
 
     // TypeScript detects "No inputs" and our code wraps it in a WarpError.
     // The safety-net check for zero fileNames provides defense-in-depth.
-    expect(() => parseTargetTsConfig(target, tmpDir)).toThrow(WarpError);
-    expect(() => parseTargetTsConfig(target, tmpDir)).toThrow("No inputs were found");
+    await expect(parseTargetTsConfig(target, tmpDir)).rejects.toThrow(WarpError);
+    await expect(parseTargetTsConfig(target, tmpDir)).rejects.toThrow("No inputs were found");
   });
 
   it("includes extends hint when tsconfig references missing base config", async () => {
@@ -141,7 +141,7 @@ describe("parseTargetTsConfig", () => {
       tsconfig: "./tsconfig.esm.json",
     };
 
-    expect(() => parseTargetTsConfig(target, tmpDir)).toThrow(WarpError);
-    expect(() => parseTargetTsConfig(target, tmpDir)).toThrow(/extends/i);
+    await expect(parseTargetTsConfig(target, tmpDir)).rejects.toThrow(WarpError);
+    await expect(parseTargetTsConfig(target, tmpDir)).rejects.toThrow(/extends/i);
   });
 });

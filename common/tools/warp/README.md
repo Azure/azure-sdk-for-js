@@ -2,7 +2,55 @@
 
 Multi-format TypeScript build tool for the Azure SDK. Takes one source tree, compiles it to multiple output formats (ESM, CJS, browser, whatever) and wires up your `package.json` exports — all from a single config.
 
-Requires **Node.js ≥ 20.0.0**.
+Requires **Node.js ≥ 22.0.0**.
+
+## TypeScript 7.1 beta prototype
+
+Warp now depends directly on `typescript@7.1.0-beta`, for both its `tsc` build
+script and compiler API. Run `warp build` as usual: there is no opt-in flag,
+aliased compiler, or TypeScript 6 fallback. The workspace TypeScript catalog is
+unchanged; this migration is scoped to Warp.
+
+Each build owns **one `typescript/async` API client and native compiler process**.
+The client handles tsconfig parsing, all compilation targets, import analysis,
+and optional API-surface reporting. Targets run sequentially; each gets an
+isolated snapshot with a `typescript/fs` filesystem layer containing polyfill
+source substitutions and virtual CommonJS package manifests. Other reads and
+emit writes go directly to the native filesystem. Programs, snapshots, retained
+source-file leases, and the client are disposed on success and failure.
+Watch rebuilds start fresh build clients so changed files cannot reuse stale
+snapshots.
+
+This deliberately removes the JavaScript worker pool, custom `CompilerHost`,
+shared JavaScript AST cache, and esbuild re-emit path. The native compiler
+manages its own threading. `--parallel` is accepted only for CLI compatibility
+and emits a deprecation warning; it does not start additional compiler processes.
+Concurrent independent `build()` calls each own a process, so callers should
+also bound package-level concurrency.
+
+**Prototype limits:** project-reference builds, `noEmit`, and
+`emitDeclarationOnly` fail explicitly. TypeScript 7's removed options (for
+example `moduleResolution: "Node10"`) produce native diagnostics, not a fallback.
+CommonJS targets should use Node16/NodeNext resolution with
+`moduleType: commonjs`. Native emit honors source-map options such as
+`inlineSources`; it no longer adds embedded source content unconditionally.
+
+**Lint is an upstream blocker, not a passing check.** The unchanged
+typescript-eslint configuration rejects TypeScript 7 before linting files.
+Its [supported range](https://typescript-eslint.io/users/dependency-versions/)
+is still below 6.1. Native support is tracked in
+[typescript-eslint/typescript-eslint#10940](https://github.com/typescript-eslint/typescript-eslint/issues/10940)
+and the unmerged
+[typescript-eslint/typescript-eslint#12803](https://github.com/typescript-eslint/typescript-eslint/pull/12803).
+No alternate compiler or disabled lint rules are used to conceal this.
+
+The focused `test/public/native.spec.ts` suite exercises a five-target build
+with three native compilations and two copies, asserts a single API client,
+and verifies that every target snapshot is disposed before the next is created.
+It also covers exceptional disposal, diagnostics, config inheritance,
+CommonJS/polyfill isolation, watch rebuilds, CLI JSON, and shared-client stats.
+Vitest is capped at two workers so the test suite does not start one native
+compiler process per CPU either.
 
 ## Install
 
@@ -22,27 +70,27 @@ warp <command> [options]
 
 ### Commands
 
-| Command | What it does |
-| ------- | ------------ |
-| `build` | Compile all targets defined in your config |
-| `watch` | Build then watch for source changes and rebuild |
+| Command | What it does                                                     |
+| ------- | ---------------------------------------------------------------- |
+| `build` | Compile all targets defined in your config                       |
+| `watch` | Build then watch for source changes and rebuild                  |
 | `init`  | Scaffold a new `warp.config.yml` by detecting existing tsconfigs |
-| `help`  | Print usage info |
+| `help`  | Print usage info                                                 |
 
 ### Options
 
-| Flag | Description |
-| ---- | ----------- |
-| `--config <path>` | Path to a warp config file (resolved relative to cwd) |
-| `--dry-run` | Validate config and show an exports diff — nothing gets compiled or written |
-| `--no-clean` | Skip wiping `outDir`s before compilation |
-| `--parallel` | Compile independent targets in parallel using worker threads (off by default) |
+| Flag              | Description                                                                            |
+| ----------------- | -------------------------------------------------------------------------------------- |
+| `--config <path>` | Path to a warp config file (resolved relative to cwd)                                  |
+| `--dry-run`       | Validate config and show an exports diff — nothing gets compiled or written            |
+| `--no-clean`      | Skip wiping `outDir`s before compilation                                               |
+| `--parallel`      | Deprecated compatibility flag; native TypeScript manages parallelism                   |
 | `--target <name>` | Only build targets matching the given name(s). Repeatable: `--target esm --target cjs` |
-| `--stats` | Compute and display a size and API surface report after building |
-| `--json` | Output machine-readable JSON (implies `--quiet`). Useful for CI integrations |
-| `--verbose` | Print debug-level detail (cache hits, file lists) |
-| `--quiet` | Suppress all output except errors |
-| `--help` | Show help |
+| `--stats`         | Compute and display a size and API surface report after building                       |
+| `--json`          | Output machine-readable JSON (implies `--quiet`). Useful for CI integrations           |
+| `--verbose`       | Print debug-level detail (cache hits, file lists)                                      |
+| `--quiet`         | Suppress all output except errors                                                      |
+| `--help`          | Show help                                                                              |
 
 ## Configuration
 
@@ -94,13 +142,13 @@ Map of subpath patterns → source file paths. Keys are Node.js subpath export k
 
 Ordered array of build targets. Declaration order controls the condition key order in the generated `package.json` exports.
 
-| Field | Type | Required | Description |
-| ----- | ---- | -------- | ----------- |
-| `name` | `string` | ✅ | Identifier used in logs, size reports, and dedup. Must be unique across targets |
-| `condition` | `string` | — | Node.js exports condition (`import`, `require`, `browser`, `react-native`, anything). Defaults to `name`. Must be unique across targets |
-| `tsconfig` | `string` | ✅ | Path to the target's tsconfig. Must set `outDir`; should set `rootDir`. Must point to an existing file |
-| `polyfillSuffix` | `string \| true \| false` | — | Per-target file substitution suffix (see below). Set to `true` to use `-<name>`, or a custom string. Omit or set to `false` to disable |
-| `moduleType` | `"module"` \| `"commonjs"` | — | Module type for the `outDir` package.json shim. Auto-inferred from tsconfig if omitted (`ts.ModuleKind.CommonJS` → `"commonjs"`, everything else → `"module"`) |
+| Field            | Type                       | Required | Description                                                                                                                                                    |
+| ---------------- | -------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`           | `string`                   | ✅       | Identifier used in logs, size reports, and dedup. Must be unique across targets                                                                                |
+| `condition`      | `string`                   | —        | Node.js exports condition (`import`, `require`, `browser`, `react-native`, anything). Defaults to `name`. Must be unique across targets                        |
+| `tsconfig`       | `string`                   | ✅       | Path to the target's tsconfig. Must set `outDir`; should set `rootDir`. Must point to an existing file                                                         |
+| `polyfillSuffix` | `string \| true \| false`  | —        | Per-target file substitution suffix (see below). Set to `true` to use `-<name>`, or a custom string. Omit or set to `false` to disable                         |
+| `moduleType`     | `"module"` \| `"commonjs"` | —        | Module type for the `outDir` package.json shim. Auto-inferred from tsconfig if omitted (`ts.ModuleKind.CommonJS` → `"commonjs"`, everything else → `"module"`) |
 
 **Validation rules:**
 
@@ -180,32 +228,24 @@ Import resolution and `polyfillSuffix` are orthogonal and can coexist on the sam
 
 ### Target deduplication
 
-Targets with identical compiler options, source files, and effective polyfill suffix are compiled once, then the output is copied. Saves real time when you have targets that only differ in `outDir`. The dedup signature includes a hash of the sorted file list to prevent incorrect dedup when targets have different `include`/`exclude` patterns.
+Exact semantic matches are compiled once, then their complete outputs are
+copied. The identity includes all compiler options (including nested values),
+root files, actual overlay contents, module type, and resolved imports.
+Configured polyfill suffixes with no replacements do not prevent deduplication.
 
-### Source-group type checking
-
-Targets sharing the same source files only get type-checked once. The first target in a source group runs full diagnostics; subsequent targets skip `getPreEmitDiagnostics` (~30 % faster per skipped target).
-
-### Declaration sharing
-
-When multiple targets differ only in module format (same source files), `.d.ts` files are emitted once and copied to the other targets' `outDir`s (~17 % faster).
-
-### esbuild fast transpilation
-
-For targets that skip type-checking (e.g. CommonJS re-emit of already-validated sources), Warp uses [esbuild](https://esbuild.github.io/) instead of `ts.transpileModule`. esbuild transpiles all files concurrently via `Promise.all`, making it ~30% faster than synchronous alternatives for large packages. If `esbuild` is not installed, Warp falls back to the TypeScript transpiler automatically.
+This prototype is intentionally conservative: copied targets must have sibling
+`outDir`s to keep relative source/declaration maps valid. Incremental/composite
+targets and targets with external declaration or build-info output always get
+their own emit. Targets with different type-checking options are independently
+checked, even when their JavaScript could be identical. Different module formats
+are emitted by TypeScript rather than transformed from another target.
 
 ### Parallel compilation
 
-Pass `--parallel` to spin up worker threads (one per CPU, capped to the number of compilation groups). Each worker pre-loads TypeScript once (~300 ms), then stays alive to process multiple compile tasks via message passing. Independent source groups compile simultaneously; dependent groups respect the DAG ordering.
-
-Sequential mode (the default) is typically faster for most packages because esbuild makes the transpile-only targets near-instant, eliminating work that would benefit from parallelism. Parallel mode can help when you have multiple targets that each require full type-checking with different compiler options.
-
-The parallel orchestrator:
-
-- Uses Kahn's algorithm for cycle detection — throws immediately if the task graph has cycles.
-- Pre-discovers polyfills on the main thread and passes the map to workers to avoid redundant filesystem I/O.
-- Handles `.d.ts` copying and dedup copying on the main thread (since they write to independent directories).
-- If a worker crashes, the error includes the target name for context and suggests retrying without `--parallel`.
+Native TypeScript manages compiler threads within one process. Warp does not
+multiply native processes by CPU count. `--parallel` is a deprecated
+compatibility flag; it uses the same one-target-at-a-time queue as other builds.
+Output copies retain bounded filesystem concurrency.
 
 ### Watch mode
 
@@ -227,9 +267,11 @@ The programmatic `watch()` function returns an `AbortController` for stopping th
 
 At levels below `verbose`, info and verbose messages are buffered instead of printed. On successful builds the buffer is discarded. On failure, `flush()` replays the full message buffer to stderr so you see the complete diagnostic trail without needing to re-run with `--verbose`.
 
-### Shared source file cache
+### Snapshot isolation
 
-In sequential mode, parsed `ts.SourceFile` objects are cached across targets with the same `ScriptTarget`. Parse once, reuse everywhere. The cache is bounded (max 10,000 entries) with LRU eviction. In parallel mode, each worker maintains its own cache that persists across all tasks assigned to that worker.
+Each target's filesystem view belongs to its native snapshot. CommonJS manifests
+and polyfill contents cannot poison another target's AST or module-format state.
+Only diagnostics and ordinary result data survive snapshot disposal.
 
 ### Target filtering
 
@@ -308,32 +350,30 @@ console.log(result.sizeReport); // SizeReport with per-target metrics
 | `validateOutDirs(configs)`                              | Verify that all targets have distinct `outDir`s                             |
 | `inferModuleType(moduleKind)`                           | Map TS module kind → `"module"` / `"commonjs"`                              |
 | `discoverPolyfills(files, suffix)`                      | Find polyfill files for a suffix                                            |
-| `groupBySignature(configs, getEffectiveSuffix?)`        | Group targets by options signature for dedup                                |
 | `optionsSignature(options, fileNames, polyfillSuffix?)` | Compute a dedup signature for a target's compiler options + file list       |
-| `sourceIdentity(fileNames, polyfillSuffix?)`            | Compute a source identity hash for type-check grouping                      |
+| `sourceIdentity(fileNames, polyfillSuffix?)`            | Compute a source identity hash                                              |
+| `parseTargetTsConfig(target, root, api?)`               | Asynchronously parse a target using the native API                          |
 | `cleanOutDir(dir)`                                      | `rm -rf` a directory (async)                                                |
 | `copyDir(src, dest)`                                    | Recursive async copy with correct symlink handling                          |
-| `copyDtsFiles(src, dest)`                               | Async copy of `.d.ts`/`.d.ts.map` files only                                |
 | `verifyDistFiles(exports, root)`                        | Check dist files exist (`.js`, `.d.ts`, `.d.ts.map`)                        |
 | `formatDiagnostics(results)`                            | Format diagnostics from compile results grouped by target                   |
-| `formatSingleDiagnostic(diag, prefix)`                  | Format a single `ts.Diagnostic` with a prefix                               |
-| `diagnosticCategoryLabel(category)`                     | Map `ts.DiagnosticCategory` to `"error"` / `"warning"` / etc.               |
+| `formatSingleDiagnostic(diag, prefix)`                  | Format a native diagnostic, preserving chains and related information       |
+| `diagnosticCategoryLabel(category)`                     | Map a diagnostic category to `"error"` / `"warning"` / etc.                 |
 | `resolveSubpathImport(specifier, map, conditions)`      | Resolve a `#`-prefixed specifier against a `package.json` `imports` map     |
-| `resolveImportsInContent(content, path, ...)`           | Resolve all `#`-prefixed specifiers in a string                             |
+| `resolveImportsInContent(content, path, ...)`           | Asynchronously resolve all `#`-prefixed specifiers in a string              |
 | `resolveImportsInDir(outDir, map, conditions, ...)`     | Post-process all files in an output directory                               |
 | `readPackageImports(packageRoot)`                       | Read the `imports` field from `package.json`                                |
 | `buildConditionsSet(customConditions, moduleType)`      | Build the conditions set for a target                                       |
 | `sourcePathToOutputPath(source, rootDir, outDir, root)` | Map a source file path to its output path                                   |
-| `createCachedHost(options, cache)`                      | Create a `CompilerHost` backed by a `SharedSourceFileCache`                 |
-| `createPolyfillHost(options, polyfillMap, cache)`       | Create a `CompilerHost` that substitutes polyfill content                   |
+| `validateNoDirectImports(files, map, root, ...)`        | Asynchronously check source imports using retained native AST leases        |
 
 #### Classes
 
-| Export                  | Description                                                                 |
-| ----------------------- | --------------------------------------------------------------------------- |
-| `SharedSourceFileCache` | Reusable parsed-`SourceFile` cache (bounded, max 10k entries, LRU eviction) |
-| `Logger`                | Structured logger with configurable level and message buffering             |
-| `WarpError`             | Structured error with `.code` field and optional `.cause`                   |
+| Export      | Description                                                           |
+| ----------- | --------------------------------------------------------------------- |
+| `Compiler`  | Build-scoped native API lifecycle; advanced callers must `close()` it |
+| `Logger`    | Structured logger with configurable level and message buffering       |
+| `WarpError` | Structured error with `.code` field and optional `.cause`             |
 
 #### Logger utilities
 
@@ -373,6 +413,6 @@ console.log(result.sizeReport); // SizeReport with per-target metrics
 | `CONFIG_NOT_FOUND` | No config file or `"warp"` key found                                                                                |
 | `CONFIG_INVALID`   | Config exists but doesn't pass validation (wrong types, missing fields)                                             |
 | `TSCONFIG_ERROR`   | Target tsconfig can't be read, parsed, or has missing `outDir`. Includes hints for missing `"extends"` base configs |
-| `COMPILE_ERROR`    | TypeScript compilation failed, worker thread crashed, or task graph cycle detected                                  |
+| `COMPILE_ERROR`    | Native TypeScript could not complete compilation or emit                                                            |
 | `VALIDATION_ERROR` | Duplicate target names/conditions, overlapping outDirs, invalid subpath patterns, unknown `--target` targets        |
 | `DIST_MISSING`     | Referenced dist files don't exist after compilation                                                                 |

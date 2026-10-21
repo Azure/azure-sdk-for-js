@@ -18,8 +18,18 @@
  */
 
 import * as fsp from "node:fs/promises";
+import { statSync } from "node:fs";
 import * as path from "node:path";
-import ts from "typescript";
+import * as ts from "typescript/ast";
+import {
+  isImportDeclaration,
+  isExportDeclaration,
+  isCallExpression,
+  isIdentifier,
+  isStringLiteral,
+} from "typescript/ast/is";
+import type { API } from "typescript/async";
+import { withCompilerApi, withSourceFile } from "./compilerApi.ts";
 import { getLogger } from "./logger.ts";
 
 // ---------------------------------------------------------------------------
@@ -260,25 +270,25 @@ function collectHashSpecifiers(sourceFile: ts.SourceFile): SpecifierLocation[] {
     let specNode: ts.StringLiteral | undefined;
 
     if (
-      ts.isImportDeclaration(node) &&
+      isImportDeclaration(node) &&
       node.moduleSpecifier &&
-      ts.isStringLiteral(node.moduleSpecifier)
+      isStringLiteral(node.moduleSpecifier)
     ) {
       specNode = node.moduleSpecifier;
     } else if (
-      ts.isExportDeclaration(node) &&
+      isExportDeclaration(node) &&
       node.moduleSpecifier &&
-      ts.isStringLiteral(node.moduleSpecifier)
+      isStringLiteral(node.moduleSpecifier)
     ) {
       specNode = node.moduleSpecifier;
-    } else if (ts.isCallExpression(node)) {
+    } else if (isCallExpression(node)) {
       const expr = node.expression;
       const firstArg = node.arguments[0];
       if (
         (expr.kind === ts.SyntaxKind.ImportKeyword ||
-          (ts.isIdentifier(expr) && expr.text === "require")) &&
+          (isIdentifier(expr) && expr.text === "require")) &&
         firstArg &&
-        ts.isStringLiteral(firstArg)
+        isStringLiteral(firstArg)
       ) {
         specNode = firstArg;
       }
@@ -292,7 +302,7 @@ function collectHashSpecifiers(sourceFile: ts.SourceFile): SpecifierLocation[] {
       });
     }
 
-    ts.forEachChild(node, visit);
+    node.forEachChild(visit);
   }
 
   visit(sourceFile);
@@ -324,7 +334,7 @@ interface ResolvedTarget {
  * @param packageRoot - Absolute path to the package root
  * @returns The modified content, whether any changes were made, unresolved specifiers, and resolved targets
  */
-export function resolveImportsInContent(
+export async function resolveImportsInContent(
   content: string,
   outputFilePath: string,
   importsMap: ImportsMap,
@@ -332,15 +342,14 @@ export function resolveImportsInContent(
   rootDir: string,
   outDir: string,
   packageRoot: string,
-): { content: string; changed: boolean; unresolved: string[]; resolvedTargets: ResolvedTarget[] } {
-  const sourceFile = ts.createSourceFile(
-    path.basename(outputFilePath),
-    content,
-    ts.ScriptTarget.Latest,
-    /* setParentNodes */ false,
-  );
-
-  const specifiers = collectHashSpecifiers(sourceFile);
+  api?: API,
+): Promise<{
+  content: string;
+  changed: boolean;
+  unresolved: string[];
+  resolvedTargets: ResolvedTarget[];
+}> {
+  const specifiers = await withSourceFile(outputFilePath, content, collectHashSpecifiers, api);
   if (specifiers.length === 0) {
     return { content, changed: false, unresolved: [], resolvedTargets: [] };
   }
@@ -439,7 +448,13 @@ export async function resolveImportsInDir(
   conditions: ReadonlySet<string>,
   rootDir: string,
   packageRoot: string,
+  api?: API,
 ): Promise<ResolveImportsResult> {
+  if (!api) {
+    return withCompilerApi(undefined, (client) =>
+      resolveImportsInDir(outDir, importsMap, conditions, rootDir, packageRoot, client),
+    );
+  }
   const log = getLogger();
 
   // Find all emitted files (JS + declarations)
@@ -484,7 +499,7 @@ export async function resolveImportsInDir(
         // Quick check: skip files without any # character
         if (!content.includes("#")) continue;
 
-        const result = resolveImportsInContent(
+        const result = await resolveImportsInContent(
           content,
           filePath,
           importsMap,
@@ -492,6 +507,7 @@ export async function resolveImportsInDir(
           rootDir,
           outDir,
           packageRoot,
+          api,
         );
 
         // Track unresolved specifiers
@@ -700,25 +716,25 @@ function collectRelativeSpecifiers(sourceFile: ts.SourceFile): { text: string; l
     let specNode: ts.StringLiteral | undefined;
 
     if (
-      ts.isImportDeclaration(node) &&
+      isImportDeclaration(node) &&
       node.moduleSpecifier &&
-      ts.isStringLiteral(node.moduleSpecifier)
+      isStringLiteral(node.moduleSpecifier)
     ) {
       specNode = node.moduleSpecifier;
     } else if (
-      ts.isExportDeclaration(node) &&
+      isExportDeclaration(node) &&
       node.moduleSpecifier &&
-      ts.isStringLiteral(node.moduleSpecifier)
+      isStringLiteral(node.moduleSpecifier)
     ) {
       specNode = node.moduleSpecifier;
-    } else if (ts.isCallExpression(node)) {
+    } else if (isCallExpression(node)) {
       const expr = node.expression;
       const firstArg = node.arguments[0];
       if (
         (expr.kind === ts.SyntaxKind.ImportKeyword ||
-          (ts.isIdentifier(expr) && expr.text === "require")) &&
+          (isIdentifier(expr) && expr.text === "require")) &&
         firstArg &&
-        ts.isStringLiteral(firstArg)
+        isStringLiteral(firstArg)
       ) {
         specNode = firstArg;
       }
@@ -729,7 +745,7 @@ function collectRelativeSpecifiers(sourceFile: ts.SourceFile): { text: string; l
       specifiers.push({ text: specNode.text, line: line + 1 });
     }
 
-    ts.forEachChild(node, visit);
+    node.forEachChild(visit);
   }
 
   visit(sourceFile);
@@ -740,6 +756,10 @@ function collectRelativeSpecifiers(sourceFile: ts.SourceFile): { text: string; l
  * Resolve a relative import specifier to an absolute file path, trying
  * TypeScript's extension resolution order.
  */
+function fileExists(fileName: string): boolean {
+  return statSync(fileName, { throwIfNoEntry: false })?.isFile() ?? false;
+}
+
 function resolveRelativeSpecifier(specifier: string, fromFile: string): string | undefined {
   const dir = path.dirname(fromFile);
   const base = path.resolve(dir, specifier);
@@ -751,7 +771,7 @@ function resolveRelativeSpecifier(specifier: string, fromFile: string): string |
     const tsPath = base.slice(0, -ext.length) + tsExt;
     // Only return if the TS file actually exists — avoids false positives
     // when a .js file has no corresponding .ts source
-    return ts.sys.fileExists(tsPath) ? tsPath : undefined;
+    return fileExists(tsPath) ? tsPath : undefined;
   }
   if (ext === ".ts" || ext === ".mts" || ext === ".cts") {
     return base;
@@ -759,12 +779,12 @@ function resolveRelativeSpecifier(specifier: string, fromFile: string): string |
 
   // No extension — try TypeScript extensions in order
   for (const tryExt of [".ts", ".mts", ".cts"]) {
-    if (ts.sys.fileExists(base + tryExt)) return base + tryExt;
+    if (fileExists(base + tryExt)) return base + tryExt;
   }
   // Directory import → index file
   for (const indexName of ["index.ts", "index.mts", "index.cts"]) {
     const indexPath = path.join(base, indexName);
-    if (ts.sys.fileExists(indexPath)) return indexPath;
+    if (fileExists(indexPath)) return indexPath;
   }
   return undefined;
 }
@@ -817,7 +837,7 @@ function hasDivergentResolutions(
     // For wildcards, count how many distinct leaf files exist on disk
     let existCount = 0;
     for (const leaf of unique) {
-      if (ts.sys.fileExists(path.resolve(packageRoot, leaf))) {
+      if (fileExists(path.resolve(packageRoot, leaf))) {
         existCount++;
         if (existCount >= 2) break;
       }
@@ -852,12 +872,18 @@ export interface DirectImportViolation {
  * @param validatePlatformFiles - If true, also validate platform-specific files
  * @returns Array of violations found
  */
-export function validateNoDirectImports(
+export async function validateNoDirectImports(
   sourceFiles: readonly string[],
   importsMap: ImportsMap,
   packageRoot: string,
   validatePlatformFiles = false,
-): DirectImportViolation[] {
+  api?: API,
+): Promise<DirectImportViolation[]> {
+  if (!api) {
+    return withCompilerApi(undefined, (client) =>
+      validateNoDirectImports(sourceFiles, importsMap, packageRoot, validatePlatformFiles, client),
+    );
+  }
   const { exactPaths, wildcardPatterns } = buildImportTargetIndex(importsMap, packageRoot);
   const divergenceCache = new Map<string, boolean>();
   const violations: DirectImportViolation[] = [];
@@ -892,19 +918,17 @@ export function validateNoDirectImports(
       }
     }
 
-    const content = ts.sys.readFile(filePath);
+    const content = await fsp.readFile(filePath, "utf-8");
     if (!content) continue;
 
     if (!content.includes("./") && !content.includes("../")) continue;
 
-    const sourceFile = ts.createSourceFile(
-      path.basename(filePath),
+    const relativeSpecifiers = await withSourceFile(
+      filePath,
       content,
-      ts.ScriptTarget.Latest,
-      false,
+      collectRelativeSpecifiers,
+      api,
     );
-
-    const relativeSpecifiers = collectRelativeSpecifiers(sourceFile);
 
     // For platform files, derive module type from file extension
     const moduleType = filePath.endsWith(".cts") ? "require" : "import";

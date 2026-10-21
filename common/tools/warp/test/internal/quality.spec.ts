@@ -5,16 +5,13 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
-import * as ts from "typescript";
+import { ModuleKind } from "typescript/async";
+import type { Diagnostic, RawCompilerOptions } from "typescript/async";
+import { ScriptTarget } from "typescript/ast";
 import { stringify } from "yaml";
 import { WarpError } from "../../src/types.ts";
 import { findWarpConfig } from "../../src/config.ts";
-import {
-  validateOutDirs,
-  optionsSignature,
-  SharedSourceFileCache,
-  cleanOutDir,
-} from "../../src/compiler.ts";
+import { validateOutDirs, optionsSignature, cleanOutDir } from "../../src/compiler.ts";
 import type { ParsedTargetConfig } from "../../src/compiler.ts";
 import { verifyDistFiles, writeExportsToPackageJson } from "../../src/exports.ts";
 import { build } from "../../src/build.ts";
@@ -315,9 +312,9 @@ describe("validateOutDirs", () => {
 // ---------------------------------------------------------------------------
 
 describe("optionsSignature includes fileNames", () => {
-  const baseOpts: ts.CompilerOptions = {
-    module: ts.ModuleKind.NodeNext,
-    target: ts.ScriptTarget.ES2022,
+  const baseOpts: RawCompilerOptions = {
+    module: ModuleKind.NodeNext,
+    target: ScriptTarget.ES2022,
     declaration: true,
   };
 
@@ -353,35 +350,6 @@ describe("optionsSignature includes fileNames", () => {
     const sig1 = optionsSignature(baseOpts, files);
     const sig2 = optionsSignature(baseOpts, files, "-browser");
     expect(sig1).not.toBe(sig2);
-  });
-});
-
-// ---------------------------------------------------------------------------
-// SharedSourceFileCache with ScriptTarget key
-// ---------------------------------------------------------------------------
-
-describe("SharedSourceFileCache with ScriptTarget", () => {
-  it("returns undefined for uncached files", () => {
-    const cache = new SharedSourceFileCache();
-    expect(cache.get("/a.ts", ts.ScriptTarget.ES2022)).toBeUndefined();
-  });
-
-  it("caches by fileName + scriptTarget", () => {
-    const cache = new SharedSourceFileCache();
-    const sf = ts.createSourceFile("/a.ts", "const x = 1;", ts.ScriptTarget.ES2022);
-    cache.set("/a.ts", ts.ScriptTarget.ES2022, sf);
-
-    expect(cache.get("/a.ts", ts.ScriptTarget.ES2022)).toBe(sf);
-    // Different target → different entry
-    expect(cache.get("/a.ts", ts.ScriptTarget.ES5)).toBeUndefined();
-  });
-
-  it("normalizes paths to absolute in makeKey", () => {
-    const cache = new SharedSourceFileCache();
-    const sf = ts.createSourceFile("a.ts", "const x = 1;", ts.ScriptTarget.ES2022);
-    const absPath = path.resolve("a.ts");
-    cache.set(absPath, ts.ScriptTarget.ES2022, sf);
-    expect(cache.get(absPath, ts.ScriptTarget.ES2022)).toBe(sf);
   });
 });
 
@@ -497,7 +465,7 @@ describe("writeExportsToPackageJson: merge", () => {
     const results = [
       {
         target: { name: "esm", condition: "import", tsconfig: "./t.json" },
-        diagnostics: [] as readonly ts.Diagnostic[],
+        diagnostics: [] as readonly Diagnostic[],
         success: true,
         outDir: path.join(tmpDir, "dist/esm"),
         rootDir: path.join(tmpDir, "src"),
@@ -535,7 +503,7 @@ describe("writeExportsToPackageJson: merge", () => {
     const results = [
       {
         target: { name: "esm", condition: "import", tsconfig: "./t.json" },
-        diagnostics: [] as readonly ts.Diagnostic[],
+        diagnostics: [] as readonly Diagnostic[],
         success: true,
         outDir: path.join(tmpDir, "dist/esm"),
         rootDir: path.join(tmpDir, "src"),
@@ -586,7 +554,7 @@ describe("module type shim from compiler options", () => {
           tsconfig: "./t.json",
           moduleType: "commonjs" as const,
         },
-        diagnostics: [] as readonly ts.Diagnostic[],
+        diagnostics: [] as readonly Diagnostic[],
         success: true,
         outDir: path.join(tmpDir, "dist/cjs"),
         rootDir: path.join(tmpDir, "src"),
@@ -618,7 +586,7 @@ describe("module type shim from compiler options", () => {
     const results = [
       {
         target: { name: "esm", condition: "import", tsconfig: "./t.json" },
-        diagnostics: [] as readonly ts.Diagnostic[],
+        diagnostics: [] as readonly Diagnostic[],
         success: true,
         outDir: path.join(tmpDir, "dist/esm"),
         rootDir: path.join(tmpDir, "src"),
