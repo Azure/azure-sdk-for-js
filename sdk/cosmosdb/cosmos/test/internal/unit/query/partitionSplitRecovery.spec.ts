@@ -61,6 +61,19 @@ interface QueryControlError extends Error {
 type QueryKind = "Parallel" | "ORDER BY";
 type QueryContext = ParallelQueryExecutionContext | OrderByQueryExecutionContext;
 
+interface Deferred<T> {
+  promise: Promise<T>;
+  reject: (reason?: unknown) => void;
+  resolve: (value: T | PromiseLike<T>) => void;
+}
+
+interface RecoveryInternals {
+  bufferedDocumentProducersQueue: { size: () => number };
+  respHeaders: Record<string, string | number>;
+  splitRepairProducers: Map<unknown, unknown>;
+  unfilledDocumentProducersQueue: { size: () => number };
+}
+
 function createRange(
   id: string,
   minInclusive: string,
@@ -88,6 +101,16 @@ function createSplitError(): Error & {
     substatus: SubStatusCodes.PartitionKeyRangeGone,
     headers: { "x-ms-request-charge": "1" },
   });
+}
+
+function createDeferred<T>(): Deferred<T> {
+  let resolveDeferred!: Deferred<T>["resolve"];
+  let rejectDeferred!: Deferred<T>["reject"];
+  const promise = new Promise<T>((resolve, reject) => {
+    resolveDeferred = resolve;
+    rejectDeferred = reject;
+  });
+  return { promise, reject: rejectDeferred, resolve: resolveDeferred };
 }
 
 function createClientContext(): ClientContext {
@@ -261,6 +284,19 @@ function spyOnReplacement(context: QueryContext): ReturnType<typeof vi.spyOn> {
   );
 }
 
+function getRecoveryInternals(context: QueryContext): RecoveryInternals {
+  return context as unknown as RecoveryInternals;
+}
+
+function assertCleanTerminalRecoveryState(context: QueryContext): void {
+  const internals = getRecoveryInternals(context);
+  assert.equal(internals.splitRepairProducers.size, 0);
+  assert.equal(internals.unfilledDocumentProducersQueue.size(), 0);
+  assert.equal(internals.bufferedDocumentProducersQueue.size(), 0);
+  assert.equal(Number(internals.respHeaders["x-ms-request-charge"] ?? 0), 0);
+  assert.isFalse(context.hasMoreResults());
+}
+
 async function drainContext(context: QueryContext): Promise<{
   requestCharge: number;
   resources: TestDocument[];
@@ -295,6 +331,27 @@ async function withTimeout<T>(promise: Promise<T>, timeoutInMs = 1000): Promise<
     return await Promise.race([promise, timeoutPromise]);
   } finally {
     if (timeout) clearTimeout(timeout);
+  }
+}
+
+async function flushAsyncWork(): Promise<void> {
+  await Promise.resolve();
+  await new Promise<void>((resolve) => setTimeout(resolve, 0));
+  await Promise.resolve();
+}
+
+async function expectNoUnhandledRejections(run: () => Promise<void>): Promise<void> {
+  const unhandledRejections: unknown[] = [];
+  const listener = (reason: unknown): void => {
+    unhandledRejections.push(reason);
+  };
+  process.on("unhandledRejection", listener);
+  try {
+    await run();
+    await flushAsyncWork();
+    assert.deepEqual(unhandledRejections, []);
+  } finally {
+    process.off("unhandledRejection", listener);
   }
 }
 
@@ -588,6 +645,142 @@ describe("partition split recovery", () => {
     assert.deepEqual(requests, ["P", "C1"]);
     assert.equal(Number(error.headers?.["x-ms-request-charge"]), 3);
     assert.equal(topology.getForceRefreshCount(), 1);
+  });
+
+  it("ignores a late split after a sibling abort closes the buffer cycle", async () => {
+    await expectNoUnhandledRejections(async () => {
+      const clientContext = createClientContext();
+      const topology = mockTopology(clientContext, [
+        [mergeParent1, mergeParent2],
+        [mergeParent1, aggregateChild1, aggregateChild2],
+      ]);
+      const requestA = createDeferred<never>();
+      const requestB = createDeferred<never>();
+      const requestsStarted = createDeferred<void>();
+      const requests: string[] = [];
+      vi.spyOn(clientContext, "queryFeed").mockImplementation(({ partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requests.push(rangeId);
+        if (requests.length === 2) {
+          requestsStarted.resolve(undefined);
+        }
+        return rangeId === "P1" ? requestA.promise : requestB.promise;
+      });
+
+      const context = createParallelContext(clientContext, {
+        ...options,
+        maxDegreeOfParallelism: 2,
+      });
+      const replacementSpy = spyOnReplacement(context);
+      const resultPromise = captureError(
+        withTimeout(context.fetchMore(createDummyDiagnosticNode())),
+      );
+      await withTimeout(requestsStarted.promise);
+
+      const abortError = Object.assign(new Error("request A aborted"), {
+        headers: { "x-ms-request-charge": "2" },
+        name: "AbortError",
+      });
+      requestA.reject(abortError);
+      const error = await withTimeout(resultPromise);
+
+      assert.strictEqual(error, abortError);
+      assert.equal(Number(error.headers?.["x-ms-request-charge"]), 2);
+      assert.deepEqual(requests, ["P1", "P2"]);
+      assert.equal(topology.getForceRefreshCount(), 0);
+      expect(replacementSpy).not.toHaveBeenCalled();
+      assertCleanTerminalRecoveryState(context);
+
+      requestB.reject(createSplitError());
+      await flushAsyncWork();
+
+      assert.equal(topology.getForceRefreshCount(), 0);
+      expect(replacementSpy).not.toHaveBeenCalled();
+      assertCleanTerminalRecoveryState(context);
+    });
+  });
+
+  it("discards a split refresh that completes after a sibling abort", async () => {
+    await expectNoUnhandledRejections(async () => {
+      const clientContext = createClientContext();
+      const refreshStarted = createDeferred<void>();
+      const refreshResult = createDeferred<{
+        code: number;
+        headers: Record<string, string>;
+        resources: PartitionKeyRange[];
+      }>();
+      let routingRequestCount = 0;
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockImplementation(
+        () =>
+          ({
+            fetchAllInternal: vi.fn(async () => {
+              routingRequestCount++;
+              if (routingRequestCount === 1) {
+                return {
+                  resources: [mergeParent1, mergeParent2],
+                  headers: { "x-ms-request-charge": "0" },
+                  code: StatusCodes.Ok,
+                };
+              }
+              refreshStarted.resolve(undefined);
+              return refreshResult.promise;
+            }),
+          }) as unknown as QueryIterator<PartitionKeyRange>,
+      );
+      const routingCacheSpy = vi.spyOn(
+        clientContext.partitionKeyRangeCache,
+        "onCollectionRoutingMap",
+      );
+      const requestA = createDeferred<never>();
+      const requestB = createDeferred<never>();
+      const requestsStarted = createDeferred<void>();
+      const requests: string[] = [];
+      vi.spyOn(clientContext, "queryFeed").mockImplementation(({ partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requests.push(rangeId);
+        if (requests.length === 2) {
+          requestsStarted.resolve(undefined);
+        }
+        return rangeId === "P1" ? requestA.promise : requestB.promise;
+      });
+
+      const context = createParallelContext(clientContext, {
+        ...options,
+        maxDegreeOfParallelism: 2,
+      });
+      const replacementSpy = spyOnReplacement(context);
+      const resultPromise = captureError(
+        withTimeout(context.fetchMore(createDummyDiagnosticNode())),
+      );
+      await withTimeout(requestsStarted.promise);
+
+      requestB.reject(createSplitError());
+      await withTimeout(refreshStarted.promise);
+      const abortError = Object.assign(new Error("request A aborted"), {
+        headers: { "x-ms-request-charge": "2" },
+        name: "AbortError",
+      });
+      requestA.reject(abortError);
+      const error = await withTimeout(resultPromise);
+
+      assert.strictEqual(error, abortError);
+      assert.equal(Number(error.headers?.["x-ms-request-charge"]), 3);
+      assert.deepEqual(requests, ["P1", "P2"]);
+      assert.equal(routingCacheSpy.mock.calls.filter((call) => call[2] === true).length, 1);
+      assert.equal(routingRequestCount, 2);
+      expect(replacementSpy).toHaveBeenCalledTimes(1);
+      assertCleanTerminalRecoveryState(context);
+
+      refreshResult.resolve({
+        resources: [mergeParent1, aggregateChild1, aggregateChild2],
+        headers: { "x-ms-request-charge": "0" },
+        code: StatusCodes.Ok,
+      });
+      await flushAsyncWork();
+
+      assert.deepEqual(requests, ["P1", "P2"]);
+      assertCleanTerminalRecoveryState(context);
+    });
   });
 
   it("keeps logical bounds across a merge followed by a non-aligned split", async () => {

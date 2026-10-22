@@ -57,6 +57,12 @@ interface ProducerBufferResult {
   splitRepair?: SplitRepair;
 }
 
+interface BufferCycleGuard {
+  closed: boolean;
+  epoch: number;
+  error?: any;
+}
+
 /** @hidden */
 export abstract class ParallelQueryExecutionContextBase implements ExecutionContext {
   private err: any;
@@ -73,6 +79,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private patchCounter: number = 0;
   private readonly updatedContinuationRanges: Map<string, PartitionRangeUpdate> = new Map();
   private readonly splitRepairProducers: Map<DocumentProducer, any> = new Map();
+  private bufferCycleEpoch: number = 0;
   private readonly sem: any;
   private readonly diagnosticNodeWrapper: {
     consumed: boolean;
@@ -703,12 +710,19 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     error: any,
     diagnosticNode: DiagnosticNodeInternal,
     documentProducer: DocumentProducer,
-  ): Promise<SplitRepair> {
-    // Get the replacement ranges
+    isCycleActive: () => boolean,
+  ): Promise<SplitRepair | undefined> {
+    if (!isCycleActive()) {
+      return undefined;
+    }
+
     const replacementPartitionKeyRanges = await this._getReplacementPartitionKeyRanges(
       documentProducer,
       diagnosticNode,
     );
+    if (!isCycleActive()) {
+      return undefined;
+    }
 
     if (this.options.enableQueryControl) {
       throw ParallelQueryExecutionContextBase._createInvalidContinuationError(error);
@@ -720,9 +734,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
     const effectiveRange =
       ParallelQueryExecutionContextBase._getEffectiveQueryRange(documentProducer);
-    const replacementDocumentProducers: {
+    const replacementRanges: {
       identity: string;
-      producer: DocumentProducer;
+      intersection: { min: string; max: string };
+      partitionKeyRange: PartitionKeyRange;
+      populateEpkRangeHeaders: boolean;
     }[] = [];
     replacementPartitionKeyRanges.forEach((partitionKeyRange) => {
       const intersection = ParallelQueryExecutionContextBase._intersectPartitionRange(
@@ -736,23 +752,18 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       const populateEpkRangeHeaders =
         intersection.min !== partitionKeyRange.minInclusive ||
         intersection.max !== partitionKeyRange.maxExclusive;
-      const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
-        partitionKeyRange,
-        documentProducer.continuationToken,
-        intersection.min,
-        intersection.max,
-        populateEpkRangeHeaders,
-      );
-      replacementDocumentProducers.push({
+      replacementRanges.push({
         identity: ParallelQueryExecutionContextBase._getRangeIdentity(
           partitionKeyRange,
           intersection,
         ),
-        producer: replacementDocumentProducer,
+        intersection,
+        partitionKeyRange,
+        populateEpkRangeHeaders,
       });
     });
 
-    if (replacementDocumentProducers.length === 0) {
+    if (replacementRanges.length === 0) {
       throw error;
     }
 
@@ -760,15 +771,26 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       documentProducer.targetPartitionKeyRange,
       effectiveRange,
     );
-    const replacementIdentities = replacementDocumentProducers
-      .map(({ identity }) => identity)
-      .sort();
+    const replacementIdentities = replacementRanges.map(({ identity }) => identity).sort();
     if (replacementIdentities.length === 1 && replacementIdentities[0] === originalIdentity) {
       throw error;
     }
 
+    if (!isCycleActive()) {
+      return undefined;
+    }
+    const replacementDocumentProducers = replacementRanges.map(
+      ({ intersection, partitionKeyRange, populateEpkRangeHeaders }) =>
+        this._createTargetPartitionQueryExecutionContext(
+          partitionKeyRange,
+          documentProducer.continuationToken,
+          intersection.min,
+          intersection.max,
+          populateEpkRangeHeaders,
+        ),
+    );
     this.splitRepairProducers.delete(documentProducer);
-    replacementDocumentProducers.forEach(({ producer }) => {
+    replacementDocumentProducers.forEach((producer) => {
       if (producer.hasMoreResults()) {
         this.splitRepairProducers.set(producer, error);
         this.unfilledDocumentProducersQueue.enq(producer);
@@ -1011,6 +1033,20 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return;
         }
 
+        const cycle: BufferCycleGuard = {
+          closed: false,
+          epoch: ++this.bufferCycleEpoch,
+        };
+        const isCycleActive = (): boolean => !cycle.closed && cycle.epoch === this.bufferCycleEpoch;
+        const closeCycle = (error: any): boolean => {
+          if (!isCycleActive()) {
+            return false;
+          }
+          cycle.closed = true;
+          cycle.error = error;
+          return true;
+        };
+
         try {
           const maxDegreeOfParallelism =
             this.options.maxDegreeOfParallelism === undefined ||
@@ -1030,7 +1066,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             try {
               documentProducer = this.unfilledDocumentProducersQueue.deq();
             } catch (e: any) {
-              this.updateStates(e);
+              if (closeCycle(e)) {
+                this._mergeWithActiveResponseHeaders(e.headers);
+              }
+              this.updateStates(cycle.error ?? e);
               this.err.headers = this._getAndResetActiveResponseHeaders();
               reject(this.err);
               return;
@@ -1104,18 +1143,32 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               return { processedRepairProducer: isSplitRepairProducer };
             } catch (err) {
               if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
+                if (!isCycleActive()) {
+                  return { processedRepairProducer: false };
+                }
                 this._mergeWithActiveResponseHeaders(err.headers);
-                return {
-                  processedRepairProducer: isSplitRepairProducer,
-                  splitRepair: await this._enqueueReplacementDocumentProducers(
+                try {
+                  const splitRepair = await this._enqueueReplacementDocumentProducers(
                     err,
                     diagnosticNode,
                     documentProducer,
-                  ),
-                };
+                    isCycleActive,
+                  );
+                  return {
+                    processedRepairProducer: isSplitRepairProducer,
+                    splitRepair,
+                  };
+                } catch (repairError) {
+                  if (closeCycle(repairError) && repairError !== err) {
+                    this._mergeWithActiveResponseHeaders(repairError.headers);
+                  }
+                  throw cycle.error ?? repairError;
+                }
               } else {
-                this._mergeWithActiveResponseHeaders(err.headers);
-                throw err;
+                if (closeCycle(err)) {
+                  this._mergeWithActiveResponseHeaders(err.headers);
+                }
+                throw cycle.error ?? err;
               }
             }
           };
@@ -1124,6 +1177,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             const bufferResults = await Promise.all(
               documentProducers.map((producer) => bufferDocumentProducer(producer)),
             );
+            cycle.closed = true;
             resolve({
               processedRepairProducer: bufferResults.some(
                 ({ processedRepairProducer }) => processedRepairProducer,
@@ -1136,15 +1190,23 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               ),
             });
           } catch (err) {
-            this.updateStates(err);
+            if (closeCycle(err)) {
+              this._mergeWithActiveResponseHeaders(err.headers);
+            }
+            const terminalError = cycle.error ?? err;
+            this.updateStates(terminalError);
             this.err.headers = this._getAndResetActiveResponseHeaders();
-            reject(err);
+            reject(terminalError);
             return;
           }
         } catch (err) {
-          this.updateStates(err);
+          if (closeCycle(err)) {
+            this._mergeWithActiveResponseHeaders(err.headers);
+          }
+          const terminalError = cycle.error ?? err;
+          this.updateStates(terminalError);
           this.err.headers = this._getAndResetActiveResponseHeaders();
-          reject(err);
+          reject(terminalError);
         } finally {
           this.sem.leave();
         }
