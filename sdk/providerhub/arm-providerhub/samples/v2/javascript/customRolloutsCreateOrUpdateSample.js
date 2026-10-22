@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the rollout details.
  *
  * @summary creates or updates the rollout details.
- * x-ms-original-file: 2025-10-01/CustomRollouts_CreateOrUpdate.json
+ * x-ms-original-file: 2026-10-01/CustomRollouts_CreateOrUpdate.json
  */
 async function customRolloutsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
@@ -27,10 +27,18 @@ async function customRolloutsCreateOrUpdate() {
             manifestCheckinParams: {
               baselineArmManifestLocation: "EastUS2EUAP",
               environment: "Prod",
+              swaggerUri: "https://github.com/Azure/azure-rest-api-specs/pull/123456",
             },
           },
           refreshSubscriptionRegistration: true,
-          rolloutId: "RolloutIdGuid",
+          rolloutId: "rollout-0001",
+          rolloutOrchestrationMetadata: {
+            isForManifestBuildout: true,
+            deploymentType: "RegionAgnosticRollout",
+            trafficRing: "Canary",
+            serviceGroup: "Microsoft.Contoso.ManifestRollout",
+            serviceIdentifier: "00000000-0000-0000-0000-000000000000",
+          },
         },
       },
     },

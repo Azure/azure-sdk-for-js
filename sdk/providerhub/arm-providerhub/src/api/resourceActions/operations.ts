@@ -27,7 +27,7 @@ export function _deleteResourcesSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       resourceActionName: resourceActionName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,6 +68,6 @@ export function deleteResources(
     getInitialResponse: () =>
       _deleteResourcesSend(context, providerNamespace, resourceActionName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-10-01",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }

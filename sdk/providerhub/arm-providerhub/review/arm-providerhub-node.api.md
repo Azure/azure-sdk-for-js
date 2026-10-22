@@ -75,6 +75,7 @@ export interface AppliedManifestInfo {
     manifestAppliedAt?: Date;
     previousCommitId?: string;
     region?: string;
+    readonly rootProviderNamespace?: string;
 }
 
 // @public
@@ -178,7 +179,9 @@ export interface CheckinManifestOptionalParams extends OperationOptions {
 // @public
 export interface CheckinManifestParams {
     baselineArmManifestLocation: string;
+    checkinComment?: string;
     environment: string;
+    swaggerUri?: string;
 }
 
 // @public
@@ -257,6 +260,7 @@ export interface CustomRolloutSpecification {
     releaseScopes?: string[];
     resourceTypeRegistrations?: ResourceTypeRegistration[];
     rolloutId?: string;
+    rolloutOrchestrationMetadata?: RolloutOrchestrationMetadata;
     skipReleaseScopeValidation?: boolean;
 }
 
@@ -425,6 +429,114 @@ export interface EndpointInformation {
 }
 
 // @public
+export interface EndpointRegistration extends ProxyResource {
+    kind?: ResourceTypeEndpointKind;
+    properties: EndpointRegistrationProperties;
+}
+
+// @public
+export interface EndpointRegistrationProperties {
+    apiVersion?: string;
+    apiVersions?: string[];
+    dataBoundary?: DataBoundary;
+    enabled?: boolean;
+    endpointType?: EndpointTypeResourceType;
+    endpointUri?: string;
+    extensions?: ResourceTypeExtension[];
+    featuresRule?: ResourceTypeEndpointFeaturesRule;
+    locations?: string[];
+    requiredFeatures?: string[];
+    skuLink?: string;
+    timeout?: string;
+    tokenAuthConfiguration?: TokenAuthConfiguration;
+    zones?: string[];
+}
+
+// @public
+export interface EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsDeleteNestedResourceTypeFirstOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsDeleteNestedResourceTypeSecondOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsDeleteNestedResourceTypeThirdOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsGetNestedResourceTypeFirstOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsGetNestedResourceTypeSecondOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsGetNestedResourceTypeThirdOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsListByResourceTypeRegistrationNestedResourceTypeFirstOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsListByResourceTypeRegistrationNestedResourceTypeSecondOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsListByResourceTypeRegistrationNestedResourceTypeThirdOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsListByResourceTypeRegistrationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointRegistrationsOperations {
+    createOrUpdate: (providerNamespace: string, resourceType: string, endpointName: string, properties: EndpointRegistration, options?: EndpointRegistrationsCreateOrUpdateOptionalParams) => Promise<EndpointRegistration>;
+    createOrUpdateNestedResourceTypeFirst: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, endpointName: string, properties: EndpointRegistration, options?: EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstOptionalParams) => Promise<EndpointRegistration>;
+    createOrUpdateNestedResourceTypeSecond: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, nestedResourceTypeSecond: string, endpointName: string, properties: EndpointRegistration, options?: EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondOptionalParams) => Promise<EndpointRegistration>;
+    createOrUpdateNestedResourceTypeThird: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, nestedResourceTypeSecond: string, nestedResourceTypeThird: string, endpointName: string, properties: EndpointRegistration, options?: EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdOptionalParams) => Promise<EndpointRegistration>;
+    delete: (providerNamespace: string, resourceType: string, endpointName: string, options?: EndpointRegistrationsDeleteOptionalParams) => Promise<void>;
+    deleteNestedResourceTypeFirst: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, endpointName: string, options?: EndpointRegistrationsDeleteNestedResourceTypeFirstOptionalParams) => Promise<void>;
+    deleteNestedResourceTypeSecond: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, nestedResourceTypeSecond: string, endpointName: string, options?: EndpointRegistrationsDeleteNestedResourceTypeSecondOptionalParams) => Promise<void>;
+    deleteNestedResourceTypeThird: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, nestedResourceTypeSecond: string, nestedResourceTypeThird: string, endpointName: string, options?: EndpointRegistrationsDeleteNestedResourceTypeThirdOptionalParams) => Promise<void>;
+    get: (providerNamespace: string, resourceType: string, endpointName: string, options?: EndpointRegistrationsGetOptionalParams) => Promise<EndpointRegistration>;
+    getNestedResourceTypeFirst: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, endpointName: string, options?: EndpointRegistrationsGetNestedResourceTypeFirstOptionalParams) => Promise<EndpointRegistration>;
+    getNestedResourceTypeSecond: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, nestedResourceTypeSecond: string, endpointName: string, options?: EndpointRegistrationsGetNestedResourceTypeSecondOptionalParams) => Promise<EndpointRegistration>;
+    getNestedResourceTypeThird: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, nestedResourceTypeSecond: string, nestedResourceTypeThird: string, endpointName: string, options?: EndpointRegistrationsGetNestedResourceTypeThirdOptionalParams) => Promise<EndpointRegistration>;
+    listByResourceTypeRegistration: (providerNamespace: string, resourceType: string, options?: EndpointRegistrationsListByResourceTypeRegistrationOptionalParams) => PagedAsyncIterableIterator<EndpointRegistration>;
+    listByResourceTypeRegistrationNestedResourceTypeFirst: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, options?: EndpointRegistrationsListByResourceTypeRegistrationNestedResourceTypeFirstOptionalParams) => PagedAsyncIterableIterator<EndpointRegistration>;
+    listByResourceTypeRegistrationNestedResourceTypeSecond: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, nestedResourceTypeSecond: string, options?: EndpointRegistrationsListByResourceTypeRegistrationNestedResourceTypeSecondOptionalParams) => PagedAsyncIterableIterator<EndpointRegistration>;
+    listByResourceTypeRegistrationNestedResourceTypeThird: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, nestedResourceTypeSecond: string, nestedResourceTypeThird: string, options?: EndpointRegistrationsListByResourceTypeRegistrationNestedResourceTypeThirdOptionalParams) => PagedAsyncIterableIterator<EndpointRegistration>;
+}
+
+// @public
 export type EndpointType = string;
 
 // @public
@@ -546,6 +658,9 @@ export type IdentityManagementTypes = string;
 
 // @public
 export type Intent = string;
+
+// @public
+export type IsolationType = string;
 
 export { isRestError }
 
@@ -720,6 +835,12 @@ export enum KnownIntent {
 }
 
 // @public
+export enum KnownIsolationType {
+    Private = "Private",
+    Public = "Public"
+}
+
+// @public
 export enum KnownLegacyOperation {
     Action = "Action",
     AzureAsyncOperationWaiting = "AzureAsyncOperationWaiting",
@@ -731,6 +852,15 @@ export enum KnownLegacyOperation {
     Read = "Read",
     ResourceCacheWaiting = "ResourceCacheWaiting",
     Waiting = "Waiting"
+}
+
+// @public
+export enum KnownLifecycleStage {
+    GA = "GA",
+    InDevelopment = "InDevelopment",
+    PrivatePreview = "PrivatePreview",
+    PublicPreview = "PublicPreview",
+    Retired = "Retired"
 }
 
 // @public
@@ -807,6 +937,7 @@ export enum KnownNotificationType {
 
 // @public
 export enum KnownOptInHeaderType {
+    AuxiliaryUserContext = "AuxiliaryUserContext",
     ClientGroupMembership = "ClientGroupMembership",
     ClientPrincipalNameEncoded = "ClientPrincipalNameEncoded",
     ManagementGroupAncestorsEncoded = "ManagementGroupAncestorsEncoded",
@@ -818,13 +949,20 @@ export enum KnownOptInHeaderType {
     ResourceGroupLocation = "ResourceGroupLocation",
     SignedAuxiliaryTokens = "SignedAuxiliaryTokens",
     SignedUserToken = "SignedUserToken",
-    UnboundedClientGroupMembership = "UnboundedClientGroupMembership"
+    UnboundedClientGroupMembership = "UnboundedClientGroupMembership",
+    UserContext = "UserContext"
 }
 
 // @public
 export enum KnownOptOutHeaderType {
     NotSpecified = "NotSpecified",
     SystemDataCreatedByLastModifiedBy = "SystemDataCreatedByLastModifiedBy"
+}
+
+// @public
+export enum KnownPartnerCategory {
+    FirstParty = "FirstParty",
+    ThirdParty = "ThirdParty"
 }
 
 // @public
@@ -1125,7 +1263,8 @@ export enum KnownTrafficRegionCategory {
 // @public
 export enum KnownVersions {
     V20240901 = "2024-09-01",
-    V20251001 = "2025-10-01"
+    V20251001 = "2025-10-01",
+    V20261001 = "2026-10-01"
 }
 
 // @public
@@ -1142,6 +1281,9 @@ export interface LegacyDisallowedCondition {
 
 // @public
 export type LegacyOperation = string;
+
+// @public
+export type LifecycleStage = string;
 
 // @public
 export interface LightHouseAuthorization {
@@ -1534,6 +1676,9 @@ export interface PageSettings {
 }
 
 // @public
+export type PartnerCategory = string;
+
+// @public
 export type Policy = string;
 
 // @public
@@ -1561,6 +1706,7 @@ export class ProviderHubClient {
     checkinManifest(providerNamespace: string, checkinManifestParams: CheckinManifestParams, options?: CheckinManifestOptionalParams): Promise<CheckinManifestInfo>;
     readonly customRollouts: CustomRolloutsOperations;
     readonly defaultRollouts: DefaultRolloutsOperations;
+    readonly endpointRegistrations: EndpointRegistrationsOperations;
     generateManifest(providerNamespace: string, options?: GenerateManifestOptionalParams): Promise<ResourceProviderManifest>;
     readonly manifests: ManifestsOperations;
     readonly notificationRegistrations: NotificationRegistrationsOperations;
@@ -1656,6 +1802,7 @@ export type ProviderRegistrationKind = string;
 // @public
 export interface ProviderRegistrationProperties extends ResourceProviderManifestProperties {
     enablePresetResourceTypes?: boolean;
+    lifecycleInfo?: ResourceProviderLifecycleInfo;
     oboSubscriptionId?: string;
     privateResourceProviderConfiguration?: ProviderRegistrationPropertiesPrivateResourceProviderConfiguration;
     providerHubMetadata?: ProviderRegistrationPropertiesProviderHubMetadata;
@@ -1875,12 +2022,21 @@ export interface ResourceProviderEndpointFeaturesRule extends FeaturesRule {
 }
 
 // @public
+export interface ResourceProviderLifecycleInfo {
+    allowedSubscriptions?: string[];
+    isolationType?: IsolationType;
+    lifecycleStage?: LifecycleStage;
+    partnerCategory?: PartnerCategory;
+}
+
+// @public
 export interface ResourceProviderManagement {
     authorizationOwners?: string[];
     canaryManifestOwners?: string[];
     errorResponseMessageOptions?: ResourceProviderManagementErrorResponseMessageOptions;
     expeditedRolloutMetadata?: ResourceProviderManagementExpeditedRolloutMetadata;
     expeditedRolloutSubmitters?: string[];
+    featureApprovalClaims?: string[];
     featureManagementOwners?: string[];
     incidentContactEmail?: string;
     incidentRoutingService?: string;
@@ -2125,6 +2281,11 @@ export interface ResourceTypeIdentityManagement extends IdentityManagement {
 }
 
 // @public
+export interface ResourceTypeLifecycleInfo {
+    lifecycleStage?: LifecycleStage;
+}
+
+// @public
 export interface ResourceTypeManagedResourceGroupConfiguration {
     applicationIds?: string[];
     denyAssignmentConfiguration?: ManagedResourceGroupDenyAssignmentConfiguration;
@@ -2183,6 +2344,7 @@ export interface ResourceTypeRegistrationProperties {
     legacyName?: string;
     legacyNames?: string[];
     legacyPolicy?: ResourceTypeRegistrationPropertiesLegacyPolicy;
+    lifecycleInfo?: ResourceTypeLifecycleInfo;
     linkedAccessChecks?: LinkedAccessCheck[];
     linkedNotificationRules?: LinkedNotificationRule[];
     linkedOperationRules?: LinkedOperationRule[];
@@ -2343,13 +2505,27 @@ export interface ResourceTypeRegistrationPropertiesTemplateDeploymentPolicy exte
 }
 
 // @public
+export interface ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ResourceTypeRegistrationsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ResourceTypeRegistrationsDeleteNestedResourceTypeFirstOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface ResourceTypeRegistrationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ResourceTypeRegistrationsGetNestedResourceTypeFirstOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2363,8 +2539,11 @@ export interface ResourceTypeRegistrationsListByProviderRegistrationOptionalPara
 // @public
 export interface ResourceTypeRegistrationsOperations {
     createOrUpdate: (providerNamespace: string, resourceType: string, properties: ResourceTypeRegistration, options?: ResourceTypeRegistrationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ResourceTypeRegistration>, ResourceTypeRegistration>;
+    createOrUpdateNestedResourceTypeFirst: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, properties: ResourceTypeRegistration, options?: ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstOptionalParams) => PollerLike<OperationState<ResourceTypeRegistration>, ResourceTypeRegistration>;
     delete: (providerNamespace: string, resourceType: string, options?: ResourceTypeRegistrationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteNestedResourceTypeFirst: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, options?: ResourceTypeRegistrationsDeleteNestedResourceTypeFirstOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (providerNamespace: string, resourceType: string, options?: ResourceTypeRegistrationsGetOptionalParams) => Promise<ResourceTypeRegistration>;
+    getNestedResourceTypeFirst: (providerNamespace: string, resourceType: string, nestedResourceTypeFirst: string, options?: ResourceTypeRegistrationsGetNestedResourceTypeFirstOptionalParams) => Promise<ResourceTypeRegistration>;
     listByProviderRegistration: (providerNamespace: string, options?: ResourceTypeRegistrationsListByProviderRegistrationOptionalParams) => PagedAsyncIterableIterator<ResourceTypeRegistration>;
 }
 
@@ -2399,6 +2578,15 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 
 // @public
 export type Role = string;
+
+// @public
+export interface RolloutOrchestrationMetadata {
+    deploymentType?: string;
+    isForManifestBuildout?: boolean;
+    serviceGroup?: string;
+    serviceIdentifier?: string;
+    trafficRing?: string;
+}
 
 // @public
 export interface RolloutStatusBase {
@@ -2621,7 +2809,13 @@ export type SupportedOperations = string;
 // @public
 export interface SwaggerSpecification {
     apiVersions?: string[];
+    lifecycleInfo?: SwaggerSpecificationLifecycleInfo;
     swaggerSpecFolderUri?: string;
+}
+
+// @public
+export interface SwaggerSpecificationLifecycleInfo {
+    lifecycleStage?: LifecycleStage;
 }
 
 // @public

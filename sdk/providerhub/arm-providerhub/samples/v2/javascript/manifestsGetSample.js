@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the manifest from the manifest repository.
  *
  * @summary gets the manifest from the manifest repository.
- * x-ms-original-file: 2025-10-01/Manifests_Get.json
+ * x-ms-original-file: 2026-10-01/Manifests_Get.json
  */
 async function manifestsGet() {
   const credential = new DefaultAzureCredential();

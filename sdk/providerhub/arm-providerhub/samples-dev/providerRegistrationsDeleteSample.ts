@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a provider registration.
  *
  * @summary deletes a provider registration.
- * x-ms-original-file: 2025-10-01/ProviderRegistrations_Delete.json
+ * x-ms-original-file: 2026-10-01/ProviderRegistrations_Delete.json
  */
 async function providerRegistrationsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
