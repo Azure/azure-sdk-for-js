@@ -355,7 +355,7 @@
 ####################
 
 # PRLabel: %Mgmt
-/sdk/*/arm-*/ @qiaozha @MaryGao @JialinHuang803
+/sdk/*/arm-*/ @qiaozha @MaryGao @JialinHuang803 @Azure/azure-arm-sdk-reviewers
 
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
@@ -931,7 +931,7 @@
 /vitest.workspace.ts @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Mgmt
-/**/ci.mgmt.yml   @qiaozha @MaryGao @JialinHuang803
+/**/ci.mgmt.yml   @qiaozha @MaryGao @JialinHuang803 @Azure/azure-arm-sdk-reviewers
 
 
 # Make sure to not check in anymore test-resources.json files

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/NfsV3AccountCreate.json
+ * x-ms-original-file: 2026-09-01/NfsV3AccountCreate.json
  */
 async function nfsV3AccountCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -41,7 +41,7 @@ async function nfsV3AccountCreate(): Promise<void> {
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreate.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreate.json
  */
 async function storageAccountCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -95,7 +95,7 @@ async function storageAccountCreate(): Promise<void> {
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreateAllowedCopyScopeToAAD.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreateAllowedCopyScopeToAAD.json
  */
 async function storageAccountCreateAllowedCopyScopeToAAD(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -134,7 +134,7 @@ async function storageAccountCreateAllowedCopyScopeToAAD(): Promise<void> {
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreateAllowedCopyScopeToPrivateLink.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreateAllowedCopyScopeToPrivateLink.json
  */
 async function storageAccountCreateAllowedCopyScopeToPrivateLink(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -173,7 +173,7 @@ async function storageAccountCreateAllowedCopyScopeToPrivateLink(): Promise<void
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreateDisallowPublicNetworkAccess.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreateDisallowPublicNetworkAccess.json
  */
 async function storageAccountCreateDisallowPublicNetworkAccess(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -213,7 +213,7 @@ async function storageAccountCreateDisallowPublicNetworkAccess(): Promise<void> 
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreateDnsEndpointTypeToAzureDnsZone.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreateDnsEndpointTypeToAzureDnsZone.json
  */
 async function storageAccountCreateDnsEndpointTypeToAzureDnsZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -255,7 +255,7 @@ async function storageAccountCreateDnsEndpointTypeToAzureDnsZone(): Promise<void
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreateDnsEndpointTypeToStandard.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreateDnsEndpointTypeToStandard.json
  */
 async function storageAccountCreateDnsEndpointTypeToStandard(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -297,7 +297,7 @@ async function storageAccountCreateDnsEndpointTypeToStandard(): Promise<void> {
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreateEnablePublicNetworkAccess.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreateEnablePublicNetworkAccess.json
  */
 async function storageAccountCreateEnablePublicNetworkAccess(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -337,7 +337,7 @@ async function storageAccountCreateEnablePublicNetworkAccess(): Promise<void> {
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreatePremiumBlockBlobStorage.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreatePremiumBlockBlobStorage.json
  */
 async function storageAccountCreatePremiumBlockBlobStorage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -366,7 +366,7 @@ async function storageAccountCreatePremiumBlockBlobStorage(): Promise<void> {
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreateUserAssignedEncryptionIdentityWithCMK.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreateUserAssignedEncryptionIdentityWithCMK.json
  */
 async function storageAccountCreateUserAssignedEncryptionIdentityWithCMK(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -407,7 +407,7 @@ async function storageAccountCreateUserAssignedEncryptionIdentityWithCMK(): Prom
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId.json
  */
 async function storageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -449,7 +449,7 @@ async function storageAccountCreateUserAssignedIdentityWithFederatedIdentityClie
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreateWithDataCollaborationPolicy.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreateWithDataCollaborationPolicy.json
  */
 async function storageAccountCreateWithDataCollaborationPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -472,7 +472,7 @@ async function storageAccountCreateWithDataCollaborationPolicy(): Promise<void> 
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreateWithImmutabilityPolicy.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreateWithImmutabilityPolicy.json
  */
 async function storageAccountCreateWithImmutabilityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -499,7 +499,7 @@ async function storageAccountCreateWithImmutabilityPolicy(): Promise<void> {
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreateWithSmartAccessTier.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreateWithSmartAccessTier.json
  */
 async function storageAccountCreateWithSmartAccessTier(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -542,7 +542,27 @@ async function storageAccountCreateWithSmartAccessTier(): Promise<void> {
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreate_placement.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreateWithTurboTier.json
+ */
+async function storageAccountCreateWithTurboTier(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.storageAccounts.create("res9101", "staturbocontoso01", {
+    kind: "StorageV2",
+    location: "eastus2",
+    accessTier: "Hot",
+    turboTier: { status: "Enabled", targetPercent: 10 },
+    sku: { name: "Standard_LRS" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+ *
+ * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+ * x-ms-original-file: 2026-09-01/StorageAccountCreate_placement.json
  */
 async function storageAccountCreatePlacement(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -584,7 +604,7 @@ async function storageAccountCreatePlacement(): Promise<void> {
  * This sample demonstrates how to asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2026-06-01/StorageAccountCreate_zones.json
+ * x-ms-original-file: 2026-09-01/StorageAccountCreate_zones.json
  */
 async function storageAccountCreateZones(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -637,6 +657,7 @@ async function main(): Promise<void> {
   await storageAccountCreateWithDataCollaborationPolicy();
   await storageAccountCreateWithImmutabilityPolicy();
   await storageAccountCreateWithSmartAccessTier();
+  await storageAccountCreateWithTurboTier();
   await storageAccountCreatePlacement();
   await storageAccountCreateZones();
 }

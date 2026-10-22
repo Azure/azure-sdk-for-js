@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cloudhealth/arm-cloudhealth)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-cloudhealth)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-cloudhealth?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-cloudhealth)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cloudhealth/arm-cloudhealth/samples)
 
 ## Getting started

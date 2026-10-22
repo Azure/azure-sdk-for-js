@@ -148,11 +148,27 @@ You provide merge readiness guidance for Azure SDK for JS management-plane PRs.
 
 All CI checks have finished on this PR's head commit. Determine whether the PR is ready to merge or has blocking failures, then post a single comment.
 
-## Step 1. Confirm merge readiness
+## Step 1. Identify newly onboarded packages
+
+Before evaluating merge readiness, fetch all PR files through the GitHub API, following pagination. A newly onboarded management package has an `added` root manifest at `sdk/<service>/arm-<package>/package.json` relative to the PR base. Modified or renamed manifests, new source files in existing packages, sample manifests, and data-plane packages do not qualify. Do not infer onboarding from an incomplete file list.
+
+If at least one package qualifies, check all PR conversation comments (following pagination, including earlier runs) and the PR's check runs/statuses before recommending pipeline setup. Omit the action if a standalone, unquoted `/azp run prepare-pipelines` command comment already requested setup, or an Azure Pipelines response/check/status explicitly identifies a queued, running, or completed `prepare-pipelines` run for this PR. A request alone does not prove execution. Do not count an explicitly rejected command as a valid setup request unless there is separate run evidence.
+
+Do not count mentions inside prose, inline/fenced code, blockquotes, or previous **Next Steps to Merge** guidance as command requests. Do not conclude that no previous request exists from an incomplete comment list.
+
+Only when a new package qualifies and setup has not already been requested or triggered, include this action once in the **Next Steps to Merge** comment, whether CI passes or fails:
+
+```markdown
+- New package onboarding: Post `/azp run prepare-pipelines` as a separate PR comment to create the release pipelines.
+```
+
+This is guidance for the PR author, not an instruction for you to execute. Do not run the command or post a standalone command comment. For ordinary package updates, omit this action.
+
+## Step 2. Confirm merge readiness
 
 Fetch the PR using the GitHub API. If `mergeable_state == "clean"` and no check has `conclusion: "failure"`, `"cancelled"`, or `"timed_out"`:
 
-Post this comment and stop:
+Post this comment, adding the onboarding action from Step 1 when applicable, and stop:
 ```markdown
 ## Next Steps to Merge
 ✅ All CI checks have passed — this PR is ready for review!
@@ -162,7 +178,7 @@ The SDK engineer will review this PR shortly. Once it's approved, you can go ahe
 For more details, see the [management SDK release process](https://eng.ms/docs/products/azure-developer-experience/plan/mgmt-sdk-release-process).
 ```
 
-## Step 2. Diagnose blocking items
+## Step 3. Diagnose blocking items
 
 Collect every blocker:
 
@@ -200,9 +216,9 @@ Extra rules:
 - Include pnpm-lock guidance if `mergeable_state == "dirty"`.
 - Link to [CI troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) for unrecognized failures.
 
-## Step 3. Post the result
+## Step 4. Post the result
 
-Post a single `add-comment`. Include marker `<!-- gh-aw-workflow-id: mgmt-guidance -->` in the body. Keep the comment concise (≤ 15 lines). Do NOT include passed checks.
+Post a single `add-comment`. Include the onboarding action from Step 1 when applicable and marker `<!-- gh-aw-workflow-id: mgmt-guidance -->` in the body. Keep the comment concise (≤ 15 lines). Do NOT include passed checks.
 
 ```markdown
 ## Next Steps to Merge

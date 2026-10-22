@@ -4,14 +4,16 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -32,11 +34,18 @@ export enum AzureClouds {
 // @public
 export interface AzureMonitorWorkspace {
     readonly accountId?: string;
+    actions?: AzureMonitorWorkspaceActions;
     readonly defaultIngestionSettings?: AzureMonitorWorkspaceDefaultIngestionSettings;
+    readonly endpoints?: AzureMonitorWorkspaceEndpoints;
     metrics?: AzureMonitorWorkspaceMetrics;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ResourceProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
+}
+
+// @public
+export interface AzureMonitorWorkspaceActions {
+    defaultActionGroups?: DefaultActionGroupResource[];
 }
 
 // @public
@@ -45,6 +54,11 @@ export interface AzureMonitorWorkspaceDefaultIngestionSettings {
     readonly dataCollectionRuleImmutableId?: string;
     readonly dataCollectionRuleResourceId?: string;
     readonly ingestionEndpoints?: IngestionEndpoints;
+}
+
+// @public
+export interface AzureMonitorWorkspaceEndpoints {
+    readonly query?: string;
 }
 
 // @public
@@ -139,6 +153,11 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface DefaultActionGroupResource {
+    id?: string;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: any;
     readonly type?: string;
@@ -156,6 +175,10 @@ export interface ErrorDetail {
 // @public
 export interface ErrorResponse {
     error?: ErrorDetail;
+}
+
+// @public
+export interface ExtensionResource extends Resource {
 }
 
 // @public
@@ -182,6 +205,8 @@ export interface InvestigationResult {
     origin?: Origin;
     result: string;
 }
+
+export { isRestError }
 
 // @public
 export interface IssueAddInvestigationResultOptionalParams extends OperationOptions {
@@ -348,6 +373,12 @@ export enum KnownManagedServiceIdentityType {
 }
 
 // @public
+export enum KnownMetricConfigurationType {
+    Aggregated = "Aggregated",
+    Raw = "Raw"
+}
+
+// @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
     Creating = "Creating",
     Deleting = "Deleting",
@@ -392,6 +423,12 @@ export enum KnownStatus {
 }
 
 // @public
+export enum KnownTraceMetricsState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownUpdateType {
     IssueCreation = "IssueCreation",
     OnChange = "OnChange",
@@ -400,7 +437,10 @@ export enum KnownUpdateType {
 
 // @public
 export enum KnownVersions {
-    V20251003Stable = "2025-10-03"
+    V20250503 = "2025-05-03-preview",
+    V20251003 = "2025-10-03-preview",
+    V20251003Stable = "2025-10-03",
+    V20260903Preview = "2026-09-03-preview"
 }
 
 // @public
@@ -420,7 +460,96 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
+export interface MetricAggregationConfiguration {
+    aggregationFunctions?: MetricAggregationFunctions;
+    dimensions?: string[];
+    storeAggregatedData?: boolean;
+}
+
+// @public
+export interface MetricAggregationFunctions {
+    enableMinMax: boolean;
+    enablePercentiles: boolean;
+}
+
+// @public
+export interface MetricConfigurationProperties {
+    aggregationConfigurations?: MetricAggregationConfiguration[];
+    readonly dimensions?: string[];
+    metricName?: string;
+    metricType?: MetricConfigurationType;
+    namespace?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    sourceMetricResourceId?: string;
+    storeRawData?: boolean;
+}
+
+// @public
+export interface MetricConfigurationResource extends ProxyResource {
+    properties?: MetricConfigurationProperties;
+}
+
+// @public
+export interface MetricConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MetricConfigurationsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MetricConfigurationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MetricConfigurationsListByMetricNamespaceOptionalParams extends OperationOptions {
+    filter?: string;
+}
+
+// @public
+export interface MetricConfigurationsListByMetricsContainerOptionalParams extends OperationOptions {
+    filter?: string;
+}
+
+// @public
+export interface MetricConfigurationsOperations {
+    createOrUpdate: (resourceGroupName: string, azureMonitorWorkspaceName: string, metricsContainerName: string, encodedMetricNamespace: string, encodedMetricName: string, resource: MetricConfigurationResource, options?: MetricConfigurationsCreateOrUpdateOptionalParams) => Promise<MetricConfigurationResource>;
+    delete: (resourceGroupName: string, azureMonitorWorkspaceName: string, metricsContainerName: string, encodedMetricNamespace: string, encodedMetricName: string, options?: MetricConfigurationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, azureMonitorWorkspaceName: string, metricsContainerName: string, encodedMetricNamespace: string, encodedMetricName: string, options?: MetricConfigurationsGetOptionalParams) => Promise<MetricConfigurationResource>;
+    listByMetricNamespace: (resourceGroupName: string, azureMonitorWorkspaceName: string, metricsContainerName: string, encodedMetricNamespace: string, options?: MetricConfigurationsListByMetricNamespaceOptionalParams) => PagedAsyncIterableIterator<MetricConfigurationResource>;
+    listByMetricsContainer: (resourceGroupName: string, azureMonitorWorkspaceName: string, metricsContainerName: string, options?: MetricConfigurationsListByMetricsContainerOptionalParams) => PagedAsyncIterableIterator<MetricConfigurationResource>;
+}
+
+// @public
+export type MetricConfigurationType = string;
+
+// @public
+export interface MetricNamespaceProperties {
+    readonly provisioningState?: ResourceProvisioningState;
+}
+
+// @public
+export interface MetricNamespaceResource extends ProxyResource {
+    properties?: MetricNamespaceProperties;
+}
+
+// @public
+export interface MetricNamespacesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MetricNamespacesListByMetricsContainerOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MetricNamespacesOperations {
+    get: (resourceGroupName: string, azureMonitorWorkspaceName: string, metricsContainerName: string, encodedMetricNamespace: string, options?: MetricNamespacesGetOptionalParams) => Promise<MetricNamespaceResource>;
+    listByMetricsContainer: (resourceGroupName: string, azureMonitorWorkspaceName: string, metricsContainerName: string, options?: MetricNamespacesListByMetricsContainerOptionalParams) => PagedAsyncIterableIterator<MetricNamespaceResource>;
+}
+
+// @public
 export interface MetricsContainer {
+    limits?: MetricsLimits;
     readonly provisioningState?: ResourceProvisioningState;
     version?: string;
 }
@@ -449,14 +578,27 @@ export interface MetricsContainersOperations {
     listByAzureMonitorWorkspace: (resourceGroupName: string, azureMonitorWorkspaceName: string, options?: MetricsContainersListByAzureMonitorWorkspaceOptionalParams) => PagedAsyncIterableIterator<MetricsContainerResource>;
 }
 
+// @public
+export interface MetricsLimits {
+    enableAutoScale?: boolean;
+    maxActiveTimeSeries?: number;
+    maxEventsPerMinute?: number;
+}
+
 // @public (undocumented)
 export class MonitorClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: MonitorClientOptionalParams);
     readonly azureMonitorWorkspaces: AzureMonitorWorkspacesOperations;
     readonly issue: IssueOperations;
+    readonly metricConfigurations: MetricConfigurationsOperations;
+    readonly metricNamespaces: MetricNamespacesOperations;
     readonly metricsContainers: MetricsContainersOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
+    readonly traceAssociations: TraceAssociationsOperations;
+    readonly traceAssociationsAtResourceGroup: TraceAssociationsAtResourceGroupOperations;
+    readonly traceAssociationsAtSubscription: TraceAssociationsAtSubscriptionOperations;
+    readonly traceContainers: TraceContainersOperations;
 }
 
 // @public
@@ -635,6 +777,8 @@ export interface Resource {
 // @public
 export type ResourceProvisioningState = string;
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MonitorClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -663,6 +807,129 @@ export interface TimeBasedUpdatesNotificationType extends IssueNotificationType 
     updateInterval: string;
     updateType: "TimeBased";
 }
+
+// @public
+export interface TraceAssociation {
+    azureMonitorWorkspaceResourceId: string;
+}
+
+// @public
+export interface TraceAssociationResource extends ExtensionResource {
+    properties?: TraceAssociation;
+}
+
+// @public
+export interface TraceAssociationsAtResourceGroupCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceAssociationsAtResourceGroupDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceAssociationsAtResourceGroupGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceAssociationsAtResourceGroupListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceAssociationsAtResourceGroupOperations {
+    createOrUpdate: (resourceGroupName: string, resource: TraceAssociationResource, options?: TraceAssociationsAtResourceGroupCreateOrUpdateOptionalParams) => Promise<TraceAssociationResource>;
+    delete: (resourceGroupName: string, options?: TraceAssociationsAtResourceGroupDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, options?: TraceAssociationsAtResourceGroupGetOptionalParams) => Promise<TraceAssociationResource>;
+    list: (resourceGroupName: string, options?: TraceAssociationsAtResourceGroupListOptionalParams) => PagedAsyncIterableIterator<TraceAssociationResource>;
+}
+
+// @public
+export interface TraceAssociationsAtSubscriptionCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceAssociationsAtSubscriptionDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceAssociationsAtSubscriptionGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceAssociationsAtSubscriptionListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceAssociationsAtSubscriptionOperations {
+    createOrUpdate: (resource: TraceAssociationResource, options?: TraceAssociationsAtSubscriptionCreateOrUpdateOptionalParams) => Promise<TraceAssociationResource>;
+    delete: (options?: TraceAssociationsAtSubscriptionDeleteOptionalParams) => Promise<void>;
+    get: (options?: TraceAssociationsAtSubscriptionGetOptionalParams) => Promise<TraceAssociationResource>;
+    list: (options?: TraceAssociationsAtSubscriptionListOptionalParams) => PagedAsyncIterableIterator<TraceAssociationResource>;
+}
+
+// @public
+export interface TraceAssociationsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceAssociationsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceAssociationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceAssociationsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceAssociationsOperations {
+    createOrUpdate: (resourceGroupName: string, providerName: string, providerType: string, resourceName: string, resource: TraceAssociationResource, options?: TraceAssociationsCreateOrUpdateOptionalParams) => Promise<TraceAssociationResource>;
+    delete: (resourceGroupName: string, providerName: string, providerType: string, resourceName: string, options?: TraceAssociationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, providerName: string, providerType: string, resourceName: string, options?: TraceAssociationsGetOptionalParams) => Promise<TraceAssociationResource>;
+    list: (resourceGroupName: string, providerName: string, providerType: string, resourceName: string, options?: TraceAssociationsListOptionalParams) => PagedAsyncIterableIterator<TraceAssociationResource>;
+}
+
+// @public
+export interface TraceContainer {
+    readonly provisioningState?: ResourceProvisioningState;
+    traceDurationWindowInSeconds: number;
+    traceMetricsState: TraceMetricsState;
+    traceRetentionInDays: number;
+}
+
+// @public
+export interface TraceContainerResource extends ProxyResource {
+    properties?: TraceContainer;
+}
+
+// @public
+export interface TraceContainersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface TraceContainersDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceContainersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceContainersListByAzureMonitorWorkspaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TraceContainersOperations {
+    createOrUpdate: (resourceGroupName: string, azureMonitorWorkspaceName: string, resource: TraceContainerResource, options?: TraceContainersCreateOrUpdateOptionalParams) => PollerLike<OperationState<TraceContainerResource>, TraceContainerResource>;
+    delete: (resourceGroupName: string, azureMonitorWorkspaceName: string, options?: TraceContainersDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, azureMonitorWorkspaceName: string, options?: TraceContainersGetOptionalParams) => Promise<TraceContainerResource>;
+    listByAzureMonitorWorkspace: (resourceGroupName: string, azureMonitorWorkspaceName: string, options?: TraceContainersListByAzureMonitorWorkspaceOptionalParams) => PagedAsyncIterableIterator<TraceContainerResource>;
+}
+
+// @public
+export type TraceMetricsState = string;
 
 // @public
 export interface TrackedResource extends Resource {

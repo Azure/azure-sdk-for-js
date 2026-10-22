@@ -9,6 +9,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { serializeRecord } from "../../static-helpers/serialization/serialize-record.js";
 import {
+  MicrosoftCopilotToolsetPreview,
+  microsoftCopilotToolsetPreviewSerializer,
+  microsoftCopilotToolsetPreviewDeserializer,
   GitHubCopilotToolsetPreview,
   gitHubCopilotToolsetPreviewSerializer,
   gitHubCopilotToolsetPreviewDeserializer,
@@ -224,6 +227,7 @@ export function toolDeserializer(item: any): Tool {
 
 /** Alias for ToolUnion */
 export type ToolUnion =
+  | MicrosoftCopilotToolsetPreview
   | GitHubCopilotToolsetPreview
   | BingGroundingTool
   | MicrosoftFabricPreviewTool
@@ -261,6 +265,9 @@ export type ToolUnion =
 
 export function toolUnionSerializer(item: ToolUnion): any {
   switch (item.type) {
+    case "microsoft_copilot_toolset_preview":
+      return microsoftCopilotToolsetPreviewSerializer(item as MicrosoftCopilotToolsetPreview);
+
     case "github_copilot_toolset_preview":
       return gitHubCopilotToolsetPreviewSerializer(item as GitHubCopilotToolsetPreview);
 
@@ -367,6 +374,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
 export function toolUnionDeserializer(item: any): ToolUnion {
   switch (item["type"]) {
+    case "microsoft_copilot_toolset_preview":
+      return microsoftCopilotToolsetPreviewDeserializer(item as MicrosoftCopilotToolsetPreview);
+
     case "github_copilot_toolset_preview":
       return gitHubCopilotToolsetPreviewDeserializer(item as GitHubCopilotToolsetPreview);
 
@@ -506,7 +516,8 @@ export type ToolType =
   | "bing_grounding"
   | "browser_automation"
   | "capture_structured_outputs"
-  | "openapi";
+  | "openapi"
+  | "microsoft_copilot_toolset_preview";
 
 /** model interface MCPToolRequireApproval */
 export interface MCPToolRequireApproval {
@@ -3158,8 +3169,11 @@ export interface ApiError {
   param?: string;
   type?: string;
   misalignment?: MisalignmentErrorDetailsResource;
+  /** Additional errors that contributed to this failure. */
   details?: ApiError[];
+  /** Additional structured information about the failure. */
   additionalInfo?: Record<string, any>;
+  /** Diagnostic information supplied by the service for troubleshooting. */
   debugInfo?: Record<string, any>;
 }
 
@@ -3470,6 +3484,56 @@ export function realtimeResponseUsageOutputTokenDetailsDeserializer(
   return {
     text_tokens: item["text_tokens"],
     audio_tokens: item["audio_tokens"],
+  };
+}
+
+/** model interface RealtimeResponseStatusDetails */
+export interface RealtimeResponseStatusDetails {
+  type?: "completed" | "cancelled" | "failed" | "incomplete";
+  reason?: "turn_detected" | "client_cancelled" | "max_output_tokens" | "content_filter";
+  error?: RealtimeResponseStatusDetailsError;
+}
+
+export function realtimeResponseStatusDetailsSerializer(item: RealtimeResponseStatusDetails): any {
+  return {
+    type: item["type"],
+    reason: item["reason"],
+    error: !item["error"]
+      ? item["error"]
+      : realtimeResponseStatusDetailsErrorSerializer(item["error"]),
+  };
+}
+
+export function realtimeResponseStatusDetailsDeserializer(
+  item: any,
+): RealtimeResponseStatusDetails {
+  return {
+    type: item["type"],
+    reason: item["reason"],
+    error: !item["error"]
+      ? item["error"]
+      : realtimeResponseStatusDetailsErrorDeserializer(item["error"]),
+  };
+}
+
+/** model interface RealtimeResponseStatusDetailsError */
+export interface RealtimeResponseStatusDetailsError {
+  type?: string;
+  code?: string;
+}
+
+export function realtimeResponseStatusDetailsErrorSerializer(
+  item: RealtimeResponseStatusDetailsError,
+): any {
+  return { type: item["type"], code: item["code"] };
+}
+
+export function realtimeResponseStatusDetailsErrorDeserializer(
+  item: any,
+): RealtimeResponseStatusDetailsError {
+  return {
+    type: item["type"],
+    code: item["code"],
   };
 }
 
@@ -4401,68 +4465,38 @@ export function realtimeMCPApprovalRequestDeserializer(item: any): RealtimeMCPAp
   };
 }
 
-/** model interface RealtimeResponseStatusDetails */
-export interface RealtimeResponseStatusDetails {
-  type?: "completed" | "cancelled" | "failed" | "incomplete";
-  reason?: "turn_detected" | "client_cancelled" | "max_output_tokens" | "content_filter";
-  error?: RealtimeResponseStatusDetailsError;
+/**
+ * Set of 16 key-value pairs that can be attached to an object. This can be
+ * useful for storing additional information about the object in a structured
+ * format, and querying for objects via API or the dashboard.
+ * Keys are strings with a maximum length of 64 characters. Values are strings
+ * with a maximum length of 512 characters.
+ */
+export interface Metadata {
+  /** Additional properties */
+  additionalProperties?: Record<string, string>;
 }
 
-export function realtimeResponseStatusDetailsSerializer(item: RealtimeResponseStatusDetails): any {
+export function metadataSerializer(item: Metadata): any {
+  return { ...serializeRecord(item.additionalProperties ?? {}) };
+}
+
+export function metadataDeserializer(item: any): Metadata {
   return {
-    type: item["type"],
-    reason: item["reason"],
-    error: !item["error"]
-      ? item["error"]
-      : realtimeResponseStatusDetailsErrorSerializer(item["error"]),
+    additionalProperties: serializeRecord(item, []),
   };
 }
 
-export function realtimeResponseStatusDetailsDeserializer(
-  item: any,
-): RealtimeResponseStatusDetails {
-  return {
-    type: item["type"],
-    reason: item["reason"],
-    error: !item["error"]
-      ? item["error"]
-      : realtimeResponseStatusDetailsErrorDeserializer(item["error"]),
-  };
-}
+/** Alias for _VoiceResponseMaxOutputTokens */
+export type _VoiceResponseMaxOutputTokens = number | "inf";
 
-/** model interface RealtimeResponseStatusDetailsError */
-export interface RealtimeResponseStatusDetailsError {
-  type?: string;
-  code?: string;
-}
-
-export function realtimeResponseStatusDetailsErrorSerializer(
-  item: RealtimeResponseStatusDetailsError,
-): any {
-  return { type: item["type"], code: item["code"] };
-}
-
-export function realtimeResponseStatusDetailsErrorDeserializer(
-  item: any,
-): RealtimeResponseStatusDetailsError {
-  return {
-    type: item["type"],
-    code: item["code"],
-  };
-}
-
-/** Alias for _VoiceResponseBaseMaxOutputTokens */
-export type _VoiceResponseBaseMaxOutputTokens = number | "inf";
-
-export function _voiceResponseBaseMaxOutputTokensSerializer(
-  item: _VoiceResponseBaseMaxOutputTokens,
-): any {
+export function _voiceResponseMaxOutputTokensSerializer(item: _VoiceResponseMaxOutputTokens): any {
   return item;
 }
 
-export function _voiceResponseBaseMaxOutputTokensDeserializer(
+export function _voiceResponseMaxOutputTokensDeserializer(
   item: any,
-): _VoiceResponseBaseMaxOutputTokens {
+): _VoiceResponseMaxOutputTokens {
   return item;
 }
 
@@ -5143,28 +5177,6 @@ export function _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer(
   item: any,
 ): _VoiceAgentResponseCreateParamsMaxOutputTokens {
   return item;
-}
-
-/**
- * Set of 16 key-value pairs that can be attached to an object. This can be
- * useful for storing additional information about the object in a structured
- * format, and querying for objects via API or the dashboard.
- * Keys are strings with a maximum length of 64 characters. Values are strings
- * with a maximum length of 512 characters.
- */
-export interface Metadata {
-  /** Additional properties */
-  additionalProperties?: Record<string, string>;
-}
-
-export function metadataSerializer(item: Metadata): any {
-  return { ...serializeRecord(item.additionalProperties ?? {}) };
-}
-
-export function metadataDeserializer(item: any): Metadata {
-  return {
-    additionalProperties: serializeRecord(item, []),
-  };
 }
 
 /** A realtime server event. */

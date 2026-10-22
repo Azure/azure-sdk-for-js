@@ -1,25 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MaintenanceManagementContext as Client } from "../index.js";
+import type { MaintenanceManagementContext as Client } from "../index.js";
+import type { _ListUpdatesResult, Update } from "../../models/models.js";
 import {
   maintenanceErrorDeserializer,
-  _ListUpdatesResult,
   _listUpdatesResultDeserializer,
-  Update,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { UpdatesListOptionalParams, UpdatesListParentOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { UpdatesListOptionalParams, UpdatesListParentOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -37,7 +30,7 @@ export function _listSend(
       providerName: providerName,
       resourceType: resourceType,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,7 +46,9 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -78,7 +73,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2023-10-01-preview",
+      apiVersion: context.apiVersion ?? "2025-10-01-preview",
     },
   );
 }
@@ -103,7 +98,7 @@ export function _listParentSend(
       resourceParentName: resourceParentName,
       resourceType: resourceType,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +116,9 @@ export async function _listParentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -158,7 +155,7 @@ export function listParent(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2023-10-01-preview",
+      apiVersion: context.apiVersion ?? "2025-10-01-preview",
     },
   );
 }
