@@ -600,6 +600,18 @@ const iterator = container.items.getChangeFeedIterator({
 const response = await iterator.readNext();
 ```
 
+### Client-side encryption usage identification
+
+Clients configured with `clientEncryptionOptions` automatically include
+`azure-cosmos-js-encryption/<SDKVersion>` in both the `User-Agent` and
+`x-ms-useragent` request headers, alongside the existing Cosmos SDK identifier.
+The marker preserves the configured `userAgentSuffix` and host framework
+identifier. Clients without encryption configured do not receive the marker.
+
+This identifies an encryption-configured client, not whether every requested item
+is encrypted. No encryption keys, item values, or key-resolver details are included
+in the marker. The existing `x-ms-cosmos-is-client-encrypted` header is unchanged.
+
 ## Preview features
 
 Some in-development capabilities are available behind the `enablePreviewFeatures` option on `CosmosClientOptions`. Preview features are opt-in, may change in backward-incompatible ways between releases, and are not recommended for production use.
