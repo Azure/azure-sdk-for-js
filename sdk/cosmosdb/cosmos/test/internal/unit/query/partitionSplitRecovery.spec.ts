@@ -1080,63 +1080,78 @@ describe("partition split recovery", () => {
   });
 
   it("ignores a late normal success after a sibling abort closes the buffer cycle", async () => {
-    await expectNoUnhandledRejections(async () => {
-      const clientContext = createClientContext();
-      const topology = mockTopology(clientContext, [[mergeParent1, mergeParent2]]);
-      const requestA = createDeferred<never>();
-      const requestB = createDeferred<{
-        code: number;
-        headers: Record<string, string>;
-        result: Resource;
-      }>();
-      const requestsStarted = createDeferred<void>();
-      const requests: string[] = [];
-      vi.spyOn(clientContext, "queryFeed").mockImplementation(({ partitionKeyRangeId }) => {
-        const rangeId = partitionKeyRangeId ?? "none";
-        requests.push(rangeId);
-        if (requests.length === 2) {
-          requestsStarted.resolve(undefined);
-        }
-        return rangeId === "P1" ? requestA.promise : requestB.promise;
-      });
-
-      const context = createParallelContext(clientContext, {
-        ...options,
-        maxDegreeOfParallelism: 2,
-      });
-      const replacementSpy = spyOnReplacement(context);
-      const resultPromise = captureError(
-        withTimeout(context.fetchMore(createDummyDiagnosticNode())),
-      );
-      await withTimeout(requestsStarted.promise);
-
-      const abortError = Object.assign(new Error("request A aborted"), {
-        headers: { "x-ms-request-charge": "2" },
-        name: "AbortError",
-      });
-      requestA.reject(abortError);
-      const error = await withTimeout(resultPromise);
-
-      assert.strictEqual(error, abortError);
-      assert.equal(Number(error.headers?.["x-ms-request-charge"]), 2);
-      assert.strictEqual(getRecoveryInternals(context).err, abortError);
-      assert.deepEqual(requests, ["P1", "P2"]);
-      assert.equal(topology.getForceRefreshCount(), 0);
-      expect(replacementSpy).not.toHaveBeenCalled();
-      assertCleanTerminalRecoveryState(context);
-
-      requestB.resolve({
+    const lateResponses: {
+      code: number;
+      headers: Record<string, string>;
+      result: Resource;
+    }[] = [
+      {
         result: [{ id: "late", source: "P2" }] as unknown as Resource,
         headers: { "x-ms-request-charge": "7" },
         code: StatusCodes.Ok,
-      });
-      await flushAsyncWork();
+      },
+      {
+        result: [] as unknown as Resource,
+        headers: { "x-ms-continuation": "late-token", "x-ms-request-charge": "7" },
+        code: StatusCodes.Ok,
+      },
+    ];
 
-      assert.strictEqual(getRecoveryInternals(context).err, abortError);
-      assert.equal(Number(error.headers?.["x-ms-request-charge"]), 2);
-      expect(replacementSpy).not.toHaveBeenCalled();
-      assertCleanTerminalRecoveryState(context);
-    });
+    for (const lateResponse of lateResponses) {
+      await expectNoUnhandledRejections(async () => {
+        const clientContext = createClientContext();
+        const topology = mockTopology(clientContext, [[mergeParent1, mergeParent2]]);
+        const requestA = createDeferred<never>();
+        const requestB = createDeferred<{
+          code: number;
+          headers: Record<string, string>;
+          result: Resource;
+        }>();
+        const requestsStarted = createDeferred<void>();
+        const requests: string[] = [];
+        vi.spyOn(clientContext, "queryFeed").mockImplementation(({ partitionKeyRangeId }) => {
+          const rangeId = partitionKeyRangeId ?? "none";
+          requests.push(rangeId);
+          if (requests.length === 2) {
+            requestsStarted.resolve(undefined);
+          }
+          return rangeId === "P1" ? requestA.promise : requestB.promise;
+        });
+
+        const context = createParallelContext(clientContext, {
+          ...options,
+          maxDegreeOfParallelism: 2,
+        });
+        const replacementSpy = spyOnReplacement(context);
+        const resultPromise = captureError(
+          withTimeout(context.fetchMore(createDummyDiagnosticNode())),
+        );
+        await withTimeout(requestsStarted.promise);
+
+        const abortError = Object.assign(new Error("request A aborted"), {
+          headers: { "x-ms-request-charge": "2" },
+          name: "AbortError",
+        });
+        requestA.reject(abortError);
+        const error = await withTimeout(resultPromise);
+
+        assert.strictEqual(error, abortError);
+        assert.equal(Number(error.headers?.["x-ms-request-charge"]), 2);
+        assert.strictEqual(getRecoveryInternals(context).err, abortError);
+        assert.deepEqual(requests, ["P1", "P2"]);
+        assert.equal(topology.getForceRefreshCount(), 0);
+        expect(replacementSpy).not.toHaveBeenCalled();
+        assertCleanTerminalRecoveryState(context);
+
+        requestB.resolve(lateResponse);
+        await flushAsyncWork();
+
+        assert.strictEqual(getRecoveryInternals(context).err, abortError);
+        assert.equal(Number(error.headers?.["x-ms-request-charge"]), 2);
+        expect(replacementSpy).not.toHaveBeenCalled();
+        assertCleanTerminalRecoveryState(context);
+      });
+    }
   });
 
   it("discards a split refresh that completes after a sibling abort", async () => {
