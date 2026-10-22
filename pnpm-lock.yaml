@@ -9325,6 +9325,10 @@ importers:
         version: 5.0.4(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.4)(@vitest/coverage-istanbul@5.0.4)(@vitest/ui@5.0.4)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
   sdk/core/core-process:
+    dependencies:
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
     devDependencies:
       '@azure/eslint-plugin-azure-sdk':
         specifier: workspace:^

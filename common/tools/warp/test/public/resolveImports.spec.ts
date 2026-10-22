@@ -780,6 +780,57 @@ describe("build with default-on resolveImports", () => {
     await fs.rm(tmpDir, { recursive: true, force: true });
   });
 
+  it("returns compiler diagnostics when import validation encounters a missing source", async () => {
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      JSON.stringify({
+        name: "test-missing-import-source",
+        type: "module",
+        imports: {
+          "#platform/*": { default: "./src/*.ts" },
+        },
+      }),
+    );
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.esm.json"),
+      JSON.stringify({
+        compilerOptions: {
+          target: "ES2022",
+          module: "NodeNext",
+          moduleResolution: "NodeNext",
+          declaration: true,
+          outDir: "./dist/esm",
+          rootDir: "./src",
+          lib: ["ES2022"],
+          types: [],
+          skipLibCheck: true,
+        },
+        files: ["src/missing.ts"],
+      }),
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/missing.ts" },
+        targets: [
+          {
+            name: "esm",
+            condition: "import",
+            tsconfig: "./tsconfig.esm.json",
+          },
+        ],
+      }),
+    );
+
+    const result = await build({ cwd: tmpDir });
+
+    expect(result.success).toBe(false);
+    expect(
+      result.compileResults?.[0].diagnostics.some((diagnostic) => diagnostic.code === 6053),
+    ).toBe(true);
+  });
+
   it("resolves imports by default when package.json has imports field (no explicit resolveImports)", async () => {
     const srcDir = path.join(tmpDir, "src");
     await fs.mkdir(srcDir, { recursive: true });
@@ -1107,6 +1158,23 @@ describe("validateNoDirectImports", () => {
     );
 
     expect(violations).toHaveLength(0);
+  });
+
+  it("ignores missing source files so the compiler can diagnose them", async () => {
+    const importsMap: ImportsMap = {
+      "#platform/nodeTypes": {
+        browser: "./src/nodeTypes-browser.mts",
+        default: "./src/nodeTypes.ts",
+      },
+    };
+
+    const violations = await validateNoDirectImports(
+      [path.join(tmpDir, "deleted/source.ts")],
+      importsMap,
+      tmpDir,
+    );
+
+    expect(violations).toEqual([]);
   });
 
   it("skips files that are themselves import targets (platform impl files)", async () => {

@@ -81,6 +81,11 @@ describe("discoverPolyfills", () => {
     expect(map.size).toBe(0);
   });
 
+  it("ignores source files whose parent directory is missing", async () => {
+    const fileNames = [path.join(tmpDir, "deleted/source.ts")];
+    await expect(discoverPolyfills(fileNames, "-browser")).resolves.toEqual(new Map());
+  });
+
   it("prefers .mts over .ts polyfill", async () => {
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.writeFile(path.join(tmpDir, "src/foo.ts"), "export const x = 1;");
@@ -142,6 +147,52 @@ describe("polyfill substitution build", () => {
 
   afterEach(async () => {
     await fs.rm(tmpDir, { recursive: true, force: true });
+  });
+
+  it("returns compiler diagnostics when a configured source directory is missing", async () => {
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      JSON.stringify({ name: "test-missing-polyfill-source", type: "module" }),
+    );
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.browser.json"),
+      JSON.stringify({
+        compilerOptions: {
+          outDir: "./dist/browser",
+          rootDir: "./src",
+          module: "NodeNext",
+          moduleResolution: "NodeNext",
+          target: "ES2023",
+          declaration: true,
+          strict: true,
+          types: [],
+          skipLibCheck: true,
+        },
+        files: ["src/missing.ts"],
+      }),
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/missing.ts" },
+        targets: [
+          {
+            name: "browser",
+            condition: "browser",
+            tsconfig: "./tsconfig.browser.json",
+            polyfillSuffix: "-browser",
+          },
+        ],
+      }),
+    );
+
+    const result = await build({ cwd: tmpDir });
+
+    expect(result.success).toBe(false);
+    expect(
+      result.compileResults?.[0].diagnostics.some((diagnostic) => diagnostic.code === 6053),
+    ).toBe(true);
   });
 
   it("substitutes polyfill content in browser target", async () => {

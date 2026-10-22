@@ -32,6 +32,10 @@ import type { API } from "typescript/async";
 import { withCompilerApi, withSourceFile } from "./compilerApi.ts";
 import { getLogger } from "./logger.ts";
 
+function isMissingFile(error: unknown): boolean {
+  return error instanceof Error && "code" in error && error.code === "ENOENT";
+}
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -918,7 +922,13 @@ export async function validateNoDirectImports(
       }
     }
 
-    const content = await fsp.readFile(filePath, "utf-8");
+    let content: string;
+    try {
+      content = await fsp.readFile(filePath, "utf-8");
+    } catch (error) {
+      if (isMissingFile(error)) continue;
+      throw error;
+    }
     if (!content) continue;
 
     if (!content.includes("./") && !content.includes("../")) continue;

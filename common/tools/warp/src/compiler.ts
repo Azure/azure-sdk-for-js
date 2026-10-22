@@ -134,7 +134,13 @@ export async function discoverPolyfills(
   }
   await Promise.all(
     [...byDir].map(async ([dir, sources]) => {
-      const entries = new Set(await fsp.readdir(dir));
+      let entries: Set<string>;
+      try {
+        entries = new Set(await fsp.readdir(dir));
+      } catch (error) {
+        if (isMissingFile(error)) return;
+        throw error;
+      }
       for (const file of sources) {
         const stem = path.basename(file).slice(0, -3);
         const replacement = [".mts", ".cts", ".ts"]

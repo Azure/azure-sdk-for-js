@@ -51,6 +51,9 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-process",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "dependencies": {
+    "tslib": "catalog:"
+  },
   "scripts": {
     "build": "npm run clean && warp build && npm run extract-api",
     "build:samples": "echo Skipped.",
