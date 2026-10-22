@@ -37,6 +37,11 @@ const splitChild3 = createRange("S3", "70", "FF", ["M"]);
 const aggregateChild1 = createRange("B1", "80", "C0", ["P2"]);
 const aggregateChild2 = createRange("B2", "C0", "FF", ["P2"]);
 const nestedChild1 = createRange("A1", "", "80", ["C1"]);
+const aggregateLeft = createRange("G0", "", "40");
+const aggregateSplitParent = createRange("G1", "40", "80");
+const aggregateTrailing = createRange("G2", "80", "FF");
+const aggregateEmptyChild1 = createRange("G1a", "40", "60", ["G1"]);
+const aggregateEmptyChild2 = createRange("G1b", "60", "80", ["G1"]);
 const queryInfo = createPartitionedQueryInfo("Parallel");
 const options: FeedOptions = { maxItemCount: 2, maxDegreeOfParallelism: 1 };
 
@@ -551,6 +556,83 @@ describe("partition split recovery", () => {
     assert.equal(response.requestCharge, 12);
     assert.isFalse(response.hasMoreResults);
     assert.equal(topology.getForceRefreshCount(), 1);
+  });
+
+  it("consumes terminal repair children before finalizing aggregates", async () => {
+    const cases = [
+      {
+        initialRanges: [mergeParent1, mergeParent2],
+        refreshedRanges: [mergeParent1, aggregateChild1, aggregateChild2],
+        leftId: "P1",
+        splitId: "P2",
+        childIds: ["B1", "B2"],
+        expectedRequests: ["P1", "P2", "B1", "B2"],
+        expectedResult: 1,
+        expectedCharge: 4,
+      },
+      {
+        initialRanges: [aggregateLeft, aggregateSplitParent, aggregateTrailing],
+        refreshedRanges: [
+          aggregateLeft,
+          aggregateEmptyChild1,
+          aggregateEmptyChild2,
+          aggregateTrailing,
+        ],
+        leftId: "G0",
+        splitId: "G1",
+        childIds: ["G1a", "G1b"],
+        trailingId: "G2",
+        expectedRequests: ["G0", "G1", "G1a", "G1b", "G2"],
+        expectedResult: 5,
+        expectedCharge: 8,
+      },
+    ];
+
+    for (const testCase of cases) {
+      const clientContext = createClientContext();
+      const topology = mockTopology(clientContext, [
+        testCase.initialRanges,
+        testCase.refreshedRanges,
+      ]);
+      const requests: string[] = [];
+      vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requests.push(rangeId);
+        if (requests.length > 6) {
+          throw new Error("Terminal aggregate recovery request guard exceeded");
+        }
+        if (rangeId === testCase.splitId) {
+          throw createSplitError();
+        }
+        if (testCase.childIds.includes(rangeId)) {
+          return {
+            result: [] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        const value = rangeId === testCase.leftId ? 1 : 4;
+        return {
+          result: [[{ item: value }]] as unknown as Resource,
+          headers: { "x-ms-request-charge": `${value}` },
+          code: StatusCodes.Ok,
+        };
+      });
+
+      const iterator = createPublicIterator<number>(
+        clientContext,
+        "Parallel",
+        createAggregateQueryInfo(),
+        { ...options, forceQueryPlan: true, maxDegreeOfParallelism: 1 },
+      );
+      const response = await withTimeout(iterator.fetchAll());
+
+      assert.deepEqual(response.resources, [testCase.expectedResult]);
+      assert.deepEqual(requests, testCase.expectedRequests);
+      assert.equal(response.requestCharge, testCase.expectedCharge);
+      assert.isFalse(response.hasMoreResults);
+      assert.equal(topology.getForceRefreshCount(), 1);
+    }
   });
 
   it("distinguishes identical queue transitions from different repair producers", async () => {

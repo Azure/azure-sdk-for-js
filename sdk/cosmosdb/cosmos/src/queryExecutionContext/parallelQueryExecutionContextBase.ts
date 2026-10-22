@@ -177,6 +177,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
     const observedProgress = new Set<string>();
     let splitError = this.splitRepairProducers.values().next().value;
+    let isRepairingSplit = this.splitRepairProducers.size > 0;
 
     while (true) {
       const bufferCycle = await this.bufferDocumentProducers(diagnosticNode);
@@ -190,6 +191,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         observedProgress.add(repair.transitionKey);
         splitError ??= repair.error;
       });
+      isRepairingSplit ||= bufferCycle.splitRepairs.length > 0;
 
       await this.fillBufferFromBufferQueue();
 
@@ -197,7 +199,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         return this.drainBufferedItems();
       }
 
-      if (this.splitRepairProducers.size === 0) {
+      if (!isRepairingSplit) {
         return this.drainBufferedItems();
       }
       if (bufferCycle.splitRepairs.length === 0 && !bufferCycle.processedRepairProducer) {
