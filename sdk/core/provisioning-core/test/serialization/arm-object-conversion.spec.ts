@@ -734,7 +734,7 @@ describe("@encode encoding/decoding", () => {
     );
   });
 
-  it("rejects RFC7231 millisecond precision loss", () => {
+  it.each(["001", "999"])("ignores RFC7231 milliseconds: %s", (fraction) => {
     const shape = createModelShape({
       createdAt: {
         armPath: ["createdAt"],
@@ -747,9 +747,9 @@ describe("@encode encoding/decoding", () => {
         }),
       },
     });
-    expect(() =>
-      convertToArmObject({ createdAt: new Date("2024-01-01T00:00:00.001Z") }, shape),
-    ).toThrow(/lose millisecond precision/);
+    expect(
+      convertToArmObject({ createdAt: new Date(`2024-01-01T00:00:00.${fraction}Z`) }, shape),
+    ).toEqual({ createdAt: "Mon, 01 Jan 2024 00:00:00 GMT" });
   });
 
   it("converts offsetDateTime strings between RFC3339 and RFC7231", () => {
@@ -776,9 +776,33 @@ describe("@encode encoding/decoding", () => {
     expect(() =>
       convertToArmObject({ observedAt: "Wed, 16 Sep 2026 05:00:00 GMT" }, shape),
     ).toThrow(/rfc3339/);
-    expect(() =>
-      convertToArmObject({ observedAt: "2026-09-16T07:00:00.001+02:00" }, shape),
-    ).toThrow(/lose subsecond precision/);
+  });
+
+  it.each([
+    "2026-01-01T00:00:00.0001Z",
+    "2026-01-01T00:00:00.001Z",
+    "2026-01-01T00:00:00.999999999Z",
+    "2026-01-01T02:00:00.999999999+02:00",
+  ])("ignores RFC3339 fractional seconds when encoding RFC7231: %s", (client) => {
+    const shape = createModelShape({
+      observedAt: {
+        armPath: ["observedAt"],
+        value: createStringShape({
+          kind: "date-time-text",
+          source: "offsetDateTime",
+          format: "rfc7231",
+          clientMode: "wire",
+          wire: { kind: "string" },
+        }),
+      },
+    });
+    const wire = convertToArmObject({ observedAt: client }, shape);
+    expect(wire).toEqual({
+      observedAt: "Thu, 01 Jan 2026 00:00:00 GMT",
+    });
+    expect(convertFromArmObject(wire, shape)).toEqual({
+      observedAt: "2026-01-01T00:00:00.000Z",
+    });
   });
 
   it("accepts full int64 numeric strings without Number coercion", () => {

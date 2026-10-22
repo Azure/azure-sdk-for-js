@@ -97,7 +97,6 @@ function encodeDateTimeText(
     if (encoding.source === "offsetDateTime") {
       const clientText = requireDateString(value, "rfc3339", path);
       if (encoding.format === "rfc7231") {
-        requireWholeSecondDateTime(clientText, path);
         return new Date(clientText).toUTCString();
       }
       return clientText;
@@ -106,9 +105,6 @@ function encodeDateTimeText(
   }
   const date = requireDate(value, path);
   if (encoding.format === "rfc7231") {
-    if (date.getUTCMilliseconds() !== 0) {
-      fail(path, "RFC7231 conversion would lose millisecond precision.");
-    }
     return date.toUTCString();
   }
   return date.toISOString();
@@ -186,13 +182,6 @@ function encodePlainDate(value: unknown, path: readonly string[]): string {
     fail(path, "Plain-date conversion requires UTC midnight.");
   }
   return date.toISOString().slice(0, 10);
-}
-
-function requireWholeSecondDateTime(value: string, path: readonly string[]): void {
-  const date = new Date(value);
-  if (date.getUTCMilliseconds() !== 0) {
-    fail(path, "RFC7231 conversion would lose subsecond precision.");
-  }
 }
 
 function requireDateString(
