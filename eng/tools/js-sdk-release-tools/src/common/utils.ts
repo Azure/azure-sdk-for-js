@@ -529,9 +529,12 @@ export async function cleanUpPackageDirectory(
         `[${packageType}] Skipping cleanup in ${runMode} mode - emitter handles cleanup for: ${packageDirectory}`,
       );
       return;
-    } else if (fs.existsSync(path.join(packageDirectory, "generated"))) {
+    } else if (
+      fs.existsSync(path.join(packageDirectory, "generated")) ||
+      fs.existsSync(path.join(packageDirectory, "src", "generated"))
+    ) {
       logger.info(
-        `[${packageType}] Skipping cleanup in ${runMode} mode to preserve merge-based customizations for: ${packageDirectory}`,
+        `[${packageType}] Skipping cleanup in ${runMode} mode to preserve merge-based or source-separated customizations for: ${packageDirectory}`,
       );
       return;
     } else {
