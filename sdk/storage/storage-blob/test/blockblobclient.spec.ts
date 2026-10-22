@@ -537,6 +537,9 @@ describe("BlockBlobClient request bodies", () => {
       ? new Uint8Array(body.buffer, body.byteOffset, body.byteLength)
       : new Uint8Array(body);
     assert.deepEqual(requestBody, expected);
-    assert.strictEqual(contentLength, String(body.byteLength));
+    // Browsers compute Content-Length from the body, so the pipeline removes the header there.
+    if (isNodeLike) {
+      assert.strictEqual(contentLength, String(body.byteLength));
+    }
   });
 });
