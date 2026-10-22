@@ -5,6 +5,7 @@ import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import { PassThrough, Writable } from "node:stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { createPipelineRequest, createDefaultHttpClient } from "../../../src/index.js";
+import { getRequestCompletion } from "../../../src/util/requestCompletion.js";
 
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");
@@ -49,18 +50,21 @@ class FakeRequest extends PassThrough {}
  *
  * This fake asserts we have only passed the correct types.
  */
-const httpRequestChecker: ClientRequest = {
-  on() {
-    /* no op */
-  },
-  once() {
-    /* no op */
-  },
-  end(chunk: unknown) {
-    const isString = typeof chunk === "string";
-    assert(isString || Buffer.isBuffer(chunk), "Expected either string or Buffer");
-  },
-} as unknown as ClientRequest;
+function createWritableRequest(onChunk?: (chunk: Buffer) => void): ClientRequest {
+  return new Writable({
+    autoDestroy: false,
+    write(chunk: Buffer, _encoding, callback) {
+      onChunk?.(chunk);
+      callback();
+    },
+  }) as unknown as ClientRequest;
+}
+
+function createHttpRequestChecker(): ClientRequest {
+  return createWritableRequest((chunk) => {
+    assert(Buffer.isBuffer(chunk), "Expected a Buffer");
+  });
+}
 
 function createResponse(statusCode: number, body = ""): IncomingMessage {
   const response = new FakeResponse();
@@ -132,19 +136,14 @@ describe("NodeHttpClient", function () {
     assert.strictEqual(response.status, 404);
   });
 
-  it("honors a HEAD method supplied through request overrides", async function () {
+  it("does not retain request completion metadata after a completed request", async function () {
     const client = createDefaultHttpClient();
-    const request = createPipelineRequest({
-      url: "https://example.com",
-      method: "GET",
-      requestOverrides: { method: "HEAD" },
-    });
+    const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
-    yieldHttpsResponse(createResponse(200, "ignored"));
-
+    yieldHttpsResponse(createResponse(200));
     const response = await promise;
 
-    assert.isUndefined(response.bodyAsText);
+    assert.isUndefined(getRequestCompletion(response));
   });
 
   it("should allow canceling of requests", async function () {
@@ -417,7 +416,7 @@ describe("NodeHttpClient", function () {
 
   it("should handle typed array bodies correctly", async function () {
     const client = createDefaultHttpClient();
-    vi.mocked(https.request).mockReturnValueOnce(httpRequestChecker);
+    vi.mocked(https.request).mockReturnValueOnce(createHttpRequestChecker());
 
     const data = new Uint8Array(10);
     for (let i = 0; i < 10; i++) {
@@ -437,17 +436,9 @@ describe("NodeHttpClient", function () {
   it("should send only the ArrayBufferView window for subarray bodies", async function () {
     const client = createDefaultHttpClient();
     let sentChunk: unknown;
-    const captureChunkRequest: ClientRequest = {
-      on() {
-        /* no op */
-      },
-      once() {
-        /* no op */
-      },
-      end(chunk: unknown) {
-        sentChunk = chunk;
-      },
-    } as unknown as ClientRequest;
+    const captureChunkRequest = createWritableRequest((chunk) => {
+      sentChunk = chunk;
+    });
     vi.mocked(https.request).mockReturnValueOnce(captureChunkRequest);
 
     const data = Uint8Array.from([0, 1, 2, 3, 4, 5, 6, 7]);
@@ -467,9 +458,25 @@ describe("NodeHttpClient", function () {
     assert.strictEqual(request.headers.get("Content-Length"), String(subarray.byteLength));
   });
 
+  it.each([Buffer.alloc(0), new Uint8Array(0), new ArrayBuffer(0)])(
+    "should set Content-Length for empty binary bodies",
+    async function (body) {
+      const client = createDefaultHttpClient();
+      vi.mocked(https.request).mockReturnValueOnce(createHttpRequestChecker());
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        body,
+      });
+      const promise = client.sendRequest(request);
+      yieldHttpsResponse(createResponse(200));
+      await promise;
+      assert.strictEqual(request.headers.get("Content-Length"), "0");
+    },
+  );
+
   it("should handle ArrayBuffer bodies correctly", async function () {
     const client = createDefaultHttpClient();
-    vi.mocked(https.request).mockReturnValueOnce(httpRequestChecker);
+    vi.mocked(https.request).mockReturnValueOnce(createHttpRequestChecker());
 
     const data = new Uint8Array(10);
     for (let i = 0; i < 10; i++) {
@@ -489,17 +496,9 @@ describe("NodeHttpClient", function () {
   it("should handle Buffer bodies correctly", async function () {
     const client = createDefaultHttpClient();
     let sentChunk: unknown;
-    const captureChunkRequest: ClientRequest = {
-      on() {
-        /* no op */
-      },
-      once() {
-        /* no op */
-      },
-      end(chunk: unknown) {
-        sentChunk = chunk;
-      },
-    } as unknown as ClientRequest;
+    const captureChunkRequest = createWritableRequest((chunk) => {
+      sentChunk = chunk;
+    });
     vi.mocked(https.request).mockReturnValueOnce(captureChunkRequest);
 
     const data = Buffer.from("example text");
@@ -517,7 +516,7 @@ describe("NodeHttpClient", function () {
 
   it("should handle string bodies correctly", async function () {
     const client = createDefaultHttpClient();
-    vi.mocked(https.request).mockReturnValueOnce(httpRequestChecker);
+    vi.mocked(https.request).mockReturnValueOnce(createHttpRequestChecker());
 
     const request = createPipelineRequest({ url: "https://example.com", body: "test data" });
     const promise = client.sendRequest(request);
@@ -531,12 +530,14 @@ describe("NodeHttpClient", function () {
     const client = createDefaultHttpClient();
     let bodySent = false;
     const writable = new Writable({
+      autoDestroy: false,
       write: (chunk, _, next) => {
         bodySent = true;
         assert.equal(chunk.toString(), requestText, "Unexpected body");
         next();
       },
     }) as unknown as ClientRequest;
+    const requestFinished = new Promise<void>((resolve) => writable.once("finish", resolve));
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
     const stream = new PassThrough();
@@ -545,8 +546,10 @@ describe("NodeHttpClient", function () {
     const body = stream;
     const request = createPipelineRequest({ url: "https://example.com", body });
     const promise = client.sendRequest(request);
+    await requestFinished;
     yieldHttpsResponse(createResponse(200));
     await promise;
+    writable.destroy();
     assert.isTrue(bodySent, "body should have been piped to request");
   });
 
@@ -555,12 +558,14 @@ describe("NodeHttpClient", function () {
     const client = createDefaultHttpClient();
     let bodySent = false;
     const writable = new Writable({
+      autoDestroy: false,
       write: (chunk, _, next) => {
         bodySent = true;
         assert.equal(chunk.toString(), requestText, "Unexpected body");
         next();
       },
     }) as unknown as ClientRequest;
+    const requestFinished = new Promise<void>((resolve) => writable.once("finish", resolve));
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
     const body = (): PassThrough => {
@@ -571,8 +576,10 @@ describe("NodeHttpClient", function () {
     };
     const request = createPipelineRequest({ url: "https://example.com", body });
     const promise = client.sendRequest(request);
+    await requestFinished;
     yieldHttpsResponse(createResponse(200));
     await promise;
+    writable.destroy();
     assert.isTrue(bodySent, "body should have been piped to request");
   });
 

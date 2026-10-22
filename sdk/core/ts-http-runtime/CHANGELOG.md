@@ -4,8 +4,8 @@
 
 ### Features Added
 
-- Added opt-in `Expect: 100-continue` support to the Node.js HTTP/1 transport. Browser and React Native transports reject requests with an `Expect` header.
 - `azure-deprecating` response header is now included in the default set of headers logged without redaction. See [Azure API Guidelines: Deprecating Behavior Notification](https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md#deprecating-behavior-notification) for more information.
+- Added opt-in `Expect: 100-continue` negotiation to the built-in Node HTTP/1 transport, including lazy uploads, a fixed 1,000 ms fallback, readable early final responses, rejected-response upload retirement while preserving successful full-duplex uploads and open-response upload errors, backpressure-safe multipart sequencing, one-shot stream replay protection, effective raw-array header handling, and best-effort streamed-response disposal before automatic retries and redirects. HTTP 417 returns normally without automatic recovery. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)
 
 ### Breaking Changes
 

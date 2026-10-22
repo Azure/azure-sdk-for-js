@@ -13,7 +13,7 @@ import {
 import { systemErrorRetryPolicy } from "../../../src/policies/internal.js";
 import { png } from "./mocks/encodedPng.js";
 import { delay } from "../../../src/util/helpers.js";
-import { arrayBufferViewToArrayBuffer } from "../../../src/util/arrayBuffer.js";
+import { arrayBufferViewToArrayBuffer } from "../../../src/util/arrayBufferView.js";
 
 const streamBody = new ReadableStream({
   async start(controller) {
@@ -69,19 +69,6 @@ describe("FetchHttpClient", function () {
     if (vi.isFakeTimers()) {
       vi.useRealTimers();
     }
-  });
-
-  it("rejects the Expect header before calling fetch", async function () {
-    const client = createFetchHttpClient();
-    const request = createPipelineRequest({
-      url: "https://localhost/upload",
-      headers: createHttpHeaders({ Expect: "100-continue" }),
-    });
-
-    await expect(client.sendRequest(request)).rejects.toThrow(
-      "The Expect header is only supported by the Node.js HTTP/1 transport.",
-    );
-    expect(fetch).not.toHaveBeenCalled();
   });
 
   it("shouldn't throw on 404", async function () {

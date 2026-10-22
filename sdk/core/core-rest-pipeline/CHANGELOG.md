@@ -4,7 +4,13 @@
 
 ### Features Added
 
-- Added opt-in `Expect: 100-continue` support to the default Node.js HTTP/1 transport.
+### Breaking Changes
+
+### Bugs Fixed
+
+- Preserve lazy `createFileFromStream` factories and their sizes through Node multipart serialization, keep legacy abort signals connected across attempts and streamed Node responses, and dispose streamed authentication challenges without letting cleanup failures block resending. Update the runtime minimum to include opt-in `Expect: 100-continue` support. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)
+
+### Other Changes
 
 ## 1.25.0 (2026-07-13)
 

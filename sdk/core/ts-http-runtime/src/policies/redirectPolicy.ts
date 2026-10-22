@@ -4,6 +4,8 @@
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
 import { logger } from "../log.js";
+import { hasExpectContinueHeader, removeBodyHeaders } from "../util/expectContinueHeaders.js";
+import { disposeResponseBody } from "../util/responseBody.js";
 
 /**
  * The programmatic identifier of the redirectPolicy.
@@ -87,12 +89,17 @@ async function handleRedirect(
     // redirected GET request if the redirect url is present in the location header
     if (status === 303) {
       request.method = "GET";
+      if (request.requestOverrides && "method" in request.requestOverrides) {
+        request.requestOverrides = { ...request.requestOverrides, method: "GET" };
+      }
+      if (hasExpectContinueHeader(request)) removeBodyHeaders(request);
       request.headers.delete("Content-Length");
       delete request.body;
     }
 
     request.headers.delete("Authorization");
 
+    await disposeResponseBody(response);
     const res = await next(request);
     return handleRedirect(next, res, maxRetries, allowCrossOriginRedirects, currentRetries + 1);
   }

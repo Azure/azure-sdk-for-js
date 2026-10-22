@@ -12,9 +12,9 @@ import type {
 import { RestError } from "./restError.js";
 import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
-import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
+import { arrayBufferViewToArrayBuffer } from "./util/arrayBufferView.js";
 import { isObject } from "./util/object.js";
-import { hasExpectHeader } from "./util/expectContinue.js";
+import { hasExpectContinueHeader } from "./util/expectContinueHeaders.js";
 
 // The Fetch spec requires `duplex: "half"` when body is a ReadableStream,
 // but TypeScript's lib.dom.d.ts hasn't added it to RequestInit yet.
@@ -42,10 +42,9 @@ class FetchHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
-    if (hasExpectHeader(request)) {
-      throw new Error("The Expect header is only supported by the Node.js HTTP/1 transport.");
+    if (hasExpectContinueHeader(request)) {
+      throw new Error("The Expect header is not supported by the Fetch HttpClient.");
     }
-
     const url = new URL(request.url);
     const isInsecure = url.protocol !== "https:";
 
@@ -171,8 +170,9 @@ function setupAbortSignal(request: PipelineRequest): {
    * Attach an abort listener to the request
    */
   let abortListener: ((event: any) => void) | undefined;
-  if (request.abortSignal) {
-    if (request.abortSignal.aborted) {
+  const requestAbortSignal = request.abortSignal;
+  if (requestAbortSignal) {
+    if (requestAbortSignal.aborted) {
       throw new AbortError("The operation was aborted. Request has already been canceled.");
     }
 
@@ -181,10 +181,10 @@ function setupAbortSignal(request: PipelineRequest): {
         abortController.abort();
       }
     };
-    request.abortSignal.addEventListener("abort", abortListener);
+    requestAbortSignal.addEventListener("abort", abortListener);
     abortControllerCleanup = () => {
       if (abortListener) {
-        request.abortSignal?.removeEventListener("abort", abortListener);
+        requestAbortSignal.removeEventListener("abort", abortListener);
       }
     };
   }

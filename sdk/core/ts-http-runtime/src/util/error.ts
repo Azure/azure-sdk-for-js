@@ -15,3 +15,11 @@ export function isError(e: unknown): e is Error {
   }
   return false;
 }
+
+/**
+ * Wraps a non-Error thrown value in an Error.
+ * @param e - Something caught by a catch clause.
+ */
+export function toError(e: unknown): Error {
+  return e instanceof Error ? e : new Error(String(e));
+}
