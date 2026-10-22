@@ -243,6 +243,10 @@ export function createTokenCycler(
         throw reason;
       });
     worker.promise = promise;
+    // A proactive refresh may be superseded before it settles. Observe a later
+    // rejection so it does not become unhandled, while preserving `promise` for
+    // callers that are awaiting a forced refresh.
+    void promise.catch(() => {});
     refreshWorkers.set(requestIdentityKey, worker);
     latestRefreshWorker = worker;
 

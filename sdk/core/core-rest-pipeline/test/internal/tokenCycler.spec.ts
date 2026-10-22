@@ -189,6 +189,62 @@ describe("tokenCycler", function () {
     expect(getToken).toHaveBeenCalledTimes(2);
   });
 
+  it("observes a rejected superseded proactive refresh", async function () {
+    let rejectProactive: (reason?: unknown) => void;
+    let resolveClaim: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    const rejectedProactiveToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+      (_resolve, reject) => {
+        rejectProactive = reject;
+      },
+    );
+    const claimToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaim = resolve;
+    });
+    let ordinaryRequestCount = 0;
+    const getToken = vi.fn<TokenCredential["getToken"]>((_, requestOptions) => {
+      if (requestOptions?.claims === "claim-A") {
+        return claimToken;
+      }
+
+      ordinaryRequestCount += 1;
+      if (ordinaryRequestCount === 1) {
+        return Promise.resolve({
+          token: "initial",
+          expiresOnTimestamp: Date.now() + 1,
+          refreshAfterTimestamp: Date.now() - 1,
+        });
+      }
+      if (ordinaryRequestCount === 2) {
+        return rejectedProactiveToken;
+      }
+      return Promise.resolve(null);
+    });
+    const getAccessToken = createTokenCycler(
+      { getToken },
+      { retryIntervalInMs: 0, forcedRefreshWindowInMs: 0, refreshWindowInMs: 300_000 },
+    );
+
+    await expect(getAccessToken(["scope"], {})).resolves.toMatchObject({ token: "initial" });
+    // This returns the still-valid cached token while it starts a background refresh.
+    await expect(getAccessToken(["scope"], {})).resolves.toMatchObject({ token: "initial" });
+
+    const claimsRefresh = getAccessToken(["scope"], { claims: "claim-A", enableCae: true });
+    resolveClaim!({ token: "claim-A", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(claimsRefresh).resolves.toMatchObject({ token: "claim-A" });
+
+    const unhandledRejection = vi.fn();
+    process.on("unhandledRejection", unhandledRejection);
+    try {
+      rejectProactive!(new Error("ordinary refresh failed"));
+      await vi.advanceTimersByTimeAsync(1);
+      await Promise.resolve();
+
+      expect(unhandledRejection).not.toHaveBeenCalled();
+    } finally {
+      process.off("unhandledRejection", unhandledRejection);
+    }
+  });
+
   it("retries in the while loop when getToken throws before timeout, then succeeds", async function () {
     // To cover lines 68 (catch block) and 85-87 (while loop):
     // Need: an existing token whose expiry is in the future but within forcedRefreshWindow

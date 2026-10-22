@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed concurrent CAE claims challenges reusing an incompatible in-flight token refresh.
+- Fixed concurrent CAE claims challenges reusing an incompatible in-flight token refresh and unhandled rejections from superseded proactive refreshes.
 
 ### Other Changes
 
