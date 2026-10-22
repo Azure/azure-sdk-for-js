@@ -404,4 +404,60 @@ export type { Widget } from "./models/index.js";
       await expect(fs.readFile(path.join(directory, file), "utf8")).resolves.toBe(contents);
     }
   });
+
+  it("rejects an existing source-separated layout with a clear diagnostic", async () => {
+    const directory = await fs.mkdtemp(path.join(os.tmpdir(), "azsdk-customization-init-"));
+    fixtures.push(directory);
+    const files = {
+      "package.json": JSON.stringify({
+        name: "@azure/customization-init-fixture",
+        version: "1.0.0",
+        type: "module",
+        exports: {
+          "./package.json": "./package.json",
+          ".": { import: "./dist/esm/index.js" },
+        },
+        scripts: { build: "echo build" },
+      }),
+      "warp.config.json": JSON.stringify({
+        exports: { "./package.json": "./package.json", ".": "./src/index.ts" },
+        targets: [{ name: "esm", tsconfig: "./tsconfig.src.json" }],
+      }),
+      "tsconfig.src.json": JSON.stringify({
+        compilerOptions: { rootDir: "./src", outDir: "./dist/esm" },
+        include: ["./src/index.ts"],
+      }),
+      "src/index.ts": `export * from "./generated/index.js";
+export { WidgetAnalyticsClient } from "./widgetAnalyticsClient.js";
+`,
+      "src/widgetAnalyticsClient.ts": `import { WidgetAnalyticsClient as GeneratedWidgetAnalyticsClient } from "./generated/widgetAnalyticsClient.js";
+export class WidgetAnalyticsClient extends GeneratedWidgetAnalyticsClient {
+  customMethod() {
+    return "This is a custom method!";
+  }
+}
+`,
+      "src/generated/index.ts":
+        'export { WidgetAnalyticsClient } from "./widgetAnalyticsClient.js";\n',
+      "src/generated/widgetAnalyticsClient.ts": "export class WidgetAnalyticsClient {}\n",
+    };
+    for (const [file, contents] of Object.entries(files)) {
+      const destination = path.join(directory, file);
+      await fs.mkdir(path.dirname(destination), { recursive: true });
+      await fs.writeFile(destination, contents);
+    }
+    const originalTree = (await fs.readdir(directory, { recursive: true })).sort();
+    vi.spyOn(process, "cwd").mockReturnValue(directory);
+    const output = vi.spyOn(console, "log");
+
+    await expect(initializeCustomization()).resolves.toBe(false);
+
+    const diagnostic = output.mock.calls.map((args) => args.join(" ")).join("\n");
+    expect(diagnostic).toContain("src/generated");
+    expect(diagnostic).toContain("freshly generated");
+    expect((await fs.readdir(directory, { recursive: true })).sort()).toEqual(originalTree);
+    for (const [file, contents] of Object.entries(files)) {
+      await expect(fs.readFile(path.join(directory, file), "utf8")).resolves.toBe(contents);
+    }
+  });
 });

@@ -72,6 +72,10 @@ async function validateCustomizationInput(project: ProjectInfo): Promise<string[
     log("❌ Could not find src/ directory. Nothing to initialize.");
     return undefined;
   }
+  if ((await fs.readdir(srcDirectory)).includes("generated")) {
+    log("❌ src/generated/ already exists. Initialization requires a freshly generated package.");
+    return undefined;
+  }
 
   const resolved = await findWarpConfig(packageDirectory);
   if (!resolved) {
