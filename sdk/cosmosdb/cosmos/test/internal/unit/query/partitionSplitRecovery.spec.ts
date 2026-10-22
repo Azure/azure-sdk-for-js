@@ -16,6 +16,7 @@ import {
 import { SubStatusCodes } from "../../../../src/common/index.js";
 import { OrderByQueryExecutionContext } from "../../../../src/queryExecutionContext/orderByQueryExecutionContext.js";
 import { ParallelQueryExecutionContext } from "../../../../src/queryExecutionContext/parallelQueryExecutionContext.js";
+import { PipelinedQueryExecutionContext } from "../../../../src/queryExecutionContext/pipelinedQueryExecutionContext.js";
 import {
   createDummyDiagnosticNode,
   createTestClientContext,
@@ -223,6 +224,33 @@ function createPublicIterator<T = TestDocument>(
     collectionLink,
     ResourceType.item,
   );
+}
+
+async function fetchAllWithEndpointGuard<T>(
+  iterator: QueryIterator<T>,
+  maximumFetches: number = 16,
+): Promise<Awaited<ReturnType<QueryIterator<T>["fetchAll"]>>> {
+  const originalFetchMore = PipelinedQueryExecutionContext.prototype.fetchMore;
+  let fetchCount = 0;
+  const fetchMoreSpy = vi
+    .spyOn(PipelinedQueryExecutionContext.prototype, "fetchMore")
+    .mockImplementation(function (
+      this: PipelinedQueryExecutionContext,
+      diagnosticNode: Parameters<PipelinedQueryExecutionContext["fetchMore"]>[0],
+    ): ReturnType<PipelinedQueryExecutionContext["fetchMore"]> {
+      if (++fetchCount > maximumFetches) {
+        return Promise.reject(
+          new Error(`Pipelined endpoint fetch guard exceeded ${maximumFetches} iterations`),
+        );
+      }
+      return originalFetchMore.call(this, diagnosticNode);
+    });
+
+  try {
+    return await iterator.fetchAll();
+  } finally {
+    fetchMoreSpy.mockRestore();
+  }
 }
 
 function createAggregateQueryInfo() {
@@ -563,7 +591,7 @@ describe("partition split recovery", () => {
       createAggregateQueryInfo(),
       { ...options, forceQueryPlan: true, maxDegreeOfParallelism: 2 },
     );
-    const response = await withTimeout(iterator.fetchAll());
+    const response = await withTimeout(fetchAllWithEndpointGuard(iterator));
 
     assert.deepEqual(response.resources, [6]);
     assert.deepEqual(requests, ["P1", "P2", "B1", "B2", "B1", "B2"]);
@@ -652,7 +680,7 @@ describe("partition split recovery", () => {
         createAggregateQueryInfo(),
         { ...options, forceQueryPlan: true, maxDegreeOfParallelism: 1 },
       );
-      const response = await withTimeout(iterator.fetchAll());
+      const response = await withTimeout(fetchAllWithEndpointGuard(iterator));
 
       assert.deepEqual(response.resources, [testCase.expectedResult]);
       assert.deepEqual(requests, testCase.expectedRequests);
@@ -717,7 +745,7 @@ describe("partition split recovery", () => {
       createGroupByQueryInfo(),
       { ...options, forceQueryPlan: true, maxDegreeOfParallelism: 1 },
     );
-    const response = await withTimeout(iterator.fetchAll());
+    const response = await withTimeout(fetchAllWithEndpointGuard(iterator));
 
     assert.deepEqual(response.resources, [{ total: 5 }]);
     assert.deepEqual(requests, ["G0", "G1", "G1a", "G1b", "G2", "G2"]);
