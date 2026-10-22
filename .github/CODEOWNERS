@@ -307,10 +307,10 @@
 # ServiceOwners: @efrainretana @lc48t @mattgotteiner
 
 # PRLabel: %Service Bus
-/sdk/servicebus/    @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft
+/sdk/servicebus/    @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft @pranz1996
 
 # ServiceLabel: %Service Bus
-# ServiceOwners: @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft
+# ServiceOwners: @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft @pranz1996
 
 # PRLabel: %Speech Transcription
 /sdk/transcription/ai-speech-transcription/    @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
