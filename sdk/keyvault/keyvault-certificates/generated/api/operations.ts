@@ -116,7 +116,9 @@ export async function _recoverDeletedCertificateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -158,7 +160,9 @@ export async function _purgeDeletedCertificateDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -205,7 +209,9 @@ export async function _getDeletedCertificateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -252,7 +258,9 @@ export async function _getDeletedCertificatesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -308,7 +316,9 @@ export async function _restoreCertificateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -355,7 +365,9 @@ export async function _backupCertificateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -405,7 +417,9 @@ export async function _mergeCertificateDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -453,7 +467,9 @@ export async function _deleteCertificateOperationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -500,7 +516,9 @@ export async function _getCertificateOperationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -550,7 +568,9 @@ export async function _updateCertificateOperationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -605,7 +625,9 @@ export async function _getCertificateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -658,7 +680,9 @@ export async function _updateCertificateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -716,7 +740,9 @@ export async function _updateCertificatePolicyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -769,7 +795,9 @@ export async function _getCertificatePolicyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -817,7 +845,9 @@ export async function _getCertificateVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -876,7 +906,9 @@ export async function _importCertificateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -927,7 +959,9 @@ export async function _createCertificateDeserialize(
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -975,7 +1009,9 @@ export async function _deleteCertificateIssuerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1022,7 +1058,9 @@ export async function _getCertificateIssuerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1072,7 +1110,9 @@ export async function _updateCertificateIssuerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1123,7 +1163,9 @@ export async function _setCertificateIssuerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1170,7 +1212,9 @@ export async function _getCertificateIssuersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1223,7 +1267,9 @@ export async function _deleteCertificateContactsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1267,7 +1313,9 @@ export async function _getCertificateContactsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1314,7 +1362,9 @@ export async function _setCertificateContactsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1361,7 +1411,9 @@ export async function _deleteCertificateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1408,7 +1460,9 @@ export async function _getCertificatesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
