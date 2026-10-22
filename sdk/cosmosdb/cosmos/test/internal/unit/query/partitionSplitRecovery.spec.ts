@@ -34,6 +34,8 @@ const mergedRange = createRange("M", "", "FF", ["P1", "P2"]);
 const splitChild1 = createRange("S1", "", "30", ["M"]);
 const splitChild2 = createRange("S2", "30", "70", ["M"]);
 const splitChild3 = createRange("S3", "70", "FF", ["M"]);
+const aggregateChild1 = createRange("B1", "80", "C0", ["P2"]);
+const aggregateChild2 = createRange("B2", "C0", "FF", ["P2"]);
 const queryInfo = createPartitionedQueryInfo("Parallel");
 const options: FeedOptions = { maxItemCount: 2, maxDegreeOfParallelism: 1 };
 
@@ -173,16 +175,17 @@ function createOrderByContext(
   );
 }
 
-function createPublicIterator(
+function createPublicIterator<T = TestDocument>(
   clientContext: ClientContext,
   queryType: QueryKind,
-): QueryIterator<TestDocument> {
+  partitionedQueryInfo = createPartitionedQueryInfo(queryType),
+): QueryIterator<T> {
   vi.spyOn(clientContext, "getQueryPlan").mockResolvedValue({
-    result: createPartitionedQueryInfo(queryType),
+    result: partitionedQueryInfo,
     headers: {},
     code: StatusCodes.Ok,
   });
-  return new QueryIterator<TestDocument>(
+  return new QueryIterator<T>(
     clientContext,
     query,
     { ...options, forceQueryPlan: true },
@@ -190,6 +193,18 @@ function createPublicIterator(
     collectionLink,
     ResourceType.item,
   );
+}
+
+function createAggregateQueryInfo() {
+  const partitionedQueryInfo = createPartitionedQueryInfo("Parallel");
+  return {
+    ...partitionedQueryInfo,
+    queryInfo: {
+      ...partitionedQueryInfo.queryInfo,
+      aggregates: ["Sum" as const],
+      hasSelectValue: true,
+    },
+  };
 }
 
 function createBackendResult(
@@ -413,6 +428,44 @@ describe("partition split recovery", () => {
       assert.isFalse(response.hasMoreResults, queryType);
       assert.equal(topology.getForceRefreshCount(), 1, queryType);
     }
+  });
+
+  it("does not finalize a partial aggregate while split replacements are pending", async () => {
+    const clientContext = createClientContext();
+    const topology = mockTopology(clientContext, [
+      [mergeParent1, mergeParent2],
+      [mergeParent1, aggregateChild1, aggregateChild2],
+    ]);
+    const requests: string[] = [];
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ partitionKeyRangeId }) => {
+      const rangeId = partitionKeyRangeId ?? "none";
+      requests.push(rangeId);
+      if (requests.length > 5) {
+        throw new Error("Aggregate split-recovery request guard exceeded");
+      }
+      if (rangeId === "P2") {
+        throw createSplitError();
+      }
+      const value = rangeId === "P1" ? 1 : rangeId === "B1" ? 2 : 3;
+      return {
+        result: [[{ item: value }]] as unknown as Resource,
+        headers: { "x-ms-request-charge": `${value}` },
+        code: StatusCodes.Ok,
+      };
+    });
+
+    const iterator = createPublicIterator<number>(
+      clientContext,
+      "Parallel",
+      createAggregateQueryInfo(),
+    );
+    const response = await withTimeout(iterator.fetchAll());
+
+    assert.deepEqual(response.resources, [6]);
+    assert.deepEqual(requests, ["P1", "P2", "B1", "B2"]);
+    assert.equal(response.requestCharge, 7);
+    assert.isFalse(response.hasMoreResults);
+    assert.equal(topology.getForceRefreshCount(), 1);
   });
 
   it("preserves progress and does not replay a parent after a one-shot split", async () => {
