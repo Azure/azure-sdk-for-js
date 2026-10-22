@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- [#40431](https://github.com/Azure/azure-sdk-for-js/pull/40431) Fixed cross-partition queries repeatedly targeting retired parent ranges after `410/1002 PartitionKeyRangeGone` responses. Default queries now refresh routing and continue on replacement ranges; query-control requests refresh routing and return the existing retryable `503` response instead of retrying indefinitely.
+- [#40431](https://github.com/Azure/azure-sdk-for-js/pull/40431) Fixed cross-partition queries repeatedly targeting retired parent ranges after `410/1002 PartitionKeyRangeGone` responses. Default queries now refresh routing and continue on replacement ranges without exposing an intermediate empty page. Query-control requests refresh routing and raise a non-retryable continuation-invalid error that requires restarting the query from the beginning.
 
 ### Other Changes
 

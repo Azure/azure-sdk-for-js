@@ -40,6 +40,21 @@ export enum ParallelQueryExecutionContextBaseStates {
   ended = "ended",
 }
 
+interface SplitRepair {
+  error: any;
+  transitionKey: string;
+}
+
+interface BufferCycle {
+  progressKeys: string[];
+  splitRepairs: SplitRepair[];
+}
+
+interface ProducerBufferResult {
+  progressKey?: string;
+  splitRepair?: SplitRepair;
+}
+
 /** @hidden */
 export abstract class ParallelQueryExecutionContextBase implements ExecutionContext {
   private err: any;
@@ -150,9 +165,62 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @hidden
    */
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
-    await this.bufferDocumentProducers(diagnosticNode);
-    await this.fillBufferFromBufferQueue();
-    return this.drainBufferedItems();
+    const observedProgress = new Set<string>();
+    let isRepairingSplit = false;
+    let splitError: any;
+
+    while (true) {
+      const unfilledProducerCount = this.unfilledDocumentProducersQueue.size();
+      const bufferedProducerCount = this.bufferedDocumentProducersQueue.size();
+      const bufferCycle = await this.bufferDocumentProducers(diagnosticNode);
+      const repeatedRepair = bufferCycle.splitRepairs.find((repair) =>
+        observedProgress.has(repair.transitionKey),
+      );
+      if (repeatedRepair) {
+        this._throwSplitRepairError(repeatedRepair.error);
+      }
+      bufferCycle.splitRepairs.forEach((repair) => {
+        observedProgress.add(repair.transitionKey);
+        splitError ??= repair.error;
+      });
+      isRepairingSplit ||= bufferCycle.splitRepairs.length > 0;
+
+      await this.fillBufferFromBufferQueue();
+
+      if (this.buffer.length > 0 || this.state === ParallelQueryExecutionContextBase.STATES.ended) {
+        return this.drainBufferedItems();
+      }
+
+      const schedulingProgress =
+        this.unfilledDocumentProducersQueue.size() < unfilledProducerCount ||
+        this.bufferedDocumentProducersQueue.size() > bufferedProducerCount;
+      if (!isRepairingSplit) {
+        return this.drainBufferedItems();
+      }
+
+      const progressKeys = [...bufferCycle.progressKeys];
+      if (schedulingProgress) {
+        progressKeys.push(
+          `queues:${unfilledProducerCount}:${bufferedProducerCount}->` +
+            `${this.unfilledDocumentProducersQueue.size()}:` +
+            `${this.bufferedDocumentProducersQueue.size()}`,
+        );
+      }
+      const repeatedProgress = progressKeys.find((key) => observedProgress.has(key));
+      if (
+        bufferCycle.splitRepairs.length === 0 &&
+        (progressKeys.length === 0 || repeatedProgress)
+      ) {
+        this._throwSplitRepairError(splitError);
+      }
+      progressKeys.forEach((key) => observedProgress.add(key));
+    }
+  }
+
+  private _throwSplitRepairError(error: any): never {
+    this.updateStates(error);
+    error.headers = this._getAndResetActiveResponseHeaders();
+    throw error;
   }
 
   /**
@@ -637,7 +705,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     error: any,
     diagnosticNode: DiagnosticNodeInternal,
     documentProducer: DocumentProducer,
-  ): Promise<void> {
+  ): Promise<SplitRepair> {
     // Get the replacement ranges
     const replacementPartitionKeyRanges = await this._getReplacementPartitionKeyRanges(
       documentProducer,
@@ -645,7 +713,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     );
 
     if (this.options.enableQueryControl) {
-      throw ParallelQueryExecutionContextBase._createQueryControlSplitError(error);
+      throw ParallelQueryExecutionContextBase._createInvalidContinuationError(error);
     }
 
     if (replacementPartitionKeyRanges.length === 0) {
@@ -654,6 +722,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
     const effectiveRange =
       ParallelQueryExecutionContextBase._getEffectiveQueryRange(documentProducer);
+    const replacementDocumentProducers: {
+      identity: string;
+      producer: DocumentProducer;
+    }[] = [];
     replacementPartitionKeyRanges.forEach((partitionKeyRange) => {
       const intersection = ParallelQueryExecutionContextBase._intersectPartitionRange(
         partitionKeyRange,
@@ -673,10 +745,40 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         intersection.max,
         populateEpkRangeHeaders,
       );
-      if (replacementDocumentProducer.hasMoreResults()) {
-        this.unfilledDocumentProducersQueue.enq(replacementDocumentProducer);
+      replacementDocumentProducers.push({
+        identity: ParallelQueryExecutionContextBase._getRangeIdentity(
+          partitionKeyRange,
+          intersection,
+        ),
+        producer: replacementDocumentProducer,
+      });
+    });
+
+    if (replacementDocumentProducers.length === 0) {
+      throw error;
+    }
+
+    const originalIdentity = ParallelQueryExecutionContextBase._getRangeIdentity(
+      documentProducer.targetPartitionKeyRange,
+      effectiveRange,
+    );
+    const replacementIdentities = replacementDocumentProducers
+      .map(({ identity }) => identity)
+      .sort();
+    if (replacementIdentities.length === 1 && replacementIdentities[0] === originalIdentity) {
+      throw error;
+    }
+
+    replacementDocumentProducers.forEach(({ producer }) => {
+      if (producer.hasMoreResults()) {
+        this.unfilledDocumentProducersQueue.enq(producer);
       }
     });
+
+    return {
+      error,
+      transitionKey: `${originalIdentity}->${replacementIdentities.join(",")}`,
+    };
   }
 
   private static _getEffectiveQueryRange(documentProducer: DocumentProducer): QueryRange {
@@ -704,13 +806,20 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return min.localeCompare(max) < 0 ? { min, max } : undefined;
   }
 
-  private static _createQueryControlSplitError(originalError: any): Error {
+  private static _getRangeIdentity(
+    partitionKeyRange: PartitionKeyRange,
+    range: { min: string; max: string },
+  ): string {
+    return `${partitionKeyRange.id}:${range.min}:${range.max}`;
+  }
+
+  private static _createInvalidContinuationError(originalError: any): ErrorResponse {
     return Object.assign(
-      new Error("Encountered partition split and could not recover. This request is retryable"),
-      {
-        code: StatusCodes.ServiceUnavailable,
-        originalError,
-      },
+      new ErrorResponse(
+        "Query-control continuation state is invalid after a partition topology change. " +
+          "Restart the entire query from the beginning.",
+      ),
+      { cause: originalError, originalError },
     );
   }
 
@@ -869,8 +978,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @param diagnosticNode - The diagnostic node for logging and tracing.
    * @returns A promise that resolves when buffering is complete.
    */
-  private async bufferDocumentProducers(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
+  private async bufferDocumentProducers(
+    diagnosticNode?: DiagnosticNodeInternal,
+  ): Promise<BufferCycle> {
+    return new Promise<BufferCycle>((resolve, reject) => {
       this.sem.take(async () => {
         if (this.err) {
           this.sem.leave();
@@ -881,13 +992,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
         if (this.state === ParallelQueryExecutionContextBase.STATES.ended) {
           this.sem.leave();
-          resolve();
+          resolve({ progressKeys: [], splitRepairs: [] });
           return;
         }
 
         if (this.unfilledDocumentProducersQueue.size() === 0) {
           this.sem.leave();
-          resolve();
+          resolve({ progressKeys: [], splitRepairs: [] });
           return;
         }
 
@@ -920,8 +1031,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           const bufferDocumentProducer = async (
             documentProducer: DocumentProducer,
-          ): Promise<void> => {
+          ): Promise<ProducerBufferResult> => {
             try {
+              const previousContinuationToken = documentProducer.continuationToken;
               const headers = await documentProducer.bufferMore(diagnosticNode);
               this._mergeWithActiveResponseHeaders(headers);
 
@@ -950,35 +1062,56 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 if (documentProducer.hasMoreResults()) {
                   this.unfilledDocumentProducersQueue.enq(documentProducer);
                 }
+                if (documentProducer.continuationToken !== previousContinuationToken) {
+                  const effectiveRange =
+                    ParallelQueryExecutionContextBase._getEffectiveQueryRange(documentProducer);
+                  return {
+                    progressKey:
+                      `${ParallelQueryExecutionContextBase._getRangeIdentity(
+                        documentProducer.targetPartitionKeyRange,
+                        effectiveRange,
+                      )}:` +
+                      `${previousContinuationToken ?? "<start>"}->` +
+                      `${documentProducer.continuationToken ?? "<end>"}`,
+                  };
+                }
               }
+              return {};
             } catch (err) {
               if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
                 this._mergeWithActiveResponseHeaders(err.headers);
-                await this._enqueueReplacementDocumentProducers(
-                  err,
-                  diagnosticNode,
-                  documentProducer,
-                );
-                resolve();
+                return {
+                  splitRepair: await this._enqueueReplacementDocumentProducers(
+                    err,
+                    diagnosticNode,
+                    documentProducer,
+                  ),
+                };
               } else {
-                this.err = err;
-                this.err.headers = this._getAndResetActiveResponseHeaders();
-                reject(err);
+                this._mergeWithActiveResponseHeaders(err.headers);
+                throw err;
               }
             }
           };
 
           try {
-            await Promise.all(
+            const bufferResults = await Promise.all(
               documentProducers.map((producer) => bufferDocumentProducer(producer)),
             );
+            resolve({
+              progressKeys: bufferResults.flatMap(({ progressKey }) =>
+                progressKey ? [progressKey] : [],
+              ),
+              splitRepairs: bufferResults.flatMap(({ splitRepair }) =>
+                splitRepair ? [splitRepair] : [],
+              ),
+            });
           } catch (err) {
             this.err = err;
             this.err.headers = this._getAndResetActiveResponseHeaders();
             reject(err);
             return;
           }
-          resolve();
         } catch (err) {
           this.err = err;
           this.err.headers = this._getAndResetActiveResponseHeaders();
