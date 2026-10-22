@@ -21,6 +21,13 @@ export default leafCommand(commandInfo, async () => {
   const srcDirectory = path.join(info.path, "src");
   const generatedDirectory = path.join(srcDirectory, "generated");
 
+  if ((await fs.readdir(info.path)).includes("generated")) {
+    log(
+      "❌ This package has a root generated/ baseline. Migrate existing customizations separately.",
+    );
+    return false;
+  }
+
   try {
     await fs.access(srcDirectory);
   } catch {

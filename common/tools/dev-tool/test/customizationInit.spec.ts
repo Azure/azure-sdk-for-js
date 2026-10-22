@@ -138,4 +138,66 @@ describe("customization init", () => {
     );
     expect(updatedManifest.exports).toEqual(exports);
   });
+
+  it("rejects a legacy merge-based package without changing files", async () => {
+    const directory = await fs.mkdtemp(path.join(os.tmpdir(), "azsdk-customization-init-"));
+    fixtures.push(directory);
+    const files = {
+      "package.json": JSON.stringify({
+        name: "@azure/customization-init-fixture",
+        version: "1.0.0",
+        type: "module",
+        exports: {
+          "./package.json": "./package.json",
+          ".": { import: "./dist/esm/index.js" },
+        },
+        scripts: {
+          build: "echo build",
+          customize: "dev-tool customization apply && npm run format",
+        },
+      }),
+      "warp.config.json": JSON.stringify({
+        exports: { "./package.json": "./package.json", ".": "./src/index.ts" },
+        targets: [{ name: "esm", tsconfig: "./tsconfig.src.json" }],
+      }),
+      "tsconfig.src.json": JSON.stringify({
+        compilerOptions: { rootDir: "./src", outDir: "./dist/esm" },
+        include: ["./src/**/*.ts"],
+      }),
+      "generated/index.ts": 'export { WidgetAnalyticsClient } from "./widgetAnalyticsClient.js";\n',
+      "generated/widgetAnalyticsClient.ts": "export class WidgetAnalyticsClient {}\n",
+      "src/index.ts": 'export { WidgetAnalyticsClient } from "./widgetAnalyticsClient.js";\n',
+      "src/widgetAnalyticsClient.ts": `export class WidgetAnalyticsClient {
+  customMethod() {
+    return "This is a custom method!";
+  }
+}
+`,
+    };
+    for (const [file, contents] of Object.entries(files)) {
+      const destination = path.join(directory, file);
+      await fs.mkdir(path.dirname(destination), { recursive: true });
+      await fs.writeFile(destination, contents);
+    }
+    vi.spyOn(process, "cwd").mockReturnValue(directory);
+
+    await expect(initializeCustomization()).resolves.toBe(false);
+
+    for (const [file, contents] of Object.entries(files)) {
+      await expect(fs.readFile(path.join(directory, file), "utf8")).resolves.toBe(contents);
+    }
+    expect((await fs.readdir(directory)).sort()).toEqual([
+      "generated",
+      "package.json",
+      "src",
+      "tsconfig.src.json",
+      "warp.config.json",
+    ]);
+    for (const source of ["src", "generated"]) {
+      expect((await fs.readdir(path.join(directory, source))).sort()).toEqual([
+        "index.ts",
+        "widgetAnalyticsClient.ts",
+      ]);
+    }
+  });
 });
