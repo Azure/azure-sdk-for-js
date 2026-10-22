@@ -25,8 +25,8 @@ class XhrHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
-    if (hasExpectHeader(request)) {
-      throw new Error("The Expect header is only supported by the Node.js HTTP/1 transport.");
+    if (request.headers.has("expect")) {
+      throw new Error("The Expect header is not supported by the XHR HttpClient.");
     }
 
     const url = new URL(request.url);
