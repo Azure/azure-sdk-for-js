@@ -229,6 +229,7 @@ function createPublicIterator<T = TestDocument>(
 async function fetchAllWithEndpointGuard<T>(
   iterator: QueryIterator<T>,
   maximumFetches: number = 16,
+  timeoutInMs: number = 1000,
 ): Promise<Awaited<ReturnType<QueryIterator<T>["fetchAll"]>>> {
   const originalFetchMore = PipelinedQueryExecutionContext.prototype.fetchMore;
   let fetchCount = 0;
@@ -247,7 +248,7 @@ async function fetchAllWithEndpointGuard<T>(
     });
 
   try {
-    return await iterator.fetchAll();
+    return await withTimeout(iterator.fetchAll(), timeoutInMs);
   } finally {
     fetchMoreSpy.mockRestore();
   }
@@ -484,6 +485,48 @@ async function runOneShotSplit(): Promise<{
 }
 
 describe("partition split recovery", () => {
+  it("restores the endpoint fetch prototype after the wall-clock guard expires", async () => {
+    const originalFetchMore = PipelinedQueryExecutionContext.prototype.fetchMore;
+    const pendingIterator = {
+      fetchAll: (): Promise<never> => new Promise<never>(() => {}),
+    } as unknown as QueryIterator<never>;
+
+    await expect(fetchAllWithEndpointGuard(pendingIterator, 16, 10)).rejects.toThrow(
+      "Query did not complete within 10ms",
+    );
+
+    assert.strictEqual(PipelinedQueryExecutionContext.prototype.fetchMore, originalFetchMore);
+    assert.isFalse(vi.isMockFunction(PipelinedQueryExecutionContext.prototype.fetchMore));
+  });
+
+  it("restores the endpoint fetch prototype after the iteration guard rejects", async () => {
+    const originalFetchMore = PipelinedQueryExecutionContext.prototype.fetchMore;
+    const endpoint = Object.assign(
+      Object.create(PipelinedQueryExecutionContext.prototype) as object,
+      {
+        fetchBuffer: [],
+        fetchImplementation: {
+          fetchMore: async () => ({ result: undefined, headers: {} }),
+        },
+      },
+    ) as PipelinedQueryExecutionContext;
+    const overflowingIterator = {
+      fetchAll: async (): Promise<never> => {
+        for (let i = 0; i <= 16; i++) {
+          await endpoint.fetchMore(createDummyDiagnosticNode());
+        }
+        throw new Error("Endpoint fetch guard did not reject");
+      },
+    } as unknown as QueryIterator<never>;
+
+    await expect(fetchAllWithEndpointGuard(overflowingIterator)).rejects.toThrow(
+      "Pipelined endpoint fetch guard exceeded 16 iterations",
+    );
+
+    assert.strictEqual(PipelinedQueryExecutionContext.prototype.fetchMore, originalFetchMore);
+    assert.isFalse(vi.isMockFunction(PipelinedQueryExecutionContext.prototype.fetchMore));
+  });
+
   it("hides split-repair scheduling pages from public Parallel and ORDER BY fetchNext", async () => {
     for (const queryType of ["Parallel", "ORDER BY"] as const) {
       const clientContext = createClientContext();
@@ -591,7 +634,7 @@ describe("partition split recovery", () => {
       createAggregateQueryInfo(),
       { ...options, forceQueryPlan: true, maxDegreeOfParallelism: 2 },
     );
-    const response = await withTimeout(fetchAllWithEndpointGuard(iterator));
+    const response = await fetchAllWithEndpointGuard(iterator);
 
     assert.deepEqual(response.resources, [6]);
     assert.deepEqual(requests, ["P1", "P2", "B1", "B2", "B1", "B2"]);
@@ -680,7 +723,7 @@ describe("partition split recovery", () => {
         createAggregateQueryInfo(),
         { ...options, forceQueryPlan: true, maxDegreeOfParallelism: 1 },
       );
-      const response = await withTimeout(fetchAllWithEndpointGuard(iterator));
+      const response = await fetchAllWithEndpointGuard(iterator);
 
       assert.deepEqual(response.resources, [testCase.expectedResult]);
       assert.deepEqual(requests, testCase.expectedRequests);
@@ -745,7 +788,7 @@ describe("partition split recovery", () => {
       createGroupByQueryInfo(),
       { ...options, forceQueryPlan: true, maxDegreeOfParallelism: 1 },
     );
-    const response = await withTimeout(fetchAllWithEndpointGuard(iterator));
+    const response = await fetchAllWithEndpointGuard(iterator);
 
     assert.deepEqual(response.resources, [{ total: 5 }]);
     assert.deepEqual(requests, ["G0", "G1", "G1a", "G1b", "G2", "G2"]);
