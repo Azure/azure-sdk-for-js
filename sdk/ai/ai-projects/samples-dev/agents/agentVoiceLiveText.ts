@@ -2,27 +2,23 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Streams GPT Live spoken output, with optional interactive Responses-delegation text turns.
+ * @summary Sends a greeting to GPT Live and prints its spoken reply as captions.
  * @azsdk-weight 100
  */
 
-import { AIProjectClient } from "@azure/ai-projects";
+import { AIProjectClient, VoiceAgentConnectionError } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
+import { delay } from "@azure/core-util";
 import { randomUUID } from "node:crypto";
-import { createInterface } from "node:readline/promises";
-import { LiveSpeechActivity, runLiveAudioSession } from "./utils/liveAudio.js";
+import { once } from "node:events";
+import { createInterface } from "node:readline";
 import "dotenv/config";
 
 export async function main(): Promise<void> {
   const endpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"];
   const model = process.env["FOUNDRY_LIVE_MODEL"];
-  const interactive = process.env["FOUNDRY_LIVE_INTERACTIVE"] === "true";
-  const backendModel = process.env["FOUNDRY_LIVE_BACKEND_MODEL"];
   if (!endpoint || !model) {
-    throw new Error("Set FOUNDRY_PROJECT_ENDPOINT and FOUNDRY_LIVE_MODEL (a GPT Live deployment).");
-  }
-  if (interactive && !backendModel) {
-    throw new Error("Set FOUNDRY_LIVE_BACKEND_MODEL for interactive Responses-delegation text.");
+    throw new Error("Set FOUNDRY_PROJECT_ENDPOINT and FOUNDRY_LIVE_MODEL (a deployment name).");
   }
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
   const name = `live-text-${randomUUID().slice(0, 8)}`;
@@ -33,119 +29,66 @@ export async function main(): Promise<void> {
       sub_protocol: "live",
       model_type: "self_deployed",
       model,
-      instructions: "Be concise. Speak supplied greetings and delegated commentary briefly.",
+      instructions: "Speak supplied commentary briefly and faithfully.",
       audio: { format: { type: "audio/pcm", rate: 24000 } },
-      delegation:
-        interactive && backendModel
-          ? {
-              type: "responses",
-              responses: {
-                model: backendModel,
-                instructions: "Answer the user's question briefly in [commentary] tags.",
-              },
-            }
-          : undefined,
       store: false,
     },
     { foundryFeatures: "VoiceAgents=V1Preview" },
   );
   try {
     const connection = await project.beta.voiceAgents.live.connect(name, { store: false });
-    console.log(`Live session started: ${connection.session.id}`);
-    const speech = new LiveSpeechActivity();
-    let outputBytes = 0;
-    let readingInput = false;
-    let pendingCaption = "";
-    let backendCompletions = 0;
-    const completedResponses = new Set<string>();
-    await runLiveAudioSession(
-      connection,
-      (event) => {
-        const pcm = speech.observe(event);
-        if (pcm) outputBytes += pcm.byteLength;
-        if (event.type === "session.output_transcript.delta") {
-          if (readingInput) {
-            if (pendingCaption.length + event.delta.length > 65_536) {
-              throw new Error("Buffered Live captions exceeded 65,536 characters.");
-            }
-            pendingCaption += event.delta;
-          } else process.stdout.write(event.delta);
-        } else if (event.type === "response.event" && event.event.type === "response.completed") {
-          const response = event.event.response;
-          if (
-            !response ||
-            typeof response !== "object" ||
-            !("status" in response) ||
-            response.status !== "completed" ||
-            !("id" in response) ||
-            typeof response.id !== "string"
-          ) {
-            throw new Error("The delegated text response did not complete successfully.");
-          }
-          if (!completedResponses.has(response.id)) {
-            completedResponses.add(response.id);
-            backendCompletions++;
-            if (completedResponses.size > 64) {
-              const oldest = completedResponses.values().next().value;
-              if (oldest !== undefined) completedResponses.delete(oldest);
-            }
-          }
-        }
-      },
-      async (sessionSignal) => {
-        // Live appends context to an ongoing timeline; it does not create Realtime text turns.
-        await connection.appendCommentary("Say: Hello from Microsoft Foundry GPT Live.", {
-          abortSignal: sessionSignal,
-        });
-        await speech.waitForSpeech(sessionSignal);
-        process.stdout.write("\n");
-        if (!interactive) return;
+    const stop = new AbortController();
+    const terminal = createInterface({ input: process.stdin, output: process.stdout });
+    const finished = once(terminal, "close");
+    const closeInput = (): void => terminal.close();
+    terminal.once("line", closeInput);
+    terminal.once("SIGINT", closeInput);
+    process.once("SIGINT", closeInput);
+    console.log("Captions stream below. Press Enter after the reply, or Ctrl+C, to stop.");
+    console.log("Live remains billable until stopped; this sample does not play audio.");
 
-        console.log("Type a question, or /quit to finish. Text is sent to the Responses backend.");
-        console.log("Silent PCM keeps Live running while you type; voice usage remains billable.");
-        const input = createInterface({ input: process.stdin, output: process.stdout });
-        const inputStopped = new AbortController();
-        input.on("SIGINT", () => inputStopped.abort());
-        input.on("close", () => inputStopped.abort());
-        const signal = AbortSignal.any([sessionSignal, inputStopped.signal]);
-        try {
-          while (!signal.aborted) {
-            readingInput = true;
-            let text: string;
-            try {
-              text = (await input.question("You: ", { signal })).trim();
-            } finally {
-              readingInput = false;
-              if (pendingCaption) process.stdout.write(`${pendingCaption}\n`);
-              pendingCaption = "";
-            }
-            if (text === "/quit") break;
-            if (!text) continue;
-            speech.reset();
-            const before = backendCompletions;
-            await connection.sendResponseItem(
-              { type: "message", role: "user", content: [{ type: "input_text", text }] },
-              { abortSignal: signal },
-            );
-            await connection.requestResponse({ abortSignal: signal });
-            await speech.waitForSpeech(signal, () => backendCompletions > before, 60_000);
-            process.stdout.write("\n");
-          }
-        } catch (error) {
-          if (
-            !inputStopped.signal.aborted ||
-            !(error instanceof Error) ||
-            (error.name !== "AbortError" &&
-              !("code" in error && error.code === "ERR_USE_AFTER_CLOSE"))
-          ) {
-            throw error;
-          }
-        } finally {
-          input.close();
+    const receive = (async () => {
+      for await (const event of connection) {
+        if (event.type === "error" || event.type === "transport.failed") {
+          throw new Error(`Live service error ${event.error.code}: ${event.error.message}`);
         }
-      },
-    );
-    console.log(`Received ${outputBytes} audio bytes. Conversation persistence is disabled.`);
+        if (event.type === "session.output_transcript.delta") process.stdout.write(event.delta);
+      }
+      if (!stop.signal.aborted) throw new Error("Live closed before the sample was stopped.");
+    })();
+    // Live needs a continuous audio timeline, even for text. 4800 PCM16 bytes = 100 ms.
+    const send = (async () => {
+      const silence = new Uint8Array(4800);
+      while (!stop.signal.aborted) {
+        const started = Date.now();
+        await connection.sendAudio(silence, { abortSignal: stop.signal });
+        await delay(Math.max(0, 100 - (Date.now() - started)));
+      }
+    })().catch((error: unknown) => {
+      if (
+        !stop.signal.aborted ||
+        !(error instanceof VoiceAgentConnectionError) ||
+        error.code !== "operationCancelled"
+      ) {
+        throw error;
+      }
+    });
+    const greet = (async () => {
+      await connection.appendCommentary("Say: Hello from Microsoft Foundry GPT Live.");
+      await finished;
+    })();
+    try {
+      await Promise.race([receive, send, greet]);
+    } finally {
+      stop.abort();
+      terminal.close();
+      process.off("SIGINT", closeInput);
+      try {
+        await connection.close();
+      } finally {
+        await Promise.all([receive, send]);
+      }
+    }
   } finally {
     await project.agents.delete(name);
   }

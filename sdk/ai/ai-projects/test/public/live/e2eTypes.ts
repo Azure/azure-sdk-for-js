@@ -6,6 +6,7 @@ import type {
   VoiceAgentLiveDefinition,
   VoiceAgentLiveEvent,
 } from "@azure/ai-projects";
+import { delay as delayWithAbort } from "@azure/core-util";
 
 export type LiveE2EFlow = "text" | "audio" | "tools";
 export type LiveE2ERuntime = "node" | "chromium";
@@ -575,4 +576,120 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function delay(milliseconds: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+/** Audio activity used only by the live test harness, not by shipped samples. */
+export class LiveSpeechActivity {
+  private heardSpeech = false;
+  private receivedTranscript = false;
+  private lastActivity = 0;
+
+  public reset(): void {
+    this.heardSpeech = false;
+    this.receivedTranscript = false;
+    this.lastActivity = 0;
+  }
+
+  public observe(event: VoiceAgentLiveEvent): Uint8Array | undefined {
+    if (event.type === "session.output_transcript.delta" && event.delta.trim()) {
+      this.receivedTranscript = true;
+      this.lastActivity = Date.now();
+    }
+    if (event.type !== "session.output_audio.delta") return undefined;
+    const bytes = Uint8Array.from(atob(event.delta), (character) => character.charCodeAt(0));
+    if (bytes.length % 2) throw new Error("The service returned incomplete PCM16 audio.");
+    const pcm = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    for (let offset = 0; offset < bytes.length; offset += 2) {
+      if (Math.abs(pcm.getInt16(offset, true)) > 256) {
+        this.heardSpeech = true;
+        this.lastActivity = Date.now();
+        break;
+      }
+    }
+    return bytes;
+  }
+
+  public async waitForSpeech(
+    abortSignal: AbortSignal,
+    ready: () => boolean = () => true,
+    timeoutInMs = 30_000,
+  ): Promise<void> {
+    const deadline = Date.now() + timeoutInMs;
+    while (
+      !ready() ||
+      !this.heardSpeech ||
+      !this.receivedTranscript ||
+      Date.now() - this.lastActivity < 1000
+    ) {
+      if (Date.now() >= deadline) {
+        throw new Error("Timed out waiting for GPT Live spoken output to finish.");
+      }
+      await delayWithAbort(25, { abortSignal });
+    }
+    abortSignal.throwIfAborted();
+  }
+}
+
+export async function streamLiveSilence(
+  connection: VoiceAgentLiveConnection,
+  abortSignal?: AbortSignal,
+): Promise<void> {
+  const silence = new Uint8Array(4800);
+  while (connection.state === "connected" && !abortSignal?.aborted) {
+    const started = Date.now();
+    await connection.sendAudio(silence, { abortSignal });
+    await delayWithAbort(Math.max(0, 100 - (Date.now() - started)), { abortSignal });
+  }
+}
+
+export async function runLiveAudioSession(
+  connection: VoiceAgentLiveConnection,
+  onEvent: (event: VoiceAgentLiveEvent) => void | Promise<void>,
+  operation: (abortSignal: AbortSignal, inputComplete: () => boolean) => Promise<void>,
+  inputPcm?: Uint8Array,
+): Promise<void> {
+  const stop = new AbortController();
+  let inputSent = inputPcm === undefined;
+  const receive = (async () => {
+    for await (const event of connection) {
+      if (event.type === "error" || event.type === "transport.failed") {
+        throw new Error(`Live service error ${event.error.code}: ${event.error.message}`);
+      }
+      if (
+        event.type === "response.event" &&
+        ["error", "response.failed", "response.incomplete"].includes(String(event.event.type))
+      ) {
+        throw new Error(`The Responses delegation returned ${String(event.event.type)}.`);
+      }
+      await onEvent(event);
+    }
+    throw new Error("The Live connection closed before the test completed.");
+  })();
+  const send = (async () => {
+    if (inputPcm) {
+      if (!inputPcm.length || inputPcm.length % 2) throw new Error("Invalid PCM16 test fixture.");
+      for (let offset = 0; offset < inputPcm.length; offset += 4800) {
+        const chunk = inputPcm.subarray(offset, offset + 4800);
+        const started = Date.now();
+        await connection.sendAudio(chunk, { abortSignal: stop.signal });
+        await delayWithAbort(Math.max(0, chunk.length / 48 - (Date.now() - started)), {
+          abortSignal: stop.signal,
+        });
+      }
+      inputSent = true;
+    }
+    await streamLiveSilence(connection, stop.signal);
+    throw new Error("The Live input stream stopped before the test completed.");
+  })();
+  const work = Promise.resolve().then(() => operation(stop.signal, () => inputSent));
+  try {
+    await Promise.race([receive, send, work]);
+  } finally {
+    stop.abort();
+    try {
+      await connection.close();
+    } finally {
+      await Promise.allSettled([receive, send, work]);
+    }
+  }
 }

@@ -250,22 +250,45 @@ const voiceAgent = await project.beta.agents.createFromPrompt({
 try {
   const connection = await project.beta.voiceAgents.realtime.connect(voiceAgent.name);
   try {
-    await connection.sendText("Hello. Please introduce yourself briefly.");
+    const turnId = crypto.randomUUID();
+    let responseId: string | undefined;
+    let responseCompleted = false;
+    await connection.sendText("Hello. Please introduce yourself briefly.", {
+      createResponse: false,
+    });
+    await connection.requestResponse({
+      response: { metadata: { additionalProperties: { sample_turn: turnId } } },
+    });
     for await (const event of connection) {
+      // A generated agent may greet first. Correlate this turn's response, not the greeting.
+      if (
+        event.type === "response.created" &&
+        event.response.metadata?.additionalProperties?.["sample_turn"] === turnId
+      ) {
+        responseId = event.response.id;
+      }
       // Voice agents speak their reply, so the text form of it streams as an audio transcript
       // rather than as `response.output_text.delta`.
       if (
-        event.type === "response.output_text.delta" ||
-        event.type === "response.output_audio_transcript.delta"
+        (event.type === "response.output_text.delta" ||
+          event.type === "response.output_audio_transcript.delta") &&
+        event.response_id === responseId
       ) {
         process.stdout.write(event.delta);
       } else if (event.type === "unknown") {
         // event.rawEvent preserves all wire fields; validate them before using them.
         console.log(`Unrecognized server event: ${event.eventType}`);
-      } else if (event.type === "response.done") {
-        await connection.close();
+      } else if (event.type === "error") {
+        throw new Error(`Voice Agent error ${event.error.code}: ${event.error.message}`);
+      } else if (event.type === "response.done" && responseId && event.response.id === responseId) {
+        if (event.response.status !== "completed") {
+          throw new Error(`Requested voice response ${event.response.status ?? "unknown"}.`);
+        }
+        responseCompleted = true;
+        break;
       }
     }
+    if (!responseCompleted) throw new Error("The requested voice response did not complete.");
   } finally {
     await connection.dispose();
   }
@@ -411,37 +434,29 @@ authenticated backend relay supplied through `webSocketFactory`, when direct bro
 authentication is unavailable. Do not put tokens in the URL or negotiate `realtime` on Live.
 
 See the [text](./samples-dev/agents/agentVoiceLiveText.ts),
-[PCM input/output](./samples-dev/agents/agentVoiceLiveAudio.ts),
-[Responses function calling](./samples-dev/agents/agentVoiceLiveFunctions.ts), and
-[browser audio](./samples-dev/agents/agentVoiceLiveBrowser.ts) samples.
+[PCM input/output](./samples-dev/agents/agentVoiceLiveAudio.ts), and
+[Responses function calling](./samples-dev/agents/agentVoiceLiveFunctions.ts) Node.js samples.
 
 Set `FOUNDRY_PROJECT_ENDPOINT` and `FOUNDRY_LIVE_MODEL` before running the Node samples.
 The model setting is a **deployment name**, not a catalog model ID. The function sample also
 requires `FOUNDRY_LIVE_BACKEND_MODEL`, the Responses backend deployment name. These settings
 and optional PCM file paths are listed in [sample.env](./sample.env).
 
-The text sample runs one greeting by default. Set `FOUNDRY_LIVE_INTERACTIVE=true` and
-`FOUNDRY_LIVE_BACKEND_MODEL` for sequential typed questions; enter `/quit` to stop.
-Typed questions are sent as Responses user-context items, not as microphone audio.
-Frontend transcript fragments are buffered while a console prompt is active so they do not
-overwrite typed input. The Node text example prints captions and counts received audio;
-it does not open a local speaker.
+Each sample demonstrates one task: send a greeting, stream a PCM file, or answer a function call.
+The examples print captions as they arrive; they do not open a local speaker. Press Enter
+after reading the reply, or Ctrl+C, to close the session and delete the sample's agent.
+Each sample is self-contained, with no shared sample utility files.
 
 Live needs a continuously advancing audio timeline even for text and tool-driven speech.
-The spoken samples stream paced silent PCM while idle, including while waiting for terminal
-input. **Voice-session usage remains billable during that wait.** They require both audible
-output and a nonblank frontend transcript, then use one second of speech/transcript inactivity
-as a sample-level completion heuristic. Silent/very-low-level PCM does not restart that timer.
-There is no native speech-finished event: a long speech pause can still split an utterance.
-Timeouts, failed/incomplete backend responses, and premature disconnects fail explicitly rather
-than being reported as successful completion.
+The examples send paced silent PCM while idle. **Voice-session usage remains billable until
+you stop the sample.** Live has no speech-finished event, and backend response completion does
+not mean speech has finished; stopping manually can interrupt the reply.
 
-The audio samples take **raw mono PCM16LE at 24 kHz**, not WAV/MP3/Opus containers. The Node
-example saves PCM output; the browser example plays it and drains queued playback before
-closing its audio context. These examples use a prerecorded input file; they do not capture
-a microphone. The function example handles completed `response.output_item.done` calls,
-validates arguments, deduplicates call IDs, and returns queued results after backend completion
-before requesting one continuation. Backend working text is not presented as the spoken reply.
+The audio example reads **raw mono PCM16LE at 24 kHz**, not a WAV/MP3/Opus container, and saves
+the output in the same raw format. It uses a prerecorded file, not a microphone.
+The function example receives a completed function call and submits its result after the
+calling backend response finishes. `sendToolOutput()` requests the backend continuation
+by default. Only the frontend captions are printed as the spoken reply.
 
 ### Using Agent tools
 

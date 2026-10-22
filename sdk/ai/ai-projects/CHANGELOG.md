@@ -10,11 +10,11 @@
 
 - Add `project.beta.voiceAgents.live` for native GPT Live WebSocket sessions, including typed events, streamed audio and transcripts, context appends, Responses function results, cancellation through operation signals, and graceful session finalization. Preserve existing Realtime behavior. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 - Add GPT Live agent definitions and `project.beta.voiceAgents.liveConversations` for persisted Live conversations and audio. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Add self-contained Node.js samples for GPT Live text, PCM audio, and Responses function calling. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
 
 ### Bugs Fixed
 
-- Reject Realtime-only connection options and malformed UTF-8 binary events on the native GPT Live path. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
-- Fix GPT Live sample completion, PCM pacing and validation, Responses function-call deduplication and continuation, backend error handling, and browser playback cleanup. Add optional interactive typed Responses turns and document continuous-audio usage. [Cross-language sample reference](https://github.com/Azure/azure-sdk-for-java/pull/50877)
+- Correlate the Realtime tracing sample and Voice Agent documentation example with the requested response instead of closing on a generated greeting. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
 
 ### Other Changes
 

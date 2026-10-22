@@ -16,10 +16,7 @@ import { isLiveMode } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import { describe, expect, it } from "vitest";
 import { createProjectsClient, createRecorder } from "../../utils/createClient.js";
-import {
-  LiveSpeechActivity,
-  streamLiveSilence,
-} from "../../../../samples-dev/agents/utils/liveAudio.js";
+import { LiveSpeechActivity, streamLiveSilence } from "../e2eTypes.js";
 
 interface FeatureResult {
   feature: string;
