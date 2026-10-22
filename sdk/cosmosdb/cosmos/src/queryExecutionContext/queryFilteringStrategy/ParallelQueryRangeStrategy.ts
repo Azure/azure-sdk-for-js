@@ -7,8 +7,7 @@ import type {
   PartitionRangeFilterResult,
 } from "./TargetPartitionRangeStrategy.js";
 import type { PartitionRangeWithContinuationToken } from "./TargetPartitionRangeManager.js";
-import { isPartitionRangeActive } from "../PartitionRangeManager.js";
-import { getLogicalPartitionRange, intersectPartitionKeyRanges } from "../logicalPartitionRange.js";
+import { isPartitionExhausted } from "../PartitionRangeManager.js";
 
 /**
  * Strategy for filtering partition ranges in parallel query execution context
@@ -65,43 +64,48 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
     }
 
     const rangeTokenPairs: PartitionRangeWithContinuationToken[] = [];
-    continuationRanges.sort((left, right) => {
-      const leftRange = getLogicalPartitionRange(left.range, left.epkMin, left.epkMax);
-      const rightRange = getLogicalPartitionRange(right.range, right.epkMin, right.epkMax);
-      return leftRange.minInclusive.localeCompare(rightRange.minInclusive);
+    let lastProcessedRange: PartitionKeyRange | null = null;
+
+    // sort continuationRanges in ascending order using their minInclusive values
+    continuationRanges.sort((a, b) => {
+      return a.range.minInclusive.localeCompare(b.range.minInclusive);
     });
 
     for (const range of continuationRanges) {
-      if (isPartitionRangeActive(range.continuationToken, range.isActive)) {
-        rangeTokenPairs.push({ ...range, isContinuationRange: true });
+      // Always track the last processed range, even if it's exhausted
+      lastProcessedRange = range.range;
+
+      if (range && !isPartitionExhausted(range.continuationToken)) {
+        rangeTokenPairs.push({
+          range: range.range,
+          continuationToken: range.continuationToken,
+          filteringCondition: range.filteringCondition,
+        });
       }
     }
 
-    const lastContinuation = continuationRanges[continuationRanges.length - 1];
-    const lastLogicalRange = getLogicalPartitionRange(
-      lastContinuation.range,
-      lastContinuation.epkMin,
-      lastContinuation.epkMax,
-    );
-    const sortedTargetRanges = [...targetRanges].sort((left, right) =>
-      left.minInclusive.localeCompare(right.minInclusive),
-    );
-    const queryMax = sortedTargetRanges[sortedTargetRanges.length - 1].maxExclusive;
-    const uncoveredSuffix = intersectPartitionKeyRanges(
-      sortedTargetRanges,
-      lastLogicalRange.maxExclusive,
-      queryMax,
-    );
-    rangeTokenPairs.push(
-      ...uncoveredSuffix.map((range) => ({
-        range: range.partitionKeyRange,
-        continuationToken: undefined as string | undefined,
-        filteringCondition: undefined as string | undefined,
-        epkMin: range.minInclusive,
-        epkMax: range.maxExclusive,
-        isContinuationRange: false,
-      })),
-    );
+    // Add any new target ranges that come after the last processed range
+    if (lastProcessedRange) {
+      for (const targetRange of targetRanges) {
+        // Only include ranges whose minInclusive value is greater than or equal to maxExclusive of lastProcessedRange
+        if (targetRange.minInclusive >= lastProcessedRange.maxExclusive) {
+          rangeTokenPairs.push({
+            range: targetRange,
+            continuationToken: undefined as string | undefined,
+            filteringCondition: undefined as string | undefined,
+          });
+        }
+      }
+    } else {
+      // If no ranges were processed from continuation token, add all target ranges
+      for (const targetRange of targetRanges) {
+        rangeTokenPairs.push({
+          range: targetRange,
+          continuationToken: undefined as string | undefined,
+          filteringCondition: undefined as string | undefined,
+        });
+      }
+    }
 
     return {
       rangeTokenPairs,

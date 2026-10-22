@@ -40,9 +40,4 @@ export interface FilterStrategy {
    * @returns The filtered set of documents.
    */
   applyFilter(documents: any[]): any[];
-
-  /**
-   * Gets the current filter context so replacement producers can resume from the same state.
-   */
-  getFilterContext(): FilterContext;
 }

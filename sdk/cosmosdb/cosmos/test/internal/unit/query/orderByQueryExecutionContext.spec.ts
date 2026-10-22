@@ -291,10 +291,11 @@ describe("OrderByQueryExecutionContext", () => {
       responses.push(response);
     }
 
-    assert.deepEqual(
-      responses.map((response) => response.result?.buffer?.length ?? -1),
-      [1, 4, 1, 3, -1],
-    );
+    assert.equal(responses[0].result.buffer.length, 0);
+    assert.equal(responses[1].result.buffer.length, 1);
+    assert.equal(responses[2].result.buffer.length, 4);
+    assert.equal(responses[3].result.buffer.length, 1);
+    assert.equal(responses[4].result.buffer.length, 3);
 
     await context.fetchMore();
     assert.equal(context.hasMoreResults(), false);

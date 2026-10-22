@@ -8,23 +8,14 @@ import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js"
 import { ErrorResponse } from "../request/ErrorResponse.js";
 import { QueryRange } from "../routing/QueryRange.js";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider.js";
-import type { CosmosHeaders } from "../index.js";
+import type { CosmosHeaders, PartitionKeyRange } from "../index.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import { DocumentProducer } from "./documentProducer.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
-import {
-  getLogicalPartitionRange,
-  intersectPartitionKeyRange,
-  toEffectivePartitionKeyRange,
-} from "./logicalPartitionRange.js";
-import type { LogicalPartitionRange } from "./logicalPartitionRange.js";
 import type { FilterContext, FilterStrategy } from "./queryFilteringStrategy/FilterStrategy.js";
 import { RidSkipCountFilter } from "./queryFilteringStrategy/RidSkipCountFilter.js";
-import type {
-  PartitionRangeWithContinuationToken,
-  TargetPartitionRangeManager,
-} from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
+import type { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 import type { QueryProcessingStrategy } from "./queryProcessingStrategy/QueryProcessingStrategy.js";
 import {
   DiagnosticNodeInternal,
@@ -32,10 +23,8 @@ import {
 } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { ClientContext } from "../ClientContext.js";
 import type { QueryRangeMapping } from "./queryRangeMapping.js";
-import { isPartitionExhausted, isPartitionRangeActive } from "./PartitionRangeManager.js";
 import type {
   QueryRangeWithContinuationToken,
-  RangeBoundary,
   BaseContinuationToken,
 } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { createParallelQueryResult } from "./parallelQueryResult.js";
@@ -161,30 +150,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @hidden
    */
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
-    do {
-      await this.bufferDocumentProducers(diagnosticNode);
-      await this.fillBufferFromBufferQueue();
-      this.updateStates(this.err);
-    } while (this.shouldContinueScheduling());
+    await this.bufferDocumentProducers(diagnosticNode);
+    await this.fillBufferFromBufferQueue();
     return this.drainBufferedItems();
-  }
-
-  private shouldContinueScheduling(): boolean {
-    const hasActiveProducers =
-      this.unfilledDocumentProducersQueue.size() > 0 ||
-      this.bufferedDocumentProducersQueue.size() > 0;
-    const hasMeaningfulCheckpoint = Array.from(this.partitionDataPatchMap.values()).some(
-      (mapping) => !isPartitionExhausted(mapping.continuationToken),
-    );
-    const canReturnMeaningfulCheckpoint =
-      this.rangeManager.getStrategyType() !== "OrderByQuery" ||
-      this.requestContinuation !== undefined;
-    return (
-      this.buffer.length === 0 &&
-      !(hasMeaningfulCheckpoint && canReturnMeaningfulCheckpoint) &&
-      this.state !== ParallelQueryExecutionContextBase.STATES.ended &&
-      hasActiveProducers
-    );
   }
 
   /**
@@ -234,22 +202,15 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Child classes provide query-specific parameters through abstract methods.
    */
   private handlePartitionMapping(producer: DocumentProducer, result: any): void {
-    this.updatePartitionMapping(this.createPartitionMapping(producer, result?.length || 0));
-  }
-
-  private createPartitionMapping(producer: DocumentProducer, itemCount: number): QueryRangeMapping {
-    const logicalRange = getLogicalPartitionRange(
-      producer.targetPartitionKeyRange,
-      producer.startEpk,
-      producer.endEpk,
-    );
-    return {
+    const itemCount = result?.length || 0;
+    const continuationToken = this.getContinuationToken(producer);
+    const mapping = {
       itemCount,
-      partitionKeyRange: toEffectivePartitionKeyRange(logicalRange),
-      continuationToken: this.getContinuationToken(producer),
-      previousContinuationToken: producer.previousContinuationToken,
-      isActive: producer.hasMoreResults(),
+      partitionKeyRange: producer.targetPartitionKeyRange,
+      continuationToken,
     };
+
+    this.updatePartitionMapping(mapping);
   }
 
   /**
@@ -270,10 +231,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    */
   private updatePartitionMapping(mapping: QueryRangeMapping): void {
     const currentPatch = this.partitionDataPatchMap.get(this.patchCounter.toString());
-    const isSamePartition =
-      currentPatch?.partitionKeyRange?.id === mapping.partitionKeyRange.id &&
-      currentPatch.partitionKeyRange.minInclusive === mapping.partitionKeyRange.minInclusive &&
-      currentPatch.partitionKeyRange.maxExclusive === mapping.partitionKeyRange.maxExclusive;
+    const isSamePartition = currentPatch?.partitionKeyRange?.id === mapping.partitionKeyRange.id;
 
     if (isSamePartition && currentPatch) {
       currentPatch.itemCount += mapping.itemCount;
@@ -337,7 +295,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const filterContext = this.queryProcessingStrategy.createFilterContext(parsedToken);
 
     return rangeTokenPairs.map((rangeTokenPair) =>
-      this._createDocumentProducerFromRangeTokenPair(rangeTokenPair, filterContext),
+      this._createDocumentProducerFromRangeTokenPair(
+        rangeTokenPair,
+        continuationRanges,
+        filterContext,
+      ),
     );
   }
 
@@ -354,26 +316,38 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Creates a document producer from a range token pair (continuation token scenario).
    */
   private _createDocumentProducerFromRangeTokenPair(
-    rangeTokenPair: PartitionRangeWithContinuationToken,
-    filterContext: FilterContext | undefined,
+    rangeTokenPair: any,
+    continuationRanges: any[],
+    filterContext: any,
   ): DocumentProducer {
     const partitionTargetRange = rangeTokenPair.range;
     const continuationToken = rangeTokenPair.continuationToken;
     const filterCondition = rangeTokenPair.filteringCondition || undefined;
-    const logicalRange = getLogicalPartitionRange(
-      partitionTargetRange,
-      rangeTokenPair.epkMin,
-      rangeTokenPair.epkMax,
-    );
 
-    const partitionFilterContext = rangeTokenPair.isContinuationRange ? filterContext : undefined;
+    // Find EPK ranges for this partition range from processed continuation response
+    const matchingContinuationRange = continuationRanges.find(
+      (cr) => cr.range.id === partitionTargetRange.id,
+    );
+    const startEpk = matchingContinuationRange?.epkMin;
+    const endEpk = matchingContinuationRange?.epkMax;
+
+    // Use strategy to determine partition-specific filter context
+    const targetPartitionId =
+      continuationRanges.length > 0 && continuationRanges[continuationRanges.length - 1].range
+        ? continuationRanges[continuationRanges.length - 1].range.id
+        : undefined;
+    const partitionFilterContext = this.queryProcessingStrategy.getPartitionFilterContext(
+      filterContext,
+      targetPartitionId,
+      partitionTargetRange.id,
+    );
 
     return this._createTargetPartitionQueryExecutionContext(
       partitionTargetRange,
       continuationToken,
-      logicalRange.minInclusive,
-      logicalRange.maxExclusive,
-      rangeTokenPair.epkMin !== undefined && rangeTokenPair.epkMax !== undefined,
+      startEpk,
+      endEpk,
+      !!(startEpk && endEpk), // populateEpkRangeHeaders - true if both EPK values are present
       filterCondition,
       partitionFilterContext,
     );
@@ -456,7 +430,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     if (minInclusiveComparison === 0) {
       const aMinEpk = a.startEpk;
       const bMinEpk = b.startEpk;
-      if (aMinEpk !== undefined && bMinEpk !== undefined) {
+      if (aMinEpk && bMinEpk) {
         return bMinEpk.localeCompare(aMinEpk);
       }
     }
@@ -471,50 +445,75 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    */
   private async _handlePartitionRangeChanges(
     parsed: BaseContinuationToken,
-  ): Promise<PartitionRangeWithContinuationToken[]> {
-    const processedRanges: PartitionRangeWithContinuationToken[] = [];
+  ): Promise<{ range: any; continuationToken?: string; epkMin?: string; epkMax?: string }[]> {
+    const processedRanges: {
+      range: any;
+      continuationToken?: string;
+      epkMin?: string;
+      epkMax?: string;
+    }[] = [];
+
+    // Extract range mappings from the already parsed token
     const rangeMappings = parsed.rangeMappings;
 
     if (!rangeMappings || rangeMappings.length === 0) {
       return [];
     }
 
+    // Check each range mapping for potential splits/merges
     for (const rangeWithToken of rangeMappings) {
+      // Create a new QueryRange instance from the simplified range data
       const range = rangeWithToken.queryRange;
-      const queryRange = new QueryRange(range.min, range.max, true, false);
+      const queryRange: QueryRange = new QueryRange(
+        range.min,
+        range.max,
+        true, // isMinInclusive - assumption: always true
+        false, // isMaxInclusive - assumption: always false (max is exclusive)
+      );
+
+      const rangeMin = queryRange.min;
+      const rangeMax = queryRange.max;
+
+      // Get current overlapping ranges for this continuation token range
       const overlappingRanges = await this.routingProvider.getOverlappingRanges(
         this.collectionLink,
         [queryRange],
         this.getDiagnosticNode(),
       );
-      const logicalRanges = overlappingRanges
-        .map((partitionKeyRange) =>
-          intersectPartitionKeyRange(partitionKeyRange, range.min, range.max),
-        )
-        .filter((logicalRange): logicalRange is LogicalPartitionRange => !!logicalRange);
 
-      const topologyUnchanged =
-        logicalRanges.length === 1 &&
-        logicalRanges[0].partitionKeyRange.minInclusive === range.min &&
-        logicalRanges[0].partitionKeyRange.maxExclusive === range.max;
-      if (!topologyUnchanged) {
-        this._recordPartitionRangeUpdate(rangeWithToken, logicalRanges);
+      // Detect split/merge scenario based on the number of overlapping ranges
+      if (overlappingRanges.length === 0) {
+        continue;
+      } else if (overlappingRanges.length === 1) {
+        // Check if it's the same range (no change) or a merge scenario
+        const currentRange = overlappingRanges[0];
+        if (currentRange.minInclusive !== rangeMin || currentRange.maxExclusive !== rangeMax) {
+          // Merge scenario - include EPK ranges from original continuation token range
+          await this._handleContinuationTokenMerge(rangeWithToken, currentRange);
+          processedRanges.push({
+            range: currentRange,
+            continuationToken: rangeWithToken.continuationToken,
+            epkMin: rangeMin, // Original range min becomes EPK min
+            epkMax: rangeMax, // Original range max becomes EPK max
+          });
+        } else {
+          // Same range - no merge, no EPK ranges needed
+          processedRanges.push({
+            range: currentRange,
+            continuationToken: rangeWithToken.continuationToken,
+          });
+        }
+      } else {
+        // Split scenario - one range from continuation token now maps to multiple ranges
+        await this._handleContinuationTokenSplit(rangeWithToken, overlappingRanges);
+        // Add all overlapping ranges with the same continuation token to processed ranges
+        overlappingRanges.forEach((rangeValue) => {
+          processedRanges.push({
+            range: rangeValue,
+            continuationToken: rangeWithToken.continuationToken,
+          });
+        });
       }
-
-      processedRanges.push(
-        ...logicalRanges.map((logicalRange) => ({
-          range: logicalRange.partitionKeyRange,
-          continuationToken: rangeWithToken.continuationToken,
-          epkMin: logicalRange.minInclusive,
-          epkMax: logicalRange.maxExclusive,
-          isContinuationRange: true,
-          isActive:
-            rangeWithToken.isActive ??
-            (this.rangeManager.getStrategyType() === "OrderByQuery"
-              ? true
-              : isPartitionRangeActive(rangeWithToken.continuationToken)),
-        })),
-      );
     }
 
     return processedRanges;
@@ -537,26 +536,55 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     }
   }
 
-  private _recordPartitionRangeUpdate(
+  /**
+   * Handles partition merge scenario for continuation token ranges
+   */
+  private async _handleContinuationTokenMerge(
     rangeWithToken: QueryRangeWithContinuationToken,
-    replacementRanges: LogicalPartitionRange[],
-  ): void {
+    _newMergedRange: PartitionKeyRange,
+  ): Promise<void> {
     const rangeKey = `${rangeWithToken.queryRange.min}-${rangeWithToken.queryRange.max}`;
     this.updatedContinuationRanges.set(rangeKey, {
       oldRange: {
         min: rangeWithToken.queryRange.min,
         max: rangeWithToken.queryRange.max,
-        isMinInclusive: true,
-        isMaxInclusive: false,
+        isMinInclusive: true, // Assumption: min is always inclusive
+        isMaxInclusive: false, // Assumption: max is always exclusive
       },
-      newRanges: replacementRanges.map((range) => ({
+      newRanges: [
+        {
+          min: rangeWithToken.queryRange.min,
+          max: rangeWithToken.queryRange.max,
+          isMinInclusive: true, // Assumption: min is always inclusive
+          isMaxInclusive: false, // Assumption: max is always exclusive
+        },
+      ],
+      continuationToken: rangeWithToken.continuationToken,
+    });
+  }
+
+  /**
+   * Handles partition split scenario for continuation token ranges
+   */
+  private async _handleContinuationTokenSplit(
+    rangeWithToken: QueryRangeWithContinuationToken,
+    overlappingRanges: any[],
+  ): Promise<void> {
+    const rangeKey = `${rangeWithToken.queryRange.min}-${rangeWithToken.queryRange.max}`;
+    this.updatedContinuationRanges.set(rangeKey, {
+      oldRange: {
+        min: rangeWithToken.queryRange.min,
+        max: rangeWithToken.queryRange.max,
+        isMinInclusive: true, // Assumption: min is always inclusive
+        isMaxInclusive: false, // Assumption: max is always exclusive
+      },
+      newRanges: overlappingRanges.map((range) => ({
         min: range.minInclusive,
         max: range.maxExclusive,
         isMinInclusive: true,
         isMaxInclusive: false,
       })),
       continuationToken: rangeWithToken.continuationToken,
-      isActive: true,
     });
   }
 
@@ -594,33 +622,15 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private async _getReplacementPartitionKeyRanges(
     documentProducer: DocumentProducer,
     diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<LogicalPartitionRange[]> {
-    const logicalRange = getLogicalPartitionRange(
-      documentProducer.targetPartitionKeyRange,
-      documentProducer.startEpk,
-      documentProducer.endEpk,
-    );
-    const queryRange = new QueryRange(
-      logicalRange.minInclusive,
-      logicalRange.maxExclusive,
-      true,
-      false,
-    );
-    const replacementRanges = await this.routingProvider.getOverlappingRanges(
+  ): Promise<any[]> {
+    const queryRange = ParallelQueryExecutionContextBase._getEffectiveQueryRange(documentProducer);
+    // Force refresh the routing map so the split partition's replacement ranges are downloaded.
+    return this.routingProvider.getOverlappingRanges(
       this.collectionLink,
       [queryRange],
       diagnosticNode,
       true,
     );
-    return replacementRanges
-      .map((partitionKeyRange) =>
-        intersectPartitionKeyRange(
-          partitionKeyRange,
-          logicalRange.minInclusive,
-          logicalRange.maxExclusive,
-        ),
-      )
-      .filter((range): range is LogicalPartitionRange => !!range);
   }
 
   private async _enqueueReplacementDocumentProducers(
@@ -629,33 +639,39 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     documentProducer: DocumentProducer,
   ): Promise<void> {
     // Get the replacement ranges
-    const replacementRanges = await this._getReplacementPartitionKeyRanges(
+    const replacementPartitionKeyRanges = await this._getReplacementPartitionKeyRanges(
       documentProducer,
       diagnosticNode,
     );
-    const filterCondition = documentProducer.getFilterCondition();
-    const filterContext = documentProducer.getFilterContext();
 
-    if (replacementRanges.length === 0) {
+    if (this.options.enableQueryControl) {
+      throw ParallelQueryExecutionContextBase._createQueryControlSplitError(error);
+    }
+
+    if (replacementPartitionKeyRanges.length === 0) {
       throw error;
     }
 
-    if (this.options.enableQueryControl) {
-      this._recordPartitionRangeUpdate(
-        this._createQueryRangeWithContinuationToken(documentProducer),
-        replacementRanges,
+    const effectiveRange =
+      ParallelQueryExecutionContextBase._getEffectiveQueryRange(documentProducer);
+    replacementPartitionKeyRanges.forEach((partitionKeyRange) => {
+      const intersection = ParallelQueryExecutionContextBase._intersectPartitionRange(
+        partitionKeyRange,
+        effectiveRange,
       );
-    }
+      if (!intersection) {
+        return;
+      }
 
-    replacementRanges.forEach((replacementRange) => {
+      const populateEpkRangeHeaders =
+        intersection.min !== partitionKeyRange.minInclusive ||
+        intersection.max !== partitionKeyRange.maxExclusive;
       const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
-        replacementRange.partitionKeyRange,
+        partitionKeyRange,
         documentProducer.continuationToken,
-        replacementRange.minInclusive,
-        replacementRange.maxExclusive,
-        true,
-        filterCondition,
-        filterContext,
+        intersection.min,
+        intersection.max,
+        populateEpkRangeHeaders,
       );
       if (replacementDocumentProducer.hasMoreResults()) {
         this.unfilledDocumentProducersQueue.enq(replacementDocumentProducer);
@@ -663,27 +679,39 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     });
   }
 
-  /**
-   * Creates a QueryRangeWithContinuationToken object from a DocumentProducer.
-   * Uses the DocumentProducer's target partition key range and continuation token.
-   * @param documentProducer - The DocumentProducer to convert
-   * @returns QueryRangeWithContinuationToken object for token operations
-   */
-  private _createQueryRangeWithContinuationToken(
-    documentProducer: DocumentProducer,
-  ): QueryRangeWithContinuationToken {
-    const partitionRange = documentProducer.targetPartitionKeyRange;
+  private static _getEffectiveQueryRange(documentProducer: DocumentProducer): QueryRange {
+    const partitionKeyRange = documentProducer.targetPartitionKeyRange;
+    return new QueryRange(
+      documentProducer.startEpk ?? partitionKeyRange.minInclusive,
+      documentProducer.endEpk ?? partitionKeyRange.maxExclusive,
+      true,
+      false,
+    );
+  }
 
-    // Create a simplified QueryRange using the partition key range boundaries
-    const simplifiedQueryRange: RangeBoundary = {
-      min: documentProducer.startEpk ?? partitionRange.minInclusive,
-      max: documentProducer.endEpk ?? partitionRange.maxExclusive,
-    };
+  private static _intersectPartitionRange(
+    partitionKeyRange: PartitionKeyRange,
+    effectiveRange: QueryRange,
+  ): { min: string; max: string } | undefined {
+    const min =
+      partitionKeyRange.minInclusive.localeCompare(effectiveRange.min) > 0
+        ? partitionKeyRange.minInclusive
+        : effectiveRange.min;
+    const max =
+      partitionKeyRange.maxExclusive.localeCompare(effectiveRange.max) < 0
+        ? partitionKeyRange.maxExclusive
+        : effectiveRange.max;
+    return min.localeCompare(max) < 0 ? { min, max } : undefined;
+  }
 
-    return {
-      queryRange: simplifiedQueryRange,
-      continuationToken: documentProducer.continuationToken,
-    };
+  private static _createQueryControlSplitError(originalError: any): Error {
+    return Object.assign(
+      new Error("Encountered partition split and could not recover. This request is retryable"),
+      {
+        code: StatusCodes.ServiceUnavailable,
+        originalError,
+      },
+    );
   }
 
   private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {
@@ -766,7 +794,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       endEpk,
       populateEpkRangeHeaders,
       filter,
-      filterCondition,
     );
   }
   private async drainBufferedItems(): Promise<Response<any>> {
@@ -904,18 +931,21 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               if (nextItem !== undefined) {
                 this.bufferedDocumentProducersQueue.enq(documentProducer);
               } else {
-                // Query control tracks terminal mappings as explicit exhaustion evidence.
-                // Legacy queries only need nonterminal empty checkpoints.
-                const hasActiveContinuation = !!(
+                // Track document producer with no results in patchToRangeMapping
+                // This represents a scanned partition that yielded no results
+                // IMPORTANT: Only include if continuation token is NOT null/exhausted
+                // Document producers with no data in buffer and no continuation token are exhausted and should not be added to partitionDataPatchMap to prevent infinite loops in order by queries
+                if (
                   documentProducer.continuationToken &&
                   documentProducer.continuationToken !== "" &&
                   documentProducer.continuationToken.toLowerCase() !== "null"
-                );
-                if (this.options.enableQueryControl || hasActiveContinuation) {
-                  const mapping = this.createPartitionMapping(documentProducer, 0);
-                  const range = mapping.partitionKeyRange;
-                  const patchKey = `empty-${range.id}-${range.minInclusive}-${range.maxExclusive}`;
-                  this.partitionDataPatchMap.set(patchKey, mapping);
+                ) {
+                  const patchKey = `empty-${documentProducer.targetPartitionKeyRange.id}-${documentProducer.targetPartitionKeyRange.minInclusive}`;
+                  this.partitionDataPatchMap.set(patchKey, {
+                    itemCount: 0, // 0 items for empty result set
+                    partitionKeyRange: documentProducer.targetPartitionKeyRange,
+                    continuationToken: documentProducer.continuationToken,
+                  });
                 }
                 if (documentProducer.hasMoreResults()) {
                   this.unfilledDocumentProducersQueue.enq(documentProducer);
@@ -923,12 +953,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               }
             } catch (err) {
               if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
-                if (err.headers) {
-                  this._mergeWithActiveResponseHeaders(err.headers);
-                }
-                // We want the document producer enqueued
-                // So that later parts of the code can repair the execution context
-                // refresh the partition key ranges and ctreate new document producers and add it to the queue
+                this._mergeWithActiveResponseHeaders(err.headers);
                 await this._enqueueReplacementDocumentProducers(
                   err,
                   diagnosticNode,

@@ -10,8 +10,6 @@ import {
 } from "../../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import type { QueryRangeWithContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { convertRangeMappingToQueryRange } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
-import { isPartitionRangeActive } from "../PartitionRangeManager.js";
-import type { QueryRangeMapping } from "../queryRangeMapping.js";
 
 /**
  * Manages continuation tokens for ORDER BY queries using single-range sequential processing.
@@ -42,7 +40,6 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   }
 
   protected processQuerySpecificResponse(responseResult: ParallelQueryResult): void {
-    this.reconcileRangeMappings(responseResult.partitionKeyRangeMap);
     // Clear existing items and add new ones without reassigning the array reference
     this.orderByItemsArray.length = 0;
     if (responseResult.orderByItems) {
@@ -52,11 +49,6 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
 
   protected performQuerySpecificDataTrim(_processedRanges: string[], endIndex: number): void {
     this.sliceOrderByItemsArray(endIndex);
-  }
-
-  protected clearQuerySpecificState(): void {
-    this.orderByItemsArray.length = 0;
-    this.clearTokenState();
   }
 
   private sliceOrderByItemsArray(endIndex: number): void {
@@ -75,19 +67,23 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   ): { endIndex: number; processedRanges: string[] } {
     // Handle empty response case - preserve previous token state with updated range
     if (isResponseEmpty && this.tokenRangeMappings) {
-      const processedRanges = [...this.partitionManager.getPartitionKeyRangeMap().keys()];
-      if (this.rangeList.length > 0) {
-        this.tokenRangeMappings = this.rangeList.map((mapping) => ({
-          queryRange: { ...mapping.queryRange },
-          continuationToken: mapping.continuationToken,
-          isActive: mapping.isActive,
-        }));
+      let rangeProcessingResult;
+
+      if (this.rangeList.length === 0) {
+        rangeProcessingResult = this.partitionManager.processOrderByRanges(pageSize);
+      } else {
+        rangeProcessingResult = this.partitionManager.processEmptyOrderByRanges(this.rangeList);
+      }
+
+      const { lastRangeBeforePageLimit } = rangeProcessingResult;
+      if (lastRangeBeforePageLimit) {
+        this.tokenRangeMappings = [convertRangeMappingToQueryRange(lastRangeBeforePageLimit)];
       } else {
         this.clearTokenState();
       }
       return {
-        endIndex: 0,
-        processedRanges,
+        endIndex: rangeProcessingResult.endIndex,
+        processedRanges: rangeProcessingResult.processedRanges,
       };
     }
 
@@ -103,6 +99,8 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
         processedRanges: rangeProcessingResult.processedRanges,
       };
     }
+
+    const queryRange = convertRangeMappingToQueryRange(lastRangeBeforePageLimit);
 
     // Extract ORDER BY items from the last item on the page
     let lastOrderByItems: any[] | undefined;
@@ -136,11 +134,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     }
 
     // Update token state fields
-    const pageRangeMappings = this.createPageRangeMappings(rangeProcessingResult.processedRanges);
-    this.tokenRangeMappings =
-      pageRangeMappings.length > 0
-        ? pageRangeMappings
-        : [convertRangeMappingToQueryRange(lastRangeBeforePageLimit)];
+    this.tokenRangeMappings = [queryRange];
     this.tokenOrderByItems = lastOrderByItems;
     this.tokenSkipCount = skipCount;
     this.tokenDocumentRid = documentRid!;
@@ -180,60 +174,5 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     this.tokenSkipCount = 0;
     this.tokenDocumentRid = "";
     this.tokenHashedLastResult = undefined;
-  }
-
-  private reconcileRangeMappings(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
-    for (const mapping of partitionKeyRangeMap.values()) {
-      const range = convertRangeMappingToQueryRange(mapping);
-      const existingIndex = this.rangeList.findIndex(
-        (current) =>
-          current.queryRange.min === range.queryRange.min &&
-          current.queryRange.max === range.queryRange.max,
-      );
-
-      if (!isPartitionRangeActive(mapping.continuationToken, mapping.isActive)) {
-        if (existingIndex >= 0) {
-          this.rangeList.splice(existingIndex, 1);
-        }
-      } else if (existingIndex >= 0) {
-        this.rangeList[existingIndex] = range;
-      } else {
-        this.rangeList.push(range);
-      }
-    }
-  }
-
-  private createPageRangeMappings(processedRanges: string[]): QueryRangeWithContinuationToken[] {
-    const mappingsByRange = new Map<string, QueryRangeWithContinuationToken>();
-    const rangeKey = (mapping: QueryRangeWithContinuationToken): string =>
-      `${mapping.queryRange.min}-${mapping.queryRange.max}`;
-
-    for (const mapping of this.rangeList) {
-      mappingsByRange.set(rangeKey(mapping), {
-        queryRange: { ...mapping.queryRange },
-        continuationToken: mapping.continuationToken,
-        isActive: mapping.isActive,
-      });
-    }
-
-    const processedRangeSet = new Set(processedRanges);
-    for (const [key, mapping] of this.partitionManager.getPartitionKeyRangeMap()) {
-      const checkpointMapping = processedRangeSet.has(key)
-        ? mapping
-        : {
-            ...mapping,
-            continuationToken: mapping.previousContinuationToken,
-            isActive: true,
-          };
-      const tokenMapping = convertRangeMappingToQueryRange(checkpointMapping);
-      if (checkpointMapping.isActive === false) {
-        tokenMapping.isActive = false;
-      }
-      mappingsByRange.set(rangeKey(tokenMapping), tokenMapping);
-    }
-
-    return Array.from(mappingsByRange.values()).sort((left, right) =>
-      left.queryRange.min.localeCompare(right.queryRange.min),
-    );
   }
 }

@@ -104,12 +104,10 @@ export class QueryControlFetchImplementation {
     mergeHeaders(fetchMoreRespHeaders, response.headers);
 
     if (!response?.result?.buffer || response.result.buffer.length === 0) {
-      const isTerminal = !this.endpoint.hasMoreResults();
       const { continuationToken } = this.continuationTokenManager.paginateResults(
         this.pageSize,
         true, // isResponseEmpty = true
         response?.result, // Pass response data for processing
-        isTerminal,
       );
       this._setContinuationTokenInHeaders(continuationToken, fetchMoreRespHeaders);
       return this._createEmptyResult(fetchMoreRespHeaders);

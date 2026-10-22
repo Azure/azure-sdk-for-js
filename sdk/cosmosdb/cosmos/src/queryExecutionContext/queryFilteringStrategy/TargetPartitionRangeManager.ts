@@ -17,10 +17,6 @@ export interface PartitionRangeWithContinuationToken {
   range: PartitionKeyRange;
   continuationToken?: string;
   filteringCondition?: string;
-  epkMin?: string;
-  epkMax?: string;
-  isContinuationRange?: boolean;
-  isActive?: boolean;
 }
 
 /**
