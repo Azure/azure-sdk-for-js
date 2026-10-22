@@ -1378,6 +1378,66 @@ describe("partition split recovery", () => {
     assert.isFalse(context.hasMoreResults());
   });
 
+  it("restores ORDER BY filters when a split checkpoint has no backend token", async () => {
+    const clientContext = createClientContext();
+    mockStableTopology(clientContext, [childRange1, childRange2]);
+    const continuationRid = "resume-rid";
+    const alreadyReturned = createOrderByDocument("already-returned", 5, continuationRid);
+    const expectedResources = [
+      createOrderByDocument("same-key-next", 5, continuationRid),
+      createOrderByDocument("after-c1", 6, "after-c1-rid"),
+      createOrderByDocument("after-c2", 7, "after-c2-rid"),
+    ];
+
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ partitionKeyRangeId, options: requestOptions, query: requestQuery }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        const queryText =
+          typeof requestQuery === "string" ? requestQuery : (requestQuery?.query ?? "");
+        assert.include(queryText, "c.value >= 5");
+        assert.isUndefined(requestOptions.continuationToken);
+        return {
+          result:
+            rangeId === childRange1.id
+              ? ([
+                  alreadyReturned,
+                  expectedResources[0],
+                  expectedResources[1],
+                ] as unknown as Resource)
+              : ([expectedResources[2]] as unknown as Resource),
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+    const continuationToken = createOrderByOptions("unused", continuationRid, 1, [
+      {
+        queryRange: { min: "", max: "FF" },
+        continuationToken: undefined,
+      },
+    ]).continuationToken;
+    const context = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuationToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+        maxItemCount: 3,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+
+    assert.deepEqual(
+      response.result.map((resource: { id: string }) => resource.id),
+      ["same-key-next", "after-c1", "after-c2"],
+    );
+  });
+
   it("consumes scheduling-only ORDER BY empties before returning stateless pages", async () => {
     const clientContext = createClientContext();
     mockSplitTopology(clientContext);
@@ -1666,7 +1726,10 @@ function createOrderByOptions(
   continuationToken: string,
   continuationRid: string,
   skipCount: number,
-  rangeMappings = [
+  rangeMappings: {
+    queryRange: { min: string; max: string };
+    continuationToken: string | undefined;
+  }[] = [
     {
       queryRange: { min: "", max: "FF" },
       continuationToken,
