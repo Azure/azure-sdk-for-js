@@ -25,7 +25,6 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   private tokenSkipCount: number = 0;
   private tokenDocumentRid: string = "";
   private tokenHashedLastResult?: string;
-  private topologyUpdated: boolean = false;
 
   constructor(collectionLink: string, initialContinuationToken?: string) {
     super(collectionLink, initialContinuationToken);
@@ -41,7 +40,6 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   }
 
   protected processQuerySpecificResponse(responseResult: ParallelQueryResult): void {
-    this.topologyUpdated = Object.keys(responseResult.updatedContinuationRanges ?? {}).length > 0;
     // Clear existing items and add new ones without reassigning the array reference
     this.orderByItemsArray.length = 0;
     if (responseResult.orderByItems) {
@@ -67,23 +65,8 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     pageSize: number,
     isResponseEmpty: boolean = false,
   ): { endIndex: number; processedRanges: string[] } {
-    const topologyUpdated = this.topologyUpdated;
-    this.topologyUpdated = false;
-
     // Handle empty response case - preserve previous token state with updated range
     if (isResponseEmpty && this.tokenRangeMappings) {
-      if (
-        topologyUpdated &&
-        !this.partitionManager.hasUnprocessedRanges() &&
-        this.rangeList.length > 0
-      ) {
-        this.tokenRangeMappings = this.rangeList.map((mapping) => ({
-          queryRange: { ...mapping.queryRange },
-          continuationToken: mapping.continuationToken,
-        }));
-        return { endIndex: 0, processedRanges: [] };
-      }
-
       let rangeProcessingResult;
 
       if (this.rangeList.length === 0) {
