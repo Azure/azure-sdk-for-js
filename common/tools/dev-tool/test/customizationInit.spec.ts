@@ -51,7 +51,7 @@ describe("customization init", () => {
       path.join(directory, "tsconfig.src.json"),
       JSON.stringify({
         compilerOptions: { rootDir: "./src", outDir: "./dist/esm" },
-        include: ["./src/**/*.ts"],
+        include: ["./src/index.ts"],
       }),
     );
     vi.spyOn(process, "cwd").mockReturnValue(directory);
@@ -118,7 +118,7 @@ describe("customization init", () => {
       path.join(directory, "tsconfig.src.json"),
       JSON.stringify({
         compilerOptions: { rootDir: "./src", outDir: "./dist/esm" },
-        include: ["./src/**/*.ts"],
+        include: ["./src/index.ts", "./src/api/widgets/index.ts"],
       }),
     );
     vi.spyOn(process, "cwd").mockReturnValue(directory);
@@ -198,6 +198,108 @@ describe("customization init", () => {
         "index.ts",
         "widgetAnalyticsClient.ts",
       ]);
+    }
+  });
+
+  it("rejects compiler metadata that omits a public source entry point without changing files", async () => {
+    const directory = await fs.mkdtemp(path.join(os.tmpdir(), "azsdk-customization-init-"));
+    fixtures.push(directory);
+    const source = {
+      "index.ts": `export { WidgetAnalyticsClient } from "./widgetAnalyticsClient.js";
+export type { Widget } from "./models/index.js";
+`,
+      "widgetAnalyticsClient.ts": "export class WidgetAnalyticsClient {}\n",
+      "models/index.ts": 'export type { Widget } from "./models.js";\n',
+      "models/models.ts": "export interface Widget { name: string; }\n",
+    };
+    for (const [file, contents] of Object.entries(source)) {
+      const destination = path.join(directory, "src", file);
+      await fs.mkdir(path.dirname(destination), { recursive: true });
+      await fs.writeFile(destination, contents);
+    }
+    await fs.writeFile(
+      path.join(directory, "package.json"),
+      JSON.stringify({
+        name: "@azure/customization-init-fixture",
+        version: "1.0.0",
+        type: "module",
+        exports: {
+          "./package.json": "./package.json",
+          ".": {
+            import: "./dist/esm/index.js",
+            require: "./dist/commonjs/index.js",
+          },
+          "./models": {
+            import: "./dist/esm/models/index.js",
+            require: "./dist/commonjs/models/index.js",
+          },
+        },
+        scripts: { build: "warp build" },
+      }),
+    );
+    await fs.writeFile(
+      path.join(directory, "warp.config.json"),
+      JSON.stringify({
+        exports: {
+          "./package.json": "./package.json",
+          ".": "./src/index.ts",
+          "./models": "./src/models/index.ts",
+        },
+        targets: [
+          { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+          {
+            name: "commonjs",
+            condition: "require",
+            tsconfig: "./tsconfig.commonjs.json",
+            moduleType: "commonjs",
+          },
+        ],
+      }),
+    );
+    for (const [target, module] of [
+      ["esm", "NodeNext"],
+      ["commonjs", "Node16"],
+    ]) {
+      await fs.writeFile(
+        path.join(directory, `tsconfig.${target}.json`),
+        JSON.stringify({
+          compilerOptions: {
+            rootDir: "./src",
+            outDir: `./dist/${target}`,
+            module,
+            moduleResolution: module,
+            target: "ES2023",
+            declaration: true,
+            strict: true,
+          },
+          include: ["./src/index.ts"],
+        }),
+      );
+    }
+    const originals = new Map<string, string>();
+    for (const file of [
+      "package.json",
+      "warp.config.json",
+      "tsconfig.esm.json",
+      "tsconfig.commonjs.json",
+      ...Object.keys(source).map((file) => path.join("src", file)),
+    ]) {
+      originals.set(file, await fs.readFile(path.join(directory, file), "utf8"));
+    }
+    const originalTree = (await fs.readdir(directory, { recursive: true })).sort();
+    vi.spyOn(process, "cwd").mockReturnValue(directory);
+    const output = vi.spyOn(console, "log");
+
+    await expect(initializeCustomization()).resolves.toBe(false);
+
+    const diagnostic = output.mock.calls.map((args) => args.join(" ")).join("\n");
+    expect(diagnostic).toContain("tsconfig.esm.json");
+    expect(diagnostic).toContain("src/models/index.ts");
+    expect(diagnostic).toContain("Regenerate");
+    expect(diagnostic).toContain("current emitter");
+    expect((await fs.readdir(directory, { recursive: true })).sort()).toEqual(originalTree);
+    for (const [file, contents] of originals) {
+      await expect(fs.readFile(path.join(directory, file), "utf8")).resolves.toBe(contents);
     }
   });
 });

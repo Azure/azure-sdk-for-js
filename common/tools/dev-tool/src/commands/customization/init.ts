@@ -18,38 +18,14 @@ export const commandInfo = makeCommandInfo(
 
 export default leafCommand(commandInfo, async () => {
   const info = await resolveProject(process.cwd());
+  const entryPoints = await validateCustomizationInput(info.path);
+  if (!entryPoints) return false;
+
   const srcDirectory = path.join(info.path, "src");
   const generatedDirectory = path.join(srcDirectory, "generated");
-
-  if ((await fs.readdir(info.path)).includes("generated")) {
-    log(
-      "❌ This package has a root generated/ baseline. Migrate existing customizations separately.",
-    );
-    return false;
-  }
-
-  try {
-    await fs.access(srcDirectory);
-  } catch {
-    log("❌ Could not find src/ directory. Nothing to initialize.");
-    return false;
-  }
-
-  const resolved = await findWarpConfig(info.path);
-  if (!resolved) {
-    throw new Error("A Warp configuration is required to locate public source entry points.");
-  }
   const barrels = new Map<string, string>();
-  for (const source of Object.values(resolved.config.exports)) {
-    const file = path.resolve(info.path, source);
+  for (const file of entryPoints) {
     const relativeSource = path.relative(srcDirectory, file);
-    if (
-      relativeSource === ".." ||
-      relativeSource.startsWith(`..${path.sep}`) ||
-      path.isAbsolute(relativeSource)
-    ) {
-      continue;
-    }
     const generatedFile = path.join(generatedDirectory, relativeSource).replace(/\.ts$/, ".js");
     // src/api/widgets/index.ts -> ../../generated/api/widgets/index.js
     const relativeImport = path
@@ -79,3 +55,91 @@ export * from ${JSON.stringify(specifier)};
   log("✅ Moved source to src/generated/. Customize files outside src/generated/.");
   return true;
 });
+
+async function validateCustomizationInput(packageDirectory: string): Promise<string[] | undefined> {
+  const srcDirectory = path.join(packageDirectory, "src");
+  if ((await fs.readdir(packageDirectory)).includes("generated")) {
+    log(
+      "❌ This package has a root generated/ baseline. Migrate existing customizations separately.",
+    );
+    return undefined;
+  }
+
+  try {
+    await fs.access(srcDirectory);
+  } catch {
+    log("❌ Could not find src/ directory. Nothing to initialize.");
+    return undefined;
+  }
+
+  const resolved = await findWarpConfig(packageDirectory);
+  if (!resolved) {
+    throw new Error("A Warp configuration is required to locate public source entry points.");
+  }
+  const entryPoints = new Set<string>();
+  for (const source of Object.values(resolved.config.exports)) {
+    const file = path.resolve(packageDirectory, source);
+    const relativeSource = path.relative(srcDirectory, file);
+    if (
+      relativeSource === ".." ||
+      relativeSource.startsWith(`..${path.sep}`) ||
+      path.isAbsolute(relativeSource)
+    ) {
+      continue;
+    }
+    entryPoints.add(file);
+  }
+
+  // Require current emitter metadata, not inferred or repaired compiler roots.
+  for (const target of resolved.config.targets) {
+    const configPath = path.resolve(packageDirectory, target.tsconfig);
+    const relativeConfig = path.relative(packageDirectory, configPath);
+    if (
+      relativeConfig === ".." ||
+      relativeConfig.startsWith(`..${path.sep}`) ||
+      path.isAbsolute(relativeConfig)
+    ) {
+      log(
+        `❌ ${target.tsconfig} is outside the package. Regenerate package metadata with the current emitter.`,
+      );
+      return undefined;
+    }
+    let config: unknown;
+    try {
+      config = JSON.parse(await fs.readFile(configPath, "utf8"));
+    } catch (error) {
+      log(
+        `❌ Cannot read ${target.tsconfig} as JSON: ${
+          error instanceof Error ? error.message : String(error)
+        }. Regenerate package metadata with the current emitter.`,
+      );
+      return undefined;
+    }
+    if (
+      typeof config !== "object" ||
+      config === null ||
+      !("include" in config) ||
+      !Array.isArray(config.include) ||
+      !config.include.every((entry): entry is string => typeof entry === "string")
+    ) {
+      log(
+        `❌ ${target.tsconfig} must have an "include" array of public source paths. Regenerate package metadata with the current emitter.`,
+      );
+      return undefined;
+    }
+    const included = new Set(
+      config.include.map((file) => path.resolve(path.dirname(configPath), file)),
+    );
+    const missing = [...entryPoints].filter((file) => !included.has(file));
+    if (missing.length > 0) {
+      const paths = missing
+        .map((file) => path.relative(packageDirectory, file).split(path.sep).join("/"))
+        .join(", ");
+      log(
+        `❌ ${target.tsconfig} is missing public source includes: ${paths}. Regenerate package metadata with the current emitter.`,
+      );
+      return undefined;
+    }
+  }
+  return [...entryPoints];
+}
