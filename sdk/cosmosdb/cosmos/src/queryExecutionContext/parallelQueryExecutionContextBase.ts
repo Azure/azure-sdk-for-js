@@ -32,7 +32,7 @@ import {
 } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { ClientContext } from "../ClientContext.js";
 import type { QueryRangeMapping } from "./queryRangeMapping.js";
-import { isPartitionExhausted } from "./PartitionRangeManager.js";
+import { isPartitionExhausted, isPartitionRangeActive } from "./PartitionRangeManager.js";
 import type {
   QueryRangeWithContinuationToken,
   RangeBoundary,
@@ -176,9 +176,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const hasMeaningfulCheckpoint = Array.from(this.partitionDataPatchMap.values()).some(
       (mapping) => !isPartitionExhausted(mapping.continuationToken),
     );
+    const canReturnMeaningfulCheckpoint =
+      this.rangeManager.getStrategyType() !== "OrderByQuery" ||
+      this.requestContinuation !== undefined;
     return (
       this.buffer.length === 0 &&
-      !hasMeaningfulCheckpoint &&
+      !(hasMeaningfulCheckpoint && canReturnMeaningfulCheckpoint) &&
       this.state !== ParallelQueryExecutionContextBase.STATES.ended &&
       hasActiveProducers
     );
@@ -244,6 +247,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       itemCount,
       partitionKeyRange: toEffectivePartitionKeyRange(logicalRange),
       continuationToken: this.getContinuationToken(producer),
+      previousContinuationToken: producer.previousContinuationToken,
+      isActive: producer.hasMoreResults(),
     };
   }
 
@@ -503,6 +508,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           epkMin: logicalRange.minInclusive,
           epkMax: logicalRange.maxExclusive,
           isContinuationRange: true,
+          isActive:
+            rangeWithToken.isActive ??
+            (this.rangeManager.getStrategyType() === "OrderByQuery"
+              ? true
+              : isPartitionRangeActive(rangeWithToken.continuationToken)),
         })),
       );
     }
@@ -546,6 +556,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         isMaxInclusive: false,
       })),
       continuationToken: rangeWithToken.continuationToken,
+      isActive: true,
     });
   }
 

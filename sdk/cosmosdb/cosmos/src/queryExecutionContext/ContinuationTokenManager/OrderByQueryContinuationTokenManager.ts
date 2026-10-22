@@ -10,7 +10,7 @@ import {
 } from "../../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import type { QueryRangeWithContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { convertRangeMappingToQueryRange } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
-import { isPartitionExhausted } from "../PartitionRangeManager.js";
+import { isPartitionRangeActive } from "../PartitionRangeManager.js";
 import type { QueryRangeMapping } from "../queryRangeMapping.js";
 
 /**
@@ -80,6 +80,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
         this.tokenRangeMappings = this.rangeList.map((mapping) => ({
           queryRange: { ...mapping.queryRange },
           continuationToken: mapping.continuationToken,
+          isActive: mapping.isActive,
         }));
       } else {
         this.clearTokenState();
@@ -102,8 +103,6 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
         processedRanges: rangeProcessingResult.processedRanges,
       };
     }
-
-    const queryRange = convertRangeMappingToQueryRange(lastRangeBeforePageLimit);
 
     // Extract ORDER BY items from the last item on the page
     let lastOrderByItems: any[] | undefined;
@@ -137,7 +136,11 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     }
 
     // Update token state fields
-    this.tokenRangeMappings = [queryRange];
+    const pageRangeMappings = this.createPageRangeMappings(rangeProcessingResult.processedRanges);
+    this.tokenRangeMappings =
+      pageRangeMappings.length > 0
+        ? pageRangeMappings
+        : [convertRangeMappingToQueryRange(lastRangeBeforePageLimit)];
     this.tokenOrderByItems = lastOrderByItems;
     this.tokenSkipCount = skipCount;
     this.tokenDocumentRid = documentRid!;
@@ -188,7 +191,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
           current.queryRange.max === range.queryRange.max,
       );
 
-      if (isPartitionExhausted(mapping.continuationToken)) {
+      if (!isPartitionRangeActive(mapping.continuationToken, mapping.isActive)) {
         if (existingIndex >= 0) {
           this.rangeList.splice(existingIndex, 1);
         }
@@ -198,5 +201,39 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
         this.rangeList.push(range);
       }
     }
+  }
+
+  private createPageRangeMappings(processedRanges: string[]): QueryRangeWithContinuationToken[] {
+    const mappingsByRange = new Map<string, QueryRangeWithContinuationToken>();
+    const rangeKey = (mapping: QueryRangeWithContinuationToken): string =>
+      `${mapping.queryRange.min}-${mapping.queryRange.max}`;
+
+    for (const mapping of this.rangeList) {
+      mappingsByRange.set(rangeKey(mapping), {
+        queryRange: { ...mapping.queryRange },
+        continuationToken: mapping.continuationToken,
+        isActive: mapping.isActive,
+      });
+    }
+
+    const processedRangeSet = new Set(processedRanges);
+    for (const [key, mapping] of this.partitionManager.getPartitionKeyRangeMap()) {
+      const checkpointMapping = processedRangeSet.has(key)
+        ? mapping
+        : {
+            ...mapping,
+            continuationToken: mapping.previousContinuationToken,
+            isActive: true,
+          };
+      const tokenMapping = convertRangeMappingToQueryRange(checkpointMapping);
+      if (checkpointMapping.isActive === false) {
+        tokenMapping.isActive = false;
+      }
+      mappingsByRange.set(rangeKey(tokenMapping), tokenMapping);
+    }
+
+    return Array.from(mappingsByRange.values()).sort((left, right) =>
+      left.queryRange.min.localeCompare(right.queryRange.min),
+    );
   }
 }

@@ -20,6 +20,16 @@ export interface QueryRangeMapping {
   continuationToken: string | undefined;
 
   /**
+   * Continuation token from before the buffered page was fetched.
+   */
+  previousContinuationToken?: string;
+
+  /**
+   * Whether this logical range still has work to resume.
+   */
+  isActive?: boolean;
+
+  /**
    * The partition key range this mapping belongs to
    */
   partitionKeyRange: PartitionKeyRange;

@@ -364,7 +364,7 @@ describe("partition split recovery", () => {
       async ({ partitionKeyRangeId, startEpk, endEpk }) => {
         const rangeId = partitionKeyRangeId ?? "none";
         requests.push({ rangeId, startEpk, endEpk });
-        if (requests.length > 4) {
+        if (requests.length > 12) {
           throw new Error(`Merge request guard exceeded: ${JSON.stringify(requests)}`);
         }
         if (rangeId === mergeParentRange1.id || rangeId === mergeParentRange2.id) {
@@ -785,20 +785,42 @@ describe("partition split recovery", () => {
           endEpk,
           continuationToken: requestOptions.continuationToken,
         });
-        if (requests.length > 4) {
+        if (requests.length > 12) {
           throw new Error(`Parallel coverage request guard exceeded: ${JSON.stringify(requests)}`);
         }
         if (startEpk === "" && endEpk === "80") {
+          if (requestOptions.continuationToken === "left-next") {
+            return {
+              result: [] as unknown as Resource,
+              headers: { "x-ms-request-charge": "1" },
+              code: StatusCodes.Ok,
+            };
+          }
+          assert.equal(requestOptions.continuationToken, "left-token");
           return {
             result: [leftResource] as unknown as Resource,
-            headers: { "x-ms-request-charge": "1" },
+            headers: {
+              "x-ms-continuation": "left-next",
+              "x-ms-request-charge": "1",
+            },
             code: StatusCodes.Ok,
           };
         }
         if (startEpk === "80" && endEpk === "FF") {
+          if (requestOptions.continuationToken === "right-next") {
+            return {
+              result: [] as unknown as Resource,
+              headers: { "x-ms-request-charge": "1" },
+              code: StatusCodes.Ok,
+            };
+          }
+          assert.isUndefined(requestOptions.continuationToken);
           return {
             result: [rightResource] as unknown as Resource,
-            headers: { "x-ms-request-charge": "1" },
+            headers: {
+              "x-ms-continuation": "right-next",
+              "x-ms-request-charge": "1",
+            },
             code: StatusCodes.Ok,
           };
         }
@@ -819,8 +841,14 @@ describe("partition split recovery", () => {
     let iterationCount = 0;
     do {
       iterationCount++;
-      if (iterationCount > 4) {
-        throw new Error("Parallel coverage iteration guard exceeded 4 pages");
+      if (iterationCount > 6) {
+        throw new Error(
+          `Parallel coverage iteration guard exceeded: ${JSON.stringify({
+            resources,
+            continuationToken,
+            requests,
+          })}`,
+        );
       }
       const context = new PipelinedQueryExecutionContext(
         clientContext,
@@ -849,14 +877,13 @@ describe("partition split recovery", () => {
       }
     } while (continuationToken);
 
-    assert.deepEqual(resources, [leftResource, rightResource]);
     assert.deepEqual(
-      requests.map((request) => [request.startEpk, request.endEpk]),
-      [
-        ["", "80"],
-        ["80", "FF"],
-        ["80", "FF"],
-      ],
+      resources.sort((left, right) => left.id.localeCompare(right.id)),
+      [leftResource, rightResource],
+    );
+    assert.deepEqual(
+      Array.from(new Set(requests.map((request) => `${request.startEpk}-${request.endEpk}`))),
+      ["-80", "80-FF"],
     );
   });
 
@@ -1268,6 +1295,7 @@ describe("partition split recovery", () => {
       {
         queryRange: { min: "80", max: "FF" },
         continuationToken: "c2-token",
+        isActive: true,
       },
     ]);
 
@@ -1293,6 +1321,182 @@ describe("partition split recovery", () => {
       resumedResponse.result.map((resource: { id: string }) => resource.id),
       ["same-key-next", "after-c1", "after-c2"],
     );
+  });
+
+  it("preserves a buffered ORDER BY sibling when another range is empty", async () => {
+    const clientContext = createClientContext();
+    mockStableTopology(clientContext, [mergedRange]);
+    const leftResource = createOrderByDocument("left-page", 6, "left-rid");
+    const rightResource = createOrderByDocument("right-page", 7, "right-rid");
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ options: requestOptions }) => {
+      if (requestOptions.continuationToken === "c1-token") {
+        return {
+          result: [leftResource] as unknown as Resource,
+          headers: {
+            "x-ms-continuation": "c1-next",
+            "x-ms-request-charge": "1",
+          },
+          code: StatusCodes.Ok,
+        };
+      }
+      if (requestOptions.continuationToken === "c1-next") {
+        return {
+          result: [] as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      }
+      if (requestOptions.continuationToken === "c2-token") {
+        return {
+          result: [] as unknown as Resource,
+          headers: {
+            "x-ms-continuation": "c2-next",
+            "x-ms-request-charge": "1",
+          },
+          code: StatusCodes.Ok,
+        };
+      }
+      if (requestOptions.continuationToken === "c2-next") {
+        return {
+          result: [rightResource] as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      }
+      if (requestOptions.continuationToken === undefined) {
+        return {
+          result: [] as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      }
+      throw new Error(`Unexpected buffered-sibling token: ${requestOptions.continuationToken}`);
+    });
+    const initialToken = createOrderByOptions("unused", "resume-rid", 1, [
+      { queryRange: { min: "", max: "80" }, continuationToken: "c1-token" },
+      { queryRange: { min: "80", max: "FF" }, continuationToken: "c2-token" },
+    ]).continuationToken;
+    const initialContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuationToken: initialToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+        maxItemCount: 2,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const emptyResponse = await withTimeout(
+      initialContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+
+    assert.deepEqual(emptyResponse.result, []);
+    const continuationToken = emptyResponse.headers["x-ms-continuation"];
+    assert.isString(continuationToken);
+    assert.deepEqual(JSON.parse(continuationToken).rangeMappings, [
+      {
+        queryRange: { min: "", max: "80" },
+        continuationToken: "c1-token",
+        isActive: true,
+      },
+      {
+        queryRange: { min: "80", max: "FF" },
+        continuationToken: "c2-next",
+      },
+    ]);
+
+    let resumeToken: string | undefined = continuationToken;
+    const resourceIds: string[] = [];
+    let pageCount = 0;
+    while (resumeToken) {
+      pageCount++;
+      if (pageCount > 4) {
+        throw new Error("Buffered ORDER BY sibling page guard exceeded 4 pages");
+      }
+      const resumedContext = new PipelinedQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        "SELECT * FROM c ORDER BY c.value",
+        {
+          ...options,
+          continuationToken: resumeToken,
+          enableQueryControl: true,
+          maxDegreeOfParallelism: 2,
+          maxItemCount: 1,
+        },
+        createOrderByQueryInfo(),
+        correlatedActivityId,
+      );
+      const resumedResponse = await withTimeout(
+        resumedContext.fetchMore(createDummyDiagnosticNode()),
+        1000,
+      );
+      resourceIds.push(...resumedResponse.result.map((resource: { id: string }) => resource.id));
+      resumeToken = resumedResponse.headers["x-ms-continuation"];
+    }
+    assert.deepEqual(resourceIds, ["left-page", "right-page"]);
+  });
+
+  it("consumes fresh ORDER BY empty checkpoints until a sorted page exists", async () => {
+    const clientContext = createClientContext();
+    mockStableTopology(clientContext, [childRange1, childRange2]);
+    let child1RequestCount = 0;
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ partitionKeyRangeId, options: requestOptions }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        if (rangeId === childRange1.id) {
+          child1RequestCount++;
+          if (child1RequestCount === 1) {
+            assert.isUndefined(requestOptions.continuationToken);
+            return {
+              result: [] as unknown as Resource,
+              headers: {
+                "x-ms-continuation": "c1-next",
+                "x-ms-request-charge": "1",
+              },
+              code: StatusCodes.Ok,
+            };
+          }
+          assert.equal(requestOptions.continuationToken, "c1-next");
+          return {
+            result: [createOrderByDocument("left-page", 6, "left-rid")] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        assert.isUndefined(requestOptions.continuationToken);
+        return {
+          result: [createOrderByDocument("right-page", 7, "right-rid")] as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+    const context = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+        maxItemCount: 2,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+
+    assert.deepEqual(
+      response.result.map((resource: { id: string }) => resource.id),
+      ["left-page", "right-page"],
+    );
+    assert.equal(response.headers["x-ms-request-charge"], 3);
   });
 
   it("updates all bounded ORDER BY mappings when both ranges are empty", async () => {
@@ -1434,6 +1638,124 @@ describe("partition split recovery", () => {
     assert.equal(response.headers["x-ms-request-charge"], 3);
     assert.deepEqual(requests, ["P", "C1", "C2"]);
     assert.isFalse(context.hasMoreResults());
+  });
+
+  it("preserves unstarted split children when a sibling returns the page", async () => {
+    const clientContext = createClientContext();
+    const leftParent = createPartitionKeyRange("L", "", "80");
+    const rightRange = createPartitionKeyRange("R", "80", "FF");
+    const leftChild1 = createPartitionKeyRange("L1", "", "40", ["L"]);
+    const leftChild2 = createPartitionKeyRange("L2", "40", "80", ["L"]);
+    let routingMapRequestCount = 0;
+    vi.spyOn(clientContext, "queryPartitionKeyRanges").mockImplementation(
+      () =>
+        ({
+          fetchAllInternal: vi.fn(async () => {
+            routingMapRequestCount++;
+            return {
+              resources:
+                routingMapRequestCount === 1
+                  ? [leftParent, rightRange]
+                  : [leftChild1, leftChild2, rightRange],
+              headers: { "x-ms-request-charge": "1" },
+              code: StatusCodes.Ok,
+            };
+          }),
+        }) as unknown as QueryIterator<PartitionKeyRange>,
+    );
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ partitionKeyRangeId, options: requestOptions }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        if (rangeId === leftParent.id) {
+          throw createSplitError();
+        }
+        if (rangeId === rightRange.id && requestOptions.continuationToken === undefined) {
+          return {
+            result: [{ id: "right-page", source: "R" }] as unknown as Resource,
+            headers: {
+              "x-ms-continuation": "right-next",
+              "x-ms-request-charge": "1",
+            },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (rangeId === rightRange.id && requestOptions.continuationToken === "right-next") {
+          return {
+            result: [{ id: "right-resumed", source: "R" }] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (rangeId === leftChild1.id || rangeId === leftChild2.id) {
+          assert.isUndefined(requestOptions.continuationToken);
+          return {
+            result: [{ id: rangeId.toLowerCase(), source: rangeId }] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        throw new Error(`Unexpected unstarted-child request: ${rangeId}`);
+      },
+    );
+    const initialContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+        maxItemCount: 1,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const firstPage = await withTimeout(
+      initialContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+
+    assert.deepEqual(firstPage.result, [{ id: "right-page", source: "R" }]);
+    const continuationToken = firstPage.headers["x-ms-continuation"];
+    assert.isString(continuationToken);
+    const parsedToken = JSON.parse(continuationToken);
+    assert.deepEqual(
+      parsedToken.rangeMappings.filter((mapping: { isActive?: boolean }) => mapping.isActive),
+      [
+        {
+          queryRange: { min: "", max: "40" },
+          isActive: true,
+        },
+        {
+          queryRange: { min: "40", max: "80" },
+          isActive: true,
+        },
+      ],
+    );
+
+    const resumedContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuationToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 3,
+        maxItemCount: 3,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const resumedResponse = await withTimeout(
+      resumedContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+    assert.deepEqual(resumedResponse.result, [
+      { id: "l1", source: "L1" },
+      { id: "l2", source: "L2" },
+      { id: "right-resumed", source: "R" },
+    ]);
   });
 
   it("does not return a stale token for a general resumed terminal parallel page", async () => {

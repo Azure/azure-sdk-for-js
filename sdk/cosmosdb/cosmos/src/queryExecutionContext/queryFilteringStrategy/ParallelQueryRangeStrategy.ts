@@ -7,7 +7,7 @@ import type {
   PartitionRangeFilterResult,
 } from "./TargetPartitionRangeStrategy.js";
 import type { PartitionRangeWithContinuationToken } from "./TargetPartitionRangeManager.js";
-import { isPartitionExhausted } from "../PartitionRangeManager.js";
+import { isPartitionRangeActive } from "../PartitionRangeManager.js";
 import { getLogicalPartitionRange, intersectPartitionKeyRanges } from "../logicalPartitionRange.js";
 
 /**
@@ -72,7 +72,7 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
     });
 
     for (const range of continuationRanges) {
-      if (!isPartitionExhausted(range.continuationToken)) {
+      if (isPartitionRangeActive(range.continuationToken, range.isActive)) {
         rangeTokenPairs.push({ ...range, isContinuationRange: true });
       }
     }

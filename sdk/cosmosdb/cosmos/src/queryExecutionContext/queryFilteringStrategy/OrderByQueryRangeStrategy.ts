@@ -95,14 +95,17 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       }
 
       sortedContinuationRanges.forEach((range) => {
-        result.rangeTokenPairs.push({
-          range: range.range,
-          continuationToken: range.continuationToken,
-          filteringCondition: rightFilter,
-          epkMin: range.epkMin,
-          epkMax: range.epkMax,
-          isContinuationRange: true,
-        });
+        if (range.isActive !== false) {
+          result.rangeTokenPairs.push({
+            range: range.range,
+            continuationToken: range.continuationToken,
+            filteringCondition: rightFilter,
+            epkMin: range.epkMin,
+            epkMax: range.epkMax,
+            isContinuationRange: true,
+            isActive: range.isActive,
+          });
+        }
       });
 
       // Apply filtering logic for right ranges

@@ -28,8 +28,19 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
       return { endIndex: 0, processedRanges: [] };
     }
 
-    const rangeMappings: QueryRangeWithContinuationToken[] = result.processedRangeMappings.map(
-      (mapping: QueryRangeMapping) => convertRangeMappingToQueryRange(mapping),
+    const processedMappings = new Set(result.processedRangeMappings);
+    const rangeMappings: QueryRangeWithContinuationToken[] = Array.from(
+      this.partitionManager.getPartitionKeyRangeMap().values(),
+    ).map((mapping: QueryRangeMapping) =>
+      convertRangeMappingToQueryRange(
+        processedMappings.has(mapping)
+          ? mapping
+          : {
+              ...mapping,
+              continuationToken: mapping.previousContinuationToken,
+              isActive: true,
+            },
+      ),
     );
 
     this.updateRangeList(rangeMappings);
@@ -58,7 +69,7 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
   }
 
   protected processQuerySpecificResponse(_responseResult: ParallelQueryResult): void {
-    // Parallel queries don't need additional response processing
+    // Parallel range state is reconciled against the page cutoff in processRangesForPagination.
   }
 
   protected performQuerySpecificDataTrim(_processedRanges: string[], _endIndex: number): void {

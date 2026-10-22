@@ -19,6 +19,13 @@ export function isPartitionExhausted(continuationToken: string | undefined): boo
   );
 }
 
+export function isPartitionRangeActive(
+  continuationToken: string | undefined,
+  isActive?: boolean,
+): boolean {
+  return isActive ?? !isPartitionExhausted(continuationToken);
+}
+
 /**
  * Manages partition key range mappings for query execution.
  * Handles range operations, offset/limit processing, and distinct query logic.

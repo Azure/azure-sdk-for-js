@@ -116,6 +116,11 @@ export interface QueryRangeWithContinuationToken {
    * The continuation token for this specific range
    */
   continuationToken: string | undefined;
+
+  /**
+   * Whether this logical range still has work to resume.
+   */
+  isActive?: boolean;
 }
 
 /**
@@ -143,9 +148,17 @@ export function convertRangeMappingToQueryRange(
     max: pkRange.maxExclusive,
   };
 
+  const inferredActive =
+    !!rangeMapping.continuationToken && rangeMapping.continuationToken.toLowerCase() !== "null";
+  const isActive =
+    rangeMapping.isActive === undefined || rangeMapping.isActive === inferredActive
+      ? undefined
+      : rangeMapping.isActive;
+
   return {
     queryRange: simplifiedRange,
     continuationToken: rangeMapping.continuationToken,
+    isActive,
   };
 }
 
