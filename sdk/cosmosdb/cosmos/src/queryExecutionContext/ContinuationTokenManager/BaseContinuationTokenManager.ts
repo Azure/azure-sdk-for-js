@@ -73,12 +73,18 @@ export abstract class BaseContinuationTokenManager {
     pageSize: number,
     isResponseEmpty: boolean,
     responseResult?: ParallelQueryResult,
+    isTerminal: boolean = false,
   ): {
     endIndex: number;
     continuationToken?: string;
   } {
     if (responseResult) {
       this.processResponseResult(responseResult);
+    }
+
+    if (isTerminal) {
+      this.clearState();
+      return { endIndex: 0 };
     }
 
     this.removeExhaustedRangesFromRanges();
@@ -107,6 +113,7 @@ export abstract class BaseContinuationTokenManager {
     processedRanges: string[],
     endIndex: number,
   ): void;
+  protected abstract clearQuerySpecificState(): void;
 
   /**
    * Gets the serialization function for the specific continuation token type.
@@ -138,6 +145,14 @@ export abstract class BaseContinuationTokenManager {
 
     // Delegate query-specific cleanup to subclass
     this.performQuerySpecificDataTrim(processedRanges, endIndex);
+  }
+
+  private clearState(): void {
+    this.ranges.length = 0;
+    this.partitionRangeManager.clear();
+    this.offset = undefined;
+    this.limit = undefined;
+    this.clearQuerySpecificState();
   }
 
   private addPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {

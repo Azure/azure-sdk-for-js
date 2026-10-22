@@ -65,6 +65,10 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     // Parallel queries don't need additional cleanup
   }
 
+  protected clearQuerySpecificState(): void {
+    // Parallel queries don't have additional token state.
+  }
+
   private updateRangeList(rangeMappings: QueryRangeWithContinuationToken[]): void {
     for (const newRange of rangeMappings) {
       const existingRangeIndex = this.rangeList.findIndex(

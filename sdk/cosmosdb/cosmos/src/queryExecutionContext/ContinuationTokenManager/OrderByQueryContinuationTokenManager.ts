@@ -10,6 +10,8 @@ import {
 } from "../../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import type { QueryRangeWithContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { convertRangeMappingToQueryRange } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import { isPartitionExhausted } from "../PartitionRangeManager.js";
+import type { QueryRangeMapping } from "../queryRangeMapping.js";
 
 /**
  * Manages continuation tokens for ORDER BY queries using single-range sequential processing.
@@ -40,6 +42,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   }
 
   protected processQuerySpecificResponse(responseResult: ParallelQueryResult): void {
+    this.reconcileRangeMappings(responseResult.partitionKeyRangeMap);
     // Clear existing items and add new ones without reassigning the array reference
     this.orderByItemsArray.length = 0;
     if (responseResult.orderByItems) {
@@ -49,6 +52,11 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
 
   protected performQuerySpecificDataTrim(_processedRanges: string[], endIndex: number): void {
     this.sliceOrderByItemsArray(endIndex);
+  }
+
+  protected clearQuerySpecificState(): void {
+    this.orderByItemsArray.length = 0;
+    this.clearTokenState();
   }
 
   private sliceOrderByItemsArray(endIndex: number): void {
@@ -67,23 +75,18 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   ): { endIndex: number; processedRanges: string[] } {
     // Handle empty response case - preserve previous token state with updated range
     if (isResponseEmpty && this.tokenRangeMappings) {
-      let rangeProcessingResult;
-
-      if (this.rangeList.length === 0) {
-        rangeProcessingResult = this.partitionManager.processOrderByRanges(pageSize);
-      } else {
-        rangeProcessingResult = this.partitionManager.processEmptyOrderByRanges(this.rangeList);
-      }
-
-      const { lastRangeBeforePageLimit } = rangeProcessingResult;
-      if (lastRangeBeforePageLimit) {
-        this.tokenRangeMappings = [convertRangeMappingToQueryRange(lastRangeBeforePageLimit)];
+      const processedRanges = [...this.partitionManager.getPartitionKeyRangeMap().keys()];
+      if (this.rangeList.length > 0) {
+        this.tokenRangeMappings = this.rangeList.map((mapping) => ({
+          queryRange: { ...mapping.queryRange },
+          continuationToken: mapping.continuationToken,
+        }));
       } else {
         this.clearTokenState();
       }
       return {
-        endIndex: rangeProcessingResult.endIndex,
-        processedRanges: rangeProcessingResult.processedRanges,
+        endIndex: 0,
+        processedRanges,
       };
     }
 
@@ -174,5 +177,26 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     this.tokenSkipCount = 0;
     this.tokenDocumentRid = "";
     this.tokenHashedLastResult = undefined;
+  }
+
+  private reconcileRangeMappings(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
+    for (const mapping of partitionKeyRangeMap.values()) {
+      const range = convertRangeMappingToQueryRange(mapping);
+      const existingIndex = this.rangeList.findIndex(
+        (current) =>
+          current.queryRange.min === range.queryRange.min &&
+          current.queryRange.max === range.queryRange.max,
+      );
+
+      if (isPartitionExhausted(mapping.continuationToken)) {
+        if (existingIndex >= 0) {
+          this.rangeList.splice(existingIndex, 1);
+        }
+      } else if (existingIndex >= 0) {
+        this.rangeList[existingIndex] = range;
+      } else {
+        this.rangeList.push(range);
+      }
+    }
   }
 }

@@ -32,6 +32,7 @@ import {
 } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { ClientContext } from "../ClientContext.js";
 import type { QueryRangeMapping } from "./queryRangeMapping.js";
+import { isPartitionExhausted } from "./PartitionRangeManager.js";
 import type {
   QueryRangeWithContinuationToken,
   RangeBoundary,
@@ -163,6 +164,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     do {
       await this.bufferDocumentProducers(diagnosticNode);
       await this.fillBufferFromBufferQueue();
+      this.updateStates(this.err);
     } while (this.shouldContinueScheduling());
     return this.drainBufferedItems();
   }
@@ -171,9 +173,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const hasActiveProducers =
       this.unfilledDocumentProducersQueue.size() > 0 ||
       this.bufferedDocumentProducersQueue.size() > 0;
+    const hasMeaningfulCheckpoint = Array.from(this.partitionDataPatchMap.values()).some(
+      (mapping) => !isPartitionExhausted(mapping.continuationToken),
+    );
     return (
       this.buffer.length === 0 &&
-      this.partitionDataPatchMap.size === 0 &&
+      !hasMeaningfulCheckpoint &&
       this.state !== ParallelQueryExecutionContextBase.STATES.ended &&
       hasActiveProducers
     );
@@ -888,15 +893,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               if (nextItem !== undefined) {
                 this.bufferedDocumentProducersQueue.enq(documentProducer);
               } else {
-                // Track document producer with no results in patchToRangeMapping
-                // This represents a scanned partition that yielded no results
-                // IMPORTANT: Only include if continuation token is NOT null/exhausted
-                // Document producers with no data in buffer and no continuation token are exhausted and should not be added to partitionDataPatchMap to prevent infinite loops in order by queries
-                if (
+                // Query control tracks terminal mappings as explicit exhaustion evidence.
+                // Legacy queries only need nonterminal empty checkpoints.
+                const hasActiveContinuation = !!(
                   documentProducer.continuationToken &&
                   documentProducer.continuationToken !== "" &&
                   documentProducer.continuationToken.toLowerCase() !== "null"
-                ) {
+                );
+                if (this.options.enableQueryControl || hasActiveContinuation) {
                   const mapping = this.createPartitionMapping(documentProducer, 0);
                   const range = mapping.partitionKeyRange;
                   const patchKey = `empty-${range.id}-${range.minInclusive}-${range.maxExclusive}`;

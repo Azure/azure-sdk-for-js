@@ -1190,6 +1190,292 @@ describe("partition split recovery", () => {
     ]);
   });
 
+  it("preserves unqueried ORDER BY mappings after one bounded range is empty", async () => {
+    const clientContext = createClientContext();
+    mockStableTopology(clientContext, [mergedRange]);
+    const continuationRid = "resume-rid";
+    const alreadyReturned = createOrderByDocument("already-returned", 5, continuationRid);
+    const expectedResources = [
+      createOrderByDocument("same-key-next", 5, continuationRid),
+      createOrderByDocument("after-c1", 6, "after-c1-rid"),
+      createOrderByDocument("after-c2", 7, "after-c2-rid"),
+    ];
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ options: requestOptions, startEpk, endEpk }) => {
+        if (requestOptions.continuationToken === "c1-token") {
+          return {
+            result: [] as unknown as Resource,
+            headers: {
+              "x-ms-continuation": "c1-next",
+              "x-ms-request-charge": "1",
+            },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (requestOptions.continuationToken === "c1-next") {
+          return {
+            result: [
+              alreadyReturned,
+              expectedResources[0],
+              expectedResources[1],
+            ] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (requestOptions.continuationToken === "c2-token") {
+          assert.equal(startEpk, "80");
+          assert.equal(endEpk, "FF");
+          return {
+            result: [expectedResources[2]] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        throw new Error(`Unexpected ORDER BY empty token: ${requestOptions.continuationToken}`);
+      },
+    );
+    const initialContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuationToken: createOrderByOptions("unused", continuationRid, 1, [
+          { queryRange: { min: "", max: "80" }, continuationToken: "c1-token" },
+          { queryRange: { min: "80", max: "FF" }, continuationToken: "c2-token" },
+        ]).continuationToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 1,
+        maxItemCount: 3,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const emptyResponse = await withTimeout(
+      initialContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+
+    assert.deepEqual(emptyResponse.result, []);
+    const continuationToken = emptyResponse.headers["x-ms-continuation"];
+    assert.isString(continuationToken);
+    assert.deepEqual(JSON.parse(continuationToken).rangeMappings, [
+      {
+        queryRange: { min: "", max: "80" },
+        continuationToken: "c1-next",
+      },
+      {
+        queryRange: { min: "80", max: "FF" },
+        continuationToken: "c2-token",
+      },
+    ]);
+
+    const resumedContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuationToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+        maxItemCount: 3,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const resumedResponse = await withTimeout(
+      resumedContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+    assert.deepEqual(
+      resumedResponse.result.map((resource: { id: string }) => resource.id),
+      ["same-key-next", "after-c1", "after-c2"],
+    );
+  });
+
+  it("updates all bounded ORDER BY mappings when both ranges are empty", async () => {
+    const clientContext = createClientContext();
+    mockStableTopology(clientContext, [mergedRange]);
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ options: requestOptions }) => {
+      const nextToken =
+        requestOptions.continuationToken === "c1-token"
+          ? "c1-next"
+          : requestOptions.continuationToken === "c2-token"
+            ? "c2-next"
+            : undefined;
+      assert.isDefined(nextToken);
+      return {
+        result: [] as unknown as Resource,
+        headers: {
+          "x-ms-continuation": nextToken,
+          "x-ms-request-charge": "1",
+        },
+        code: StatusCodes.Ok,
+      };
+    });
+    const context = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuationToken: createOrderByOptions("unused", "resume-rid", 1, [
+          { queryRange: { min: "", max: "80" }, continuationToken: "c1-token" },
+          { queryRange: { min: "80", max: "FF" }, continuationToken: "c2-token" },
+        ]).continuationToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+
+    assert.deepEqual(response.result, []);
+    assert.deepEqual(JSON.parse(response.headers["x-ms-continuation"]).rangeMappings, [
+      {
+        queryRange: { min: "", max: "80" },
+        continuationToken: "c1-next",
+      },
+      {
+        queryRange: { min: "80", max: "FF" },
+        continuationToken: "c2-next",
+      },
+    ]);
+  });
+
+  it("removes only terminal ORDER BY mappings from an empty response", async () => {
+    const clientContext = createClientContext();
+    mockStableTopology(clientContext, [mergedRange]);
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ options: requestOptions }) => {
+      if (requestOptions.continuationToken === "c1-token") {
+        return {
+          result: [] as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      }
+      return {
+        result: [] as unknown as Resource,
+        headers: {
+          "x-ms-continuation": "c2-next",
+          "x-ms-request-charge": "1",
+        },
+        code: StatusCodes.Ok,
+      };
+    });
+    const context = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuationToken: createOrderByOptions("unused", "resume-rid", 1, [
+          { queryRange: { min: "", max: "80" }, continuationToken: "c1-token" },
+          { queryRange: { min: "80", max: "FF" }, continuationToken: "c2-token" },
+        ]).continuationToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+
+    assert.deepEqual(response.result, []);
+    assert.deepEqual(JSON.parse(response.headers["x-ms-continuation"]).rangeMappings, [
+      {
+        queryRange: { min: "80", max: "FF" },
+        continuationToken: "c2-next",
+      },
+    ]);
+  });
+
+  it("clears a resumed split token when all replacement children are terminal empty", async () => {
+    const clientContext = createClientContext();
+    mockSplitTopology(clientContext);
+    const requests: string[] = [];
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ partitionKeyRangeId }) => {
+      const rangeId = partitionKeyRangeId ?? "none";
+      requests.push(rangeId);
+      if (requests.length > 3) {
+        throw new Error(`Terminal split request guard exceeded: ${requests.join(",")}`);
+      }
+      if (rangeId === parentRange.id) {
+        throw createSplitError();
+      }
+      return {
+        result: [] as unknown as Resource,
+        headers: { "x-ms-request-charge": "1" },
+        code: StatusCodes.Ok,
+      };
+    });
+    const context = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuationToken: createParallelContinuationToken([
+          { min: "", max: "FF", continuationToken: "parent-token" },
+        ]),
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+
+    assert.deepEqual(response.result, []);
+    assert.notProperty(response.headers, "x-ms-continuation");
+    assert.equal(response.headers["x-ms-request-charge"], 3);
+    assert.deepEqual(requests, ["P", "C1", "C2"]);
+    assert.isFalse(context.hasMoreResults());
+  });
+
+  it("does not return a stale token for a general resumed terminal parallel page", async () => {
+    const clientContext = createClientContext();
+    mockStableTopology(clientContext, [childRange1, childRange2]);
+    let requestCount = 0;
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async () => {
+      requestCount++;
+      if (requestCount > 2) {
+        throw new Error("Terminal parallel stateless request guard exceeded 2 requests");
+      }
+      return {
+        result: [] as unknown as Resource,
+        headers: { "x-ms-request-charge": "1" },
+        code: StatusCodes.Ok,
+      };
+    });
+    const context = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuationToken: createParallelContinuationToken([
+          { min: "", max: "80", continuationToken: "c1-token" },
+          { min: "80", max: "FF", continuationToken: "c2-token" },
+        ]),
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+
+    assert.deepEqual(response.result, []);
+    assert.notProperty(response.headers, "x-ms-continuation");
+    assert.equal(response.headers["x-ms-request-charge"], 2);
+    assert.equal(requestCount, 2);
+    assert.isFalse(context.hasMoreResults());
+  });
+
   it("replaces the parent mapping in a fresh query-control continuation token", async () => {
     const clientContext = createClientContext();
     mockSplitTopology(clientContext);

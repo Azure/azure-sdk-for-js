@@ -40,6 +40,10 @@ export class PartitionRangeManager {
     return new Map(this.partitionKeyRangeMap);
   }
 
+  public clear(): void {
+    this.partitionKeyRangeMap.clear();
+  }
+
   /**
    * Adds a range mapping to the partition key range map
    * Does not allow updates to existing keys - only new additions
