@@ -46,7 +46,7 @@ export interface CreateOrReplaceTopicOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrReplaceUser(context: WebPubSubChatServiceContext, userId: string, resource: ChatUserInputUnion, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
+export function createOrReplaceUser(context: WebPubSubChatServiceContext, userId: string, resource: HumanChatUserInput, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
 
 // @public
 export interface CreateOrReplaceUserOptionalParams extends OperationOptions {

@@ -12,43 +12,43 @@ import type {
   _PagedChatRole,
   ChatRole,
   ChatRoleInput,
+  _PagedChatRoom,
   ChatRoom,
   ChatRoomInput,
-  _PagedChatRoomMember,
-  ChatRoomMember,
-  ChatRoomMemberInput,
-  ChatUserInputUnion,
-  ChatUserUnion,
-  _PagedChatRoom,
   _PagedChatTopic,
   ChatTopic,
   ChatTopicInput,
   ChatTopicUpdate,
+  _PagedChatRoomMember,
+  ChatRoomMember,
+  ChatRoomMemberInput,
   _PagedChatUser,
+  ChatUserUnion,
+  HumanChatUserInput,
   _PagedChatUserRoom,
   ChatUserRoom,
 } from "../models/models.js";
 import {
   chatConversationDeserializer,
   _pagedChatMessageDeserializer,
-  chatMessageSerializer,
   chatMessageDeserializer,
+  chatMessageInputSerializer,
   _pagedChatRoleDeserializer,
-  chatRoleSerializer,
   chatRoleDeserializer,
+  chatRoleInputSerializer,
   _pagedChatRoomDeserializer,
-  chatRoomSerializer,
   chatRoomDeserializer,
+  chatRoomInputSerializer,
   _pagedChatTopicDeserializer,
+  chatTopicDeserializer,
   chatTopicInputSerializer,
   chatTopicUpdateSerializer,
-  chatTopicDeserializer,
   _pagedChatRoomMemberDeserializer,
-  chatRoomMemberSerializer,
   chatRoomMemberDeserializer,
+  chatRoomMemberInputSerializer,
   _pagedChatUserDeserializer,
-  chatUserUnionSerializer,
   chatUserUnionDeserializer,
+  humanChatUserInputSerializer,
   _pagedChatUserRoomDeserializer,
 } from "../models/models.js";
 import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
@@ -235,7 +235,7 @@ export async function deleteUser(
 export function _createOrReplaceUserSend(
   context: Client,
   userId: string,
-  resource: ChatUserInputUnion,
+  resource: HumanChatUserInput,
   options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -258,7 +258,7 @@ export function _createOrReplaceUserSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: chatUserUnionSerializer(resource),
+    body: humanChatUserInputSerializer(resource),
   });
 }
 
@@ -277,7 +277,7 @@ export async function _createOrReplaceUserDeserialize(
 export async function createOrReplaceUser(
   context: Client,
   userId: string,
-  resource: ChatUserInputUnion,
+  resource: HumanChatUserInput,
   options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
 ): Promise<ChatUserUnion> {
   const result = await _createOrReplaceUserSend(context, userId, resource, options);
@@ -453,7 +453,7 @@ export function _createOrReplaceRoomMemberSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: chatRoomMemberSerializer(resource),
+    body: chatRoomMemberInputSerializer(resource),
   });
 }
 
@@ -901,7 +901,7 @@ export function _createOrReplaceRoomSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: chatRoomSerializer(resource),
+    body: chatRoomInputSerializer(resource),
   });
 }
 
@@ -1050,7 +1050,7 @@ export function _createOrReplaceRoleSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: chatRoleSerializer(resource),
+    body: chatRoleInputSerializer(resource),
   });
 }
 
@@ -1196,7 +1196,7 @@ export function _updateMessageSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: chatMessageSerializer(resource),
+    body: chatMessageInputSerializer(resource),
   });
 }
 

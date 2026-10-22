@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
 /** Represents a chat conversation. */
 export interface ChatConversation {
   /** Conversation identifier. */
@@ -42,12 +42,6 @@ export function _pagedChatMessageDeserializer(item: any): _PagedChatMessage {
   };
 }
 
-export function chatMessageArraySerializer(result: Array<ChatMessage>): any[] {
-  return result.map((item) => {
-    return chatMessageSerializer(item);
-  });
-}
-
 export function chatMessageArrayDeserializer(result: Array<ChatMessage>): any[] {
   return result.map((item) => {
     return chatMessageDeserializer(item);
@@ -66,18 +60,6 @@ export interface ChatMessage {
   readonly createdAt: Date;
   /** The entity tag for this resource. */
   readonly etag: string;
-}
-
-/** The properties accepted when updating a chat message. */
-export interface ChatMessageInput {
-  /** User who created the message. */
-  createdBy: string;
-  /** Message content. */
-  content: MessageContent;
-}
-
-export function chatMessageSerializer(item: ChatMessageInput): any {
-  return { createdBy: item["createdBy"], content: messageContentSerializer(item["content"]) };
 }
 
 export function chatMessageDeserializer(item: any): ChatMessage {
@@ -116,6 +98,21 @@ export function messageContentDeserializer(item: any): MessageContent {
   };
 }
 
+/** Properties supplied when partially updating a message. */
+export interface ChatMessageInput {
+  /** User who created the message. */
+  createdBy?: string;
+  /** Message content. */
+  content?: MessageContent;
+}
+
+export function chatMessageInputSerializer(item: ChatMessageInput): any {
+  return {
+    createdBy: item["createdBy"],
+    content: !item["content"] ? item["content"] : messageContentSerializer(item["content"]),
+  };
+}
+
 /** Paged collection of ChatRole items */
 export interface _PagedChatRole {
   /** The ChatRole items on this page */
@@ -149,20 +146,6 @@ export interface ChatRole {
   permissions: ChatPermission[];
   /** The entity tag for this resource. */
   readonly etag: string;
-}
-
-/** The properties required to create or replace a chat role. */
-export interface ChatRoleInput {
-  /** Permissions associated with the role. */
-  permissions: ChatPermission[];
-}
-
-export function chatRoleSerializer(item: ChatRoleInput): any {
-  return {
-    permissions: item["permissions"].map((p: any) => {
-      return p;
-    }),
-  };
 }
 
 export function chatRoleDeserializer(item: any): ChatRole {
@@ -205,6 +188,20 @@ export enum KnownChatPermission {
  */
 export type ChatPermission = string;
 
+/** Properties supplied when creating or replacing a role. */
+export interface ChatRoleInput {
+  /** Permissions associated with the role. Do not mix user permissions and room permissions in one role. */
+  permissions: ChatPermission[];
+}
+
+export function chatRoleInputSerializer(item: ChatRoleInput): any {
+  return {
+    permissions: item["permissions"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
 /** Paged collection of ChatRoom items */
 export interface _PagedChatRoom {
   /** The ChatRoom items on this page */
@@ -218,12 +215,6 @@ export function _pagedChatRoomDeserializer(item: any): _PagedChatRoom {
     value: chatRoomArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
-}
-
-export function chatRoomArraySerializer(result: Array<ChatRoom>): any[] {
-  return result.map((item) => {
-    return chatRoomSerializer(item);
-  });
 }
 
 export function chatRoomArrayDeserializer(result: Array<ChatRoom>): any[] {
@@ -244,16 +235,6 @@ export interface ChatRoom {
   readonly etag: string;
 }
 
-/** The properties required to create or replace a chat room. */
-export interface ChatRoomInput {
-  /** Room title. */
-  title: string;
-}
-
-export function chatRoomSerializer(item: ChatRoomInput): any {
-  return { title: item["title"] };
-}
-
 export function chatRoomDeserializer(item: any): ChatRoom {
   return {
     id: item["id"],
@@ -261,6 +242,16 @@ export function chatRoomDeserializer(item: any): ChatRoom {
     defaultConversation: item["defaultConversation"],
     etag: item["etag"],
   };
+}
+
+/** Properties supplied when creating or replacing a room. */
+export interface ChatRoomInput {
+  /** Room title. */
+  title: string;
+}
+
+export function chatRoomInputSerializer(item: ChatRoomInput): any {
+  return { title: item["title"] };
 }
 
 /** Paged collection of ChatTopic items */
@@ -276,12 +267,6 @@ export function _pagedChatTopicDeserializer(item: any): _PagedChatTopic {
     value: chatTopicArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
-}
-
-export function chatTopicArraySerializer(result: Array<ChatTopic>): any[] {
-  return result.map((item) => {
-    return chatTopicSerializer(item);
-  });
 }
 
 export function chatTopicArrayDeserializer(result: Array<ChatTopic>): any[] {
@@ -306,35 +291,6 @@ export interface ChatTopic {
   readonly conversationId: string;
   /** The entity tag for this resource. */
   readonly etag: string;
-}
-
-/** The properties required to create or replace a topic. */
-export interface ChatTopicInput {
-  /** Topic title, between 1 and 256 characters. */
-  title: string;
-}
-
-/** The properties to update on a topic. Omitted properties retain their current values. */
-export interface ChatTopicUpdate {
-  /** Topic title, between 1 and 256 characters. */
-  title?: string;
-  /** Current lifecycle state of the topic. */
-  state?: ChatTopicState;
-}
-
-export function chatTopicInputSerializer(item: ChatTopicInput): Record<string, unknown> {
-  return { title: item.title };
-}
-
-export function chatTopicUpdateSerializer(item: ChatTopicUpdate): Record<string, unknown> {
-  return {
-    ...(item.title !== undefined ? { title: item.title } : {}),
-    ...(item.state !== undefined ? { state: item.state } : {}),
-  };
-}
-
-export function chatTopicSerializer(item: ChatTopic): any {
-  return { title: item["title"], state: item["state"] };
 }
 
 export function chatTopicDeserializer(item: any): ChatTopic {
@@ -364,11 +320,35 @@ export enum KnownChatTopicState {
  * {@link KnownChatTopicState} can be used interchangeably with ChatTopicState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * - **Normal**: The topic is active.
- * - **Archived**: The topic is archived.
- * - **SoftDeleted**: The topic has been soft deleted.
+ * **Normal**: The topic is active.
+ * **Archived**: The topic is archived.
+ * **SoftDeleted**: The topic has been soft deleted.
  */
 export type ChatTopicState = string;
+
+/** Properties supplied when creating or replacing a topic. */
+export interface ChatTopicInput {
+  /** Topic title. */
+  title: string;
+  /** Current lifecycle state of the topic. */
+  state?: ChatTopicState;
+}
+
+export function chatTopicInputSerializer(item: ChatTopicInput): any {
+  return { title: item["title"], state: item["state"] };
+}
+
+/** Properties supplied when partially updating a topic. */
+export interface ChatTopicUpdate {
+  /** Topic title. */
+  title?: string;
+  /** Current lifecycle state of the topic. */
+  state?: ChatTopicState;
+}
+
+export function chatTopicUpdateSerializer(item: ChatTopicUpdate): any {
+  return { title: item["title"], state: item["state"] };
+}
 
 /** Paged collection of ChatRoomMember items */
 export interface _PagedChatRoomMember {
@@ -383,12 +363,6 @@ export function _pagedChatRoomMemberDeserializer(item: any): _PagedChatRoomMembe
     value: chatRoomMemberArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
-}
-
-export function chatRoomMemberArraySerializer(result: Array<ChatRoomMember>): any[] {
-  return result.map((item) => {
-    return chatRoomMemberSerializer(item);
-  });
 }
 
 export function chatRoomMemberArrayDeserializer(result: Array<ChatRoomMember>): any[] {
@@ -407,22 +381,22 @@ export interface ChatRoomMember {
   readonly etag: string;
 }
 
-/** The properties required to create or replace a room member. */
-export interface ChatRoomMemberInput {
-  /** Room role assigned to the user within this room. */
-  roleName: string;
-}
-
-export function chatRoomMemberSerializer(item: ChatRoomMemberInput): any {
-  return { roleName: item["roleName"] };
-}
-
 export function chatRoomMemberDeserializer(item: any): ChatRoomMember {
   return {
     userId: item["userId"],
     roleName: item["roleName"],
     etag: item["etag"],
   };
+}
+
+/** Properties supplied when creating or replacing a room member. */
+export interface ChatRoomMemberInput {
+  /** Room role assigned to the user within this room. */
+  roleName: string;
+}
+
+export function chatRoomMemberInputSerializer(item: ChatRoomMemberInput): any {
+  return { roleName: item["roleName"] };
 }
 
 /** Paged collection of ChatUser items */
@@ -440,12 +414,6 @@ export function _pagedChatUserDeserializer(item: any): _PagedChatUser {
   };
 }
 
-export function chatUserUnionArraySerializer(result: Array<ChatUserInputUnion>): any[] {
-  return result.map((item) => {
-    return chatUserUnionSerializer(item);
-  });
-}
-
 export function chatUserUnionArrayDeserializer(result: Array<ChatUserUnion>): any[] {
   return result.map((item) => {
     return chatUserUnionDeserializer(item);
@@ -459,25 +427,13 @@ export function chatUserUnionArrayDeserializer(result: Array<ChatUserUnion>): an
 export interface ChatUser {
   /** The kind of user. */
   /** The discriminator possible values: Human */
-  kind: string;
+  kind: ChatUserKind;
   /** User identifier. */
   readonly id: string;
   /** User's display nickname. */
   nickname: string;
   /** The entity tag for this resource. */
   readonly etag: string;
-}
-
-/** The properties required to create or replace a chat user. */
-export interface ChatUserInput {
-  /** The kind of user. */
-  kind: ChatUserKind;
-  /** User's display nickname. */
-  nickname: string;
-}
-
-export function chatUserSerializer(item: ChatUserInput): any {
-  return { kind: item["kind"], nickname: item["nickname"] };
 }
 
 export function chatUserDeserializer(item: any): ChatUser {
@@ -492,16 +448,6 @@ export function chatUserDeserializer(item: any): ChatUser {
 /** Alias for ChatUserUnion */
 export type ChatUserUnion = HumanChatUser | ChatUser;
 
-export function chatUserUnionSerializer(item: ChatUserInputUnion): any {
-  switch (item.kind) {
-    case "Human":
-      return humanChatUserSerializer(item as HumanChatUserInput);
-
-    default:
-      return chatUserSerializer(item);
-  }
-}
-
 export function chatUserUnionDeserializer(item: any): ChatUserUnion {
   switch (item["kind"]) {
     case "Human":
@@ -513,27 +459,25 @@ export function chatUserUnionDeserializer(item: any): ChatUserUnion {
 }
 
 /** Discriminator for the kind of chat user. */
-export type ChatUserKind = "Human";
+export enum KnownChatUserKind {
+  /** A human end-user. */
+  Human = "Human",
+}
+
+/**
+ * Discriminator for the kind of chat user.
+ * {@link KnownChatUserKind} can be used interchangeably with ChatUserKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Human**: A human end-user.
+ */
+export type ChatUserKind = string;
 
 /** A human end-user, identified by a user role. */
 export interface HumanChatUser extends ChatUser {
   kind: "Human";
   /** Global user role assigned to the user. Must start with `user.`. */
   roleName: string;
-}
-
-/** The properties required to create or replace a human chat user. */
-export interface HumanChatUserInput extends ChatUserInput {
-  kind: "Human";
-  /** Global user role assigned to the user. Must start with `user.`. */
-  roleName: string;
-}
-
-/** Alias for ChatUserInputUnion */
-export type ChatUserInputUnion = HumanChatUserInput;
-
-export function humanChatUserSerializer(item: HumanChatUserInput): any {
-  return { kind: item["kind"], nickname: item["nickname"], roleName: item["roleName"] };
 }
 
 export function humanChatUserDeserializer(item: any): HumanChatUser {
@@ -544,6 +488,19 @@ export function humanChatUserDeserializer(item: any): HumanChatUser {
     etag: item["etag"],
     roleName: item["roleName"],
   };
+}
+
+/** Properties supplied when creating or replacing a human user in JavaScript. */
+export interface HumanChatUserInput {
+  kind: "Human";
+  /** Global user role assigned to the user. Must start with `user.`. */
+  roleName: string;
+  /** User's display nickname. */
+  nickname: string;
+}
+
+export function humanChatUserInputSerializer(item: HumanChatUserInput): any {
+  return { kind: item["kind"], roleName: item["roleName"], nickname: item["nickname"] };
 }
 
 /** Paged collection of ChatUserRoom items */

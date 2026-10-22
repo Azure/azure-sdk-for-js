@@ -22,8 +22,8 @@ export interface ChatMessage {
 
 // @public
 export interface ChatMessageInput {
-    content: MessageContent;
-    createdBy: string;
+    content?: MessageContent;
+    createdBy?: string;
 }
 
 // @public
@@ -79,6 +79,7 @@ export interface ChatTopic {
 
 // @public
 export interface ChatTopicInput {
+    state?: ChatTopicState;
     title: string;
 }
 
@@ -95,21 +96,12 @@ export interface ChatTopicUpdate {
 export interface ChatUser {
     readonly etag: string;
     readonly id: string;
-    kind: string;
-    nickname: string;
-}
-
-// @public
-export interface ChatUserInput {
     kind: ChatUserKind;
     nickname: string;
 }
 
 // @public
-export type ChatUserInputUnion = HumanChatUserInput;
-
-// @public
-export type ChatUserKind = "Human";
+export type ChatUserKind = string;
 
 // @public
 export interface ChatUserRoom {
@@ -130,9 +122,10 @@ export interface HumanChatUser extends ChatUser {
 }
 
 // @public
-export interface HumanChatUserInput extends ChatUserInput {
+export interface HumanChatUserInput {
     // (undocumented)
     kind: "Human";
+    nickname: string;
     roleName: string;
 }
 
@@ -151,6 +144,11 @@ export enum KnownChatTopicState {
     Archived = "Archived",
     Normal = "Normal",
     SoftDeleted = "SoftDeleted"
+}
+
+// @public
+export enum KnownChatUserKind {
+    Human = "Human"
 }
 
 // @public

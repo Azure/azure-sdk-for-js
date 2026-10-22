@@ -8,7 +8,7 @@
  * @packageDocumentation
  */
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -36,8 +36,6 @@ export type {
   ChatRoomMember,
   ChatRoomMemberInput,
   ChatUser,
-  ChatUserInput,
-  ChatUserInputUnion,
   ChatUserUnion,
   ChatUserKind,
   HumanChatUserInput,

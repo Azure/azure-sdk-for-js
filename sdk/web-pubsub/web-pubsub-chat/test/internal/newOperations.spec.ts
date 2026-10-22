@@ -11,7 +11,10 @@ import {
   type HumanChatUserInput,
   type ChatMessageInput,
   type ChatTopicInput,
+  type ChatTopic,
+  type ChatTopicState,
   type ChatTopicUpdate,
+  type MessageContent,
 } from "@azure/web-pubsub-chat";
 import {
   createHttpHeaders,
@@ -60,8 +63,21 @@ describe("new operation requests", () => {
     expectTypeOf<keyof ChatRoomMemberInput>().toEqualTypeOf<"roleName">();
     expectTypeOf<keyof HumanChatUserInput>().toEqualTypeOf<"kind" | "nickname" | "roleName">();
     expectTypeOf<keyof ChatMessageInput>().toEqualTypeOf<"createdBy" | "content">();
-    expectTypeOf<keyof ChatTopicInput>().toEqualTypeOf<"title">();
+    expectTypeOf<keyof ChatTopicInput>().toEqualTypeOf<"title" | "state">();
     expectTypeOf<keyof ChatTopicUpdate>().toEqualTypeOf<"title" | "state">();
+    expectTypeOf<ChatMessageInput>().toEqualTypeOf<{
+      createdBy?: string;
+      content?: MessageContent;
+    }>();
+    expectTypeOf<
+      Parameters<WebPubSubChatServiceClient["createOrReplaceUser"]>[1]
+    >().toEqualTypeOf<HumanChatUserInput>();
+    expectTypeOf<{ kind: "Human"; nickname: string }>().not.toMatchTypeOf<HumanChatUserInput>();
+    expectTypeOf<{
+      kind: "Bot";
+      nickname: string;
+      roleName: string;
+    }>().not.toMatchTypeOf<HumanChatUserInput>();
 
     const requests: PipelineRequest[] = [];
     const client = createClient((request) => {
@@ -112,6 +128,113 @@ describe("new operation requests", () => {
     assert.instanceOf(created.createdAt, Date);
     assert.equal(created.createdBy, topic.createdBy);
     assert.equal(created.conversationId, topic.conversationId);
+  });
+
+  it.each([{ title: "Topic" }, { title: "Topic", state: KnownChatTopicState.Archived }])(
+    "accepts optional state in topic PUT requests: %j",
+    async (input) => {
+      expectTypeOf<ChatTopicInput>().toEqualTypeOf<{ title: string; state?: ChatTopicState }>();
+      expectTypeOf<{ state: ChatTopicState }>().not.toMatchTypeOf<ChatTopicInput>();
+      const requests: PipelineRequest[] = [];
+      const client = createClient((request) => {
+        requests.push(request);
+        return { body: { ...topic, ...input } };
+      });
+      const result = await client.createOrReplaceTopic("room", "topic", input, {
+        ifMatch: '"one"',
+      });
+
+      assert.lengthOf(requests, 1);
+      assert.equal(requests[0].method, "PUT");
+      assert.equal(requests[0].headers.get("if-match"), '"one"');
+      assert.deepEqual(JSON.parse(String(requests[0].body)), input);
+      assert.equal(result.state, input.state ?? topic.state);
+      assert.instanceOf(result.createdAt, Date);
+    },
+  );
+
+  it("serializes partial message patches without omitted fields", async () => {
+    const requests: PipelineRequest[] = [];
+    const client = createClient((request) => {
+      requests.push(request);
+      return {
+        body: {
+          id: "1",
+          createdBy: "user",
+          content: { text: "Updated" },
+          createdAt: "2026-10-14T00:00:00Z",
+          etag: '"two"',
+        },
+      };
+    });
+    const result = await client.updateMessage(
+      "c.room.default",
+      "1",
+      { content: { text: "Updated" } },
+      { ifMatch: '"one"' },
+    );
+    await client.updateMessage("c.room.default", "1", { createdBy: "user" });
+    await client.updateMessage("c.room.default", "1", {
+      content: { binary: new Uint8Array([1, 2, 3, 255]) },
+    });
+    assert.deepEqual(
+      requests.map((request) => JSON.parse(String(request.body))),
+      [
+        { content: { text: "Updated" } },
+        { createdBy: "user" },
+        { content: { binary: "AQID/w==" } },
+      ],
+    );
+    for (const request of requests) {
+      assert.equal(request.method, "PATCH");
+      assert.equal(request.headers.get("content-type"), "application/merge-patch+json");
+    }
+    assert.equal(requests[0].headers.get("if-match"), '"one"');
+    assert.equal(result.etag, '"two"');
+    assert.instanceOf(result.createdAt, Date);
+  });
+
+  it.each([
+    { title: "Renamed" },
+    { state: KnownChatTopicState.Archived },
+    { title: "Renamed", state: KnownChatTopicState.Archived },
+  ])("keeps topic PATCH fields optional and response fields required: %j", async (patch) => {
+    expectTypeOf<ChatTopicUpdate>().toEqualTypeOf<{
+      title?: string;
+      state?: ChatTopicState;
+    }>();
+    expectTypeOf<Pick<ChatTopic, "title" | "state">>().toEqualTypeOf<{
+      title: string;
+      state: ChatTopicState;
+    }>();
+    expectTypeOf<{}>().not.toMatchTypeOf<ChatTopicInput>();
+
+    const requests: PipelineRequest[] = [];
+    const client = createClient((request) => {
+      requests.push(request);
+      return { body: { ...topic, ...patch } };
+    });
+    const result = await client.updateTopic("room", "topic", patch, { ifMatch: '"one"' });
+
+    assert.lengthOf(requests, 1);
+    assert.equal(requests[0].method, "PATCH");
+    assert.equal(requests[0].headers.get("content-type"), "application/merge-patch+json");
+    assert.equal(requests[0].headers.get("if-match"), '"one"');
+    assert.deepEqual(JSON.parse(String(requests[0].body)), patch);
+    assert.equal(result.title, patch.title ?? topic.title);
+    assert.equal(result.state, patch.state ?? topic.state);
+    assert.equal(result.etag, topic.etag);
+    assert.instanceOf(result.createdAt, Date);
+  });
+
+  it("preserves unknown user kinds in resource responses", async () => {
+    const client = createClient(() => ({
+      body: { id: "user", kind: "FutureKind", nickname: "User", etag: '"one"' },
+    }));
+    const user = await client.getUser("user");
+    assert.equal(user.kind, "FutureKind");
+    assert.equal(user.id, "user");
+    assert.equal(user.nickname, "User");
   });
 
   it("omits read-only properties when response objects are reused in write requests", async () => {
@@ -167,7 +290,7 @@ describe("new operation requests", () => {
         { roleName: "room.member" },
         { kind: "Human", nickname: "User", roleName: "user.normal" },
         { createdBy: "user", content: { text: "Message" } },
-        { title: "Topic" },
+        { title: "Topic", state: "Normal" },
         { title: "Topic", state: "Normal" },
       ],
     );

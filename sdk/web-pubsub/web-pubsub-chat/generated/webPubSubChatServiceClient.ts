@@ -66,11 +66,18 @@ import { GenerateClientTokenResponse } from "./models/customizations/models.js";
 import {
   ChatConversation,
   ChatMessage,
+  ChatMessageInput,
   ChatRole,
+  ChatRoleInput,
   ChatRoom,
+  ChatRoomInput,
   ChatTopic,
+  ChatTopicInput,
+  ChatTopicUpdate,
   ChatRoomMember,
+  ChatRoomMemberInput,
   ChatUserUnion,
+  HumanChatUserInput,
   ChatUserRoom,
 } from "./models/models.js";
 import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
@@ -120,7 +127,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. */
   createOrReplaceUser(
     userId: string,
-    resource: ChatUserUnion,
+    resource: HumanChatUserInput,
     options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
   ): Promise<ChatUserUnion> {
     return createOrReplaceUser(this._client, userId, resource, options);
@@ -154,7 +161,7 @@ export class WebPubSubChatServiceClient {
   createOrReplaceRoomMember(
     roomId: string,
     userId: string,
-    resource: ChatRoomMember,
+    resource: ChatRoomMemberInput,
     options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoomMember> {
     return createOrReplaceRoomMember(this._client, roomId, userId, resource, options);
@@ -181,7 +188,7 @@ export class WebPubSubChatServiceClient {
   updateTopic(
     roomId: string,
     topicId: string,
-    resource: ChatTopic,
+    resource: ChatTopicUpdate,
     options: UpdateTopicOptionalParams = { requestOptions: {} },
   ): Promise<ChatTopic> {
     return updateTopic(this._client, roomId, topicId, resource, options);
@@ -200,7 +207,7 @@ export class WebPubSubChatServiceClient {
   createOrReplaceTopic(
     roomId: string,
     topicId: string,
-    resource: ChatTopic,
+    resource: ChatTopicInput,
     options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
   ): Promise<ChatTopic> {
     return createOrReplaceTopic(this._client, roomId, topicId, resource, options);
@@ -233,7 +240,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a room with a client-specified ID. */
   createOrReplaceRoom(
     roomId: string,
-    resource: ChatRoom,
+    resource: ChatRoomInput,
     options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoom> {
     return createOrReplaceRoom(this._client, roomId, resource, options);
@@ -257,7 +264,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a role. */
   createOrReplaceRole(
     roleName: string,
-    resource: ChatRole,
+    resource: ChatRoleInput,
     options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
   ): Promise<ChatRole> {
     return createOrReplaceRole(this._client, roleName, resource, options);
@@ -282,7 +289,7 @@ export class WebPubSubChatServiceClient {
   updateMessage(
     conversationId: string,
     messageId: string,
-    resource: ChatMessage,
+    resource: ChatMessageInput,
     options: UpdateMessageOptionalParams = { requestOptions: {} },
   ): Promise<ChatMessage> {
     return updateMessage(this._client, conversationId, messageId, resource, options);

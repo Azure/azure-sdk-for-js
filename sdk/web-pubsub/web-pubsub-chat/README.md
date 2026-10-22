@@ -106,7 +106,7 @@ A room contains members and has a default conversation. Add a user to a room by 
 
 A topic organizes a discussion within a room and has its own `conversationId`. Creating a room also creates its default topic. Topic identifiers are unique within a room and contain 1 to 64 letters, digits, underscores, or hyphens. Topic titles contain 1 to 256 characters.
 
-`KnownChatTopicState` contains the known lifecycle states: `Normal`, `Archived`, and `SoftDeleted`. Topic creation accepts a title; the service supplies identifiers, creation metadata, state, and the entity tag. Updates can change the title or state without resending other properties. Deletion is a soft delete; retrieving a deleted topic returns HTTP 404.
+`KnownChatTopicState` contains the known lifecycle states: `Normal`, `Archived`, and `SoftDeleted`. Topic creation requires a title; omit `state` when creating a topic. When replacing an existing topic with `createOrReplaceTopic`, you can also supply `state`. The service supplies identifiers, creation metadata, and the entity tag. PATCH updates can change the title or state without resending other properties. Deletion is a soft delete; retrieving a deleted topic returns HTTP 404.
 
 ### Pagination
 
@@ -123,10 +123,10 @@ Write operations accept input types that are separate from response models. You 
 | Create or replace a room member | `ChatRoomMemberInput` | `roleName`                     |
 | Create or replace a human user  | `HumanChatUserInput`  | `kind`, `nickname`, `roleName` |
 | Update a message                | `ChatMessageInput`    | `createdBy`, `content`         |
-| Create or replace a topic       | `ChatTopicInput`      | `title`                        |
+| Create or replace a topic       | `ChatTopicInput`      | Required `title`, optional `state` |
 | Update a topic                  | `ChatTopicUpdate`     | Optional `title` and `state`   |
 
-Response models contain the full resource, including read-only properties. Serializers omit those read-only properties when a response object is reused as a write input. Topic creation also omits `state`, which can only be changed through `updateTopic`. For conditional requests, pass an entity tag in the operation's `ifMatch` option rather than in its body.
+Response models contain the full resource, including read-only properties. Serializers omit those read-only properties when a response object is reused as a write input. Topic PUT inputs optionally accept `state`; PATCH inputs make all updateable properties optional. For conditional requests, pass an entity tag in the operation's `ifMatch` option rather than in its body.
 
 ### Service API versions
 
@@ -255,6 +255,9 @@ await client.deleteRoom(roomId);
 ### Manage a user
 
 Create a user with a built-in role, retrieve the profile, and delete it.
+The request accepts `HumanChatUserInput`, which requires `kind: "Human"`,
+`nickname`, and `roleName`. Returned profiles retain the resource fields and can
+represent unknown user kinds.
 
 ```ts snippet:ReadmeSampleManageUser
 import { WebPubSubChatServiceClient, BuiltInChatRoles } from "@azure/web-pubsub-chat";
@@ -276,6 +279,11 @@ const fetchedUser = await client.getUser(userId);
 console.log(`Fetched user: ${fetchedUser.id}, nickname: ${fetchedUser.nickname}`);
 await client.deleteUser(userId);
 ```
+
+### Update a message
+
+When updating a message, `ChatMessageInput.createdBy` and `content` are optional.
+Supply only the fields to change; omitted fields retain their current values.
 
 ### List messages in a conversation
 

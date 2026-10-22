@@ -68,14 +68,14 @@ import type {
   ChatRole,
   ChatRoleInput,
   ChatRoom,
+  ChatRoomInput,
   ChatTopic,
   ChatTopicInput,
   ChatTopicUpdate,
-  ChatRoomInput,
   ChatRoomMember,
   ChatRoomMemberInput,
-  ChatUserInputUnion,
   ChatUserUnion,
+  HumanChatUserInput,
   ChatUserRoom,
 } from "./models/models.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
@@ -217,7 +217,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. */
   createOrReplaceUser(
     userId: string,
-    resource: ChatUserInputUnion,
+    resource: HumanChatUserInput,
     options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
   ): Promise<ChatUserUnion> {
     return tracingClient.withSpan(

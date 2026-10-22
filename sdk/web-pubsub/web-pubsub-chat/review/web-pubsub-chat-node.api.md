@@ -39,8 +39,8 @@ export interface ChatMessage {
 
 // @public
 export interface ChatMessageInput {
-    content: MessageContent;
-    createdBy: string;
+    content?: MessageContent;
+    createdBy?: string;
 }
 
 // @public
@@ -96,6 +96,7 @@ export interface ChatTopic {
 
 // @public
 export interface ChatTopicInput {
+    state?: ChatTopicState;
     title: string;
 }
 
@@ -112,21 +113,12 @@ export interface ChatTopicUpdate {
 export interface ChatUser {
     readonly etag: string;
     readonly id: string;
-    kind: string;
-    nickname: string;
-}
-
-// @public
-export interface ChatUserInput {
     kind: ChatUserKind;
     nickname: string;
 }
 
 // @public
-export type ChatUserInputUnion = HumanChatUserInput;
-
-// @public
-export type ChatUserKind = "Human";
+export type ChatUserKind = string;
 
 // @public
 export interface ChatUserRoom {
@@ -251,9 +243,10 @@ export interface HumanChatUser extends ChatUser {
 }
 
 // @public
-export interface HumanChatUserInput extends ChatUserInput {
+export interface HumanChatUserInput {
     // (undocumented)
     kind: "Human";
+    nickname: string;
     roleName: string;
 }
 
@@ -365,7 +358,7 @@ export class WebPubSubChatServiceClient {
     createOrReplaceRoom(roomId: string, resource: ChatRoomInput, options?: CreateOrReplaceRoomOptionalParams): Promise<ChatRoom>;
     createOrReplaceRoomMember(roomId: string, userId: string, resource: ChatRoomMemberInput, options?: CreateOrReplaceRoomMemberOptionalParams): Promise<ChatRoomMember>;
     createOrReplaceTopic(roomId: string, topicId: string, resource: ChatTopicInput, options?: CreateOrReplaceTopicOptionalParams): Promise<ChatTopic>;
-    createOrReplaceUser(userId: string, resource: ChatUserInputUnion, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
+    createOrReplaceUser(userId: string, resource: HumanChatUserInput, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
     deleteMessage(conversationId: string, messageId: string, options?: DeleteMessageOptionalParams): Promise<void>;
     deleteRole(roleName: string, options?: DeleteRoleOptionalParams): Promise<void>;
     deleteRoom(roomId: string, options?: DeleteRoomOptionalParams): Promise<void>;
