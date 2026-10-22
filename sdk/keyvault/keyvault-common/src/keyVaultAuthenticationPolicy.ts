@@ -115,6 +115,7 @@ export function keyVaultAuthenticationPolicy(
   options: KeyVaultAuthenticationPolicyOptions = {},
 ): PipelinePolicy {
   const { disableChallengeResourceVerification } = options;
+  const enforceChallengeOrigin = !disableChallengeResourceVerification;
   let cachedChallenge: AuthenticationChallenge | undefined;
   // Pending acquisitions can reuse an earlier cached object, so identity alone cannot detect updates.
   let cachedChallengeRevision = 0;
@@ -139,7 +140,9 @@ export function keyVaultAuthenticationPolicy(
     state: AuthenticationChallenge,
     claims?: string,
   ): Promise<void> {
-    verifyChallengeOrigin(state.requestOrigin, request);
+    if (enforceChallengeOrigin) {
+      verifyChallengeOrigin(state.requestOrigin, request);
+    }
     if (state.resourceHostname !== undefined) {
       verifyChallengeResource(state.resourceHostname, request);
     }
@@ -154,7 +157,9 @@ export function keyVaultAuthenticationPolicy(
     if (state.resourceHostname !== undefined) {
       verifyChallengeResource(state.resourceHostname, request);
     }
-    verifyChallengeOrigin(state.requestOrigin, request);
+    if (enforceChallengeOrigin) {
+      verifyChallengeOrigin(state.requestOrigin, request);
+    }
     request.headers.set("Authorization", `Bearer ${token.token}`);
   }
 

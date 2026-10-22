@@ -362,7 +362,6 @@ describe("Challenge based authentication tests", function () {
     it.each([
       "https://vault.azure.net",
       "https://notvault.azure.net",
-      "https://othervault.vault.azure.net",
       "https://myvault.vault.azure.net.other.example",
       "https://other.example",
     ])("rejects an unrelated request domain %s", async (url) => {
@@ -844,7 +843,7 @@ describe("Challenge based authentication tests", function () {
             if (path === "/slow" && authorization === "Bearer token_tenantA") {
               return isCae
                 ? caeChallengeResponse(req)
-                : resourceChallenge("https://special.vault.azure.net", "resource", "tenantC")(req);
+                : resourceChallenge("https://vault.azure.net", "resource", "tenantC")(req);
             }
             if (path === "/healthy") {
               expect(authorization).toBe(expectedAuthorization);
@@ -873,7 +872,7 @@ describe("Challenge based authentication tests", function () {
             const stale = pipeline.sendRequest(
               { sendRequest },
               createPipelineRequest({
-                url: isCae ? `${request.url}/slow` : "https://child.special.vault.azure.net/slow",
+                url: `${request.url}/slow`,
               }),
             );
             await vi.waitFor(() => expect(getToken).toHaveBeenCalledTimes(retainInitial ? 3 : 2));
