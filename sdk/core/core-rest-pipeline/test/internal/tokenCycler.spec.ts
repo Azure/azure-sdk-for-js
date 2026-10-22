@@ -100,6 +100,95 @@ describe("tokenCycler", function () {
     expect(getToken).toHaveBeenCalledTimes(2);
   });
 
+  it("allows proactive renewal after a newer claims worker supersedes an older pending worker", async function () {
+    let resolveClaimA: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    let resolveClaimB: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    let resolveOrdinary: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    const claimAToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaimA = resolve;
+    });
+    const claimBToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaimB = resolve;
+    });
+    const ordinaryToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+      (resolve) => {
+        resolveOrdinary = resolve;
+      },
+    );
+    const getToken = vi.fn<TokenCredential["getToken"]>((_, requestOptions) => {
+      if (requestOptions?.claims === "claim-A") {
+        return claimAToken;
+      }
+      if (requestOptions?.claims === "claim-B") {
+        return claimBToken;
+      }
+      return ordinaryToken;
+    });
+    const getAccessToken = createTokenCycler({ getToken });
+
+    const claimARefresh = getAccessToken(["scope"], { claims: "claim-A", enableCae: true });
+    const claimBRefresh = getAccessToken(["scope"], { claims: "claim-B", enableCae: true });
+
+    resolveClaimB!({
+      token: "claim-B",
+      expiresOnTimestamp: Date.now() + 300_000,
+      refreshAfterTimestamp: Date.now() - 1,
+    });
+    await expect(claimBRefresh).resolves.toMatchObject({ token: "claim-B" });
+
+    await expect(getAccessToken(["scope"], { enableCae: true })).resolves.toMatchObject({
+      token: "claim-B",
+    });
+    expect(getToken).toHaveBeenCalledTimes(3);
+    expect(getToken).toHaveBeenLastCalledWith(["scope"], { enableCae: true });
+
+    resolveOrdinary!({ token: "ordinary", expiresOnTimestamp: Date.now() + 300_000 });
+    resolveClaimA!({ token: "claim-A", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(claimARefresh).resolves.toMatchObject({ token: "claim-A" });
+  });
+
+  it("caches a rejoined claims worker after a newer claims worker completes", async function () {
+    let resolveClaimA: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    let resolveClaimB: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    const claimAToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaimA = resolve;
+    });
+    const claimBToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaimB = resolve;
+    });
+    const getToken = vi.fn<TokenCredential["getToken"]>((_, requestOptions) => {
+      if (requestOptions?.claims === "claim-A") {
+        return claimAToken;
+      }
+      if (requestOptions?.claims === "claim-B") {
+        return claimBToken;
+      }
+      throw new Error("unexpected token request");
+    });
+    const getAccessToken = createTokenCycler({ getToken });
+
+    const firstClaimARefresh = getAccessToken(["scope"], { claims: "claim-A", enableCae: true });
+    const claimBRefresh = getAccessToken(["scope"], { claims: "claim-B", enableCae: true });
+
+    resolveClaimB!({ token: "claim-B", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(claimBRefresh).resolves.toMatchObject({ token: "claim-B" });
+
+    const rejoinedClaimARefresh = getAccessToken(["scope"], {
+      claims: "claim-A",
+      enableCae: true,
+    });
+    expect(getToken).toHaveBeenCalledTimes(2);
+
+    resolveClaimA!({ token: "claim-A", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(firstClaimARefresh).resolves.toMatchObject({ token: "claim-A" });
+    await expect(rejoinedClaimARefresh).resolves.toMatchObject({ token: "claim-A" });
+
+    await expect(getAccessToken(["scope"], { enableCae: true })).resolves.toMatchObject({
+      token: "claim-A",
+    });
+    expect(getToken).toHaveBeenCalledTimes(2);
+  });
+
   it("retries in the while loop when getToken throws before timeout, then succeeds", async function () {
     // To cover lines 68 (catch block) and 85-87 (while loop):
     // Need: an existing token whose expiry is in the future but within forcedRefreshWindow

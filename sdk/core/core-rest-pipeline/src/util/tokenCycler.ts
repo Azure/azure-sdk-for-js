@@ -149,7 +149,10 @@ export function createTokenCycler(
      * Produces true if a refresh job is currently in progress.
      */
     get isRefreshing(): boolean {
-      return refreshWorkers.size > 0;
+      // Only the worker that still owns the cache update should suppress a
+      // proactive refresh. Superseded incompatible workers may still be in
+      // flight, but they cannot update `token` when they finish.
+      return latestRefreshWorker !== null;
     },
     /**
      * Produces true if the cycler SHOULD refresh (we are within the refresh
@@ -190,6 +193,12 @@ export function createTokenCycler(
     const requestIdentityKey = getTokenRequestIdentityKey(scopes, getTokenOptions);
     const existingWorker = refreshWorkers.get(requestIdentityKey);
     if (existingWorker) {
+      // A repeated claims challenge selects this existing worker as the cache
+      // owner again. This preserves deduplication while ensuring its result is
+      // cached if a newer incompatible worker has already completed.
+      if (getTokenOptions.claims) {
+        latestRefreshWorker = existingWorker;
+      }
       return existingWorker.promise;
     }
 
