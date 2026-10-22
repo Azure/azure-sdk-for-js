@@ -612,6 +612,152 @@ This identifies an encryption-configured client, not whether every requested ite
 is encrypted. No encryption keys, item values, or key-resolver details are included
 in the marker. The existing `x-ms-cosmos-is-client-encrypted` header is unchanged.
 
+### Experimental JS-only authenticated type markers
+
+This worktree includes an **opt-in prototype**, not an approved production or
+cross-language encryption format. Use it only with isolated test data and clients.
+There is no .NET/Java interoperability agreement, service algorithm registration,
+or new container-policy support. Browser client-side encryption remains unsupported.
+
+```ts snippet:ReadmeSampleExperimentalAuthenticatedType
+import { AzureKeyVaultEncryptionKeyResolver, CosmosClient } from "@azure/cosmos";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const keyResolver = new AzureKeyVaultEncryptionKeyResolver(new DefaultAzureCredential());
+const client = new CosmosClient({
+  endpoint,
+  key,
+  clientEncryptionOptions: {
+    keyEncryptionKeyResolver: keyResolver,
+    experimental: {
+      encryptedValueFormat: "authenticatedType",
+      legacyValueReadPolicy: "reject",
+    },
+  },
+});
+```
+
+Without these options, writes remain byte-for-byte legacy-compatible and legacy
+reads are allowed. Selecting `encryptedValueFormat: "authenticatedType"` writes
+the authenticated format and defaults to rejecting legacy reads. Updated JS
+clients dispatch on the exact inner algorithm version, then apply the read policy.
+`legacyValueReadPolicy: "reject"` requires `encryptedValueFormat: "authenticatedType"`.
+Combining strict reads with explicit or default legacy writes fails at client
+construction, before any request. Unknown option values or algorithm versions
+fail explicitly.
+
+| Client configuration                                                  | New encrypted values            | Legacy reads                                       |
+| --------------------------------------------------------------------- | ------------------------------- | -------------------------------------------------- |
+| No experimental options, or `"legacy"` write format                   | Legacy                          | Allowed; existing limitation remains               |
+| `"authenticatedType"` write format, read policy omitted or `"reject"` | Authenticated type              | Rejected                                           |
+| `"authenticatedType"` write format, explicit `"allow"`                | Authenticated type              | Allowed for migration; existing limitation remains |
+| Legacy write format, explicit `"reject"`                              | No requests; construction fails | No requests                                        |
+
+These are **client-wide** settings, not per-container policies. Use separate clients
+for legacy and protected workloads. Upgrading the package alone does not change
+existing data or complete remediation.
+
+Both formats retain `[typeMarker][algorithmVersion][tag32][IV16][AES-CBC ciphertext]`
+framing and length. Experimental version 2 authenticates
+`[version2][typeMarker][IV][ciphertext][versionSize=1]`; legacy version 1
+authenticates `[version1][IV][ciphertext][versionSize=1]`. The marker is authenticated
+before selecting a deserializer for version 2. Keys, derivation, serializers,
+AES encryption, and deterministic IV derivation are unchanged. Nulls remain
+unencrypted; arrays and objects retain their structure with encrypted scalar leaves.
+There is no fallback to legacy authentication after a version 2 failure.
+
+Limitations:
+
+- `legacyValueReadPolicy: "allow"` still accepts valid legacy ciphertext replacement
+  and preserves the legacy unauthenticated-marker risk. It is **not full downgrade
+  resistance**. Use `"authenticatedType"` with `"reject"` for the strict experiment;
+  existing legacy values must be re-encrypted before strict reads can succeed.
+- Type authentication does not prevent replay or substitution of another valid
+  experimental value, and does not bind a value to an item or property path.
+- Version 2 changes deterministic encrypted identifiers, partition keys, and query
+  parameters. Do not mix write formats for deterministic lookups without an explicit
+  migration strategy. Older clients are not expected to read experimental values.
+- Continue using the existing `AEAD_AES_256_CBC_HMAC_SHA256` policy identifier only
+  for this isolated experiment. Inner algorithm version 2 is **not**
+  `clientEncryptionPolicy.policyFormatVersion: 2`, and does not alter that policy's
+  meaning or supported paths.
+
+For isolated migration experiments with unencrypted item IDs and partition keys,
+an updated compatible reader can read a legacy item and conditionally replace its
+business properties using an authenticated-format writer and the read ETag
+(`accessCondition: { type: "IfMatch", condition: etag }`). This does not require
+changing the existing container policy. A stale ETag must fail instead of
+overwriting a concurrent update. Re-encryption cannot verify the original legacy
+type marker: validate the source values against trusted application data or schema
+before migration.
+
+During migration, a deterministic equality parameter in one format misses values
+in the other format. Explicit dual-format predicates can return both, but require
+additional parameters and may change request costs; the prototype does not expose
+an automatic public query-rewriting API. `GROUP BY` and `DISTINCT` operate on stored
+ciphertext and can return separate groups with the same decrypted label. Migrate
+all values, stop legacy writers, and verify query results before enabling strict
+reads. Encrypted IDs or partition keys require a separate addressing migration
+strategy; this in-place example does not cover them.
+
+#### Controlled rollout
+
+For the first rollout, prefer a destination container containing only
+authenticated-format data. Keep queries on the legacy source until the destination
+is ready; do not promise that one equality query or point lookup transparently
+searches both formats. This avoids mixed-ciphertext grouping and lookup semantics.
+The destination still needs an appropriate encryption policy and encryption keys;
+creating a new container by itself does not select the authenticated format.
+
+For a migration client that must read genuine legacy data before rewriting it,
+legacy acceptance must be explicit:
+
+```ts snippet:ReadmeSampleExperimentalMigrationClient
+import { AzureKeyVaultEncryptionKeyResolver, CosmosClient } from "@azure/cosmos";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const keyResolver = new AzureKeyVaultEncryptionKeyResolver(new DefaultAzureCredential());
+const migrationClient = new CosmosClient({
+  endpoint,
+  key,
+  clientEncryptionOptions: {
+    keyEncryptionKeyResolver: keyResolver,
+    experimental: {
+      encryptedValueFormat: "authenticatedType",
+      legacyValueReadPolicy: "allow",
+    },
+  },
+});
+```
+
+This client is a compatibility bridge, **not the strict protected configuration**.
+Validate legacy source values against trusted application data or schema before
+re-encrypting them. Validation cannot retroactively authenticate the original type
+marker. Do not use the bridge as the final reader for protected workloads.
+
+Coordinate every reader and writer before enabling authenticated writes. Older
+JS clients reject the new format, and cross-language support has not been agreed.
+Stop or fence legacy writers during cutover. For destination migration, use an
+application-controlled write pause or a validated synchronization strategy to avoid
+missing concurrent source updates. For in-place migration, use conditional replaces;
+on a 412 conflict, re-read and revalidate the current item rather than overwriting
+it with the stale copy.
+
+Before routing normal traffic to strict clients, verify the migrated ID set,
+application values, equality results, grouping, and expected change-feed behavior.
+A completed migration must also prevent old writers from reintroducing legacy
+values. If the migration is interrupted, keep the source available and use explicit
+compatible clients only where mixed values need to be read. Once new values have
+been written, rolling back to an older SDK is not a supported recovery path.
+
+Production release remains gated on an agreed encrypted-format/version contract,
+supported client interoperability, and targeted integration with the real key
+resolver. Large-scale automated migration is not provided by this prototype.
+
 ## Preview features
 
 Some in-development capabilities are available behind the `enablePreviewFeatures` option on `CosmosClientOptions`. Preview features are opt-in, may change in backward-incompatible ways between releases, and are not recommended for production use.
