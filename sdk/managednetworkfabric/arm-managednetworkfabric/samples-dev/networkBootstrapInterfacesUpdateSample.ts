@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update certain properties of the Network Bootstrap Interface resource.
  *
  * @summary update certain properties of the Network Bootstrap Interface resource.
- * x-ms-original-file: 2025-07-15/NetworkBootstrapInterfaces_Update.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkBootstrapInterfaces_Update.json
  */
 async function networkBootstrapInterfacesUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function networkBootstrapInterfacesUpdateMaximumSetGeneratedByMaximumSetRu
     "example-rg",
     "example-device",
     "example-interface",
-    { annotation: "annotation", serialNumber: "Vendor;Model;HardwareRevisionId;SerialNumber" },
+    { annotation: "annotation" },
   );
   console.log(result);
 }

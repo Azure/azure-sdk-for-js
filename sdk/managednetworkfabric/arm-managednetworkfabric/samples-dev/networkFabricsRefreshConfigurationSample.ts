@@ -8,13 +8,19 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refreshes the configuration of the underlying resources in the given Network Fabric instance.
  *
  * @summary refreshes the configuration of the underlying resources in the given Network Fabric instance.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_RefreshConfiguration.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_RefreshConfiguration.json
  */
 async function networkFabricsRefreshConfigurationMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.networkFabrics.refreshConfiguration("example-rg", "example-fabric");
+  const result = await client.networkFabrics.refreshConfiguration("example-rg", "example-fabric", {
+    body: {
+      generateBaseConfiguration: "Disabled",
+      configurationRegenerationType: "Full",
+      deviceTypes: ["CE", "ToR"],
+    },
+  });
   console.log(result);
 }
 

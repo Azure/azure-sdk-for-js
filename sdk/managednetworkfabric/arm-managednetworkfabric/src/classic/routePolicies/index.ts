@@ -28,7 +28,7 @@ import type {
   UpdateAdministrativeState,
   UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
-  ValidateConfigurationResponse,
+  ValidateConfigurationResponseV2,
   RoutePolicy,
   RoutePolicyPatch,
 } from "../../models/models.js";
@@ -70,21 +70,24 @@ export interface RoutePoliciesOperations {
     resourceGroupName: string,
     routePolicyName: string,
     options?: RoutePoliciesValidateConfigurationOptionalParams,
-  ) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+  ) => PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>;
   /** @deprecated use validateConfiguration instead */
   beginValidateConfiguration: (
     resourceGroupName: string,
     routePolicyName: string,
     options?: RoutePoliciesValidateConfigurationOptionalParams,
   ) => Promise<
-    SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>
+    SimplePollerLike<
+      OperationState<ValidateConfigurationResponseV2>,
+      ValidateConfigurationResponseV2
+    >
   >;
   /** @deprecated use validateConfiguration instead */
   beginValidateConfigurationAndWait: (
     resourceGroupName: string,
     routePolicyName: string,
     options?: RoutePoliciesValidateConfigurationOptionalParams,
-  ) => Promise<ValidateConfigurationResponse>;
+  ) => Promise<ValidateConfigurationResponseV2>;
   /** Updated the admin state for this Route Policy. */
   updateAdministrativeState: (
     resourceGroupName: string,

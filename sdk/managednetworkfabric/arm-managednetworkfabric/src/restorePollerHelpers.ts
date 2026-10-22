@@ -3,10 +3,20 @@
 
 import type { AzureNetworkFabricManagementServiceAPI } from "./azureNetworkFabricManagementServiceAPI.js";
 import {
-  _updateAdministrativeStateDeserialize,
   _$deleteDeserialize,
   _updateDeserialize,
   _createDeserialize,
+} from "./api/fabrics/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeEdgeConnectors,
+  _updateDeserialize as _updateDeserializeEdgeConnectors,
+  _createDeserialize as _createDeserializeEdgeConnectors,
+} from "./api/edgeConnectors/operations.js";
+import {
+  _updateAdministrativeStateDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeNetworkBootstrapInterfaces,
+  _updateDeserialize as _updateDeserializeNetworkBootstrapInterfaces,
+  _createDeserialize as _createDeserializeNetworkBootstrapInterfaces,
 } from "./api/networkBootstrapInterfaces/operations.js";
 import {
   _resyncPasswordsDeserialize,
@@ -254,17 +264,38 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/fabrics/{fabricName}":
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/fabrics/{fabricName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/fabrics/{fabricName}":
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/edgeConnectors/{edgeConnectorName}":
+    { deserializer: _$deleteDeserializeEdgeConnectors, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/edgeConnectors/{edgeConnectorName}":
+    { deserializer: _updateDeserializeEdgeConnectors, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/edgeConnectors/{edgeConnectorName}":
+    { deserializer: _createDeserializeEdgeConnectors, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/networkBootstrapInterfaces/{networkBootstrapInterfaceName}/updateAdministrativeState":
     {
       deserializer: _updateAdministrativeStateDeserialize,
       expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/networkBootstrapInterfaces/{networkBootstrapInterfaceName}":
-    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
+    {
+      deserializer: _$deleteDeserializeNetworkBootstrapInterfaces,
+      expectedStatuses: ["202", "204", "200"],
+    },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/networkBootstrapInterfaces/{networkBootstrapInterfaceName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+    {
+      deserializer: _updateDeserializeNetworkBootstrapInterfaces,
+      expectedStatuses: ["200", "202", "201"],
+    },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/networkBootstrapInterfaces/{networkBootstrapInterfaceName}":
-    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
+    {
+      deserializer: _createDeserializeNetworkBootstrapInterfaces,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/resyncPasswords":
     { deserializer: _resyncPasswordsDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/updateAdministrativeState":

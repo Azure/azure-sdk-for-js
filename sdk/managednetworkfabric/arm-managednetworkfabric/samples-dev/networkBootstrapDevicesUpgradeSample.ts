@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upgrades the version of the Network Bootstrap Device.
  *
  * @summary upgrades the version of the Network Bootstrap Device.
- * x-ms-original-file: 2025-07-15/NetworkBootstrapDevices_Upgrade.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkBootstrapDevices_Upgrade.json
  */
 async function networkBootstrapDevicesUpgradeMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

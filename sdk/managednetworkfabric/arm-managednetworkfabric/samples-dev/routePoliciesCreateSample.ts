@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements Route Policy PUT method.
  *
  * @summary implements Route Policy PUT method.
- * x-ms-original-file: 2025-07-15/RoutePolicies_Create.json
+ * x-ms-original-file: 2026-01-15-preview/RoutePolicies_Create.json
  */
 async function routePoliciesCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
