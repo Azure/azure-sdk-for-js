@@ -216,7 +216,6 @@ export class DocumentProducer {
       return headerResponse;
     } catch (err: any) {
       if (DocumentProducer._needPartitionKeyRangeCacheRefresh(err)) {
-        this._updateStates(undefined, false);
         throw err;
       } else {
         this._updateStates(err, err.resources === undefined);

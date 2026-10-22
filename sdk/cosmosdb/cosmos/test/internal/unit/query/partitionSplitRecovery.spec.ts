@@ -62,6 +62,7 @@ interface QueryControlError extends Error {
   code?: number | string;
   headers?: Record<string, string | number>;
   originalError?: Error;
+  substatus?: number;
 }
 
 type QueryKind = "Parallel" | "ORDER BY";
@@ -75,8 +76,11 @@ interface Deferred<T> {
 
 interface RecoveryInternals {
   bufferedDocumentProducersQueue: { size: () => number };
+  err?: unknown;
+  partitionDataPatchMap: Map<unknown, unknown>;
   respHeaders: Record<string, string | number>;
   splitRepairProducers: Map<unknown, unknown>;
+  topologyTransitions: Set<string>;
   unfilledDocumentProducersQueue: { size: () => number };
 }
 
@@ -338,7 +342,9 @@ function getRecoveryInternals(context: QueryContext): RecoveryInternals {
 
 function assertCleanTerminalRecoveryState(context: QueryContext): void {
   const internals = getRecoveryInternals(context);
+  assert.equal(internals.partitionDataPatchMap.size, 0);
   assert.equal(internals.splitRepairProducers.size, 0);
+  assert.equal(internals.topologyTransitions.size, 0);
   assert.equal(internals.unfilledDocumentProducersQueue.size(), 0);
   assert.equal(internals.bufferedDocumentProducersQueue.size(), 0);
   assert.equal(Number(internals.respHeaders["x-ms-request-charge"] ?? 0), 0);
@@ -584,6 +590,40 @@ describe("partition split recovery", () => {
       assert.isFalse(secondPage.hasMoreResults, queryType);
       assert.equal(topology.getForceRefreshCount(), 1, queryType);
     }
+  });
+
+  it("bounds a repair producer that repeats the same continuation without progress", async () => {
+    const clientContext = createClientContext();
+    const topology = mockTopology(clientContext, [[parentRange], [childRange1, childRange2]]);
+    const requests: string[] = [];
+    const splitError = createSplitError();
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ partitionKeyRangeId }) => {
+      const rangeId = partitionKeyRangeId ?? "none";
+      requests.push(rangeId);
+      if (requests.length > 4) {
+        throw new Error("Unchanged continuation request guard exceeded");
+      }
+      if (rangeId === "P") {
+        throw splitError;
+      }
+      assert.equal(rangeId, "C1");
+      return {
+        result: [] as unknown as Resource,
+        headers: { "x-ms-continuation": "stuck", "x-ms-request-charge": "2" },
+        code: StatusCodes.Ok,
+      };
+    });
+
+    const context = createParallelContext(clientContext);
+    const error = await captureError(withTimeout(context.fetchMore(createDummyDiagnosticNode())));
+
+    assert.strictEqual(error, splitError);
+    assert.equal(Number(error.headers?.["x-ms-request-charge"]), 5);
+    assert.deepEqual(requests, ["P", "C1", "C1"]);
+    assert.equal(topology.getForceRefreshCount(), 1);
+    assert.equal(getRecoveryInternals(context).splitRepairProducers.size, 0);
+    assert.equal(getRecoveryInternals(context).topologyTransitions.size, 0);
+    assert.isFalse(context.hasMoreResults());
   });
 
   it("does not finalize a partial aggregate while split replacements are pending", async () => {
@@ -909,6 +949,37 @@ describe("partition split recovery", () => {
     assert.equal(topology.getRequestCount(), 4);
   });
 
+  it("bounds a canonical topology transition cycle", async () => {
+    const clientContext = createClientContext();
+    const topology = mockTopology(clientContext, [
+      [parentRange],
+      [childRange1, childRange2],
+      [parentRange],
+      [childRange1, childRange2],
+      [parentRange],
+    ]);
+    const requests: string[] = [];
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ partitionKeyRangeId }) => {
+      const rangeId = partitionKeyRangeId ?? "none";
+      requests.push(rangeId);
+      if (requests.length > 5) {
+        throw new Error("Topology transition cycle request guard exceeded");
+      }
+      throw createSplitError();
+    });
+
+    const context = createParallelContext(clientContext);
+    const error = await captureError(withTimeout(context.fetchMore(createDummyDiagnosticNode())));
+
+    assert.equal(error.code, StatusCodes.Gone);
+    assert.equal(error.substatus, SubStatusCodes.PartitionKeyRangeGone);
+    assert.deepEqual(requests, ["P", "C1", "P", "C1"]);
+    assert.equal(topology.getForceRefreshCount(), 4);
+    assert.equal(topology.getRequestCount(), 5);
+    assert.equal(getRecoveryInternals(context).topologyTransitions.size, 0);
+    assert.isFalse(context.hasMoreResults());
+  });
+
   it("preserves progress and does not replay a parent after a one-shot split", async () => {
     const result = await runOneShotSplit();
 
@@ -1003,6 +1074,66 @@ describe("partition split recovery", () => {
       await flushAsyncWork();
 
       assert.equal(topology.getForceRefreshCount(), 0);
+      expect(replacementSpy).not.toHaveBeenCalled();
+      assertCleanTerminalRecoveryState(context);
+    });
+  });
+
+  it("ignores a late normal success after a sibling abort closes the buffer cycle", async () => {
+    await expectNoUnhandledRejections(async () => {
+      const clientContext = createClientContext();
+      const topology = mockTopology(clientContext, [[mergeParent1, mergeParent2]]);
+      const requestA = createDeferred<never>();
+      const requestB = createDeferred<{
+        code: number;
+        headers: Record<string, string>;
+        result: Resource;
+      }>();
+      const requestsStarted = createDeferred<void>();
+      const requests: string[] = [];
+      vi.spyOn(clientContext, "queryFeed").mockImplementation(({ partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requests.push(rangeId);
+        if (requests.length === 2) {
+          requestsStarted.resolve(undefined);
+        }
+        return rangeId === "P1" ? requestA.promise : requestB.promise;
+      });
+
+      const context = createParallelContext(clientContext, {
+        ...options,
+        maxDegreeOfParallelism: 2,
+      });
+      const replacementSpy = spyOnReplacement(context);
+      const resultPromise = captureError(
+        withTimeout(context.fetchMore(createDummyDiagnosticNode())),
+      );
+      await withTimeout(requestsStarted.promise);
+
+      const abortError = Object.assign(new Error("request A aborted"), {
+        headers: { "x-ms-request-charge": "2" },
+        name: "AbortError",
+      });
+      requestA.reject(abortError);
+      const error = await withTimeout(resultPromise);
+
+      assert.strictEqual(error, abortError);
+      assert.equal(Number(error.headers?.["x-ms-request-charge"]), 2);
+      assert.strictEqual(getRecoveryInternals(context).err, abortError);
+      assert.deepEqual(requests, ["P1", "P2"]);
+      assert.equal(topology.getForceRefreshCount(), 0);
+      expect(replacementSpy).not.toHaveBeenCalled();
+      assertCleanTerminalRecoveryState(context);
+
+      requestB.resolve({
+        result: [{ id: "late", source: "P2" }] as unknown as Resource,
+        headers: { "x-ms-request-charge": "7" },
+        code: StatusCodes.Ok,
+      });
+      await flushAsyncWork();
+
+      assert.strictEqual(getRecoveryInternals(context).err, abortError);
+      assert.equal(Number(error.headers?.["x-ms-request-charge"]), 2);
       expect(replacementSpy).not.toHaveBeenCalled();
       assertCleanTerminalRecoveryState(context);
     });
