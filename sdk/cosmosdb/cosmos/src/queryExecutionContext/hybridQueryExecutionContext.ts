@@ -14,6 +14,8 @@ import type {
   Response,
 } from "../request/index.js";
 import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult.js";
+import { parseDocumentRid } from "../utils/documentRid.js";
+import { useCompetitionRankingFromEnv } from "../utils/envUtils.js";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator.js";
 import type { CosmosHeaders } from "./CosmosHeaders.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
@@ -52,6 +54,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private hybridSearchResult: HybridSearchQueryResult[] = [];
   private uniqueItems = new Map<string, HybridSearchQueryResult>();
   private isSingleComponent: boolean = false;
+  private readonly useCompetitionRanking: boolean;
 
   constructor(
     private clientContext: ClientContext,
@@ -66,6 +69,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       QueryTypes.hybridSearch(true),
     ]);
 
+    this.useCompetitionRanking = useCompetitionRankingFromEnv();
     this.state = HybridQueryExecutionContextBaseStates.uninitialized;
     this.pageSize = this.options.maxItemCount;
     if (this.pageSize === undefined) {
@@ -346,46 +350,57 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     if (hybridSearchResult.length === 0) {
       return [];
     }
-    const ranksArray: { rid: string; ranks: number[] }[] = hybridSearchResult.map((item) => ({
-      rid: item.rid,
-      ranks: new Array(item.componentScores.length).fill(0),
-    }));
-    // Compute ranks for each component score
-    for (let i = 0; i < hybridSearchResult[0].componentScores.length; i++) {
-      // Sort based on the i-th component score
-      hybridSearchResult.sort((a, b) =>
-        componentWeights[i].comparator(a.componentScores[i], b.componentScores[i]),
-      );
+    // Decode once per retained row; full encoded RIDs remain the deduplication keys.
+    const rankedResults = hybridSearchResult.map((item) => {
+      if (item.componentScores.length > componentWeights.length) {
+        throw new Error("Component scores exceed the query plan component count");
+      }
+      return {
+        item,
+        documentRid: parseDocumentRid(item.rid),
+        ranks: new Array<number>(componentWeights.length).fill(0),
+        rrfScore: 0,
+      };
+    });
 
-      // Assign ranks
+    // Compute ranks for each component score
+    for (let i = 0; i < componentWeights.length; i++) {
+      // Missing components retain rank zero and do not participate in component sorting.
+      const componentResults = rankedResults.filter(({ item }) => i < item.componentScores.length);
+      const { sortOrder } = componentWeights[i];
+      componentResults.sort((a, b) => {
+        const scoreComparison = a.item.componentScores[i] - b.item.componentScores[i];
+        const ridComparison =
+          a.documentRid < b.documentRid ? -1 : a.documentRid > b.documentRid ? 1 : 0;
+        return sortOrder * (scoreComparison || ridComparison);
+      });
+
+      // Ordinal ranks advance for every row. Competition ranks share ties, then skip positions.
       let rank = 1;
-      for (let j = 0; j < hybridSearchResult.length; j++) {
+      for (let j = 0; j < componentResults.length; j++) {
         if (
-          j > 0 &&
-          hybridSearchResult[j].componentScores[i] !== hybridSearchResult[j - 1].componentScores[i]
+          !this.useCompetitionRanking ||
+          (j > 0 &&
+            componentResults[j].item.componentScores[i] !==
+              componentResults[j - 1].item.componentScores[i])
         ) {
-          ++rank;
+          rank = j + 1;
         }
-        const rankIndex = ranksArray.findIndex(
-          (rankItem) => rankItem.rid === hybridSearchResult[j].rid,
-        );
-        ranksArray[rankIndex].ranks[i] = rank; // 1-based rank
+        componentResults[j].ranks[i] = rank;
       }
     }
 
-    // Compute RRF scores and sort based on them
-    const rrfScores = ranksArray.map((item) => ({
-      rid: item.rid,
-      rrfScore: this.computeRRFScore(item.ranks, this.RRF_CONSTANT, componentWeights),
-    }));
+    // Fuse weighted component ranks, then resolve equal fused scores by descending document RID.
+    for (const result of rankedResults) {
+      result.rrfScore = this.computeRRFScore(result.ranks, this.RRF_CONSTANT, componentWeights);
+    }
 
-    // Sort based on RRF scores
-    rrfScores.sort((a, b) => b.rrfScore - a.rrfScore);
-    // Map sorted RRF scores back to hybridSearchResult
-    const sortedHybridSearchResult = rrfScores.map((scoreItem) =>
-      hybridSearchResult.find((item) => item.rid === scoreItem.rid),
+    rankedResults.sort(
+      (a, b) =>
+        b.rrfScore - a.rrfScore ||
+        (a.documentRid < b.documentRid ? 1 : a.documentRid > b.documentRid ? -1 : 0),
     );
-    return sortedHybridSearchResult;
+    return rankedResults.map(({ item }) => item);
   }
 
   private async drainSingleComponent(
@@ -590,10 +605,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       !hybridSearchQueryInfo.componentWeights ||
       hybridSearchQueryInfo.componentWeights.length === 0;
 
-    const result: {
-      weight: number;
-      comparator: (x: number, y: number) => number;
-    }[] = [];
+    const result: ComponentWeight[] = [];
 
     for (let index = 0; index < hybridSearchQueryInfo.componentQueryInfos.length; ++index) {
       const queryInfo = hybridSearchQueryInfo.componentQueryInfos[index];
@@ -614,7 +626,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       const sortOrder = hasOrderBy && queryInfo.orderBy[0].includes("Ascending") ? 1 : -1;
       result.push({
         weight: componentWeight,
-        comparator: (x: number, y: number) => sortOrder * (x - y),
+        sortOrder,
       });
     }
     return result;
@@ -623,5 +635,5 @@ export class HybridQueryExecutionContext implements ExecutionContext {
 
 export interface ComponentWeight {
   weight: number;
-  comparator: (x: number, y: number) => number;
+  sortOrder: 1 | -1;
 }
