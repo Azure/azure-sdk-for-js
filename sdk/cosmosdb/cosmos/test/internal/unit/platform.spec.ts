@@ -16,7 +16,7 @@ import type {
 
 const packageVersion = packageJson["version"];
 const constantVersion = Constants.SDKVersion;
-const encryptionUserAgent = `azure-cosmos-js-encryption/${packageVersion}`;
+const encryptionUserAgent = "cse";
 const keyEncryptionKeyResolver: EncryptionKeyResolver = {
   encryptionKeyResolverName: EncryptionKeyResolverName.AzureKeyVault,
   async wrapKey(_id, _algorithm, key) {
@@ -46,7 +46,7 @@ describe("getUserAgent", () => {
 
   it("should leave non-encryption user agents unchanged", () => {
     const userAgent = getUserAgent();
-    assert.notInclude(userAgent, "azure-cosmos-js-encryption/");
+    assert.notInclude(userAgent.split(" "), encryptionUserAgent);
     assert.equal(
       getUserAgent({ userAgentSuffix: "myApp/1" }, "myFramework/2"),
       `${userAgent} myFramework/2 myApp/1`,

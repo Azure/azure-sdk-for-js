@@ -603,8 +603,8 @@ const response = await iterator.readNext();
 ### Client-side encryption usage identification
 
 Clients configured with `clientEncryptionOptions` automatically include
-`azure-cosmos-js-encryption/<SDKVersion>` in both the `User-Agent` and
-`x-ms-useragent` request headers, alongside the existing Cosmos SDK identifier.
+`cse` in both the `User-Agent` and `x-ms-useragent` request headers, alongside the
+existing `azure-cosmos-js/<SDKVersion>` identifier that supplies the SDK version.
 The marker preserves the configured `userAgentSuffix` and host framework
 identifier. Clients without encryption configured do not receive the marker.
 

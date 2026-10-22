@@ -13,7 +13,7 @@ export function getUserAgent(
 ): string {
   let ua = `${userAgentDetails()} ${Constants.SDKName}/${Constants.SDKVersion}`;
   if (optionsOrConnectionString?.clientEncryptionOptions) {
-    ua = ua + ` ${Constants.SDKName}-encryption/${Constants.SDKVersion}`;
+    ua = ua + " cse";
   }
   if (hostFramework) {
     ua = ua + " " + hostFramework;
