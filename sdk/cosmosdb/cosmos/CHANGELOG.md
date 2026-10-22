@@ -1,5 +1,17 @@
 # Release History
 
+## 4.10.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- [#40431](https://github.com/Azure/azure-sdk-for-js/pull/40431) Fixed cross-partition query recovery after `410/1002 PartitionKeyRangeGone` responses so retired parent ranges are replaced after routing refresh instead of being retried indefinitely.
+
+### Other Changes
+
 ## 4.10.1 (2026-09-14)
 
 ### Bugs Fixed
