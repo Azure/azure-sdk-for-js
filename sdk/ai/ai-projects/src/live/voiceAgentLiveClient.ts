@@ -224,6 +224,8 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
   private finished = false;
   private iteratorStarted = false;
   private closing?: Promise<void>;
+  private requestedClose?: { code: number; reason: string };
+  private transportClosing?: Promise<void>;
   private readonly closePromise: Promise<VoiceAgentLiveCloseResult>;
   private resolveClosed!: (value: VoiceAgentLiveCloseResult) => void;
   private started?: { resolve: () => void; reject: (error: Error) => void };
@@ -331,7 +333,7 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
             abortSignal: signal,
           }),
         ]);
-        if (this.finished) {
+        if (this.finished || this.finalEvent) {
           throw new VoiceAgentConnectionError(
             "Live session closed during startup.",
             "connectionClosed",
@@ -355,7 +357,7 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
               { cause },
             );
       this.finish(1006, "Live connection failed.", false, error);
-      await this.closeTransport(1000, "Live connection failed.");
+      void this.closeTransport(1000, "Live connection failed.");
       throw error;
     }
   }
@@ -419,11 +421,13 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
     type: K,
     handler: VoiceAgentLiveEventHandler<K>,
   ): this {
+    let fired = false;
     const listener: Listener = {
       type,
       original: handler,
       invoke: (event) => {
-        if (!isEventType(event, type)) return;
+        if (fired || !isEventType(event, type)) return;
+        fired = true;
         const index = this.listeners.indexOf(listener);
         if (index !== -1) this.listeners.splice(index, 1);
         handler(event);
@@ -528,6 +532,7 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
     return this.close();
   }
   private async gracefulClose(code: number, reason: string): Promise<void> {
+    this.requestedClose = { code, reason };
     this.setState(KnownVoiceAgentConnectionState.Closing);
     const finalized = new Promise<void>((resolve) => {
       this.finalized = resolve;
@@ -555,7 +560,7 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
       throw error;
     } finally {
       this.finalized = undefined;
-      await this.closeTransport(code, reason);
+      void this.closeTransport(code, reason);
       this.finish(code, reason, false);
     }
   }
@@ -611,7 +616,6 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
           ? cause
           : new VoiceAgentProtocolError("Invalid Live event.", { cause });
       this.finish(1002, "Invalid Live event.", false, error);
-      void this.closeTransport(1002, "Invalid Live event.");
       return;
     }
     if (event.type === "session.started" || event.type === "session.updated") {
@@ -639,7 +643,8 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
           logger.warning("Live socket did not close after finalization.", { error });
         });
       }
-      void this.closeTransport(1000, "Live session finalized.");
+      const close = this.requestedClose ?? { code: 1000, reason: "Live session finalized." };
+      void this.closeTransport(close.code, close.reason);
     }
     if (this.iteratorStarted || this.listeners.length === 0) this.events.enqueue(event);
     for (const listener of [...this.listeners]) {
@@ -651,13 +656,15 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
       }
     }
   }
-  private async closeTransport(code: number, reason: string): Promise<void> {
-    try {
-      await this.transport.close(code, reason);
-    } catch (cause) {
-      this.finish(1006, "Failed to close Live transport.", false, connectionError(cause));
-      logger.warning("Failed to close the Live transport.", { cause });
-    }
+  private closeTransport(code: number, reason: string): Promise<void> {
+    // Finish event dispatch before a synchronous close callback, and start cleanup only once.
+    this.transportClosing ??= Promise.resolve()
+      .then(() => this.transport.close(code === 1006 ? 1000 : code, reason))
+      .catch((cause: unknown) => {
+        this.finish(1006, "Failed to close Live transport.", false, connectionError(cause));
+        logger.warning("Failed to close the Live transport.", { cause });
+      });
+    return this.transportClosing;
   }
   private finish(code: number, reason: string, wasClean: boolean, error?: Error): void {
     if (this.finished) return;
@@ -673,7 +680,7 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
     else this.events.close();
     this.setState(KnownVoiceAgentConnectionState.Disconnected);
     this.resolveClosed({ code, reason, wasClean, error, sessionClosed: this.finalEvent });
-    if (error) void this.closeTransport(1000, "Live connection failed.");
+    if (error) void this.closeTransport(code, reason);
   }
   private setState(state: VoiceAgentConnectionState): void {
     if (state === this.currentState) return;
