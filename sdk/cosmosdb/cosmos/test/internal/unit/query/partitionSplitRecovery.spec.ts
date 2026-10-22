@@ -36,6 +36,7 @@ const splitChild2 = createRange("S2", "30", "70", ["M"]);
 const splitChild3 = createRange("S3", "70", "FF", ["M"]);
 const aggregateChild1 = createRange("B1", "80", "C0", ["P2"]);
 const aggregateChild2 = createRange("B2", "C0", "FF", ["P2"]);
+const nestedChild1 = createRange("A1", "", "80", ["C1"]);
 const queryInfo = createPartitionedQueryInfo("Parallel");
 const options: FeedOptions = { maxItemCount: 2, maxDegreeOfParallelism: 1 };
 
@@ -179,6 +180,7 @@ function createPublicIterator<T = TestDocument>(
   clientContext: ClientContext,
   queryType: QueryKind,
   partitionedQueryInfo = createPartitionedQueryInfo(queryType),
+  feedOptions: FeedOptions = { ...options, forceQueryPlan: true },
 ): QueryIterator<T> {
   vi.spyOn(clientContext, "getQueryPlan").mockResolvedValue({
     result: partitionedQueryInfo,
@@ -188,7 +190,7 @@ function createPublicIterator<T = TestDocument>(
   return new QueryIterator<T>(
     clientContext,
     query,
-    { ...options, forceQueryPlan: true },
+    feedOptions,
     async () => ({ result: [] as unknown as Resource, headers: {} }),
     collectionLink,
     ResourceType.item,
@@ -223,10 +225,13 @@ function createBackendResult(
   ) as Resource;
 }
 
-function createQueryControlOptions(queryType: QueryKind): FeedOptions {
+function createQueryControlOptions(
+  queryType: QueryKind,
+  queryRange = { min: "", max: "FF" },
+): FeedOptions {
   const rangeMappings = [
     {
-      queryRange: { min: "", max: "FF" },
+      queryRange,
       continuationToken: "parent-continuation",
     },
   ];
@@ -380,7 +385,7 @@ describe("partition split recovery", () => {
       const clientContext = createClientContext();
       const topology = mockTopology(clientContext, [[parentRange], [childRange1, childRange2]]);
       const requests: string[] = [];
-      let child1RequestCount = 0;
+      const childRequestCounts = new Map<string, number>();
       vi.spyOn(clientContext, "queryFeed").mockImplementation(
         async ({ partitionKeyRangeId, options: requestOptions }) => {
           const rangeId = partitionKeyRangeId ?? "none";
@@ -391,41 +396,45 @@ describe("partition split recovery", () => {
           if (rangeId === "P") {
             throw createSplitError();
           }
-          if (rangeId === "C1" && ++child1RequestCount === 1) {
+          const requestCount = (childRequestCounts.get(rangeId) ?? 0) + 1;
+          childRequestCounts.set(rangeId, requestCount);
+          const requestCharge = rangeId === "C1" ? "2" : "3";
+          if (requestCount === 1) {
             return {
               result: [] as unknown as Resource,
-              headers: { "x-ms-continuation": "c1-next", "x-ms-request-charge": "2" },
+              headers: {
+                "x-ms-continuation": `${rangeId}-next`,
+                "x-ms-request-charge": requestCharge,
+              },
               code: StatusCodes.Ok,
             };
           }
-          if (rangeId === "C1") {
-            assert.equal(requestOptions.continuationToken, "c1-next", queryType);
-          }
+          assert.equal(requestOptions.continuationToken, `${rangeId}-next`, queryType);
           const value = rangeId === "C1" ? 1 : 2;
           const document = { id: `${value}`, source: rangeId };
           return {
             result: [createBackendResult(queryType, document, value)] as unknown as Resource,
-            headers: { "x-ms-request-charge": rangeId === "C1" ? "2" : "3" },
+            headers: { "x-ms-request-charge": requestCharge },
             code: StatusCodes.Ok,
           };
         },
       );
 
-      const response = await withTimeout(
-        createPublicIterator(clientContext, queryType).fetchNext(),
-      );
-
-      assert.deepEqual(
-        response.resources,
-        [
-          { id: "1", source: "C1" },
-          { id: "2", source: "C2" },
-        ],
+      const iterator = createPublicIterator(
+        clientContext,
         queryType,
+        createPartitionedQueryInfo(queryType),
+        { ...options, forceQueryPlan: true, maxItemCount: 1 },
       );
-      assert.deepEqual(requests, ["P", "C1", "C1", "C2"], queryType);
-      assert.equal(response.requestCharge, 8, queryType);
-      assert.isFalse(response.hasMoreResults, queryType);
+      const firstPage = await withTimeout(iterator.fetchNext());
+      const secondPage = await withTimeout(iterator.fetchNext());
+
+      assert.deepEqual(firstPage.resources, [{ id: "1", source: "C1" }], queryType);
+      assert.deepEqual(secondPage.resources, [{ id: "2", source: "C2" }], queryType);
+      assert.deepEqual(requests, ["P", "C1", "C1", "C2", "C2"], queryType);
+      assert.equal(firstPage.requestCharge + secondPage.requestCharge, 11, queryType);
+      assert.isTrue(firstPage.hasMoreResults, queryType);
+      assert.isFalse(secondPage.hasMoreResults, queryType);
       assert.equal(topology.getForceRefreshCount(), 1, queryType);
     }
   });
@@ -437,35 +446,102 @@ describe("partition split recovery", () => {
       [mergeParent1, aggregateChild1, aggregateChild2],
     ]);
     const requests: string[] = [];
-    vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ partitionKeyRangeId }) => {
-      const rangeId = partitionKeyRangeId ?? "none";
-      requests.push(rangeId);
-      if (requests.length > 5) {
-        throw new Error("Aggregate split-recovery request guard exceeded");
-      }
-      if (rangeId === "P2") {
-        throw createSplitError();
-      }
-      const value = rangeId === "P1" ? 1 : rangeId === "B1" ? 2 : 3;
-      return {
-        result: [[{ item: value }]] as unknown as Resource,
-        headers: { "x-ms-request-charge": `${value}` },
-        code: StatusCodes.Ok,
-      };
-    });
+    const childRequestCounts = new Map<string, number>();
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ partitionKeyRangeId, options: requestOptions }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requests.push(rangeId);
+        if (requests.length > 7) {
+          throw new Error("Aggregate split-recovery request guard exceeded");
+        }
+        if (rangeId === "P2") {
+          throw createSplitError();
+        }
+        const value = rangeId === "P1" ? 1 : rangeId === "B1" ? 2 : 3;
+        if (rangeId !== "P1") {
+          const requestCount = (childRequestCounts.get(rangeId) ?? 0) + 1;
+          childRequestCounts.set(rangeId, requestCount);
+          if (requestCount === 1) {
+            return {
+              result: [] as unknown as Resource,
+              headers: {
+                "x-ms-continuation": `${rangeId}-next`,
+                "x-ms-request-charge": `${value}`,
+              },
+              code: StatusCodes.Ok,
+            };
+          }
+          assert.equal(requestOptions.continuationToken, `${rangeId}-next`);
+        }
+        return {
+          result: [[{ item: value }]] as unknown as Resource,
+          headers: { "x-ms-request-charge": `${value}` },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
 
     const iterator = createPublicIterator<number>(
       clientContext,
       "Parallel",
       createAggregateQueryInfo(),
+      { ...options, forceQueryPlan: true, maxDegreeOfParallelism: 2 },
     );
     const response = await withTimeout(iterator.fetchAll());
 
     assert.deepEqual(response.resources, [6]);
-    assert.deepEqual(requests, ["P1", "P2", "B1", "B2"]);
-    assert.equal(response.requestCharge, 7);
+    assert.deepEqual(requests, ["P1", "P2", "B1", "B2", "B1", "B2"]);
+    assert.equal(response.requestCharge, 12);
     assert.isFalse(response.hasMoreResults);
     assert.equal(topology.getForceRefreshCount(), 1);
+  });
+
+  it("distinguishes identical queue transitions from different repair producers", async () => {
+    const clientContext = createClientContext();
+    const topology = mockTopology(clientContext, [
+      [parentRange],
+      [childRange1, childRange2],
+      [nestedChild1, childRange2],
+      [nestedChild1, aggregateChild1, aggregateChild2],
+    ]);
+    const requests: string[] = [];
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ partitionKeyRangeId }) => {
+      const rangeId = partitionKeyRangeId ?? "none";
+      requests.push(rangeId);
+      if (requests.length > 7) {
+        throw new Error("Nested split-recovery request guard exceeded");
+      }
+      if (rangeId === "P" || rangeId === "C1" || rangeId === "C2") {
+        throw createSplitError();
+      }
+      if (rangeId === "A1" || rangeId === "B1") {
+        return {
+          result: [] as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      }
+      return {
+        result: [{ id: "final", source: "B2" }] as unknown as Resource,
+        headers: { "x-ms-request-charge": "1" },
+        code: StatusCodes.Ok,
+      };
+    });
+
+    const response = await withTimeout(
+      createPublicIterator(clientContext, "Parallel", createPartitionedQueryInfo("Parallel"), {
+        ...options,
+        forceQueryPlan: true,
+        maxItemCount: 1,
+      }).fetchNext(),
+    );
+
+    assert.deepEqual(response.resources, [{ id: "final", source: "B2" }]);
+    assert.deepEqual(requests, ["P", "C1", "A1", "C2", "B1", "B2"]);
+    assert.equal(response.requestCharge, 6);
+    assert.isFalse(response.hasMoreResults);
+    assert.equal(topology.getForceRefreshCount(), 3);
+    assert.equal(topology.getRequestCount(), 4);
   });
 
   it("preserves progress and does not replay a parent after a one-shot split", async () => {
@@ -638,6 +714,46 @@ describe("partition split recovery", () => {
       assert.equal(topology.getForceRefreshCount(), 1, queryType);
       assert.equal(topology.getRequestCount(), 2, queryType);
       assert.equal(replacementSpy.mock.calls.length, 1, queryType);
+      assert.isFalse(context.hasMoreResults(), queryType);
+    }
+  });
+
+  it("rejects query-control continuations when cached topology already changed", async () => {
+    const cases = [
+      {
+        queryType: "Parallel" as const,
+        snapshots: [[mergedRange]],
+        queryControlOptions: createQueryControlOptions("Parallel", { min: "", max: "80" }),
+      },
+      {
+        queryType: "ORDER BY" as const,
+        snapshots: [[childRange1, childRange2]],
+        queryControlOptions: createQueryControlOptions("ORDER BY"),
+      },
+    ];
+
+    for (const { queryType, snapshots, queryControlOptions } of cases) {
+      const clientContext = createClientContext();
+      const topology = mockTopology(clientContext, snapshots);
+      const queryFeedSpy = vi
+        .spyOn(clientContext, "queryFeed")
+        .mockRejectedValue(new Error("queryFeed must not run"));
+      const context =
+        queryType === "Parallel"
+          ? createParallelContext(clientContext, queryControlOptions)
+          : createOrderByContext(clientContext, queryControlOptions);
+
+      const error = await captureError(withTimeout(context.fetchMore(createDummyDiagnosticNode())));
+
+      assert.isUndefined(error.code, queryType);
+      assert.match(error.message, /continuation state is invalid/i, queryType);
+      assert.match(error.message, /restart the entire query from the beginning/i, queryType);
+      assert.isUndefined(error.originalError, queryType);
+      assert.isUndefined(error.cause, queryType);
+      assert.isUndefined(error.headers?.["x-ms-continuation"], queryType);
+      expect(queryFeedSpy).not.toHaveBeenCalled();
+      assert.equal(topology.getRequestCount(), 1, queryType);
+      assert.equal(topology.getForceRefreshCount(), 0, queryType);
       assert.isFalse(context.hasMoreResults(), queryType);
     }
   });
