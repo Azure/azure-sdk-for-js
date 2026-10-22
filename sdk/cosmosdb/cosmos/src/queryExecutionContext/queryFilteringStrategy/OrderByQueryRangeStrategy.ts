@@ -51,16 +51,16 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
     if (continuationRanges && continuationRanges.length > 0) {
       resumeRangeFound = true;
-      // Find the range to resume from based on the composite token
-      const targetRangeMapping = continuationRanges[continuationRanges.length - 1].range;
-      // It is assumed that range mapping array is going to contain only range
-      const targetRange: PartitionKeyRange = targetRangeMapping;
-
-      const targetContinuationToken =
-        continuationRanges[continuationRanges.length - 1].continuationToken;
+      const sortedContinuationRanges = [...continuationRanges].sort((left, right) =>
+        this.getLogicalMin(left).localeCompare(this.getLogicalMin(right)),
+      );
+      const continuationMin = this.getLogicalMin(sortedContinuationRanges[0]);
+      const continuationMax = this.getLogicalMax(
+        sortedContinuationRanges[sortedContinuationRanges.length - 1],
+      );
 
       const leftRanges = targetRanges.filter((mapping) =>
-        this.isRangeBeforeAnother(mapping.maxExclusive, targetRangeMapping.minInclusive),
+        this.isRangeBeforeAnother(mapping.maxExclusive, continuationMin),
       );
 
       const orderByItems = queryInfo.orderByItems;
@@ -69,7 +69,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       const leftFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "left");
 
       const rightRanges = targetRanges.filter((mapping) =>
-        this.isRangeAfterAnother(mapping.minInclusive, targetRangeMapping.maxExclusive),
+        this.isRangeAfterAnother(mapping.minInclusive, continuationMax),
       );
 
       // Create filtering condition for right ranges based on ORDER BY items and sort orders
@@ -86,10 +86,14 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         });
       }
 
-      result.rangeTokenPairs.push({
-        range: targetRange,
-        continuationToken: targetContinuationToken,
-        filteringCondition: rightFilter,
+      sortedContinuationRanges.forEach((range) => {
+        result.rangeTokenPairs.push({
+          range: range.range,
+          continuationToken: range.continuationToken,
+          filteringCondition: rightFilter,
+          epkMin: range.epkMin,
+          epkMax: range.epkMax,
+        });
       });
 
       // Apply filtering logic for right ranges
@@ -117,6 +121,14 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       });
     }
     return result;
+  }
+
+  private getLogicalMin(range: PartitionRangeWithContinuationToken): string {
+    return range.epkMin ?? range.range.minInclusive;
+  }
+
+  private getLogicalMax(range: PartitionRangeWithContinuationToken): string {
+    return range.epkMax ?? range.range.maxExclusive;
   }
 
   /**

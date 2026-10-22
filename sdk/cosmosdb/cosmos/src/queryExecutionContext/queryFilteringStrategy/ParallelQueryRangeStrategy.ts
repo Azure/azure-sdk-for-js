@@ -80,6 +80,8 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
           range: range.range,
           continuationToken: range.continuationToken,
           filteringCondition: range.filteringCondition,
+          epkMin: range.epkMin,
+          epkMax: range.epkMax,
         });
       }
     }

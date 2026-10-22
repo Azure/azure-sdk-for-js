@@ -205,9 +205,20 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private handlePartitionMapping(producer: DocumentProducer, result: any): void {
     const itemCount = result?.length || 0;
     const continuationToken = this.getContinuationToken(producer);
+    const targetPartitionKeyRange = producer.targetPartitionKeyRange;
+    const partitionKeyRange =
+      producer.populateEpkRangeHeaders &&
+      producer.startEpk !== undefined &&
+      producer.endEpk !== undefined
+        ? {
+            ...targetPartitionKeyRange,
+            minInclusive: producer.startEpk,
+            maxExclusive: producer.endEpk,
+          }
+        : targetPartitionKeyRange;
     const mapping = {
       itemCount,
-      partitionKeyRange: producer.targetPartitionKeyRange,
+      partitionKeyRange,
       continuationToken,
     };
 
@@ -232,7 +243,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    */
   private updatePartitionMapping(mapping: QueryRangeMapping): void {
     const currentPatch = this.partitionDataPatchMap.get(this.patchCounter.toString());
-    const isSamePartition = currentPatch?.partitionKeyRange?.id === mapping.partitionKeyRange.id;
+    const isSamePartition =
+      currentPatch?.partitionKeyRange?.id === mapping.partitionKeyRange.id &&
+      currentPatch.partitionKeyRange.minInclusive === mapping.partitionKeyRange.minInclusive &&
+      currentPatch.partitionKeyRange.maxExclusive === mapping.partitionKeyRange.maxExclusive;
 
     if (isSamePartition && currentPatch) {
       currentPatch.itemCount += mapping.itemCount;
@@ -324,31 +338,29 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const partitionTargetRange = rangeTokenPair.range;
     const continuationToken = rangeTokenPair.continuationToken;
     const filterCondition = rangeTokenPair.filteringCondition || undefined;
-
-    // Find EPK ranges for this partition range from processed continuation response
-    const matchingContinuationRange = continuationRanges.find(
-      (cr) => cr.range.id === partitionTargetRange.id,
-    );
-    const startEpk = matchingContinuationRange?.epkMin;
-    const endEpk = matchingContinuationRange?.epkMax;
+    const startEpk = rangeTokenPair.epkMin;
+    const endEpk = rangeTokenPair.epkMax;
 
     // Use strategy to determine partition-specific filter context
     const targetPartitionId =
       continuationRanges.length > 0 && continuationRanges[continuationRanges.length - 1].range
         ? continuationRanges[continuationRanges.length - 1].range.id
         : undefined;
-    const partitionFilterContext = this.queryProcessingStrategy.getPartitionFilterContext(
-      filterContext,
-      targetPartitionId,
-      partitionTargetRange.id,
-    );
+    const partitionFilterContext =
+      continuationToken !== undefined
+        ? filterContext
+        : this.queryProcessingStrategy.getPartitionFilterContext(
+            filterContext,
+            targetPartitionId,
+            partitionTargetRange.id,
+          );
 
     return this._createTargetPartitionQueryExecutionContext(
       partitionTargetRange,
       continuationToken,
       startEpk,
       endEpk,
-      !!(startEpk && endEpk), // populateEpkRangeHeaders - true if both EPK values are present
+      startEpk !== undefined && endEpk !== undefined,
       filterCondition,
       partitionFilterContext,
     );
@@ -731,8 +743,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
     // Create a simplified QueryRange using the partition key range boundaries
     const simplifiedQueryRange: RangeBoundary = {
-      min: documentProducer.startEpk || partitionRange.minInclusive,
-      max: documentProducer.endEpk || partitionRange.maxExclusive,
+      min: documentProducer.startEpk ?? partitionRange.minInclusive,
+      max: documentProducer.endEpk ?? partitionRange.maxExclusive,
     };
 
     return {
