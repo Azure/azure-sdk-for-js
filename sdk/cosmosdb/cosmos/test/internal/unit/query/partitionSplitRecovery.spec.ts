@@ -237,6 +237,20 @@ function createAggregateQueryInfo() {
   };
 }
 
+function createGroupByQueryInfo() {
+  const partitionedQueryInfo = createPartitionedQueryInfo("Parallel");
+  return {
+    ...partitionedQueryInfo,
+    queryInfo: {
+      ...partitionedQueryInfo.queryInfo,
+      aggregates: [],
+      groupByAliasToAggregateType: { total: "Sum" as const },
+      groupByExpressions: ["c.group"],
+      hasSelectValue: false,
+    },
+  };
+}
+
 function createBackendResult(
   queryType: QueryKind,
   document: TestDocument,
@@ -582,9 +596,9 @@ describe("partition split recovery", () => {
         splitId: "G1",
         childIds: ["G1a", "G1b"],
         trailingId: "G2",
-        expectedRequests: ["G0", "G1", "G1a", "G1b", "G2"],
+        expectedRequests: ["G0", "G1", "G1a", "G1b", "G2", "G2"],
         expectedResult: 5,
-        expectedCharge: 8,
+        expectedCharge: 12,
       },
     ];
 
@@ -595,29 +609,42 @@ describe("partition split recovery", () => {
         testCase.refreshedRanges,
       ]);
       const requests: string[] = [];
-      vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ partitionKeyRangeId }) => {
-        const rangeId = partitionKeyRangeId ?? "none";
-        requests.push(rangeId);
-        if (requests.length > 6) {
-          throw new Error("Terminal aggregate recovery request guard exceeded");
-        }
-        if (rangeId === testCase.splitId) {
-          throw createSplitError();
-        }
-        if (testCase.childIds.includes(rangeId)) {
+      let trailingRequestCount = 0;
+      vi.spyOn(clientContext, "queryFeed").mockImplementation(
+        async ({ partitionKeyRangeId, options: requestOptions }) => {
+          const rangeId = partitionKeyRangeId ?? "none";
+          requests.push(rangeId);
+          if (requests.length > 7) {
+            throw new Error("Terminal aggregate recovery request guard exceeded");
+          }
+          if (rangeId === testCase.splitId) {
+            throw createSplitError();
+          }
+          if (testCase.childIds.includes(rangeId)) {
+            return {
+              result: [] as unknown as Resource,
+              headers: { "x-ms-request-charge": "1" },
+              code: StatusCodes.Ok,
+            };
+          }
+          const value = rangeId === testCase.leftId ? 1 : 4;
+          if (rangeId === testCase.trailingId && ++trailingRequestCount === 1) {
+            return {
+              result: [] as unknown as Resource,
+              headers: { "x-ms-continuation": "G2-next", "x-ms-request-charge": "4" },
+              code: StatusCodes.Ok,
+            };
+          }
+          if (rangeId === testCase.trailingId) {
+            assert.equal(requestOptions.continuationToken, "G2-next");
+          }
           return {
-            result: [] as unknown as Resource,
-            headers: { "x-ms-request-charge": "1" },
+            result: [[{ item: value }]] as unknown as Resource,
+            headers: { "x-ms-request-charge": `${value}` },
             code: StatusCodes.Ok,
           };
-        }
-        const value = rangeId === testCase.leftId ? 1 : 4;
-        return {
-          result: [[{ item: value }]] as unknown as Resource,
-          headers: { "x-ms-request-charge": `${value}` },
-          code: StatusCodes.Ok,
-        };
-      });
+        },
+      );
 
       const iterator = createPublicIterator<number>(
         clientContext,
@@ -633,6 +660,134 @@ describe("partition split recovery", () => {
       assert.isFalse(response.hasMoreResults);
       assert.equal(topology.getForceRefreshCount(), 1);
     }
+  });
+
+  it("drains trailing empty pages before finalizing GROUP BY results", async () => {
+    const clientContext = createClientContext();
+    const topology = mockTopology(clientContext, [
+      [aggregateLeft, aggregateSplitParent, aggregateTrailing],
+      [aggregateLeft, aggregateEmptyChild1, aggregateEmptyChild2, aggregateTrailing],
+    ]);
+    const requests: string[] = [];
+    let trailingRequestCount = 0;
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ partitionKeyRangeId, options: requestOptions }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requests.push(rangeId);
+        if (requests.length > 7) {
+          throw new Error("GROUP BY split-recovery request guard exceeded");
+        }
+        if (rangeId === "G1") {
+          throw createSplitError();
+        }
+        if (rangeId === "G1a" || rangeId === "G1b") {
+          return {
+            result: [] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        const value = rangeId === "G0" ? 1 : 4;
+        if (rangeId === "G2" && ++trailingRequestCount === 1) {
+          return {
+            result: [] as unknown as Resource,
+            headers: { "x-ms-continuation": "G2-next", "x-ms-request-charge": "4" },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (rangeId === "G2") {
+          assert.equal(requestOptions.continuationToken, "G2-next");
+        }
+        return {
+          result: [
+            {
+              groupByItems: [{ item: "group" }],
+              payload: { total: { item: value } },
+            },
+          ] as unknown as Resource,
+          headers: { "x-ms-request-charge": `${value}` },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+
+    const iterator = createPublicIterator<{ total: number }>(
+      clientContext,
+      "Parallel",
+      createGroupByQueryInfo(),
+      { ...options, forceQueryPlan: true, maxDegreeOfParallelism: 1 },
+    );
+    const response = await withTimeout(iterator.fetchAll());
+
+    assert.deepEqual(response.resources, [{ total: 5 }]);
+    assert.deepEqual(requests, ["G0", "G1", "G1a", "G1b", "G2", "G2"]);
+    assert.equal(response.requestCharge, 12);
+    assert.isFalse(response.hasMoreResults);
+    assert.equal(topology.getForceRefreshCount(), 1);
+  });
+
+  it("preserves trailing service-empty pages for nonaggregate queries", async () => {
+    const clientContext = createClientContext();
+    const topology = mockTopology(clientContext, [
+      [aggregateLeft, aggregateSplitParent, aggregateTrailing],
+      [aggregateLeft, aggregateEmptyChild1, aggregateEmptyChild2, aggregateTrailing],
+    ]);
+    const requests: string[] = [];
+    let trailingRequestCount = 0;
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ partitionKeyRangeId, options: requestOptions }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requests.push(rangeId);
+        if (requests.length > 7) {
+          throw new Error("Nonaggregate split-recovery request guard exceeded");
+        }
+        if (rangeId === "G1") {
+          throw createSplitError();
+        }
+        if (rangeId === "G1a" || rangeId === "G1b") {
+          return {
+            result: [] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (rangeId === "G2" && ++trailingRequestCount === 1) {
+          return {
+            result: [] as unknown as Resource,
+            headers: { "x-ms-continuation": "G2-next", "x-ms-request-charge": "4" },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (rangeId === "G2") {
+          assert.equal(requestOptions.continuationToken, "G2-next");
+        }
+        return {
+          result: [{ id: rangeId, source: rangeId }] as unknown as Resource,
+          headers: { "x-ms-request-charge": rangeId === "G0" ? "1" : "4" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+
+    const iterator = createPublicIterator(
+      clientContext,
+      "Parallel",
+      createPartitionedQueryInfo("Parallel"),
+      { ...options, forceQueryPlan: true, maxDegreeOfParallelism: 1, maxItemCount: 1 },
+    );
+    const firstPage = await withTimeout(iterator.fetchNext());
+    const emptyPage = await withTimeout(iterator.fetchNext());
+    const finalPage = await withTimeout(iterator.fetchNext());
+
+    assert.deepEqual(firstPage.resources, [{ id: "G0", source: "G0" }]);
+    assert.isUndefined(emptyPage.resources);
+    assert.isTrue(emptyPage.hasMoreResults);
+    assert.equal(emptyPage.requestCharge, 7);
+    assert.deepEqual(finalPage.resources, [{ id: "G2", source: "G2" }]);
+    assert.equal(finalPage.requestCharge, 4);
+    assert.isFalse(finalPage.hasMoreResults);
+    assert.deepEqual(requests, ["G0", "G1", "G1a", "G1b", "G2", "G2"]);
+    assert.equal(topology.getForceRefreshCount(), 1);
   });
 
   it("distinguishes identical queue transitions from different repair producers", async () => {

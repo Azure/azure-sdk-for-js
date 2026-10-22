@@ -80,6 +80,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private readonly updatedContinuationRanges: Map<string, PartitionRangeUpdate> = new Map();
   private readonly splitRepairProducers: Map<DocumentProducer, any> = new Map();
   private bufferCycleEpoch: number = 0;
+  private completeDrainAfterSplit: boolean = false;
+  private splitRepairDrainError: any;
+  private readonly requiresCompleteDrainAfterSplit: boolean;
   private readonly sem: any;
   private readonly diagnosticNodeWrapper: {
     consumed: boolean;
@@ -131,6 +134,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.state = ParallelQueryExecutionContextBase.STATES.started;
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     this.buffer = [];
+    const queryInfo = partitionedQueryExecutionInfo.queryInfo;
+    this.requiresCompleteDrainAfterSplit =
+      queryInfo?.hasNonStreamingOrderBy === true ||
+      (queryInfo?.aggregates?.length ?? 0) > 0 ||
+      Object.keys(queryInfo?.groupByAliasToAggregateType ?? {}).length > 0 ||
+      (queryInfo?.groupByExpressions?.length ?? 0) > 0;
     this.requestContinuation = options
       ? options.continuationToken || options.continuation
       : undefined;
@@ -176,8 +185,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    */
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
     const observedProgress = new Set<string>();
-    let splitError = this.splitRepairProducers.values().next().value;
-    let isRepairingSplit = this.splitRepairProducers.size > 0;
+    let splitError = this.splitRepairProducers.values().next().value ?? this.splitRepairDrainError;
+    let isRepairingSplit = this.splitRepairProducers.size > 0 || this.completeDrainAfterSplit;
 
     while (true) {
       const bufferCycle = await this.bufferDocumentProducers(diagnosticNode);
@@ -781,6 +790,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     if (!isCycleActive()) {
       return undefined;
     }
+    if (this.requiresCompleteDrainAfterSplit) {
+      this.completeDrainAfterSplit = true;
+      this.splitRepairDrainError ??= error;
+    }
     const replacementDocumentProducers = replacementRanges.map(
       ({ intersection, partitionKeyRange, populateEpkRangeHeaders }) =>
         this._createTargetPartitionQueryExecutionContext(
@@ -1083,6 +1096,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             documentProducer: DocumentProducer,
           ): Promise<ProducerBufferResult> => {
             const isSplitRepairProducer = this.splitRepairProducers.has(documentProducer);
+            const shouldTrackProducerProgress =
+              isSplitRepairProducer || this.completeDrainAfterSplit;
             const producerIdentity =
               ParallelQueryExecutionContextBase._getDocumentProducerIdentity(documentProducer);
             try {
@@ -1095,7 +1110,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               const nextItem = documentProducer.peakNextItem();
               if (nextItem !== undefined) {
                 this.bufferedDocumentProducersQueue.enq(documentProducer);
-                return isSplitRepairProducer
+                return shouldTrackProducerProgress
                   ? {
                       processedRepairProducer: true,
                       progressKey: `${producerIdentity}:unfilled->buffered`,
@@ -1122,15 +1137,17 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 if (hasMoreResults) {
                   this.unfilledDocumentProducersQueue.enq(documentProducer);
                 }
-                if (isSplitRepairProducer && !hasMoreResults) {
-                  this.splitRepairProducers.delete(documentProducer);
+                if (shouldTrackProducerProgress && !hasMoreResults) {
+                  if (isSplitRepairProducer) {
+                    this.splitRepairProducers.delete(documentProducer);
+                  }
                   return {
                     processedRepairProducer: true,
                     progressKey: `${producerIdentity}:unfilled->terminal`,
                   };
                 }
                 if (
-                  isSplitRepairProducer &&
+                  shouldTrackProducerProgress &&
                   documentProducer.continuationToken !== previousContinuationToken
                 ) {
                   return {
@@ -1142,7 +1159,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                   };
                 }
               }
-              return { processedRepairProducer: isSplitRepairProducer };
+              return { processedRepairProducer: shouldTrackProducerProgress };
             } catch (err) {
               if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
                 if (!isCycleActive()) {
@@ -1157,7 +1174,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                     isCycleActive,
                   );
                   return {
-                    processedRepairProducer: isSplitRepairProducer,
+                    processedRepairProducer: shouldTrackProducerProgress,
                     splitRepair,
                   };
                 } catch (repairError) {
@@ -1261,6 +1278,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private updateStates(error: any): void {
     if (error) {
       this.splitRepairProducers.clear();
+      this.completeDrainAfterSplit = false;
+      this.splitRepairDrainError = undefined;
       this.err = error;
       this.state = ParallelQueryExecutionContextBase.STATES.ended;
       return;
@@ -1276,6 +1295,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
     if (hasNoActiveProducers) {
       this.splitRepairProducers.clear();
+      this.completeDrainAfterSplit = false;
+      this.splitRepairDrainError = undefined;
       this.state = ParallelQueryExecutionContextBase.STATES.ended;
     }
   }
