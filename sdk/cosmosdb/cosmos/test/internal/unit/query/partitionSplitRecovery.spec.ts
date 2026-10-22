@@ -10,6 +10,7 @@ import type {
 } from "../../../../src/index.js";
 import { CosmosDbDiagnosticLevel, StatusCodes } from "../../../../src/index.js";
 import { SubStatusCodes } from "../../../../src/common/index.js";
+import { OrderByQueryExecutionContext } from "../../../../src/queryExecutionContext/orderByQueryExecutionContext.js";
 import { ParallelQueryExecutionContext } from "../../../../src/queryExecutionContext/parallelQueryExecutionContext.js";
 import {
   createDummyDiagnosticNode,
@@ -43,6 +44,15 @@ const options: FeedOptions = {
 interface TestDocument {
   id: string;
   source: string;
+}
+
+interface OrderByTestDocument {
+  _rid: string;
+  orderByItems: { item: number }[];
+  payload: {
+    id: string;
+    value: number;
+  };
 }
 
 function createPartitionKeyRange(
@@ -106,13 +116,15 @@ function mockSplitTopology(clientContext: ClientContext): {
   };
 }
 
-async function drainContext(context: ParallelQueryExecutionContext): Promise<{
+async function drainContext<T = TestDocument>(
+  context: ParallelQueryExecutionContext | OrderByQueryExecutionContext,
+): Promise<{
   completed: boolean;
   iterations: number;
   requestCharge: number;
-  resources: TestDocument[];
+  resources: T[];
 }> {
-  const resources: TestDocument[] = [];
+  const resources: T[] = [];
   let iterations = 0;
   let requestCharge = 0;
 
@@ -124,7 +136,7 @@ async function drainContext(context: ParallelQueryExecutionContext): Promise<{
     const response = await context.fetchMore(createDummyDiagnosticNode());
     requestCharge += Number(response.headers["x-ms-request-charge"]);
     if (response.result?.buffer) {
-      resources.push(...response.result.buffer);
+      resources.push(...(response.result.buffer as T[]));
     }
   }
 
@@ -267,6 +279,147 @@ describe("partition split recovery", () => {
     assert.isFalse(context.hasMoreResults());
   });
 
+  it("preserves the resume token and ORDER BY filters when the parent splits", async () => {
+    const clientContext = createClientContext();
+    const topology = mockSplitTopology(clientContext);
+    const backendContinuationToken = "backend-resume-token";
+    const continuationRid = "resume-rid";
+    const resumedOptions = createOrderByOptions(backendContinuationToken, continuationRid, 1);
+    const childRequests: {
+      rangeId: string;
+      continuationToken: string | undefined;
+      query: string;
+    }[] = [];
+    const alreadyReturned = createOrderByDocument("already-returned", 5, continuationRid);
+    const expectedResources = [
+      createOrderByDocument("same-key-next", 5, continuationRid),
+      createOrderByDocument("after-c1", 6, "after-c1-rid"),
+      createOrderByDocument("after-c2", 7, "after-c2-rid"),
+    ];
+
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ partitionKeyRangeId, options: requestOptions, query: requestQuery }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        if (rangeId === parentRange.id) {
+          throw createSplitError();
+        }
+
+        const queryText =
+          typeof requestQuery === "string" ? requestQuery : (requestQuery?.query ?? "");
+        childRequests.push({
+          rangeId,
+          continuationToken: requestOptions.continuationToken,
+          query: queryText,
+        });
+
+        const resources =
+          rangeId === childRange1.id
+            ? [alreadyReturned, expectedResources[0], expectedResources[1]]
+            : [expectedResources[2]];
+        return {
+          result: resources as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+
+    const context = new OrderByQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      resumedOptions,
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+
+    const result = await withTimeout(drainContext<OrderByTestDocument>(context), 1000);
+
+    assert.deepEqual(
+      result.resources.map((resource) => resource.payload.id),
+      expectedResources.map((resource) => resource.payload.id),
+    );
+    assert.deepEqual(childRequests.map((request) => request.rangeId).sort(), ["C1", "C2"]);
+    childRequests.forEach((request) => {
+      assert.equal(request.continuationToken, backendContinuationToken);
+      assert.include(request.query, "c.value >= 5");
+    });
+    assert.equal(topology.getRoutingMapRequestCount(), 2);
+    assert.isFalse(context.hasMoreResults());
+  });
+
+  it("preserves the remaining ORDER BY skip state when a later page splits", async () => {
+    const clientContext = createClientContext();
+    mockSplitTopology(clientContext);
+    const initialContinuationToken = "initial-resume-token";
+    const nextContinuationToken = "next-resume-token";
+    const continuationRid = "resume-rid";
+    const resumedOptions = createOrderByOptions(initialContinuationToken, continuationRid, 2);
+    const parentContinuationTokens: (string | undefined)[] = [];
+    const childContinuationTokens: (string | undefined)[] = [];
+    let parentRequestCount = 0;
+    const alreadyReturned = createOrderByDocument("already-returned", 5, continuationRid);
+    const expectedResources = [
+      createOrderByDocument("same-key-next", 5, continuationRid),
+      createOrderByDocument("after-c1", 6, "after-c1-rid"),
+      createOrderByDocument("after-c2", 7, "after-c2-rid"),
+    ];
+
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ partitionKeyRangeId, options: requestOptions }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        if (rangeId === parentRange.id) {
+          parentRequestCount++;
+          parentContinuationTokens.push(requestOptions.continuationToken);
+          if (parentRequestCount === 1) {
+            return {
+              result: [alreadyReturned] as unknown as Resource,
+              headers: {
+                "x-ms-continuation": nextContinuationToken,
+                "x-ms-request-charge": "1",
+              },
+              code: StatusCodes.Ok,
+            };
+          }
+          throw createSplitError();
+        }
+
+        childContinuationTokens.push(requestOptions.continuationToken);
+        const resources =
+          rangeId === childRange1.id
+            ? [alreadyReturned, expectedResources[0], expectedResources[1]]
+            : [expectedResources[2]];
+        return {
+          result: resources as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+
+    const context = new OrderByQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      resumedOptions,
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+
+    const result = await withTimeout(drainContext<OrderByTestDocument>(context), 1000);
+
+    assert.deepEqual(
+      result.resources.map((resource) => resource.payload.id),
+      expectedResources.map((resource) => resource.payload.id),
+    );
+    assert.deepEqual(parentContinuationTokens, [initialContinuationToken, nextContinuationToken]);
+    assert.deepEqual(childContinuationTokens.sort(), [
+      nextContinuationToken,
+      nextContinuationToken,
+    ]);
+    assert.isFalse(context.hasMoreResults());
+  });
+
   it("preserves non-split query errors without refreshing routing", async () => {
     const clientContext = createClientContext();
     let routingMapRequestCount = 0;
@@ -323,3 +476,52 @@ describe("partition split recovery", () => {
     assert.isFalse(context.hasMoreResults());
   });
 });
+
+function createOrderByDocument(id: string, value: number, rid: string): OrderByTestDocument {
+  return {
+    _rid: rid,
+    orderByItems: [{ item: value }],
+    payload: { id, value },
+  };
+}
+
+function createOrderByOptions(
+  continuationToken: string,
+  continuationRid: string,
+  skipCount: number,
+): FeedOptions {
+  return {
+    ...options,
+    enableQueryControl: true,
+    continuationToken: JSON.stringify({
+      rid: "container-rid",
+      rangeMappings: [
+        {
+          queryRange: { min: "", max: "FF" },
+          continuationToken,
+        },
+      ],
+      orderByItems: [{ item: 5 }],
+      skipCount,
+      documentRid: continuationRid,
+    }),
+  };
+}
+
+function createOrderByQueryInfo() {
+  return {
+    queryRanges: partitionedQueryExecutionInfo.queryRanges,
+    queryInfo: {
+      orderBy: ["Ascending"],
+      orderByExpressions: [{ expression: "c.value", type: "PropertyRef" }],
+      rewrittenQuery:
+        'SELECT c._rid, [{"item": c.value}] AS orderByItems, c AS payload ' +
+        "FROM c WHERE {documentdb-formattableorderbyquery-filter} ORDER BY c.value",
+      groupByAliasToAggregateType: {},
+      distinctType: "None",
+      hasSelectValue: false,
+      hasNonStreamingOrderBy: false,
+    },
+    partitionedQueryExecutionInfoVersion: 1,
+  };
+}

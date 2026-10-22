@@ -45,6 +45,18 @@ export class RidSkipCountFilter implements FilterStrategy {
     return filteredDocs;
   }
 
+  public getFilterContext(): FilterContext {
+    return {
+      ...this.filterContext,
+      orderByItems: [...this.filterContext.orderByItems],
+      skipCount: this.remainingSkipCount,
+      sortOrders: [...this.filterContext.sortOrders],
+      queryExecutionInfo: this.filterContext.queryExecutionInfo
+        ? { ...this.filterContext.queryExecutionInfo }
+        : undefined,
+    };
+  }
+
   /**
    * Determines if a document should be included based on OrderBy values, RID, and skip count.
    * Implements the .NET SDK's FilterNextAsync logic with robust OrderBy comparison.

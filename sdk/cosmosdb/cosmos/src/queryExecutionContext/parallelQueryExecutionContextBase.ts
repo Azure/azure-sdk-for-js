@@ -646,6 +646,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       documentProducer,
       diagnosticNode,
     );
+    const filterCondition = documentProducer.getFilterCondition();
+    const filterContext = documentProducer.getFilterContext();
 
     if (replacementPartitionKeyRanges.length === 0) {
       throw error;
@@ -668,6 +670,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         documentProducer.startEpk,
         documentProducer.endEpk,
         true,
+        filterCondition,
+        filterContext,
       );
 
       this.unfilledDocumentProducersQueue.enq(replacementDocumentProducer);
@@ -683,6 +687,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           queryRange.min,
           queryRange.max,
           false,
+          filterCondition,
+          filterContext,
         );
         replacementDocumentProducers.push(replacementDocumentProducer);
       });
@@ -811,6 +817,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       endEpk,
       populateEpkRangeHeaders,
       filter,
+      filterCondition,
     );
   }
   private async drainBufferedItems(): Promise<Response<any>> {
