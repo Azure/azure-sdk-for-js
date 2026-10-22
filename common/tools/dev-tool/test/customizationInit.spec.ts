@@ -354,4 +354,54 @@ export type { Widget } from "./models/index.js";
       await expect(fs.readFile(path.join(directory, file), "utf8")).resolves.toBe(contents);
     }
   });
+
+  it("rejects a public package export without a Warp source mapping", async () => {
+    const directory = await fs.mkdtemp(path.join(os.tmpdir(), "azsdk-customization-init-"));
+    fixtures.push(directory);
+    const files = {
+      "package.json": JSON.stringify({
+        name: "@azure/customization-init-fixture",
+        version: "1.0.0",
+        type: "module",
+        exports: {
+          "./package.json": "./package.json",
+          ".": { import: "./dist/esm/index.js" },
+          "./models": { import: "./dist/esm/models/index.js" },
+        },
+        scripts: { build: "echo build" },
+      }),
+      "warp.config.json": JSON.stringify({
+        exports: { "./package.json": "./package.json", ".": "./src/index.ts" },
+        targets: [{ name: "esm", tsconfig: "./tsconfig.src.json" }],
+      }),
+      "tsconfig.src.json": JSON.stringify({
+        compilerOptions: { rootDir: "./src", outDir: "./dist/esm" },
+        include: ["./src/index.ts", "./src/models/index.ts"],
+      }),
+      "src/index.ts": `export { WidgetAnalyticsClient } from "./widgetAnalyticsClient.js";
+export type { Widget } from "./models/index.js";
+`,
+      "src/widgetAnalyticsClient.ts": "export class WidgetAnalyticsClient {}\n",
+      "src/models/index.ts": 'export type { Widget } from "./models.js";\n',
+      "src/models/models.ts": "export interface Widget { name: string; }\n",
+    };
+    for (const [file, contents] of Object.entries(files)) {
+      const destination = path.join(directory, file);
+      await fs.mkdir(path.dirname(destination), { recursive: true });
+      await fs.writeFile(destination, contents);
+    }
+    const originalTree = (await fs.readdir(directory, { recursive: true })).sort();
+    vi.spyOn(process, "cwd").mockReturnValue(directory);
+    const output = vi.spyOn(console, "log");
+
+    await expect(initializeCustomization()).resolves.toBe(false);
+
+    const diagnostic = output.mock.calls.map((args) => args.join(" ")).join("\n");
+    expect(diagnostic).toContain("./models");
+    expect(diagnostic).toContain("Warp");
+    expect((await fs.readdir(directory, { recursive: true })).sort()).toEqual(originalTree);
+    for (const [file, contents] of Object.entries(files)) {
+      await expect(fs.readFile(path.join(directory, file), "utf8")).resolves.toBe(contents);
+    }
+  });
 });

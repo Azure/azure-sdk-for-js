@@ -4,7 +4,7 @@
 import path from "node:path";
 import fs from "node:fs/promises";
 import { findWarpConfig } from "@microsoft/warp";
-import { resolveProject } from "../../util/resolveProject.ts";
+import { resolveProject, type ProjectInfo } from "../../util/resolveProject.ts";
 import { createPrinter } from "../../util/printer.ts";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 
@@ -18,7 +18,7 @@ export const commandInfo = makeCommandInfo(
 
 export default leafCommand(commandInfo, async () => {
   const info = await resolveProject(process.cwd());
-  const entryPoints = await validateCustomizationInput(info.path);
+  const entryPoints = await validateCustomizationInput(info);
   if (!entryPoints) return false;
 
   const srcDirectory = path.join(info.path, "src");
@@ -56,7 +56,8 @@ export * from ${JSON.stringify(specifier)};
   return true;
 });
 
-async function validateCustomizationInput(packageDirectory: string): Promise<string[] | undefined> {
+async function validateCustomizationInput(project: ProjectInfo): Promise<string[] | undefined> {
+  const packageDirectory = project.path;
   const srcDirectory = path.join(packageDirectory, "src");
   if ((await fs.readdir(packageDirectory)).includes("generated")) {
     log(
@@ -75,6 +76,21 @@ async function validateCustomizationInput(packageDirectory: string): Promise<str
   const resolved = await findWarpConfig(packageDirectory);
   if (!resolved) {
     throw new Error("A Warp configuration is required to locate public source entry points.");
+  }
+  const publicExports: unknown = project.packageJson.exports;
+  if (typeof publicExports !== "object" || publicExports === null || Array.isArray(publicExports)) {
+    log(
+      '❌ package.json must have a public "exports" map. Regenerate package metadata with the current emitter.',
+    );
+    return undefined;
+  }
+  for (const subpath of Object.keys(publicExports)) {
+    if (!Object.hasOwn(resolved.config.exports, subpath)) {
+      log(
+        `❌ Public export ${subpath} has no Warp source mapping. Regenerate package metadata with the current emitter.`,
+      );
+      return undefined;
+    }
   }
   const entryPoints = new Set<string>();
   for (const source of Object.values(resolved.config.exports)) {
