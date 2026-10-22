@@ -28,10 +28,7 @@ import type {
   VoiceRecording,
 } from "@azure/ai-projects";
 import { describe, expect, it } from "vitest";
-import {
-  LiveSpeechActivity,
-  runLiveAudioSession,
-} from "../../../../samples-dev/agents/utils/liveAudio.js";
+import { LiveSpeechActivity, runLiveAudioSession } from "../e2eTypes.js";
 import { createProjectsClient, createRecorder } from "../../utils/createClient.js";
 
 const preview = "VoiceAgents=V1Preview" as const;

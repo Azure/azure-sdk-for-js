@@ -195,22 +195,49 @@ describe("snippets", function () {
     try {
       const connection = await project.beta.voiceAgents.realtime.connect(voiceAgent.name);
       try {
-        await connection.sendText("Hello. Please introduce yourself briefly.");
+        const turnId = crypto.randomUUID();
+        let responseId: string | undefined;
+        let responseCompleted = false;
+        await connection.sendText("Hello. Please introduce yourself briefly.", {
+          createResponse: false,
+        });
+        await connection.requestResponse({
+          response: { metadata: { additionalProperties: { sample_turn: turnId } } },
+        });
         for await (const event of connection) {
+          // A generated agent may greet first. Correlate this turn's response, not the greeting.
+          if (
+            event.type === "response.created" &&
+            event.response.metadata?.additionalProperties?.["sample_turn"] === turnId
+          ) {
+            responseId = event.response.id;
+          }
           // Voice agents speak their reply, so the text form of it streams as an audio transcript
           // rather than as `response.output_text.delta`.
           if (
-            event.type === "response.output_text.delta" ||
-            event.type === "response.output_audio_transcript.delta"
+            (event.type === "response.output_text.delta" ||
+              event.type === "response.output_audio_transcript.delta") &&
+            event.response_id === responseId
           ) {
             process.stdout.write(event.delta);
           } else if (event.type === "unknown") {
             // event.rawEvent preserves all wire fields; validate them before using them.
             console.log(`Unrecognized server event: ${event.eventType}`);
-          } else if (event.type === "response.done") {
-            await connection.close();
+          } else if (event.type === "error") {
+            throw new Error(`Voice Agent error ${event.error.code}: ${event.error.message}`);
+          } else if (
+            event.type === "response.done" &&
+            responseId &&
+            event.response.id === responseId
+          ) {
+            if (event.response.status !== "completed") {
+              throw new Error(`Requested voice response ${event.response.status ?? "unknown"}.`);
+            }
+            responseCompleted = true;
+            break;
           }
         }
+        if (!responseCompleted) throw new Error("The requested voice response did not complete.");
       } finally {
         await connection.dispose();
       }

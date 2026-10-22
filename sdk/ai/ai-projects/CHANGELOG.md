@@ -12,6 +12,7 @@
 ### Features Added
 
 - Add `project.beta.voiceAgents.live` for native GPT Live WebSocket sessions, including typed events, streamed audio and transcripts, context appends, Responses function results, cancellation through operation signals, and graceful session finalization. Preserve existing Realtime behavior. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
+- Add self-contained Node.js samples for GPT Live text, PCM audio, and Responses function calling. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
 - Add `project.beta.voiceAgents.campaigns` for outbound campaign creation, validation errors, scheduling, cancellation, deletion, and operation tracking. Add `listCallJobs` and `deleteCallJob` to `project.beta.voiceAgents.telephony`, including campaign-filtered job listing. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Add voice system tools for language detection, digit recognition, SMS/DTMF collection and sending, and transfers, including private parameter binding and typed system-tool output. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Add GPT Live voice definitions, delegation configuration, and native Live session and event models. Share settings through `VoiceAgentBaseDefinition`, retaining `VoiceAgentDefinition` for Realtime and defaulting omitted `sub_protocol` to Realtime without adding it to the wire payload. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)
@@ -23,6 +24,7 @@
 
 ### Bugs Fixed
 
+- Correlate the Realtime tracing sample and Voice Agent documentation example with the requested response instead of closing on a generated greeting. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
 - Resolve campaign creation and cancellation pollers through a final Campaign GET guarded by the initiating response's `Operation-Id`, preventing monitor deserialization failures and results from a reused campaign name. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Accept campaign and telephony binding creation inputs without requiring service-generated response fields, while retaining complete response models. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Send the canonical `agent_version_override` query parameter for Realtime connections and `structured_inputs` in browser and React Native handshakes, while retaining reserved-name checks and structured-input snapshots. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)

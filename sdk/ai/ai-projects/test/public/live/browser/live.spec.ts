@@ -15,9 +15,7 @@ import {
   sessionClosed,
   sessionStarted,
   TestCredential,
-  MockWebSocketFactory,
 } from "../utils/mockTransport.js";
-import { runVoiceAgentLiveBrowser } from "../../../../samples-dev/agents/agentVoiceLiveBrowser.js";
 
 class MockNativeLiveWebSocket extends EventTarget {
   public static readonly CONNECTING = 0;
@@ -364,118 +362,5 @@ describe("AIProjectClient browser native Live transport", () => {
     });
     expect(connection.state).toBe("disconnected");
     expect(getSocket().readyState).toBe(MockNativeLiveWebSocket.CLOSED);
-  });
-});
-
-class SampleAudioBuffer {
-  public readonly duration: number;
-  private readonly samples: Float32Array;
-  public constructor(length: number, rate: number) {
-    this.samples = new Float32Array(length);
-    this.duration = SampleAudioContext.bufferDuration ?? length / rate;
-  }
-  public getChannelData(): Float32Array {
-    return this.samples;
-  }
-}
-
-class SampleAudioSource {
-  public buffer?: SampleAudioBuffer;
-  public onended: (() => void) | null = null;
-  public connect(): void {}
-  public start(): void {}
-}
-
-class SampleAudioContext {
-  public static instances: SampleAudioContext[] = [];
-  public static bufferDuration?: number;
-  public readonly sources: SampleAudioSource[] = [];
-  public readonly destination = {};
-  public readonly resume = vi.fn(async (): Promise<void> => {});
-  public readonly close = vi.fn(async (): Promise<void> => {});
-  private readonly started = Date.now();
-  public constructor() {
-    SampleAudioContext.instances.push(this);
-  }
-  public get currentTime(): number {
-    return (Date.now() - this.started) / 1000;
-  }
-  public createBuffer(_channels: number, length: number, rate: number): SampleAudioBuffer {
-    return new SampleAudioBuffer(length, rate);
-  }
-  public createBufferSource(): SampleAudioSource {
-    const source = new SampleAudioSource();
-    this.sources.push(source);
-    return source;
-  }
-}
-
-describe("GPT Live browser audio sample", () => {
-  const factories: MockWebSocketFactory[] = [];
-
-  afterEach(() => {
-    for (const factory of factories.splice(0)) factory.transport.disconnect(1000, "Cleanup.", true);
-    vi.restoreAllMocks();
-    vi.unstubAllGlobals();
-    vi.useRealTimers();
-    SampleAudioContext.instances = [];
-    SampleAudioContext.bufferDuration = undefined;
-  });
-
-  async function run(): Promise<{
-    factory: MockWebSocketFactory;
-    pending: Promise<void>;
-  }> {
-    const factory = new MockWebSocketFactory();
-    factories.push(factory);
-    vi.useFakeTimers();
-    vi.stubGlobal("AudioContext", SampleAudioContext);
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(async () => new Response(new Uint8Array(4800))),
-    );
-    const pending = runVoiceAgentLiveBrowser(
-      endpoint,
-      "browser-sample",
-      new TestCredential(),
-      "https://example.test/input.pcm",
-      { webSocketFactory: factory },
-    );
-    await factory.transport.connecting.promise;
-    await vi.advanceTimersByTimeAsync(0);
-    return { factory, pending };
-  }
-
-  function output(factory: MockWebSocketFactory): void {
-    factory.transport.receive({ type: "session.output_audio.delta", delta: "6APoAw==" });
-    factory.transport.receive({
-      type: "session.output_transcript.delta",
-      event_id: "sample-caption",
-      delta: "A complete spoken reply.",
-      start_ms: 0,
-      end_ms: 100,
-    });
-  }
-
-  it("drains queued playback before closing the audio context", async () => {
-    const { factory, pending } = await run();
-    output(factory);
-    await vi.advanceTimersByTimeAsync(1000);
-    const context = SampleAudioContext.instances[0];
-    expect(context.sources).toHaveLength(1);
-    expect(context.close).not.toHaveBeenCalled();
-    context.sources[0].onended?.();
-    await pending;
-    expect(context.close).toHaveBeenCalledOnce();
-  });
-
-  it("rejects an excessive playback backlog and closes the audio context", async () => {
-    SampleAudioContext.bufferDuration = 61;
-    const { factory, pending } = await run();
-    const failure = expect(pending).rejects.toThrow(/playback backlog exceeded 60 seconds/);
-    output(factory);
-    await vi.advanceTimersByTimeAsync(0);
-    await failure;
-    expect(SampleAudioContext.instances[0].close).toHaveBeenCalledOnce();
   });
 });

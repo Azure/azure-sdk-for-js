@@ -6,9 +6,14 @@
  * @azsdk-weight 50
  */
 
-import { provider, context, trace } from "./consoleTracingSetup.js";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient } from "@azure/ai-projects";
+import { context, trace } from "@opentelemetry/api";
+import {
+  NodeTracerProvider,
+  ConsoleSpanExporter,
+  SimpleSpanProcessor,
+} from "@opentelemetry/sdk-trace-node";
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 import { randomUUID } from "node:crypto";
 import "dotenv/config";
 
@@ -19,13 +24,19 @@ function required(name: string): string {
 }
 
 export async function main(): Promise<void> {
-  const project = new AIProjectClient(
-    required("FOUNDRY_PROJECT_ENDPOINT"),
-    new DefaultAzureCredential(),
-    {
-      tracingOptions: { experimental: true, contentRecording: false },
-    },
-  );
+  const endpoint = required("FOUNDRY_PROJECT_ENDPOINT");
+  const provider = new NodeTracerProvider({
+    spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
+  });
+  provider.register();
+  const unregister = registerInstrumentations({
+    instrumentations: [createAzureSdkInstrumentation()],
+  });
+  const { AIProjectClient } = await import("@azure/ai-projects");
+  const { DefaultAzureCredential } = await import("@azure/identity");
+  const project = new AIProjectClient(endpoint, new DefaultAzureCredential(), {
+    tracingOptions: { experimental: true, contentRecording: false },
+  });
   const parent = trace.getTracer("voice-tracing-sample").startSpan("voice REST operations");
   try {
     await context.with(trace.setSpan(context.active(), parent), async () => {
@@ -65,10 +76,15 @@ export async function main(): Promise<void> {
     });
   } finally {
     parent.end();
-    await provider.shutdown();
+    try {
+      await provider.shutdown();
+    } finally {
+      unregister();
+    }
   }
 }
 
 main().catch((error) => {
   console.error("Sample failed:", error);
+  process.exitCode = 1;
 });
