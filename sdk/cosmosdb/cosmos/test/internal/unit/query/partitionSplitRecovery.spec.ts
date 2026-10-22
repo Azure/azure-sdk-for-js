@@ -12,6 +12,7 @@ import { CosmosDbDiagnosticLevel, StatusCodes } from "../../../../src/index.js";
 import { SubStatusCodes } from "../../../../src/common/index.js";
 import { OrderByQueryExecutionContext } from "../../../../src/queryExecutionContext/orderByQueryExecutionContext.js";
 import { ParallelQueryExecutionContext } from "../../../../src/queryExecutionContext/parallelQueryExecutionContext.js";
+import { PipelinedQueryExecutionContext } from "../../../../src/queryExecutionContext/pipelinedQueryExecutionContext.js";
 import {
   createDummyDiagnosticNode,
   createTestClientContext,
@@ -279,6 +280,131 @@ describe("partition split recovery", () => {
     assert.isFalse(context.hasMoreResults());
   });
 
+  it("replaces the parent mapping in a fresh query-control continuation token", async () => {
+    const clientContext = createClientContext();
+    mockSplitTopology(clientContext);
+    const parentContinuationToken = "parent-token";
+    const childContinuationToken = "child-token";
+    const initialResource: TestDocument = { id: "initial", source: "P" };
+    const childPageResource: TestDocument = { id: "child-page", source: "C1" };
+    const expectedResumedResources: TestDocument[] = [
+      { id: "resumed-c1", source: "C1" },
+      { id: "resumed-c2", source: "C2" },
+    ];
+    let parentRequestCount = 0;
+
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ partitionKeyRangeId, options: requestOptions }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        if (rangeId === parentRange.id) {
+          parentRequestCount++;
+          if (parentRequestCount === 1) {
+            return {
+              result: [initialResource] as unknown as Resource,
+              headers: {
+                "x-ms-continuation": parentContinuationToken,
+                "x-ms-request-charge": "1",
+              },
+              code: StatusCodes.Ok,
+            };
+          }
+          throw createSplitError();
+        }
+
+        if (
+          rangeId === childRange1.id &&
+          requestOptions.continuationToken === parentContinuationToken
+        ) {
+          return {
+            result: [childPageResource] as unknown as Resource,
+            headers: {
+              "x-ms-continuation": childContinuationToken,
+              "x-ms-request-charge": "1",
+            },
+            code: StatusCodes.Ok,
+          };
+        }
+
+        const resource = expectedResumedResources.find((item) => item.source === rangeId);
+        assert.isDefined(resource, `Unexpected resumed range request: ${rangeId}`);
+        return {
+          result: [resource] as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+
+    const initialContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      { ...options, enableQueryControl: true, maxItemCount: 1 },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+
+    const firstPage = await withTimeout(
+      initialContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+    assert.deepEqual(firstPage.result, [initialResource]);
+
+    const splitPage = await withTimeout(
+      initialContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+    assert.deepEqual(splitPage.result, []);
+
+    const childPage = await withTimeout(
+      initialContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+    assert.deepEqual(childPage.result, [childPageResource]);
+    const continuationToken = childPage.headers["x-ms-continuation"];
+    assert.isString(continuationToken);
+
+    const parsedContinuationToken = JSON.parse(continuationToken);
+    assert.deepEqual(
+      parsedContinuationToken.rangeMappings.map(
+        (mapping: { queryRange: { min: string; max: string } }) => mapping.queryRange,
+      ),
+      [
+        { min: "", max: "80" },
+        { min: "80", max: "FF" },
+      ],
+    );
+
+    const resumedContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuationToken,
+        enableQueryControl: true,
+        maxItemCount: 1,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const resumedResources: TestDocument[] = [];
+    let iterationCount = 0;
+    while (resumedContext.hasMoreResults()) {
+      iterationCount++;
+      if (iterationCount > 5) {
+        throw new Error("Resumed query iteration guard exceeded 5 fetches");
+      }
+      const response = await withTimeout(
+        resumedContext.fetchMore(createDummyDiagnosticNode()),
+        1000,
+      );
+      resumedResources.push(...response.result);
+    }
+
+    assert.deepEqual(resumedResources, expectedResumedResources);
+  });
+
   it("preserves the resume token and ORDER BY filters when the parent splits", async () => {
     const clientContext = createClientContext();
     const topology = mockSplitTopology(clientContext);
@@ -517,6 +643,20 @@ function createOrderByQueryInfo() {
       rewrittenQuery:
         'SELECT c._rid, [{"item": c.value}] AS orderByItems, c AS payload ' +
         "FROM c WHERE {documentdb-formattableorderbyquery-filter} ORDER BY c.value",
+      groupByAliasToAggregateType: {},
+      distinctType: "None",
+      hasSelectValue: false,
+      hasNonStreamingOrderBy: false,
+    },
+    partitionedQueryExecutionInfoVersion: 1,
+  };
+}
+
+function createParallelPipelinedQueryInfo() {
+  return {
+    queryRanges: partitionedQueryExecutionInfo.queryRanges,
+    queryInfo: {
+      orderBy: [],
       groupByAliasToAggregateType: {},
       distinctType: "None",
       hasSelectValue: false,

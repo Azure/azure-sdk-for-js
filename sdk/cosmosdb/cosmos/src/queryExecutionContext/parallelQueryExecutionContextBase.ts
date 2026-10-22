@@ -653,7 +653,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       throw error;
     }
 
-    if (this.requestContinuation) {
+    if (this.options.enableQueryControl) {
       // Update composite continuation token to handle partition split
       this._updateContinuationTokenOnPartitionChange(
         documentProducer,
