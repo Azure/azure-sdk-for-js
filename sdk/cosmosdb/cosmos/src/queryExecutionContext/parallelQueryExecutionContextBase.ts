@@ -664,11 +664,15 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     if (replacementPartitionKeyRanges.length === 1) {
       // Partition is gone due to Merge
       // Create the replacement documentProducer with populateEpkRangeHeaders Flag set to true to set startEpk and endEpk headers
+      const startEpk =
+        documentProducer.startEpk ?? documentProducer.targetPartitionKeyRange.minInclusive;
+      const endEpk =
+        documentProducer.endEpk ?? documentProducer.targetPartitionKeyRange.maxExclusive;
       const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
         replacementPartitionKeyRanges[0],
         documentProducer.continuationToken,
-        documentProducer.startEpk,
-        documentProducer.endEpk,
+        startEpk,
+        endEpk,
         true,
         filterCondition,
         filterContext,

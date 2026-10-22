@@ -25,6 +25,9 @@ const correlatedActivityId = "partition-split-recovery";
 const parentRange = createPartitionKeyRange("P", "", "FF");
 const childRange1 = createPartitionKeyRange("C1", "", "80", ["P"]);
 const childRange2 = createPartitionKeyRange("C2", "80", "FF", ["P"]);
+const mergeParentRange1 = createPartitionKeyRange("P1", "", "80");
+const mergeParentRange2 = createPartitionKeyRange("P2", "80", "FF");
+const mergedRange = createPartitionKeyRange("M", "", "FF", ["P1", "P2"]);
 const partitionedQueryExecutionInfo = {
   queryRanges: [
     {
@@ -106,6 +109,29 @@ function mockSplitTopology(clientContext: ClientContext): {
           routingMapRequestCount++;
           return {
             resources: routingMapRequestCount === 1 ? [parentRange] : [childRange1, childRange2],
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }),
+      }) as unknown as QueryIterator<PartitionKeyRange>,
+  );
+  return {
+    getRoutingMapRequestCount: () => routingMapRequestCount,
+  };
+}
+
+function mockMergeTopology(clientContext: ClientContext): {
+  getRoutingMapRequestCount: () => number;
+} {
+  let routingMapRequestCount = 0;
+  vi.spyOn(clientContext, "queryPartitionKeyRanges").mockImplementation(
+    () =>
+      ({
+        fetchAllInternal: vi.fn(async () => {
+          routingMapRequestCount++;
+          return {
+            resources:
+              routingMapRequestCount === 1 ? [mergeParentRange1, mergeParentRange2] : [mergedRange],
             headers: { "x-ms-request-charge": "1" },
             code: StatusCodes.Ok,
           };
@@ -276,6 +302,75 @@ describe("partition split recovery", () => {
     assert.deepEqual(result.resources, expectedResources);
     assert.deepEqual(requests, ["P", "C1", "C2"]);
     assert.equal(parentRequestCount, 1);
+    assert.equal(topology.getRoutingMapRequestCount(), 2);
+    assert.isFalse(context.hasMoreResults());
+  });
+
+  it("bounds merged replacement producers to their retired parent ranges", async () => {
+    const clientContext = createClientContext();
+    const topology = mockMergeTopology(clientContext);
+    const requests: {
+      endEpk: string | undefined;
+      rangeId: string;
+      startEpk: string | undefined;
+    }[] = [];
+    const expectedResources: TestDocument[] = [
+      { id: "left", source: "P1" },
+      { id: "right", source: "P2" },
+    ];
+
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ partitionKeyRangeId, startEpk, endEpk }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requests.push({ rangeId, startEpk, endEpk });
+        if (requests.length > 4) {
+          throw new Error(`Merge request guard exceeded: ${JSON.stringify(requests)}`);
+        }
+        if (rangeId === mergeParentRange1.id || rangeId === mergeParentRange2.id) {
+          throw createSplitError();
+        }
+
+        assert.equal(rangeId, mergedRange.id);
+        if (startEpk === "" && endEpk === "80") {
+          return {
+            result: [expectedResources[0]] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (startEpk === "80" && endEpk === "FF") {
+          return {
+            result: [expectedResources[1]] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        throw new Error(`Unexpected merged replacement bounds: ${startEpk}-${endEpk}`);
+      },
+    );
+
+    const context = new ParallelQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      { ...options, maxDegreeOfParallelism: 2 },
+      partitionedQueryExecutionInfo,
+      correlatedActivityId,
+    );
+
+    const result = await withTimeout(drainContext(context), 1000);
+
+    assert.deepEqual(result.resources, expectedResources);
+    assert.deepEqual(
+      requests
+        .filter((request) => request.rangeId === mergedRange.id)
+        .map((request) => [request.startEpk, request.endEpk])
+        .sort(),
+      [
+        ["", "80"],
+        ["80", "FF"],
+      ],
+    );
     assert.equal(topology.getRoutingMapRequestCount(), 2);
     assert.isFalse(context.hasMoreResults());
   });
@@ -471,6 +566,158 @@ describe("partition split recovery", () => {
       assert.include(request.query, "c.value >= 5");
     });
     assert.equal(topology.getRoutingMapRequestCount(), 2);
+    assert.isFalse(context.hasMoreResults());
+  });
+
+  it("preserves ORDER BY continuation on a split-only resumed response", async () => {
+    const clientContext = createClientContext();
+    mockSplitTopology(clientContext);
+    const backendContinuationToken = "backend-resume-token";
+    const continuationRid = "resume-rid";
+    const initialContinuationToken = createOrderByOptions(
+      backendContinuationToken,
+      continuationRid,
+      1,
+    ).continuationToken;
+    const expectedResources = [
+      createOrderByDocument("after-c1", 6, "after-c1-rid"),
+      createOrderByDocument("after-c2", 7, "after-c2-rid"),
+    ];
+
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ partitionKeyRangeId, options: requestOptions, query: requestQuery }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        if (rangeId === parentRange.id) {
+          throw createSplitError();
+        }
+
+        const queryText =
+          typeof requestQuery === "string" ? requestQuery : (requestQuery?.query ?? "");
+        assert.include(queryText, rangeId === childRange1.id ? "c.value > 5" : "c.value >= 5");
+        if (rangeId === childRange2.id) {
+          assert.equal(requestOptions.continuationToken, backendContinuationToken);
+        }
+        const resource = expectedResources.find((item) =>
+          item.payload.id.endsWith(rangeId.toLowerCase()),
+        );
+        assert.isDefined(resource, `Unexpected ORDER BY child request: ${rangeId}`);
+        return {
+          result: [resource] as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+
+    const splitContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuationToken: initialContinuationToken,
+        enableQueryControl: true,
+        maxItemCount: 1,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const splitResponse = await withTimeout(
+      splitContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+
+    assert.deepEqual(splitResponse.result, []);
+    const splitContinuationToken = splitResponse.headers["x-ms-continuation"];
+    assert.isString(splitContinuationToken);
+    const parsedSplitToken = JSON.parse(splitContinuationToken);
+    assert.deepEqual(
+      parsedSplitToken.rangeMappings.map(
+        (mapping: { queryRange: { min: string; max: string } }) => mapping.queryRange,
+      ),
+      [
+        { min: "", max: "80" },
+        { min: "80", max: "FF" },
+      ],
+    );
+    assert.deepEqual(parsedSplitToken.orderByItems, [{ item: 5 }]);
+    assert.equal(parsedSplitToken.skipCount, 1);
+    assert.equal(parsedSplitToken.documentRid, continuationRid);
+
+    const resumedContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuationToken: splitContinuationToken,
+        enableQueryControl: true,
+        maxItemCount: 2,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const resumedResourceIds: string[] = [];
+    let resumedIterationCount = 0;
+    while (resumedContext.hasMoreResults()) {
+      resumedIterationCount++;
+      if (resumedIterationCount > 5) {
+        throw new Error("ORDER BY resumed iteration guard exceeded 5 fetches");
+      }
+      const resumedResponse = await withTimeout(
+        resumedContext.fetchMore(createDummyDiagnosticNode()),
+        1000,
+      );
+      resumedResourceIds.push(
+        ...resumedResponse.result.map((resource: { id: string }) => resource.id),
+      );
+    }
+
+    assert.deepEqual(resumedResourceIds, ["after-c1", "after-c2"]);
+  });
+
+  it("does not preserve an ORDER BY token for a terminal empty response", async () => {
+    const clientContext = createClientContext();
+    mockSplitTopology(clientContext);
+    const initialContinuationToken = createOrderByOptions(
+      "backend-resume-token",
+      "resume-rid",
+      1,
+    ).continuationToken;
+
+    vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
+      result: [] as unknown as Resource,
+      headers: { "x-ms-request-charge": "1" },
+      code: StatusCodes.Ok,
+    });
+
+    const context = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuationToken: initialContinuationToken,
+        enableQueryControl: true,
+        maxItemCount: 1,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+
+    assert.deepEqual(response.result, []);
+    assert.notProperty(response.headers, "x-ms-continuation");
+    let iterationCount = 0;
+    while (context.hasMoreResults()) {
+      iterationCount++;
+      if (iterationCount > 2) {
+        throw new Error("Terminal empty ORDER BY query did not complete");
+      }
+      const finalResponse = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+      assert.deepEqual(finalResponse.result, []);
+      assert.notProperty(finalResponse.headers, "x-ms-continuation");
+    }
     assert.isFalse(context.hasMoreResults());
   });
 
