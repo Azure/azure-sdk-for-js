@@ -46,11 +46,6 @@ interface BufferCycle {
   splitError?: any;
 }
 
-interface ProducerBufferResult {
-  madeProgress: boolean;
-  processedTrackedProducer: boolean;
-}
-
 /** @hidden */
 export abstract class ParallelQueryExecutionContextBase implements ExecutionContext {
   private err: any;
@@ -193,15 +188,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         return this.drainBufferedItems();
       }
       if (!bufferCycle.madeProgress) {
-        this._throwSplitRepairError(splitError);
+        this.updateStates(splitError);
+        splitError.headers = this._getAndResetActiveResponseHeaders();
+        throw splitError;
       }
     }
-  }
-
-  private _throwSplitRepairError(error: any): never {
-    this.updateStates(error);
-    error.headers = this._getAndResetActiveResponseHeaders();
-    throw error;
   }
 
   /**
@@ -1034,7 +1025,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           const bufferDocumentProducer = async (
             documentProducer: DocumentProducer,
-          ): Promise<ProducerBufferResult> => {
+          ): Promise<BufferCycle> => {
             const isSplitRepairProducer = this.splitRepairProducers.has(documentProducer);
             const shouldTrackProducerProgress =
               isSplitRepairProducer || this.completeDrainError !== undefined;
