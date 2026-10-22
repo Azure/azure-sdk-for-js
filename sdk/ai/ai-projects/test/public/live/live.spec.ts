@@ -1089,6 +1089,169 @@ describe("VoiceAgentLiveClient finalization", () => {
     });
   });
 
+  describe("VoiceAgentLiveClient review regressions", () => {
+    it("rejects startup after finalization without waiting for a socket-close notification", async () => {
+      const factory = createFactory();
+      const handshake = deferred<void>();
+      factory.transport.connectResult = handshake.promise;
+      factory.transport.autoClose = false;
+      const states: VoiceAgentConnectionState[] = [];
+      const pending = createClient(factory).beta.voiceAgents.live.connect("live-agent", {
+        onConnectionStateChange: (state) => states.push(state),
+      });
+      await factory.transport.connecting.promise;
+      factory.transport.receive(sessionClosed());
+      handshake.resolve();
+
+      await expect(pending).rejects.toMatchObject({ code: "connectionClosed" });
+      expect(states).not.toContain("connected");
+      expect(states.at(-1)).toBe("disconnected");
+      factory.transport.disconnect(1000, "Delayed socket-close notification.", true);
+      expect(states.at(-1)).toBe("disconnected");
+    });
+
+    it("preserves the requested socket close code and reason on the first transport close", async () => {
+      const factory = createFactory();
+      const close = vi.spyOn(factory.transport, "close").mockImplementation((code, reason) => {
+        factory.transport.closeCalls.push({ code, reason });
+        factory.transport.disconnect(code, reason, true);
+        return Promise.resolve();
+      });
+      const connection = await connect(factory);
+
+      await connection.close(4001, "Application finished");
+
+      expect(close).toHaveBeenCalledExactlyOnceWith(4001, "Application finished");
+      await expect(connection.closed).resolves.toMatchObject({
+        code: 4001,
+        reason: "Application finished",
+        wasClean: true,
+        sessionClosed: sessionClosed(),
+      });
+    });
+
+    it("dispatches the terminal event before a synchronous transport close notification", async () => {
+      const factory = createFactory();
+      vi.spyOn(factory.transport, "close").mockImplementation((code, reason) => {
+        factory.transport.closeCalls.push({ code, reason });
+        factory.transport.disconnect(code, reason, true);
+        return Promise.resolve();
+      });
+      const connection = await connect(factory);
+      const iterator = connection[Symbol.asyncIterator]();
+      await iterator.next();
+      const next = iterator.next();
+      let closedDuringDispatch = false;
+      connection.on("session.closed", () => {
+        closedDuringDispatch = factory.transport.closeCalls.length > 0;
+      });
+      const terminal = sessionClosed();
+
+      factory.transport.receive(terminal);
+
+      expect(closedDuringDispatch).toBe(false);
+      expect((await next).value).toMatchObject(terminal);
+      await expect(connection.closed).resolves.toMatchObject({ sessionClosed: terminal });
+      expect((await iterator.next()).done).toBe(true);
+    });
+
+    it("uses a protocol-error code for the first and only malformed-data cleanup", async () => {
+      const factory = createFactory();
+      const connection = await connect(factory);
+
+      factory.transport.receiveRaw("not-json");
+
+      await expect(connection.closed).resolves.toMatchObject({
+        code: 1002,
+        error: expect.any(VoiceAgentProtocolError),
+      });
+      expect(factory.transport.closeCalls).toEqual([{ code: 1002, reason: "Invalid Live event." }]);
+    });
+
+    it("maps the non-transmittable 1006 sentinel without losing the cleanup reason", async () => {
+      const factory = createFactory();
+      const connection = await connect(factory);
+      assert.ok(factory.transport.handlers);
+
+      factory.transport.handlers.onError(new Error("Offline transport failure."));
+
+      await expect(connection.closed).resolves.toMatchObject({ code: 1006, wasClean: false });
+      expect(factory.transport.closeCalls).toEqual([
+        { code: 1000, reason: "Live transport failed." },
+      ]);
+    });
+
+    it.each(["close", "dispose", "iterator"])(
+      "bounds %s when transport cleanup never settles",
+      async (method) => {
+        vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout", "Date"] });
+        const factory = createFactory();
+        const cleanup = deferred<void>();
+        vi.spyOn(factory.transport, "close").mockImplementation(() => cleanup.promise);
+        const connection = await createClient(factory, new TestCredential(), {
+          liveOptions: { closeTimeoutInMs: 10 },
+        }).beta.voiceAgents.live.connect("live-agent");
+        let operation: Promise<unknown>;
+        if (method === "iterator") {
+          const iterator = connection[Symbol.asyncIterator]();
+          await iterator.next();
+          assert.ok(iterator.return);
+          operation = iterator.return();
+        } else {
+          operation = method === "dispose" ? connection.dispose() : connection.close();
+        }
+        const settled = vi.fn();
+        const outcome = operation.then(
+          () => ({ error: undefined }),
+          (error: unknown) => ({ error }),
+        );
+        void outcome.then(settled);
+        try {
+          await vi.advanceTimersByTimeAsync(10);
+
+          expect(connection.state).toBe("disconnected");
+          await expect(connection.closed).resolves.toMatchObject({
+            error: expect.objectContaining({ code: "connectionClosed" }),
+            wasClean: false,
+          });
+          expect(settled).toHaveBeenCalledOnce();
+          expect((await outcome).error).toBeInstanceOf(VoiceAgentConnectionError);
+        } finally {
+          cleanup.resolve();
+          await outcome;
+        }
+      },
+    );
+
+    it("fires a once listener only once when an earlier listener dispatches a nested event", async () => {
+      const factory = createFactory();
+      const connection = await connect(factory);
+      let reentered = false;
+      connection.on("session.output_audio.delta", () => {
+        if (!reentered) {
+          reentered = true;
+          factory.transport.receive({
+            type: "session.output_audio.delta",
+            event_id: "nested-audio",
+            delta: "AwQ=",
+          });
+        }
+      });
+      const handler = vi.fn();
+      connection.once("session.output_audio.delta", handler);
+
+      factory.transport.receive({
+        type: "session.output_audio.delta",
+        event_id: "outer-audio",
+        delta: "AQI=",
+      });
+
+      expect(handler).toHaveBeenCalledOnce();
+      expect(handler).toHaveBeenCalledWith(expect.objectContaining({ delta: "AwQ=" }));
+      await connection.close();
+    });
+  });
+
   it("retains a server-initiated finalization event and drains it before iteration finishes", async () => {
     const factory = createFactory();
     const connection = await connect(factory);

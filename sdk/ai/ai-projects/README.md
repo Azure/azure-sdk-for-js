@@ -433,14 +433,14 @@ authentication support from Realtime. Use the Node client with header authentica
 authenticated backend relay supplied through `webSocketFactory`, when direct browser
 authentication is unavailable. Do not put tokens in the URL or negotiate `realtime` on Live.
 
-See the [text](./samples-dev/agents/agentVoiceLiveText.ts),
-[PCM input/output](./samples-dev/agents/agentVoiceLiveAudio.ts), and
-[Responses function calling](./samples-dev/agents/agentVoiceLiveFunctions.ts) Node.js samples.
+See the [text](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveText.ts),
+[PCM input/output](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveAudio.ts), and
+[Responses function calling](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveFunctions.ts) Node.js samples.
 
 Set `FOUNDRY_PROJECT_ENDPOINT` and `FOUNDRY_LIVE_MODEL` before running the Node samples.
 The model setting is a **deployment name**, not a catalog model ID. The function sample also
 requires `FOUNDRY_LIVE_BACKEND_MODEL`, the Responses backend deployment name. These settings
-and optional PCM file paths are listed in [sample.env](./sample.env).
+and optional PCM file paths are listed in [sample.env](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/sample.env).
 
 Each sample demonstrates one task: send a greeting, stream a PCM file, or answer a function call.
 The examples print captions as they arrive; they do not open a local speaker. Press Enter
