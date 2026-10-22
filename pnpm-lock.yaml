@@ -35873,6 +35873,49 @@ importers:
         specifier: catalog:testing
         version: 5.0.4(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.4)(@vitest/coverage-istanbul@5.0.4)(@vitest/ui@5.0.4)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  sdk/widget/provisioning-widget:
+    dependencies:
+      '@azure/provisioning-core':
+        specifier: workspace:1.0.0-beta.1
+        version: link:../../core/provisioning-core
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.4(playwright@1.64.0)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.4)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.4(vitest@5.0.4)
+      eslint:
+        specifier: 'catalog:'
+        version: 10.12.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.4(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.4)(@vitest/coverage-istanbul@5.0.4)(@vitest/ui@5.0.4)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
   sdk/workloadorchestration/arm-workloadorchestration:
     dependencies:
       '@azure-rest/core-client':
