@@ -90,6 +90,27 @@ async function validateCustomizationInput(packageDirectory: string): Promise<str
     entryPoints.add(file);
   }
 
+  for (const file of entryPoints) {
+    const source = path.relative(packageDirectory, file).split(path.sep).join("/");
+    let isFile: boolean;
+    try {
+      isFile = (await fs.lstat(file)).isFile();
+    } catch (error) {
+      log(
+        `❌ Cannot read public source ${source}: ${
+          error instanceof Error ? error.message : String(error)
+        }. Regenerate the package with the current emitter.`,
+      );
+      return undefined;
+    }
+    if (!isFile) {
+      log(
+        `❌ Public source ${source} must be a regular file. Regenerate the package with the current emitter.`,
+      );
+      return undefined;
+    }
+  }
+
   // Require current emitter metadata, not inferred or repaired compiler roots.
   for (const target of resolved.config.targets) {
     const configPath = path.resolve(packageDirectory, target.tsconfig);
