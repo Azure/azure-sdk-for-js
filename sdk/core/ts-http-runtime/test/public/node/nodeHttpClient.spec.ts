@@ -132,6 +132,21 @@ describe("NodeHttpClient", function () {
     assert.strictEqual(response.status, 404);
   });
 
+  it("honors a HEAD method supplied through request overrides", async function () {
+    const client = createDefaultHttpClient();
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      method: "GET",
+      requestOverrides: { method: "HEAD" },
+    });
+    const promise = client.sendRequest(request);
+    yieldHttpsResponse(createResponse(200, "ignored"));
+
+    const response = await promise;
+
+    assert.isUndefined(response.bodyAsText);
+  });
+
   it("should allow canceling of requests", async function () {
     const client = createDefaultHttpClient();
     const controller = new AbortController();

@@ -17,10 +17,15 @@ import type {
   TransferProgressEvent,
 } from "./interfaces.js";
 import { createHttpHeaders } from "./httpHeaders.js";
-import { RestError } from "./restError.js";
+import { isRestError, RestError } from "./restError.js";
 import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
+import { hasExpectContinue } from "./util/expectContinue.js";
+import {
+  addExpectContinueFraming,
+  createExpectContinueRequest,
+} from "./util/nodeExpectContinue.js";
 
 const DEFAULT_TLS_SETTINGS = {};
 
@@ -59,6 +64,35 @@ function arrayBufferToBuffer(body: ArrayBuffer | ArrayBufferView): Buffer {
   return ArrayBuffer.isView(body)
     ? Buffer.from(body.buffer, body.byteOffset, body.byteLength)
     : Buffer.from(body);
+}
+
+function wrapRequestError(error: Error & { code?: string }, request: PipelineRequest): Error {
+  if (error.name === "AbortError" || isRestError(error)) {
+    return error;
+  }
+  return new RestError(error.message, {
+    code: error.code ?? RestError.REQUEST_SEND_ERROR,
+    request,
+  });
+}
+
+function sendRequestBody(
+  request: http.ClientRequest,
+  requestBody: RequestBodyType | undefined,
+  pipelineRequest: PipelineRequest,
+): void {
+  if (requestBody && isReadableStream(requestBody)) {
+    requestBody.pipe(request);
+  } else if (requestBody) {
+    if (typeof requestBody === "string" || Buffer.isBuffer(requestBody)) {
+      request.end(requestBody);
+    } else {
+      logger.error("Unrecognized body type", requestBody);
+      throw new RestError("Unrecognized body type", { request: pipelineRequest });
+    }
+  } else {
+    request.end();
+  }
 }
 
 class ReportTransform extends Transform {
@@ -124,12 +158,27 @@ class NodeHttpClient implements HttpClient {
     const shouldDecompress =
       acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
 
-    let body = typeof request.body === "function" ? request.body() : request.body;
-    if (isArrayBuffer(body)) {
-      body = arrayBufferToBuffer(body);
+    const useExpectContinue = hasExpectContinue(request);
+    const bodyFactory = typeof request.body === "function" ? request.body : undefined;
+    let body = bodyFactory ? undefined : request.body;
+    let bodyInitialized = !bodyFactory;
+
+    const initializeBody = (): RequestBodyType | undefined => {
+      if (!bodyInitialized) {
+        body = bodyFactory?.();
+        bodyInitialized = true;
+      }
+      if (body && isArrayBuffer(body)) {
+        body = arrayBufferToBuffer(body);
+      }
+      return body;
+    };
+
+    if (!useExpectContinue) {
+      initializeBody();
     }
 
-    if (body && !request.headers.has("Content-Length")) {
+    if (bodyInitialized && body && !request.headers.has("Content-Length")) {
       const bodyLength = getBodyLength(body);
       if (bodyLength !== null) {
         request.headers.set("Content-Length", bodyLength);
@@ -138,7 +187,12 @@ class NodeHttpClient implements HttpClient {
 
     let responseStream: NodeJS.ReadableStream | undefined;
     try {
-      if (body && request.onUploadProgress) {
+      const prepareBody = (): RequestBodyType | undefined => {
+        initializeBody();
+        if (!body || !request.onUploadProgress || body instanceof ReportTransform) {
+          return body;
+        }
+
         const onUploadProgress = request.onUploadProgress;
         const uploadReportStream = new ReportTransform(onUploadProgress);
         uploadReportStream.on("error", (e) => {
@@ -151,9 +205,20 @@ class NodeHttpClient implements HttpClient {
         }
 
         body = uploadReportStream;
+        return body;
+      };
+
+      if (!useExpectContinue) {
+        prepareBody();
       }
 
-      const res = await this.makeRequest(request, abortController, body);
+      const res = await this.makeRequest(
+        request,
+        abortController,
+        useExpectContinue,
+        prepareBody,
+        bodyInitialized ? getBodyLength(body ?? null) : null,
+      );
 
       const headers = getResponseHeaders(res);
 
@@ -166,7 +231,11 @@ class NodeHttpClient implements HttpClient {
 
       // Responses to HEAD must not have a body.
       // If they do return a body, that body must be ignored.
-      if (request.method === "HEAD") {
+      const method =
+        typeof request.requestOverrides?.method === "string"
+          ? request.requestOverrides.method.toUpperCase()
+          : request.method;
+      if (method === "HEAD") {
         // call resume() and not destroy() to avoid closing the socket
         // and losing keep alive
         res.resume();
@@ -228,7 +297,9 @@ class NodeHttpClient implements HttpClient {
   private makeRequest(
     request: PipelineRequest,
     abortController: AbortController,
-    body?: RequestBodyType,
+    useExpectContinue: boolean,
+    prepareBody: () => RequestBodyType | undefined,
+    bodyLength: number | null,
   ): Promise<http.IncomingMessage> {
     const url = new URL(request.url);
 
@@ -249,14 +320,43 @@ class NodeHttpClient implements HttpClient {
       ...request.requestOverrides,
     };
 
-    return new Promise<http.IncomingMessage>((resolve, reject) => {
-      const req = isInsecure ? http.request(options, resolve) : https.request(options, resolve);
+    if (useExpectContinue) {
+      addExpectContinueFraming(options, bodyLength);
+    }
 
-      req.once("error", (err: Error & { code?: string }) => {
-        reject(
-          new RestError(err.message, { code: err.code ?? RestError.REQUEST_SEND_ERROR, request }),
-        );
-      });
+    return new Promise<http.IncomingMessage>((resolve, reject) => {
+      const createRequest = (
+        onResponse: (response: http.IncomingMessage) => void,
+      ): http.ClientRequest =>
+        isInsecure ? http.request(options, onResponse) : https.request(options, onResponse);
+      const rejectRequest = (error: Error & { code?: string }): void => {
+        reject(wrapRequestError(error, request));
+      };
+
+      if (useExpectContinue) {
+        const pendingRequest = createExpectContinueRequest({
+          abortSignal: abortController.signal,
+          bodyLength,
+          createRequest,
+          onAbort: (clientRequest) => {
+            const abortError = new AbortError(
+              "The operation was aborted. Rejecting from abort signal callback while making request.",
+            );
+            clientRequest.destroy(abortError);
+            reject(abortError);
+          },
+          onError: rejectRequest,
+          onResponse: resolve,
+          sendBody: (clientRequest) => {
+            sendRequestBody(clientRequest, prepareBody(), request);
+          },
+        });
+        pendingRequest.start();
+        return;
+      }
+
+      const req = createRequest(resolve);
+      req.once("error", rejectRequest);
 
       abortController.signal.addEventListener("abort", () => {
         const abortError = new AbortError(
@@ -265,18 +365,10 @@ class NodeHttpClient implements HttpClient {
         req.destroy(abortError);
         reject(abortError);
       });
-      if (body && isReadableStream(body)) {
-        body.pipe(req);
-      } else if (body) {
-        if (typeof body === "string" || Buffer.isBuffer(body)) {
-          req.end(body);
-        } else {
-          logger.error("Unrecognized body type", body);
-          reject(new RestError("Unrecognized body type"));
-        }
-      } else {
-        // streams don't like "undefined" being passed as data
-        req.end();
+      try {
+        sendRequestBody(req, prepareBody(), request);
+      } catch (error: unknown) {
+        rejectRequest(error instanceof Error ? error : new Error(String(error)));
       }
     });
   }

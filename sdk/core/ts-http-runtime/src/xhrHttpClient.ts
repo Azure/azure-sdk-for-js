@@ -13,6 +13,7 @@ import { createHttpHeaders } from "./httpHeaders.js";
 import { RestError } from "./restError.js";
 import { isReadableStream } from "./util/typeGuards.js";
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
+import { hasExpectHeader } from "./util/expectContinue.js";
 
 /**
  * A HttpClient implementation that uses XMLHttpRequest to send HTTP requests.
@@ -24,6 +25,10 @@ class XhrHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+    if (hasExpectHeader(request)) {
+      throw new Error("The Expect header is only supported by the Node.js HTTP/1 transport.");
+    }
+
     const url = new URL(request.url);
     const isInsecure = url.protocol !== "https:";
 

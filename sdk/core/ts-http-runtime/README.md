@@ -54,6 +54,18 @@ interface HttpClient {
 
 `HttpClient`s are expected to actually make the HTTP request to a server endpoint, using some platform-specific mechanism for doing so.
 
+### Expect: 100-continue
+
+The Node.js HTTP/1 transport supports opt-in `Expect: 100-continue`. Set the
+header on the request to delay sending its body until the server accepts it:
+
+```ts
+request.headers.set("Expect", "100-continue");
+await httpClient.sendRequest(request);
+```
+
+This header is not supported by the browser or React Native transports.
+
 ### Pipeline Policies
 
 A `PipelinePolicy` is a simple object that implements the following interface:
