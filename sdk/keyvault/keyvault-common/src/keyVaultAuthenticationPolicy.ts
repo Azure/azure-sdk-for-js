@@ -20,6 +20,7 @@ interface AuthenticationChallenge {
   scopes: [string];
   tenantId?: string;
   resourceHostname?: string;
+  requestOrigin: string;
   getAccessToken: AccessTokenGetter;
 }
 
@@ -78,6 +79,19 @@ function verifyChallengeResource(resourceHostname: string, request: PipelineRequ
   }
 }
 
+function verifyChallengeOrigin(requestOrigin: string, request: PipelineRequest): void {
+  const requestUrl = new URL(request.url);
+  if (requestUrl.protocol !== "https:") {
+    throw new Error("The request URL must use HTTPS.");
+  }
+
+  if (requestUrl.origin !== requestOrigin) {
+    throw new Error(
+      `The challenge origin '${requestOrigin}' does not match the requested domain. This request targeted '${requestUrl.origin}'.`,
+    );
+  }
+}
+
 /**
  * Name of the Key Vault authentication policy.
  */
@@ -125,6 +139,7 @@ export function keyVaultAuthenticationPolicy(
     state: AuthenticationChallenge,
     claims?: string,
   ): Promise<void> {
+    verifyChallengeOrigin(state.requestOrigin, request);
     if (state.resourceHostname !== undefined) {
       verifyChallengeResource(state.resourceHostname, request);
     }
@@ -139,6 +154,7 @@ export function keyVaultAuthenticationPolicy(
     if (state.resourceHostname !== undefined) {
       verifyChallengeResource(state.resourceHostname, request);
     }
+    verifyChallengeOrigin(state.requestOrigin, request);
     request.headers.set("Authorization", `Bearer ${token.token}`);
   }
 
@@ -188,6 +204,7 @@ export function keyVaultAuthenticationPolicy(
             scopes: [scope],
             tenantId: parsedChallenge.tenantId,
             resourceHostname,
+            requestOrigin: new URL(request.url).origin,
             getAccessToken: createTokenCycler(credential),
           },
           requests: 0,

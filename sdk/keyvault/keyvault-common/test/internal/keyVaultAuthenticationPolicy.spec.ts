@@ -362,6 +362,7 @@ describe("Challenge based authentication tests", function () {
     it.each([
       "https://vault.azure.net",
       "https://notvault.azure.net",
+      "https://othervault.vault.azure.net",
       "https://myvault.vault.azure.net.other.example",
       "https://other.example",
     ])("rejects an unrelated request domain %s", async (url) => {
