@@ -630,7 +630,7 @@ export interface BlobDownloadOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
-    layoutEndpoint?: string;
+    layoutEndpoint?: LayoutEndpoint;
     maxRetryRequests?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
     rangeGetContentCrc64?: boolean;
@@ -927,19 +927,14 @@ export interface BlobItemInternal {
 // @public
 export interface BlobLayout {
     continuationToken?: string;
-    endpoints?: BlobLayoutEndpoints;
-    ranges?: BlobLayoutRanges;
+    endpoints: BlobLayoutEndpoint[];
+    ranges: BlobLayoutRange[];
 }
 
 // @public
 export interface BlobLayoutEndpoint {
     index: number;
-    value: string;
-}
-
-// @public
-export interface BlobLayoutEndpoints {
-    endpoint?: BlobLayoutEndpoint[];
+    value: LayoutEndpoint;
 }
 
 // @public
@@ -947,11 +942,6 @@ export interface BlobLayoutRange {
     end: number;
     endpointIndex: number;
     start: number;
-}
-
-// @public
-export interface BlobLayoutRanges {
-    range?: BlobLayoutRange[];
 }
 
 // @public
@@ -2397,6 +2387,9 @@ export enum KnownEncryptionAlgorithmType {
 
 // @public
 export type LayoutAwareRouting = "auto" | "enabled" | "disabled";
+
+// @public
+export type LayoutEndpoint = string;
 
 // @public
 export interface Lease {

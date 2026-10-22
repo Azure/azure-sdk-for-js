@@ -21,6 +21,7 @@ import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeli
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import type { NodeJSReadableStream } from '@azure/storage-common';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -1668,6 +1669,8 @@ export interface ShareCreateIfNotExistsResponse extends ShareCreateResponse {
 export interface ShareCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessTier?: ShareAccessTier;
+    changeFeedRetentionInDays?: number;
+    enableChangeFeed?: boolean;
     enableSnapshotVirtualDirectoryAccess?: boolean;
     metadata?: {
         [propertyName: string]: string;
@@ -1916,7 +1919,11 @@ export interface ShareGetPropertiesHeaders {
     accessTier?: string;
     accessTierChangeTime?: Date;
     accessTierTransitionState?: string;
+    changeFeedBlobContainerName?: string;
+    changeFeedRetentionInDays?: number;
+    creationTime?: Date;
     date?: Date;
+    enableChangeFeed?: boolean;
     enabledProtocols?: string;
     enableSnapshotVirtualDirectoryAccess?: boolean;
     errorCode?: string;
@@ -2067,6 +2074,7 @@ export interface SharePropertiesInternal {
     accessTierChangeTime?: Date;
     // (undocumented)
     accessTierTransitionState?: string;
+    creationTime?: Date;
     // (undocumented)
     deletedTime?: Date;
     // (undocumented)
@@ -2219,6 +2227,8 @@ export interface ShareSetPropertiesHeaders {
 export interface ShareSetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessTier?: ShareAccessTier;
+    changeFeedRetentionInDays?: number;
+    enableChangeFeed?: boolean;
     enableSnapshotVirtualDirectoryAccess?: boolean;
     leaseAccessConditions?: LeaseAccessConditions;
     paidBurstingEnabled?: boolean;

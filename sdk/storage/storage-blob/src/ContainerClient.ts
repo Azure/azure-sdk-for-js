@@ -19,11 +19,7 @@ import type {
   ListBlobsResponse,
   ListBlobsHierarchicalResponse,
 } from "./generated/index.js";
-import type {
-  BlobPrefix as BlobPrefixInternal,
-  ContainerListBlobHierarchySegmentApacheArrowHeaders,
-  ContainerListBlobHierarchySegmentApacheArrowResponse,
-} from "./generated-classic-models.js";
+import type { BlobPrefix as BlobPrefixInternal } from "./generated-classic-models.js";
 import type {
   BlobDeleteResponse,
   BlobPrefix,
@@ -709,6 +705,9 @@ function withListSegmentResponseMetadata<T>(
   parsedBody: unknown,
   bodyAsText = "",
 ): T {
+  // The body stream is already consumed; leave it out, as the XML path does.
+  const { readableStreamBody, blobBody, browserStreamBody, ...response } =
+    rawResponse._response as Record<string, unknown>;
   return {
     ...base,
     clientRequestId: rawResponse.clientRequestId,
@@ -717,7 +716,7 @@ function withListSegmentResponseMetadata<T>(
     date: rawResponse.date,
     contentType: rawResponse.contentType,
     _response: {
-      ...rawResponse._response,
+      ...response,
       bodyAsText,
       parsedBody,
     },
@@ -871,6 +870,16 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates a new container under the specified account. If the container with
    * the same name already exists, the operation fails.
+   *
+   * When a container is deleted, a container with the same name can't be created
+   * for at least 30 seconds. The container might not be available for more than
+   * 30 seconds if the service is still processing the request. While the container
+   * is being deleted, attempts to create a container of the same name fail with
+   * status code 409 (Conflict). The service indicates that the container is being
+   * deleted. Operations on blobs within the container, including reads and writes,
+   * may continue to succeed for up to 30 seconds after the delete request is
+   * accepted. After this period, all operations on the container and its blobs
+   * fail with status code 404 (Not Found).
    * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
@@ -916,6 +925,19 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates a new container under the specified account. If the container with
    * the same name already exists, it is not changed.
+   *
+   * When a container is deleted, a container with the same name can't be created
+   * for at least 30 seconds. The container might not be available for more than
+   * 30 seconds if the service is still processing the request. While the container
+   * is being deleted, attempts to create a container of the same name fail with
+   * status code 409 (Conflict). The service indicates that the container is being
+   * deleted. Operations on blobs within the container, including reads and writes,
+   * may continue to succeed for up to 30 seconds after the delete request is
+   * accepted. After this period, all operations on the container and its blobs
+   * fail with status code 404 (Not Found).
+   *
+   * If a container with the same name is still being deleted, this method throws
+   * the 409 (Conflict) error instead of returning `succeeded: false`.
    * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
@@ -1092,6 +1114,16 @@ export class ContainerClient extends StorageClient {
   /**
    * Marks the specified container for deletion. The container and any blobs
    * contained within it are later deleted during garbage collection.
+   *
+   * When a container is deleted, a container with the same name can't be created
+   * for at least 30 seconds. The container might not be available for more than
+   * 30 seconds if the service is still processing the request. While the container
+   * is being deleted, attempts to create a container of the same name fail with
+   * status code 409 (Conflict). The service indicates that the container is being
+   * deleted. Operations on blobs within the container, including reads and writes,
+   * may continue to succeed for up to 30 seconds after the delete request is
+   * accepted. After this period, all operations on the container and its blobs
+   * fail with status code 404 (Not Found).
    * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
    * @param options - Options to Container Delete operation.
@@ -1120,6 +1152,16 @@ export class ContainerClient extends StorageClient {
   /**
    * Marks the specified container for deletion if it exists. The container and any blobs
    * contained within it are later deleted during garbage collection.
+   *
+   * When a container is deleted, a container with the same name can't be created
+   * for at least 30 seconds. The container might not be available for more than
+   * 30 seconds if the service is still processing the request. While the container
+   * is being deleted, attempts to create a container of the same name fail with
+   * status code 409 (Conflict). The service indicates that the container is being
+   * deleted. Operations on blobs within the container, including reads and writes,
+   * may continue to succeed for up to 30 seconds after the delete request is
+   * accepted. After this period, all operations on the container and its blobs
+   * fail with status code 404 (Not Found).
    * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
    * @param options - Options to Container Delete operation.
@@ -1493,38 +1535,29 @@ export class ContainerClient extends StorageClient {
     marker: string | undefined,
     options: ContainerListBlobsSegmentOptions,
   ): Promise<ContainerListBlobFlatSegmentResponse> {
-    const rawResponse = await this.containerContext.listBlobFlatSegmentApacheArrow({
-      marker,
-      ...options,
-    });
-
-    const adjustedResponse = adjustResponse(rawResponse);
+    const rawResponse = adjustResponse(
+      await this.containerContext.listBlobFlatSegmentApacheArrow({
+        marker,
+        ...options,
+      }),
+    );
 
     // The service falls back to XML for accounts that do not support Apache Arrow.
     // The Content-Type header indicates which format we actually received. When it
     // is not Apache Arrow, parse the already-received XML stream in place
     // instead of issuing a second request.
     if (!isApacheArrow(rawResponse.contentType)) {
-      const { parsed: nonArrowResponse, bodyAsText } =
+      const { parsed: internalResponse, bodyAsText } =
         await deserializeListBlobFlatSegmentXml(rawResponse);
-      const converted1 = ConvertInternalResponseOfListBlobFlat(nonArrowResponse);
-      return {
-        ...adjustedResponse,
-        _response: { ...adjustedResponse._response, bodyAsText }, // _response is made non-enumerable
-        ...converted1,
-        segment: {
-          blobItems: converted1.segment.blobItems.map((b) => {
-            return {
-              ...b,
-              tags: toTags(b.blobTags),
-            };
-          }),
+      return withListSegmentResponseMetadata<ContainerListBlobFlatSegmentResponse>(
+        {
+          ...internalResponse,
+          segment: { blobItems: internalResponse.blobItems.map(mapBlobItemTsp) },
         },
-      } as unknown as WithResponse<
-        ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders,
-        ContainerListBlobFlatSegmentHeaders,
-        ListBlobsFlatSegmentResponseModel
-      >;
+        rawResponse,
+        ConvertInternalResponseOfListBlobFlat(internalResponse),
+        bodyAsText,
+      );
     }
 
     const parsed = await parseBlobListArrowResponse(rawResponse);
@@ -1534,7 +1567,7 @@ export class ContainerClient extends StorageClient {
     serviceUrl.search = "";
     serviceUrl.hash = "";
     const serviceEndpoint = serviceUrl.toString();
-    const arrowResponse: ListBlobsResponse = {
+    const internalResponse: ListBlobsResponse = {
       serviceEndpoint,
       containerName: this.containerName,
       prefix: options.prefix,
@@ -1543,23 +1576,19 @@ export class ContainerClient extends StorageClient {
       blobItems: parsed.blobItems,
       continuationToken: parsed.nextMarker,
     };
-    const converted2 = ConvertInternalResponseOfListBlobFlat(arrowResponse);
-    return {
-      ...adjustedResponse,
-      ...converted2,
-      segment: {
-        blobItems: converted2.segment.blobItems.map((b) => {
-          return {
-            ...b,
-            tags: toTags(b.blobTags),
-          };
-        }),
+    return withListSegmentResponseMetadata<ContainerListBlobFlatSegmentResponse>(
+      {
+        serviceEndpoint,
+        containerName: this.containerName,
+        prefix: options.prefix,
+        marker,
+        maxPageSize: options.maxPageSize,
+        segment: { blobItems: parsed.blobItems.map(mapBlobItemTsp) },
+        continuationToken: parsed.nextMarker,
       },
-    } as unknown as WithResponse<
-      ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders,
-      ContainerListBlobFlatSegmentHeaders,
-      ListBlobsFlatSegmentResponseModel
-    >;
+      rawResponse,
+      ConvertInternalResponseOfListBlobFlat(internalResponse),
+    );
   }
 
   /**
@@ -1654,10 +1683,7 @@ export class ContainerClient extends StorageClient {
     marker: string | undefined,
     options: ContainerListBlobsSegmentOptions,
   ): Promise<ContainerListBlobHierarchySegmentResponse> {
-    const rawResponse = assertResponse<
-      ContainerListBlobHierarchySegmentApacheArrowResponse,
-      ContainerListBlobHierarchySegmentApacheArrowHeaders
-    >(
+    const rawResponse = adjustResponse(
       await this.containerContext.listBlobHierarchySegmentApacheArrow(delimiter, {
         marker,
         ...options,

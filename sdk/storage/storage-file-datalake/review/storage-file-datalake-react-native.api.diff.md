@@ -52,7 +52,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      static fromConnectionString(connectionString: string, options?: DataLakeServiceClientOptions): DataLakeServiceClient;
      generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
-@@ -1185,12 +1186,12 @@
+@@ -1176,12 +1177,12 @@
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -67,7 +67,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: DataLakeSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
  
-@@ -1306,9 +1307,9 @@
+@@ -1299,9 +1300,9 @@
  // @public (undocumented)
  export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_2, "ifTags">;
  

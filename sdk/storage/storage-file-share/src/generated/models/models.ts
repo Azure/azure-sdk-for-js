@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NodeReadableStream } from "#platform/generated/static-helpers/platform-types";
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   XmlPropertyMetadata,
   XmlPropertyDeserializeMetadata,
@@ -10,13 +15,8 @@ import {
   deserializeXmlObject,
   XmlSerializedObject,
 } from "../static-helpers/serialization/xml-helpers.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /**
  * The error response.
  *
@@ -1946,7 +1946,7 @@ export function shareSmbSettingsEncryptionInTransitXmlObjectDeserializer(
   return deserializeXmlObject<ShareSmbSettingsEncryptionInTransit>(xmlObject, properties);
 }
 
-/** Settings for SMB protocol. */
+/** Settings for NFS protocol. */
 export interface ShareNfsSettings {
   /** Enable or disable encryption in transit. */
   encryptionInTransit?: ShareNfsSettingsEncryptionInTransit;
@@ -2483,6 +2483,8 @@ export interface SharePropertiesInternal {
   nextAllowedProvisionedBandwidthDowngradeTime?: Date;
   /** Whether SMB directory lease is enabled. */
   enableSmbDirectoryLease?: boolean;
+  /** The creation time. */
+  creationTime?: Date;
 }
 
 export function sharePropertiesInternalDeserializer(item: any): SharePropertiesInternal {
@@ -2524,6 +2526,7 @@ export function sharePropertiesInternalDeserializer(item: any): SharePropertiesI
       ? item["nextAllowedProvisionedBandwidthDowngradeTime"]
       : new Date(item["nextAllowedProvisionedBandwidthDowngradeTime"]),
     enableSmbDirectoryLease: item["enableSmbDirectoryLease"],
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
   };
 }
 
@@ -2690,6 +2693,12 @@ export function sharePropertiesInternalXmlDeserializer(xmlString: string): Share
       xmlOptions: { name: "EnableSmbDirectoryLease" },
       type: "primitive",
       primitiveSubtype: "boolean",
+    },
+    {
+      propertyName: "creationTime",
+      xmlOptions: { name: "Creation-Time" },
+      type: "date",
+      dateEncoding: "rfc7231",
     },
   ];
   return deserializeFromXml<SharePropertiesInternal>(
@@ -2865,19 +2874,28 @@ export function sharePropertiesInternalXmlObjectDeserializer(
       type: "primitive",
       primitiveSubtype: "boolean",
     },
+    {
+      propertyName: "creationTime",
+      xmlOptions: { name: "Creation-Time" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
   ];
   return deserializeXmlObject<SharePropertiesInternal>(xmlObject, properties);
 }
 
 /** The current lease status of the share. */
 export type LeaseStatusType = "locked" | "unlocked";
+
 /** Lease state of the share. */
 export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
+
 /**
  * When a share is leased, specifies whether the lease is of infinite or fixed
  * duration.
  */
 export type LeaseDurationType = "infinite" | "fixed";
+
 /** The root squash setting for the share. */
 export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
 
@@ -3332,22 +3350,31 @@ export enum KnownNfsFileType {
  * **SymLink**: SymLink
  */
 export type NfsFileType = string;
+
 /** The type of file information to include in the listing. */
 export type ListFilesIncludeType = "Timestamps" | "Etag" | "Attributes" | "PermissionKey";
+
 /** The copy status. */
 export type CopyStatus = "pending" | "success" | "aborted" | "failed";
+
 /** Specify one of the following options: - Update: Writes the bytes specified by the request body into the specified range. - Clear: Clears the specified range and releases the space used in storage for that range. */
 export type FileRangeWriteType = "update" | "clear";
+
 /** The file last written mode. */
 export type FileLastWrittenMode = "Now" | "Preserve";
+
 /** Only update is supported: - Update: Writes the bytes downloaded from the source url into the specified range. */
 export type FileRangeWriteFromUrlType = "update";
+
 /** The permission copy mode type. */
 export type PermissionCopyModeType = "source" | "override";
+
 /** The mode copy mode. */
 export type ModeCopyMode = "source" | "override";
+
 /** The owner copy mode. */
 export type OwnerCopyMode = "source" | "override";
+
 /** The type of share information to include in the listing. */
 export type ListSharesIncludeType = "snapshots" | "metadata" | "deleted";
 
@@ -3374,6 +3401,7 @@ export enum KnownShareAccessTier {
  * **Premium**: Premium
  */
 export type ShareAccessTier = string;
+
 /** The delete snapshots option type. */
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
 
@@ -3383,6 +3411,10 @@ export enum KnownVersions {
   V20260606 = "2026-06-06",
   /** API Version 2026-10-06 */
   V20261006 = "2026-10-06",
+  /** API Version 2026-12-06 */
+  V20261206 = "2026-12-06",
+  /** API Version 2027-03-07 */
+  V20270307 = "2027-03-07",
 }
 
 export type FileDownloadResponse = {

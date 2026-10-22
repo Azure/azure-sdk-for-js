@@ -1719,7 +1719,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         }
 
         if (!options.singleUploadThreshold) {
-          options.singleUploadThreshold = FILE_MAX_SINGLE_UPLOAD_THRESHOLD;
+          options.singleUploadThreshold = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
         }
         if (
           options.singleUploadThreshold < 1 ||
@@ -2072,9 +2072,8 @@ export class DataLakeFileClient extends DataLakePathClient {
    * const fileClient = fileSystemClient.getFileClient("<file name>");
    *
    * for await (const page of fileClient.getLayout()) {
-   *   const endpoints = page.endpoints?.endpoint ?? [];
-   *   for (const range of page.ranges?.range ?? []) {
-   *     const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+   *   for (const range of page.ranges) {
+   *     const endpoint = page.endpoints.find((e) => e.index === range.endpointIndex);
    *     console.log(`${range.start}-${range.end} is served by ${endpoint?.value}`);
    *   }
    * }

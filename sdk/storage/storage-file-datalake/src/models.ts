@@ -19,10 +19,10 @@ import type {
   BlobGetLayoutHeaders,
   BlobLayout,
   BlobLayoutEndpoint,
-  BlobLayoutEndpoints,
   BlobLayoutRange,
-  BlobLayoutRanges,
   LayoutAwareRouting,
+  LayoutEndpoint,
+  Range as BlobRange,
 } from "@azure/storage-blob";
 import type { DataLakePathClient } from "./clients.js";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
@@ -80,6 +80,7 @@ export {
   type LeaseOperationOptions,
   type LeaseOperationResponse,
   type LayoutAwareRouting,
+  type LayoutEndpoint,
 } from "@azure/storage-blob";
 
 export type {
@@ -1367,29 +1368,13 @@ export interface DirectoryGenerateSasUrlOptions extends CommonGenerateSasUrlOpti
 /**
  * A byte range of a file.
  */
-export interface FileRange {
-  /**
-   * StartByte, larger than or equal 0.
-   */
-  offset: number;
-  /**
-   * Optional. Count of bytes, larger than 0.
-   * If not provided, will return bytes from offset to the end.
-   */
-  count?: number;
-}
+export type FileRange = BlobRange;
 
 /** A byte range of a file, and the endpoint that serves it. */
 export type FileLayoutRange = BlobLayoutRange;
 
-/** The ranges that make up a file. */
-export type FileLayoutRanges = BlobLayoutRanges;
-
 /** An endpoint that serves one or more ranges of a file. */
 export type FileLayoutEndpoint = BlobLayoutEndpoint;
-
-/** The endpoints that serve the ranges of a file. */
-export type FileLayoutEndpoints = BlobLayoutEndpoints;
 
 /** One page of a file's layout. */
 export type FileLayout = BlobLayout;
@@ -1462,7 +1447,7 @@ export interface FileReadOptions extends CommonOptions {
    * the client's URL is not `https://` with a host name. An endpoint that cannot be reached fails
    * the read.
    */
-  layoutEndpoint?: string;
+  layoutEndpoint?: LayoutEndpoint;
 }
 
 export interface FileReadHeaders {
@@ -1663,9 +1648,10 @@ export interface FileParallelUploadOptions extends CommonOptions {
 
   /**
    * Data size threshold in bytes to use a single upload operation rather than parallel uploading.
-   * Data of smaller size than this limit will be transferred in a single upload.
+   * Data of size less than or equal to this limit will be transferred in a single upload.
    * Data larger than this limit will be transferred in chunks in parallel.
-   * Its default and max value is FILE_MAX_SINGLE_UPLOAD_THRESHOLD.
+   * If set to 0 or undefined, it defaults to 8MB, which doesn't depend on chunkSize.
+   * Its max value is 100MB.
    * Note: {@link DataLakeFileClient.uploadStream} do not respect this field and always do parallel uploading.
    */
   singleUploadThreshold?: number;
