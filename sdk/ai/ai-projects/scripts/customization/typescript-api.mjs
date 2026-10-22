@@ -196,7 +196,6 @@ const functionLikeKinds = new Set([
   SyntaxKind.IndexSignature,
   SyntaxKind.FunctionType,
   SyntaxKind.ConstructorType,
-  SyntaxKind.ClassStaticBlockDeclaration,
 ]);
 
 export function isFunctionLike(node) {

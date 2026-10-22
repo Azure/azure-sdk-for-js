@@ -103,6 +103,11 @@ test("malformed and multi-statement input is rejected even on an unchanged side"
   assert.throws(() => canonicalize(null), TypeError);
 });
 
+test("class static blocks are not validated as parameter-bearing functions", () => {
+  const text = "class Example { static {} }";
+  merged(text, text, text, text);
+});
+
 test("independent interface additions retain custom members and incoming requiredness/types", () => {
   const text = merged(
     "export interface Example { x?: string; }",
