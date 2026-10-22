@@ -44,6 +44,15 @@ extends:
         steps:
         - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
 
+        - pwsh: |
+            $packageManager = (Get-Content -Raw package.json | ConvertFrom-Json).packageManager
+            if ($packageManager -notmatch '^pnpm@([^+]+)(?:\+.+)?$') {
+              throw "Root package.json must declare a valid pnpm packageManager; found '$packageManager'."
+            }
+            Set-Content -Path (Join-Path '$(configPath)' 'pnpm-version.txt') -Value $Matches[1] -NoNewline -Encoding utf8
+          displayName: Prepare pnpm version for Docker build
+          workingDirectory: $(Build.SourcesDirectory)
+
         - task: AzureCLI@2
           displayName: Login to $(containerRegistry)
           inputs:
