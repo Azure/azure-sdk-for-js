@@ -1,12 +1,10 @@
 {
-  "extends": "../../../tsconfig.base.json",
-  "compilerOptions": {
-    "composite": true,
-    "rootDir": ".",
-    "outDir": "./dist",
-    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo"
-  },
-  "references": [{ "path": "../../core" }],
-  "include": ["src/**/*.ts"],
-  "exclude": ["src/**/*.test.ts", "node_modules", "dist"]
+  "references": [
+    { "path": "./config/tsconfig.src.esm.json" },
+    { "path": "./config/tsconfig.src.browser.json" },
+    { "path": "./config/tsconfig.src.cjs.json" },
+    { "path": "./config/tsconfig.test.node.json" },
+    { "path": "./config/tsconfig.test.browser.json" }
+  ],
+  "files": []
 }

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {
   type ExistingResourceProps,
   type Expression,
@@ -86,23 +89,28 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
   };
 
   static {
-    this.registerShape(createFlatModelShape({
-      location: { armPath: ["location"], value: createStringShape(), readOnly: true },
-      name: { armPath: ["name"], value: createStringShape() },
-      properties: { armPath: ["properties"], value: createDeferredShape(() => vaultAccessPolicyPropertiesShape) },
-    }));
+    this.registerShape(
+      createFlatModelShape({
+        location: { armPath: ["location"], value: createStringShape(), readOnly: true },
+        name: { armPath: ["name"], value: createStringShape() },
+        properties: {
+          armPath: ["properties"],
+          value: createDeferredShape(() => vaultAccessPolicyPropertiesShape),
+        },
+      }),
+    );
     this.register();
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Preserve supplied
-   * properties while applying resource metadata. Shared by ordinary
-   * construction and internal resource reconstruction.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
-   * @param {(AccessPolicyProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
-    props?: (AccessPolicyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
+    props?:
+      (AccessPolicyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
   ): ResourceProps<"Microsoft.KeyVault/vaults/accessPolicies"> & Record<string, unknown> {
     return {
       ...props,
@@ -113,7 +121,8 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
 
   constructor(
     context: KeyVault,
-    props: (AccessPolicyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
+    props:
+      (AccessPolicyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
     options?: ResourceOptions,
   ) {
     super(context, AccessPolicy.buildResourceProps(props), options);
@@ -182,21 +191,26 @@ export class Version extends Resource<"Microsoft.KeyVault/vaults/keys/versions">
   };
 
   static {
-    this.registerShape(createFlatModelShape({
-      location: { armPath: ["location"], value: createStringShape(), readOnly: true },
-      name: { armPath: ["name"], value: createStringShape() },
-      properties: { armPath: ["properties"], value: createDeferredShape(() => keyPropertiesShape), readOnly: true },
-      tags: { armPath: ["tags"], value: createRecordShape(createStringShape()), readOnly: true },
-    }));
+    this.registerShape(
+      createFlatModelShape({
+        location: { armPath: ["location"], value: createStringShape(), readOnly: true },
+        name: { armPath: ["name"], value: createStringShape() },
+        properties: {
+          armPath: ["properties"],
+          value: createDeferredShape(() => keyPropertiesShape),
+          readOnly: true,
+        },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()), readOnly: true },
+      }),
+    );
     this.register();
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Preserve supplied
-   * properties while applying resource metadata. Shared by ordinary
-   * construction and internal resource reconstruction.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
-   * @param {ExistingResourceProps & { existing: true }} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
     props?: ExistingResourceProps & { existing: true },
@@ -268,21 +282,25 @@ export class VaultKey extends Resource<"Microsoft.KeyVault/vaults/keys"> {
   };
 
   static {
-    this.registerShape(createFlatModelShape({
-      location: { armPath: ["location"], value: createStringShape(), readOnly: true },
-      name: { armPath: ["name"], value: createStringShape() },
-      properties: { armPath: ["properties"], value: createDeferredShape(() => keyPropertiesShape) },
-      tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
-    }));
+    this.registerShape(
+      createFlatModelShape({
+        location: { armPath: ["location"], value: createStringShape(), readOnly: true },
+        name: { armPath: ["name"], value: createStringShape() },
+        properties: {
+          armPath: ["properties"],
+          value: createDeferredShape(() => keyPropertiesShape),
+        },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
+      }),
+    );
     this.register();
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Preserve supplied
-   * properties while applying resource metadata. Shared by ordinary
-   * construction and internal resource reconstruction.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
-   * @param {(VaultKeyProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
     props?: (VaultKeyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
@@ -375,26 +393,33 @@ export class VaultPrivateEndpointConnection extends Resource<"Microsoft.KeyVault
   };
 
   static {
-    this.registerShape(createFlatModelShape({
-      etag: { armPath: ["etag"], value: createStringShape() },
-      location: { armPath: ["location"], value: createStringShape(), readOnly: true },
-      name: { armPath: ["name"], value: createStringShape() },
-      properties: { armPath: ["properties"], value: createDeferredShape(() => privateEndpointConnectionPropertiesShape) },
-      tags: { armPath: ["tags"], value: createRecordShape(createStringShape()), readOnly: true },
-    }));
+    this.registerShape(
+      createFlatModelShape({
+        etag: { armPath: ["etag"], value: createStringShape() },
+        location: { armPath: ["location"], value: createStringShape(), readOnly: true },
+        name: { armPath: ["name"], value: createStringShape() },
+        properties: {
+          armPath: ["properties"],
+          value: createDeferredShape(() => privateEndpointConnectionPropertiesShape),
+        },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()), readOnly: true },
+      }),
+    );
     this.register();
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Preserve supplied
-   * properties while applying resource metadata. Shared by ordinary
-   * construction and internal resource reconstruction.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
-   * @param {(VaultPrivateEndpointConnectionProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
-    props?: (VaultPrivateEndpointConnectionProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
-  ): ResourceProps<"Microsoft.KeyVault/vaults/privateEndpointConnections"> & Record<string, unknown> {
+    props?:
+      | (VaultPrivateEndpointConnectionProps & { existing?: false })
+      | (ExistingResourceProps & { existing: true }),
+  ): ResourceProps<"Microsoft.KeyVault/vaults/privateEndpointConnections"> &
+    Record<string, unknown> {
     return {
       ...props,
       type: VaultPrivateEndpointConnection.resourceType,
@@ -404,19 +429,16 @@ export class VaultPrivateEndpointConnection extends Resource<"Microsoft.KeyVault
 
   constructor(
     context: KeyVault,
-    props?: (VaultPrivateEndpointConnectionProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
+    props?:
+      | (VaultPrivateEndpointConnectionProps & { existing?: false })
+      | (ExistingResourceProps & { existing: true }),
     options?: ResourceOptions,
   ) {
-    super(
-      context,
-      VaultPrivateEndpointConnection.buildResourceProps(props),
-      options
-    );
+    super(context, VaultPrivateEndpointConnection.buildResourceProps(props), options);
   }
 
   /**
-   * Modified whenever there is a change in the state of private endpoint
-   * connection.
+   * Modified whenever there is a change in the state of private endpoint connection.
    */
   get etag(): Expression<string> {
     return this.expr("etag");
@@ -495,21 +517,25 @@ export class Secret extends Resource<"Microsoft.KeyVault/vaults/secrets"> {
   };
 
   static {
-    this.registerShape(createFlatModelShape({
-      location: { armPath: ["location"], value: createStringShape(), readOnly: true },
-      name: { armPath: ["name"], value: createStringShape() },
-      properties: { armPath: ["properties"], value: createDeferredShape(() => secretPropertiesShape) },
-      tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
-    }));
+    this.registerShape(
+      createFlatModelShape({
+        location: { armPath: ["location"], value: createStringShape(), readOnly: true },
+        name: { armPath: ["name"], value: createStringShape() },
+        properties: {
+          armPath: ["properties"],
+          value: createDeferredShape(() => secretPropertiesShape),
+        },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
+      }),
+    );
     this.register();
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Preserve supplied
-   * properties while applying resource metadata. Shared by ordinary
-   * construction and internal resource reconstruction.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
-   * @param {(SecretProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
     props?: (SecretProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
@@ -587,21 +613,25 @@ export class KeyVault extends Resource<"Microsoft.KeyVault/vaults"> {
   };
 
   static {
-    this.registerShape(createFlatModelShape({
-      location: { armPath: ["location"], value: createStringShape() },
-      name: { armPath: ["name"], value: createStringShape() },
-      properties: { armPath: ["properties"], value: createDeferredShape(() => vaultPropertiesShape) },
-      tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
-    }));
+    this.registerShape(
+      createFlatModelShape({
+        location: { armPath: ["location"], value: createStringShape() },
+        name: { armPath: ["name"], value: createStringShape() },
+        properties: {
+          armPath: ["properties"],
+          value: createDeferredShape(() => vaultPropertiesShape),
+        },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
+      }),
+    );
     this.register();
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Preserve supplied
-   * properties while applying resource metadata. Shared by ordinary
-   * construction and internal resource reconstruction.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
-   * @param {(KeyVaultProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
     props?: (KeyVaultProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),

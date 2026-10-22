@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {
   type ExistingResourceProps,
   type Expression,
@@ -98,20 +101,25 @@ export class KeyVaultManagedHsmKey extends Resource<"Microsoft.KeyVault/managedH
   };
 
   static {
-    this.registerShape(createFlatModelShape({
-      name: { armPath: ["name"], value: createStringShape() },
-      properties: { armPath: ["properties"], value: createDeferredShape(() => managedHsmKeyPropertiesShape), readOnly: true },
-      tags: { armPath: ["tags"], value: createRecordShape(createStringShape()), readOnly: true },
-    }));
+    this.registerShape(
+      createFlatModelShape({
+        name: { armPath: ["name"], value: createStringShape() },
+        properties: {
+          armPath: ["properties"],
+          value: createDeferredShape(() => managedHsmKeyPropertiesShape),
+          readOnly: true,
+        },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()), readOnly: true },
+      }),
+    );
     this.register();
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Preserve supplied
-   * properties while applying resource metadata. Shared by ordinary
-   * construction and internal resource reconstruction.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
-   * @param {ExistingResourceProps & { existing: true }} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
     props?: ExistingResourceProps & { existing: true },
@@ -132,9 +140,9 @@ export class KeyVaultManagedHsmKey extends Resource<"Microsoft.KeyVault/managedH
   }
 
   /**
-   * The name of the key to be created. The value you provide may be copied
-   * globally for the purpose of running the service. The value provided should
-   * not include personally identifiable or sensitive information.
+   * The name of the key to be created. The value you provide may be copied globally for the purpose
+   * of running the service. The value provided should not include personally identifiable or
+   * sensitive information.
    */
   get name(): Expression<string> {
     return this.expr("name");
@@ -178,23 +186,28 @@ export class ManagedHsmKey extends Resource<"Microsoft.KeyVault/managedHSMs/keys
   };
 
   static {
-    this.registerShape(createFlatModelShape({
-      name: { armPath: ["name"], value: createStringShape() },
-      properties: { armPath: ["properties"], value: createDeferredShape(() => managedHsmKeyPropertiesShape) },
-      tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
-    }));
+    this.registerShape(
+      createFlatModelShape({
+        name: { armPath: ["name"], value: createStringShape() },
+        properties: {
+          armPath: ["properties"],
+          value: createDeferredShape(() => managedHsmKeyPropertiesShape),
+        },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
+      }),
+    );
     this.register();
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Preserve supplied
-   * properties while applying resource metadata. Shared by ordinary
-   * construction and internal resource reconstruction.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
-   * @param {(ManagedHsmKeyProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
-    props?: (ManagedHsmKeyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
+    props?:
+      (ManagedHsmKeyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
   ): ResourceProps<"Microsoft.KeyVault/managedHSMs/keys"> & Record<string, unknown> {
     return {
       ...props,
@@ -205,16 +218,17 @@ export class ManagedHsmKey extends Resource<"Microsoft.KeyVault/managedHSMs/keys
 
   constructor(
     context: ManagedHsm,
-    props: (ManagedHsmKeyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
+    props:
+      (ManagedHsmKeyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
     options?: ResourceOptions,
   ) {
     super(context, ManagedHsmKey.buildResourceProps(props), options);
   }
 
   /**
-   * The name of the key to be created. The value you provide may be copied
-   * globally for the purpose of running the service. The value provided should
-   * not include personally identifiable or sensitive information.
+   * The name of the key to be created. The value you provide may be copied globally for the purpose
+   * of running the service. The value provided should not include personally identifiable or
+   * sensitive information.
    */
   get name(): Expression<string> {
     return this.expr("name");
@@ -295,28 +309,38 @@ export class ManagedHsmPrivateEndpointConnection extends Resource<"Microsoft.Key
   };
 
   static {
-    this.registerShape(createFlatModelShape({
-      etag: { armPath: ["etag"], value: createStringShape() },
-      identity: { armPath: ["identity"], value: createDeferredShape(() => managedServiceIdentityShape) },
-      location: { armPath: ["location"], value: createStringShape() },
-      name: { armPath: ["name"], value: createStringShape() },
-      properties: { armPath: ["properties"], value: createDeferredShape(() => mhsmPrivateEndpointConnectionPropertiesShape) },
-      sku: { armPath: ["sku"], value: createDeferredShape(() => managedHsmSkuShape) },
-      tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
-    }));
+    this.registerShape(
+      createFlatModelShape({
+        etag: { armPath: ["etag"], value: createStringShape() },
+        identity: {
+          armPath: ["identity"],
+          value: createDeferredShape(() => managedServiceIdentityShape),
+        },
+        location: { armPath: ["location"], value: createStringShape() },
+        name: { armPath: ["name"], value: createStringShape() },
+        properties: {
+          armPath: ["properties"],
+          value: createDeferredShape(() => mhsmPrivateEndpointConnectionPropertiesShape),
+        },
+        sku: { armPath: ["sku"], value: createDeferredShape(() => managedHsmSkuShape) },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
+      }),
+    );
     this.register();
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Preserve supplied
-   * properties while applying resource metadata. Shared by ordinary
-   * construction and internal resource reconstruction.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
-   * @param {(ManagedHsmPrivateEndpointConnectionProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
-    props?: (ManagedHsmPrivateEndpointConnectionProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
-  ): ResourceProps<"Microsoft.KeyVault/managedHSMs/privateEndpointConnections"> & Record<string, unknown> {
+    props?:
+      | (ManagedHsmPrivateEndpointConnectionProps & { existing?: false })
+      | (ExistingResourceProps & { existing: true }),
+  ): ResourceProps<"Microsoft.KeyVault/managedHSMs/privateEndpointConnections"> &
+    Record<string, unknown> {
     return {
       ...props,
       type: ManagedHsmPrivateEndpointConnection.resourceType,
@@ -326,19 +350,16 @@ export class ManagedHsmPrivateEndpointConnection extends Resource<"Microsoft.Key
 
   constructor(
     context: ManagedHsm,
-    props?: (ManagedHsmPrivateEndpointConnectionProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
+    props?:
+      | (ManagedHsmPrivateEndpointConnectionProps & { existing?: false })
+      | (ExistingResourceProps & { existing: true }),
     options?: ResourceOptions,
   ) {
-    super(
-      context,
-      ManagedHsmPrivateEndpointConnection.buildResourceProps(props),
-      options
-    );
+    super(context, ManagedHsmPrivateEndpointConnection.buildResourceProps(props), options);
   }
 
   /**
-   * Modified whenever there is a change in the state of private endpoint
-   * connection.
+   * Modified whenever there is a change in the state of private endpoint connection.
    */
   get etag(): Expression<string> {
     return this.expr("etag");
@@ -368,8 +389,7 @@ export class ManagedHsmPrivateEndpointConnection extends Resource<"Microsoft.Key
   }
 
   /**
-   * Name of the private endpoint connection associated with the managed hsm
-   * pool.
+   * Name of the private endpoint connection associated with the managed hsm pool.
    */
   get name(): Expression<string> {
     return this.expr("name");
@@ -429,23 +449,30 @@ export class ManagedHsm extends Resource<"Microsoft.KeyVault/managedHSMs"> {
   };
 
   static {
-    this.registerShape(createFlatModelShape({
-      identity: { armPath: ["identity"], value: createDeferredShape(() => managedServiceIdentityShape) },
-      location: { armPath: ["location"], value: createStringShape() },
-      name: { armPath: ["name"], value: createStringShape() },
-      properties: { armPath: ["properties"], value: createDeferredShape(() => managedHsmPropertiesShape) },
-      sku: { armPath: ["sku"], value: createDeferredShape(() => managedHsmSkuShape) },
-      tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
-    }));
+    this.registerShape(
+      createFlatModelShape({
+        identity: {
+          armPath: ["identity"],
+          value: createDeferredShape(() => managedServiceIdentityShape),
+        },
+        location: { armPath: ["location"], value: createStringShape() },
+        name: { armPath: ["name"], value: createStringShape() },
+        properties: {
+          armPath: ["properties"],
+          value: createDeferredShape(() => managedHsmPropertiesShape),
+        },
+        sku: { armPath: ["sku"], value: createDeferredShape(() => managedHsmSkuShape) },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
+      }),
+    );
     this.register();
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Preserve supplied
-   * properties while applying resource metadata. Shared by ordinary
-   * construction and internal resource reconstruction.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
-   * @param {(ManagedHsmProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
     props?: (ManagedHsmProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),

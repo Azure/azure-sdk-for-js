@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {
   type ExistingResourceProps,
   type Expression,
@@ -13,10 +16,7 @@ import {
   type ResourceNamingRules,
   type ResourceProps,
 } from "@azure/provisioning-core/internal";
-import {
-  type DeletedManagedHsmProperties,
-  deletedManagedHsmPropertiesShape,
-} from "./types.js";
+import { type DeletedManagedHsmProperties, deletedManagedHsmPropertiesShape } from "./types.js";
 
 const API_VERSION = "2026-02-01";
 
@@ -40,19 +40,24 @@ export class DeletedManagedHsm extends Resource<"Microsoft.KeyVault/locations/de
   };
 
   static {
-    this.registerShape(createFlatModelShape({
-      name: { armPath: ["name"], value: createStringShape() },
-      properties: { armPath: ["properties"], value: createDeferredShape(() => deletedManagedHsmPropertiesShape), readOnly: true },
-    }));
+    this.registerShape(
+      createFlatModelShape({
+        name: { armPath: ["name"], value: createStringShape() },
+        properties: {
+          armPath: ["properties"],
+          value: createDeferredShape(() => deletedManagedHsmPropertiesShape),
+          readOnly: true,
+        },
+      }),
+    );
     this.register();
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Preserve supplied
-   * properties while applying resource metadata. Shared by ordinary
-   * construction and internal resource reconstruction.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
-   * @param {ExistingResourceProps & { existing: true }} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
     props?: ExistingResourceProps & { existing: true },
