@@ -8,18 +8,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/** model interface SearchManagementRequestOptions */
-export interface SearchManagementRequestOptions {
-  /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
-  clientRequestId?: string;
-}
-
-export function searchManagementRequestOptionsSerializer(
-  _item: SearchManagementRequestOptions,
-): any {
-  return {};
-}
+import type { AccessRulePropertiesSubscriptionsItem } from "./customizations/models.js";
+import { accessRulePropertiesSubscriptionsItemArrayDeserializer } from "./customizations/models.js";
 
 /** Describes the quota usage for a particular SKU. */
 export interface QuotaUsageResult {
@@ -100,170 +90,6 @@ export function cloudErrorBodyArrayDeserializer(result: Array<CloudErrorBody>): 
   return result.map((item) => {
     return cloudErrorBodyDeserializer(item);
   });
-}
-
-/** Response containing the available Azure AI Search offerings, organized by region, along with the recommended default region for creating new services. */
-export interface OfferingsResult {
-  /** The recommended default region for creating new Azure AI Search services. */
-  readonly defaultRegion?: string;
-  /** The list of Azure AI Search offerings by region. */
-  readonly regions?: OfferingsByRegion[];
-}
-
-export function offeringsResultDeserializer(item: any): OfferingsResult {
-  return {
-    defaultRegion: item["defaultRegion"],
-    regions: !item["regions"]
-      ? item["regions"]
-      : offeringsByRegionArrayDeserializer(item["regions"]),
-  };
-}
-
-export function offeringsByRegionArrayDeserializer(result: Array<OfferingsByRegion>): any[] {
-  return result.map((item) => {
-    return offeringsByRegionDeserializer(item);
-  });
-}
-
-/** Describes the Azure AI Search features and SKUs available in a specific Azure region. */
-export interface OfferingsByRegion {
-  /** The name of the region. */
-  regionName?: string;
-  /** The list of features offered in this region. */
-  features?: FeatureOffering[];
-  /** The list of SKUs offered in this region. */
-  skus?: SkuOffering[];
-}
-
-export function offeringsByRegionDeserializer(item: any): OfferingsByRegion {
-  return {
-    regionName: item["regionName"],
-    features: !item["features"]
-      ? item["features"]
-      : featureOfferingArrayDeserializer(item["features"]),
-    skus: !item["skus"] ? item["skus"] : skuOfferingArrayDeserializer(item["skus"]),
-  };
-}
-
-export function featureOfferingArrayDeserializer(result: Array<FeatureOffering>): any[] {
-  return result.map((item) => {
-    return featureOfferingDeserializer(item);
-  });
-}
-
-/** Describes the availability of a specific feature in a region. */
-export interface FeatureOffering {
-  /** The name of the feature offered in this region. */
-  name?: string;
-}
-
-export function featureOfferingDeserializer(item: any): FeatureOffering {
-  return {
-    name: item["name"],
-  };
-}
-
-export function skuOfferingArrayDeserializer(result: Array<SkuOffering>): any[] {
-  return result.map((item) => {
-    return skuOfferingDeserializer(item);
-  });
-}
-
-/** Describes a SKU offering with its limits in a specific region. */
-export interface SkuOffering {
-  /** The SKU definition. */
-  sku?: Sku;
-  /** The limits associated with this SKU offered in this region. */
-  limits?: SkuLimits;
-}
-
-export function skuOfferingDeserializer(item: any): SkuOffering {
-  return {
-    sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
-    limits: !item["limits"] ? item["limits"] : skuLimitsDeserializer(item["limits"]),
-  };
-}
-
-/** Defines the SKU of a search service, which determines billing rate and capacity limits. */
-export interface Sku {
-  /** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions. 'serverless': Serverless tier with auto-scaling capabilities. */
-  name?: SkuName;
-}
-
-export function skuSerializer(item: Sku): any {
-  return { name: item["name"] };
-}
-
-export function skuDeserializer(item: any): Sku {
-  return {
-    name: item["name"],
-  };
-}
-
-/** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions. 'serverless': Serverless tier with auto-scaling capabilities. */
-export enum KnownSkuName {
-  /** Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. */
-  Free = "free",
-  /** Billable tier for a dedicated service having up to 3 replicas. */
-  Basic = "basic",
-  /** Billable tier for a dedicated service having up to 12 partitions and 12 replicas. */
-  Standard = "standard",
-  /** Similar to 'standard', but with more capacity per search unit. */
-  Standard2 = "standard2",
-  /** The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). */
-  Standard3 = "standard3",
-  /** Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. */
-  StorageOptimizedL1 = "storage_optimized_l1",
-  /** Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions. */
-  StorageOptimizedL2 = "storage_optimized_l2",
-  /** Serverless tier, offering low-touch, consumption-based, and pay-as-you-go experience, with auto-scaling capabilities. */
-  Serverless = "serverless",
-}
-
-/**
- * The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions. 'serverless': Serverless tier with auto-scaling capabilities. \
- * {@link KnownSkuName} can be used interchangeably with SkuName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **free**: Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. \
- * **basic**: Billable tier for a dedicated service having up to 3 replicas. \
- * **standard**: Billable tier for a dedicated service having up to 12 partitions and 12 replicas. \
- * **standard2**: Similar to 'standard', but with more capacity per search unit. \
- * **standard3**: The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). \
- * **storage_optimized_l1**: Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. \
- * **storage_optimized_l2**: Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions. \
- * **serverless**: Serverless tier, offering low-touch, consumption-based, and pay-as-you-go experience, with auto-scaling capabilities.
- */
-export type SkuName = string;
-
-/** Describes the limits associated with a SKU offering. */
-export interface SkuLimits {
-  /** The maximum number of indexes available for this SKU. */
-  indexes?: number;
-  /** The maximum number of indexers available for this SKU. */
-  indexers?: number;
-  /** The maximum storage size in Gigabytes available for this SKU per partition. */
-  partitionStorageInGigabytes?: number;
-  /** The maximum vector storage size in Gigabytes available for this SKU per partition. */
-  partitionVectorStorageInGigabytes?: number;
-  /** The maximum number of search units available for this SKU. */
-  searchUnits?: number;
-  /** The maximum number of replicas available for this SKU. */
-  replicas?: number;
-  /** The maximum number of partitions available for this SKU. */
-  partitions?: number;
-}
-
-export function skuLimitsDeserializer(item: any): SkuLimits {
-  return {
-    indexes: item["indexes"],
-    indexers: item["indexers"],
-    partitionStorageInGigabytes: item["partitionStorageInGigabytes"],
-    partitionVectorStorageInGigabytes: item["partitionVectorStorageInGigabytes"],
-    searchUnits: item["searchUnits"],
-    replicas: item["replicas"],
-    partitions: item["partitions"],
-  };
 }
 
 /** The result of the request to list REST API operations. It contains a list of operations and a URL to get the next set of results. */
@@ -839,11 +665,15 @@ export function networkSecurityPerimeterConfigurationDeserializer(
 
 /** Network security configuration properties. */
 export interface NetworkSecurityPerimeterConfigurationProperties {
+  /** Provisioning state of the network security perimeter configuration */
   readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
   /** List of provisioning issues, if any */
   readonly provisioningIssues?: ProvisioningIssue[];
+  /** Information about the network security perimeter (NSP) */
   networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /** Information about the resource association */
   resourceAssociation?: ResourceAssociation;
+  /** Network security perimeter configuration profile */
   profile?: NetworkSecurityProfile;
 }
 
@@ -869,19 +699,19 @@ export function networkSecurityPerimeterConfigurationPropertiesDeserializer(
 
 /** Provisioning state of a network security perimeter configuration that is being created or updated. */
 export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
-  /** Succeeded */
+  /** The configuration was provisioned successfully. */
   Succeeded = "Succeeded",
-  /** Creating */
+  /** The configuration is being created. */
   Creating = "Creating",
-  /** Updating */
+  /** The configuration is being updated. */
   Updating = "Updating",
-  /** Deleting */
+  /** The configuration is being deleted. */
   Deleting = "Deleting",
-  /** Accepted */
+  /** The configuration request was accepted and provisioning has not started yet. */
   Accepted = "Accepted",
-  /** Failed */
+  /** The configuration failed to provision. */
   Failed = "Failed",
-  /** Canceled */
+  /** The configuration provisioning was canceled. */
   Canceled = "Canceled",
 }
 
@@ -890,13 +720,13 @@ export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
  * {@link KnownNetworkSecurityPerimeterConfigurationProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigurationProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Creating** \
- * **Updating** \
- * **Deleting** \
- * **Accepted** \
- * **Failed** \
- * **Canceled**
+ * **Succeeded**: The configuration was provisioned successfully. \
+ * **Creating**: The configuration is being created. \
+ * **Updating**: The configuration is being updated. \
+ * **Deleting**: The configuration is being deleted. \
+ * **Accepted**: The configuration request was accepted and provisioning has not started yet. \
+ * **Failed**: The configuration failed to provision. \
+ * **Canceled**: The configuration provisioning was canceled.
  */
 export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
 
@@ -910,6 +740,7 @@ export function provisioningIssueArrayDeserializer(result: Array<ProvisioningIss
 export interface ProvisioningIssue {
   /** Name of the issue */
   readonly name?: string;
+  /** Details of the provisioning issue */
   readonly properties?: ProvisioningIssueProperties;
 }
 
@@ -978,9 +809,9 @@ export type IssueType = string;
 
 /** Severity of the issue. */
 export enum KnownSeverity {
-  /** Warning */
+  /** The issue is a warning and does not prevent the configuration from being applied. */
   Warning = "Warning",
-  /** Error */
+  /** The issue is an error and prevents the configuration from being applied. */
   Error = "Error",
 }
 
@@ -989,8 +820,8 @@ export enum KnownSeverity {
  * {@link KnownSeverity} can be used interchangeably with Severity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Warning** \
- * **Error**
+ * **Warning**: The issue is a warning and does not prevent the configuration from being applied. \
+ * **Error**: The issue is an error and prevents the configuration from being applied.
  */
 export type Severity = string;
 
@@ -1004,6 +835,7 @@ export function accessRuleArrayDeserializer(result: Array<AccessRule>): any[] {
 export interface AccessRule {
   /** Name of the access rule */
   name?: string;
+  /** Properties of the access rule */
   properties?: AccessRuleProperties;
 }
 
@@ -1018,6 +850,7 @@ export function accessRuleDeserializer(item: any): AccessRule {
 
 /** Properties of Access Rule */
 export interface AccessRuleProperties {
+  /** Direction of the access rule */
   direction?: AccessRuleDirection;
   /** Address prefixes in the CIDR format for inbound rules */
   addressPrefixes?: string[];
@@ -1083,28 +916,6 @@ export enum KnownAccessRuleDirection {
  */
 export type AccessRuleDirection = string;
 
-export function accessRulePropertiesSubscriptionsItemArrayDeserializer(
-  result: Array<AccessRulePropertiesSubscriptionsItem>,
-): any[] {
-  return result.map((item) => {
-    return accessRulePropertiesSubscriptionsItemDeserializer(item);
-  });
-}
-
-/** Network security perimeter configuration */
-export interface AccessRulePropertiesSubscriptionsItem {
-  /** The fully qualified Azure resource ID of the subscription e.g. ('/subscriptions/00000000-0000-0000-0000-000000000000') */
-  id?: string;
-}
-
-export function accessRulePropertiesSubscriptionsItemDeserializer(
-  item: any,
-): AccessRulePropertiesSubscriptionsItem {
-  return {
-    id: item["id"],
-  };
-}
-
 export function networkSecurityPerimeterArrayDeserializer(
   result: Array<NetworkSecurityPerimeter>,
 ): any[] {
@@ -1135,6 +946,7 @@ export function networkSecurityPerimeterDeserializer(item: any): NetworkSecurity
 export interface ResourceAssociation {
   /** Name of the resource association */
   name?: string;
+  /** Access mode of the resource association */
   accessMode?: ResourceAssociationAccessMode;
 }
 
@@ -1309,8 +1121,6 @@ export interface SearchService extends TrackedResource {
   knowledgeRetrieval?: KnowledgeRetrieval;
   /** The list of private endpoint connections to the Azure AI Search service. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** Defines the level of reuse for the auto-generated domain name label for the search service (e.g. myservice-<uniqueId>.search.windows.net). If not specified, no auto-generated domain name label is created for the search service. */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
   /** The list of shared private link resources managed by the Azure AI Search service. */
   readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
   /** A system generated property representing the service's etag that can be for optimistic concurrency control during updates. */
@@ -1339,7 +1149,6 @@ export function searchServiceSerializer(item: SearchService): any {
       "authOptions",
       "semanticSearch",
       "knowledgeRetrieval",
-      "autoGeneratedDomainNameLabelScope",
       "upgradeAvailable",
     ])
       ? undefined
@@ -1405,8 +1214,6 @@ export interface SearchServiceProperties {
   knowledgeRetrieval?: KnowledgeRetrieval;
   /** The list of private endpoint connections to the Azure AI Search service. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** Defines the level of reuse for the auto-generated domain name label for the search service (e.g. myservice-<uniqueId>.search.windows.net). If not specified, no auto-generated domain name label is created for the search service. */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
   /** The list of shared private link resources managed by the Azure AI Search service. */
   readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
   /** A system generated property representing the service's etag that can be for optimistic concurrency control during updates. */
@@ -1442,7 +1249,6 @@ export function searchServicePropertiesSerializer(item: SearchServiceProperties)
       : dataPlaneAuthOptionsSerializer(item["authOptions"]),
     semanticSearch: item["semanticSearch"],
     knowledgeRetrieval: item["knowledgeRetrieval"],
-    autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
     upgradeAvailable: item["upgradeAvailable"],
   };
 }
@@ -1478,7 +1284,6 @@ export function searchServicePropertiesDeserializer(item: any): SearchServicePro
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
-    autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
     sharedPrivateLinkResources: !item["sharedPrivateLinkResources"]
       ? item["sharedPrivateLinkResources"]
       : sharedPrivateLinkResourceArrayDeserializer(item["sharedPrivateLinkResources"]),
@@ -1531,9 +1336,11 @@ export enum KnownPublicNetworkAccess {
  * **SecuredByPerimeter**: The network security perimeter configuration rules allow or disallow public network access to the resource. Requires an associated network security perimeter.
  */
 export type PublicNetworkAccess = string;
+
 /** The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. 'stopped': The search service is in a subscription that's disabled. If your service is in the degraded, disabled, or error states, it means the Azure AI Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned. */
 export type SearchServiceStatus =
   "running" | "provisioning" | "deleting" | "degraded" | "disabled" | "error" | "stopped";
+
 /** The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'Succeeded' or 'Failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'Succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up. */
 export type ProvisioningState = "succeeded" | "provisioning" | "failed";
 
@@ -1591,8 +1398,6 @@ export function ipRuleDeserializer(item: any): IpRule {
 export enum KnownSearchBypass {
   /** Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the default. */
   None = "None",
-  /** Indicates that requests originating from the Azure Portal can bypass the rules defined in the 'ipRules' section. */
-  AzurePortal = "AzurePortal",
   /** Indicates that requests originating from Azure trusted services can bypass the rules defined in the 'ipRules' section. */
   AzureServices = "AzureServices",
 }
@@ -1603,7 +1408,6 @@ export enum KnownSearchBypass {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None**: Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the default. \
- * **AzurePortal**: Indicates that requests originating from the Azure Portal can bypass the rules defined in the 'ipRules' section. \
  * **AzureServices**: Indicates that requests originating from Azure trusted services can bypass the rules defined in the 'ipRules' section.
  */
 export type SearchBypass = string;
@@ -1629,182 +1433,24 @@ export interface EncryptionWithCmk {
   enforcement?: SearchEncryptionWithCmk;
   /** Returns the status of search service compliance with respect to non-CMK-encrypted objects. If a service has more than one unencrypted object, and enforcement is enabled, the service is marked as noncompliant. */
   readonly encryptionComplianceStatus?: SearchEncryptionComplianceStatus;
-  /** Describes the customer-managed key configuration for encrypting the search service. */
-  serviceLevelEncryptionKey?: SearchResourceEncryptionKey;
 }
 
 export function encryptionWithCmkSerializer(item: EncryptionWithCmk): any {
-  return {
-    enforcement: item["enforcement"],
-    serviceLevelEncryptionKey: !item["serviceLevelEncryptionKey"]
-      ? item["serviceLevelEncryptionKey"]
-      : searchResourceEncryptionKeySerializer(item["serviceLevelEncryptionKey"]),
-  };
+  return { enforcement: item["enforcement"] };
 }
 
 export function encryptionWithCmkDeserializer(item: any): EncryptionWithCmk {
   return {
     enforcement: item["enforcement"],
     encryptionComplianceStatus: item["encryptionComplianceStatus"],
-    serviceLevelEncryptionKey: !item["serviceLevelEncryptionKey"]
-      ? item["serviceLevelEncryptionKey"]
-      : searchResourceEncryptionKeyDeserializer(item["serviceLevelEncryptionKey"]),
   };
 }
 
 /** Describes how a search service should enforce compliance if it finds objects that aren't encrypted with the customer-managed key. */
 export type SearchEncryptionWithCmk = "Disabled" | "Enabled" | "Unspecified";
+
 /** Returns the status of search service compliance with respect to non-CMK-encrypted objects. If a service has more than one unencrypted object, and enforcement is enabled, the service is marked as noncompliant. */
 export type SearchEncryptionComplianceStatus = "Compliant" | "NonCompliant";
-
-/** A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be used to encrypt or decrypt data-at-rest, such as indexes and synonym maps. */
-export interface SearchResourceEncryptionKey {
-  /** The name of your Azure Key Vault key to be used to encrypt your data at rest. */
-  keyName?: string;
-  /** The version of your Azure Key Vault key to be used to encrypt your data at rest. */
-  keyVersion?: string;
-  /** The URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be used to encrypt your data at rest. An example URI might be `https://my-keyvault-name.vault.azure.net`. */
-  vaultUri?: string;
-  /** An explicit managed identity to use for this encryption key. If not specified and the access credentials property is null, the system-assigned managed identity is used. On update to the resource, if the explicit identity is unspecified, it remains unchanged. If "none" is specified, the value of this property is cleared. */
-  identity?: DataIdentityUnion;
-  /** Optional Azure Active Directory credentials used for accessing your Azure Key Vault. Not required if using managed identity instead. */
-  accessCredentials?: AzureActiveDirectoryApplicationCredentials;
-}
-
-export function searchResourceEncryptionKeySerializer(item: SearchResourceEncryptionKey): any {
-  return {
-    keyVaultKeyName: item["keyName"],
-    keyVaultKeyVersion: item["keyVersion"],
-    keyVaultUri: item["vaultUri"],
-    identity: !item["identity"] ? item["identity"] : dataIdentityUnionSerializer(item["identity"]),
-    accessCredentials: !item["accessCredentials"]
-      ? item["accessCredentials"]
-      : azureActiveDirectoryApplicationCredentialsSerializer(item["accessCredentials"]),
-  };
-}
-
-export function searchResourceEncryptionKeyDeserializer(item: any): SearchResourceEncryptionKey {
-  return {
-    keyName: item["keyVaultKeyName"],
-    keyVersion: item["keyVaultKeyVersion"],
-    vaultUri: item["keyVaultUri"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : dataIdentityUnionDeserializer(item["identity"]),
-    accessCredentials: !item["accessCredentials"]
-      ? item["accessCredentials"]
-      : azureActiveDirectoryApplicationCredentialsDeserializer(item["accessCredentials"]),
-  };
-}
-
-/** Abstract base type for data identities. */
-export interface DataIdentity {
-  /** A URI fragment specifying the type of identity. */
-  /** The discriminator possible values: #Microsoft.Azure.Search.DataNoneIdentity, #Microsoft.Azure.Search.DataUserAssignedIdentity */
-  odataType: string;
-}
-
-export function dataIdentitySerializer(item: DataIdentity): any {
-  return { "@odata.type": item["odataType"] };
-}
-
-export function dataIdentityDeserializer(item: any): DataIdentity {
-  return {
-    odataType: item["@odata.type"],
-  };
-}
-
-/** Alias for DataIdentityUnion */
-export type DataIdentityUnion = DataNoneIdentity | DataUserAssignedIdentity | DataIdentity;
-
-export function dataIdentityUnionSerializer(item: DataIdentityUnion): any {
-  switch (item.odataType) {
-    case "#Microsoft.Azure.Search.DataNoneIdentity":
-      return dataNoneIdentitySerializer(item as DataNoneIdentity);
-
-    case "#Microsoft.Azure.Search.DataUserAssignedIdentity":
-      return dataUserAssignedIdentitySerializer(item as DataUserAssignedIdentity);
-
-    default:
-      return dataIdentitySerializer(item);
-  }
-}
-
-export function dataIdentityUnionDeserializer(item: any): DataIdentityUnion {
-  switch (item["@odata.type"]) {
-    case "#Microsoft.Azure.Search.DataNoneIdentity":
-      return dataNoneIdentityDeserializer(item as DataNoneIdentity);
-
-    case "#Microsoft.Azure.Search.DataUserAssignedIdentity":
-      return dataUserAssignedIdentityDeserializer(item as DataUserAssignedIdentity);
-
-    default:
-      return dataIdentityDeserializer(item);
-  }
-}
-
-/** Clears the identity property. */
-export interface DataNoneIdentity extends DataIdentity {
-  odataType: "#Microsoft.Azure.Search.DataNoneIdentity";
-}
-
-export function dataNoneIdentitySerializer(item: DataNoneIdentity): any {
-  return { "@odata.type": item["odataType"] };
-}
-
-export function dataNoneIdentityDeserializer(item: any): DataNoneIdentity {
-  return {
-    odataType: item["@odata.type"],
-  };
-}
-
-/** Specifies the user assigned identity to use. */
-export interface DataUserAssignedIdentity extends DataIdentity {
-  odataType: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
-  /** The fully qualified Azure resource Id of a user assigned managed identity typically in the form "/subscriptions/12345678-1234-1234-1234-1234567890ab/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId" that should have been assigned to the search service. */
-  userAssignedIdentity: string;
-  /** Optional for Multi-tenant User-Assigned Managed Identity CMK Support: The client id (as a UUID) of the multi-tenant App Registration that has been configured to federate with the userAssignedIdentity. */
-  federatedIdentityClientId?: string;
-}
-
-export function dataUserAssignedIdentitySerializer(item: DataUserAssignedIdentity): any {
-  return {
-    "@odata.type": item["odataType"],
-    userAssignedIdentity: item["userAssignedIdentity"],
-    federatedIdentityClientId: item["federatedIdentityClientId"],
-  };
-}
-
-export function dataUserAssignedIdentityDeserializer(item: any): DataUserAssignedIdentity {
-  return {
-    odataType: item["@odata.type"],
-    userAssignedIdentity: item["userAssignedIdentity"],
-    federatedIdentityClientId: item["federatedIdentityClientId"],
-  };
-}
-
-/** Describes the Azure Active Directory application credentials required to access an Azure Key Vault. */
-export interface AzureActiveDirectoryApplicationCredentials {
-  /** The application (client) ID of an App Registration in the tenant. */
-  applicationId?: string;
-  /** An AAD client secret that was generated for the App Registration used to authenticate with Azure Key Vault. */
-  applicationSecret?: string;
-}
-
-export function azureActiveDirectoryApplicationCredentialsSerializer(
-  item: AzureActiveDirectoryApplicationCredentials,
-): any {
-  return { applicationId: item["applicationId"], applicationSecret: item["applicationSecret"] };
-}
-
-export function azureActiveDirectoryApplicationCredentialsDeserializer(
-  item: any,
-): AzureActiveDirectoryApplicationCredentials {
-  return {
-    applicationId: item["applicationId"],
-    applicationSecret: item["applicationSecret"],
-  };
-}
 
 /** Defines the options for how the search service authenticates a data plane request. This cannot be set if 'disableLocalAuth' is set to true. */
 export interface DataPlaneAuthOptions {
@@ -1894,27 +1540,6 @@ export enum KnownKnowledgeRetrieval {
  */
 export type KnowledgeRetrieval = string;
 
-/** Defines the level of reuse for the auto-generated domain name label for the search service. */
-export enum KnownAutoGeneratedDomainNameLabelScope {
-  /** Service name will always have the same auto-generated hash within the same tenant. */
-  TenantReuse = "TenantReuse",
-  /** Service name will always have the same auto-generated hash within the same subscription. */
-  SubscriptionReuse = "SubscriptionReuse",
-  /** Service name will always have a unique auto-generated hash (regardless of tenant or subscription). */
-  NoReuse = "NoReuse",
-}
-
-/**
- * Defines the level of reuse for the auto-generated domain name label for the search service. \
- * {@link KnownAutoGeneratedDomainNameLabelScope} can be used interchangeably with AutoGeneratedDomainNameLabelScope,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **TenantReuse**: Service name will always have the same auto-generated hash within the same tenant. \
- * **SubscriptionReuse**: Service name will always have the same auto-generated hash within the same subscription. \
- * **NoReuse**: Service name will always have a unique auto-generated hash (regardless of tenant or subscription).
- */
-export type AutoGeneratedDomainNameLabelScope = string;
-
 /** Indicates if the dedicated search service has an upgrade available. */
 export enum KnownUpgradeAvailable {
   /** An upgrade is currently not available for the dedicated service. */
@@ -1932,6 +1557,58 @@ export enum KnownUpgradeAvailable {
  * **available**: There is an upgrade available for the dedicated service.
  */
 export type UpgradeAvailable = string;
+
+/** Defines the SKU of a search service, which determines billing rate and capacity limits. */
+export interface Sku {
+  /** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions. 'serverless': Serverless tier with auto-scaling capabilities. */
+  name?: SkuName;
+}
+
+export function skuSerializer(item: Sku): any {
+  return { name: item["name"] };
+}
+
+export function skuDeserializer(item: any): Sku {
+  return {
+    name: item["name"],
+  };
+}
+
+/** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions. 'serverless': Serverless tier with auto-scaling capabilities. */
+export enum KnownSkuName {
+  /** Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. */
+  Free = "free",
+  /** Billable tier for a dedicated service having up to 3 replicas. */
+  Basic = "basic",
+  /** Billable tier for a dedicated service having up to 12 partitions and 12 replicas. */
+  Standard = "standard",
+  /** Similar to 'standard', but with more capacity per search unit. */
+  Standard2 = "standard2",
+  /** The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). */
+  Standard3 = "standard3",
+  /** Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. */
+  StorageOptimizedL1 = "storage_optimized_l1",
+  /** Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions. */
+  StorageOptimizedL2 = "storage_optimized_l2",
+  /** Serverless tier, offering low-touch, consumption-based, and pay-as-you-go experience, with auto-scaling capabilities. */
+  Serverless = "serverless",
+}
+
+/**
+ * The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions. 'serverless': Serverless tier with auto-scaling capabilities. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **free**: Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. \
+ * **basic**: Billable tier for a dedicated service having up to 3 replicas. \
+ * **standard**: Billable tier for a dedicated service having up to 12 partitions and 12 replicas. \
+ * **standard2**: Similar to 'standard', but with more capacity per search unit. \
+ * **standard3**: The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). \
+ * **storage_optimized_l1**: Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. \
+ * **storage_optimized_l2**: Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions. \
+ * **serverless**: Serverless tier, offering low-touch, consumption-based, and pay-as-you-go experience, with auto-scaling capabilities.
+ */
+export type SkuName = string;
 
 /** Details about the search service identity. A null value indicates that the search service has no identity assigned. */
 export interface Identity {
@@ -2099,8 +1776,6 @@ export interface SearchServiceUpdate extends Resource {
   knowledgeRetrieval?: KnowledgeRetrieval;
   /** The list of private endpoint connections to the Azure AI Search service. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** Defines the level of reuse for the auto-generated domain name label for the search service (e.g. myservice-<uniqueId>.search.windows.net). If not specified, no auto-generated domain name label is created for the search service. */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
   /** The list of shared private link resources managed by the Azure AI Search service. */
   readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
   /** A system generated property representing the service's etag that can be for optimistic concurrency control during updates. */
@@ -2127,7 +1802,6 @@ export function searchServiceUpdateSerializer(item: SearchServiceUpdate): any {
       "authOptions",
       "semanticSearch",
       "knowledgeRetrieval",
-      "autoGeneratedDomainNameLabelScope",
       "upgradeAvailable",
     ])
       ? undefined
@@ -2368,10 +2042,8 @@ export type AdminKeyKind = "primary" | "secondary";
 export enum KnownVersions {
   /** The 2025-05-01 API version. */
   V20250501 = "2025-05-01",
-  /** The 2026-03-01-preview API version. */
-  V20260301Preview = "2026-03-01-preview",
-  /** The 2026-09-01-preview API version. */
-  V20260901Preview = "2026-09-01-preview",
+  /** The 2026-11-01 API version. */
+  V20261101 = "2026-11-01",
 }
 
 export function _searchServicePropertiesSerializer(item: SearchService): any {
@@ -2399,7 +2071,6 @@ export function _searchServicePropertiesSerializer(item: SearchService): any {
       : dataPlaneAuthOptionsSerializer(item["authOptions"]),
     semanticSearch: item["semanticSearch"],
     knowledgeRetrieval: item["knowledgeRetrieval"],
-    autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
     upgradeAvailable: item["upgradeAvailable"],
   };
 }
@@ -2435,7 +2106,6 @@ export function _searchServicePropertiesDeserializer(item: any) {
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
-    autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
     sharedPrivateLinkResources: !item["sharedPrivateLinkResources"]
       ? item["sharedPrivateLinkResources"]
       : sharedPrivateLinkResourceArrayDeserializer(item["sharedPrivateLinkResources"]),
@@ -2472,7 +2142,6 @@ export function _searchServiceUpdatePropertiesSerializer(item: SearchServiceUpda
       : dataPlaneAuthOptionsSerializer(item["authOptions"]),
     semanticSearch: item["semanticSearch"],
     knowledgeRetrieval: item["knowledgeRetrieval"],
-    autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
     upgradeAvailable: item["upgradeAvailable"],
   };
 }
@@ -2508,7 +2177,6 @@ export function _searchServiceUpdatePropertiesDeserializer(item: any) {
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
-    autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
     sharedPrivateLinkResources: !item["sharedPrivateLinkResources"]
       ? item["sharedPrivateLinkResources"]
       : sharedPrivateLinkResourceArrayDeserializer(item["sharedPrivateLinkResources"]),
