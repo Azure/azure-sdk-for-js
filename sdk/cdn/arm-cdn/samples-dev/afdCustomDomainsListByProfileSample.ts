@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists existing AzureFrontDoor domains.
  *
  * @summary lists existing AzureFrontDoor domains.
- * x-ms-original-file: 2025-12-01/AFDCustomDomains_ListByProfile.json
+ * x-ms-original-file: 2026-10-01/AFDCustomDomains_ListByProfile.json
  */
 async function afdCustomDomainsListByProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

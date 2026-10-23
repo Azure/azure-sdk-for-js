@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing delivery rule within a rule set.
  *
  * @summary updates an existing delivery rule within a rule set.
- * x-ms-original-file: 2025-12-01/Rules_Update.json
+ * x-ms-original-file: 2026-10-01/Rules_Update.json
  */
 async function rulesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,6 +23,16 @@ async function rulesUpdate(): Promise<void> {
           headerName: "X-CDN",
           typeName: "DeliveryRuleHeaderActionParameters",
           value: "MSFT",
+        },
+      },
+      {
+        name: "EdgeAction",
+        parameters: {
+          edgeActionReference: {
+            id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/edgeActions/edgeAction1",
+          },
+          invocationPoint: "ClientResponse",
+          typeName: "DeliveryRuleEdgeActionParameters",
         },
       },
     ],

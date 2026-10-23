@@ -4243,7 +4243,7 @@ importers:
   sdk/cdn/arm-cdn:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -37491,7 +37491,7 @@ packages:
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   '@open-draft/until@3.0.1':
-    resolution: {integrity: sha1-bTX6WELj9yiCic9I3gqD87g8xaw=}
+    resolution: {integrity: sha512-s7/9ELP4aP9YZtW7RJaa0Xf3RISaRH9+EFN18FtykJYRHGNrl8f9ymvoNXzjhrjmftFvkQudtuDU9RYhk0xs3A==}
 
   '@opentelemetry/api-logs@0.211.0':
     resolution: {integrity: sha1-MtntmJOZVqhNTi/14BWYy50o10Q=}
