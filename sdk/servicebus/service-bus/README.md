@@ -212,6 +212,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Send messages](#send-messages)
 - [Receive messages](#receive-messages)
 - [Settle a message](#settle-a-message)
+- [Delete and purge messages (preview)](#delete-and-purge-messages-preview)
 - [Dead letter queues](#dead-letter-queues)
 - [Send messages using Sessions](#send-messages-using-sessions)
 - [Receive messages from Sessions](#receive-messages-from-sessions)
@@ -414,6 +415,40 @@ Full samples demonstrating dead letter queues more thoroughly:
 
 - [Using receiver.deadLetterMessage() to explicitly send messages to the dead letter sub-queue](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/movingMessagesToDLQ.ts)
 - [Receiving messages from the dead letter sub-queue](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/processMessageFromDLQ.ts)
+
+### Delete and purge messages (preview)
+
+The preview `deleteMessages` API deletes one bounded batch without receiving the messages first.
+`purgeMessages` repeats batch deletion until the service reports zero eligible messages, using one
+fixed enqueue-time cutoff. Both methods return the actual deleted count in a result object.
+These operations are destructive: cancellation or a lost response does not undo a dispatched
+delete, and the SDK does not retry that request.
+
+Purge defaults to 500 messages per batch. Use `maxMessagesPerBatch` to select a different request
+size; the service enforces the tier limit of 500 for Basic and Standard and 4,000 for Premium.
+Use a beta version of `@azure/service-bus` that includes these APIs.
+
+```ts snippet:ReadmeSampleDeleteAndPurgeMessages
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
+
+const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+const receiver = serviceBusClient.createReceiver("my-queue");
+
+try {
+  const beforeEnqueueTime = new Date();
+  const deleted = await receiver.deleteMessages(100, { beforeEnqueueTime });
+  console.log(`Deleted ${deleted.deletedCount} messages in one batch.`);
+
+  const purged = await receiver.purgeMessages({ beforeEnqueueTime });
+  console.log(`Purged ${purged.deletedCount} remaining eligible messages.`);
+} finally {
+  await receiver.close();
+  await serviceBusClient.close();
+}
+```
 
 ### Send messages using Sessions
 
