@@ -22,6 +22,7 @@ TypeScript / JavaScript SDKs for Azure services. Monorepo managed by
 | Add a feature to a package under `sdk/`                                 | `.github/skills/find-package-skill/SKILL.md` (check the registry FIRST)       |
 | Generate or regenerate SDK code from TypeSpec                           | `.github/skills/azsdk-common-generate-sdk-locally/SKILL.md`                   |
 | Release / publish a package                                             | `.github/skills/azsdk-common-sdk-release/SKILL.md`                            |
+| Management SDK release rotation / PR approval                           | `documentation/mgmt-release-rotation-runbook.md`                             |
 | Resolve APIView feedback                                                | `.github/skills/azsdk-common-apiview-feedback-resolution/SKILL.md`            |
 | Troubleshoot a CI / pipeline failure                                    | `.github/skills/azsdk-common-pipeline-troubleshooting/SKILL.md`               |
 | Audit or register ADO pipelines for `ci.yml` files                      | `.github/skills/ado-pipeline-audit/SKILL.md`                                  |
