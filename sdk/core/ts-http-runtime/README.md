@@ -59,8 +59,14 @@ interface HttpClient {
 The Node.js HTTP/1 transport supports opt-in `Expect: 100-continue`. Set the
 header on the request to delay sending its body until the server accepts it:
 
-```ts
-request.headers.set("Expect", "100-continue");
+```ts snippet:ReadmeSampleExpectContinue
+import { PipelineRequest, createHttpHeaders } from "@typespec/ts-http-runtime";
+
+const request: PipelineRequest = {
+  url: "https://example.com",
+  method: "GET",
+  headers: createHttpHeaders({ Expect: "100-continue" }),
+};
 await httpClient.sendRequest(request);
 ```
 
