@@ -239,8 +239,14 @@ export function createTokenCycler(
         }
         if (latestRefreshWorker === worker) {
           latestRefreshWorker = null;
-          token = null;
-          tenantId = undefined;
+          // A rejoined proactive worker may have started against an older token
+          // while a later claims worker cached a newer still-valid token. Keep
+          // that newer token if this worker fails; clearing it would turn the
+          // next request into an avoidable forced refresh.
+          if (!token || token.expiresOnTimestamp <= Date.now()) {
+            token = null;
+            tenantId = undefined;
+          }
         }
         throw reason;
       });
