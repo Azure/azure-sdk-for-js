@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed concurrent CAE claims challenges reusing an incompatible in-flight token refresh and unhandled rejections from superseded proactive refreshes.
+- Fixed concurrent CAE claims challenges reusing an incompatible in-flight token refresh and unhandled rejections from superseded proactive refreshes. [#40087](https://github.com/Azure/azure-sdk-for-js/issues/40087)
 
 ### Other Changes
 
