@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to adds new or replaces existing certificate.
  *
  * @summary adds new or replaces existing certificate.
- * x-ms-original-file: 2026-10-01-preview/CreateOrReplace_Certificates_With_CertificateAuthorityResourceId.json
+ * x-ms-original-file: 2026-11-01/CreateOrReplace_Certificates_With_CertificateAuthorityResourceId.json
  */
 async function createOrReplaceCertificatesWithCertificateAuthorityResourceId(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function createOrReplaceCertificatesWithCertificateAuthorityResourceId(): 
  * This sample demonstrates how to adds new or replaces existing certificate.
  *
  * @summary adds new or replaces existing certificate.
- * x-ms-original-file: 2026-10-01-preview/iothub_certificatescreateorupdate.json
+ * x-ms-original-file: 2026-11-01/iothub_certificatescreateorupdate.json
  */
 async function certificatesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

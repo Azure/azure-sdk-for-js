@@ -8,84 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub.
  *
  * @summary create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub.
- * x-ms-original-file: 2026-10-01-preview/CreateOrReplace_IoTHub_With_MqttV5.json
- */
-async function createOrReplaceIoTHubWithMqttV5(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const client = new IotHubClient(credential, subscriptionId);
-  const result = await client.iotHubResource.createOrUpdate("myResourceGroup", "testHub", {
-    etag: "AAAAAAFD6M4=",
-    location: "centraluseuap",
-    properties: {
-      connectionProfile: "MqttV5",
-      cloudToDevice: {
-        defaultTtlAsIso8601: "PT1H",
-        feedback: { lockDurationAsIso8601: "PT1M", maxDeliveryCount: 10, ttlAsIso8601: "PT1H" },
-        maxDeliveryCount: 10,
-      },
-      enableDataResidency: true,
-      enableFileUploadNotifications: false,
-      eventHubEndpoints: { events: { partitionCount: 2, retentionTimeInDays: 1 } },
-      features: "None",
-      ipFilterRules: [],
-      ipVersion: "ipv4ipv6",
-      messagingEndpoints: {
-        fileNotifications: {
-          lockDurationAsIso8601: "PT1M",
-          maxDeliveryCount: 10,
-          ttlAsIso8601: "PT1H",
-        },
-      },
-      minTlsVersion: "1.2",
-      mqttV5Settings: {
-        topicGroups: [
-          {
-            topicGroupId: "myTopicGroup",
-            topicTemplates: ["mytopics/telemetry/temperature/*", "mytopics/telemetry/humidity/*"],
-          },
-        ],
-      },
-      networkRuleSets: {
-        applyToBuiltInEventHubEndpoint: true,
-        defaultAction: "Deny",
-        ipRules: [
-          { action: "Allow", filterName: "rule1", ipMask: "131.117.159.53" },
-          { action: "Allow", filterName: "rule2", ipMask: "157.55.59.128/25" },
-        ],
-      },
-      rootCertificate: { enableRootCertificateV2: true },
-      routing: {
-        endpoints: {
-          eventHubs: [],
-          serviceBusQueues: [],
-          serviceBusTopics: [],
-          storageContainers: [],
-        },
-        fallbackRoute: {
-          name: "$fallback",
-          condition: "true",
-          endpointNames: ["events"],
-          isEnabled: true,
-          source: "DeviceMessages",
-        },
-        routes: [],
-      },
-      storageEndpoints: {
-        $default: { connectionString: "", containerName: "", sasTtlAsIso8601: "PT1H" },
-      },
-    },
-    sku: { name: "S1", capacity: 1 },
-    tags: {},
-  });
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub.
- *
- * @summary create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub.
- * x-ms-original-file: 2026-10-01-preview/CreateOrReplace_IotHub.json
+ * x-ms-original-file: 2026-11-01/CreateOrReplace_IotHub.json
  */
 async function createOrReplaceIotHub(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -118,8 +41,6 @@ async function createOrReplaceIotHub(): Promise<void> {
             name: "Routeid",
             source: "DeviceMessages",
             condition: "true",
-            dataSchema:
-              "aio-sr://aiosaalkopkedev/62a24af1d7db61cd44b2ad6b6c3f4ab7312be447f89ff3401d18357d0d05ce3a:1",
             endpointNames: ["events"],
             isEnabled: true,
           },
@@ -151,8 +72,6 @@ async function createOrReplaceIotHub(): Promise<void> {
       features: "None",
       minTlsVersion: "1.2",
       enableDataResidency: true,
-      rootCertificate: { enableRootCertificateV2: true },
-      ipVersion: "ipv4ipv6",
     },
     sku: { name: "S1", capacity: 1 },
   });
@@ -163,7 +82,7 @@ async function createOrReplaceIotHub(): Promise<void> {
  * This sample demonstrates how to create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub.
  *
  * @summary create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub.
- * x-ms-original-file: 2026-10-01-preview/iothub_createOrUpdate.json
+ * x-ms-original-file: 2026-11-01/iothub_createOrUpdate.json
  */
 async function iotHubResourceCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -184,7 +103,6 @@ async function iotHubResourceCreateOrUpdate(): Promise<void> {
       eventHubEndpoints: { events: { partitionCount: 2, retentionTimeInDays: 1 } },
       features: "None",
       ipFilterRules: [],
-      ipVersion: "ipv4ipv6",
       messagingEndpoints: {
         fileNotifications: {
           lockDurationAsIso8601: "PT1M",
@@ -201,7 +119,6 @@ async function iotHubResourceCreateOrUpdate(): Promise<void> {
           { action: "Allow", filterName: "rule2", ipMask: "157.55.59.128/25" },
         ],
       },
-      rootCertificate: { enableRootCertificateV2: true },
       routing: {
         endpoints: {
           eventHubs: [],
@@ -217,7 +134,6 @@ async function iotHubResourceCreateOrUpdate(): Promise<void> {
               workspaceId: "11111111-1111-1111-1111-111111111111",
               eventStreamId: "22222222-2222-2222-2222-222222222222",
               sourceId: "33333333-3333-3333-3333-333333333333",
-              messagePayloadFormat: "DOObservationV1",
             },
           ],
         },
@@ -241,7 +157,6 @@ async function iotHubResourceCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createOrReplaceIoTHubWithMqttV5();
   await createOrReplaceIotHub();
   await iotHubResourceCreateOrUpdate();
 }
