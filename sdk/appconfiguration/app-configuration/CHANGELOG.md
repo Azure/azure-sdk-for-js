@@ -1,5 +1,11 @@
 # Release History
 
+## 1.13.1 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed `deleteConfigurationSetting` ignoring the caller's `onResponse` callback. Previously ignored callbacks now execute with the existing runtime timing and arguments, making their side effects and exceptions observable.
+
 ## 1.13.0 (2026-09-23)
 
 ### Bugs Fixed
