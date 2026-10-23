@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1375,12 +1375,13 @@
+@@ -1517,12 +1517,13 @@
  // @public
  export type MessageScope = string;
  
@@ -22,7 +22,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface NotificationEndpoint {
      locations?: string[];
-@@ -1393,9 +1394,10 @@
+@@ -1535,9 +1536,10 @@
  // @public
  export type NotificationMode = string;
  
@@ -34,7 +34,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface NotificationRegistration extends ProxyResource {
      // (undocumented)
-@@ -1914,9 +1916,9 @@
+@@ -2070,9 +2072,9 @@
      linkedNotificationRules?: FanoutLinkedNotificationRule[];
      management?: ResourceProviderManifestManagement;
      metadata?: any;
@@ -45,7 +45,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      providerAuthorizations?: ResourceProviderAuthorization[];
      providerType?: ResourceProviderType;
      providerVersion?: string;
-@@ -1952,10 +1954,10 @@
+@@ -2108,10 +2110,10 @@
      management?: ResourceProviderManifestPropertiesManagement;
      managementGroupGlobalNotificationEndpoints?: ResourceProviderEndpoint[];
      metadata?: any;
@@ -58,7 +58,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      optionalFeatures?: string[];
      providerAuthentication?: ResourceProviderManifestPropertiesProviderAuthentication;
      providerAuthorizations?: ResourceProviderAuthorization[];
-@@ -2052,9 +2054,9 @@
+@@ -2208,9 +2210,9 @@
      loggingRules?: LoggingRule[];
      marketplaceType?: MarketplaceType;
      metadata?: any;
@@ -69,7 +69,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      requestHeaderOptions?: ResourceTypeRequestHeaderOptions;
      requiredFeatures?: string[];
      resourceDeletionPolicies?: ResourceDeletionPolicyAndProperties[];
-@@ -2192,9 +2194,9 @@
+@@ -2354,9 +2356,9 @@
      manifestLink?: string;
      marketplaceOptions?: ResourceTypeRegistrationPropertiesMarketplaceOptions;
      marketplaceType?: MarketplaceType;

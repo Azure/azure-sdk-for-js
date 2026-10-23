@@ -1,0 +1,39 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  listByResourceTypeRegistrationNestedResourceTypeThird,
+  deleteNestedResourceTypeThird,
+  createOrUpdateNestedResourceTypeThird,
+  getNestedResourceTypeThird,
+  listByResourceTypeRegistrationNestedResourceTypeSecond,
+  deleteNestedResourceTypeSecond,
+  createOrUpdateNestedResourceTypeSecond,
+  getNestedResourceTypeSecond,
+  listByResourceTypeRegistrationNestedResourceTypeFirst,
+  deleteNestedResourceTypeFirst,
+  createOrUpdateNestedResourceTypeFirst,
+  getNestedResourceTypeFirst,
+  listByResourceTypeRegistration,
+  $delete,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export type {
+  EndpointRegistrationsListByResourceTypeRegistrationNestedResourceTypeThirdOptionalParams,
+  EndpointRegistrationsDeleteNestedResourceTypeThirdOptionalParams,
+  EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdOptionalParams,
+  EndpointRegistrationsGetNestedResourceTypeThirdOptionalParams,
+  EndpointRegistrationsListByResourceTypeRegistrationNestedResourceTypeSecondOptionalParams,
+  EndpointRegistrationsDeleteNestedResourceTypeSecondOptionalParams,
+  EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondOptionalParams,
+  EndpointRegistrationsGetNestedResourceTypeSecondOptionalParams,
+  EndpointRegistrationsListByResourceTypeRegistrationNestedResourceTypeFirstOptionalParams,
+  EndpointRegistrationsDeleteNestedResourceTypeFirstOptionalParams,
+  EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstOptionalParams,
+  EndpointRegistrationsGetNestedResourceTypeFirstOptionalParams,
+  EndpointRegistrationsListByResourceTypeRegistrationOptionalParams,
+  EndpointRegistrationsDeleteOptionalParams,
+  EndpointRegistrationsCreateOrUpdateOptionalParams,
+  EndpointRegistrationsGetOptionalParams,
+} from "./options.js";

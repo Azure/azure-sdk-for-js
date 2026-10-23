@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the provider registration details.
  *
  * @summary gets the provider registration details.
- * x-ms-original-file: 2025-10-01/ProviderRegistrations_Get.json
+ * x-ms-original-file: 2026-10-01/ProviderRegistrations_Get.json
  */
 async function providerRegistrationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

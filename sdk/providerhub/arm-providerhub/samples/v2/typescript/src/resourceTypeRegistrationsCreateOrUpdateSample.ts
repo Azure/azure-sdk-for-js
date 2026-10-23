@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a resource type.
  *
  * @summary creates or updates a resource type.
- * x-ms-original-file: 2025-10-01/DirectResourceTypeRegistrations_CreateOrUpdate.json
+ * x-ms-original-file: 2026-10-01/DirectResourceTypeRegistrations_CreateOrUpdate.json
  */
 async function directResourceTypeRegistrationsCreateOrUpdateJson(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -124,7 +124,7 @@ async function directResourceTypeRegistrationsCreateOrUpdateJson(): Promise<void
  * This sample demonstrates how to creates or updates a resource type.
  *
  * @summary creates or updates a resource type.
- * x-ms-original-file: 2025-10-01/ResourceTypeRegistrations_CreateOrUpdate.json
+ * x-ms-original-file: 2026-10-01/ResourceTypeRegistrations_CreateOrUpdate.json
  */
 async function resourceTypeRegistrationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -155,6 +155,7 @@ async function resourceTypeRegistrationsCreateOrUpdate(): Promise<void> {
             apiVersions: ["2020-06-01-preview"],
             swaggerSpecFolderUri:
               "https://github.com/Azure/azure-rest-api-specs/blob/feature/azure/contoso/specification/contoso/resource-manager/Microsoft.SampleRP/",
+            lifecycleInfo: { lifecycleStage: "InDevelopment" },
           },
         ],
         resourceGraphConfiguration: { enabled: true, apiVersion: "2019-01-01" },
@@ -203,6 +204,7 @@ async function resourceTypeRegistrationsCreateOrUpdate(): Promise<void> {
             supportedOperations: "Get",
           },
         },
+        lifecycleInfo: { lifecycleStage: "InDevelopment" },
       },
     },
   );

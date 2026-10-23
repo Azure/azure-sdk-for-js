@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-providerhub",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A generated SDK for ProviderHubClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -54,6 +54,20 @@
       "require": {
         "types": "./dist/commonjs/api/resourceActions/index.d.ts",
         "default": "./dist/commonjs/api/resourceActions/index.js"
+      }
+    },
+    "./api/endpointRegistrations": {
+      "browser": {
+        "types": "./dist/browser/api/endpointRegistrations/index.d.ts",
+        "default": "./dist/browser/api/endpointRegistrations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/endpointRegistrations/index.d.ts",
+        "default": "./dist/esm/api/endpointRegistrations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/endpointRegistrations/index.d.ts",
+        "default": "./dist/commonjs/api/endpointRegistrations/index.js"
       }
     },
     "./api/manifests": {
@@ -286,7 +300,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-providerhub",

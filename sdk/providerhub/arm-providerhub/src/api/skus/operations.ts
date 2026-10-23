@@ -56,7 +56,7 @@ export function _listByResourceTypeRegistrationsNestedResourceTypeThirdSend(
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       nestedResourceTypeThird: nestedResourceTypeThird,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -110,7 +110,7 @@ export function listByResourceTypeRegistrationsNestedResourceTypeThird(
       ),
     _listByResourceTypeRegistrationsNestedResourceTypeThirdDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -134,7 +134,7 @@ export function _deleteNestedResourceTypeThirdSend(
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       nestedResourceTypeThird: nestedResourceTypeThird,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,7 +204,7 @@ export function _createOrUpdateNestedResourceTypeThirdSend(
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       nestedResourceTypeThird: nestedResourceTypeThird,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -280,7 +280,7 @@ export function _getNestedResourceTypeThirdSend(
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       nestedResourceTypeThird: nestedResourceTypeThird,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -350,7 +350,7 @@ export function _listByResourceTypeRegistrationsNestedResourceTypeSecondSend(
       resourceType: resourceType,
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       nestedResourceTypeSecond: nestedResourceTypeSecond,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -402,7 +402,7 @@ export function listByResourceTypeRegistrationsNestedResourceTypeSecond(
       ),
     _listByResourceTypeRegistrationsNestedResourceTypeSecondDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -424,7 +424,7 @@ export function _deleteNestedResourceTypeSecondSend(
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -490,7 +490,7 @@ export function _createOrUpdateNestedResourceTypeSecondSend(
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -562,7 +562,7 @@ export function _getNestedResourceTypeSecondSend(
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -624,7 +624,7 @@ export function _listByResourceTypeRegistrationsSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       resourceType: resourceType,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -664,7 +664,7 @@ export function listByResourceTypeRegistrations(
     () => _listByResourceTypeRegistrationsSend(context, providerNamespace, resourceType, options),
     _listByResourceTypeRegistrationsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -682,7 +682,7 @@ export function _$deleteSend(
       providerNamespace: providerNamespace,
       resourceType: resourceType,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -732,7 +732,7 @@ export function _createOrUpdateSend(
       providerNamespace: providerNamespace,
       resourceType: resourceType,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -796,7 +796,7 @@ export function _getSend(
       providerNamespace: providerNamespace,
       resourceType: resourceType,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -850,7 +850,7 @@ export function _listByResourceTypeRegistrationsNestedResourceTypeFirstSend(
       providerNamespace: providerNamespace,
       resourceType: resourceType,
       nestedResourceTypeFirst: nestedResourceTypeFirst,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -900,7 +900,7 @@ export function listByResourceTypeRegistrationsNestedResourceTypeFirst(
       ),
     _listByResourceTypeRegistrationsNestedResourceTypeFirstDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -920,7 +920,7 @@ export function _deleteNestedResourceTypeFirstSend(
       resourceType: resourceType,
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -982,7 +982,7 @@ export function _createOrUpdateNestedResourceTypeFirstSend(
       resourceType: resourceType,
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1050,7 +1050,7 @@ export function _getNestedResourceTypeFirstSend(
       resourceType: resourceType,
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
