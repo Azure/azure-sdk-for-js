@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import { uint8ArrayToString } from "@azure/core-util";
+import { isNodeLike, uint8ArrayToString } from "@azure/core-util";
 import type {
   LiveClientEventType,
   LiveClientEventUnion,
   LiveServerEventType,
   LiveServerEventUnion,
-  LiveSessionResourceParam,
+  VoiceAgentLiveSessionResource,
   LiveSessionUpdateParams,
   LiveServerEventLiveSessionClosed,
 } from "../models/models.js";
@@ -101,7 +101,7 @@ export interface VoiceAgentLiveConnection extends AsyncIterable<VoiceAgentLiveEv
   /** Current transport/session state. */
   readonly state: VoiceAgentConnectionState;
   /** Most recently received session snapshot. Foundry has started it before connect resolves. */
-  readonly session: LiveSessionResourceParam;
+  readonly session: VoiceAgentLiveSessionResource;
   /** Resolves when the connection is closed, including any finalization event and error. */
   readonly closed: Promise<VoiceAgentLiveCloseResult>;
   /** Sends a native Live command. Foundry owns session.start; it must not be sent by the caller. */
@@ -219,7 +219,7 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
   private readonly events: AsyncQueue<VoiceAgentLiveEvent>;
   private readonly listeners: Listener[] = [];
   private currentState: VoiceAgentConnectionState = KnownVoiceAgentConnectionState.Disconnected;
-  private snapshot?: LiveSessionResourceParam;
+  private snapshot?: VoiceAgentLiveSessionResource;
   private finalEvent?: LiveServerEventLiveSessionClosed;
   private finished = false;
   private iteratorStarted = false;
@@ -269,7 +269,7 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
   public get state(): VoiceAgentConnectionState {
     return this.currentState;
   }
-  public get session(): LiveSessionResourceParam {
+  public get session(): VoiceAgentLiveSessionResource {
     if (!this.snapshot) {
       throw new VoiceAgentConnectionError("Live session has not started.", "invalidState");
     }
@@ -323,8 +323,8 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
           ready,
           this.transport.connect({
             url: this.url,
-            // Foundry starts Live itself. Never negotiate the Realtime protocol on this route.
-            protocols: [],
+            // Browser upgrades require Live plus the bearer credential subprotocol.
+            protocols: isNodeLike ? [] : ["live"],
             headers: buildHeaders(token, this.clientOptions),
             connectionTimeoutInMs:
               this.connectOptions.connectionTimeoutInMs ??
@@ -525,7 +525,15 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
 
   public close(code = 1000, reason = "Client closed the Live session."): Promise<void> {
     if (this.finished) return this.closed.then(() => undefined);
-    this.closing ??= this.gracefulClose(code, reason);
+    if (!this.closing) {
+      let resolveClose!: () => void;
+      let rejectClose!: (reason: unknown) => void;
+      this.closing = new Promise<void>((resolve, reject) => {
+        resolveClose = resolve;
+        rejectClose = reject;
+      });
+      void this.gracefulClose(code, reason).then(resolveClose, rejectClose);
+    }
     return this.closing;
   }
   public dispose(): Promise<void> {
@@ -630,7 +638,6 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
       this.finalEvent = event;
       this.finalized?.();
       if (this.state !== KnownVoiceAgentConnectionState.Closing) {
-        this.setState(KnownVoiceAgentConnectionState.Closing);
         this.closing = this.withCloseDeadline(
           this.closed.then((result) => {
             if (result.error) throw result.error;
@@ -642,6 +649,7 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
           this.finish(1006, "Live socket did not close after finalization.", false, error);
           logger.warning("Live socket did not close after finalization.", { error });
         });
+        this.setState(KnownVoiceAgentConnectionState.Closing);
       }
       const close = this.requestedClose ?? { code: 1000, reason: "Live session finalized." };
       void this.closeTransport(close.code, close.reason);

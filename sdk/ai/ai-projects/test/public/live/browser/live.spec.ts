@@ -109,7 +109,7 @@ describe("AIProjectClient browser native Live transport", () => {
     vi.unstubAllGlobals();
   });
 
-  it("uses browser bearer subprotocol authentication without Realtime negotiation or URL credentials", async () => {
+  it("uses Live and bearer subprotocol authentication without Realtime negotiation or URL credentials", async () => {
     const connection = await createClient().beta.voiceAgents.live.connect("browser /?#%", {
       store: false,
       agentVersionOverride: "version + /&=",
@@ -122,7 +122,7 @@ describe("AIProjectClient browser native Live transport", () => {
     expect(url.pathname).toBe(
       `/api/projects/live-project/agents/${encodeURIComponent("browser /?#%")}/endpoint/protocols/voice/live/sessions`,
     );
-    expect(socket.protocols).toEqual([`authorization.bearer.${accessToken.token}`]);
+    expect(socket.protocols).toEqual(["live", `authorization.bearer.${accessToken.token}`]);
     expect(socket.binaryType).toBe("arraybuffer");
     expect(url.searchParams.get("api-version")).toBe("v1");
     expect(url.searchParams.getAll("x-ms-client-sdk")).toEqual([

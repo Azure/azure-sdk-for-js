@@ -7789,7 +7789,7 @@ export interface VoiceAgentLiveConnection extends AsyncIterable<VoiceAgentLiveEv
     sendEvent(event: VoiceAgentLiveClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
     sendResponseItem(item: Record<string, unknown>, options?: VoiceAgentEventOptions): Promise<void>;
     sendToolOutput(callId: string, output: string, options?: VoiceAgentSendToolOutputOptions): Promise<void>;
-    readonly session: LiveSessionResourceParam;
+    readonly session: VoiceAgentLiveSessionResource;
     readonly state: VoiceAgentConnectionState;
     unmuteInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
 }

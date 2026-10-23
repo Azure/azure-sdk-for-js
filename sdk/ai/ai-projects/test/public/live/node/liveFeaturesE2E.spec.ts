@@ -584,7 +584,26 @@ describe.runIf(isLiveMode())("GPT Live complete WebSocket features", () => {
         const agent = await create(project, report, config);
         const pcm = await delegationQuestion(project, report);
         const session = await openSession(project, agent, report, pcm);
+        const requireManagedOwner = (
+          owner: VoiceAgentLiveConnection["session"]["delegation"],
+        ): void => {
+          requireFeature(
+            owner?.type === "foundry_managed_agent" &&
+              "agent_name" in owner &&
+              owner.agent_name === backend &&
+              "agent_version" in owner &&
+              owner.agent_version === backendAgent.versions.latest.version,
+            "managed_owner_not_pinned",
+          );
+        };
         try {
+          await feature(
+            report,
+            "managed session.started reports the pinned Foundry owner",
+            async () => {
+              requireManagedOwner(session.connection.session.delegation);
+            },
+          );
           await feature(
             report,
             "foundry_managed_agent backend result and spoken output",
@@ -599,10 +618,14 @@ describe.runIf(isLiveMode())("GPT Live complete WebSocket features", () => {
           );
           await feature(
             report,
-            "managed native session.delegation.created forwarding",
+            "managed native session.delegation.created reports effective ownership",
             async () => {
               requireFeature(
-                session.events.some((event) => event.type === "session.delegation.created"),
+                session.events.some(
+                  (event) =>
+                    event.type === "session.delegation.created" &&
+                    event.delegation.target === "foundry_managed_agent",
+                ),
                 "missing_managed_native_delegation",
               );
             },
@@ -616,6 +639,14 @@ describe.runIf(isLiveMode())("GPT Live complete WebSocket features", () => {
         } finally {
           await closeSession(session, report);
         }
+        await feature(
+          report,
+          "managed session.closed retains the pinned Foundry owner",
+          async () => {
+            const closed = await session.connection.closed;
+            requireManagedOwner(closed.sessionClosed?.session.delegation);
+          },
+        );
       });
     },
   );

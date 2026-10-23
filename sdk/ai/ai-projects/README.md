@@ -399,6 +399,9 @@ The Live client uses `/agents/{agent_name}/endpoint/protocols/voice/live/session
 and does not negotiate the Realtime WebSocket subprotocol. Foundry sends the initial
 configuration; `connect()` waits for `session.started`, and `connection.session` exposes
 the resolved snapshot. Use typed `on`/`off`/`once` listeners or one async iterator.
+Lifecycle snapshots report the effective delegation owner, including the pinned agent name
+and resolved version for Foundry-managed agents. Their delegation triggers report
+`foundry_managed_agent` as the target.
 
 Live is a continuous speech session, not a sequence of Realtime responses:
 
@@ -423,15 +426,14 @@ The existing Realtime API is unchanged. Persisted Live conversations use
 persistence support on the service deployment.
 
 Browser builds use native `WebSocket` and a browser `TokenCredential`, such as
-`InteractiveBrowserCredential` for a public-client app registration. The shared transport
-carries the short-lived Entra token in the authentication subprotocol, not a URL parameter.
+`InteractiveBrowserCredential` for a public-client app registration. They offer the `live`
+application subprotocol alongside `authorization.bearer.<token>`, including in Web Workers. The shared transport
+carries the short-lived Entra token in that authentication subprotocol, not a URL parameter.
 Never embed API keys, client secrets, or long-lived tokens in browser code.
 
-The current Live TypeSpec contract does not define browser-authentication negotiation, and
-direct browser connections returned HTTP 400 on the tested service. Do not infer Live browser
-authentication support from Realtime. Use the Node client with header authentication, or an
-authenticated backend relay supplied through `webSocketFactory`, when direct browser
-authentication is unavailable. Do not put tokens in the URL or negotiate `realtime` on Live.
+Node.js uses bearer-header authentication without an application subprotocol. If a deployment
+does not support direct browser authentication, use an authenticated backend relay supplied
+through `webSocketFactory`. Do not put tokens in the URL or negotiate `realtime` on Live.
 
 See the [text](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveText.ts),
 [PCM input/output](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveAudio.ts), and
