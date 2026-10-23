@@ -4309,7 +4309,7 @@ export interface LiveServerEventLiveCommentaryAppended extends LiveServerEvent {
 // @public
 export interface LiveServerEventLiveDelegationCreated extends LiveServerEvent {
     client_event_id?: string;
-    delegation: LiveDelegationItem;
+    delegation: VoiceAgentLiveDelegationItem;
     event_id: string;
     offset_ms: number;
     type: "session.delegation.created";
@@ -4391,7 +4391,7 @@ export interface LiveServerEventLiveSessionClosed extends LiveServerEvent {
     event_id: string;
     reason: "close_requested" | "expired" | "content" | "remote_hangup" | "connection_lost";
     // (undocumented)
-    session: LiveSessionResourceParam;
+    session: VoiceAgentLiveSessionResource;
     type: "session.closed";
     usage: LiveSessionUsage;
 }
@@ -4402,7 +4402,7 @@ export interface LiveServerEventLiveSessionStarted extends LiveServerEvent {
     conversation_id?: string;
     event_id: string;
     // (undocumented)
-    session: LiveSessionResourceParam;
+    session: VoiceAgentLiveSessionResource;
     type: "session.started";
 }
 
@@ -4411,7 +4411,7 @@ export interface LiveServerEventLiveSessionUpdated extends LiveServerEvent {
     client_event_id?: string;
     event_id: string;
     // (undocumented)
-    session: LiveSessionResourceParam;
+    session: VoiceAgentLiveSessionResource;
     type: "session.updated";
 }
 
@@ -7840,6 +7840,14 @@ export interface VoiceAgentLiveDelegationConversationItem extends VoiceAgentLive
 export type VoiceAgentLiveDelegationConversationItemUnion = VoiceAgentLiveClientDelegationConversationItem | VoiceAgentLiveResponsesDelegationConversationItem | VoiceAgentLiveFoundryManagedAgentDelegationItem | VoiceAgentLiveDelegationConversationItem;
 
 // @public
+export interface VoiceAgentLiveDelegationItem {
+    id: string;
+    response_id?: string;
+    target: VoiceAgentLiveDelegationTarget;
+    type: "delegation";
+}
+
+// @public
 export interface VoiceAgentLiveDelegationOptions {
     // (undocumented)
     type: DelegationType | "foundry_managed_agent";
@@ -7922,6 +7930,22 @@ export interface VoiceAgentLiveResponsesDelegationConversationItem extends Voice
 export interface VoiceAgentLiveResponsesDelegationOptions extends VoiceAgentLiveDelegationOptions {
     responses: LiveResponsesDelegationSettingsInputParam;
     type: "responses";
+}
+
+// @public
+export interface VoiceAgentLiveSessionResource {
+    audio?: LiveInitialSessionAudioParam;
+    client?: LiveClientConfigParam;
+    delegation?: VoiceAgentLiveDelegationOptionsUnion;
+    expires_at: number;
+    id: string;
+    input?: LiveInitialItemUnion[];
+    // (undocumented)
+    instructions?: string;
+    // (undocumented)
+    model: ModelIdsLive;
+    status: "active";
+    store?: boolean;
 }
 
 // @public

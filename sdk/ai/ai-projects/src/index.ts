@@ -1111,6 +1111,8 @@ export type {
   LiveServerEventLiveErrorEvent,
   LiveLiveError,
   LiveServerEventLiveInfoEvent,
+  VoiceAgentLiveSessionResource,
+  VoiceAgentLiveDelegationItem,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { BetaAgentInsightMonitorsOperations } from "./classic/beta/agentInsightMonitors/index.js";
