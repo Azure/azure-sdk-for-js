@@ -70,7 +70,7 @@ export function _deleteEkmConnectionSend(
   const path = expandUrlTemplate(
     "/ekm{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,7 +117,7 @@ export function _updateEkmConnectionSend(
   const path = expandUrlTemplate(
     "/ekm{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -167,7 +167,7 @@ export function _createEkmConnectionSend(
   const path = expandUrlTemplate(
     "/ekm/create{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -216,7 +216,7 @@ export function _checkEkmConnectionSend(
   const path = expandUrlTemplate(
     "/ekm/check{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -262,7 +262,7 @@ export function _getEkmCertificateSend(
   const path = expandUrlTemplate(
     "/ekm/certificate{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -308,7 +308,7 @@ export function _getEkmConnectionSend(
   const path = expandUrlTemplate(
     "/ekm{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -354,7 +354,7 @@ export function _getSettingsSend(
   const path = expandUrlTemplate(
     "/settings{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -402,7 +402,7 @@ export function _getSettingSend(
     "/settings/{setting-name}{?api%2Dversion}",
     {
       "setting-name": settingName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -450,7 +450,7 @@ export function _updateSettingSend(
     "/settings/{setting-name}{?api%2Dversion}",
     {
       "setting-name": settingName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -501,7 +501,7 @@ export function _selectiveKeyRestoreOperationSend(
     "/keys/{keyName}/restore{?api%2Dversion}",
     {
       keyName: keyName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -550,7 +550,7 @@ export function selectiveKeyRestoreOperation(
       getInitialResponse: () =>
         _selectiveKeyRestoreOperationSend(context, keyName, restoreBlobDetails, options),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01",
     },
   ) as PollerLike<OperationState<SelectiveKeyRestoreOperation>, SelectiveKeyRestoreOperation>;
 }
@@ -564,7 +564,7 @@ export function _selectiveKeyRestoreStatusSend(
     "/restore/{jobId}/pending{?api%2Dversion}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -612,7 +612,7 @@ export function _preFullRestoreOperationSend(
   const path = expandUrlTemplate(
     "/prerestore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -656,7 +656,7 @@ export function preFullRestoreOperation(
     getInitialResponse: () =>
       _preFullRestoreOperationSend(context, preRestoreOperationParameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
 }
 
@@ -668,7 +668,7 @@ export function _fullRestoreOperationSend(
   const path = expandUrlTemplate(
     "/restore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -711,7 +711,7 @@ export function fullRestoreOperation(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _fullRestoreOperationSend(context, restoreBlobDetails, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
 }
 
@@ -724,7 +724,7 @@ export function _restoreStatusSend(
     "/restore/{jobId}/pending{?api%2Dversion}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -772,7 +772,7 @@ export function _preFullBackupSend(
   const path = expandUrlTemplate(
     "/prebackup{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -815,7 +815,7 @@ export function preFullBackup(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _preFullBackupSend(context, preBackupOperationParameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<FullBackupOperation>, FullBackupOperation>;
 }
 
@@ -827,7 +827,7 @@ export function _fullBackupSend(
   const path = expandUrlTemplate(
     "/backup{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -870,7 +870,7 @@ export function fullBackup(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _fullBackupSend(context, azureStorageBlobContainerUri, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<FullBackupOperation>, FullBackupOperation>;
 }
 
@@ -883,7 +883,7 @@ export function _fullBackupStatusSend(
     "/backup/{jobId}/pending{?api%2Dversion}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
