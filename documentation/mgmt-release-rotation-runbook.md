@@ -7,8 +7,9 @@ Follow these steps for generated management SDK PRs affecting `sdk/*/arm-*` pack
 Use the [Azure SDK JS Dashboard](https://ca-sdk-js-worker.ambitiouspond-79d04e69.eastus2.azurecontainerapps.io/#/sdk-prs) as the starting point for the daily rotation:
 
 1. Open the dashboard link and sign in with your Microsoft work account if prompted. The link opens the SDK PRs view.
-2. Review the listed management SDK PRs for new activities since your last rotation check, including new PRs and updates to PRs awaiting follow-up.
+2. Check the unread activities for management SDK PRs, including new PRs and updates to PRs awaiting follow-up.
 3. Open the relevant PR on GitHub and continue with Step 2 to read the workflow results and determine the next action. Use the existing PR conversation to avoid duplicating reviews or follow-up requests.
+4. Once you have reviewed an activity, return to the dashboard and click **Mark read**.
 
 **The dashboard data refreshes every morning.** It may not reflect changes made since that refresh, so use the live PR status for review and approval decisions.
 
