@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-machinelearning)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-machinelearning)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-machinelearning?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-machinelearning)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-machinelearning/samples)
 
 ## Getting started

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Job by name/id.
  *
  * @summary gets a Job by name/id.
- * x-ms-original-file: 2026-03-15-preview/Job/AutoMLJob/get.json
+ * x-ms-original-file: 2026-07-01/Job/AutoMLJob/get.json
  */
 async function getAutoMLJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getAutoMLJob(): Promise<void> {
  * This sample demonstrates how to gets a Job by name/id.
  *
  * @summary gets a Job by name/id.
- * x-ms-original-file: 2026-03-15-preview/Job/CommandJob/get.json
+ * x-ms-original-file: 2026-07-01/Job/CommandJob/get.json
  */
 async function getCommandJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,35 +36,7 @@ async function getCommandJob(): Promise<void> {
  * This sample demonstrates how to gets a Job by name/id.
  *
  * @summary gets a Job by name/id.
- * x-ms-original-file: 2026-03-15-preview/Job/DistillationJob/get.json
- */
-async function getDistillationJob(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.jobs.get("test-rg", "my-aml-workspace", "string");
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to gets a Job by name/id.
- *
- * @summary gets a Job by name/id.
- * x-ms-original-file: 2026-03-15-preview/Job/FineTuningJob/get.json
- */
-async function getFineTuningJob(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.jobs.get("test-rg", "my-aml-workspace", "string");
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to gets a Job by name/id.
- *
- * @summary gets a Job by name/id.
- * x-ms-original-file: 2026-03-15-preview/Job/PipelineJob/get.json
+ * x-ms-original-file: 2026-07-01/Job/PipelineJob/get.json
  */
 async function getPipelineJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -78,7 +50,7 @@ async function getPipelineJob(): Promise<void> {
  * This sample demonstrates how to gets a Job by name/id.
  *
  * @summary gets a Job by name/id.
- * x-ms-original-file: 2026-03-15-preview/Job/SweepJob/get.json
+ * x-ms-original-file: 2026-07-01/Job/SweepJob/get.json
  */
 async function getSweepJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -91,8 +63,6 @@ async function getSweepJob(): Promise<void> {
 async function main(): Promise<void> {
   await getAutoMLJob();
   await getCommandJob();
-  await getDistillationJob();
-  await getFineTuningJob();
   await getPipelineJob();
   await getSweepJob();
 }

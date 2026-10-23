@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary creates and executes a Job.
  * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/AutoMLJob/createOrUpdate.json
+ * x-ms-original-file: 2026-07-01/Job/AutoMLJob/createOrUpdate.json
  */
 async function createOrUpdateAutoMLJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -69,7 +69,7 @@ async function createOrUpdateAutoMLJob(): Promise<void> {
  *
  * @summary creates and executes a Job.
  * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/CommandJob/createOrUpdate.json
+ * x-ms-original-file: 2026-07-01/Job/CommandJob/createOrUpdate.json
  */
 async function createOrUpdateCommandJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -98,7 +98,6 @@ async function createOrUpdateCommandJob(): Promise<void> {
           uri: "string",
         },
       },
-      parentJobName: "ParentRun",
       properties: { string: "string" },
       resources: {
         instanceCount: 1,
@@ -125,143 +124,7 @@ async function createOrUpdateCommandJob(): Promise<void> {
  *
  * @summary creates and executes a Job.
  * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/CommandJob/createOrUpdateRayDistribution.json
- */
-async function createOrUpdateCommandJobWithRayDistribution(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.jobs.createOrUpdate("test-rg", "my-aml-workspace", "string", {
-    properties: {
-      description: "Ray distributed command job",
-      codeId: "string",
-      command: "python train.py",
-      computeId: "string",
-      displayName: "ray-multi-node-job",
-      distribution: {
-        distributionType: "Ray",
-        port: 6379,
-        includeDashboard: true,
-        dashboardPort: 8265,
-      },
-      environmentId: "string",
-      environmentVariables: { string: "string" },
-      experimentName: "ray-experiment",
-      identity: { identityType: "AMLToken" },
-      jobType: "Command",
-      resources: { instanceCount: 2, instanceType: "string", properties: {} },
-      tags: { string: "string" },
-    },
-  });
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to creates and executes a Job.
- * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- *
- * @summary creates and executes a Job.
- * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/DistillationJob/createOrUpdate.json
- */
-async function createOrUpdateDistillationJob(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.jobs.createOrUpdate("test-rg", "my-aml-workspace", "string", {
-    properties: {
-      computeId: "gpu-compute",
-      dataGenerationDetails: {
-        dataGenerationTaskType: "Conversation",
-        dataGenerationType: "LabelGeneration",
-        teacherModelEndpoint: { endpointName: "newfinetuneinttesting-jbuob" },
-        trainingData: {
-          description: undefined,
-          jobInputType: "uri_file",
-          mode: "ReadOnlyMount",
-          uri: "azureml://registries/azureml-meta/models/Llama-2-7b/versions/11",
-        },
-      },
-      experimentName: "llm-finetuning",
-      finetuningDetails: {
-        studentModel: {
-          description: undefined,
-          jobInputType: "mlflow_model",
-          mode: "ReadOnlyMount",
-          uri: "azureml://registries/azureml-meta/models/Meta-Llama-3.1-8B-Instruct/versions/1",
-        },
-      },
-      jobType: "Distillation",
-      outputs: {
-        string: {
-          description: "string",
-          jobOutputType: "mlflow_model",
-          mode: "ReadWriteMount",
-          uri: "string",
-        },
-      },
-      queueSettings: { jobTier: "Standard" },
-      resources: { instanceTypes: ["Standard_NC6"] },
-    },
-  });
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to creates and executes a Job.
- * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- *
- * @summary creates and executes a Job.
- * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/FineTuningJob/createOrUpdate.json
- */
-async function createOrUpdateFineTuningJob(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.jobs.createOrUpdate("test-rg", "my-aml-workspace", "string", {
-    properties: {
-      computeId: "gpu-compute",
-      experimentName: "llm-finetuning",
-      fineTuningDetails: {
-        model: {
-          description: undefined,
-          jobInputType: "mlflow_model",
-          mode: "ReadOnlyMount",
-          uri: "azureml://registries/azureml-meta/models/Llama-2-7b/versions/11",
-        },
-        modelProvider: "Custom",
-        taskType: "TextCompletion",
-        trainingData: {
-          description: undefined,
-          jobInputType: "uri_file",
-          mode: "ReadOnlyMount",
-          uri: "azureml://registries/azureml-meta/models/Llama-2-7b/versions/11",
-        },
-      },
-      jobType: "FineTuning",
-      outputs: {
-        string: {
-          description: "string",
-          jobOutputType: "mlflow_model",
-          mode: "ReadWriteMount",
-          uri: "string",
-        },
-      },
-      queueSettings: { jobTier: "Standard" },
-      resources: { instanceTypes: ["Standard_NC6"] },
-    },
-  });
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to creates and executes a Job.
- * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- *
- * @summary creates and executes a Job.
- * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/PipelineJob/createOrUpdate.json
+ * x-ms-original-file: 2026-07-01/Job/PipelineJob/createOrUpdate.json
  */
 async function createOrUpdatePipelineJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -300,7 +163,7 @@ async function createOrUpdatePipelineJob(): Promise<void> {
  *
  * @summary creates and executes a Job.
  * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/SweepJob/createOrUpdate.json
+ * x-ms-original-file: 2026-07-01/Job/SweepJob/createOrUpdate.json
  */
 async function createOrUpdateSweepJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -353,9 +216,6 @@ async function createOrUpdateSweepJob(): Promise<void> {
 async function main(): Promise<void> {
   await createOrUpdateAutoMLJob();
   await createOrUpdateCommandJob();
-  await createOrUpdateCommandJobWithRayDistribution();
-  await createOrUpdateDistillationJob();
-  await createOrUpdateFineTuningJob();
   await createOrUpdatePipelineJob();
   await createOrUpdateSweepJob();
 }
