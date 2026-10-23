@@ -14,10 +14,10 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  AccessPolicyAssignmentListOptionalParams,
-  AccessPolicyAssignmentDeleteOptionalParams,
-  AccessPolicyAssignmentCreateUpdateOptionalParams,
-  AccessPolicyAssignmentGetOptionalParams,
+  AccessPolicyAssignmentOperationsListOptionalParams,
+  AccessPolicyAssignmentOperationsDeleteOptionalParams,
+  AccessPolicyAssignmentOperationsCreateUpdateOptionalParams,
+  AccessPolicyAssignmentOperationsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -28,7 +28,7 @@ export function _listSend(
   resourceGroupName: string,
   clusterName: string,
   databaseName: string,
-  options: AccessPolicyAssignmentListOptionalParams = { requestOptions: {} },
+  options: AccessPolicyAssignmentOperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/accessPolicyAssignments{?api%2Dversion}",
@@ -37,7 +37,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,13 +64,14 @@ export async function _listDeserialize(
 
   return _accessPolicyAssignmentListDeserializer(result.body);
 }
+
 /** Gets all access policy assignments.. */
 export function list(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
   databaseName: string,
-  options: AccessPolicyAssignmentListOptionalParams = { requestOptions: {} },
+  options: AccessPolicyAssignmentOperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AccessPolicyAssignment> {
   return buildPagedAsyncIterator(
     context,
@@ -80,7 +81,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
     },
   );
 }
@@ -91,7 +92,7 @@ export function _$deleteSend(
   clusterName: string,
   databaseName: string,
   accessPolicyAssignmentName: string,
-  options: AccessPolicyAssignmentDeleteOptionalParams = { requestOptions: {} },
+  options: AccessPolicyAssignmentOperationsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/accessPolicyAssignments/{accessPolicyAssignmentName}{?api%2Dversion}",
@@ -101,7 +102,7 @@ export function _$deleteSend(
       clusterName: clusterName,
       databaseName: databaseName,
       accessPolicyAssignmentName: accessPolicyAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -123,6 +124,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a single access policy assignment. */
 export function $delete(
   context: Client,
@@ -130,7 +132,7 @@ export function $delete(
   clusterName: string,
   databaseName: string,
   accessPolicyAssignmentName: string,
-  options: AccessPolicyAssignmentDeleteOptionalParams = { requestOptions: {} },
+  options: AccessPolicyAssignmentOperationsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -145,7 +147,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -156,7 +158,7 @@ export function _createUpdateSend(
   databaseName: string,
   accessPolicyAssignmentName: string,
   parameters: AccessPolicyAssignment,
-  options: AccessPolicyAssignmentCreateUpdateOptionalParams = { requestOptions: {} },
+  options: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/accessPolicyAssignments/{accessPolicyAssignmentName}{?api%2Dversion}",
@@ -166,7 +168,7 @@ export function _createUpdateSend(
       clusterName: clusterName,
       databaseName: databaseName,
       accessPolicyAssignmentName: accessPolicyAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,6 +197,7 @@ export async function _createUpdateDeserialize(
 
   return accessPolicyAssignmentDeserializer(result.body);
 }
+
 /** Creates/Updates a particular access policy assignment for a database */
 export function createUpdate(
   context: Client,
@@ -203,7 +206,7 @@ export function createUpdate(
   databaseName: string,
   accessPolicyAssignmentName: string,
   parameters: AccessPolicyAssignment,
-  options: AccessPolicyAssignmentCreateUpdateOptionalParams = { requestOptions: {} },
+  options: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment> {
   return getLongRunningPoller(context, _createUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -219,7 +222,7 @@ export function createUpdate(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>;
 }
 
@@ -229,7 +232,7 @@ export function _getSend(
   clusterName: string,
   databaseName: string,
   accessPolicyAssignmentName: string,
-  options: AccessPolicyAssignmentGetOptionalParams = { requestOptions: {} },
+  options: AccessPolicyAssignmentOperationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/accessPolicyAssignments/{accessPolicyAssignmentName}{?api%2Dversion}",
@@ -239,7 +242,7 @@ export function _getSend(
       clusterName: clusterName,
       databaseName: databaseName,
       accessPolicyAssignmentName: accessPolicyAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -266,6 +269,7 @@ export async function _getDeserialize(
 
   return accessPolicyAssignmentDeserializer(result.body);
 }
+
 /** Gets information about access policy assignment for database. */
 export async function get(
   context: Client,
@@ -273,7 +277,7 @@ export async function get(
   clusterName: string,
   databaseName: string,
   accessPolicyAssignmentName: string,
-  options: AccessPolicyAssignmentGetOptionalParams = { requestOptions: {} },
+  options: AccessPolicyAssignmentOperationsGetOptionalParams = { requestOptions: {} },
 ): Promise<AccessPolicyAssignment> {
   const result = await _getSend(
     context,

@@ -64,7 +64,7 @@ export function _upgradeDBRedisVersionSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -88,6 +88,7 @@ export async function _upgradeDBRedisVersionDeserialize(
 
   return;
 }
+
 /** Upgrades the database Redis version to the latest available. */
 export function upgradeDBRedisVersion(
   context: Client,
@@ -102,7 +103,7 @@ export function upgradeDBRedisVersion(
     getInitialResponse: () =>
       _upgradeDBRedisVersionSend(context, resourceGroupName, clusterName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -120,7 +121,7 @@ export function _flushSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,6 +149,7 @@ export async function _flushDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
+
 /** Flushes all the keys in this database and also from its linked databases. */
 export function flush(
   context: Client,
@@ -162,7 +164,7 @@ export function flush(
     getInitialResponse: () =>
       _flushSend(context, resourceGroupName, clusterName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -181,7 +183,7 @@ export function _forceLinkToReplicationGroupSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -209,6 +211,7 @@ export async function _forceLinkToReplicationGroupDeserialize(
 
   return;
 }
+
 /** Forcibly recreates an existing database on the specified cluster, and rejoins it to an existing replication group. **IMPORTANT NOTE:** All data in this database will be discarded, and the database will temporarily be unavailable while rejoining the replication group. */
 export function forceLinkToReplicationGroup(
   context: Client,
@@ -235,7 +238,7 @@ export function forceLinkToReplicationGroup(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -255,7 +258,7 @@ export function _forceUnlinkSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -281,6 +284,7 @@ export async function _forceUnlinkDeserialize(result: PathUncheckedResponse): Pr
 
   return;
 }
+
 /** Forcibly removes the link to the specified database resource. */
 export function forceUnlink(
   context: Client,
@@ -296,7 +300,7 @@ export function forceUnlink(
     getInitialResponse: () =>
       _forceUnlinkSend(context, resourceGroupName, clusterName, databaseName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -315,7 +319,7 @@ export function _$exportSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -341,6 +345,7 @@ export async function _$exportDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Exports a database file from target database. */
 export function $export(
   context: Client,
@@ -356,7 +361,7 @@ export function $export(
     getInitialResponse: () =>
       _$exportSend(context, resourceGroupName, clusterName, databaseName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -375,7 +380,7 @@ export function _$importSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -401,6 +406,7 @@ export async function _$importDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Imports database files to target database. */
 export function $import(
   context: Client,
@@ -416,7 +422,7 @@ export function $import(
     getInitialResponse: () =>
       _$importSend(context, resourceGroupName, clusterName, databaseName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -435,7 +441,7 @@ export function _regenerateKeySend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -464,6 +470,7 @@ export async function _regenerateKeyDeserialize(
 
   return accessKeysDeserializer(result.body);
 }
+
 /** Regenerates the Redis Enterprise database's access keys. */
 export function regenerateKey(
   context: Client,
@@ -486,7 +493,7 @@ export function regenerateKey(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<AccessKeys>, AccessKeys>;
 }
 
@@ -504,7 +511,7 @@ export function _listKeysSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -529,6 +536,7 @@ export async function _listKeysDeserialize(result: PathUncheckedResponse): Promi
 
   return accessKeysDeserializer(result.body);
 }
+
 /** Retrieves the access keys for the Redis Enterprise database. */
 export async function listKeys(
   context: Client,
@@ -559,7 +567,7 @@ export function _listByClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -586,6 +594,7 @@ export async function _listByClusterDeserialize(
 
   return _databaseListDeserializer(result.body);
 }
+
 /** Gets all databases in the specified Redis Enterprise cluster. */
 export function listByCluster(
   context: Client,
@@ -601,7 +610,7 @@ export function listByCluster(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
     },
   );
 }
@@ -620,7 +629,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -642,6 +651,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a single database */
 export function $delete(
   context: Client,
@@ -656,7 +666,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, databaseName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -675,7 +685,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -702,6 +712,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return databaseDeserializer(result.body);
 }
+
 /** Updates a database */
 export function update(
   context: Client,
@@ -717,7 +728,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, clusterName, databaseName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<Database>, Database>;
 }
 
@@ -736,7 +747,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -763,6 +774,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return databaseDeserializer(result.body);
 }
+
 /** Creates a database */
 export function create(
   context: Client,
@@ -778,7 +790,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, clusterName, databaseName, parameters, options),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<Database>, Database>;
 }
 
@@ -796,7 +808,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -821,6 +833,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Da
 
   return databaseDeserializer(result.body);
 }
+
 /** Gets information about a database in a Redis Enterprise cluster. */
 export async function get(
   context: Client,
