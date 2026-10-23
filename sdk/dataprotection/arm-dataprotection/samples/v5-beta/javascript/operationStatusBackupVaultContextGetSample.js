@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the operation status for an operation over a BackupVault's context.
  *
  * @summary gets the operation status for an operation over a BackupVault's context.
- * x-ms-original-file: 2026-07-01/GetOperationStatusVaultContext.json
+ * x-ms-original-file: 2026-08-31-preview/GetOperationStatusVaultContext.json
  */
 async function getOperationStatus() {
   const credential = new DefaultAzureCredential();

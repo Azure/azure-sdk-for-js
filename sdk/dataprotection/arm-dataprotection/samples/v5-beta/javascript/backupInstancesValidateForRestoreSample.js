@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to validates if Restore can be triggered for a DataSource
  *
  * @summary validates if Restore can be triggered for a DataSource
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/ValidateRestore.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/ValidateRestore.json
  */
 async function validateRestore() {
   const credential = new DefaultAzureCredential();

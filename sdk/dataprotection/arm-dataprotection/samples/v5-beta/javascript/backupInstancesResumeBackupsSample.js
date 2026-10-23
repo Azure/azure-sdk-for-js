@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation will resume backups for backup instance
  *
  * @summary this operation will resume backups for backup instance
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/ResumeBackups.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/ResumeBackups.json
  */
 async function resumeBackups() {
   const credential = new DefaultAzureCredential();
