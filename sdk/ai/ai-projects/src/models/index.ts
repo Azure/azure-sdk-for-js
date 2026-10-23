@@ -948,4 +948,5 @@ export type {
   MicrosoftCopilotToolsetDefaultConfig,
   MicrosoftCopilotToolsetConfig,
   MicrosoftCopilotBuiltInTool,
+  VoiceAgentProfanityFilterMode,
 } from "./models.js";
