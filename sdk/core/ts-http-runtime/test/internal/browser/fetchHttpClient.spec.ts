@@ -79,7 +79,7 @@ describe("FetchHttpClient", function () {
     });
 
     await expect(client.sendRequest(request)).rejects.toThrow(
-      "The Expect header is only supported by the Node.js HTTP/1 transport.",
+      "The Expect header is not supported by the Fetch HttpClient.",
     );
     expect(fetch).not.toHaveBeenCalled();
   });
