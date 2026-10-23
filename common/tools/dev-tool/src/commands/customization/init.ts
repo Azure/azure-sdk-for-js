@@ -38,6 +38,16 @@ export default leafCommand(commandInfo, async () => {
       `// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// Customize the public exports for this entry point here.
+// This file belongs to the package author. Regeneration preserves it.
+//
+// Keep handwritten implementations outside src/generated/.
+// Do not edit files in src/generated/; the emitter overwrites them.
+// Add explicit exports below to expose custom implementations.
+//
+// See the customization guide:
+// https://aka.ms/azsdk/js/customization
+
 export * from ${JSON.stringify(specifier)};
 `,
     );
