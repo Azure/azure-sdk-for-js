@@ -8,7 +8,13 @@
 
 ### Features Added
 
+- Add `project.beta.voiceAgents.live` for native GPT Live WebSocket sessions, including typed events, streamed audio and transcripts, context appends, Responses function results, cancellation through operation signals, and graceful session finalization. Preserve existing Realtime behavior. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 - Add GPT Live agent definitions, lifecycle/delegation events with effective Foundry ownership, and `project.beta.voiceAgents.liveConversations` for persisted Live conversations and audio. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Add self-contained Node.js samples for GPT Live text, PCM audio, and Responses function calling. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
+
+### Bugs Fixed
+
+- Correlate the Realtime tracing sample and Voice Agent documentation example with the requested response instead of closing on a generated greeting. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
 
 ## 2.9.0 (2026-10-19)
 

@@ -1159,6 +1159,7 @@ export class AIProjectClient {
 // @public
 export interface AIProjectClientOptionalParams extends ClientOptions {
     apiVersion?: KnownApiVersions;
+    liveOptions?: VoiceAgentLiveClientOptions;
     realtimeOptions?: VoiceAgentRealtimeClientOptions;
     tracingOptions?: GenAITracingOptions;
 }
@@ -2029,7 +2030,7 @@ export interface BetaVoiceAgentsLiveConversationsOperations {
 // @public
 export interface BetaVoiceAgentsOperations {
     conversations: BetaVoiceAgentsConversationsOperations;
-    // (undocumented)
+    live: VoiceAgentLiveClient;
     liveConversations: BetaVoiceAgentsLiveConversationsOperations;
     realtime: VoiceAgentRealtimeClient;
     telephony: BetaVoiceAgentsTelephonyOperations;
@@ -7723,6 +7724,22 @@ export type VoiceAgentInterimResponseConfigUnion = VoiceAgentStaticInterimRespon
 export type VoiceAgentInterimResponseTrigger = "latency" | "tool";
 
 // @public
+export interface VoiceAgentLiveAppendOptions extends VoiceAgentEventOptions {
+    delegationId?: string | null;
+}
+
+// @public
+export class VoiceAgentLiveClient {
+    constructor(endpoint: string, credential: TokenCredential, options?: VoiceAgentLiveClientOptions);
+    connect(agentName: string, options?: VoiceAgentLiveClientConnectOptions): Promise<VoiceAgentLiveConnection>;
+}
+
+// @public
+export interface VoiceAgentLiveClientConnectOptions extends Omit<VoiceAgentRealtimeClientConnectOptions, "transport" | "agentSessionId"> {
+    sessionTimeoutInMs?: number;
+}
+
+// @public
 export interface VoiceAgentLiveClientDelegationConversationItem extends VoiceAgentLiveDelegationConversationItem {
     commentary?: string;
     // (undocumented)
@@ -7733,6 +7750,48 @@ export interface VoiceAgentLiveClientDelegationConversationItem extends VoiceAge
 // @public
 export interface VoiceAgentLiveClientDelegationOptions extends VoiceAgentLiveDelegationOptions {
     type: "client";
+}
+
+// @public
+export type VoiceAgentLiveClientEvent = {
+    [K in Exclude<LiveClientEventType, "session.start">]: Extract<LiveClientEventUnion, {
+        type: K;
+    }>;
+}[Exclude<LiveClientEventType, "session.start">];
+
+// @public
+export interface VoiceAgentLiveClientOptions extends VoiceAgentRealtimeClientOptions {
+    closeTimeoutInMs?: number;
+    sessionTimeoutInMs?: number;
+}
+
+// @public
+export interface VoiceAgentLiveCloseResult extends VoiceAgentCloseResult {
+    sessionClosed?: LiveServerEventLiveSessionClosed;
+}
+
+// @public
+export interface VoiceAgentLiveConnection extends AsyncIterable<VoiceAgentLiveEvent> {
+    appendCommentary(content: string, options?: VoiceAgentLiveAppendOptions): Promise<void>;
+    appendInstructions(content: string, options?: VoiceAgentLiveAppendOptions): Promise<void>;
+    appendThinking(content: string, options?: VoiceAgentLiveAppendOptions): Promise<void>;
+    close(code?: number, reason?: string): Promise<void>;
+    readonly closed: Promise<VoiceAgentLiveCloseResult>;
+    configureSession(session: LiveSessionUpdateParams, options?: VoiceAgentEventOptions): Promise<void>;
+    dispose(): Promise<void>;
+    muteInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
+    off<K extends VoiceAgentLiveEvent["type"]>(type: K, handler: VoiceAgentLiveEventHandler<K>): this;
+    on<K extends VoiceAgentLiveEvent["type"]>(type: K, handler: VoiceAgentLiveEventHandler<K>): this;
+    once<K extends VoiceAgentLiveEvent["type"]>(type: K, handler: VoiceAgentLiveEventHandler<K>): this;
+    requestResponse(options?: VoiceAgentEventOptions): Promise<void>;
+    send(event: VoiceAgentLiveClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
+    sendAudio(audio: Uint8Array | ArrayBuffer, options?: VoiceAgentEventOptions): Promise<void>;
+    sendEvent(event: VoiceAgentLiveClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
+    sendResponseItem(item: Record<string, unknown>, options?: VoiceAgentEventOptions): Promise<void>;
+    sendToolOutput(callId: string, output: string, options?: VoiceAgentSendToolOutputOptions): Promise<void>;
+    readonly session: VoiceAgentLiveSessionResource;
+    readonly state: VoiceAgentConnectionState;
+    unmuteInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
 }
 
 // @public
@@ -7811,6 +7870,18 @@ export type VoiceAgentLiveDelegationStatus = string | "in_progress" | "completed
 
 // @public
 export type VoiceAgentLiveDelegationTarget = string | "responses" | "client" | "foundry_managed_agent";
+
+// @public
+export type VoiceAgentLiveEvent = {
+    [K in LiveServerEventType]: Extract<LiveServerEventUnion, {
+        type: K;
+    }>;
+}[LiveServerEventType] | VoiceAgentUnknownEvent;
+
+// @public
+export type VoiceAgentLiveEventHandler<K extends VoiceAgentLiveEvent["type"]> = (event: Extract<VoiceAgentLiveEvent, {
+    type: K;
+}>) => void;
 
 // @public
 export interface VoiceAgentLiveFoundryManagedAgentDelegationItem extends VoiceAgentLiveDelegationConversationItem {

@@ -250,22 +250,45 @@ const voiceAgent = await project.beta.agents.createFromPrompt({
 try {
   const connection = await project.beta.voiceAgents.realtime.connect(voiceAgent.name);
   try {
-    await connection.sendText("Hello. Please introduce yourself briefly.");
+    const turnId = crypto.randomUUID();
+    let responseId: string | undefined;
+    let responseCompleted = false;
+    await connection.sendText("Hello. Please introduce yourself briefly.", {
+      createResponse: false,
+    });
+    await connection.requestResponse({
+      response: { metadata: { additionalProperties: { sample_turn: turnId } } },
+    });
     for await (const event of connection) {
+      // A generated agent may greet first. Correlate this turn's response, not the greeting.
+      if (
+        event.type === "response.created" &&
+        event.response.metadata?.additionalProperties?.["sample_turn"] === turnId
+      ) {
+        responseId = event.response.id;
+      }
       // Voice agents speak their reply, so the text form of it streams as an audio transcript
       // rather than as `response.output_text.delta`.
       if (
-        event.type === "response.output_text.delta" ||
-        event.type === "response.output_audio_transcript.delta"
+        (event.type === "response.output_text.delta" ||
+          event.type === "response.output_audio_transcript.delta") &&
+        event.response_id === responseId
       ) {
         process.stdout.write(event.delta);
       } else if (event.type === "unknown") {
         // event.rawEvent preserves all wire fields; validate them before using them.
         console.log(`Unrecognized server event: ${event.eventType}`);
-      } else if (event.type === "response.done") {
-        await connection.close();
+      } else if (event.type === "error") {
+        throw new Error(`Voice Agent error ${event.error.code}: ${event.error.message}`);
+      } else if (event.type === "response.done" && responseId && event.response.id === responseId) {
+        if (event.response.status !== "completed") {
+          throw new Error(`Requested voice response ${event.response.status ?? "unknown"}.`);
+        }
+        responseCompleted = true;
+        break;
       }
     }
+    if (!responseCompleted) throw new Error("The requested voice response did not complete.");
   } finally {
     await connection.dispose();
   }
@@ -322,6 +345,120 @@ SDK-managed query names are reserved, case-insensitively: `api-version`, `agent_
 these names or unsupported values rejects `connect()` with `TypeError` before authentication.
 Use the existing typed options instead. In particular, use `structuredInputs` for agent prompt
 variables; custom query parameters do not automatically become prompt inputs.
+
+### GPT Live voice agents
+
+`project.beta.voiceAgents.live` is the native GPT Live sibling of
+`project.beta.voiceAgents.realtime`. Create a voice agent with `sub_protocol: "live"`,
+`model_type: "self_deployed"`, and the name of a GPT Live deployment. Use the existing
+`VoiceAgents=V1Preview` opt-in when creating it.
+
+The short example below reads the first transcript fragment. Use the linked samples for
+complete spoken-output handling and audio playback.
+
+```ts snippet:ReadmeSampleVoiceAgentLive
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+const connection = await project.beta.voiceAgents.live.connect("<GPT Live agent name>", {
+  store: false,
+});
+const receive = (async () => {
+  // Foundry starts this session; do not send session.start or a Realtime audio-buffer commit.
+  await connection.appendCommentary("Say hello briefly.");
+  for await (const event of connection) {
+    if (event.type === "session.output_transcript.delta") {
+      console.log(event.delta);
+      break;
+    }
+    if (event.type === "error") {
+      throw new Error(`Live service error: ${event.error.code}`);
+    }
+  }
+})();
+const audioClock = (async () => {
+  // This example uses an agent configured for raw mono PCM16LE at 24 kHz.
+  while (connection.state === "connected") {
+    await connection.sendAudio(new Uint8Array(4800));
+    await new Promise<void>((resolve) => setTimeout(resolve, 100));
+  }
+})();
+try {
+  await Promise.all([receive, audioClock]);
+} finally {
+  try {
+    await connection.close();
+  } finally {
+    await Promise.allSettled([receive, audioClock]);
+  }
+}
+```
+
+The Live client uses `/agents/{agent_name}/endpoint/protocols/voice/live/sessions`
+and does not negotiate the Realtime WebSocket subprotocol. Foundry sends the initial
+configuration; `connect()` waits for `session.started`, and `connection.session` exposes
+the resolved snapshot. Use typed `on`/`off`/`once` listeners or one async iterator.
+Lifecycle snapshots report the effective delegation owner, including the pinned agent name
+and resolved version for Foundry-managed agents. Their delegation triggers report
+`foundry_managed_agent` as the target.
+
+Live is a continuous speech session, not a sequence of Realtime responses:
+
+- Send raw audio using `sendAudio()`. Live detects speech boundaries; there is no
+  `commitAudio()` or `clearInputAudio()`. Audio deltas retain the native base64 string.
+- Read `session.input_transcript.delta`, `session.output_transcript.delta`, and
+  `session.output_audio.delta`. Transcript fragments have no transcript-done event.
+- Append instruction, thinking, or commentary context with the corresponding helpers.
+  Text appended this way is context, not a user conversation item.
+- Responses delegation carries backend streaming events inside `response.event`.
+  `sendResponseItem()`, `sendToolOutput()`, and `requestResponse()` apply only to that
+  delegation mode. For client-owned delegations, reply using `appendThinking()` or
+  `appendCommentary()` with the event's delegation ID.
+- Live has no Realtime `response.cancel` command. Abort signals cancel SDK connection/send
+  operations; `muteInputAudio()` pauses model input, and `close()` terminates the session.
+  A graceful close waits for `session.closed`; its absence is not successful finalization.
+
+Use `liveOptions` on `AIProjectClient` to override connection, session-start, or graceful-close
+timeouts. It otherwise inherits the project's endpoint, credential scopes, and user-agent prefix.
+The existing Realtime API is unchanged. Persisted Live conversations use
+`project.beta.voiceAgents.liveConversations` and require `store` to be enabled, as well as
+persistence support on the service deployment.
+
+Browser builds use native `WebSocket` and a browser `TokenCredential`, such as
+`InteractiveBrowserCredential` for a public-client app registration. They offer the `live`
+application subprotocol alongside `authorization.bearer.<token>`, including in Web Workers. The shared transport
+carries the short-lived Entra token in that authentication subprotocol, not a URL parameter.
+Never embed API keys, client secrets, or long-lived tokens in browser code.
+
+Node.js uses bearer-header authentication without an application subprotocol. If a deployment
+does not support direct browser authentication, use an authenticated backend relay supplied
+through `webSocketFactory`. Do not put tokens in the URL or negotiate `realtime` on Live.
+
+See the [text](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveText.ts),
+[PCM input/output](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveAudio.ts), and
+[Responses function calling](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveFunctions.ts) Node.js samples.
+
+Set `FOUNDRY_PROJECT_ENDPOINT` and `FOUNDRY_LIVE_MODEL` before running the Node samples.
+The model setting is a **deployment name**, not a catalog model ID. The function sample also
+requires `FOUNDRY_LIVE_BACKEND_MODEL`, the Responses backend deployment name. These settings
+and optional PCM file paths are listed in [sample.env](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/sample.env).
+
+Each sample demonstrates one task: send a greeting, stream a PCM file, or answer a function call.
+The examples print captions as they arrive; they do not open a local speaker. Press Enter
+after reading the reply, or Ctrl+C, to close the session and delete the sample's agent.
+Each sample is self-contained, with no shared sample utility files.
+
+Live needs a continuously advancing audio timeline even for text and tool-driven speech.
+The examples send paced silent PCM while idle. **Voice-session usage remains billable until
+you stop the sample.** Live has no speech-finished event, and backend response completion does
+not mean speech has finished; stopping manually can interrupt the reply.
+
+The audio example reads **raw mono PCM16LE at 24 kHz**, not a WAV/MP3/Opus container, and saves
+the output in the same raw format. It uses a prerecorded file, not a microphone.
+The function example receives a completed function call and submits its result after the
+calling backend response finishes. `sendToolOutput()` requests the backend continuation
+by default. Only the frontend captions are printed as the spoken reply.
 
 ### Using Agent tools
 
