@@ -74,7 +74,7 @@ export {
   type NamingPolicy,
   type NamingPolicyOptions,
 } from "./naming/naming-policy.js";
-export type { ResourceNamingRules, ResourceNamingValidCharacters } from "./naming/naming-rules.js";
+export type { ResourceNamingRules } from "./naming/naming-rules.js";
 export { type QueryOptions } from "./constructs/resource/resource-query.js";
 export {
   isResource,

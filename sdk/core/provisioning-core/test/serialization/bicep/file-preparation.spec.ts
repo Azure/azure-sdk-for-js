@@ -127,7 +127,11 @@ describe("prepared file metadata and AST contents", () => {
     ["nested/../prepared", "prepared/storageAccount.bicep"],
     ["nested\\prepared", "nested/prepared/storageAccount.bicep"],
   ])("normalizes module paths and resolves imports for entry %s", (stackName, moduleFileName) => {
-    const { stack, group } = subscriptionStack(stackName);
+    const stack = new Stack(stackName);
+    const group = new ResourceGroup(stack, {
+      name: "rg-prepared",
+      location: "eastus",
+    });
     storage(group, "nestedstorage");
     const { prepared } = prepare(stack);
     wireDeploymentFiles(stack.name, prepared);

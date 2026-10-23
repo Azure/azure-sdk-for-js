@@ -13,7 +13,8 @@ import type { ExpressionNode } from "../../expression/ast-nodes.js";
 import { symbolicValueExpressionNode } from "../../expression/ast-nodes.js";
 import type { PropertySegment } from "../../types.js";
 import type { ResourceNamingRules } from "../../naming/naming-rules.js";
-import { namingRequiredPolicy, resolveResourceName } from "../../naming/naming-policy.js";
+import { assertValidResourceName } from "../../naming/name-validation.js";
+import { namingRequiredPolicy, generateResourceName } from "../../naming/naming-policy.js";
 import {
   RAW_RESOURCE_HANDLE,
   RESOURCE_BRAND,
@@ -91,9 +92,9 @@ export interface ResourceState<TType extends string = string> {
  * resource as the ProvisioningComponent `context` argument to the resource constructor
  * (with `{ existing: true }`), not via this `scope` field.
  */
-export interface ExistingResourceProps {
+export interface ExistingResourceProps<TName extends string = string> {
   /** Required. The actual Azure name of the existing resource. */
-  readonly name: ExpressionOrValue<string>;
+  readonly name: ExpressionOrValue<TName>;
 
   /**
    * Optional. The scope at which to look up the resource. Used when the
@@ -181,6 +182,7 @@ export interface ResourceOptions {
 export abstract class ResourceDeclaration<
   TType extends string = string,
 > extends ProvisioningComponent {
+  protected readonly namingRules: ResourceNamingRules | undefined;
   /**
    * Brand marker for cross-realm `isResourceDeclaration()` checks. Uses
    * `Symbol.for` so it survives multiple copies of `@azure/provisioning-core`.
@@ -226,7 +228,22 @@ export abstract class ResourceDeclaration<
     options?: ResourceOptions,
     namingRules?: ResourceNamingRules,
   ) {
+    const armParent =
+      isResourceDeclaration(context) &&
+      props.type.toLowerCase().startsWith(context.type.toLowerCase() + "/")
+        ? context
+        : undefined;
+    // Automatic naming uses the authored rather than the discovered hierarchy.
+    const nameSegments =
+      namingRules !== undefined &&
+      (armParent !== undefined || namingRules.nameSegments !== undefined)
+        ? props.type.split("/").length - (armParent?.type.split("/").length ?? 1)
+        : undefined;
+    if (props.name !== undefined) {
+      assertValidResourceName(props.name, props.type, namingRules);
+    }
     super(context);
+    this.namingRules = namingRules;
 
     if (!this.hasDeploymentContext()) {
       throw new Error("Resource declaration must have a parent deployment context.");
@@ -312,13 +329,25 @@ export abstract class ResourceDeclaration<
         ...userProps
       } = props as ResourceProps<TType> & Record<string, unknown>;
       const ctx = this.deploymentContext;
+      let resolvedName: ExpressionOrValue<string>;
+      try {
+        resolvedName =
+          props.name ??
+          generateResourceName(
+            ctx.namingPolicy ?? namingRequiredPolicy,
+            props.type,
+            namingRules,
+            nameSegments,
+          );
+      } catch (error) {
+        // A rejected generated name must not leave a partial declaration
+        // registered in its parent's tree.
+        const index = this.parent?.children.indexOf(this) ?? -1;
+        if (index >= 0) this.parent!.children.splice(index, 1);
+        throw error;
+      }
       data = {
-        name: resolveResourceName(
-          ctx.namingPolicy ?? namingRequiredPolicy,
-          props.name,
-          props.type,
-          namingRules,
-        ),
+        name: resolvedName,
         type: props.type,
         apiVersion: props.apiVersion,
         condition,
@@ -431,6 +460,9 @@ export abstract class ResourceDeclaration<
   }
 
   protected setProperty(key: string, value: unknown): void {
+    if (key === "name") {
+      assertValidResourceName(value, this.type, this.namingRules);
+    }
     this.state[key] = normalizeAssignedValue(value, this as unknown as Resource);
   }
 }
@@ -544,7 +576,7 @@ export class Resource<TType extends string = string> extends ResourceDeclaration
    * Per-resource-type naming constraints, consumed by the active
    * {@link NamingPolicy} when a resource is created without an explicit
    * `name`. Generated CDK subclasses override this with a concrete value;
-   * the base default of `undefined` yields `MOST_RESTRICTIVE` behavior.
+   * the base default of `undefined` uses the default naming convention.
    *
    * This is type metadata, not user input, so it is kept off the public
    * props surface and read reflectively in the constructor via
@@ -826,6 +858,9 @@ export class LoopedResource<T extends Resource = Resource> extends ResourceDecla
         buildResourceProps: (props: unknown) => ResourceProps<T["type"]> & Record<string, unknown>;
       }
     ).buildResourceProps.call(wrappedCtor, userProps);
+    if (props.name === undefined) {
+      throw new Error(`Looped resource '${props.type}' requires an explicit per-iteration name.`);
+    }
     const namingRules = (wrappedCtor as unknown as { namingRules?: ResourceNamingRules })
       .namingRules;
     (

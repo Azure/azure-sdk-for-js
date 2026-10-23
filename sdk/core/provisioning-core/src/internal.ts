@@ -88,4 +88,4 @@ export {
   type UnixTimestampEncodingDescriptor,
   type ValueEncodingDescriptor,
 } from "./shape/value-encoding.js";
-export type { ResourceNamingRules, ResourceNamingValidCharacters } from "./naming/naming-rules.js";
+export type { ResourceNamingRules } from "./naming/naming-rules.js";

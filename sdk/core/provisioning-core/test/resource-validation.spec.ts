@@ -6,7 +6,7 @@ import { Resource, Stack } from "../src/index.js";
 import type { ProvisioningComponent } from "../src/constructs/provisioning-component.js";
 import type { ResourceOptions, ResourceProps } from "../src/constructs/resource/resource.js";
 import { createLoopedResource, Loop } from "../src/internal-loop.js";
-import { MOST_RESTRICTIVE, type ResourceNamingRules } from "../src/naming/naming-rules.js";
+import { DEFAULT_NAMING_RULES, type ResourceNamingRules } from "../src/naming/naming-rules.js";
 
 describe("resource construction validation", () => {
   afterEach(() => Stack.clearRoots());
@@ -16,7 +16,7 @@ describe("resource construction validation", () => {
     (looped) => {
       const stack = new Stack("validation");
       const rules: ResourceNamingRules = {
-        ...MOST_RESTRICTIVE,
+        ...DEFAULT_NAMING_RULES,
         abbreviation: "test",
       };
       const options: ResourceOptions = { condition: true };

@@ -24,12 +24,8 @@ const resourceGroupNamingRules: ResourceNamingRules = {
   abbreviation: "rg",
   minLength: 1,
   maxLength: 90,
-  validCharacters: {
-    uppercase: true,
-    hyphens: true,
-    underscores: true,
-    periods: true,
-  },
+  // ARM CommonTypes.ResourceGroupNameParameter.
+  pattern: { regex: "^[-\\w\\._\\(\\)]+$" },
   scope: "subscription",
 };
 

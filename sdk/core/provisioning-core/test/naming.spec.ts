@@ -18,12 +18,7 @@ const storageRules: ResourceNamingRules = {
   abbreviation: "st",
   minLength: 3,
   maxLength: 24,
-  validCharacters: {
-    uppercase: false,
-    hyphens: false,
-    underscores: false,
-    periods: false,
-  },
+  pattern: { regex: "^[a-z0-9]+$" },
   scope: "global",
 };
 
@@ -31,12 +26,7 @@ const kvRules: ResourceNamingRules = {
   abbreviation: "kv",
   minLength: 3,
   maxLength: 24,
-  validCharacters: {
-    uppercase: true,
-    hyphens: true,
-    underscores: false,
-    periods: false,
-  },
+  pattern: { regex: "^[A-Za-z0-9-]+$" },
   scope: "global",
 };
 
@@ -44,12 +34,7 @@ const vnetRules: ResourceNamingRules = {
   abbreviation: "vnet",
   minLength: 2,
   maxLength: 64,
-  validCharacters: {
-    uppercase: true,
-    hyphens: true,
-    underscores: true,
-    periods: true,
-  },
+  pattern: { regex: "^[A-Za-z0-9._-]+$" },
   scope: "resourceGroup",
 };
 
@@ -57,12 +42,7 @@ const customRules: ResourceNamingRules = {
   abbreviation: "ct",
   minLength: 1,
   maxLength: 80,
-  validCharacters: {
-    uppercase: true,
-    hyphens: true,
-    underscores: false,
-    periods: false,
-  },
+  pattern: { regex: "^[A-Za-z0-9-]+$" },
   scope: "resourceGroup",
 };
 
@@ -285,7 +265,7 @@ describe("naming policy", () => {
     expect(text).toContain("name: 'my-exact-name'");
   });
 
-  it("falls back to MOST_RESTRICTIVE when no namingRules provided", () => {
+  it("uses a convention without inventing constraints when no namingRules are provided", () => {
     const stack = new Stack("myApp", {
       targetScope: "subscription",
       namingPolicy: new DefaultNamingPolicy({ workload: "contoso" }),
