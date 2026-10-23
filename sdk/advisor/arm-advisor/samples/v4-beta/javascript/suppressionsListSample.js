@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the list of snoozed or dismissed suppressions for a subscription. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.
  *
  * @summary retrieves the list of snoozed or dismissed suppressions for a subscription. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.
- * x-ms-original-file: 2026-02-01-preview/ListSuppressions.json
+ * x-ms-original-file: 2026-08-01-preview/ListSuppressions.json
  */
 async function listSuppressions() {
   const credential = new DefaultAzureCredential();

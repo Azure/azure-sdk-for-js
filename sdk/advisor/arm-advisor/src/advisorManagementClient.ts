@@ -26,10 +26,6 @@ import type { ResiliencyReviewsOperations } from "./classic/resiliencyReviews/in
 import { _getResiliencyReviewsOperations } from "./classic/resiliencyReviews/index.js";
 import type { SuppressionsOperations } from "./classic/suppressions/index.js";
 import { _getSuppressionsOperations } from "./classic/suppressions/index.js";
-import type { TriageRecommendationsOperations } from "./classic/triageRecommendations/index.js";
-import { _getTriageRecommendationsOperations } from "./classic/triageRecommendations/index.js";
-import type { TriageResourcesOperations } from "./classic/triageResources/index.js";
-import { _getTriageResourcesOperations } from "./classic/triageResources/index.js";
 import type { WorkloadsOperations } from "./classic/workloads/index.js";
 import { _getWorkloadsOperations } from "./classic/workloads/index.js";
 import type { PredictionRequest, PredictionResponse } from "./models/models.js";
@@ -64,20 +60,11 @@ export class AdvisorManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAdvisorManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAdvisorManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.workloads = _getWorkloadsOperations(this._client);
     this.assessmentTypes = _getAssessmentTypesOperations(this._client);
     this.configurations = _getConfigurationsOperations(this._client);
-    this.triageResources = _getTriageResourcesOperations(this._client);
-    this.triageRecommendations = _getTriageRecommendationsOperations(this._client);
     this.resiliencyReviews = _getResiliencyReviewsOperations(this._client);
     this.assessments = _getAssessmentsOperations(this._client);
     this.advisorScores = _getAdvisorScoresOperations(this._client);
@@ -101,10 +88,6 @@ export class AdvisorManagementClient {
   public readonly assessmentTypes: AssessmentTypesOperations;
   /** The operation groups for configurations */
   public readonly configurations: ConfigurationsOperations;
-  /** The operation groups for triageResources */
-  public readonly triageResources: TriageResourcesOperations;
-  /** The operation groups for triageRecommendations */
-  public readonly triageRecommendations: TriageRecommendationsOperations;
   /** The operation groups for resiliencyReviews */
   public readonly resiliencyReviews: ResiliencyReviewsOperations;
   /** The operation groups for assessments */

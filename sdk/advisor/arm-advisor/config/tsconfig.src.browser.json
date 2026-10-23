@@ -1,4 +1,21 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/workloads/index.ts",
+    "../src/api/assessmentTypes/index.ts",
+    "../src/api/configurations/index.ts",
+    "../src/api/resiliencyReviews/index.ts",
+    "../src/api/assessments/index.ts",
+    "../src/api/advisorScores/index.ts",
+    "../src/api/suppressions/index.ts",
+    "../src/api/recommendations/index.ts",
+    "../src/api/recommendationMetadata/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }

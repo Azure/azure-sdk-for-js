@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete an existing Azure Advisor assessment.
  *
  * @summary delete an existing Azure Advisor assessment.
- * x-ms-original-file: 2026-02-01-preview/DeleteAssessment.json
+ * x-ms-original-file: 2026-08-01-preview/DeleteAssessment.json
  */
 async function deleteAssessment() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to obtains details of a cached recommendation.
  *
  * @summary obtains details of a cached recommendation.
- * x-ms-original-file: 2026-02-01-preview/GetRecommendationDetailServiceGroupResourceUri.json
+ * x-ms-original-file: 2026-08-01-preview/GetRecommendationDetailServiceGroupResourceUri.json
  */
 async function getRecommendationDetailServiceGroupResourceUri(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function getRecommendationDetailServiceGroupResourceUri(): Promise<void> {
  * This sample demonstrates how to obtains details of a cached recommendation.
  *
  * @summary obtains details of a cached recommendation.
- * x-ms-original-file: 2026-02-01-preview/GetRecommendationDetailSubscriptionResourceUri.json
+ * x-ms-original-file: 2026-08-01-preview/GetRecommendationDetailSubscriptionResourceUri.json
  */
 async function getRecommendationDetailSubscriptionResourceUri(): Promise<void> {
   const credential = new DefaultAzureCredential();
