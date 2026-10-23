@@ -334,8 +334,9 @@ export class AppConfigurationClient {
           label: id.label,
           ...updatedOptions,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
-          onResponse: (response) => {
-            status = response.status;
+          onResponse: (...args) => {
+            status = args[0].status;
+            updatedOptions.onResponse?.(...args);
           },
           requestOptions: {
             ...updatedOptions.requestOptions,
