@@ -1,5 +1,11 @@
 # Release History
 
+## 4.10.2 (Unreleased)
+
+### Other Changes
+
+- Automatically identify clients configured for client-side encryption with an unversioned `cse` user-agent marker, preserving customer suffixes and host framework identifiers. The existing Cosmos SDK identifier supplies the SDK version. [#40443](https://github.com/Azure/azure-sdk-for-js/pull/40443)
+
 ## 4.10.1 (2026-09-14)
 
 ### Bugs Fixed
