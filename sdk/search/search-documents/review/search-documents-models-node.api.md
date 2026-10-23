@@ -4,7 +4,7 @@
 
 ```ts
 
-import { NodeReadableStream } from '@azure/core-rest-pipeline';
+import type { NodeReadableStream } from '@azure/core-rest-pipeline';
 
 // @public
 export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
@@ -15,15 +15,29 @@ export interface KnowledgeBaseModelWebSummarizationActivityRecord extends Knowle
 }
 
 // @public
-export type KnowledgeBaseRetrievalStreamEvents = KnowledgeBaseRetrievalStartedEvent | KnowledgeBaseActivityStartedEvent | KnowledgeBaseActivityRecordUnion | KnowledgeBaseAnswerCompletedEvent | KnowledgeBaseReferenceUnion[] | KnowledgeBaseStreamErrorEvent | KnowledgeBaseResponseCompletedEvent;
+export type KnowledgeBaseRetrievalStreamEvents = KnowledgeBaseRetrievalStartedStreamEvent | KnowledgeBaseActivityStartedStreamEvent | KnowledgeBaseActivityCompletedStreamEvent | KnowledgeBaseAnswerCompletedStreamEvent | KnowledgeBaseReferencesCompletedStreamEvent | KnowledgeBaseErrorStreamEvent | KnowledgeBaseResponseCompletedStreamEvent;
+
+// @public
+export enum KnownOperationState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    NotStarted = "NotStarted",
+    Running = "Running",
+    Succeeded = "Succeeded"
+}
 
 // @public
 export enum KnownVersions {
     V20251101Preview = "2025-11-01-preview",
     V20260401 = "2026-04-01",
     V20260501Preview = "2026-05-01-preview",
-    V20260801Preview = "2026-08-01-preview"
+    V20260801Preview = "2026-08-01-preview",
+    V20261001 = "2026-10-01",
+    V20261101Preview = "2026-11-01-preview"
 }
+
+// @public
+export type OperationState = string;
 
 // @public
 export type RetrieveStreamResponse = {

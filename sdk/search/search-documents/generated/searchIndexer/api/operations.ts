@@ -35,13 +35,13 @@ import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
-  GetSkillsetsOptionalParams,
+  ListSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
   DeleteSkillsetOptionalParams,
   CreateOrUpdateSkillsetOptionalParams,
   GetIndexerStatusOptionalParams,
   CreateIndexerOptionalParams,
-  GetIndexersOptionalParams,
+  ListIndexersOptionalParams,
   GetIndexerOptionalParams,
   DeleteIndexerOptionalParams,
   CreateOrUpdateIndexerOptionalParams,
@@ -50,7 +50,7 @@ import {
   ResyncOptionalParams,
   ResetIndexerOptionalParams,
   CreateDataSourceConnectionOptionalParams,
-  GetDataSourceConnectionsOptionalParams,
+  ListDataSourceConnectionsOptionalParams,
   GetDataSourceConnectionOptionalParams,
   DeleteDataSourceConnectionOptionalParams,
   CreateOrUpdateDataSourceConnectionOptionalParams,
@@ -64,15 +64,15 @@ import {
 
 export function _resetSkillsSend(
   context: Client,
-  skillNames: SkillNames,
   name: string,
+  skillNames: SkillNames,
   options: ResetSkillsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/skillsets('{skillsetName}')/search.resetskills{?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -82,13 +82,13 @@ export function _resetSkillsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -113,11 +113,11 @@ export async function _resetSkillsDeserialize(result: PathUncheckedResponse): Pr
 /** Reset an existing skillset in a search service. */
 export async function resetSkills(
   context: Client,
-  skillNames: SkillNames,
   name: string,
+  skillNames: SkillNames,
   options: ResetSkillsOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _resetSkillsSend(context, skillNames, name, options);
+  const result = await _resetSkillsSend(context, name, skillNames, options);
   return _resetSkillsDeserialize(result);
 }
 
@@ -129,7 +129,7 @@ export function _createSkillsetSend(
   const path = expandUrlTemplate(
     "/skillsets{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,13 +139,13 @@ export function _createSkillsetSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -179,14 +179,14 @@ export async function createSkillset(
   return _createSkillsetDeserialize(result);
 }
 
-export function _getSkillsetsSend(
+export function _listSkillsetsSend(
   context: Client,
-  options: GetSkillsetsOptionalParams = { requestOptions: {} },
+  options: ListSkillsetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/skillsets{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       "%24select": options?.select,
       search: options?.search,
       pageSize: options?.pageSize,
@@ -199,20 +199,20 @@ export function _getSkillsetsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
   });
 }
 
-export async function _getSkillsetsDeserialize(
+export async function _listSkillsetsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ListSkillsetsResult> {
   const expectedStatuses = ["200"];
@@ -229,19 +229,19 @@ export async function _getSkillsetsDeserialize(
 }
 
 /** List all skillsets in a search service. */
-export function getSkillsets(
+export function listSkillsets(
   context: Client,
-  options: GetSkillsetsOptionalParams = { requestOptions: {} },
+  options: ListSkillsetsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SearchIndexerSkillset> {
   return buildPagedAsyncIterator(
     context,
-    () => _getSkillsetsSend(context, options),
-    _getSkillsetsDeserialize,
+    () => _listSkillsetsSend(context, options),
+    _listSkillsetsDeserialize,
     ["200"],
     {
       itemName: "skillsets",
       nextLinkName: "@odata.nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
     },
   );
 }
@@ -255,7 +255,7 @@ export function _getSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -264,13 +264,13 @@ export function _getSkillsetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -312,7 +312,7 @@ export function _deleteSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -321,6 +321,9 @@ export function _deleteSkillsetSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
@@ -328,9 +331,6 @@ export function _deleteSkillsetSend(
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -362,15 +362,15 @@ export async function deleteSkillset(
 
 export function _createOrUpdateSkillsetSend(
   context: Client,
-  skillset: SearchIndexerSkillset,
   name: string,
+  skillset: SearchIndexerSkillset,
   options: CreateOrUpdateSkillsetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/skillsets('{skillsetName}'){?api%2Dversion,ignoreResetRequirements,disableCacheReprocessingChangeDetection}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
       disableCacheReprocessingChangeDetection: options?.disableCacheReprocessingChangeDetection,
     },
@@ -382,6 +382,9 @@ export function _createOrUpdateSkillsetSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
@@ -390,9 +393,6 @@ export function _createOrUpdateSkillsetSend(
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       prefer: "return=representation",
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       ...options.requestOptions?.headers,
     },
     body: searchIndexerSkillsetSerializer(skillset),
@@ -418,11 +418,11 @@ export async function _createOrUpdateSkillsetDeserialize(
 /** Creates a new skillset in a search service or updates the skillset if it already exists. */
 export async function createOrUpdateSkillset(
   context: Client,
-  skillset: SearchIndexerSkillset,
   name: string,
+  skillset: SearchIndexerSkillset,
   options: CreateOrUpdateSkillsetOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexerSkillset> {
-  const result = await _createOrUpdateSkillsetSend(context, skillset, name, options);
+  const result = await _createOrUpdateSkillsetSend(context, name, skillset, options);
   return _createOrUpdateSkillsetDeserialize(result);
 }
 
@@ -435,7 +435,7 @@ export function _getIndexerStatusSend(
     "/indexers('{indexerName}')/search.status{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -444,13 +444,13 @@ export function _getIndexerStatusSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -491,7 +491,7 @@ export function _createIndexerSend(
   const path = expandUrlTemplate(
     "/indexers{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -501,13 +501,13 @@ export function _createIndexerSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -541,14 +541,14 @@ export async function createIndexer(
   return _createIndexerDeserialize(result);
 }
 
-export function _getIndexersSend(
+export function _listIndexersSend(
   context: Client,
-  options: GetIndexersOptionalParams = { requestOptions: {} },
+  options: ListIndexersOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/indexers{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       "%24select": options?.select,
       search: options?.search,
       pageSize: options?.pageSize,
@@ -561,20 +561,20 @@ export function _getIndexersSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
   });
 }
 
-export async function _getIndexersDeserialize(
+export async function _listIndexersDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ListIndexersResult> {
   const expectedStatuses = ["200"];
@@ -591,19 +591,19 @@ export async function _getIndexersDeserialize(
 }
 
 /** Lists all indexers available for a search service. */
-export function getIndexers(
+export function listIndexers(
   context: Client,
-  options: GetIndexersOptionalParams = { requestOptions: {} },
+  options: ListIndexersOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SearchIndexer> {
   return buildPagedAsyncIterator(
     context,
-    () => _getIndexersSend(context, options),
-    _getIndexersDeserialize,
+    () => _listIndexersSend(context, options),
+    _listIndexersDeserialize,
     ["200"],
     {
       itemName: "indexers",
       nextLinkName: "@odata.nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
     },
   );
 }
@@ -617,7 +617,7 @@ export function _getIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -626,13 +626,13 @@ export function _getIndexerSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -674,7 +674,7 @@ export function _deleteIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -683,6 +683,9 @@ export function _deleteIndexerSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
@@ -690,9 +693,6 @@ export function _deleteIndexerSend(
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -724,15 +724,15 @@ export async function deleteIndexer(
 
 export function _createOrUpdateIndexerSend(
   context: Client,
-  indexer: SearchIndexer,
   name: string,
+  indexer: SearchIndexer,
   options: CreateOrUpdateIndexerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/indexers('{indexerName}'){?api%2Dversion,ignoreResetRequirements,disableCacheReprocessingChangeDetection}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
       disableCacheReprocessingChangeDetection: options?.disableCacheReprocessingChangeDetection,
     },
@@ -744,6 +744,9 @@ export function _createOrUpdateIndexerSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
@@ -752,9 +755,6 @@ export function _createOrUpdateIndexerSend(
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       prefer: "return=representation",
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       ...options.requestOptions?.headers,
     },
     body: searchIndexerSerializer(indexer),
@@ -780,11 +780,11 @@ export async function _createOrUpdateIndexerDeserialize(
 /** Creates a new indexer or updates an indexer if it already exists. */
 export async function createOrUpdateIndexer(
   context: Client,
-  indexer: SearchIndexer,
   name: string,
+  indexer: SearchIndexer,
   options: CreateOrUpdateIndexerOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexer> {
-  const result = await _createOrUpdateIndexerSend(context, indexer, name, options);
+  const result = await _createOrUpdateIndexerSend(context, name, indexer, options);
   return _createOrUpdateIndexerDeserialize(result);
 }
 
@@ -797,7 +797,7 @@ export function _runIndexerSend(
     "/indexers('{indexerName}')/search.run{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -806,13 +806,13 @@ export function _runIndexerSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -852,7 +852,7 @@ export function _resetDocumentsSend(
     "/indexers('{indexerName}')/search.resetdocs{?api%2Dversion,overwrite}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       overwrite: options?.overwrite,
     },
     {
@@ -863,13 +863,13 @@ export function _resetDocumentsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -905,15 +905,15 @@ export async function resetDocuments(
 
 export function _resyncSend(
   context: Client,
-  indexerResync: IndexerResyncBody,
   name: string,
+  indexerResync: IndexerResyncBody,
   options: ResyncOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/indexers('{indexerName}')/search.resync{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -923,13 +923,13 @@ export function _resyncSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -954,11 +954,11 @@ export async function _resyncDeserialize(result: PathUncheckedResponse): Promise
 /** Resync selective options from the datasource to be re-ingested by the indexer." */
 export async function resync(
   context: Client,
-  indexerResync: IndexerResyncBody,
   name: string,
+  indexerResync: IndexerResyncBody,
   options: ResyncOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _resyncSend(context, indexerResync, name, options);
+  const result = await _resyncSend(context, name, indexerResync, options);
   return _resyncDeserialize(result);
 }
 
@@ -971,7 +971,7 @@ export function _resetIndexerSend(
     "/indexers('{indexerName}')/search.reset{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -980,13 +980,13 @@ export function _resetIndexerSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -1025,7 +1025,7 @@ export function _createDataSourceConnectionSend(
   const path = expandUrlTemplate(
     "/datasources{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1035,13 +1035,13 @@ export function _createDataSourceConnectionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -1075,14 +1075,14 @@ export async function createDataSourceConnection(
   return _createDataSourceConnectionDeserialize(result);
 }
 
-export function _getDataSourceConnectionsSend(
+export function _listDataSourceConnectionsSend(
   context: Client,
-  options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
+  options: ListDataSourceConnectionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/datasources{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       "%24select": options?.select,
       search: options?.search,
       pageSize: options?.pageSize,
@@ -1095,20 +1095,20 @@ export function _getDataSourceConnectionsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
   });
 }
 
-export async function _getDataSourceConnectionsDeserialize(
+export async function _listDataSourceConnectionsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ListDataSourcesResult> {
   const expectedStatuses = ["200"];
@@ -1125,19 +1125,19 @@ export async function _getDataSourceConnectionsDeserialize(
 }
 
 /** Lists all datasources available for a search service. */
-export function getDataSourceConnections(
+export function listDataSourceConnections(
   context: Client,
-  options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
+  options: ListDataSourceConnectionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection> {
   return buildPagedAsyncIterator(
     context,
-    () => _getDataSourceConnectionsSend(context, options),
-    _getDataSourceConnectionsDeserialize,
+    () => _listDataSourceConnectionsSend(context, options),
+    _listDataSourceConnectionsDeserialize,
     ["200"],
     {
       itemName: "dataSources",
       nextLinkName: "@odata.nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
     },
   );
 }
@@ -1151,7 +1151,7 @@ export function _getDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1160,13 +1160,13 @@ export function _getDataSourceConnectionSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -1208,7 +1208,7 @@ export function _deleteDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1217,6 +1217,9 @@ export function _deleteDataSourceConnectionSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
@@ -1224,9 +1227,6 @@ export function _deleteDataSourceConnectionSend(
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -1260,15 +1260,15 @@ export async function deleteDataSourceConnection(
 
 export function _createOrUpdateDataSourceConnectionSend(
   context: Client,
-  dataSource: SearchIndexerDataSourceConnection,
   name: string,
+  dataSource: SearchIndexerDataSourceConnection,
   options: CreateOrUpdateDataSourceConnectionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/datasources('{dataSourceName}'){?api%2Dversion,ignoreResetRequirements}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
     },
     {
@@ -1279,6 +1279,9 @@ export function _createOrUpdateDataSourceConnectionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
@@ -1287,9 +1290,6 @@ export function _createOrUpdateDataSourceConnectionSend(
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       prefer: "return=representation",
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       ...options.requestOptions?.headers,
     },
     body: searchIndexerDataSourceConnectionSerializer(dataSource),
@@ -1315,10 +1315,10 @@ export async function _createOrUpdateDataSourceConnectionDeserialize(
 /** Creates a new datasource or updates a datasource if it already exists. */
 export async function createOrUpdateDataSourceConnection(
   context: Client,
-  dataSource: SearchIndexerDataSourceConnection,
   name: string,
+  dataSource: SearchIndexerDataSourceConnection,
   options: CreateOrUpdateDataSourceConnectionOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexerDataSourceConnection> {
-  const result = await _createOrUpdateDataSourceConnectionSend(context, dataSource, name, options);
+  const result = await _createOrUpdateDataSourceConnectionSend(context, name, dataSource, options);
   return _createOrUpdateDataSourceConnectionDeserialize(result);
 }

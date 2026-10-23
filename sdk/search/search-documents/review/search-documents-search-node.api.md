@@ -55,6 +55,22 @@ export interface GetDocumentOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface GraphOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
+    clientRequestId?: string;
+    enableElevatedRead?: boolean;
+    executionMode?: GraphQueryExecutionMode;
+    explain?: GraphQueryExplainStage[];
+    filter?: string;
+    includeDiagnostics?: boolean;
+    includeStatistics?: boolean;
+    provenance?: GraphQueryProvenanceParameters;
+    querySourceAuthorization?: string;
+    search?: string;
+    vectorQueries?: VectorQueryUnion[];
+}
+
+// @public
 export interface IndexOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
@@ -67,6 +83,7 @@ export class SearchClient {
     autocompletePost(searchText: string, suggesterName: string, options?: AutocompletePostOptionalParams): Promise<AutocompleteResult>;
     getDocument(key: string, options?: GetDocumentOptionalParams): Promise<LookupDocument>;
     getDocumentCount(options?: GetDocumentCountOptionalParams): Promise<number>;
+    graph(gql: string, options?: GraphOptionalParams): Promise<GraphQueryResult>;
     index(batch: IndexDocumentsBatch, options?: IndexOptionalParams): Promise<IndexDocumentsResult>;
     readonly pipeline: Pipeline;
     searchGet(options?: SearchGetOptionalParams): Promise<SearchDocumentsResult>;
@@ -89,6 +106,7 @@ export interface SearchContext extends Client {
 // @public
 export interface SearchGetOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=none";
+    agenticMaxRuntimeInSeconds?: number;
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
@@ -101,6 +119,7 @@ export interface SearchGetOptionalParams extends OperationOptions {
     highlightPreTag?: string;
     includeTotalResultCount?: boolean;
     minimumCoverage?: number;
+    moreLikeThis?: string;
     orderBy?: string;
     queryLanguage?: QueryLanguage;
     queryRewrites?: QueryRewritesType;
@@ -127,6 +146,7 @@ export interface SearchGetOptionalParams extends OperationOptions {
 // @public
 export interface SearchPostOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=none";
+    agenticOptions?: AgenticSearchOptions;
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
@@ -140,6 +160,7 @@ export interface SearchPostOptionalParams extends OperationOptions {
     hybridSearch?: HybridSearch;
     includeTotalCount?: boolean;
     minimumCoverage?: number;
+    moreLikeThis?: string;
     orderBy?: string;
     queryLanguage?: QueryLanguage;
     queryRewrites?: QueryRewritesType;

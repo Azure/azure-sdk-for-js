@@ -2,6 +2,46 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
+import type { ErrorDetail } from "./errorModels.js";
+import type {
+  AgenticSearchOptions,
+  VectorQueryTopicGraphUnion,
+  GraphQueryResult,
+  GraphQueryExecutionMode,
+  GraphQueryExplainStage,
+  GraphQueryProvenanceParameters,
+  DebugInfo,
+} from "./models/azure/search/documents/index.js";
+
+/** Options for executing a graph query over this search index. */
+export interface GraphOptions<TModel extends object = object> extends OperationOptions {
+  /** User assertion used for document-level permission checks. */
+  querySourceAuthorization?: string;
+  /** Whether to use an authorized elevated read. */
+  enableElevatedRead?: boolean;
+  /** Full-text constraints applied during graph execution. */
+  search?: string;
+  /** OData filter applied during graph execution. */
+  filter?: string;
+  /** Vector queries used to constrain graph execution. */
+  vectorQueries?: VectorQuery<TModel>[];
+  /** Whether to execute the graph query or only plan it. */
+  executionMode?: GraphQueryExecutionMode;
+  /** Diagnostic query plan stages to return. */
+  explain?: GraphQueryExplainStage[];
+  /** Whether to return execution statistics. */
+  includeStatistics?: boolean;
+  /** Whether to include informational diagnostics. */
+  includeDiagnostics?: boolean;
+  /** Assertion evidence and document hydration configuration. */
+  provenance?: GraphQueryProvenanceParameters;
+}
+
+/** Graph-specific diagnostics and standard Search error information. */
+export interface GraphQueryError extends Partial<GraphQueryResult> {
+  /** The error returned by the Search service. */
+  error: ErrorDetail;
+}
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AutocompleteMode,
@@ -204,6 +244,8 @@ export type VectorQuery<TModel extends object> =
  * The query parameters for vector and hybrid search queries.
  */
 export interface BaseVectorQuery<TModel extends object> {
+  /** Topic graph retrieval strategy for this vector query. */
+  topicGraph?: VectorQueryTopicGraphUnion;
   /**
    * ### Known values supported by the service
    * **vector**: Vector query where a raw vector value is provided.
@@ -318,6 +360,10 @@ export interface BaseSearchRequestOptions<
   TModel extends object,
   TFields extends SelectFields<TModel> = SelectFields<TModel>,
 > {
+  /** Document key used to find similar documents. */
+  moreLikeThis?: string;
+  /** Agentic search iteration and model configuration. */
+  agenticOptions?: AgenticSearchOptions;
   /**
    * A value that specifies whether to fetch the total count of results. Default is false. Setting
    * this value to true may have a performance impact. Note that the count returned is an
@@ -463,7 +509,7 @@ export type SearchRequestQueryTypeOptions =
        */
       semanticSearchOptions: SemanticSearchOptions;
     }
-  | { queryType?: "simple" | "full" };
+  | { queryType?: "simple" | "full" | "agentic" };
 
 /**
  * Contains a document found by a search query, plus associated metadata.
@@ -512,6 +558,8 @@ export type SearchResult<
  * Response containing search results from an index.
  */
 export interface SearchDocumentsResultBase {
+  /** Request-wide query rewriting and agentic search diagnostics. */
+  readonly debugInfo?: DebugInfo;
   /**
    * The total count of results found by the search operation, or null if the count was not
    * requested. If present, the count may be greater than the number of results in this response.

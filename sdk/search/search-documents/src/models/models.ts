@@ -7,38 +7,43 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import {
-  searchIndexResponseArrayDeserializer,
-  SearchIndexResponse,
-} from "./azure/search/documents/indexes/models.js";
-import {
-  KnowledgeBaseActivityRecordUnion,
-  KnowledgeBaseReferenceUnion,
-  KnowledgeBaseRetrievalStartedEvent,
-  KnowledgeBaseActivityStartedEvent,
-  KnowledgeBaseAnswerCompletedEvent,
-  KnowledgeBaseStreamErrorEvent,
-  KnowledgeBaseResponseCompletedEvent,
+import type {
+  KnowledgeBaseRetrievalStartedStreamEvent,
+  KnowledgeBaseActivityStartedStreamEvent,
+  KnowledgeBaseActivityCompletedStreamEvent,
+  KnowledgeBaseAnswerCompletedStreamEvent,
+  KnowledgeBaseReferencesCompletedStreamEvent,
+  KnowledgeBaseErrorStreamEvent,
+  KnowledgeBaseResponseCompletedStreamEvent,
 } from "./azure/search/documents/knowledgeBases/models.js";
-import { NodeReadableStream } from "@azure/core-rest-pipeline";
+import type { NodeReadableStream } from "@azure/core-rest-pipeline";
 
-/** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
-export interface _ListIndexesSelectedResult {
-  /** The total count of indexes in the service, or null if the count was not requested. */
-  readonly count?: number;
-  /** The indexes in the Search service. */
-  readonly value: SearchIndexResponse[];
-  /** The URL that can be used to fetch the next set of results. */
-  readonly nextLink?: string;
+/** Enum describing allowed operation states. */
+export enum KnownOperationState {
+  /** The operation has not started. */
+  NotStarted = "NotStarted",
+  /** The operation is in progress. */
+  Running = "Running",
+  /** The operation has completed successfully. */
+  Succeeded = "Succeeded",
+  /** The operation has failed. */
+  Failed = "Failed",
+  /** The operation has been canceled by the user. */
+  Canceled = "Canceled",
 }
 
-export function _listIndexesSelectedResultDeserializer(item: any): _ListIndexesSelectedResult {
-  return {
-    count: item["@odata.count"],
-    value: searchIndexResponseArrayDeserializer(item["value"]),
-    nextLink: item["@odata.nextLink"],
-  };
-}
+/**
+ * Enum describing allowed operation states. \
+ * {@link KnownOperationState} can be used interchangeably with OperationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted**: The operation has not started. \
+ * **Running**: The operation is in progress. \
+ * **Succeeded**: The operation has completed successfully. \
+ * **Failed**: The operation has failed. \
+ * **Canceled**: The operation has been canceled by the user.
+ */
+export type OperationState = string;
 
 /**
  * The set of server-sent events emitted while streaming a knowledge base retrieval, added in
@@ -47,13 +52,13 @@ export function _listIndexesSelectedResultDeserializer(item: any): _ListIndexesS
  * event (or an `error` event, if the retrieval fails before completing).
  */
 export type KnowledgeBaseRetrievalStreamEvents =
-  | KnowledgeBaseRetrievalStartedEvent
-  | KnowledgeBaseActivityStartedEvent
-  | KnowledgeBaseActivityRecordUnion
-  | KnowledgeBaseAnswerCompletedEvent
-  | KnowledgeBaseReferenceUnion[]
-  | KnowledgeBaseStreamErrorEvent
-  | KnowledgeBaseResponseCompletedEvent;
+  | KnowledgeBaseRetrievalStartedStreamEvent
+  | KnowledgeBaseActivityStartedStreamEvent
+  | KnowledgeBaseActivityCompletedStreamEvent
+  | KnowledgeBaseAnswerCompletedStreamEvent
+  | KnowledgeBaseReferencesCompletedStreamEvent
+  | KnowledgeBaseErrorStreamEvent
+  | KnowledgeBaseResponseCompletedStreamEvent;
 
 export function knowledgeBaseRetrievalStreamEventsDeserializer(
   item: any,
@@ -71,6 +76,10 @@ export enum KnownVersions {
   V20260501Preview = "2026-05-01-preview",
   /** The 2026-08-01-preview API version. */
   V20260801Preview = "2026-08-01-preview",
+  /** The 2026-10-01 API version. */
+  V20261001 = "2026-10-01",
+  /** The 2026-11-01-preview API version. */
+  V20261101Preview = "2026-11-01-preview",
 }
 
 /** Platform-specific raw response returned by the protocol streaming retrieval operation. */

@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KnowledgeBaseRetrievalContext as Client } from "./index.js";
-import {
+import type { KnowledgeBaseRetrievalContext as Client } from "./index.js";
+import type {
   KnowledgeBaseRetrievalRequest,
-  knowledgeBaseRetrievalRequestSerializer,
   KnowledgeBaseRetrievalResponse,
+} from "../../models/azure/search/documents/knowledgeBases/models.js";
+import {
+  knowledgeBaseRetrievalRequestSerializer,
   knowledgeBaseRetrievalResponseDeserializer,
 } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
-import { RetrieveStreamResponse } from "../../models/models.js";
+import type { RetrieveStreamResponse } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import { createSseStreamError } from "#platform/sseStreamError";
-import { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./options.js";
+import type { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import {
-  StreamableMethod,
-  PathUncheckedResponse,
   createRestError,
   operationOptionsToRequestParameters,
   getBinaryStreamResponse,
@@ -30,7 +31,7 @@ export function _retrieveStreamSend(
     "/knowledgebases('{knowledgeBaseName}')/retrieve{?api%2Dversion}",
     {
       knowledgeBaseName: context.knowledgeBaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,7 +97,7 @@ export function _retrieveSend(
     "/knowledgebases('{knowledgeBaseName}')/retrieve{?api%2Dversion}",
     {
       knowledgeBaseName: context.knowledgeBaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
