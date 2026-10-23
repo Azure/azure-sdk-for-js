@@ -717,6 +717,8 @@ export type {
   VoiceAgentServerEventResponseAnimationVisemeDone,
   VoiceAgentServerEventResponseVideoDelta,
   UpdateToolboxRequest,
+  VoiceAgentLiveSessionResource,
+  VoiceAgentLiveDelegationItem,
   GenerateAgentRequest,
   VoiceAgentClientEvent,
   VoiceAgentServerEvent,

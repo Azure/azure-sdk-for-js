@@ -1061,4 +1061,6 @@ export type {
   LiveServerEventLiveErrorEvent,
   LiveLiveError,
   LiveServerEventLiveInfoEvent,
+  VoiceAgentLiveSessionResource,
+  VoiceAgentLiveDelegationItem,
 } from "./models.js";

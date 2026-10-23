@@ -33,8 +33,10 @@ import type {
   LiveServerEventUnion,
   VoiceAgentDefinition,
   VoiceAgentLiveDefinition,
+  VoiceAgentLiveDelegationItem,
   VoiceAgentLiveDelegationStatus,
   VoiceAgentLiveDelegationTarget,
+  VoiceAgentLiveSessionResource,
 } from "../../../src/models/index.js";
 import {
   agentDefinitionUnionDeserializer,
@@ -327,6 +329,75 @@ describe("Live generated-contract integration", () => {
     expect(toWire(liveServerEventUnionDeserializer(response))).toEqual(response);
   });
 
+  it.each(["session.started", "session.updated", "session.closed"])(
+    "retains the pinned Foundry managed owner in %s",
+    (type) => {
+      const session: VoiceAgentLiveSessionResource = {
+        id: "live-session",
+        model: "gpt-live-1",
+        status: "active",
+        expires_at: 4_102_444_800,
+        instructions: "Resolved instructions.",
+        audio: { format: { type: "audio/pcm", rate: 24000 } },
+        store: false,
+        delegation: {
+          type: "foundry_managed_agent",
+          agent_name: "managed-owner",
+          agent_version: "7",
+        },
+      };
+      const event = {
+        type,
+        event_id: "lifecycle-event",
+        client_event_id: "client-command",
+        session,
+        ...(type === "session.started" ? { conversation_id: "stored-conversation" } : {}),
+        ...(type === "session.closed"
+          ? { reason: "close_requested", usage: { seconds: 12.5 } }
+          : {}),
+      };
+
+      expect(toWire(liveServerEventUnionDeserializer(event))).toEqual(event);
+    },
+  );
+
+  it.each(["client", "responses", "foundry_managed_agent"])(
+    "retains the effective %s delegation trigger",
+    (target) => {
+      const delegation: VoiceAgentLiveDelegationItem = {
+        id: "delegation-1",
+        type: "delegation",
+        target,
+        response_id: "backend-response",
+      };
+      const event = {
+        type: "session.delegation.created",
+        event_id: "delegation-event",
+        client_event_id: "client-command",
+        offset_ms: 125,
+        delegation,
+      };
+
+      expect(toWire(liveServerEventUnionDeserializer(event))).toEqual(event);
+    },
+  );
+
+  it.each([undefined, null])("retains an unset lifecycle delegation owner (%s)", (delegation) => {
+    const event = {
+      type: "session.started",
+      event_id: "started",
+      session: {
+        id: "live-session",
+        model: "gpt-live-1",
+        status: "active",
+        expires_at: 4_102_444_800,
+        delegation,
+      },
+    };
+
+    expect(toWire(liveServerEventUnionDeserializer(event))).toEqual(toWire(event));
+  });
+
   it("supports narrowing concrete native event variants without the generated fallback bases", () => {
     type ClientEvent = {
       [T in LiveClientEventUnion["type"]]: Extract<LiveClientEventUnion, { type: T }>;
@@ -335,6 +406,12 @@ describe("Live generated-contract integration", () => {
       [T in LiveServerEventUnion["type"]]: Extract<LiveServerEventUnion, { type: T }>;
     }[LiveServerEventUnion["type"]];
     expectTypeOf<LiveDelegationItem["target"]>().toEqualTypeOf<"client" | "responses">();
+    expectTypeOf<
+      VoiceAgentLiveDelegationItem["target"]
+    >().toEqualTypeOf<VoiceAgentLiveDelegationTarget>();
+    expectTypeOf<
+      Extract<ServerEvent, { type: "session.started" }>["session"]
+    >().toEqualTypeOf<VoiceAgentLiveSessionResource>();
     const checkClient = (event: ClientEvent): void => {
       if (event.type === "response.item.create") {
         expectTypeOf(event).toEqualTypeOf<LiveClientEventLiveResponseItemCreateParam>();
