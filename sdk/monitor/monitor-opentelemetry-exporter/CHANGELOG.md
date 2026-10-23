@@ -8,6 +8,8 @@
 
 ### Breaking Changes
 
+- Require Node.js 22.23.4+, 24.22.1+, or 26.12.1+ on supported release lines for security fixes. [#40483](https://github.com/Azure/azure-sdk-for-js/pull/40483)
+
 ### Bugs Fixed
 
 ### Other Changes
