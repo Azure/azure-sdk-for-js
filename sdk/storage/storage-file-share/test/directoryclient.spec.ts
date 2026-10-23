@@ -2654,22 +2654,28 @@ describe("DirectoryClient - listFilesAndDirectories NFS entries", () => {
   let dirClient: ShareDirectoryClient;
   let requests: PipelineRequest[];
 
-  // Stands in for the service: records each request and answers with the given entries.
-  function respondWith(entries: string): void {
-    const bodyAsText =
-      `<?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://account.file.core.windows.net/" ShareName="share" DirectoryPath="dir">` +
-      `<Entries>${entries}</Entries><NextMarker /></EnumerationResults>`;
+  // Stands in for the service: records each request and answers with the given pages of entries,
+  // linked by the markers "page1", "page2" and so on.
+  function respondWith(...pages: string[]): void {
     const pipeline: Pipeline = (dirClient as any).storageClientContext.client.pipeline;
     pipeline.addPolicy(
       {
         name: "fakeServicePolicy",
         async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
           requests.push(request);
+          const marker = new URL(request.url).searchParams.get("marker");
+          const index = marker ? Number(marker.slice("page".length)) : 0;
+          const nextMarker =
+            index + 1 < pages.length
+              ? `<NextMarker>page${index + 1}</NextMarker>`
+              : "<NextMarker />";
           return {
             request,
             status: 200,
             headers: createHttpHeaders({ "content-type": "application/xml" }),
-            bodyAsText,
+            bodyAsText:
+              `<?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://account.file.core.windows.net/" ShareName="share" DirectoryPath="dir">` +
+              `<Entries>${pages[index]}</Entries>${nextMarker}</EnumerationResults>`,
           };
         },
       },
@@ -2779,6 +2785,63 @@ describe("DirectoryClient - listFilesAndDirectories NFS entries", () => {
     assert.deepEqual(Object.keys(page.segment).sort(), ["directoryItems", "fileItems"]);
     assert.lengthOf(page.segment.fileItems, 6);
     assert.lengthOf(page.segment.directoryItems, 1);
+  });
+
+  it("keeps the include values and the grouping on every page and resumes from the continuation token", async () => {
+    respondWith(
+      `<Directory><Name>a-dir</Name><Properties /></Directory>` +
+        `<Fifo><Name>b-fifo</Name><Properties /></Fifo>` +
+        `<File><Name>c-file</Name><Properties><Content-Length>1</Content-Length></Properties></File>`,
+      `<SymLink><Name>d-link</Name><Properties><Content-Length>6</Content-Length></Properties><LinkText>c-file</LinkText></SymLink>` +
+        `<Directory><Name>e-dir</Name><Properties /></Directory>` +
+        `<File><Name>f-file</Name><Properties><Content-Length>2</Content-Length></Properties></File>`,
+    );
+    const options = {
+      includePermissions: true,
+      includeLinkCount: true,
+      includeNfsAttributes: true,
+    };
+    const sent = (request: PipelineRequest): [string | null, string | null] => {
+      const query = new URL(request.url).searchParams;
+      return [query.get("include"), query.get("marker")];
+    };
+
+    const pages: string[][] = [];
+    const tokens: (string | undefined)[] = [];
+    for await (const page of dirClient.listFilesAndDirectories(options).byPage()) {
+      pages.push(
+        [...page.segment.fileItems, ...page.segment.directoryItems].map(
+          (item) => `${item.fileType} ${item.name}`,
+        ),
+      );
+      tokens.push(page.continuationToken);
+    }
+
+    assert.deepEqual(pages, [
+      ["Regular c-file", "Fifo b-fifo", "Directory a-dir"],
+      ["Regular f-file", "SymLink d-link", "Directory e-dir"],
+    ]);
+    assert.equal(tokens[0], "page1");
+    assert.deepEqual(requests.map(sent), [
+      ["Permissions,LinkCount,NfsAttributes", null],
+      ["Permissions,LinkCount,NfsAttributes", "page1"],
+    ]);
+
+    requests = [];
+    const resumed = (
+      await dirClient
+        .listFilesAndDirectories(options)
+        .byPage({ continuationToken: tokens[0] })
+        .next()
+    ).value;
+
+    assert.deepEqual(
+      [...resumed.segment.fileItems, ...resumed.segment.directoryItems].map(
+        (item) => `${item.fileType} ${item.name}`,
+      ),
+      pages[1],
+    );
+    assert.deepEqual(requests.map(sent), [["Permissions,LinkCount,NfsAttributes", "page1"]]);
   });
 
   it("sets the type of SMB entries and leaves the NFS properties unset", async () => {
