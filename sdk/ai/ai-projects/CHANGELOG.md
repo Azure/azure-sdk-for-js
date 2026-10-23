@@ -10,10 +10,6 @@
 
 - Add GPT Live agent definitions, lifecycle/delegation events with effective Foundry ownership, and `project.beta.voiceAgents.liveConversations` for persisted Live conversations and audio. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 
-### Other Changes
-
-- Regenerate from azure-rest-api-specs commit `e30cf6f0dcfbca167edf731d4e48874a63639e8b`. [Upstream commit](https://github.com/Azure/azure-rest-api-specs/commit/e30cf6f0dcfbca167edf731d4e48874a63639e8b)
-
 ## 2.9.0 (2026-10-19)
 
 ### Breaking Changes
