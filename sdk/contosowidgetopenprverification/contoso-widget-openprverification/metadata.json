@@ -1,0 +1,26 @@
+{
+  "apiVersions": {
+    "Azure.Contoso.WidgetOpenPrVerification": "2022-12-01"
+  },
+  "emitterVersion": "0.58.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Azure.Contoso.WidgetOpenPrVerification",
+    "CrossLanguageDefinitionId": {
+      "@azure/contoso-widget-openprverification!WidgetSuite:interface": "Azure.Contoso.WidgetOpenPrVerification.WidgetSuite",
+      "@azure/contoso-widget-openprverification!FakedSharedModel:interface": "Azure.Contoso.WidgetOpenPrVerification.FakedSharedModel",
+      "@azure/contoso-widget-openprverification!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure/contoso-widget-openprverification!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure/contoso-widget-openprverification!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure/contoso-widget-openprverification!ResourceOperationStatusWidgetSuiteWidgetSuiteError:interface": "Azure.Core.ResourceOperationStatus",
+      "@azure/contoso-widget-openprverification!OperationStatusError:interface": "Azure.Core.Foundations.OperationStatus",
+      "@azure/contoso-widget-openprverification!PagedWidgetSuite:interface": "Azure.Core.Foundations.CustomPage",
+      "@azure/contoso-widget-openprverification!KnownOperationState:enum": "Azure.Core.Foundations.OperationState",
+      "@azure/contoso-widget-openprverification!KnownVersions:enum": "Azure.Contoso.WidgetOpenPrVerification.Versions",
+      "@azure/contoso-widget-openprverification!WidgetsOperations#listWidgets:member": "Azure.Contoso.WidgetOpenPrVerification.Widgets.listWidgets",
+      "@azure/contoso-widget-openprverification!WidgetsOperations#deleteWidget:member": "Azure.Contoso.WidgetOpenPrVerification.Widgets.deleteWidget",
+      "@azure/contoso-widget-openprverification!WidgetsOperations#createOrUpdateWidget:member": "Azure.Contoso.WidgetOpenPrVerification.Widgets.createOrUpdateWidget",
+      "@azure/contoso-widget-openprverification!WidgetsOperations#getWidgetOperationStatus:member": "Azure.Contoso.WidgetOpenPrVerification.Widgets.getWidgetOperationStatus",
+      "@azure/contoso-widget-openprverification!WidgetsOperations#getWidget:member": "Azure.Contoso.WidgetOpenPrVerification.Widgets.getWidget"
+    }
+  }
+}
