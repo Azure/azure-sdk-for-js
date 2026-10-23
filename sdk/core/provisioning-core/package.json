@@ -77,6 +77,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/provisioning-core/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "@eslint-community/regexpp": "^4.12.2",
     "pluralize": "^8.0.0",
     "tslib": "catalog:"
   },

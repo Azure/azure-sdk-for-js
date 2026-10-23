@@ -388,25 +388,18 @@ export interface ResourceNamingRules {
     // (undocumented)
     readonly abbreviation: string;
     // (undocumented)
-    readonly maxLength: number;
+    readonly maxLength?: number;
     // (undocumented)
-    readonly minLength: number;
+    readonly minLength?: number;
+    readonly nameSegments?: number;
     // (undocumented)
-    readonly scope: "global" | "resourceGroup" | "subscription";
+    readonly pattern?: {
+        readonly regex: string;
+        readonly message?: string;
+    };
+    readonly scope: "global" | "resourceGroup" | "subscription" | "parent";
     // (undocumented)
-    readonly validCharacters: ResourceNamingValidCharacters;
-}
-
-// @public (undocumented)
-export interface ResourceNamingValidCharacters {
-    // (undocumented)
-    readonly hyphens: boolean;
-    // (undocumented)
-    readonly periods: boolean;
-    // (undocumented)
-    readonly underscores: boolean;
-    // (undocumented)
-    readonly uppercase: boolean;
+    readonly separator?: string;
 }
 
 // @public

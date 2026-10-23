@@ -291,8 +291,8 @@ function environment(): Expression<unknown>;
 function eq(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
 
 // @public
-export interface ExistingResourceProps {
-    readonly name: ExpressionOrValue<string>;
+export interface ExistingResourceProps<TName extends string = string> {
+    readonly name: ExpressionOrValue<TName>;
     readonly scope?: ScopeExpression;
 }
 
@@ -579,6 +579,7 @@ function mul(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>):
 export interface NamingContext {
     // (undocumented)
     readonly label?: string | undefined;
+    readonly nameSegments?: number | undefined;
     // (undocumented)
     readonly rules: ResourceNamingRules;
     // (undocumented)
@@ -587,7 +588,6 @@ export interface NamingContext {
 
 // @public
 export interface NamingPolicy {
-    // (undocumented)
     generateName(context: NamingContext): ExpressionOrValue<string>;
 }
 
@@ -897,6 +897,8 @@ export abstract class ResourceDeclaration<TType extends string = string> extends
     // (undocumented)
     protected expr<TValue>(...path: readonly PropertySegment[]): Expression<TValue> & TValue;
     // (undocumented)
+    protected readonly namingRules: ResourceNamingRules | undefined;
+    // (undocumented)
     protected setProperty(key: string, value: unknown): void;
     // (undocumented)
     protected state: ResourceState<TType> & Record<string, unknown>;
@@ -970,25 +972,18 @@ export interface ResourceNamingRules {
     // (undocumented)
     readonly abbreviation: string;
     // (undocumented)
-    readonly maxLength: number;
+    readonly maxLength?: number;
     // (undocumented)
-    readonly minLength: number;
+    readonly minLength?: number;
+    readonly nameSegments?: number;
     // (undocumented)
-    readonly scope: "global" | "resourceGroup" | "subscription";
+    readonly pattern?: {
+        readonly regex: string;
+        readonly message?: string;
+    };
+    readonly scope: "global" | "resourceGroup" | "subscription" | "parent";
     // (undocumented)
-    readonly validCharacters: ResourceNamingValidCharacters;
-}
-
-// @public (undocumented)
-export interface ResourceNamingValidCharacters {
-    // (undocumented)
-    readonly hyphens: boolean;
-    // (undocumented)
-    readonly periods: boolean;
-    // (undocumented)
-    readonly underscores: boolean;
-    // (undocumented)
-    readonly uppercase: boolean;
+    readonly separator?: string;
 }
 
 // @public
