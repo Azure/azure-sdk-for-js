@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new rule and updates an existing rule
  *
  * @summary creates a new rule and updates an existing rule
- * x-ms-original-file: 2026-01-01/Rules/RuleCreate.json
+ * x-ms-original-file: 2026-07-01-preview/Rules/RuleCreate.json
  */
 async function rulesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function rulesCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to creates a new rule and updates an existing rule
  *
  * @summary creates a new rule and updates an existing rule
- * x-ms-original-file: 2026-01-01/Rules/RuleCreate_CorrelationFilter.json
+ * x-ms-original-file: 2026-07-01-preview/Rules/RuleCreate_CorrelationFilter.json
  */
 async function rulesCreateCorrelationFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function rulesCreateCorrelationFilter(): Promise<void> {
  * This sample demonstrates how to creates a new rule and updates an existing rule
  *
  * @summary creates a new rule and updates an existing rule
- * x-ms-original-file: 2026-01-01/Rules/RuleCreate_SqlFilter.json
+ * x-ms-original-file: 2026-07-01-preview/Rules/RuleCreate_SqlFilter.json
  */
 async function rulesCreateSqlFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();

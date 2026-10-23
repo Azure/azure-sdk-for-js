@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a topic authorization rule.
  *
  * @summary deletes a topic authorization rule.
- * x-ms-original-file: 2026-01-01/Topics/SBTopicAuthorizationRuleDelete.json
+ * x-ms-original-file: 2026-07-01-preview/Topics/SBTopicAuthorizationRuleDelete.json
  */
 async function topicAuthorizationRuleDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
