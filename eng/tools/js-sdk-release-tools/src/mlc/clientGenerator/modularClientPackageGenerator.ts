@@ -58,8 +58,8 @@ export async function generateAzureSDKPackage(
       originalNpmPackageInfo = await getNpmPackageInfo(packageDirectory);
 
     if (options.emitterName == provisioningEmitterName) {
-      // Clean up the entire package directory for the provisioning emitter
-      await cleanUpDirectory(packageDirectory, []);
+      // Preserve tests when regenerating with the provisioning emitter.
+      await cleanUpDirectory(packageDirectory, ["test"]);
     } else {
       await cleanUpPackageDirectory(packageDirectory, options.runMode);
     }
