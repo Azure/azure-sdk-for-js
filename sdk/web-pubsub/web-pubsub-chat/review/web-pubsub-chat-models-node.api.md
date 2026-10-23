@@ -21,7 +21,7 @@ export interface ChatMessage {
 }
 
 // @public
-export interface ChatMessageInput {
+export interface ChatMessageUpdate {
     content?: MessageContent;
     createdBy?: string;
 }
@@ -37,7 +37,7 @@ export interface ChatRole {
 }
 
 // @public
-export interface ChatRoleInput {
+export interface ChatRoleCreateOrReplace {
     permissions: ChatPermission[];
 }
 
@@ -50,7 +50,7 @@ export interface ChatRoom {
 }
 
 // @public
-export interface ChatRoomInput {
+export interface ChatRoomCreateOrReplace {
     title: string;
 }
 
@@ -62,7 +62,7 @@ export interface ChatRoomMember {
 }
 
 // @public
-export interface ChatRoomMemberInput {
+export interface ChatRoomMemberCreateOrReplace {
     roleName: string;
 }
 
@@ -78,7 +78,7 @@ export interface ChatTopic {
 }
 
 // @public
-export interface ChatTopicInput {
+export interface ChatTopicCreateOrReplace {
     state?: ChatTopicState;
     title: string;
 }
@@ -99,6 +99,15 @@ export interface ChatUser {
     kind: ChatUserKind;
     nickname: string;
 }
+
+// @public
+export interface ChatUserCreateOrReplace {
+    kind: ChatUserKind;
+    nickname: string;
+}
+
+// @public
+export type ChatUserCreateOrReplaceUnion = HumanChatUserCreateOrReplace | ChatUserCreateOrReplace;
 
 // @public
 export type ChatUserKind = string;
@@ -122,7 +131,7 @@ export interface HumanChatUser extends ChatUser {
 }
 
 // @public
-export interface HumanChatUserInput {
+export interface HumanChatUserCreateOrReplace extends ChatUserCreateOrReplace {
     // (undocumented)
     kind: "Human";
     nickname: string;

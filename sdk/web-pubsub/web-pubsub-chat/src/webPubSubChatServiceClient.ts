@@ -64,18 +64,18 @@ import type {
 import type {
   ChatConversation,
   ChatMessage,
-  ChatMessageInput,
+  ChatMessageUpdate,
   ChatRole,
-  ChatRoleInput,
+  ChatRoleCreateOrReplace,
   ChatRoom,
-  ChatRoomInput,
+  ChatRoomCreateOrReplace,
   ChatTopic,
-  ChatTopicInput,
+  ChatTopicCreateOrReplace,
   ChatTopicUpdate,
   ChatRoomMember,
-  ChatRoomMemberInput,
+  ChatRoomMemberCreateOrReplace,
   ChatUserUnion,
-  HumanChatUserInput,
+  HumanChatUserCreateOrReplace,
   ChatUserRoom,
 } from "./models/models.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
@@ -217,7 +217,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. */
   createOrReplaceUser(
     userId: string,
-    resource: HumanChatUserInput,
+    resource: HumanChatUserCreateOrReplace,
     options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
   ): Promise<ChatUserUnion> {
     return tracingClient.withSpan(
@@ -276,7 +276,7 @@ export class WebPubSubChatServiceClient {
   createOrReplaceRoomMember(
     roomId: string,
     userId: string,
-    resource: ChatRoomMemberInput,
+    resource: ChatRoomMemberCreateOrReplace,
     options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoomMember> {
     return tracingClient.withSpan(
@@ -375,7 +375,7 @@ export class WebPubSubChatServiceClient {
   createOrReplaceTopic(
     roomId: string,
     topicId: string,
-    resource: ChatTopicInput,
+    resource: ChatTopicCreateOrReplace,
     options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
   ): Promise<ChatTopic> {
     return tracingClient.withSpan(
@@ -435,7 +435,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a room with a client-specified ID. */
   createOrReplaceRoom(
     roomId: string,
-    resource: ChatRoomInput,
+    resource: ChatRoomCreateOrReplace,
     options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoom> {
     return tracingClient.withSpan(
@@ -482,7 +482,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a role. */
   createOrReplaceRole(
     roleName: string,
-    resource: ChatRoleInput,
+    resource: ChatRoleCreateOrReplace,
     options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
   ): Promise<ChatRole> {
     return tracingClient.withSpan(
@@ -524,7 +524,7 @@ export class WebPubSubChatServiceClient {
   updateMessage(
     conversationId: string,
     messageId: string,
-    resource: ChatMessageInput,
+    resource: ChatMessageUpdate,
     options: UpdateMessageOptionalParams = { requestOptions: {} },
   ): Promise<ChatMessage> {
     return tracingClient.withSpan(

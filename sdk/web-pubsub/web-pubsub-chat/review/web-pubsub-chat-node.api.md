@@ -38,7 +38,7 @@ export interface ChatMessage {
 }
 
 // @public
-export interface ChatMessageInput {
+export interface ChatMessageUpdate {
     content?: MessageContent;
     createdBy?: string;
 }
@@ -54,7 +54,7 @@ export interface ChatRole {
 }
 
 // @public
-export interface ChatRoleInput {
+export interface ChatRoleCreateOrReplace {
     permissions: ChatPermission[];
 }
 
@@ -67,7 +67,7 @@ export interface ChatRoom {
 }
 
 // @public
-export interface ChatRoomInput {
+export interface ChatRoomCreateOrReplace {
     title: string;
 }
 
@@ -79,7 +79,7 @@ export interface ChatRoomMember {
 }
 
 // @public
-export interface ChatRoomMemberInput {
+export interface ChatRoomMemberCreateOrReplace {
     roleName: string;
 }
 
@@ -95,7 +95,7 @@ export interface ChatTopic {
 }
 
 // @public
-export interface ChatTopicInput {
+export interface ChatTopicCreateOrReplace {
     state?: ChatTopicState;
     title: string;
 }
@@ -116,6 +116,15 @@ export interface ChatUser {
     kind: ChatUserKind;
     nickname: string;
 }
+
+// @public
+export interface ChatUserCreateOrReplace {
+    kind: ChatUserKind;
+    nickname: string;
+}
+
+// @public
+export type ChatUserCreateOrReplaceUnion = HumanChatUserCreateOrReplace | ChatUserCreateOrReplace;
 
 // @public
 export type ChatUserKind = string;
@@ -243,7 +252,7 @@ export interface HumanChatUser extends ChatUser {
 }
 
 // @public
-export interface HumanChatUserInput {
+export interface HumanChatUserCreateOrReplace extends ChatUserCreateOrReplace {
     // (undocumented)
     kind: "Human";
     nickname: string;
@@ -354,11 +363,11 @@ export interface UpdateTopicOptionalParams extends OperationOptions {
 export class WebPubSubChatServiceClient {
     constructor(connectionString: string, hub: string, options?: WebPubSubChatServiceClientOptions);
     constructor(endpointParam: string, credential: TokenCredential | AzureKeyCredential, hub: string, options?: WebPubSubChatServiceClientOptions);
-    createOrReplaceRole(roleName: string, resource: ChatRoleInput, options?: CreateOrReplaceRoleOptionalParams): Promise<ChatRole>;
-    createOrReplaceRoom(roomId: string, resource: ChatRoomInput, options?: CreateOrReplaceRoomOptionalParams): Promise<ChatRoom>;
-    createOrReplaceRoomMember(roomId: string, userId: string, resource: ChatRoomMemberInput, options?: CreateOrReplaceRoomMemberOptionalParams): Promise<ChatRoomMember>;
-    createOrReplaceTopic(roomId: string, topicId: string, resource: ChatTopicInput, options?: CreateOrReplaceTopicOptionalParams): Promise<ChatTopic>;
-    createOrReplaceUser(userId: string, resource: HumanChatUserInput, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
+    createOrReplaceRole(roleName: string, resource: ChatRoleCreateOrReplace, options?: CreateOrReplaceRoleOptionalParams): Promise<ChatRole>;
+    createOrReplaceRoom(roomId: string, resource: ChatRoomCreateOrReplace, options?: CreateOrReplaceRoomOptionalParams): Promise<ChatRoom>;
+    createOrReplaceRoomMember(roomId: string, userId: string, resource: ChatRoomMemberCreateOrReplace, options?: CreateOrReplaceRoomMemberOptionalParams): Promise<ChatRoomMember>;
+    createOrReplaceTopic(roomId: string, topicId: string, resource: ChatTopicCreateOrReplace, options?: CreateOrReplaceTopicOptionalParams): Promise<ChatTopic>;
+    createOrReplaceUser(userId: string, resource: HumanChatUserCreateOrReplace, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
     deleteMessage(conversationId: string, messageId: string, options?: DeleteMessageOptionalParams): Promise<void>;
     deleteRole(roleName: string, options?: DeleteRoleOptionalParams): Promise<void>;
     deleteRoom(roomId: string, options?: DeleteRoomOptionalParams): Promise<void>;
@@ -379,7 +388,7 @@ export class WebPubSubChatServiceClient {
     listTopics(roomId: string, options?: ListTopicsOptionalParams): PagedAsyncIterableIterator<ChatTopic>;
     listUsers(options?: ListUsersOptionalParams): PagedAsyncIterableIterator<ChatUserUnion>;
     readonly pipeline: Pipeline;
-    updateMessage(conversationId: string, messageId: string, resource: ChatMessageInput, options?: UpdateMessageOptionalParams): Promise<ChatMessage>;
+    updateMessage(conversationId: string, messageId: string, resource: ChatMessageUpdate, options?: UpdateMessageOptionalParams): Promise<ChatMessage>;
     updateTopic(roomId: string, topicId: string, resource: ChatTopicUpdate, options?: UpdateTopicOptionalParams): Promise<ChatTopic>;
 }
 

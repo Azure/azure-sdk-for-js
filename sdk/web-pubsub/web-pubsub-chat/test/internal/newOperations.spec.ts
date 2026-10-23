@@ -5,12 +5,12 @@ import {
   AzureKeyCredential,
   WebPubSubChatServiceClient,
   KnownChatTopicState,
-  type ChatRoleInput,
-  type ChatRoomInput,
-  type ChatRoomMemberInput,
-  type HumanChatUserInput,
-  type ChatMessageInput,
-  type ChatTopicInput,
+  type ChatRoleCreateOrReplace,
+  type ChatRoomCreateOrReplace,
+  type ChatRoomMemberCreateOrReplace,
+  type HumanChatUserCreateOrReplace,
+  type ChatMessageUpdate,
+  type ChatTopicCreateOrReplace,
   type ChatTopic,
   type ChatTopicState,
   type ChatTopicUpdate,
@@ -58,26 +58,31 @@ function createClient(
 
 describe("new operation requests", () => {
   it("accepts write inputs without any read-only response properties", async () => {
-    expectTypeOf<keyof ChatRoleInput>().toEqualTypeOf<"permissions">();
-    expectTypeOf<keyof ChatRoomInput>().toEqualTypeOf<"title">();
-    expectTypeOf<keyof ChatRoomMemberInput>().toEqualTypeOf<"roleName">();
-    expectTypeOf<keyof HumanChatUserInput>().toEqualTypeOf<"kind" | "nickname" | "roleName">();
-    expectTypeOf<keyof ChatMessageInput>().toEqualTypeOf<"createdBy" | "content">();
-    expectTypeOf<keyof ChatTopicInput>().toEqualTypeOf<"title" | "state">();
+    expectTypeOf<keyof ChatRoleCreateOrReplace>().toEqualTypeOf<"permissions">();
+    expectTypeOf<keyof ChatRoomCreateOrReplace>().toEqualTypeOf<"title">();
+    expectTypeOf<keyof ChatRoomMemberCreateOrReplace>().toEqualTypeOf<"roleName">();
+    expectTypeOf<keyof HumanChatUserCreateOrReplace>().toEqualTypeOf<
+      "kind" | "nickname" | "roleName"
+    >();
+    expectTypeOf<keyof ChatMessageUpdate>().toEqualTypeOf<"createdBy" | "content">();
+    expectTypeOf<keyof ChatTopicCreateOrReplace>().toEqualTypeOf<"title" | "state">();
     expectTypeOf<keyof ChatTopicUpdate>().toEqualTypeOf<"title" | "state">();
-    expectTypeOf<ChatMessageInput>().toEqualTypeOf<{
+    expectTypeOf<ChatMessageUpdate>().toEqualTypeOf<{
       createdBy?: string;
       content?: MessageContent;
     }>();
     expectTypeOf<
       Parameters<WebPubSubChatServiceClient["createOrReplaceUser"]>[1]
-    >().toEqualTypeOf<HumanChatUserInput>();
-    expectTypeOf<{ kind: "Human"; nickname: string }>().not.toMatchTypeOf<HumanChatUserInput>();
+    >().toEqualTypeOf<HumanChatUserCreateOrReplace>();
+    expectTypeOf<{
+      kind: "Human";
+      nickname: string;
+    }>().not.toMatchTypeOf<HumanChatUserCreateOrReplace>();
     expectTypeOf<{
       kind: "Bot";
       nickname: string;
       roleName: string;
-    }>().not.toMatchTypeOf<HumanChatUserInput>();
+    }>().not.toMatchTypeOf<HumanChatUserCreateOrReplace>();
 
     const requests: PipelineRequest[] = [];
     const client = createClient((request) => {
@@ -133,8 +138,11 @@ describe("new operation requests", () => {
   it.each([{ title: "Topic" }, { title: "Topic", state: KnownChatTopicState.Archived }])(
     "accepts optional state in topic PUT requests: %j",
     async (input) => {
-      expectTypeOf<ChatTopicInput>().toEqualTypeOf<{ title: string; state?: ChatTopicState }>();
-      expectTypeOf<{ state: ChatTopicState }>().not.toMatchTypeOf<ChatTopicInput>();
+      expectTypeOf<ChatTopicCreateOrReplace>().toEqualTypeOf<{
+        title: string;
+        state?: ChatTopicState;
+      }>();
+      expectTypeOf<{ state: ChatTopicState }>().not.toMatchTypeOf<ChatTopicCreateOrReplace>();
       const requests: PipelineRequest[] = [];
       const client = createClient((request) => {
         requests.push(request);
@@ -207,7 +215,7 @@ describe("new operation requests", () => {
       title: string;
       state: ChatTopicState;
     }>();
-    expectTypeOf<{}>().not.toMatchTypeOf<ChatTopicInput>();
+    expectTypeOf<{}>().not.toMatchTypeOf<ChatTopicCreateOrReplace>();
 
     const requests: PipelineRequest[] = [];
     const client = createClient((request) => {

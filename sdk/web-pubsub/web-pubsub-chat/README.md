@@ -118,12 +118,12 @@ Write operations accept input types that are separate from response models. You 
 
 | Operation                       | Input type            | Writable body properties       |
 | ------------------------------- | --------------------- | ------------------------------ |
-| Create or replace a role        | `ChatRoleInput`       | `permissions`                  |
-| Create or replace a room        | `ChatRoomInput`       | `title`                        |
-| Create or replace a room member | `ChatRoomMemberInput` | `roleName`                     |
-| Create or replace a human user  | `HumanChatUserInput`  | `kind`, `nickname`, `roleName` |
-| Update a message                | `ChatMessageInput`    | `createdBy`, `content`         |
-| Create or replace a topic       | `ChatTopicInput`      | Required `title`, optional `state` |
+| Create or replace a role        | `ChatRoleCreateOrReplace`       | `permissions`                  |
+| Create or replace a room        | `ChatRoomCreateOrReplace`       | `title`                        |
+| Create or replace a room member | `ChatRoomMemberCreateOrReplace` | `roleName`                     |
+| Create or replace a human user  | `HumanChatUserCreateOrReplace`  | `kind`, `nickname`, `roleName` |
+| Update a message                | `ChatMessageUpdate`    | `createdBy`, `content`         |
+| Create or replace a topic       | `ChatTopicCreateOrReplace`      | Required `title`, optional `state` |
 | Update a topic                  | `ChatTopicUpdate`     | Optional `title` and `state`   |
 
 Response models contain the full resource, including read-only properties. Serializers omit those read-only properties when a response object is reused as a write input. Topic PUT inputs optionally accept `state`; PATCH inputs make all updateable properties optional. For conditional requests, pass an entity tag in the operation's `ifMatch` option rather than in its body.
@@ -255,7 +255,7 @@ await client.deleteRoom(roomId);
 ### Manage a user
 
 Create a user with a built-in role, retrieve the profile, and delete it.
-The request accepts `HumanChatUserInput`, which requires `kind: "Human"`,
+The request accepts `HumanChatUserCreateOrReplace`, which requires `kind: "Human"`,
 `nickname`, and `roleName`. Returned profiles retain the resource fields and can
 represent unknown user kinds.
 
@@ -282,7 +282,7 @@ await client.deleteUser(userId);
 
 ### Update a message
 
-When updating a message, `ChatMessageInput.createdBy` and `content` are optional.
+When updating a message, `ChatMessageUpdate.createdBy` and `content` are optional.
 Supply only the fields to change; omitted fields retain their current values.
 
 ### List messages in a conversation

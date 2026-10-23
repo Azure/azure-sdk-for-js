@@ -99,14 +99,14 @@ export function messageContentDeserializer(item: any): MessageContent {
 }
 
 /** Properties supplied when partially updating a message. */
-export interface ChatMessageInput {
+export interface ChatMessageUpdate {
   /** User who created the message. */
   createdBy?: string;
   /** Message content. */
   content?: MessageContent;
 }
 
-export function chatMessageInputSerializer(item: ChatMessageInput): any {
+export function chatMessageUpdateSerializer(item: ChatMessageUpdate): any {
   return {
     createdBy: item["createdBy"],
     content: !item["content"] ? item["content"] : messageContentSerializer(item["content"]),
@@ -189,12 +189,12 @@ export enum KnownChatPermission {
 export type ChatPermission = string;
 
 /** Properties supplied when creating or replacing a role. */
-export interface ChatRoleInput {
+export interface ChatRoleCreateOrReplace {
   /** Permissions associated with the role. Do not mix user permissions and room permissions in one role. */
   permissions: ChatPermission[];
 }
 
-export function chatRoleInputSerializer(item: ChatRoleInput): any {
+export function chatRoleCreateOrReplaceSerializer(item: ChatRoleCreateOrReplace): any {
   return {
     permissions: item["permissions"].map((p: any) => {
       return p;
@@ -245,12 +245,12 @@ export function chatRoomDeserializer(item: any): ChatRoom {
 }
 
 /** Properties supplied when creating or replacing a room. */
-export interface ChatRoomInput {
+export interface ChatRoomCreateOrReplace {
   /** Room title. */
   title: string;
 }
 
-export function chatRoomInputSerializer(item: ChatRoomInput): any {
+export function chatRoomCreateOrReplaceSerializer(item: ChatRoomCreateOrReplace): any {
   return { title: item["title"] };
 }
 
@@ -327,14 +327,14 @@ export enum KnownChatTopicState {
 export type ChatTopicState = string;
 
 /** Properties supplied when creating or replacing a topic. */
-export interface ChatTopicInput {
+export interface ChatTopicCreateOrReplace {
   /** Topic title. */
   title: string;
   /** Current lifecycle state of the topic. */
   state?: ChatTopicState;
 }
 
-export function chatTopicInputSerializer(item: ChatTopicInput): any {
+export function chatTopicCreateOrReplaceSerializer(item: ChatTopicCreateOrReplace): any {
   return { title: item["title"], state: item["state"] };
 }
 
@@ -390,12 +390,12 @@ export function chatRoomMemberDeserializer(item: any): ChatRoomMember {
 }
 
 /** Properties supplied when creating or replacing a room member. */
-export interface ChatRoomMemberInput {
+export interface ChatRoomMemberCreateOrReplace {
   /** Room role assigned to the user within this room. */
   roleName: string;
 }
 
-export function chatRoomMemberInputSerializer(item: ChatRoomMemberInput): any {
+export function chatRoomMemberCreateOrReplaceSerializer(item: ChatRoomMemberCreateOrReplace): any {
   return { roleName: item["roleName"] };
 }
 
@@ -490,8 +490,8 @@ export function humanChatUserDeserializer(item: any): HumanChatUser {
   };
 }
 
-/** Properties supplied when creating or replacing a human user in JavaScript. */
-export interface HumanChatUserInput {
+/** Properties supplied when creating or replacing a human user. */
+export interface HumanChatUserCreateOrReplace extends ChatUserCreateOrReplace {
   kind: "Human";
   /** Global user role assigned to the user. Must start with `user.`. */
   roleName: string;
@@ -499,8 +499,34 @@ export interface HumanChatUserInput {
   nickname: string;
 }
 
-export function humanChatUserInputSerializer(item: HumanChatUserInput): any {
-  return { kind: item["kind"], roleName: item["roleName"], nickname: item["nickname"] };
+export function humanChatUserCreateOrReplaceSerializer(item: HumanChatUserCreateOrReplace): any {
+  return { kind: item["kind"], nickname: item["nickname"], roleName: item["roleName"] };
+}
+
+/** Properties supplied when creating or replacing a user. */
+export interface ChatUserCreateOrReplace {
+  /** The kind of user. */
+  /** The discriminator possible values: Human */
+  kind: ChatUserKind;
+  /** User's display nickname. */
+  nickname: string;
+}
+
+export function chatUserCreateOrReplaceSerializer(item: ChatUserCreateOrReplace): any {
+  return { kind: item["kind"], nickname: item["nickname"] };
+}
+
+/** Alias for ChatUserCreateOrReplaceUnion */
+export type ChatUserCreateOrReplaceUnion = HumanChatUserCreateOrReplace | ChatUserCreateOrReplace;
+
+export function chatUserCreateOrReplaceUnionSerializer(item: ChatUserCreateOrReplaceUnion): any {
+  switch (item.kind) {
+    case "Human":
+      return humanChatUserCreateOrReplaceSerializer(item as HumanChatUserCreateOrReplace);
+
+    default:
+      return chatUserCreateOrReplaceSerializer(item);
+  }
 }
 
 /** Paged collection of ChatUserRoom items */
