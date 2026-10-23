@@ -233,7 +233,16 @@ describe("tokenCycler", function () {
     await expect(claimsRefresh).resolves.toMatchObject({ token: "claim-A" });
 
     const unhandledRejection = vi.fn();
-    process.on("unhandledRejection", unhandledRejection);
+    const handleUnhandledRejection = () => unhandledRejection();
+    const supportsNodeUnhandledRejectionEvents =
+      typeof process !== "undefined" && typeof process.on === "function";
+
+    if (supportsNodeUnhandledRejectionEvents) {
+      process.on("unhandledRejection", handleUnhandledRejection);
+    } else {
+      globalThis.addEventListener("unhandledrejection", handleUnhandledRejection);
+    }
+
     try {
       rejectProactive!(new Error("ordinary refresh failed"));
       await vi.advanceTimersByTimeAsync(1);
@@ -241,7 +250,11 @@ describe("tokenCycler", function () {
 
       expect(unhandledRejection).not.toHaveBeenCalled();
     } finally {
-      process.off("unhandledRejection", unhandledRejection);
+      if (supportsNodeUnhandledRejectionEvents) {
+        process.off("unhandledRejection", handleUnhandledRejection);
+      } else {
+        globalThis.removeEventListener("unhandledrejection", handleUnhandledRejection);
+      }
     }
   });
 
