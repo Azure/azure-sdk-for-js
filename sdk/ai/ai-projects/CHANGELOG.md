@@ -6,6 +6,10 @@
 
 - Align routine options with the generated V2 preview contract introduced in [#39782](https://github.com/Azure/azure-sdk-for-js/pull/39782). Remove `Routines=V1Preview` from routine options and `FoundryFeaturesOptInKeys`, remove the unsupported `before` parameter from routine and run lists, and narrow `order` to `PageOrder` (`"asc" | "desc"`).
 
+### Features Added
+
+- Add GPT Live agent definitions, lifecycle/delegation events with effective Foundry ownership, and `project.beta.voiceAgents.liveConversations` for persisted Live conversations and audio. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+
 ## 2.9.0 (2026-10-19)
 
 ### Breaking Changes

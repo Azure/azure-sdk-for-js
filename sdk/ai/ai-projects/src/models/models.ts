@@ -197,8 +197,10 @@ export type AgentDefinitionUnion =
   | PromptAgentDefinition
   | WorkflowAgentDefinition
   | ExternalAgentDefinition
-  | AgentDefinition
-  | VoiceAgentDefinition;
+  | VoiceAgentDefinition
+  | VoiceAgentLiveDefinition
+  | VoiceAgentBaseDefinition
+  | AgentDefinition;
 
 export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any {
   switch (item.kind) {
@@ -215,7 +217,18 @@ export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any 
       return externalAgentDefinitionSerializer(item as ExternalAgentDefinition);
 
     case "voice":
-      return voiceAgentDefinitionSerializer(item as VoiceAgentDefinition);
+      // TypeSpec's OpenAPI-only optional discriminator needs explicit SDK dispatch.
+      switch ((item as VoiceAgentBaseDefinition).sub_protocol) {
+        case "live":
+          return voiceAgentLiveDefinitionSerializer(item as VoiceAgentLiveDefinition);
+
+        case "realtime":
+        case undefined:
+          return voiceAgentDefinitionSerializer(item as VoiceAgentDefinition);
+
+        default:
+          return voiceAgentBaseDefinitionSerializer(item as VoiceAgentBaseDefinition);
+      }
 
     default:
       return agentDefinitionSerializer(item);
@@ -237,7 +250,17 @@ export function agentDefinitionUnionDeserializer(item: any): AgentDefinitionUnio
       return externalAgentDefinitionDeserializer(item as ExternalAgentDefinition);
 
     case "voice":
-      return voiceAgentDefinitionDeserializer(item as VoiceAgentDefinition);
+      switch (item["sub_protocol"]) {
+        case "live":
+          return voiceAgentLiveDefinitionDeserializer(item as VoiceAgentLiveDefinition);
+
+        case "realtime":
+        case undefined:
+          return voiceAgentDefinitionDeserializer(item as VoiceAgentDefinition);
+
+        default:
+          return voiceAgentBaseDefinitionDeserializer(item as VoiceAgentBaseDefinition);
+      }
 
     default:
       return agentDefinitionDeserializer(item);
@@ -396,6 +419,8 @@ export interface HostedAgentDefinition extends AgentDefinition {
   telemetry_config?: TelemetryConfig;
   /** Optional session defaults (for example, the idle timeout) applied to sessions created for this agent version. */
   session_configuration?: SessionConfiguration;
+  /** Whether this agent version uses memory snapshots. Sessions for a snapshot-enabled version start from a snapshot of the agent's initialized process rather than starting the process from its image. Defaults to false. */
+  enable_memory_snapshot?: boolean;
 }
 
 export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): any {
@@ -420,6 +445,7 @@ export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): an
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationSerializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -447,6 +473,7 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationDeserializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -2992,13 +3019,23 @@ export interface ImageGenTool extends Tool {
   type: "image_generation";
   /** The model to use for image generation. */
   model?:
-    "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5" | "gpt-image-2" | "gpt-image-2-2026-04-21";
+    | "gpt-image-1"
+    | "gpt-image-1-mini"
+    | "gpt-image-1.5"
+    | "gpt-image-2"
+    | "gpt-image-2-2026-04-21"
+    | "gpt-image-2.5-sunburst"
+    | "gpt-image-2.5-sunburst-2026-09-08"
+    | "gpt-image-2.5-flare"
+    | "gpt-image-2.5-flare-2026-09-08";
   /**
-   * The quality of the generated image. One of `low`, `medium`, `high`,
-   *   or `auto`. Default: `auto`.
+   * The quality of the generated image. The GPT image models support `low`,
+   *   `medium`, and `high`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`,
+   *   including their `2026-09-08` snapshots, also support `xhigh` and `max`.
+   *   Default: `auto`.
    */
-  quality?: "low" | "medium" | "high" | "auto";
-  /** The size of the generated images. For `gpt-image-2` and `gpt-image-2-2026-04-21`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
+  quality?: "low" | "medium" | "high" | "xhigh" | "max" | "auto";
+  /** The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
   size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
   /**
    * The output format of the generated image. One of `png`, `webp`, or
@@ -15158,17 +15195,17 @@ export function webIQPreviewToolboxToolDeserializer(item: any): WebIQPreviewTool
  * managed speech-to-speech experience. Establish realtime voice sessions through
  * `GET /agents/{agent_name}/endpoint/protocols/voice`. Every create or update produces a new immutable version.
  */
-export interface VoiceAgentDefinition extends AgentDefinition {
-  /** The kind discriminator for a voice agent definition. Always `voice`. */
-  kind: "voice";
+export interface VoiceAgentDefinition extends VoiceAgentBaseDefinition {
+  /** Frontend instructions for a Realtime agent. */
+  instructions?: string;
+  /** Selects Realtime. May be omitted for legacy agents. */
+  sub_protocol?: "realtime";
   /** How the model backing this voice agent is served. Required with `model` for a model-backed voice agent and omitted when `conversation_engine` is provided. This is independent of the architecture (realtime or cascaded), which the service derives from the selected model. */
   model_type?: VoiceModelType;
   /** The model to use for this agent. Required with `model_type` for a model-backed voice agent and omitted when `conversation_engine` is provided. The model must support realtime or cascaded voice. */
   model?: string;
   /** The engine that owns conversation handling for this voice agent. Exactly one of this property and the model-backed configuration (`model_type` with `model`) must be provided. When this property is provided, `model_type`, `model`, `instructions`, `tools`, and `tool_choice` must be omitted, and `greeting.tool_choice` cannot be `required`, because the engine owns the conversation logic. The initial implementation supports a hosted-agent engine. */
   conversation_engine?: VoiceConversationEngineUnion;
-  /** A system (or developer) message inserted into the model's context. Supports template substitution via `structured_inputs`, rendered per session before the live session starts. */
-  instructions?: string;
   /** Optional session-start greeting. Template mode speaks exact rendered text; LLM-generated mode asks the session model to author the opening response and may use configured tools. */
   greeting?: VoiceAgentGreetingConfigUnion;
   /**
@@ -15203,31 +15240,25 @@ export interface VoiceAgentDefinition extends AgentDefinition {
   tool_choice?: VoiceAgentToolChoice;
   /** Whether the model may call multiple tools in parallel. */
   parallel_tool_calls?: boolean;
-  /** Set of structured inputs that participate in prompt template substitution, rendered per session before the live session starts. */
-  structured_inputs?: Record<string, StructuredInputDefinition>;
   /** Optional configuration for sibling Foundry text agents that this voice agent may consult as background specialists. */
   subagent_config?: VoiceAgentSubagentConfig;
-  /**
-   * Whether conversations with this agent are persisted. A single, all-or-nothing persistence switch that defaults to
-   * `false` (privacy-safe: off by default). When `true`, Foundry persists the full conversation — the transcript/event
-   * timeline and raw audio. When `false`, nothing is persisted and no conversation is surfaced. There is no separate
-   * audio-logging control; audio is persisted only as part of this switch. Latency/performance telemetry (e.g.
-   * time-to-first-audio, inter-token latency, interruption) is observability-only (customer trace / App Insights) and
-   * is not part of the persisted conversation content.
-   */
-  store?: boolean;
 }
 
 export function voiceAgentDefinitionSerializer(item: VoiceAgentDefinition): any {
   return {
     kind: item["kind"],
+    sub_protocol: item["sub_protocol"],
+    instructions: item["instructions"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+    store: item["store"],
     rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
     model_type: item["model_type"],
     model: item["model"],
     conversation_engine: !item["conversation_engine"]
       ? item["conversation_engine"]
       : voiceConversationEngineUnionSerializer(item["conversation_engine"]),
-    instructions: item["instructions"],
     greeting: !item["greeting"]
       ? item["greeting"]
       : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
@@ -15254,19 +15285,21 @@ export function voiceAgentDefinitionSerializer(item: VoiceAgentDefinition): any 
       ? item["tool_choice"]
       : voiceAgentToolChoiceSerializer(item["tool_choice"]),
     parallel_tool_calls: item["parallel_tool_calls"],
-    structured_inputs: !item["structured_inputs"]
-      ? item["structured_inputs"]
-      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
     subagent_config: !item["subagent_config"]
       ? item["subagent_config"]
       : voiceAgentSubagentConfigSerializer(item["subagent_config"]),
-    store: item["store"],
   };
 }
 
 export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinition {
   return {
     kind: item["kind"],
+    sub_protocol: item["sub_protocol"],
+    instructions: item["instructions"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
+    store: item["store"],
     rai_config: !item["rai_config"]
       ? item["rai_config"]
       : raiConfigDeserializer(item["rai_config"]),
@@ -15275,7 +15308,6 @@ export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinitio
     conversation_engine: !item["conversation_engine"]
       ? item["conversation_engine"]
       : voiceConversationEngineUnionDeserializer(item["conversation_engine"]),
-    instructions: item["instructions"],
     greeting: !item["greeting"]
       ? item["greeting"]
       : voiceAgentGreetingConfigUnionDeserializer(item["greeting"]),
@@ -15302,13 +15334,9 @@ export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinitio
       ? item["tool_choice"]
       : voiceAgentToolChoiceDeserializer(item["tool_choice"]),
     parallel_tool_calls: item["parallel_tool_calls"],
-    structured_inputs: !item["structured_inputs"]
-      ? item["structured_inputs"]
-      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
     subagent_config: !item["subagent_config"]
       ? item["subagent_config"]
       : voiceAgentSubagentConfigDeserializer(item["subagent_config"]),
-    store: item["store"],
   };
 }
 
@@ -28259,3 +28287,2993 @@ export function microsoftCopilotToolsetConfigDeserializer(
 /** A customer-configurable Microsoft Copilot built-in tool. */
 export type MicrosoftCopilotBuiltInTool =
   "filesystem_read" | "filesystem_write" | "shell" | "web" | "subagents";
+
+/**
+ * Shared voice-agent settings; protocol-specific fields remain flat on each subtype.
+ * Creates and updates produce immutable versions. An agent's protocol cannot change across versions.
+ */
+export interface VoiceAgentBaseDefinition extends AgentDefinition {
+  /** Always voice. */
+  kind: "voice";
+  /** Omission selects Realtime. Null and unknown values are invalid. Reads preserve omission. */
+  sub_protocol?: VoiceAgentSubProtocol;
+  /** Frontend instructions, templated with structured_inputs. Backend instructions belong in delegation.responses. */
+  instructions?: string | null;
+  /** Template inputs for session instructions and supported greetings. */
+  structured_inputs?: Record<string, StructuredInputDefinition>;
+  /** Persists conversation content and audio in Foundry, not native Live recordings. Defaults to false. */
+  store?: boolean;
+}
+
+export function voiceAgentBaseDefinitionSerializer(item: VoiceAgentBaseDefinition): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    sub_protocol: item["sub_protocol"],
+    instructions: item["instructions"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+    store: item["store"],
+  };
+}
+
+export function voiceAgentBaseDefinitionDeserializer(item: any): VoiceAgentBaseDefinition {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+    sub_protocol: item["sub_protocol"],
+    instructions: item["instructions"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
+    store: item["store"],
+  };
+}
+
+/** Voice protocol; realtime includes cascaded models. */
+export type VoiceAgentSubProtocol = "realtime" | "live";
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultVoiceAgentLiveConversation {
+  /** The requested list of items. */
+  data: VoiceAgentLiveConversation[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultVoiceAgentLiveConversationDeserializer(
+  item: any,
+): _AgentsPagedResultVoiceAgentLiveConversation {
+  return {
+    data: voiceAgentLiveConversationArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function voiceAgentLiveConversationArrayDeserializer(
+  result: Array<VoiceAgentLiveConversation>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentLiveConversationDeserializer(item);
+  });
+}
+
+/** A Live session persisted when effective store is true. Uses voice-conversation lifecycle and retention; items are retrieved separately. */
+export interface VoiceAgentLiveConversation {
+  /** The unique id of the conversation. */
+  id: string;
+  /** The object type. Always `voice.conversation`. */
+  object: "voice.conversation";
+  /** The lifecycle status of the conversation. */
+  status: VoiceConversationStatus;
+  /** The Unix timestamp (in seconds) for when the conversation was created. */
+  created_at: Date;
+  /** The Unix timestamp (in seconds) for when session and persistence finalization reached the terminal `completed` or `failed` status. Absent while `status` is `in_progress`. */
+  completed_at?: Date;
+  /** A set of key-value pairs attached to the conversation. */
+  metadata?: Record<string, string>;
+  /** The terminal error that prevented persistence finalization. Present only when `status` is `failed`. */
+  last_error?: ErrorModel;
+  /** Cumulative Live audio usage, excluding delegated-model tokens. May be absent after abnormal close. */
+  usage?: LiveSessionUsage;
+}
+
+export function voiceAgentLiveConversationDeserializer(item: any): VoiceAgentLiveConversation {
+  return {
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    created_at: new Date(item["created_at"] * 1000),
+    completed_at:
+      item["completed_at"] === undefined || item["completed_at"] === null
+        ? item["completed_at"]
+        : new Date(item["completed_at"] * 1000),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    last_error: !item["last_error"] ? item["last_error"] : errorDeserializer(item["last_error"]),
+    usage: !item["usage"] ? item["usage"] : liveSessionUsageDeserializer(item["usage"]),
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultVoiceAgentLiveConversationItem {
+  /** The requested list of items. */
+  data: VoiceAgentLiveConversationItemUnion[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultVoiceAgentLiveConversationItemDeserializer(
+  item: any,
+): _AgentsPagedResultVoiceAgentLiveConversationItem {
+  return {
+    data: voiceAgentLiveConversationItemUnionArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function voiceAgentLiveConversationItemUnionArrayDeserializer(
+  result: Array<VoiceAgentLiveConversationItemUnion>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentLiveConversationItemUnionDeserializer(item);
+  });
+}
+
+/** A stored speech segment or delegation. Speech segments are not native turns or proof of playback; delegation results are separate from spoken transcripts. */
+export interface VoiceAgentLiveConversationItem {
+  /** The persisted item kind. */
+  /** The discriminator possible values: input, output, delegation */
+  type: VoiceAgentLiveConversationItemType;
+  /** Item ID used for retrieval. Foundry assigns speech IDs; delegation IDs retain their native value. */
+  id: string;
+}
+
+export function voiceAgentLiveConversationItemDeserializer(
+  item: any,
+): VoiceAgentLiveConversationItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+  };
+}
+
+/** Alias for VoiceAgentLiveConversationItemUnion */
+export type VoiceAgentLiveConversationItemUnion =
+  | VoiceAgentLiveInputConversationItem
+  | VoiceAgentLiveOutputConversationItem
+  | VoiceAgentLiveDelegationConversationItemUnion
+  | VoiceAgentLiveConversationItem;
+
+export function voiceAgentLiveConversationItemUnionDeserializer(
+  item: any,
+): VoiceAgentLiveConversationItemUnion {
+  switch (item["type"]) {
+    case "input":
+      return voiceAgentLiveInputConversationItemDeserializer(
+        item as VoiceAgentLiveInputConversationItem,
+      );
+
+    case "output":
+      return voiceAgentLiveOutputConversationItemDeserializer(
+        item as VoiceAgentLiveOutputConversationItem,
+      );
+
+    case "delegation":
+      return voiceAgentLiveDelegationConversationItemUnionDeserializer(
+        item as VoiceAgentLiveDelegationConversationItemUnion,
+      );
+
+    default:
+      return voiceAgentLiveConversationItemDeserializer(item);
+  }
+}
+
+/** The kind of a persisted Live conversation item. */
+export type VoiceAgentLiveConversationItemType = "input" | "output" | "delegation";
+
+/** A stored user speech segment. */
+export interface VoiceAgentLiveInputConversationItem extends VoiceAgentLiveConversationItem {
+  type: "input";
+  /** Captured user transcription, when available. */
+  transcription?: string;
+  /** Captured audio metadata; audio.item_id matches this item's id. */
+  audio?: VoiceAudioItem;
+}
+
+export function voiceAgentLiveInputConversationItemDeserializer(
+  item: any,
+): VoiceAgentLiveInputConversationItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    transcription: item["transcription"],
+    audio: !item["audio"] ? item["audio"] : voiceAudioItemDeserializer(item["audio"]),
+  };
+}
+
+/** A stored assistant speech segment. */
+export interface VoiceAgentLiveOutputConversationItem extends VoiceAgentLiveConversationItem {
+  type: "output";
+  /** Captured assistant transcription, not backend output or commentary guidance. */
+  transcription?: string;
+  /** Captured audio metadata; audio.item_id matches this item's id. */
+  audio?: VoiceAudioItem;
+}
+
+export function voiceAgentLiveOutputConversationItemDeserializer(
+  item: any,
+): VoiceAgentLiveOutputConversationItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    transcription: item["transcription"],
+    audio: !item["audio"] ? item["audio"] : voiceAudioItemDeserializer(item["audio"]),
+  };
+}
+
+/** A stored delegation using native fields with Foundry-specific targets. Its id is the native delegation ID. */
+export interface VoiceAgentLiveDelegationConversationItem extends VoiceAgentLiveConversationItem {
+  /** The object type, always `delegation`. */
+  type: "delegation";
+  /** The ID of the Responses API response associated with a Responses delegation. Omitted for client delegations. */
+  response_id?: string;
+  /** The configured delegation owner. */
+  /** The discriminator possible values: client, responses, foundry_managed_agent */
+  target: VoiceAgentLiveDelegationTarget;
+  /** Observed delegation creation time, in Unix seconds. */
+  created_at: Date;
+}
+
+export function voiceAgentLiveDelegationConversationItemDeserializer(
+  item: any,
+): VoiceAgentLiveDelegationConversationItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    response_id: item["response_id"],
+    target: item["target"],
+    created_at: new Date(item["created_at"] * 1000),
+  };
+}
+
+/** Alias for VoiceAgentLiveDelegationConversationItemUnion */
+export type VoiceAgentLiveDelegationConversationItemUnion =
+  | VoiceAgentLiveClientDelegationConversationItem
+  | VoiceAgentLiveResponsesDelegationConversationItem
+  | VoiceAgentLiveFoundryManagedAgentDelegationItem
+  | VoiceAgentLiveDelegationConversationItem;
+
+export function voiceAgentLiveDelegationConversationItemUnionDeserializer(
+  item: any,
+): VoiceAgentLiveDelegationConversationItemUnion {
+  switch (item["target"]) {
+    case "client":
+      return voiceAgentLiveClientDelegationConversationItemDeserializer(
+        item as VoiceAgentLiveClientDelegationConversationItem,
+      );
+
+    case "responses":
+      return voiceAgentLiveResponsesDelegationConversationItemDeserializer(
+        item as VoiceAgentLiveResponsesDelegationConversationItem,
+      );
+
+    case "foundry_managed_agent":
+      return voiceAgentLiveFoundryManagedAgentDelegationItemDeserializer(
+        item as VoiceAgentLiveFoundryManagedAgentDelegationItem,
+      );
+
+    default:
+      return voiceAgentLiveDelegationConversationItemDeserializer(item);
+  }
+}
+
+/** Delegation owner. Foundry agent targets use native client delegation upstream. */
+export type VoiceAgentLiveDelegationTarget =
+  string | "responses" | "client" | "foundry_managed_agent";
+
+/** Results supplied by the application for client delegation. */
+export interface VoiceAgentLiveClientDelegationConversationItem extends VoiceAgentLiveDelegationConversationItem {
+  target: "client";
+  /** Guidance for Live to communicate to the user, when accepted. */
+  commentary?: string;
+  /** Accepted background context, not private reasoning or a request to speak. */
+  thinking?: string;
+}
+
+export function voiceAgentLiveClientDelegationConversationItemDeserializer(
+  item: any,
+): VoiceAgentLiveClientDelegationConversationItem {
+  return {
+    type: item["type"],
+    response_id: item["response_id"],
+    target: item["target"],
+    created_at: new Date(item["created_at"] * 1000),
+    id: item["id"],
+    commentary: item["commentary"],
+    thinking: item["thinking"],
+  };
+}
+
+/** Stored Responses delegation output, separate from Live speech. */
+export interface VoiceAgentLiveResponsesDelegationConversationItem extends VoiceAgentLiveDelegationConversationItem {
+  target: "responses";
+  /** Final backend text, omitted when unavailable; excludes raw tool output. */
+  output?: string;
+}
+
+export function voiceAgentLiveResponsesDelegationConversationItemDeserializer(
+  item: any,
+): VoiceAgentLiveResponsesDelegationConversationItem {
+  return {
+    type: item["type"],
+    response_id: item["response_id"],
+    target: item["target"],
+    created_at: new Date(item["created_at"] * 1000),
+    id: item["id"],
+    output: item["output"],
+  };
+}
+
+/** Stored prompt-agent delegation state and accepted results. */
+export interface VoiceAgentLiveFoundryManagedAgentDelegationItem extends VoiceAgentLiveDelegationConversationItem {
+  target: "foundry_managed_agent";
+  /** Target agent name in the same project. */
+  agent_name: string;
+  /** Target version pinned at connection start. */
+  agent_version: string;
+  /** Native delegation offset from session start, in milliseconds. */
+  offset_ms: number;
+  /** Backend conversation ID, distinct from the voice conversation and Live session IDs. */
+  backend_conversation_id?: string;
+  /** Accepted guidance in order; empty until a result is accepted. Entries have no individual IDs, are noncumulative, and are independent of backend output_index. Partial results survive failure or cancellation. */
+  output: VoiceAgentLiveDelegationResultItem[];
+  /** Task context sent to the target agent, not the full request body. */
+  delegation_context?: string;
+  /** The persisted delegation outcome. */
+  status: VoiceAgentLiveDelegationStatus;
+}
+
+export function voiceAgentLiveFoundryManagedAgentDelegationItemDeserializer(
+  item: any,
+): VoiceAgentLiveFoundryManagedAgentDelegationItem {
+  return {
+    type: item["type"],
+    response_id: item["response_id"],
+    target: item["target"],
+    created_at: new Date(item["created_at"] * 1000),
+    id: item["id"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    offset_ms: item["offset_ms"],
+    backend_conversation_id: item["backend_conversation_id"],
+    output: voiceAgentLiveDelegationResultItemArrayDeserializer(item["output"]),
+    delegation_context: item["delegation_context"],
+    status: item["status"],
+  };
+}
+
+export function voiceAgentLiveDelegationResultItemArrayDeserializer(
+  result: Array<VoiceAgentLiveDelegationResultItem>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentLiveDelegationResultItemDeserializer(item);
+  });
+}
+
+/** Persisted guidance accepted by Live, with commentary, thinking, or both. Agent delegation section markers are removed before storage. */
+export type VoiceAgentLiveDelegationResultItem =
+  | {
+      commentary: string;
+      thinking?: string;
+    }
+  | {
+      commentary?: string;
+      thinking: string;
+    };
+
+export function voiceAgentLiveDelegationResultItemDeserializer(
+  item: any,
+): VoiceAgentLiveDelegationResultItem {
+  return item;
+}
+
+/** model interface _VoiceAgentLiveDelegationResultItem2 */
+export interface _VoiceAgentLiveDelegationResultItem2 {
+  /** Guidance for Live to communicate to the user. */
+  commentary: string;
+  /** Background context, not private reasoning or a request to speak. */
+  thinking?: string;
+}
+
+export function _voiceAgentLiveDelegationResultItem2Deserializer(
+  item: any,
+): _VoiceAgentLiveDelegationResultItem2 {
+  return {
+    commentary: item["commentary"],
+    thinking: item["thinking"],
+  };
+}
+
+/** model interface _VoiceAgentLiveDelegationResultItem1 */
+export interface _VoiceAgentLiveDelegationResultItem1 {
+  /** Guidance for Live to communicate to the user. */
+  commentary?: string;
+  /** Background context, not private reasoning or a request to speak. */
+  thinking: string;
+}
+
+export function _voiceAgentLiveDelegationResultItem1Deserializer(
+  item: any,
+): _VoiceAgentLiveDelegationResultItem1 {
+  return {
+    commentary: item["commentary"],
+    thinking: item["thinking"],
+  };
+}
+
+/** Persisted delegation outcome, not speech or playback status. */
+export type VoiceAgentLiveDelegationStatus =
+  string | "in_progress" | "completed" | "failed" | "incomplete" | "cancelled";
+
+/**
+ * The Live voice agent definition. Its configuration (model, instructions, audio, and delegation) drives a
+ * managed speech-to-speech experience using a Foundry GPT Live deployment. Establish Live voice sessions through
+ * `GET /agents/{agent_name}/endpoint/protocols/voice/live/sessions`. Every create or update produces a new immutable version.
+ */
+export interface VoiceAgentLiveDefinition extends VoiceAgentBaseDefinition {
+  /** Selects the Live protocol. */
+  sub_protocol: "live";
+  /** Uses a Foundry model deployment. */
+  model_type: "self_deployed";
+  /** The GPT Live deployment name. */
+  model: string;
+  /** Template-only startup greeting, rendered with session structured inputs. Foundry-only; not sent in native Live settings. */
+  greeting?: VoiceAgentTemplateGreetingConfig;
+  /** Startup audio formats and output voice. */
+  audio?: LiveInitialSessionAudioParam;
+  /** Delegation settings. Omit for client mode. responses.model is a backend deployment name in the Live resource, not a model catalog ID. */
+  delegation?: VoiceAgentLiveDelegationOptionsUnion;
+}
+
+export function voiceAgentLiveDefinitionSerializer(item: VoiceAgentLiveDefinition): any {
+  return {
+    kind: item["kind"],
+    sub_protocol: item["sub_protocol"],
+    instructions: item["instructions"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+    store: item["store"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    model_type: item["model_type"],
+    model: item["model"],
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentTemplateGreetingConfigSerializer(item["greeting"]),
+    audio: !item["audio"] ? item["audio"] : liveInitialSessionAudioParamSerializer(item["audio"]),
+    delegation: !item["delegation"]
+      ? item["delegation"]
+      : voiceAgentLiveDelegationOptionsUnionSerializer(item["delegation"]),
+  };
+}
+
+export function voiceAgentLiveDefinitionDeserializer(item: any): VoiceAgentLiveDefinition {
+  return {
+    kind: item["kind"],
+    sub_protocol: item["sub_protocol"],
+    instructions: item["instructions"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
+    store: item["store"],
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+    model_type: item["model_type"],
+    model: item["model"],
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentTemplateGreetingConfigDeserializer(item["greeting"]),
+    audio: !item["audio"] ? item["audio"] : liveInitialSessionAudioParamDeserializer(item["audio"]),
+    delegation: !item["delegation"]
+      ? item["delegation"]
+      : voiceAgentLiveDelegationOptionsUnionDeserializer(item["delegation"]),
+  };
+}
+
+/** JavaScript delegation options selected by type. */
+export interface VoiceAgentLiveDelegationOptions {
+  type: DelegationType | "foundry_managed_agent";
+}
+
+export function voiceAgentLiveDelegationOptionsSerializer(
+  item: VoiceAgentLiveDelegationOptions,
+): any {
+  return { type: _voiceAgentLiveDefinitionDelegationTypeSerializer(item["type"]) };
+}
+
+export function voiceAgentLiveDelegationOptionsDeserializer(
+  item: any,
+): VoiceAgentLiveDelegationOptions {
+  return {
+    type: _voiceAgentLiveDefinitionDelegationTypeDeserializer(item["type"]),
+  };
+}
+
+/** Alias for VoiceAgentLiveDelegationOptionsUnion */
+export type VoiceAgentLiveDelegationOptionsUnion =
+  | VoiceAgentLiveClientDelegationOptions
+  | VoiceAgentLiveResponsesDelegationOptions
+  | VoiceAgentLiveManagedAgentDelegationOptions
+  | VoiceAgentLiveDelegationOptions;
+
+export function voiceAgentLiveDelegationOptionsUnionSerializer(
+  item: VoiceAgentLiveDelegationOptionsUnion,
+): any {
+  switch (item.type) {
+    case "client":
+      return voiceAgentLiveClientDelegationOptionsSerializer(
+        item as VoiceAgentLiveClientDelegationOptions,
+      );
+
+    case "responses":
+      return voiceAgentLiveResponsesDelegationOptionsSerializer(
+        item as VoiceAgentLiveResponsesDelegationOptions,
+      );
+
+    case "foundry_managed_agent":
+      return voiceAgentLiveManagedAgentDelegationOptionsSerializer(
+        item as VoiceAgentLiveManagedAgentDelegationOptions,
+      );
+
+    default:
+      return voiceAgentLiveDelegationOptionsSerializer(item);
+  }
+}
+
+export function voiceAgentLiveDelegationOptionsUnionDeserializer(
+  item: any,
+): VoiceAgentLiveDelegationOptionsUnion {
+  switch (item["type"]) {
+    case "client":
+      return voiceAgentLiveClientDelegationOptionsDeserializer(
+        item as VoiceAgentLiveClientDelegationOptions,
+      );
+
+    case "responses":
+      return voiceAgentLiveResponsesDelegationOptionsDeserializer(
+        item as VoiceAgentLiveResponsesDelegationOptions,
+      );
+
+    case "foundry_managed_agent":
+      return voiceAgentLiveManagedAgentDelegationOptionsDeserializer(
+        item as VoiceAgentLiveManagedAgentDelegationOptions,
+      );
+
+    default:
+      return voiceAgentLiveDelegationOptionsDeserializer(item);
+  }
+}
+
+/** Alias for _VoiceAgentLiveDefinitionDelegationType */
+export type _VoiceAgentLiveDefinitionDelegationType = DelegationType | "foundry_managed_agent";
+
+export function _voiceAgentLiveDefinitionDelegationTypeSerializer(
+  item: _VoiceAgentLiveDefinitionDelegationType,
+): any {
+  return item;
+}
+
+export function _voiceAgentLiveDefinitionDelegationTypeDeserializer(
+  item: any,
+): _VoiceAgentLiveDefinitionDelegationType {
+  return item;
+}
+
+/** Client delegation options. */
+export interface VoiceAgentLiveClientDelegationOptions extends VoiceAgentLiveDelegationOptions {
+  /** The delegation owner. Always `client` for tasks handled by your application. */
+  type: "client";
+}
+
+export function voiceAgentLiveClientDelegationOptionsSerializer(
+  item: VoiceAgentLiveClientDelegationOptions,
+): any {
+  return { type: item["type"] };
+}
+
+export function voiceAgentLiveClientDelegationOptionsDeserializer(
+  item: any,
+): VoiceAgentLiveClientDelegationOptions {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Responses delegation options. */
+export interface VoiceAgentLiveResponsesDelegationOptions extends VoiceAgentLiveDelegationOptions {
+  /** The delegation owner. Always `responses` for tasks handled by the Responses API. */
+  type: "responses";
+  /** Backend model, prompt, and tools used when the Live session delegates a task to Responses. */
+  responses: LiveResponsesDelegationSettingsInputParam;
+}
+
+export function voiceAgentLiveResponsesDelegationOptionsSerializer(
+  item: VoiceAgentLiveResponsesDelegationOptions,
+): any {
+  return {
+    type: item["type"],
+    responses: liveResponsesDelegationSettingsInputParamSerializer(item["responses"]),
+  };
+}
+
+export function voiceAgentLiveResponsesDelegationOptionsDeserializer(
+  item: any,
+): VoiceAgentLiveResponsesDelegationOptions {
+  return {
+    type: item["type"],
+    responses: liveResponsesDelegationSettingsInputParamDeserializer(item["responses"]),
+  };
+}
+
+/** Foundry managed-agent delegation options. */
+export interface VoiceAgentLiveManagedAgentDelegationOptions extends VoiceAgentLiveDelegationOptions {
+  /** Canonical delegation type; legacy managed_prompt_agent values are returned as foundry_managed_agent. */
+  type: "foundry_managed_agent";
+  /** Name of a prompt agent in the same project. */
+  agent_name: string;
+  /** Agent version, pinned per connection. Omit to select the active version. */
+  agent_version?: string;
+}
+
+export function voiceAgentLiveManagedAgentDelegationOptionsSerializer(
+  item: VoiceAgentLiveManagedAgentDelegationOptions,
+): any {
+  return {
+    type: item["type"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+export function voiceAgentLiveManagedAgentDelegationOptionsDeserializer(
+  item: any,
+): VoiceAgentLiveManagedAgentDelegationOptions {
+  return {
+    type: item["type"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+export type BetaVoiceAgentsLiveConversationsDownloadAudioResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type BetaVoiceAgentsLiveConversationsDownloadAudioItemResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+/** Cumulative audio duration for a Live session. Values are totals for the session, not increments to sum across usage events. */
+export interface LiveSessionUsage {
+  /** The cumulative Live audio duration in seconds. Do not sum this value across usage events. */
+  seconds: number;
+}
+
+export function liveSessionUsageDeserializer(item: any): LiveSessionUsage {
+  return {
+    seconds: item["seconds"],
+  };
+}
+
+/** Startup audio configuration. Only primary WebSockets accept audio.format; WebRTC and SIP negotiate their media format. Voice and format are immutable after startup. */
+export interface LiveInitialSessionAudioParam {
+  /** Audio encoding and sample rate for audio sent and received over a Live WebSocket connection. WebRTC and SIP negotiate their media format separately. */
+  format?: LiveAudioFormatUnion;
+  /** The voice used for speech generated by the Live model. */
+  output?: LiveInitialSessionAudioOutputParam;
+}
+
+export function liveInitialSessionAudioParamSerializer(item: LiveInitialSessionAudioParam): any {
+  return {
+    format: !item["format"] ? item["format"] : liveAudioFormatUnionSerializer(item["format"]),
+    output: !item["output"]
+      ? item["output"]
+      : liveInitialSessionAudioOutputParamSerializer(item["output"]),
+  };
+}
+
+export function liveInitialSessionAudioParamDeserializer(item: any): LiveInitialSessionAudioParam {
+  return {
+    format: !item["format"] ? item["format"] : liveAudioFormatUnionDeserializer(item["format"]),
+    output: !item["output"]
+      ? item["output"]
+      : liveInitialSessionAudioOutputParamDeserializer(item["output"]),
+  };
+}
+
+/** Audio encoding and sample rate for audio sent and received over a Live WebSocket connection. WebRTC and SIP negotiate their media format separately. */
+export interface LiveAudioFormat {
+  type: LiveAudioFormatType;
+}
+
+export function liveAudioFormatSerializer(item: LiveAudioFormat): any {
+  return { type: item["type"] };
+}
+
+export function liveAudioFormatDeserializer(item: any): LiveAudioFormat {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for LiveAudioFormatUnion */
+export type LiveAudioFormatUnion =
+  | LiveSessionAudioFormatPCMParam
+  | LiveSessionAudioFormatPcmuParam
+  | LiveSessionAudioFormatPcmaParam
+  | LiveAudioFormat;
+
+export function liveAudioFormatUnionSerializer(item: LiveAudioFormatUnion): any {
+  switch (item.type) {
+    case "audio/pcm":
+      return liveSessionAudioFormatPCMParamSerializer(item as LiveSessionAudioFormatPCMParam);
+
+    case "audio/pcmu":
+      return liveSessionAudioFormatPcmuParamSerializer(item as LiveSessionAudioFormatPcmuParam);
+
+    case "audio/pcma":
+      return liveSessionAudioFormatPcmaParamSerializer(item as LiveSessionAudioFormatPcmaParam);
+
+    default:
+      return liveAudioFormatSerializer(item);
+  }
+}
+
+export function liveAudioFormatUnionDeserializer(item: any): LiveAudioFormatUnion {
+  switch (item["type"]) {
+    case "audio/pcm":
+      return liveSessionAudioFormatPCMParamDeserializer(item as LiveSessionAudioFormatPCMParam);
+
+    case "audio/pcmu":
+      return liveSessionAudioFormatPcmuParamDeserializer(item as LiveSessionAudioFormatPcmuParam);
+
+    case "audio/pcma":
+      return liveSessionAudioFormatPcmaParamDeserializer(item as LiveSessionAudioFormatPcmaParam);
+
+    default:
+      return liveAudioFormatDeserializer(item);
+  }
+}
+
+/** Type of LiveAudioFormatType */
+export type LiveAudioFormatType = "audio/pcm" | "audio/pcmu" | "audio/pcma";
+
+/** Raw, mono 16-bit little-endian PCM audio for a Live WebSocket connection. */
+export interface LiveSessionAudioFormatPCMParam extends LiveAudioFormat {
+  /** The audio encoding. Always `audio/pcm`. */
+  type: "audio/pcm";
+  /** Audio sample rate in hertz. Live WebSocket PCM audio supports 16000 or 24000 Hz. */
+  rate: 16000 | 24000;
+}
+
+export function liveSessionAudioFormatPCMParamSerializer(
+  item: LiveSessionAudioFormatPCMParam,
+): any {
+  return { type: item["type"], rate: item["rate"] };
+}
+
+export function liveSessionAudioFormatPCMParamDeserializer(
+  item: any,
+): LiveSessionAudioFormatPCMParam {
+  return {
+    type: item["type"],
+    rate: item["rate"],
+  };
+}
+
+/** Raw, mono G.711 μ-law audio for a Live WebSocket connection. */
+export interface LiveSessionAudioFormatPcmuParam extends LiveAudioFormat {
+  /** The audio encoding. Always `audio/pcmu`. */
+  type: "audio/pcmu";
+  /** Audio sample rate in hertz. G.711 audio uses 8000 Hz. */
+  rate: number;
+}
+
+export function liveSessionAudioFormatPcmuParamSerializer(
+  item: LiveSessionAudioFormatPcmuParam,
+): any {
+  return { type: item["type"], rate: item["rate"] };
+}
+
+export function liveSessionAudioFormatPcmuParamDeserializer(
+  item: any,
+): LiveSessionAudioFormatPcmuParam {
+  return {
+    type: item["type"],
+    rate: item["rate"],
+  };
+}
+
+/** Raw, mono G.711 A-law audio for a Live WebSocket connection. */
+export interface LiveSessionAudioFormatPcmaParam extends LiveAudioFormat {
+  /** The audio encoding. Always `audio/pcma`. */
+  type: "audio/pcma";
+  /** Audio sample rate in hertz. G.711 audio uses 8000 Hz. */
+  rate: number;
+}
+
+export function liveSessionAudioFormatPcmaParamSerializer(
+  item: LiveSessionAudioFormatPcmaParam,
+): any {
+  return { type: item["type"], rate: item["rate"] };
+}
+
+export function liveSessionAudioFormatPcmaParamDeserializer(
+  item: any,
+): LiveSessionAudioFormatPcmaParam {
+  return {
+    type: item["type"],
+    rate: item["rate"],
+  };
+}
+
+/** Settings for speech generated by the Live model. Choose the voice before starting the session. */
+export interface LiveInitialSessionAudioOutputParam {
+  /** The voice used for Live speech, as a built-in voice name or a custom voice object containing its ID. Defaults to `marin` and cannot change after startup. */
+  voice?:
+    | string
+    | "alloy"
+    | "ash"
+    | "ballad"
+    | "beacon"
+    | "bossa"
+    | "cedar"
+    | "cinder"
+    | "coral"
+    | "delta"
+    | "echo"
+    | "gleam"
+    | "marin"
+    | "meridian"
+    | "quartz"
+    | "ripple"
+    | "sage"
+    | "shimmer"
+    | "stone"
+    | "tempo"
+    | "verse"
+    | "vesper"
+    | "willow"
+    | LiveCustomVoiceParam;
+}
+
+export function liveInitialSessionAudioOutputParamSerializer(
+  item: LiveInitialSessionAudioOutputParam,
+): any {
+  return {
+    voice: !item["voice"]
+      ? item["voice"]
+      : _liveInitialSessionAudioOutputParamVoiceSerializer(item["voice"]),
+  };
+}
+
+export function liveInitialSessionAudioOutputParamDeserializer(
+  item: any,
+): LiveInitialSessionAudioOutputParam {
+  return {
+    voice: !item["voice"]
+      ? item["voice"]
+      : _liveInitialSessionAudioOutputParamVoiceDeserializer(item["voice"]),
+  };
+}
+
+/** Alias for _LiveInitialSessionAudioOutputParamVoice */
+export type _LiveInitialSessionAudioOutputParamVoice =
+  | string
+  | "alloy"
+  | "ash"
+  | "ballad"
+  | "beacon"
+  | "bossa"
+  | "cedar"
+  | "cinder"
+  | "coral"
+  | "delta"
+  | "echo"
+  | "gleam"
+  | "marin"
+  | "meridian"
+  | "quartz"
+  | "ripple"
+  | "sage"
+  | "shimmer"
+  | "stone"
+  | "tempo"
+  | "verse"
+  | "vesper"
+  | "willow"
+  | LiveCustomVoiceParam;
+
+export function _liveInitialSessionAudioOutputParamVoiceSerializer(
+  item: _LiveInitialSessionAudioOutputParamVoice,
+): any {
+  return item;
+}
+
+export function _liveInitialSessionAudioOutputParamVoiceDeserializer(
+  item: any,
+): _LiveInitialSessionAudioOutputParamVoice {
+  return item;
+}
+
+/** model interface LiveCustomVoiceParam */
+export interface LiveCustomVoiceParam {
+  id: string;
+}
+
+export function liveCustomVoiceParamSerializer(item: LiveCustomVoiceParam): any {
+  return { id: item["id"] };
+}
+
+export function liveCustomVoiceParamDeserializer(item: any): LiveCustomVoiceParam {
+  return {
+    id: item["id"],
+  };
+}
+
+/** Type of DelegationType */
+export type DelegationType = "client" | "responses";
+
+/** Model, prompt, and tool settings for tasks delegated by the Live session to a Responses backend. */
+export interface LiveResponsesDelegationSettingsInputParam {
+  /** The model used for server-owned Responses delegations. */
+  model: string;
+  instructions?: string;
+  max_output_tokens?: number;
+  service_tier?: LiveResponsesServiceTier;
+  reasoning?: LiveDelegationReasoningInputParam;
+  text?: LiveDelegationTextInputParam;
+  /** Tools available to the Responses backend while it handles tasks delegated by the Live model. */
+  tools?: (LiveFunctionToolInputParam | LiveWebSearchToolInputParam)[];
+  /** Controls which tool the Responses backend uses when handling a task delegated by the Live model. */
+  tool_choice?: LiveToolChoiceEnum | LiveFunctionToolChoiceParam | LiveMCPToolChoiceParam;
+  parallel_tool_calls?: boolean;
+}
+
+export function liveResponsesDelegationSettingsInputParamSerializer(
+  item: LiveResponsesDelegationSettingsInputParam,
+): any {
+  return {
+    model: item["model"],
+    instructions: item["instructions"],
+    max_output_tokens: item["max_output_tokens"],
+    service_tier: item["service_tier"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : liveDelegationReasoningInputParamSerializer(item["reasoning"]),
+    text: !item["text"] ? item["text"] : liveDelegationTextInputParamSerializer(item["text"]),
+    tools: !item["tools"]
+      ? item["tools"]
+      : _liveResponsesDelegationSettingsInputParamToolArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _liveResponsesDelegationSettingsInputParamToolChoiceSerializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+  };
+}
+
+export function liveResponsesDelegationSettingsInputParamDeserializer(
+  item: any,
+): LiveResponsesDelegationSettingsInputParam {
+  return {
+    model: item["model"],
+    instructions: item["instructions"],
+    max_output_tokens: item["max_output_tokens"],
+    service_tier: item["service_tier"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : liveDelegationReasoningInputParamDeserializer(item["reasoning"]),
+    text: !item["text"] ? item["text"] : liveDelegationTextInputParamDeserializer(item["text"]),
+    tools: !item["tools"]
+      ? item["tools"]
+      : _liveResponsesDelegationSettingsInputParamToolArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _liveResponsesDelegationSettingsInputParamToolChoiceDeserializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+  };
+}
+
+/** Type of LiveResponsesServiceTier */
+export type LiveResponsesServiceTier =
+  "auto" | "default" | "fast_tier_temp_pilot" | "flex" | "priority" | "ultrafast";
+
+/** Reasoning options for Responses requests made on behalf of the Live session. */
+export interface LiveDelegationReasoningInputParam {
+  effort?: LiveReasoningEffort;
+  summary?: LiveReasoningSummary;
+}
+
+export function liveDelegationReasoningInputParamSerializer(
+  item: LiveDelegationReasoningInputParam,
+): any {
+  return { effort: item["effort"], summary: item["summary"] };
+}
+
+export function liveDelegationReasoningInputParamDeserializer(
+  item: any,
+): LiveDelegationReasoningInputParam {
+  return {
+    effort: item["effort"],
+    summary: item["summary"],
+  };
+}
+
+/** Type of LiveReasoningEffort */
+export type LiveReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
+
+/** Type of LiveReasoningSummary */
+export type LiveReasoningSummary = "concise" | "detailed" | "auto";
+
+/** Text generation options for the Live session’s Responses backend. */
+export interface LiveDelegationTextInputParam {
+  verbosity?: LiveTextVerbosity;
+}
+
+export function liveDelegationTextInputParamSerializer(item: LiveDelegationTextInputParam): any {
+  return { verbosity: item["verbosity"] };
+}
+
+export function liveDelegationTextInputParamDeserializer(item: any): LiveDelegationTextInputParam {
+  return {
+    verbosity: item["verbosity"],
+  };
+}
+
+/** Type of LiveTextVerbosity */
+export type LiveTextVerbosity = "low" | "medium" | "high";
+
+export function _liveResponsesDelegationSettingsInputParamToolArraySerializer(
+  result: Array<_LiveResponsesDelegationSettingsInputParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _liveResponsesDelegationSettingsInputParamToolSerializer(item);
+  });
+}
+
+export function _liveResponsesDelegationSettingsInputParamToolArrayDeserializer(
+  result: Array<_LiveResponsesDelegationSettingsInputParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _liveResponsesDelegationSettingsInputParamToolDeserializer(item);
+  });
+}
+
+/** Alias for _LiveResponsesDelegationSettingsInputParamTool */
+export type _LiveResponsesDelegationSettingsInputParamTool =
+  LiveFunctionToolInputParam | LiveWebSearchToolInputParam;
+
+export function _liveResponsesDelegationSettingsInputParamToolSerializer(
+  item: _LiveResponsesDelegationSettingsInputParamTool,
+): any {
+  return item;
+}
+
+export function _liveResponsesDelegationSettingsInputParamToolDeserializer(
+  item: any,
+): _LiveResponsesDelegationSettingsInputParamTool {
+  return item;
+}
+
+/** A function tool available to the Responses backend when the Live model delegates a task. */
+export interface LiveFunctionToolInputParam {
+  /** The tool type. Always `function`. */
+  type: "function";
+  /** The name the delegated Responses model uses when calling this function. */
+  name: string;
+  description?: string;
+  parameters?: Record<string, any>;
+  strict?: boolean;
+}
+
+export function liveFunctionToolInputParamSerializer(item: LiveFunctionToolInputParam): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    parameters: item["parameters"],
+    strict: item["strict"],
+  };
+}
+
+export function liveFunctionToolInputParamDeserializer(item: any): LiveFunctionToolInputParam {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : Object.fromEntries(
+          Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    strict: item["strict"],
+  };
+}
+
+/** A web search tool available to the Live session’s Responses backend. */
+export interface LiveWebSearchToolInputParam {
+  /** The tool type. Always `web_search`. */
+  type: "web_search";
+}
+
+export function liveWebSearchToolInputParamSerializer(item: LiveWebSearchToolInputParam): any {
+  return { type: item["type"] };
+}
+
+export function liveWebSearchToolInputParamDeserializer(item: any): LiveWebSearchToolInputParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for _LiveResponsesDelegationSettingsInputParamToolChoice */
+export type _LiveResponsesDelegationSettingsInputParamToolChoice =
+  LiveToolChoiceEnum | LiveFunctionToolChoiceParam | LiveMCPToolChoiceParam;
+
+export function _liveResponsesDelegationSettingsInputParamToolChoiceSerializer(
+  item: _LiveResponsesDelegationSettingsInputParamToolChoice,
+): any {
+  return item;
+}
+
+export function _liveResponsesDelegationSettingsInputParamToolChoiceDeserializer(
+  item: any,
+): _LiveResponsesDelegationSettingsInputParamToolChoice {
+  return item;
+}
+
+/** Type of LiveToolChoiceEnum */
+export type LiveToolChoiceEnum = "auto" | "none" | "required";
+
+/** model interface LiveFunctionToolChoiceParam */
+export interface LiveFunctionToolChoiceParam {
+  type: "function";
+  name: string;
+}
+
+export function liveFunctionToolChoiceParamSerializer(item: LiveFunctionToolChoiceParam): any {
+  return { type: item["type"], name: item["name"] };
+}
+
+export function liveFunctionToolChoiceParamDeserializer(item: any): LiveFunctionToolChoiceParam {
+  return {
+    type: item["type"],
+    name: item["name"],
+  };
+}
+
+/** model interface LiveMCPToolChoiceParam */
+export interface LiveMCPToolChoiceParam {
+  type: "mcp";
+  server_label: string;
+  name: string;
+}
+
+export function liveMCPToolChoiceParamSerializer(item: LiveMCPToolChoiceParam): any {
+  return { type: item["type"], server_label: item["server_label"], name: item["name"] };
+}
+
+export function liveMCPToolChoiceParamDeserializer(item: any): LiveMCPToolChoiceParam {
+  return {
+    type: item["type"],
+    server_label: item["server_label"],
+    name: item["name"],
+  };
+}
+
+/** Client events for Live. Initialize a primary WebSocket with session.start and wait for session.started. WebRTC creation already starts the session. Audio append is primary WebSocket-only. See the [Live prompting guide](https://developers.openai.com/api/docs/guides/live-prompting) before writing frontend instructions and delegation policies. */
+export interface LiveClientEvent {
+  type: LiveClientEventType;
+}
+
+export function liveClientEventSerializer(item: LiveClientEvent): any {
+  return { type: item["type"] };
+}
+
+/** Alias for LiveClientEventUnion */
+export type LiveClientEventUnion =
+  | LiveSessionStartEvent
+  | LiveClientEventLiveSessionUpdateParam
+  | LiveClientEventLiveInputAudioAppendEvent
+  | LiveClientEventLiveInputAudioMuteParam
+  | LiveClientEventLiveInputAudioUnmuteParam
+  | LiveClientEventLiveInstructionsAppendParam
+  | LiveClientEventLiveThinkingAppendParam
+  | LiveClientEventLiveCommentaryAppendParam
+  | LiveClientEventLiveResponseItemCreateParam
+  | LiveClientEventLiveResponseCreateParam
+  | LiveClientEventLiveSessionCloseParam
+  | LiveClientEvent;
+
+export function liveClientEventUnionSerializer(item: LiveClientEventUnion): any {
+  switch (item.type) {
+    case "session.start":
+      return liveSessionStartEventSerializer(item as LiveSessionStartEvent);
+
+    case "session.update":
+      return liveClientEventLiveSessionUpdateParamSerializer(
+        item as LiveClientEventLiveSessionUpdateParam,
+      );
+
+    case "session.input_audio.append":
+      return liveClientEventLiveInputAudioAppendEventSerializer(
+        item as LiveClientEventLiveInputAudioAppendEvent,
+      );
+
+    case "session.input_audio.mute":
+      return liveClientEventLiveInputAudioMuteParamSerializer(
+        item as LiveClientEventLiveInputAudioMuteParam,
+      );
+
+    case "session.input_audio.unmute":
+      return liveClientEventLiveInputAudioUnmuteParamSerializer(
+        item as LiveClientEventLiveInputAudioUnmuteParam,
+      );
+
+    case "session.instructions.append":
+      return liveClientEventLiveInstructionsAppendParamSerializer(
+        item as LiveClientEventLiveInstructionsAppendParam,
+      );
+
+    case "session.thinking.append":
+      return liveClientEventLiveThinkingAppendParamSerializer(
+        item as LiveClientEventLiveThinkingAppendParam,
+      );
+
+    case "session.commentary.append":
+      return liveClientEventLiveCommentaryAppendParamSerializer(
+        item as LiveClientEventLiveCommentaryAppendParam,
+      );
+
+    case "response.item.create":
+      return liveClientEventLiveResponseItemCreateParamSerializer(
+        item as LiveClientEventLiveResponseItemCreateParam,
+      );
+
+    case "response.create":
+      return liveClientEventLiveResponseCreateParamSerializer(
+        item as LiveClientEventLiveResponseCreateParam,
+      );
+
+    case "session.close":
+      return liveClientEventLiveSessionCloseParamSerializer(
+        item as LiveClientEventLiveSessionCloseParam,
+      );
+
+    default:
+      return liveClientEventSerializer(item);
+  }
+}
+
+/** Type of LiveClientEventType */
+export type LiveClientEventType =
+  | "session.start"
+  | "session.update"
+  | "session.input_audio.append"
+  | "session.input_audio.mute"
+  | "session.input_audio.unmute"
+  | "session.instructions.append"
+  | "session.thinking.append"
+  | "session.commentary.append"
+  | "response.item.create"
+  | "response.create"
+  | "session.close";
+
+/** Start a Live session on a primary WebSocket. Send this event before other commands and wait for `session.started`. */
+export interface LiveSessionStartEvent extends LiveClientEvent {
+  event_id?: string;
+  /** The Live client event type. Always `session.start`. */
+  type: "session.start";
+  /** Initial configuration for a primary WebSocket. Send session.start first and wait for session.started before application commands. WebRTC creation already starts the session; do not send this event again on its data channel. */
+  session: LiveSessionCreateParams;
+}
+
+export function liveSessionStartEventSerializer(item: LiveSessionStartEvent): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    session: liveSessionCreateParamsSerializer(item["session"]),
+  };
+}
+
+/** Initial configuration for a Live session, including its model, conversation instructions, audio, and delegated task handling. */
+export interface LiveSessionCreateParams {
+  model: ModelIdsLive;
+  instructions?: string;
+  /** Ordered text-only history supplied before startup. Supports developer, user, and assistant messages with one text part each; at most 128 messages and 8,192 rendered tokens in total. */
+  input?: LiveInitialItemUnion[];
+  /** Startup audio configuration. Only primary WebSockets accept audio.format; WebRTC and SIP negotiate their media format. Voice and format are immutable after startup. */
+  audio?: LiveInitialSessionAudioParam;
+  delegation?: LiveClientDelegationParam | LiveResponsesDelegationParam;
+  /** Whether to store the session for later forking and recording download. Defaults to false for new sessions. */
+  store?: boolean;
+  /** Startup-only capabilities for an untrusted frontend attached to a unified WebRTC session. Trusted sideband connections are unaffected. */
+  client?: LiveClientConfigParam;
+}
+
+export function liveSessionCreateParamsSerializer(item: LiveSessionCreateParams): any {
+  return {
+    model: item["model"],
+    instructions: item["instructions"],
+    input: !item["input"] ? item["input"] : liveInitialItemUnionArraySerializer(item["input"]),
+    audio: !item["audio"] ? item["audio"] : liveInitialSessionAudioParamSerializer(item["audio"]),
+    delegation: !item["delegation"]
+      ? item["delegation"]
+      : _liveSessionCreateParamsDelegationSerializer(item["delegation"]),
+    store: item["store"],
+    client: !item["client"] ? item["client"] : liveClientConfigParamSerializer(item["client"]),
+  };
+}
+
+/** The Live model. Required in the session configuration for every transport; do not pass it as a URL query parameter. */
+export type ModelIdsLive = "gpt-live-1";
+
+export function liveInitialItemUnionArraySerializer(result: Array<LiveInitialItemUnion>): any[] {
+  return result.map((item) => {
+    return liveInitialItemUnionSerializer(item);
+  });
+}
+
+export function liveInitialItemUnionArrayDeserializer(result: Array<LiveInitialItemUnion>): any[] {
+  return result.map((item) => {
+    return liveInitialItemUnionDeserializer(item);
+  });
+}
+
+/** A developer, user, or assistant message supplied as text history before the Live session starts. */
+export interface LiveInitialItem {
+  role: LiveInitialItemType;
+}
+
+export function liveInitialItemSerializer(item: LiveInitialItem): any {
+  return { role: item["role"] };
+}
+
+export function liveInitialItemDeserializer(item: any): LiveInitialItem {
+  return {
+    role: item["role"],
+  };
+}
+
+/** Alias for LiveInitialItemUnion */
+export type LiveInitialItemUnion =
+  | LiveInitialDeveloperMessageItemParam
+  | LiveInitialUserMessageItemParam
+  | LiveInitialAssistantMessageItemParam
+  | LiveInitialItem;
+
+export function liveInitialItemUnionSerializer(item: LiveInitialItemUnion): any {
+  switch (item.role) {
+    case "developer":
+      return liveInitialDeveloperMessageItemParamSerializer(
+        item as LiveInitialDeveloperMessageItemParam,
+      );
+
+    case "user":
+      return liveInitialUserMessageItemParamSerializer(item as LiveInitialUserMessageItemParam);
+
+    case "assistant":
+      return liveInitialAssistantMessageItemParamSerializer(
+        item as LiveInitialAssistantMessageItemParam,
+      );
+
+    default:
+      return liveInitialItemSerializer(item);
+  }
+}
+
+export function liveInitialItemUnionDeserializer(item: any): LiveInitialItemUnion {
+  switch (item["role"]) {
+    case "developer":
+      return liveInitialDeveloperMessageItemParamDeserializer(
+        item as LiveInitialDeveloperMessageItemParam,
+      );
+
+    case "user":
+      return liveInitialUserMessageItemParamDeserializer(item as LiveInitialUserMessageItemParam);
+
+    case "assistant":
+      return liveInitialAssistantMessageItemParamDeserializer(
+        item as LiveInitialAssistantMessageItemParam,
+      );
+
+    default:
+      return liveInitialItemDeserializer(item);
+  }
+}
+
+/** Type of LiveInitialItemType */
+export type LiveInitialItemType = "developer" | "user" | "assistant";
+
+/** A developer message included in the initial text history of a Live session. */
+export interface LiveInitialDeveloperMessageItemParam extends LiveInitialItem {
+  id?: string;
+  /** The history item type. Always `message`. */
+  type?: "message";
+  status?: LiveInitialMessageStatus;
+  /** The author of this history message. Always `developer`. */
+  role: "developer";
+  /** The message content. Supply exactly one text part for the initial Live conversation history. */
+  content: LiveInitialInputTextContentPartParam[];
+}
+
+export function liveInitialDeveloperMessageItemParamSerializer(
+  item: LiveInitialDeveloperMessageItemParam,
+): any {
+  return {
+    role: item["role"],
+    id: item["id"],
+    type: item["type"],
+    status: item["status"],
+    content: liveInitialInputTextContentPartParamArraySerializer(item["content"]),
+  };
+}
+
+export function liveInitialDeveloperMessageItemParamDeserializer(
+  item: any,
+): LiveInitialDeveloperMessageItemParam {
+  return {
+    role: item["role"],
+    id: item["id"],
+    type: item["type"],
+    status: item["status"],
+    content: liveInitialInputTextContentPartParamArrayDeserializer(item["content"]),
+  };
+}
+
+/** Type of LiveInitialMessageStatus */
+export type LiveInitialMessageStatus = "incomplete" | "completed";
+
+export function liveInitialInputTextContentPartParamArraySerializer(
+  result: Array<LiveInitialInputTextContentPartParam>,
+): any[] {
+  return result.map((item) => {
+    return liveInitialInputTextContentPartParamSerializer(item);
+  });
+}
+
+export function liveInitialInputTextContentPartParamArrayDeserializer(
+  result: Array<LiveInitialInputTextContentPartParam>,
+): any[] {
+  return result.map((item) => {
+    return liveInitialInputTextContentPartParamDeserializer(item);
+  });
+}
+
+/** Text supplied in a developer or user message when starting a Live session. */
+export interface LiveInitialInputTextContentPartParam {
+  /** The text content type. Always `input_text`. */
+  type?: "input_text";
+  /** The message text to include in the Live session’s initial conversation history. */
+  text: string;
+}
+
+export function liveInitialInputTextContentPartParamSerializer(
+  item: LiveInitialInputTextContentPartParam,
+): any {
+  return { type: item["type"], text: item["text"] };
+}
+
+export function liveInitialInputTextContentPartParamDeserializer(
+  item: any,
+): LiveInitialInputTextContentPartParam {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** A user message included in the initial text history of a Live session. */
+export interface LiveInitialUserMessageItemParam extends LiveInitialItem {
+  id?: string;
+  /** The history item type. Always `message`. */
+  type?: "message";
+  status?: LiveInitialMessageStatus;
+  /** The author of this history message. Always `user`. */
+  role: "user";
+  /** The message content. Supply exactly one text part for the initial Live conversation history. */
+  content: LiveInitialInputTextContentPartParam[];
+}
+
+export function liveInitialUserMessageItemParamSerializer(
+  item: LiveInitialUserMessageItemParam,
+): any {
+  return {
+    role: item["role"],
+    id: item["id"],
+    type: item["type"],
+    status: item["status"],
+    content: liveInitialInputTextContentPartParamArraySerializer(item["content"]),
+  };
+}
+
+export function liveInitialUserMessageItemParamDeserializer(
+  item: any,
+): LiveInitialUserMessageItemParam {
+  return {
+    role: item["role"],
+    id: item["id"],
+    type: item["type"],
+    status: item["status"],
+    content: liveInitialInputTextContentPartParamArrayDeserializer(item["content"]),
+  };
+}
+
+/** An assistant message included in the initial text history of a Live session. */
+export interface LiveInitialAssistantMessageItemParam extends LiveInitialItem {
+  id?: string;
+  /** The history item type. Always `message`. */
+  type?: "message";
+  status?: LiveInitialMessageStatus;
+  /** The author of this history message. Always `assistant`. */
+  role: "assistant";
+  /** The message content. Supply exactly one text part for the initial Live conversation history. */
+  content: (LiveInitialTextContentPartParam | LiveInitialOutputTextContentPartParam)[];
+}
+
+export function liveInitialAssistantMessageItemParamSerializer(
+  item: LiveInitialAssistantMessageItemParam,
+): any {
+  return {
+    role: item["role"],
+    id: item["id"],
+    type: item["type"],
+    status: item["status"],
+    content: _liveInitialAssistantMessageItemParamContentArraySerializer(item["content"]),
+  };
+}
+
+export function liveInitialAssistantMessageItemParamDeserializer(
+  item: any,
+): LiveInitialAssistantMessageItemParam {
+  return {
+    role: item["role"],
+    id: item["id"],
+    type: item["type"],
+    status: item["status"],
+    content: _liveInitialAssistantMessageItemParamContentArrayDeserializer(item["content"]),
+  };
+}
+
+export function _liveInitialAssistantMessageItemParamContentArraySerializer(
+  result: Array<_LiveInitialAssistantMessageItemParamContent>,
+): any[] {
+  return result.map((item) => {
+    return _liveInitialAssistantMessageItemParamContentSerializer(item);
+  });
+}
+
+export function _liveInitialAssistantMessageItemParamContentArrayDeserializer(
+  result: Array<_LiveInitialAssistantMessageItemParamContent>,
+): any[] {
+  return result.map((item) => {
+    return _liveInitialAssistantMessageItemParamContentDeserializer(item);
+  });
+}
+
+/** Alias for _LiveInitialAssistantMessageItemParamContent */
+export type _LiveInitialAssistantMessageItemParamContent =
+  LiveInitialTextContentPartParam | LiveInitialOutputTextContentPartParam;
+
+export function _liveInitialAssistantMessageItemParamContentSerializer(
+  item: _LiveInitialAssistantMessageItemParamContent,
+): any {
+  return item;
+}
+
+export function _liveInitialAssistantMessageItemParamContentDeserializer(
+  item: any,
+): _LiveInitialAssistantMessageItemParamContent {
+  return item;
+}
+
+/** Assistant text supplied as conversation history when starting a Live session. */
+export interface LiveInitialTextContentPartParam {
+  /** The text content type. Always `text`. */
+  type?: "text";
+  /** The message text to include in the Live session’s initial conversation history. */
+  text: string;
+}
+
+export function liveInitialTextContentPartParamSerializer(
+  item: LiveInitialTextContentPartParam,
+): any {
+  return { type: item["type"], text: item["text"] };
+}
+
+export function liveInitialTextContentPartParamDeserializer(
+  item: any,
+): LiveInitialTextContentPartParam {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** Assistant output text supplied as conversation history when starting a Live session. */
+export interface LiveInitialOutputTextContentPartParam {
+  /** The text content type. Always `output_text`. */
+  type: "output_text";
+  /** The message text to include in the Live session’s initial conversation history. */
+  text: string;
+}
+
+export function liveInitialOutputTextContentPartParamSerializer(
+  item: LiveInitialOutputTextContentPartParam,
+): any {
+  return { type: item["type"], text: item["text"] };
+}
+
+export function liveInitialOutputTextContentPartParamDeserializer(
+  item: any,
+): LiveInitialOutputTextContentPartParam {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** Alias for _LiveSessionCreateParamsDelegation */
+export type _LiveSessionCreateParamsDelegation =
+  LiveClientDelegationParam | LiveResponsesDelegationParam;
+
+export function _liveSessionCreateParamsDelegationSerializer(
+  item: _LiveSessionCreateParamsDelegation,
+): any {
+  return item;
+}
+
+/** Delegate tasks to your application. The Live session emits delegation events that your backend handles. */
+export interface LiveClientDelegationParam extends Delegation {
+  /** The delegation owner. Always `client` for tasks handled by your application. */
+  type: "client";
+}
+
+export function liveClientDelegationParamSerializer(item: LiveClientDelegationParam): any {
+  return { type: item["type"] };
+}
+
+export function liveClientDelegationParamDeserializer(item: any): LiveClientDelegationParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Delegate tasks to a Responses model managed by the Live session. */
+export interface LiveResponsesDelegationParam extends Delegation {
+  /** The delegation owner. Always `responses` for tasks handled by the Responses API. */
+  type: "responses";
+  /** Backend model, prompt, and tools used when the Live session delegates a task to Responses. */
+  responses: LiveResponsesDelegationSettingsInputParam;
+}
+
+export function liveResponsesDelegationParamSerializer(item: LiveResponsesDelegationParam): any {
+  return {
+    type: item["type"],
+    responses: liveResponsesDelegationSettingsInputParamSerializer(item["responses"]),
+  };
+}
+
+export function liveResponsesDelegationParamDeserializer(item: any): LiveResponsesDelegationParam {
+  return {
+    type: item["type"],
+    responses: liveResponsesDelegationSettingsInputParamDeserializer(item["responses"]),
+  };
+}
+
+/** Startup-only capabilities for an untrusted frontend attached to a unified WebRTC session. Trusted sideband connections are unaffected. */
+export interface LiveClientConfigParam {
+  /** Client and server event permissions for the WebRTC frontend data channel. */
+  data_channel: LiveDataChannelConfigParam;
+}
+
+export function liveClientConfigParamSerializer(item: LiveClientConfigParam): any {
+  return { data_channel: liveDataChannelConfigParamSerializer(item["data_channel"]) };
+}
+
+export function liveClientConfigParamDeserializer(item: any): LiveClientConfigParam {
+  return {
+    data_channel: liveDataChannelConfigParamDeserializer(item["data_channel"]),
+  };
+}
+
+/** Control which Live events an untrusted WebRTC frontend can send and receive over its data channel. These restrictions do not apply to trusted sideband connections. */
+export interface LiveDataChannelConfigParam {
+  /** Client event types that the frontend data channel may send. Use 'all' to allow every client event; an empty array allows none. Omission preserves the existing allow-all behavior. */
+  allowed_client_events?: "all" | string[];
+  /** Server events that may be sent to the frontend data channel. Use 'all' to allow every server event; an empty array allows none. Omission preserves the existing allow-all behavior. Responses events use an object with type 'response.event' and a response_event selector. */
+  allowed_server_events?: "all" | LiveAllowedServerEventParam[];
+}
+
+export function liveDataChannelConfigParamSerializer(item: LiveDataChannelConfigParam): any {
+  return {
+    allowed_client_events: !item["allowed_client_events"]
+      ? item["allowed_client_events"]
+      : _liveDataChannelConfigParamAllowedClientEventsSerializer(item["allowed_client_events"]),
+    allowed_server_events: !item["allowed_server_events"]
+      ? item["allowed_server_events"]
+      : _liveDataChannelConfigParamAllowedServerEventsSerializer(item["allowed_server_events"]),
+  };
+}
+
+export function liveDataChannelConfigParamDeserializer(item: any): LiveDataChannelConfigParam {
+  return {
+    allowed_client_events: !item["allowed_client_events"]
+      ? item["allowed_client_events"]
+      : _liveDataChannelConfigParamAllowedClientEventsDeserializer(item["allowed_client_events"]),
+    allowed_server_events: !item["allowed_server_events"]
+      ? item["allowed_server_events"]
+      : _liveDataChannelConfigParamAllowedServerEventsDeserializer(item["allowed_server_events"]),
+  };
+}
+
+/** Alias for _LiveDataChannelConfigParamAllowedClientEvents */
+export type _LiveDataChannelConfigParamAllowedClientEvents = "all" | string[];
+
+export function _liveDataChannelConfigParamAllowedClientEventsSerializer(
+  item: _LiveDataChannelConfigParamAllowedClientEvents,
+): any {
+  return item;
+}
+
+export function _liveDataChannelConfigParamAllowedClientEventsDeserializer(
+  item: any,
+): _LiveDataChannelConfigParamAllowedClientEvents {
+  return item;
+}
+
+/** Alias for _LiveDataChannelConfigParamAllowedServerEvents */
+export type _LiveDataChannelConfigParamAllowedServerEvents = "all" | LiveAllowedServerEventParam[];
+
+export function _liveDataChannelConfigParamAllowedServerEventsSerializer(
+  item: _LiveDataChannelConfigParamAllowedServerEvents,
+): any {
+  return item;
+}
+
+export function _liveDataChannelConfigParamAllowedServerEventsDeserializer(
+  item: any,
+): _LiveDataChannelConfigParamAllowedServerEvents {
+  return item;
+}
+
+export function liveAllowedServerEventParamArraySerializer(
+  result: Array<LiveAllowedServerEventParam>,
+): any[] {
+  return result.map((item) => {
+    return liveAllowedServerEventParamSerializer(item);
+  });
+}
+
+export function liveAllowedServerEventParamArrayDeserializer(
+  result: Array<LiveAllowedServerEventParam>,
+): any[] {
+  return result.map((item) => {
+    return liveAllowedServerEventParamDeserializer(item);
+  });
+}
+
+/** A Live server event selector for the WebRTC frontend data channel. */
+export interface LiveAllowedServerEventParam {
+  /** The outer Live server event type. Use 'response.event' for Responses events. */
+  type: string;
+  /** The nested Responses event type. Required when type is 'response.event'; forbidden for other event types. */
+  response_event?: string;
+}
+
+export function liveAllowedServerEventParamSerializer(item: LiveAllowedServerEventParam): any {
+  return { type: item["type"], response_event: item["response_event"] };
+}
+
+export function liveAllowedServerEventParamDeserializer(item: any): LiveAllowedServerEventParam {
+  return {
+    type: item["type"],
+    response_event: item["response_event"],
+  };
+}
+
+/** Update the delegation settings of an active Live session. The server acknowledges accepted changes with `session.updated`. */
+export interface LiveClientEventLiveSessionUpdateParam extends LiveClientEvent {
+  event_id?: string;
+  /** The Live client event type. Always `session.update`. */
+  type: "session.update";
+  /** Sparse delegation updates. Omitted settings retain their values. The delegation type cannot change, including resetting Responses delegation to null or client. Model, frontend instructions, audio, and startup input are immutable. */
+  session: LiveSessionUpdateParams;
+}
+
+export function liveClientEventLiveSessionUpdateParamSerializer(
+  item: LiveClientEventLiveSessionUpdateParam,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    session: liveSessionUpdateParamsSerializer(item["session"]),
+  };
+}
+
+/** Changes to an active Live session. Only delegation backend settings can be updated after startup. */
+export interface LiveSessionUpdateParams {
+  delegation?: LiveClientDelegationParam | LiveResponsesDelegationUpdateParam;
+}
+
+export function liveSessionUpdateParamsSerializer(item: LiveSessionUpdateParams): any {
+  return {
+    delegation: !item["delegation"]
+      ? item["delegation"]
+      : _liveSessionUpdateParamsDelegationSerializer(item["delegation"]),
+  };
+}
+
+/** Alias for _LiveSessionUpdateParamsDelegation */
+export type _LiveSessionUpdateParamsDelegation =
+  LiveClientDelegationParam | LiveResponsesDelegationUpdateParam;
+
+export function _liveSessionUpdateParamsDelegationSerializer(
+  item: _LiveSessionUpdateParamsDelegation,
+): any {
+  return item;
+}
+
+/** Update the Responses backend for an existing Live session without changing delegation ownership. */
+export interface LiveResponsesDelegationUpdateParam {
+  /** The delegation owner. Always `responses` for tasks handled by the Responses API. */
+  type: "responses";
+  /** Responses backend settings to update. Omitted settings keep their existing values. */
+  responses?: LiveResponsesDelegationSettingsUpdateInputParam;
+}
+
+export function liveResponsesDelegationUpdateParamSerializer(
+  item: LiveResponsesDelegationUpdateParam,
+): any {
+  return {
+    type: item["type"],
+    responses: !item["responses"]
+      ? item["responses"]
+      : liveResponsesDelegationSettingsUpdateInputParamSerializer(item["responses"]),
+  };
+}
+
+/** Updates to the Responses backend of an existing Live session. Omitted settings retain their current values. */
+export interface LiveResponsesDelegationSettingsUpdateInputParam {
+  /** The Responses backend model to use for subsequent delegated requests. Omit to keep the current backend model. */
+  model?: string;
+  instructions?: string;
+  max_output_tokens?: number;
+  service_tier?: LiveResponsesServiceTier;
+  reasoning?: LiveDelegationReasoningInputParam;
+  text?: LiveDelegationTextInputParam;
+  /** Tools available to the Responses backend while it handles tasks delegated by the Live model. */
+  tools?: (LiveFunctionToolInputParam | LiveWebSearchToolInputParam)[];
+  /** Controls which tool the Responses backend uses when handling a task delegated by the Live model. */
+  tool_choice?: LiveToolChoiceEnum | LiveFunctionToolChoiceParam | LiveMCPToolChoiceParam;
+  parallel_tool_calls?: boolean;
+}
+
+export function liveResponsesDelegationSettingsUpdateInputParamSerializer(
+  item: LiveResponsesDelegationSettingsUpdateInputParam,
+): any {
+  return {
+    model: item["model"],
+    instructions: item["instructions"],
+    max_output_tokens: item["max_output_tokens"],
+    service_tier: item["service_tier"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : liveDelegationReasoningInputParamSerializer(item["reasoning"]),
+    text: !item["text"] ? item["text"] : liveDelegationTextInputParamSerializer(item["text"]),
+    tools: !item["tools"]
+      ? item["tools"]
+      : _liveResponsesDelegationSettingsUpdateInputParamToolArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _liveResponsesDelegationSettingsUpdateInputParamToolChoiceSerializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+  };
+}
+
+export function _liveResponsesDelegationSettingsUpdateInputParamToolArraySerializer(
+  result: Array<_LiveResponsesDelegationSettingsUpdateInputParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _liveResponsesDelegationSettingsUpdateInputParamToolSerializer(item);
+  });
+}
+
+/** Alias for _LiveResponsesDelegationSettingsUpdateInputParamTool */
+export type _LiveResponsesDelegationSettingsUpdateInputParamTool =
+  LiveFunctionToolInputParam | LiveWebSearchToolInputParam;
+
+export function _liveResponsesDelegationSettingsUpdateInputParamToolSerializer(
+  item: _LiveResponsesDelegationSettingsUpdateInputParamTool,
+): any {
+  return item;
+}
+
+/** Alias for _LiveResponsesDelegationSettingsUpdateInputParamToolChoice */
+export type _LiveResponsesDelegationSettingsUpdateInputParamToolChoice =
+  LiveToolChoiceEnum | LiveFunctionToolChoiceParam | LiveMCPToolChoiceParam;
+
+export function _liveResponsesDelegationSettingsUpdateInputParamToolChoiceSerializer(
+  item: _LiveResponsesDelegationSettingsUpdateInputParamToolChoice,
+): any {
+  return item;
+}
+
+/** Send audio to a Live session over its primary WebSocket. WebRTC and SIP sessions send audio over their media transport. */
+export interface LiveClientEventLiveInputAudioAppendEvent extends LiveClientEvent {
+  event_id?: string;
+  /** The Live client event type. Always `session.input_audio.append`. */
+  type: "session.input_audio.append";
+  /** Base64-encoded raw audio in the startup-selected format, without a WAV or other container header. Primary WebSocket only; media transports use their audio track. Audio appends have no acknowledgment. Reflected sideband server events reuse this event type and audio key, with no timestamps or event_id; their audio is always mono PCM16LE at 24 kHz. */
+  audio: string;
+}
+
+export function liveClientEventLiveInputAudioAppendEventSerializer(
+  item: LiveClientEventLiveInputAudioAppendEvent,
+): any {
+  return { type: item["type"], event_id: item["event_id"], audio: item["audio"] };
+}
+
+/** Mute audio input to the Live model without closing the session. The server acknowledges with `session.input_audio.muted`. */
+export interface LiveClientEventLiveInputAudioMuteParam extends LiveClientEvent {
+  event_id?: string;
+  /** The Live client event type. Always `session.input_audio.mute`. */
+  type: "session.input_audio.mute";
+}
+
+export function liveClientEventLiveInputAudioMuteParamSerializer(
+  item: LiveClientEventLiveInputAudioMuteParam,
+): any {
+  return { type: item["type"], event_id: item["event_id"] };
+}
+
+/** Resume audio input to a Live model after muting it. The server acknowledges with `session.input_audio.unmuted`. */
+export interface LiveClientEventLiveInputAudioUnmuteParam extends LiveClientEvent {
+  event_id?: string;
+  /** The Live client event type. Always `session.input_audio.unmute`. */
+  type: "session.input_audio.unmute";
+}
+
+export function liveClientEventLiveInputAudioUnmuteParamSerializer(
+  item: LiveClientEventLiveInputAudioUnmuteParam,
+): any {
+  return { type: item["type"], event_id: item["event_id"] };
+}
+
+/** Append instructions to the Live conversation while it is running, optionally associating them with an existing client delegation. */
+export interface LiveClientEventLiveInstructionsAppendParam extends LiveClientEvent {
+  event_id?: string;
+  /** The Live client event type. Always `session.instructions.append`. */
+  type: "session.instructions.append";
+  delegation_id: string | null;
+  /** Instruction text to append, limited to 500 tokens. This is a plain string, not an array of content parts. */
+  content: string;
+}
+
+export function liveClientEventLiveInstructionsAppendParamSerializer(
+  item: LiveClientEventLiveInstructionsAppendParam,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    delegation_id: item["delegation_id"],
+    content: item["content"],
+  };
+}
+
+/** Provide silent reasoning or progress context to the Live model, optionally for an existing client delegation. */
+export interface LiveClientEventLiveThinkingAppendParam extends LiveClientEvent {
+  event_id?: string;
+  /** The Live client event type. Always `session.thinking.append`. */
+  type: "session.thinking.append";
+  delegation_id: string | null;
+  /** Silent reasoning or progress context, limited to 500 tokens. It does not directly request speech, but can influence later speech and is not a secrecy boundary. */
+  content: string;
+}
+
+export function liveClientEventLiveThinkingAppendParamSerializer(
+  item: LiveClientEventLiveThinkingAppendParam,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    delegation_id: item["delegation_id"],
+    content: item["content"],
+  };
+}
+
+/** Provide context the Live model can communicate to the user, optionally for an existing client delegation. */
+export interface LiveClientEventLiveCommentaryAppendParam extends LiveClientEvent {
+  event_id?: string;
+  /** The Live client event type. Always `session.commentary.append`. */
+  type: "session.commentary.append";
+  delegation_id: string | null;
+  /** Speakable context for the Live model, limited to 500 tokens. Use this for a result the model should communicate; use session.thinking.append for silent context. */
+  content: string;
+}
+
+export function liveClientEventLiveCommentaryAppendParamSerializer(
+  item: LiveClientEventLiveCommentaryAppendParam,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    delegation_id: item["delegation_id"],
+    content: item["content"],
+  };
+}
+
+/** Add an input item to the Live session’s Responses backend. Requires Responses delegation; use `response.create` to request a response. */
+export interface LiveClientEventLiveResponseItemCreateParam extends LiveClientEvent {
+  event_id?: string;
+  /** The Live client event type. Always `response.item.create`. */
+  type: "response.item.create";
+  /** An input item to append to the Responses backend conversation, such as a user message or a function tool result. */
+  item: Record<string, any>;
+}
+
+export function liveClientEventLiveResponseItemCreateParamSerializer(
+  item: LiveClientEventLiveResponseItemCreateParam,
+): any {
+  return { type: item["type"], event_id: item["event_id"], item: item["item"] };
+}
+
+/** Request a response from the Live session’s Responses backend, or continue a delegated response waiting for tool results. Requires Responses delegation. */
+export interface LiveClientEventLiveResponseCreateParam extends LiveClientEvent {
+  event_id?: string;
+  /** The Live client event type. Always `response.create`. */
+  type: "response.create";
+}
+
+export function liveClientEventLiveResponseCreateParamSerializer(
+  item: LiveClientEventLiveResponseCreateParam,
+): any {
+  return { type: item["type"], event_id: item["event_id"] };
+}
+
+/** Request that the Live session close. The terminal `session.closed` event contains the close reason and final usage. */
+export interface LiveClientEventLiveSessionCloseParam extends LiveClientEvent {
+  event_id?: string;
+  /** The Live client event type. Always `session.close`. */
+  type: "session.close";
+}
+
+export function liveClientEventLiveSessionCloseParamSerializer(
+  item: LiveClientEventLiveSessionCloseParam,
+): any {
+  return { type: item["type"], event_id: item["event_id"] };
+}
+
+/** Who handles tasks delegated by the Live model. Omitted or null selects your application; use `responses` to let the API manage a Responses backend. */
+export interface Delegation {
+  type: DelegationType;
+}
+
+export function delegationSerializer(item: Delegation): any {
+  return { type: item["type"] };
+}
+
+export function delegationDeserializer(item: any): Delegation {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for DelegationUnion */
+export type DelegationUnion = LiveClientDelegationParam | LiveResponsesDelegationParam | Delegation;
+
+export function delegationUnionSerializer(item: DelegationUnion): any {
+  switch (item.type) {
+    case "client":
+      return liveClientDelegationParamSerializer(item as LiveClientDelegationParam);
+
+    case "responses":
+      return liveResponsesDelegationParamSerializer(item as LiveResponsesDelegationParam);
+
+    default:
+      return delegationSerializer(item);
+  }
+}
+
+export function delegationUnionDeserializer(item: any): DelegationUnion {
+  switch (item["type"]) {
+    case "client":
+      return liveClientDelegationParamDeserializer(item as LiveClientDelegationParam);
+
+    case "responses":
+      return liveResponsesDelegationParamDeserializer(item as LiveResponsesDelegationParam);
+
+    default:
+      return delegationDeserializer(item);
+  }
+}
+
+/** An event sent by the Live API on a primary WebSocket or sideband connection. */
+export interface LiveServerEvent {
+  type: LiveServerEventType;
+}
+
+export function liveServerEventDeserializer(item: any): LiveServerEvent {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for LiveServerEventUnion */
+export type LiveServerEventUnion =
+  | LiveInputAudioAppend
+  | LiveOutputAudioDelta
+  | LiveTransportDtmfReceived
+  | LiveTransportDtmfSend
+  | LiveTransportRinging
+  | LiveTransportAnswered
+  | LiveTransportFailed
+  | LiveServerEventLiveSessionStarted
+  | LiveServerEventLiveSessionUpdated
+  | LiveServerEventLiveInputAudioMuted
+  | LiveServerEventLiveInputAudioUnmuted
+  | LiveServerEventLiveInstructionsAppended
+  | LiveServerEventLiveThinkingAppended
+  | LiveServerEventLiveCommentaryAppended
+  | LiveServerEventLiveInputTranscriptDelta
+  | LiveServerEventLiveOutputTranscriptDelta
+  | LiveServerEventLiveDelegationCreated
+  | LiveServerEventLiveResponseEvent
+  | LiveServerEventLiveSessionUsageUpdated
+  | LiveServerEventLiveSessionClosed
+  | LiveServerEventLiveErrorEvent
+  | LiveServerEventLiveInfoEvent
+  | LiveServerEvent;
+
+export function liveServerEventUnionDeserializer(item: any): LiveServerEventUnion {
+  switch (item["type"]) {
+    case "session.input_audio.append":
+      return liveInputAudioAppendDeserializer(item as LiveInputAudioAppend);
+
+    case "session.output_audio.delta":
+      return liveOutputAudioDeltaDeserializer(item as LiveOutputAudioDelta);
+
+    case "transport.dtmf.received":
+      return liveTransportDtmfReceivedDeserializer(item as LiveTransportDtmfReceived);
+
+    case "transport.dtmf.send":
+      return liveTransportDtmfSendDeserializer(item as LiveTransportDtmfSend);
+
+    case "transport.ringing":
+      return liveTransportRingingDeserializer(item as LiveTransportRinging);
+
+    case "transport.answered":
+      return liveTransportAnsweredDeserializer(item as LiveTransportAnswered);
+
+    case "transport.failed":
+      return liveTransportFailedDeserializer(item as LiveTransportFailed);
+
+    case "session.started":
+      return liveServerEventLiveSessionStartedDeserializer(
+        item as LiveServerEventLiveSessionStarted,
+      );
+
+    case "session.updated":
+      return liveServerEventLiveSessionUpdatedDeserializer(
+        item as LiveServerEventLiveSessionUpdated,
+      );
+
+    case "session.input_audio.muted":
+      return liveServerEventLiveInputAudioMutedDeserializer(
+        item as LiveServerEventLiveInputAudioMuted,
+      );
+
+    case "session.input_audio.unmuted":
+      return liveServerEventLiveInputAudioUnmutedDeserializer(
+        item as LiveServerEventLiveInputAudioUnmuted,
+      );
+
+    case "session.instructions.appended":
+      return liveServerEventLiveInstructionsAppendedDeserializer(
+        item as LiveServerEventLiveInstructionsAppended,
+      );
+
+    case "session.thinking.appended":
+      return liveServerEventLiveThinkingAppendedDeserializer(
+        item as LiveServerEventLiveThinkingAppended,
+      );
+
+    case "session.commentary.appended":
+      return liveServerEventLiveCommentaryAppendedDeserializer(
+        item as LiveServerEventLiveCommentaryAppended,
+      );
+
+    case "session.input_transcript.delta":
+      return liveServerEventLiveInputTranscriptDeltaDeserializer(
+        item as LiveServerEventLiveInputTranscriptDelta,
+      );
+
+    case "session.output_transcript.delta":
+      return liveServerEventLiveOutputTranscriptDeltaDeserializer(
+        item as LiveServerEventLiveOutputTranscriptDelta,
+      );
+
+    case "session.delegation.created":
+      return liveServerEventLiveDelegationCreatedDeserializer(
+        item as LiveServerEventLiveDelegationCreated,
+      );
+
+    case "response.event":
+      return liveServerEventLiveResponseEventDeserializer(item as LiveServerEventLiveResponseEvent);
+
+    case "session.usage.updated":
+      return liveServerEventLiveSessionUsageUpdatedDeserializer(
+        item as LiveServerEventLiveSessionUsageUpdated,
+      );
+
+    case "session.closed":
+      return liveServerEventLiveSessionClosedDeserializer(item as LiveServerEventLiveSessionClosed);
+
+    case "error":
+      return liveServerEventLiveErrorEventDeserializer(item as LiveServerEventLiveErrorEvent);
+
+    case "info":
+      return liveServerEventLiveInfoEventDeserializer(item as LiveServerEventLiveInfoEvent);
+
+    default:
+      return liveServerEventDeserializer(item);
+  }
+}
+
+/** Type of LiveServerEventType */
+export type LiveServerEventType =
+  | "session.started"
+  | "session.updated"
+  | "session.input_audio.muted"
+  | "session.input_audio.unmuted"
+  | "session.instructions.appended"
+  | "session.thinking.appended"
+  | "session.commentary.appended"
+  | "session.input_audio.append"
+  | "session.output_audio.delta"
+  | "session.input_transcript.delta"
+  | "session.output_transcript.delta"
+  | "session.delegation.created"
+  | "response.event"
+  | "session.usage.updated"
+  | "session.closed"
+  | "error"
+  | "info"
+  | "transport.dtmf.received"
+  | "transport.dtmf.send"
+  | "transport.ringing"
+  | "transport.answered"
+  | "transport.failed";
+
+/** Input audio received from the primary transport and reflected to a Live sideband connection before model-input muting. */
+export interface LiveInputAudioAppend extends LiveServerEvent {
+  /** The event type, always `session.input_audio.append`. */
+  type: "session.input_audio.append";
+  /** Base64-encoded raw mono PCM16LE at 24 kHz received from the primary transport, reflected to the sideband before model-input muting. This server event uses the same audio key as the client command, but is not an acknowledgment of it. */
+  audio: string;
+}
+
+export function liveInputAudioAppendDeserializer(item: any): LiveInputAudioAppend {
+  return {
+    type: item["type"],
+    audio: item["audio"],
+  };
+}
+
+/** An audio chunk generated by the Live model. Decode and play primary WebSocket chunks in delivery order using the configured session audio format. Sideband connections receive reflected output audio with timestamps. */
+export interface LiveOutputAudioDelta extends LiveServerEvent {
+  /** The event type, always `session.output_audio.delta`. */
+  type: "session.output_audio.delta";
+  /** Base64-encoded raw audio. Primary WebSocket events use the session's configured format; reflected sideband events use mono PCM16LE at 24 kHz. */
+  delta: string;
+  /** Inclusive session-relative start in milliseconds. Required on reflected sideband events; omitted on the primary WebSocket. */
+  start_ms?: number;
+  /** Exclusive session-relative end in milliseconds. Required on reflected sideband events; omitted on the primary WebSocket. Dropped output frames leave gaps between reflected ranges. */
+  end_ms?: number;
+}
+
+export function liveOutputAudioDeltaDeserializer(item: any): LiveOutputAudioDelta {
+  return {
+    type: item["type"],
+    delta: item["delta"],
+    start_ms: item["start_ms"],
+    end_ms: item["end_ms"],
+  };
+}
+
+/** A SIP DTMF keypress received from the caller. Delivered only to sideband observers. */
+export interface LiveTransportDtmfReceived extends LiveServerEvent {
+  type: "transport.dtmf.received";
+  event_id: string;
+  event: string;
+}
+
+export function liveTransportDtmfReceivedDeserializer(item: any): LiveTransportDtmfReceived {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    event: item["event"],
+  };
+}
+
+/** A SIP DTMF keypress successfully sent by the hosted tool. Delivered only to sideband observers; this is not a client command. */
+export interface LiveTransportDtmfSend extends LiveServerEvent {
+  type: "transport.dtmf.send";
+  event_id: string;
+  event: string;
+}
+
+export function liveTransportDtmfSendDeserializer(item: any): LiveTransportDtmfSend {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    event: item["event"],
+  };
+}
+
+/** The outbound SIP provider leg is ringing or providing early media. Delivered only to sideband observers. */
+export interface LiveTransportRinging extends LiveServerEvent {
+  event_id: string;
+  /** The canonical Live session ID. */
+  session_id: string;
+  type: "transport.ringing";
+}
+
+export function liveTransportRingingDeserializer(item: any): LiveTransportRinging {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    session_id: item["session_id"],
+  };
+}
+
+/** The outbound SIP provider leg answered and media is established. Delivered only to sideband observers. */
+export interface LiveTransportAnswered extends LiveServerEvent {
+  event_id: string;
+  /** The canonical Live session ID. */
+  session_id: string;
+  type: "transport.answered";
+}
+
+export function liveTransportAnsweredDeserializer(item: any): LiveTransportAnswered {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    session_id: item["session_id"],
+  };
+}
+
+/** An asynchronous outbound SIP setup failure. Delivered only to sideband observers. */
+export interface LiveTransportFailed extends LiveServerEvent {
+  event_id: string;
+  /** The canonical Live session ID. */
+  session_id: string;
+  type: "transport.failed";
+  error: LiveTransportCallError;
+}
+
+export function liveTransportFailedDeserializer(item: any): LiveTransportFailed {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    session_id: item["session_id"],
+    error: liveTransportCallErrorDeserializer(item["error"]),
+  };
+}
+
+/** model interface LiveTransportCallError */
+export interface LiveTransportCallError {
+  type: "call_error";
+  /** The call setup failure code. */
+  code: string;
+  message: string;
+  /** The parameter related to the error, if any. Empty when no parameter applies. */
+  param?: string;
+}
+
+export function liveTransportCallErrorDeserializer(item: any): LiveTransportCallError {
+  return {
+    type: item["type"],
+    code: item["code"],
+    message: item["message"],
+    param: item["param"],
+  };
+}
+
+/** Returned when a Live session has started. Contains the resolved session configuration, including server defaults. */
+export interface LiveServerEventLiveSessionStarted extends LiveServerEvent {
+  /** The event type, always `session.started`. */
+  type: "session.started";
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  session: VoiceAgentLiveSessionResource;
+  /** Stored conversation ID when effective store is true. Use protocols/voice/live/conversations; this ID differs from session.id. */
+  conversation_id?: string;
+}
+
+export function liveServerEventLiveSessionStartedDeserializer(
+  item: any,
+): LiveServerEventLiveSessionStarted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    session: voiceAgentLiveSessionResourceDeserializer(item["session"]),
+    conversation_id: item["conversation_id"],
+  };
+}
+
+/** The resolved Live session configuration and server-assigned session metadata. */
+export interface LiveSessionResourceParam {
+  model: ModelIdsLive;
+  instructions?: string;
+  /** Ordered text-only history supplied before startup. Supports developer, user, and assistant messages with one text part each; at most 128 messages and 8,192 rendered tokens in total. */
+  input?: LiveInitialItemUnion[];
+  /** Startup audio configuration. Only primary WebSockets accept audio.format; WebRTC and SIP negotiate their media format. Voice and format are immutable after startup. */
+  audio?: LiveInitialSessionAudioParam;
+  delegation?: LiveClientDelegationParam | LiveResponsesDelegationParam;
+  /** Whether to store the session for later forking and recording download. Defaults to false for new sessions. */
+  store?: boolean;
+  /** Startup-only capabilities for an untrusted frontend attached to a unified WebRTC session. Trusted sideband connections are unaffected. */
+  client?: LiveClientConfigParam;
+  /** The unique ID of the Live session. Use this ID for sideband connections, forking, and recording download. */
+  id: string;
+  /** The Unix timestamp, in seconds, at which the Live session expires. */
+  expires_at: number;
+  /** The status of the session snapshot. Always `active`, including the final snapshot in session.closed; use the event type to determine that the session has closed. */
+  status: "active";
+}
+
+export function liveSessionResourceParamDeserializer(item: any): LiveSessionResourceParam {
+  return {
+    model: item["model"],
+    instructions: item["instructions"],
+    input: !item["input"] ? item["input"] : liveInitialItemUnionArrayDeserializer(item["input"]),
+    audio: !item["audio"] ? item["audio"] : liveInitialSessionAudioParamDeserializer(item["audio"]),
+    delegation: !item["delegation"]
+      ? item["delegation"]
+      : _liveSessionResourceParamDelegationDeserializer(item["delegation"]),
+    store: item["store"],
+    client: !item["client"] ? item["client"] : liveClientConfigParamDeserializer(item["client"]),
+    id: item["id"],
+    expires_at: item["expires_at"],
+    status: item["status"],
+  };
+}
+
+/** Alias for _LiveSessionResourceParamDelegation */
+export type _LiveSessionResourceParamDelegation =
+  LiveClientDelegationParam | LiveResponsesDelegationParam;
+
+export function _liveSessionResourceParamDelegationDeserializer(
+  item: any,
+): _LiveSessionResourceParamDelegation {
+  return item;
+}
+
+/** Returned when a Live session update is accepted. Contains the resolved session configuration after the update. */
+export interface LiveServerEventLiveSessionUpdated extends LiveServerEvent {
+  /** The event type, always `session.updated`. */
+  type: "session.updated";
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  session: VoiceAgentLiveSessionResource;
+}
+
+export function liveServerEventLiveSessionUpdatedDeserializer(
+  item: any,
+): LiveServerEventLiveSessionUpdated {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    session: voiceAgentLiveSessionResourceDeserializer(item["session"]),
+  };
+}
+
+/** Returned when a session.input_audio.mute command is accepted. Input audio is no longer sent to the model; sideband audio reflection continues. */
+export interface LiveServerEventLiveInputAudioMuted extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The event type, always `session.input_audio.muted`. */
+  type: "session.input_audio.muted";
+}
+
+export function liveServerEventLiveInputAudioMutedDeserializer(
+  item: any,
+): LiveServerEventLiveInputAudioMuted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+  };
+}
+
+/** Returned when a session.input_audio.unmute command is accepted. Input audio is sent to the model again. */
+export interface LiveServerEventLiveInputAudioUnmuted extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The event type, always `session.input_audio.unmuted`. */
+  type: "session.input_audio.unmuted";
+}
+
+export function liveServerEventLiveInputAudioUnmutedDeserializer(
+  item: any,
+): LiveServerEventLiveInputAudioUnmuted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+  };
+}
+
+/** Returned when a session.instructions.append command is accepted into the Live session timeline. Acknowledges the appended instructions without guaranteeing that the model has acted on them. */
+export interface LiveServerEventLiveInstructionsAppended extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The start of this event on the Live session timeline, in milliseconds from the beginning of the session. */
+  start_ms: number;
+  /** The end of this event on the Live session timeline, in milliseconds from the beginning of the session. For appended context, this can equal start_ms. */
+  end_ms: number;
+  /** The event type, always `session.instructions.appended`. */
+  type: "session.instructions.appended";
+}
+
+export function liveServerEventLiveInstructionsAppendedDeserializer(
+  item: any,
+): LiveServerEventLiveInstructionsAppended {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    start_ms: item["start_ms"],
+    end_ms: item["end_ms"],
+  };
+}
+
+/** Returned when a session.thinking.append command is accepted into the Live session timeline. Acknowledges the added reasoning context without guaranteeing any spoken output. */
+export interface LiveServerEventLiveThinkingAppended extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The start of this event on the Live session timeline, in milliseconds from the beginning of the session. */
+  start_ms: number;
+  /** The end of this event on the Live session timeline, in milliseconds from the beginning of the session. For appended context, this can equal start_ms. */
+  end_ms: number;
+  /** The event type, always `session.thinking.appended`. */
+  type: "session.thinking.appended";
+}
+
+export function liveServerEventLiveThinkingAppendedDeserializer(
+  item: any,
+): LiveServerEventLiveThinkingAppended {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    start_ms: item["start_ms"],
+    end_ms: item["end_ms"],
+  };
+}
+
+/** Returned when a session.commentary.append command is accepted into the Live session timeline. Acknowledges the added commentary without guaranteeing exact wording or completed audio playback. */
+export interface LiveServerEventLiveCommentaryAppended extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The start of this event on the Live session timeline, in milliseconds from the beginning of the session. */
+  start_ms: number;
+  /** The end of this event on the Live session timeline, in milliseconds from the beginning of the session. For appended context, this can equal start_ms. */
+  end_ms: number;
+  /** The event type, always `session.commentary.appended`. */
+  type: "session.commentary.appended";
+}
+
+export function liveServerEventLiveCommentaryAppendedDeserializer(
+  item: any,
+): LiveServerEventLiveCommentaryAppended {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    start_ms: item["start_ms"],
+    end_ms: item["end_ms"],
+  };
+}
+
+/** A transcript fragment for user input audio in the Live session. Accumulate fragments in delivery order; these events do not define complete turns or include a transcript-done event. */
+export interface LiveServerEventLiveInputTranscriptDelta extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The start of this event on the Live session timeline, in milliseconds from the beginning of the session. */
+  start_ms: number;
+  /** The end of this event on the Live session timeline, in milliseconds from the beginning of the session. For appended context, this can equal start_ms. */
+  end_ms: number;
+  /** The transcript text fragment for the audio in this time range. Append fragments in delivery order to build the transcript. */
+  delta: string;
+  /** The event type, always `session.input_transcript.delta`. */
+  type: "session.input_transcript.delta";
+}
+
+export function liveServerEventLiveInputTranscriptDeltaDeserializer(
+  item: any,
+): LiveServerEventLiveInputTranscriptDelta {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    start_ms: item["start_ms"],
+    end_ms: item["end_ms"],
+    delta: item["delta"],
+  };
+}
+
+/** A transcript fragment for assistant output audio in the Live session. Accumulate fragments in delivery order; these events do not define complete turns or include a transcript-done event. */
+export interface LiveServerEventLiveOutputTranscriptDelta extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The start of this event on the Live session timeline, in milliseconds from the beginning of the session. */
+  start_ms: number;
+  /** The end of this event on the Live session timeline, in milliseconds from the beginning of the session. For appended context, this can equal start_ms. */
+  end_ms: number;
+  /** The transcript text fragment for the audio in this time range. Append fragments in delivery order to build the transcript. */
+  delta: string;
+  /** The event type, always `session.output_transcript.delta`. */
+  type: "session.output_transcript.delta";
+}
+
+export function liveServerEventLiveOutputTranscriptDeltaDeserializer(
+  item: any,
+): LiveServerEventLiveOutputTranscriptDelta {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    start_ms: item["start_ms"],
+    end_ms: item["end_ms"],
+    delta: item["delta"],
+  };
+}
+
+/** Returned when the Live model delegates work to your application or a Responses backend. Contains delegation metadata and the position on the session timeline where the work was delegated. */
+export interface LiveServerEventLiveDelegationCreated extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The event type, always `session.delegation.created`. */
+  type: "session.delegation.created";
+  /** The position on the Live session timeline where the delegation was created, in milliseconds from the beginning of the session. */
+  offset_ms: number;
+  /** The delegated work identifier and destination. This object contains metadata, not the task text. */
+  delegation: VoiceAgentLiveDelegationItem;
+}
+
+export function liveServerEventLiveDelegationCreatedDeserializer(
+  item: any,
+): LiveServerEventLiveDelegationCreated {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    offset_ms: item["offset_ms"],
+    delegation: voiceAgentLiveDelegationItemDeserializer(item["delegation"]),
+  };
+}
+
+/** Metadata for work delegated by the Live model. Client delegations are handled by your application; Responses delegations run on the configured backend. */
+export interface LiveDelegationItem {
+  /** The unique ID of the delegation. Use this as delegation_id when replying to client-owned work or correlating Responses events. */
+  id: string;
+  /** The object type, always `delegation`. */
+  type: "delegation";
+  /** Where the Live model delegated the work: `client` for your application, or `responses` for the configured Responses backend. */
+  target: "client" | "responses";
+  /** The ID of the Responses API response associated with a Responses delegation. Omitted for client delegations. */
+  response_id?: string;
+}
+
+export function liveDelegationItemDeserializer(item: any): LiveDelegationItem {
+  return {
+    id: item["id"],
+    type: item["type"],
+    target: item["target"],
+    response_id: item["response_id"],
+  };
+}
+
+/** A streaming Responses API event from a backend delegated to by the Live session. Use the outer delegation_id to associate the nested stream with its Live delegation. */
+export interface LiveServerEventLiveResponseEvent extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The event type, always `response.event`. */
+  type: "response.event";
+  delegation_id?: string;
+  /** The nested Responses streaming event. Dispatch on its type field. Response lifecycle snapshots omit input and clear instructions, tools, and output to keep messages small; consume granular output events for the generated content. */
+  event: Record<string, any>;
+}
+
+export function liveServerEventLiveResponseEventDeserializer(
+  item: any,
+): LiveServerEventLiveResponseEvent {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    delegation_id: item["delegation_id"],
+    event: Object.fromEntries(Object.entries(item["event"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** Reports cumulative Live audio usage and, when available, the most recent context-window usage. Delegated Responses token usage is reported separately in response.event events. */
+export interface LiveServerEventLiveSessionUsageUpdated extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The event type, always `session.usage.updated`. */
+  type: "session.usage.updated";
+  /** The cumulative Live audio usage so far. */
+  usage: LiveSessionUsage;
+  /** The latest measured Live context-window usage. Omitted when the context limit is unknown. */
+  context_window?: LiveContextWindowUsage;
+}
+
+export function liveServerEventLiveSessionUsageUpdatedDeserializer(
+  item: any,
+): LiveServerEventLiveSessionUsageUpdated {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    usage: liveSessionUsageDeserializer(item["usage"]),
+    context_window: !item["context_window"]
+      ? item["context_window"]
+      : liveContextWindowUsageDeserializer(item["context_window"]),
+  };
+}
+
+/** The latest measured context-window usage of the Live model. This is separate from billing usage and delegated Responses token usage. */
+export interface LiveContextWindowUsage {
+  /** The latest active context token count divided by the Live model context limit. Can decrease after compaction and may lag between measured audio frames. */
+  usage_ratio: number;
+}
+
+export function liveContextWindowUsageDeserializer(item: any): LiveContextWindowUsage {
+  return {
+    usage_ratio: item["usage_ratio"],
+  };
+}
+
+/** Returned after the Live session finishes finalizing, with the close reason, final session snapshot, and cumulative audio usage. A connection closing without this event does not confirm successful finalization. */
+export interface LiveServerEventLiveSessionClosed extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The event type, always `session.closed`. */
+  type: "session.closed";
+  /** Why the Live session ended: `close_requested` for an application close or hangup request, `expired` for the session duration limit, `content` for a safety filter, `remote_hangup` for a graceful remote disconnect, or `connection_lost` for an unexpected primary or upstream disconnection. */
+  reason: "close_requested" | "expired" | "content" | "remote_hangup" | "connection_lost";
+  session: VoiceAgentLiveSessionResource;
+  /** The final cumulative Live audio usage after session finalization. */
+  usage: LiveSessionUsage;
+}
+
+export function liveServerEventLiveSessionClosedDeserializer(
+  item: any,
+): LiveServerEventLiveSessionClosed {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    reason: item["reason"],
+    session: voiceAgentLiveSessionResourceDeserializer(item["session"]),
+    usage: liveSessionUsageDeserializer(item["usage"]),
+  };
+}
+
+/** Reports an error in the Live session, such as an invalid client command. Use error.client_event_id, when present, to identify the command that caused the error. */
+export interface LiveServerEventLiveErrorEvent extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The event type, always `error`. */
+  type: "error";
+  /** Details of the Live error and the client command that caused it, when known. */
+  error: LiveLiveError;
+}
+
+export function liveServerEventLiveErrorEventDeserializer(
+  item: any,
+): LiveServerEventLiveErrorEvent {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    error: liveLiveErrorDeserializer(item["error"]),
+  };
+}
+
+/** Details of an error encountered by the Live session, including the affected parameter or client command when available. */
+export interface LiveLiveError {
+  /** The category of error, such as `invalid_request_error` for an invalid Live client command. */
+  type: string;
+  /** A machine-readable code identifying the Live error, such as `unknown_parameter`. */
+  code: string;
+  /** A human-readable explanation of the Live error. */
+  message: string;
+  /** The parameter that caused the error, when applicable, such as `session.voice`. */
+  param?: string;
+  /** The event_id of the client command that caused the error, when supplied. */
+  client_event_id?: string;
+}
+
+export function liveLiveErrorDeserializer(item: any): LiveLiveError {
+  return {
+    type: item["type"],
+    code: item["code"],
+    message: item["message"],
+    param: item["param"],
+    client_event_id: item["client_event_id"],
+  };
+}
+
+/** An informational notice about the Live session, such as the event permissions applied to a frontend data channel. */
+export interface LiveServerEventLiveInfoEvent extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  /** The event type, always `info`. */
+  type: "info";
+  /** A machine-readable code for the notice, such as `data_channel_permissions`. */
+  code: string;
+  /** A human-readable explanation of the Live session notice. */
+  message: string;
+}
+
+export function liveServerEventLiveInfoEventDeserializer(item: any): LiveServerEventLiveInfoEvent {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
+/** Live session resource reported to Foundry clients. GPT Live runs native client delegation for foundry_managed_agent sessions; Foundry reports the effective owner. */
+export interface VoiceAgentLiveSessionResource {
+  model: ModelIdsLive;
+  instructions?: string;
+  /** Ordered text-only history supplied before startup. Supports developer, user, and assistant messages with one text part each; at most 128 messages and 8,192 rendered tokens in total. */
+  input?: LiveInitialItemUnion[];
+  /** Startup audio configuration. Only primary WebSockets accept audio.format; WebRTC and SIP negotiate their media format. Voice and format are immutable after startup. */
+  audio?: LiveInitialSessionAudioParam;
+  /** Whether to store the session for later forking and recording download. Defaults to false for new sessions. */
+  store?: boolean;
+  /** Startup-only capabilities for an untrusted frontend attached to a unified WebRTC session. Trusted sideband connections are unaffected. */
+  client?: LiveClientConfigParam;
+  /** The unique ID of the Live session. Use this ID for sideband connections, forking, and recording download. */
+  id: string;
+  /** The Unix timestamp, in seconds, at which the Live session expires. */
+  expires_at: number;
+  /** The status of the session snapshot. Always `active`, including the final snapshot in session.closed; use the event type to determine that the session has closed. */
+  status: "active";
+  /** Delegation owner. foundry_managed_agent sessions report the pinned target, including the resolved agent_version. */
+  delegation?: VoiceAgentLiveDelegationOptionsUnion;
+}
+
+export function voiceAgentLiveSessionResourceDeserializer(
+  item: any,
+): VoiceAgentLiveSessionResource {
+  return {
+    model: item["model"],
+    instructions: item["instructions"],
+    input: !item["input"] ? item["input"] : liveInitialItemUnionArrayDeserializer(item["input"]),
+    audio: !item["audio"] ? item["audio"] : liveInitialSessionAudioParamDeserializer(item["audio"]),
+    store: item["store"],
+    client: !item["client"] ? item["client"] : liveClientConfigParamDeserializer(item["client"]),
+    id: item["id"],
+    expires_at: item["expires_at"],
+    status: item["status"],
+    delegation: !item["delegation"]
+      ? item["delegation"]
+      : voiceAgentLiveDelegationOptionsUnionDeserializer(item["delegation"]),
+  };
+}
+
+/** Live delegation trigger metadata reported to Foundry clients. This object contains metadata, not the task text. */
+export interface VoiceAgentLiveDelegationItem {
+  /** The unique ID of the delegation. Use this as delegation_id when replying to client-owned work or correlating Responses events. */
+  id: string;
+  /** The object type, always `delegation`. */
+  type: "delegation";
+  /** The ID of the Responses API response associated with a Responses delegation. Omitted for client delegations. */
+  response_id?: string;
+  /** Where the work is handled. foundry_managed_agent sessions report foundry_managed_agent; GPT Live itself uses client. */
+  target: VoiceAgentLiveDelegationTarget;
+}
+
+export function voiceAgentLiveDelegationItemDeserializer(item: any): VoiceAgentLiveDelegationItem {
+  return {
+    id: item["id"],
+    type: item["type"],
+    response_id: item["response_id"],
+    target: item["target"],
+  };
+}
