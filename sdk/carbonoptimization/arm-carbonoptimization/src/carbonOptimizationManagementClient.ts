@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createCarbonOptimizationManagement,
+import type {
   CarbonOptimizationManagementContext,
   CarbonOptimizationManagementClientOptionalParams,
 } from "./api/index.js";
-import {
-  CarbonServiceOperations,
-  _getCarbonServiceOperations,
-} from "./classic/carbonService/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import { createCarbonOptimizationManagement } from "./api/index.js";
+import type { CarbonServiceOperations } from "./classic/carbonService/index.js";
+import { _getCarbonServiceOperations } from "./classic/carbonService/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type CarbonOptimizationManagementClientOptionalParams } from "./api/carbonOptimizationManagementContext.js";
+export type { CarbonOptimizationManagementClientOptionalParams } from "./api/carbonOptimizationManagementContext.js";
 
 export class CarbonOptimizationManagementClient {
   private _client: CarbonOptimizationManagementContext;
@@ -26,14 +25,7 @@ export class CarbonOptimizationManagementClient {
     credential: TokenCredential,
     options: CarbonOptimizationManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createCarbonOptimizationManagement(credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createCarbonOptimizationManagement(credential, options);
     this.pipeline = this._client.pipeline;
     this.carbonService = _getCarbonServiceOperations(this._client);
     this.operations = _getOperationsOperations(this._client);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aPI for query carbon emission data available date range
  *
  * @summary aPI for query carbon emission data available date range
- * x-ms-original-file: 2025-04-01/carbonEmissionsDataAvailableDateRange.json
+ * x-ms-original-file: 2026-05-01-preview/carbonEmissionsDataAvailableDateRange.json
  */
 async function carbonServiceQueryCarbonEmissionDataAvailableDateRange(): Promise<void> {
   const credential = new DefaultAzureCredential();
