@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Represents a paginated list of operations. */
 export interface _OperationListResult {
   /** The list of operations. */
@@ -2027,4 +2028,6 @@ export function elasticVersionListPropertiesDeserializer(item: any): ElasticVers
 export enum KnownVersions {
   /** The 2025-06-01 API version. */
   V20250601 = "2025-06-01",
+  /** The 2026-03-15-preview API version. */
+  V20260315Preview = "2026-03-15-preview",
 }

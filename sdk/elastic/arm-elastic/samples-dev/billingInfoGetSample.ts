@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve marketplace and organization billing information mapped to the given Elastic monitor resource.
  *
  * @summary retrieve marketplace and organization billing information mapped to the given Elastic monitor resource.
- * x-ms-original-file: 2025-06-01/BillingInfo_Get.json
+ * x-ms-original-file: 2026-03-15-preview/BillingInfo_Get.json
  */
 async function billingInfoGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

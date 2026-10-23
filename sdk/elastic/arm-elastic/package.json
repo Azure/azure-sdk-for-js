@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-elastic",
-  "version": "3.0.0",
+  "version": "3.1.0-beta.1",
   "description": "A generated SDK for MicrosoftElastic.",
   "engines": {
     "node": ">=22.0.0"
@@ -450,11 +450,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -500,6 +500,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-elastic"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-elastic?view=azure-node-preview"
   }
 }
