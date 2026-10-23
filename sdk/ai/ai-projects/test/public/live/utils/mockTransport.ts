@@ -6,7 +6,7 @@ import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-
 import type {
   LiveServerEventLiveSessionClosed,
   LiveServerEventLiveSessionStarted,
-  LiveSessionResourceParam,
+  VoiceAgentLiveSessionResource,
 } from "@azure/ai-projects";
 import type {
   VoiceAgentWebSocketConnectOptions,
@@ -50,8 +50,8 @@ export function deferred<T>(): {
 }
 
 export function createSession(
-  overrides: Partial<LiveSessionResourceParam> = {},
-): LiveSessionResourceParam {
+  overrides: Partial<VoiceAgentLiveSessionResource> = {},
+): VoiceAgentLiveSessionResource {
   return {
     id: "live-session-1",
     model: "gpt-live-1",

@@ -15,13 +15,15 @@ import type {
   VoiceAgentConnectionState,
   VoiceAgentLiveClientEvent,
   VoiceAgentLiveConnection,
+  VoiceAgentLiveSessionResource,
 } from "@azure/ai-projects";
 import { SDK_VERSION } from "$internal/constants.js";
+import { isNodeLike } from "@azure/core-util";
 import {
   deserializeVoiceAgentLiveEvent,
   serializeVoiceAgentLiveEvent,
 } from "$internal/live/voiceAgentLiveClient.js";
-import { afterEach, assert, describe, expect, it, vi } from "vitest";
+import { afterEach, assert, describe, expect, expectTypeOf, it, vi } from "vitest";
 import {
   accessToken,
   createSession,
@@ -96,7 +98,7 @@ describe("VoiceAgentLiveClient connection", () => {
 
       expect(settled).not.toHaveBeenCalled();
       expect(factory.transport.sentMessages).toEqual([]);
-      expect(factory.transport.connectOptions?.protocols).toEqual([]);
+      expect(factory.transport.connectOptions?.protocols).toEqual(isNodeLike ? [] : ["live"]);
       factory.transport.receive(sessionStarted());
       const connection = await pending;
       expect(connection.state).toBe("connected");
@@ -128,7 +130,7 @@ describe("VoiceAgentLiveClient connection", () => {
     expect(options.headers["user-agent"]).toContain("project-prefix");
     expect(options.headers["user-agent"]).toContain(`azsdk-js-ai-projects/${SDK_VERSION}`);
     expect(options.headers["authorization"]).toBe(`Bearer ${accessToken.token}`);
-    expect(options.protocols).toEqual([]);
+    expect(options.protocols).toEqual(isNodeLike ? [] : ["live"]);
     expect(options.url).not.toContain(accessToken.token);
     await connection.close();
   });
@@ -662,11 +664,18 @@ describe("VoiceAgentLiveClient native commands", () => {
     await connection.close();
   });
 
-  it.each(["item", "tool", "response"])(
-    "rejects the Responses-only %s helper in client delegation mode",
-    async (method) => {
+  it.each(
+    (["client", "foundry_managed_agent"] as const).flatMap((type) =>
+      ["item", "tool", "response"].map((method) => ({ type, method })),
+    ),
+  )(
+    "rejects the Responses-only $method helper in $type delegation mode",
+    async ({ type, method }) => {
       const factory = createFactory();
-      factory.transport.session = createSession({ delegation: { type: "client" } });
+      factory.transport.session = createSession({
+        delegation:
+          type === "client" ? { type } : { type, agent_name: "managed-owner", agent_version: "7" },
+      });
       const connection = await connect(factory);
       const operation =
         method === "item"
@@ -854,6 +863,59 @@ describe("VoiceAgentLiveClient native protocol", () => {
 });
 
 describe("VoiceAgentLiveClient event consumers", () => {
+  it("retains the effective managed owner across startup, update, and finalization", async () => {
+    expectTypeOf<
+      VoiceAgentLiveConnection["session"]
+    >().toEqualTypeOf<VoiceAgentLiveSessionResource>();
+    const factory = createFactory();
+    const owner = {
+      type: "foundry_managed_agent" as const,
+      agent_name: "managed-owner",
+      agent_version: "7",
+    };
+    factory.transport.session = createSession({ delegation: owner });
+    const connection = await connect(factory);
+    expect(connection.session.delegation).toEqual(owner);
+    const snapshot = createSession({ instructions: "Updated managed session.", delegation: owner });
+
+    factory.transport.receive({
+      type: "session.updated",
+      event_id: "updated-owner",
+      session: snapshot,
+    });
+    factory.transport.receive({
+      type: "session.delegation.created",
+      event_id: "managed-trigger",
+      offset_ms: 125,
+      delegation: { id: "managed-work", type: "delegation", target: "foundry_managed_agent" },
+    });
+    expect(connection.session).toEqual(snapshot);
+    const iterator = connection[Symbol.asyncIterator]();
+    expect((await iterator.next()).value).toMatchObject({
+      type: "session.started",
+      session: { delegation: owner },
+    });
+    expect((await iterator.next()).value).toMatchObject({
+      type: "session.updated",
+      session: snapshot,
+    });
+    expect((await iterator.next()).value).toMatchObject({
+      type: "session.delegation.created",
+      delegation: { target: "foundry_managed_agent" },
+    });
+    factory.transport.session = snapshot;
+    await connection.close();
+
+    expect((await iterator.next()).value).toMatchObject({
+      type: "session.closed",
+      session: { delegation: owner },
+    });
+    expect((await iterator.next()).done).toBe(true);
+    await expect(connection.closed).resolves.toMatchObject({
+      sessionClosed: { session: { delegation: owner } },
+    });
+  });
+
   it("delivers the startup event, binary audio, future events, and updated snapshots in order", async () => {
     const factory = createFactory();
     const connection = await connect(factory);
@@ -1090,6 +1152,66 @@ describe("VoiceAgentLiveClient finalization", () => {
   });
 
   describe("VoiceAgentLiveClient review regressions", () => {
+    it.each(["close", "dispose"])(
+      "joins %s from a reentrant shutdown state callback",
+      async (method) => {
+        vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout", "Date"] });
+        const factory = createFactory();
+        let nested: Promise<void> | undefined;
+        const connection: VoiceAgentLiveConnection = await createClient(
+          factory,
+          new TestCredential(),
+          {
+            liveOptions: { closeTimeoutInMs: 10 },
+          },
+        ).beta.voiceAgents.live.connect("live-agent", {
+          onConnectionStateChange: (state) => {
+            if (state === "closing") {
+              nested = method === "dispose" ? connection.dispose() : connection.close();
+            }
+          },
+        });
+
+        const closing = connection.close();
+        const settled = Promise.allSettled([closing, nested]);
+        await vi.advanceTimersByTimeAsync(20);
+
+        expect(nested).toBe(closing);
+        expect(await settled).toEqual([
+          { status: "fulfilled", value: undefined },
+          { status: "fulfilled", value: undefined },
+        ]);
+        expect(factory.transport.sentMessages.map((message) => JSON.parse(message))).toEqual([
+          { type: "session.close" },
+        ]);
+        expect(connection.state).toBe("disconnected");
+        expect(vi.getTimerCount()).toBe(0);
+      },
+    );
+
+    it("joins server-initiated reentrant shutdown without sending session.close", async () => {
+      const factory = createFactory();
+      let nested: Promise<void> | undefined;
+      const connection: VoiceAgentLiveConnection = await createClient(
+        factory,
+      ).beta.voiceAgents.live.connect("live-agent", {
+        onConnectionStateChange: (state) => {
+          if (state === "closing") nested = connection.dispose();
+        },
+      });
+      const terminal = sessionClosed();
+
+      factory.transport.receive(terminal);
+      await nested;
+
+      expect(factory.transport.sentMessages).toEqual([]);
+      await expect(connection.closed).resolves.toMatchObject({
+        sessionClosed: terminal,
+        wasClean: true,
+      });
+      expect(connection.state).toBe("disconnected");
+    });
+
     it("rejects startup after finalization without waiting for a socket-close notification", async () => {
       const factory = createFactory();
       const handshake = deferred<void>();
