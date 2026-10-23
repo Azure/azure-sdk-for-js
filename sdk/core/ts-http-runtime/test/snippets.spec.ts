@@ -14,7 +14,12 @@ import type {
   AddPolicyOptions,
   Client,
 } from "../src/index.js";
-import { AbortError, createHttpHeaders } from "../src/index.js";
+import {
+  AbortError,
+  createHttpHeaders,
+  createPipelineRequest,
+  createDefaultHttpClient,
+} from "../src/index.js";
 
 interface GetOperationResult {}
 interface DetectFromUrl {}
@@ -118,13 +123,13 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleExpectContinue", async () => {
-    // @ts-ignore
-    const request: PipelineRequest = {
+    const httpClient: HttpClient = createDefaultHttpClient();
+    const request: PipelineRequest = createPipelineRequest({
       url: "https://example.com",
       method: "GET",
       headers: createHttpHeaders({ Expect: "100-continue" }),
-    };
-    // @ts-ignore
+    });
+
     await httpClient.sendRequest(request);
   });
 });

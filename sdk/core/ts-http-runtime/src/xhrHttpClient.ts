@@ -13,7 +13,6 @@ import { createHttpHeaders } from "./httpHeaders.js";
 import { RestError } from "./restError.js";
 import { isReadableStream } from "./util/typeGuards.js";
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
-import { hasExpectHeader } from "./util/expectContinue.js";
 
 /**
  * A HttpClient implementation that uses XMLHttpRequest to send HTTP requests.

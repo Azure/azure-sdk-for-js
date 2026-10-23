@@ -43,7 +43,7 @@ class FetchHttpClient implements HttpClient {
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     if (hasExpectHeader(request)) {
-      throw new Error("The Expect header is only supported by the Node.js HTTP/1 transport.");
+      throw new Error("The Expect header is not supported by the Fetch HttpClient.");
     }
 
     const url = new URL(request.url);
