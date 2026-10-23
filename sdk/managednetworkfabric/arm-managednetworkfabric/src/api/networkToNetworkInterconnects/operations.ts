@@ -57,7 +57,7 @@ export function _updateBfdAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,7 +118,7 @@ export function updateBfdAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
     },
   ) as PollerLike<
     OperationState<NniUpdateBfdAdministrativeStateResponse>,
@@ -143,7 +143,7 @@ export function _updateAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,7 +204,7 @@ export function updateAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
     },
   ) as PollerLike<
     OperationState<UpdateAdministrativeStateResponse>,
@@ -229,7 +229,7 @@ export function _updateNpbStaticRouteBfdAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -290,7 +290,7 @@ export function updateNpbStaticRouteBfdAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
     },
   ) as PollerLike<
     OperationState<UpdateAdministrativeStateResponse>,
@@ -310,7 +310,7 @@ export function _listByNetworkFabricSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -350,7 +350,11 @@ export function listByNetworkFabric(
     () => _listByNetworkFabricSend(context, resourceGroupName, networkFabricName, options),
     _listByNetworkFabricDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    },
   );
 }
 
@@ -368,7 +372,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -411,7 +415,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -430,7 +434,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -482,7 +486,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<NetworkToNetworkInterconnect>, NetworkToNetworkInterconnect>;
 }
 
@@ -501,7 +505,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -553,7 +557,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<NetworkToNetworkInterconnect>, NetworkToNetworkInterconnect>;
 }
 
@@ -571,7 +575,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the NPB Static Route BFD Administrative State.
  *
  * @summary updates the NPB Static Route BFD Administrative State.
- * x-ms-original-file: 2025-07-15/NetworkToNetworkInterconnects_UpdateNpbStaticRouteBfdAdministrativeState.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkToNetworkInterconnects_UpdateNpbStaticRouteBfdAdministrativeState.json
  */
 async function networkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeState(): Promise<void> {
   const credential = new DefaultAzureCredential();

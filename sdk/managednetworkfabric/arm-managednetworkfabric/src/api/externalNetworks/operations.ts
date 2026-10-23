@@ -55,7 +55,7 @@ export function _updateBfdAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,7 +114,7 @@ export function updateBfdAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
     },
   ) as PollerLike<
     OperationState<ExternalNetworkUpdateBfdAdministrativeStateResponse>,
@@ -139,7 +139,7 @@ export function _updateStaticRouteBfdAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -200,7 +200,7 @@ export function updateStaticRouteBfdAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
     },
   ) as PollerLike<
     OperationState<UpdateAdministrativeStateResponse>,
@@ -223,7 +223,7 @@ export function _updateAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -282,7 +282,7 @@ export function updateAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
     },
   ) as PollerLike<
     OperationState<UpdateAdministrativeStateResponse>,
@@ -302,7 +302,7 @@ export function _listByL3IsolationDomainSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -342,7 +342,11 @@ export function listByL3IsolationDomain(
     () => _listByL3IsolationDomainSend(context, resourceGroupName, l3IsolationDomainName, options),
     _listByL3IsolationDomainDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    },
   );
 }
 
@@ -360,7 +364,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -397,7 +401,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, l3IsolationDomainName, externalNetworkName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -416,7 +420,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -466,7 +470,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<ExternalNetwork>, ExternalNetwork>;
 }
 
@@ -485,7 +489,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -535,7 +539,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<ExternalNetwork>, ExternalNetwork>;
 }
 
@@ -553,7 +557,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

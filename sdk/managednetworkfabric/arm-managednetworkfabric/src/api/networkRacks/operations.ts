@@ -38,7 +38,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkRacks{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +76,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    },
   );
 }
 
@@ -90,7 +94,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,7 +133,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    },
   );
 }
 
@@ -145,7 +153,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkRackName: networkRackName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,7 +188,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, networkRackName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -197,7 +205,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkRackName: networkRackName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,7 +247,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, networkRackName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<NetworkRack>, NetworkRack>;
 }
 
@@ -256,7 +264,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkRackName: networkRackName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -298,7 +306,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, networkRackName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<NetworkRack>, NetworkRack>;
 }
 
@@ -314,7 +322,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkRackName: networkRackName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

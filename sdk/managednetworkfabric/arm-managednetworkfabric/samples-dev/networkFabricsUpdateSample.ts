@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update certain properties of the Network Fabric resource.
  *
  * @summary update certain properties of the Network Fabric resource.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_Update.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_Update.json
  */
 async function networkFabricsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -94,6 +94,15 @@ async function networkFabricsUpdateMaximumSetGen(): Promise<void> {
         },
       },
     },
+    upgradeProfile: [
+      {
+        preUpgradeProfile: { maxEnteringMaintenanceTimeoutInSeconds: 300 },
+        postUpgradeProfile: {
+          maxExitingMaintenanceTimeoutInSeconds: 3000,
+          mlagReloadDelayTimeoutInSeconds: 900,
+        },
+      },
+    ],
     hardwareAlertThreshold: 43,
     controlPlaneAcls: [
       "/subscriptions/xxxxxx/resourceGroups/resourcegroupname/providers/Microsoft.ManagedNetworkFabric/accessControlLists/example-acl",
@@ -106,6 +115,14 @@ async function networkFabricsUpdateMaximumSetGen(): Promise<void> {
       nniDerivedUniqueRdConfigurationState: "Enabled",
     },
     qosConfiguration: { qosConfigurationState: "Enabled" },
+    secretArchiveSettings: {
+      associatedIdentity: {
+        identityType: "UserAssignedIdentity",
+        userAssignedIdentityResourceId:
+          "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourcegroups/example-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/example-identity",
+      },
+      vaultUri: "https://myvault.vault.azure.net/",
+    },
   });
   console.log(result);
 }
@@ -114,7 +131,7 @@ async function networkFabricsUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to update certain properties of the Network Fabric resource.
  *
  * @summary update certain properties of the Network Fabric resource.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_Update_QoS.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_Update_QoS.json
  */
 async function networkFabricsUpdateQoSEnable(): Promise<void> {
   const credential = new DefaultAzureCredential();

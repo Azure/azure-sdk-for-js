@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates InternalNetwork PUT method.
  *
  * @summary creates InternalNetwork PUT method.
- * x-ms-original-file: 2025-07-15/InternalNetworks_Create.json
+ * x-ms-original-file: 2026-01-15-preview/InternalNetworks_Create.json
  */
 async function internalNetworksCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

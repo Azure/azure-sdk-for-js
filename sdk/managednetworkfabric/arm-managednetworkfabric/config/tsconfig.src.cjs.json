@@ -1,6 +1,40 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/fabrics/index.ts",
+    "../src/api/edgeConnectors/index.ts",
+    "../src/api/networkBootstrapInterfaces/index.ts",
+    "../src/api/networkBootstrapDevices/index.ts",
+    "../src/api/networkMonitors/index.ts",
+    "../src/api/routePolicies/index.ts",
+    "../src/api/networkTaps/index.ts",
+    "../src/api/networkTapRules/index.ts",
+    "../src/api/networkRacks/index.ts",
+    "../src/api/networkPacketBrokers/index.ts",
+    "../src/api/networkToNetworkInterconnects/index.ts",
+    "../src/api/networkFabrics/index.ts",
+    "../src/api/networkFabricSkus/index.ts",
+    "../src/api/networkFabricControllers/index.ts",
+    "../src/api/networkInterfaces/index.ts",
+    "../src/api/networkDevices/index.ts",
+    "../src/api/networkDeviceSkus/index.ts",
+    "../src/api/neighborGroups/index.ts",
+    "../src/api/externalNetworks/index.ts",
+    "../src/api/internalNetworks/index.ts",
+    "../src/api/l3IsolationDomains/index.ts",
+    "../src/api/l2IsolationDomains/index.ts",
+    "../src/api/ipPrefixes/index.ts",
+    "../src/api/ipExtendedCommunities/index.ts",
+    "../src/api/ipCommunities/index.ts",
+    "../src/api/internetGateways/index.ts",
+    "../src/api/internetGatewayRules/index.ts",
+    "../src/api/accessControlLists/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

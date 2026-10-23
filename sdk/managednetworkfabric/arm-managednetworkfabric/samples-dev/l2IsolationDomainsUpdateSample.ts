@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aPI to update certain properties of the L2 Isolation Domain resource.
  *
  * @summary aPI to update certain properties of the L2 Isolation Domain resource.
- * x-ms-original-file: 2025-07-15/L2IsolationDomains_Update.json
+ * x-ms-original-file: 2026-01-15-preview/L2IsolationDomains_Update.json
  */
 async function l2IsolationDomainsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
