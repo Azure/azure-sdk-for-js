@@ -519,6 +519,8 @@ export interface HostedAgentDefinition extends AgentDefinition {
   telemetry_config?: TelemetryConfig;
   /** Optional session defaults (for example, the idle timeout) applied to sessions created for this agent version. */
   session_configuration?: SessionConfiguration;
+  /** Whether this agent version uses memory snapshots. Sessions for a snapshot-enabled version start from a snapshot of the agent's initialized process rather than starting the process from its image. Defaults to false. */
+  enable_memory_snapshot?: boolean;
 }
 
 export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): any {
@@ -543,6 +545,7 @@ export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): an
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationSerializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -574,6 +577,7 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationDeserializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -3777,8 +3781,8 @@ export function voiceAgentEchoCancellationDeserializer(item: any): VoiceAgentEch
 export type VoiceAgentEchoCancellationReferenceSource = "server" | "client";
 
 /**
- * Asynchronous input-audio transcription configuration. Extends the OpenAI Realtime transcription
- * options with the Azure and MAI transcription models, custom speech models, and phrase hints.
+ * Settings for transcribing input audio, including the transcription model, Custom Speech deployments,
+ * and phrase hints.
  */
 export interface VoiceAgentInputTranscription {
   /**
@@ -3794,7 +3798,7 @@ export interface VoiceAgentInputTranscription {
   /**
    * An optional text to guide the model's style or continue a previous audio
    *   segment.
-   *   For `whisper-1`, the [prompt is a list of keywords](/docs/guides/speech-to-text#prompting).
+   *   For `whisper-1`, the [prompt is a list of keywords](https://developers.openai.com/api/docs/guides/speech-to-text#prompting).
    *   For `gpt-4o-transcribe` models (excluding `gpt-4o-transcribe-diarize`), the prompt is a free text string, for example "expect words related to technology".
    *   Prompt is not supported with `gpt-realtime-whisper` in GA Realtime sessions.
    */
@@ -3811,6 +3815,16 @@ export interface VoiceAgentInputTranscription {
   custom_speech?: Record<string, string>;
   /** Optional phrase hints that bias recognition toward domain terms. */
   phrase_list?: string[];
+  /**
+   * Controls how profanity is handled in input transcripts. Supported only with managed Azure Speech
+   * (`azure-speech`), including Custom Speech.
+   * Set this property before the session starts. If omitted, the transcription provider's default applies.
+   * You cannot change the mode during a session.
+   * Filtering affects transcript events and the text sent to cascaded models. It does not change input
+   * audio, voice activity detection, or assistant speech; audio-native models still receive the original
+   * audio. Mandatory service masking policies apply even when you select `unfiltered`.
+   */
+  profanity_filter?: VoiceAgentProfanityFilterMode;
 }
 
 export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTranscription): any {
@@ -3835,6 +3849,7 @@ export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTran
       : item["phrase_list"].map((p: any) => {
           return p;
         }),
+    profanity_filter: item["profanity_filter"],
   };
 }
 
@@ -3864,6 +3879,7 @@ export function voiceAgentInputTranscriptionDeserializer(item: any): VoiceAgentI
       : item["phrase_list"].map((p: any) => {
           return p;
         }),
+    profanity_filter: item["profanity_filter"],
   };
 }
 
@@ -3882,6 +3898,9 @@ export type VoiceAgentInputTranscriptionModel =
   | "gpt-live-transcribe"
   | "mai-transcribe"
   | "azure-speech";
+
+/** The supported input-transcript profanity filtering modes. */
+export type VoiceAgentProfanityFilterMode = "masked" | "unfiltered" | "removed";
 
 /**
  * Output audio configuration for a voice agent.
@@ -11420,6 +11439,11 @@ export interface WebSearchToolboxTool extends ToolboxTool {
   /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
   external_web_access?: boolean;
   filters?: WebSearchToolFilters;
+  /**
+   * The approximate location of the user. If omitted or null, defaults to the
+   *   United States. To avoid this fallback, pass `{"type": "approximate"}` without
+   *   location fields. To localize results, provide the relevant location fields.
+   */
   user_location?: WebSearchApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: "low" | "medium" | "high";
@@ -11722,7 +11746,10 @@ export interface MCPToolboxTool extends ToolboxTool {
   /**
    * Identifier for service connectors, like those available in ChatGPT. One of
    *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
-   *   about service connectors [here](/docs/guides/tools-remote-mcp#connectors).
+   *   about service connectors [here](https://developers.openai.com/api/docs/guides/tools-connectors-mcp#connectors).
+   *   This field is deprecated for models released after September 1, 2026.
+   *   Use `server_url` to connect to a remote MCP server, or `tunnel_id` to
+   *   connect through a Secure MCP Tunnel.
    *   Currently supported `connector_id` values are:
    *   - Dropbox: `connector_dropbox`
    *   - Gmail: `connector_gmail`

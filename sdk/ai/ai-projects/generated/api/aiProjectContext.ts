@@ -34,7 +34,10 @@ export function createAIProject(
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
-    loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
+    loggingOptions: {
+      ...options.loggingOptions,
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
     credentials: { scopes: options.credentials?.scopes ?? ["https://ai.azure.com/.default"] },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);

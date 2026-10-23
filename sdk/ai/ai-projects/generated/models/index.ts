@@ -124,6 +124,7 @@ export type {
   VoiceAgentEchoCancellationReferenceSource,
   VoiceAgentInputTranscription,
   VoiceAgentInputTranscriptionModel,
+  VoiceAgentProfanityFilterMode,
   VoiceAgentAudioOutputConfig,
   VoiceType,
   VoiceAgentAudioTimestampType,
