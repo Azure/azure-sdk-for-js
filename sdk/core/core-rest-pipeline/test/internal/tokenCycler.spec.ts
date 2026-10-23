@@ -285,6 +285,64 @@ describe("tokenCycler", function () {
     expect(getToken).toHaveBeenCalledTimes(3);
   });
 
+  it("keeps a newer valid cached token when a rejoined proactive refresh fails", async function () {
+    let rejectOrdinaryRefresh: (reason?: unknown) => void;
+    let resolveClaimsRefresh: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    const rejectedOrdinaryRefresh = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+      (_resolve, reject) => {
+        rejectOrdinaryRefresh = reject;
+      },
+    );
+    const claimsRefreshToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+      (resolve) => {
+        resolveClaimsRefresh = resolve;
+      },
+    );
+    let ordinaryRequestCount = 0;
+    const getToken = vi.fn<TokenCredential["getToken"]>((_, requestOptions) => {
+      if (requestOptions?.claims === "claim-A") {
+        return claimsRefreshToken;
+      }
+
+      ordinaryRequestCount += 1;
+      if (ordinaryRequestCount === 1) {
+        return Promise.resolve({
+          token: "initial",
+          expiresOnTimestamp: Date.now() + 1,
+          refreshAfterTimestamp: Date.now() - 1,
+        });
+      }
+      if (ordinaryRequestCount === 2) {
+        return rejectedOrdinaryRefresh;
+      }
+      return Promise.resolve(null);
+    });
+    const getAccessToken = createTokenCycler(
+      { getToken },
+      { retryIntervalInMs: 0, forcedRefreshWindowInMs: 0, refreshWindowInMs: 300_000 },
+    );
+
+    await expect(getAccessToken(["scope"], {})).resolves.toMatchObject({ token: "initial" });
+    // Start proactive worker A while the initial token remains usable.
+    await expect(getAccessToken(["scope"], {})).resolves.toMatchObject({ token: "initial" });
+
+    const claimsRefresh = getAccessToken(["scope"], { claims: "claim-A", enableCae: true });
+    resolveClaimsRefresh!({
+      token: "claims",
+      expiresOnTimestamp: Date.now() + 300_000,
+      refreshAfterTimestamp: Date.now() - 1,
+    });
+    await expect(claimsRefresh).resolves.toMatchObject({ token: "claims" });
+
+    // The elapsed refresh-after timestamp rejoins A and makes it the selected
+    // proactive worker, but B's longer-lived token must survive A's failure.
+    await expect(getAccessToken(["scope"], {})).resolves.toMatchObject({ token: "claims" });
+    rejectOrdinaryRefresh!(new Error("ordinary refresh failed"));
+    await vi.advanceTimersByTimeAsync(1);
+
+    await expect(getAccessToken(["scope"], {})).resolves.toMatchObject({ token: "claims" });
+  });
+
   it("observes a rejected superseded proactive refresh", async function () {
     let rejectProactive: (reason?: unknown) => void;
     let resolveClaim: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
