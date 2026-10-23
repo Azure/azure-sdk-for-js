@@ -1,5 +1,20 @@
 # Azure AI Search client library for JavaScript
 
+## November 2026 preview
+
+The unreleased `13.1.0-beta.3` targets `2026-11-01-preview` by default. Set
+`serviceVersion` in client options to continue using a supported earlier API.
+Generation is pinned to [REST API specifications PR #47300](https://github.com/Azure/azure-rest-api-specs/pull/47300),
+commit `2c0ca3a8b788bc866d2312b72bc05b49b048973d`; no release date is confirmed.
+
+New capabilities include graph queries and diagnostics, topic-graph vector retrieval,
+knowledge base tools, facet-derived filter hints, OpenAI-compatible models/vectorizers,
+ingestion caches, random scoring, and asynchronous File ingestion with operation diagnostics.
+See [the November preview sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples-dev/novemberPreview.ts).
+`beginIngestKnowledgeSourceFile` and `beginReplaceKnowledgeSourceFile` return thenable
+`@azure/core-lro` pollers: do not await the initial call when retaining the poller;
+use `pollUntilDone()` to wait for its typed file result.
+
 [Azure AI Search](https://learn.microsoft.com/azure/search/) (formerly known as "Azure Cognitive Search") is an AI-powered information retrieval platform that helps developers build rich search experiences and generative AI apps that combine large language models with enterprise data.
 
 The Azure AI Search service is well suited for the following application scenarios:

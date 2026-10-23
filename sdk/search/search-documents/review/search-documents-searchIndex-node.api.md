@@ -4,13 +4,17 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { NodeReadableStream } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { KeyCredential } from '@azure/core-auth';
+import type { NodeReadableStream } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState as OperationState_2 } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AnalyzeTextOptionalParams extends OperationOptions {
@@ -160,6 +164,12 @@ export interface GetKnowledgeBaseOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface GetKnowledgeSourceFileIngestionOperationOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+}
+
+// @public
 export interface GetKnowledgeSourceOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
@@ -184,13 +194,15 @@ export interface GetSynonymMapOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GetSynonymMapsOptionalParams extends OperationOptions {
-    accept?: "application/json;odata.metadata=minimal";
+export interface IngestKnowledgeSourceFileMultipartOptionalParams extends OperationOptions {
     clientRequestId?: string;
-    pageSize?: number;
-    search?: string;
-    searchType?: ListingSearchType;
-    select?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IngestKnowledgeSourceFileReplacementOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -240,6 +252,14 @@ export interface ListKnowledgeBasesOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ListKnowledgeSourceFileIngestionOperationsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    continuationToken?: string;
+    pageSize?: number;
+}
+
+// @public
 export interface ListKnowledgeSourceFilesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
@@ -258,46 +278,70 @@ export interface ListKnowledgeSourcesOptionalParams extends OperationOptions {
     searchType?: ListingSearchType;
 }
 
+// @public
+export interface ListSynonymMapsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: SearchIndexClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
 // @public (undocumented)
 export class SearchIndexClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: SearchIndexClientOptionalParams);
-    analyzeText(request: AnalyzeTextOptions, name: string, options?: AnalyzeTextOptionalParams): Promise<AnalyzeResult>;
+    analyzeText(name: string, request: AnalyzeTextOptions, options?: AnalyzeTextOptionalParams): Promise<AnalyzeResult>;
     createAlias(alias: SearchAlias, options?: CreateAliasOptionalParams): Promise<SearchAlias>;
     createIndex(index: SearchIndex, options?: CreateIndexOptionalParams): Promise<SearchIndex>;
     createKnowledgeBase(knowledgeBase: KnowledgeBase, options?: CreateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
     createKnowledgeSource(knowledgeSource: KnowledgeSourceUnion, options?: CreateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
-    createOrUpdateAlias(alias: SearchAlias, name: string, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
-    createOrUpdateIndex(index: SearchIndex, name: string, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
-    createOrUpdateKnowledgeBase(knowledgeBase: KnowledgeBase, name: string, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
-    createOrUpdateKnowledgeSource(knowledgeSource: KnowledgeSourceUnion, name: string, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
-    createOrUpdateSynonymMap(synonymMap: SynonymMap, name: string, options?: CreateOrUpdateSynonymMapOptionalParams): Promise<SynonymMap>;
+    createOrUpdateAlias(name: string, alias: SearchAlias, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
+    createOrUpdateIndex(name: string, index: SearchIndex, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
+    createOrUpdateKnowledgeBase(name: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
+    createOrUpdateKnowledgeSource(name: string, knowledgeSource: KnowledgeSourceUnion, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
+    createOrUpdateSynonymMap(name: string, synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptionalParams): Promise<SynonymMap>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptionalParams): Promise<SynonymMap>;
     deleteAlias(name: string, options?: DeleteAliasOptionalParams): Promise<void>;
     deleteIndex(name: string, options?: DeleteIndexOptionalParams): Promise<void>;
     deleteKnowledgeBase(name: string, options?: DeleteKnowledgeBaseOptionalParams): Promise<void>;
     deleteKnowledgeSource(name: string, options?: DeleteKnowledgeSourceOptionalParams): Promise<void>;
-    deleteKnowledgeSourceFile(fileId: string, name: string, options?: DeleteKnowledgeSourceFileOptionalParams): Promise<void>;
+    deleteKnowledgeSourceFile(name: string, fileId: string, options?: DeleteKnowledgeSourceFileOptionalParams): Promise<void>;
     deleteSynonymMap(name: string, options?: DeleteSynonymMapOptionalParams): Promise<void>;
     getAlias(name: string, options?: GetAliasOptionalParams): Promise<SearchAlias>;
     getIndex(name: string, options?: GetIndexOptionalParams): Promise<SearchIndex>;
     getIndexStatistics(name: string, options?: GetIndexStatisticsOptionalParams): Promise<GetIndexStatisticsResult>;
     getKnowledgeBase(name: string, options?: GetKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
     getKnowledgeSource(name: string, options?: GetKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
+    getKnowledgeSourceFileIngestionOperation(name: string, operationId: string, options?: GetKnowledgeSourceFileIngestionOperationOptionalParams): Promise<KnowledgeSourceFileIngestionOperation>;
     getKnowledgeSourceStatus(name: string, options?: GetKnowledgeSourceStatusOptionalParams): Promise<KnowledgeSourceStatus>;
     getServiceStatistics(options?: GetServiceStatisticsOptionalParams): Promise<SearchServiceStatistics>;
     getSynonymMap(name: string, options?: GetSynonymMapOptionalParams): Promise<SynonymMap>;
-    getSynonymMaps(options?: GetSynonymMapsOptionalParams): PagedAsyncIterableIterator<SynonymMap>;
+    ingestKnowledgeSourceFileMultipart(name: string, body: UploadKnowledgeSourceFileMultipartRequest, options?: IngestKnowledgeSourceFileMultipartOptionalParams): PollerLike<OperationState_2<KnowledgeSourceFile>, KnowledgeSourceFile>;
+    ingestKnowledgeSourceFileReplacement(name: string, fileId: string, body: UpdateKnowledgeSourceFileRequest, options?: IngestKnowledgeSourceFileReplacementOptionalParams): PollerLike<OperationState_2<KnowledgeSourceFile>, KnowledgeSourceFile>;
     listAliases(options?: ListAliasesOptionalParams): PagedAsyncIterableIterator<SearchAlias>;
     listIndexes(options?: ListIndexesOptionalParams): PagedAsyncIterableIterator<SearchIndex>;
     listIndexesWithSelectedProperties(options?: ListIndexesWithSelectedPropertiesOptionalParams): PagedAsyncIterableIterator<SearchIndexResponse>;
     listIndexStatsSummary(options?: ListIndexStatsSummaryOptionalParams): PagedAsyncIterableIterator<IndexStatisticsSummary>;
     listKnowledgeBases(options?: ListKnowledgeBasesOptionalParams): PagedAsyncIterableIterator<KnowledgeBase>;
+    listKnowledgeSourceFileIngestionOperations(name: string, options?: ListKnowledgeSourceFileIngestionOperationsOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceFileIngestionOperation>;
     listKnowledgeSourceFiles(name: string, options?: ListKnowledgeSourceFilesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceFile>;
     listKnowledgeSources(options?: ListKnowledgeSourcesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceUnion>;
+    listSynonymMaps(options?: ListSynonymMapsOptionalParams): PagedAsyncIterableIterator<SynonymMap>;
     readonly pipeline: Pipeline;
-    updateKnowledgeSourceFile(fileId: string, body: UpdateKnowledgeSourceFileRequest, name: string, options?: UpdateKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
-    uploadKnowledgeSourceFile(contentDisposition: string, file: Uint8Array, name: string, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
-    uploadKnowledgeSourceFileMultipart(body: UploadKnowledgeSourceFileMultipartRequest, name: string, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;
+    updateKnowledgeSourceFile(name: string, fileId: string, body: UpdateKnowledgeSourceFileRequest, options?: UpdateKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
+    uploadKnowledgeSourceFile(name: string, contentDisposition: string, file: Uint8Array, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
+    uploadKnowledgeSourceFileMultipart(name: string, body: UploadKnowledgeSourceFileMultipartRequest, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;
 }
 
 // @public

@@ -24,6 +24,7 @@ import type { SearchClientOptionalParams } from "./search/searchClient.js";
 import { SearchClient as GeneratedClient } from "./search/searchClient.js";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 import type {
+  GraphOptions,
   AutocompleteOptions,
   CountDocumentsOptions,
   DeleteDocumentsOptions,
@@ -51,6 +52,7 @@ import type {
   VectorQuery,
   VectorizableImageBinaryQuery,
 } from "./indexModels.js";
+import type { GraphQueryResult } from "./models/azure/search/documents/index.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
@@ -95,6 +97,20 @@ export interface SearchClientOptions extends ClientOptions {
  * adding, updating, and removing them.
  */
 export class SearchClient<TModel extends object> implements IndexDocumentsClient<TModel> {
+  /**
+   * Executes a graph query over an index configured with an edge-list graph profile.
+   * @param gql - The graph query expression.
+   * @param options - Graph constraints, provenance, and diagnostic options.
+   */
+  public async graph(gql: string, options: GraphOptions<TModel> = {}): Promise<GraphQueryResult> {
+    return tracingClient.withSpan("SearchClient-graph", options, async (updatedOptions) => {
+      const { vectorQueries, ...rest } = updatedOptions;
+      return this.client.graph(gql, {
+        ...rest,
+        vectorQueries: vectorQueries?.map(this.convertVectorQuery.bind(this)),
+      });
+    });
+  }
   /// Maintenance note: when updating supported API versions,
   /// the ContinuationToken logic will need to be updated below.
 

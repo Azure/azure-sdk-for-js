@@ -149,7 +149,7 @@ describe("convenience layer carries generated fields", () => {
     assert.include(url, "search=prod");
     assert.include(url, "pageSize=5");
     assert.include(url, "searchType=prefix");
-    assert.include(url, "api-version=2026-08-01-preview");
+    assert.include(url, "api-version=2026-11-01-preview");
   });
 
   it("forwards listing parameters for synonym maps, indexers, data sources, and skillsets", async () => {
@@ -168,7 +168,7 @@ describe("convenience layer carries generated fields", () => {
       assert.include(request.url, "search=prod");
       assert.include(request.url, "pageSize=2");
       assert.include(request.url, "searchType=prefix");
-      assert.include(request.url, "api-version=2026-08-01-preview");
+      assert.include(request.url, "api-version=2026-11-01-preview");
     }
   });
 

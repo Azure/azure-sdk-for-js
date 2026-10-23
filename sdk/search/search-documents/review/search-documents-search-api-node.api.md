@@ -69,6 +69,25 @@ export interface GetDocumentOptionalParams extends OperationOptions {
 }
 
 // @public
+export function graph(context: SearchContext, gql: string, options?: GraphOptionalParams): Promise<GraphQueryResult>;
+
+// @public
+export interface GraphOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
+    clientRequestId?: string;
+    enableElevatedRead?: boolean;
+    executionMode?: GraphQueryExecutionMode;
+    explain?: GraphQueryExplainStage[];
+    filter?: string;
+    includeDiagnostics?: boolean;
+    includeStatistics?: boolean;
+    provenance?: GraphQueryProvenanceParameters;
+    querySourceAuthorization?: string;
+    search?: string;
+    vectorQueries?: VectorQueryUnion[];
+}
+
+// @public
 export function index(context: SearchContext, batch: IndexDocumentsBatch, options?: IndexOptionalParams): Promise<IndexDocumentsResult>;
 
 // @public
@@ -94,6 +113,7 @@ export function searchGet(context: SearchContext, options?: SearchGetOptionalPar
 // @public
 export interface SearchGetOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=none";
+    agenticMaxRuntimeInSeconds?: number;
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
@@ -106,6 +126,7 @@ export interface SearchGetOptionalParams extends OperationOptions {
     highlightPreTag?: string;
     includeTotalResultCount?: boolean;
     minimumCoverage?: number;
+    moreLikeThis?: string;
     orderBy?: string;
     queryLanguage?: QueryLanguage;
     queryRewrites?: QueryRewritesType;
@@ -135,6 +156,7 @@ export function searchPost(context: SearchContext, options?: SearchPostOptionalP
 // @public
 export interface SearchPostOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=none";
+    agenticOptions?: AgenticSearchOptions;
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
@@ -148,6 +170,7 @@ export interface SearchPostOptionalParams extends OperationOptions {
     hybridSearch?: HybridSearch;
     includeTotalCount?: boolean;
     minimumCoverage?: number;
+    moreLikeThis?: string;
     orderBy?: string;
     queryLanguage?: QueryLanguage;
     queryRewrites?: QueryRewritesType;
