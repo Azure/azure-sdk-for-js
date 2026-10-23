@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2026-10-13)
+## 4.0.0 (2026-11-01)
 
 ### Features Added
   - Added operation NetworkSecurityPerimeterConfigurationsOperations.reconcile
