@@ -333,7 +333,7 @@ export interface DiverseVectorQueryTopicGraph extends VectorQueryTopicGraph {
   kind: "diverse";
   /** The diversity factor used for topic graph diverse retrieval. If omitted, the default configured on the topic graph profile is used. */
   diversityFactor?: number;
-  /** The minimum number of vector candidates to retrieve before topic graph sampling. The default is 1,000 for classic services and 500 for serverless services. */
+  /** The minimum number of vector candidates to retrieve before topic graph sampling. The default is 1,000. */
   minDiversityPoolSize?: number;
 }
 
@@ -357,7 +357,7 @@ export function diverseVectorQueryTopicGraphDeserializer(item: any): DiverseVect
 export interface BalancedVectorQueryTopicGraph extends VectorQueryTopicGraph {
   /** The discriminator value. */
   kind: "balanced";
-  /** The minimum number of vector candidates to retrieve before topic graph sampling. The default is 1,000 for classic services and 500 for serverless services. */
+  /** The minimum number of vector candidates to retrieve before topic graph sampling. The default is 1,000. */
   minDiversityPoolSize?: number;
 }
 

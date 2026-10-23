@@ -5,7 +5,7 @@
 The unreleased `13.1.0-beta.3` targets `2026-11-01-preview` by default. Set
 `serviceVersion` in client options to continue using a supported earlier API.
 Generation is pinned to [REST API specifications PR #47300](https://github.com/Azure/azure-rest-api-specs/pull/47300),
-commit `2c0ca3a8b788bc866d2312b72bc05b49b048973d`; no release date is confirmed.
+commit `b41ba04c0219f6622b7f5214fc020f90bad339ae`; no release date is confirmed.
 
 New capabilities include graph queries and diagnostics, topic-graph vector retrieval,
 knowledge base tools, facet-derived filter hints, OpenAI-compatible models/vectorizers,

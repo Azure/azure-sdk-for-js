@@ -5482,7 +5482,7 @@ export interface VectorSearchTopicGraphProfile {
   defaultKind: VectorSearchTopicGraphKind;
   /** Default diversity factor for topic graph vector searches. This property can only be used when `defaultKind` is `diverse`. Default is 0.2. */
   defaultDiversityFactor?: number;
-  /** Default minimum number of vector candidates to retrieve before topic graph sampling. This property can only be used when `defaultKind` is `diverse` or `balanced`. The default is 1,000 for classic services and 500 for serverless services. */
+  /** Default minimum number of vector candidates to retrieve before topic graph sampling. This property can only be used when `defaultKind` is `diverse` or `balanced`. The default is 1,000. */
   defaultMinDiversityPoolSize?: number;
 }
 

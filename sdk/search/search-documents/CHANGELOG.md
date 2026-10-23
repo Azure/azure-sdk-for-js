@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added support for `2026-11-01-preview`, generated from Azure/azure-rest-api-specs commit `2c0ca3a8b788bc866d2312b72bc05b49b048973d` (PR #47300). This is now the default service version; explicit stable and older preview versions remain selectable.
+- Added support for `2026-11-01-preview`, generated from Azure/azure-rest-api-specs commit `b41ba04c0219f6622b7f5214fc020f90bad339ae` (PR #47300). This is now the default service version; explicit stable and older preview versions remain selectable.
 - Added `SearchClient.graph` with typed graph rows, provenance, statistics, diagnostics, explain plans, and structured query errors, plus graph index profiles and knowledge source graph extraction/retrieval configuration.
 - Added topic-graph `none`, `diverse`, and `balanced` vector queries, topic graph profiles, and per-field/per-knowledge-source configuration.
 - Added knowledge base tools, tool-scoped retrieval, graph-search activities/references, facet-based filter hint `autoConfiguration`, OpenAI-compatible models/vectorizers, Microsoft Retriever 1, and ingestion cache settings.
