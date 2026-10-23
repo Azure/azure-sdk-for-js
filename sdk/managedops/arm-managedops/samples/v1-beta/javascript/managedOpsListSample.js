@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all ManagedOps instances in the subscription.
  *
  * @summary list all ManagedOps instances in the subscription.
- * x-ms-original-file: 2025-07-28-preview/ManagedOps_List.json
+ * x-ms-original-file: 2026-01-06-preview/ManagedOps_List.json
  */
 async function managedOpsList() {
   const credential = new DefaultAzureCredential();

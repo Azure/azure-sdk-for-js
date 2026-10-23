@@ -4,12 +4,12 @@ These sample programs show how to use the JavaScript client libraries for @azure
 
 | **File Name**                                                       | **Description**                                                                                                         |
 | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| [managedOpsCreateOrUpdateSample.js][managedopscreateorupdatesample] | creates or updates the ManagedOps instance. x-ms-original-file: 2025-07-28-preview/ManagedOps_CreateOrUpdate.json       |
-| [managedOpsDeleteSample.js][managedopsdeletesample]                 | deletes the ManagedOps instance. x-ms-original-file: 2025-07-28-preview/ManagedOps_Delete.json                          |
-| [managedOpsGetSample.js][managedopsgetsample]                       | gets the information of the ManagedOps instance. x-ms-original-file: 2025-07-28-preview/ManagedOps_Get.json             |
-| [managedOpsListSample.js][managedopslistsample]                     | list all ManagedOps instances in the subscription. x-ms-original-file: 2025-07-28-preview/ManagedOps_List.json          |
-| [managedOpsUpdateSample.js][managedopsupdatesample]                 | updates the ManagedOps instance with the supplied fields. x-ms-original-file: 2025-07-28-preview/ManagedOps_Update.json |
-| [operationsListSample.js][operationslistsample]                     | list the operations for the provider x-ms-original-file: 2025-07-28-preview/Operations_List.json                        |
+| [managedOpsCreateOrUpdateSample.js][managedopscreateorupdatesample] | creates or updates the ManagedOps instance. x-ms-original-file: 2026-01-06-preview/ManagedOps_CreateOrUpdate.json       |
+| [managedOpsDeleteSample.js][managedopsdeletesample]                 | deletes the ManagedOps instance. x-ms-original-file: 2026-01-06-preview/ManagedOps_Delete.json                          |
+| [managedOpsGetSample.js][managedopsgetsample]                       | gets the information of the ManagedOps instance. x-ms-original-file: 2026-01-06-preview/ManagedOps_Get.json             |
+| [managedOpsListSample.js][managedopslistsample]                     | list all ManagedOps instances in the subscription. x-ms-original-file: 2026-01-06-preview/ManagedOps_List.json          |
+| [managedOpsUpdateSample.js][managedopsupdatesample]                 | updates the ManagedOps instance with the supplied fields. x-ms-original-file: 2026-01-06-preview/ManagedOps_Update.json |
+| [operationsListSample.js][operationslistsample]                     | list the operations for the provider x-ms-original-file: 2026-01-06-preview/Operations_List.json                        |
 
 ## Prerequisites
 
