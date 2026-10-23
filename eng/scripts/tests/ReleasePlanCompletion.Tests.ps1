@@ -5,8 +5,8 @@ BeforeAll {
   Import-Module powershell-yaml -ErrorAction Stop
   $repoRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
   $release = ConvertFrom-Yaml (Get-Content (Join-Path $repoRoot 'eng/pipelines/templates/stages/archetype-js-release.yml') -Raw) -Ordered
-  $autoGuard = '${{ if and(eq(variables[''Build.Reason''], ''IndividualCI''), eq(variables[''Build.SourceBranch''], ''refs/heads/main'')) }}'
-  $outputExpression = '$[ stageDependencies.AutoReleasePrepare.ResolveAutoReleasePackages.outputs[''resolve.AutoReleaseSdkPullRequestUrl''] ]'
+  $script:autoGuard = '${{ if and(eq(variables[''Build.Reason''], ''IndividualCI''), eq(variables[''Build.SourceBranch''], ''refs/heads/main'')) }}'
+  $script:outputExpression = '$[ stageDependencies.AutoReleasePrepare.ResolveAutoReleasePackages.outputs[''resolve.AutoReleaseSdkPullRequestUrl''] ]'
 
   function Find-PipelineNode($Node, [string] $Key, [string] $Value) {
     if ($Node -is [System.Collections.IDictionary]) {
@@ -18,9 +18,9 @@ BeforeAll {
   }
 
   $stages = @(Find-PipelineNode $release 'stage' 'Release_${{artifact.safename}}')
-  $stage = $stages[0]
+  $script:stage = $stages[0]
   $completionSteps = @(Find-PipelineNode $release 'template' '/eng/common/pipelines/templates/steps/mark-release-completion.yml')
-  $completion = $completionSteps[0]
+  $script:completion = $completionSteps[0]
 }
 
 Describe 'Auto-release plan completion correlation' -Tag 'UnitTest' {
