@@ -1,0 +1,25 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { IotHubClient } from "@azure/arm-iothub";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to delete an IoT hub.
+ *
+ * @summary delete an IoT hub.
+ * x-ms-original-file: 2026-11-01/iothub_delete.json
+ */
+async function iotHubResourceDelete(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const client = new IotHubClient(credential, subscriptionId);
+  const result = await client.iotHubResource.delete("myResourceGroup", "testHub");
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await iotHubResourceDelete();
+}
+
+main().catch(console.error);
