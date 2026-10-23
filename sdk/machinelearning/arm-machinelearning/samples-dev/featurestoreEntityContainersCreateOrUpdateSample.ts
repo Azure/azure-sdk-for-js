@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update container.
  *
  * @summary create or update container.
- * x-ms-original-file: 2026-03-15-preview/Workspace/FeaturestoreEntityContainer/createOrUpdate.json
+ * x-ms-original-file: 2026-09-01/Workspace/FeaturestoreEntityContainer/createOrUpdate.json
  */
 async function createOrUpdateWorkspaceFeaturestoreEntityContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

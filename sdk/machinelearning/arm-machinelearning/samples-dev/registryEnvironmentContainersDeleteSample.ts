@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete container.
  *
  * @summary delete container.
- * x-ms-original-file: 2026-03-15-preview/Registry/EnvironmentContainer/delete.json
+ * x-ms-original-file: 2026-09-01/Registry/EnvironmentContainer/delete.json
  */
 async function deleteRegistryEnvironmentContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();
