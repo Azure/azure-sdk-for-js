@@ -39,6 +39,26 @@ describe("storageRetryPolicy", () => {
     await finished(droppedBody);
   });
 
+  it("retries when the body of a response it retries fails while draining", async () => {
+    const drainError = new Error("The connection was reset while the body was read.");
+    const droppedBody = new Readable({
+      read() {
+        this.destroy(drainError);
+      },
+    });
+    const responses: PipelineResponse[] = [
+      { request, status: 503, headers: createHttpHeaders(), readableStreamBody: droppedBody },
+      { request, status: 200, headers: createHttpHeaders() },
+    ];
+
+    const response = await storageRetryPolicy(retryOptions).sendRequest(request, async () =>
+      responses.shift()!,
+    );
+
+    assert.equal(response.status, 200);
+    assert.strictEqual(droppedBody.errored, drainError);
+  });
+
   it("cancels the web stream body of a response it retries", async () => {
     let cancelled = false;
     const droppedBody = new ReadableStream<Uint8Array>({

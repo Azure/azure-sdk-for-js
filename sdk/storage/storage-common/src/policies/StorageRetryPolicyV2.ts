@@ -47,16 +47,26 @@ const RETRY_ABORT_ERROR = new AbortError("The operation was aborted.");
 /**
  * Releases the body of a response that is dropped for a retry. A streamed body that is never read
  * keeps its connection busy until the server closes it. Node.js bodies are drained rather than
- * destroyed, so the connection can be reused; error bodies are small.
+ * destroyed, so the connection can be reused; error bodies are small. Errors while releasing a body
+ * are logged and don't stop the retry.
  *
  * The parameters name only the members used here, because each platform build types only its own
  * body kind.
  */
 async function releaseResponseBody(
-  nodeBody: { resume(): unknown } | undefined,
+  nodeBody:
+    | { on(event: "error", listener: (error: unknown) => void): unknown; resume(): unknown }
+    | undefined,
   browserBody: { cancel(): Promise<void> } | undefined,
 ): Promise<void> {
-  nodeBody?.resume();
+  if (nodeBody) {
+    // Nothing else reads a dropped body, and Node.js throws an "error" event that has no listener
+    // as an uncaught exception.
+    nodeBody.on("error", (e: unknown) => {
+      logger.warning(`RetryPolicy: Failed to drain the response body: ${getErrorMessage(e)}`);
+    });
+    nodeBody.resume();
+  }
   try {
     await browserBody?.cancel();
   } catch (e: unknown) {
