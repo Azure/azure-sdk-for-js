@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to removes a content from AzureFrontDoor.
  *
  * @summary removes a content from AzureFrontDoor.
- * x-ms-original-file: 2025-12-01/AFDEndpoints_PurgeContent.json
+ * x-ms-original-file: 2026-07-01/AFDEndpoints_PurgeContent.json
  */
 async function afdEndpointsPurgeContent(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing domain within a profile.
  *
  * @summary updates an existing domain within a profile.
- * x-ms-original-file: 2025-12-01/AFDCustomDomains_Update.json
+ * x-ms-original-file: 2026-07-01/AFDCustomDomains_Update.json
  */
 async function afdCustomDomainsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,6 +24,8 @@ async function afdCustomDomainsUpdate(): Promise<void> {
         cipherSuiteSetForTls13: ["TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384"],
       },
       minimumTlsVersion: "TLS12",
+      serverTlsGroupPolicy: "Custom",
+      serverTlsGroups: ["X25519MLKEM768", "SecP256r1MLKEM768", "X25519", "prime256v1"],
     },
   });
   console.log(result);

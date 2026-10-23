@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks the quota and actual usage of endpoints under the given Azure Front Door profile.
  *
  * @summary checks the quota and actual usage of endpoints under the given Azure Front Door profile.
- * x-ms-original-file: 2025-12-01/AFDEndpoints_ListResourceUsage.json
+ * x-ms-original-file: 2026-07-01/AFDEndpoints_ListResourceUsage.json
  */
 async function afdEndpointsListResourceUsage(): Promise<void> {
   const credential = new DefaultAzureCredential();

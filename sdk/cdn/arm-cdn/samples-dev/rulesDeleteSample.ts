@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing delivery rule within a rule set.
  *
  * @summary deletes an existing delivery rule within a rule set.
- * x-ms-original-file: 2025-12-01/Rules_Delete.json
+ * x-ms-original-file: 2026-07-01/Rules_Delete.json
  */
 async function rulesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

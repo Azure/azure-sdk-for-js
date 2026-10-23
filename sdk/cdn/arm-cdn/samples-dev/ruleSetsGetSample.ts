@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an existing AzureFrontDoor rule set with the specified rule set name under the specified subscription, resource group and profile.
  *
  * @summary gets an existing AzureFrontDoor rule set with the specified rule set name under the specified subscription, resource group and profile.
- * x-ms-original-file: 2025-12-01/RuleSets_Get.json
+ * x-ms-original-file: 2026-07-01/RuleSets_Get.json
  */
 async function ruleSetsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

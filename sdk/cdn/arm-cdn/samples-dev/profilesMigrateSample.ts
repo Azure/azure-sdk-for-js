@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be committed after this.
  *
  * @summary migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be committed after this.
- * x-ms-original-file: 2025-12-01/Profiles_Migrate.json
+ * x-ms-original-file: 2026-07-01/Profiles_Migrate.json
  */
 async function profilesMigrate(): Promise<void> {
   const credential = new DefaultAzureCredential();

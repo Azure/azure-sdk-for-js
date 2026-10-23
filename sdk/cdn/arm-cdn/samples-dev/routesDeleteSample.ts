@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
  *
  * @summary deletes an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
- * x-ms-original-file: 2025-12-01/Routes_Delete.json
+ * x-ms-original-file: 2026-07-01/Routes_Delete.json
  */
 async function routesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

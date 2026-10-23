@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing custom domain within an endpoint.
  *
  * @summary deletes an existing custom domain within an endpoint.
- * x-ms-original-file: 2025-12-01/CustomDomains_Delete.json
+ * x-ms-original-file: 2026-07-01/CustomDomains_Delete.json
  */
 async function customDomainsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

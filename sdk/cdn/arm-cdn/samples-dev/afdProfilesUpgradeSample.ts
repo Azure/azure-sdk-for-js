@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
  *
  * @summary upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
- * x-ms-original-file: 2025-12-01/AFDProfiles_Upgrade.json
+ * x-ms-original-file: 2026-07-01/AFDProfiles_Upgrade.json
  */
 async function afdProfilesUpgrade(): Promise<void> {
   const credential = new DefaultAzureCredential();

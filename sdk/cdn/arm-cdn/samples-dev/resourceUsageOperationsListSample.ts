@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check the quota and actual usage of the CDN profiles under the given subscription.
  *
  * @summary check the quota and actual usage of the CDN profiles under the given subscription.
- * x-ms-original-file: 2025-12-01/ResourceUsage_List.json
+ * x-ms-original-file: 2026-07-01/ResourceUsage_List.json
  */
 async function resourceUsageList(): Promise<void> {
   const credential = new DefaultAzureCredential();

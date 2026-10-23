@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
  *
  * @summary validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
- * x-ms-original-file: 2025-12-01/Endpoints_ValidateCustomDomain.json
+ * x-ms-original-file: 2026-07-01/Endpoints_ValidateCustomDomain.json
  */
 async function endpointsValidateCustomDomain(): Promise<void> {
   const credential = new DefaultAzureCredential();

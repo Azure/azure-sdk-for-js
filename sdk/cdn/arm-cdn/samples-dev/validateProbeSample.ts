@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check if the probe path is a valid path and the file can be accessed. Probe path is the path to a file hosted on the origin server to help accelerate the delivery of dynamic content via the CDN endpoint. This path is relative to the origin path specified in the endpoint configuration.
  *
  * @summary check if the probe path is a valid path and the file can be accessed. Probe path is the path to a file hosted on the origin server to help accelerate the delivery of dynamic content via the CDN endpoint. This path is relative to the origin path specified in the endpoint configuration.
- * x-ms-original-file: 2025-12-01/ValidateProbe.json
+ * x-ms-original-file: 2026-07-01/ValidateProbe.json
  */
 async function validateProbe(): Promise<void> {
   const credential = new DefaultAzureCredential();
