@@ -1,9 +1,96 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TokenCredential } from "@azure/core-auth";
+import type { GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { createTokenCycler, DEFAULT_CYCLER_OPTIONS } from "../../src/util/tokenCycler.js";
+
+const requestIdentityCases: Array<{
+  name: string;
+  firstScopes: string | string[];
+  secondScopes: string | string[];
+  firstOptions: GetTokenOptions;
+  secondOptions: GetTokenOptions;
+}> = [
+  {
+    name: "scopes",
+    firstScopes: ["scope-A"],
+    secondScopes: ["scope-B"],
+    firstOptions: {},
+    secondOptions: {},
+  },
+  {
+    name: "tenantId",
+    firstScopes: ["scope"],
+    secondScopes: ["scope"],
+    firstOptions: { tenantId: "tenant-A" },
+    secondOptions: { tenantId: "tenant-B" },
+  },
+  {
+    name: "enableCae",
+    firstScopes: ["scope"],
+    secondScopes: ["scope"],
+    firstOptions: { enableCae: false },
+    secondOptions: { enableCae: true },
+  },
+  {
+    name: "proof-of-possession nonce",
+    firstScopes: ["scope"],
+    secondScopes: ["scope"],
+    firstOptions: {
+      proofOfPossessionOptions: {
+        nonce: "nonce-A",
+        resourceRequestMethod: "GET",
+        resourceRequestUrl: "https://example.test/resource",
+      },
+    },
+    secondOptions: {
+      proofOfPossessionOptions: {
+        nonce: "nonce-B",
+        resourceRequestMethod: "GET",
+        resourceRequestUrl: "https://example.test/resource",
+      },
+    },
+  },
+  {
+    name: "proof-of-possession request method",
+    firstScopes: ["scope"],
+    secondScopes: ["scope"],
+    firstOptions: {
+      proofOfPossessionOptions: {
+        nonce: "nonce",
+        resourceRequestMethod: "GET",
+        resourceRequestUrl: "https://example.test/resource",
+      },
+    },
+    secondOptions: {
+      proofOfPossessionOptions: {
+        nonce: "nonce",
+        resourceRequestMethod: "POST",
+        resourceRequestUrl: "https://example.test/resource",
+      },
+    },
+  },
+  {
+    name: "proof-of-possession request URL",
+    firstScopes: ["scope"],
+    secondScopes: ["scope"],
+    firstOptions: {
+      proofOfPossessionOptions: {
+        nonce: "nonce",
+        resourceRequestMethod: "GET",
+        resourceRequestUrl: "https://example.test/resource-A",
+      },
+    },
+    secondOptions: {
+      proofOfPossessionOptions: {
+        nonce: "nonce",
+        resourceRequestMethod: "GET",
+        resourceRequestUrl: "https://example.test/resource-B",
+      },
+    },
+  },
+];
 
 describe("tokenCycler", function () {
   beforeEach(() => {
@@ -30,6 +117,47 @@ describe("tokenCycler", function () {
     // Since Date.now() >= refreshTimeout, it goes to else branch, calls getToken which returns null, throws.
     await expect(getAccessToken(["scope"], {})).rejects.toThrow("Failed to refresh access token.");
   });
+
+  for (const testCase of requestIdentityCases) {
+    it(`keeps overlapping refreshes with different ${testCase.name} values isolated`, async function () {
+      const resolvers: Array<(token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void> =
+        [];
+      const getToken = vi.fn<TokenCredential["getToken"]>(
+        () =>
+          new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+            resolvers.push(resolve);
+          }),
+      );
+      const getAccessToken = createTokenCycler({ getToken });
+
+      const firstRefresh = getAccessToken(testCase.firstScopes, testCase.firstOptions);
+      const secondRefresh = getAccessToken(testCase.secondScopes, testCase.secondOptions);
+
+      expect(getToken).toHaveBeenCalledTimes(2);
+      resolvers[1]!({ token: "second", expiresOnTimestamp: Date.now() + 300_000 });
+      await expect(secondRefresh).resolves.toMatchObject({ token: "second" });
+
+      resolvers[0]!({ token: "first", expiresOnTimestamp: Date.now() + 300_000 });
+      await expect(firstRefresh).resolves.toMatchObject({ token: "first" });
+    });
+
+    it(`deduplicates overlapping refreshes with matching ${testCase.name} values`, async function () {
+      let resolveToken: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+      const token = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+        resolveToken = resolve;
+      });
+      const getToken = vi.fn<TokenCredential["getToken"]>(() => token);
+      const getAccessToken = createTokenCycler({ getToken });
+
+      const firstRefresh = getAccessToken(testCase.firstScopes, testCase.firstOptions);
+      const matchingRefresh = getAccessToken(testCase.firstScopes, testCase.firstOptions);
+
+      expect(getToken).toHaveBeenCalledOnce();
+      resolveToken!({ token: "shared", expiresOnTimestamp: Date.now() + 300_000 });
+      await expect(firstRefresh).resolves.toMatchObject({ token: "shared" });
+      await expect(matchingRefresh).resolves.toMatchObject({ token: "shared" });
+    });
+  }
 
   it("does not share an ordinary in-flight refresh with a claims challenge", async function () {
     let resolveOrdinary: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
