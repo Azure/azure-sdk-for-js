@@ -1,0 +1,53 @@
+{
+  "folders": [
+    {
+      "name": "repository",
+      "path": "."
+    },
+    {
+      "name": "core",
+      "path": "sdk\\core"
+    },
+    {
+      "name": "identity",
+      "path": "sdk\\identity"
+    },
+    {
+      "name": "template",
+      "path": "sdk\\template"
+    },
+    {
+      "name": "storage",
+      "path": "sdk\\storage"
+    },
+    {
+      "name": "tables",
+      "path": "sdk\\tables"
+    },
+    {
+      "name": "cosmos",
+      "path": "sdk\\cosmosdb"
+    },
+    {
+      "name": "notification-hubs",
+      "path": "sdk\\notificationhubs\\notification-hubs"
+    },
+    {
+      "name": "test-utils",
+      "path": "sdk\\test-utils"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "sdk": true
+    },
+    "search.exclude": {
+      "sdk": true
+    },
+    "typescript.disableAutomaticTypeAcquisition": true,
+    "typescript.preferences.includePackageJsonAutoImports": "off",
+    "javascript.preferences.includePackageJsonAutoImports": "off",
+    "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+    "typescript.tsdk": "sdk\\core\\core-rest-pipeline\\node_modules\\typescript\\lib"
+  }
+}

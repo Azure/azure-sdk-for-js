@@ -169,7 +169,7 @@ code-model-*
 
 # code workspaces
 *.code-workspace
-!/dataplane.code-workspace
+!/core.code-workspace
 
 # CPU profiles
 *.cpuprofile
