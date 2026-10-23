@@ -6,6 +6,15 @@ export default [
     ignores: ["test/esm-app/**"],
   },
   {
+    files: ["**/package.json"],
+    rules: {
+      "@azure/azure-sdk/ts-package-json-engine-is-present": [
+        "error",
+        { nodeVersionOverride: "^22.23.4 || ^24.22.1 || >=26.12.1" },
+      ],
+    },
+  },
+  {
     // Grandfathered (approved advanced case). monitor-opentelemetry legitimately uses
     // createRequire() to optionally load platform integrations (e.g. `@azure/functions-core`)
     // and to bridge ESM/CJS `require`. Scoped to these files so new dynamic loads elsewhere
@@ -26,15 +35,15 @@ export default [
       "no-underscore-dangle": [
         "error",
         {
-          "allowAfterThis": true
-        }
+          allowAfterThis: true,
+        },
       ],
       "n/no-unsupported-features/es-syntax": [
         "error",
         {
-          "ignores": ["modules"]
-        }
-      ]
+          ignores: ["modules"],
+        },
+      ],
     },
   },
 ];

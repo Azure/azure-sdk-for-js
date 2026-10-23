@@ -42,6 +42,8 @@ steps:
 
   - pwsh: |
       node eng/tools/check-pipeline-templates.mjs
+      if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      node --test eng/tools/test-node-security-baseline.mjs
     displayName: "Check pipeline template structure"
 
   - template: /eng/common/pipelines/templates/steps/verify-samples.yml

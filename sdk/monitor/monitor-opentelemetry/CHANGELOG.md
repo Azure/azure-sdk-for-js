@@ -8,6 +8,8 @@
 
 ### Breaking Changes
 
+- Raised the Node.js security baseline to 22.23.4 on Node.js 22, 24.22.1 on Node.js 24, and 26.12.1 on Node.js 26. Older patches and end-of-life releases are no longer supported. Upgrade the application runtime separately; installing the SDK does not patch Node.js. See the [October 21, 2026 Node.js security release](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
+
 ### Bugs Fixed
 
 - Live Metrics subscriptions and background metric collectors are now cleaned up on distro shutdown and reinitialization. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)

@@ -214,7 +214,11 @@ ${table(info)}
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).${
+      info.nodeEngine
+        ? `\n\nNode.js must satisfy \`${info.nodeEngine}\`. Upgrade the runtime separately from npm dependencies; see the [package README][package] for security requirements.`
+        : ""
+    }
 
 ${(() => {
   if (info.useTypeScript) {

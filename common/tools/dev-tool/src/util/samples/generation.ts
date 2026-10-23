@@ -32,6 +32,12 @@ import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "../pnpm.ts";
 const log = createPrinter("generator");
 
 export function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): unknown {
+  if (
+    info.nodeEngine !== undefined &&
+    (!info.nodeEngine.trim() || !semver.validRange(info.nodeEngine))
+  ) {
+    throw new Error(`Invalid sample Node.js engine range: ${info.nodeEngine}`);
+  }
   const fullOutputKind = outputKind === OutputKind.TypeScript ? "TypeScript" : "JavaScript";
   return {
     name: `@azure-samples/${info.baseName}-${outputKind}${info.isBeta ? "-beta" : ""}`,
@@ -41,7 +47,7 @@ export function createPackageJson(info: SampleGenerationInfo, outputKind: Output
       info.isBeta ? " (Beta)" : ""
     }`,
     engines: {
-      node: `>=${MIN_SUPPORTED_NODE_VERSION}`,
+      node: info.nodeEngine ?? `>=${MIN_SUPPORTED_NODE_VERSION}`,
     },
     ...(outputKind === OutputKind.TypeScript
       ? {
