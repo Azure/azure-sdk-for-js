@@ -1,44 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext as Client } from "../index.js";
+import type { WorkloadOrchestrationManagementContext as Client } from "../index.js";
+import type { DynamicSchemaVersion, _DynamicSchemaVersionListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  DynamicSchemaVersion,
   dynamicSchemaVersionSerializer,
   dynamicSchemaVersionDeserializer,
-  _DynamicSchemaVersionListResult,
   _dynamicSchemaVersionListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   DynamicSchemaVersionsListByDynamicSchemaOptionalParams,
   DynamicSchemaVersionsDeleteOptionalParams,
   DynamicSchemaVersionsUpdateOptionalParams,
   DynamicSchemaVersionsCreateOrUpdateOptionalParams,
   DynamicSchemaVersionsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByDynamicSchemaSend(
   context: Client,
   resourceGroupName: string,
   schemaName: string,
   dynamicSchemaName: string,
-  options: DynamicSchemaVersionsListByDynamicSchemaOptionalParams = {
-    requestOptions: {},
-  },
+  options: DynamicSchemaVersionsListByDynamicSchemaOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions{?api%2Dversion}",
@@ -47,7 +38,7 @@ export function _listByDynamicSchemaSend(
       resourceGroupName: resourceGroupName,
       schemaName: schemaName,
       dynamicSchemaName: dynamicSchemaName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,10 +46,7 @@ export function _listByDynamicSchemaSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -68,7 +56,10 @@ export async function _listByDynamicSchemaDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -81,9 +72,7 @@ export function listByDynamicSchema(
   resourceGroupName: string,
   schemaName: string,
   dynamicSchemaName: string,
-  options: DynamicSchemaVersionsListByDynamicSchemaOptionalParams = {
-    requestOptions: {},
-  },
+  options: DynamicSchemaVersionsListByDynamicSchemaOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<DynamicSchemaVersion> {
   return buildPagedAsyncIterator(
     context,
@@ -91,7 +80,11 @@ export function listByDynamicSchema(
       _listByDynamicSchemaSend(context, resourceGroupName, schemaName, dynamicSchemaName, options),
     _listByDynamicSchemaDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -111,7 +104,7 @@ export function _$deleteSend(
       schemaName: schemaName,
       dynamicSchemaName: dynamicSchemaName,
       dynamicSchemaVersionName: dynamicSchemaVersionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,7 +117,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -132,11 +128,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a Dynamic Schema Version Resource */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -158,6 +149,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -178,7 +170,7 @@ export function _updateSend(
       schemaName: schemaName,
       dynamicSchemaName: dynamicSchemaName,
       dynamicSchemaVersionName: dynamicSchemaVersionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,10 +179,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: dynamicSchemaVersionSerializer(properties),
   });
 }
@@ -201,7 +190,10 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -237,9 +229,7 @@ export function _createOrUpdateSend(
   dynamicSchemaName: string,
   dynamicSchemaVersionName: string,
   resource: DynamicSchemaVersion,
-  options: DynamicSchemaVersionsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: DynamicSchemaVersionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}{?api%2Dversion}",
@@ -249,7 +239,7 @@ export function _createOrUpdateSend(
       schemaName: schemaName,
       dynamicSchemaName: dynamicSchemaName,
       dynamicSchemaVersionName: dynamicSchemaVersionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -258,10 +248,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: dynamicSchemaVersionSerializer(resource),
   });
 }
@@ -272,7 +259,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -287,9 +277,7 @@ export function createOrUpdate(
   dynamicSchemaName: string,
   dynamicSchemaVersionName: string,
   resource: DynamicSchemaVersion,
-  options: DynamicSchemaVersionsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: DynamicSchemaVersionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DynamicSchemaVersion>, DynamicSchemaVersion> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -305,6 +293,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<DynamicSchemaVersion>, DynamicSchemaVersion>;
 }
 
@@ -324,7 +313,7 @@ export function _getSend(
       schemaName: schemaName,
       dynamicSchemaName: dynamicSchemaName,
       dynamicSchemaVersionName: dynamicSchemaVersionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -332,10 +321,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -345,7 +331,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
