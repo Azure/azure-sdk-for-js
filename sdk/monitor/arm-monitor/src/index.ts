@@ -555,6 +555,7 @@ export type {
   DiagnosticSettingsCategoryGetOptionalParams,
 } from "./api/diagnosticSettingsCategory/index.js";
 export type { EventCategoriesListOptionalParams } from "./api/eventCategories/index.js";
+export type { ExactVMInsightsGetOnboardingStatusOptionalParams } from "./api/exactVMInsights/index.js";
 export type {
   LogProfilesListOptionalParams,
   LogProfilesDeleteOptionalParams,
@@ -636,7 +637,6 @@ export type {
   TenantActionGroupsGetOptionalParams,
 } from "./api/tenantActionGroups/index.js";
 export type { TenantActivityLogsListOptionalParams } from "./api/tenantActivityLogs/index.js";
-export type { vMInsightsGetOnboardingStatusOptionalParams } from "./api/vMInsights/index.js";
 export type {
   ActionGroupsOperations,
   ActivityLogAlertsOperations,
@@ -650,6 +650,7 @@ export type {
   DiagnosticSettingsOperations,
   DiagnosticSettingsCategoryOperations,
   EventCategoriesOperations,
+  ExactVMInsightsOperations,
   LogProfilesOperations,
   MetricAlertsOperations,
   MetricAlertsStatusOperations,
@@ -667,7 +668,6 @@ export type {
   ServiceDiagnosticSettingsOperations,
   TenantActionGroupsOperations,
   TenantActivityLogsOperations,
-  vMInsightsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
