@@ -1,6 +1,6 @@
 # Release History
     
-## 1.0.0-beta.2 (2026-10-22)
+## 1.0.0-beta.2 (2026-10-23)
 ### Features Added
 
 The @azure/provisioning-keyvault package has been upgraded to a new SDK generation that provides layered APIs, smaller bundles, and improved ergonomics. Starting from version 1.0.0-beta.2, this release includes breaking changes.
