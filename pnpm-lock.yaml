@@ -18941,6 +18941,9 @@ importers:
         specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
+      '@azure/core-rest-pipeline':
+        specifier: link:../../core/core-rest-pipeline
+        version: link:../../core/core-rest-pipeline
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -39286,7 +39289,7 @@ packages:
     engines: {node: '>= 0.10.0'}
 
   content-disposition@2.0.1:
-    resolution: {integrity: sha512-e+H0ZXHSWYrENhQzw1LPuP4oF5MzVKmDU6d3hxlvaPEYLLg62MxtQNPRx4SYSuYJSBUgnQIG4HIN2tEtNv7Dog==}
+    resolution: {integrity: sha1-iKdcelLvnEB8lgNf6Dpmk5wqTck=}
     engines: {node: '>=18'}
 
   content-type@1.0.5:
