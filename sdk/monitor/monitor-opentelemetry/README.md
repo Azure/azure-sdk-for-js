@@ -18,14 +18,6 @@
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
-#### Node.js security updates
-
-Use an up-to-date supported Node.js release. The minimum security patch levels for Node.js 22, 24, and 26 are **22.23.4**, **24.22.1**, and **26.12.1**, respectively, as described in the [October 21, 2026 Node.js security release](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases). Earlier patches on those lines, and end-of-life Node.js releases, must not be used.
-
-Upgrade the **Node.js runtime**, not just this npm package. These releases fix vulnerabilities in Node.js DNS, TLS, HTTP, crypto, permissions, Brotli decoding, and bundled dependencies as applicable to each release line. The opt-in browser SDK loader decodes and re-encodes compressed responses using Node.js; validating a response after decompression does not protect an unpatched decoder. The runtime update also covers encoding-only compression paths as precautionary hardening, without changing compression or transport behavior.
-
-The package's `engines` field declares the required versions but does not update or universally enforce the runtime. Verify `node --version` in each application, sample, test, and deployment environment. For App Service, Functions, and containers, update the hosting runtime or base image and restart or redeploy the application. CI agent/task-embedded Node.js runtimes must be updated separately by their owners.
-
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
@@ -56,7 +48,7 @@ useAzureMonitor(options);
 
 ### ESM Support
 
-> _Note:_ Use a Node.js version meeting the [security requirements above](#nodejs-security-updates). For more details on ESM support in OpenTelemetry, see the [OpenTelemetry ESM Support documentation](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/esm-support.md).
+> _Note:_ ESM support requires Node.js 18.19.0 or later. For more details on ESM support in OpenTelemetry, see the [OpenTelemetry ESM Support documentation](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/esm-support.md).
 
 For ECMAScript Module (ESM) applications, OpenTelemetry instrumentation requires the loader hooks to be registered **before** any instrumented modules (like `http`) are loaded. This is a fundamental requirement of ESM - modules cannot be instrumented after they are loaded.
 

@@ -62,10 +62,6 @@ It provides a place to centralize scripts, resources, and processes for developm
 
 The `dev-tool about` command will print some information about how to use the command. All commands additionally accept the `--help` argument, which will print information about the usage of that specific command. For example, to show help information for the `run` command above, issue the command `npx dev-tool package run --help`.
 
-### Sample runtime requirements
-
-Packages that need a stricter Node.js baseline than the shared sample default can set `nodeEngine` to a valid semver range in their sample configuration (`"//metadata".sampleConfiguration` or `"//sampleConfiguration"`). `dev-tool samples publish -f` writes this range to `engines.node` in both JavaScript and TypeScript sample manifests. Without this option, the shared sample default is unchanged. Keep the range aligned with the package's runtime requirements; an engine declaration does not install or patch Node.js.
-
 ## Extending the Tool
 
 The source hierarchy matches the command hierarchy. Every sub-command has its own folder and `index.ts` file in `src/commands`, where `src/commands/index.ts` defines the behavior of the root `dev-tool` command, and each subfolder's `index.ts` file describes a nested sub-command. Every leaf node in the command tree ("leaf command") has its own TypeScript file. For example, `src/commands/about.ts` defines the behavior of the `dev-tool about` command, and `src/commands/package/resolve.ts` defines the behavior of the `dev-tool package resolve` command.

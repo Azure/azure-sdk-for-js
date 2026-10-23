@@ -49,11 +49,6 @@ export interface SampleConfiguration {
    */
   dependencyOverrides?: Record<string, string>;
   /**
-   * Override the Node.js engine range for generated sample projects when the
-   * package requires a stricter runtime baseline than the shared sample default.
-   */
-  nodeEngine?: string;
-  /**
    * Specify Azure resources that must exist in order to run the samples. This
    * object is a map from resource name (should be a noun, e.g. "Azure
    * Cognitive Services instance") to URL providing documentation about how to

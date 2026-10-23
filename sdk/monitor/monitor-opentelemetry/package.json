@@ -55,7 +55,6 @@
   },
   "//sampleConfiguration": {
     "productName": "Azure Monitor OpenTelemetry",
-    "nodeEngine": "^22.23.4 || ^24.22.1 || >=26.12.1",
     "productSlugs": [
       "azure-monitor"
     ],

@@ -35,15 +35,15 @@ export default [
       "no-underscore-dangle": [
         "error",
         {
-          allowAfterThis: true,
-        },
+          "allowAfterThis": true
+        }
       ],
       "n/no-unsupported-features/es-syntax": [
         "error",
         {
-          ignores: ["modules"],
-        },
-      ],
+          "ignores": ["modules"]
+        }
+      ]
     },
   },
 ];

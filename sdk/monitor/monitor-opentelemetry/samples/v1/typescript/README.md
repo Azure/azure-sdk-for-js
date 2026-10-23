@@ -27,8 +27,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
-Node.js must satisfy `^22.23.4 || ^24.22.1 || >=26.12.1`. Upgrade the runtime separately from npm dependencies; see the [package README][package] for security requirements.
-
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
 
 ```bash

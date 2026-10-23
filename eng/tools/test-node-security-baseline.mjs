@@ -102,26 +102,15 @@ test("passes the perf Node selector through without appending another wildcard",
   assert.match(perf, /NodeVersion: \$\{\{ parameters\.LanguageVersion \}\}\s*$/m);
 });
 
-test("keeps Monitor packages and generated samples on the same security baseline", () => {
+test("keeps Monitor packages on the same security baseline", () => {
   const expected = "^22.23.4 || ^24.22.1 || >=26.12.1";
-  for (const [pkg, versions] of [
-    ["monitor-opentelemetry", ["v1"]],
-    ["monitor-opentelemetry-exporter", ["v1", "v1-beta"]],
-    ["monitor-opentelemetry-perf-tests", []],
+  for (const pkg of [
+    "monitor-opentelemetry",
+    "monitor-opentelemetry-exporter",
+    "monitor-opentelemetry-perf-tests",
   ]) {
     const base = new URL(`../../sdk/monitor/${pkg}/`, import.meta.url);
     const manifest = JSON.parse(readFileSync(new URL("package.json", base), "utf8"));
     assert.equal(manifest.engines.node, expected, pkg);
-    if (versions.length) {
-      assert.equal(manifest["//sampleConfiguration"].nodeEngine, expected, pkg);
-    }
-    for (const version of versions) {
-      for (const language of ["javascript", "typescript"]) {
-        const sample = new URL(`samples/${version}/${language}/`, base);
-        const json = JSON.parse(readFileSync(new URL("package.json", sample), "utf8"));
-        assert.equal(json.engines.node, expected, sample.href);
-        assert.ok(readFileSync(new URL("README.md", sample), "utf8").includes(expected));
-      }
-    }
   }
 });

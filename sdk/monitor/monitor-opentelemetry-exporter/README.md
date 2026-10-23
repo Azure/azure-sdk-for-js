@@ -18,14 +18,6 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 > _Warning:_ This SDK only works for Node.js environments. Use the [Application Insights JavaScript SDK](https://github.com/microsoft/ApplicationInsights-JS) for browser environments.
 
-#### Node.js security updates
-
-Use an up-to-date supported Node.js release. The minimum security patch levels for Node.js 22, 24, and 26 are **22.23.4**, **24.22.1**, and **26.12.1**, respectively, as described in the [October 21, 2026 Node.js security release](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases). Earlier patches on those lines, and end-of-life Node.js releases, must not be used.
-
-Upgrade the **Node.js runtime**, not just this npm package. These releases fix vulnerabilities in Node.js DNS, TLS, HTTP, crypto, permissions, and bundled dependencies as applicable to each release line. The exporter's gzip request encoding is not the Brotli decoder vulnerability; it is included in runtime patch coverage as precautionary hardening. Compression, retries, and transport behavior are unchanged.
-
-The package's `engines` field declares the required versions but does not update or universally enforce the runtime. Verify `node --version` in each application, sample, test, and deployment environment. For App Service, Functions, and containers, update the hosting runtime or base image and restart or redeploy the application. CI agent/task-embedded Node.js runtimes must be updated separately by their owners.
-
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)

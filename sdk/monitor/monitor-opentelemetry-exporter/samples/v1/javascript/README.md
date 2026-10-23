@@ -20,8 +20,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
-Node.js must satisfy `^22.23.4 || ^24.22.1 || >=26.12.1`. Upgrade the runtime separately from npm dependencies; see the [package README][package] for security requirements.
-
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
 - [Azure Application Insights workspace instance][createinstance_azureapplicationinsightsworkspaceinstance]

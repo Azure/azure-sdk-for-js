@@ -8,7 +8,7 @@
 
 ### Breaking Changes
 
-- Raised the Node.js security baseline to 22.23.4 on Node.js 22, 24.22.1 on Node.js 24, and 26.12.1 on Node.js 26. Older patches and end-of-life releases are no longer supported. Upgrade the application runtime separately; installing the SDK does not patch Node.js. See the [October 21, 2026 Node.js security release](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases). [#40483](https://github.com/Azure/azure-sdk-for-js/pull/40483)
+- Require Node.js 22.23.4+, 24.22.1+, or 26.12.1+ on supported release lines for security fixes. [#40483](https://github.com/Azure/azure-sdk-for-js/pull/40483)
 
 ### Bugs Fixed
 
