@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Front Door with the specified Front Door name under the specified subscription and resource group.
  *
  * @summary gets a Front Door with the specified Front Door name under the specified subscription and resource group.
- * x-ms-original-file: 2025-11-01/FrontdoorGet.json
+ * x-ms-original-file: 2026-04-01/FrontdoorGet.json
  */
 async function getFrontDoor(): Promise<void> {
   const credential = new DefaultAzureCredential();

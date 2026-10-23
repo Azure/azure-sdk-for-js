@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Timeseries for a given Experiment
  *
  * @summary gets a Timeseries for a given Experiment
- * x-ms-original-file: 2025-11-01/NetworkExperimentGetTimeseries.json
+ * x-ms-original-file: 2026-04-01/NetworkExperimentGetTimeseries.json
  */
 async function getsATimeseriesForAGivenExperiment(): Promise<void> {
   const credential = new DefaultAzureCredential();

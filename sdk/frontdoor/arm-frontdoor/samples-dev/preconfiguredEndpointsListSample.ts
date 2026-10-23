@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of Preconfigured Endpoints
  *
  * @summary gets a list of Preconfigured Endpoints
- * x-ms-original-file: 2025-11-01/NetworkExperimentGetPreconfiguredEndpoints.json
+ * x-ms-original-file: 2026-04-01/NetworkExperimentGetPreconfiguredEndpoints.json
  */
 async function getsAListOfPreconfiguredEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();

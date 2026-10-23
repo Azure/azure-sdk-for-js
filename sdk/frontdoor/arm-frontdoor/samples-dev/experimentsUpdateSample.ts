@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an Experiment
  *
  * @summary updates an Experiment
- * x-ms-original-file: 2025-11-01/NetworkExperimentUpdateExperiment.json
+ * x-ms-original-file: 2026-04-01/NetworkExperimentUpdateExperiment.json
  */
 async function updatesAnExperiment(): Promise<void> {
   const credential = new DefaultAzureCredential();

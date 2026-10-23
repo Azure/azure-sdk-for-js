@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to disables a frontendEndpoint for HTTPS traffic
  *
  * @summary disables a frontendEndpoint for HTTPS traffic
- * x-ms-original-file: 2025-11-01/FrontdoorDisableHttps.json
+ * x-ms-original-file: 2026-04-01/FrontdoorDisableHttps.json
  */
 async function frontendEndpointsDisableHttps(): Promise<void> {
   const credential = new DefaultAzureCredential();

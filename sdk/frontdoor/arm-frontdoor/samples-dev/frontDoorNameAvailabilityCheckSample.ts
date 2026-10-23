@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check the availability of a Front Door resource name.
  *
  * @summary check the availability of a Front Door resource name.
- * x-ms-original-file: 2025-11-01/CheckFrontdoorNameAvailability.json
+ * x-ms-original-file: 2026-04-01/CheckFrontdoorNameAvailability.json
  */
 async function checkNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();

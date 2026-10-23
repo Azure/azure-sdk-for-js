@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an NetworkExperiment Profile by ProfileName
  *
  * @summary deletes an NetworkExperiment Profile by ProfileName
- * x-ms-original-file: 2025-11-01/NetworkExperimentDeleteProfile.json
+ * x-ms-original-file: 2026-04-01/NetworkExperimentDeleteProfile.json
  */
 async function deletesAnNetworkExperimentProfileByProfileName(): Promise<void> {
   const credential = new DefaultAzureCredential();
