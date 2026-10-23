@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create or update a firmware analysis workspace.
  *
  * @summary the operation to create or update a firmware analysis workspace.
- * x-ms-original-file: 2025-08-02/Workspaces_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Workspaces_Create_MaximumSet_Gen.json
  */
 async function workspacesCreateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,13 +18,7 @@ async function workspacesCreateMaximumSetGenGeneratedByMaximumSetRule(): Promise
     properties: {},
     tags: { key4630: "rov" },
     location: "East US",
-    sku: {
-      name: "Free",
-      tier: "Free",
-      size: "Free",
-      family: "F",
-      capacity: 30,
-    },
+    sku: { name: "Free", tier: "Free", size: "Free", family: "F", capacity: 30 },
   });
   console.log(result);
 }
@@ -33,7 +27,7 @@ async function workspacesCreateMaximumSetGenGeneratedByMaximumSetRule(): Promise
  * This sample demonstrates how to the operation to create or update a firmware analysis workspace.
  *
  * @summary the operation to create or update a firmware analysis workspace.
- * x-ms-original-file: 2025-08-02/Workspaces_Create_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Workspaces_Create_MinimumSet_Gen.json
  */
 async function workspacesCreateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

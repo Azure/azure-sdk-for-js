@@ -1,6 +1,23 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/unsafeFunctionCalls/index.ts",
+    "../src/api/usageMetrics/index.ts",
+    "../src/api/summaries/index.ts",
+    "../src/api/sbomComponents/index.ts",
+    "../src/api/passwordHashes/index.ts",
+    "../src/api/cves/index.ts",
+    "../src/api/cryptoKeys/index.ts",
+    "../src/api/cryptoCertificates/index.ts",
+    "../src/api/binaryHardening/index.ts",
+    "../src/api/workspaces/index.ts",
+    "../src/api/firmwares/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

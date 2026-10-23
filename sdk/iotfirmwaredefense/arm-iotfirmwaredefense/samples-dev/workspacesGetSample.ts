@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get firmware analysis workspace.
  *
  * @summary get firmware analysis workspace.
- * x-ms-original-file: 2025-08-02/Workspaces_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Workspaces_Get_MaximumSet_Gen.json
  */
 async function workspacesGetMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function workspacesGetMaximumSetGenGeneratedByMaximumSetRule(): Promise<vo
  * This sample demonstrates how to get firmware analysis workspace.
  *
  * @summary get firmware analysis workspace.
- * x-ms-original-file: 2025-08-02/Workspaces_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Workspaces_Get_MinimumSet_Gen.json
  */
 async function workspacesGetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
