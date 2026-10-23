@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 import { assert, describe, expect, it } from "vitest";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type {
   AzureBlobKnowledgeSource,
   FileKnowledgeSource,
   IndexedOneLakeKnowledgeSource,
   IndexedSharePointKnowledgeSource,
   IndexedSqlKnowledgeSource,
-  McpServerKnowledgeSource,
 } from "../../../src/index.js";
-import { AzureKeyCredential, KnowledgeRetrievalClient } from "../../../src/index.js";
+import { AzureKeyCredential, KnowledgeRetrievalClient, SearchClient } from "../../../src/index.js";
 import { SearchIndexClient } from "../../../src/searchIndexClient.js";
 import { SearchIndexerClient } from "../../../src/searchIndexerClient.js";
 
@@ -71,7 +71,184 @@ function captureIndexerClient(
 }
 
 describe("convenience layer carries generated fields", () => {
-  it("forwards Search and Work IQ authorization separately", async () => {
+  it.each([204, 404])("targets the correct file for deletion (HTTP %i)", async (status) => {
+    const captured: PipelineRequest[] = [];
+    const client = captureClient(undefined, captured, status);
+
+    await client.deleteKnowledgeSourceFile("test-source", "file-123");
+
+    assert.equal(captured.length, 1);
+    assert.equal(captured[0].method, "DELETE");
+    assert.equal(
+      new URL(captured[0].url).pathname,
+      "/knowledgesources('test-source')/files('file-123')",
+    );
+  });
+
+  it.each([0, 10, 100_000])("returns document count %i as a number", async (count) => {
+    const captured: PipelineRequest[] = [];
+    const client = new SearchClient(
+      "https://example.search.windows.net",
+      "hotels",
+      new AzureKeyCredential("k"),
+      {
+        httpClient: {
+          async sendRequest(request): Promise<PipelineResponse> {
+            captured.push(request);
+            return {
+              request,
+              status: 200,
+              headers: createHttpHeaders({ "content-type": "text/plain; charset=utf-8" }),
+              bodyAsText: String(count),
+            };
+          },
+        },
+      },
+    );
+
+    assert.strictEqual(await client.getDocumentsCount(), count);
+    assert.equal(captured.length, 1);
+    assert.equal(captured[0].method, "GET");
+    assert.include(new URL(captured[0].url).pathname, "/docs/$count");
+  });
+
+  it("searches for similar documents without sending search text", async () => {
+    const captured: PipelineRequest[] = [];
+    const client = new SearchClient<{ id: string; description: string; score: number }>(
+      "https://example.search.windows.net",
+      "hotels",
+      new AzureKeyCredential("k"),
+      {
+        additionalPolicies: [
+          {
+            position: "perCall",
+            policy: {
+              name: "capture",
+              async sendRequest(request): Promise<PipelineResponse> {
+                captured.push(request);
+                return {
+                  request,
+                  status: 200,
+                  headers: request.headers,
+                  bodyAsText: JSON.stringify({
+                    value: [
+                      {
+                        "@search.score": 1,
+                        id: "hotel-2",
+                        description: "A similar hotel",
+                        score: 45,
+                      },
+                    ],
+                  }),
+                };
+              },
+            },
+          },
+        ],
+      },
+    );
+
+    const response = await client.search(undefined, {
+      moreLikeThis: "hotel/1",
+      searchFields: ["description"],
+      top: 5,
+    });
+    const documents = [];
+    for await (const result of response.results) {
+      assert.equal(result.score, 1);
+      documents.push(result.document);
+    }
+
+    const body = JSON.parse(captured[0].body as string);
+    assert.equal(body.moreLikeThis, "hotel/1");
+    assert.equal(body.searchFields, "description");
+    assert.equal(body.top, 5);
+    assert.notProperty(body, "search");
+    assert.deepEqual(documents, [{ id: "hotel-2", description: "A similar hotel", score: 45 }]);
+  });
+
+  it.each([true, false, undefined])(
+    "round-trips organization link expiration and SharePoint registration (%s)",
+    async (organizationAccessExpiration) => {
+      const captured: PipelineRequest[] = [];
+      const sharePointConnectorAppRegistration = {
+        applicationId: "application-id",
+        federatedCredentialId: "federated-credential-id",
+        tenantId: "tenant-id",
+      };
+      const fields = [
+        { name: "id", type: "Edm.String" as const, key: true },
+        {
+          name: "organizationLinkExpiresAt",
+          type: "Edm.DateTimeOffset" as const,
+          organizationAccessExpiration,
+        },
+      ];
+      const client = captureClient(
+        { name: "permission-index", fields, sharePointConnectorAppRegistration },
+        captured,
+        201,
+      );
+
+      const result = await client.createIndex({
+        name: "permission-index",
+        fields,
+        sharePointConnectorAppRegistration,
+      });
+
+      const body = JSON.parse(captured[0].body as string);
+      assert.equal(body.fields[1].organizationAccessExpiration, organizationAccessExpiration);
+      assert.equal(
+        "organizationAccessExpiration" in body.fields[1],
+        organizationAccessExpiration !== undefined,
+      );
+      assert.deepEqual(body.sharePointConnectorAppRegistration, sharePointConnectorAppRegistration);
+      assert.deepInclude(result.fields[1], { organizationAccessExpiration });
+      assert.deepEqual(
+        result.sharePointConnectorAppRegistration,
+        sharePointConnectorAppRegistration,
+      );
+    },
+  );
+
+  it.each([true, false, undefined])(
+    "round-trips the ADLS permission refresh setting (%s)",
+    async (refreshAllAcls) => {
+      const captured: PipelineRequest[] = [];
+      const definition = {
+        name: "permission-indexer",
+        dataSourceName: "adls-source",
+        targetIndexName: "permission-index",
+        parameters: { configuration: { refreshAllAcls } },
+      };
+      const client = captureIndexerClient(definition, captured, 201);
+      const result = await client.createIndexer(definition);
+
+      const body = JSON.parse(captured[0].body as string);
+      assert.equal(body.parameters.configuration.refreshAllAcls, refreshAllAcls);
+      assert.equal("refreshAllAcls" in body.parameters.configuration, refreshAllAcls !== undefined);
+      assert.equal(result.parameters?.configuration?.refreshAllAcls, refreshAllAcls);
+    },
+  );
+
+  it("returns File knowledge source capacity", async () => {
+    const captured: PipelineRequest[] = [];
+    const fileCapacity = {
+      maxFileCount: 100,
+      remainingFileCount: 99,
+      maxFileSizeBytes: 5000000,
+    };
+    const client = captureClient(
+      { kind: "file", synchronizationStatus: "active", fileCapacity },
+      captured,
+    );
+
+    const status = await client.getKnowledgeSourceStatus("file-source");
+
+    assert.deepEqual(status.fileCapacity, fileCapacity);
+  });
+
+  it("forwards Search query authorization", async () => {
     const captured: PipelineRequest[] = [];
     const client = new KnowledgeRetrievalClient(
       "https://example.search.windows.net",
@@ -101,36 +278,13 @@ describe("convenience layer carries generated fields", () => {
     await client.retrieve(
       {
         intents: [{ type: "semantic", search: "status" }],
-        knowledgeSourceParams: [
-          {
-            kind: "searchIndex",
-            knowledgeSourceName: "source",
-            neverQuerySource: true,
-            resultsProcessing: "none",
-            queryHintOverrides: {
-              filters: [{ field: "category", fieldValues: ["manual"] }],
-            },
-          },
-        ],
       },
       {
         querySourceAuthorization: "search-assertion",
-        queryWorkIQSourceAuthorization: "work-iq-assertion",
       },
     );
 
     assert.equal(captured[0].headers.get("x-ms-query-source-authorization"), "search-assertion");
-    assert.equal(
-      captured[0].headers.get("x-ms-query-work-iq-source-authorization"),
-      "work-iq-assertion",
-    );
-    const requestBody = JSON.parse(captured[0].body as string);
-    assert.equal(requestBody.knowledgeSourceParams[0].neverQuerySource, true);
-    assert.equal(requestBody.knowledgeSourceParams[0].resultsProcessing, "none");
-    assert.equal(
-      requestBody.knowledgeSourceParams[0].queryHintOverrides.filters[0].field,
-      "category",
-    );
   });
 
   it("forwards listing parameters to the request", async () => {
@@ -149,7 +303,7 @@ describe("convenience layer carries generated fields", () => {
     assert.include(url, "search=prod");
     assert.include(url, "pageSize=5");
     assert.include(url, "searchType=prefix");
-    assert.include(url, "api-version=2026-08-01-preview");
+    assert.include(url, "api-version=2026-10-01");
   });
 
   it("forwards listing parameters for synonym maps, indexers, data sources, and skillsets", async () => {
@@ -168,23 +322,8 @@ describe("convenience layer carries generated fields", () => {
       assert.include(request.url, "search=prod");
       assert.include(request.url, "pageSize=2");
       assert.include(request.url, "searchType=prefix");
-      assert.include(request.url, "api-version=2026-08-01-preview");
+      assert.include(request.url, "api-version=2026-10-01");
     }
-  });
-
-  it("forwards data source document IDs when resetting documents", async () => {
-    const captured: PipelineRequest[] = [];
-    const client = captureIndexerClient(undefined, captured, 204);
-
-    await client.resetDocuments("hotels-indexer", {
-      dataSourceDocumentIds: ["source-document-1", "source-document-2"],
-      overwrite: true,
-    });
-
-    assert.deepEqual(JSON.parse(captured[0].body as string), {
-      datasourceDocumentIds: ["source-document-1", "source-document-2"],
-    });
-    assert.include(captured[0].url, "overwrite=true");
   });
 
   it("forwards multipart file upload and update parameters", async () => {
@@ -254,30 +393,6 @@ describe("convenience layer carries generated fields", () => {
     assert.include(captured[0].url, "searchType=prefix");
   });
 
-  it("round-trips resultsProcessing on a knowledge source", async () => {
-    const captured: PipelineRequest[] = [];
-    const client = captureClient(
-      {
-        name: "ks",
-        kind: "searchIndex",
-        resultsProcessing: "none",
-        searchIndexParameters: { searchIndexName: "idx" },
-      },
-      captured,
-      201,
-    );
-
-    const created = await client.createKnowledgeSource({
-      name: "ks",
-      kind: "searchIndex",
-      resultsProcessing: "none",
-      searchIndexParameters: { searchIndexName: "idx" },
-    });
-
-    assert.equal(JSON.parse(captured[0].body as string).resultsProcessing, "none");
-    assert.equal(created.resultsProcessing, "none");
-  });
-
   it("maps knowledge source ETags and forwards conditional updates", async () => {
     const captured: PipelineRequest[] = [];
     const client = captureClient(
@@ -304,12 +419,11 @@ describe("convenience layer carries generated fields", () => {
     assert.equal(updated.etag, "etag-1");
   });
 
-  it("round-trips retrieveDefaults on a knowledge base", async () => {
+  it("round-trips knowledge base retrieval instructions", async () => {
     const captured: PipelineRequest[] = [];
-    const retrieveDefaults = { maxOutputSizeInTokens: 4096 };
-    const tags = { environment: "sample", owner: "search-team" };
+    const retrievalInstructions = "Only return directly relevant results.";
     const client = captureClient(
-      { name: "kb", knowledgeSources: [], retrieveDefaults, tags },
+      { name: "kb", knowledgeSources: [], retrievalInstructions },
       captured,
       201,
     );
@@ -317,20 +431,17 @@ describe("convenience layer carries generated fields", () => {
     const created = await client.createKnowledgeBase({
       name: "kb",
       knowledgeSources: [],
-      retrieveDefaults,
-      tags,
+      retrievalInstructions,
     });
 
     assert.equal(
-      JSON.parse(captured[0].body as string).retrieveDefaults.maxOutputSizeInTokens,
-      4096,
+      JSON.parse(captured[0].body as string).retrievalInstructions,
+      retrievalInstructions,
     );
-    assert.equal(created.retrieveDefaults?.maxOutputSizeInTokens, 4096);
-    assert.deepEqual(JSON.parse(captured[0].body as string).tags, tags);
-    assert.deepEqual(created.tags, tags);
+    assert.equal(created.retrievalInstructions, retrievalInstructions);
   });
 
-  it("surfaces the per-index vector size service limit", async () => {
+  it("surfaces service-level document counters", async () => {
     const client = captureClient(
       {
         counters: {
@@ -343,10 +454,8 @@ describe("convenience layer carries generated fields", () => {
           synonymMaps: { usage: 0, quota: 1 },
           skillsetCount: { usage: 0, quota: 1 },
           vectorIndexSize: { usage: 0, quota: 1 },
-          knowledgeBasesCount: { usage: 0, quota: 1 },
-          knowledgeSourcesCount: { usage: 0, quota: 1 },
         },
-        limits: { maxVectorIndexSizePerIndexInBytes: 1024 },
+        limits: {},
         indexersRuntime: {
           beginningTime: "2026-08-01T00:00:00Z",
           endingTime: "2026-08-01T01:00:00Z",
@@ -357,59 +466,7 @@ describe("convenience layer carries generated fields", () => {
     );
 
     const statistics = await client.getServiceStatistics();
-    assert.equal(statistics.limits.maxVectorIndexSizePerIndexInBytes, 1024);
-  });
-
-  it("round-trips workIQParameters on a WorkIQ knowledge source", async () => {
-    const captured: PipelineRequest[] = [];
-    const workIQParameters = {
-      entraAppAuthentication: {
-        applicationId: "app",
-        federatedCredentialId: "cred",
-        tenantId: "tenant",
-      },
-    };
-    const client = captureClient({ name: "wiq", kind: "workIQ", workIQParameters }, captured, 201);
-
-    const created = await client.createKnowledgeSource({
-      name: "wiq",
-      kind: "workIQ",
-      workIQParameters,
-    });
-
-    assert.deepEqual(JSON.parse(captured[0].body as string).workIQParameters, workIQParameters);
-    assert.deepEqual(
-      (created as { workIQParameters?: unknown }).workIQParameters,
-      workIQParameters,
-    );
-  });
-
-  it("maps MCP serverUrl to the generated serverURL property", async () => {
-    const captured: PipelineRequest[] = [];
-    const client = captureClient(
-      {
-        name: "mcp",
-        kind: "mcpServer",
-        mcpServerParameters: { serverURL: "https://example.com/mcp", tools: [] },
-      },
-      captured,
-      201,
-    );
-
-    const created = await client.createKnowledgeSource({
-      name: "mcp",
-      kind: "mcpServer",
-      mcpServerParameters: { serverUrl: "https://example.com/mcp", tools: [] },
-    });
-
-    assert.equal(
-      JSON.parse(captured[0].body as string).mcpServerParameters.serverURL,
-      "https://example.com/mcp",
-    );
-    assert.equal(
-      (created as McpServerKnowledgeSource).mcpServerParameters.serverUrl,
-      "https://example.com/mcp",
-    );
+    assert.equal(statistics.counters.documentCounter.usage, 0);
   });
 
   it("round-trips private Azure Blob ingestion settings", async () => {
@@ -449,8 +506,7 @@ describe("convenience layer carries generated fields", () => {
     assert.equal(createdBlob.azureBlobParameters.createdResources?.indexer, "generated-indexer");
   });
 
-  it("preserves indexed knowledge source hints, ingestion settings, and created resources", async () => {
-    const queryHints = { filters: [{ field: "category", fieldValues: ["manual"] }] };
+  it("preserves indexed knowledge source ingestion settings and created resources", async () => {
     const ingestionParameters = { networkAccessMode: "private" as const };
     const cases = [
       {
@@ -461,7 +517,6 @@ describe("convenience layer carries generated fields", () => {
             connectionString: "ResourceId=/subscriptions/example",
             containerName: "defaultSiteLibrary",
             ingestionParameters,
-            queryHints,
             createdResources: { indexer: "sharepoint-indexer" },
           },
         },
@@ -472,7 +527,6 @@ describe("convenience layer carries generated fields", () => {
             connectionString: "ResourceId=/subscriptions/example",
             containerName: "defaultSiteLibrary" as const,
             ingestionParameters,
-            queryHints,
           },
         },
       },
@@ -484,7 +538,6 @@ describe("convenience layer carries generated fields", () => {
             fabricWorkspaceId: "workspace",
             lakehouseId: "lakehouse",
             ingestionParameters,
-            queryHints,
             createdResources: { indexer: "onelake-indexer" },
           },
         },
@@ -495,7 +548,6 @@ describe("convenience layer carries generated fields", () => {
             fabricWorkspaceId: "workspace",
             lakehouseId: "lakehouse",
             ingestionParameters,
-            queryHints,
           },
         },
       },
@@ -507,7 +559,6 @@ describe("convenience layer carries generated fields", () => {
             connectionString: "ResourceId=/subscriptions/example",
             tableOrView: "dbo.Documents",
             ingestionParameters,
-            queryHints,
             createdResources: { indexer: "sql-indexer" },
           },
         },
@@ -518,7 +569,6 @@ describe("convenience layer carries generated fields", () => {
             connectionString: "ResourceId=/subscriptions/example",
             tableOrView: "dbo.Documents",
             ingestionParameters,
-            queryHints,
           },
         },
       },
@@ -528,14 +578,13 @@ describe("convenience layer carries generated fields", () => {
           kind: "file",
           fileParameters: {
             ingestionParameters,
-            queryHints,
             createdResources: { indexer: "file-indexer" },
           },
         },
         input: {
           name: "file",
           kind: "file" as const,
-          fileParameters: { ingestionParameters, queryHints },
+          fileParameters: { ingestionParameters },
         },
       },
     ];
@@ -553,7 +602,6 @@ describe("convenience layer carries generated fields", () => {
               : (created as FileKnowledgeSource).fileParameters;
 
       assert.equal(parameters.ingestionParameters?.networkAccessMode, "private");
-      assert.equal(parameters.queryHints?.filters?.[0]?.field, "category");
       assert.match(parameters.createdResources?.indexer ?? "", /-indexer$/);
     }
   });

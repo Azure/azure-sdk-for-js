@@ -1,14 +1,51 @@
 # Release History
 
-## 13.1.0-beta.3 (Unreleased)
+## 13.1.0 (Unreleased)
 
 ### Features Added
 
+- Added support for the `2026-10-01` GA service API. The changes below are relative to the previous stable package, `13.0.0`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Added similar-document search with `SearchOptions.moreLikeThis`, and query-source authorization and elevated-read options for search and document lookup. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Added index and field permission-filter configuration, SharePoint connector application registration, SharePoint site URL and organization-access expiration fields, data-source and knowledge-source ingestion permission options, and federated managed-identity authentication. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Added indexed SharePoint, indexed SQL, and File knowledge sources. File sources support multipart upload, in-place updates, deletion, prefix-filtered listing, CORS configuration, file metadata, and capacity reporting. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Added knowledge base answer and retrieval instructions, output modes, low and medium reasoning effort, CORS configuration, message-based retrieval, and output-document limits. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Added typed server-sent event retrieval through `KnowledgeRetrievalClient.retrieveStream` and the protocol client, including start, activity, answer, references, error, and completion events. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Added source-specific retrieval activity records, model query-planning and answer-synthesis activity records, model metadata, activity timestamps and warnings, and citation URLs on indexed references. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Added per-source retrieval controls (`alwaysQuerySource`, `failOnError`, and `maxOutputDocuments`), a base filter for search-index knowledge sources, ADLS Gen2 configuration, private ingestion networking, and Web source count, freshness, language, and market options. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Added server-driven resource listing with `search`, `pageSize`, and `searchType` options, index statistics summary listing, indexer resynchronization, and per-indexer and service-wide indexer runtime reporting. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Added ADLS Gen2 ACL refresh with `IndexingParametersConfiguration.refreshAllAcls`, Content Understanding model/deployment selection and token-based chunking, keyword tokenizer buffer size, and GPT-5.4, GPT-5.5, and GPT-5.6 model names. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Added correctly cased `CreateOrUpdateDataSourceConnectionOptions` and `CreateOrUpdateIndexerOptions` names while retaining the previous names as deprecated aliases, and a knowledge-base-object overload of `createOrUpdateKnowledgeBase`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+
 ### Breaking Changes
+
+- Changed the default service API version to `2026-10-01`. The public surface now follows that GA specification; the removals below were present in stable `13.0.0`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Removed `VectorizableImageUrlQuery` and `VectorizableImageBinaryQuery` and the `ImageUrl`/`ImageBinary` members of `KnownVectorQueryKind`. `VectorQuery` now accepts raw vectors and text queries only. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Removed `KnownVectorFilterMode.StrictPostFilter` and the corresponding `strictPostFilter` value from `VectorFilterMode`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Removed `AzureMachineLearningVectorizer`, its parameter union and base/key/token/no-auth parameter types, `AIFoundryModelCatalogName`, and `KnownAIFoundryModelCatalogName`. `VectorSearchVectorizer` now accepts Azure OpenAI and custom Web API vectorizers. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Removed `QueryRewrites` and `GenerativeQueryRewrites`, and the `queryRewrites` properties of `SemanticSearchOptions` and `VectorizableTextQuery`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Removed `DocumentDebugInfo.semantic`, `SemanticDebugInfo`, and `QueryResultDocumentSemanticField`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Renamed `BaseKnowledgeBaseActivityRecord.elapsedInMs` to `elapsedMs` and `KnowledgeSourceStatistics.totalSynchronizations` to `totalSynchronization`. Removed `KnowledgeBaseAgenticReasoningActivityRecord.retrievalReasoningEffort`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Removed `SimpleField.hasSensitivityLabel` and the standalone `SearchIndexerKnowledgeStoreParameters` type. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Renamed protocol listing operations and their option types from `getSynonymMaps`, `getIndexers`, `getDataSourceConnections`, and `getSkillsets` to their corresponding `list*` names. Convenience client listing method names are unchanged. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Protocol resource listings now return paged async iterators instead of listing-result wrappers. Protocol `SearchClient.getDocumentCount` now returns a response object with a `body` number; the convenience `SearchClient.getDocumentsCount` still returns a number. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Raised the minimum supported Node.js version from 20 to 22. [#38887](https://github.com/Azure/azure-sdk-for-js/pull/38887)
 
 ### Bugs Fixed
 
+- Fixed a `TypeError` when document lookup or other operations receive an empty error response body. These operations now throw a `RestError` with the HTTP status code. [#38842](https://github.com/Azure/azure-sdk-for-js/issues/38842)
+- Preserved document fields named `score` in search results and `text` in suggestions, and separated `@search.*` metadata from document contents. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Corrected ETag mapping so resources returned by index, indexer, and skillset operations support conditional updates and deletes with `onlyIfUnchanged`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Correctly serialized custom Web API vectorizer parameters, PII skill masking characters and categories, and Split skill page lengths. Preserved custom analyzer tokenizer names and custom indexer configuration during read/update round trips. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Fixed resource listing continuation, preserved continuation tokens on mapped resource pages, and retained the original query parameters when resuming searches. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Forwarded request options, cancellation, callbacks, and partial-failure handling from the document-array overload of `deleteDocuments`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Honored an explicitly supplied semantic answer threshold of zero and forwarded explicitly supplied semantic fields. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Preserved ingestion settings and generated resource names in knowledge-source conversions. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Added type-resolution mappings for protocol and model subpaths when using legacy TypeScript module resolution. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+
 ### Other Changes
+
+- Updated TypeScript and JavaScript samples and README snippets for the new GA features. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Generated from TypeSpec commit `7391f1b9af16184e5d33bab7a0a69d0d61ca8794` in `Azure/azure-rest-api-specs`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 
 ## 13.1.0-beta.2 (2026-08-31)
 

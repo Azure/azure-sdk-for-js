@@ -1,0 +1,238 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @summary Demonstrates the GA retrieve request/response surface:
+ *   - `maxOutputDocuments` to cap the number of documents returned.
+ *   - `includeActivity` to receive per-step activity records.
+ *   - Activity records that carry the structured `model` used (e.g. for
+ *     query-planning and answer-synthesis steps).
+ *   - The current output modes — `extractiveData` and `answerSynthesis`.
+ *
+ * The sample provisions a knowledge base backed by a search-index
+ * knowledge source, issues two retrieval requests demonstrating each
+ * output mode, and validates the `2026-10-01` GA response fields. Set
+ * `CITATION_KNOWLEDGE_BASE_NAME` to run the shared six-kind citation
+ * fixture (searchIndex, azureBlob, indexedSharePoint, indexedOneLake,
+ * file, and indexedSql).
+ */
+
+import { DefaultAzureCredential } from "@azure/identity";
+import type {
+  KnowledgeBase,
+  KnowledgeBaseModelAnswerSynthesisActivityRecord,
+  KnowledgeBaseModelQueryPlanningActivityRecord,
+  KnowledgeBaseModelWebSummarizationActivityRecord,
+  KnowledgeBaseRetrievalRequest,
+  SearchIndexKnowledgeSource,
+} from "@azure/search-documents";
+import {
+  KnowledgeRetrievalClient,
+  KnownAzureOpenAIModelName,
+  KnownKnowledgeRetrievalOutputMode,
+  SearchIndexClient,
+} from "@azure/search-documents";
+
+import * as dotenv from "dotenv";
+import { delay, WAIT_TIME } from "./setup.js";
+dotenv.config();
+
+const endpoint = process.env.ENDPOINT || "";
+const citationKnowledgeBaseName = process.env.CITATION_KNOWLEDGE_BASE_NAME || "";
+const existingKnowledgeBaseName =
+  citationKnowledgeBaseName || process.env.KNOWLEDGE_BASE_NAME || "";
+const azureOpenAIEndpoint = process.env.AZURE_OPENAI_ENDPOINT || "";
+const chatDeployment =
+  process.env.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME || KnownAzureOpenAIModelName.Gpt54Mini;
+const chatModel = process.env.AZURE_OPENAI_CHAT_MODEL_NAME || KnownAzureOpenAIModelName.Gpt54Mini;
+
+const INDEX_NAME = "example-index-for-retrieve-preview-sample";
+const KNOWLEDGE_SOURCE_NAME = "example-ks-for-retrieve-preview-sample";
+const KNOWLEDGE_BASE_NAME = "example-kb-for-retrieve-preview-sample";
+
+const citationKinds = new Set([
+  "searchIndex",
+  "azureBlob",
+  "indexedSharePoint",
+  "indexedOneLake",
+  "file",
+  "indexedSql",
+]);
+function assertSample(condition: unknown, message: string): asserts condition {
+  if (!condition) {
+    throw new Error(`Sample assertion failed: ${message}`);
+  }
+}
+
+async function provision(client: SearchIndexClient): Promise<void> {
+  await client.createIndex({
+    name: INDEX_NAME,
+    fields: [
+      { type: "Edm.String", name: "id", key: true },
+      { type: "Edm.String", name: "content", searchable: true },
+    ],
+    semanticSearch: {
+      defaultConfigurationName: "content",
+      configurations: [
+        { name: "content", prioritizedFields: { contentFields: [{ name: "content" }] } },
+      ],
+    },
+  });
+
+  const ks: SearchIndexKnowledgeSource = {
+    name: KNOWLEDGE_SOURCE_NAME,
+    kind: "searchIndex",
+    searchIndexParameters: { searchIndexName: INDEX_NAME },
+  };
+  await client.createKnowledgeSource(ks);
+
+  const searchClient = client.getSearchClient<{ id: string; content: string }>(INDEX_NAME);
+  await searchClient.uploadDocuments([
+    { id: "sample-1", content: "Knowledge retrieval searches configured data sources." },
+  ]);
+  await delay(WAIT_TIME);
+
+  const knowledgeBase: KnowledgeBase = {
+    name: KNOWLEDGE_BASE_NAME,
+    description: "Knowledge base for the retrieve preview-response sample.",
+    knowledgeSources: [{ name: KNOWLEDGE_SOURCE_NAME }],
+    models: azureOpenAIEndpoint
+      ? [
+          {
+            kind: "azureOpenAI",
+            azureOpenAIParameters: {
+              resourceUrl: azureOpenAIEndpoint,
+              deploymentId: chatDeployment,
+              modelName: chatModel,
+            },
+          },
+        ]
+      : undefined,
+  };
+  await client.createKnowledgeBase(knowledgeBase);
+}
+
+function validateCitationUrls(
+  response: Awaited<ReturnType<KnowledgeRetrievalClient["retrieve"]>>,
+): void {
+  const seenKinds = new Set<string>();
+  for (const reference of response.references ?? []) {
+    if (citationKinds.has(reference.type)) {
+      const citationUrl = "citationUrl" in reference ? reference.citationUrl : undefined;
+      assertSample(citationUrl, `${reference.type} should include citationUrl`);
+      const parsed = new URL(citationUrl);
+      assertSample(
+        parsed.protocol === "https:",
+        `${reference.type} citationUrl should be absolute`,
+      );
+      assertSample(
+        parsed.hostname === new URL(endpoint).hostname,
+        `${reference.type} citationUrl should point to the Search service, not the original source`,
+      );
+      seenKinds.add(reference.type);
+    }
+  }
+
+  if (citationKnowledgeBaseName) {
+    for (const kind of citationKinds) {
+      assertSample(seenKinds.has(kind), `the shared fixture should emit a ${kind} reference`);
+    }
+  }
+}
+
+async function teardown(client: SearchIndexClient): Promise<void> {
+  await client.deleteKnowledgeBase(KNOWLEDGE_BASE_NAME).catch(() => {});
+  await client.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME).catch(() => {});
+  await client.deleteIndex(INDEX_NAME).catch(() => {});
+}
+
+function printResponse(
+  label: string,
+  response: Awaited<ReturnType<KnowledgeRetrievalClient["retrieve"]>>,
+): void {
+  console.log(`--- ${label} ---`);
+  console.log(`  activity records: ${response.activity?.length ?? 0}`);
+  for (const record of response.activity ?? []) {
+    // Explicit intents bypass query planning; synthesis still reports model metadata.
+    if (
+      record.type === "modelQueryPlanning" ||
+      record.type === "modelAnswerSynthesis" ||
+      record.type === "modelWebSummarization"
+    ) {
+      const modelRecord = record as
+        | KnowledgeBaseModelQueryPlanningActivityRecord
+        | KnowledgeBaseModelAnswerSynthesisActivityRecord
+        | KnowledgeBaseModelWebSummarizationActivityRecord;
+      console.log(`    - ${record.type}: modelName=${modelRecord.model?.modelName ?? "<none>"}`);
+    } else {
+      console.log(`    - ${record.type}`);
+    }
+  }
+
+  console.log(`  references: ${response.references?.length ?? 0}`);
+  for (const ref of response.references ?? []) {
+    console.log(`    - ${ref.type}`);
+  }
+}
+
+async function main(): Promise<void> {
+  console.log(`Running Knowledge Retrieval Response Sample....`);
+  if (!endpoint) {
+    console.log("Be sure to set a valid ENDPOINT with proper authorization.");
+    return;
+  }
+
+  const credential = new DefaultAzureCredential();
+  const indexClient = new SearchIndexClient(endpoint, credential);
+  const provisionLocalFixture = !existingKnowledgeBaseName;
+
+  if (provisionLocalFixture) {
+    await provision(indexClient);
+  }
+  try {
+    const activeKnowledgeBaseName = existingKnowledgeBaseName || KNOWLEDGE_BASE_NAME;
+    const retrievalClient = new KnowledgeRetrievalClient(
+      endpoint,
+      activeKnowledgeBaseName,
+      credential,
+    );
+
+    // 1. extractiveData — return raw passages, cap output to 5 docs,
+    //    include the per-step activity trace.
+    const extractiveRequest: KnowledgeBaseRetrievalRequest = {
+      intents: [{ type: "semantic", search: "What information is available?" }],
+      maxOutputDocuments: 5,
+      includeActivity: true,
+      outputMode: KnownKnowledgeRetrievalOutputMode.ExtractiveData,
+    };
+    const extractiveResponse = await retrievalClient.retrieve(extractiveRequest);
+    printResponse("extractiveData", extractiveResponse);
+    validateCitationUrls(extractiveResponse);
+
+    if (provisionLocalFixture && !azureOpenAIEndpoint) {
+      console.log(
+        "Set AZURE_OPENAI_ENDPOINT and deploy a chat model to demonstrate answer synthesis.",
+      );
+      return;
+    }
+
+    // 2. answerSynthesis — let the planner synthesize an answer using
+    //    the KB's configured model. The activity trace exposes the
+    //    structured `model` metadata for each model-backed step.
+    const synthesisRequest: KnowledgeBaseRetrievalRequest = {
+      intents: [{ type: "semantic", search: "Summarize the key points." }],
+      maxOutputDocuments: 3,
+      includeActivity: true,
+      outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
+    };
+    printResponse("answerSynthesis", await retrievalClient.retrieve(synthesisRequest));
+  } finally {
+    if (provisionLocalFixture) {
+      await teardown(indexClient);
+    }
+  }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

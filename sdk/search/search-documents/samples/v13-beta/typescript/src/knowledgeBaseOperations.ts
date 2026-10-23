@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates Knowledge Base CRUD operations, including a tags
- * create/get/update round trip. Tags are user-defined metadata only; they
- * do not provide billing attribution or change retrieval behavior.
+ * @summary Demonstrates `2026-10-01` GA Knowledge Base CRUD operations,
+ * including a create/get/update round trip of the stored description.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -63,14 +62,9 @@ async function createKnowledgeBase(
     name: knowledgeBaseName,
     knowledgeSources: [{ name: TEST_KNOWLEDGE_SOURCE_NAME }],
     description: "A sample knowledge base for demonstration purposes",
-    tags: { environment: "sample", owner: "search-team" },
   };
   const result = await client.createKnowledgeBase(knowledgeBase);
-  if (result.tags?.environment !== "sample") {
-    throw new Error("Knowledge base tags did not round-trip on create");
-  }
   console.log(`Created knowledge base: ${result.name}`);
-  console.log(`Tags (metadata only): ${JSON.stringify(result.tags)}`);
   console.log(`Knowledge sources: ${result.knowledgeSources.map((ks) => ks.name).join(", ")}`);
 }
 
@@ -81,19 +75,9 @@ async function getAndUpdateKnowledgeBase(
   console.log(`Get And Update Knowledge Base Operation`);
   const knowledgeBase: KnowledgeBase = await client.getKnowledgeBase(knowledgeBaseName);
   console.log(`Retrieved knowledge base: ${knowledgeBase.name}`);
-  if (knowledgeBase.tags?.owner !== "search-team") {
-    throw new Error("Knowledge base tags did not round-trip on get");
-  }
-
-  // Replace the description and tags. Tags are metadata, not billing attribution.
   knowledgeBase.description = "Updated description for the sample knowledge base";
-  knowledgeBase.tags = { environment: "sample", owner: "sdk-team", lifecycle: "updated" };
   const updatedKnowledgeBase = await client.createOrUpdateKnowledgeBase(knowledgeBase);
   console.log(`Updated knowledge base description: ${updatedKnowledgeBase.description}`);
-  if (updatedKnowledgeBase.tags?.owner !== "sdk-team") {
-    throw new Error("Knowledge base tags did not round-trip on update");
-  }
-  console.log(`Updated tags (metadata only): ${JSON.stringify(updatedKnowledgeBase.tags)}`);
 }
 
 async function listKnowledgeBases(client: SearchIndexClient): Promise<void> {
