@@ -1,11 +1,5 @@
 # Release History
 
-## 1.25.1 (Unreleased)
-
-### Features Added
-
-- Added opt-in `Expect: 100-continue` support to the default Node.js HTTP/1 transport.
-
 ## 1.25.0 (2026-07-13)
 
 ### Other Changes
