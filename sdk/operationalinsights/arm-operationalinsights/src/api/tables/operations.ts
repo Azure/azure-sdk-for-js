@@ -1,22 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext as Client } from "../index.js";
+import type { OperationalInsightsManagementContext as Client } from "../index.js";
+import type { Table, _TablesListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  Table,
   tableSerializer,
   tableDeserializer,
-  _TablesListResult,
   _tablesListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   TablesCancelSearchOptionalParams,
   TablesMigrateOptionalParams,
   TablesListByWorkspaceOptionalParams,
@@ -25,13 +22,9 @@ import {
   TablesCreateOrUpdateOptionalParams,
   TablesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _cancelSearchSend(
   context: Client,
@@ -47,7 +40,7 @@ export function _cancelSearchSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +53,9 @@ export async function _cancelSearchDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -100,7 +95,7 @@ export function _migrateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +108,9 @@ export async function _migrateDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -145,7 +142,7 @@ export function _listByWorkspaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +160,9 @@ export async function _listByWorkspaceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -183,7 +182,7 @@ export function listByWorkspace(
     () => _listByWorkspaceSend(context, resourceGroupName, workspaceName, options),
     _listByWorkspaceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -201,7 +200,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -214,7 +213,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -236,7 +237,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, workspaceName, tableName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -255,7 +256,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -273,7 +274,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -296,7 +299,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, workspaceName, tableName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<Table>, Table>;
 }
 
@@ -315,7 +318,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -333,7 +336,9 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -363,7 +368,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<Table>, Table>;
 }
 
@@ -381,7 +386,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -397,7 +402,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ta
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

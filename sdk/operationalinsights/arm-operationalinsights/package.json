@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-operationalinsights",
-  "version": "11.0.0",
+  "version": "11.1.0",
   "description": "A generated SDK for OperationalInsightsManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -13,9 +13,9 @@
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
   "imports": {
-    "#platform/*.js": {
-      "browser": "./src/*-browser.mjs",
-      "default": "./src/*.js"
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
     }
   },
   "exports": {
@@ -422,11 +422,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -465,7 +465,8 @@
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-operationalinsights",

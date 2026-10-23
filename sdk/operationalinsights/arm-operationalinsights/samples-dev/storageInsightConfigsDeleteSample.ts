@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a storageInsightsConfigs resource
  *
  * @summary deletes a storageInsightsConfigs resource
- * x-ms-original-file: 2025-07-01/StorageInsightsDelete.json
+ * x-ms-original-file: 2026-03-01/StorageInsightsDelete.json
  */
 async function storageInsightsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

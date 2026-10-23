@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the storage insight instances within a workspace
  *
  * @summary lists the storage insight instances within a workspace
- * x-ms-original-file: 2025-07-01/StorageInsightsListByWorkspace.json
+ * x-ms-original-file: 2026-03-01/StorageInsightsListByWorkspace.json
  */
 async function storageInsightsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

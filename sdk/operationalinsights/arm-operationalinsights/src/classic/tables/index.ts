@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import {
   cancelSearch,
   migrate,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/tables/operations.js";
-import {
+import type {
   TablesCancelSearchOptionalParams,
   TablesMigrateOptionalParams,
   TablesListByWorkspaceOptionalParams,
@@ -20,10 +20,11 @@ import {
   TablesCreateOrUpdateOptionalParams,
   TablesGetOptionalParams,
 } from "../../api/tables/options.js";
-import { Table } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Table } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Tables operations. */
 export interface TablesOperations {

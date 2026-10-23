@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { OperationalInsightsManagementContext as Client } from "../index.js";
+import type {
   LogAnalyticsQueryPack,
-  logAnalyticsQueryPackSerializer,
-  logAnalyticsQueryPackDeserializer,
   TagsResource,
-  tagsResourceSerializer,
   _LogAnalyticsQueryPackListResult,
-  _logAnalyticsQueryPackListResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  logAnalyticsQueryPackSerializer,
+  logAnalyticsQueryPackDeserializer,
+  tagsResourceSerializer,
+  _logAnalyticsQueryPackListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   QueryPacksCreateOrUpdateWithoutNameOptionalParams,
   QueryPacksListOptionalParams,
   QueryPacksListByResourceGroupOptionalParams,
@@ -26,12 +26,8 @@ import {
   QueryPacksCreateOrUpdateOptionalParams,
   QueryPacksGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _createOrUpdateWithoutNameSend(
   context: Client,
@@ -44,7 +40,7 @@ export function _createOrUpdateWithoutNameSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +60,9 @@ export async function _createOrUpdateWithoutNameDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -96,7 +94,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/queryPacks{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,7 +112,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -132,7 +132,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -146,7 +146,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -164,7 +164,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -183,7 +185,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -199,7 +201,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       queryPackName: queryPackName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,7 +214,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -244,7 +248,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       queryPackName: queryPackName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -264,7 +268,9 @@ export async function _updateTagsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -303,7 +309,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       queryPackName: queryPackName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -323,7 +329,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -361,7 +369,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       queryPackName: queryPackName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -379,7 +387,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

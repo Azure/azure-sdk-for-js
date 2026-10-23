@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Log Analytics cluster instance.
  *
  * @summary gets a Log Analytics cluster instance.
- * x-ms-original-file: 2025-07-01/ClustersGet.json
+ * x-ms-original-file: 2026-03-01/ClustersGet.json
  */
 async function clustersGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

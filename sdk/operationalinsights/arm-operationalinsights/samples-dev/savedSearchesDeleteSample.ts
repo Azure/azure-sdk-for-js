@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified saved search in a given workspace.
  *
  * @summary deletes the specified saved search in a given workspace.
- * x-ms-original-file: 2025-07-01/WorkspacesDeleteSavedSearches.json
+ * x-ms-original-file: 2026-03-01/WorkspacesDeleteSavedSearches.json
  */
 async function savedSearchesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

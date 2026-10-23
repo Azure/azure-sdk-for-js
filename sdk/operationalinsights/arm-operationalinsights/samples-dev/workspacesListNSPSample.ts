@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of NSP configurations for specified workspace.
  *
  * @summary gets a list of NSP configurations for specified workspace.
- * x-ms-original-file: 2025-07-01/NSPForWorkspaces_List.json
+ * x-ms-original-file: 2026-03-01/NSPForWorkspaces_List.json
  */
 async function listNSPConfigsByScheduledQueryRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

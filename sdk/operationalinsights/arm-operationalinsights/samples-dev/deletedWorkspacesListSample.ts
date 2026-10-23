@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets recently deleted workspaces in a subscription, available for recovery.
  *
  * @summary gets recently deleted workspaces in a subscription, available for recovery.
- * x-ms-original-file: 2025-07-01/WorkspacesSubscriptionList.json
+ * x-ms-original-file: 2026-03-01/WorkspacesSubscriptionList.json
  */
 async function workspacesSubscriptionList(): Promise<void> {
   const credential = new DefaultAzureCredential();

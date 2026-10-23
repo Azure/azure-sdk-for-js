@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * In order to manage system resources, purge requests are throttled at 50 requests per hour. You should batch the execution of purge requests by sending a single command whose predicate includes all user identities that require purging. Use the in operator to specify multiple identities. You should run the query prior to using for a purge request to verify that the results are expected.
  * Log Analytics only supports purge operations required for compliance with GDPR. The Log Analytics product team reserves the right to reject requests for purge operations that are not for the purpose of GDPR compliance. In the event of a dispute, please create a support ticket
- * x-ms-original-file: 2025-07-01/WorkspacesPurge.json
+ * x-ms-original-file: 2026-03-01/WorkspacesPurge.json
  */
 async function workspacePurge(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -37,7 +37,7 @@ async function workspacePurge(): Promise<void> {
  *
  * In order to manage system resources, purge requests are throttled at 50 requests per hour. You should batch the execution of purge requests by sending a single command whose predicate includes all user identities that require purging. Use the in operator to specify multiple identities. You should run the query prior to using for a purge request to verify that the results are expected.
  * Log Analytics only supports purge operations required for compliance with GDPR. The Log Analytics product team reserves the right to reject requests for purge operations that are not for the purpose of GDPR compliance. In the event of a dispute, please create a support ticket
- * x-ms-original-file: 2025-07-01/WorkspacesPurgeResourceId.json
+ * x-ms-original-file: 2026-03-01/WorkspacesPurgeResourceId.json
  */
 async function workspacePurgeResourceId(): Promise<void> {
   const credential = new DefaultAzureCredential();

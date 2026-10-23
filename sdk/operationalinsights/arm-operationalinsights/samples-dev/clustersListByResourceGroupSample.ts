@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets Log Analytics clusters in a resource group.
  *
  * @summary gets Log Analytics clusters in a resource group.
- * x-ms-original-file: 2025-07-01/ClustersListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/ClustersListByResourceGroup.json
  */
 async function clustersGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

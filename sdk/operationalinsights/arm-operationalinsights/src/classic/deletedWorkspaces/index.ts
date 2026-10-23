@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { listByResourceGroup, list } from "../../api/deletedWorkspaces/operations.js";
-import {
+import type {
   DeletedWorkspacesListByResourceGroupOptionalParams,
   DeletedWorkspacesListOptionalParams,
 } from "../../api/deletedWorkspaces/options.js";
-import { Workspace } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Workspace } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DeletedWorkspaces operations. */
 export interface DeletedWorkspacesOperations {

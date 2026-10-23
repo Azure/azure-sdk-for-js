@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes all linked storage accounts of a specific data source type associated with the specified workspace.
  *
  * @summary deletes all linked storage accounts of a specific data source type associated with the specified workspace.
- * x-ms-original-file: 2025-07-01/LinkedStorageAccountsDelete.json
+ * x-ms-original-file: 2026-03-01/LinkedStorageAccountsDelete.json
  */
 async function linkedStorageAccountsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

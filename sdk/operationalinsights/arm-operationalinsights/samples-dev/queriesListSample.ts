@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of Queries defined within a Log Analytics QueryPack.
  *
  * @summary gets a list of Queries defined within a Log Analytics QueryPack.
- * x-ms-original-file: 2025-07-01/QueryPackQueriesList.json
+ * x-ms-original-file: 2026-03-01/QueryPackQueriesList.json
  */
 async function queryList(): Promise<void> {
   const credential = new DefaultAzureCredential();

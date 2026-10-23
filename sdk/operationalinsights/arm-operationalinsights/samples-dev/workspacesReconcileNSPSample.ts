@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to reconcile network security perimeter configuration for Workspace resource.
  *
  * @summary reconcile network security perimeter configuration for Workspace resource.
- * x-ms-original-file: 2025-07-01/NSPForWorkspaces_Reconcile.json
+ * x-ms-original-file: 2026-03-01/NSPForWorkspaces_Reconcile.json
  */
 async function reconcileNSPConfigForScheduledQueryRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
