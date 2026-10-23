@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to rotates the service account signing keys of a managed cluster.
  *
  * @summary rotates the service account signing keys of a managed cluster.
- * x-ms-original-file: 2026-07-02-preview/ManagedClustersRotateServiceAccountSigningKeys.json
+ * x-ms-original-file: 2026-08-01/ManagedClustersRotateServiceAccountSigningKeys.json
  */
 async function rotateClusterServiceAccountSigningKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();

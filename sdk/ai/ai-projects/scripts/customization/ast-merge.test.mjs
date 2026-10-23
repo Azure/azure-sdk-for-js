@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { runInNewContext } from "node:vm";
 import ts from "typescript";
-import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
+import { canonicalize, mergeDeclaration, retainCustomizedOnConflict } from "./ast-merge.mjs";
 
 const context = { file: "models\\models.ts", declaration: "Example" };
 
@@ -904,6 +904,263 @@ test("effectful object member reordering remains a conflict", () => {
   );
 });
 
+// azure-rest-api-specs@29a6d34: the emitter reordered voiceResponseDeserializer
+// while the customized copy still carried an older emission's member order.
+const stalePositions = `export function deserialize(item: any) {
+  return {
+    object: item["object"],
+    usage: !item["usage"] ? item["usage"] : usageDeserializer(item["usage"]),
+    max_output_tokens: !item["max_output_tokens"] ? item["max_output_tokens"] : baseTokensDeserializer(item["max_output_tokens"]),
+    id: item["id"],
+    output: !item["output"] ? item["output"] : outputArrayDeserializer(item["output"]),
+    audio: !item["audio"] ? item["audio"] : audioDeserializer(item["audio"]),
+    metadata: !item["metadata"] ? item["metadata"] : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
+  };
+}`;
+
+test("contradictory converter member orders keep the customized order and merge values by identity", () => {
+  const text = merged(
+    stalePositions,
+    `export function deserialize(item: any) {
+      return {
+        id: item["id"],
+        object: item["object"],
+        usage: !item["usage"] ? item["usage"] : usageDeserializer(item["usage"]),
+        max_output_tokens: !item["max_output_tokens"] ? item["max_output_tokens"] : baseTokensDeserializer(item["max_output_tokens"]),
+        output: !item["output"] ? item["output"] : outputArrayDeserializer(item["output"]),
+        audio: !item["audio"] ? item["audio"] : audioDeserializer(item["audio"]),
+        metadata: !item["metadata"] ? item["metadata"] : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+        created_at: item["created_at"] === undefined || item["created_at"] === null ? item["created_at"] : new Date(item["created_at"] * 1000),
+      };
+    }`,
+    `export function deserialize(item: any) {
+      return {
+        id: item["id"],
+        object: item["object"],
+        output: !item["output"] ? item["output"] : outputArrayDeserializer(item["output"]),
+        metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+        usage: !item["usage"] ? item["usage"] : usageDeserializer(item["usage"]),
+        max_output_tokens: !item["max_output_tokens"] ? item["max_output_tokens"] : tokensDeserializer(item["max_output_tokens"]),
+        audio: !item["audio"] ? item["audio"] : audioDeserializer(item["audio"]),
+        created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
+      };
+    }`,
+    `export function deserialize(item: any) {
+      return {
+        id: item["id"],
+        object: item["object"],
+        usage: !item["usage"] ? item["usage"] : usageDeserializer(item["usage"]),
+        max_output_tokens: !item["max_output_tokens"] ? item["max_output_tokens"] : tokensDeserializer(item["max_output_tokens"]),
+        output: !item["output"] ? item["output"] : outputArrayDeserializer(item["output"]),
+        audio: !item["audio"] ? item["audio"] : audioDeserializer(item["audio"]),
+        metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+        created_at: item["created_at"] === undefined || item["created_at"] === null ? item["created_at"] : new Date(item["created_at"] * 1000)
+      };
+    }`,
+  );
+  const calls = [];
+  const { deserialize } = evaluate(text, {
+    usageDeserializer: (value) => ({ usage: value }),
+    outputArrayDeserializer: (value) => ({ output: value }),
+    audioDeserializer: (value) => ({ audio: value }),
+    tokensDeserializer: (value) => ({ tokens: value }),
+    baseTokensDeserializer: () => assert.fail("The replaced deserializer was kept."),
+    metadataDeserializer: (value) => {
+      calls.push("metadata");
+      return { metadata: value };
+    },
+  });
+  const actual = deserialize({
+    id: "id",
+    object: "object",
+    usage: 1,
+    max_output_tokens: 2,
+    output: 3,
+    audio: 4,
+    metadata: 5,
+    created_at: 0,
+  });
+  assert.deepEqual(Object.keys(actual), [
+    "id",
+    "object",
+    "usage",
+    "max_output_tokens",
+    "output",
+    "audio",
+    "metadata",
+    "created_at",
+  ]);
+  assert.equal(actual.created_at.getTime(), 0);
+  assert.deepEqual(JSON.parse(JSON.stringify(actual.max_output_tokens)), { tokens: 2 });
+  assert.deepEqual(JSON.parse(JSON.stringify(actual.metadata)), { metadata: 5 });
+  assert.deepEqual(calls, ["metadata"]);
+});
+
+test("incoming-only converter members follow the customized order when member orders contradict", () => {
+  merged(
+    "export function serialize(item: any) { return { a: item.a, b: item.b, c: item.c }; }",
+    "export function serialize(item: any) { return { c: item.c, a: item.a, custom: item.custom, b: item.b }; }",
+    "export function serialize(item: any) { return { b: item.b, c: item.c, incoming: !item.incoming ? item.incoming : incomingSerializer(item.incoming), a: item.a }; }",
+    "export function serialize(item: any) { return { c: item.c, a: item.a, custom: item.custom, b: item.b, incoming: !item.incoming ? item.incoming : incomingSerializer(item.incoming) }; }",
+  );
+});
+
+test("converter order merging is deterministic and stable once applied", () => {
+  const base =
+    "export function serialize(item: any) { return { a: item.a, b: item.b, c: item.c }; }";
+  const custom =
+    "export function serialize(item: any) { return { c: item.c, a: !item.a ? item.a : aSerializer(item.a), b: item.b }; }";
+  const incoming =
+    "export function serialize(item: any) { return { b: item.b, c: item.c, a: item.a, d: item.d }; }";
+  const result = mergeDeclaration(base, custom, incoming, context);
+  assert.deepEqual(result.diagnostics, []);
+  assert.equal(
+    canonicalize(result.text),
+    canonicalize(
+      "export function serialize(item: any) { return { c: item.c, a: !item.a ? item.a : aSerializer(item.a), b: item.b, d: item.d }; }",
+    ),
+  );
+  assert.deepEqual(mergeDeclaration(base, custom, incoming, context), result);
+  assert.deepEqual(mergeDeclaration(incoming, result.text, incoming, context), result);
+});
+
+test("converter vocabulary emitted by the generator can order concurrent additions", () => {
+  for (const expression of [
+    'item["wire"]',
+    '!item["wire"] ? item["wire"] : wireDeserializer(item["wire"])',
+    'wireArrayDeserializer(item["wire"] ?? item["alt"] ?? [])',
+    'item["wire"] ? wireSerializer(item["wire"]) : undefined',
+    '!item["wire"] ? item["wire"] : item["wire"].map((p: any) => { return p; })',
+    'item["wire"].map((p: any) => { return p.map((q: any) => { return q; }); })',
+    '!item["wire"] ? item["wire"] : item["wire"].map((p: any) => wireSerializer(p))',
+    'Object.fromEntries(Object.entries(item["wire"]).map(([k, p]: [string, any]) => [k, p]))',
+    '!item["wire"] ? item["wire"] : new Date(item["wire"] * 1000)',
+    'item["wire"] === undefined || item["wire"] === null ? item["wire"] : new Date(item["wire"] * 1000)',
+    'item["wire"] !== undefined && item["wire"] !== null ? new Date(item["wire"] * 1000) : item["wire"]',
+    '!item["wire"] ? item["wire"] : (item["wire"].getTime() / 1000) | 0',
+    '!item["wire"] ? item["wire"] : item["wire"].getTime() / 1000 || 0',
+    '!item["wire"] ? item["wire"] : item["wire"].toISOString()',
+    'new Date(item["wire"])',
+    'item["wire"] ?? false',
+    'uint8ArrayToString(item["wire"], "base64")',
+    'typeof item["wire"] === "string" ? stringToUint8Array(item["wire"], "base64") : item["wire"]',
+    'serializeRecord(item, ["type", "name"])',
+    "_hiddenDeserializer(item.wire)",
+  ]) {
+    merged(
+      "function serialize(item: any) { return { base: item.base }; }",
+      "function serialize(item: any) { return { base: item.base, custom: item.custom }; }",
+      `function serialize(item: any) { return { base: item.base, incoming: ${expression} }; }`,
+      `function serialize(item: any) { return { base: item.base, custom: item.custom, incoming: ${expression} }; }`,
+    );
+  }
+});
+
+test("only the generator's converter vocabulary is treated as order independent", () => {
+  for (const expression of [
+    'item["wire"] + 1',
+    '`${item["wire"]}`',
+    'convert(item["wire"])',
+    'wireDeserializer?.(item["wire"])',
+    'wireDeserializer(item["wire"], convert(item))',
+    'wireDeserializer<string>(item["wire"])',
+    'item["wire"]?.map((p: any) => p)',
+    'item["wire"].map(wireDeserializer)',
+    'item["wire"].map((p: any) => convert(p))',
+    'item["wire"].map((p: any) => { mutate(p); return p; })',
+    'item["wire"].map((p: any) => { mutate(p); })',
+    'item["wire"].map((p: any) => { return; })',
+    'item["wire"].map(async (p: any) => p)',
+    'item["wire"].map((p: any = mutate()) => p)',
+    'item["wire"].map(([p = mutate()]: [any]) => p)',
+    'item["wire"].map((...p: any[]) => p)',
+    'item["wire"].map(function (p: any) { return p; })',
+    'item["wire"].filter((p: any) => p)',
+    'item["wire"].toString()',
+    'item["wire"].getTime(1)',
+    'item["wire"].toISOString(mutate())',
+    'new Other(item["wire"])',
+    "new Date()",
+    'new Date(item["wire"], mutate())',
+    'new Date(convert(item["wire"]))',
+    "Object.assign(item, other)",
+    'Object.entries(item["wire"], mutate())',
+    'Object.values(item["wire"])',
+    'other.entries(item["wire"])',
+    'item["wire"] = 1',
+    'item["wire"]++',
+    "(item.count += 1)",
+    "void mutate()",
+    'delete item["wire"]',
+    'item["wire"] in other',
+    'item["wire"] instanceof Date',
+    '(mutate(), item["wire"])',
+    '!item["wire"] ? item["wire"] : mutate(item["wire"])',
+    '!item["wire"] ? mutate() : item["wire"]',
+    "() => item.wire",
+  ]) {
+    rejected(
+      "function serialize(item: any) { return { base: item.base }; }",
+      "function serialize(item: any) { return { base: item.base, custom: item.custom }; }",
+      `function serialize(item: any) { return { base: item.base, incoming: ${expression} }; }`,
+      /Ambiguous ordering/,
+    );
+  }
+});
+
+test("a single unrecognized, effectful, or spread member keeps converter member order strict", () => {
+  const original = (extra) =>
+    `export function serialize(item: any) { return { a: item.a, b: item.b${extra} }; }`;
+  const reordered = (extra) =>
+    `export function serialize(item: any) { return { b: item.b, a: item.a${extra} }; }`;
+  for (const extra of [
+    ", effect: record(item.effect)",
+    ", effect: item.effect + 1",
+    ", ...item.rest",
+    ", method() { return 1; }",
+    ", get value() { return 1; }",
+    ", [item.key]: 1",
+  ]) {
+    rejected(
+      original(extra),
+      reordered(extra),
+      original(`${extra}, added: item.added`),
+      /Ambiguous ordering|stable identities/,
+    );
+  }
+  rejected(
+    original(""),
+    reordered(", custom: record(item.custom)"),
+    original(", added: item.added"),
+    /Ambiguous ordering/,
+  );
+  rejected(
+    original(""),
+    reordered(""),
+    original(", added: record(item.added)"),
+    /Ambiguous ordering/,
+  );
+});
+
+test("converter member ordering does not hide a baseline member both sides replaced", () => {
+  rejected(
+    "export function serialize(item: any) { return { a: item.a, old: item.old, b: item.b }; }",
+    "export function serialize(item: any) { return { b: item.b, custom: item.custom, a: item.a }; }",
+    "export function serialize(item: any) { return { a: item.a, incoming: item.incoming, b: item.b }; }",
+    /Ambiguous ordering/,
+  );
+});
+
+test("converter member values still merge by identity when member orders contradict", () => {
+  rejected(
+    "export function serialize(item: any) { return { a: item.a, b: item.b }; }",
+    "export function serialize(item: any) { return { b: item.b, a: item.custom }; }",
+    "export function serialize(item: any) { return { a: item.incoming, b: item.b }; }",
+    /Unsupported concurrent semantic changes/,
+  );
+});
+
 test("fallthrough and nonliteral switch cases need explicit resolution", () => {
   rejected(
     'function read(item) { switch (item.kind) { case "a": case "b": return item; default: return item; } }',
@@ -1185,4 +1442,53 @@ test("element-wise list merges keep comments without inserting blank lines", () 
   assert.match(text, /second: 20/);
   assert.match(text, /\/\/ Maintained note\./);
   assert.doesNotMatch(text, /\n[ \t]*\n/);
+});
+
+test("recovery keeps the customized declaration for a rejected merge and records it", () => {
+  const base = "interface Example { x: string; }";
+  const custom = "interface Example { x: number; }";
+  const incoming = "interface Example { x: boolean; }";
+  const sink = [];
+  retainCustomizedOnConflict(sink);
+  try {
+    const result = mergeDeclaration(base, custom, incoming, context);
+    assert.deepEqual(result, { text: custom, diagnostics: [] });
+    assert.equal(sink.length, 1);
+    assert.equal(sink[0].file, context.file);
+    assert.equal(sink[0].declaration, context.declaration);
+    assert.deepEqual(
+      [sink[0].baseText, sink[0].customText, sink[0].incomingText],
+      [base, custom, incoming],
+    );
+    assert.match(sink[0].diagnostics.map((d) => d.message).join("\n"), /atomic|different/);
+    // Merges that succeed, and clean deletions, are never recorded.
+    assert.equal(merged(base, custom, base), custom);
+    assert.deepEqual(mergeDeclaration(base, null, base, context), {
+      text: null,
+      diagnostics: [],
+    });
+    assert.equal(sink.length, 1);
+  } finally {
+    retainCustomizedOnConflict(null);
+  }
+  // Without recovery the same merge is rejected again.
+  rejected(base, custom, incoming, /atomic|different/);
+});
+
+test("recovery keeps a custom-side deletion that conflicts with an emitted edit, and records it", () => {
+  const base = "interface Example { x: string; }";
+  const incoming = "interface Example { x: number; }";
+  const sink = [];
+  retainCustomizedOnConflict(sink);
+  try {
+    assert.deepEqual(mergeDeclaration(base, null, incoming, context), {
+      text: null,
+      diagnostics: [],
+    });
+    assert.equal(sink.length, 1);
+    assert.equal(sink[0].customText, null);
+  } finally {
+    retainCustomizedOnConflict(null);
+  }
+  rejected(base, null, incoming, /Deletion conflicts/);
 });
