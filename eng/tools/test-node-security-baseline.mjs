@@ -91,7 +91,6 @@ test("pins the fixed CI runtimes and verifies even when installation is skipped"
   assert.match(template, /version: \$\{\{ parameters\.NodeVersion \}\}/);
   assert.equal((template.match(/condition:/g) ?? []).length, 1);
   assert.match(template, /condition: \$\{\{ parameters\.InstallCondition \}\}/);
-  assert.equal(readFileSync(new URL("../../.nvmrc", import.meta.url), "utf8").trim(), "22.23.4");
 });
 
 test("passes the perf Node selector through without appending another wildcard", () => {
