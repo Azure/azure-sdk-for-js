@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list certificates used on endpoints on the target instance.
  *
  * @summary list certificates used on endpoints on the target instance.
- * x-ms-original-file: 2025-08-01-preview/EndpointCertificatesListByInstance.json
+ * x-ms-original-file: 2026-08-01-preview/EndpointCertificatesListByInstance.json
  */
 async function getAListOfEndpointCertificates(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getAListOfEndpointCertificates(): Promise<void> {
  * This sample demonstrates how to list certificates used on endpoints on the target instance.
  *
  * @summary list certificates used on endpoints on the target instance.
- * x-ms-original-file: 2025-08-01-preview/EndpointCertificatesListByInstanceWithTrustedRootCertificates.json
+ * x-ms-original-file: 2026-08-01-preview/EndpointCertificatesListByInstanceWithTrustedRootCertificates.json
  */
 async function getAListOfEndpointCertificatesIncludingTrustedRootCertificates(): Promise<void> {
   const credential = new DefaultAzureCredential();

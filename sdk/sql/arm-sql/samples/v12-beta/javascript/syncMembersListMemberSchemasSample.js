@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a sync member database schema.
  *
  * @summary gets a sync member database schema.
- * x-ms-original-file: 2025-08-01-preview/SyncMemberGetSchema.json
+ * x-ms-original-file: 2026-08-01-preview/SyncMemberGetSchema.json
  */
 async function getASyncMemberSchema() {
   const credential = new DefaultAzureCredential();

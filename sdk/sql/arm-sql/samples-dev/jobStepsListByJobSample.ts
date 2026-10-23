@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all job steps for a job's current version.
  *
  * @summary gets all job steps for a job's current version.
- * x-ms-original-file: 2025-08-01-preview/ListJobStepsByJob.json
+ * x-ms-original-file: 2026-08-01-preview/ListJobStepsByJob.json
  */
 async function listJobStepsForTheLatestVersionOfAJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an instance pool.
  *
  * @summary creates or updates an instance pool.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateInstancePoolMax.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateInstancePoolMax.json
  */
 async function createAnInstancePoolWithAllProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function createAnInstancePoolWithAllProperties(): Promise<void> {
  * This sample demonstrates how to creates or updates an instance pool.
  *
  * @summary creates or updates an instance pool.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateInstancePoolMin.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateInstancePoolMin.json
  */
 async function createAnInstancePoolWithMinProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();

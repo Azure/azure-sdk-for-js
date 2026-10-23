@@ -96,6 +96,7 @@ export interface ManagedLedgerDigestUploadsOperationsOperations {
     options?: ManagedLedgerDigestUploadsOperationsGetOptionalParams,
   ) => Promise<ManagedLedgerDigestUploads>;
 }
+
 function _getManagedLedgerDigestUploadsOperations(context: SqlManagementContext) {
   return {
     disable: (
@@ -225,6 +226,7 @@ function _getManagedLedgerDigestUploadsOperations(context: SqlManagementContext)
       ),
   };
 }
+
 export function _getManagedLedgerDigestUploadsOperationsOperations(
   context: SqlManagementContext,
 ): ManagedLedgerDigestUploadsOperationsOperations {

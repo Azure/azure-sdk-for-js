@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
  *
  * @summary synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
- * x-ms-original-file: 2025-08-01-preview/UpdateVirtualClusterDnsServers.json
+ * x-ms-original-file: 2026-08-01-preview/UpdateVirtualClusterDnsServers.json
  */
 async function performsUpdateOfDnsServersOnManagedInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();

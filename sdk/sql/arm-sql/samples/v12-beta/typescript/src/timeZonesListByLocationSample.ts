@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of managed instance time zones by location.
  *
  * @summary gets a list of managed instance time zones by location.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceTimeZoneListByLocation.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceTimeZoneListByLocation.json
  */
 async function listManagedInstanceTimeZonesByLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();

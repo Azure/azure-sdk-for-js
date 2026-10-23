@@ -40,6 +40,7 @@ export interface DatabaseColumnsOperations {
     options?: DatabaseColumnsGetOptionalParams,
   ) => Promise<DatabaseColumn>;
 }
+
 function _getDatabaseColumns(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -86,6 +87,7 @@ function _getDatabaseColumns(context: SqlManagementContext) {
       ),
   };
 }
+
 export function _getDatabaseColumnsOperations(
   context: SqlManagementContext,
 ): DatabaseColumnsOperations {

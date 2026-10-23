@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a managed database's security alert policy.
  *
  * @summary gets a managed database's security alert policy.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseSecurityAlertGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseSecurityAlertGet.json
  */
 async function getADatabaseThreatDetectionPolicy() {
   const credential = new DefaultAzureCredential();

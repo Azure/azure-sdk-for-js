@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to replaces all firewall rules on the server.
  *
  * @summary replaces all firewall rules on the server.
- * x-ms-original-file: 2025-08-01-preview/FirewallRuleReplace.json
+ * x-ms-original-file: 2026-08-01-preview/FirewallRuleReplace.json
  */
 async function replaceFirewallRules(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an elastic pool.
  *
  * @summary updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolUpdateAssignMaintenanceConfiguration.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolUpdateAssignMaintenanceConfiguration.json
  */
 async function assignsMaintenanceConfigurationToAnElasticPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function assignsMaintenanceConfigurationToAnElasticPool(): Promise<void> {
  * This sample demonstrates how to updates an elastic pool.
  *
  * @summary updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolUpdateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolUpdateMax.json
  */
 async function updateAnElasticPoolWithAllParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function updateAnElasticPoolWithAllParameter(): Promise<void> {
  * This sample demonstrates how to updates an elastic pool.
  *
  * @summary updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolUpdateMin.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolUpdateMin.json
  */
 async function updateAnElasticPoolWithMinimumParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -73,7 +73,7 @@ async function updateAnElasticPoolWithMinimumParameters(): Promise<void> {
  * This sample demonstrates how to updates an elastic pool.
  *
  * @summary updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolUpdateResetMaintenanceConfiguration.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolUpdateResetMaintenanceConfiguration.json
  */
 async function resetsMaintenanceConfigurationOfAnElasticPoolToDefault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -95,7 +95,7 @@ async function resetsMaintenanceConfigurationOfAnElasticPoolToDefault(): Promise
  * This sample demonstrates how to updates an elastic pool.
  *
  * @summary updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolUpdateServerlessProperties.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolUpdateServerlessProperties.json
  */
 async function updateAnElasticPoolWithServerlessProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -119,7 +119,7 @@ async function updateAnElasticPoolWithServerlessProperties(): Promise<void> {
  * This sample demonstrates how to updates an elastic pool.
  *
  * @summary updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolUpdateWithDefaultPreferredEnclaveType.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolUpdateWithDefaultPreferredEnclaveType.json
  */
 async function updateAnElasticPoolWithPreferredEnclaveTypeParameterAsDefault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -138,7 +138,7 @@ async function updateAnElasticPoolWithPreferredEnclaveTypeParameterAsDefault(): 
  * This sample demonstrates how to updates an elastic pool.
  *
  * @summary updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolUpdateWithVBSPreferredEnclaveType.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolUpdateWithVBSPreferredEnclaveType.json
  */
 async function updateAnElasticPoolWithPreferredEnclaveTypeParameterAsVBS(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -157,7 +157,7 @@ async function updateAnElasticPoolWithPreferredEnclaveTypeParameterAsVBS(): Prom
  * This sample demonstrates how to updates an elastic pool.
  *
  * @summary updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/HyperscaleElasticPoolUpdateSetHighAvailabilityReplicaCount.json
+ * x-ms-original-file: 2026-08-01-preview/HyperscaleElasticPoolUpdateSetHighAvailabilityReplicaCount.json
  */
 async function updateHighAvailabilityReplicaCountOfAHyperscaleElasticPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

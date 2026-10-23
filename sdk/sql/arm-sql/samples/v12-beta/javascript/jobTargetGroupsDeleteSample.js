@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a target group.
  *
  * @summary deletes a target group.
- * x-ms-original-file: 2025-08-01-preview/DeleteJobTargetGroup.json
+ * x-ms-original-file: 2026-08-01-preview/DeleteJobTargetGroup.json
  */
 async function deleteATargetGroup() {
   const credential = new DefaultAzureCredential();

@@ -83,6 +83,7 @@ export interface ServerAzureADAdministratorsOperations {
     options?: ServerAzureADAdministratorsGetOptionalParams,
   ) => Promise<ServerAzureADAdministrator>;
 }
+
 function _getServerAzureADAdministrators(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -171,6 +172,7 @@ function _getServerAzureADAdministrators(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, administratorName, options),
   };
 }
+
 export function _getServerAzureADAdministratorsOperations(
   context: SqlManagementContext,
 ): ServerAzureADAdministratorsOperations {

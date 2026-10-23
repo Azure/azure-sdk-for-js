@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the managed instance's Start/Stop schedule.
  *
  * @summary deletes the managed instance's Start/Stop schedule.
- * x-ms-original-file: 2025-08-01-preview/StartStopManagedInstanceScheduleDelete.json
+ * x-ms-original-file: 2026-08-01-preview/StartStopManagedInstanceScheduleDelete.json
  */
 async function deletesTheManagedInstanceStartOrStopSchedule() {
   const credential = new DefaultAzureCredential();

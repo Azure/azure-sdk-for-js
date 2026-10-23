@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a sync group.
  *
  * @summary gets a sync group.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupGet.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupGet.json
  */
 async function getASyncGroup() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function getASyncGroup() {
  * This sample demonstrates how to gets a sync group.
  *
  * @summary gets a sync group.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupGetWithIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupGetWithIdentity.json
  */
 async function getASyncGroupWithUserAssignedIdentity() {
   const credential = new DefaultAzureCredential();

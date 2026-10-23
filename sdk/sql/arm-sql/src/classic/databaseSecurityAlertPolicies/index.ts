@@ -42,6 +42,7 @@ export interface DatabaseSecurityAlertPoliciesOperations {
     options?: DatabaseSecurityAlertPoliciesGetOptionalParams,
   ) => Promise<DatabaseSecurityAlertPolicy>;
 }
+
 function _getDatabaseSecurityAlertPolicies(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -77,6 +78,7 @@ function _getDatabaseSecurityAlertPolicies(context: SqlManagementContext) {
       get(context, resourceGroupName, serverName, databaseName, securityAlertPolicyName, options),
   };
 }
+
 export function _getDatabaseSecurityAlertPoliciesOperations(
   context: SqlManagementContext,
 ): DatabaseSecurityAlertPoliciesOperations {

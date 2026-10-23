@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a target group.
  *
  * @summary creates or updates a target group.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateJobTargetGroupMax.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateJobTargetGroupMax.json
  */
 async function createOrUpdateATargetGroupWithAllProperties() {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function createOrUpdateATargetGroupWithAllProperties() {
  * This sample demonstrates how to creates or updates a target group.
  *
  * @summary creates or updates a target group.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateJobTargetGroupMin.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateJobTargetGroupMin.json
  */
 async function createOrUpdateATargetGroupWithMinimalProperties() {
   const credential = new DefaultAzureCredential();

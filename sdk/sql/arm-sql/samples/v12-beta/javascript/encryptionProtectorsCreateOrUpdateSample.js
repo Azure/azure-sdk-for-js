@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates an existing encryption protector.
  *
  * @summary updates an existing encryption protector.
- * x-ms-original-file: 2025-08-01-preview/EncryptionProtectorCreateOrUpdateKeyVault.json
+ * x-ms-original-file: 2026-08-01-preview/EncryptionProtectorCreateOrUpdateKeyVault.json
  */
 async function updateTheEncryptionProtectorToKeyVault() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function updateTheEncryptionProtectorToKeyVault() {
  * This sample demonstrates how to updates an existing encryption protector.
  *
  * @summary updates an existing encryption protector.
- * x-ms-original-file: 2025-08-01-preview/EncryptionProtectorCreateOrUpdateKeyVaultWithVersionlessKey.json
+ * x-ms-original-file: 2026-08-01-preview/EncryptionProtectorCreateOrUpdateKeyVaultWithVersionlessKey.json
  */
 async function updateTheEncryptionProtectorToKeyVaultWithVersionlessKey() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function updateTheEncryptionProtectorToKeyVaultWithVersionlessKey() {
  * This sample demonstrates how to updates an existing encryption protector.
  *
  * @summary updates an existing encryption protector.
- * x-ms-original-file: 2025-08-01-preview/EncryptionProtectorCreateOrUpdateServiceManaged.json
+ * x-ms-original-file: 2026-08-01-preview/EncryptionProtectorCreateOrUpdateServiceManaged.json
  */
 async function updateTheEncryptionProtectorToServiceManaged() {
   const credential = new DefaultAzureCredential();

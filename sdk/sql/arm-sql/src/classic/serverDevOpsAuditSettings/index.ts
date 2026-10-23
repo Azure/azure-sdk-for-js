@@ -63,6 +63,7 @@ export interface ServerDevOpsAuditSettingsOperations {
     options?: ServerDevOpsAuditSettingsGetOptionalParams,
   ) => Promise<ServerDevOpsAuditingSettings>;
 }
+
 function _getServerDevOpsAuditSettings(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -127,6 +128,7 @@ function _getServerDevOpsAuditSettings(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, devOpsAuditingSettingsName, options),
   };
 }
+
 export function _getServerDevOpsAuditSettingsOperations(
   context: SqlManagementContext,
 ): ServerDevOpsAuditSettingsOperations {

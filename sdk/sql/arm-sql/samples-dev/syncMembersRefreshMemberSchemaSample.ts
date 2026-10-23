@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refreshes a sync member database schema.
  *
  * @summary refreshes a sync member database schema.
- * x-ms-original-file: 2025-08-01-preview/SyncMemberRefreshSchema.json
+ * x-ms-original-file: 2026-08-01-preview/SyncMemberRefreshSchema.json
  */
 async function refreshASyncMemberDatabaseSchema(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -33,7 +33,7 @@ export function _cancelSend(
       serverName: serverName,
       databaseName: databaseName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,6 +55,7 @@ export async function _cancelDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Cancels the asynchronous operation on the database. */
 export async function cancel(
   context: Client,
@@ -89,7 +90,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,6 +117,7 @@ export async function _listByDatabaseDeserialize(
 
   return _databaseOperationListResultDeserializer(result.body);
 }
+
 /** Gets a list of operations performed on the database. */
 export function listByDatabase(
   context: Client,
@@ -132,7 +134,7 @@ export function listByDatabase(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }

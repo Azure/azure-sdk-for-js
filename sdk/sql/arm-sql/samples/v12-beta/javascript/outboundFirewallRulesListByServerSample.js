@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all outbound firewall rules on a server.
  *
  * @summary gets all outbound firewall rules on a server.
- * x-ms-original-file: 2025-08-01-preview/OutboundFirewallRuleList.json
+ * x-ms-original-file: 2026-08-01-preview/OutboundFirewallRuleList.json
  */
 async function getsListOfOutboundFirewallRulesOnAServer() {
   const credential = new DefaultAzureCredential();

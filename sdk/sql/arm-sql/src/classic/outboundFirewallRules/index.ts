@@ -78,6 +78,7 @@ export interface OutboundFirewallRulesOperations {
     options?: OutboundFirewallRulesGetOptionalParams,
   ) => Promise<OutboundFirewallRule>;
 }
+
 function _getOutboundFirewallRules(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -153,6 +154,7 @@ function _getOutboundFirewallRules(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, outboundRuleFqdn, options),
   };
 }
+
 export function _getOutboundFirewallRulesOperations(
   context: SqlManagementContext,
 ): OutboundFirewallRulesOperations {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a recoverable managed database.
  *
  * @summary gets a recoverable managed database.
- * x-ms-original-file: 2025-08-01-preview/GetRecoverableManagedDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/GetRecoverableManagedDatabase.json
  */
 async function getsARecoverableDatabasesByManagedInstances() {
   const credential = new DefaultAzureCredential();

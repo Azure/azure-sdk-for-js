@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of databases.
  *
  * @summary gets a list of databases.
- * x-ms-original-file: 2025-08-01-preview/ListVCoreDatabasesByServer.json
+ * x-ms-original-file: 2026-08-01-preview/ListVCoreDatabasesByServer.json
  */
 async function getsAListOfDatabases(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getsAListOfDatabases(): Promise<void> {
  * This sample demonstrates how to gets a list of databases.
  *
  * @summary gets a list of databases.
- * x-ms-original-file: 2025-08-01-preview/ListVCoreDatabasesByServerWithOdata.json
+ * x-ms-original-file: 2026-08-01-preview/ListVCoreDatabasesByServerWithOdata.json
  */
 async function getsAListOfDatabasesWithODataFiltering(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function getsAListOfDatabasesWithODataFiltering(): Promise<void> {
  * This sample demonstrates how to gets a list of databases.
  *
  * @summary gets a list of databases.
- * x-ms-original-file: 2025-08-01-preview/ListVCoreDatabasesEnclaveTypeByServer.json
+ * x-ms-original-file: 2026-08-01-preview/ListVCoreDatabasesEnclaveTypeByServer.json
  */
 async function getsAListOfDatabasesConfiguredWithEnclaveType(): Promise<void> {
   const credential = new DefaultAzureCredential();

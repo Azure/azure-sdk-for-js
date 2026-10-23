@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to reconcile network security perimeter configuration for SQL Resource Provider
  *
  * @summary reconcile network security perimeter configuration for SQL Resource Provider
- * x-ms-original-file: 2025-08-01-preview/NetworkSecurityPerimeterConfigurationsReconcile.json
+ * x-ms-original-file: 2026-08-01-preview/NetworkSecurityPerimeterConfigurationsReconcile.json
  */
 async function reconcileNSPConfig(): Promise<void> {
   const credential = new DefaultAzureCredential();

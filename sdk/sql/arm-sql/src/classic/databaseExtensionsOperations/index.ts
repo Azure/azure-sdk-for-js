@@ -74,6 +74,7 @@ export interface DatabaseExtensionsOperationsOperations {
     options?: DatabaseExtensionsOperationsGetOptionalParams,
   ) => Promise<void>;
 }
+
 function _getDatabaseExtensionsOperations(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -146,6 +147,7 @@ function _getDatabaseExtensionsOperations(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, extensionName, options),
   };
 }
+
 export function _getDatabaseExtensionsOperationsOperations(
   context: SqlManagementContext,
 ): DatabaseExtensionsOperationsOperations {

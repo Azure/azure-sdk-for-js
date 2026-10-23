@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to starts the managed instance.
  *
  * @summary starts the managed instance.
- * x-ms-original-file: 2025-08-01-preview/StartManagedInstance.json
+ * x-ms-original-file: 2026-08-01-preview/StartManagedInstance.json
  */
 async function startsTheManagedInstance() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to pauses a database.
  *
  * @summary pauses a database.
- * x-ms-original-file: 2025-08-01-preview/PauseDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/PauseDatabase.json
  */
 async function pausesADatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

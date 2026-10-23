@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a server key.
  *
  * @summary gets a server key.
- * x-ms-original-file: 2025-08-01-preview/ServerKeyGet.json
+ * x-ms-original-file: 2026-08-01-preview/ServerKeyGet.json
  */
 async function getTheServerKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getTheServerKey(): Promise<void> {
  * This sample demonstrates how to gets a server key.
  *
  * @summary gets a server key.
- * x-ms-original-file: 2025-08-01-preview/ServerKeyGetWithVersionlessKey.json
+ * x-ms-original-file: 2026-08-01-preview/ServerKeyGetWithVersionlessKey.json
  */
 async function getTheServerKeyWithVersionlessKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

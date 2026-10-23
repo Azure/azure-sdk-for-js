@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the sensitivity labels of a given database
  *
  * @summary gets the sensitivity labels of a given database
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseSensitivityLabelsListByDatabaseRecommended.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseSensitivityLabelsListByDatabaseRecommended.json
  */
 async function getsTheRecommendedSensitivityLabelsOfAGivenDatabaseInAManagedDatabase() {
   const credential = new DefaultAzureCredential();

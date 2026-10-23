@@ -81,6 +81,7 @@ export interface ManagedInstanceKeysOperations {
     options?: ManagedInstanceKeysGetOptionalParams,
   ) => Promise<ManagedInstanceKey>;
 }
+
 function _getManagedInstanceKeys(context: SqlManagementContext) {
   return {
     listByInstance: (
@@ -162,6 +163,7 @@ function _getManagedInstanceKeys(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, keyName, options),
   };
 }
+
 export function _getManagedInstanceKeysOperations(
   context: SqlManagementContext,
 ): ManagedInstanceKeysOperations {

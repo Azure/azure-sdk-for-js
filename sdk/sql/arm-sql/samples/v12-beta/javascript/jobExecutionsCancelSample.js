@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to requests cancellation of a job execution.
  *
  * @summary requests cancellation of a job execution.
- * x-ms-original-file: 2025-08-01-preview/CancelJobExecution.json
+ * x-ms-original-file: 2026-08-01-preview/CancelJobExecution.json
  */
 async function cancelAJobExecution() {
   const credential = new DefaultAzureCredential();

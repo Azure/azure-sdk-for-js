@@ -34,7 +34,7 @@ export function _listByDatabaseAdvisorSend(
       serverName: serverName,
       databaseName: databaseName,
       advisorName: advisorName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,6 +61,7 @@ export async function _listByDatabaseAdvisorDeserialize(
 
   return recommendedActionArrayDeserializer(result.body);
 }
+
 /** Gets list of Database Recommended Actions. */
 export async function listByDatabaseAdvisor(
   context: Client,
@@ -100,7 +101,7 @@ export function _updateSend(
       databaseName: databaseName,
       advisorName: advisorName,
       recommendedActionName: recommendedActionName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,6 +130,7 @@ export async function _updateDeserialize(
 
   return recommendedActionDeserializer(result.body);
 }
+
 /** Updates a database recommended action. */
 export async function update(
   context: Client,
@@ -171,7 +173,7 @@ export function _getSend(
       databaseName: databaseName,
       advisorName: advisorName,
       recommendedActionName: recommendedActionName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -196,6 +198,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
 
   return recommendedActionDeserializer(result.body);
 }
+
 /** Gets a database recommended action. */
 export async function get(
   context: Client,

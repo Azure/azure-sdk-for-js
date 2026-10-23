@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of all managed instances in the subscription.
  *
  * @summary gets a list of all managed instances in the subscription.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceList.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceList.json
  */
 async function listManagedInstances(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listManagedInstances(): Promise<void> {
  * This sample demonstrates how to gets a list of all managed instances in the subscription.
  *
  * @summary gets a list of all managed instances in the subscription.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceListWithExpandEqualsAdministrators.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceListWithExpandEqualsAdministrators.json
  */
 async function listManagedInstancesWithExpandAdministratorsOrActivedirectory(): Promise<void> {
   const credential = new DefaultAzureCredential();

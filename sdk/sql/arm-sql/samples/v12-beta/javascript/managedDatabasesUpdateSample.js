@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates an existing database.
  *
  * @summary updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseUpdateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseUpdateMax.json
  */
 async function updatesAManagedDatabaseWithMaximalProperties() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function updatesAManagedDatabaseWithMaximalProperties() {
  * This sample demonstrates how to updates an existing database.
  *
  * @summary updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseUpdateMin.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseUpdateMin.json
  */
 async function updatesAManagedDatabaseWithMinimalProperties() {
   const credential = new DefaultAzureCredential();

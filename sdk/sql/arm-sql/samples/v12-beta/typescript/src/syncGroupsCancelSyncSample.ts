@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancels a sync group synchronization.
  *
  * @summary cancels a sync group synchronization.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupCancelSync.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupCancelSync.json
  */
 async function cancelASyncGroupSynchronization(): Promise<void> {
   const credential = new DefaultAzureCredential();

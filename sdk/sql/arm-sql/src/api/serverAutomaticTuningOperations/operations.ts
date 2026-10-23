@@ -29,7 +29,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,6 +58,7 @@ export async function _updateDeserialize(
 
   return serverAutomaticTuningDeserializer(result.body);
 }
+
 /** Update automatic tuning options on server. */
 export async function update(
   context: Client,
@@ -82,7 +83,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,6 +110,7 @@ export async function _getDeserialize(
 
   return serverAutomaticTuningDeserializer(result.body);
 }
+
 /** Retrieves server automatic tuning options. */
 export async function get(
   context: Client,

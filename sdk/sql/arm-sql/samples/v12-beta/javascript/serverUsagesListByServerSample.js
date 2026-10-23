@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets server usages.
  *
  * @summary gets server usages.
- * x-ms-original-file: 2025-08-01-preview/ServerUsageList.json
+ * x-ms-original-file: 2026-08-01-preview/ServerUsageList.json
  */
 async function listServersUsages() {
   const credential = new DefaultAzureCredential();
