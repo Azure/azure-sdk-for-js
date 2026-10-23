@@ -42,7 +42,7 @@
       "sdk": true
     },
     "search.exclude": {
-      "sdk": true
+      "sdk": false
     },
     "typescript.disableAutomaticTypeAcquisition": true,
     "typescript.preferences.includePackageJsonAutoImports": "off",
