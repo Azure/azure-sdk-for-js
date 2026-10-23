@@ -341,6 +341,7 @@ export class BatchingReceiverLite {
     const drainPromise = new Promise<void>((resolve) => {
       function drainListener(): void {
         logger.verbose(`${loggingPrefix} Receiver has been drained.`);
+        removeListeners();
         clearTimeout(drainTimer);
         resolve();
       }
