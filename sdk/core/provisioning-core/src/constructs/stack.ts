@@ -55,21 +55,7 @@ export interface StackOptions {
  * Every stack registers itself in `Stack.roots` for collection by tools
  * like the playground and CLI.
  *
- * @example
- * ```typescript snippet:ignore
- * import { Stack, ResourceGroup } from "@azure/provisioning-core";
- * import { KeyVault } from "@azure/provisioning-keyvault";
- *
- * const stack = new Stack("my-app");
- * const rg = new ResourceGroup(stack, { name: "rg-my-app", location: "eastus" });
- * const vault = new KeyVault(rg, {
- *   name: "kv-my-app",
- *   properties: {
- *     tenantId: "11111111-1111-1111-1111-111111111111",
- *     sku: { family: "A", name: "standard" },
- *   },
- * });
- * ```
+ * {@link https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/provisioning-keyvault#getting-started | Key Vault getting started example}
  */
 export class Stack extends ProvisioningComponent {
   readonly name: string;
