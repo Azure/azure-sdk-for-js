@@ -1,6 +1,6 @@
 {
   "name": "@azure/provisioning-core",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Core primitives for the Azure Provisioning library",
   "sdk-type": "provisioning",
   "autoPublish": false,
