@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list predefined URL categories for rulestack
  *
  * @summary list predefined URL categories for rulestack
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_listPredefinedUrlCategories_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_listPredefinedUrlCategories_MaximumSet_Gen.json
  */
 async function globalRulestackListPredefinedUrlCategoriesMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function globalRulestackListPredefinedUrlCategoriesMaximumSetGen(): Promis
  * This sample demonstrates how to list predefined URL categories for rulestack
  *
  * @summary list predefined URL categories for rulestack
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_listPredefinedUrlCategories_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_listPredefinedUrlCategories_MinimumSet_Gen.json
  */
 async function globalRulestackListPredefinedUrlCategoriesMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

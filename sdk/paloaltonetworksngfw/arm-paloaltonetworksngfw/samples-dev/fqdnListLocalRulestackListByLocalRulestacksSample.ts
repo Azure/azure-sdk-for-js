@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list FqdnListLocalRulestackResource resources by LocalRulestacks
  *
  * @summary list FqdnListLocalRulestackResource resources by LocalRulestacks
- * x-ms-original-file: 2026-05-11-preview/FqdnListLocalRulestack_ListByLocalRulestacks_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/FqdnListLocalRulestack_ListByLocalRulestacks_MaximumSet_Gen.json
  */
 async function fqdnListLocalRulestackListByLocalRulestacksMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function fqdnListLocalRulestackListByLocalRulestacksMaximumSetGen(): Promi
  * This sample demonstrates how to list FqdnListLocalRulestackResource resources by LocalRulestacks
  *
  * @summary list FqdnListLocalRulestackResource resources by LocalRulestacks
- * x-ms-original-file: 2026-05-11-preview/FqdnListLocalRulestack_ListByLocalRulestacks_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/FqdnListLocalRulestack_ListByLocalRulestacks_MinimumSet_Gen.json
  */
 async function fqdnListLocalRulestackListByLocalRulestacksMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

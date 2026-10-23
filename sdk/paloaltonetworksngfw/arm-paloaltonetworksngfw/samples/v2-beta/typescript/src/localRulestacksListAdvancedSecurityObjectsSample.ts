@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the list of advanced security objects
  *
  * @summary get the list of advanced security objects
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_listAdvancedSecurityObjects_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_listAdvancedSecurityObjects_MaximumSet_Gen.json
  */
 async function localRulestacksListAdvancedSecurityObjectsMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function localRulestacksListAdvancedSecurityObjectsMaximumSetGen(): Promis
  * This sample demonstrates how to get the list of advanced security objects
  *
  * @summary get the list of advanced security objects
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_listAdvancedSecurityObjects_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_listAdvancedSecurityObjects_MinimumSet_Gen.json
  */
 async function localRulestacksListAdvancedSecurityObjectsMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

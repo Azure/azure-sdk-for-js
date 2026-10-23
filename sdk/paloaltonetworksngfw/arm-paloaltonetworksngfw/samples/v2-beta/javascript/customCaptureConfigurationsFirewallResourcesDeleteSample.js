@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the Custom Capture Configuration on a firewall. SYNC — clears any in-progress or terminal capture state. Returns 200 on success or 204 when no configuration exists.
  *
  * @summary delete the Custom Capture Configuration on a firewall. SYNC — clears any in-progress or terminal capture state. Returns 200 on success or 204 when no configuration exists.
- * x-ms-original-file: 2026-05-11-preview/CustomCaptureConfigurationsFirewallResources_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CustomCaptureConfigurationsFirewallResources_Delete_MaximumSet_Gen.json
  */
 async function customCaptureConfigurationsFirewallResourcesDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function customCaptureConfigurationsFirewallResourcesDeleteMaximumSetGen()
  * This sample demonstrates how to delete the Custom Capture Configuration on a firewall. SYNC — clears any in-progress or terminal capture state. Returns 200 on success or 204 when no configuration exists.
  *
  * @summary delete the Custom Capture Configuration on a firewall. SYNC — clears any in-progress or terminal capture state. Returns 200 on success or 204 when no configuration exists.
- * x-ms-original-file: 2026-05-11-preview/CustomCaptureConfigurationsFirewallResources_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CustomCaptureConfigurationsFirewallResources_Delete_MinimumSet_Gen.json
  */
 async function customCaptureConfigurationsFirewallResourcesDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();

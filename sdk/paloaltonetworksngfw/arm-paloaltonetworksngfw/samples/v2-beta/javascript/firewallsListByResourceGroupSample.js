@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list FirewallResource resources by resource group
  *
  * @summary list FirewallResource resources by resource group
- * x-ms-original-file: 2026-05-11-preview/Firewalls_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function firewallsListByResourceGroupMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function firewallsListByResourceGroupMaximumSetGen() {
  * This sample demonstrates how to list FirewallResource resources by resource group
  *
  * @summary list FirewallResource resources by resource group
- * x-ms-original-file: 2026-05-11-preview/Firewalls_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function firewallsListByResourceGroupMinimumSetGen() {
   const credential = new DefaultAzureCredential();
