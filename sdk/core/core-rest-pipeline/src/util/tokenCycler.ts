@@ -92,6 +92,7 @@ async function beginRefresh(
 
 interface RefreshWorker {
   promise: Promise<AccessToken>;
+  hasClaims: boolean;
 }
 
 function getTokenRequestIdentityKey(
@@ -193,10 +194,11 @@ export function createTokenCycler(
     const requestIdentityKey = getTokenRequestIdentityKey(scopes, getTokenOptions);
     const existingWorker = refreshWorkers.get(requestIdentityKey);
     if (existingWorker) {
-      // A repeated claims challenge selects this existing worker as the cache
-      // owner again. This preserves deduplication while ensuring its result is
-      // cached if a newer incompatible worker has already completed.
-      if (getTokenOptions.claims) {
+      // A worker that is selected again may become the cache owner after a
+      // newer incompatible worker has completed. An ordinary worker must not,
+      // however, displace an in-flight claims worker: that worker is handling
+      // a challenge for a token the service has already rejected.
+      if (!latestRefreshWorker || getTokenOptions.claims || !latestRefreshWorker.hasClaims) {
         latestRefreshWorker = existingWorker;
       }
       return existingWorker.promise;
@@ -205,7 +207,7 @@ export function createTokenCycler(
     // We bind `scopes` here to avoid passing it around a lot.
     const tryGetAccessToken = (): Promise<AccessToken | null> =>
       credential.getToken(scopes, getTokenOptions);
-    const worker = {} as RefreshWorker;
+    const worker = { hasClaims: Boolean(getTokenOptions.claims) } as RefreshWorker;
 
     // Take advantage of promise chaining to insert an assignment to `token`
     // before the refresh can be considered done. A worker only updates the
@@ -248,7 +250,11 @@ export function createTokenCycler(
     // callers that are awaiting a forced refresh.
     void promise.catch(() => {});
     refreshWorkers.set(requestIdentityKey, worker);
-    latestRefreshWorker = worker;
+    // An ordinary refresh can proceed alongside a claims refresh, but it must
+    // not take over the cache while the claims response is still pending.
+    if (!latestRefreshWorker || worker.hasClaims || !latestRefreshWorker.hasClaims) {
+      latestRefreshWorker = worker;
+    }
 
     return promise;
   }
