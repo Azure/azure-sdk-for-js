@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new cluster or update the properties of the cluster if it exists.
  *
  * @summary create a new cluster or update the properties of the cluster if it exists.
- * x-ms-original-file: 2026-07-01/Clusters_Create.json
+ * x-ms-original-file: 2026-08-01-preview/Clusters_Create.json
  */
 async function createOrUpdateCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

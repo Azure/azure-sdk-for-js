@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deploy the cluster using the rack configuration provided during creation.
  *
  * @summary deploy the cluster using the rack configuration provided during creation.
- * x-ms-original-file: 2026-07-01/Clusters_Deploy.json
+ * x-ms-original-file: 2026-08-01-preview/Clusters_Deploy.json
  */
 async function deployCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function deployCluster(): Promise<void> {
  * This sample demonstrates how to deploy the cluster using the rack configuration provided during creation.
  *
  * @summary deploy the cluster using the rack configuration provided during creation.
- * x-ms-original-file: 2026-07-01/Clusters_Deploy_SkipValidation.json
+ * x-ms-original-file: 2026-08-01-preview/Clusters_Deploy_SkipValidation.json
  */
 async function deployClusterSkippingValidation(): Promise<void> {
   const credential = new DefaultAzureCredential();

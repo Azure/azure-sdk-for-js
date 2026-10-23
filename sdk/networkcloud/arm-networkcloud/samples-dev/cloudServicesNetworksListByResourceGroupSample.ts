@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of cloud services networks in the provided resource group.
  *
  * @summary get a list of cloud services networks in the provided resource group.
- * x-ms-original-file: 2026-07-01/CloudServicesNetworks_ListByResourceGroup.json
+ * x-ms-original-file: 2026-08-01-preview/CloudServicesNetworks_ListByResourceGroup.json
  */
 async function listCloudServicesNetworksForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

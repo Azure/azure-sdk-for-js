@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the version of the provided cluster to one of the available supported versions.
  *
  * @summary update the version of the provided cluster to one of the available supported versions.
- * x-ms-original-file: 2026-07-01/Clusters_UpdateVersion.json
+ * x-ms-original-file: 2026-08-01-preview/Clusters_UpdateVersion.json
  */
 async function updateClusterVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

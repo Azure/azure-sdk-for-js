@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to assigns a relay to the specified Microsoft.HybridCompute machine associated with the provided virtual machine.
  *
  * @summary assigns a relay to the specified Microsoft.HybridCompute machine associated with the provided virtual machine.
- * x-ms-original-file: 2026-07-01/VirtualMachines_AssignRelay.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualMachines_AssignRelay.json
  */
 async function assignRelayToTheMicrosoftHybridComputeMachineForAVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

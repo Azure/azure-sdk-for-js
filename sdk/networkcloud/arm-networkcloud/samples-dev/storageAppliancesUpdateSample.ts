@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update properties of the provided storage appliance, or update tags associated with the storage appliance Properties and tag updates can be done independently.
  *
  * @summary update properties of the provided storage appliance, or update tags associated with the storage appliance Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-07-01/StorageAppliances_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/StorageAppliances_Patch.json
  */
 async function patchStorageAppliance(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update tags associated with the provided layer 2 (L2) network.
  *
  * @summary update tags associated with the provided layer 2 (L2) network.
- * x-ms-original-file: 2026-07-01/L2Networks_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/L2Networks_Patch.json
  */
 async function patchL2Network(): Promise<void> {
   const credential = new DefaultAzureCredential();

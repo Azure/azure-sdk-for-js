@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new Kubernetes cluster feature or update properties of the Kubernetes cluster feature if it exists.
  *
  * @summary create a new Kubernetes cluster feature or update properties of the Kubernetes cluster feature if it exists.
- * x-ms-original-file: 2026-07-01/KubernetesClusterFeatures_Create.json
+ * x-ms-original-file: 2026-08-01-preview/KubernetesClusterFeatures_Create.json
  */
 async function createOrUpdateKubernetesClusterFeature(): Promise<void> {
   const credential = new DefaultAzureCredential();

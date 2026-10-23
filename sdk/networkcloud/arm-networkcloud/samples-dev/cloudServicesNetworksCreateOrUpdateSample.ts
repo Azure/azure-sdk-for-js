@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new cloud services network or update the properties of the existing cloud services network.
  *
  * @summary create a new cloud services network or update the properties of the existing cloud services network.
- * x-ms-original-file: 2026-07-01/CloudServicesNetworks_Create.json
+ * x-ms-original-file: 2026-08-01-preview/CloudServicesNetworks_Create.json
  */
 async function createOrUpdateCloudServicesNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

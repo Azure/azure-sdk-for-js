@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch properties of the provided bare metal machine, or update tags associated with the bare metal machine. Properties and tag updates can be done independently.
  *
  * @summary patch properties of the provided bare metal machine, or update tags associated with the bare metal machine. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-07-01/BareMetalMachines_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachines_Patch.json
  */
 async function patchBareMetalMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

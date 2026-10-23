@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of storage appliances in the provided resource group.
  *
  * @summary get a list of storage appliances in the provided resource group.
- * x-ms-original-file: 2026-07-01/StorageAppliances_ListByResourceGroup.json
+ * x-ms-original-file: 2026-08-01-preview/StorageAppliances_ListByResourceGroup.json
  */
 async function listStorageAppliancesForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

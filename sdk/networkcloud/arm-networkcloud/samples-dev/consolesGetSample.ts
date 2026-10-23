@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of the provided virtual machine console.
  *
  * @summary get properties of the provided virtual machine console.
- * x-ms-original-file: 2026-07-01/Consoles_Get.json
+ * x-ms-original-file: 2026-08-01-preview/Consoles_Get.json
  */
 async function getVirtualMachineConsole(): Promise<void> {
   const credential = new DefaultAzureCredential();

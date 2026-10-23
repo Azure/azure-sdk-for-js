@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-networkcloud",
-  "version": "2.0.0",
+  "version": "2.1.0-beta.1",
   "description": "A generated SDK for NetworkCloudClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -441,7 +441,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-networkcloud",
@@ -449,6 +450,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-networkcloud"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-networkcloud?view=azure-node-preview"
   }
 }

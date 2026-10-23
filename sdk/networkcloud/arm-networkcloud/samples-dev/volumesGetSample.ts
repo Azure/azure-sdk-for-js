@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of the provided volume.
  *
  * @summary get properties of the provided volume.
- * x-ms-original-file: 2026-07-01/Volumes_Get.json
+ * x-ms-original-file: 2026-08-01-preview/Volumes_Get.json
  */
 async function getVolume(): Promise<void> {
   const credential = new DefaultAzureCredential();
