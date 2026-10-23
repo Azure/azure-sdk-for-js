@@ -9,11 +9,11 @@ export class AeadAes256CbcHmacSha256Algorithm {
     throw new Error("Client-side Encryption not supported in browser environment");
   }
 
-  public encrypt(_plainTextBuffer: Buffer): Buffer {
+  public encrypt(_plainTextBuffer: Buffer, _typeMarker?: number): Buffer {
     throw new Error("Client-side Encryption not supported in browser environment");
   }
 
-  public decrypt(_cipherTextBuffer: Buffer): Buffer {
+  public decrypt(_cipherTextBuffer: Buffer, _typeMarker?: number): Buffer {
     throw new Error("Client-side Encryption not supported in browser environment");
   }
 }

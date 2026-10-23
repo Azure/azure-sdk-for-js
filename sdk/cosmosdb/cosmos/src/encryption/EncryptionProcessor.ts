@@ -193,7 +193,10 @@ export class EncryptionProcessor {
     const [typeMarker, serializer] = createSerializer(valueToEncrypt, type);
     const plainText = serializer.serialize(valueToEncrypt);
     const encryptionAlgorithm = await this.buildEncryptionAlgorithm(propertySetting);
-    const cipherText = encryptionAlgorithm.encrypt(plainText);
+    const cipherText = encryptionAlgorithm.encrypt(
+      plainText,
+      this.encryptionManager.encryptedValueFormat === "authenticatedType" ? typeMarker : undefined,
+    );
     if (isValueId) {
       if (typeof valueToEncrypt !== "string") {
         throw new ErrorResponse("The id should be of string type.");
@@ -285,8 +288,12 @@ export class EncryptionProcessor {
 
     const cipherText = Buffer.from(cipherTextWithTypeMarker.slice(1));
 
+    if (cipherText[0] === 1 && this.encryptionManager.legacyValueReadPolicy === "reject") {
+      throw new ErrorResponse("Legacy encrypted values are rejected by legacyValueReadPolicy.");
+    }
     const encryptionAlgorithm = await this.buildEncryptionAlgorithm(propertySetting);
-    const plainText = encryptionAlgorithm.decrypt(cipherText);
+    // Authenticate the marker before using it to select a deserializer.
+    const plainText = encryptionAlgorithm.decrypt(cipherText, cipherTextWithTypeMarker[0]);
     if (plainText === null) {
       throw new ErrorResponse("returned null plain text");
     }
