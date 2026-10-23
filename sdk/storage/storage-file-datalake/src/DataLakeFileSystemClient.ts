@@ -5,8 +5,7 @@ import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-pagin
 import { ContainerClient } from "@azure/storage-blob";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "@azure/storage-common";
+import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
 import type { FileSystemOperations } from "./generated/index.js";
 import type {
