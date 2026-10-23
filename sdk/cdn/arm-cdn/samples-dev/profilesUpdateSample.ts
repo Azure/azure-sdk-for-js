@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified profile name under the specified subscription and resource group.
  *
  * @summary updates an existing Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified profile name under the specified subscription and resource group.
- * x-ms-original-file: 2025-12-01/Profiles_Update.json
+ * x-ms-original-file: 2026-10-01/Profiles_Update.json
  */
 async function profilesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

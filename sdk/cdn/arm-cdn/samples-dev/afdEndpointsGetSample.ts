@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an existing AzureFrontDoor endpoint with the specified endpoint name under the specified subscription, resource group and profile.
  *
  * @summary gets an existing AzureFrontDoor endpoint with the specified endpoint name under the specified subscription, resource group and profile.
- * x-ms-original-file: 2025-12-01/AFDEndpoints_Get.json
+ * x-ms-original-file: 2026-10-01/AFDEndpoints_Get.json
  */
 async function afdEndpointsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

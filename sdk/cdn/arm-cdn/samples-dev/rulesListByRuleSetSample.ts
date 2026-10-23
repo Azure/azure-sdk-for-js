@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the existing delivery rules within a rule set.
  *
  * @summary lists all of the existing delivery rules within a rule set.
- * x-ms-original-file: 2025-12-01/Rules_ListByRuleSet.json
+ * x-ms-original-file: 2026-10-01/Rules_ListByRuleSet.json
  */
 async function rulesListByRuleSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
