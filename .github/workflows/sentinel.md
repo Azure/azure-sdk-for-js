@@ -67,6 +67,9 @@ permissions:
   actions: read
   security-events: read
   copilot-requests: write
+engine:
+  id: copilot
+  copilot-sdk: true
 network:
   allowed:
     - defaults
@@ -77,6 +80,7 @@ tools:
     toolsets: [context, repos, pull_requests, actions, code_security]
     min-integrity: unapproved
   bash: ["cat", "date", "echo", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
+  web-fetch:
   cache-memory:
   repo-memory:
 safe-outputs:
