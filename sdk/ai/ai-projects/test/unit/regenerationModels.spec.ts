@@ -19,6 +19,8 @@ import type {
   EvaluationDataGenerationJobOutputConfiguration,
   ErrorModel,
   FunctionTool,
+  HostedAgentDefinition,
+  ImageGenTool,
   MisalignmentErrorDetailsResource,
   MisalignmentErrorType,
   RealtimeConversationItemMessageAssistant,
@@ -53,6 +55,7 @@ import type {
   TeamsPhoneExtensibilityTelephonyBinding,
   TeamsPhoneExtensibilityTelephonyBindingListItem,
   VoiceAgentTransport,
+  VoiceAgentProfanityFilterMode,
 } from "../../src/index.js";
 import {
   agentSessionResourceDeserializer,
@@ -71,6 +74,8 @@ import {
   functionToolParamDeserializer,
   functionToolParamSerializer,
   functionToolSerializer,
+  hostedAgentDefinitionDeserializer,
+  hostedAgentDefinitionSerializer,
   imageGenToolDeserializer,
   imageGenToolSerializer,
   misalignmentErrorDetailsResourceDeserializer,
@@ -528,6 +533,42 @@ describe("regenerated model wire contracts", () => {
     expect(voiceAgentInputTranscriptionDeserializer(configuration)).toMatchObject(configuration);
   });
 
+  it.each(["masked", "unfiltered", "removed", undefined] as const)(
+    "preserves Azure Speech profanity filtering mode %s",
+    (profanity_filter) => {
+      expectTypeOf<VoiceAgentProfanityFilterMode>().toEqualTypeOf<
+        "masked" | "unfiltered" | "removed"
+      >();
+      const configuration: VoiceAgentInputTranscription = {
+        model: "azure-speech",
+        languages: ["en"],
+        keywords: ["Foundry"],
+        custom_speech: { "en-US": "custom-deployment" },
+        phrase_list: [],
+        profanity_filter,
+      };
+      expect(toWire(voiceAgentInputTranscriptionSerializer(configuration))).toEqual(
+        toWire(configuration),
+      );
+      expect(voiceAgentInputTranscriptionDeserializer(configuration)).toMatchObject(configuration);
+    },
+  );
+
+  it.each([true, false, undefined])(
+    "preserves hosted agent memory snapshot setting %s",
+    (enable_memory_snapshot) => {
+      const definition: HostedAgentDefinition = {
+        kind: "hosted",
+        cpu: "1",
+        memory: "2Gi",
+        container_configuration: { image: "example.azurecr.io/agent:latest" },
+        enable_memory_snapshot,
+      };
+      expect(toWire(hostedAgentDefinitionSerializer(definition))).toEqual(toWire(definition));
+      expect(hostedAgentDefinitionDeserializer(definition)).toMatchObject(definition);
+    },
+  );
+
   it.each([{ languages: [{ code: "en" }, { code: "fr" }] }, { languages: [] }])(
     "retains detected transcription languages $languages",
     ({ languages }) => {
@@ -614,14 +655,28 @@ describe("regenerated model wire contracts", () => {
     expect(customToolParamDeserializer(custom)).toMatchObject(custom);
   });
 
-  it.each(["gpt-image-2", "gpt-image-2-2026-04-21"] as const)(
-    "preserves image model %s",
-    (model) => {
-      const tool = { type: "image_generation" as const, model };
-      expect(toWire(imageGenToolSerializer(tool))).toEqual(tool);
-      expect(imageGenToolDeserializer(tool)).toMatchObject(tool);
-    },
-  );
+  it.each([
+    "gpt-image-2",
+    "gpt-image-2-2026-04-21",
+    "gpt-image-2.5-sunburst",
+    "gpt-image-2.5-sunburst-2026-09-08",
+    "gpt-image-2.5-flare",
+    "gpt-image-2.5-flare-2026-09-08",
+  ] as const)("preserves image model %s", (model) => {
+    const tool = { type: "image_generation" as const, model };
+    expect(toWire(imageGenToolSerializer(tool))).toEqual(tool);
+    expect(imageGenToolDeserializer(tool)).toMatchObject(tool);
+  });
+
+  it.each(["xhigh", "max"] as const)("preserves expanded image quality %s", (quality) => {
+    const tool: ImageGenTool = {
+      type: "image_generation",
+      model: "gpt-image-2.5-sunburst",
+      quality,
+    };
+    expect(toWire(imageGenToolSerializer(tool))).toEqual(tool);
+    expect(imageGenToolDeserializer(tool)).toMatchObject(tool);
+  });
 
   it("retains preview browser automation and its shared parameters after stable-model removal", () => {
     const tool: BrowserAutomationPreviewTool = {

@@ -396,6 +396,8 @@ export interface HostedAgentDefinition extends AgentDefinition {
   telemetry_config?: TelemetryConfig;
   /** Optional session defaults (for example, the idle timeout) applied to sessions created for this agent version. */
   session_configuration?: SessionConfiguration;
+  /** Whether this agent version uses memory snapshots. Sessions for a snapshot-enabled version start from a snapshot of the agent's initialized process rather than starting the process from its image. Defaults to false. */
+  enable_memory_snapshot?: boolean;
 }
 
 export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): any {
@@ -420,6 +422,7 @@ export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): an
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationSerializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -447,6 +450,7 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     session_configuration: !item["session_configuration"]
       ? item["session_configuration"]
       : sessionConfigurationDeserializer(item["session_configuration"]),
+    enable_memory_snapshot: item["enable_memory_snapshot"],
   };
 }
 
@@ -2992,13 +2996,23 @@ export interface ImageGenTool extends Tool {
   type: "image_generation";
   /** The model to use for image generation. */
   model?:
-    "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5" | "gpt-image-2" | "gpt-image-2-2026-04-21";
+    | "gpt-image-1"
+    | "gpt-image-1-mini"
+    | "gpt-image-1.5"
+    | "gpt-image-2"
+    | "gpt-image-2-2026-04-21"
+    | "gpt-image-2.5-sunburst"
+    | "gpt-image-2.5-sunburst-2026-09-08"
+    | "gpt-image-2.5-flare"
+    | "gpt-image-2.5-flare-2026-09-08";
   /**
-   * The quality of the generated image. One of `low`, `medium`, `high`,
-   *   or `auto`. Default: `auto`.
+   * The quality of the generated image. The GPT image models support `low`,
+   *   `medium`, and `high`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`,
+   *   including their `2026-09-08` snapshots, also support `xhigh` and `max`.
+   *   Default: `auto`.
    */
-  quality?: "low" | "medium" | "high" | "auto";
-  /** The size of the generated images. For `gpt-image-2` and `gpt-image-2-2026-04-21`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
+  quality?: "low" | "medium" | "high" | "xhigh" | "max" | "auto";
+  /** The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
   size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
   /**
    * The output format of the generated image. One of `png`, `webp`, or
@@ -16241,8 +16255,8 @@ export function voiceAgentEchoCancellationDeserializer(item: any): VoiceAgentEch
 export type VoiceAgentEchoCancellationReferenceSource = "server" | "client";
 
 /**
- * Asynchronous input-audio transcription configuration. Extends the OpenAI Realtime transcription
- * options with the Azure and MAI transcription models, custom speech models, and phrase hints.
+ * Settings for transcribing input audio, including the transcription model, Custom Speech deployments,
+ * and phrase hints.
  */
 export interface VoiceAgentInputTranscription {
   /**
@@ -16254,7 +16268,7 @@ export interface VoiceAgentInputTranscription {
   /**
    * An optional text to guide the model's style or continue a previous audio
    *   segment.
-   *   For `whisper-1`, the [prompt is a list of keywords](/docs/guides/speech-to-text#prompting).
+   *   For `whisper-1`, the [prompt is a list of keywords](https://developers.openai.com/api/docs/guides/speech-to-text#prompting).
    *   For `gpt-4o-transcribe` models (excluding `gpt-4o-transcribe-diarize`), the prompt is a free text string, for example "expect words related to technology".
    *   Prompt is not supported with `gpt-realtime-whisper` in GA Realtime sessions.
    */
@@ -16275,6 +16289,16 @@ export interface VoiceAgentInputTranscription {
   languages?: string[];
   /** Words or phrases to guide transcription of the input audio. Supported by `gpt-transcribe` and `gpt-live-transcribe`. */
   keywords?: string[];
+  /**
+   * Controls how profanity is handled in input transcripts. Supported only with managed Azure Speech
+   * (`azure-speech`), including Custom Speech.
+   * Set this property before the session starts. If omitted, the transcription provider's default applies.
+   * You cannot change the mode during a session.
+   * Filtering affects transcript events and the text sent to cascaded models. It does not change input
+   * audio, voice activity detection, or assistant speech; audio-native models still receive the original
+   * audio. Mandatory service masking policies apply even when you select `unfiltered`.
+   */
+  profanity_filter?: VoiceAgentProfanityFilterMode;
 }
 
 export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTranscription): any {
@@ -16299,6 +16323,7 @@ export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTran
       : item["keywords"].map((p: any) => {
           return p;
         }),
+    profanity_filter: item["profanity_filter"],
   };
 }
 
@@ -16328,6 +16353,7 @@ export function voiceAgentInputTranscriptionDeserializer(item: any): VoiceAgentI
       : item["keywords"].map((p: any) => {
           return p;
         }),
+    profanity_filter: item["profanity_filter"],
   };
 }
 
@@ -28259,3 +28285,6 @@ export function microsoftCopilotToolsetConfigDeserializer(
 /** A customer-configurable Microsoft Copilot built-in tool. */
 export type MicrosoftCopilotBuiltInTool =
   "filesystem_read" | "filesystem_write" | "shell" | "web" | "subagents";
+
+/** The supported input-transcript profanity filtering modes. */
+export type VoiceAgentProfanityFilterMode = "masked" | "unfiltered" | "removed";
