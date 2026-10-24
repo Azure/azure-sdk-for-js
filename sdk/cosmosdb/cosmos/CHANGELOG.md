@@ -1,5 +1,17 @@
 # Release History
 
+## 4.10.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- [#40431](https://github.com/Azure/azure-sdk-for-js/pull/40431) Fixed cross-partition queries repeatedly targeting retired parent ranges after `410/1002 PartitionKeyRangeGone` responses. Default queries now refresh routing and continue on replacement ranges without exposing an intermediate empty page. Query-control requests reject continuations when a topology change is detected, including from current routing state, and raise a non-retryable continuation-invalid error that requires restarting the query from the beginning.
+
+### Other Changes
+
 ## 4.10.1 (2026-09-14)
 
 ### Bugs Fixed
