@@ -521,6 +521,59 @@ describe("tokenCycler", function () {
     expect(getToken).toHaveBeenCalledTimes(2);
   });
 
+  it("prefers a deferred claims result over an ordinary fallback after a newer challenge fails", async function () {
+    let resolveClaimA: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    let rejectClaimB: (reason?: unknown) => void;
+    let resolveOrdinary: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    const claimAToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaimA = resolve;
+    });
+    const claimBToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+      (_resolve, reject) => {
+        rejectClaimB = reject;
+      },
+    );
+    const ordinaryToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+      (resolve) => {
+        resolveOrdinary = resolve;
+      },
+    );
+    const getToken = vi.fn<TokenCredential["getToken"]>((_, requestOptions) => {
+      if (requestOptions?.claims === "claim-A") {
+        return claimAToken;
+      }
+      if (requestOptions?.claims === "claim-B") {
+        return claimBToken;
+      }
+      return ordinaryToken;
+    });
+    const getAccessToken = createTokenCycler({ getToken });
+
+    const claimARefresh = getAccessToken(["scope"], { claims: "claim-A", enableCae: true });
+    const claimBRefresh = getAccessToken(["scope"], { claims: "claim-B", enableCae: true });
+    const ordinaryRefresh = getAccessToken(["scope"], { enableCae: true });
+    expect(getToken).toHaveBeenCalledTimes(3);
+
+    resolveClaimA!({ token: "claim-A", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(claimARefresh).resolves.toMatchObject({ token: "claim-A" });
+
+    const rejectedClaimB = expect(claimBRefresh).rejects.toThrow("claim-B failed");
+    rejectClaimB!(new Error("claim-B failed"));
+    await rejectedClaimB;
+
+    await expect(getAccessToken(["scope"], { enableCae: true })).resolves.toMatchObject({
+      token: "claim-A",
+    });
+    expect(getToken).toHaveBeenCalledTimes(3);
+
+    resolveOrdinary!({ token: "ordinary", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(ordinaryRefresh).resolves.toMatchObject({ token: "ordinary" });
+    await expect(getAccessToken(["scope"], { enableCae: true })).resolves.toMatchObject({
+      token: "claim-A",
+    });
+    expect(getToken).toHaveBeenCalledTimes(3);
+  });
+
   it("does not let an ordinary worker started after a surviving claims worker overwrite it", async function () {
     let resolveClaimA: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
     let rejectClaimB: (reason?: unknown) => void;
