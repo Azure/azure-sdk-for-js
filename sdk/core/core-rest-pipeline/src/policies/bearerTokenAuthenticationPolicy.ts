@@ -202,6 +202,44 @@ export function bearerTokenAuthenticationPolicy(
   const getAccessToken = credential
     ? createTokenCycler(credential /* , options */)
     : () => Promise.resolve(null);
+  let preferredChallengeRequest: { scopes: string[]; options: GetTokenOptions } | undefined;
+
+  const getAccessTokenForRequest = async (
+    requestScopes: string[],
+    requestOptions: GetTokenOptions,
+  ): Promise<AccessToken | null> => {
+    if (requestOptions.claims) {
+      const accessToken = await getAccessToken(requestScopes, requestOptions);
+      if (accessToken) {
+        preferredChallengeRequest = {
+          scopes: [...requestScopes],
+          options: { ...requestOptions, claims: undefined },
+        };
+      }
+      return accessToken;
+    }
+
+    return getAccessToken(requestScopes, requestOptions);
+  };
+
+  const getAccessTokenForDefaultRequest = (
+    requestScopes: string[],
+    requestOptions: GetTokenOptions,
+  ): Promise<AccessToken | null> => {
+    if (!preferredChallengeRequest) {
+      return getAccessTokenForRequest(requestScopes, requestOptions);
+    }
+
+    // A custom challenge callback may use a more specific resource scope or
+    // CAE settings than the policy's initial request. Keep using that resolved
+    // identity on later default requests so an older initial token is not
+    // selected again, while the token cycler still owns expiration and refresh.
+    return getAccessToken(preferredChallengeRequest.scopes, {
+      ...preferredChallengeRequest.options,
+      abortSignal: requestOptions.abortSignal,
+      tracingOptions: requestOptions.tracingOptions,
+    });
+  };
 
   return {
     name: bearerTokenAuthenticationPolicyName,
@@ -228,7 +266,9 @@ export function bearerTokenAuthenticationPolicy(
       await callbacks.authorizeRequest({
         scopes: Array.isArray(scopes) ? scopes : [scopes],
         request,
-        getAccessToken,
+        getAccessToken: challengeCallbacks?.authorizeRequest
+          ? getAccessTokenForRequest
+          : getAccessTokenForDefaultRequest,
         logger,
       });
 
@@ -256,7 +296,7 @@ export function bearerTokenAuthenticationPolicy(
               scopes: Array.isArray(scopes) ? scopes : [scopes],
               response,
               request,
-              getAccessToken,
+              getAccessToken: getAccessTokenForRequest,
               logger,
             },
             parsedClaim,
@@ -271,7 +311,7 @@ export function bearerTokenAuthenticationPolicy(
             scopes: Array.isArray(scopes) ? scopes : [scopes],
             request,
             response,
-            getAccessToken,
+            getAccessToken: getAccessTokenForRequest,
             logger,
           });
 
@@ -299,7 +339,7 @@ export function bearerTokenAuthenticationPolicy(
                   scopes: Array.isArray(scopes) ? scopes : [scopes],
                   response,
                   request,
-                  getAccessToken,
+                  getAccessToken: getAccessTokenForRequest,
                   logger,
                 },
                 parsedClaim,
