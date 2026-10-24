@@ -10,7 +10,14 @@ import {
 import { toSpanOptions, tracingClient } from "../../../src/diagnostics/tracing.js";
 import type { TracingContext } from "@azure/core-tracing";
 import Long from "long";
-import type { ServiceBusReceivedMessage } from "../../../src/serviceBusMessage.js";
+import type { Message, Typed } from "rhea-promise";
+import { message as rheaMessageUtil } from "rhea-promise";
+import {
+  fromRheaMessage,
+  toRheaMessage,
+  type ServiceBusReceivedMessage,
+} from "../../../src/serviceBusMessage.js";
+import { defaultDataTransformer } from "../../../src/dataTransformer.js";
 import { describe, it, vi, afterEach } from "vitest";
 import { assert, expect } from "../../public/utils/chai.js";
 
@@ -108,6 +115,57 @@ describe("tracing", () => {
           message.applicationProperties?.[TRACEPARENT_PROPERTY],
           "fake-traceparent-header",
         );
+      });
+
+      it("preserves exact application property types when tracing a received message", () => {
+        const instrumenter = new MockInstrumenter();
+        const { span: recordingSpan } = instrumenter.startSpan("test");
+        (recordingSpan as MockTracingSpan).setIsRecording(true);
+        vi.spyOn(tracingClient, "startSpan").mockReturnValue({
+          span: recordingSpan,
+          updatedOptions: { tracingOptions: { tracingContext: createMockTracingContext() } },
+        });
+        vi.spyOn(tracingClient, "createRequestHeaders").mockReturnValue({
+          traceparent: "fake-traceparent-header",
+        });
+
+        const longValue = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
+        const encoded = rheaMessageUtil.encode(
+          toRheaMessage(
+            {
+              body: "test",
+              applicationProperties: {
+                long: { type: "long", value: longValue },
+                priority: { type: "ubyte", value: 200 },
+              },
+            },
+            defaultDataTransformer,
+          ),
+        );
+        const received = fromRheaMessage(rheaMessageUtil.decode(encoded) as unknown as Message, {
+          skipParsingBodyAsJson: false,
+        });
+        received.applicationProperties = {
+          long: Number(longValue),
+          priority: 201,
+        };
+
+        const { message } = instrumentMessage(received, {}, "testPath", "testHost", "publish");
+        const resentProperties = toRheaMessage(
+          message,
+          defaultDataTransformer,
+        ).application_properties!;
+        const resentLong = resentProperties.long as Typed;
+        const resentPriority = resentProperties.priority as Typed;
+
+        assert.equal(
+          message.applicationProperties?.[TRACEPARENT_PROPERTY],
+          "fake-traceparent-header",
+        );
+        assert.equal(resentLong.type.name, "Long");
+        assert.equal(Buffer.from(resentLong.value).readBigInt64BE(), longValue);
+        assert.equal(resentPriority.type.name, "Ubyte");
+        assert.equal(resentPriority.value, 201);
       });
     });
 

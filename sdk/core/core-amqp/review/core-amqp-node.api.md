@@ -7,8 +7,10 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
+import { Buffer as Buffer_2 } from 'buffer';
 import { Connection } from 'rhea-promise';
 import type { Message } from 'rhea-promise';
+import { message } from 'rhea-promise';
 import type { MessageHeader } from 'rhea-promise';
 import type { MessageProperties } from 'rhea-promise';
 import type { NamedKeyCredential } from '@azure/core-auth';
@@ -32,6 +34,9 @@ export interface AmqpAnnotatedMessage {
     applicationProperties?: {
         [key: string]: any;
     };
+    applicationPropertiesWithAmqpTypes?: Readonly<{
+        [key: string]: AmqpApplicationProperty;
+    }>;
     body: any;
     bodyType?: "data" | "sequence" | "value";
     deliveryAnnotations?: {
@@ -51,6 +56,72 @@ export interface AmqpAnnotatedMessage {
 export const AmqpAnnotatedMessage: {
     fromRheaMessage(msg: Message): AmqpAnnotatedMessage;
     toRheaMessage(msg: AmqpAnnotatedMessage): Message;
+};
+
+// @public
+export type AmqpApplicationProperty = {
+    readonly type: "null";
+    readonly value: null;
+} | {
+    readonly type: "boolean";
+    readonly value: boolean;
+} | {
+    readonly type: "ubyte";
+    readonly value: number;
+} | {
+    readonly type: "ushort";
+    readonly value: number;
+} | {
+    readonly type: "uint";
+    readonly value: number;
+} | {
+    readonly type: "ulong";
+    readonly value: bigint;
+} | {
+    readonly type: "byte";
+    readonly value: number;
+} | {
+    readonly type: "short";
+    readonly value: number;
+} | {
+    readonly type: "int";
+    readonly value: number;
+} | {
+    readonly type: "long";
+    readonly value: bigint;
+} | {
+    readonly type: "float";
+    readonly value: number;
+} | {
+    readonly type: "double";
+    readonly value: number;
+} | {
+    readonly type: "decimal32";
+    readonly value: Uint8Array;
+} | {
+    readonly type: "decimal64";
+    readonly value: Uint8Array;
+} | {
+    readonly type: "decimal128";
+    readonly value: Uint8Array;
+} | {
+    readonly type: "char";
+    readonly value: string;
+} | {
+    readonly type: "timestamp";
+    readonly value: Date;
+} | {
+    readonly type: "uuid";
+    readonly value: string;
+} | {
+    readonly type: "binary";
+    readonly value: Uint8Array;
+} | {
+    readonly type: "string";
+    readonly value: string;
+} | {
+    readonly type: "symbol";
+    readonly value: string;
 };
 
 // @public
@@ -89,6 +160,9 @@ export const AmqpMessageProperties: {
     toRheaMessageProperties(props: AmqpMessageProperties): MessageProperties;
     fromRheaMessageProperties(props: MessageProperties): AmqpMessageProperties;
 };
+
+// @internal (undocumented)
+export type _ApplicationPropertiesWithTypes = Readonly<Record<string, AmqpApplicationProperty>>;
 
 // @public
 export interface CancellableAsyncLock {
@@ -369,8 +443,14 @@ export function createSasTokenProvider(data: {
     sharedAccessSignature: string;
 } | NamedKeyCredential | SASCredential): SasTokenProvider;
 
+// @internal
+export function _decodeRheaMessage(encodedMessage: Buffer_2): ReturnType<typeof message.decode>;
+
 // @public
 export const defaultCancellableLock: CancellableAsyncLock;
+
+// @internal
+export function _defineApplicationPropertiesWithAmqpTypes(target: object, applicationPropertiesWithTypes: _ApplicationPropertiesWithTypes | undefined): void;
 
 // @public
 export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;
@@ -424,6 +504,9 @@ export enum ErrorNameConditionMapper {
     UnattachedHandleError = "amqp:session:unattached-handle",// Retryable
     UnauthorizedError = "amqp:unauthorized-access"
 }
+
+// @internal
+export function _getApplicationPropertiesWithAmqpTypes(applicationProperties: Record<string, unknown> | undefined): _ApplicationPropertiesWithTypes | undefined;
 
 // @public
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
@@ -603,6 +686,9 @@ export enum TokenType {
     CbsTokenTypeJwt = "jwt",
     CbsTokenTypeSas = "servicebus.windows.net:sastoken"
 }
+
+// @internal
+export function _toRheaApplicationProperties(applicationProperties: Record<string, unknown> | undefined, applicationPropertiesWithTypes?: _ApplicationPropertiesWithTypes): Record<string, unknown> | undefined;
 
 // @public
 export function translate(err: unknown): MessagingError | Error;
