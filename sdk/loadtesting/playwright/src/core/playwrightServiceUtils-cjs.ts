@@ -3,10 +3,16 @@
 
 import path from "node:path";
 
-// Use .ts extension when running directly from source, .js when running from compiled dist
-const ext = __dirname.replace(/\\/g, "/").includes("/src/") ? ".ts" : ".js";
+export function getGlobalPaths(directory: string): { setup: string; teardown: string } {
+  // Only the package's own src/core directory runs TypeScript directly. An installed
+  // package can be nested under a consumer directory named "src", so do not inspect
+  // arbitrary path segments.
+  const ext = directory.replace(/\\/g, "/").endsWith("/src/core") ? ".ts" : ".js";
 
-export const globalPaths = {
-  setup: path.join(__dirname, `./global/playwright-service-global-setup${ext}`),
-  teardown: path.join(__dirname, `./global/playwright-service-global-teardown${ext}`),
-};
+  return {
+    setup: path.join(directory, `./global/playwright-service-global-setup${ext}`),
+    teardown: path.join(directory, `./global/playwright-service-global-teardown${ext}`),
+  };
+}
+
+export const globalPaths = getGlobalPaths(__dirname);
