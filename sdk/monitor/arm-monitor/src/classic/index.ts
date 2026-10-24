@@ -13,6 +13,7 @@ export type { DataCollectionRulesOperations } from "./dataCollectionRules/index.
 export type { DiagnosticSettingsOperations } from "./diagnosticSettings/index.js";
 export type { DiagnosticSettingsCategoryOperations } from "./diagnosticSettingsCategory/index.js";
 export type { EventCategoriesOperations } from "./eventCategories/index.js";
+export type { ExactVMInsightsOperations } from "./exactVMInsights/index.js";
 export type { LogProfilesOperations } from "./logProfiles/index.js";
 export type { MetricAlertsOperations } from "./metricAlerts/index.js";
 export type { MetricAlertsStatusOperations } from "./metricAlertsStatus/index.js";
@@ -30,4 +31,3 @@ export type { ScheduledQueryRulesOperations } from "./scheduledQueryRules/index.
 export type { ServiceDiagnosticSettingsOperations } from "./serviceDiagnosticSettings/index.js";
 export type { TenantActionGroupsOperations } from "./tenantActionGroups/index.js";
 export type { TenantActivityLogsOperations } from "./tenantActivityLogs/index.js";
-export type { vMInsightsOperations } from "./vMInsights/index.js";

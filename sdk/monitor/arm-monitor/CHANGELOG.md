@@ -1,5 +1,19 @@
 # Release History
 
+## 9.0.0-beta.1 (2026-10-24)
+Compared with version 8.0.0
+
+### Features Added
+  - Added operation group ExactVMInsightsOperations
+  - Added Interface ExactVMInsightsGetOnboardingStatusOptionalParams
+  - Interface AutoscaleSettingResource has a new optional parameter identity
+  - Interface AutoscaleSettingResourcePatch has a new optional parameter identity
+
+### Breaking Changes
+  - Removed operation group vMInsightsOperations
+  - Class MonitorClient no longer has parameter vMInsights
+  - Removed Interface vMInsightsGetOnboardingStatusOptionalParams
+
 ## 8.0.0 (2026-08-18)
 
 ### Features Added

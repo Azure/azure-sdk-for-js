@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-monitor",
-  "version": "8.0.0",
+  "version": "9.0.0-beta.1",
   "description": "A generated SDK for MonitorClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -46,6 +46,426 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/diagnosticSettingsCategory": {
+      "browser": {
+        "types": "./dist/browser/api/diagnosticSettingsCategory/index.d.ts",
+        "default": "./dist/browser/api/diagnosticSettingsCategory/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/diagnosticSettingsCategory/index.d.ts",
+        "default": "./dist/esm/api/diagnosticSettingsCategory/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/diagnosticSettingsCategory/index.d.ts",
+        "default": "./dist/commonjs/api/diagnosticSettingsCategory/index.js"
+      }
+    },
+    "./api/diagnosticSettings": {
+      "browser": {
+        "types": "./dist/browser/api/diagnosticSettings/index.d.ts",
+        "default": "./dist/browser/api/diagnosticSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/diagnosticSettings/index.d.ts",
+        "default": "./dist/esm/api/diagnosticSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/diagnosticSettings/index.d.ts",
+        "default": "./dist/commonjs/api/diagnosticSettings/index.js"
+      }
+    },
+    "./api/exactVMInsights": {
+      "browser": {
+        "types": "./dist/browser/api/exactVMInsights/index.d.ts",
+        "default": "./dist/browser/api/exactVMInsights/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/exactVMInsights/index.d.ts",
+        "default": "./dist/esm/api/exactVMInsights/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/exactVMInsights/index.d.ts",
+        "default": "./dist/commonjs/api/exactVMInsights/index.js"
+      }
+    },
+    "./api/tenantActionGroups": {
+      "browser": {
+        "types": "./dist/browser/api/tenantActionGroups/index.d.ts",
+        "default": "./dist/browser/api/tenantActionGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/tenantActionGroups/index.d.ts",
+        "default": "./dist/esm/api/tenantActionGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/tenantActionGroups/index.d.ts",
+        "default": "./dist/commonjs/api/tenantActionGroups/index.js"
+      }
+    },
+    "./api/actionGroups": {
+      "browser": {
+        "types": "./dist/browser/api/actionGroups/index.d.ts",
+        "default": "./dist/browser/api/actionGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/actionGroups/index.d.ts",
+        "default": "./dist/esm/api/actionGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/actionGroups/index.d.ts",
+        "default": "./dist/commonjs/api/actionGroups/index.js"
+      }
+    },
+    "./api/baselines": {
+      "browser": {
+        "types": "./dist/browser/api/baselines/index.d.ts",
+        "default": "./dist/browser/api/baselines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/baselines/index.d.ts",
+        "default": "./dist/esm/api/baselines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/baselines/index.d.ts",
+        "default": "./dist/commonjs/api/baselines/index.js"
+      }
+    },
+    "./api/scheduledQueryRules": {
+      "browser": {
+        "types": "./dist/browser/api/scheduledQueryRules/index.d.ts",
+        "default": "./dist/browser/api/scheduledQueryRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/scheduledQueryRules/index.d.ts",
+        "default": "./dist/esm/api/scheduledQueryRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/scheduledQueryRules/index.d.ts",
+        "default": "./dist/commonjs/api/scheduledQueryRules/index.js"
+      }
+    },
+    "./api/metricAlertsStatus": {
+      "browser": {
+        "types": "./dist/browser/api/metricAlertsStatus/index.d.ts",
+        "default": "./dist/browser/api/metricAlertsStatus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/metricAlertsStatus/index.d.ts",
+        "default": "./dist/esm/api/metricAlertsStatus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/metricAlertsStatus/index.d.ts",
+        "default": "./dist/commonjs/api/metricAlertsStatus/index.js"
+      }
+    },
+    "./api/metricAlerts": {
+      "browser": {
+        "types": "./dist/browser/api/metricAlerts/index.d.ts",
+        "default": "./dist/browser/api/metricAlerts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/metricAlerts/index.d.ts",
+        "default": "./dist/esm/api/metricAlerts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/metricAlerts/index.d.ts",
+        "default": "./dist/commonjs/api/metricAlerts/index.js"
+      }
+    },
+    "./api/activityLogAlerts": {
+      "browser": {
+        "types": "./dist/browser/api/activityLogAlerts/index.d.ts",
+        "default": "./dist/browser/api/activityLogAlerts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/activityLogAlerts/index.d.ts",
+        "default": "./dist/esm/api/activityLogAlerts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/activityLogAlerts/index.d.ts",
+        "default": "./dist/commonjs/api/activityLogAlerts/index.js"
+      }
+    },
+    "./api/logProfiles": {
+      "browser": {
+        "types": "./dist/browser/api/logProfiles/index.d.ts",
+        "default": "./dist/browser/api/logProfiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/logProfiles/index.d.ts",
+        "default": "./dist/esm/api/logProfiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/logProfiles/index.d.ts",
+        "default": "./dist/commonjs/api/logProfiles/index.js"
+      }
+    },
+    "./api/alertRuleIncidents": {
+      "browser": {
+        "types": "./dist/browser/api/alertRuleIncidents/index.d.ts",
+        "default": "./dist/browser/api/alertRuleIncidents/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/alertRuleIncidents/index.d.ts",
+        "default": "./dist/esm/api/alertRuleIncidents/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/alertRuleIncidents/index.d.ts",
+        "default": "./dist/commonjs/api/alertRuleIncidents/index.js"
+      }
+    },
+    "./api/serviceDiagnosticSettings": {
+      "browser": {
+        "types": "./dist/browser/api/serviceDiagnosticSettings/index.d.ts",
+        "default": "./dist/browser/api/serviceDiagnosticSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serviceDiagnosticSettings/index.d.ts",
+        "default": "./dist/esm/api/serviceDiagnosticSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serviceDiagnosticSettings/index.d.ts",
+        "default": "./dist/commonjs/api/serviceDiagnosticSettings/index.js"
+      }
+    },
+    "./api/metrics": {
+      "browser": {
+        "types": "./dist/browser/api/metrics/index.d.ts",
+        "default": "./dist/browser/api/metrics/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/metrics/index.d.ts",
+        "default": "./dist/esm/api/metrics/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/metrics/index.d.ts",
+        "default": "./dist/commonjs/api/metrics/index.js"
+      }
+    },
+    "./api/metricNamespaces": {
+      "browser": {
+        "types": "./dist/browser/api/metricNamespaces/index.d.ts",
+        "default": "./dist/browser/api/metricNamespaces/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/metricNamespaces/index.d.ts",
+        "default": "./dist/esm/api/metricNamespaces/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/metricNamespaces/index.d.ts",
+        "default": "./dist/commonjs/api/metricNamespaces/index.js"
+      }
+    },
+    "./api/metricDefinitions": {
+      "browser": {
+        "types": "./dist/browser/api/metricDefinitions/index.d.ts",
+        "default": "./dist/browser/api/metricDefinitions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/metricDefinitions/index.d.ts",
+        "default": "./dist/esm/api/metricDefinitions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/metricDefinitions/index.d.ts",
+        "default": "./dist/commonjs/api/metricDefinitions/index.js"
+      }
+    },
+    "./api/tenantActivityLogs": {
+      "browser": {
+        "types": "./dist/browser/api/tenantActivityLogs/index.d.ts",
+        "default": "./dist/browser/api/tenantActivityLogs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/tenantActivityLogs/index.d.ts",
+        "default": "./dist/esm/api/tenantActivityLogs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/tenantActivityLogs/index.d.ts",
+        "default": "./dist/commonjs/api/tenantActivityLogs/index.js"
+      }
+    },
+    "./api/eventCategories": {
+      "browser": {
+        "types": "./dist/browser/api/eventCategories/index.d.ts",
+        "default": "./dist/browser/api/eventCategories/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/eventCategories/index.d.ts",
+        "default": "./dist/esm/api/eventCategories/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/eventCategories/index.d.ts",
+        "default": "./dist/commonjs/api/eventCategories/index.js"
+      }
+    },
+    "./api/activityLogs": {
+      "browser": {
+        "types": "./dist/browser/api/activityLogs/index.d.ts",
+        "default": "./dist/browser/api/activityLogs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/activityLogs/index.d.ts",
+        "default": "./dist/esm/api/activityLogs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/activityLogs/index.d.ts",
+        "default": "./dist/commonjs/api/activityLogs/index.js"
+      }
+    },
+    "./api/predictiveMetric": {
+      "browser": {
+        "types": "./dist/browser/api/predictiveMetric/index.d.ts",
+        "default": "./dist/browser/api/predictiveMetric/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/predictiveMetric/index.d.ts",
+        "default": "./dist/esm/api/predictiveMetric/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/predictiveMetric/index.d.ts",
+        "default": "./dist/commonjs/api/predictiveMetric/index.js"
+      }
+    },
+    "./api/autoscaleSettings": {
+      "browser": {
+        "types": "./dist/browser/api/autoscaleSettings/index.d.ts",
+        "default": "./dist/browser/api/autoscaleSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/autoscaleSettings/index.d.ts",
+        "default": "./dist/esm/api/autoscaleSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/autoscaleSettings/index.d.ts",
+        "default": "./dist/commonjs/api/autoscaleSettings/index.js"
+      }
+    },
+    "./api/privateLinkScopeOperationStatus": {
+      "browser": {
+        "types": "./dist/browser/api/privateLinkScopeOperationStatus/index.d.ts",
+        "default": "./dist/browser/api/privateLinkScopeOperationStatus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateLinkScopeOperationStatus/index.d.ts",
+        "default": "./dist/esm/api/privateLinkScopeOperationStatus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateLinkScopeOperationStatus/index.d.ts",
+        "default": "./dist/commonjs/api/privateLinkScopeOperationStatus/index.js"
+      }
+    },
+    "./api/privateLinkScopedResources": {
+      "browser": {
+        "types": "./dist/browser/api/privateLinkScopedResources/index.d.ts",
+        "default": "./dist/browser/api/privateLinkScopedResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateLinkScopedResources/index.d.ts",
+        "default": "./dist/esm/api/privateLinkScopedResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateLinkScopedResources/index.d.ts",
+        "default": "./dist/commonjs/api/privateLinkScopedResources/index.js"
+      }
+    },
+    "./api/privateLinkScopes": {
+      "browser": {
+        "types": "./dist/browser/api/privateLinkScopes/index.d.ts",
+        "default": "./dist/browser/api/privateLinkScopes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateLinkScopes/index.d.ts",
+        "default": "./dist/esm/api/privateLinkScopes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateLinkScopes/index.d.ts",
+        "default": "./dist/commonjs/api/privateLinkScopes/index.js"
+      }
+    },
+    "./api/dataCollectionRules": {
+      "browser": {
+        "types": "./dist/browser/api/dataCollectionRules/index.d.ts",
+        "default": "./dist/browser/api/dataCollectionRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataCollectionRules/index.d.ts",
+        "default": "./dist/esm/api/dataCollectionRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataCollectionRules/index.d.ts",
+        "default": "./dist/commonjs/api/dataCollectionRules/index.js"
+      }
+    },
+    "./api/dataCollectionRuleAssociations": {
+      "browser": {
+        "types": "./dist/browser/api/dataCollectionRuleAssociations/index.d.ts",
+        "default": "./dist/browser/api/dataCollectionRuleAssociations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataCollectionRuleAssociations/index.d.ts",
+        "default": "./dist/esm/api/dataCollectionRuleAssociations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataCollectionRuleAssociations/index.d.ts",
+        "default": "./dist/commonjs/api/dataCollectionRuleAssociations/index.js"
+      }
+    },
+    "./api/scheduledQueryRule": {
+      "browser": {
+        "types": "./dist/browser/api/scheduledQueryRule/index.d.ts",
+        "default": "./dist/browser/api/scheduledQueryRule/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/scheduledQueryRule/index.d.ts",
+        "default": "./dist/esm/api/scheduledQueryRule/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/scheduledQueryRule/index.d.ts",
+        "default": "./dist/commonjs/api/scheduledQueryRule/index.js"
+      }
+    },
+    "./api/dataCollectionEndpoints": {
+      "browser": {
+        "types": "./dist/browser/api/dataCollectionEndpoints/index.d.ts",
+        "default": "./dist/browser/api/dataCollectionEndpoints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataCollectionEndpoints/index.d.ts",
+        "default": "./dist/esm/api/dataCollectionEndpoints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataCollectionEndpoints/index.d.ts",
+        "default": "./dist/commonjs/api/dataCollectionEndpoints/index.js"
+      }
+    },
+    "./api/privateEndpointConnections": {
+      "browser": {
+        "types": "./dist/browser/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/browser/api/privateEndpointConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/esm/api/privateEndpointConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/commonjs/api/privateEndpointConnections/index.js"
+      }
+    },
+    "./api/privateLinkResources": {
+      "browser": {
+        "types": "./dist/browser/api/privateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/privateLinkResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/privateLinkResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/privateLinkResources/index.js"
       }
     },
     "./models": {
@@ -380,7 +800,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-monitor",
@@ -388,6 +809,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-monitor"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-monitor?view=azure-node-preview"
   }
 }

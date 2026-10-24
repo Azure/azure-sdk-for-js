@@ -432,6 +432,7 @@ export interface AutoscaleSetting {
 // @public
 export interface AutoscaleSettingResource extends TrackedResource {
     enabled?: boolean;
+    identity?: ManagedServiceIdentity;
     namePropertiesName?: string;
     notifications?: AutoscaleNotification[];
     predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
@@ -443,6 +444,7 @@ export interface AutoscaleSettingResource extends TrackedResource {
 // @public
 export interface AutoscaleSettingResourcePatch {
     enabled?: boolean;
+    identity?: ManagedServiceIdentity;
     name?: string;
     notifications?: AutoscaleNotification[];
     predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
@@ -1298,6 +1300,15 @@ export interface EventHubReceiver {
 
 // @public
 export type EventLevel = "Critical" | "Error" | "Warning" | "Informational" | "Verbose";
+
+// @public
+export interface ExactVMInsightsGetOnboardingStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExactVMInsightsOperations {
+    getOnboardingStatus: (resourceUri: string, options?: ExactVMInsightsGetOnboardingStatusOptionalParams) => Promise<VMInsightsOnboardingStatus>;
+}
 
 // @public
 export interface ExtensionDataSource {
@@ -2591,6 +2602,7 @@ export class MonitorClient {
     readonly diagnosticSettings: DiagnosticSettingsOperations;
     readonly diagnosticSettingsCategory: DiagnosticSettingsCategoryOperations;
     readonly eventCategories: EventCategoriesOperations;
+    readonly exactVMInsights: ExactVMInsightsOperations;
     getTestNotificationsAtTenantActionGroupResourceLevel(managementGroupId: string, tenantActionGroupName: string, notificationId: string, xMsClientTenantId: string, options?: GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams): Promise<TenantActionGroupTestNotificationDetailsResponse>;
     readonly logProfiles: LogProfilesOperations;
     readonly metricAlerts: MetricAlertsOperations;
@@ -2610,7 +2622,6 @@ export class MonitorClient {
     readonly serviceDiagnosticSettings: ServiceDiagnosticSettingsOperations;
     readonly tenantActionGroups: TenantActionGroupsOperations;
     readonly tenantActivityLogs: TenantActivityLogsOperations;
-    readonly vMInsights: vMInsightsOperations;
 }
 
 // @public
@@ -3786,10 +3797,6 @@ export interface UserIdentityProperties {
 }
 
 // @public
-export interface vMInsightsGetOnboardingStatusOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface VMInsightsOnboardingStatus extends ExtensionResource {
     data?: DataContainer[];
     dataStatus?: DataStatus;
@@ -3803,11 +3810,6 @@ export interface VMInsightsOnboardingStatusProperties {
     dataStatus: DataStatus;
     onboardingStatus: OnboardingStatus;
     resourceId: string;
-}
-
-// @public
-export interface vMInsightsOperations {
-    getOnboardingStatus: (resourceUri: string, options?: vMInsightsGetOnboardingStatusOptionalParams) => Promise<VMInsightsOnboardingStatus>;
 }
 
 // @public

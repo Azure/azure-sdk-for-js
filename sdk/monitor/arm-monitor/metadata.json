@@ -2,7 +2,7 @@
   "apiVersions": {
     "DataCollectionApi": "2024-03-11",
     "PrivateLinkScopesApi": "2023-06-01-preview",
-    "AutoScaleApi": "2022-10-01",
+    "AutoScaleApi": "2025-09-01-preview",
     "ActivityLogsApi": "2015-04-01",
     "MetricsApi": "2024-02-01",
     "ServiceDiagnosticsSettingsApi": "2016-09-01",
@@ -18,7 +18,7 @@
     "VmInsightsOnboarding": "2018-11-27-preview",
     "DiagnosticsSettings": "2021-05-01-preview"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "DataCollectionApi",
     "CrossLanguageDefinitionId": {
@@ -411,7 +411,7 @@
       "@azure/arm-monitor!DiagnosticSettingsOperations#delete:member": "DiagnosticsSettings.DiagnosticSettingsResources.delete",
       "@azure/arm-monitor!DiagnosticSettingsOperations#createOrUpdate:member": "DiagnosticsSettings.DiagnosticSettingsResources.createOrUpdate",
       "@azure/arm-monitor!DiagnosticSettingsOperations#get:member": "DiagnosticsSettings.DiagnosticSettingsResources.get",
-      "@azure/arm-monitor!VMInsightsOperations#getOnboardingStatus:member": "VmInsightsOnboarding.VMInsightsOnboardingStatuses.getOnboardingStatus",
+      "@azure/arm-monitor!ExactVMInsightsOperations#getOnboardingStatus:member": "VmInsightsOnboarding.VMInsightsOnboardingStatuses.getOnboardingStatus",
       "@azure/arm-monitor!TenantActionGroupsOperations#listByManagementGroupId:member": "TenantActionGroups.TenantActionGroupResources.listByManagementGroupId",
       "@azure/arm-monitor!TenantActionGroupsOperations#delete:member": "TenantActionGroups.TenantActionGroupResources.delete",
       "@azure/arm-monitor!TenantActionGroupsOperations#update:member": "TenantActionGroups.TenantActionGroupResources.update",
