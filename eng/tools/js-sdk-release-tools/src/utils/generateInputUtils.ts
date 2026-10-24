@@ -135,7 +135,7 @@ export async function parseInputJson(inputJson: any) {
 }
 
 export function getModularSDKType(packageDirectory: string) {
-  if (packageDirectory.includes("arm-")) {
+  if (packageDirectory.includes("arm-") || packageDirectory.includes("provisioning-")) {
     return ModularSDKType.ManagementPlane;
   }
   return ModularSDKType.DataPlane;

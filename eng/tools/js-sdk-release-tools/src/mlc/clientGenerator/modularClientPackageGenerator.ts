@@ -18,6 +18,8 @@ import {
   getGeneratedPackageDirectory,
   specifyApiVersionToGenerateSDKByTypeSpec,
   cleanUpPackageDirectory,
+  cleanUpDirectory,
+  provisioningEmitterName,
 } from "../../common/utils.js";
 import { getNpmPackageInfo } from "../../common/npmUtils.js";
 import { logger } from "../../utils/logger.js";
@@ -43,20 +45,30 @@ export async function generateAzureSDKPackage(
     const packageDirectory = await getGeneratedPackageDirectory(
       options.typeSpecDirectory,
       options.sdkRepoRoot,
+      options.emitterName,
     );
     const relativePackageDirToSdkRoot = posix.relative(
       posix.normalize(options.sdkRepoRoot),
       posix.normalize(packageDirectory),
     );
-    await ignoreLinkGenerator(options.typeSpecDirectory);
+    await ignoreLinkGenerator(options.typeSpecDirectory, options.emitterName);
     const packageJsonPath = posix.join(packageDirectory, "package.json");
     let originalNpmPackageInfo: undefined | NpmPackageInfo;
     if (await exists(packageJsonPath))
       originalNpmPackageInfo = await getNpmPackageInfo(packageDirectory);
 
-    await cleanUpPackageDirectory(packageDirectory, options.runMode);
+    if (options.emitterName == provisioningEmitterName) {
+      // Preserve tests when regenerating with the provisioning emitter.
+      await cleanUpDirectory(packageDirectory, ["test"]);
+    } else {
+      await cleanUpPackageDirectory(packageDirectory, options.runMode);
+    }
     if (options.apiVersion) {
-      specifyApiVersionToGenerateSDKByTypeSpec(options.typeSpecDirectory, options.apiVersion);
+      specifyApiVersionToGenerateSDKByTypeSpec(
+        options.typeSpecDirectory,
+        options.apiVersion,
+        options.emitterName,
+      );
     }
     await generateTypeScriptCodeFromTypeSpec(
       options,
