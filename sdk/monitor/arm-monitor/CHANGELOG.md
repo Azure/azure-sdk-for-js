@@ -1,6 +1,7 @@
 # Release History
 
-## 9.0.0 (2026-10-23)
+## 9.0.0-beta.1 (2026-10-24)
+Compared with version 8.0.0
 
 ### Features Added
   - Added operation group ExactVMInsightsOperations
