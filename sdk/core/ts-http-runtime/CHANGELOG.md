@@ -10,6 +10,7 @@
 
 ### Bugs Fixed
 
+- Release discarded response streams before redirects and retries, preserve abort-signal cleanup across streamed responses, reject prematurely closed Node upload streams, and honor method overrides when converting 303 redirects to GET. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)
 - Binary request bodies supplied as `ArrayBuffer`, `DataView`, or typed arrays other than `Uint8Array` are now sent as their original bytes instead of being JSON serialized. [#40382](https://github.com/Azure/azure-sdk-for-js/pull/40382)
 - Client requests now look up the `content-type` and `accept` entries of the `headers` request option without regard to how the header name is capitalized. Only the all lower case spellings were found before, so `headers: { "Content-Type": "application/xml" }` and `headers: { "Accept": "text/plain" }` were replaced by the default `application/json`. Both entries are now read back from the headers that will be sent, so the same value decides the header and how the body is encoded: a header name given under two spellings resolves to the last one in the object, a `content-type` value that is not a string, such as a number, is used as its string form rather than ignored, and a padded value selects the encoding of its trimmed form. [#39791](https://github.com/Azure/azure-sdk-for-js/pull/39791)
 

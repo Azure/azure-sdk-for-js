@@ -11,6 +11,7 @@ import { AbortError } from "../abort-controller/AbortError.js";
 import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
 import { createClientLogger } from "../logger/logger.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
+import { disposeResponseBody } from "../util/responseBody.js";
 
 const retryPolicyLogger = createClientLogger("ts-http-runtime retryPolicy");
 
@@ -120,6 +121,7 @@ export function retryPolicy(
             strategyLogger.info(
               `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`,
             );
+            if (response) await disposeResponseBody(response);
             await delay(retryAfterInMs, undefined, { abortSignal: request.abortSignal });
             continue retryRequest;
           }
@@ -128,6 +130,7 @@ export function retryPolicy(
             strategyLogger.info(
               `Retry ${retryCount}: Retry strategy ${strategy.name} redirects to ${redirectTo}`,
             );
+            if (response) await disposeResponseBody(response);
             request.url = redirectTo;
             continue retryRequest;
           }

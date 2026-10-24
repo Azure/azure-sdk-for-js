@@ -181,6 +181,26 @@ describe("FetchHttpClient", function () {
     assert.strictEqual(response.status, 200);
   });
 
+  it("removes the abort listener from the signal used for the request", async function () {
+    const controller = new AbortController();
+    const addEventListener = vi.spyOn(controller.signal, "addEventListener");
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const request = createPipelineRequest({
+      url: "https://localhost/abort-cleanup",
+      abortSignal: controller.signal,
+    });
+    vi.mocked(fetch).mockImplementation(async () => {
+      request.abortSignal = new AbortController().signal;
+      return createResponse(200);
+    });
+
+    await createFetchHttpClient().sendRequest(request);
+
+    const abortListener = addEventListener.mock.calls.find(([event]) => event === "abort")?.[1];
+    expect(abortListener).toBeDefined();
+    expect(removeEventListener).toHaveBeenCalledWith("abort", abortListener);
+  });
+
   it("should allow canceling of requests before the request is made", async function () {
     const blob = new Blob();
     const mockedResponse = new Response(blob, { status: 200 });

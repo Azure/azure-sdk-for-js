@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
-import { PassThrough, Writable } from "node:stream";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { PassThrough, Readable, Writable } from "node:stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { createPipelineRequest, createDefaultHttpClient } from "../../../src/index.js";
+import { getRequestCompletion } from "../../../src/util/requestCompletion.js";
 
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");
@@ -559,6 +560,109 @@ describe("NodeHttpClient", function () {
     yieldHttpsResponse(createResponse(200));
     await promise;
     assert.isTrue(bodySent, "body should have been piped to request");
+  });
+
+  it.each([false, true])(
+    "should reject when a request body stream closes before ending (progress=%s)",
+    async function (progress) {
+      const client = createDefaultHttpClient();
+      const writable = new Writable({
+        write(_chunk, _encoding, callback) {
+          callback();
+        },
+      }) as unknown as ClientRequest;
+      vi.mocked(https.request).mockReturnValueOnce(writable);
+      const body = new Readable({
+        read() {
+          this.destroy();
+        },
+      });
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        body,
+        onUploadProgress: progress ? () => {} : undefined,
+      });
+
+      await expect(client.sendRequest(request)).rejects.toThrow(
+        "Request body stream closed before ending",
+      );
+    },
+  );
+
+  it("should preserve request body stream error codes", async function () {
+    const client = createDefaultHttpClient();
+    const writable = new Writable({
+      write(_chunk, _encoding, callback) {
+        callback();
+      },
+    }) as unknown as ClientRequest;
+    vi.mocked(https.request).mockReturnValueOnce(writable);
+    const body = new Readable({
+      read() {
+        this.destroy(Object.assign(new Error("upload failed"), { code: "EIO" }));
+      },
+    });
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      body,
+    });
+
+    try {
+      await client.sendRequest(request);
+      assert.fail("Expected await to throw");
+    } catch (error: any) {
+      assert.strictEqual(error.name, "RestError");
+      assert.strictEqual(error.code, "EIO");
+      assert.strictEqual(error.message, "upload failed");
+    }
+  });
+
+  it("tracks an outgoing request after response headers arrive", async function () {
+    const client = createDefaultHttpClient();
+    let finishRequest!: () => void;
+    const writable = new Writable({
+      autoDestroy: false,
+      final(callback) {
+        finishRequest = callback;
+      },
+    }) as unknown as ClientRequest;
+    vi.mocked(https.request).mockReturnValueOnce(writable);
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const promise = client.sendRequest(request);
+    yieldHttpsResponse(createResponse(200));
+
+    const response = await promise;
+    const completion = getRequestCompletion(response);
+    assert.isDefined(completion);
+    finishRequest();
+    await completion;
+    assert.isUndefined(getRequestCompletion(response));
+    writable.destroy();
+  });
+
+  it("removes the abort listener from the signal used for the request", async function () {
+    vi.useRealTimers();
+    const client = createDefaultHttpClient();
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const responseStream = new FakeResponse();
+    responseStream.headers = {};
+    responseStream.statusCode = 200;
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      abortSignal: controller.signal,
+      streamResponseStatusCodes: new Set([200]),
+    });
+    const promise = client.sendRequest(request);
+    yieldHttpsResponse(responseStream as unknown as IncomingMessage);
+    const response = await promise;
+    request.abortSignal = new AbortController().signal;
+    responseStream.destroy();
+    await delay(0);
+
+    assert.isDefined(response.readableStreamBody);
+    assert.strictEqual(removeEventListener.mock.calls.length, 1);
+    assert.strictEqual(removeEventListener.mock.calls[0][0], "abort");
   });
 
   it("should return an AbortError when aborted while reading the HTTP response", async function () {

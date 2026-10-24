@@ -57,6 +57,44 @@ describe("retryPolicy", function () {
     assert.strictEqual(result, successResponse);
   });
 
+  it("continues a selected retry when response stream cancellation fails", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+    });
+    const failedStream = {
+      cancel: () => Promise.reject(new Error("response failed")),
+    } as NonNullable<PipelineResponse["browserStreamBody"]>;
+    const retryResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 503,
+      browserStreamBody: failedStream,
+    };
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const policy = retryPolicy(
+      [
+        {
+          name: "testRetryStrategy",
+          retry({ response }) {
+            return response?.status === 503 ? { retryAfterInMs: 0 } : { skipStrategy: true };
+          },
+        },
+      ],
+      { maxRetries: 1 },
+    );
+    const next = vi
+      .fn<SendRequest>()
+      .mockResolvedValueOnce(retryResponse)
+      .mockResolvedValueOnce(successResponse);
+
+    await expect(policy.sendRequest(request, next)).resolves.toBe(successResponse);
+    expect(next).toHaveBeenCalledTimes(2);
+  });
+
   it("It should give up after the default maxRetries is reached", async () => {
     const request = createPipelineRequest({
       url: "https://bing.com",
