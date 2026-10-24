@@ -189,6 +189,26 @@ describe("tokenCycler", function () {
     });
   }
 
+  it("bounds settled tokens for changing request identities", async function () {
+    const getToken = vi.fn<TokenCredential["getToken"]>((scopes) =>
+      Promise.resolve({
+        token: Array.isArray(scopes) ? scopes.join(" ") : scopes,
+        expiresOnTimestamp: Date.now() + 300_000,
+      }),
+    );
+    const getAccessToken = createTokenCycler({ getToken });
+
+    for (let index = 0; index <= 100; index += 1) {
+      await getAccessToken([`scope-${index}`], {});
+    }
+    await getAccessToken(["scope-0"], {});
+
+    // The cycler keeps only the 100 most recently refreshed identities, so a
+    // long-lived client with changing scopes or PoP inputs cannot retain every
+    // historical token indefinitely.
+    expect(getToken).toHaveBeenCalledTimes(102);
+  });
+
   it("keeps a valid cached token when a claims refresh fails", async function () {
     const claimsError = new Error("claims refresh failed");
     const getToken = vi.fn<TokenCredential["getToken"]>((_, requestOptions) => {
@@ -383,7 +403,7 @@ describe("tokenCycler", function () {
     await expect(claimARefresh).resolves.toMatchObject({ token: "claim-A" });
   });
 
-  it("starts a fresh claims worker after a newer claims challenge completes", async function () {
+  it("deduplicates alternating pending claims refreshes by request identity", async function () {
     let resolveClaimA: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
     let resolveClaimB: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
     const claimAToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
@@ -405,24 +425,102 @@ describe("tokenCycler", function () {
 
     const firstClaimARefresh = getAccessToken(["scope"], { claims: "claim-A", enableCae: true });
     const claimBRefresh = getAccessToken(["scope"], { claims: "claim-B", enableCae: true });
-
-    resolveClaimB!({ token: "claim-B", expiresOnTimestamp: Date.now() + 300_000 });
-    await expect(claimBRefresh).resolves.toMatchObject({ token: "claim-B" });
-
-    const rejoinedClaimARefresh = getAccessToken(["scope"], {
+    const secondClaimARefresh = getAccessToken(["scope"], {
       claims: "claim-A",
       enableCae: true,
     });
-    expect(getToken).toHaveBeenCalledTimes(3);
+
+    expect(getToken).toHaveBeenCalledTimes(2);
 
     resolveClaimA!({ token: "claim-A", expiresOnTimestamp: Date.now() + 300_000 });
     await expect(firstClaimARefresh).resolves.toMatchObject({ token: "claim-A" });
-    await expect(rejoinedClaimARefresh).resolves.toMatchObject({ token: "claim-A" });
+    await expect(secondClaimARefresh).resolves.toMatchObject({ token: "claim-A" });
+
+    resolveClaimB!({ token: "claim-B", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(claimBRefresh).resolves.toMatchObject({ token: "claim-B" });
+  });
+
+  it("reuses a completed ordinary refresh while a claims refresh is pending", async function () {
+    let resolveClaims: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    let resolveOrdinary: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    const claimsToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaims = resolve;
+    });
+    const ordinaryToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+      (resolve) => {
+        resolveOrdinary = resolve;
+      },
+    );
+    const getToken = vi.fn<TokenCredential["getToken"]>((_, requestOptions) =>
+      requestOptions?.claims === "claim-A" ? claimsToken : ordinaryToken,
+    );
+    const getAccessToken = createTokenCycler({ getToken });
+
+    const claimsRefresh = getAccessToken(["scope"], { claims: "claim-A", enableCae: true });
+    const ordinaryRefresh = getAccessToken(["scope"], { enableCae: true });
+    resolveOrdinary!({ token: "ordinary", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(ordinaryRefresh).resolves.toMatchObject({ token: "ordinary" });
+
+    await expect(getAccessToken(["scope"], { enableCae: true })).resolves.toMatchObject({
+      token: "ordinary",
+    });
+    expect(getToken).toHaveBeenCalledTimes(2);
+
+    resolveClaims!({ token: "claim-A", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(claimsRefresh).resolves.toMatchObject({ token: "claim-A" });
+  });
+
+  it("starts a cache-capable renewal after claims success retires an ordinary worker", async function () {
+    let resolveClaims: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    let resolveOrdinaryDuringClaims: (
+      token: Awaited<ReturnType<TokenCredential["getToken"]>>,
+    ) => void;
+    let resolveRenewal: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    const claimsToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaims = resolve;
+    });
+    const ordinaryDuringClaimsToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+      (resolve) => {
+        resolveOrdinaryDuringClaims = resolve;
+      },
+    );
+    const renewalToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+      (resolve) => {
+        resolveRenewal = resolve;
+      },
+    );
+    let ordinaryRequests = 0;
+    const getToken = vi.fn<TokenCredential["getToken"]>((_, requestOptions) => {
+      if (requestOptions?.claims === "claim-A") {
+        return claimsToken;
+      }
+      ordinaryRequests += 1;
+      return ordinaryRequests === 1 ? ordinaryDuringClaimsToken : renewalToken;
+    });
+    const getAccessToken = createTokenCycler({ getToken });
+
+    const claimsRefresh = getAccessToken(["scope"], { claims: "claim-A", enableCae: true });
+    const ordinaryDuringClaimsRefresh = getAccessToken(["scope"], { enableCae: true });
+    resolveClaims!({
+      token: "claim-A",
+      expiresOnTimestamp: Date.now() + 300_000,
+      refreshAfterTimestamp: Date.now() - 1,
+    });
+    await expect(claimsRefresh).resolves.toMatchObject({ token: "claim-A" });
 
     await expect(getAccessToken(["scope"], { enableCae: true })).resolves.toMatchObject({
       token: "claim-A",
     });
     expect(getToken).toHaveBeenCalledTimes(3);
+
+    resolveRenewal!({ token: "renewed", expiresOnTimestamp: Date.now() + 300_000 });
+    await vi.advanceTimersByTimeAsync(0);
+    await expect(getAccessToken(["scope"], { enableCae: true })).resolves.toMatchObject({
+      token: "renewed",
+    });
+
+    resolveOrdinaryDuringClaims!({ token: "stale", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(ordinaryDuringClaimsRefresh).resolves.toMatchObject({ token: "stale" });
   });
 
   it("starts a fresh ordinary worker after a claims challenge evicts a pre-challenge worker", async function () {
