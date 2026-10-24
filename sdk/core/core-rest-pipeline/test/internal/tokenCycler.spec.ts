@@ -484,6 +484,43 @@ describe("tokenCycler", function () {
     expect(getToken).toHaveBeenCalledTimes(2);
   });
 
+  it("preserves an earlier successful claims token when a newer claims refresh fails", async function () {
+    let resolveClaimA: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    let rejectClaimB: (reason?: unknown) => void;
+    const claimAToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaimA = resolve;
+    });
+    const claimBToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+      (_resolve, reject) => {
+        rejectClaimB = reject;
+      },
+    );
+    const getToken = vi.fn<TokenCredential["getToken"]>((_, requestOptions) => {
+      if (requestOptions?.claims === "claim-A") {
+        return claimAToken;
+      }
+      if (requestOptions?.claims === "claim-B") {
+        return claimBToken;
+      }
+      throw new Error("ordinary request should reuse the successful claim-A token");
+    });
+    const getAccessToken = createTokenCycler({ getToken });
+
+    const claimARefresh = getAccessToken(["scope"], { claims: "claim-A", enableCae: true });
+    const claimBRefresh = getAccessToken(["scope"], { claims: "claim-B", enableCae: true });
+    resolveClaimA!({ token: "claim-A", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(claimARefresh).resolves.toMatchObject({ token: "claim-A" });
+
+    const rejectedClaimB = expect(claimBRefresh).rejects.toThrow("claim-B failed");
+    rejectClaimB!(new Error("claim-B failed"));
+    await rejectedClaimB;
+
+    await expect(getAccessToken(["scope"], { enableCae: true })).resolves.toMatchObject({
+      token: "claim-A",
+    });
+    expect(getToken).toHaveBeenCalledTimes(2);
+  });
+
   it("does not let an ordinary worker started after a surviving claims worker overwrite it", async function () {
     let resolveClaimA: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
     let rejectClaimB: (reason?: unknown) => void;
