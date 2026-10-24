@@ -6,8 +6,27 @@ import type { SUPPORTED_API_VERSIONS } from "./constants.js";
 
 export type {
   EkmConnection,
+  EkmConnectivityMode,
   EkmProxyInfo,
   EkmProxyClientCertificateInfo,
+  EkmPrivateEndpointOperation,
+  EkmPrivateEndpointOperationType,
+  OperationState,
+  EkmPrivateEndpointCreateParameters,
+  EkmPrivateEndpoint,
+  EkmPrivateEndpointProvisioningState,
+  EkmPrivateEndpointProperties,
+  EkmPrivateEndpointConnectionState,
+  EkmPrivateEndpointConnectionStatus,
+  EkmPrivateEndpointListResult,
+  ErrorModel,
+} from "./models/models.js";
+export {
+  KnownEkmConnectivityMode,
+  KnownEkmPrivateEndpointConnectionStatus,
+  KnownEkmPrivateEndpointOperationType,
+  KnownEkmPrivateEndpointProvisioningState,
+  KnownOperationState,
 } from "./models/models.js";
 
 /**
@@ -55,3 +74,28 @@ export interface CheckEkmConnectionOptions extends OperationOptions {}
  * An interface representing the optional parameters that can be passed to {@link KeyVaultEkmClient.getEkmCertificate}
  */
 export interface GetEkmCertificateOptions extends OperationOptions {}
+
+/** Optional parameters for listing EKM private endpoints. */
+export interface ListEkmPrivateEndpointsOptions extends OperationOptions {}
+
+/** Optional parameters for getting an EKM private endpoint. */
+export interface GetEkmPrivateEndpointOptions extends OperationOptions {}
+
+/** Optional parameters for deleting an EKM private endpoint. */
+export interface DeleteEkmPrivateEndpointOptions extends OperationOptions {
+  /** Delay to wait until the next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** Serialized poller state to resume a previously started operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters for creating an EKM private endpoint. */
+export interface CreateEkmPrivateEndpointOptions extends OperationOptions {
+  /** Delay to wait until the next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** Serialized poller state to resume a previously started operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters for getting an EKM private endpoint operation status. */
+export interface GetEkmPrivateEndpointOperationStatusOptions extends OperationOptions {}

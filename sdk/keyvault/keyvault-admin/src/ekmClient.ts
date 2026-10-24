@@ -11,17 +11,30 @@ import type {
 import type {
   CheckEkmConnectionOptions,
   CreateEkmConnectionOptions,
+  CreateEkmPrivateEndpointOptions,
   DeleteEkmConnectionOptions,
+  DeleteEkmPrivateEndpointOptions,
   EkmClientOptions,
   GetEkmCertificateOptions,
   GetEkmConnectionOptions,
+  GetEkmPrivateEndpointOptions,
+  GetEkmPrivateEndpointOperationStatusOptions,
+  ListEkmPrivateEndpointsOptions,
   UpdateEkmConnectionOptions,
 } from "./ekmClientModels.js";
+import type {
+  EkmPrivateEndpoint,
+  EkmPrivateEndpointCreateParameters,
+  EkmPrivateEndpointListResult,
+  EkmPrivateEndpointOperation,
+} from "./ekmClientModels.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 import { createKeyVaultClient } from "./createKeyVaultClient.js";
+import { restorePoller } from "./restorePollerHelpers.js";
 
 /**
- * The KeyVaultEkmClient provides asynchronous methods to create, get, update, delete and check
- * the External Key Manager (EKM) connection for an Azure Key Vault Managed HSM.
+ * The KeyVaultEkmClient provides asynchronous methods to manage EKM connections and private endpoints
+ * for an Azure Key Vault Managed HSM.
  */
 export class KeyVaultEkmClient {
   /**
@@ -124,5 +137,89 @@ export class KeyVaultEkmClient {
     options: GetEkmCertificateOptions = {},
   ): Promise<EkmProxyClientCertificateInfo> {
     return this.client.getEkmCertificate(options);
+  }
+
+  /**
+   * Lists the EKM proxy private endpoints on the Managed HSM.
+   * This operation requires the ekm/read permission.
+   *
+   * @param options - the optional parameters.
+   */
+  listEkmPrivateEndpoints(
+    options: ListEkmPrivateEndpointsOptions = {},
+  ): Promise<EkmPrivateEndpointListResult> {
+    return this.client.listEkmPrivateEndpoints(options);
+  }
+
+  /**
+   * Gets an EKM proxy private endpoint. This operation requires the ekm/read permission.
+   *
+   * @param peName - the name of the private endpoint.
+   * @param options - the optional parameters.
+   */
+  getEkmPrivateEndpoint(
+    peName: string,
+    options: GetEkmPrivateEndpointOptions = {},
+  ): Promise<EkmPrivateEndpoint> {
+    return this.client.getEkmPrivateEndpoint(peName, options);
+  }
+
+  /**
+   * Creates a private endpoint to the EKM proxy Private Link Service.
+   * This operation requires the ekm/write permission.
+   *
+   * @param peName - the name of the private endpoint.
+   * @param parameters - the parameters used to create the private endpoint.
+   * @param options - the optional parameters.
+   */
+  createEkmPrivateEndpoint(
+    peName: string,
+    parameters: EkmPrivateEndpointCreateParameters,
+    options: CreateEkmPrivateEndpointOptions = {},
+  ): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+    if (options.resumeFrom) {
+      return restorePoller(
+        this.client,
+        options.resumeFrom,
+        this.client.createEkmPrivateEndpoint,
+        options,
+      );
+    }
+    return this.client.createEkmPrivateEndpoint(peName, parameters, options);
+  }
+
+  /**
+   * Deletes an EKM proxy private endpoint. This operation requires the ekm/write permission.
+   *
+   * @param peName - the name of the private endpoint.
+   * @param options - the optional parameters.
+   */
+  deleteEkmPrivateEndpoint(
+    peName: string,
+    options: DeleteEkmPrivateEndpointOptions = {},
+  ): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+    if (options.resumeFrom) {
+      return restorePoller(
+        this.client,
+        options.resumeFrom,
+        this.client.deleteEkmPrivateEndpoint,
+        options,
+      );
+    }
+    return this.client.deleteEkmPrivateEndpoint(peName, options);
+  }
+
+  /**
+   * Gets the status of a private endpoint create or delete operation.
+   * This operation requires the ekm/read permission.
+   *
+   * @param operationId - the ID of the private endpoint operation.
+   * @param options - the optional parameters.
+   */
+  getEkmPrivateEndpointOperationStatus(
+    operationId: string,
+    options: GetEkmPrivateEndpointOperationStatusOptions = {},
+  ): Promise<EkmPrivateEndpointOperation> {
+    return this.client.getEkmPrivateEndpointOperationStatus(operationId, options);
   }
 }
