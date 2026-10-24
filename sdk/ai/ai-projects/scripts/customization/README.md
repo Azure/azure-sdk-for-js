@@ -105,6 +105,10 @@ regeneration script falls back to it when the strict run fails.
   their classic interface and factory members. Those operations pass the same
   guards as relocations into unprotected modules; every maintained declaration
   and all other factory behavior must remain unchanged.
+- Newly emitted next-link and cursor list operations both forward the initial
+  request's preview and caller headers, along with operation options, to
+  continuation requests. Cursor metadata is added only for cursor responses;
+  an existing continuation-options customization is not overwritten.
 - Public exports are reconciled without replacing the customized import
   scaffold. Generated-backed moves are distinguished from custom-only API. An
   unmodified generated export of a group module the emitter removed, for
