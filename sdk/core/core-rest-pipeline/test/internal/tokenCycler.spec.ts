@@ -440,6 +440,50 @@ describe("tokenCycler", function () {
     await expect(claimBRefresh).resolves.toMatchObject({ token: "claim-B" });
   });
 
+  it("caches a rejoined claims refresh after a newer challenge fails", async function () {
+    let resolveClaimA: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+    let rejectClaimB: (reason?: unknown) => void;
+    const claimAToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+      resolveClaimA = resolve;
+    });
+    const claimBToken = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+      (_, reject) => {
+        rejectClaimB = reject;
+      },
+    );
+    const getToken = vi.fn<TokenCredential["getToken"]>((_, requestOptions) => {
+      if (requestOptions?.claims === "claim-A") {
+        return claimAToken;
+      }
+      if (requestOptions?.claims === "claim-B") {
+        return claimBToken;
+      }
+      throw new Error("ordinary request should reuse the cached claim-A token");
+    });
+    const getAccessToken = createTokenCycler({ getToken });
+
+    const firstClaimARefresh = getAccessToken(["scope"], { claims: "claim-A", enableCae: true });
+    const claimBRefresh = getAccessToken(["scope"], { claims: "claim-B", enableCae: true });
+    const secondClaimARefresh = getAccessToken(["scope"], {
+      claims: "claim-A",
+      enableCae: true,
+    });
+    const rejectedClaimB = expect(claimBRefresh).rejects.toThrow("claim-B failed");
+
+    expect(getToken).toHaveBeenCalledTimes(2);
+    rejectClaimB!(new Error("claim-B failed"));
+    await rejectedClaimB;
+
+    resolveClaimA!({ token: "claim-A", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(firstClaimARefresh).resolves.toMatchObject({ token: "claim-A" });
+    await expect(secondClaimARefresh).resolves.toMatchObject({ token: "claim-A" });
+
+    await expect(getAccessToken(["scope"], { enableCae: true })).resolves.toMatchObject({
+      token: "claim-A",
+    });
+    expect(getToken).toHaveBeenCalledTimes(2);
+  });
+
   it("reuses a completed ordinary refresh while a claims refresh is pending", async function () {
     let resolveClaims: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
     let resolveOrdinary: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
