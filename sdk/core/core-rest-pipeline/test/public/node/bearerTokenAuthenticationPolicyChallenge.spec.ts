@@ -569,7 +569,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
           if (!request.url.endsWith("/default")) {
             return;
           }
-          const token = await getAccessToken(scopes, {});
+          const token = await getAccessToken(scopes, { requestOptions: { timeout: 100 } });
           request.headers.set("Authorization", `Bearer ${token?.token}`);
         },
         async authorizeRequestOnChallenge({ getAccessToken, request }) {
@@ -611,7 +611,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       [["challenge-scope"], ["challenge-scope"]],
     );
     assert.equal(calls[0]!.options?.requestOptions?.timeout, 1);
-    assert.equal(calls[1]!.options?.requestOptions, undefined);
+    assert.equal(calls[1]!.options?.requestOptions?.timeout, 100);
   });
 
   it("maps a custom authorizer's default identity to the successful challenge identity", async function () {

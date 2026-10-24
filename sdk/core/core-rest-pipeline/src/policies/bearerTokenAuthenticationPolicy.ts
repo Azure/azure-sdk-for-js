@@ -278,6 +278,7 @@ export function bearerTokenAuthenticationPolicy(
     return getAccessToken(preferredChallengeRequest.scopes, {
       ...preferredChallengeRequest.options,
       abortSignal: requestOptions.abortSignal,
+      requestOptions: requestOptions.requestOptions,
       tracingOptions: requestOptions.tracingOptions,
     });
   };
