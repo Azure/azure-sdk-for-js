@@ -4,7 +4,7 @@
 import http from "node:http";
 import https from "node:https";
 import zlib from "node:zlib";
-import { Transform } from "node:stream";
+import { finished, Transform } from "node:stream";
 import { types } from "node:util";
 import { AbortError } from "./abort-controller/AbortError.js";
 import type {
@@ -17,10 +17,11 @@ import type {
   TransferProgressEvent,
 } from "./interfaces.js";
 import { createHttpHeaders } from "./httpHeaders.js";
-import { RestError } from "./restError.js";
+import { isRestError, RestError } from "./restError.js";
 import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
+import { setRequestCompletion } from "./util/requestCompletion.js";
 
 const DEFAULT_TLS_SETTINGS = {};
 
@@ -83,6 +84,26 @@ class ReportTransform extends Transform {
   }
 }
 
+interface NodeRequestResult {
+  response: IncomingMessage;
+  requestComplete: Promise<void>;
+  isRequestComplete: () => boolean;
+}
+
+function toRequestSendError(error: Error & { code?: string }, request: PipelineRequest): RestError {
+  if (isRestError(error)) return error;
+  const prematureClose = error.code === "ERR_STREAM_PREMATURE_CLOSE";
+  return new RestError(
+    prematureClose ? "Request body stream closed before ending" : error.message,
+    {
+      code: prematureClose
+        ? RestError.REQUEST_SEND_ERROR
+        : (error.code ?? RestError.REQUEST_SEND_ERROR),
+      request,
+    },
+  );
+}
+
 /**
  * A HttpClient implementation that uses Node's "https" module to send HTTPS requests.
  * @internal
@@ -98,8 +119,9 @@ class NodeHttpClient implements HttpClient {
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const abortController = new AbortController();
     let abortListener: ((event: any) => void) | undefined;
-    if (request.abortSignal) {
-      if (request.abortSignal.aborted) {
+    const requestAbortSignal = request.abortSignal;
+    if (requestAbortSignal) {
+      if (requestAbortSignal.aborted) {
         throw new AbortError("The operation was aborted. Request has already been canceled.");
       }
 
@@ -108,7 +130,7 @@ class NodeHttpClient implements HttpClient {
           abortController.abort();
         }
       };
-      request.abortSignal.addEventListener("abort", abortListener);
+      requestAbortSignal.addEventListener("abort", abortListener);
     }
 
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
@@ -145,7 +167,20 @@ class NodeHttpClient implements HttpClient {
           logger.error("Error in upload progress", e);
         });
         if (isReadableStream(body)) {
-          body.pipe(uploadReportStream);
+          const source = body;
+          let cleanupFinished = (): void => {};
+          const cleanupSource = (): void => {
+            cleanupFinished();
+            uploadReportStream.removeListener("close", cleanupSource);
+          };
+          cleanupFinished = finished(source, { writable: false }, (error) => {
+            cleanupSource();
+            if (error) {
+              uploadReportStream.destroy(toRequestSendError(error, request));
+            }
+          });
+          uploadReportStream.once("close", cleanupSource);
+          source.pipe(uploadReportStream);
         } else {
           uploadReportStream.end(body);
         }
@@ -153,7 +188,8 @@ class NodeHttpClient implements HttpClient {
         body = uploadReportStream;
       }
 
-      const res = await this.makeRequest(request, abortController, body);
+      const result = await this.makeRequest(request, abortController, body);
+      const res = result.response;
 
       const headers = getResponseHeaders(res);
 
@@ -163,6 +199,9 @@ class NodeHttpClient implements HttpClient {
         headers,
         request,
       };
+      if (!result.isRequestComplete()) {
+        setRequestCompletion(response, result.requestComplete);
+      }
 
       // Responses to HEAD must not have a body.
       // If they do return a body, that body must be ignored.
@@ -202,7 +241,7 @@ class NodeHttpClient implements HttpClient {
       }
 
       // clean up event listener
-      if (request.abortSignal && abortListener) {
+      if (requestAbortSignal && abortListener) {
         let uploadStreamDone = Promise.resolve();
         if (isReadableStream(body)) {
           uploadStreamDone = isStreamComplete(body);
@@ -215,7 +254,7 @@ class NodeHttpClient implements HttpClient {
           .then(() => {
             // eslint-disable-next-line promise/always-return
             if (abortListener) {
-              request.abortSignal?.removeEventListener("abort", abortListener);
+              requestAbortSignal.removeEventListener("abort", abortListener);
             }
           })
           .catch((e) => {
@@ -229,7 +268,7 @@ class NodeHttpClient implements HttpClient {
     request: PipelineRequest,
     abortController: AbortController,
     body?: RequestBodyType,
-  ): Promise<http.IncomingMessage> {
+  ): Promise<NodeRequestResult> {
     const url = new URL(request.url);
 
     const isInsecure = url.protocol !== "https:";
@@ -249,13 +288,34 @@ class NodeHttpClient implements HttpClient {
       ...request.requestOverrides,
     };
 
-    return new Promise<http.IncomingMessage>((resolve, reject) => {
-      const req = isInsecure ? http.request(options, resolve) : https.request(options, resolve);
+    return new Promise<NodeRequestResult>((_resolve, reject) => {
+      let requestDone = false;
+      let resolveRequestComplete!: () => void;
+      const requestComplete = new Promise<void>((resolve) => {
+        resolveRequestComplete = resolve;
+      });
+      const onResponse = (response: IncomingMessage): void => {
+        _resolve({
+          response,
+          requestComplete,
+          isRequestComplete: () => requestDone,
+        });
+      };
+      const req = isInsecure
+        ? http.request(options, onResponse)
+        : https.request(options, onResponse);
+
+      const onComplete = (): void => {
+        requestDone = true;
+        req.removeListener("finish", onComplete);
+        req.removeListener("close", onComplete);
+        resolveRequestComplete();
+      };
+      req.once("finish", onComplete);
+      req.once("close", onComplete);
 
       req.once("error", (err: Error & { code?: string }) => {
-        reject(
-          new RestError(err.message, { code: err.code ?? RestError.REQUEST_SEND_ERROR, request }),
-        );
+        reject(toRequestSendError(err, request));
       });
 
       abortController.signal.addEventListener("abort", () => {
@@ -266,6 +326,20 @@ class NodeHttpClient implements HttpClient {
         reject(abortError);
       });
       if (body && isReadableStream(body)) {
+        let cleanupFinished = (): void => {};
+        const cleanupBody = (): void => {
+          cleanupFinished();
+          req.removeListener("close", cleanupBody);
+        };
+        cleanupFinished = finished(body, { writable: false }, (error) => {
+          cleanupBody();
+          if (error) {
+            const requestError = toRequestSendError(error, request);
+            req.destroy(requestError);
+            reject(requestError);
+          }
+        });
+        req.once("close", cleanupBody);
         body.pipe(req);
       } else if (body) {
         if (typeof body === "string" || Buffer.isBuffer(body)) {

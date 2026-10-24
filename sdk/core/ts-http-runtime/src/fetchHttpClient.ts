@@ -166,8 +166,9 @@ function setupAbortSignal(request: PipelineRequest): {
    * Attach an abort listener to the request
    */
   let abortListener: ((event: any) => void) | undefined;
-  if (request.abortSignal) {
-    if (request.abortSignal.aborted) {
+  const requestAbortSignal = request.abortSignal;
+  if (requestAbortSignal) {
+    if (requestAbortSignal.aborted) {
       throw new AbortError("The operation was aborted. Request has already been canceled.");
     }
 
@@ -176,10 +177,10 @@ function setupAbortSignal(request: PipelineRequest): {
         abortController.abort();
       }
     };
-    request.abortSignal.addEventListener("abort", abortListener);
+    requestAbortSignal.addEventListener("abort", abortListener);
     abortControllerCleanup = () => {
       if (abortListener) {
-        request.abortSignal?.removeEventListener("abort", abortListener);
+        requestAbortSignal.removeEventListener("abort", abortListener);
       }
     };
   }
