@@ -10,7 +10,7 @@ import type { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createOrReplaceRole(context: WebPubSubChatServiceContext, roleName: string, resource: ChatRoleInput, options?: CreateOrReplaceRoleOptionalParams): Promise<ChatRole>;
+export function createOrReplaceRole(context: WebPubSubChatServiceContext, roleName: string, resource: ChatRoleCreateOrReplace, options?: CreateOrReplaceRoleOptionalParams): Promise<ChatRole>;
 
 // @public
 export interface CreateOrReplaceRoleOptionalParams extends OperationOptions {
@@ -19,10 +19,10 @@ export interface CreateOrReplaceRoleOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrReplaceRoom(context: WebPubSubChatServiceContext, roomId: string, resource: ChatRoomInput, options?: CreateOrReplaceRoomOptionalParams): Promise<ChatRoom>;
+export function createOrReplaceRoom(context: WebPubSubChatServiceContext, roomId: string, resource: ChatRoomCreateOrReplace, options?: CreateOrReplaceRoomOptionalParams): Promise<ChatRoom>;
 
 // @public
-export function createOrReplaceRoomMember(context: WebPubSubChatServiceContext, roomId: string, userId: string, resource: ChatRoomMemberInput, options?: CreateOrReplaceRoomMemberOptionalParams): Promise<ChatRoomMember>;
+export function createOrReplaceRoomMember(context: WebPubSubChatServiceContext, roomId: string, userId: string, resource: ChatRoomMemberCreateOrReplace, options?: CreateOrReplaceRoomMemberOptionalParams): Promise<ChatRoomMember>;
 
 // @public
 export interface CreateOrReplaceRoomMemberOptionalParams extends OperationOptions {
@@ -37,7 +37,16 @@ export interface CreateOrReplaceRoomOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrReplaceUser(context: WebPubSubChatServiceContext, userId: string, resource: ChatUserInputUnion, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
+export function createOrReplaceTopic(context: WebPubSubChatServiceContext, roomId: string, topicId: string, resource: ChatTopicCreateOrReplace, options?: CreateOrReplaceTopicOptionalParams): Promise<ChatTopic>;
+
+// @public
+export interface CreateOrReplaceTopicOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
+export function createOrReplaceUser(context: WebPubSubChatServiceContext, userId: string, resource: HumanChatUserCreateOrReplace, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
 
 // @public
 export interface CreateOrReplaceUserOptionalParams extends OperationOptions {
@@ -85,6 +94,15 @@ export interface DeleteRoomOptionalParams extends OperationOptions {
 }
 
 // @public
+export function deleteTopic(context: WebPubSubChatServiceContext, roomId: string, topicId: string, options?: DeleteTopicOptionalParams): Promise<void>;
+
+// @public
+export interface DeleteTopicOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
 export function deleteUser(context: WebPubSubChatServiceContext, userId: string, options?: DeleteUserOptionalParams): Promise<void>;
 
 // @public
@@ -112,6 +130,13 @@ export function getRoom(context: WebPubSubChatServiceContext, roomId: string, op
 
 // @public
 export interface GetRoomOptionalParams extends OperationOptions {
+}
+
+// @public
+export function getTopic(context: WebPubSubChatServiceContext, roomId: string, topicId: string, options?: GetTopicOptionalParams): Promise<ChatTopic>;
+
+// @public
+export interface GetTopicOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -150,10 +175,55 @@ export interface ListRoomMembersOptionalParams extends OperationOptions {
 }
 
 // @public
-export function updateMessage(context: WebPubSubChatServiceContext, conversationId: string, messageId: string, resource: ChatMessageInput, options?: UpdateMessageOptionalParams): Promise<ChatMessage>;
+export function listRooms(context: WebPubSubChatServiceContext, options?: ListRoomsOptionalParams): PagedAsyncIterableIterator<ChatRoom>;
+
+// @public
+export function listRoomsForUser(context: WebPubSubChatServiceContext, userId: string, options?: ListRoomsForUserOptionalParams): PagedAsyncIterableIterator<ChatUserRoom>;
+
+// @public
+export interface ListRoomsForUserOptionalParams extends OperationOptions {
+    continuationToken?: string;
+    maxPageSize?: number;
+}
+
+// @public
+export interface ListRoomsOptionalParams extends OperationOptions {
+    continuationToken?: string;
+    maxPageSize?: number;
+}
+
+// @public
+export function listTopics(context: WebPubSubChatServiceContext, roomId: string, options?: ListTopicsOptionalParams): PagedAsyncIterableIterator<ChatTopic>;
+
+// @public
+export interface ListTopicsOptionalParams extends OperationOptions {
+    continuationToken?: string;
+    maxPageSize?: number;
+}
+
+// @public
+export function listUsers(context: WebPubSubChatServiceContext, options?: ListUsersOptionalParams): PagedAsyncIterableIterator<ChatUserUnion>;
+
+// @public
+export interface ListUsersOptionalParams extends OperationOptions {
+    continuationToken?: string;
+    maxPageSize?: number;
+}
+
+// @public
+export function updateMessage(context: WebPubSubChatServiceContext, conversationId: string, messageId: string, resource: ChatMessageUpdate, options?: UpdateMessageOptionalParams): Promise<ChatMessage>;
 
 // @public
 export interface UpdateMessageOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
+export function updateTopic(context: WebPubSubChatServiceContext, roomId: string, topicId: string, resource: ChatTopicUpdate, options?: UpdateTopicOptionalParams): Promise<ChatTopic>;
+
+// @public
+export interface UpdateTopicOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
 }

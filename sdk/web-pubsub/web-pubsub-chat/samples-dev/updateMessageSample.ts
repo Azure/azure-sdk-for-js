@@ -16,7 +16,6 @@ async function updateMessage(): Promise<void> {
   const hub = process.env.WEB_PUB_SUB_CHAT_HUB || "";
   const client = new WebPubSubChatServiceClient(endpoint, credential, hub);
   const result = await client.updateMessage("c.room1.abcd1234", "123", {
-    createdBy: "user1",
     content: { text: "Updated message text" },
   });
   console.log(result);

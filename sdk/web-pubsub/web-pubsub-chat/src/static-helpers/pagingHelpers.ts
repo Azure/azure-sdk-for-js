@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { Client, PathUncheckedResponse, OperationOptions } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 
 /**
@@ -81,6 +82,8 @@ export interface BuildPagedAsyncIteratorOptions {
   nextLinkName?: string;
   nextLinkMethod?: "GET" | "POST";
   apiVersion?: string;
+  /** Request options to forward to continuation requests. */
+  operationOptions?: OperationOptions;
 }
 
 /**
@@ -109,10 +112,13 @@ export function buildPagedAsyncIterator<
         result = await getInitialResponse();
       } else {
         const resolvedPageLink = apiVersion ? addApiVersionToUrl(pageLink, apiVersion) : pageLink;
+        const requestParameters = operationOptionsToRequestParameters(
+          options.operationOptions ?? {},
+        );
         result =
           nextLinkMethod === "POST"
-            ? await client.pathUnchecked(resolvedPageLink).post()
-            : await client.pathUnchecked(resolvedPageLink).get();
+            ? await client.pathUnchecked(resolvedPageLink).post(requestParameters)
+            : await client.pathUnchecked(resolvedPageLink).get(requestParameters);
       }
       checkPagingRequest(result, expectedStatuses);
       const results = await processResponseBody(result as TResponse);

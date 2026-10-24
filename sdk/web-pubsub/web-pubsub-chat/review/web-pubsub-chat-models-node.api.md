@@ -21,9 +21,9 @@ export interface ChatMessage {
 }
 
 // @public
-export interface ChatMessageInput {
-    content: MessageContent;
-    createdBy: string;
+export interface ChatMessageUpdate {
+    content?: MessageContent;
+    createdBy?: string;
 }
 
 // @public
@@ -37,7 +37,7 @@ export interface ChatRole {
 }
 
 // @public
-export interface ChatRoleInput {
+export interface ChatRoleCreateOrReplace {
     permissions: ChatPermission[];
 }
 
@@ -50,7 +50,7 @@ export interface ChatRoom {
 }
 
 // @public
-export interface ChatRoomInput {
+export interface ChatRoomCreateOrReplace {
     title: string;
 }
 
@@ -62,29 +62,63 @@ export interface ChatRoomMember {
 }
 
 // @public
-export interface ChatRoomMemberInput {
+export interface ChatRoomMemberCreateOrReplace {
     roleName: string;
+}
+
+// @public
+export interface ChatTopic {
+    readonly conversationId: string;
+    readonly createdAt: Date;
+    readonly createdBy: string;
+    readonly etag: string;
+    readonly id: string;
+    state: ChatTopicState;
+    title: string;
+}
+
+// @public
+export interface ChatTopicCreateOrReplace {
+    state?: ChatTopicState;
+    title: string;
+}
+
+// @public
+export type ChatTopicState = string;
+
+// @public
+export interface ChatTopicUpdate {
+    state?: ChatTopicState;
+    title?: string;
 }
 
 // @public
 export interface ChatUser {
     readonly etag: string;
     readonly id: string;
-    kind: string;
-    nickname: string;
-}
-
-// @public
-export interface ChatUserInput {
     kind: ChatUserKind;
     nickname: string;
 }
 
 // @public
-export type ChatUserInputUnion = HumanChatUserInput;
+export interface ChatUserCreateOrReplace {
+    kind: ChatUserKind;
+    nickname: string;
+}
 
 // @public
-export type ChatUserKind = "Human";
+export type ChatUserCreateOrReplaceUnion = HumanChatUserCreateOrReplace | ChatUserCreateOrReplace;
+
+// @public
+export type ChatUserKind = string;
+
+// @public
+export interface ChatUserRoom {
+    readonly defaultConversation: string;
+    readonly etag: string;
+    readonly id: string;
+    title: string;
+}
 
 // @public
 export type ChatUserUnion = HumanChatUser | ChatUser;
@@ -97,9 +131,10 @@ export interface HumanChatUser extends ChatUser {
 }
 
 // @public
-export interface HumanChatUserInput extends ChatUserInput {
+export interface HumanChatUserCreateOrReplace extends ChatUserCreateOrReplace {
     // (undocumented)
     kind: "Human";
+    nickname: string;
     roleName: string;
 }
 
@@ -114,8 +149,21 @@ export enum KnownChatPermission {
 }
 
 // @public
+export enum KnownChatTopicState {
+    Archived = "Archived",
+    Normal = "Normal",
+    SoftDeleted = "SoftDeleted"
+}
+
+// @public
+export enum KnownChatUserKind {
+    Human = "Human"
+}
+
+// @public
 export enum KnownVersions {
-    V20260201Preview = "2026-02-01-preview"
+    V20260201Preview = "2026-02-01-preview",
+    V20260801Preview = "2026-08-01-preview"
 }
 
 // @public

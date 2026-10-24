@@ -8,15 +8,23 @@ import type {
 import { createWebPubSubChatService } from "./api/index.js";
 import {
   generateClientToken as generatedGenerateClientToken,
+  listRoomsForUser,
   deleteUser,
   createOrReplaceUser,
   getUser,
+  listUsers,
   deleteRoomMember,
   createOrReplaceRoomMember,
   listRoomMembers,
+  deleteTopic,
+  updateTopic,
+  getTopic,
+  createOrReplaceTopic,
+  listTopics,
   deleteRoom,
   getRoom,
   createOrReplaceRoom,
+  listRooms,
   deleteRole,
   createOrReplaceRole,
   getRole,
@@ -27,15 +35,23 @@ import {
   getConversation,
 } from "./api/operations.js";
 import type {
+  ListRoomsForUserOptionalParams,
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
   GetUserOptionalParams,
+  ListUsersOptionalParams,
   DeleteRoomMemberOptionalParams,
   CreateOrReplaceRoomMemberOptionalParams,
   ListRoomMembersOptionalParams,
+  DeleteTopicOptionalParams,
+  UpdateTopicOptionalParams,
+  GetTopicOptionalParams,
+  CreateOrReplaceTopicOptionalParams,
+  ListTopicsOptionalParams,
   DeleteRoomOptionalParams,
   GetRoomOptionalParams,
   CreateOrReplaceRoomOptionalParams,
+  ListRoomsOptionalParams,
   DeleteRoleOptionalParams,
   CreateOrReplaceRoleOptionalParams,
   GetRoleOptionalParams,
@@ -48,15 +64,19 @@ import type {
 import type {
   ChatConversation,
   ChatMessage,
-  ChatMessageInput,
+  ChatMessageUpdate,
   ChatRole,
-  ChatRoleInput,
+  ChatRoleCreateOrReplace,
   ChatRoom,
-  ChatRoomInput,
+  ChatRoomCreateOrReplace,
+  ChatTopic,
+  ChatTopicCreateOrReplace,
+  ChatTopicUpdate,
   ChatRoomMember,
-  ChatRoomMemberInput,
-  ChatUserInputUnion,
+  ChatRoomMemberCreateOrReplace,
   ChatUserUnion,
+  HumanChatUserCreateOrReplace,
+  ChatUserRoom,
 } from "./models/models.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { TokenCredential, AzureKeyCredential } from "@azure/core-auth";
@@ -158,6 +178,30 @@ export class WebPubSubChatServiceClient {
     this.pipeline = this._client.pipeline;
   }
 
+  /**
+   * List rooms associated with a user.
+   * @param userId - User whose rooms to list.
+   * @param options - Pagination and request options.
+   * @returns An iterator over rooms, or pages through `byPage()`.
+   */
+  listRoomsForUser(
+    userId: string,
+    options: ListRoomsForUserOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<ChatUserRoom> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "WebPubSubChatServiceClient.listRoomsForUser",
+      options,
+    );
+    try {
+      return listRoomsForUser(this._client, userId, updatedOptions);
+    } catch (error: unknown) {
+      span.setStatus({ status: "error", error: error instanceof Error ? error : String(error) });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
   /** Delete a user. */
   deleteUser(
     userId: string,
@@ -173,7 +217,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. */
   createOrReplaceUser(
     userId: string,
-    resource: ChatUserInputUnion,
+    resource: HumanChatUserCreateOrReplace,
     options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
   ): Promise<ChatUserUnion> {
     return tracingClient.withSpan(
@@ -193,6 +237,28 @@ export class WebPubSubChatServiceClient {
     );
   }
 
+  /**
+   * List users in the hub.
+   * @param options - Pagination and request options.
+   * @returns An iterator over user profiles, or pages through `byPage()`.
+   */
+  listUsers(
+    options: ListUsersOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<ChatUserUnion> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "WebPubSubChatServiceClient.listUsers",
+      options,
+    );
+    try {
+      return listUsers(this._client, updatedOptions);
+    } catch (error: unknown) {
+      span.setStatus({ status: "error", error: error instanceof Error ? error : String(error) });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
   /** Delete a room member. */
   deleteRoomMember(
     roomId: string,
@@ -210,7 +276,7 @@ export class WebPubSubChatServiceClient {
   createOrReplaceRoomMember(
     roomId: string,
     userId: string,
-    resource: ChatRoomMemberInput,
+    resource: ChatRoomMemberCreateOrReplace,
     options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoomMember> {
     return tracingClient.withSpan(
@@ -232,6 +298,110 @@ export class WebPubSubChatServiceClient {
     );
     try {
       return listRoomMembers(this._client, roomId, updatedOptions);
+    } catch (error: unknown) {
+      span.setStatus({ status: "error", error: error instanceof Error ? error : String(error) });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Soft delete a topic.
+   * @param roomId - Room containing the topic.
+   * @param topicId - Topic to delete.
+   * @param options - Conditional headers and request options.
+   */
+  deleteTopic(
+    roomId: string,
+    topicId: string,
+    options: DeleteTopicOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.deleteTopic",
+      options,
+      (updatedOptions) => deleteTopic(this._client, roomId, topicId, updatedOptions),
+    );
+  }
+
+  /**
+   * Update a topic's title or lifecycle state.
+   * @param roomId - Room containing the topic.
+   * @param topicId - Topic to update.
+   * @param resource - Properties to change; omitted properties are unchanged.
+   * @param options - Conditional headers and request options.
+   * @returns The updated topic.
+   */
+  updateTopic(
+    roomId: string,
+    topicId: string,
+    resource: ChatTopicUpdate,
+    options: UpdateTopicOptionalParams = { requestOptions: {} },
+  ): Promise<ChatTopic> {
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.updateTopic",
+      options,
+      (updatedOptions) => updateTopic(this._client, roomId, topicId, resource, updatedOptions),
+    );
+  }
+
+  /**
+   * Get a topic's title, state, and conversation identifier.
+   * @param roomId - Room containing the topic.
+   * @param topicId - Topic to retrieve.
+   * @param options - Request options.
+   * @returns The topic.
+   */
+  getTopic(
+    roomId: string,
+    topicId: string,
+    options: GetTopicOptionalParams = { requestOptions: {} },
+  ): Promise<ChatTopic> {
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.getTopic",
+      options,
+      (updatedOptions) => getTopic(this._client, roomId, topicId, updatedOptions),
+    );
+  }
+
+  /**
+   * Create or replace a topic with a client-specified identifier.
+   * @param roomId - Room containing the topic.
+   * @param topicId - Topic identifier, unique within the room.
+   * @param resource - Topic title.
+   * @param options - Conditional headers and request options.
+   * @returns The created or replaced topic.
+   */
+  createOrReplaceTopic(
+    roomId: string,
+    topicId: string,
+    resource: ChatTopicCreateOrReplace,
+    options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
+  ): Promise<ChatTopic> {
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.createOrReplaceTopic",
+      options,
+      (updatedOptions) =>
+        createOrReplaceTopic(this._client, roomId, topicId, resource, updatedOptions),
+    );
+  }
+
+  /**
+   * List topics in a room.
+   * @param roomId - Room whose topics to list.
+   * @param options - Pagination and request options.
+   * @returns An iterator over topics, or pages through `byPage()`.
+   */
+  listTopics(
+    roomId: string,
+    options: ListTopicsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<ChatTopic> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "WebPubSubChatServiceClient.listTopics",
+      options,
+    );
+    try {
+      return listTopics(this._client, roomId, updatedOptions);
     } catch (error: unknown) {
       span.setStatus({ status: "error", error: error instanceof Error ? error : String(error) });
       throw error;
@@ -265,7 +435,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a room with a client-specified ID. */
   createOrReplaceRoom(
     roomId: string,
-    resource: ChatRoomInput,
+    resource: ChatRoomCreateOrReplace,
     options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoom> {
     return tracingClient.withSpan(
@@ -273,6 +443,28 @@ export class WebPubSubChatServiceClient {
       options,
       (updatedOptions) => createOrReplaceRoom(this._client, roomId, resource, updatedOptions),
     );
+  }
+
+  /**
+   * List rooms in the hub.
+   * @param options - Pagination and request options.
+   * @returns An iterator over rooms, or pages through `byPage()`.
+   */
+  listRooms(
+    options: ListRoomsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<ChatRoom> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "WebPubSubChatServiceClient.listRooms",
+      options,
+    );
+    try {
+      return listRooms(this._client, updatedOptions);
+    } catch (error: unknown) {
+      span.setStatus({ status: "error", error: error instanceof Error ? error : String(error) });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /** Delete a role. */
@@ -290,7 +482,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a role. */
   createOrReplaceRole(
     roleName: string,
-    resource: ChatRoleInput,
+    resource: ChatRoleCreateOrReplace,
     options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
   ): Promise<ChatRole> {
     return tracingClient.withSpan(
@@ -332,7 +524,7 @@ export class WebPubSubChatServiceClient {
   updateMessage(
     conversationId: string,
     messageId: string,
-    resource: ChatMessageInput,
+    resource: ChatMessageUpdate,
     options: UpdateMessageOptionalParams = { requestOptions: {} },
   ): Promise<ChatMessage> {
     return tracingClient.withSpan(
