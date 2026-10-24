@@ -208,14 +208,15 @@ export function createTokenCycler(
     }
   }
 
-  function invalidateOrdinaryWorkersStartedDuringClaimsRefresh(
+  function invalidateOrdinaryWorkersStartedAfterClaimsRefresh(
     baseIdentityKey: string,
     claimsRefreshSequence: number,
   ): void {
     for (const worker of refreshWorkers.values()) {
       if (
         worker.baseIdentityKey === baseIdentityKey &&
-        worker.startedDuringClaimsRefreshSequence === claimsRefreshSequence
+        !worker.isClaimsRefresh &&
+        worker.sequence > claimsRefreshSequence
       ) {
         worker.isInvalidated = true;
         refreshWorkers.delete(worker.requestIdentityKey);
@@ -351,7 +352,7 @@ export function createTokenCycler(
             // rejoined after this newer challenge has settled. If a newer
             // claims worker fails, a surviving older worker may still safely
             // cache its response; a newer successful worker invalidates it.
-            invalidateOrdinaryWorkersStartedDuringClaimsRefresh(baseIdentityKey, worker.sequence);
+            invalidateOrdinaryWorkersStartedAfterClaimsRefresh(baseIdentityKey, worker.sequence);
             invalidateSupersededClaimsWorkers(baseIdentityKey, worker.sequence);
             deferredOrdinaryTokens.delete(baseIdentityKey);
             cacheToken(worker, accessToken, true);
