@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * ARM state-shape conversion.
+ * Client/ARM object conversion.
  *
- * lowerState maps JS property names to ARM paths, restores flattened
+ * convertToArmObject maps JS property names to ARM paths, restores flattened
  * nesting, and encodes terminal values using the supplied model shape.
- * raiseState performs the inverse conversion for deserialization.
+ * convertFromArmObject performs the inverse conversion for deserialization.
  * Both follow nested model, array, and record shapes and preserve unknown
- * keys. Property-access expression lowering lives in expression.ts.
+ * keys. Property-access expression lowering lives in the AST expression builder.
  */
 
 import {
@@ -16,9 +16,9 @@ import {
   type ModelShape,
   type ValueShape,
   resolveModelShape,
-} from "../../shape/shape.js";
-import { isExpression } from "../../expression/expressions.js";
-import { isExpressionNode } from "../../expression/ast-nodes.js";
+} from "../shape/shape.js";
+import { isExpression } from "../expression/expressions.js";
+import { isExpressionNode } from "../expression/ast-nodes.js";
 import { decodeWireValue, encodeWireValue } from "./encoding.js";
 
 const MISSING = Symbol("missing");
@@ -28,7 +28,7 @@ function assertNeverValueShape(shape: never): never {
 }
 
 // ---------------------------------------------------------------------------
-// State lowering
+// Client object to ARM object
 // ---------------------------------------------------------------------------
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
@@ -41,7 +41,7 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 }
 
 /**
- * Recursively rewrite a raw state object into its ARM wire shape. Keys
+ * Recursively convert a client object into its ARM wire shape. Keys
  * not present in `shape.byJsName` pass through unchanged. Multi-
  * segment ARM paths (from `@flattenProperty`) re-nest objects; nested
  * models, arrays-of-models and records-of-models recurse via
@@ -51,7 +51,7 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
  * when both sides are compatible objects; non-object / object collisions
  * throw.
  */
-export function lowerState(
+export function convertToArmObject(
   state: Record<string, unknown>,
   shape: ModelShape,
   visited: WeakSet<object> = new WeakSet(),
@@ -110,9 +110,9 @@ function lowerValue(
   switch (shape.kind) {
     case "deferred":
       if (!isPlainObject(value)) return value;
-      // `lowerState` resolves the variant itself, per property, using
+      // `convertToArmObject` resolves the variant itself, per property, using
       // `value` as the discriminator source.
-      return lowerState(value, shape.value(), visited);
+      return convertToArmObject(value, shape.value(), visited);
     case "array":
       if (!Array.isArray(value)) return value;
       return value.map((item, index) =>
@@ -229,11 +229,11 @@ function defineOwn(target: Record<string, unknown>, key: string, value: unknown)
 }
 
 // ---------------------------------------------------------------------------
-// State raising (inverse of lowerState)
+// ARM object to client object
 // ---------------------------------------------------------------------------
 
 /**
- * Inverse of `lowerState`: walks a wire-shape state object and lifts
+ * Inverse of `convertToArmObject`: walks an ARM object and maps
  * values at each property entry's `armPath` back onto the flat
  * `jsName` key. Recurses into nested model / array / record values via
  * `target`. Empty ARM paths fall back to the JS property name.
@@ -247,9 +247,9 @@ function defineOwn(target: Record<string, unknown>, key: string, value: unknown)
  *
  * Keys present in the state but not consumed by any property entry
  * pass through unchanged (preserving the "unknown key" escape hatch
- * documented in `lowerState`).
+ * documented in `convertToArmObject`).
  */
-export function raiseState(
+export function convertFromArmObject(
   state: Record<string, unknown>,
   shape: ModelShape,
   visited: WeakSet<object> = new WeakSet(),
@@ -321,8 +321,8 @@ function raiseValue(
   switch (shape.kind) {
     case "deferred":
       if (!isPlainObject(value)) return value;
-      // `raiseState` selects the variant itself, against ARM keys.
-      return raiseState(value, shape.value(), visited);
+      // `convertFromArmObject` selects the variant itself, against ARM keys.
+      return convertFromArmObject(value, shape.value(), visited);
     case "array":
       if (!Array.isArray(value)) return value;
       return value.map((item, index) =>
@@ -381,7 +381,7 @@ function structuredCloneLike(
   seen: WeakSet<object>,
 ): Record<string, unknown> {
   if (seen.has(value)) {
-    // Preserve the cycle for downstream detection in raiseState.
+    // Preserve the cycle for downstream detection in convertFromArmObject.
     return value;
   }
   seen.add(value);
