@@ -174,10 +174,10 @@ describe("cleanUpPackageDirectory", () => {
   // Test the cleanup behavior based on package type and run mode:
   // - RestLevelClient (@azure-rest/*):
   //   * Release/Local mode: Cleanup is skipped (handled by emitter)
-  //   * SpecPullRequest/Batch modes: All files are cleaned up unless root generated/ exists
+  //   * SpecPullRequest/Batch modes: All files are cleaned up unless generated/ or src/generated/ exists
   // - Data Plane (non-arm, non-rest):
   //   * Release/Local mode: Cleanup is skipped (handled by emitter)
-  //   * SpecPullRequest/Batch modes: All files are cleaned up unless root generated/ exists
+  //   * SpecPullRequest/Batch modes: All files are cleaned up unless generated/ or src/generated/ exists
   // - Management Plane (arm-*) HighLevelClient:
   //   * Release/Local mode: Preserves test and assets.json, cleans up everything else including src
   //   * SpecPullRequest/Batch modes: All files are cleaned up
@@ -397,6 +397,43 @@ describe("cleanUpPackageDirectory", () => {
           await remove(tempPackageDir);
         }
       }
+    }
+  });
+
+  test("preserves a source-separated data-plane package in SpecPullRequest mode", async () => {
+    const tempPackageDir = await createTestDirectoryStructure(__dirname, "dataplane");
+
+    try {
+      const files = {
+        "src/generated/index.ts": "export class WidgetAnalyticsClient {}\n",
+        "src/index.ts": `export * from "./generated/index.js";
+export { WidgetAnalyticsClient } from "./widgetAnalyticsClient.js";
+`,
+        "src/widgetAnalyticsClient.ts": `import { WidgetAnalyticsClient as GeneratedWidgetAnalyticsClient } from "./generated/index.js";
+
+export class WidgetAnalyticsClient extends GeneratedWidgetAnalyticsClient {
+  customMethod() {
+    return "This is a custom method!";
+  }
+}
+`,
+        "package.json": fs.readFileSync(path.join(tempPackageDir, "package.json"), "utf8"),
+      };
+      for (const [relative, contents] of Object.entries(files)) {
+        const file = path.join(tempPackageDir, relative);
+        await ensureDir(path.dirname(file));
+        await writeFile(file, contents, "utf8");
+      }
+
+      await cleanUpPackageDirectory(tempPackageDir, RunMode.SpecPullRequest);
+
+      for (const [relative, contents] of Object.entries(files)) {
+        const file = path.join(tempPackageDir, relative);
+        expect(await pathExists(file), relative).toBe(true);
+        expect(fs.readFileSync(file, "utf8")).toBe(contents);
+      }
+    } finally {
+      await remove(tempPackageDir);
     }
   });
 
