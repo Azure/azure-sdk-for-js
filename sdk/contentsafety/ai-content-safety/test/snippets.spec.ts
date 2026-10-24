@@ -31,12 +31,21 @@ describe("snippets", () => {
     const client = new ContentSafetyClient("<endpoint>", new DefaultAzureCredential());
 
     async function moderateInput(): Promise<void> {
-      const result = await client.unifiedModerate({
-        policyId: "<policy-id>",
-        source: "input",
-        content: "Text to evaluate",
-      });
-      console.log(result.verdict);
+      const input = { content: "Text to evaluate", role: "user" as const };
+      const result = await client.unifiedModerate(
+        {
+          spec: "agent-hooks/0.1",
+          interceptionPoint: "input",
+          timestamp: new Date(),
+          sequence: 1,
+          agent: { id: "<agent-id>", framework: "custom" },
+          session: { id: "<session-id>" },
+          input,
+          target: input,
+        },
+        { policyId: "<policy-id>" },
+      );
+      console.log(result.verdict.decision, result.receipt.profile);
     }
 
     void moderateInput;

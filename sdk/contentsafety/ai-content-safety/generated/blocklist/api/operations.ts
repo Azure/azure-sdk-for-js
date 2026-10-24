@@ -51,7 +51,7 @@ export function _removeBlocklistItemsSend(
     "/text/blocklists/{blocklistName}:removeBlocklistItems{?api%2Dversion}",
     {
       blocklistName: blocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -95,7 +95,7 @@ export function _listTextBlocklistsSend(
   const path = expandUrlTemplate(
     "/text/blocklists{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +133,7 @@ export function listTextBlocklists(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+      apiVersion: context.apiVersion ?? "2026-10-15-preview",
     },
   );
 }
@@ -147,7 +147,7 @@ export function _listTextBlocklistItemsSend(
     "/text/blocklists/{blocklistName}/blocklistItems{?api%2Dversion,top,skip,maxpagesize}",
     {
       blocklistName: blocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
       top: options?.top,
       skip: options?.skip,
       maxpagesize: options?.maxpagesize,
@@ -189,7 +189,7 @@ export function listTextBlocklistItems(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+      apiVersion: context.apiVersion ?? "2026-10-15-preview",
     },
   );
 }
@@ -205,7 +205,7 @@ export function _getTextBlocklistItemSend(
     {
       blocklistName: blocklistName,
       blocklistItemId: blocklistItemId,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -250,7 +250,7 @@ export function _getTextBlocklistSend(
     "/text/blocklists/{blocklistName}{?api%2Dversion}",
     {
       blocklistName: blocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -294,7 +294,7 @@ export function _deleteTextBlocklistSend(
     "/text/blocklists/{blocklistName}{?api%2Dversion}",
     {
       blocklistName: blocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -334,7 +334,7 @@ export function _createOrUpdateTextBlocklistSend(
     "/text/blocklists/{blocklistName}{?api%2Dversion}",
     {
       blocklistName: blocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
@@ -387,7 +387,7 @@ export function _addOrUpdateBlocklistItemsSend(
     "/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems{?api%2Dversion}",
     {
       blocklistName: blocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
