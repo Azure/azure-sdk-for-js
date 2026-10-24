@@ -341,16 +341,23 @@ export function createTokenCycler(
 
         if (worker.isClaimsRefresh) {
           const claimsRefreshState = claimsRefreshStates.get(baseIdentityKey);
-          if (claimsRefreshState?.worker === worker) {
+          if (
+            !worker.isInvalidated &&
+            (!claimsRefreshState || claimsRefreshState.worker === worker)
+          ) {
             // A successful challenge must remain the cached token. Ordinary
             // workers which began while it was pending cannot become the next
             // proactive refresh owner, and older claims workers must not be
-            // rejoined after this newer challenge has settled.
+            // rejoined after this newer challenge has settled. If a newer
+            // claims worker fails, a surviving older worker may still safely
+            // cache its response; a newer successful worker invalidates it.
             invalidateOrdinaryWorkersStartedDuringClaimsRefresh(baseIdentityKey, worker.sequence);
             invalidateSupersededClaimsWorkers(baseIdentityKey, worker.sequence);
             deferredOrdinaryTokens.delete(baseIdentityKey);
             cacheToken(worker, accessToken, true);
-            claimsRefreshStates.delete(baseIdentityKey);
+            if (claimsRefreshState?.worker === worker) {
+              claimsRefreshStates.delete(baseIdentityKey);
+            }
           }
         } else if (!worker.isInvalidated) {
           const claimsRefreshState = claimsRefreshStates.get(baseIdentityKey);
