@@ -335,7 +335,9 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
         challengeClaims: expected[0].challengeClaims,
       },
       {
-        scope: [],
+        // The custom authorizer requests the policy's default identity, so it
+        // reuses the successful identity selected by the prior challenge.
+        scope: expected[0].scope,
         challengeClaims: undefined,
       },
       {
@@ -450,6 +452,288 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       `Bearer ${getTokenResponses[1].token}`,
       `Bearer ${getTokenResponses[1].token}`,
     ]);
+  });
+
+  it("keeps the latest started successful challenge identity when challenges settle out of order", async function () {
+    let resolveChallengeA: (token: AccessToken | null) => void;
+    let resolveChallengeB: (token: AccessToken | null) => void;
+    let challengeAStarted: () => void;
+    let challengeBStarted: () => void;
+    const challengeAToken = new Promise<AccessToken | null>((resolve) => {
+      resolveChallengeA = resolve;
+    });
+    const challengeBToken = new Promise<AccessToken | null>((resolve) => {
+      resolveChallengeB = resolve;
+    });
+    const startedA = new Promise<void>((resolve) => {
+      challengeAStarted = resolve;
+    });
+    const startedB = new Promise<void>((resolve) => {
+      challengeBStarted = resolve;
+    });
+    const calls: { scopes: string[]; options: GetTokenOptions | undefined }[] = [];
+    const credential: TokenCredential = {
+      getToken(scope, options) {
+        const scopes = Array.isArray(scope) ? scope : [scope];
+        calls.push({ scopes, options });
+        if (options?.claims === "claim-A") {
+          challengeAStarted!();
+          return challengeAToken;
+        }
+        if (options?.claims === "claim-B") {
+          challengeBStarted!();
+          return challengeBToken;
+        }
+        throw new Error("unexpected token request");
+      },
+    };
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes: ["default-scope"],
+      credential,
+      challengeCallbacks: {
+        async authorizeRequest({ request, scopes, getAccessToken }) {
+          if (!request.url.endsWith("/default")) {
+            return;
+          }
+          const token = await getAccessToken(scopes, {});
+          request.headers.set("Authorization", `Bearer ${token?.token}`);
+        },
+        async authorizeRequestOnChallenge({ request, getAccessToken }) {
+          const isA = request.url.endsWith("/a");
+          const token = await getAccessToken([isA ? "scope-A" : "scope-B"], {
+            claims: isA ? "claim-A" : "claim-B",
+            enableCae: !isA,
+          });
+          request.headers.set("Authorization", `Bearer ${token?.token}`);
+          return true;
+        },
+      },
+    });
+
+    async function sendChallenge(url: string): Promise<void> {
+      const request = createPipelineRequest({ url });
+      let attempts = 0;
+      await policy.sendRequest(request, async (sentRequest) => {
+        attempts++;
+        return {
+          headers:
+            attempts === 1
+              ? createHttpHeaders({ "WWW-Authenticate": 'Bearer error="invalid_token"' })
+              : createHttpHeaders(),
+          request: sentRequest,
+          status: attempts === 1 ? 401 : 200,
+        };
+      });
+    }
+
+    const requestA = sendChallenge("https://example.com/a");
+    await startedA;
+    const requestB = sendChallenge("https://example.com/b");
+    await startedB;
+
+    resolveChallengeB!({ token: "token-B", expiresOnTimestamp: Date.now() + 60_000 });
+    await requestB;
+    resolveChallengeA!({ token: "token-A", expiresOnTimestamp: Date.now() + 60_000 });
+    await requestA;
+
+    const defaultRequest = createPipelineRequest({ url: "https://example.com/default" });
+    await policy.sendRequest(defaultRequest, async (sentRequest) => ({
+      headers: createHttpHeaders(),
+      request: sentRequest,
+      status: 200,
+    }));
+
+    assert.equal(defaultRequest.headers.get("Authorization"), "Bearer token-B");
+    assert.deepEqual(
+      calls.map((call) => call.scopes),
+      [["scope-A"], ["scope-B"], ["scope-B"]],
+    );
+  });
+
+  it("tracks a scope-only challenge identity for later default requests", async function () {
+    const calls: { scopes: string[]; options: GetTokenOptions | undefined }[] = [];
+    const credential: TokenCredential = {
+      getToken(scope, options) {
+        calls.push({ scopes: Array.isArray(scope) ? scope : [scope], options });
+        return Promise.resolve({
+          token: "challenge-token",
+          expiresOnTimestamp: Date.now() + 60_000,
+        });
+      },
+    };
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes: ["default-scope"],
+      credential,
+      challengeCallbacks: {
+        async authorizeRequest({ request, scopes, getAccessToken }) {
+          if (!request.url.endsWith("/default")) {
+            return;
+          }
+          const token = await getAccessToken(scopes, {});
+          request.headers.set("Authorization", `Bearer ${token?.token}`);
+        },
+        async authorizeRequestOnChallenge({ getAccessToken, request }) {
+          const token = await getAccessToken(["challenge-scope"], {});
+          request.headers.set("Authorization", `Bearer ${token?.token}`);
+          return true;
+        },
+      },
+    });
+
+    const challengeRequest = createPipelineRequest({ url: "https://example.com/challenge" });
+    let challengeAttempts = 0;
+    await policy.sendRequest(challengeRequest, async (sentRequest) => {
+      challengeAttempts++;
+      return {
+        headers:
+          challengeAttempts === 1
+            ? createHttpHeaders({ "WWW-Authenticate": 'Bearer error="invalid_token"' })
+            : createHttpHeaders(),
+        request: sentRequest,
+        status: challengeAttempts === 1 ? 401 : 200,
+      };
+    });
+
+    const defaultRequest = createPipelineRequest({ url: "https://example.com/default" });
+    await policy.sendRequest(defaultRequest, async (sentRequest) => ({
+      headers: createHttpHeaders(),
+      request: sentRequest,
+      status: 200,
+    }));
+
+    assert.equal(defaultRequest.headers.get("Authorization"), "Bearer challenge-token");
+    assert.deepEqual(
+      calls.map((call) => call.scopes),
+      [["challenge-scope"], ["challenge-scope"]],
+    );
+  });
+
+  it("does not reuse a challenge request timeout when renewing its preferred identity", async function () {
+    const calls: { scopes: string[]; options: GetTokenOptions | undefined }[] = [];
+    const credential: TokenCredential = {
+      getToken(scope, options) {
+        calls.push({ scopes: Array.isArray(scope) ? scope : [scope], options });
+        return Promise.resolve({
+          token: calls.length === 1 ? "challenge-token" : "renewed-token",
+          expiresOnTimestamp: Date.now() + (calls.length === 1 ? 1 : 60_000),
+        });
+      },
+    };
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes: ["default-scope"],
+      credential,
+      challengeCallbacks: {
+        async authorizeRequest({ request, scopes, getAccessToken }) {
+          if (!request.url.endsWith("/default")) {
+            return;
+          }
+          const token = await getAccessToken(scopes, { requestOptions: { timeout: 100 } });
+          request.headers.set("Authorization", `Bearer ${token?.token}`);
+        },
+        async authorizeRequestOnChallenge({ getAccessToken, request }) {
+          const token = await getAccessToken(["challenge-scope"], {
+            claims: "challenge-claim",
+            requestOptions: { timeout: 1 },
+          });
+          request.headers.set("Authorization", `Bearer ${token?.token}`);
+          return true;
+        },
+      },
+    });
+
+    const challengeRequest = createPipelineRequest({ url: "https://example.com/challenge" });
+    let challengeAttempts = 0;
+    await policy.sendRequest(challengeRequest, async (sentRequest) => {
+      challengeAttempts++;
+      return {
+        headers:
+          challengeAttempts === 1
+            ? createHttpHeaders({ "WWW-Authenticate": 'Bearer error="invalid_token"' })
+            : createHttpHeaders(),
+        request: sentRequest,
+        status: challengeAttempts === 1 ? 401 : 200,
+      };
+    });
+
+    vi.advanceTimersByTime(1);
+    const defaultRequest = createPipelineRequest({ url: "https://example.com/default" });
+    await policy.sendRequest(defaultRequest, async (sentRequest) => ({
+      headers: createHttpHeaders(),
+      request: sentRequest,
+      status: 200,
+    }));
+
+    assert.equal(defaultRequest.headers.get("Authorization"), "Bearer renewed-token");
+    assert.deepEqual(
+      calls.map((call) => call.scopes),
+      [["challenge-scope"], ["challenge-scope"]],
+    );
+    assert.equal(calls[0]!.options?.requestOptions?.timeout, 1);
+    assert.equal(calls[1]!.options?.requestOptions?.timeout, 100);
+  });
+
+  it("maps a custom authorizer's default identity to the successful challenge identity", async function () {
+    const calls: { scopes: string[]; options: GetTokenOptions | undefined }[] = [];
+    const credential: TokenCredential = {
+      getToken(scope, options) {
+        calls.push({ scopes: Array.isArray(scope) ? scope : [scope], options });
+        return Promise.resolve({
+          token: "challenge-token",
+          expiresOnTimestamp: Date.now() + 60_000,
+        });
+      },
+    };
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes: ["default-scope"],
+      credential,
+      challengeCallbacks: {
+        async authorizeRequest({ request, scopes, getAccessToken }) {
+          if (!request.url.endsWith("/default")) {
+            return;
+          }
+          const token = await getAccessToken(scopes, {});
+          request.headers.set("Authorization", `Bearer ${token?.token}`);
+        },
+        async authorizeRequestOnChallenge({ getAccessToken, request }) {
+          const token = await getAccessToken(["challenge-scope"], {
+            claims: "challenge-claim",
+            enableCae: true,
+          });
+          request.headers.set("Authorization", `Bearer ${token?.token}`);
+          return true;
+        },
+      },
+    });
+
+    const challengeRequest = createPipelineRequest({ url: "https://example.com/challenge" });
+    let challengeAttempts = 0;
+    await policy.sendRequest(challengeRequest, async (sentRequest) => {
+      challengeAttempts++;
+      return {
+        headers:
+          challengeAttempts === 1
+            ? createHttpHeaders({ "WWW-Authenticate": 'Bearer error="invalid_token"' })
+            : createHttpHeaders(),
+        request: sentRequest,
+        status: challengeAttempts === 1 ? 401 : 200,
+      };
+    });
+
+    const defaultRequest = createPipelineRequest({ url: "https://example.com/default" });
+    await policy.sendRequest(defaultRequest, async (sentRequest) => ({
+      headers: createHttpHeaders(),
+      request: sentRequest,
+      status: 200,
+    }));
+
+    assert.equal(defaultRequest.headers.get("Authorization"), "Bearer challenge-token");
+    assert.equal(calls.length, 2);
+    assert.deepEqual(
+      calls.map((call) => call.scopes),
+      [["challenge-scope"], ["challenge-scope"]],
+    );
+    assert.equal(calls[0]!.options?.claims, "challenge-claim");
+    assert.equal(calls[1]!.options?.claims, undefined);
   });
 
   it("service errors without challenges should bubble up", async function () {
