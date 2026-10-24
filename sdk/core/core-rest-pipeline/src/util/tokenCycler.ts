@@ -285,17 +285,26 @@ export function createTokenCycler(
     const currentCacheEntry = cachedTokens.get(baseIdentityKey);
     const deferredOrdinaryToken = deferredOrdinaryTokens.get(baseIdentityKey);
     const deferredClaimsToken = deferredClaimsTokens.get(baseIdentityKey);
+    // A successfully acquired claims token remains preferable to an ordinary
+    // fallback. The service has already rejected the ordinary token identity.
     const fallbackEntry =
-      deferredOrdinaryToken?.claimsRefreshSequence === claimsRefreshSequence &&
-      (!deferredClaimsToken ||
-        deferredOrdinaryToken.cacheEntry.sequence > deferredClaimsToken.sequence)
+      deferredClaimsToken ??
+      (deferredOrdinaryToken?.claimsRefreshSequence === claimsRefreshSequence
         ? deferredOrdinaryToken.cacheEntry
-        : deferredClaimsToken;
+        : undefined);
 
     if (
       fallbackEntry &&
       (!currentCacheEntry || fallbackEntry.sequence > currentCacheEntry.sequence)
     ) {
+      if (deferredClaimsToken && fallbackEntry === deferredClaimsToken) {
+        // A promoted claims result must retain cache ownership over ordinary
+        // workers that started after it and are still in flight.
+        invalidateOrdinaryWorkersStartedAfterClaimsRefresh(
+          baseIdentityKey,
+          deferredClaimsToken.sequence,
+        );
+      }
       setCachedToken(baseIdentityKey, fallbackEntry);
     }
     deferredOrdinaryTokens.delete(baseIdentityKey);
