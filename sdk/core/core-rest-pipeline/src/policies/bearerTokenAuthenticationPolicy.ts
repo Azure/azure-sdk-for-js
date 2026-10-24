@@ -238,10 +238,10 @@ export function bearerTokenAuthenticationPolicy(
   const getAccessTokenForRequest = async (
     requestScopes: string[],
     requestOptions: GetTokenOptions,
+    isChallengeRequest = false,
   ): Promise<AccessToken | null> => {
-    const challengeRequestSequence = requestOptions.claims
-      ? ++nextChallengeRequestSequence
-      : undefined;
+    const challengeRequestSequence =
+      requestOptions.claims || isChallengeRequest ? ++nextChallengeRequestSequence : undefined;
     const accessToken = await getAccessToken(requestScopes, requestOptions);
 
     if (
@@ -260,6 +260,13 @@ export function bearerTokenAuthenticationPolicy(
     }
 
     return accessToken;
+  };
+
+  const getAccessTokenForChallenge = (
+    requestScopes: string[],
+    requestOptions: GetTokenOptions,
+  ): Promise<AccessToken | null> => {
+    return getAccessTokenForRequest(requestScopes, requestOptions, true);
   };
 
   const getAccessTokenForDefaultRequest = (
@@ -352,7 +359,7 @@ export function bearerTokenAuthenticationPolicy(
               scopes: Array.isArray(scopes) ? scopes : [scopes],
               response,
               request,
-              getAccessToken: getAccessTokenForRequest,
+              getAccessToken: getAccessTokenForChallenge,
               logger,
             },
             parsedClaim,
@@ -368,7 +375,7 @@ export function bearerTokenAuthenticationPolicy(
             scopes: Array.isArray(scopes) ? scopes : [scopes],
             request,
             response,
-            getAccessToken: getAccessTokenForRequest,
+            getAccessToken: getAccessTokenForChallenge,
             logger,
           });
 
@@ -397,7 +404,7 @@ export function bearerTokenAuthenticationPolicy(
                   scopes: Array.isArray(scopes) ? scopes : [scopes],
                   response,
                   request,
-                  getAccessToken: getAccessTokenForRequest,
+                  getAccessToken: getAccessTokenForChallenge,
                   logger,
                 },
                 parsedClaim,

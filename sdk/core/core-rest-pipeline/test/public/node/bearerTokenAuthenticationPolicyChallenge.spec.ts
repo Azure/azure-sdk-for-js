@@ -550,6 +550,64 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     );
   });
 
+  it("tracks a scope-only challenge identity for later default requests", async function () {
+    const calls: { scopes: string[]; options: GetTokenOptions | undefined }[] = [];
+    const credential: TokenCredential = {
+      getToken(scope, options) {
+        calls.push({ scopes: Array.isArray(scope) ? scope : [scope], options });
+        return Promise.resolve({
+          token: "challenge-token",
+          expiresOnTimestamp: Date.now() + 60_000,
+        });
+      },
+    };
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes: ["default-scope"],
+      credential,
+      challengeCallbacks: {
+        async authorizeRequest({ request, scopes, getAccessToken }) {
+          if (!request.url.endsWith("/default")) {
+            return;
+          }
+          const token = await getAccessToken(scopes, {});
+          request.headers.set("Authorization", `Bearer ${token?.token}`);
+        },
+        async authorizeRequestOnChallenge({ getAccessToken, request }) {
+          const token = await getAccessToken(["challenge-scope"], {});
+          request.headers.set("Authorization", `Bearer ${token?.token}`);
+          return true;
+        },
+      },
+    });
+
+    const challengeRequest = createPipelineRequest({ url: "https://example.com/challenge" });
+    let challengeAttempts = 0;
+    await policy.sendRequest(challengeRequest, async (sentRequest) => {
+      challengeAttempts++;
+      return {
+        headers:
+          challengeAttempts === 1
+            ? createHttpHeaders({ "WWW-Authenticate": 'Bearer error="invalid_token"' })
+            : createHttpHeaders(),
+        request: sentRequest,
+        status: challengeAttempts === 1 ? 401 : 200,
+      };
+    });
+
+    const defaultRequest = createPipelineRequest({ url: "https://example.com/default" });
+    await policy.sendRequest(defaultRequest, async (sentRequest) => ({
+      headers: createHttpHeaders(),
+      request: sentRequest,
+      status: 200,
+    }));
+
+    assert.equal(defaultRequest.headers.get("Authorization"), "Bearer challenge-token");
+    assert.deepEqual(
+      calls.map((call) => call.scopes),
+      [["challenge-scope"], ["challenge-scope"]],
+    );
+  });
+
   it("does not reuse a challenge request timeout when renewing its preferred identity", async function () {
     const calls: { scopes: string[]; options: GetTokenOptions | undefined }[] = [];
     const credential: TokenCredential = {

@@ -163,6 +163,10 @@ export function createTokenCycler(
   const refreshWorkers = new Map<string, RefreshWorker>();
   const claimsRefreshStates = new Map<string, ClaimsRefreshState>();
   const deferredOrdinaryTokens = new Map<string, DeferredToken>();
+  // A claims worker that succeeds while a newer challenge is still pending
+  // cannot write the cache yet. Keep its result as the best fallback in case
+  // the newer challenge fails.
+  const deferredClaimsTokens = new Map<string, CacheEntry>();
   let nextWorkerSequence = 0;
 
   const options = {
@@ -181,6 +185,12 @@ export function createTokenCycler(
     for (const [baseIdentityKey, deferredToken] of deferredOrdinaryTokens) {
       if (deferredToken.cacheEntry.token.expiresOnTimestamp <= now) {
         deferredOrdinaryTokens.delete(baseIdentityKey);
+      }
+    }
+
+    for (const [baseIdentityKey, cacheEntry] of deferredClaimsTokens) {
+      if (cacheEntry.token.expiresOnTimestamp <= now) {
+        deferredClaimsTokens.delete(baseIdentityKey);
       }
     }
 
@@ -261,19 +271,35 @@ export function createTokenCycler(
     }
   }
 
+  function deferClaimsToken(worker: RefreshWorker, token: AccessToken): void {
+    const currentDeferredToken = deferredClaimsTokens.get(worker.baseIdentityKey);
+    if (!currentDeferredToken || worker.sequence > currentDeferredToken.sequence) {
+      deferredClaimsTokens.set(worker.baseIdentityKey, { token, sequence: worker.sequence });
+    }
+  }
+
   function cacheDeferredTokensAfterClaimsFailure(
     baseIdentityKey: string,
     claimsRefreshSequence: number,
   ): void {
     const currentCacheEntry = cachedTokens.get(baseIdentityKey);
-    const deferredToken = deferredOrdinaryTokens.get(baseIdentityKey);
+    const deferredOrdinaryToken = deferredOrdinaryTokens.get(baseIdentityKey);
+    const deferredClaimsToken = deferredClaimsTokens.get(baseIdentityKey);
+    const fallbackEntry =
+      deferredOrdinaryToken?.claimsRefreshSequence === claimsRefreshSequence &&
+      (!deferredClaimsToken ||
+        deferredOrdinaryToken.cacheEntry.sequence > deferredClaimsToken.sequence)
+        ? deferredOrdinaryToken.cacheEntry
+        : deferredClaimsToken;
+
     if (
-      deferredToken?.claimsRefreshSequence === claimsRefreshSequence &&
-      (!currentCacheEntry || deferredToken.cacheEntry.sequence > currentCacheEntry.sequence)
+      fallbackEntry &&
+      (!currentCacheEntry || fallbackEntry.sequence > currentCacheEntry.sequence)
     ) {
-      setCachedToken(baseIdentityKey, deferredToken.cacheEntry);
+      setCachedToken(baseIdentityKey, fallbackEntry);
     }
     deferredOrdinaryTokens.delete(baseIdentityKey);
+    deferredClaimsTokens.delete(baseIdentityKey);
   }
 
   function invalidateSupersededClaimsWorkers(baseIdentityKey: string, sequence: number): void {
@@ -355,10 +381,16 @@ export function createTokenCycler(
             invalidateOrdinaryWorkersStartedAfterClaimsRefresh(baseIdentityKey, worker.sequence);
             invalidateSupersededClaimsWorkers(baseIdentityKey, worker.sequence);
             deferredOrdinaryTokens.delete(baseIdentityKey);
+            deferredClaimsTokens.delete(baseIdentityKey);
             cacheToken(worker, accessToken, true);
             if (claimsRefreshState?.worker === worker) {
               claimsRefreshStates.delete(baseIdentityKey);
             }
+          } else if (!worker.isInvalidated) {
+            // A newer challenge is still pending. Do not let this earlier
+            // challenge replace it, but preserve the successful response as
+            // the fallback if that newer challenge fails.
+            deferClaimsToken(worker, accessToken);
           }
         } else if (!worker.isInvalidated) {
           const claimsRefreshState = claimsRefreshStates.get(baseIdentityKey);
