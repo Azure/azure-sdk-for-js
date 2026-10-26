@@ -41,7 +41,7 @@ export function _listByContextCacheSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       contextCacheName: contextCacheName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,7 +81,7 @@ export function listByContextCache(
     () => _listByContextCacheSend(context, resourceGroupName, contextCacheName, options),
     _listByContextCacheDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -99,7 +99,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       contextCacheName: contextCacheName,
       contextCacheContainerName: contextCacheContainerName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -142,7 +142,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -161,7 +161,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       contextCacheName: contextCacheName,
       contextCacheContainerName: contextCacheContainerName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,7 +213,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<ContextCacheContainer>, ContextCacheContainer>;
 }
 
@@ -232,7 +232,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       contextCacheName: contextCacheName,
       contextCacheContainerName: contextCacheContainerName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -284,7 +284,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<ContextCacheContainer>, ContextCacheContainer>;
 }
 
@@ -302,7 +302,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       contextCacheName: contextCacheName,
       contextCacheContainerName: contextCacheContainerName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

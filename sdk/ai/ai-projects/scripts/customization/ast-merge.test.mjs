@@ -112,6 +112,38 @@ test("independent interface additions retain custom members and incoming require
   assert.match(text, /Kept documentation/);
 });
 
+for (const [kind, declaration] of [
+  ["interface", (members) => `export interface Example { ${members} }`],
+  ["type literal", (members) => `export type Example = { ${members} };`],
+]) {
+  test(`${kind} member reordering merges independent edits, additions, and removals`, () => {
+    const base = declaration("a?: string; b: string; c: boolean; removed?: string;");
+    const custom = declaration(
+      "c: boolean; custom?: number; /** Kept documentation. */ a?: string; b: number; removed?: string;",
+    );
+    const incoming = declaration("b: string; added?: boolean; a: string; c: boolean;");
+    const text = merged(
+      base,
+      custom,
+      incoming,
+      declaration("c: boolean; custom?: number; a: string; b: number; added?: boolean;"),
+    );
+    assert.match(text, /Kept documentation/);
+    assert.equal(mergeDeclaration(base, custom, incoming, context).text, text);
+    assert.equal(mergeDeclaration(incoming, text, incoming, context).text, text);
+  });
+
+  test(`${kind} member reordering cannot hide incompatible field edits`, () => {
+    const diagnostics = rejected(
+      declaration("a: string; b: boolean;"),
+      declaration("b: boolean; a: number;"),
+      declaration("a: boolean; b: boolean; added?: string;"),
+      /Concurrent semantic changes/,
+    );
+    assert.ok(diagnostics.some((diagnostic) => diagnostic.member?.includes("a")));
+  });
+}
+
 test("independent changes to a field's type and optional marker can merge", () => {
   merged(
     "interface Example { x: string; }",

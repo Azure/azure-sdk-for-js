@@ -764,7 +764,7 @@ export interface AgentOptimizationUserConversationSimulationInlineDataSource ext
 }
 
 // @public
-export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations" | "voice" | "invocations_ws";
+export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations" | "voice" | "invocations_ws" | "voice_conversation_engine";
 
 // @public
 export interface AgentReference {
@@ -7640,6 +7640,7 @@ export interface VoiceAgentDefinition extends VoiceAgentBaseDefinition {
     model_type?: VoiceModelType;
     output_modalities?: VoiceOutputModality[];
     parallel_tool_calls?: boolean;
+    soundscape?: VoiceAgentSoundscapeConfig;
     sub_protocol?: "realtime";
     subagent_config?: VoiceAgentSubagentConfig;
     tool_choice?: VoiceAgentToolChoice;
@@ -7704,11 +7705,12 @@ export interface VoiceAgentInputTranscription {
     languages?: string[];
     model: VoiceAgentInputTranscriptionModel;
     phrase_list?: string[];
+    profanity_filter?: VoiceAgentProfanityFilterMode;
     prompt?: string;
 }
 
 // @public
-export type VoiceAgentInputTranscriptionModel = "whisper-1" | "gpt-realtime-whisper" | "gpt-4o-transcribe" | "gpt-4o-mini-transcribe" | "gpt-4o-transcribe-diarize" | "gpt-transcribe" | "gpt-live-transcribe" | "mai-transcribe" | "azure-speech";
+export type VoiceAgentInputTranscriptionModel = "whisper-1" | "gpt-realtime-whisper" | "gpt-4o-transcribe" | "gpt-4o-mini-transcribe" | "gpt-4o-transcribe-diarize" | "gpt-transcribe" | "gpt-live-transcribe" | "mai-transcribe" | "azure-speech" | "azure-speech-streaming";
 
 // @public
 export interface VoiceAgentInterimResponseConfig {
@@ -7989,7 +7991,10 @@ export interface VoiceAgentNoiseReduction {
 }
 
 // @public
-export type VoiceAgentNoiseReductionType = "near_field" | "far_field" | "azure_deep_noise_suppression";
+export type VoiceAgentNoiseReductionType = "near_field" | "far_field" | "azure_deep_noise_suppression" | "azure_deep_noise_suppression_headset" | "azure_personal_noise_suppression";
+
+// @public
+export type VoiceAgentProfanityFilterMode = "masked" | "unfiltered" | "removed";
 
 // @public
 export class VoiceAgentProtocolError extends VoiceAgentRealtimeError {
@@ -8343,6 +8348,37 @@ export interface VoiceAgentSessionUpdateConfig {
 
 // @public
 export interface VoiceAgentSessionUpdateOptions extends VoiceAgentEventOptions {
+}
+
+// @public
+export interface VoiceAgentSoundscapeConfig {
+    background?: VoiceAgentSoundscapeTrackConfig;
+    closing?: VoiceAgentSoundscapeTrackConfig;
+    opening?: VoiceAgentSoundscapeTrackConfig;
+    transfer?: VoiceAgentSoundscapeTrackConfig;
+    working?: VoiceAgentSoundscapeWorkingTrackConfig;
+}
+
+// @public
+export type VoiceAgentSoundscapeSound = "office" | "call_center" | "busy_street" | "people_talking" | "street_and_metro_station" | "ding1" | "ding2";
+
+// @public
+export interface VoiceAgentSoundscapeSourceConfig {
+    name: VoiceAgentSoundscapeSound;
+    type: "built_in";
+}
+
+// @public
+export interface VoiceAgentSoundscapeTrackConfig {
+    gain?: number;
+    source: VoiceAgentSoundscapeSourceConfig;
+}
+
+// @public
+export interface VoiceAgentSoundscapeWorkingTrackConfig {
+    delay_ms?: number;
+    gain?: number;
+    source: VoiceAgentSoundscapeSourceConfig;
 }
 
 // @public

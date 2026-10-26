@@ -1063,4 +1063,10 @@ export type {
   LiveServerEventLiveInfoEvent,
   VoiceAgentLiveSessionResource,
   VoiceAgentLiveDelegationItem,
+  VoiceAgentProfanityFilterMode,
+  VoiceAgentSoundscapeConfig,
+  VoiceAgentSoundscapeTrackConfig,
+  VoiceAgentSoundscapeSourceConfig,
+  VoiceAgentSoundscapeSound,
+  VoiceAgentSoundscapeWorkingTrackConfig,
 } from "./models.js";

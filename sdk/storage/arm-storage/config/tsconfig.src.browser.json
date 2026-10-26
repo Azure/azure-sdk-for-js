@@ -16,6 +16,8 @@
     "../src/api/storageTaskAssignmentsInstancesReport/index.ts",
     "../src/api/privateLinkResources/index.ts",
     "../src/api/advancedPlatformMetrics/index.ts",
+    "../src/api/blobAccessPointConnectionTests/index.ts",
+    "../src/api/blobAccessPointConfigurations/index.ts",
     "../src/api/contextCacheContainers/index.ts",
     "../src/api/contextCaches/index.ts",
     "../src/api/dataShares/index.ts",

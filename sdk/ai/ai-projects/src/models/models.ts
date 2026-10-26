@@ -4062,7 +4062,14 @@ export function protocolVersionRecordDeserializer(item: any): ProtocolVersionRec
 
 /** Type of AgentProtocol */
 export type AgentProtocol =
-  "activity" | "responses" | "a2a" | "mcp" | "invocations" | "voice" | "invocations_ws";
+  | "activity"
+  | "responses"
+  | "a2a"
+  | "mcp"
+  | "invocations"
+  | "voice"
+  | "invocations_ws"
+  | "voice_conversation_engine";
 
 /** Code-based deployment configuration for a hosted agent. */
 export interface CodeConfiguration {
@@ -15213,6 +15220,8 @@ export interface VoiceAgentDefinition extends VoiceAgentBaseDefinition {
    * transcription. These values are session defaults; a client may override supported fields when connecting.
    */
   audio?: VoiceAgentAudioConfig;
+  /** Optional background ambience and event cues, stored with the agent version and separate from the audio configuration. Currently rendered only for telephony calls, not browser WebRTC or direct voice WebSocket sessions. Omit this property to disable all auxiliary audio. Persisted conversation recordings do not include the soundscape mix. */
+  soundscape?: VoiceAgentSoundscapeConfig;
   /**
    * The output modalities the agent produces. Defaults to `["audio"]`. `animation` and `avatar` are available
    * when an avatar is configured.
@@ -15263,6 +15272,9 @@ export function voiceAgentDefinitionSerializer(item: VoiceAgentDefinition): any 
       ? item["greeting"]
       : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
     audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigSerializer(item["audio"]),
+    soundscape: !item["soundscape"]
+      ? item["soundscape"]
+      : voiceAgentSoundscapeConfigSerializer(item["soundscape"]),
     output_modalities: !item["output_modalities"]
       ? item["output_modalities"]
       : item["output_modalities"].map((p: any) => {
@@ -15312,6 +15324,9 @@ export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinitio
       ? item["greeting"]
       : voiceAgentGreetingConfigUnionDeserializer(item["greeting"]),
     audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigDeserializer(item["audio"]),
+    soundscape: !item["soundscape"]
+      ? item["soundscape"]
+      : voiceAgentSoundscapeConfigDeserializer(item["soundscape"]),
     output_modalities: !item["output_modalities"]
       ? item["output_modalities"]
       : item["output_modalities"].map((p: any) => {
@@ -15756,9 +15771,17 @@ export function voiceAgentNoiseReductionDeserializer(item: any): VoiceAgentNoise
   };
 }
 
-/** The input audio noise reduction mode. */
+/**
+ * The input audio noise reduction mode.
+ * - `azure_deep_noise_suppression_headset`: Azure headset-optimized noise suppression for local voice activity detection. Optimized for low-sample-rate audio, including 8 kHz telephony audio. Enhances detection audio without changing the audio used for recognition. The mode is not restricted to headset devices.
+ * - `azure_personal_noise_suppression`: Azure personalized noise suppression for local voice activity detection. Starts with headset suppression and personalizes detection after automatic speaker enrollment. Recognition audio is unchanged; headset suppression remains active when personalization is unavailable.
+ */
 export type VoiceAgentNoiseReductionType =
-  "near_field" | "far_field" | "azure_deep_noise_suppression";
+  | "near_field"
+  | "far_field"
+  | "azure_deep_noise_suppression"
+  | "azure_deep_noise_suppression_headset"
+  | "azure_personal_noise_suppression";
 
 /** Turn-detection configuration for a voice agent. */
 export interface VoiceAgentTurnDetectionConfig {
@@ -16303,6 +16326,16 @@ export interface VoiceAgentInputTranscription {
   languages?: string[];
   /** Words or phrases to guide transcription of the input audio. Supported by `gpt-transcribe` and `gpt-live-transcribe`. */
   keywords?: string[];
+  /**
+   * Controls how profanity is handled in input transcripts. Supported only with managed Azure Speech
+   * (`azure-speech` and `azure-speech-streaming`), including Custom Speech.
+   * Set this property before the session starts. If omitted, the transcription provider's default applies.
+   * You cannot change the mode during a session.
+   * Filtering affects transcript events and the text sent to cascaded models. It does not change input
+   * audio, voice activity detection, or assistant speech; audio-native models still receive the original
+   * audio. Mandatory service masking policies apply even when you select `unfiltered`.
+   */
+  profanity_filter?: VoiceAgentProfanityFilterMode;
 }
 
 export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTranscription): any {
@@ -16327,6 +16360,7 @@ export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTran
       : item["keywords"].map((p: any) => {
           return p;
         }),
+    profanity_filter: item["profanity_filter"],
   };
 }
 
@@ -16356,12 +16390,14 @@ export function voiceAgentInputTranscriptionDeserializer(item: any): VoiceAgentI
       : item["keywords"].map((p: any) => {
           return p;
         }),
+    profanity_filter: item["profanity_filter"],
   };
 }
 
 /**
  * The input-audio transcription model identifier. This is a model name, not a Foundry deployment name. Mirrors the transcription models supported by the managed
  * voice backend, covering the OpenAI Realtime transcription models plus the Azure and MAI models.
+ * `azure-speech-streaming` is supported for cascaded text-model conversations only (not realtime speech-to-speech models), requires a nonempty `language` such as `en-US` (comma-separated locales are supported), and supports `custom_speech`, `phrase_list`, and `profanity_filter`.
  * Additional values may be added over time.
  */
 export type VoiceAgentInputTranscriptionModel =
@@ -16373,7 +16409,8 @@ export type VoiceAgentInputTranscriptionModel =
   | "gpt-transcribe"
   | "gpt-live-transcribe"
   | "mai-transcribe"
-  | "azure-speech";
+  | "azure-speech"
+  | "azure-speech-streaming";
 
 /**
  * Output audio configuration for a voice agent.
@@ -31275,5 +31312,148 @@ export function voiceAgentLiveDelegationItemDeserializer(item: any): VoiceAgentL
     type: item["type"],
     response_id: item["response_id"],
     target: item["target"],
+  };
+}
+
+/** The supported input-transcript profanity filtering modes. */
+export type VoiceAgentProfanityFilterMode = "masked" | "unfiltered" | "removed";
+
+/** Agent-owned background ambience and event cues. Each omitted track is disabled. The service rejects unknown fields; custom uploads, URLs, and inline audio are not supported. */
+export interface VoiceAgentSoundscapeConfig {
+  /** Continuous background ambience that continues during caller and agent speech. */
+  background?: VoiceAgentSoundscapeTrackConfig;
+  /** A loop played while a non-call-control tool is pending and the agent is silent, after the configured delay. */
+  working?: VoiceAgentSoundscapeWorkingTrackConfig;
+  /** An interruptible cue played before the first agent speech. */
+  opening?: VoiceAgentSoundscapeTrackConfig;
+  /** A one-shot cue played after queued agent speech drains and before a committed call transfer. */
+  transfer?: VoiceAgentSoundscapeTrackConfig;
+  /** A one-shot cue played after queued agent speech drains and before a committed session end. */
+  closing?: VoiceAgentSoundscapeTrackConfig;
+}
+
+export function voiceAgentSoundscapeConfigSerializer(item: VoiceAgentSoundscapeConfig): any {
+  return {
+    background: !item["background"]
+      ? item["background"]
+      : voiceAgentSoundscapeTrackConfigSerializer(item["background"]),
+    working: !item["working"]
+      ? item["working"]
+      : voiceAgentSoundscapeWorkingTrackConfigSerializer(item["working"]),
+    opening: !item["opening"]
+      ? item["opening"]
+      : voiceAgentSoundscapeTrackConfigSerializer(item["opening"]),
+    transfer: !item["transfer"]
+      ? item["transfer"]
+      : voiceAgentSoundscapeTrackConfigSerializer(item["transfer"]),
+    closing: !item["closing"]
+      ? item["closing"]
+      : voiceAgentSoundscapeTrackConfigSerializer(item["closing"]),
+  };
+}
+
+export function voiceAgentSoundscapeConfigDeserializer(item: any): VoiceAgentSoundscapeConfig {
+  return {
+    background: !item["background"]
+      ? item["background"]
+      : voiceAgentSoundscapeTrackConfigDeserializer(item["background"]),
+    working: !item["working"]
+      ? item["working"]
+      : voiceAgentSoundscapeWorkingTrackConfigDeserializer(item["working"]),
+    opening: !item["opening"]
+      ? item["opening"]
+      : voiceAgentSoundscapeTrackConfigDeserializer(item["opening"]),
+    transfer: !item["transfer"]
+      ? item["transfer"]
+      : voiceAgentSoundscapeTrackConfigDeserializer(item["transfer"]),
+    closing: !item["closing"]
+      ? item["closing"]
+      : voiceAgentSoundscapeTrackConfigDeserializer(item["closing"]),
+  };
+}
+
+/** A soundscape track with its own audio source and playback volume. */
+export interface VoiceAgentSoundscapeTrackConfig {
+  /** The required audio source for this track. */
+  source: VoiceAgentSoundscapeSourceConfig;
+  /** Linear playback gain from 0 to 1, independent of agent speech volume. If omitted, the service defaults to 1. A value of 0 mutes this track. */
+  gain?: number;
+}
+
+export function voiceAgentSoundscapeTrackConfigSerializer(
+  item: VoiceAgentSoundscapeTrackConfig,
+): any {
+  return { source: voiceAgentSoundscapeSourceConfigSerializer(item["source"]), gain: item["gain"] };
+}
+
+export function voiceAgentSoundscapeTrackConfigDeserializer(
+  item: any,
+): VoiceAgentSoundscapeTrackConfig {
+  return {
+    source: voiceAgentSoundscapeSourceConfigDeserializer(item["source"]),
+    gain: item["gain"],
+  };
+}
+
+/** A packaged sound selected from the service-managed catalogue. The service rejects unknown source fields and discriminator values. */
+export interface VoiceAgentSoundscapeSourceConfig {
+  /** The audio source type. Always `built_in`. */
+  type: "built_in";
+  /** The name of the packaged sound. Only the listed built-in sounds are accepted. */
+  name: VoiceAgentSoundscapeSound;
+}
+
+export function voiceAgentSoundscapeSourceConfigSerializer(
+  item: VoiceAgentSoundscapeSourceConfig,
+): any {
+  return { type: item["type"], name: item["name"] };
+}
+
+export function voiceAgentSoundscapeSourceConfigDeserializer(
+  item: any,
+): VoiceAgentSoundscapeSourceConfig {
+  return {
+    type: item["type"],
+    name: item["name"],
+  };
+}
+
+/** The packaged sounds accepted by a built-in soundscape source. */
+export type VoiceAgentSoundscapeSound =
+  | "office"
+  | "call_center"
+  | "busy_street"
+  | "people_talking"
+  | "street_and_metro_station"
+  | "ding1"
+  | "ding2";
+
+/** A working-loop track with a delay measured from the first pending non-call-control tool. */
+export interface VoiceAgentSoundscapeWorkingTrackConfig {
+  /** The required audio source for this track. */
+  source: VoiceAgentSoundscapeSourceConfig;
+  /** Linear playback gain from 0 to 1, independent of agent speech volume. If omitted, the service defaults to 1. A value of 0 mutes this track. */
+  gain?: number;
+  /** The delay in milliseconds before working audio starts, from 0 to 10000. If omitted, the service defaults to 1000 milliseconds. This delays only working audio, not tool execution, and is valid only on the working track. */
+  delay_ms?: number;
+}
+
+export function voiceAgentSoundscapeWorkingTrackConfigSerializer(
+  item: VoiceAgentSoundscapeWorkingTrackConfig,
+): any {
+  return {
+    source: voiceAgentSoundscapeSourceConfigSerializer(item["source"]),
+    gain: item["gain"],
+    delay_ms: item["delay_ms"],
+  };
+}
+
+export function voiceAgentSoundscapeWorkingTrackConfigDeserializer(
+  item: any,
+): VoiceAgentSoundscapeWorkingTrackConfig {
+  return {
+    source: voiceAgentSoundscapeSourceConfigDeserializer(item["source"]),
+    gain: item["gain"],
+    delay_ms: item["delay_ms"],
   };
 }
