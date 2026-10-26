@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MonitorContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { MonitorContext as Client } from "../index.js";
+import type {
   AzureMonitorWorkspaceResource,
-  azureMonitorWorkspaceResourceSerializer,
-  azureMonitorWorkspaceResourceDeserializer,
   AzureMonitorWorkspaceResourceUpdate,
-  azureMonitorWorkspaceResourceUpdateSerializer,
   _AzureMonitorWorkspaceResourceListResult,
-  _azureMonitorWorkspaceResourceListResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  azureMonitorWorkspaceResourceSerializer,
+  azureMonitorWorkspaceResourceDeserializer,
+  azureMonitorWorkspaceResourceUpdateSerializer,
+  _azureMonitorWorkspaceResourceListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   AzureMonitorWorkspacesListBySubscriptionOptionalParams,
   AzureMonitorWorkspacesListByResourceGroupOptionalParams,
   AzureMonitorWorkspacesDeleteOptionalParams,
@@ -26,13 +26,9 @@ import {
   AzureMonitorWorkspacesCreateOrUpdateOptionalParams,
   AzureMonitorWorkspacesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
@@ -42,7 +38,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Monitor/accounts{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +56,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -78,7 +76,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-03" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-03-preview",
+    },
   );
 }
 
@@ -92,7 +94,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -110,7 +112,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -129,7 +133,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-03" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-03-preview",
+    },
   );
 }
 
@@ -145,7 +153,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -158,7 +166,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -179,7 +189,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, azureMonitorWorkspaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-10-03",
+    apiVersion: context.apiVersion ?? "2026-09-03-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -196,7 +206,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -216,7 +226,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -255,7 +267,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -275,7 +287,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -313,7 +327,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       azureMonitorWorkspaceName: azureMonitorWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-03",
+      "api%2Dversion": context.apiVersion ?? "2026-09-03-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -331,7 +345,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

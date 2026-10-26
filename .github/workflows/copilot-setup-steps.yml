@@ -21,9 +21,9 @@ jobs:
           persist-credentials: false
 
       - name: Install gh-aw extension
-        uses: github/gh-aw-actions/setup-cli@924af5fdc64061cfbf66fb584c8b07e2ac230c60 # v0.89.21
+        uses: github/gh-aw-actions/setup-cli@e7519e6442ef74dda80a1627315ad827f402309c # v0.93.0
         with:
-          version: v0.89.21
+          version: v0.93.0
 
       - name: Set up Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0

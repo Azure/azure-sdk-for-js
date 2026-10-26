@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-horizondb",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "A generated SDK for HorizonDbClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -42,116 +42,298 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/horizonDbAdministrators": {
+    "./api/logFiles": {
       "browser": {
-        "types": "./dist/browser/api/horizonDbAdministrators/index.d.ts",
-        "default": "./dist/browser/api/horizonDbAdministrators/index.js"
+        "types": "./dist/browser/api/logFiles/index.d.ts",
+        "default": "./dist/browser/api/logFiles/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/horizonDbAdministrators/index.d.ts",
-        "default": "./dist/esm/api/horizonDbAdministrators/index.js"
+        "types": "./dist/esm/api/logFiles/index.d.ts",
+        "default": "./dist/esm/api/logFiles/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/horizonDbAdministrators/index.d.ts",
-        "default": "./dist/commonjs/api/horizonDbAdministrators/index.js"
+        "types": "./dist/commonjs/api/logFiles/index.d.ts",
+        "default": "./dist/commonjs/api/logFiles/index.js"
       }
     },
-    "./api/horizonDbParameterGroups": {
+    "./api/logCaptureConfigurations": {
       "browser": {
-        "types": "./dist/browser/api/horizonDbParameterGroups/index.d.ts",
-        "default": "./dist/browser/api/horizonDbParameterGroups/index.js"
+        "types": "./dist/browser/api/logCaptureConfigurations/index.d.ts",
+        "default": "./dist/browser/api/logCaptureConfigurations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/horizonDbParameterGroups/index.d.ts",
-        "default": "./dist/esm/api/horizonDbParameterGroups/index.js"
+        "types": "./dist/esm/api/logCaptureConfigurations/index.d.ts",
+        "default": "./dist/esm/api/logCaptureConfigurations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/horizonDbParameterGroups/index.d.ts",
-        "default": "./dist/commonjs/api/horizonDbParameterGroups/index.js"
+        "types": "./dist/commonjs/api/logCaptureConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/logCaptureConfigurations/index.js"
       }
     },
-    "./api/horizonDbPrivateLinkResources": {
+    "./api/nodes": {
       "browser": {
-        "types": "./dist/browser/api/horizonDbPrivateLinkResources/index.d.ts",
-        "default": "./dist/browser/api/horizonDbPrivateLinkResources/index.js"
+        "types": "./dist/browser/api/nodes/index.d.ts",
+        "default": "./dist/browser/api/nodes/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/horizonDbPrivateLinkResources/index.d.ts",
-        "default": "./dist/esm/api/horizonDbPrivateLinkResources/index.js"
+        "types": "./dist/esm/api/nodes/index.d.ts",
+        "default": "./dist/esm/api/nodes/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/horizonDbPrivateLinkResources/index.d.ts",
-        "default": "./dist/commonjs/api/horizonDbPrivateLinkResources/index.js"
+        "types": "./dist/commonjs/api/nodes/index.d.ts",
+        "default": "./dist/commonjs/api/nodes/index.js"
       }
     },
-    "./api/horizonDbPrivateEndpointConnections": {
+    "./api/maintenanceEvents": {
       "browser": {
-        "types": "./dist/browser/api/horizonDbPrivateEndpointConnections/index.d.ts",
-        "default": "./dist/browser/api/horizonDbPrivateEndpointConnections/index.js"
+        "types": "./dist/browser/api/maintenanceEvents/index.d.ts",
+        "default": "./dist/browser/api/maintenanceEvents/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/horizonDbPrivateEndpointConnections/index.d.ts",
-        "default": "./dist/esm/api/horizonDbPrivateEndpointConnections/index.js"
+        "types": "./dist/esm/api/maintenanceEvents/index.d.ts",
+        "default": "./dist/esm/api/maintenanceEvents/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/horizonDbPrivateEndpointConnections/index.d.ts",
-        "default": "./dist/commonjs/api/horizonDbPrivateEndpointConnections/index.js"
+        "types": "./dist/commonjs/api/maintenanceEvents/index.d.ts",
+        "default": "./dist/commonjs/api/maintenanceEvents/index.js"
       }
     },
-    "./api/horizonDbFirewallRules": {
+    "./api/endpoints": {
       "browser": {
-        "types": "./dist/browser/api/horizonDbFirewallRules/index.d.ts",
-        "default": "./dist/browser/api/horizonDbFirewallRules/index.js"
+        "types": "./dist/browser/api/endpoints/index.d.ts",
+        "default": "./dist/browser/api/endpoints/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/horizonDbFirewallRules/index.d.ts",
-        "default": "./dist/esm/api/horizonDbFirewallRules/index.js"
+        "types": "./dist/esm/api/endpoints/index.d.ts",
+        "default": "./dist/esm/api/endpoints/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/horizonDbFirewallRules/index.d.ts",
-        "default": "./dist/commonjs/api/horizonDbFirewallRules/index.js"
+        "types": "./dist/commonjs/api/endpoints/index.d.ts",
+        "default": "./dist/commonjs/api/endpoints/index.js"
       }
     },
-    "./api/horizonDbReplicas": {
+    "./api/changeDataCaptureConfigurations": {
       "browser": {
-        "types": "./dist/browser/api/horizonDbReplicas/index.d.ts",
-        "default": "./dist/browser/api/horizonDbReplicas/index.js"
+        "types": "./dist/browser/api/changeDataCaptureConfigurations/index.d.ts",
+        "default": "./dist/browser/api/changeDataCaptureConfigurations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/horizonDbReplicas/index.d.ts",
-        "default": "./dist/esm/api/horizonDbReplicas/index.js"
+        "types": "./dist/esm/api/changeDataCaptureConfigurations/index.d.ts",
+        "default": "./dist/esm/api/changeDataCaptureConfigurations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/horizonDbReplicas/index.d.ts",
-        "default": "./dist/commonjs/api/horizonDbReplicas/index.js"
+        "types": "./dist/commonjs/api/changeDataCaptureConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/changeDataCaptureConfigurations/index.js"
       }
     },
-    "./api/horizonDbPools": {
+    "./api/identityAssignments": {
       "browser": {
-        "types": "./dist/browser/api/horizonDbPools/index.d.ts",
-        "default": "./dist/browser/api/horizonDbPools/index.js"
+        "types": "./dist/browser/api/identityAssignments/index.d.ts",
+        "default": "./dist/browser/api/identityAssignments/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/horizonDbPools/index.d.ts",
-        "default": "./dist/esm/api/horizonDbPools/index.js"
+        "types": "./dist/esm/api/identityAssignments/index.d.ts",
+        "default": "./dist/esm/api/identityAssignments/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/horizonDbPools/index.d.ts",
-        "default": "./dist/commonjs/api/horizonDbPools/index.js"
+        "types": "./dist/commonjs/api/identityAssignments/index.d.ts",
+        "default": "./dist/commonjs/api/identityAssignments/index.js"
       }
     },
-    "./api/horizonDbClusters": {
+    "./api/changeDataCaptureDestinations": {
       "browser": {
-        "types": "./dist/browser/api/horizonDbClusters/index.d.ts",
-        "default": "./dist/browser/api/horizonDbClusters/index.js"
+        "types": "./dist/browser/api/changeDataCaptureDestinations/index.d.ts",
+        "default": "./dist/browser/api/changeDataCaptureDestinations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/horizonDbClusters/index.d.ts",
-        "default": "./dist/esm/api/horizonDbClusters/index.js"
+        "types": "./dist/esm/api/changeDataCaptureDestinations/index.d.ts",
+        "default": "./dist/esm/api/changeDataCaptureDestinations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/horizonDbClusters/index.d.ts",
-        "default": "./dist/commonjs/api/horizonDbClusters/index.js"
+        "types": "./dist/commonjs/api/changeDataCaptureDestinations/index.d.ts",
+        "default": "./dist/commonjs/api/changeDataCaptureDestinations/index.js"
+      }
+    },
+    "./api/changeDataCaptureCapabilities": {
+      "browser": {
+        "types": "./dist/browser/api/changeDataCaptureCapabilities/index.d.ts",
+        "default": "./dist/browser/api/changeDataCaptureCapabilities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/changeDataCaptureCapabilities/index.d.ts",
+        "default": "./dist/esm/api/changeDataCaptureCapabilities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/changeDataCaptureCapabilities/index.d.ts",
+        "default": "./dist/commonjs/api/changeDataCaptureCapabilities/index.js"
+      }
+    },
+    "./api/microsoftEntraAuthentications": {
+      "browser": {
+        "types": "./dist/browser/api/microsoftEntraAuthentications/index.d.ts",
+        "default": "./dist/browser/api/microsoftEntraAuthentications/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/microsoftEntraAuthentications/index.d.ts",
+        "default": "./dist/esm/api/microsoftEntraAuthentications/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/microsoftEntraAuthentications/index.d.ts",
+        "default": "./dist/commonjs/api/microsoftEntraAuthentications/index.js"
+      }
+    },
+    "./api/passwordAuthentications": {
+      "browser": {
+        "types": "./dist/browser/api/passwordAuthentications/index.d.ts",
+        "default": "./dist/browser/api/passwordAuthentications/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/passwordAuthentications/index.d.ts",
+        "default": "./dist/esm/api/passwordAuthentications/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/passwordAuthentications/index.d.ts",
+        "default": "./dist/commonjs/api/passwordAuthentications/index.js"
+      }
+    },
+    "./api/authentications": {
+      "browser": {
+        "types": "./dist/browser/api/authentications/index.d.ts",
+        "default": "./dist/browser/api/authentications/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/authentications/index.d.ts",
+        "default": "./dist/esm/api/authentications/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/authentications/index.d.ts",
+        "default": "./dist/commonjs/api/authentications/index.js"
+      }
+    },
+    "./api/microsoftEntraAdministrators": {
+      "browser": {
+        "types": "./dist/browser/api/microsoftEntraAdministrators/index.d.ts",
+        "default": "./dist/browser/api/microsoftEntraAdministrators/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/microsoftEntraAdministrators/index.d.ts",
+        "default": "./dist/esm/api/microsoftEntraAdministrators/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/microsoftEntraAdministrators/index.d.ts",
+        "default": "./dist/commonjs/api/microsoftEntraAdministrators/index.js"
+      }
+    },
+    "./api/defaultParameterGroups": {
+      "browser": {
+        "types": "./dist/browser/api/defaultParameterGroups/index.d.ts",
+        "default": "./dist/browser/api/defaultParameterGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/defaultParameterGroups/index.d.ts",
+        "default": "./dist/esm/api/defaultParameterGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/defaultParameterGroups/index.d.ts",
+        "default": "./dist/commonjs/api/defaultParameterGroups/index.js"
+      }
+    },
+    "./api/parameterGroups": {
+      "browser": {
+        "types": "./dist/browser/api/parameterGroups/index.d.ts",
+        "default": "./dist/browser/api/parameterGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/parameterGroups/index.d.ts",
+        "default": "./dist/esm/api/parameterGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/parameterGroups/index.d.ts",
+        "default": "./dist/commonjs/api/parameterGroups/index.js"
+      }
+    },
+    "./api/privateLinkResources": {
+      "browser": {
+        "types": "./dist/browser/api/privateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/privateLinkResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/privateLinkResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/privateLinkResources/index.js"
+      }
+    },
+    "./api/privateEndpointConnections": {
+      "browser": {
+        "types": "./dist/browser/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/browser/api/privateEndpointConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/esm/api/privateEndpointConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/commonjs/api/privateEndpointConnections/index.js"
+      }
+    },
+    "./api/firewallRules": {
+      "browser": {
+        "types": "./dist/browser/api/firewallRules/index.d.ts",
+        "default": "./dist/browser/api/firewallRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firewallRules/index.d.ts",
+        "default": "./dist/esm/api/firewallRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firewallRules/index.d.ts",
+        "default": "./dist/commonjs/api/firewallRules/index.js"
+      }
+    },
+    "./api/pools": {
+      "browser": {
+        "types": "./dist/browser/api/pools/index.d.ts",
+        "default": "./dist/browser/api/pools/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/pools/index.d.ts",
+        "default": "./dist/esm/api/pools/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/pools/index.d.ts",
+        "default": "./dist/commonjs/api/pools/index.js"
+      }
+    },
+    "./api/clusters": {
+      "browser": {
+        "types": "./dist/browser/api/clusters/index.d.ts",
+        "default": "./dist/browser/api/clusters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/clusters/index.d.ts",
+        "default": "./dist/esm/api/clusters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/clusters/index.d.ts",
+        "default": "./dist/commonjs/api/clusters/index.js"
+      }
+    },
+    "./api/capabilities": {
+      "browser": {
+        "types": "./dist/browser/api/capabilities/index.d.ts",
+        "default": "./dist/browser/api/capabilities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/capabilities/index.d.ts",
+        "default": "./dist/esm/api/capabilities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/capabilities/index.d.ts",
+        "default": "./dist/commonjs/api/capabilities/index.js"
       }
     },
     "./api/operations": {
@@ -258,7 +440,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-horizondb",

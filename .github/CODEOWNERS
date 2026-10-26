@@ -307,10 +307,10 @@
 # ServiceOwners: @efrainretana @lc48t @mattgotteiner
 
 # PRLabel: %Service Bus
-/sdk/servicebus/    @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft
+/sdk/servicebus/    @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft @pranz1996
 
 # ServiceLabel: %Service Bus
-# ServiceOwners: @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft
+# ServiceOwners: @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft @pranz1996
 
 # PRLabel: %Speech Transcription
 /sdk/transcription/ai-speech-transcription/    @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
@@ -355,7 +355,7 @@
 ####################
 
 # PRLabel: %Mgmt
-/sdk/*/arm-*/ @qiaozha @MaryGao @JialinHuang803
+/sdk/*/arm-*/ @qiaozha @MaryGao @JialinHuang803 @Azure/azure-arm-sdk-reviewers
 
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
@@ -892,6 +892,9 @@
 # ServiceLabel: %Consumption - RIandShowBack %Service Attention
 # ServiceOwners:          @ccmshowbackdevs
 
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/edgeoperator/arm-edgeoperator/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
@@ -931,7 +934,7 @@
 /vitest.workspace.ts @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Mgmt
-/**/ci.mgmt.yml   @qiaozha @MaryGao @JialinHuang803
+/**/ci.mgmt.yml   @qiaozha @MaryGao @JialinHuang803 @Azure/azure-arm-sdk-reviewers
 
 
 # Make sure to not check in anymore test-resources.json files

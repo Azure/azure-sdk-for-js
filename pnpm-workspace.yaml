@@ -58,7 +58,7 @@ catalogs:
     chai-exclude: ^3.0.1
     '@types/react': ^19.2.14
     dotenv: ^18.0.5
-    nock: ^14.0.17
+    nock: ^15.0.1
     playwright: ^1.60.0
     react-native: ^0.87.1
     vitest: ^5.0.0
