@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-koreaiartemis": ["../src/index.ts"],
+      "@azure/arm-koreaiartemis/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

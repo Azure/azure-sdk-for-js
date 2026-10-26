@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a container from a Context Cache.
  *
  * @summary delete a container from a Context Cache.
- * x-ms-original-file: 2026-06-01/StorageContextCacheContainerCRUD/ContextCacheContainers_Delete.json
+ * x-ms-original-file: 2026-09-01/StorageContextCacheContainerCRUD/ContextCacheContainers_Delete.json
  */
 async function deleteAContextCacheContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();
