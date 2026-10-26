@@ -12,7 +12,7 @@ import {
 } from "../../../src/expression/ast-nodes.js";
 import { Loop, createLoopedResource } from "../../../src/internal-loop.js";
 import { renderBicepFiles } from "../../../src/internal.js";
-import { files, subscriptionStack, widget } from "./support.js";
+import { compile, files, subscriptionStack, widget } from "./support.js";
 
 function destination(stack: Stack, name: string) {
   return new ResourceGroup(stack, { name, location: "eastus" });
@@ -138,6 +138,20 @@ describe("authored cross-file reference rewriting", () => {
     expect(Object.keys(result[2]!.parameters!)).toEqual(["widgetName", "widgetWidgetName"]);
     expect(Object.keys(result[3]!.parameters!)).toEqual(["widgetName"]);
   });
+
+  it("avoids mixed-case authored parameters and fallback names when wiring modules", () => {
+    const { stack, group } = subscriptionStack("case-collisions");
+    const source = widget(group, "producer");
+    const names = ["WidgetName", "WIDGETWIDGETNAME", "WidgetWidgetName2"];
+    const inputs = names.map((name) => stack.parameters.add(name, "string"));
+    widget(destination(stack, "consumer-rg"), "consumer", {
+      properties: { value: source.name, inputs },
+    });
+    const result = files(stack);
+    expect(Object.keys(result[2]!.parameters!)).toEqual([...names, "widgetWidgetName3"]);
+    const rendered = compile(stack);
+    expect(rendered[2]!.contents).toContain("value: widgetWidgetName3");
+  }, 30_000);
 
   it("keeps entry-local resource references as direct module arguments", () => {
     const { stack, group } = subscriptionStack("entry-values");

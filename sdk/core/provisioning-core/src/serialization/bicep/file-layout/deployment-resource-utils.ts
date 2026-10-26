@@ -68,7 +68,10 @@ export function normalizeExtensionScopes(stackAst: BicepAst): void {
     if (armParentIdentifier !== undefined && armParent === undefined) {
       throw new Error(`Missing ARM parent "${armParentIdentifier}" for resource "${name}".`);
     }
-    if (armParent !== undefined && !resource.type.startsWith(`${armParent.type}/`)) {
+    if (
+      armParent !== undefined &&
+      !resource.type.toLowerCase().startsWith(`${armParent.type.toLowerCase()}/`)
+    ) {
       stackAst.resources.set(name, {
         ...resource,
         value: updateResourceBody(resource.value, (body) => {

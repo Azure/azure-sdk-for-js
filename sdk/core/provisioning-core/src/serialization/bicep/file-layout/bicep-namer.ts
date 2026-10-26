@@ -46,13 +46,17 @@ export class BicepNamer {
   readonly #usedOutputNames = new Set<string>();
 
   constructor(ast: BicepAst) {
-    this.#usedNames = new Set([...RESOURCE_NAME_OVERRIDES.keys(), ...collectLoopBindings(ast)]);
+    this.#usedNames = new Set(
+      [...RESOURCE_NAME_OVERRIDES.keys(), ...collectLoopBindings(ast)].map((name) =>
+        name.toLowerCase(),
+      ),
+    );
     for (const declarations of [ast.parameters, ast.variables, ast.resources, ast.modules]) {
       for (const declaration of declarations.values()) {
-        this.#usedNames.add(declaration.bicepIdentifier);
+        this.#usedNames.add(declaration.bicepIdentifier.toLowerCase());
       }
     }
-    for (const name of ast.outputs.keys()) this.#usedOutputNames.add(name);
+    for (const name of ast.outputs.keys()) this.#usedOutputNames.add(name.toLowerCase());
   }
 
   moduleName(rootIdentifier: string, fileName: string): string {
@@ -96,25 +100,25 @@ function buildRefParamName(reference: ExpressionReference): string {
 }
 
 function createUniqueName(name: string, alias: string, usedNames: Set<string>): string {
-  if (!usedNames.has(name)) {
-    usedNames.add(name);
+  if (!usedNames.has(name.toLowerCase())) {
+    usedNames.add(name.toLowerCase());
     return name;
   }
 
   const stem = `${alias}${name.charAt(0).toUpperCase()}${name.slice(1)}`;
 
-  if (!usedNames.has(stem)) {
-    usedNames.add(stem);
+  if (!usedNames.has(stem.toLowerCase())) {
+    usedNames.add(stem.toLowerCase());
     return stem;
   }
 
   let counter = 2;
-  while (usedNames.has(`${stem}${counter}`)) {
+  while (usedNames.has(`${stem}${counter}`.toLowerCase())) {
     counter += 1;
   }
 
   const uniqueName = `${stem}${counter}`;
 
-  usedNames.add(uniqueName);
+  usedNames.add(uniqueName.toLowerCase());
   return uniqueName;
 }

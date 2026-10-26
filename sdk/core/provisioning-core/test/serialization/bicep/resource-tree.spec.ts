@@ -9,6 +9,46 @@ import { compile, files, storage, subscriptionStack, widget } from "./support.js
 describe("authored resource-tree identity", () => {
   beforeEach(() => Stack.clearRoots());
 
+  it.each([
+    ["Microsoft.Storage/storageAccounts", "microsoft.storage/storageAccounts/blobServices"],
+    ["microsoft.storage/storageAccounts", "Microsoft.Storage/storageAccounts/blobServices"],
+  ])(
+    "preserves the parent of %s's mixed-case child %s",
+    (parentType, childType) => {
+      const stack = new Stack("mixed-case-child", { targetScope: "resourceGroup" });
+      const parent = new Resource(stack, {
+        type: parentType,
+        apiVersion: "2024-01-01",
+        name: "mixedcasestorage",
+        location: "eastus",
+        kind: "StorageV2",
+        sku: { name: "Standard_LRS" },
+      });
+      new Resource(parent, {
+        type: childType,
+        apiVersion: "2024-01-01",
+        name: "default",
+      });
+      new Resource(parent, {
+        type: "Microsoft.Authorization/locks",
+        apiVersion: "2020-05-01",
+        name: "protect",
+        properties: { level: "CanNotDelete" },
+      });
+      const result = files(stack)[0]!;
+      expect(result.resources!.blobService!.value).toMatchObject({
+        value: { parent: { id: "storageAccount" } },
+      });
+      expect(result.resources!.blobService!.value).not.toHaveProperty("value.scope");
+      expect(result.resources!.lock!.value).toMatchObject({
+        value: { scope: { id: "storageAccount" } },
+      });
+      expect(result.resources!.lock!.value).not.toHaveProperty("value.parent");
+      compile(stack);
+    },
+    30_000,
+  );
+
   it("uses resource objects for extension chains through non-resource components", () => {
     const { stack, group } = subscriptionStack("attachments");
     const first = widget(group, "first");

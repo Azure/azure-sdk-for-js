@@ -35,6 +35,80 @@ function reference(identifier: string, property = "id"): ExpressionReference {
 }
 
 describe("BicepNamer", () => {
+  it("reserves authored names, aliases and suffixes while preserving generated casing", () => {
+    const ast = emptyAst();
+    ast.parameters.set("WidgetName", {
+      bicepIdentifier: "WidgetName",
+      valueType: { kind: "primitive-type", name: "string" },
+    });
+    for (const name of ["WIDGETWIDGETNAME", "WidgetWidgetName2"]) {
+      ast.variables.set(name, {
+        bicepIdentifier: name,
+        value: { kind: "string", value: "authored" },
+      });
+    }
+    const namer = new BicepNamer(ast);
+    expect(namer.parameterName(reference("widget", "name"))).toBe("widgetWidgetName3");
+    expect(namer.parameterName(reference("WIDGET", "name"))).toBe("WIDGETWIDGETName4");
+  });
+
+  it("reserves outputs separately, including mixed-case aliases and suffixes", () => {
+    const ast = emptyAst();
+    for (const name of ["WidgetName", "WIDGETWIDGETNAME", "WidgetWidgetName2"]) {
+      ast.outputs.set(name, {
+        bicepIdentifier: name,
+        valueType: { kind: "primitive-type", name: "string" },
+        value: { kind: "string", value: "authored" },
+      });
+    }
+    const namer = new BicepNamer(ast);
+    expect(namer.outputName(reference("widget", "name"))).toBe("widgetWidgetName3");
+    expect(namer.outputName(reference("WIDGET", "name"))).toBe("WIDGETWIDGETName4");
+    expect(namer.parameterName(reference("widget", "name"))).toBe("widgetName");
+  });
+
+  it("reserves loop item and index bindings case-insensitively", () => {
+    const ast = emptyAst();
+    ast.variables.set("values", {
+      bicepIdentifier: "values",
+      value: {
+        kind: "for-expression",
+        itemVariable: "WidgetName",
+        indexVariable: "WidgetId",
+        collection: { kind: "array", items: [] },
+        body: { kind: "identifier", id: "WidgetName" },
+      },
+    });
+    const namer = new BicepNamer(ast);
+    expect(namer.parameterName(reference("widget", "name"))).toBe("widgetWidgetName");
+    expect(namer.parameterName(reference("widget", "id"))).toBe("widgetWidgetId");
+    expect(namer.outputName(reference("widget", "name"))).toBe("widgetName");
+  });
+
+  it("reserves module candidates and their fallback aliases case-insensitively", () => {
+    const ast = emptyAst();
+    for (const name of ["WidgetModule", "MAINWIDGETWIDGETMODULE"]) {
+      ast.variables.set(name, {
+        bicepIdentifier: name,
+        value: { kind: "string", value: "authored" },
+      });
+    }
+    const namer = new BicepNamer(ast);
+    expect(namer.moduleName("widget", "main/widget.bicep")).toBe("mainWidgetWidgetModule2");
+    expect(namer.moduleName("WIDGET", "main/widget.bicep")).toBe("mainWidgetWIDGETModule3");
+  });
+
+  it("reserves mixed-case built-in names without reserving them as outputs", () => {
+    const namer = new BicepNamer(emptyAst());
+    const input: ExpressionReference = {
+      identifier: "RESOURCEGROUP",
+      path: [],
+      expression: { kind: "identifier", id: "RESOURCEGROUP" },
+    };
+    expect(namer.parameterName(input)).toBe("RESOURCEGROUPRESOURCEGROUP");
+    expect(namer.outputName(input)).toBe("RESOURCEGROUP");
+  });
+
   it("reserves each generated parameter immediately and allocates deterministic collision suffixes", () => {
     const namer = new BicepNamer(emptyAst());
     const input = reference("storage");
