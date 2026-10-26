@@ -38,7 +38,10 @@ describe("Certificates client - merge and import certificates", () => {
     secretClient = new SecretClient(
       keyVaultUrl,
       credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
+      recorder.configureClientOptions({
+        serviceVersion: "2026-04-01",
+        disableChallengeResourceVerification: true,
+      }),
     );
   });
 

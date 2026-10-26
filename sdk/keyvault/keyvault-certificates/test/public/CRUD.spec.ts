@@ -45,7 +45,10 @@ describe("Certificates client - create, read, update and delete", () => {
     secretClient = new SecretClient(
       keyVaultUrl,
       credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
+      recorder.configureClientOptions({
+        serviceVersion: "2026-04-01",
+        disableChallengeResourceVerification: !isLiveMode(),
+      }),
     );
   });
 
