@@ -34,6 +34,9 @@ export function getRandomIntegerInclusive(min: number, max: number): number;
 export function getRequestCompletion(response: object): Promise<void> | undefined;
 
 // @public
+export function getResponseBodyCompletion(response: object): Promise<void> | undefined;
+
+// @public
 export const isBrowser: boolean;
 
 // @public

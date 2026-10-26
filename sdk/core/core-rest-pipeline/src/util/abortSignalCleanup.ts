@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getRequestCompletion } from "@typespec/ts-http-runtime/internal/util";
+import {
+  getRequestCompletion,
+  getResponseBodyCompletion,
+} from "@typespec/ts-http-runtime/internal/util";
 
 export function cleanupAbortSignal(
   response:
@@ -11,6 +14,7 @@ export function cleanupAbortSignal(
           once(event: string, listener: () => void): unknown;
           removeListener(event: string, listener: () => void): unknown;
         };
+        browserStreamBody?: unknown;
       }
     | undefined,
   cleanup: (() => void) | undefined,
@@ -18,11 +22,13 @@ export function cleanupAbortSignal(
   if (!cleanup) return;
   const stream = response?.readableStreamBody;
   const requestCompletion = response ? getRequestCompletion(response) : undefined;
+  const browserResponseCompletion = response ? getResponseBodyCompletion(response) : undefined;
   let requestDone = requestCompletion === undefined;
-  let responseDone = !stream || !stream.readable;
+  let nodeResponseDone = !stream || !stream.readable;
+  let browserResponseDone = browserResponseCompletion === undefined;
   let cleanedUp = false;
   const cleanupIfComplete = (): void => {
-    if (cleanedUp || !requestDone || !responseDone) return;
+    if (cleanedUp || !requestDone || !nodeResponseDone || !browserResponseDone) return;
     cleanedUp = true;
     cleanup();
   };
@@ -30,10 +36,10 @@ export function cleanupAbortSignal(
     stream?.removeListener("end", onResponseComplete);
     stream?.removeListener("close", onResponseComplete);
     stream?.removeListener("error", onResponseComplete);
-    responseDone = true;
+    nodeResponseDone = true;
     cleanupIfComplete();
   };
-  if (!responseDone && stream) {
+  if (!nodeResponseDone && stream) {
     stream.once("end", onResponseComplete);
     stream.once("close", onResponseComplete);
     stream.once("error", onResponseComplete);
@@ -41,6 +47,13 @@ export function cleanupAbortSignal(
   if (requestCompletion) {
     void requestCompletion.then(() => {
       requestDone = true;
+      cleanupIfComplete();
+      return undefined;
+    });
+  }
+  if (browserResponseCompletion) {
+    void browserResponseCompletion.then(() => {
+      browserResponseDone = true;
       cleanupIfComplete();
       return undefined;
     });

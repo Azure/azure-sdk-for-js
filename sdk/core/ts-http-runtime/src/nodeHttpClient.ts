@@ -22,6 +22,7 @@ import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
 import { setRequestCompletion } from "./util/requestCompletion.js";
+import { setResponseBodySource } from "./util/responseBody.js";
 
 const DEFAULT_TLS_SETTINGS = {};
 
@@ -159,6 +160,7 @@ class NodeHttpClient implements HttpClient {
     }
 
     let responseStream: NodeJS.ReadableStream | undefined;
+    let requestComplete = Promise.resolve();
     try {
       if (body && request.onUploadProgress) {
         const onUploadProgress = request.onUploadProgress;
@@ -189,6 +191,7 @@ class NodeHttpClient implements HttpClient {
       }
 
       const result = await this.makeRequest(request, abortController, body);
+      requestComplete = result.requestComplete;
       const res = result.response;
 
       const headers = getResponseHeaders(res);
@@ -213,6 +216,9 @@ class NodeHttpClient implements HttpClient {
       }
 
       responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
+      if (responseStream !== res) {
+        setResponseBodySource(responseStream, res);
+      }
 
       const onDownloadProgress = request.onDownloadProgress;
       if (onDownloadProgress) {
@@ -221,6 +227,7 @@ class NodeHttpClient implements HttpClient {
           logger.error("Error in download progress", e);
         });
         responseStream.pipe(downloadReportStream);
+        setResponseBodySource(downloadReportStream, responseStream);
         responseStream = downloadReportStream;
       }
 
@@ -250,7 +257,7 @@ class NodeHttpClient implements HttpClient {
         if (isReadableStream(responseStream)) {
           downloadStreamDone = isStreamComplete(responseStream);
         }
-        Promise.all([uploadStreamDone, downloadStreamDone])
+        Promise.all([requestComplete, uploadStreamDone, downloadStreamDone])
           .then(() => {
             // eslint-disable-next-line promise/always-return
             if (abortListener) {

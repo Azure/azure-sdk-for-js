@@ -4,8 +4,13 @@
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { PassThrough, Readable, Writable } from "node:stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { createPipelineRequest, createDefaultHttpClient } from "../../../src/index.js";
+import {
+  createDefaultHttpClient,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "../../../src/index.js";
 import { getRequestCompletion } from "../../../src/util/requestCompletion.js";
+import { disposeResponseBody } from "../../../src/util/responseBody.js";
 
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");
@@ -663,6 +668,61 @@ describe("NodeHttpClient", function () {
     assert.isDefined(response.readableStreamBody);
     assert.strictEqual(removeEventListener.mock.calls.length, 1);
     assert.strictEqual(removeEventListener.mock.calls[0][0], "abort");
+  });
+
+  it("keeps the abort listener until the outgoing request finishes", async function () {
+    vi.useRealTimers();
+    const client = createDefaultHttpClient();
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const clientRequest = new Writable({
+      autoDestroy: false,
+      write(_chunk, _encoding, callback) {
+        callback();
+      },
+      final() {
+        // Keep the request pending after response headers and body complete.
+      },
+    }) as unknown as ClientRequest;
+    const destroy = vi.spyOn(clientRequest, "destroy");
+    vi.mocked(https.request).mockReturnValueOnce(clientRequest);
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      body: "request body",
+      abortSignal: controller.signal,
+    });
+    const promise = client.sendRequest(request);
+    yieldHttpsResponse(createResponse(200));
+
+    await promise;
+    await delay(0);
+    expect(removeEventListener).not.toHaveBeenCalled();
+
+    controller.abort();
+    expect(destroy).toHaveBeenCalledWith(expect.objectContaining({ name: "AbortError" }));
+    await delay(0);
+    expect(removeEventListener).toHaveBeenCalledOnce();
+  });
+
+  it("disposes the underlying response through decompression and progress transforms", async function () {
+    const client = createDefaultHttpClient();
+    const streamResponse = new FakeResponse();
+    streamResponse.headers = { "content-encoding": "gzip" };
+    streamResponse.statusCode = 200;
+    const destroy = vi.spyOn(streamResponse, "destroy");
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      headers: createHttpHeaders({ "Accept-Encoding": "gzip" }),
+      onDownloadProgress: () => {},
+      streamResponseStatusCodes: new Set([200]),
+    });
+    const promise = client.sendRequest(request);
+    yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+
+    const response = await promise;
+    await disposeResponseBody(response);
+
+    expect(destroy).toHaveBeenCalledOnce();
   });
 
   it("should return an AbortError when aborted while reading the HTTP response", async function () {

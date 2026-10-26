@@ -201,6 +201,69 @@ describe("FetchHttpClient", function () {
     expect(removeEventListener).toHaveBeenCalledWith("abort", abortListener);
   });
 
+  it("removes the abort listener when a browser response stream is canceled", async function () {
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const responseBody = new ReadableStream({
+      pull(): void {
+        // Keep the response pending until the caller cancels it.
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody, { status: 200 }));
+    const request = createPipelineRequest({
+      url: "https://localhost/cancel-stream",
+      abortSignal: controller.signal,
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+    });
+
+    const response = await createFetchHttpClient().sendRequest(request);
+
+    expect(removeEventListener).not.toHaveBeenCalled();
+    await response.browserStreamBody?.cancel();
+    expect(removeEventListener).toHaveBeenCalledOnce();
+  });
+
+  it("removes the abort listener when a browser response stream errors", async function () {
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const responseBody = new ReadableStream({
+      pull(streamController) {
+        streamController.error(new Error("response failed"));
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody, { status: 200 }));
+    const request = createPipelineRequest({
+      url: "https://localhost/error-stream",
+      abortSignal: controller.signal,
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+    });
+
+    const response = await createFetchHttpClient().sendRequest(request);
+    const reader = response.browserStreamBody!.getReader();
+
+    await expect(reader.read()).rejects.toThrow("response failed");
+    expect(removeEventListener).toHaveBeenCalledOnce();
+  });
+
+  it("removes the abort listener when a streamed response has no body", async function () {
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    vi.mocked(fetch).mockResolvedValue(new Response(null, { status: 200 }));
+    const request = createPipelineRequest({
+      url: "https://localhost/empty-stream",
+      abortSignal: controller.signal,
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+    });
+
+    const response = await createFetchHttpClient().sendRequest(request);
+
+    expect(response.browserStreamBody).toBeUndefined();
+    expect(removeEventListener).toHaveBeenCalledOnce();
+  });
+
   it("should allow canceling of requests before the request is made", async function () {
     const blob = new Blob();
     const mockedResponse = new Response(blob, { status: 200 });

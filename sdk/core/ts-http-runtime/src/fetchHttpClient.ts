@@ -14,6 +14,7 @@ import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 import { isObject } from "./util/object.js";
+import { setResponseBodyCompletion } from "./util/responseBodyCompletion.js";
 
 // The Fetch spec requires `duplex: "half"` when body is a ReadableStream,
 // but TypeScript's lib.dom.d.ts hasn't added it to RequestInit yet.
@@ -124,30 +125,50 @@ async function buildPipelineResponse(
     status: httpResponse.status,
   };
 
-  const bodyStream = isWebReadableStream(httpResponse.body)
-    ? buildBodyStream(httpResponse.body, {
-        onProgress: request.onDownloadProgress,
-        onEnd: abortControllerCleanup,
-      })
-    : httpResponse.body;
-
-  if (
+  const streamResponse =
     // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
     request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
-    request.streamResponseStatusCodes?.has(response.status)
-  ) {
-    if (request.enableBrowserStreams) {
-      response.browserStreamBody = bodyStream ?? undefined;
+    request.streamResponseStatusCodes?.has(response.status);
+
+  if (streamResponse && request.enableBrowserStreams) {
+    if (isWebReadableStream(httpResponse.body)) {
+      let resolveBodyCompletion!: () => void;
+      const bodyCompletion = new Promise<void>((resolve) => {
+        resolveBodyCompletion = resolve;
+      });
+      let bodyComplete = false;
+      const onBodyComplete = (): void => {
+        if (bodyComplete) return;
+        bodyComplete = true;
+        abortControllerCleanup?.();
+        resolveBodyCompletion();
+      };
+      response.browserStreamBody = buildBodyStream(httpResponse.body, {
+        onProgress: request.onDownloadProgress,
+        onEnd: onBodyComplete,
+      });
+      setResponseBodyCompletion(response, bodyCompletion);
     } else {
-      const responseStream = new Response(bodyStream);
-      response.blobBody = responseStream.blob();
+      response.browserStreamBody = httpResponse.body ?? undefined;
       abortControllerCleanup?.();
     }
   } else {
-    const responseStream = new Response(bodyStream);
+    const bodyStream = isWebReadableStream(httpResponse.body)
+      ? buildBodyStream(httpResponse.body, {
+          onProgress: request.onDownloadProgress,
+        })
+      : httpResponse.body;
 
-    response.bodyAsText = await responseStream.text();
-    abortControllerCleanup?.();
+    if (streamResponse) {
+      const responseStream = new Response(bodyStream);
+      response.blobBody = responseStream.blob();
+      abortControllerCleanup?.();
+    } else {
+      const responseStream = new Response(bodyStream);
+
+      response.bodyAsText = await responseStream.text();
+      abortControllerCleanup?.();
+    }
   }
 
   return response;
@@ -181,6 +202,7 @@ function setupAbortSignal(request: PipelineRequest): {
     abortControllerCleanup = () => {
       if (abortListener) {
         requestAbortSignal.removeEventListener("abort", abortListener);
+        abortListener = undefined;
       }
     };
   }
@@ -279,61 +301,59 @@ function buildBodyStream(
   options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {},
 ): ReadableStream<Uint8Array> {
   let loadedBytes = 0;
+  let ended = false;
   const { onProgress, onEnd } = options;
+  const end = (): void => {
+    if (ended) return;
+    ended = true;
+    onEnd?.();
+  };
 
-  // If the current browser supports pipeThrough we use a TransformStream
-  // to report progress
+  let progressStream = readableStream;
   if (isTransformStreamSupported(readableStream)) {
-    return readableStream.pipeThrough(
+    progressStream = readableStream.pipeThrough(
       new TransformStream({
         transform(chunk, controller) {
-          if (chunk === null) {
-            controller.terminate();
-            return;
-          }
-
           controller.enqueue(chunk);
           loadedBytes += chunk.length;
-          if (onProgress) {
-            onProgress({ loadedBytes });
-          }
-        },
-        flush() {
-          onEnd?.();
+          onProgress?.({ loadedBytes });
         },
       }),
     );
-  } else {
-    // If we can't use transform streams, wrap the original stream in a new readable stream
-    // and use pull to enqueue each chunk and report progress.
-    const reader = readableStream.getReader();
-    return new ReadableStream({
-      async pull(controller) {
+  }
+
+  const reader = progressStream.getReader();
+  return new ReadableStream({
+    async pull(controller) {
+      try {
         const { done, value } = await reader.read();
-        // When no more data needs to be consumed, break the reading
         if (done || !value) {
-          onEnd?.();
-          // Close the stream
+          end();
           controller.close();
           reader.releaseLock();
           return;
         }
 
-        loadedBytes += value?.length ?? 0;
-
-        // Enqueue the next data chunk into our target stream
-        controller.enqueue(value);
-
-        if (onProgress) {
-          onProgress({ loadedBytes });
+        if (progressStream === readableStream) {
+          loadedBytes += value.length;
+          onProgress?.({ loadedBytes });
         }
-      },
-      cancel(reason?: string) {
-        onEnd?.();
-        return reader.cancel(reason);
-      },
-    });
-  }
+        controller.enqueue(value);
+      } catch (error) {
+        end();
+        controller.error(error);
+        reader.releaseLock();
+      }
+    },
+    async cancel(reason?: unknown) {
+      try {
+        await reader.cancel(reason);
+      } finally {
+        end();
+        reader.releaseLock();
+      }
+    },
+  });
 }
 
 /**

@@ -20,3 +20,4 @@ export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "#plat
 export { Sanitizer, type SanitizerOptions } from "./sanitizer.js";
 export { disposeResponseBody } from "./responseBody.js";
 export { getRequestCompletion } from "./requestCompletion.js";
+export { getResponseBodyCompletion } from "./responseBodyCompletion.js";
