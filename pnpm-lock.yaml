@@ -20,7 +20,7 @@ catalogs:
       version: 1.2.0
   default:
     '@azure/provisioning-core':
-      specifier: 1.0.0-beta.1
+      specifier: ^1.0.0-beta.1
       version: 1.0.0-beta.1
     '@eslint/js':
       specifier: ^10.0.1
