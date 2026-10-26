@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves information about the model view or the instance view of a hybrid machine.
  *
  * @summary retrieves information about the model view or the instance view of a hybrid machine.
- * x-ms-original-file: 2026-07-15/machine/Machines_Get.json
+ * x-ms-original-file: 2026-09-01/machine/Machines_Get.json
  */
 async function getMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getMachine(): Promise<void> {
  * This sample demonstrates how to retrieves information about the model view or the instance view of a hybrid machine.
  *
  * @summary retrieves information about the model view or the instance view of a hybrid machine.
- * x-ms-original-file: 2026-07-15/machine/Machines_Get_LicenseProfileInstanceView.json
+ * x-ms-original-file: 2026-09-01/machine/Machines_Get_LicenseProfileInstanceView.json
  */
 async function getMachineWithLicenseProfileInstanceView(): Promise<void> {
   const credential = new DefaultAzureCredential();

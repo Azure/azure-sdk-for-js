@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update a gateway.
  *
  * @summary the operation to update a gateway.
- * x-ms-original-file: 2026-07-15/gateway/Gateway_Update.json
+ * x-ms-original-file: 2026-09-01/gateway/Gateway_Update.json
  */
 async function updateAGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

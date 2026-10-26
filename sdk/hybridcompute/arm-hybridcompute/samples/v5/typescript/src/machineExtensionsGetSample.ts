@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to get the extension.
  *
  * @summary the operation to get the extension.
- * x-ms-original-file: 2026-07-15/extension/Extension_Get.json
+ * x-ms-original-file: 2026-09-01/extension/Extension_Get.json
  */
 async function getMachineExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();

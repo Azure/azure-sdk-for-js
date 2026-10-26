@@ -18,3 +18,4 @@ export type { PrivateEndpointConnectionsOperations } from "./privateEndpointConn
 export type { PrivateLinkResourcesOperations } from "./privateLinkResources/index.js";
 export type { PrivateLinkScopesOperations } from "./privateLinkScopes/index.js";
 export type { SettingsOperations } from "./settings/index.js";
+export type { VmApplicationsOperations } from "./vmApplications/index.js";
