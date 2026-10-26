@@ -3836,100 +3836,6 @@ importers:
         specifier: catalog:testing
         version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
-  sdk/batch/batch-rest:
-    dependencies:
-      '@azure-rest/core-client':
-        specifier: ^2.3.1
-        version: link:../../core/core-client-rest
-      '@azure/core-auth':
-        specifier: ^1.9.0
-        version: link:../../core/core-auth
-      '@azure/core-rest-pipeline':
-        specifier: link:../../core/core-rest-pipeline
-        version: link:../../core/core-rest-pipeline
-      '@azure/core-util':
-        specifier: ^1.12.0
-        version: link:../../core/core-util
-      '@azure/logger':
-        specifier: ^1.2.0
-        version: link:../../core/logger
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure-tools/test-credential':
-        specifier: workspace:^
-        version: link:../../test-utils/test-credential
-      '@azure-tools/test-recorder':
-        specifier: workspace:^
-        version: link:../../test-utils/recorder
-      '@azure-tools/test-utils-vitest':
-        specifier: workspace:^
-        version: link:../../test-utils/test-utils-vitest
-      '@azure/arm-authorization':
-        specifier: workspace:^
-        version: link:../../authorization/arm-authorization
-      '@azure/arm-batch':
-        specifier: workspace:^
-        version: link:../arm-batch
-      '@azure/arm-compute':
-        specifier: workspace:^
-        version: link:../../compute/arm-compute
-      '@azure/arm-keyvault':
-        specifier: workspace:^
-        version: link:../../keyvault/arm-keyvault
-      '@azure/arm-resources':
-        specifier: catalog:arm
-        version: 7.0.0(supports-color@10.2.2)
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@azure/identity':
-        specifier: catalog:internal
-        version: 4.13.0(supports-color@10.2.2)
-      '@azure/keyvault-keys':
-        specifier: workspace:^
-        version: link:../../keyvault/keyvault-keys
-      '@types/node':
-        specifier: 'catalog:'
-        version: 22.20.5
-      '@vitest/browser-playwright':
-        specifier: catalog:testing
-        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
-      '@vitest/coverage-istanbul':
-        specifier: catalog:testing
-        version: 5.0.5(vitest@5.0.5)
-      dotenv:
-        specifier: catalog:testing
-        version: 18.0.8
-      eslint:
-        specifier: 'catalog:'
-        version: 10.13.0(supports-color@10.2.2)
-      moment:
-        specifier: ^2.30.1
-        version: 2.31.0
-      playwright:
-        specifier: catalog:testing
-        version: 1.64.1
-      prettier:
-        specifier: 'catalog:'
-        version: 3.9.10
-      react-native:
-        specifier: catalog:testing
-        version: 0.87.1(@babel/core@8.0.7)(@types/react@19.3.0)(react@19.2.4)(supports-color@10.2.2)
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
-      vitest:
-        specifier: catalog:testing
-        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
-
   sdk/billing/arm-billing:
     dependencies:
       '@azure-rest/core-client':
@@ -37483,7 +37389,7 @@ packages:
     resolution: {integrity: sha1-Y0Khn0Q0dRjJPkOxrGnes8Rlah8=}
 
   '@jridgewell/gen-mapping@0.4.0-beta.0':
-    resolution: {integrity: sha512-JdGNkbE4GlNPYQhM0L95fBQr7ctLZJ276QXQLTad4t1oSdnnCI3fDq9DW3BqYAWv8Wc3+HS+4Gsii1oPMCfz1w==}
+    resolution: {integrity: sha1-r4Zy/ZlM1dWY8KxZ9H7Ka8YsmJU=}
 
   '@jridgewell/remapping@2.3.5':
     resolution: {integrity: sha1-N1xHbRlylHhRuh4Vro8SMEdEWqE=}
@@ -37728,7 +37634,7 @@ packages:
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   '@open-draft/until@3.0.1':
-    resolution: {integrity: sha1-bTX6WELj9yiCic9I3gqD87g8xaw=}
+    resolution: {integrity: sha512-s7/9ELP4aP9YZtW7RJaa0Xf3RISaRH9+EFN18FtykJYRHGNrl8f9ymvoNXzjhrjmftFvkQudtuDU9RYhk0xs3A==}
 
   '@opentelemetry/api-logs@0.211.0':
     resolution: {integrity: sha1-MtntmJOZVqhNTi/14BWYy50o10Q=}
@@ -39472,7 +39378,7 @@ packages:
     hasBin: true
 
   chromium-edge-launcher@0.3.0:
-    resolution: {integrity: sha512-p03azHlGjtyRvFEee3cyvtsRYdniSkwjkzmM/KmVnqT5d7QkkwpJBhis/zCLMYdQMVJ5tt140TBNqqrZPaWeFA==}
+    resolution: {integrity: sha1-NNXKgUL8BZ6itEgr3LGEOTo5n/4=}
 
   ci-info@3.9.0:
     resolution: {integrity: sha1-QnmmICinsfJi80c/yWBfXiGMWbQ=}
@@ -40293,11 +40199,11 @@ packages:
     resolution: {integrity: sha1-W7DNGwo+RxMw9NEJA5t+ulyz54c=}
 
   flow-estree@0.331.0:
-    resolution: {integrity: sha1-QGn2tehjN4BUE+5RHXhXU6AVzqo=}
+    resolution: {integrity: sha512-FVLYkSL/ITb/QXBEQvNWPjPooRGswuUtGOwrH+puSlMDneNkxy640+FZsk/TfKL+b7Wbw/Fg9FTUv2bMQDpj2w==}
     engines: {node: '>=18'}
 
   flow-parser@0.331.0:
-    resolution: {integrity: sha1-1LH/ACaTD7gniLAhc0Se/V57JcA=}
+    resolution: {integrity: sha512-vEZcHIlnKeN8JSVtYFczj8sWJfHIJOkz+YG00O/oul/Bete+t1ZhTi+O6JRRLFYvGW+yJkZ0YgL16iStnbkUqQ==}
     engines: {node: '>=0.4.0'}
 
   flru@1.0.2:
@@ -40535,7 +40441,7 @@ packages:
     resolution: {integrity: sha1-sevmO5Z7dAYAJ8KsYfm+EtNUpvY=}
 
   hermes-compiler@250829098.0.17:
-    resolution: {integrity: sha1-IhxkjYaSkiP146xc7nYNagwqm6s=}
+    resolution: {integrity: sha512-qG1PXzTEtriF6oQLZF3vyHhSMxOdW5h2TqqLri0rdpstPustd2fSvRZQMVAPdlhgFwBfYnj3OUZtiO6LjYsEFw==}
 
   hermes-estree@0.36.1:
     resolution: {integrity: sha1-cTaNnngjhyjhHvH0WKiSHQVkpXI=}
@@ -42511,7 +42417,7 @@ packages:
     resolution: {integrity: sha1-ryT7t7kfzKlFOZoE+pAKEPlQYkI=}
 
   sort-package-json@3.7.1:
-    resolution: {integrity: sha512-ssk1HG7whF8N/T1IsNAQrtHG5Cbdi0rAgRJZXYBr9hF5xaHnBNzUx/W6LcthEW7FhOwvZssbESZuO+GxssqAyA==}
+    resolution: {integrity: sha1-fy6YFf4lp031sOpyXk2MnLQ7Nvw=}
     engines: {node: '>=20'}
     hasBin: true
 
