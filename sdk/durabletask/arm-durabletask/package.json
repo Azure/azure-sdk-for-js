@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-durabletask",
-  "version": "1.1.1",
+  "version": "1.2.0-beta.1",
   "description": "A generated SDK for DurableTaskClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -45,11 +45,11 @@
     ]
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
@@ -88,7 +88,8 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-durabletask",
@@ -128,6 +129,34 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
+    "./api/failoverInstances": {
+      "browser": {
+        "types": "./dist/browser/api/failoverInstances/index.d.ts",
+        "default": "./dist/browser/api/failoverInstances/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/failoverInstances/index.d.ts",
+        "default": "./dist/esm/api/failoverInstances/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/failoverInstances/index.d.ts",
+        "default": "./dist/commonjs/api/failoverInstances/index.js"
+      }
+    },
+    "./api/transparentDataEncryptions": {
+      "browser": {
+        "types": "./dist/browser/api/transparentDataEncryptions/index.d.ts",
+        "default": "./dist/browser/api/transparentDataEncryptions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/transparentDataEncryptions/index.d.ts",
+        "default": "./dist/esm/api/transparentDataEncryptions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/transparentDataEncryptions/index.d.ts",
+        "default": "./dist/commonjs/api/transparentDataEncryptions/index.js"
+      }
+    },
     "./api/retentionPolicies": {
       "browser": {
         "types": "./dist/browser/api/retentionPolicies/index.d.ts",
@@ -140,6 +169,20 @@
       "require": {
         "types": "./dist/commonjs/api/retentionPolicies/index.d.ts",
         "default": "./dist/commonjs/api/retentionPolicies/index.js"
+      }
+    },
+    "./api/taskQueues": {
+      "browser": {
+        "types": "./dist/browser/api/taskQueues/index.d.ts",
+        "default": "./dist/browser/api/taskQueues/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/taskQueues/index.d.ts",
+        "default": "./dist/esm/api/taskQueues/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/taskQueues/index.d.ts",
+        "default": "./dist/commonjs/api/taskQueues/index.js"
       }
     },
     "./api/taskHubs": {
@@ -170,6 +213,20 @@
         "default": "./dist/commonjs/api/schedulers/index.js"
       }
     },
+    "./api/detectors": {
+      "browser": {
+        "types": "./dist/browser/api/detectors/index.d.ts",
+        "default": "./dist/browser/api/detectors/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/detectors/index.d.ts",
+        "default": "./dist/esm/api/detectors/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/detectors/index.d.ts",
+        "default": "./dist/commonjs/api/detectors/index.js"
+      }
+    },
     "./api/operations": {
       "browser": {
         "types": "./dist/browser/api/operations/index.d.ts",
@@ -196,6 +253,20 @@
       "require": {
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
+      }
+    },
+    "./models/typeSpec": {
+      "browser": {
+        "types": "./dist/browser/models/typeSpec/index.d.ts",
+        "default": "./dist/browser/models/typeSpec/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/typeSpec/index.d.ts",
+        "default": "./dist/esm/models/typeSpec/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/typeSpec/index.d.ts",
+        "default": "./dist/commonjs/models/typeSpec/index.js"
       }
     }
   },
