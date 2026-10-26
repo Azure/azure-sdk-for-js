@@ -126,7 +126,7 @@ ${base64Csr}
       //   openssl genrsa -out ca.key 2048
       //   openssl req -new -x509 -key ca.key -out ca.crt
       childProcess.execSync(
-        `openssl x509 -req -in test.csr -CA ${caCrt} -CAkey ${caKey} -CAcreateserial -out test.crt`,
+        `openssl x509 -req -in test.csr -CA "${caCrt}" -CAkey "${caKey}" -CAcreateserial -out test.crt`,
       );
       const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
 

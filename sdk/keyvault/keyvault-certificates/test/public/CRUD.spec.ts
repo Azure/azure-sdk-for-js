@@ -67,10 +67,10 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it(
-    "can create a certificate with platformManaged (experimental, live-only)",
+    "rejects platformManaged with BadParameter (experimental, live-only)",
     { skip: !isLiveMode() },
     async function (ctx) {
-      // PlatformManaged is an experimental feature exposed only on api-version "2026-03-01-preview".
+      // PlatformManaged is exercised against the latest stable service API.
       // It is intended for internal Azure Key Vault usage only; calls are expected to fail today.
       // We still exercise the wire-up to make sure the wrapper serializes the property end-to-end.
       const { CertificateClient: PreviewCertificateClient } = await import("../../src/index.js");
@@ -78,7 +78,7 @@ describe("Certificates client - create, read, update and delete", () => {
         keyVaultUrl,
         credential,
         recorder.configureClientOptions({
-          serviceVersion: "2026-03-01-preview",
+          serviceVersion: "2026-04-01",
           disableChallengeResourceVerification: !isLiveMode(),
         }),
       );
@@ -102,7 +102,7 @@ describe("Certificates client - create, read, update and delete", () => {
       }
       // The service is expected to reject the request today; assert we surfaced an error rather
       // than silently dropping the experimental property on the floor.
-      expect(error).toBeDefined();
+      expect(error).toMatchObject({ code: "BadParameter", statusCode: 400 });
     },
   );
 
