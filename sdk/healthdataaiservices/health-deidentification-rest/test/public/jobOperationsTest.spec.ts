@@ -25,7 +25,22 @@ const TEST_TIMEOUT_MS: number = 200000;
 const NUMBER_OF_DOCUMENTS = 3;
 const OUTPUT_FOLDER = "_output";
 const INPUT_PREFIX = "example_patient_1";
+const TERMINAL_JOB_STATUSES = ["Succeeded", "Failed", "Canceled"];
+// A canceled job reports "Canceled" immediately, but the service rejects DELETE with a 400
+// until in-flight documents drain, and GET can briefly return 200 after a successful DELETE.
+const DELETE_MAX_ATTEMPTS = 20;
+const DELETE_RETRY_INTERVAL_MS = isPlaybackMode() ? 0 : 5000;
+const GET_AFTER_DELETE_MAX_ATTEMPTS = 10;
+const GET_AFTER_DELETE_RETRY_INTERVAL_MS = isPlaybackMode() ? 0 : 3000;
 let jobName: string;
+
+function delay(ms: number): Promise<void> {
+  return ms > 0 ? new Promise((resolve) => setTimeout(resolve, ms)) : Promise.resolve();
+}
+
+function getErrorCode(body: unknown): string | undefined {
+  return (body as ErrorResponse | undefined)?.error?.code;
+}
 
 describe("Batch", () => {
   let recorder: Recorder;
@@ -135,16 +150,28 @@ describe("Batch", () => {
       const foundJob = (items as DeidentificationJobOutput[]).find((j) => j.name === jobName);
 
       assert.isTrue(foundJob !== undefined, "Job should be found");
-      assert.isNotNull(foundJob!.createdAt, "Job should have createdAt");
-      assert.isNotNull(foundJob!.lastUpdatedAt, "Job should have lastUpdatedAt");
-      assert.isNotNull(foundJob!.startedAt, "Job should have startedAt");
-      assert.equal(foundJob!.status, "NotStarted", "Job status should be NotStarted");
+      assert.isDefined(foundJob!.createdAt, "Job should have createdAt");
+      assert.isDefined(foundJob!.lastUpdatedAt, "Job should have lastUpdatedAt");
+      // The job may begin processing before it is listed, so it can be NotStarted or Running,
+      // and a summary (with in-progress counts) can appear as soon as processing begins.
+      assert.include(
+        ["NotStarted", "Running"],
+        foundJob!.status,
+        "Job status should be NotStarted or Running",
+      );
       assert.isUndefined(foundJob!.error, "Job should not have error");
       assert.isUndefined(
         foundJob!.customizations?.redactionFormat,
         "Job should not have redactionFormat",
       );
-      assert.isUndefined(foundJob!.summary, "Job should not have summary");
+      if (foundJob!.summary !== undefined) {
+        const { successful, failed, canceled, total } = foundJob!.summary;
+        assert.isAtMost(
+          successful + failed + canceled,
+          total,
+          "Job summary completed counts should not exceed total",
+        );
+      }
       assert.equal(
         INPUT_PREFIX,
         foundJob!.sourceLocation.prefix,
@@ -275,16 +302,58 @@ describe("Batch", () => {
       assert.equal(poller.getOperationState().status, "running", "Job should be running");
 
       const cancelledJob = await client.path("/jobs/{name}:cancel", jobName).post();
-      assert.equal(cancelledJob.status, "200", "Job should be canceled");
+      if (isUnexpected(cancelledJob)) {
+        // The job may have reached a terminal state before cancel was processed.
+        const currentJob = await client.path("/jobs/{name}", jobName).get();
+        if (isUnexpected(currentJob)) {
+          throw new Error(
+            `Cancel failed (status ${cancelledJob.status}, code ${getErrorCode(cancelledJob.body)}) ` +
+              `and job could not be retrieved (status ${currentJob.status}, code ${getErrorCode(currentJob.body)})`,
+          );
+        }
+        assert.include(
+          TERMINAL_JOB_STATUSES,
+          currentJob.body.status,
+          `Cancel failed (status ${cancelledJob.status}, code ${getErrorCode(cancelledJob.body)}) ` +
+            "so job should already be in a terminal state",
+        );
+      } else {
+        assert.equal(cancelledJob.body.status, "Canceled", "Job status should be Canceled");
+      }
 
-      const cancelledJobOutput = cancelledJob.body as DeidentificationJobOutput;
-      assert.equal(cancelledJobOutput.status, "Canceled", "Job status should be Canceled");
+      let deleteResponse = await client.path("/jobs/{name}", jobName).delete();
+      for (
+        let attempt = 1;
+        attempt < DELETE_MAX_ATTEMPTS && deleteResponse.status === "400";
+        attempt++
+      ) {
+        await delay(DELETE_RETRY_INTERVAL_MS);
+        deleteResponse = await client.path("/jobs/{name}", jobName).delete();
+      }
+      assert.equal(
+        deleteResponse.status,
+        "204",
+        `Job should be deleted; last status ${deleteResponse.status}, ` +
+          `code ${getErrorCode(deleteResponse.body)}`,
+      );
 
-      const deleteRequest = await client.path("/jobs/{name}", jobName).delete();
-      assert.equal(deleteRequest.status, "204", "Job should be deleted");
-
-      const deletedJob = await client.path("/jobs/{name}", jobName).get();
-      assert.equal(deletedJob.status, "404", "Job should not be found");
+      let deletedJob = await client.path("/jobs/{name}", jobName).get();
+      for (
+        let attempt = 1;
+        attempt < GET_AFTER_DELETE_MAX_ATTEMPTS && deletedJob.status === "200";
+        attempt++
+      ) {
+        await delay(GET_AFTER_DELETE_RETRY_INTERVAL_MS);
+        deletedJob = await client.path("/jobs/{name}", jobName).get();
+      }
+      assert.equal(
+        deletedJob.status,
+        "404",
+        `Job should not be found after delete; last status ${deletedJob.status}, ` +
+          (isUnexpected(deletedJob)
+            ? `code ${getErrorCode(deletedJob.body)}`
+            : `job status ${deletedJob.body.status}`),
+      );
     },
     TEST_TIMEOUT_MS,
   );
