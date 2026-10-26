@@ -144,8 +144,8 @@ register(["CaseClause", "DefaultClause"], { expression: "atomic", statements: "s
  * no spreads) has presentation-only order: additions qualify the same way, and
  * contradictory custom/incoming orders keep the custom order after merging by
  * identity. Positional lists also require unchanged arity. Union/type members
- * and terminal, literal switch cases allow independent additions. Union and
- * terminal-case presentation order cannot introduce a semantic conflict.
+ * and terminal, literal switch cases allow independent additions. Type-member,
+ * union, and terminal-case presentation order cannot introduce a semantic conflict.
  * Concurrent call/assignment/branch edits require stable targets/conditions.
  * Overloads, dynamic computed names, fallthrough cases, and unknown concurrent
  * syntax changes deliberately require resolution by the caller.
@@ -738,8 +738,8 @@ function mergeOrder(maps, live, allowTie, state, path, priorities, orderIndepend
     const ready = [...pending].filter((key) => indegree.get(key) === 0);
     if (!ready.length && orderIndependent) {
       // Content was merged by identity already. Contradictory presentation
-      // orders are harmless for unions, validated terminal literal cases, and
-      // converter mappings; the customized order is kept.
+      // orders are harmless for type members, unions, validated terminal literal
+      // cases, and converter mappings; the customized order is kept.
       const preferred = [...new Set(maps.flatMap((map) => [...map.keys()]))].filter((key) =>
         live.has(key),
       );
@@ -1102,7 +1102,7 @@ function mergeList(base, custom, incoming, owners, mode, path, state) {
     state,
     path,
     priorities,
-    mode === "union" || mode === "cases" || (converterMembers && !replaced),
+    unordered || (converterMembers && !replaced),
   );
   if (order === conflict) return conflict;
   const delimiterMode =

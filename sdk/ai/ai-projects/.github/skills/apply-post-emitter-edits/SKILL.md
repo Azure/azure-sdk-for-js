@@ -40,6 +40,13 @@ editing `generated/`. When the resolver could not merge a change, `generate-clie
 continues in recovery mode and writes `temp/customization-worklist.md`; resolve each kept
 change by editing `src/` as Step 0a describes.
 
+SDK Validation runs `npm run customize` in strict mode; it does not invoke
+`generate-client.ps1`'s recovery fallback. For a resolver-policy bug in that
+pipeline, add a regression fixture using the committed generated, committed
+customized, and new emitted inputs, then follow the
+[resolver development checks](../../../scripts/customization/README.md#development).
+Do not enable recovery in CI to bypass an unsafe merge or drop emitted additions.
+
 Use this phase order to avoid mixing unrelated decisions:
 
 | Phase          | Steps                            | Exit point                                                                                                                                                                   |
