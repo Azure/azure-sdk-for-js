@@ -327,9 +327,15 @@ function buildBodyStream(
   }
 
   const reader = progressStream.getReader();
-  void reader.closed.then(end, end);
   return new ReadableStream(
     {
+      start(controller) {
+        void reader.closed.then(end, (error: unknown) => {
+          end();
+          controller.error(error);
+          reader.releaseLock();
+        });
+      },
       async pull(controller) {
         try {
           const { done, value } = await reader.read();

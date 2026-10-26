@@ -315,6 +315,82 @@ describe("FetchHttpClient", function () {
     reader.releaseLock();
   });
 
+  it.each([
+    { fallback: false, abort: false },
+    { fallback: false, abort: true },
+    { fallback: true, abort: false },
+    { fallback: true, abort: true },
+  ])(
+    "rejects browser reader.closed without a pending read on upstream failure (fallback=$fallback, abort=$abort)",
+    async function ({ fallback, abort }) {
+      if (fallback) vi.stubGlobal("TransformStream", undefined);
+      let streamController!: ReadableStreamDefaultController<Uint8Array>;
+      const responseBody = new ReadableStream<Uint8Array>({
+        start(controller) {
+          streamController = controller;
+        },
+      });
+      const failure = abort ? new AbortError() : new Error("response failed");
+      vi.mocked(fetch).mockImplementation(async (_url, options) => {
+        options?.signal?.addEventListener("abort", () => streamController.error(failure), {
+          once: true,
+        });
+        return new Response(responseBody);
+      });
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const onDownloadProgress = vi.fn();
+      const request = createPipelineRequest({
+        url: "https://localhost/unread-closed-error",
+        abortSignal: controller.signal,
+        enableBrowserStreams: true,
+        streamResponseStatusCodes: new Set([200]),
+        onDownloadProgress,
+      });
+      const response = await createFetchHttpClient().sendRequest(request);
+      const reader = response.browserStreamBody!.getReader();
+      const onClosed = vi.fn();
+      const onError = vi.fn();
+      void reader.closed.then(onClosed, onError);
+
+      try {
+        if (abort) controller.abort();
+        else streamController.error(failure);
+        await delay(0);
+
+        expect(onError).toHaveBeenCalledExactlyOnceWith(failure);
+        expect(onClosed).not.toHaveBeenCalled();
+        expect(removeEventListener).toHaveBeenCalledOnce();
+        expect(onDownloadProgress).not.toHaveBeenCalled();
+      } finally {
+        await expect(reader.read()).rejects.toBe(failure);
+        reader.releaseLock();
+      }
+    },
+  );
+
+  it.each([false, true])(
+    "resolves browser reader.closed when canceled without reading (fallback=%s)",
+    async function (fallback) {
+      if (fallback) vi.stubGlobal("TransformStream", undefined);
+      vi.mocked(fetch).mockResolvedValue(new Response(new ReadableStream<Uint8Array>()));
+      const response = await createFetchHttpClient().sendRequest(
+        createPipelineRequest({
+          url: "https://localhost/unread-closed-cancel",
+          enableBrowserStreams: true,
+          streamResponseStatusCodes: new Set([200]),
+        }),
+      );
+      const reader = response.browserStreamBody!.getReader();
+      const closed = reader.closed;
+
+      await reader.cancel();
+
+      await expect(closed).resolves.toBeUndefined();
+      reader.releaseLock();
+    },
+  );
+
   it("should allow canceling of requests before the request is made", async function () {
     const blob = new Blob();
     const mockedResponse = new Response(blob, { status: 200 });
