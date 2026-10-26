@@ -247,6 +247,31 @@ describe("FetchHttpClient", function () {
     expect(removeEventListener).toHaveBeenCalledOnce();
   });
 
+  it.each([false, true])(
+    "removes the abort listener when reading a buffered response fails (fallback=%s)",
+    async function (fallback) {
+      if (fallback) vi.stubGlobal("TransformStream", undefined);
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const responseBody = new ReadableStream<Uint8Array>({
+        pull(streamController) {
+          streamController.error(new Error("response failed"));
+        },
+      });
+      vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+      const request = createPipelineRequest({
+        url: "https://localhost/error-buffered",
+        abortSignal: controller.signal,
+      });
+
+      await expect(createFetchHttpClient().sendRequest(request)).rejects.toMatchObject({
+        name: "RestError",
+        code: RestError.REQUEST_SEND_ERROR,
+      });
+      expect(removeEventListener).toHaveBeenCalledOnce();
+    },
+  );
+
   it("removes the abort listener when a streamed response has no body", async function () {
     const controller = new AbortController();
     const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
@@ -262,6 +287,32 @@ describe("FetchHttpClient", function () {
 
     expect(response.browserStreamBody).toBeUndefined();
     expect(removeEventListener).toHaveBeenCalledOnce();
+  });
+
+  it("cleans up an errored browser response without reading ahead", async function () {
+    let streamController!: ReadableStreamDefaultController<Uint8Array>;
+    const responseBody = new ReadableStream<Uint8Array>({
+      start(controller) {
+        streamController = controller;
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const request = createPipelineRequest({
+      url: "https://localhost/unread-error-stream",
+      abortSignal: controller.signal,
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+    });
+    const response = await createFetchHttpClient().sendRequest(request);
+
+    streamController.error(new Error("response failed"));
+    await delay(0);
+    expect(removeEventListener).toHaveBeenCalledOnce();
+    const reader = response.browserStreamBody!.getReader();
+    await expect(reader.read()).rejects.toThrow("response failed");
+    reader.releaseLock();
   });
 
   it("should allow canceling of requests before the request is made", async function () {
@@ -337,6 +388,66 @@ describe("FetchHttpClient", function () {
     const response = await client.sendRequest(request);
     assert.isDefined(response.bodyAsText);
     assert.isTrue(downloadCalled, "no download progress");
+  });
+
+  it("does not prefetch browser response chunks ahead of the reader", async function () {
+    const responseBody = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(Uint8Array.of(1));
+        controller.enqueue(Uint8Array.of(2));
+        controller.enqueue(Uint8Array.of(3));
+        controller.close();
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+    const onDownloadProgress = vi.fn();
+    const request = createPipelineRequest({
+      url: "https://localhost/backpressure",
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+      onDownloadProgress,
+    });
+    const response = await createFetchHttpClient().sendRequest(request);
+    const reader = response.browserStreamBody!.getReader();
+
+    try {
+      await delay(0);
+      expect(onDownloadProgress).not.toHaveBeenCalled();
+      expect(await reader.read()).toEqual({ done: false, value: Uint8Array.of(1) });
+      await delay(0);
+      expect(onDownloadProgress).toHaveBeenCalledExactlyOnceWith({ loadedBytes: 1 });
+    } finally {
+      await reader.cancel();
+    }
+  });
+
+  it("treats a null browser stream chunk as completion", async function () {
+    const responseBody = new ReadableStream<Uint8Array | null>({
+      start(controller) {
+        controller.enqueue(null);
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const onDownloadProgress = vi.fn();
+    const request = createPipelineRequest({
+      url: "https://localhost/null-chunk",
+      abortSignal: controller.signal,
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+      onDownloadProgress,
+    });
+    const response = await createFetchHttpClient().sendRequest(request);
+    const reader = response.browserStreamBody!.getReader();
+
+    try {
+      expect(await reader.read()).toEqual({ done: true, value: undefined });
+      expect(onDownloadProgress).not.toHaveBeenCalled();
+      expect(removeEventListener).toHaveBeenCalledOnce();
+    } finally {
+      await reader.cancel();
+    }
   });
 
   it("should report download progress and decode chunks without TransformStream", async function () {

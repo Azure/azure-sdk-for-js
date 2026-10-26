@@ -103,7 +103,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     if (isBlob(request.body) && request.onUploadProgress) {
       request.onUploadProgress({ loadedBytes: request.body.size });
     }
-    return buildPipelineResponse(response, request, abortControllerCleanup);
+    return await buildPipelineResponse(response, request, abortControllerCleanup);
   } catch (e) {
     abortControllerCleanup?.();
     throw e;
@@ -314,6 +314,10 @@ function buildBodyStream(
     progressStream = readableStream.pipeThrough(
       new TransformStream({
         transform(chunk, controller) {
+          if (chunk === null) {
+            controller.terminate();
+            return;
+          }
           controller.enqueue(chunk);
           loadedBytes += chunk.length;
           onProgress?.({ loadedBytes });
@@ -323,37 +327,42 @@ function buildBodyStream(
   }
 
   const reader = progressStream.getReader();
-  return new ReadableStream({
-    async pull(controller) {
-      try {
-        const { done, value } = await reader.read();
-        if (done || !value) {
-          end();
-          controller.close();
-          reader.releaseLock();
-          return;
-        }
+  void reader.closed.then(end, end);
+  return new ReadableStream(
+    {
+      async pull(controller) {
+        try {
+          const { done, value } = await reader.read();
+          if (done || !value) {
+            end();
+            controller.close();
+            reader.releaseLock();
+            return;
+          }
 
-        if (progressStream === readableStream) {
-          loadedBytes += value.length;
-          onProgress?.({ loadedBytes });
+          if (progressStream === readableStream) {
+            loadedBytes += value.length;
+            onProgress?.({ loadedBytes });
+          }
+          controller.enqueue(value);
+        } catch (error) {
+          end();
+          controller.error(error);
+          reader.releaseLock();
         }
-        controller.enqueue(value);
-      } catch (error) {
-        end();
-        controller.error(error);
-        reader.releaseLock();
-      }
+      },
+      async cancel(reason?: unknown) {
+        try {
+          await reader.cancel(reason);
+        } finally {
+          end();
+          reader.releaseLock();
+        }
+      },
     },
-    async cancel(reason?: unknown) {
-      try {
-        await reader.cancel(reason);
-      } finally {
-        end();
-        reader.releaseLock();
-      }
-    },
-  });
+    // The transform already applies backpressure; do not add another read-ahead queue.
+    { highWaterMark: progressStream === readableStream ? 1 : 0 },
+  );
 }
 
 /**

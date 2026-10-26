@@ -21,6 +21,7 @@ interface BrowserResponseBody {
 }
 
 const responseBodySources = new WeakMap<NodeResponseBody, NodeResponseBody>();
+const responseBodyDisposers = new WeakMap<object, () => void>();
 
 function isNodeResponseBody(value: unknown): value is NodeResponseBody {
   return (
@@ -57,6 +58,15 @@ export function setResponseBodySource(body: unknown, source: unknown): void {
   if (isNodeResponseBody(body) && isNodeResponseBody(source)) {
     responseBodySources.set(body, source);
   }
+}
+
+export function setResponseBodyDisposer(response: object, dispose: () => void): () => void {
+  responseBodyDisposers.set(response, dispose);
+  return () => {
+    if (responseBodyDisposers.get(response) === dispose) {
+      responseBodyDisposers.delete(response);
+    }
+  };
 }
 
 function disposeNodeResponseBody(
@@ -112,15 +122,21 @@ export async function disposeResponseBody(response: {
   browserStreamBody?: unknown;
 }): Promise<void> {
   try {
-    const readableStream: unknown = response.readableStreamBody;
-    if (isNodeResponseBody(readableStream)) {
-      disposeNodeResponseBody(readableStream, new Set());
-      return;
-    }
+    const dispose = responseBodyDisposers.get(response);
+    responseBodyDisposers.delete(response);
+    try {
+      const readableStream: unknown = response.readableStreamBody;
+      if (isNodeResponseBody(readableStream)) {
+        disposeNodeResponseBody(readableStream, new Set());
+        return;
+      }
 
-    const browserStream: unknown = response.browserStreamBody;
-    if (isBrowserResponseBody(browserStream)) {
-      await browserStream.cancel();
+      const browserStream: unknown = response.browserStreamBody;
+      if (isBrowserResponseBody(browserStream)) {
+        await browserStream.cancel();
+      }
+    } finally {
+      dispose?.();
     }
   } catch (error) {
     logger.warning("Error disposing response body", error);

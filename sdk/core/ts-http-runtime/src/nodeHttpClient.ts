@@ -22,7 +22,11 @@ import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
 import { setRequestCompletion } from "./util/requestCompletion.js";
-import { setResponseBodySource } from "./util/responseBody.js";
+import {
+  disposeResponseBody,
+  setResponseBodyDisposer,
+  setResponseBodySource,
+} from "./util/responseBody.js";
 
 const DEFAULT_TLS_SETTINGS = {};
 
@@ -89,6 +93,7 @@ interface NodeRequestResult {
   response: IncomingMessage;
   requestComplete: Promise<void>;
   isRequestComplete: () => boolean;
+  disposeRequest: () => void;
 }
 
 function toRequestSendError(error: Error & { code?: string }, request: PipelineRequest): RestError {
@@ -147,21 +152,22 @@ class NodeHttpClient implements HttpClient {
     const shouldDecompress =
       acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
 
-    let body = typeof request.body === "function" ? request.body() : request.body;
-    if (isArrayBuffer(body)) {
-      body = arrayBufferToBuffer(body);
-    }
-
-    if (body && !request.headers.has("Content-Length")) {
-      const bodyLength = getBodyLength(body);
-      if (bodyLength !== null) {
-        request.headers.set("Content-Length", bodyLength);
-      }
-    }
-
+    let body: RequestBodyType | undefined;
     let responseStream: NodeJS.ReadableStream | undefined;
     let requestComplete = Promise.resolve();
     try {
+      body = typeof request.body === "function" ? request.body() : request.body;
+      if (isArrayBuffer(body)) {
+        body = arrayBufferToBuffer(body);
+      }
+
+      if (body && !request.headers.has("Content-Length")) {
+        const bodyLength = getBodyLength(body);
+        if (bodyLength !== null) {
+          request.headers.set("Content-Length", bodyLength);
+        }
+      }
+
       if (body && request.onUploadProgress) {
         const onUploadProgress = request.onUploadProgress;
         const uploadReportStream = new ReportTransform(onUploadProgress);
@@ -171,17 +177,22 @@ class NodeHttpClient implements HttpClient {
         if (isReadableStream(body)) {
           const source = body;
           let cleanupFinished = (): void => {};
-          const cleanupSource = (): void => {
+          function onUploadClose(): void {
+            cleanupSource();
+            source.unpipe(uploadReportStream);
+            void disposeResponseBody({ readableStreamBody: source });
+          }
+          function cleanupSource(): void {
             cleanupFinished();
-            uploadReportStream.removeListener("close", cleanupSource);
-          };
+            uploadReportStream.removeListener("close", onUploadClose);
+          }
           cleanupFinished = finished(source, { writable: false }, (error) => {
             cleanupSource();
             if (error) {
               uploadReportStream.destroy(toRequestSendError(error, request));
             }
           });
-          uploadReportStream.once("close", cleanupSource);
+          uploadReportStream.once("close", onUploadClose);
           source.pipe(uploadReportStream);
         } else {
           uploadReportStream.end(body);
@@ -204,6 +215,8 @@ class NodeHttpClient implements HttpClient {
       };
       if (!result.isRequestComplete()) {
         setRequestCompletion(response, result.requestComplete);
+        const clearDisposer = setResponseBodyDisposer(response, result.disposeRequest);
+        void result.requestComplete.then(clearDisposer);
       }
 
       // Responses to HEAD must not have a body.
@@ -215,10 +228,9 @@ class NodeHttpClient implements HttpClient {
         return response;
       }
 
-      responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
-      if (responseStream !== res) {
-        setResponseBodySource(responseStream, res);
-      }
+      responseStream = shouldDecompress
+        ? getDecodedResponseStream(res, headers, abortController.signal)
+        : res;
 
       const onDownloadProgress = request.onDownloadProgress;
       if (onDownloadProgress) {
@@ -226,9 +238,11 @@ class NodeHttpClient implements HttpClient {
         downloadReportStream.on("error", (e) => {
           logger.error("Error in download progress", e);
         });
-        responseStream.pipe(downloadReportStream);
-        setResponseBodySource(downloadReportStream, responseStream);
-        responseStream = downloadReportStream;
+        responseStream = pipeResponseStream(
+          responseStream,
+          downloadReportStream,
+          abortController.signal,
+        );
       }
 
       if (
@@ -242,6 +256,14 @@ class NodeHttpClient implements HttpClient {
       }
 
       return response;
+    } catch (error) {
+      if (isReadableStream(body)) {
+        await disposeResponseBody({ readableStreamBody: body });
+      }
+      if (responseStream) {
+        await disposeResponseBody({ readableStreamBody: responseStream });
+      }
+      throw error;
     } finally {
       if (timeoutId !== undefined) {
         clearTimeout(timeoutId);
@@ -301,16 +323,19 @@ class NodeHttpClient implements HttpClient {
       const requestComplete = new Promise<void>((resolve) => {
         resolveRequestComplete = resolve;
       });
-      const onResponse = (response: IncomingMessage): void => {
+      const req = isInsecure
+        ? http.request(options, onResponse)
+        : https.request(options, onResponse);
+      function onResponse(response: IncomingMessage): void {
         _resolve({
           response,
           requestComplete,
           isRequestComplete: () => requestDone,
+          disposeRequest: () => {
+            if (!requestDone) req.destroy();
+          },
         });
-      };
-      const req = isInsecure
-        ? http.request(options, onResponse)
-        : https.request(options, onResponse);
+      }
 
       const onComplete = (): void => {
         requestDone = true;
@@ -333,12 +358,18 @@ class NodeHttpClient implements HttpClient {
         reject(abortError);
       });
       if (body && isReadableStream(body)) {
+        const upload = body;
         let cleanupFinished = (): void => {};
-        const cleanupBody = (): void => {
+        function onRequestClose(): void {
+          cleanupBody();
+          upload.unpipe(req);
+          void disposeResponseBody({ readableStreamBody: upload });
+        }
+        function cleanupBody(): void {
           cleanupFinished();
-          req.removeListener("close", cleanupBody);
-        };
-        cleanupFinished = finished(body, { writable: false }, (error) => {
+          req.removeListener("close", onRequestClose);
+        }
+        cleanupFinished = finished(upload, { writable: false }, (error) => {
           cleanupBody();
           if (error) {
             const requestError = toRequestSendError(error, request);
@@ -346,8 +377,8 @@ class NodeHttpClient implements HttpClient {
             reject(requestError);
           }
         });
-        req.once("close", cleanupBody);
-        body.pipe(req);
+        req.once("close", onRequestClose);
+        upload.pipe(req);
       } else if (body) {
         if (typeof body === "string" || Buffer.isBuffer(body)) {
           req.end(body);
@@ -427,19 +458,41 @@ function getResponseHeaders(res: IncomingMessage): HttpHeaders {
 function getDecodedResponseStream(
   stream: IncomingMessage,
   headers: HttpHeaders,
+  abortSignal: AbortSignal,
 ): NodeJS.ReadableStream {
   const contentEncoding = headers.get("Content-Encoding");
   if (contentEncoding === "gzip") {
-    const unzip = zlib.createGunzip();
-    stream.pipe(unzip);
-    return unzip;
+    return pipeResponseStream(stream, zlib.createGunzip(), abortSignal);
   } else if (contentEncoding === "deflate") {
-    const inflate = zlib.createInflate();
-    stream.pipe(inflate);
-    return inflate;
+    return pipeResponseStream(stream, zlib.createInflate(), abortSignal);
   }
 
   return stream;
+}
+
+function pipeResponseStream(
+  source: NodeJS.ReadableStream,
+  destination: Transform,
+  abortSignal: AbortSignal,
+): Transform {
+  setResponseBodySource(destination, source);
+  let cleanupSource = (): void => {};
+  let cleanupDestination = (): void => {};
+  cleanupSource = finished(source, { writable: false }, (error) => {
+    cleanupSource();
+    if (error) {
+      destination.destroy(abortSignal.aborted ? new AbortError() : error);
+    }
+  });
+  cleanupDestination = finished(destination, { writable: false }, () => {
+    cleanupDestination();
+    cleanupSource();
+    source.unpipe(destination);
+    if (source.readable) {
+      void disposeResponseBody({ readableStreamBody: source });
+    }
+  });
+  return source.pipe(destination);
 }
 
 function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
