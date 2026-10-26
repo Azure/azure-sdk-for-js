@@ -9,7 +9,7 @@ import {
   Stack,
   fn,
 } from "@azure/provisioning-core";
-import * as json from "../../../src//serialization/index.js";
+import * as json from "../../../src/serialization/index.js";
 import * as publicCore from "@azure/provisioning-core";
 import { renderBicepFiles } from "../../../src/internal.js";
 import * as bicep from "../../../src/internal.js";
