@@ -892,6 +892,9 @@
 # ServiceLabel: %Consumption - RIandShowBack %Service Attention
 # ServiceOwners:          @ccmshowbackdevs
 
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/edgeoperator/arm-edgeoperator/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
