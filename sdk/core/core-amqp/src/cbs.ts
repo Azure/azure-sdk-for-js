@@ -263,7 +263,7 @@ export class CbsClient {
         isError(err) && err.stack ? err.stack : JSON.stringify(err)
       }.`;
       logger.verbose("[%s] %s", this.connection.id, msg);
-      throw new Error(msg);
+      throw new Error(msg, { cause: err });
     }
   }
 
@@ -284,7 +284,7 @@ export class CbsClient {
         isError(err) && err.stack ? err.stack : JSON.stringify(err)
       }.`;
       logger.verbose("[%s] %s", this.connection.id, msg);
-      throw new Error(msg);
+      throw new Error(msg, { cause: err });
     }
   }
 

@@ -12,13 +12,11 @@ export interface PlansOperations {
   /** Lists the plans data linked to your organization, providing an overview of the available plans */
   list: (options?: PlansListOptionalParams) => PagedAsyncIterableIterator<PlanDataResource>;
 }
-
 function _getPlans(context: NewRelicObservabilityContext) {
   return {
     list: (options?: PlansListOptionalParams) => list(context, options),
   };
 }
-
 export function _getPlansOperations(context: NewRelicObservabilityContext): PlansOperations {
   return {
     ..._getPlans(context),

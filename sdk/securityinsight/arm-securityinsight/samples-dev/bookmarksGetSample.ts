@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a bookmark.
  *
  * @summary gets a bookmark.
- * x-ms-original-file: 2025-07-01-preview/bookmarks/GetBookmarkById.json
+ * x-ms-original-file: 2025-10-01-preview/bookmarks/GetBookmarkById.json
  */
 async function getABookmark(): Promise<void> {
   const credential = new DefaultAzureCredential();

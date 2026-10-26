@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a ServiceGroup
  *
  * @summary delete a ServiceGroup
- * x-ms-original-file: 2024-02-01-preview/ServiceGroup_Delete.json
+ * x-ms-original-file: 2026-08-01/ServiceGroup_Delete.json
  */
 async function deleteServiceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

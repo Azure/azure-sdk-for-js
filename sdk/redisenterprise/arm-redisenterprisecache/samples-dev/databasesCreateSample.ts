@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a database
  *
  * @summary creates a database
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesCreate.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesCreate.json
  */
 async function redisEnterpriseDatabasesCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function redisEnterpriseDatabasesCreate(): Promise<void> {
  * This sample demonstrates how to creates a database
  *
  * @summary creates a database
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesCreateWithGeoReplication.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesCreateWithGeoReplication.json
  */
 async function redisEnterpriseDatabasesCreateWithActiveGeoReplication(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -68,7 +68,7 @@ async function redisEnterpriseDatabasesCreateWithActiveGeoReplication(): Promise
  * This sample demonstrates how to creates a database
  *
  * @summary creates a database
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesNoClusterCacheCreate.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesNoClusterCacheCreate.json
  */
 async function redisEnterpriseDatabasesCreateNoClusterCache(): Promise<void> {
   const credential = new DefaultAzureCredential();

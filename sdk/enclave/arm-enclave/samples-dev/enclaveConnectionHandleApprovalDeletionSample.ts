@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to callback that triggers on approval deletion state change.
  *
  * @summary callback that triggers on approval deletion state change.
- * x-ms-original-file: 2026-03-01-preview/EnclaveConnection_HandleApprovalDeletion.json
+ * x-ms-original-file: 2026-04-01/EnclaveConnection_HandleApprovalDeletion.json
  */
 async function enclaveConnectionHandleApprovalDeletion(): Promise<void> {
   const credential = new DefaultAzureCredential();

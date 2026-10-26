@@ -66,6 +66,7 @@ export interface DedicatedHubOperations {
     options?: DedicatedHubGetOptionalParams,
   ) => Promise<DedicatedHubResource>;
 }
+
 function _getDedicatedHub(context: MissionContext) {
   return {
     listBySubscription: (
@@ -113,6 +114,7 @@ function _getDedicatedHub(context: MissionContext) {
     ) => get(context, resourceGroupName, communityName, dedicatedHubName, options),
   };
 }
+
 export function _getDedicatedHubOperations(context: MissionContext): DedicatedHubOperations {
   return {
     ..._getDedicatedHub(context),

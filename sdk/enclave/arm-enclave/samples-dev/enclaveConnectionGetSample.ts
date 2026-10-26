@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a EnclaveConnectionResource
  *
  * @summary get a EnclaveConnectionResource
- * x-ms-original-file: 2026-03-01-preview/EnclaveConnection_Get.json
+ * x-ms-original-file: 2026-04-01/EnclaveConnection_Get.json
  */
 async function enclaveConnectionGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

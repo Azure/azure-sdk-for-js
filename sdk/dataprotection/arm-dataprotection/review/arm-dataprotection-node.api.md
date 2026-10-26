@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -79,6 +81,7 @@ export interface AzureBackupDiscreteRecoveryPoint extends AzureBackupRecoveryPoi
     readonly expiryTime?: Date;
     // (undocumented)
     friendlyName?: string;
+    readonly immutabilityProperties?: RecoveryPointImmutabilityProperties;
     // (undocumented)
     objectType: "AzureBackupDiscreteRecoveryPoint";
     // (undocumented)
@@ -284,7 +287,7 @@ export interface BackupDatasourceParameters {
 }
 
 // @public
-export type BackupDatasourceParametersUnion = KubernetesClusterBackupDatasourceParameters | BlobBackupDatasourceParametersUnion | BlobBackupDatasourceParametersForAutoProtection | AdlsBlobBackupDatasourceParametersForAutoProtection | BackupDatasourceParameters;
+export type BackupDatasourceParametersUnion = KubernetesClusterBackupDatasourceParameters | BlobBackupDatasourceParametersUnion | BlobBackupDatasourceParametersForAutoProtection | AdlsBlobBackupDatasourceParametersForAutoProtection | PostgreSqlFlexibleServerBackupDatasourceParameters | GenericBackupDatasourceParameters | BackupDatasourceParameters;
 
 // @public
 export interface BackupInstance {
@@ -356,7 +359,7 @@ export interface BackupInstancesOperations {
     createOrUpdate: (resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: BackupInstanceResource, options?: BackupInstancesCreateOrUpdateOptionalParams) => PollerLike<OperationState<BackupInstanceResource>, BackupInstanceResource>;
     delete: (resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesGetOptionalParams) => Promise<BackupInstanceResource>;
-    getBackupInstanceOperationResult: (resourceGroupName: string, vaultName: string, backupInstanceName: string, operationId: string, options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams) => Promise<BackupInstanceResource>;
+    getBackupInstanceOperationResult: (resourceGroupName: string, vaultName: string, backupInstanceName: string, operationId: string, options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams) => Promise<BackupInstanceResource | void>;
     list: (resourceGroupName: string, vaultName: string, options?: BackupInstancesListOptionalParams) => PagedAsyncIterableIterator<BackupInstanceResource>;
     resumeBackups: (resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeBackupsOptionalParams) => PollerLike<OperationState<void>, void>;
     resumeProtection: (resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeProtectionOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -486,8 +489,12 @@ export interface BackupSchedule {
 }
 
 // @public
+export type BackupSolutionType = string;
+
+// @public
 export interface BackupVault {
     readonly bcdrSecurityLevel?: BcdrSecurityLevel;
+    costManagementSettings?: CostManagementSettings;
     featureSettings?: FeatureSettings;
     readonly isVaultProtectedByResourceGuard?: boolean;
     monitoringSettings?: MonitoringSettings;
@@ -507,7 +514,7 @@ export interface BackupVaultOperationResultsGetOptionalParams extends OperationO
 
 // @public
 export interface BackupVaultOperationResultsOperations {
-    get: (resourceGroupName: string, vaultName: string, operationId: string, options?: BackupVaultOperationResultsGetOptionalParams) => Promise<BackupVaultResource>;
+    get: (resourceGroupName: string, vaultName: string, operationId: string, options?: BackupVaultOperationResultsGetOptionalParams) => Promise<BackupVaultResource | void>;
 }
 
 // @public
@@ -692,6 +699,11 @@ export interface CopyOption {
 
 // @public
 export type CopyOptionUnion = CopyOnExpiryOption | CustomCopyOption | ImmediateCopyOption | CopyOption;
+
+// @public
+export interface CostManagementSettings {
+    granularityLevel?: GranularityLevel;
+}
 
 // @public
 export type CreatedByType = string;
@@ -896,6 +908,7 @@ export interface DeletedBackupInstancesUndeleteOptionalParams extends OperationO
 // @public
 export interface DeletedBackupVault {
     readonly bcdrSecurityLevel?: BcdrSecurityLevel;
+    costManagementSettings?: CostManagementSettings;
     featureSettings?: FeatureSettings;
     readonly isVaultProtectedByResourceGuard?: boolean;
     monitoringSettings?: MonitoringSettings;
@@ -1059,7 +1072,7 @@ export interface ExportJobsOperationResultGetOptionalParams extends OperationOpt
 
 // @public
 export interface ExportJobsOperationResultOperations {
-    get: (resourceGroupName: string, vaultName: string, operationId: string, options?: ExportJobsOperationResultGetOptionalParams) => Promise<ExportJobsResult>;
+    get: (resourceGroupName: string, vaultName: string, operationId: string, options?: ExportJobsOperationResultGetOptionalParams) => Promise<ExportJobsResult | void>;
 }
 
 // @public
@@ -1160,6 +1173,21 @@ export interface FetchSecondaryRPsRequestParameters {
 }
 
 // @public
+export interface GenericBackupDatasourceParameters extends BackupDatasourceParameters {
+    objectType: "GenericBackupDatasourceParameters";
+    resourceSelectors: string[];
+}
+
+// @public
+export interface GenericRestoreDatasourceCriteria extends ItemLevelRestoreCriteria {
+    objectType: "GenericRestoreDatasourceCriteria";
+    resourceSelectors: ResourceListSelectionCriteria;
+}
+
+// @public
+export type GranularityLevel = string;
+
+// @public
 export interface IdentityDetails {
     userAssignedIdentityArmUrl?: string;
     useSystemAssignedIdentity?: boolean;
@@ -1174,12 +1202,22 @@ export interface ImmediateCopyOption extends CopyOption {
 }
 
 // @public
+export interface ImmutabilityConfiguration {
+    durationInDays?: number;
+    type?: ImmutabilityType;
+}
+
+// @public
 export interface ImmutabilitySettings {
+    configuration?: ImmutabilityConfiguration;
     state?: ImmutabilityState;
 }
 
 // @public
 export type ImmutabilityState = string;
+
+// @public
+export type ImmutabilityType = string;
 
 // @public
 export type InfrastructureEncryptionState = string;
@@ -1191,13 +1229,15 @@ export interface InnerError {
     embeddedInnerError?: InnerError;
 }
 
+export { isRestError }
+
 // @public
 export interface ItemLevelRestoreCriteria {
     objectType: string;
 }
 
 // @public
-export type ItemLevelRestoreCriteriaUnion = ItemPathBasedRestoreCriteria | RangeBasedItemLevelRestoreCriteria | KubernetesStorageClassRestoreCriteria | KubernetesPVRestoreCriteria | KubernetesClusterRestoreCriteria | KubernetesClusterVaultTierRestoreCriteria | ItemLevelRestoreCriteria;
+export type ItemLevelRestoreCriteriaUnion = ItemPathBasedRestoreCriteria | RangeBasedItemLevelRestoreCriteria | GenericRestoreDatasourceCriteria | KubernetesStorageClassRestoreCriteria | KubernetesPVRestoreCriteria | KubernetesClusterRestoreCriteria | KubernetesClusterVaultTierRestoreCriteria | ItemLevelRestoreCriteria;
 
 // @public
 export interface ItemLevelRestoreTargetInfo extends RestoreTargetInfoBase {
@@ -1276,6 +1316,12 @@ export enum KnownAKSVolumeTypes {
 export enum KnownAlertsState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownBackupSolutionType {
+    LogicalBackup = "LogicalBackup",
+    PhysicalBackup = "PhysicalBackup"
 }
 
 // @public
@@ -1382,6 +1428,13 @@ export enum KnownFeatureType {
 }
 
 // @public
+export enum KnownGranularityLevel {
+    ProtectedItemLevel = "ProtectedItemLevel",
+    ProtectedItemWithParentTag = "ProtectedItemWithParentTag",
+    VaultLevel = "VaultLevel"
+}
+
+// @public
 export enum KnownIdentityType {
     SystemAssigned = "SystemAssigned",
     UserAssigned = "UserAssigned"
@@ -1392,6 +1445,12 @@ export enum KnownImmutabilityState {
     Disabled = "Disabled",
     Locked = "Locked",
     Unlocked = "Unlocked"
+}
+
+// @public
+export enum KnownImmutabilityType {
+    AsPerPolicy = "AsPerPolicy",
+    TimeBased = "TimeBased"
 }
 
 // @public
@@ -1568,7 +1627,9 @@ export enum KnownValidationType {
 export enum KnownVersions {
     V20250701 = "2025-07-01",
     V20250901 = "2025-09-01",
-    V20260301 = "2026-03-01"
+    V20260301 = "2026-03-01",
+    V20260601 = "2026-06-01",
+    V20260701 = "2026-07-01"
 }
 
 // @public
@@ -1705,7 +1766,7 @@ export interface OperationResultGetOptionalParams extends OperationOptions {
 
 // @public
 export interface OperationResultOperations {
-    get: (operationId: string, location: string, options?: OperationResultGetOptionalParams) => Promise<OperationJobExtendedInfo>;
+    get: (operationId: string, location: string, options?: OperationResultGetOptionalParams) => Promise<OperationJobExtendedInfo | void>;
 }
 
 // @public
@@ -1752,6 +1813,7 @@ export interface PageSettings {
 
 // @public
 export interface PatchBackupVaultInput {
+    costManagementSettings?: CostManagementSettings;
     featureSettings?: FeatureSettings;
     monitoringSettings?: MonitoringSettings;
     resourceGuardOperationRequests?: string[];
@@ -1786,6 +1848,13 @@ export interface PolicyInfo {
 export interface PolicyParameters {
     backupDatasourceParametersList?: BackupDatasourceParametersUnion[];
     dataStoreParametersList?: DataStoreParametersUnion[];
+}
+
+// @public
+export interface PostgreSqlFlexibleServerBackupDatasourceParameters extends BackupDatasourceParameters {
+    backupSolutionType?: BackupSolutionType;
+    // (undocumented)
+    objectType: "PostgreSqlFlexibleServerBackupDatasourceParameters";
 }
 
 // @public
@@ -1834,6 +1903,12 @@ export interface RecoveryPointDataStoreDetails {
     type?: string;
     // (undocumented)
     visible?: boolean;
+}
+
+// @public
+export interface RecoveryPointImmutabilityProperties {
+    expiryTime?: Date;
+    isImmutable: boolean;
 }
 
 // @public
@@ -2014,6 +2089,13 @@ export interface ResourceGuardsPutOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ResourceListSelectionCriteria {
+    objectType: string;
+    resourceIdentifiers: string[];
+    resourceNameOverrides?: Record<string, string>;
+}
+
+// @public
 export interface ResourceMoveDetails {
     completionTimeUtc?: string;
     operationId?: string;
@@ -2027,6 +2109,8 @@ export type ResourceMoveState = string;
 
 // @public
 export type ResourcePropertiesObjectType = string;
+
+export { RestError }
 
 // @public
 export interface RestorableTimeRange {

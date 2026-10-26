@@ -28,7 +28,6 @@ export interface DatabaseOperationsOperations {
     options?: DatabaseOperationsListByDatabaseOptionalParams,
   ) => PagedAsyncIterableIterator<DatabaseOperation>;
 }
-
 function _getDatabaseOperations(context: SqlManagementContext) {
   return {
     cancel: (
@@ -46,7 +45,6 @@ function _getDatabaseOperations(context: SqlManagementContext) {
     ) => listByDatabase(context, resourceGroupName, serverName, databaseName, options),
   };
 }
-
 export function _getDatabaseOperationsOperations(
   context: SqlManagementContext,
 ): DatabaseOperationsOperations {

@@ -4,19 +4,20 @@
 import type { ContentStoreContext as Client } from "../index.js";
 import type {
   CloudAccount,
-  CloudAccountUpdate,
   _CloudAccountListResult,
   SaaSData,
   LatestLinkedSaaSResponse,
+  CloudAccountCreateOrUpdate,
+  CloudAccountUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  cloudAccountSerializer,
   cloudAccountDeserializer,
-  cloudAccountUpdateSerializer,
   _cloudAccountListResultDeserializer,
   saaSDataSerializer,
   latestLinkedSaaSResponseDeserializer,
+  cloudAccountCreateOrUpdateSerializer,
+  cloudAccountUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -48,7 +49,7 @@ export function _latestLinkedSaaSSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -100,7 +101,7 @@ export function _linkSaaSSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -142,7 +143,7 @@ export function linkSaaS(
     getInitialResponse: () =>
       _linkSaaSSend(context, resourceGroupName, cloudAccountName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-03-preview",
+    apiVersion: context.apiVersion ?? "2026-09-30",
   }) as PollerLike<OperationState<CloudAccount>, CloudAccount>;
 }
 
@@ -154,7 +155,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Commvault.ContentStore/cloudAccounts{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,11 +193,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-03-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-30" },
   );
 }
 
@@ -210,7 +207,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -249,11 +246,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-03-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-30" },
   );
 }
 
@@ -269,7 +262,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -304,7 +297,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, cloudAccountName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-03-preview",
+    apiVersion: context.apiVersion ?? "2026-09-30",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -321,7 +314,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -363,7 +356,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, cloudAccountName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-03-preview",
+    apiVersion: context.apiVersion ?? "2026-09-30",
   }) as PollerLike<OperationState<CloudAccount>, CloudAccount>;
 }
 
@@ -371,7 +364,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   cloudAccountName: string,
-  resource: CloudAccount,
+  resource: CloudAccountCreateOrUpdate,
   options: CloudAccountsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -380,7 +373,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -390,7 +383,7 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: cloudAccountSerializer(resource),
+    body: cloudAccountCreateOrUpdateSerializer(resource),
   });
 }
 
@@ -415,7 +408,7 @@ export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   cloudAccountName: string,
-  resource: CloudAccount,
+  resource: CloudAccountCreateOrUpdate,
   options: CloudAccountsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CloudAccount>, CloudAccount> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
@@ -424,7 +417,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, cloudAccountName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-03-preview",
+    apiVersion: context.apiVersion ?? "2026-09-30",
   }) as PollerLike<OperationState<CloudAccount>, CloudAccount>;
 }
 
@@ -440,7 +433,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

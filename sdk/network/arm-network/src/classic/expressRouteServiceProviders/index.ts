@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/expressRouteServiceProviders/operations.js";
 import type { ExpressRouteServiceProvidersListOptionalParams } from "../../api/expressRouteServiceProviders/options.js";
-import type { ExpressRouteServiceProvider } from "../../models/microsoft/network/models.js";
+import type { ExpressRouteServiceProvider } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ExpressRouteServiceProviders operations. */

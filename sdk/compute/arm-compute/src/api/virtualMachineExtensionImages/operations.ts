@@ -62,6 +62,7 @@ export async function _listVersionsDeserialize(
 
   return virtualMachineExtensionImageArrayDeserializer(result.body);
 }
+
 /** Gets a list of virtual machine extension image versions. */
 export async function listVersions(
   context: Client,
@@ -113,6 +114,7 @@ export async function _listTypesDeserialize(
 
   return virtualMachineExtensionImageArrayDeserializer(result.body);
 }
+
 /** Gets a list of virtual machine extension image types. */
 export async function listTypes(
   context: Client,
@@ -167,6 +169,7 @@ export async function _getDeserialize(
 
   return virtualMachineExtensionImageDeserializer(result.body);
 }
+
 /** Gets a virtual machine extension image. */
 export async function get(
   context: Client,

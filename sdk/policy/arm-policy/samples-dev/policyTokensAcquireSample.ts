@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation acquires a policy token in the given subscription for the given request body.
  *
  * @summary this operation acquires a policy token in the given subscription for the given request body.
- * x-ms-original-file: 2025-03-01/acquirePolicyToken.json
+ * x-ms-original-file: 2026-06-01/acquirePolicyToken.json
  */
 async function acquireAPolicyToken(): Promise<void> {
   const credential = new DefaultAzureCredential();

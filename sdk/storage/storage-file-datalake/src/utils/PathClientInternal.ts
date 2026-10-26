@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { DataLakePathClient } from "../clients.js";
-import { PathOperationsImpl as Path } from "../generated/src/operations/index.js";
+import type { PathOperations } from "../generated/index.js";
 import type { Pipeline } from "@azure/storage-blob";
 
 /**
@@ -12,7 +12,7 @@ export class PathClientInternal extends DataLakePathClient {
   /**
    * Path context with blob endpoint.
    */
-  public blobPathContext: Path;
+  public blobPathContext: PathOperations;
 
   /**
    * Creates an instance of DataLakePathClient from url and pipeline.
@@ -25,6 +25,6 @@ export class PathClientInternal extends DataLakePathClient {
    */
   public constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
-    this.blobPathContext = new Path(this.storageClientContextToBlobEndpoint);
+    this.blobPathContext = this.storageClientContextToBlobEndpoint.path;
   }
 }

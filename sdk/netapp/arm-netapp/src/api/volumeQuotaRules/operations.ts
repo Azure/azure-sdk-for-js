@@ -45,7 +45,7 @@ export function _listByVolumeSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,6 +72,7 @@ export async function _listByVolumeDeserialize(
 
   return _volumeQuotaRulesListDeserializer(result.body);
 }
+
 /** List all quota rules associated with the volume */
 export function listByVolume(
   context: Client,
@@ -86,11 +87,7 @@ export function listByVolume(
     () => _listByVolumeSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     _listByVolumeDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -112,7 +109,7 @@ export function _$deleteSend(
       poolName: poolName,
       volumeName: volumeName,
       volumeQuotaRuleName: volumeQuotaRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,6 +131,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete quota rule */
 export function $delete(
   context: Client,
@@ -158,7 +156,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -181,7 +179,7 @@ export function _updateSend(
       poolName: poolName,
       volumeName: volumeName,
       volumeQuotaRuleName: volumeQuotaRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,6 +206,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return volumeQuotaRuleDeserializer(result.body);
 }
+
 /** Patch a quota rule */
 export function update(
   context: Client,
@@ -234,7 +233,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<VolumeQuotaRule>, VolumeQuotaRule>;
 }
 
@@ -257,7 +256,7 @@ export function _createSend(
       poolName: poolName,
       volumeName: volumeName,
       volumeQuotaRuleName: volumeQuotaRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -284,6 +283,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return volumeQuotaRuleDeserializer(result.body);
 }
+
 /** Create the specified quota rule within the given volume */
 export function create(
   context: Client,
@@ -310,7 +310,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<VolumeQuotaRule>, VolumeQuotaRule>;
 }
 
@@ -332,7 +332,7 @@ export function _getSend(
       poolName: poolName,
       volumeName: volumeName,
       volumeQuotaRuleName: volumeQuotaRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -357,6 +357,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vo
 
   return volumeQuotaRuleDeserializer(result.body);
 }
+
 /** Get details of the specified quota rule */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a CommunityEndpointResource
  *
  * @summary get a CommunityEndpointResource
- * x-ms-original-file: 2026-03-01-preview/CommunityEndpoints_Get.json
+ * x-ms-original-file: 2026-04-01/CommunityEndpoints_Get.json
  */
 async function communityEndpointsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

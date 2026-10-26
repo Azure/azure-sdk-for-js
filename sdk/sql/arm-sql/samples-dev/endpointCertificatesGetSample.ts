@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a certificate used on the endpoint with the given id.
  *
  * @summary gets a certificate used on the endpoint with the given id.
- * x-ms-original-file: 2025-01-01/EndpointCertificatesGet.json
+ * x-ms-original-file: 2025-08-01-preview/EndpointCertificatesGet.json
  */
 async function getsAnEndpointCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,8 +18,23 @@ async function getsAnEndpointCertificate(): Promise<void> {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to gets a certificate used on the endpoint with the given id.
+ *
+ * @summary gets a certificate used on the endpoint with the given id.
+ * x-ms-original-file: 2025-08-01-preview/EndpointCertificatesGetWithTrustedRootCertificate.json
+ */
+async function getsAnEndpointCertificateIncludingTrustedRootCertificates(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "38e0dc56-907f-45ba-a97c-74233baad471";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  const result = await client.endpointCertificates.get("testrg", "testcl", "DATABASE_MIRRORING");
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await getsAnEndpointCertificate();
+  await getsAnEndpointCertificateIncludingTrustedRootCertificates();
 }
 
 main().catch(console.error);

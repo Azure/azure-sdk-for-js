@@ -88,7 +88,7 @@ export const assertData = (actual: MonitorBase, expected: MonitorBase): void => 
 };
 
 export const assertTrace = (actual: Envelope[], expectation: Expectation): void => {
-  let envelope: Envelope[] = [];
+  let envelope: Envelope[];
   if (hasName(expectation.data?.baseData)) {
     const expectedName = (expectation.data!.baseData as any).name;
     envelope = actual.filter(
@@ -103,7 +103,7 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
   const operationId = envelope[0].tags![KnownContextTagKeys.AiOperationId];
 
   for (const child of expectation.children) {
-    let childEnvelopes: Envelope[] = [];
+    let childEnvelopes: Envelope[];
     const spanId = (envelope[0].data!.baseData as RequestData).id;
     if (hasName(child.data?.baseData)) {
       const childName = (child.data!.baseData as any).name;
@@ -142,7 +142,7 @@ export const assertCount = (actual: Envelope[], expectations: Expectation[]): vo
 
 export const assertTraceExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
   for (const expectation of expectations) {
-    let envelope: Envelope[] = [];
+    let envelope: Envelope[];
 
     if (hasName(expectation.data?.baseData)) {
       const expectedName = (expectation.data!.baseData as any).name;
@@ -188,7 +188,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
 
 export const assertMetricExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
   for (const expectation of expectations) {
-    let envelope: Envelope[] = [];
+    let envelope: Envelope[];
     if (
       isMetricsData(expectation.data!.baseData) &&
       (expectation as any).data!.baseData.metrics.length > 0
@@ -235,7 +235,7 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
 
 export const assertLogExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
   for (const expectation of expectations) {
-    let envelope: Envelope[] = [];
+    let envelope: Envelope[];
     if (hasName(expectation.data?.baseData)) {
       const expectedName = (expectation.data!.baseData as any).name;
       envelope = actual.filter(

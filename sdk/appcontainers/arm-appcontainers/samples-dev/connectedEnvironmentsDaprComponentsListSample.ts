@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Dapr Components for a connected environment.
  *
  * @summary get the Dapr Components for a connected environment.
- * x-ms-original-file: 2025-10-02-preview/ConnectedEnvironmentsDaprComponents_List.json
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironmentsDaprComponents_List.json
  */
 async function listDaprComponents(): Promise<void> {
   const credential = new DefaultAzureCredential();

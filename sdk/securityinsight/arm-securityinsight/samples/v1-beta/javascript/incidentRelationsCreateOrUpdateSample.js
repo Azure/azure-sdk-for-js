@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the incident relation.
  *
  * @summary creates or updates the incident relation.
- * x-ms-original-file: 2025-07-01-preview/incidents/relations/CreateIncidentRelation.json
+ * x-ms-original-file: 2025-10-01-preview/incidents/relations/CreateIncidentRelation.json
  */
 async function createsOrUpdatesARelationForAGivenIncident() {
   const credential = new DefaultAzureCredential();

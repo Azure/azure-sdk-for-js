@@ -1,32 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockContext } from "../../api/blockContext.js";
+import type { BlockContext } from "../../api/blockContext.js";
 import {
-  StoragePool,
-  StoragePoolUpdate,
-  StoragePoolHealthInfo,
-  AvsConnection,
-  AvsStatus,
-  StoragePoolEnableAvsConnectionPost,
-  StoragePoolFinalizeAvsConnectionPost,
-} from "../../models/models.js";
-import {
-  StoragePoolsRepairAvsConnectionOptionalParams,
-  StoragePoolsFinalizeAvsConnectionOptionalParams,
-  StoragePoolsDisableAvsConnectionOptionalParams,
-  StoragePoolsEnableAvsConnectionOptionalParams,
-  StoragePoolsGetAvsStatusOptionalParams,
-  StoragePoolsGetAvsConnectionOptionalParams,
-  StoragePoolsGetHealthStatusOptionalParams,
-  StoragePoolsListBySubscriptionOptionalParams,
-  StoragePoolsListByResourceGroupOptionalParams,
-  StoragePoolsDeleteOptionalParams,
-  StoragePoolsUpdateOptionalParams,
-  StoragePoolsCreateOptionalParams,
-  StoragePoolsGetOptionalParams,
-} from "../../api/storagePools/options.js";
-import {
+  configurePlatformConsoleAuth,
+  listPlatformConsoleActivationCode,
   repairAvsConnection,
   finalizeAvsConnection,
   disableAvsConnection,
@@ -41,11 +19,53 @@ import {
   create,
   get,
 } from "../../api/storagePools/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  StoragePoolsConfigurePlatformConsoleAuthOptionalParams,
+  StoragePoolsListPlatformConsoleActivationCodeOptionalParams,
+  StoragePoolsRepairAvsConnectionOptionalParams,
+  StoragePoolsFinalizeAvsConnectionOptionalParams,
+  StoragePoolsDisableAvsConnectionOptionalParams,
+  StoragePoolsEnableAvsConnectionOptionalParams,
+  StoragePoolsGetAvsStatusOptionalParams,
+  StoragePoolsGetAvsConnectionOptionalParams,
+  StoragePoolsGetHealthStatusOptionalParams,
+  StoragePoolsListBySubscriptionOptionalParams,
+  StoragePoolsListByResourceGroupOptionalParams,
+  StoragePoolsDeleteOptionalParams,
+  StoragePoolsUpdateOptionalParams,
+  StoragePoolsCreateOptionalParams,
+  StoragePoolsGetOptionalParams,
+} from "../../api/storagePools/options.js";
+import type {
+  StoragePool,
+  StoragePoolUpdate,
+  StoragePoolHealthInfo,
+  AvsConnection,
+  AvsStatus,
+  StoragePoolEnableAvsConnectionPost,
+  StoragePoolFinalizeAvsConnectionPost,
+  PlatformConsoleActivationCode,
+  PlatformConsoleAuthConfigUnion,
+  PlatformConsoleAuthResultUnion,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StoragePools operations. */
 export interface StoragePoolsOperations {
+  /** Configure authentication settings for platform console access to the storage pool */
+  configurePlatformConsoleAuth: (
+    resourceGroupName: string,
+    storagePoolName: string,
+    config: PlatformConsoleAuthConfigUnion,
+    options?: StoragePoolsConfigurePlatformConsoleAuthOptionalParams,
+  ) => Promise<PlatformConsoleAuthResultUnion>;
+  /** Returns a one-time activation code for platform console access to the storage pool */
+  listPlatformConsoleActivationCode: (
+    resourceGroupName: string,
+    storagePoolName: string,
+    options?: StoragePoolsListPlatformConsoleActivationCodeOptionalParams,
+  ) => Promise<PlatformConsoleActivationCode>;
   /** Test and repair, if needed, all configuration elements of the storage pool connection to the AVS instance */
   repairAvsConnection: (
     resourceGroupName: string,
@@ -100,11 +120,6 @@ export interface StoragePoolsOperations {
     options?: StoragePoolsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<StoragePool>;
   /** Delete a storage pool */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storagePoolName: string,
@@ -131,9 +146,19 @@ export interface StoragePoolsOperations {
     options?: StoragePoolsGetOptionalParams,
   ) => Promise<StoragePool>;
 }
-
 function _getStoragePools(context: BlockContext) {
   return {
+    configurePlatformConsoleAuth: (
+      resourceGroupName: string,
+      storagePoolName: string,
+      config: PlatformConsoleAuthConfigUnion,
+      options?: StoragePoolsConfigurePlatformConsoleAuthOptionalParams,
+    ) => configurePlatformConsoleAuth(context, resourceGroupName, storagePoolName, config, options),
+    listPlatformConsoleActivationCode: (
+      resourceGroupName: string,
+      storagePoolName: string,
+      options?: StoragePoolsListPlatformConsoleActivationCodeOptionalParams,
+    ) => listPlatformConsoleActivationCode(context, resourceGroupName, storagePoolName, options),
     repairAvsConnection: (
       resourceGroupName: string,
       storagePoolName: string,
@@ -201,7 +226,6 @@ function _getStoragePools(context: BlockContext) {
     ) => get(context, resourceGroupName, storagePoolName, options),
   };
 }
-
 export function _getStoragePoolsOperations(context: BlockContext): StoragePoolsOperations {
   return {
     ..._getStoragePools(context),

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Java Component.
  *
  * @summary get a Java Component.
- * x-ms-original-file: 2025-10-02-preview/JavaComponents_Get.json
+ * x-ms-original-file: 2026-07-01/JavaComponents_Get.json
  */
 async function getJavaComponent(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getJavaComponent(): Promise<void> {
  * This sample demonstrates how to get a Java Component.
  *
  * @summary get a Java Component.
- * x-ms-original-file: 2025-10-02-preview/JavaComponents_Get_ServiceBind.json
+ * x-ms-original-file: 2026-07-01/JavaComponents_Get_ServiceBind.json
  */
 async function getJavaComponentWithServiceBinds(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patches a Managed Environment using JSON Merge Patch
  *
  * @summary patches a Managed Environment using JSON Merge Patch
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironments_Patch.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironments_Patch.json
  */
 async function patchManagedEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();

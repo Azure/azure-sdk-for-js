@@ -27,6 +27,7 @@ export interface SkuMixPlacementScoresOperations {
     options?: SkuMixPlacementScoresGetOptionalParams,
   ) => Promise<SkuMixPlacementBase>;
 }
+
 function _getSkuMixPlacementScores(context: ComputeRecommenderManagementContext) {
   return {
     post: (
@@ -38,6 +39,7 @@ function _getSkuMixPlacementScores(context: ComputeRecommenderManagementContext)
       get(context, location, options),
   };
 }
+
 export function _getSkuMixPlacementScoresOperations(
   context: ComputeRecommenderManagementContext,
 ): SkuMixPlacementScoresOperations {

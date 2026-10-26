@@ -84,6 +84,7 @@ export async function _updateImmutabilityPolicyLockDeserialize(
 
   return snapshotDeserializer(result.body);
 }
+
 /** Locks the immutability policy of a snapshot. Once locked, the policy cannot be reduced or removed until the lock period expires. */
 export function updateImmutabilityPolicyLock(
   context: Client,
@@ -155,6 +156,7 @@ export async function _updateImmutabilityPolicyDeserialize(
 
   return snapshotDeserializer(result.body);
 }
+
 /** Updates the immutability policy of a snapshot. Sets or extends an unlocked immutability policy with the specified duration and type. If the snapshot already has a locked policy, the request will be rejected. Use updateImmutabilityPolicyLock to lock an immutability policy. */
 export function updateImmutabilityPolicy(
   context: Client,
@@ -218,6 +220,7 @@ export async function _revokeAccessDeserialize(result: PathUncheckedResponse): P
 
   return;
 }
+
 /** Revokes access to a snapshot. */
 export function revokeAccess(
   context: Client,
@@ -274,6 +277,7 @@ export async function _grantAccessDeserialize(result: PathUncheckedResponse): Pr
 
   return accessUriDeserializer(result.body);
 }
+
 /** Grants access to a snapshot. */
 export function grantAccess(
   context: Client,
@@ -325,6 +329,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _snapshotListDeserializer(result.body);
 }
+
 /** Lists snapshots under a subscription. */
 export function list(
   context: Client,
@@ -376,6 +381,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _snapshotListDeserializer(result.body);
 }
+
 /** Lists snapshots under a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -425,6 +431,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a snapshot. */
 export function $delete(
   context: Client,
@@ -481,6 +488,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return snapshotDeserializer(result.body);
 }
+
 /** Updates (patches) a snapshot. */
 export function update(
   context: Client,
@@ -539,6 +547,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return snapshotDeserializer(result.body);
 }
+
 /** Creates or updates a snapshot. */
 export function createOrUpdate(
   context: Client,
@@ -594,6 +603,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sn
 
   return snapshotDeserializer(result.body);
 }
+
 /** Gets information about a snapshot. */
 export async function get(
   context: Client,

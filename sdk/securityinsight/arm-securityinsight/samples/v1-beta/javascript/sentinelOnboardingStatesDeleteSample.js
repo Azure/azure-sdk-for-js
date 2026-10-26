@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete Sentinel onboarding state
  *
  * @summary delete Sentinel onboarding state
- * x-ms-original-file: 2025-07-01-preview/onboardingStates/DeleteSentinelOnboardingState.json
+ * x-ms-original-file: 2025-10-01-preview/onboardingStates/DeleteSentinelOnboardingState.json
  */
 async function deleteSentinelOnboardingState() {
   const credential = new DefaultAzureCredential();

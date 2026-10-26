@@ -47,7 +47,6 @@ export interface JobTargetGroupsOperations {
     options?: JobTargetGroupsGetOptionalParams,
   ) => Promise<JobTargetGroup>;
 }
-
 function _getJobTargetGroups(context: SqlManagementContext) {
   return {
     listByAgent: (
@@ -89,7 +88,6 @@ function _getJobTargetGroups(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, jobAgentName, targetGroupName, options),
   };
 }
-
 export function _getJobTargetGroupsOperations(
   context: SqlManagementContext,
 ): JobTargetGroupsOperations {

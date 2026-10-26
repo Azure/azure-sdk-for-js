@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the properties of a Container App.
  *
  * @summary get the properties of a Container App.
- * x-ms-original-file: 2025-10-02-preview/ContainerApps_Get1.json
+ * x-ms-original-file: 2026-07-01/ContainerApps_Get1.json
  */
 async function getContainerApp(): Promise<void> {
   const credential = new DefaultAzureCredential();

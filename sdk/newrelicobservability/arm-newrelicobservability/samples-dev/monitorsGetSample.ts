@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the properties and configuration details of a specific New Relic monitor resource, providing insight into its setup and status
  *
  * @summary retrieves the properties and configuration details of a specific New Relic monitor resource, providing insight into its setup and status
- * x-ms-original-file: 2025-05-01-preview/Monitors_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_Get_MaximumSet_Gen.json
  */
 async function monitorsGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

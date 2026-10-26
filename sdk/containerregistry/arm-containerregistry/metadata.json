@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ContainerRegistry": "2026-03-01-preview"
+    "Microsoft.ContainerRegistry": "2026-09-01-preview"
   },
-  "emitterVersion": "0.55.0",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerRegistry",
     "CrossLanguageDefinitionId": {
@@ -97,6 +97,8 @@
       "@azure/arm-containerregistry!StatusDetailProperties:interface": "Microsoft.ContainerRegistry.StatusDetailProperties",
       "@azure/arm-containerregistry!GarbageCollectionProperties:interface": "Microsoft.ContainerRegistry.GarbageCollectionProperties",
       "@azure/arm-containerregistry!RegistrySyncResult:interface": "Microsoft.ContainerRegistry.RegistrySyncResult",
+      "@azure/arm-containerregistry!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
+      "@azure/arm-containerregistry!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
       "@azure/arm-containerregistry!ConnectedRegistryUpdateParameters:interface": "Microsoft.ContainerRegistry.ConnectedRegistryUpdateParameters",
       "@azure/arm-containerregistry!ConnectedRegistryUpdateProperties:interface": "Microsoft.ContainerRegistry.ConnectedRegistryUpdateProperties",
       "@azure/arm-containerregistry!SyncUpdateProperties:interface": "Microsoft.ContainerRegistry.SyncUpdateProperties",
@@ -193,12 +195,14 @@
       "@azure/arm-containerregistry!KnownConnectedRegistryMode:enum": "Microsoft.ContainerRegistry.ConnectedRegistryMode",
       "@azure/arm-containerregistry!KnownConnectionState:enum": "Microsoft.ContainerRegistry.ConnectionState",
       "@azure/arm-containerregistry!KnownActivationStatus:enum": "Microsoft.ContainerRegistry.ActivationStatus",
+      "@azure/arm-containerregistry!KnownAuthType:enum": "Microsoft.ContainerRegistry.AuthType",
       "@azure/arm-containerregistry!KnownTlsStatus:enum": "Microsoft.ContainerRegistry.TlsStatus",
       "@azure/arm-containerregistry!KnownCertificateType:enum": "Microsoft.ContainerRegistry.CertificateType",
       "@azure/arm-containerregistry!KnownLogLevel:enum": "Microsoft.ContainerRegistry.LogLevel",
       "@azure/arm-containerregistry!KnownAuditLogStatus:enum": "Microsoft.ContainerRegistry.AuditLogStatus",
       "@azure/arm-containerregistry!KnownSyncTrigger:enum": "Microsoft.ContainerRegistry.SyncTrigger",
       "@azure/arm-containerregistry!KnownSyncState:enum": "Microsoft.ContainerRegistry.SyncState",
+      "@azure/arm-containerregistry!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
       "@azure/arm-containerregistry!KnownTokenCertificateName:enum": "Microsoft.ContainerRegistry.TokenCertificateName",
       "@azure/arm-containerregistry!KnownTokenStatus:enum": "Microsoft.ContainerRegistry.TokenStatus",
       "@azure/arm-containerregistry!KnownStorageAccessMode:enum": "Microsoft.ContainerRegistry.StorageAccessMode",
@@ -210,6 +214,7 @@
       "@azure/arm-containerregistry!KnownWebhookStatus:enum": "Microsoft.ContainerRegistry.WebhookStatus",
       "@azure/arm-containerregistry!KnownWebhookAction:enum": "Microsoft.ContainerRegistry.WebhookAction",
       "@azure/arm-containerregistry!KnownVersions:enum": "Microsoft.ContainerRegistry.Versions",
+      "@azure/arm-containerregistry!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
       "@azure/arm-containerregistry!WebhooksOperations#getCallbackConfig:member": "Microsoft.ContainerRegistry.Webhooks.getCallbackConfig",
       "@azure/arm-containerregistry!WebhooksOperations#listEvents:member": "Microsoft.ContainerRegistry.Webhooks.listEvents",
       "@azure/arm-containerregistry!WebhooksOperations#ping:member": "Microsoft.ContainerRegistry.Webhooks.ping",

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Azure resources that are currently being monitored by the specified New Relic monitor resource, providing insight into the coverage of your observability setup
  *
  * @summary lists all Azure resources that are currently being monitored by the specified New Relic monitor resource, providing insight into the coverage of your observability setup
- * x-ms-original-file: 2025-05-01-preview/Monitors_ListMonitoredResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_ListMonitoredResources_MaximumSet_Gen.json
  */
 async function monitorsListMonitoredResourcesMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function monitorsListMonitoredResourcesMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to lists all Azure resources that are currently being monitored by the specified New Relic monitor resource, providing insight into the coverage of your observability setup
  *
  * @summary lists all Azure resources that are currently being monitored by the specified New Relic monitor resource, providing insight into the coverage of your observability setup
- * x-ms-original-file: 2025-05-01-preview/Monitors_ListMonitoredResources_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_ListMonitoredResources_MinimumSet_Gen.json
  */
 async function monitorsListMonitoredResourcesMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

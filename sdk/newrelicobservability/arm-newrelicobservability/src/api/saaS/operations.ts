@@ -25,7 +25,7 @@ export function _activateResourceSend(
     "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/activateSaaS{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -54,7 +54,6 @@ export async function _activateResourceDeserialize(
 
   return saaSResourceDetailsResponseDeserializer(result.body);
 }
-
 /** Resolve the token to get the SaaS resource ID and activate the SaaS resource */
 export async function activateResource(
   context: Client,

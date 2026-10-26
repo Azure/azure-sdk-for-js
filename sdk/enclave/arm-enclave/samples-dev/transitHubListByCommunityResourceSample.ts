@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list TransitHubResource resources by CommunityResource
  *
  * @summary list TransitHubResource resources by CommunityResource
- * x-ms-original-file: 2026-03-01-preview/TransitHub_ListByCommunityResource.json
+ * x-ms-original-file: 2026-04-01/TransitHub_ListByCommunityResource.json
  */
 async function transitHubListByCommunityResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

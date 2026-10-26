@@ -54,6 +54,10 @@ describe("Highlevel", () => {
       },
       ["playback", "record"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder, {
       keepAliveOptions: {
         enable: true,

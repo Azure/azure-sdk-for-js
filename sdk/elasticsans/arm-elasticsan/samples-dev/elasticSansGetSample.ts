@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a ElasticSan.
  *
  * @summary get a ElasticSan.
- * x-ms-original-file: 2025-09-01/ElasticSans_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/ElasticSans_V1_Get_MaximumSet_Gen.json
  */
-async function elasticSansGetMaximumSetGen(): Promise<void> {
+async function elasticSansV1GetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -22,9 +22,37 @@ async function elasticSansGetMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to get a ElasticSan.
  *
  * @summary get a ElasticSan.
- * x-ms-original-file: 2025-09-01/ElasticSans_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/ElasticSans_V1_Get_MinimumSet_Gen.json
  */
-async function elasticSansGetMinimumSetGen(): Promise<void> {
+async function elasticSansV1GetMinimumSetGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanManagement(credential, subscriptionId);
+  const result = await client.elasticSans.get("resourcegroupname", "elasticsanname");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get a ElasticSan.
+ *
+ * @summary get a ElasticSan.
+ * x-ms-original-file: 2026-05-01-preview/ElasticSans_V2_Get_MaximumSet_Gen.json
+ */
+async function elasticSansV2GetMaximumSetGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanManagement(credential, subscriptionId);
+  const result = await client.elasticSans.get("resourcegroupname", "elasticsanname");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get a ElasticSan.
+ *
+ * @summary get a ElasticSan.
+ * x-ms-original-file: 2026-05-01-preview/ElasticSans_V2_Get_MinimumSet_Gen.json
+ */
+async function elasticSansV2GetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -33,8 +61,10 @@ async function elasticSansGetMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await elasticSansGetMaximumSetGen();
-  await elasticSansGetMinimumSetGen();
+  await elasticSansV1GetMaximumSetGen();
+  await elasticSansV1GetMinimumSetGen();
+  await elasticSansV2GetMaximumSetGen();
+  await elasticSansV2GetMinimumSetGen();
 }
 
 main().catch(console.error);

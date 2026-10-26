@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 export {
+  configurePlatformConsoleAuth,
+  listPlatformConsoleActivationCode,
   repairAvsConnection,
   finalizeAvsConnection,
   disableAvsConnection,
@@ -16,18 +18,20 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type StoragePoolsRepairAvsConnectionOptionalParams,
-  type StoragePoolsFinalizeAvsConnectionOptionalParams,
-  type StoragePoolsDisableAvsConnectionOptionalParams,
-  type StoragePoolsEnableAvsConnectionOptionalParams,
-  type StoragePoolsGetAvsStatusOptionalParams,
-  type StoragePoolsGetAvsConnectionOptionalParams,
-  type StoragePoolsGetHealthStatusOptionalParams,
-  type StoragePoolsListBySubscriptionOptionalParams,
-  type StoragePoolsListByResourceGroupOptionalParams,
-  type StoragePoolsDeleteOptionalParams,
-  type StoragePoolsUpdateOptionalParams,
-  type StoragePoolsCreateOptionalParams,
-  type StoragePoolsGetOptionalParams,
+export type {
+  StoragePoolsConfigurePlatformConsoleAuthOptionalParams,
+  StoragePoolsListPlatformConsoleActivationCodeOptionalParams,
+  StoragePoolsRepairAvsConnectionOptionalParams,
+  StoragePoolsFinalizeAvsConnectionOptionalParams,
+  StoragePoolsDisableAvsConnectionOptionalParams,
+  StoragePoolsEnableAvsConnectionOptionalParams,
+  StoragePoolsGetAvsStatusOptionalParams,
+  StoragePoolsGetAvsConnectionOptionalParams,
+  StoragePoolsGetHealthStatusOptionalParams,
+  StoragePoolsListBySubscriptionOptionalParams,
+  StoragePoolsListByResourceGroupOptionalParams,
+  StoragePoolsDeleteOptionalParams,
+  StoragePoolsUpdateOptionalParams,
+  StoragePoolsCreateOptionalParams,
+  StoragePoolsGetOptionalParams,
 } from "./options.js";

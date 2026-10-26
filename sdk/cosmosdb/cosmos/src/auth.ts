@@ -80,10 +80,7 @@ export async function setAuthorizationTokenHeaderUsingMasterKey(
   if (resourceType === ResourceType.offer) {
     resourceId = resourceId && resourceId.toLowerCase();
   }
-  headers = Object.assign(
-    headers,
-    await generateHeaders(masterKey, verb, resourceType, resourceId),
-  );
+  Object.assign(headers, await generateHeaders(masterKey, verb, resourceType, resourceId));
 }
 
 /**

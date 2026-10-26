@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a gallery image.
  *
  * @summary delete a gallery image.
- * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImage_Delete.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryImage_Delete.json
  */
 async function deleteAGalleryImage() {
   const credential = new DefaultAzureCredential();

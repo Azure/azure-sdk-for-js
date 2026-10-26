@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified deleted managed HSM.
  *
  * @summary gets the specified deleted managed HSM.
- * x-ms-original-file: 2026-02-01/DeletedManagedHsm_Get.json
+ * x-ms-original-file: 2026-05-15/DeletedManagedHsm_Get.json
  */
 async function retrieveADeletedManagedHSM(): Promise<void> {
   const credential = new DefaultAzureCredential();

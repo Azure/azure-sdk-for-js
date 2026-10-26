@@ -10,7 +10,6 @@ trigger:
   paths:
     include:
       - sdk/batch/ci.yml
-      - sdk/batch/batch-rest
       - sdk/batch/batch
 
 pr:
@@ -24,7 +23,6 @@ pr:
   paths:
     include:
       - sdk/batch/ci.yml
-      - sdk/batch/batch-rest
       - sdk/batch/batch
 
 extends:
@@ -32,9 +30,5 @@ extends:
   parameters:
     ServiceDirectory: batch
     Artifacts:
-      - name: azure-rest-batch
-        safeName: azurerestbatch
-        triggeringPaths:
-        - /common/tools/warp/
       - name: azure-batch
         safeName: azurebatch

@@ -32,7 +32,7 @@ export function _getSend(
       location: location,
       giversionname: giversionname,
       giMinorVersionName: giMinorVersionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -40,10 +40,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -51,7 +48,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Gi
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -77,14 +77,17 @@ export function _listByParentSend(
   options: GiMinorVersionsListByParentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/giVersions/{giversionname}/giMinorVersions{?api%2Dversion,shapeFamily,zone}",
+    "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/giVersions/{giversionname}/giMinorVersions{?api%2Dversion,shapeFamily,zone,shape,isGiVersionForProvisioning,sortOrder}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
       giversionname: giversionname,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       shapeFamily: options?.shapeFamily,
       zone: options?.zone,
+      shape: options?.shape,
+      isGiVersionForProvisioning: options?.isGiVersionForProvisioning,
+      sortOrder: options?.sortOrder,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -92,10 +95,7 @@ export function _listByParentSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -105,7 +105,10 @@ export async function _listByParentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -124,6 +127,6 @@ export function listByParent(
     () => _listByParentSend(context, location, giversionname, options),
     _listByParentDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

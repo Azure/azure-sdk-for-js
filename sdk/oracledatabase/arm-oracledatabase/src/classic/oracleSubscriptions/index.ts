@@ -55,11 +55,6 @@ export interface OracleSubscriptionsOperations {
     options?: OracleSubscriptionsListCloudAccountDetailsOptionalParams,
   ) => PollerLike<OperationState<CloudAccountDetails>, CloudAccountDetails>;
   /** Delete a OracleSubscription */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     options?: OracleSubscriptionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;

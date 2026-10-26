@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation creates or updates a policy set definition in the given management group with the given name.
  *
  * @summary this operation creates or updates a policy set definition in the given management group with the given name.
- * x-ms-original-file: 2025-03-01/createOrUpdatePolicySetDefinitionAtManagementGroup.json
+ * x-ms-original-file: 2026-06-01/createOrUpdatePolicySetDefinitionAtManagementGroup.json
  */
 async function createOrUpdateAPolicySetDefinitionAtManagementGroupLevel(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -43,7 +43,7 @@ async function createOrUpdateAPolicySetDefinitionAtManagementGroupLevel(): Promi
  * This sample demonstrates how to this operation creates or updates a policy set definition in the given management group with the given name.
  *
  * @summary this operation creates or updates a policy set definition in the given management group with the given name.
- * x-ms-original-file: 2025-03-01/createOrUpdatePolicySetDefinitionWithGroupsAtManagementGroup.json
+ * x-ms-original-file: 2026-06-01/createOrUpdatePolicySetDefinitionWithGroupsAtManagementGroup.json
  */
 async function createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLevel(): Promise<void> {
   const credential = new DefaultAzureCredential();

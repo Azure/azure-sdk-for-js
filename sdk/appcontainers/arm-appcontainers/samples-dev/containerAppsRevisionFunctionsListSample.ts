@@ -5,10 +5,10 @@ import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list the functions for a given Container App Revision.
+ * This sample demonstrates how to lists the functions available in a specific Container App revision.
  *
- * @summary list the functions for a given Container App Revision.
- * x-ms-original-file: 2025-10-02-preview/ContainerAppsRevisionFunctions_List.json
+ * @summary lists the functions available in a specific Container App revision.
+ * x-ms-original-file: 2026-07-01/ContainerAppsRevisionFunctions_List.json
  */
 async function listContainerAppRevisionFunctions(): Promise<void> {
   const credential = new DefaultAzureCredential();

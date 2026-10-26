@@ -3,13 +3,28 @@
 
 import type { DurableTaskClient } from "./durableTaskClient.js";
 import {
+  _forceFailoverAllowDataLossDeserialize,
+  _failoverDeserialize,
   _$deleteDeserialize,
-  _updateDeserialize,
   _createOrReplaceDeserialize,
+} from "./api/failoverInstances/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeTransparentDataEncryptions,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializeTransparentDataEncryptions,
+} from "./api/transparentDataEncryptions/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeRetentionPolicies,
+  _updateDeserialize,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializeRetentionPolicies,
 } from "./api/retentionPolicies/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializeTaskHubs,
+  _$deleteDeserialize as _$deleteDeserializeTaskQueues,
+  _updateDeserialize as _updateDeserializeTaskQueues,
   _createOrUpdateDeserialize,
+} from "./api/taskQueues/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeTaskHubs,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeTaskHubs,
 } from "./api/taskHubs/operations.js";
 import {
   _deletePrivateEndpointConnectionDeserialize,
@@ -89,16 +104,46 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/failoverInstances/default/forceFailoverAllowDataLoss":
+    {
+      deserializer: _forceFailoverAllowDataLossDeserialize,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/failoverInstances/default/failover":
+    { deserializer: _failoverDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/failoverInstances/default":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/failoverInstances/default":
+    { deserializer: _createOrReplaceDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/transparentDataEncryptions/default":
+    {
+      deserializer: _$deleteDeserializeTransparentDataEncryptions,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/transparentDataEncryptions/default":
+    {
+      deserializer: _createOrReplaceDeserializeTransparentDataEncryptions,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default":
+    { deserializer: _$deleteDeserializeRetentionPolicies, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default":
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default":
-    { deserializer: _createOrReplaceDeserialize, expectedStatuses: ["200", "201", "202"] },
+    {
+      deserializer: _createOrReplaceDeserializeRetentionPolicies,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}/taskQueues/{taskQueueName}":
+    { deserializer: _$deleteDeserializeTaskQueues, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}/taskQueues/{taskQueueName}":
+    { deserializer: _updateDeserializeTaskQueues, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}/taskQueues/{taskQueueName}":
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}":
     { deserializer: _$deleteDeserializeTaskHubs, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}":
-    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+    { deserializer: _createOrUpdateDeserializeTaskHubs, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
       deserializer: _deletePrivateEndpointConnectionDeserialize,

@@ -81,6 +81,7 @@ export interface JWTAuthenticatorsOperations {
     options?: JWTAuthenticatorsGetOptionalParams,
   ) => Promise<JWTAuthenticator>;
 }
+
 function _getJWTAuthenticators(context: ContainerServiceContext) {
   return {
     listByManagedCluster: (
@@ -175,6 +176,7 @@ function _getJWTAuthenticators(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, jwtAuthenticatorName, options),
   };
 }
+
 export function _getJWTAuthenticatorsOperations(
   context: ContainerServiceContext,
 ): JWTAuthenticatorsOperations {

@@ -357,6 +357,29 @@ export interface OnConnectedArgs {
 }
 
 /**
+ * Arguments for the recovering event, emitted once before the first attempt to
+ * recover an interrupted logical connection using a reliable subprotocol.
+ */
+export interface OnRecoveringArgs {
+  /**
+   * The ID of the logical connection being recovered.
+   */
+  connectionId: string;
+}
+
+/**
+ * Arguments for the recovered event, emitted when the active recovery socket
+ * opens for the same logical connection. This does not indicate that retained
+ * message replay or application synchronization is complete.
+ */
+export interface OnRecoveredArgs {
+  /**
+   * The ID of the logical connection that was recovered.
+   */
+  connectionId: string;
+}
+
+/**
  * Parameter of OnDisconnected callback
  */
 export interface OnDisconnectedArgs {

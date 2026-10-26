@@ -1,6 +1,29 @@
 # Release History
 
-## 1.20.0 (Unreleased)
+## 1.21.0 (Unreleased)
+
+### Features Added
+
+- Added OneSettings `FEATURE_LIVE_METRICS` control of QuickPulse polling, collection, and publishing, preserving local opt-outs and the last valid state when settings are missing or invalid. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Live Metrics subscriptions and background metric collectors are now cleaned up on distro shutdown and reinitialization. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
+
+### Other Changes
+
+- Updated to using exporter version 1.0.0-beta.47. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
+
+## 1.20.1 (2026-10-05)
+
+### Bugs Fixed
+
+- Disabled integrations no longer collect telemetry after shutdown and reinitialization. Instrumentation hooks are reused when re-enabled, and the Azure SDK bridge follows its instrumentation's lifecycle without replacing customer-installed instrumenters during cleanup. [#39936](https://github.com/Azure/azure-sdk-for-js/issues/39936)
+- Fixed Live Metrics treating successful empty responses as failures and remaining on a 60-second collection interval after recovering from an outage. Recovery now restores one-second collection without losing filtering configuration, buffered telemetry, or pending metric data. [#39973](https://github.com/Azure/azure-sdk-for-js/issues/39973)
+
+## 1.20.0 (2026-09-04)
 
 ### Features Added
 
@@ -11,9 +34,11 @@
 
 - Fixed incorrect performance-counter sampling by giving standard and normalized process CPU counters independent state and initializing the first request and exception rate intervals with the current time. [#39520](https://github.com/Azure/azure-sdk-for-js/pull/39520)
 - Fixed a failed IMDS request being recorded as a dependency when running on App Service, Functions, and Container Apps. The Azure VM resource detector now runs only when no other detector has identified the platform. [#39510](https://github.com/Azure/azure-sdk-for-js/issues/39510)
+- The built-in `BatchSpanProcessor` now respects the standard OpenTelemetry `OTEL_BSP_*` environment variables. [#39607](https://github.com/Azure/azure-sdk-for-js/issues/39607)
 
 ### Other Changes
 
+- Updated OpenTelemetry stable dependencies to `^2.10.0`, experimental dependencies to `^0.221.0`, semantic conventions to `^1.43.0`, and bundled contrib instrumentations, resource detector, and Winston transport to their latest compatible versions. [#39649](https://github.com/Azure/azure-sdk-for-js/pull/39649)
 - Updated to using exporter version 1.0.0-beta.45.
 
 ## 1.19.0 (2026-07-29)

@@ -1,14 +1,12 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0 (2026-08-26)
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+This is the first stable release of `@azure/postgresql-auth`. The API surface is unchanged from `1.0.0-beta.1`.
 
 ### Other Changes
+
+- The minimum supported Node.js version is now 22.0.0.
 
 ## 1.0.0-beta.1 (2026-04-28)
 

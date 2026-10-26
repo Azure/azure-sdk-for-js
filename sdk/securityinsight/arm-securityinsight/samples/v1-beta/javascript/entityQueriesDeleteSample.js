@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the entity query.
  *
  * @summary delete the entity query.
- * x-ms-original-file: 2025-07-01-preview/entityQueries/DeleteEntityQuery.json
+ * x-ms-original-file: 2025-10-01-preview/entityQueries/DeleteEntityQuery.json
  */
 async function deleteAnEntityQuery() {
   const credential = new DefaultAzureCredential();

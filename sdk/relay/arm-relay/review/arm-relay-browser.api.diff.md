@@ -19,7 +19,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export enum KnownAccessRights {
      Listen = "Listen",
-@@ -526,9 +527,9 @@
+@@ -533,9 +534,9 @@
  
  // @public
  export interface RegenerateAccessKeyParameters {

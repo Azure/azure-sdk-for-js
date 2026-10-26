@@ -50,7 +50,6 @@ export function retryPolicy(
 
       retryRequest: while (true) {
         retryCount += 1;
-        response = undefined;
         responseError = undefined;
 
         try {

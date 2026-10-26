@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list MonitoredSubscriptionProperties resources by NewRelicMonitorResource
  *
  * @summary list MonitoredSubscriptionProperties resources by NewRelicMonitorResource
- * x-ms-original-file: 2025-05-01-preview/MonitoredSubscriptions_List.json
+ * x-ms-original-file: 2026-06-01/MonitoredSubscriptions_List.json
  */
 async function monitorsGetMonitoredSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();

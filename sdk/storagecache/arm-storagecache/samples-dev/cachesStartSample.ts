@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to tells a Stopped state cache to transition to Active state.
  *
  * @summary tells a Stopped state cache to transition to Active state.
- * x-ms-original-file: 2026-01-01/Caches_Start.json
+ * x-ms-original-file: 2026-08-01/Caches_Start.json
  */
 async function cachesStart(): Promise<void> {
   const credential = new DefaultAzureCredential();

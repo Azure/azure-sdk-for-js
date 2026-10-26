@@ -68,7 +68,7 @@ See [choosing a pricing tier](https://learn.microsoft.com/azure/search/search-sk
 
 ### Authenticate the client
 
-To interact with the search service, you'll need to create an instance of the appropriate client class: `SearchClient` for searching indexed documents, `SearchIndexClient` for managing indexes, or `SearchIndexerClient` for crawling data sources and loading search documents into an index. To instantiate a client object, you'll need an **endpoint** and **Azure roles** or an **API key**. You can refer to the documentation for more information on [supported authenticating approaches](https://learn.microsoft.com/azure/search/search-security-overview#authentication) with the search service.
+To interact with the search service, create the appropriate client: `SearchClient` for documents, `SearchIndexClient` for indexes and knowledge resources, `SearchIndexerClient` for data sources/indexers/skillsets, or `KnowledgeRetrievalClient` for knowledge-base retrieval. To instantiate a client object, you'll need an **endpoint** and **Azure roles** or an **API key**. You can refer to the documentation for more information on [supported authenticating approaches](https://learn.microsoft.com/azure/search/search-security-overview#authentication) with the search service.
 
 #### Get an API Key
 
@@ -94,6 +94,7 @@ import {
   AzureKeyCredential,
   SearchIndexClient,
   SearchIndexerClient,
+  KnowledgeRetrievalClient,
 } from "@azure/search-documents";
 
 // To query and manipulate documents
@@ -108,6 +109,13 @@ const indexClient = new SearchIndexClient("<endpoint>", new AzureKeyCredential("
 
 // To manage indexers, datasources and skillsets
 const indexerClient = new SearchIndexerClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+// To retrieve from a knowledge base
+const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
+  "<endpoint>",
+  "<knowledgeBaseName>",
+  new AzureKeyCredential("<apiKey>"),
+);
 ```
 
 ### Authenticate in a National Cloud
@@ -117,39 +125,47 @@ To authenticate in a [National Cloud](https://learn.microsoft.com/azure/active-d
 - Set the `Audience` in `SearchClientOptions`
 
 ```ts snippet:ReadmeSampleCreateClient_NationalCloud
+import { DefaultAzureCredential } from "@azure/identity";
 import {
   SearchClient,
-  AzureKeyCredential,
   KnownSearchAudience,
   SearchIndexClient,
   SearchIndexerClient,
+  KnowledgeRetrievalClient,
 } from "@azure/search-documents";
 
+const credential = new DefaultAzureCredential({
+  authorityHost: "https://login.chinacloudapi.cn",
+});
+
 // To query and manipulate documents
-const searchClient = new SearchClient(
-  "<endpoint>",
-  "<indexName>",
-  new AzureKeyCredential("<apiKey>"),
-  {
-    audience: KnownSearchAudience.AzureChina,
-  },
-);
+const searchClient = new SearchClient("<endpoint>", "<indexName>", credential, {
+  audience: KnownSearchAudience.AzureChina,
+});
 
 // To manage indexes and synonymmaps
-const indexClient = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"), {
+const indexClient = new SearchIndexClient("<endpoint>", credential, {
   audience: KnownSearchAudience.AzureChina,
 });
 
 // To manage indexers, datasources and skillsets
-const indexerClient = new SearchIndexerClient("<endpoint>", new AzureKeyCredential("<apiKey>"), {
+const indexerClient = new SearchIndexerClient("<endpoint>", credential, {
   audience: KnownSearchAudience.AzureChina,
 });
+
+// To retrieve from a knowledge base
+const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
+  "<endpoint>",
+  "<knowledgeBaseName>",
+  credential,
+  { audience: KnownSearchAudience.AzureChina },
+);
 ```
 
 ## Key concepts
 
 An Azure AI Search service contains one or more indexes that provide persistent storage of searchable data in the form of JSON documents. _(If you're brand new to search, you can make a very rough analogy between indexes and database tables.)_ The @azure/search-documents client library
-exposes operations on these resources through three main client types.
+exposes operations on these resources through four main client types.
 
 - `SearchClient` helps with:
 
@@ -167,12 +183,17 @@ exposes operations on these resources through three main client types.
 
   - [Create, delete, update, or configure a search index](https://learn.microsoft.com/rest/api/searchservice/index-operations)
   - [Declare custom synonym maps to expand or rewrite queries](https://learn.microsoft.com/rest/api/searchservice/synonym-map-operations)
+  - Manage knowledge bases, knowledge sources, and files uploaded to File knowledge sources
 
 - `SearchIndexerClient` allows you to:
   - [Start indexers to automatically crawl data sources](https://learn.microsoft.com/rest/api/searchservice/indexer-operations)
   - [Define AI powered Skillsets to transform and enrich your data](https://learn.microsoft.com/rest/api/searchservice/skillset-operations)
 
-**Note**: These clients cannot function in the browser because the APIs it calls do not have support for Cross-Origin Resource Sharing (CORS).
+- `KnowledgeRetrievalClient` allows you to:
+  - Retrieve from a knowledge base and inspect its activities and references
+  - Stream typed retrieval progress and terminal results as server-sent events
+
+**Note**: Browser use depends on whether the selected Search operation and resource have CORS configured. File knowledge sources and knowledge bases expose CORS settings, but many management operations are intended for trusted server-side applications.
 
 ## TypeScript/JavaScript specific concepts
 
@@ -205,6 +226,73 @@ The following examples demonstrate the basics - please [check out our samples](h
   - [Querying with TypeScript](#querying-with-typescript)
   - [Querying with OData filters](#querying-with-odata-filters)
   - [Querying with facets](#querying-with-facets)
+- [Retrieve from a knowledge base](#retrieve-from-a-knowledge-base)
+- [Stream knowledge retrieval](#stream-knowledge-retrieval)
+- [Upload and update a knowledge source file](#upload-and-update-a-knowledge-source-file)
+
+### Retrieve from a Knowledge Base
+
+```ts snippet:ReadmeSampleRetrieveKnowledge
+import { KnowledgeRetrievalClient, AzureKeyCredential } from "@azure/search-documents";
+
+const client = new KnowledgeRetrievalClient(
+  "<endpoint>",
+  "<knowledgeBaseName>",
+  new AzureKeyCredential("<apiKey>"),
+);
+
+const response = await client.retrieve({
+  intents: [{ type: "semantic", search: "What information is available?" }],
+  retrievalReasoningEffort: { kind: "auto" },
+  includeActivity: true,
+});
+
+console.log(response.response);
+```
+
+### Stream Knowledge Retrieval
+
+```ts snippet:ReadmeSampleRetrieveKnowledgeStream
+import { KnowledgeRetrievalClient, AzureKeyCredential } from "@azure/search-documents";
+
+const client = new KnowledgeRetrievalClient(
+  "<endpoint>",
+  "<knowledgeBaseName>",
+  new AzureKeyCredential("<apiKey>"),
+);
+
+for await (const event of await client.retrieveStream({
+  intents: [{ type: "semantic", search: "Summarize the indexed information." }],
+  includeActivity: true,
+})) {
+  if (event.event === "activity.completed") {
+    console.log(`Activity ${event.data.id} took ${event.data.elapsedInMs}ms`);
+  } else if (event.event === "response.completed") {
+    console.log(event.data.response.response);
+  } else if (event.event === "error") {
+    throw new Error(event.data.error.message);
+  }
+}
+```
+
+### Upload and Update a Knowledge Source File
+
+```ts snippet:ReadmeSampleManageKnowledgeSourceFile
+import { SearchIndexClient, AzureKeyCredential } from "@azure/search-documents";
+
+const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+const body = {
+  metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
+  content: { contents: new Uint8Array([1, 2, 3]), contentType: "text/plain" },
+};
+
+const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+
+await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId!, {
+  ...body,
+  metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
+});
+```
 
 ### Create an Index
 
@@ -378,7 +466,7 @@ const selectWide: SelectFields<Hotel>[] = ["hotelId", "hotelName", "rooms/beds"]
 const selectInvalid = ["hotelId", "hotelName", "rooms/beds"];
 
 for await (const result of searchResults.results) {
-  // result.document has hotelId, hotelName, and rating.
+  // result.document has hotelId, hotelName, and rooms with only the beds property.
   // Trying to access result.document.description would emit a TS error.
   console.log(result.document.hotelName);
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the access keys for the Redis Enterprise database.
  *
  * @summary retrieves the access keys for the Redis Enterprise database.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesListKeys.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesListKeys.json
  */
 async function redisEnterpriseDatabasesListKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();

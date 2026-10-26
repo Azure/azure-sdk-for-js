@@ -3,6 +3,8 @@
 
 import type { PolicyContext, PolicyClientOptionalParams } from "./api/index.js";
 import { createPolicy } from "./api/index.js";
+import type { DataPolicyManifestsOperations } from "./classic/dataPolicyManifests/index.js";
+import { _getDataPolicyManifestsOperations } from "./classic/dataPolicyManifests/index.js";
 import type { PolicyAssignmentsOperations } from "./classic/policyAssignments/index.js";
 import { _getPolicyAssignmentsOperations } from "./classic/policyAssignments/index.js";
 import type { PolicyDefinitionVersionsOperations } from "./classic/policyDefinitionVersions/index.js";
@@ -46,20 +48,14 @@ export class PolicyClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createPolicy(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createPolicy(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.policyTokens = _getPolicyTokensOperations(this._client);
     this.policySetDefinitionVersions = _getPolicySetDefinitionVersionsOperations(this._client);
     this.policySetDefinitions = _getPolicySetDefinitionsOperations(this._client);
     this.policyDefinitionVersions = _getPolicyDefinitionVersionsOperations(this._client);
     this.policyDefinitions = _getPolicyDefinitionsOperations(this._client);
+    this.dataPolicyManifests = _getDataPolicyManifestsOperations(this._client);
     this.policyAssignments = _getPolicyAssignmentsOperations(this._client);
   }
 
@@ -73,6 +69,8 @@ export class PolicyClient {
   public readonly policyDefinitionVersions: PolicyDefinitionVersionsOperations;
   /** The operation groups for policyDefinitions */
   public readonly policyDefinitions: PolicyDefinitionsOperations;
+  /** The operation groups for dataPolicyManifests */
+  public readonly dataPolicyManifests: DataPolicyManifestsOperations;
   /** The operation groups for policyAssignments */
   public readonly policyAssignments: PolicyAssignmentsOperations;
 }

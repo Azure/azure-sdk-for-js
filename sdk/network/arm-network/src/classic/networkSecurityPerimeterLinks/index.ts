@@ -14,7 +14,7 @@ import type {
   NetworkSecurityPerimeterLinksCreateOrUpdateOptionalParams,
   NetworkSecurityPerimeterLinksGetOptionalParams,
 } from "../../api/networkSecurityPerimeterLinks/options.js";
-import type { NspLink } from "../../models/microsoft/network/models.js";
+import type { NspLink } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

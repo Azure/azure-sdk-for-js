@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get Sentinel onboarding state
  *
  * @summary get Sentinel onboarding state
- * x-ms-original-file: 2025-07-01-preview/onboardingStates/GetSentinelOnboardingState.json
+ * x-ms-original-file: 2025-10-01-preview/onboardingStates/GetSentinelOnboardingState.json
  */
 async function getSentinelOnboardingState(): Promise<void> {
   const credential = new DefaultAzureCredential();

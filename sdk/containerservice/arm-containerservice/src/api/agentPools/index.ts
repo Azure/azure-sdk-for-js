@@ -4,6 +4,7 @@
 export {
   getUpgradeProfile,
   getAvailableAgentPoolVersions,
+  update,
   listBootstrapData,
   upgradeNodeImageVersion,
   deleteMachines,
@@ -17,6 +18,7 @@ export {
 export type {
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
+  AgentPoolsUpdateOptionalParams,
   AgentPoolsListBootstrapDataOptionalParams,
   AgentPoolsUpgradeNodeImageVersionOptionalParams,
   AgentPoolsDeleteMachinesOptionalParams,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all Redis Enterprise clusters in the specified subscription.
  *
  * @summary lists all Redis Enterprise clusters in the specified subscription.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseList.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseList.json
  */
 async function redisEnterpriseList() {
   const credential = new DefaultAzureCredential();

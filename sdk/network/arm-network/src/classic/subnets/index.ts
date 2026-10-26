@@ -22,7 +22,7 @@ import type { Subnet } from "../../models/common/models.js";
 import type {
   PrepareNetworkPoliciesRequest,
   UnprepareNetworkPoliciesRequest,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

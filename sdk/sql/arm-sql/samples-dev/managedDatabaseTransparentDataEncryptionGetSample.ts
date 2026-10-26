@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a managed database's transparent data encryption.
  *
  * @summary gets a managed database's transparent data encryption.
- * x-ms-original-file: 2025-01-01/ManagedTransparentDataEncryptionGet.json
+ * x-ms-original-file: 2025-08-01-preview/ManagedTransparentDataEncryptionGet.json
  */
 async function getADatabaseTransparentDataEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();

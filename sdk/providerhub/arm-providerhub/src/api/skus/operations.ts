@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { ProviderHubContext as Client } from "../index.js";
+import type {
   SkuResource,
-  skuResourceSerializer,
-  skuResourceDeserializer,
   _SkuResourceArrayResponseWithContinuation,
-  _skuResourceArrayResponseWithContinuationDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  skuResourceSerializer,
+  skuResourceDeserializer,
+  _skuResourceArrayResponseWithContinuationDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   SkusListByResourceTypeRegistrationsNestedResourceTypeThirdOptionalParams,
   SkusDeleteNestedResourceTypeThirdOptionalParams,
   SkusCreateOrUpdateNestedResourceTypeThirdOptionalParams,
@@ -33,12 +33,8 @@ import {
   SkusCreateOrUpdateNestedResourceTypeFirstOptionalParams,
   SkusGetNestedResourceTypeFirstOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByResourceTypeRegistrationsNestedResourceTypeThirdSend(
   context: Client,
@@ -60,7 +56,7 @@ export function _listByResourceTypeRegistrationsNestedResourceTypeThirdSend(
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       nestedResourceTypeThird: nestedResourceTypeThird,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +74,9 @@ export async function _listByResourceTypeRegistrationsNestedResourceTypeThirdDes
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -112,7 +110,7 @@ export function listByResourceTypeRegistrationsNestedResourceTypeThird(
       ),
     _listByResourceTypeRegistrationsNestedResourceTypeThirdDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
   );
 }
 
@@ -136,7 +134,7 @@ export function _deleteNestedResourceTypeThirdSend(
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       nestedResourceTypeThird: nestedResourceTypeThird,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -151,7 +149,9 @@ export async function _deleteNestedResourceTypeThirdDeserialize(
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -204,7 +204,7 @@ export function _createOrUpdateNestedResourceTypeThirdSend(
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       nestedResourceTypeThird: nestedResourceTypeThird,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -224,7 +224,9 @@ export async function _createOrUpdateNestedResourceTypeThirdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -278,7 +280,7 @@ export function _getNestedResourceTypeThirdSend(
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       nestedResourceTypeThird: nestedResourceTypeThird,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -296,7 +298,9 @@ export async function _getNestedResourceTypeThirdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -346,7 +350,7 @@ export function _listByResourceTypeRegistrationsNestedResourceTypeSecondSend(
       resourceType: resourceType,
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       nestedResourceTypeSecond: nestedResourceTypeSecond,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -364,7 +368,9 @@ export async function _listByResourceTypeRegistrationsNestedResourceTypeSecondDe
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -396,7 +402,7 @@ export function listByResourceTypeRegistrationsNestedResourceTypeSecond(
       ),
     _listByResourceTypeRegistrationsNestedResourceTypeSecondDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
   );
 }
 
@@ -418,7 +424,7 @@ export function _deleteNestedResourceTypeSecondSend(
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -433,7 +439,9 @@ export async function _deleteNestedResourceTypeSecondDeserialize(
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -482,7 +490,7 @@ export function _createOrUpdateNestedResourceTypeSecondSend(
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -502,7 +510,9 @@ export async function _createOrUpdateNestedResourceTypeSecondDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -552,7 +562,7 @@ export function _getNestedResourceTypeSecondSend(
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       nestedResourceTypeSecond: nestedResourceTypeSecond,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -570,7 +580,9 @@ export async function _getNestedResourceTypeSecondDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -612,7 +624,7 @@ export function _listByResourceTypeRegistrationsSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       resourceType: resourceType,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -630,7 +642,9 @@ export async function _listByResourceTypeRegistrationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -650,7 +664,7 @@ export function listByResourceTypeRegistrations(
     () => _listByResourceTypeRegistrationsSend(context, providerNamespace, resourceType, options),
     _listByResourceTypeRegistrationsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
   );
 }
 
@@ -668,7 +682,7 @@ export function _$deleteSend(
       providerNamespace: providerNamespace,
       resourceType: resourceType,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -681,7 +695,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -716,7 +732,7 @@ export function _createOrUpdateSend(
       providerNamespace: providerNamespace,
       resourceType: resourceType,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -736,7 +752,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -778,7 +796,7 @@ export function _getSend(
       providerNamespace: providerNamespace,
       resourceType: resourceType,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -794,7 +812,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sk
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -830,7 +850,7 @@ export function _listByResourceTypeRegistrationsNestedResourceTypeFirstSend(
       providerNamespace: providerNamespace,
       resourceType: resourceType,
       nestedResourceTypeFirst: nestedResourceTypeFirst,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -848,7 +868,9 @@ export async function _listByResourceTypeRegistrationsNestedResourceTypeFirstDes
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -878,7 +900,7 @@ export function listByResourceTypeRegistrationsNestedResourceTypeFirst(
       ),
     _listByResourceTypeRegistrationsNestedResourceTypeFirstDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
   );
 }
 
@@ -898,7 +920,7 @@ export function _deleteNestedResourceTypeFirstSend(
       resourceType: resourceType,
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -913,7 +935,9 @@ export async function _deleteNestedResourceTypeFirstDeserialize(
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -958,7 +982,7 @@ export function _createOrUpdateNestedResourceTypeFirstSend(
       resourceType: resourceType,
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -978,7 +1002,9 @@ export async function _createOrUpdateNestedResourceTypeFirstDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1024,7 +1050,7 @@ export function _getNestedResourceTypeFirstSend(
       resourceType: resourceType,
       nestedResourceTypeFirst: nestedResourceTypeFirst,
       sku: sku,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1042,7 +1068,9 @@ export async function _getNestedResourceTypeFirstDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

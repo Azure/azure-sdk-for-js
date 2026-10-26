@@ -52,6 +52,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** The operation to delete the restore point. */
 export function $delete(
   context: Client,
@@ -118,6 +119,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return restorePointDeserializer(result.body);
 }
+
 /** The operation to create the restore point. Updating properties of an existing restore point is not allowed */
 export function create(
   context: Client,
@@ -184,6 +186,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
 
   return restorePointDeserializer(result.body);
 }
+
 /** The operation to get the restore point. */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a TransitHubResource
  *
  * @summary update a TransitHubResource
- * x-ms-original-file: 2026-03-01-preview/TransitHub_Update.json
+ * x-ms-original-file: 2026-04-01/TransitHub_Update.json
  */
 async function transitHubUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

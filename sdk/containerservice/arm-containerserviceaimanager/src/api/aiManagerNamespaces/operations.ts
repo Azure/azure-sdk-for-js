@@ -47,7 +47,7 @@ export function _rotateKeysSend(
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -74,6 +74,7 @@ export async function _rotateKeysDeserialize(
 
   return namespaceAccessInfoDeserializer(result.body);
 }
+
 /** Rotates the namespace-scoped LLM gateway API keys. A new key is generated and installed as `primaryKey`, and the previous `primaryKey` overwrites `secondaryKey` so clients can roll over without downtime. Returns the updated access info. */
 export async function rotateKeys(
   context: Client,
@@ -106,7 +107,7 @@ export function _listAccessKeysSend(
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,6 +134,7 @@ export async function _listAccessKeysDeserialize(
 
   return namespaceAccessInfoDeserializer(result.body);
 }
+
 /** Returns the namespace-scoped LLM gateway endpoint and the current API keys. */
 export async function listAccessKeys(
   context: Client,
@@ -165,7 +167,7 @@ export function _listCredentialSend(
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,6 +194,7 @@ export async function _listCredentialDeserialize(
 
   return credentialResultsDeserializer(result.body);
 }
+
 /** Lists the credentials of an AI Manager namespace. */
 export async function listCredential(
   context: Client,
@@ -222,7 +225,7 @@ export function _listByAIManagerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -249,6 +252,7 @@ export async function _listByAIManagerDeserialize(
 
   return _aiManagerNamespaceListResultDeserializer(result.body);
 }
+
 /** List AIManagerNamespace resources by AIManager */
 export function listByAIManager(
   context: Client,
@@ -264,7 +268,7 @@ export function listByAIManager(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-09-02-preview",
     },
   );
 }
@@ -283,7 +287,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -311,6 +315,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a AIManagerNamespace */
 export function $delete(
   context: Client,
@@ -325,7 +330,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, aiManagerName, namespaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -344,7 +349,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -378,6 +383,7 @@ export async function _createOrUpdateDeserialize(
 
   return aiManagerNamespaceDeserializer(result.body);
 }
+
 /** Create a AIManagerNamespace */
 export function createOrUpdate(
   context: Client,
@@ -400,7 +406,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<AIManagerNamespace>, AIManagerNamespace>;
 }
 
@@ -418,7 +424,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -443,6 +449,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<AI
 
   return aiManagerNamespaceDeserializer(result.body);
 }
+
 /** Get a AIManagerNamespace */
 export async function get(
   context: Client,

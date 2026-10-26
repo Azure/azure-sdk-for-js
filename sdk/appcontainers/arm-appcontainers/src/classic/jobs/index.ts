@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   getDetector,
   listDetectors,
@@ -19,7 +19,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/jobs/operations.js";
-import {
+import type {
   JobsGetDetectorOptionalParams,
   JobsListDetectorsOptionalParams,
   JobsProxyGetOptionalParams,
@@ -36,7 +36,7 @@ import {
   JobsCreateOrUpdateOptionalParams,
   JobsGetOptionalParams,
 } from "../../api/jobs/options.js";
-import {
+import type {
   Job,
   JobPatchProperties,
   JobExecutionBase,
@@ -44,9 +44,10 @@ import {
   JobSecretsCollection,
   Diagnostics,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Jobs operations. */
 export interface JobsOperations {
@@ -63,7 +64,7 @@ export interface JobsOperations {
     jobName: string,
     options?: JobsListDetectorsOptionalParams,
   ) => PagedAsyncIterableIterator<Diagnostics>;
-  /** Get the properties of a Container App Job. */
+  /** Get the properties for a given Container App Job. */
   proxyGet: (
     resourceGroupName: string,
     jobName: string,
@@ -91,7 +92,7 @@ export interface JobsOperations {
     jobExecutionName: string,
     options?: JobsStopExecutionOptionalParams,
   ) => Promise<void>;
-  /** Suspends a job */
+  /** Suspends execution for a running Container Apps job. */
   suspend: (
     resourceGroupName: string,
     jobName: string,
@@ -109,7 +110,7 @@ export interface JobsOperations {
     jobName: string,
     options?: JobsSuspendOptionalParams,
   ) => Promise<Job>;
-  /** Resumes a suspended job */
+  /** Resumes execution for a suspended Container Apps job. */
   resume: (
     resourceGroupName: string,
     jobName: string,

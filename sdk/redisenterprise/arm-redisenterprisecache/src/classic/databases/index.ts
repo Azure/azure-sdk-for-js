@@ -301,7 +301,6 @@ export interface DatabasesOperations {
     options?: DatabasesGetOptionalParams,
   ) => Promise<Database>;
 }
-
 function _getDatabases(context: RedisEnterpriseManagementContext) {
   return {
     upgradeDBRedisVersion: (
@@ -702,7 +701,6 @@ function _getDatabases(context: RedisEnterpriseManagementContext) {
     ) => get(context, resourceGroupName, clusterName, databaseName, options),
   };
 }
-
 export function _getDatabasesOperations(
   context: RedisEnterpriseManagementContext,
 ): DatabasesOperations {

@@ -3,7 +3,7 @@
 
 /**
  * @summary Demonstrates the preview-only knowledge resource counters
- * added to `getServiceStatistics()` by the 2026-05-01-preview data
+ * returned by `getServiceStatistics()` in the 2026-08-01-preview data
  * plane:
  *   - `knowledgeBaseCounter` — number of `KnowledgeBase` resources.
  *   - `knowledgeSourceCounter` — number of `KnowledgeSource` resources.
@@ -11,6 +11,10 @@
  * Both counters expose `usage` and (when the service plan defines one)
  * `quota`, allowing customers to track KR adoption against
  * service-level limits.
+ *
+ * The August preview also reports `maxVectorIndexSizePerIndexInBytes`.
+ * This is a per-index limit, not current vector usage and not the
+ * service/partition vector quota.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -40,6 +44,19 @@ async function main() {
   console.log(
     `  knowledgeSources: usage=${knowledgeSourceCounter.usage}` +
       (knowledgeSourceCounter.quota !== undefined ? `, quota=${knowledgeSourceCounter.quota}` : ""),
+  );
+
+  const perIndexLimit = stats.limits.maxVectorIndexSizePerIndexInBytes;
+  const vectorUsage = stats.counters.vectorIndexSizeCounter.usage;
+  const vectorQuota = stats.counters.vectorIndexSizeCounter.quota;
+  if (perIndexLimit === undefined) {
+    console.log(`Vector index size: this service tier did not report a per-index limit.`);
+  } else {
+    console.log(`Vector index size per-index limit: ${perIndexLimit} bytes`);
+  }
+  console.log(`Current vector index usage across the service: ${vectorUsage} bytes`);
+  console.log(
+    `Service/partition vector quota: ${vectorQuota === undefined ? "not reported" : `${vectorQuota} bytes`}`,
   );
 }
 

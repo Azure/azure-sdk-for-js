@@ -2062,6 +2062,8 @@ export interface PrivateLinkServiceConnection extends SubResource {
   requestMessage?: string;
   /** A collection of read-only information about the state of the connection to the remote resource. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** A reference to an existing approved private endpoint whose connection approval state should be inherited by this connection at creation time. */
+  approvalReference?: ApprovalReference;
 }
 
 export function privateLinkServiceConnectionSerializer(item: PrivateLinkServiceConnection): any {
@@ -2072,6 +2074,7 @@ export function privateLinkServiceConnectionSerializer(item: PrivateLinkServiceC
       "groupIds",
       "requestMessage",
       "privateLinkServiceConnectionState",
+      "approvalReference",
     ])
       ? undefined
       : _privateLinkServiceConnectionPropertiesSerializer(item),
@@ -2103,6 +2106,8 @@ export interface PrivateLinkServiceConnectionProperties {
   requestMessage?: string;
   /** A collection of read-only information about the state of the connection to the remote resource. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** A reference to an existing approved private endpoint whose connection approval state should be inherited by this connection at creation time. */
+  approvalReference?: ApprovalReference;
 }
 
 export function privateLinkServiceConnectionPropertiesSerializer(
@@ -2119,6 +2124,9 @@ export function privateLinkServiceConnectionPropertiesSerializer(
     privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
       ? item["privateLinkServiceConnectionState"]
       : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
+    approvalReference: !item["approvalReference"]
+      ? item["approvalReference"]
+      : approvalReferenceSerializer(item["approvalReference"]),
   };
 }
 
@@ -2137,6 +2145,9 @@ export function privateLinkServiceConnectionPropertiesDeserializer(
     privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
       ? item["privateLinkServiceConnectionState"]
       : privateLinkServiceConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
+    approvalReference: !item["approvalReference"]
+      ? item["approvalReference"]
+      : approvalReferenceDeserializer(item["approvalReference"]),
   };
 }
 
@@ -2167,6 +2178,22 @@ export function privateLinkServiceConnectionStateDeserializer(
     status: item["status"],
     description: item["description"],
     actionsRequired: item["actionsRequired"],
+  };
+}
+
+/** Reference to an existing approved private endpoint used to inherit its connection approval state. */
+export interface ApprovalReference {
+  /** The ARM resource id of an existing approved private endpoint whose approval state is inherited by this connection. */
+  privateEndpointId?: string;
+}
+
+export function approvalReferenceSerializer(item: ApprovalReference): any {
+  return { privateEndpointId: item["privateEndpointId"] };
+}
+
+export function approvalReferenceDeserializer(item: any): ApprovalReference {
+  return {
+    privateEndpointId: item["privateEndpointId"],
   };
 }
 
@@ -7467,6 +7494,9 @@ export function _privateLinkServiceConnectionPropertiesSerializer(
     privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
       ? item["privateLinkServiceConnectionState"]
       : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
+    approvalReference: !item["approvalReference"]
+      ? item["approvalReference"]
+      : approvalReferenceSerializer(item["approvalReference"]),
   };
 }
 
@@ -7483,6 +7513,9 @@ export function _privateLinkServiceConnectionPropertiesDeserializer(item: any) {
     privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
       ? item["privateLinkServiceConnectionState"]
       : privateLinkServiceConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
+    approvalReference: !item["approvalReference"]
+      ? item["approvalReference"]
+      : approvalReferenceDeserializer(item["approvalReference"]),
   };
 }
 

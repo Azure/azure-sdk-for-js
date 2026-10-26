@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -52,7 +53,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -277,7 +278,7 @@ export function addonPropertiesUnionSerializer(item: AddonPropertiesUnion): any 
 }
 
 export function addonPropertiesUnionDeserializer(item: any): AddonPropertiesUnion {
-  switch (item.addonType) {
+  switch (item["addonType"]) {
     case "SRM":
       return addonSrmPropertiesDeserializer(item as AddonSrmProperties);
 
@@ -446,8 +447,8 @@ export function addonArcPropertiesDeserializer(item: any): AddonArcProperties {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -473,8 +474,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1510,8 +1511,8 @@ export interface HcxEnterpriseSiteProperties {
   readonly status?: HcxEnterpriseSiteStatus;
 }
 
-export function hcxEnterpriseSitePropertiesSerializer(item: HcxEnterpriseSiteProperties): any {
-  return item;
+export function hcxEnterpriseSitePropertiesSerializer(_item: HcxEnterpriseSiteProperties): any {
+  return {};
 }
 
 export function hcxEnterpriseSitePropertiesDeserializer(item: any): HcxEnterpriseSiteProperties {
@@ -1634,6 +1635,8 @@ export interface HostProperties {
   /** If provided, the host is in maintenance. The value is the reason for maintenance. */
   maintenance?: HostMaintenance;
   readonly faultDomain?: string;
+  /** The licenses assigned to the host. */
+  licenses?: HostLicenseUnion[];
 }
 
 export function hostPropertiesDeserializer(item: any): HostProperties {
@@ -1645,6 +1648,9 @@ export function hostPropertiesDeserializer(item: any): HostProperties {
     fqdn: item["fqdn"],
     maintenance: item["maintenance"],
     faultDomain: item["faultDomain"],
+    licenses: !item["licenses"]
+      ? item["licenses"]
+      : hostLicenseUnionArrayDeserializer(item["licenses"]),
   };
 }
 
@@ -1653,7 +1659,7 @@ export type HostPropertiesUnion =
   GeneralHostProperties | SpecializedHostProperties | HostProperties;
 
 export function hostPropertiesUnionDeserializer(item: any): HostPropertiesUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "General":
       return generalHostPropertiesDeserializer(item as GeneralHostProperties);
 
@@ -1722,6 +1728,89 @@ export enum KnownHostMaintenance {
  */
 export type HostMaintenance = string;
 
+export function hostLicenseUnionArraySerializer(result: Array<HostLicenseUnion>): any[] {
+  return result.map((item) => {
+    return hostLicenseUnionSerializer(item);
+  });
+}
+
+export function hostLicenseUnionArrayDeserializer(result: Array<HostLicenseUnion>): any[] {
+  return result.map((item) => {
+    return hostLicenseUnionDeserializer(item);
+  });
+}
+
+/** A license assigned to a host. */
+export interface HostLicense {
+  /** License kind */
+  /** The discriminator possible values: WindowsServer */
+  kind: HostLicenseKind;
+}
+
+export function hostLicenseSerializer(item: HostLicense): any {
+  return { kind: item["kind"] };
+}
+
+export function hostLicenseDeserializer(item: any): HostLicense {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** Alias for HostLicenseUnion */
+export type HostLicenseUnion = WindowsServerLicense | HostLicense;
+
+export function hostLicenseUnionSerializer(item: HostLicenseUnion): any {
+  switch (item.kind) {
+    case "WindowsServer":
+      return windowsServerLicenseSerializer(item as WindowsServerLicense);
+
+    default:
+      return hostLicenseSerializer(item);
+  }
+}
+
+export function hostLicenseUnionDeserializer(item: any): HostLicenseUnion {
+  switch (item["kind"]) {
+    case "WindowsServer":
+      return windowsServerLicenseDeserializer(item as WindowsServerLicense);
+
+    default:
+      return hostLicenseDeserializer(item);
+  }
+}
+
+/** The kind of host license. */
+export enum KnownHostLicenseKind {
+  /** The host is to be used with Azure Hybrid Benefit for Windows Server. */
+  WindowsServer = "WindowsServer",
+}
+
+/**
+ * The kind of host license. \
+ * {@link KnownHostLicenseKind} can be used interchangeably with HostLicenseKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **WindowsServer**: The host is to be used with Azure Hybrid Benefit for Windows Server.
+ */
+export type HostLicenseKind = string;
+
+/** The host is to be used with Azure Hybrid Benefit for Windows Server. */
+export interface WindowsServerLicense extends HostLicense {
+  /** License kind */
+  kind: "WindowsServer";
+}
+
+export function windowsServerLicenseSerializer(item: WindowsServerLicense): any {
+  return { kind: item["kind"] };
+}
+
+export function windowsServerLicenseDeserializer(item: any): WindowsServerLicense {
+  return {
+    kind: item["kind"],
+  };
+}
+
 /** The properties of a general host. */
 export interface GeneralHostProperties extends HostProperties {
   /** The kind of host. */
@@ -1737,6 +1826,9 @@ export function generalHostPropertiesDeserializer(item: any): GeneralHostPropert
     fqdn: item["fqdn"],
     maintenance: item["maintenance"],
     faultDomain: item["faultDomain"],
+    licenses: !item["licenses"]
+      ? item["licenses"]
+      : hostLicenseUnionArrayDeserializer(item["licenses"]),
   };
 }
 
@@ -1755,6 +1847,37 @@ export function specializedHostPropertiesDeserializer(item: any): SpecializedHos
     fqdn: item["fqdn"],
     maintenance: item["maintenance"],
     faultDomain: item["faultDomain"],
+    licenses: !item["licenses"]
+      ? item["licenses"]
+      : hostLicenseUnionArrayDeserializer(item["licenses"]),
+  };
+}
+
+/** The properties of a host to update. */
+export interface HostUpdate {
+  /** The properties of a host resource that may be updated */
+  properties?: HostUpdateProperties;
+}
+
+export function hostUpdateSerializer(item: HostUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : hostUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The properties for updating a host. */
+export interface HostUpdateProperties {
+  /** The licenses assigned to the host. */
+  licenses?: HostLicenseUnion[];
+}
+
+export function hostUpdatePropertiesSerializer(item: HostUpdateProperties): any {
+  return {
+    licenses: !item["licenses"]
+      ? item["licenses"]
+      : hostLicenseUnionArraySerializer(item["licenses"]),
   };
 }
 
@@ -1954,7 +2077,7 @@ export function licensePropertiesUnionSerializer(item: LicensePropertiesUnion): 
 }
 
 export function licensePropertiesUnionDeserializer(item: any): LicensePropertiesUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "VmwareFirewall":
       return vmwareFirewallLicensePropertiesDeserializer(item as VmwareFirewallLicenseProperties);
 
@@ -2214,6 +2337,12 @@ export interface MaintenanceProperties {
   readonly displayName?: string;
   /** Cluster ID for on which maintenance will be applied. Empty if maintenance is at private cloud level */
   readonly clusterId?: number;
+  /** Activities performed as part of maintenance */
+  readonly activities?: MaintenanceActivity[];
+  /** Group details if maintenance is part of a group */
+  readonly group?: MaintenanceGroup;
+  /** Relationships with other maintenances like dependencies and prerequisites */
+  readonly relationships?: MaintenanceRelationships;
   /** Link to maintenance info */
   readonly infoLink?: string;
   /** Impact on the resource during maintenance period */
@@ -2239,6 +2368,13 @@ export function maintenancePropertiesDeserializer(item: any): MaintenancePropert
     component: item["component"],
     displayName: item["displayName"],
     clusterId: item["clusterId"],
+    activities: !item["activities"]
+      ? item["activities"]
+      : maintenanceActivityArrayDeserializer(item["activities"]),
+    group: !item["group"] ? item["group"] : maintenanceGroupDeserializer(item["group"]),
+    relationships: !item["relationships"]
+      ? item["relationships"]
+      : maintenanceRelationshipsDeserializer(item["relationships"]),
     infoLink: item["infoLink"],
     impact: item["impact"],
     scheduledByMicrosoft: item["scheduledByMicrosoft"],
@@ -2277,6 +2413,119 @@ export enum KnownMaintenanceType {
  * **NSXT**: maintenance for NSX-T
  */
 export type MaintenanceType = string;
+
+export function maintenanceActivityArrayDeserializer(result: Array<MaintenanceActivity>): any[] {
+  return result.map((item) => {
+    return maintenanceActivityDeserializer(item);
+  });
+}
+
+/** Represents a maintenance activity performed as part of an operation */
+export interface MaintenanceActivity {
+  /** The type of activity */
+  readonly kind: MaintenanceActivityKind;
+  /** The component on which the activity is performed */
+  readonly component: string;
+  /** Target version of the component */
+  readonly version: string;
+  /** Optional link containing more details about the activity */
+  readonly infoLink?: string;
+  /** Describes impact of the activity */
+  readonly impact?: string;
+}
+
+export function maintenanceActivityDeserializer(item: any): MaintenanceActivity {
+  return {
+    kind: item["kind"],
+    component: item["component"],
+    version: item["version"],
+    infoLink: item["infoLink"],
+    impact: item["impact"],
+  };
+}
+
+/** Defines the type of maintenance activity */
+export enum KnownMaintenanceActivityKind {
+  /** Upgrade activity */
+  Upgrade = "Upgrade",
+  /** Downgrade activity */
+  Downgrade = "Downgrade",
+  /** Certificate rotation activity */
+  CertificateRotation = "CertificateRotation",
+  /** Backup activity */
+  Backup = "Backup",
+}
+
+/**
+ * Defines the type of maintenance activity \
+ * {@link KnownMaintenanceActivityKind} can be used interchangeably with MaintenanceActivityKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Upgrade**: Upgrade activity \
+ * **Downgrade**: Downgrade activity \
+ * **CertificateRotation**: Certificate rotation activity \
+ * **Backup**: Backup activity
+ */
+export type MaintenanceActivityKind = string;
+
+/** Represents a maintenance group */
+export interface MaintenanceGroup {
+  /** Unique identifier of the group */
+  readonly id: string;
+  /** Display name of the group */
+  readonly name: string;
+  /** Type of the group */
+  readonly kind: MaintenanceGroupKind;
+}
+
+export function maintenanceGroupDeserializer(item: any): MaintenanceGroup {
+  return {
+    id: item["id"],
+    name: item["name"],
+    kind: item["kind"],
+  };
+}
+
+/** Defines the kind of group */
+export enum KnownMaintenanceGroupKind {
+  /** Logical grouping of maintenance operations */
+  Logical = "Logical",
+  /** Consolidation grouping of maintenance operations */
+  Consolidation = "Consolidation",
+}
+
+/**
+ * Defines the kind of group \
+ * {@link KnownMaintenanceGroupKind} can be used interchangeably with MaintenanceGroupKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Logical**: Logical grouping of maintenance operations \
+ * **Consolidation**: Consolidation grouping of maintenance operations
+ */
+export type MaintenanceGroupKind = string;
+
+/** Defines relationship details between maintenance groups */
+export interface MaintenanceRelationships {
+  /** List of dependent group identifiers */
+  readonly dependencies?: string[];
+  /** List of prerequisite group identifiers */
+  readonly prerequisites?: string[];
+}
+
+export function maintenanceRelationshipsDeserializer(item: any): MaintenanceRelationships {
+  return {
+    dependencies: !item["dependencies"]
+      ? item["dependencies"]
+      : item["dependencies"].map((p: any) => {
+          return p;
+        }),
+    prerequisites: !item["prerequisites"]
+      ? item["prerequisites"]
+      : item["prerequisites"].map((p: any) => {
+          return p;
+        }),
+  };
+}
 
 /** state of the maintenance */
 export interface MaintenanceState {
@@ -2386,7 +2635,7 @@ export type MaintenanceManagementOperationUnion =
 export function maintenanceManagementOperationUnionDeserializer(
   item: any,
 ): MaintenanceManagementOperationUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "Schedule":
       return scheduleOperationDeserializer(item as ScheduleOperation);
 
@@ -2434,6 +2683,8 @@ export interface ScheduleOperation extends MaintenanceManagementOperation {
   readonly disabledReason?: string;
   /** Constraints for scheduling maintenance */
   readonly constraints?: ScheduleOperationConstraintUnion[];
+  /** Recommendations for scheduling maintenance */
+  readonly recommendation?: MaintenanceRecommendation;
 }
 
 export function scheduleOperationDeserializer(item: any): ScheduleOperation {
@@ -2444,6 +2695,9 @@ export function scheduleOperationDeserializer(item: any): ScheduleOperation {
     constraints: !item["constraints"]
       ? item["constraints"]
       : scheduleOperationConstraintUnionArrayDeserializer(item["constraints"]),
+    recommendation: !item["recommendation"]
+      ? item["recommendation"]
+      : maintenanceRecommendationDeserializer(item["recommendation"]),
   };
 }
 
@@ -2458,7 +2712,7 @@ export function scheduleOperationConstraintUnionArrayDeserializer(
 /** Defines constraints for schedule operation on maintenance */
 export interface ScheduleOperationConstraint {
   /** The kind of operation */
-  /** The discriminator possible values: SchedulingWindow, AvailableWindowForMaintenance, Blocked */
+  /** The discriminator possible values: SchedulingWindow, WeekendScheduling, AvailableWindowForMaintenance, Blocked */
   readonly kind: ScheduleOperationConstraintKind;
 }
 
@@ -2471,6 +2725,7 @@ export function scheduleOperationConstraintDeserializer(item: any): ScheduleOper
 /** Alias for ScheduleOperationConstraintUnion */
 export type ScheduleOperationConstraintUnion =
   | SchedulingWindow
+  | WeekendSchedulingConstraint
   | AvailableWindowForMaintenanceWhileScheduleOperation
   | BlockedWhileScheduleOperation
   | ScheduleOperationConstraint;
@@ -2478,9 +2733,12 @@ export type ScheduleOperationConstraintUnion =
 export function scheduleOperationConstraintUnionDeserializer(
   item: any,
 ): ScheduleOperationConstraintUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "SchedulingWindow":
       return schedulingWindowDeserializer(item as SchedulingWindow);
+
+    case "WeekendScheduling":
+      return weekendSchedulingConstraintDeserializer(item as WeekendSchedulingConstraint);
 
     case "AvailableWindowForMaintenance":
       return availableWindowForMaintenanceWhileScheduleOperationDeserializer(
@@ -2503,6 +2761,8 @@ export enum KnownScheduleOperationConstraintKind {
   AvailableWindowForMaintenanceWhileScheduleOperation = "AvailableWindowForMaintenance",
   /** Blocked time range constraint */
   BlockedWhileScheduleOperation = "Blocked",
+  /** Defines weekend scheduling restriction */
+  WeekendScheduling = "WeekendScheduling",
 }
 
 /**
@@ -2512,7 +2772,8 @@ export enum KnownScheduleOperationConstraintKind {
  * ### Known values supported by the service
  * **SchedulingWindow**: Time window in which Customer has option to schedule maintenance \
  * **AvailableWindowForMaintenance**: Time window in which maintenance can be scheduled \
- * **Blocked**: Blocked time range constraint
+ * **Blocked**: Blocked time range constraint \
+ * **WeekendScheduling**: Defines weekend scheduling restriction
  */
 export type ScheduleOperationConstraintKind = string;
 
@@ -2531,6 +2792,23 @@ export function schedulingWindowDeserializer(item: any): SchedulingWindow {
     kind: item["kind"],
     startsAt: new Date(item["startsAt"]),
     endsAt: new Date(item["endsAt"]),
+  };
+}
+
+/** Constraint defining weekend scheduling restrictions */
+export interface WeekendSchedulingConstraint extends ScheduleOperationConstraint {
+  kind: "WeekendScheduling";
+  /** Indicates if scheduling is disabled on weekends */
+  readonly isDisabled?: boolean;
+  /** Reason why weekend scheduling is disabled */
+  readonly disabledReason?: string;
+}
+
+export function weekendSchedulingConstraintDeserializer(item: any): WeekendSchedulingConstraint {
+  return {
+    kind: item["kind"],
+    isDisabled: item["isDisabled"],
+    disabledReason: item["disabledReason"],
   };
 }
 
@@ -2584,6 +2862,8 @@ export enum KnownBlockedDatesConstraintCategory {
   QuotaExhausted = "QuotaExhausted",
   /** Holidays */
   Holiday = "Holiday",
+  /** Constraint due to overlapping maintenance */
+  OverlappingMaintenance = "OverlappingMaintenance",
 }
 
 /**
@@ -2593,7 +2873,8 @@ export enum KnownBlockedDatesConstraintCategory {
  * ### Known values supported by the service
  * **HiPriorityEvent**: Hi-Priority Event \
  * **QuotaExhausted**: Quota Exhausted \
- * **Holiday**: Holidays
+ * **Holiday**: Holidays \
+ * **OverlappingMaintenance**: Constraint due to overlapping maintenance
  */
 export type BlockedDatesConstraintCategory = string;
 
@@ -2625,6 +2906,45 @@ export function blockedDatesConstraintTimeRangeDeserializer(
   };
 }
 
+/** Recommendation details for scheduling/rescheduling maintenance */
+export interface MaintenanceRecommendation {
+  /** List of recommended maintenance windows */
+  readonly maintenanceWindows?: MaintenanceWindowRecommendation[];
+}
+
+export function maintenanceRecommendationDeserializer(item: any): MaintenanceRecommendation {
+  return {
+    maintenanceWindows: !item["maintenanceWindows"]
+      ? item["maintenanceWindows"]
+      : maintenanceWindowRecommendationArrayDeserializer(item["maintenanceWindows"]),
+  };
+}
+
+export function maintenanceWindowRecommendationArrayDeserializer(
+  result: Array<MaintenanceWindowRecommendation>,
+): any[] {
+  return result.map((item) => {
+    return maintenanceWindowRecommendationDeserializer(item);
+  });
+}
+
+/** Represents a recommended maintenance start window */
+export interface MaintenanceWindowRecommendation {
+  /** Recommended start time for maintenance */
+  readonly startTime: Date;
+  /** Reason for recommending this window */
+  readonly reason?: string;
+}
+
+export function maintenanceWindowRecommendationDeserializer(
+  item: any,
+): MaintenanceWindowRecommendation {
+  return {
+    startTime: new Date(item["startTime"]),
+    reason: item["reason"],
+  };
+}
+
 /** Constraints for rescheduling maintenance */
 export interface RescheduleOperation extends MaintenanceManagementOperation {
   /** The kind of operation */
@@ -2635,6 +2955,8 @@ export interface RescheduleOperation extends MaintenanceManagementOperation {
   readonly disabledReason?: string;
   /** Constraints for rescheduling maintenance */
   readonly constraints?: RescheduleOperationConstraintUnion[];
+  /** Recommendations for rescheduling maintenance */
+  readonly recommendation?: MaintenanceRecommendation;
 }
 
 export function rescheduleOperationDeserializer(item: any): RescheduleOperation {
@@ -2645,6 +2967,9 @@ export function rescheduleOperationDeserializer(item: any): RescheduleOperation 
     constraints: !item["constraints"]
       ? item["constraints"]
       : rescheduleOperationConstraintUnionArrayDeserializer(item["constraints"]),
+    recommendation: !item["recommendation"]
+      ? item["recommendation"]
+      : maintenanceRecommendationDeserializer(item["recommendation"]),
   };
 }
 
@@ -2659,7 +2984,7 @@ export function rescheduleOperationConstraintUnionArrayDeserializer(
 /** Defines constraints for reschedule operation on maintenance */
 export interface RescheduleOperationConstraint {
   /** The kind of operation */
-  /** The discriminator possible values: AvailableWindowForMaintenance, Blocked */
+  /** The discriminator possible values: ReschedulingWindow, WeekendRescheduling, AvailableWindowForMaintenance, Blocked */
   readonly kind: RescheduleOperationConstraintKind;
 }
 
@@ -2673,6 +2998,8 @@ export function rescheduleOperationConstraintDeserializer(
 
 /** Alias for RescheduleOperationConstraintUnion */
 export type RescheduleOperationConstraintUnion =
+  | ReschedulingWindowConstraint
+  | WeekendReschedulingConstraint
   | AvailableWindowForMaintenanceWhileRescheduleOperation
   | BlockedWhileRescheduleOperation
   | RescheduleOperationConstraint;
@@ -2680,7 +3007,13 @@ export type RescheduleOperationConstraintUnion =
 export function rescheduleOperationConstraintUnionDeserializer(
   item: any,
 ): RescheduleOperationConstraintUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
+    case "ReschedulingWindow":
+      return reschedulingWindowConstraintDeserializer(item as ReschedulingWindowConstraint);
+
+    case "WeekendRescheduling":
+      return weekendReschedulingConstraintDeserializer(item as WeekendReschedulingConstraint);
+
     case "AvailableWindowForMaintenance":
       return availableWindowForMaintenanceWhileRescheduleOperationDeserializer(
         item as AvailableWindowForMaintenanceWhileRescheduleOperation,
@@ -2700,6 +3033,10 @@ export enum KnownRescheduleOperationConstraintKind {
   AvailableWindowForMaintenanceWhileRescheduleOperation = "AvailableWindowForMaintenance",
   /** Blocked time range constraint */
   BlockedWhileRescheduleOperation = "Blocked",
+  /** Defines allowed window for rescheduling */
+  ReschedulingWindow = "ReschedulingWindow",
+  /** Defines weekend rescheduling restriction */
+  WeekendRescheduling = "WeekendRescheduling",
 }
 
 /**
@@ -2708,9 +3045,47 @@ export enum KnownRescheduleOperationConstraintKind {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AvailableWindowForMaintenance**: Time window in which maintenance can be rescheduled \
- * **Blocked**: Blocked time range constraint
+ * **Blocked**: Blocked time range constraint \
+ * **ReschedulingWindow**: Defines allowed window for rescheduling \
+ * **WeekendRescheduling**: Defines weekend rescheduling restriction
  */
 export type RescheduleOperationConstraintKind = string;
+
+/** Constraint defining allowed time window for rescheduling */
+export interface ReschedulingWindowConstraint extends RescheduleOperationConstraint {
+  kind: "ReschedulingWindow";
+  /** Start date time */
+  readonly startsAt: Date;
+  /** End date Time */
+  readonly endsAt: Date;
+}
+
+export function reschedulingWindowConstraintDeserializer(item: any): ReschedulingWindowConstraint {
+  return {
+    kind: item["kind"],
+    startsAt: new Date(item["startsAt"]),
+    endsAt: new Date(item["endsAt"]),
+  };
+}
+
+/** Constraint defining weekend rescheduling restrictions */
+export interface WeekendReschedulingConstraint extends RescheduleOperationConstraint {
+  kind: "WeekendRescheduling";
+  /** Indicates if rescheduling is disabled on weekends */
+  readonly isDisabled?: boolean;
+  /** Reason why weekend rescheduling is disabled */
+  readonly disabledReason?: string;
+}
+
+export function weekendReschedulingConstraintDeserializer(
+  item: any,
+): WeekendReschedulingConstraint {
+  return {
+    kind: item["kind"],
+    isDisabled: item["isDisabled"],
+    disabledReason: item["disabledReason"],
+  };
+}
 
 /** Time window in which Customer can reschedule maintenance */
 export interface AvailableWindowForMaintenanceWhileRescheduleOperation extends RescheduleOperationConstraint {
@@ -3098,7 +3473,7 @@ export function placementPolicyPropertiesUnionSerializer(
 export function placementPolicyPropertiesUnionDeserializer(
   item: any,
 ): PlacementPolicyPropertiesUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "VmVm":
       return vmPlacementPolicyPropertiesDeserializer(item as VmPlacementPolicyProperties);
 
@@ -3946,8 +4321,8 @@ export interface Circuit {
   readonly expressRoutePrivatePeeringID?: string;
 }
 
-export function circuitSerializer(item: Circuit): any {
-  return item;
+export function circuitSerializer(_item: Circuit): any {
+  return {};
 }
 
 export function circuitDeserializer(item: any): Circuit {
@@ -4056,7 +4431,7 @@ export function vcfLicenseUnionSerializer(item: VcfLicenseUnion): any {
 }
 
 export function vcfLicenseUnionDeserializer(item: any): VcfLicenseUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "vcf5":
       return vcf5LicenseDeserializer(item as Vcf5License);
 
@@ -4935,7 +5310,7 @@ export function scriptExecutionParameterUnionSerializer(item: ScriptExecutionPar
 export function scriptExecutionParameterUnionDeserializer(
   item: any,
 ): ScriptExecutionParameterUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "SecureValue":
       return scriptSecureStringExecutionParameterDeserializer(
         item as ScriptSecureStringExecutionParameter,
@@ -5117,9 +5492,9 @@ export function _scriptExecutionPropertiesNamedOutputRecordDeserializer(
 export interface _ScriptExecutionPropertiesNamedOutput {}
 
 export function _scriptExecutionPropertiesNamedOutputSerializer(
-  item: _ScriptExecutionPropertiesNamedOutput,
+  _item: _ScriptExecutionPropertiesNamedOutput,
 ): any {
-  return item;
+  return {};
 }
 
 export function _scriptExecutionPropertiesNamedOutputDeserializer(
@@ -5775,7 +6150,7 @@ export function workloadNetworkDhcpEntityUnionSerializer(
 export function workloadNetworkDhcpEntityUnionDeserializer(
   item: any,
 ): WorkloadNetworkDhcpEntityUnion {
-  switch (item.dhcpType) {
+  switch (item["dhcpType"]) {
     case "SERVER":
       return workloadNetworkDhcpServerDeserializer(item as WorkloadNetworkDhcpServer);
 
@@ -7107,4 +7482,6 @@ export enum KnownVersions {
   V20240901 = "2024-09-01",
   /** Azure VMware Solution API version 2025-09-01. */
   V20250901 = "2025-09-01",
+  /** Azure VMware Solution API version 2026-03-01. */
+  V20260301 = "2026-03-01",
 }

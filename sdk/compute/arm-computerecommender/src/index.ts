@@ -40,6 +40,8 @@ export type {
   SkuMixPlacementDeploymentChoice,
   SkuMixPlacementItem,
   SkuMixPlacementPartialFulfillmentReason,
+  SkuMixPlacementCapacityLimit,
+  SkuMixPlacementCapacityLimitReason,
   ComputeDiagnosticBase,
   DiagnosticProperties,
   SpotPlacementScoresInput,
@@ -57,6 +59,7 @@ export {
   KnownSkuMixPlacementOSType,
   KnownSkuMixPlacementZonalDistributionStrategy,
   KnownSkuMixPlacementPartialFulfillmentReason,
+  KnownSkuMixPlacementCapacityLimitReason,
   KnownVersions,
 } from "./models/index.js";
 export type { ComputeRecommenderManagementClientOptionalParams } from "./api/index.js";

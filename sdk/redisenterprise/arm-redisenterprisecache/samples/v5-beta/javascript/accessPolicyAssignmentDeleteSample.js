@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a single access policy assignment.
  *
  * @summary deletes a single access policy assignment.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseAccessPolicyAssignmentDelete.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseAccessPolicyAssignmentDelete.json
  */
 async function redisEnterpriseAccessPolicyAssignmentDelete() {
   const credential = new DefaultAzureCredential();

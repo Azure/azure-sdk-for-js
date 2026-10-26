@@ -310,7 +310,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
    */
   public endEncryptionDiagnostics(operation: string, propertiesCount?: number): void {
     const endTime = getCurrentTimestampInMs();
-    let processingDuration = 0;
+    let processingDuration: number;
     switch (operation) {
       case Constants.Encryption.DiagnosticsEncryptOperation:
         processingDuration =

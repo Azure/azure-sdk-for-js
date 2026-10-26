@@ -1,16 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import { TrafficController, TrafficControllerUpdate } from "../../models/models.js";
-import {
-  TrafficControllerInterfaceListBySubscriptionOptionalParams,
-  TrafficControllerInterfaceListByResourceGroupOptionalParams,
-  TrafficControllerInterfaceDeleteOptionalParams,
-  TrafficControllerInterfaceUpdateOptionalParams,
-  TrafficControllerInterfaceCreateOrUpdateOptionalParams,
-  TrafficControllerInterfaceGetOptionalParams,
-} from "../../api/trafficControllerInterface/options.js";
+import type { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,8 +10,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/trafficControllerInterface/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  TrafficControllerInterfaceListBySubscriptionOptionalParams,
+  TrafficControllerInterfaceListByResourceGroupOptionalParams,
+  TrafficControllerInterfaceDeleteOptionalParams,
+  TrafficControllerInterfaceUpdateOptionalParams,
+  TrafficControllerInterfaceCreateOrUpdateOptionalParams,
+  TrafficControllerInterfaceGetOptionalParams,
+} from "../../api/trafficControllerInterface/options.js";
+import type { TrafficController, TrafficControllerUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TrafficControllerInterface operations. */
 export interface TrafficControllerInterfaceOperations {
@@ -34,11 +34,6 @@ export interface TrafficControllerInterfaceOperations {
     options?: TrafficControllerInterfaceListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<TrafficController>;
   /** Delete a TrafficController */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     trafficControllerName: string,

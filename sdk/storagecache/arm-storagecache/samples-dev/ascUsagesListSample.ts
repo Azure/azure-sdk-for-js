@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the quantity used and quota limit for resources
  *
  * @summary gets the quantity used and quota limit for resources
- * x-ms-original-file: 2026-01-01/AscResourceUsages_Get.json
+ * x-ms-original-file: 2026-08-01/AscResourceUsages_Get.json
  */
 async function ascUsagesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

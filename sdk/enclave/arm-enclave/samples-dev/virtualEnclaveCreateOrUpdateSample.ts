@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a EnclaveResource
  *
  * @summary create a EnclaveResource
- * x-ms-original-file: 2026-03-01-preview/VirtualEnclave_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01/VirtualEnclave_CreateOrUpdate.json
  */
 async function virtualEnclaveCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
