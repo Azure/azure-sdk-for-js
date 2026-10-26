@@ -152,3 +152,5 @@ https://learn.microsoft.com/javascript/api/@azure/arm-computeworkloadmanager?vie
 https://www.npmjs.com/package/@azure/arm-computeworkloadmanager
 https://learn.microsoft.com/javascript/api/@azure/arm-secretsstoreextension?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-secretsstoreextension
+https://learn.microsoft.com/javascript/api/@azure/arm-sovereign?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-sovereign
