@@ -154,3 +154,5 @@ https://learn.microsoft.com/javascript/api/@azure/arm-secretsstoreextension?view
 https://www.npmjs.com/package/@azure/arm-secretsstoreextension
 https://learn.microsoft.com/javascript/api/@azure/arm-koreaiartemis?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-koreaiartemis
+https://learn.microsoft.com/javascript/api/@azure/arm-aigateway?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-aigateway
