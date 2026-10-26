@@ -33,6 +33,7 @@ import type {
   PartitionRangeUpdate,
   PartitionRangeUpdates,
 } from "../documents/ContinuationToken/PartitionRangeUpdate.js";
+import { filterPartitionKeyRanges } from "../routing/partitionKeyRangeUtils.js";
 
 /** @hidden */
 export enum ParallelQueryExecutionContextBaseStates {
@@ -610,11 +611,24 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     // invokes the callback when the target partition ranges are ready
     const parsedRanges = this.partitionedQueryExecutionInfo.queryRanges;
     const queryRanges = parsedRanges.map((item) => QueryRange.parseFromDict(item));
-    return this.routingProvider.getOverlappingRanges(
+    const allRanges = await this.routingProvider.getOverlappingRanges(
       this.collectionLink,
       queryRanges,
       this.getDiagnosticNode(),
     );
+
+    // If partitionKey is specified in FeedOptions, filter to only the target partition range.
+    // This ensures in-partition queries via FeedOptions.partitionKey are correctly scoped.
+    if (this.options.partitionKey !== undefined) {
+      return filterPartitionKeyRanges(
+        this.options.partitionKey,
+        allRanges,
+        this.collectionLink,
+        this.clientContext,
+      );
+    }
+
+    return allRanges;
   }
 
   /**
