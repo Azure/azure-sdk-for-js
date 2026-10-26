@@ -607,7 +607,12 @@ function serializeDictionaryType(
   for (const key of Object.keys(object)) {
     const serializedValue = serializer.serialize(valueType, object[key], objectName, options);
     // If the element needs an XML namespace we need to add it within the $ property
-    tempDictionary[key] = getXmlObjectValue(valueType, serializedValue, isXml, options);
+    Object.defineProperty(tempDictionary, key, {
+      value: getXmlObjectValue(valueType, serializedValue, isXml, options),
+      enumerable: true,
+      configurable: true,
+      writable: true,
+    });
   }
 
   // Add the namespace to the root element if needed
@@ -1076,7 +1081,12 @@ function deserializeDictionaryType(
   if (responseBody) {
     const tempDictionary: { [key: string]: any } = {};
     for (const key of Object.keys(responseBody)) {
-      tempDictionary[key] = serializer.deserialize(value, responseBody[key], objectName, options);
+      Object.defineProperty(tempDictionary, key, {
+        value: serializer.deserialize(value, responseBody[key], objectName, options),
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      });
     }
     return tempDictionary;
   }
