@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/contoso-widget-openprverification": ["../src/index.ts"],
+      "@azure/contoso-widget-openprverification/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
