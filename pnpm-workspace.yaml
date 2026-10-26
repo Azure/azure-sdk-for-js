@@ -25,6 +25,7 @@ packages:
   - '!sdk/eventhub/event-hubs/test/stress/**'
 
 catalog:
+  '@azure/provisioning-core': 1.0.0-beta.1
   '@eslint/js': ^10.0.1
   '@types/node': ^22.0.0
   autorest: latest

@@ -10,6 +10,23 @@ In this document we'll outline a few options available to you when a transitive 
 > dependency in a shipped library, see
 > [Adding a new third-party runtime dependency](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#adding-a-new-third-party-runtime-dependency).
 
+## Catalog-managed beta dependencies
+
+Beta SDK packages must pin beta Azure runtime dependencies to exact versions to
+protect against breaking changes. A `catalog:` reference preserves this requirement
+when its entry in [pnpm-workspace.yaml](../pnpm-workspace.yaml) is an exact version:
+
+```yaml
+catalog:
+  "@azure/provisioning-core": 1.0.0-beta.1
+```
+
+Consumers such as `@azure/provisioning-keyvault` declare
+`"@azure/provisioning-core": "catalog:"`. During `pnpm pack` or `pnpm publish`, pnpm
+replaces this reference with `"@azure/provisioning-core": "1.0.0-beta.1"` in the
+published manifest. Keep the catalog entry exact, without a caret or tilde, when
+updating the beta dependency.
+
 ## Example scenario
 
 Let's assume that a vulnerability has been found in [node-fetch] version 2.6.6 and that you use `@azure/keyvault-keys` directly. Your security scan identified this vulnerability and asks to upgrade to 2.6.7 or higher.
