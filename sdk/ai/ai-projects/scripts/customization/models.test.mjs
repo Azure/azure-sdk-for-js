@@ -451,6 +451,79 @@ test("side-effectful concurrent converter insertions remain explicit ordering di
   );
 });
 
+test("voice transcription additions preserve customized member order without recovery", () => {
+  const fields = new Map([
+    ["language", "string"],
+    ["languages", "string[]"],
+    ["keywords", "string[]"],
+    ["prompt", "string"],
+    ["delay", '"minimal" | "low" | "medium" | "high" | "xhigh"'],
+    ["model", "VoiceAgentInputTranscriptionModel"],
+    ["custom_speech", "Record<string, string>"],
+    ["phrase_list", "string[]"],
+    ["profanity_filter", "VoiceAgentProfanityFilterMode"],
+  ]);
+  const emittedOrder = [...fields.keys()].filter((name) => name !== "profanity_filter");
+  const customOrder = [
+    "language",
+    "prompt",
+    "delay",
+    "model",
+    "custom_speech",
+    "phrase_list",
+    "languages",
+    "keywords",
+  ];
+  const declarations = (order) => `
+export type VoiceAgentInputTranscriptionModel = string;
+export interface VoiceAgentInputTranscription {
+${order.map((name) => `${name}${name === "model" ? "" : "?"}: ${fields.get(name)};`).join("\n")}
+}
+export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTranscription): any {
+  return { ${order.map((name) => `${name}: item["${name}"]`).join(", ")} };
+}
+export function voiceAgentInputTranscriptionDeserializer(item: any): VoiceAgentInputTranscription {
+  return { ${order.map((name) => `${name}: item["${name}"]`).join(", ")} };
+}
+`;
+  const result = succeeded(
+    tree(declarations(emittedOrder)),
+    tree(declarations(customOrder)),
+    tree(
+      declarations([...emittedOrder, "profanity_filter"]) +
+        "export type VoiceAgentProfanityFilterMode = string;",
+    ),
+  );
+  const text = result.files.get(modelFile);
+  const source = ts.createSourceFile(modelFile, text, ts.ScriptTarget.Latest, true);
+  const transcription = source.statements.find(
+    (node) => node.name?.text === "VoiceAgentInputTranscription",
+  );
+  assert.deepEqual(
+    transcription.members.map((member) => member.name.text),
+    [...customOrder, "profanity_filter"],
+  );
+  assert.match(text, /profanity_filter\?: VoiceAgentProfanityFilterMode/);
+  const converters = evaluate(text);
+  const item = {
+    language: "en",
+    languages: ["en", "es"],
+    keywords: ["Foundry"],
+    prompt: "Technical terms",
+    delay: "low",
+    model: "azure-speech",
+    custom_speech: { en: "custom-model" },
+    phrase_list: ["Foundry"],
+    profanity_filter: "masked",
+  };
+  for (const name of [
+    "voiceAgentInputTranscriptionSerializer",
+    "voiceAgentInputTranscriptionDeserializer",
+  ]) {
+    assert.deepEqual(JSON.parse(JSON.stringify(converters[name](item))), item);
+  }
+});
+
 test("a customized converter keeps its member order and epoch handling when the emitter reorders it", () => {
   const converter = (members) => `
 export interface Response { id?: string; usage?: unknown; metadata?: unknown; created_at?: Date; }
