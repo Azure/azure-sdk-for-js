@@ -3,7 +3,11 @@
 
 import url from "node:url";
 import { diag } from "@opentelemetry/api";
-import { bearerTokenAuthenticationPolicyName, redirectPolicyName } from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicyName,
+  createDefaultHttpClient,
+  redirectPolicyName,
+} from "@azure/core-rest-pipeline";
 import type { Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
 import type { SenderResult } from "../../types.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
@@ -13,6 +17,7 @@ import { BaseSender } from "./baseSender.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { parseRetryAfterHeader } from "../../utils/breezeUtils.js";
 import { isSameRegisteredDomain } from "../../utils/redirectUtils.js";
+import { createGzipHttpClient } from "./gzipHttpClient.js";
 
 const applicationInsightsResource = "https://monitor.azure.com/.default";
 
@@ -68,7 +73,10 @@ export class HttpSender extends BaseSender {
     // we adopt its policies onto the generated client's pipeline for backward compatibility.
     const userPipeline: Pipeline | undefined = (clientOptions as any).pipeline;
 
-    const client = new ApplicationInsightsClient(this.credential as any, clientOptions);
+    const client = new ApplicationInsightsClient(this.credential as any, {
+      ...clientOptions,
+      httpClient: createGzipHttpClient(clientOptions.httpClient ?? createDefaultHttpClient()),
+    });
 
     // Expose host for tests and redirect handling
     (client as any).host = clientOptions.host;

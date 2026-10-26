@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface EdgeAction extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -41,7 +42,7 @@ export function edgeActionDeserializer(item: any): EdgeAction {
     properties: !item["properties"]
       ? item["properties"]
       : edgeActionPropertiesDeserializer(item["properties"]),
-    sku: !item["sku"] ? item["sku"] : skuTypeDeserializer(item["sku"]),
+    sku: skuTypeDeserializer(item["sku"]),
   };
 }
 
@@ -53,16 +54,14 @@ export interface EdgeActionProperties {
   readonly attachments: EdgeActionAttachment[];
 }
 
-export function edgeActionPropertiesSerializer(item: EdgeActionProperties): any {
-  return item;
+export function edgeActionPropertiesSerializer(_item: EdgeActionProperties): any {
+  return {};
 }
 
 export function edgeActionPropertiesDeserializer(item: any): EdgeActionProperties {
   return {
     provisioningState: item["provisioningState"],
-    attachments: !item["attachments"]
-      ? item["attachments"]
-      : edgeActionAttachmentArrayDeserializer(item["attachments"]),
+    attachments: edgeActionAttachmentArrayDeserializer(item["attachments"]),
   };
 }
 
@@ -172,8 +171,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -309,9 +308,9 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 export interface EdgeActionUpdate {
   /** The resource-specific properties for this resource. */
   properties?: EdgeActionPropertiesUpdate;
-  /** The sku type of the edge action */
+  /** The SKU of the Edge Action. Do not include sku in PATCH requests; any supplied sku, including null or the existing value, is rejected. */
   sku?: SkuTypeUpdate;
-  /** Resource tags. */
+  /** Resource tags. For PATCH requests, omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. */
   tags?: Record<string, string>;
 }
 
@@ -328,11 +327,11 @@ export function edgeActionUpdateSerializer(item: EdgeActionUpdate): any {
 /** Represents an edge action properties */
 export interface EdgeActionPropertiesUpdate {}
 
-export function edgeActionPropertiesUpdateSerializer(item: EdgeActionPropertiesUpdate): any {
-  return item;
+export function edgeActionPropertiesUpdateSerializer(_item: EdgeActionPropertiesUpdate): any {
+  return {};
 }
 
-/** The SKU type for update operations */
+/** The SKU fields in the update model. Do not include sku in PATCH requests; any supplied sku, including null or the existing value, is rejected. */
 export interface SkuTypeUpdate {
   /** The name of the SKU */
   name?: string;
@@ -407,13 +406,13 @@ export function edgeActionVersionDeserializer(item: any): EdgeActionVersion {
 
 /** Represents an edge action version */
 export interface EdgeActionVersionProperties {
-  /** The deployment type */
+  /** The deployment type for the Edge Action version. Set this value when creating the version. When updating an existing version, any supplied value must match the existing value. */
   deploymentType: EdgeActionVersionDeploymentType;
   /** The validation status */
   readonly validationStatus?: EdgeActionVersionValidationStatus;
   /** The provisioning state */
   readonly provisioningState?: ProvisioningState;
-  /** The active state */
+  /** Indicates whether this is the default version. When creating a version, if the Edge Action has no default version, the service makes the new version the default even when false is supplied. If another default version exists, supplying true is rejected. When updating an existing version, any supplied value must match the existing value. Use swapDefault to change the default version. */
   isDefaultVersion: EdgeActionIsDefaultVersion;
   /** The last update time in UTC for package update */
   readonly lastPackageUpdateTime?: Date;
@@ -511,9 +510,9 @@ export function edgeActionVersionUpdateSerializer(item: EdgeActionVersionUpdate)
 
 /** The updatable properties of the EdgeActionVersion. */
 export interface EdgeActionVersionUpdateProperties {
-  /** The deployment type */
+  /** The deployment type for the Edge Action version. Set this value when creating the version. When updating an existing version, any supplied value must match the existing value. */
   deploymentType?: EdgeActionVersionDeploymentType;
-  /** The active state */
+  /** Indicates whether this is the default version. When creating a version, if the Edge Action has no default version, the service makes the new version the default even when false is supplied. If another default version exists, supplying true is rejected. When updating an existing version, any supplied value must match the existing value. Use swapDefault to change the default version. */
   isDefaultVersion?: EdgeActionIsDefaultVersion;
 }
 
@@ -715,8 +714,6 @@ export function edgeActionExecutionFilterArrayDeserializer(
 
 /** Known values of {@link Versions} that the service accepts. */
 export enum KnownVersions {
-  /** 2025-09-01-preview */
-  _20250901Preview = "2025-09-01-preview",
-  /** 2025-12-01-preview */
-  _20251201Preview = "2025-12-01-preview",
+  /** 2026-10-01 */
+  V20261001 = "2026-10-01",
 }

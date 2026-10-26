@@ -17,6 +17,9 @@ import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { BlockBlobTier } from "../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import type { HttpClient } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { newPipeline } from "../src/Pipeline.js";
 
 describe("BlockBlobClient", () => {
   let containerName: string;
@@ -493,5 +496,38 @@ describe("BlockBlobClient", () => {
 
     const result = await blockBlobClient.download();
     assert.deepStrictEqual(await bodyToString(result), content);
+  });
+});
+
+describe("BlockBlobClient request bodies", () => {
+  it.each([
+    ["ArrayBuffer", new Uint8Array([1, 2, 3]).buffer],
+    ["DataView", new DataView(new Uint8Array([1, 2, 3]).buffer, 1, 2)],
+    ["Uint16Array", new Uint16Array([1, 2, 3])],
+  ] satisfies [string, ArrayBuffer | ArrayBufferView][])("preserves %s bodies", async (_, body) => {
+    let requestBody: unknown;
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        requestBody = request.body;
+        return {
+          request,
+          status: 201,
+          headers: createHttpHeaders({
+            etag: '"etag"',
+            "last-modified": new Date(0).toUTCString(),
+            date: new Date(0).toUTCString(),
+            "x-ms-version": "2026-12-06",
+            "x-ms-version-id": "version",
+          }),
+        };
+      },
+    };
+    const pipeline = newPipeline();
+    Object.assign(pipeline, { _coreHttpClient: httpClient });
+    const client = new BlockBlobClient("https://example.com/container/blob", pipeline);
+
+    await client.upload(body, body.byteLength);
+
+    assert.strictEqual(requestBody, body);
   });
 });
