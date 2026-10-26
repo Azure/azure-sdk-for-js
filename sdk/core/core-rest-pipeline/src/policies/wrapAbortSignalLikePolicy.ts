@@ -4,7 +4,7 @@
 import { type PipelinePolicy } from "../pipeline.js";
 import { wrapAbortSignalLike } from "#platform/wrapAbortSignal";
 import type { PipelineResponse } from "../interfaces.js";
-import { cleanupAbortSignal } from "../util/abortSignalCleanup.js";
+import { cleanupOnRequestResponseCompletion } from "../util/cleanupOnCompletion.js";
 
 export const wrapAbortSignalLikePolicyName = "wrapAbortSignalLikePolicy";
 
@@ -31,7 +31,7 @@ export function wrapAbortSignalLikePolicy(): PipelinePolicy {
         return response;
       } finally {
         request.abortSignal = originalAbortSignal;
-        cleanupAbortSignal(response, cleanup);
+        cleanupOnRequestResponseCompletion(response, cleanup);
       }
     },
   };

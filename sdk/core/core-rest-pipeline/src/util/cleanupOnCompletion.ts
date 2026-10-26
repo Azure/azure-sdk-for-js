@@ -6,7 +6,10 @@ import {
   getResponseBodyCompletion,
 } from "@typespec/ts-http-runtime/internal/util";
 
-export function cleanupAbortSignal(
+/**
+ * Runs the cleanup callback associated with the response and its request once they are complete.
+ */
+export function cleanupOnRequestResponseCompletion(
   response:
     | {
         readableStreamBody?: {
