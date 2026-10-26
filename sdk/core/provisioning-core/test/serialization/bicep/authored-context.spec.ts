@@ -2,13 +2,7 @@
 // Licensed under the MIT License.
 
 import { beforeEach, describe, expect, it } from "vitest";
-import {
-  ProvisioningComponent,
-  Resource,
-  ResourceGroup,
-  Stack,
-  fn,
-} from "../../../src/index.js";
+import { ProvisioningComponent, Resource, ResourceGroup, Stack, fn } from "../../../src/index.js";
 import { buildStackDeclarations } from "../../../src/serialization/ast/declaration-builder.js";
 import { createSymbolMap } from "../../../src/serialization/symbol-map.js";
 import { collectResourceDeclarations } from "../../../src/constructs/resource/resource-query.js";

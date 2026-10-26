@@ -2,13 +2,7 @@
 // Licensed under the MIT License.
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import {
-  ProvisioningComponent,
-  Resource,
-  ResourceGroup,
-  Stack,
-  fn,
-} from "../../../src/index.js";
+import { ProvisioningComponent, Resource, ResourceGroup, Stack, fn } from "../../../src/index.js";
 import * as json from "../../../src/serialization/index.js";
 import * as publicCore from "../../../src/index.js";
 import { renderBicepFiles } from "../../../src/internal.js";

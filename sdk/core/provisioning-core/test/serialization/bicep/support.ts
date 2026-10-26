@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Resource,
-  ResourceGroup,
-  Stack,
-  type ProvisioningComponent,
-} from "../../../src/index.js";
+import { Resource, ResourceGroup, Stack, type ProvisioningComponent } from "../../../src/index.js";
 import { buildBicepFiles } from "../../../src/serialization/bicep/file-layout/build-bicep-files.js";
 import type { InfraNode } from "../../../src/serialization/ast/index.js";
 import { renderBicepFiles, type RenderedBicepFile } from "../../../src/internal.js";
