@@ -5,7 +5,7 @@
 ### Bugs Fixed
 
 - Fixed `deleteConfigurationSetting` ignoring the caller's `onResponse` callback. Previously ignored callbacks now execute with the existing runtime timing and arguments, making their side effects and exceptions observable.
-- Fixed `getConfigurationSetting` ignoring the caller's `onResponse` callback, including for conditional reads returning 304. Previously ignored callbacks now execute with the existing runtime timing and arguments, making their side effects and exceptions observable.
+- Fixed `getConfigurationSetting` ignoring the caller's `onResponse` callback, including for conditional reads returning 304. Previously ignored callbacks now execute with the existing runtime timing and arguments, making their side effects and exceptions observable. Callback exceptions are propagated rather than treated as conditional-read 304 responses.
 
 ## 1.13.0 (2026-09-23)
 

@@ -216,6 +216,54 @@ describe("getConfigurationSetting onResponse", () => {
     expect(sendRequest).toHaveBeenCalledTimes(1);
   });
 
+  it.each([
+    { status: 200, withResponse: false },
+    { status: 304, withResponse: false },
+    { status: 200, withResponse: true },
+    { status: 304, withResponse: true },
+  ])(
+    "does not recover a callback-thrown 304 error for HTTP $status with response=$withResponse",
+    async ({ status, withResponse }) => {
+      const error = new RestError("caller failure", { statusCode: 304 });
+      const onResponse = vi.fn<RawResponseCallback>((response, callbackError) => {
+        if (callbackError === undefined) {
+          if (withResponse) {
+            error.request = response.request;
+            error.response = response;
+          }
+          throw error;
+        }
+      });
+      const sendRequest = vi.fn<SendRequest>(async (request) => ({
+        request,
+        status,
+        headers: createHttpHeaders({ "content-type": "application/json" }),
+        bodyAsText: status === 200 ? JSON.stringify(body) : undefined,
+      }));
+
+      await expect(
+        createClient(sendRequest).getConfigurationSetting(
+          { key: body.key, etag: body.etag },
+          { onlyIfChanged: true, onResponse },
+        ),
+      ).rejects.toBe(error);
+      expect(sendRequest).toHaveBeenCalledTimes(1);
+      expect(onResponse).toHaveBeenCalledTimes(withResponse ? 2 : 1);
+      expect(onResponse.mock.calls[0]).toEqual([
+        expect.objectContaining({ status }),
+        undefined,
+        undefined,
+      ]);
+      if (withResponse) {
+        expect(onResponse.mock.calls[1]).toEqual([
+          expect.objectContaining({ status }),
+          error,
+          error,
+        ]);
+      }
+    },
+  );
+
   it.each([429, 503])(
     "invokes the callback only after a %i retry succeeds",
     async (initialStatus) => {
