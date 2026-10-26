@@ -764,7 +764,7 @@ export interface AgentOptimizationUserConversationSimulationInlineDataSource ext
 }
 
 // @public
-export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations" | "voice" | "invocations_ws";
+export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations" | "voice" | "invocations_ws" | "voice_conversation_engine";
 
 // @public
 export interface AgentReference {
@@ -3592,6 +3592,7 @@ export interface HostedAgentDefinition extends AgentDefinition {
     code_configuration?: CodeConfiguration;
     container_configuration?: ContainerConfiguration;
     cpu: string;
+    enable_memory_snapshot?: boolean;
     environment_variables?: Record<string, string>;
     kind: "hosted";
     memory: string;
@@ -3627,13 +3628,13 @@ export interface ImageGenTool extends Tool {
     description?: string;
     input_fidelity?: InputFidelity;
     input_image_mask?: ImageGenToolInputImageMask;
-    model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5" | "gpt-image-2" | "gpt-image-2-2026-04-21";
+    model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5" | "gpt-image-2" | "gpt-image-2-2026-04-21" | "gpt-image-2.5-sunburst" | "gpt-image-2.5-sunburst-2026-09-08" | "gpt-image-2.5-flare" | "gpt-image-2.5-flare-2026-09-08";
     moderation?: "auto" | "low";
     name?: string;
     output_compression?: number;
     output_format?: "png" | "webp" | "jpeg";
     partial_images?: number;
-    quality?: "low" | "medium" | "high" | "auto";
+    quality?: "low" | "medium" | "high" | "xhigh" | "max" | "auto";
     size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
     tool_configs?: Record<string, ToolConfig>;
     type: "image_generation";
@@ -6908,6 +6909,7 @@ export interface VoiceAgentDefinition extends AgentDefinition {
     model_type?: VoiceModelType;
     output_modalities?: VoiceOutputModality[];
     parallel_tool_calls?: boolean;
+    soundscape?: VoiceAgentSoundscapeConfig;
     store?: boolean;
     structured_inputs?: Record<string, StructuredInputDefinition>;
     subagent_config?: VoiceAgentSubagentConfig;
@@ -6973,11 +6975,12 @@ export interface VoiceAgentInputTranscription {
     languages?: string[];
     model: VoiceAgentInputTranscriptionModel;
     phrase_list?: string[];
+    profanity_filter?: VoiceAgentProfanityFilterMode;
     prompt?: string;
 }
 
 // @public
-export type VoiceAgentInputTranscriptionModel = "whisper-1" | "gpt-realtime-whisper" | "gpt-4o-transcribe" | "gpt-4o-mini-transcribe" | "gpt-4o-transcribe-diarize" | "gpt-transcribe" | "gpt-live-transcribe" | "mai-transcribe" | "azure-speech";
+export type VoiceAgentInputTranscriptionModel = "whisper-1" | "gpt-realtime-whisper" | "gpt-4o-transcribe" | "gpt-4o-mini-transcribe" | "gpt-4o-transcribe-diarize" | "gpt-transcribe" | "gpt-live-transcribe" | "mai-transcribe" | "azure-speech" | "azure-speech-streaming";
 
 // @public
 export interface VoiceAgentInterimResponseConfig {
@@ -7033,7 +7036,10 @@ export interface VoiceAgentNoiseReduction {
 }
 
 // @public
-export type VoiceAgentNoiseReductionType = "near_field" | "far_field" | "azure_deep_noise_suppression";
+export type VoiceAgentNoiseReductionType = "near_field" | "far_field" | "azure_deep_noise_suppression" | "azure_deep_noise_suppression_headset" | "azure_personal_noise_suppression";
+
+// @public
+export type VoiceAgentProfanityFilterMode = "masked" | "unfiltered" | "removed";
 
 // @public
 export class VoiceAgentProtocolError extends VoiceAgentRealtimeError {
@@ -7387,6 +7393,37 @@ export interface VoiceAgentSessionUpdateConfig {
 
 // @public
 export interface VoiceAgentSessionUpdateOptions extends VoiceAgentEventOptions {
+}
+
+// @public
+export interface VoiceAgentSoundscapeConfig {
+    background?: VoiceAgentSoundscapeTrackConfig;
+    closing?: VoiceAgentSoundscapeTrackConfig;
+    opening?: VoiceAgentSoundscapeTrackConfig;
+    transfer?: VoiceAgentSoundscapeTrackConfig;
+    working?: VoiceAgentSoundscapeWorkingTrackConfig;
+}
+
+// @public
+export type VoiceAgentSoundscapeSound = "office" | "call_center" | "busy_street" | "people_talking" | "street_and_metro_station" | "ding1" | "ding2";
+
+// @public
+export interface VoiceAgentSoundscapeSourceConfig {
+    name: VoiceAgentSoundscapeSound;
+    type: "built_in";
+}
+
+// @public
+export interface VoiceAgentSoundscapeTrackConfig {
+    gain?: number;
+    source: VoiceAgentSoundscapeSourceConfig;
+}
+
+// @public
+export interface VoiceAgentSoundscapeWorkingTrackConfig {
+    delay_ms?: number;
+    gain?: number;
+    source: VoiceAgentSoundscapeSourceConfig;
 }
 
 // @public

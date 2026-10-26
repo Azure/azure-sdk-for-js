@@ -6,6 +6,17 @@
 
 - Align routine options with the generated V2 preview contract introduced in [#39782](https://github.com/Azure/azure-sdk-for-js/pull/39782). Remove `Routines=V1Preview` from routine options and `FoundryFeaturesOptInKeys`, remove the unsupported `before` parameter from routine and run lists, and narrow `order` to `PageOrder` (`"asc" | "desc"`).
 
+### Features Added
+
+- Add voice-agent `soundscape` configuration for built-in background ambience and opening, working, transfer, and closing cues on telephony calls. [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
+- Add managed Azure Speech transcription `profanity_filter` modes, the `azure-speech-streaming` transcription model, and headset and personalized noise suppression options. [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
+- Add `enable_memory_snapshot` to hosted agent definitions and `voice_conversation_engine` to supported agent protocols. [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
+- Add GPT Image 2.5 Sunburst and Flare model identifiers, including their dated snapshots, and `xhigh` and `max` image quality options. [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `1af5aada936fd34b72a8362d832b4d7fcd0a9ac6`, preserving customized transcription fields and voice audio contracts. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/1af5aada936fd34b72a8362d832b4d7fcd0a9ac6). [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
+
 ## 2.9.0 (2026-10-19)
 
 ### Breaking Changes
