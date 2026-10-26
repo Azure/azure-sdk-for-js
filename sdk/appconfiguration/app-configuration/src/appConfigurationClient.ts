@@ -387,9 +387,10 @@ export class AppConfigurationClient {
             select: formatFieldsForSelect(options.fields),
             ...formatAcceptDateTime(options),
             ...checkAndFormatIfAndIfNoneMatch(id, options),
-            onResponse: (response) => {
-              status = response.status;
-              rawResponse = response;
+            onResponse: (...args) => {
+              status = args[0].status;
+              rawResponse = args[0];
+              updatedOptions.onResponse?.(...args);
             },
             requestOptions: {
               ...updatedOptions.requestOptions,
