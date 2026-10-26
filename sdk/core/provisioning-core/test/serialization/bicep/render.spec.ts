@@ -9,7 +9,7 @@ import {
   ResourceGroup,
   Stack,
   namingRequiredPolicy,
-} from "@azure/provisioning-core";
+} from "../../../src/index.js";
 import { childResource as childResourceHandle, resource } from "../../support.js";
 import { renderBicepFiles } from "../../../src/internal.js";
 import {

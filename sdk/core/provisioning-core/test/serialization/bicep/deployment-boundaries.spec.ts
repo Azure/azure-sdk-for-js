@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { beforeEach, describe, expect, it } from "vitest";
-import { Resource, ResourceGroup, Stack, fn } from "@azure/provisioning-core";
+import { Resource, ResourceGroup, Stack, fn } from "../../../src/index.js";
 import { compile, files, storage } from "./support.js";
 
 describe("authored deployment-boundary modules", () => {

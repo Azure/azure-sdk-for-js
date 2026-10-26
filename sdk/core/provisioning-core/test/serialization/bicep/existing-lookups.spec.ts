@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { beforeEach, describe, expect, it } from "vitest";
-import { Resource, Stack, fn } from "@azure/provisioning-core";
+import { Resource, Stack, fn } from "../../../src/index.js";
 import { compile, files, storage, subscriptionStack } from "./support.js";
 
 describe("existing lookup placement at authored boundaries", () => {

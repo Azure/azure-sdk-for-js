@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { beforeEach, describe, expect, it } from "vitest";
-import type { ProvisioningComponent } from "@azure/provisioning-core";
+import type { ProvisioningComponent } from "../../../src/index.js";
 import {
   Resource,
   Stack,
   fn,
   type ExpressionOrValue,
   type TargetScope,
-} from "@azure/provisioning-core";
+} from "../../../src/index.js";
 import { renderBicepFiles } from "../../../src/internal.js";
 import { deserialize, serialize } from "../../../src/serialization/index.js";
 import type {

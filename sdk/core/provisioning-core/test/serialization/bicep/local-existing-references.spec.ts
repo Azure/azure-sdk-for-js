@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { beforeEach, describe, expect, it } from "vitest";
-import { ProvisioningComponent, Resource, Stack, fn } from "@azure/provisioning-core";
+import { ProvisioningComponent, Resource, Stack, fn } from "../../../src/index.js";
 import { compile, files, storage, subscriptionStack } from "./support.js";
 
 describe("local existing references in RG modules", () => {

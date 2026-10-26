@@ -7,7 +7,7 @@ import {
   Stack,
   fn,
   isExpression,
-} from "@azure/provisioning-core";
+} from "../src/index.js";
 import { describe, expect, it } from "vitest";
 
 describe("provisioning core", () => {

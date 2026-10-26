@@ -8,7 +8,7 @@ import {
   ResourceGroup,
   Stack,
   fn,
-} from "@azure/provisioning-core";
+} from "../../../src/index.js";
 import { deserialize, serialize } from "../../../src/serialization/index.js";
 import { renderBicepFiles } from "../../../src/internal.js";
 import { compile, files, storage, subscriptionStack, widget } from "./support.js";

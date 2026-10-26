@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, expect, it } from "vitest";
-import { isExpression, Resource, Stack } from "@azure/provisioning-core";
+import { isExpression, Resource, Stack } from "../../../src/index.js";
 import { symbolicValueExpressionNode } from "../../../src/expression/ast-nodes.js";
 import { unwrapExpression, wrapExpression } from "../../../src/expression/expressions.js";
 import { createLoopedResource, Loop } from "../../../src/constructs/resource/resource.js";

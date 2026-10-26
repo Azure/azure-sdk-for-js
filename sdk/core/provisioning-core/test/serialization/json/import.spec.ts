@@ -14,7 +14,7 @@ import {
   isExpression,
   namingRequiredPolicy,
   type ExpressionOrValue,
-} from "@azure/provisioning-core";
+} from "../../../src/index.js";
 import { unwrapExpression, wrapExpression } from "../../../src/expression/expressions.js";
 import {
   arrayAccessExpressionNode,

@@ -19,7 +19,7 @@
 
 import { describe, expect, it } from "vitest";
 
-import { fn, namingRequiredPolicy, Resource, Stack } from "@azure/provisioning-core";
+import { fn, namingRequiredPolicy, Resource, Stack } from "../../../src/index.js";
 import {
   createFlatModelShape as createModelShape,
   createDeferredShape,

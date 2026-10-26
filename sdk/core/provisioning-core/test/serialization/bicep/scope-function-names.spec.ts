@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { Resource, ResourceGroup, Stack, fn } from "@azure/provisioning-core";
+import { Resource, ResourceGroup, Stack, fn } from "../../../src/index.js";
 import * as core from "../../../src/serialization/ast/declaration-builder.js";
 import * as symbols from "../../../src/serialization/symbol-map.js";
 import { serialize } from "../../../src/serialization/index.js";

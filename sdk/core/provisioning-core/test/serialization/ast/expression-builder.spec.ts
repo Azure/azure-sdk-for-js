@@ -12,7 +12,7 @@ import {
   type ExpressionNode,
 } from "../../../src/expression/ast-nodes.js";
 import { wrapExpression } from "../../../src/expression/expressions.js";
-import { fn } from "@azure/provisioning-core";
+import { fn } from "../../../src/index.js";
 import {
   buildExpression,
   moduleOutputExpression,

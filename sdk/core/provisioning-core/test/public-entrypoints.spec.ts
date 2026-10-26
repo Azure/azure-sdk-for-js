@@ -10,9 +10,9 @@ import type {
   InferParamType,
   ResourceState,
   ScalarOutputType,
-} from "@azure/provisioning-core";
+} from "../src/index.js";
 // @ts-expect-error IndexedProxyOf is an implementation detail.
-import type { IndexedProxyOf } from "@azure/provisioning-core";
+import type { IndexedProxyOf } from "../src/index.js";
 
 type PublicHelperTypes = [
   ExpressionBrand<unknown>,

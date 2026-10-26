@@ -11,7 +11,7 @@ import {
   Stack,
   ResourceGroup,
   namingRequiredPolicy,
-} from "@azure/provisioning-core";
+} from "../src/index.js";
 import { resource } from "./support.js";
 
 const storageRules: ResourceNamingRules = {

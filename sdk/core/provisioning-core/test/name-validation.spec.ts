@@ -12,7 +12,7 @@ import {
   type ExpressionOrValue,
   type ResourceNamingRules,
   type NamingContext,
-} from "@azure/provisioning-core";
+} from "../src/index.js";
 import { deserialize, serialize } from "../src/serialization/index.js";
 import { unwrapResourceHandle } from "../src/constructs/resource/resource-proxy.js";
 import { assertValidResourceName } from "../src/naming/name-validation.js";

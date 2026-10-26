@@ -9,7 +9,7 @@ import {
   deref,
   fn,
   namingRequiredPolicy,
-} from "@azure/provisioning-core";
+} from "../../../src/index.js";
 import { getLoopedResources } from "../../../src/constructs/stack.js";
 import { collectDependenciesForDeclaration } from "../../../src/serialization/ast/declaration-dependencies.js";
 import type {

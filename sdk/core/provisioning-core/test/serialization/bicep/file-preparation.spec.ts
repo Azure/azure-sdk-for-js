@@ -8,7 +8,7 @@ import {
   ResourceGroup,
   Stack,
   fn,
-} from "@azure/provisioning-core";
+} from "../../../src/index.js";
 import { collectResourceDeclarations } from "../../../src/constructs/resource/resource-query.js";
 import { createSymbolMap } from "../../../src/serialization/symbol-map.js";
 import { buildStackDeclarations } from "../../../src/serialization/ast/declaration-builder.js";

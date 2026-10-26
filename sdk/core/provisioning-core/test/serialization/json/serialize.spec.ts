@@ -12,7 +12,7 @@ import {
   Stack,
   namingRequiredPolicy,
   Resource,
-} from "@azure/provisioning-core";
+} from "../../../src/index.js";
 import { interpolatedStringExpressionNode } from "../../../src/expression/ast-nodes.js";
 import { unwrapExpression, wrapExpression } from "../../../src/expression/expressions.js";
 import { createLoopedResource, Loop } from "../../../src/constructs/resource/resource.js";

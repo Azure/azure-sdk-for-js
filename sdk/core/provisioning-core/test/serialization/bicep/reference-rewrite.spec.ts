@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { beforeEach, describe, expect, it } from "vitest";
-import { Resource, ResourceGroup, fn } from "@azure/provisioning-core";
-import { Stack } from "@azure/provisioning-core";
+import { Resource, ResourceGroup, fn } from "../../../src/index.js";
+import { Stack } from "../../../src/index.js";
 import { wrapExpression, unwrapExpression } from "../../../src/expression/expressions.js";
 import {
   identifierExpressionNode,

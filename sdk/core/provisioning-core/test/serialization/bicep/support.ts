@@ -6,7 +6,7 @@ import {
   ResourceGroup,
   Stack,
   type ProvisioningComponent,
-} from "@azure/provisioning-core";
+} from "../../../src/index.js";
 import { buildBicepFiles } from "../../../src/serialization/bicep/file-layout/build-bicep-files.js";
 import type { InfraNode } from "../../../src/serialization/ast/index.js";
 import { renderBicepFiles, type RenderedBicepFile } from "../../../src/internal.js";
