@@ -4,6 +4,27 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface ListEkmPrivateEndpointsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface GetEkmPrivateEndpointOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface DeleteEkmPrivateEndpointOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface CreateEkmPrivateEndpointOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface GetEkmPrivateEndpointOperationStatusOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface DeleteEkmConnectionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
