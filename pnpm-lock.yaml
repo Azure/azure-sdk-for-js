@@ -2316,7 +2316,7 @@ importers:
   sdk/applicationinsights/arm-appinsights:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
@@ -16882,7 +16882,7 @@ importers:
   sdk/hybridconnectivity/arm-hybridconnectivity:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -18628,7 +18628,7 @@ importers:
         version: 4.14.0(supports-color@10.2.2)
       '@azure/keyvault-certificates':
         specifier: ^4.9.0
-        version: 4.10.3(supports-color@10.2.2)
+        version: link:../keyvault-certificates
       dotenv:
         specifier: catalog:testing
         version: 18.0.8
@@ -31210,22 +31210,22 @@ importers:
         version: 22.20.5
       '@vitest/browser-playwright':
         specifier: catalog:testing
-        version: 5.0.4(playwright@1.64.0)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.4)
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
-        version: 5.0.4(vitest@5.0.4)
+        version: 5.0.5(vitest@5.0.5)
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
       dotenv:
         specifier: catalog:testing
-        version: 18.0.7
+        version: 18.0.8
       eslint:
         specifier: 'catalog:'
-        version: 10.12.0(supports-color@10.2.2)
+        version: 10.13.0(supports-color@10.2.2)
       playwright:
         specifier: catalog:testing
-        version: 1.64.0
+        version: 1.64.1
       prettier:
         specifier: 'catalog:'
         version: 3.9.10
@@ -31237,7 +31237,7 @@ importers:
         version: 6.0.3
       vitest:
         specifier: catalog:testing
-        version: 5.0.4(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.4)(@vitest/coverage-istanbul@5.0.4)(@vitest/ui@5.0.4)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
   sdk/sphere/arm-sphere:
     dependencies:
@@ -36602,10 +36602,6 @@ packages:
     resolution: {integrity: sha512-8utCLdTZn14CiAe0HW4JbtzUMsc0mdDwnjUvStFMrR4IxQP8S2eL9zVAdplpfORVJGYmidZElpeXRYjJQ4UyUw==}
     engines: {node: '>=22.0.0'}
 
-  '@azure/keyvault-certificates@4.10.3':
-    resolution: {integrity: sha1-xv78JrnQG9ECOHL6sv0HYRyb6ZQ=}
-    engines: {node: '>=20.0.0'}
-
   '@azure/keyvault-common@2.1.0':
     resolution: {integrity: sha1-Zw50FKK/aDcbCz0fmByboCeLd90=}
     engines: {node: '>=20.0.0'}
@@ -37716,7 +37712,7 @@ packages:
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   '@open-draft/until@3.0.1':
-    resolution: {integrity: sha512-s7/9ELP4aP9YZtW7RJaa0Xf3RISaRH9+EFN18FtykJYRHGNrl8f9ymvoNXzjhrjmftFvkQudtuDU9RYhk0xs3A==}
+    resolution: {integrity: sha1-bTX6WELj9yiCic9I3gqD87g8xaw=}
 
   '@opentelemetry/api-logs@0.211.0':
     resolution: {integrity: sha1-MtntmJOZVqhNTi/14BWYy50o10Q=}
@@ -43720,22 +43716,6 @@ snapshots:
       '@azure/msal-browser': 5.26.0
       '@azure/msal-node': 6.0.1
       open: 11.0.4
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/keyvault-certificates@4.10.3(supports-color@10.2.2)':
-    dependencies:
-      '@azure-rest/core-client': 2.9.0(supports-color@10.2.2)
-      '@azure/abort-controller': 2.2.0
-      '@azure/core-auth': 1.11.0(supports-color@10.2.2)
-      '@azure/core-lro': 2.7.2(supports-color@10.2.2)
-      '@azure/core-paging': 1.7.0
-      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
-      '@azure/core-tracing': 1.4.0
-      '@azure/core-util': 1.14.0(supports-color@10.2.2)
-      '@azure/keyvault-common': 2.1.0(supports-color@10.2.2)
-      '@azure/logger': 1.4.0(supports-color@10.2.2)
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color

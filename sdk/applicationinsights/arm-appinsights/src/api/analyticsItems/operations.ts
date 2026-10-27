@@ -1,27 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext as Client } from "../index.js";
-import {
+import type { ApplicationInsightsManagementContext as Client } from "../index.js";
+import type {
   ApplicationInsightsComponentAnalyticsItem,
+  ItemScopePath,
+} from "../../models/analyticsItems/models.js";
+import {
   applicationInsightsComponentAnalyticsItemSerializer,
   applicationInsightsComponentAnalyticsItemDeserializer,
-  ItemScopePath,
   applicationInsightsComponentAnalyticsItemArrayDeserializer,
 } from "../../models/analyticsItems/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   AnalyticsItemsDeleteOptionalParams,
   AnalyticsItemsPutOptionalParams,
   AnalyticsItemsGetOptionalParams,
   AnalyticsItemsListOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _$deleteSend(
   context: Client,
