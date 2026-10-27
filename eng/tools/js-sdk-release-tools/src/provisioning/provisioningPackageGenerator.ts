@@ -50,19 +50,21 @@ export async function generateProvisioningSDKPackage(
       originalNpmPackageInfo = await getNpmPackageInfo(packageDirectory);
     }
 
-    await cleanUpDirectory(packageDirectory, ["test"]);
-    if (options.apiVersion) {
-      specifyApiVersionToGenerateSDKByTypeSpec(
-        options.typeSpecDirectory,
-        options.apiVersion,
-        options.emitterName,
+    if (!options.skip) {
+      await cleanUpDirectory(packageDirectory, ["test"]);
+      if (options.apiVersion) {
+        specifyApiVersionToGenerateSDKByTypeSpec(
+          options.typeSpecDirectory,
+          options.apiVersion,
+          options.emitterName,
+        );
+      }
+      await generateTypeScriptCodeFromTypeSpec(
+        options,
+        originalNpmPackageInfo?.version,
+        packageDirectory,
       );
     }
-    await generateTypeScriptCodeFromTypeSpec(
-      options,
-      originalNpmPackageInfo?.version,
-      packageDirectory,
-    );
 
     await buildPackage(packageDirectory, options, packageResult);
     const changelog = await generateChangelogAndBumpVersion(relativePackageDirToSdkRoot, options);
