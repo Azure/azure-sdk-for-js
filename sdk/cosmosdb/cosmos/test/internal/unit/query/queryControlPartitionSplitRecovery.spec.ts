@@ -10,6 +10,7 @@ import type {
 } from "../../../../src/index.js";
 import { CosmosDbDiagnosticLevel, StatusCodes } from "../../../../src/index.js";
 import { SubStatusCodes } from "../../../../src/common/index.js";
+import { ErrorResponse } from "../../../../src/request/ErrorResponse.js";
 import { OrderByQueryExecutionContext } from "../../../../src/queryExecutionContext/orderByQueryExecutionContext.js";
 import { ParallelQueryExecutionContext } from "../../../../src/queryExecutionContext/parallelQueryExecutionContext.js";
 import { PipelinedQueryExecutionContext } from "../../../../src/queryExecutionContext/pipelinedQueryExecutionContext.js";
@@ -2352,6 +2353,116 @@ describe("partition split recovery", () => {
     assert.equal(topology.getRoutingMapRequestCount(), 2);
   });
 
+  it("preserves inactive interior coverage across Parallel stateless recreation", async () => {
+    const clientContext = createClientContext();
+    const range0 = createPartitionKeyRange("R0", "", "40");
+    const range1 = createPartitionKeyRange("R1", "40", "80");
+    const range2 = createPartitionKeyRange("R2", "80", "FF");
+    mockStableTopology(clientContext, [range0, range1, range2]);
+    const requestCounts = new Map<string, number>();
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ options: requestOptions, partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requestCounts.set(rangeId, (requestCounts.get(rangeId) ?? 0) + 1);
+        const token = requestOptions.continuationToken;
+        if (rangeId === "R0" && token === "r0-token") {
+          return {
+            result: [{ id: "r0", source: "R0" }] as unknown as Resource,
+            headers: { "x-ms-continuation": "r0-next", "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (rangeId === "R0" && token === "r0-next") {
+          return {
+            result: [{ id: "r0-final", source: "R0" }] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (rangeId === "R1") {
+          assert.equal(token, "r1-token");
+          return {
+            result: [{ id: "r1", source: "R1" }] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        assert.equal(rangeId, "R2");
+        assert.equal(token, "r2-token");
+        return {
+          result: [{ id: "r2", source: "R2" }] as unknown as Resource,
+          headers:
+            requestCounts.get("R2") === 1
+              ? { "x-ms-continuation": "r2-next", "x-ms-request-charge": "1" }
+              : { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+    const initialToken = JSON.stringify({
+      rid: "container-rid",
+      rangeMappings: [
+        { queryRange: { min: "", max: "40" }, continuationToken: "r0-token" },
+        { queryRange: { min: "40", max: "80" }, continuationToken: "r1-token" },
+        { queryRange: { min: "80", max: "FF" }, continuationToken: "r2-token" },
+      ],
+    });
+    const firstContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuationToken: initialToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 3,
+        maxItemCount: 2,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const firstPage = await withTimeout(firstContext.fetchMore(createDummyDiagnosticNode()), 1000);
+    const continuationToken = firstPage.headers["x-ms-continuation"];
+    assert.deepEqual(
+      firstPage.result.map((resource: TestDocument) => resource.id),
+      ["r0", "r1"],
+    );
+    const parsedToken = JSON.parse(JSON.stringify(JSON.parse(continuationToken)));
+    assert.deepInclude(parsedToken.rangeMappings, {
+      queryRange: { min: "40", max: "80" },
+      isActive: false,
+    });
+
+    const resumedContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuationToken: JSON.stringify(parsedToken),
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+        maxItemCount: 2,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const finalPage = await withTimeout(
+      resumedContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+    assert.deepEqual(
+      finalPage.result.map((resource: TestDocument) => resource.id),
+      ["r0-final", "r2"],
+    );
+    assert.isUndefined(finalPage.headers["x-ms-continuation"]);
+    assert.equal(requestCounts.get("R1"), 1);
+    assert.deepEqual(
+      [...firstPage.result, ...finalPage.result].map((resource: TestDocument) => resource.id),
+      ["r0", "r1", "r0-final", "r2"],
+    );
+  });
+
   it("keeps ORDER BY checkpoint ownership separate from sibling backend cursors", async () => {
     const clientContext = createClientContext();
     mockStableTopology(clientContext, [childRange1, childRange2]);
@@ -2602,6 +2713,153 @@ describe("partition split recovery", () => {
       ["r0", "r1", "r2"],
     );
     assert.deepEqual(requests.sort(), ["R0", "R1", "R2"]);
+  });
+
+  it("rejects malformed JSON-valid continuation tokens before routing or queryFeed", () => {
+    const malformedTokens = [
+      {},
+      { rid: "container-rid" },
+      { rid: "container-rid", rangeMappings: {} },
+      { rid: "container-rid", rangeMappings: [] },
+      { rid: "container-rid", rangeMappings: [{}] },
+      {
+        rid: "container-rid",
+        rangeMappings: [{ queryRange: { min: 0, max: "FF" } }],
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [{ queryRange: { min: "80", max: "80" } }],
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [{ queryRange: { min: "80", max: "40" } }],
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [{ queryRange: { min: "", max: "80" }, isActive: "true" }],
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [
+          {
+            queryRange: { min: "", max: "80" },
+            isOrderByCheckpoint: 1,
+          },
+        ],
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [
+          { queryRange: { min: "", max: "80" } },
+          { queryRange: { min: "40", max: "FF" } },
+        ],
+      },
+    ];
+
+    for (const queryType of ["Parallel", "ORDER BY"] as const) {
+      for (const malformedToken of malformedTokens) {
+        const clientContext = createClientContext();
+        const queryFeedSpy = vi.spyOn(clientContext, "queryFeed");
+        const routingSpy = vi.spyOn(clientContext, "queryPartitionKeyRanges");
+        let error: unknown;
+        try {
+          new PipelinedQueryExecutionContext(
+            clientContext,
+            collectionLink,
+            queryType === "ORDER BY" ? "SELECT * FROM c ORDER BY c.value" : query,
+            {
+              ...options,
+              continuationToken: JSON.stringify(malformedToken),
+              enableQueryControl: true,
+            },
+            queryType === "ORDER BY"
+              ? createOrderByQueryInfo()
+              : createParallelPipelinedQueryInfo(),
+            correlatedActivityId,
+          );
+        } catch (caughtError) {
+          error = caughtError;
+        }
+
+        assert.instanceOf(error, ErrorResponse, queryType);
+        assert.isUndefined((error as ErrorResponse).code, queryType);
+        assert.match((error as Error).message, /Invalid continuation token/i, queryType);
+        expect(queryFeedSpy).not.toHaveBeenCalled();
+        expect(routingSpy).not.toHaveBeenCalled();
+      }
+    }
+  });
+
+  it("resumes valid old and new continuation token formats after JSON round trip", async () => {
+    const cases = [
+      {
+        queryType: "Parallel" as const,
+        token: {
+          rid: "container-rid",
+          rangeMappings: [
+            {
+              queryRange: { min: "", max: "FF" },
+              continuationToken: "parallel-token",
+            },
+          ],
+        },
+      },
+      {
+        queryType: "ORDER BY" as const,
+        token: {
+          rid: "container-rid",
+          rangeMappings: [
+            {
+              queryRange: { min: "", max: "FF" },
+              continuationToken: "orderby-token",
+              isActive: true,
+              isOrderByCheckpoint: true,
+            },
+          ],
+          orderByItems: [{ item: 5 }],
+          skipCount: 1,
+          documentRid: "AAAAAAAAAAAAAAAAAAAAAQ==",
+        },
+      },
+    ];
+
+    for (const { queryType, token } of cases) {
+      const clientContext = createClientContext();
+      mockStableTopology(clientContext, [parentRange]);
+      const queryFeedSpy = vi
+        .spyOn(clientContext, "queryFeed")
+        .mockImplementation(async ({ options: requestOptions }) => {
+          assert.equal(
+            requestOptions.continuationToken,
+            queryType === "Parallel" ? "parallel-token" : "orderby-token",
+          );
+          return {
+            result:
+              queryType === "Parallel"
+                ? ([{ id: "parallel", source: "P" }] as unknown as Resource)
+                : ([
+                    createOrderByDocument("orderby", 6, "AAAAAAAAAAAAAAAAAAAAAg=="),
+                  ] as unknown as Resource),
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        });
+      const context = new PipelinedQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        queryType === "ORDER BY" ? "SELECT * FROM c ORDER BY c.value" : query,
+        {
+          ...options,
+          continuationToken: JSON.stringify(JSON.parse(JSON.stringify(token))),
+          enableQueryControl: true,
+        },
+        queryType === "ORDER BY" ? createOrderByQueryInfo() : createParallelPipelinedQueryInfo(),
+        correlatedActivityId,
+      );
+      const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+      assert.equal(response.result[0].id, queryType === "Parallel" ? "parallel" : "orderby");
+      expect(queryFeedSpy).toHaveBeenCalledTimes(1);
+    }
   });
 
   it("preserves non-split query errors without refreshing routing", async () => {

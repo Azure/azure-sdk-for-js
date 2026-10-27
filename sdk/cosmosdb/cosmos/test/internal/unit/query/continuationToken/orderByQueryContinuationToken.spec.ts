@@ -268,12 +268,8 @@ describe("OrderByQueryContinuationToken", () => {
       });
     });
 
-    it("should parse empty JSON object", () => {
-      const token = parseOrderByQueryContinuationToken("{}");
-      assert.isUndefined(token.rid);
-      assert.isUndefined(token.rangeMappings);
-      assert.isUndefined(token.orderByItems);
-      assert.isUndefined(token.skipCount);
+    it("should reject empty JSON object", () => {
+      assert.throws(() => parseOrderByQueryContinuationToken("{}"), "Invalid continuation token");
     });
 
     it("should preserve complex order by items during serialization round trip", () => {
@@ -358,7 +354,7 @@ describe("OrderByQueryContinuationToken", () => {
       assert.deepEqual(parsed3, originalToken);
     });
 
-    it("should handle token with all edge case values", () => {
+    it("should reject a token with an empty logical range", () => {
       const edgeCaseOrderByItems = [
         { value: "", type: "string" }, // empty string
         { value: 0, type: "number" }, // zero
@@ -383,9 +379,10 @@ describe("OrderByQueryContinuationToken", () => {
         "",
       );
       const serialized = serializeOrderByQueryContinuationToken(originalToken);
-      const parsedToken = parseOrderByQueryContinuationToken(serialized);
-
-      assert.deepEqual(parsedToken, originalToken);
+      assert.throws(
+        () => parseOrderByQueryContinuationToken(serialized),
+        "Invalid continuation token",
+      );
     });
   });
 });
