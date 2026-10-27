@@ -36,6 +36,7 @@ const PRECEDENCE: Record<string, number> = {
   "%": 7,
 };
 
+const TERNARY_CONDITION_PRECEDENCE = 0.5;
 const ACCESS_PRECEDENCE = 9;
 
 /** A generated Bicep source file and its relative output path. */
@@ -231,7 +232,7 @@ function renderExpression(node: ExpressionNode, parentPrecedence?: number): stri
       return parentPrecedence !== undefined && parentPrecedence > UNARY_PREC ? `(${inner})` : inner;
     }
     case "ternary-operation": {
-      const inner = `${renderExpression(node.condition, 0.5)} ? ${renderExpression(node.trueValue)} : ${renderExpression(node.falseValue)}`;
+      const inner = `${renderExpression(node.condition, TERNARY_CONDITION_PRECEDENCE)} ? ${renderExpression(node.trueValue)} : ${renderExpression(node.falseValue)}`;
       return parentPrecedence !== undefined && parentPrecedence > 0 ? `(${inner})` : inner;
     }
     case "if-condition":
