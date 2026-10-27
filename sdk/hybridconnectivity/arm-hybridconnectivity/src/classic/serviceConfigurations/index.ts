@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
+import type { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
   listByEndpointResource,
   $delete,
@@ -9,18 +9,18 @@ import {
   createOrupdate,
   get,
 } from "../../api/serviceConfigurations/operations.js";
-import {
+import type {
   ServiceConfigurationsListByEndpointResourceOptionalParams,
   ServiceConfigurationsDeleteOptionalParams,
   ServiceConfigurationsUpdateOptionalParams,
   ServiceConfigurationsCreateOrupdateOptionalParams,
   ServiceConfigurationsGetOptionalParams,
 } from "../../api/serviceConfigurations/options.js";
-import {
+import type {
   ServiceConfigurationResource,
   ServiceConfigurationResourcePatch,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ServiceConfigurations operations. */
 export interface ServiceConfigurationsOperations {
@@ -31,11 +31,6 @@ export interface ServiceConfigurationsOperations {
     options?: ServiceConfigurationsListByEndpointResourceOptionalParams,
   ) => PagedAsyncIterableIterator<ServiceConfigurationResource>;
   /** Deletes the service details to the target resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceUri: string,
     endpointName: string,
