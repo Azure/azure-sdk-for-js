@@ -64,7 +64,6 @@ describe("The Certificates client should set the serviceVersion", () => {
     | "7.5"
     | "7.6"
     | "2025-07-01"
-    | "2026-03-01-preview"
     | "2026-04-01";
 
   it("it should allow us to specify an API version from a specific set of versions", async () => {
@@ -77,7 +76,6 @@ describe("The Certificates client should set the serviceVersion", () => {
       "7.5",
       "7.6",
       "2025-07-01",
-      "2026-03-01-preview",
       "2026-04-01",
     ];
     for (const serviceVersion of versions) {

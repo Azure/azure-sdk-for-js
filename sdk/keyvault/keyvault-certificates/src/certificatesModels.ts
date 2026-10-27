@@ -34,7 +34,6 @@ export interface CertificateClientOptions extends ExtendedCommonClientOptions {
     | "7.5"
     | "7.6"
     | "2025-07-01"
-    | "2026-03-01-preview"
     | "2026-04-01";
 
   /**
@@ -386,7 +385,7 @@ export interface CertificatePolicyProperties {
    *
    * @remarks This feature is currently intended for internal Azure Key Vault usage only.
    * Any calls using this property will fail and it is not recommended to be used at this point.
-   * Requires service version `"2026-03-01-preview"` or `"2026-04-01"` on the {@link CertificateClient}.
+   * Requires service version `"2026-04-01"` on the {@link CertificateClient}.
    */
   platformManaged?: PlatformManaged;
 }
