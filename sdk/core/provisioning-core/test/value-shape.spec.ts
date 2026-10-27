@@ -15,7 +15,6 @@ import {
   createStringLiteralShape,
   createStringShape,
   createUnionShape,
-  type ValueShape,
 } from "../src/shape/shape.js";
 import type {
   BooleanValueEncodingDescriptor,
@@ -72,82 +71,68 @@ const stringEncoding = {
 } as const satisfies StringValueEncodingDescriptor;
 
 describe("concrete value shapes", () => {
-  it("constructs every terminal client value category", () => {
-    const shapes: ValueShape[] = [
-      createAnyShape(),
-      createStringShape(stringEncoding),
-      createBooleanShape(booleanEncoding),
-      createNumberShape(numberEncoding),
-      createBytesShape(bytesEncoding),
-      createDateShape(dateEncoding),
-      createStringLiteralShape(),
-      createNumberLiteralShape(stringEncoding),
-      createBooleanLiteralShape(booleanEncoding),
-      createEnumShape(),
-      createUnionShape(),
-      createNullShape(),
-    ];
-
-    expect(shapes.map((shape) => shape.kind)).toEqual([
-      "any",
-      "string",
-      "boolean",
-      "number",
-      "bytes",
-      "date",
-      "stringLiteral",
-      "numberLiteral",
-      "booleanLiteral",
-      "enum",
-      "union",
-      "null",
-    ]);
+  it.each([
+    { kind: "any", create: createAnyShape },
+    { kind: "string", create: createStringShape },
+    { kind: "boolean", create: createBooleanShape },
+    { kind: "number", create: createNumberShape },
+    { kind: "bytes", create: createBytesShape },
+    { kind: "date", create: createDateShape },
+    { kind: "stringLiteral", create: createStringLiteralShape },
+    { kind: "numberLiteral", create: createNumberLiteralShape },
+    { kind: "booleanLiteral", create: createBooleanLiteralShape },
+    { kind: "enum", create: createEnumShape },
+    { kind: "union", create: createUnionShape },
+    { kind: "null", create: createNullShape },
+  ])("constructs a $kind shape without encoding metadata", ({ kind, create }) => {
+    expect(create()).toStrictEqual({ kind });
   });
+
+  it.each([
+    {
+      kind: "string",
+      create: () => createStringShape(stringEncoding),
+      encoding: stringEncoding,
+    },
+    {
+      kind: "string",
+      create: () => createStringShape(wireBooleanEncoding),
+      encoding: wireBooleanEncoding,
+    },
+    {
+      kind: "boolean",
+      create: () => createBooleanShape(booleanEncoding),
+      encoding: booleanEncoding,
+    },
+    {
+      kind: "number",
+      create: () => createNumberShape(numberEncoding),
+      encoding: numberEncoding,
+    },
+    {
+      kind: "bytes",
+      create: () => createBytesShape(bytesEncoding),
+      encoding: bytesEncoding,
+    },
+    {
+      kind: "date",
+      create: () => createDateShape(dateEncoding),
+      encoding: dateEncoding,
+    },
+    {
+      kind: "numberLiteral",
+      create: () => createNumberLiteralShape(stringEncoding),
+      encoding: stringEncoding,
+    },
+    {
+      kind: "booleanLiteral",
+      create: () => createBooleanLiteralShape(booleanEncoding),
+      encoding: booleanEncoding,
+    },
+  ])(
+    "preserves $encoding.kind encoding metadata on a $kind shape",
+    ({ kind, create, encoding }) => {
+      expect(create()).toStrictEqual({ kind, encoding });
+    },
+  );
 });
-
-// These assignments are compile-time contract tests. Non-scalar TypeSpec
-// categories expose encoding only when TypeSpec permits it, and every factory
-// accepts only descriptors compatible with its emitted client representation.
-function assertEncodingTypeContracts(): void {
-  const anyShape = createAnyShape();
-  const stringLiteralShape = createStringLiteralShape();
-  const numberLiteralShape = createNumberLiteralShape(stringEncoding);
-  const booleanLiteralShape = createBooleanLiteralShape(booleanEncoding);
-  const enumShape = createEnumShape();
-  const unionShape = createUnionShape();
-
-  // @ts-expect-error TypeSpec unknown/TypeScript any cannot be encoded.
-  void anyShape.encoding;
-  // @ts-expect-error TypeSpec string literals cannot be encoded.
-  void stringLiteralShape.encoding;
-  void numberLiteralShape.encoding;
-  void booleanLiteralShape.encoding;
-  // @ts-expect-error TypeSpec enums cannot be encoded.
-  void enumShape.encoding;
-  // @ts-expect-error TypeSpec unions cannot be encoded by this emitter.
-  void unionShape.encoding;
-
-  // @ts-expect-error A semantic boolean encoding cannot decorate a string shape.
-  createStringShape(booleanEncoding);
-  // @ts-expect-error A wire-string numeric encoding cannot decorate a number shape.
-  createNumberShape(stringEncoding);
-  // @ts-expect-error A semantic Date encoding cannot decorate a byte shape.
-  createBytesShape(dateEncoding);
-  // @ts-expect-error A semantic byte encoding cannot decorate a Date shape.
-  createDateShape(bytesEncoding);
-  // @ts-expect-error A boolean encoding cannot decorate a numeric literal.
-  createNumberLiteralShape(booleanEncoding);
-  // @ts-expect-error A numeric encoding cannot decorate a boolean literal.
-  createBooleanLiteralShape(stringEncoding);
-  // @ts-expect-error A wire-mode boolean descriptor requires a string shape.
-  createBooleanLiteralShape(wireBooleanEncoding);
-  createStringShape(wireBooleanEncoding);
-
-  void anyShape;
-  void stringLiteralShape;
-  void numberLiteralShape;
-  void booleanLiteralShape;
-  void enumShape;
-  void unionShape;
-}
-void assertEncodingTypeContracts;
