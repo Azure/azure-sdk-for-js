@@ -195,10 +195,30 @@ export class DeclarationDifferenceDetector {
     sourceProperty: Symbol,
     targetProperty: Symbol,
   ): DiffPair | undefined {
-    const reasons = this.findBreakingReasons(
-      sourceProperty.getValueDeclarationOrThrow(),
-      targetProperty.getValueDeclarationOrThrow(),
-    );
+    const sourceGetter = sourceProperty.getDeclarations().find(Node.isGetAccessorDeclaration);
+    const targetGetter = targetProperty.getDeclarations().find(Node.isGetAccessorDeclaration);
+    const sourceSetter = sourceProperty.getDeclarations().find(Node.isSetAccessorDeclaration);
+    const targetSetter = targetProperty.getDeclarations().find(Node.isSetAccessorDeclaration);
+
+    let reasons = DiffReasons.None;
+    if ((sourceGetter || sourceSetter) && (targetGetter || targetSetter)) {
+      if ((targetGetter && !sourceGetter) || (targetSetter && !sourceSetter)) {
+        reasons |= DiffReasons.TypeChanged;
+      }
+      if (sourceGetter && targetGetter) {
+        reasons |= this.findBreakingReasons(sourceGetter, targetGetter);
+      }
+      if (sourceSetter && targetSetter) {
+        const sourceInput = sourceSetter.getParameters()[0].getType();
+        const targetInput = targetSetter.getParameters()[0].getType();
+        if (!targetInput.isAssignableTo(sourceInput)) reasons |= DiffReasons.TypeChanged;
+      }
+    } else {
+      reasons = this.findBreakingReasons(
+        sourceProperty.getValueDeclarationOrThrow(),
+        targetProperty.getValueDeclarationOrThrow(),
+      );
+    }
 
     if (reasons === DiffReasons.None) return undefined;
     return this.createDiffPair(

@@ -1141,6 +1141,110 @@ export class DataProductClient {
       expect(items[0]).toBe("Class DataProductClient no longer has parameter analytics");
     });
 
+    test("accessor type change is a breaking class property change", async () => {
+      const baselineApiView = `
+\`\`\`ts
+export class KeyVault {
+    get name(): string;
+    set name(value: string);
+}
+\`\`\`
+`;
+      const currentApiView = `
+\`\`\`ts
+export class KeyVault {
+    get name(): number;
+    set name(value: number);
+}
+\`\`\`
+`;
+      const detector = new DifferenceDetector(
+        { apiView: baselineApiView, sdkType: SDKType.ModularClient },
+        { apiView: currentApiView, sdkType: SDKType.ModularClient },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(true);
+      expect(
+        changelog.changelogItems.breakingChanges.get(
+          ChangelogItemCategory.ClassPropertyTypeChanged,
+        ),
+      ).toEqual(["Type of property name of class KeyVault has changed"]);
+      expect(changelog.content).toContain("Type of property name of class KeyVault has changed");
+    });
+
+    test.each([
+      ["setter removed", "get name(): string; set name(value: string);", "get name(): string;"],
+      [
+        "setter narrowed",
+        "get name(): string; set name(value: string | number);",
+        "get name(): string; set name(value: string);",
+      ],
+      ["setter-only narrowed", "set name(value: string | number);", "set name(value: string);"],
+      [
+        "getter removed",
+        "get name(): string; set name(value: string);",
+        "set name(value: string);",
+      ],
+    ])("%s is a breaking accessor change", async (_description, baseline, current) => {
+      const detector = new DifferenceDetector(
+        {
+          apiView: `\`\`\`ts\nexport class KeyVault { ${baseline} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+        {
+          apiView: `\`\`\`ts\nexport class KeyVault { ${current} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(true);
+      expect(
+        changelog.changelogItems.breakingChanges.get(
+          ChangelogItemCategory.ClassPropertyTypeChanged,
+        ),
+      ).toEqual(["Type of property name of class KeyVault has changed"]);
+    });
+
+    test("widening only a setter input is not breaking", async () => {
+      const detector = new DifferenceDetector(
+        {
+          apiView:
+            "```ts\nexport class KeyVault { get name(): string; set name(value: string); }\n```",
+          sdkType: SDKType.ModularClient,
+        },
+        {
+          apiView:
+            "```ts\nexport class KeyVault { get name(): string; set name(value: string | number); }\n```",
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(false);
+    });
+
+    test("changing a property to an incompatible getter remains breaking", async () => {
+      const detector = new DifferenceDetector(
+        {
+          apiView: "```ts\nexport class KeyVault { name: string; }\n```",
+          sdkType: SDKType.ModularClient,
+        },
+        {
+          apiView: "```ts\nexport class KeyVault { get name(): number; }\n```",
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(true);
+    });
+
     test("Class Property Removed should still be detected when $host is ignored", async () => {
       // Real HLC baseline: $host, apiVersion, subscriptionId? are class properties
       // (they are also accessible via ResourceManagementClientOptionalParams).

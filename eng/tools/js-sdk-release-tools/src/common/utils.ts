@@ -284,6 +284,9 @@ export async function getGeneratedPackageDirectory(
 ): Promise<string> {
   const tspConfig = await resolveOptions(typeSpecDirectory, sdkRepoRoot);
   const emitterOptions = tspConfig.options?.[typespecEmitter];
+  if (typespecEmitter === provisioningEmitterName && !emitterOptions) {
+    throw new Error(`Failed to find ${typespecEmitter} options in tspconfig.yaml.`);
+  }
   // Try to get package directory from emitter-output-dir first
   const emitterOutputDir = emitterOptions?.["emitter-output-dir"];
   if (emitterOutputDir) {

@@ -41,6 +41,7 @@ export enum ChangelogItemCategory {
   ClassChanged = 40001,
   ClassPropertyRemoved = 40002,
   ClassPropertyOptionalToRequired = 40003,
+  ClassPropertyTypeChanged = 40004,
   // model
   ModelRemoved = 50000,
   ModelRequiredPropertyAdded = 50001,
@@ -124,6 +125,8 @@ export class ChangelogGenerator {
   private classAddedTemplate = "Added Class {className}";
   private classRemovedTemplate = "Deleted Class {className}";
   private classPropertyRemovedTemplate = "Class {className} no longer has parameter {propertyName}";
+  private classPropertyTypeChangedTemplate =
+    "Type of property {propertyName} of class {className} has changed";
   private classPropertyOptionalToRequiredTemplate =
     "Parameter {propertyName} of class {className} is now required";
   // NOTE: not detected in v1 except constructor and it's parameters
@@ -423,6 +426,16 @@ export class ChangelogGenerator {
           propertyName: p.target!.name,
         });
         this.addChangelogItem(ChangelogItemCategory.ClassPropertyRemoved, message);
+      }
+      if (
+        p.location === DiffLocation.Property &&
+        this.hasReasons(p.reasons, DiffReasons.TypeChanged)
+      ) {
+        const message = template(this.classPropertyTypeChangedTemplate, {
+          className,
+          propertyName: p.source!.name,
+        });
+        this.addChangelogItem(ChangelogItemCategory.ClassPropertyTypeChanged, message);
       }
       // class property optional to required (baseline to current)
       if (

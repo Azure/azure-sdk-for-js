@@ -6,6 +6,7 @@ import {
   getGeneratedPackageDirectory,
   getPackageNameFromTspConfig,
   getApiReviewPath,
+  provisioningEmitterName,
 } from "../../common/utils.js";
 import path from "path";
 import { deepStrictEqual, strictEqual } from "assert";
@@ -72,6 +73,13 @@ describe("resolveOptions", () => {
     } finally {
       await remove(tempSpecFolder);
     }
+  });
+
+  test("rejects missing provisioning options before using shared directory defaults", async () => {
+    const configPath = path.join(__dirname, "config/myConfig.yaml");
+    await expect(
+      getGeneratedPackageDirectory(configPath, __dirname, provisioningEmitterName),
+    ).rejects.toThrow(`Failed to find ${provisioningEmitterName} options in tspconfig.yaml.`);
   });
 });
 

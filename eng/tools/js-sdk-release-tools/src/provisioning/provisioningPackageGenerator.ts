@@ -101,5 +101,7 @@ export async function generateProvisioningSDKPackage(
     packageResult.result = "failed";
     logger.error(`Failed to generate provisioning package due to ${(err as Error)?.stack ?? err}`);
     throw err;
+  } finally {
+    return packageResult;
   }
 }
