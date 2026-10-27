@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list EdgeAction resources by subscription ID
  *
  * @summary list EdgeAction resources by subscription ID
- * x-ms-original-file: 2025-12-01-preview/EdgeActions_ListBySubscription.json
+ * x-ms-original-file: 2026-10-01/EdgeActions_ListBySubscription.json
  */
 async function listEdgeActionsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

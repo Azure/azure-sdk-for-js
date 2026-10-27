@@ -61,6 +61,16 @@ export async function authenticate(ctx: TestInfo): Promise<any> {
     throw new Error("Missing KEYVAULT_URI environment variable.");
   }
 
+  // Continuation URLs can include an explicit port, so sanitize the hostname independently.
+  await recorder.addSanitizers({
+    generalSanitizers: [
+      {
+        target: new URL(keyVaultUrl).hostname,
+        value: new URL(startOptions.envSetupForPlayback.KEYVAULT_URI).hostname,
+      },
+    ],
+  });
+
   const client = new CertificateClient(
     keyVaultUrl,
     credential,
