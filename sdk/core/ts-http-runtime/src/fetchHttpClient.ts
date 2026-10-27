@@ -15,6 +15,7 @@ import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js"
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 import { isObject } from "./util/object.js";
 import { setResponseBodyCompletion } from "./util/responseBodyCompletion.js";
+import { disposeResponseBody } from "./util/responseBody.js";
 
 // The Fetch spec requires `duplex: "half"` when body is a ReadableStream,
 // but TypeScript's lib.dom.d.ts hasn't added it to RequestInit yet.
@@ -291,10 +292,7 @@ function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
 }
 
 /**
- * Reads the request/response original stream and stream it through a new
- * ReadableStream, this is done to be able to report progress in a way that
- * all modern browsers support. TransformStreams would be an alternative,
- * however they are not yet supported by all browsers i.e Firefox
+ * Wraps the original stream to report progress and observe completion without reading ahead.
  */
 function buildBodyStream(
   readableStream: ReadableStream<Uint8Array>,
@@ -302,72 +300,77 @@ function buildBodyStream(
 ): ReadableStream<Uint8Array> {
   let loadedBytes = 0;
   let ended = false;
+  let reading = false;
+  let sourceClosed = false;
   const { onProgress, onEnd } = options;
+  const reader = readableStream.getReader();
   const end = (): void => {
     if (ended) return;
     ended = true;
     onEnd?.();
   };
-
-  let progressStream = readableStream;
-  if (isTransformStreamSupported(readableStream)) {
-    progressStream = readableStream.pipeThrough(
-      new TransformStream({
-        transform(chunk, controller) {
-          if (chunk === null) {
-            controller.terminate();
-            return;
-          }
-          controller.enqueue(chunk);
-          loadedBytes += chunk.length;
-          onProgress?.({ loadedBytes });
-        },
-      }),
-    );
-  }
-
-  const reader = progressStream.getReader();
+  const close = (controller: ReadableStreamDefaultController<Uint8Array>): void => {
+    if (ended) return;
+    end();
+    controller.close();
+    reader.releaseLock();
+  };
   return new ReadableStream(
     {
       start(controller) {
-        void reader.closed.then(end, (error: unknown) => {
-          end();
-          controller.error(error);
-          reader.releaseLock();
-        });
+        void reader.closed.then(
+          () => {
+            sourceClosed = true;
+            // The final read result must be enqueued before forwarding closure.
+            if (!reading) close(controller);
+            return undefined;
+          },
+          (error: unknown) => {
+            if (ended) return;
+            end();
+            controller.error(error);
+            reader.releaseLock();
+          },
+        );
       },
       async pull(controller) {
+        if (ended) return;
+        reading = true;
         try {
           const { done, value } = await reader.read();
+          if (ended) return;
           if (done || !value) {
-            end();
-            controller.close();
-            reader.releaseLock();
+            close(controller);
+            if (!done) {
+              await disposeResponseBody({ browserStreamBody: readableStream });
+            }
             return;
           }
 
-          if (progressStream === readableStream) {
-            loadedBytes += value.length;
-            onProgress?.({ loadedBytes });
-          }
+          loadedBytes += value.length;
+          onProgress?.({ loadedBytes });
           controller.enqueue(value);
         } catch (error) {
+          if (ended) return;
           end();
           controller.error(error);
+          await disposeResponseBody({ browserStreamBody: { cancel: () => reader.cancel(error) } });
           reader.releaseLock();
+        } finally {
+          reading = false;
+          if (sourceClosed) close(controller);
         }
       },
       async cancel(reason?: unknown) {
+        end();
         try {
           await reader.cancel(reason);
         } finally {
-          end();
           reader.releaseLock();
         }
       },
     },
-    // The transform already applies backpressure; do not add another read-ahead queue.
-    { highWaterMark: progressStream === readableStream ? 1 : 0 },
+    { highWaterMark: 0 },
   );
 }
 
@@ -377,8 +380,4 @@ function buildBodyStream(
  */
 export function createFetchHttpClient(): HttpClient {
   return new FetchHttpClient();
-}
-
-function isTransformStreamSupported(readableStream: ReadableStream): boolean {
-  return readableStream.pipeThrough !== undefined && self.TransformStream !== undefined;
 }

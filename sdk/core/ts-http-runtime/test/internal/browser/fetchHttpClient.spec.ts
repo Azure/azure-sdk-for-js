@@ -316,13 +316,17 @@ describe("FetchHttpClient", function () {
   });
 
   it.each([
-    { fallback: false, abort: false },
-    { fallback: false, abort: true },
-    { fallback: true, abort: false },
-    { fallback: true, abort: true },
+    { fallback: false, abort: false, queued: false },
+    { fallback: false, abort: true, queued: false },
+    { fallback: true, abort: false, queued: false },
+    { fallback: true, abort: true, queued: false },
+    { fallback: false, abort: false, queued: true },
+    { fallback: false, abort: true, queued: true },
+    { fallback: true, abort: false, queued: true },
+    { fallback: true, abort: true, queued: true },
   ])(
-    "rejects browser reader.closed without a pending read on upstream failure (fallback=$fallback, abort=$abort)",
-    async function ({ fallback, abort }) {
+    "rejects browser reader.closed without a pending read on upstream failure (fallback=$fallback, abort=$abort, queued=$queued)",
+    async function ({ fallback, abort, queued }) {
       if (fallback) vi.stubGlobal("TransformStream", undefined);
       let streamController!: ReadableStreamDefaultController<Uint8Array>;
       const responseBody = new ReadableStream<Uint8Array>({
@@ -354,6 +358,10 @@ describe("FetchHttpClient", function () {
       void reader.closed.then(onClosed, onError);
 
       try {
+        if (queued) {
+          streamController.enqueue(Uint8Array.of(1));
+          await delay(0);
+        }
         if (abort) controller.abort();
         else streamController.error(failure);
         await delay(0);
@@ -362,8 +370,66 @@ describe("FetchHttpClient", function () {
         expect(onClosed).not.toHaveBeenCalled();
         expect(removeEventListener).toHaveBeenCalledOnce();
         expect(onDownloadProgress).not.toHaveBeenCalled();
-      } finally {
         await expect(reader.read()).rejects.toBe(failure);
+      } finally {
+        await reader.cancel().then(
+          () => undefined,
+          (error: unknown) => expect(error).toBe(failure),
+        );
+        reader.releaseLock();
+      }
+    },
+  );
+
+  it.each([
+    { fallback: false, completion: "empty" },
+    { fallback: true, completion: "empty" },
+    { fallback: false, completion: "before final read" },
+    { fallback: true, completion: "before final read" },
+    { fallback: false, completion: "after final read" },
+    { fallback: true, completion: "after final read" },
+  ])(
+    "resolves browser reader.closed without an extra read (fallback=$fallback, completion=$completion)",
+    async function ({ fallback, completion }) {
+      if (fallback) vi.stubGlobal("TransformStream", undefined);
+      const chunk = Uint8Array.of(1, 2, 3);
+      let streamController!: ReadableStreamDefaultController<Uint8Array>;
+      const responseBody = new ReadableStream<Uint8Array>({
+        start(controller) {
+          streamController = controller;
+          if (completion !== "empty") controller.enqueue(chunk);
+          if (completion !== "after final read") controller.close();
+        },
+      });
+      vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const response = await createFetchHttpClient().sendRequest(
+        createPipelineRequest({
+          url: "https://localhost/unread-closed-success",
+          abortSignal: controller.signal,
+          enableBrowserStreams: true,
+          streamResponseStatusCodes: new Set([200]),
+        }),
+      );
+      const reader = response.browserStreamBody!.getReader();
+      const onClosed = vi.fn();
+      const onError = vi.fn();
+      void reader.closed.then(onClosed, onError);
+
+      try {
+        if (completion !== "empty") {
+          expect(await reader.read()).toEqual({ value: chunk, done: false });
+        }
+        if (completion === "after final read") streamController.close();
+        await delay(0);
+
+        expect(onClosed).toHaveBeenCalledExactlyOnceWith(undefined);
+        expect(onError).not.toHaveBeenCalled();
+        expect(removeEventListener).toHaveBeenCalledOnce();
+        expect(responseBody.locked).toBe(false);
+      } finally {
+        await reader.cancel();
         reader.releaseLock();
       }
     },
@@ -390,6 +456,79 @@ describe("FetchHttpClient", function () {
       reader.releaseLock();
     },
   );
+
+  it("cancels the source while a browser read is pending", async function () {
+    let resolvePull!: () => void;
+    const pulling = new Promise<void>((resolve) => {
+      resolvePull = resolve;
+    });
+    const cancel = vi.fn();
+    const responseBody = new ReadableStream<Uint8Array>(
+      {
+        pull() {
+          resolvePull();
+        },
+        cancel(reason: unknown) {
+          cancel(reason);
+        },
+      },
+      { highWaterMark: 0 },
+    );
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+    const response = await createFetchHttpClient().sendRequest(
+      createPipelineRequest({
+        url: "https://localhost/pending-read-cancel",
+        enableBrowserStreams: true,
+        streamResponseStatusCodes: new Set([200]),
+      }),
+    );
+    const reader = response.browserStreamBody!.getReader();
+    const closed = expect(reader.closed).resolves.toBeUndefined();
+    const pending = reader.read();
+    await pulling;
+
+    await reader.cancel("stop");
+
+    expect(await pending).toEqual({ value: undefined, done: true });
+    await closed;
+    expect(cancel).toHaveBeenCalledExactlyOnceWith("stop");
+    expect(responseBody.locked).toBe(false);
+    reader.releaseLock();
+  });
+
+  it("cancels the source when browser download progress reporting throws", async function () {
+    const cancel = vi.fn();
+    const responseBody = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(Uint8Array.of(1));
+      },
+      cancel(reason: unknown) {
+        cancel(reason);
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+    const failure = new Error("progress failed");
+    const response = await createFetchHttpClient().sendRequest(
+      createPipelineRequest({
+        url: "https://localhost/progress-error",
+        enableBrowserStreams: true,
+        streamResponseStatusCodes: new Set([200]),
+        onDownloadProgress: () => {
+          throw failure;
+        },
+      }),
+    );
+    const reader = response.browserStreamBody!.getReader();
+    const closed = expect(reader.closed).rejects.toBe(failure);
+
+    await expect(reader.read()).rejects.toBe(failure);
+    await closed;
+    await delay(0);
+
+    expect(cancel).toHaveBeenCalledExactlyOnceWith(failure);
+    expect(responseBody.locked).toBe(false);
+    reader.releaseLock();
+  });
 
   it("should allow canceling of requests before the request is made", async function () {
     const blob = new Blob();
