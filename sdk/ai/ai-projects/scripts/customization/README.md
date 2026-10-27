@@ -36,6 +36,11 @@ regeneration script falls back to it when the strict run fails.
 - Changes to uncustomized declarations and members follow the emitter.
   Independent generated and customized changes are combined. Incompatible
   concurrent changes require review.
+- Interface and type-literal members with unique, stable identities have
+  presentation-only order. Contradictory customized and emitted orders keep the
+  customized order and append emitted-only members after merging their content
+  by identity. Conflicting field edits, overloads, duplicate members, and dynamic
+  computed names still require resolution.
 - Type unions and unique literal switch cases that terminate without fallthrough
   merge by identity even when their display order changes. Conflicting bodies,
   dynamic cases, and order-sensitive runtime lists still require resolution.

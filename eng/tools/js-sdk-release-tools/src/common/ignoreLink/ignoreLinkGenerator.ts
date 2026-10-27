@@ -4,10 +4,14 @@ import shell from "shelljs";
 import { logger } from "../../utils/logger.js";
 import { getPackageNameFromTspConfig } from "../utils.js";
 import { tryGetNpmView } from "../npmUtils.js";
+import { EmitterName } from "../types.js";
 
-export const ignoreLinkGenerator = async (typeSpecDirectory: string): Promise<void> => {
+export const ignoreLinkGenerator = async (
+  typeSpecDirectory: string,
+  emitterName?: EmitterName,
+): Promise<void> => {
   logger.info(`Generating ignore links for package`);
-  const packageName = await getPackageNameFromTspConfig(typeSpecDirectory);
+  const packageName = await getPackageNameFromTspConfig(typeSpecDirectory, emitterName);
   if (!packageName) {
     logger.warn("Failed to get package name");
     return;
