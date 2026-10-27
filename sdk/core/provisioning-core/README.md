@@ -38,3 +38,22 @@ new KeyVault(resourceGroup, {
 ```
 
 Provisioning definitions are authored before deployment. Read-only resource properties remain available as expressions for wiring outputs and dependent resources, while only writable properties can be assigned.
+
+## Deploy-time discriminators
+
+Use `asDiscriminator` when a deployment expression must fill a literal discriminator.
+In this example, `kindParam` is an `Expression<"cache">`, and
+`widget.properties.primaryRule` accepts either a cache rule with `cacheKind` and `days`
+or a redirect rule. The helper selects the cache variant while preserving its property checks.
+
+```ts snippet:AsDiscriminator
+import { asDiscriminator } from "@azure/provisioning-core";
+
+widget.properties.primaryRule = {
+  kind: asDiscriminator(kindParam),
+  cacheKind: "long",
+  days: 7,
+};
+```
+
+Prefer a literal discriminator when possible. This helper is a type assertion, not runtime validation.
