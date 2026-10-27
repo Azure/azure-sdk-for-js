@@ -1245,6 +1245,41 @@ export class KeyVault {
       expect(changelog.hasBreakingChange).toBe(true);
     });
 
+    test.each([
+      ["property to setter-only loses reading", "name: string;", "set name(value: string);", true],
+      ["property to narrower setter", "name: string | number;", "set name(value: string);", true],
+      ["setter-only to property adds reading", "set name(value: string);", "name: string;", false],
+      [
+        "setter-only to narrower property",
+        "set name(value: string | number);",
+        "name: string;",
+        true,
+      ],
+      ["property to getter loses writing", "name: string;", "get name(): string;", true],
+      ["getter to property adds writing", "get name(): string;", "name: string;", false],
+      ["readonly property to getter", "readonly name: string;", "get name(): string;", false],
+    ])("%s", async (_description, baseline, current, breaking) => {
+      const detector = new DifferenceDetector(
+        {
+          apiView: `\`\`\`ts\nexport class KeyVault { ${baseline} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+        {
+          apiView: `\`\`\`ts\nexport class KeyVault { ${current} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(breaking);
+      expect(
+        changelog.changelogItems.breakingChanges.get(
+          ChangelogItemCategory.ClassPropertyTypeChanged,
+        ),
+      ).toEqual(breaking ? ["Type of property name of class KeyVault has changed"] : undefined);
+    });
+
     test("Class Property Removed should still be detected when $host is ignored", async () => {
       // Real HLC baseline: $host, apiVersion, subscriptionId? are class properties
       // (they are also accessible via ResourceManagementClientOptionalParams).

@@ -213,6 +213,35 @@ export class DeclarationDifferenceDetector {
         const targetInput = targetSetter.getParameters()[0].getType();
         if (!targetInput.isAssignableTo(sourceInput)) reasons |= DiffReasons.TypeChanged;
       }
+    } else if (sourceGetter || sourceSetter || targetGetter || targetSetter) {
+      const sourceDeclaration = sourceProperty.getValueDeclarationOrThrow();
+      const targetDeclaration = targetProperty.getValueDeclarationOrThrow();
+      const sourceReadType =
+        sourceGetter?.getReturnType() ?? (!sourceSetter ? sourceDeclaration.getType() : undefined);
+      const targetReadType =
+        targetGetter?.getReturnType() ?? (!targetSetter ? targetDeclaration.getType() : undefined);
+      const sourceWriteType =
+        sourceSetter?.getParameters()[0].getType() ??
+        (!sourceGetter &&
+        !(Node.isReadonlyable(sourceDeclaration) && sourceDeclaration.isReadonly())
+          ? sourceDeclaration.getType()
+          : undefined);
+      const targetWriteType =
+        targetSetter?.getParameters()[0].getType() ??
+        (!targetGetter &&
+        !(Node.isReadonlyable(targetDeclaration) && targetDeclaration.isReadonly())
+          ? targetDeclaration.getType()
+          : undefined);
+
+      if (targetReadType && (!sourceReadType || !sourceReadType.isAssignableTo(targetReadType))) {
+        reasons |= DiffReasons.TypeChanged;
+      }
+      if (
+        targetWriteType &&
+        (!sourceWriteType || !targetWriteType.isAssignableTo(sourceWriteType))
+      ) {
+        reasons |= DiffReasons.TypeChanged;
+      }
     } else {
       reasons = this.findBreakingReasons(
         sourceProperty.getValueDeclarationOrThrow(),
