@@ -207,6 +207,39 @@ describe("direct Stack AST generation", () => {
     expect("bicepRef" in bicep).toBe(false);
   });
 
+  it("compiles conditional accessor bases and preserves nested ternary conditions", () => {
+    const stack = new Stack("conditional-expressions", { targetScope: "resourceGroup" });
+    const enabled = stack.parameters.add("enabled", "bool");
+    stack.outputs.add("count", "int", fn.cond(enabled, { count: 1 }, { count: 2 }).count);
+    stack.outputs.add("item", "string", fn.cond(enabled, ["first"], ["second"])[0]);
+    stack.outputs.add("nestedCondition", "bool", fn.cond(fn.cond(true, true, false), false, true));
+
+    const files = renderBicepFiles(stack);
+    expect(files).toHaveLength(1);
+    expect(files[0]!.contents).toContain(
+      "output count int = (enabled ? {\n  count: 1\n} : {\n  count: 2\n}).count",
+    );
+    expect(files[0]!.contents).toContain(
+      "output item string = (enabled ? [\n  'first'\n] : [\n  'second'\n])[0]",
+    );
+    expect(files[0]!.contents).toContain(
+      "output nestedCondition bool = (true ? true : false) ? false : true",
+    );
+    validateRenderedBicepFiles(files);
+  }, 30_000);
+
+  it("compiles coalescing with the authored logical grouping", () => {
+    const stack = new Stack("coalescing-expressions", { targetScope: "resourceGroup" });
+    stack.outputs.add("coalescedAnd", "bool", fn.and(fn.coalesce(true, false), false));
+    stack.outputs.add("coalescedOr", "bool", fn.or(fn.coalesce(false, true), true));
+
+    const files = renderBicepFiles(stack);
+    expect(files).toHaveLength(1);
+    expect(files[0]!.contents).toContain("output coalescedAnd bool = (true ?? false) && false");
+    expect(files[0]!.contents).toContain("output coalescedOr bool = (false ?? true) || true");
+    validateRenderedBicepFiles(files);
+  }, 30_000);
+
   it("compiles separate modules for primary resources in an authored RG", () => {
     const stack = new Stack("compiled-direct");
     const group = new ResourceGroup(stack, {

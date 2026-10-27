@@ -267,6 +267,11 @@ describe("resolveResource — best-effort fallback", () => {
           name: "anything",
         }),
       ).toBe(FlatV1);
+      expect(
+        resolveResource("Contoso.Test/flatType", "2025-06-01-preview", {
+          name: "anything",
+        }),
+      ).toBe(FlatPreview);
     });
 
     it("falls back to the highest registered version when apiVersion is unknown", () => {

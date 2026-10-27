@@ -18,9 +18,9 @@ import { Stack } from "../../constructs/stack.js";
 import { buildBicepFiles } from "./file-layout/build-bicep-files.js";
 
 const PRECEDENCE: Record<string, number> = {
-  "||": 1,
-  "&&": 2,
-  "??": 3,
+  "??": 1,
+  "||": 2,
+  "&&": 3,
   "==": 4,
   "!=": 4,
   "=~": 4,
@@ -35,6 +35,8 @@ const PRECEDENCE: Record<string, number> = {
   "/": 7,
   "%": 7,
 };
+
+const ACCESS_PRECEDENCE = 9;
 
 /** A generated Bicep source file and its relative output path. */
 export interface RenderedBicepFile {
@@ -213,11 +215,11 @@ function renderExpression(node: ExpressionNode, parentPrecedence?: number): stri
       return `${target}(${node.args.map((arg) => renderExpression(arg)).join(", ")})`;
     }
     case "instance-function-call":
-      return `${renderExpression(node.base)}.${node.name}(${node.args.map((arg) => renderExpression(arg)).join(", ")})`;
+      return `${renderExpression(node.base, ACCESS_PRECEDENCE)}.${node.name}(${node.args.map((arg) => renderExpression(arg)).join(", ")})`;
     case "property-access":
-      return `${renderExpression(node.base)}${node.nullish ? ".?" : "."}${node.property}`;
+      return `${renderExpression(node.base, ACCESS_PRECEDENCE)}${node.nullish ? ".?" : "."}${node.property}`;
     case "array-access":
-      return `${renderExpression(node.base)}[${node.nullish ? "?" : ""}${node.fromEnd ? "^" : ""}${renderExpression(node.index)}]`;
+      return `${renderExpression(node.base, ACCESS_PRECEDENCE)}[${node.nullish ? "?" : ""}${node.fromEnd ? "^" : ""}${renderExpression(node.index)}]`;
     case "binary-operation": {
       const prec = PRECEDENCE[node.operator] ?? 0;
       const inner = `${renderExpression(node.left, prec)} ${node.operator} ${renderExpression(node.right, prec + 0.5)}`;
@@ -229,7 +231,7 @@ function renderExpression(node: ExpressionNode, parentPrecedence?: number): stri
       return parentPrecedence !== undefined && parentPrecedence > UNARY_PREC ? `(${inner})` : inner;
     }
     case "ternary-operation": {
-      const inner = `${renderExpression(node.condition, 0)} ? ${renderExpression(node.trueValue)} : ${renderExpression(node.falseValue)}`;
+      const inner = `${renderExpression(node.condition, 0.5)} ? ${renderExpression(node.trueValue)} : ${renderExpression(node.falseValue)}`;
       return parentPrecedence !== undefined && parentPrecedence > 0 ? `(${inner})` : inner;
     }
     case "if-condition":

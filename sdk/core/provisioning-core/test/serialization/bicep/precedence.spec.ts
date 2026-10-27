@@ -107,6 +107,51 @@ describe("Bicep expression precedence", () => {
     expect(renderExpr(expr)).toBe("(a > b ? x : y) + 1");
   });
 
+  it("(a ? b : c) ? x : y — ternary conditions need parens", () => {
+    const expr = ternary(ternary(id("a"), id("b"), id("c")), id("x"), id("y"));
+    expect(renderExpr(expr)).toBe("(a ? b : c) ? x : y");
+  });
+
+  it("a ? b ? c : d : e — ternary true branches do not need parens", () => {
+    const expr = ternary(id("a"), ternary(id("b"), id("c"), id("d")), id("e"));
+    expect(renderExpr(expr)).toBe("a ? b ? c : d : e");
+  });
+
+  it("a ? b : c ? d : e — ternary false branches do not need parens", () => {
+    const expr = ternary(id("a"), id("b"), ternary(id("c"), id("d"), id("e")));
+    expect(renderExpr(expr)).toBe("a ? b : c ? d : e");
+  });
+
+  it.each([
+    { base: ternary(id("a"), id("b"), id("c")), expected: "(a ? b : c)" },
+    { base: bin("??", id("a"), id("b")), expected: "(a ?? b)" },
+    { base: unary("!", id("a")), expected: "(!a)" },
+    { base: id("a"), expected: "a" },
+    {
+      base: {
+        kind: "property-access",
+        base: id("a"),
+        property: "items",
+        nullish: false,
+      } satisfies ExpressionNode,
+      expected: "a.items",
+    },
+  ])("preserves $expected as an accessor base", ({ base, expected }) => {
+    for (const nullish of [false, true]) {
+      expect(renderExpr({ kind: "property-access", base, property: "count", nullish })).toBe(
+        `${expected}${nullish ? ".?" : "."}count`,
+      );
+      for (const fromEnd of [false, true]) {
+        expect(renderExpr({ kind: "array-access", base, index: int(1), nullish, fromEnd })).toBe(
+          `${expected}[${nullish ? "?" : ""}${fromEnd ? "^" : ""}1]`,
+        );
+      }
+    }
+    expect(renderExpr({ kind: "instance-function-call", base, name: "method", args: [] })).toBe(
+      `${expected}.method()`,
+    );
+  });
+
   it("a || b && c — && has higher precedence, no parens on &&", () => {
     const expr = bin("||", id("a"), bin("&&", id("b"), id("c")));
     expect(renderExpr(expr)).toBe("a || b && c");
@@ -115,6 +160,21 @@ describe("Bicep expression precedence", () => {
   it("(a || b) && c — || inside && needs parens", () => {
     const expr = bin("&&", bin("||", id("a"), id("b")), id("c"));
     expect(renderExpr(expr)).toBe("(a || b) && c");
+  });
+
+  it.each(["&&", "||"] as const)("ranks ?? below %s on either side", (operator) => {
+    expect(renderExpr(bin(operator, bin("??", id("a"), id("b")), id("c")))).toBe(
+      `(a ?? b) ${operator} c`,
+    );
+    expect(renderExpr(bin(operator, id("a"), bin("??", id("b"), id("c"))))).toBe(
+      `a ${operator} (b ?? c)`,
+    );
+    expect(renderExpr(bin("??", bin(operator, id("a"), id("b")), id("c")))).toBe(
+      `a ${operator} b ?? c`,
+    );
+    expect(renderExpr(bin("??", id("a"), bin(operator, id("b"), id("c"))))).toBe(
+      `a ?? b ${operator} c`,
+    );
   });
 
   it("a ?? b + c — + has higher precedence, no parens on +", () => {
