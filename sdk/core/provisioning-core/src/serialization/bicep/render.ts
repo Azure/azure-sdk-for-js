@@ -202,15 +202,6 @@ function renderExpression(node: ExpressionNode, parentPrecedence?: number): stri
     case "identifier":
       return node.id;
     case "function-call": {
-      // Bicep prefers string interpolation over concat() — transform at render time.
-      if (typeof node.target === "string" && node.target === "concat" && node.args.length > 0) {
-        const inner = node.args
-          .map((arg) =>
-            arg.kind === "string" ? escapeStringContent(arg.value) : `\${${renderExpression(arg)}}`,
-          )
-          .join("");
-        return `'${inner}'`;
-      }
       const target = typeof node.target === "string" ? node.target : renderExpression(node.target);
       return `${target}(${node.args.map((arg) => renderExpression(arg)).join(", ")})`;
     }

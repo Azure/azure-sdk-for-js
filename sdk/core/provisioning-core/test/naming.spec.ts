@@ -139,7 +139,7 @@ describe("naming policy", () => {
 
     const text = allBicepText(stack);
 
-    expect(text).toContain("'stcontosopr${uniqueString(subscription().subscriptionId)}'");
+    expect(text).toContain("concat('stcontosopr', uniqueString(subscription().subscriptionId))");
     expect(text).not.toContain("'st-contoso-prod'");
   });
 
@@ -156,7 +156,7 @@ describe("naming policy", () => {
 
     const text = allBicepText(stack);
 
-    expect(text).toContain("'kv-contoso-${uniqueString(subscription().subscriptionId)}'");
+    expect(text).toContain("concat('kv-contoso-', uniqueString(subscription().subscriptionId))");
   });
 
   it("preserves case when allowed and lowercases restrictive names", () => {
@@ -169,8 +169,8 @@ describe("naming policy", () => {
     new StorageAccountResource(rg);
 
     const text = allBicepText(stack);
-    expect(text).toContain("'kv-MyApp-${uniqueString(subscription().subscriptionId)}'");
-    expect(text).toContain("'stmyapp${uniqueString(subscription().subscriptionId)}'");
+    expect(text).toContain("concat('kv-MyApp-', uniqueString(subscription().subscriptionId))");
+    expect(text).toContain("concat('stmyapp', uniqueString(subscription().subscriptionId))");
   });
 
   it("generates RG-scoped names without uniqueString suffix", () => {
@@ -219,7 +219,7 @@ describe("naming policy", () => {
 
     const text = allBicepText(stack);
 
-    expect(text).toContain("'stcontosop2${uniqueString(subscription().subscriptionId)}'");
+    expect(text).toContain("concat('stcontosop2', uniqueString(subscription().subscriptionId))");
   });
 
   it("defaults to stack name as workload", () => {
@@ -231,7 +231,7 @@ describe("naming policy", () => {
 
     const text = allBicepText(stack);
 
-    expect(text).toContain("'stmyapp${uniqueString(subscription().subscriptionId)}'");
+    expect(text).toContain("concat('stmyapp', uniqueString(subscription().subscriptionId))");
   });
 
   it("requires name when namingPolicy: namingRequiredPolicy", () => {
@@ -279,7 +279,7 @@ describe("naming policy", () => {
 
     const text = allBicepText(stack);
 
-    expect(text).toContain("'contoso${uniqueString(subscription().subscriptionId)}'");
+    expect(text).toContain("concat('contoso', uniqueString(subscription().subscriptionId))");
   });
 
   it("supports custom naming policy", () => {
@@ -338,7 +338,7 @@ describe("naming policy", () => {
     new StorageAccountResource(stack);
 
     const text = allBicepText(stack);
-    expect(text).toContain("'stmyappname${uniqueString(subscription().subscriptionId)}'");
+    expect(text).toContain("concat('stmyappname', uniqueString(subscription().subscriptionId))");
     expect(text).not.toContain("my-app_name.test!");
   });
 
@@ -357,7 +357,7 @@ describe("naming policy", () => {
     new StorageAccountResource(stack);
 
     const text = allBicepText(stack);
-    expect(text).toContain("'stverylongw${uniqueString(subscription().subscriptionId)}'");
-    expect(text).toContain("'stverylong2${uniqueString(subscription().subscriptionId)}'");
+    expect(text).toContain("concat('stverylongw', uniqueString(subscription().subscriptionId))");
+    expect(text).toContain("concat('stverylong2', uniqueString(subscription().subscriptionId))");
   });
 });
