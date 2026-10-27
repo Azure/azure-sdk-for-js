@@ -132,18 +132,6 @@ export class DocumentProducer {
     return this.internalExecutionContext.hasMoreResults() || this.fetchResults.length !== 0;
   }
 
-  public gotSplit(): boolean {
-    if (this.fetchResults.length !== 0) {
-      const fetchResult = this.fetchResults[0];
-      if (fetchResult.fetchResultType === FetchResultType.Exception) {
-        if (DocumentProducer._needPartitionKeyRangeCacheRefresh(fetchResult.error)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
   private _updateStates(err: any, allFetched: boolean): void {
     if (err) {
       this.err = err;

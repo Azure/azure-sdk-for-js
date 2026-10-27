@@ -60,14 +60,6 @@ export class OrderByDocumentProducerComparator {
   }
 
   public compare(docProd1: DocumentProducer, docProd2: DocumentProducer): number {
-    // Need to check for split, since we don't want to dereference "item" of undefined / exception
-    if (docProd1.gotSplit()) {
-      return -1;
-    }
-    if (docProd2.gotSplit()) {
-      return 1;
-    }
-
     const orderByItemsRes1 = this.getOrderByItems(docProd1.peekBufferedItems()[0]);
     const orderByItemsRes2 = this.getOrderByItems(docProd2.peekBufferedItems()[0]);
 

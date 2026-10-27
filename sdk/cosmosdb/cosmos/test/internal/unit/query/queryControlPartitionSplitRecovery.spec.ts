@@ -1934,6 +1934,116 @@ describe("partition split recovery", () => {
     assert.deepEqual(resumedResources, expectedResumedResources);
   });
 
+  it.each(["Parallel", "ORDER BY"] as const)(
+    "inherits a parent continuation through a nested %s split before child success",
+    async (queryType) => {
+      const clientContext = createClientContext();
+      const nestedChild = createPartitionKeyRange("A1", "", "80", ["C1"]);
+      let routingRequestCount = 0;
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockImplementation(
+        () =>
+          ({
+            fetchAllInternal: vi.fn(async () => {
+              routingRequestCount++;
+              return {
+                resources:
+                  routingRequestCount === 1
+                    ? [parentRange]
+                    : routingRequestCount === 2
+                      ? [childRange1, childRange2]
+                      : [nestedChild, childRange2],
+                headers: { "x-ms-request-charge": "1" },
+                code: StatusCodes.Ok,
+              };
+            }),
+          }) as unknown as QueryIterator<PartitionKeyRange>,
+      );
+      const backendToken = "parent-resume-token";
+      const requests: { rangeId: string; token?: string }[] = [];
+      vi.spyOn(clientContext, "queryFeed").mockImplementation(
+        async ({ options: requestOptions, partitionKeyRangeId }) => {
+          const rangeId = partitionKeyRangeId ?? "none";
+          const token = requestOptions.continuationToken;
+          requests.push({ rangeId, token });
+          if (rangeId === "P" && token === backendToken) {
+            throw createSplitError();
+          }
+          if (rangeId === "C1") {
+            assert.equal(token, backendToken);
+            throw createSplitError();
+          }
+          if (rangeId === "P") {
+            assert.isUndefined(token);
+            return {
+              result:
+                queryType === "Parallel"
+                  ? ([{ id: "parent", source: "P" }] as unknown as Resource)
+                  : ([
+                      createOrderByDocument("parent", 1, "AAAAAAAAAAAAAAAAAAAAAQ=="),
+                    ] as unknown as Resource),
+              headers: {
+                "x-ms-continuation": backendToken,
+                "x-ms-request-charge": "1",
+              },
+              code: StatusCodes.Ok,
+            };
+          }
+          if (rangeId === "C2") {
+            assert.equal(token, backendToken);
+            return {
+              result: [] as unknown as Resource,
+              headers: { "x-ms-request-charge": "1" },
+              code: StatusCodes.Ok,
+            };
+          }
+          assert.equal(rangeId, "A1");
+          assert.equal(token, backendToken);
+          return {
+            result:
+              queryType === "Parallel"
+                ? ([{ id: "nested", source: "A1" }] as unknown as Resource)
+                : ([
+                    createOrderByDocument("nested", 2, "AAAAAAAAAAAAAAAAAAAAAg=="),
+                  ] as unknown as Resource),
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        },
+      );
+      const context = new PipelinedQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        queryType === "Parallel" ? query : "SELECT * FROM c ORDER BY c.value",
+        {
+          ...options,
+          enableQueryControl: true,
+          maxDegreeOfParallelism: 1,
+          maxItemCount: 1,
+        },
+        queryType === "Parallel" ? createParallelPipelinedQueryInfo() : createOrderByQueryInfo(),
+        correlatedActivityId,
+      );
+
+      const parentPage = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+      const nestedPage = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+
+      assert.equal(parentPage.result[0].id, "parent");
+      assert.equal(nestedPage.result[0].id, "nested");
+      assert.deepEqual(requests.slice(0, 3), [
+        { rangeId: "P", token: undefined },
+        { rangeId: "P", token: backendToken },
+        { rangeId: "C1", token: backendToken },
+      ]);
+      const descendantRequests = requests.slice(3);
+      descendantRequests.forEach((request) => assert.equal(request.token, backendToken));
+      assert.deepEqual(
+        descendantRequests.map((request) => request.rangeId).sort(),
+        queryType === "Parallel" ? ["A1"] : ["A1", "C2"],
+      );
+      assert.equal(routingRequestCount, 3);
+    },
+  );
+
   it("preserves the resume token and ORDER BY filters when the parent splits", async () => {
     const clientContext = createClientContext();
     const topology = mockSplitTopology(clientContext);
