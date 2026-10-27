@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get Configuration records within a subscription
  *
  * @summary get Configuration records within a subscription
- * x-ms-original-file: 2023-10-01-preview/ApplyUpdates_List.json
+ * x-ms-original-file: 2025-10-01-preview/ApplyUpdates_List.json
  */
 async function applyUpdatesList() {
   const credential = new DefaultAzureCredential();

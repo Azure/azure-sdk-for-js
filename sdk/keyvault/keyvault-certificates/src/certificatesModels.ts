@@ -16,7 +16,7 @@ import type {
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "2026-03-01-preview";
+export const LATEST_API_VERSION = "2026-04-01";
 
 /**
  * The optional parameters accepted by the KeyVault's CertificateClient
@@ -26,7 +26,16 @@ export interface CertificateClientOptions extends ExtendedCommonClientOptions {
    * The accepted versions of the KeyVault's service API.
    */
   serviceVersion?:
-    "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-03-01-preview";
+    | "7.0"
+    | "7.1"
+    | "7.2"
+    | "7.3"
+    | "7.4"
+    | "7.5"
+    | "7.6"
+    | "2025-07-01"
+    | "2026-03-01-preview"
+    | "2026-04-01";
 
   /**
    * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.
@@ -377,7 +386,7 @@ export interface CertificatePolicyProperties {
    *
    * @remarks This feature is currently intended for internal Azure Key Vault usage only.
    * Any calls using this property will fail and it is not recommended to be used at this point.
-   * Requires `serviceVersion: "2026-03-01-preview"` on the {@link CertificateClient}.
+   * Requires service version `"2026-03-01-preview"` or `"2026-04-01"` on the {@link CertificateClient}.
    */
   platformManaged?: PlatformManaged;
 }

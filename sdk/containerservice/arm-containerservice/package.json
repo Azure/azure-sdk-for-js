@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerservice",
-  "version": "25.7.0-beta.1",
+  "version": "25.8.0-beta.1",
   "description": "A generated SDK for ContainerServiceClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -126,6 +126,20 @@
         "default": "./dist/commonjs/api/operationStatusResult/index.js"
       }
     },
+    "./api/upgradeInsights": {
+      "browser": {
+        "types": "./dist/browser/api/upgradeInsights/index.d.ts",
+        "default": "./dist/browser/api/upgradeInsights/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/upgradeInsights/index.d.ts",
+        "default": "./dist/esm/api/upgradeInsights/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/upgradeInsights/index.d.ts",
+        "default": "./dist/commonjs/api/upgradeInsights/index.js"
+      }
+    },
     "./api/alertConfigurations": {
       "browser": {
         "types": "./dist/browser/api/alertConfigurations/index.d.ts",
@@ -152,6 +166,20 @@
       "require": {
         "types": "./dist/commonjs/api/operations/index.d.ts",
         "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./api/agentFabricMemberships": {
+      "browser": {
+        "types": "./dist/browser/api/agentFabricMemberships/index.d.ts",
+        "default": "./dist/browser/api/agentFabricMemberships/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/agentFabricMemberships/index.d.ts",
+        "default": "./dist/esm/api/agentFabricMemberships/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/agentFabricMemberships/index.d.ts",
+        "default": "./dist/commonjs/api/agentFabricMemberships/index.js"
       }
     },
     "./api/meshMemberships": {

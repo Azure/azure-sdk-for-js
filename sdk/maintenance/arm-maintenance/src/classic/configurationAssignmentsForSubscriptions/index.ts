@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
+import type { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
 import {
   $delete,
   update,
   createOrUpdate,
   get,
 } from "../../api/configurationAssignmentsForSubscriptions/operations.js";
-import {
+import type {
   ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams,
   ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams,
   ConfigurationAssignmentsForSubscriptionsCreateOrUpdateOptionalParams,
   ConfigurationAssignmentsForSubscriptionsGetOptionalParams,
 } from "../../api/configurationAssignmentsForSubscriptions/options.js";
-import { ConfigurationAssignment } from "../../models/models.js";
+import type { ConfigurationAssignment } from "../../models/models.js";
 
 /** Interface representing a ConfigurationAssignmentsForSubscriptions operations. */
 export interface ConfigurationAssignmentsForSubscriptionsOperations {
@@ -22,7 +22,7 @@ export interface ConfigurationAssignmentsForSubscriptionsOperations {
   delete: (
     configurationAssignmentName: string,
     options?: ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams,
-  ) => Promise<ConfigurationAssignment>;
+  ) => Promise<ConfigurationAssignment | void>;
   /** Register configuration for resource. */
   update: (
     configurationAssignmentName: string,

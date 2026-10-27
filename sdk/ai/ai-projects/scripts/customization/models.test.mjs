@@ -451,6 +451,122 @@ test("side-effectful concurrent converter insertions remain explicit ordering di
   );
 });
 
+test("voice transcription additions preserve customized member order without recovery", () => {
+  const fields = new Map([
+    ["language", "string"],
+    ["languages", "string[]"],
+    ["keywords", "string[]"],
+    ["prompt", "string"],
+    ["delay", '"minimal" | "low" | "medium" | "high" | "xhigh"'],
+    ["model", "VoiceAgentInputTranscriptionModel"],
+    ["custom_speech", "Record<string, string>"],
+    ["phrase_list", "string[]"],
+    ["profanity_filter", "VoiceAgentProfanityFilterMode"],
+  ]);
+  const emittedOrder = [...fields.keys()].filter((name) => name !== "profanity_filter");
+  const customOrder = [
+    "language",
+    "prompt",
+    "delay",
+    "model",
+    "custom_speech",
+    "phrase_list",
+    "languages",
+    "keywords",
+  ];
+  const declarations = (order) => `
+export type VoiceAgentInputTranscriptionModel = string;
+export interface VoiceAgentInputTranscription {
+${order.map((name) => `${name}${name === "model" ? "" : "?"}: ${fields.get(name)};`).join("\n")}
+}
+export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTranscription): any {
+  return { ${order.map((name) => `${name}: item["${name}"]`).join(", ")} };
+}
+export function voiceAgentInputTranscriptionDeserializer(item: any): VoiceAgentInputTranscription {
+  return { ${order.map((name) => `${name}: item["${name}"]`).join(", ")} };
+}
+`;
+  const result = succeeded(
+    tree(declarations(emittedOrder)),
+    tree(declarations(customOrder)),
+    tree(
+      declarations([...emittedOrder, "profanity_filter"]) +
+        "export type VoiceAgentProfanityFilterMode = string;",
+    ),
+  );
+  const text = result.files.get(modelFile);
+  const source = ts.createSourceFile(modelFile, text, ts.ScriptTarget.Latest, true);
+  const transcription = source.statements.find(
+    (node) => node.name?.text === "VoiceAgentInputTranscription",
+  );
+  assert.deepEqual(
+    transcription.members.map((member) => member.name.text),
+    [...customOrder, "profanity_filter"],
+  );
+  assert.match(text, /profanity_filter\?: VoiceAgentProfanityFilterMode/);
+  const converters = evaluate(text);
+  const item = {
+    language: "en",
+    languages: ["en", "es"],
+    keywords: ["Foundry"],
+    prompt: "Technical terms",
+    delay: "low",
+    model: "azure-speech",
+    custom_speech: { en: "custom-model" },
+    phrase_list: ["Foundry"],
+    profanity_filter: "masked",
+  };
+  for (const name of [
+    "voiceAgentInputTranscriptionSerializer",
+    "voiceAgentInputTranscriptionDeserializer",
+  ]) {
+    assert.deepEqual(JSON.parse(JSON.stringify(converters[name](item))), item);
+  }
+});
+
+test("a customized converter keeps its member order and epoch handling when the emitter reorders it", () => {
+  const converter = (members) => `
+export interface Response { id?: string; usage?: unknown; metadata?: unknown; created_at?: Date; }
+export function usageDeserializer(item: any): unknown { return { usage: item }; }
+export function metadataDeserializer(item: any): unknown { return { metadata: item }; }
+export function responseDeserializer(item: any): Response {
+  return {
+${members}
+  };
+}
+`;
+  const usage = 'usage: !item["usage"] ? item["usage"] : usageDeserializer(item["usage"]),';
+  const fromEntries =
+    'metadata: !item["metadata"] ? item["metadata"] : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),';
+  const metadata =
+    'metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),';
+  const plainDate =
+    'created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),';
+  const result = succeeded(
+    tree(converter([usage, 'id: item["id"],', fromEntries, plainDate].join("\n"))),
+    tree(
+      converter(
+        [
+          'id: item["id"],',
+          usage,
+          fromEntries,
+          'created_at: item["created_at"] === undefined || item["created_at"] === null ? item["created_at"] : new Date(item["created_at"] * 1000),',
+        ].join("\n"),
+      ),
+    ),
+    tree(converter(['id: item["id"],', metadata, usage, plainDate].join("\n"))),
+  );
+  const output = evaluate(result.files.get(modelFile)).responseDeserializer({
+    id: "id",
+    usage: 1,
+    metadata: 2,
+    created_at: 0,
+  });
+  assert.deepEqual(Object.keys(output), ["id", "usage", "metadata", "created_at"]);
+  assert.deepEqual(JSON.parse(JSON.stringify(output.metadata)), { metadata: 2 });
+  assert.equal(output.created_at.getTime(), 0);
+});
+
 test("flat imports retain customized platform streams and add dependencies from relocated modules", () => {
   const base = tree(`
 import type { NodeReadableStream } from "@azure/core-rest-pipeline";
