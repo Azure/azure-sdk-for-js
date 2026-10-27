@@ -261,49 +261,52 @@ describe("direct Stack AST generation", () => {
     validateRenderedBicepFiles(files);
   }, 30_000);
 
-  it.each(["managementGroup", "tenant"] as const)(
-    "merges inherited trees into a standalone file at the Stack's %s scope",
-    (targetScope) => {
-      for (const count of [1, 2]) {
-        const stack = new Stack(`standalone-${targetScope}-${count}`, {
-          targetScope,
-        });
-        for (let index = 0; index < count; index++) {
-          new Resource(
-            stack,
-            targetScope === "managementGroup"
-              ? {
-                  type: "Microsoft.Authorization/policyDefinitions",
-                  apiVersion: "2023-04-01",
-                  name: `policy${index}`,
-                  properties: {
-                    policyType: "Custom",
-                    mode: "All",
-                    policyRule: {
-                      if: {
-                        field: "type",
-                        equals: "Microsoft.Storage/storageAccounts",
-                      },
-                      then: { effect: "audit" },
+  it.each([
+    { targetScope: "managementGroup", count: 1 },
+    { targetScope: "managementGroup", count: 2 },
+    { targetScope: "tenant", count: 1 },
+    { targetScope: "tenant", count: 2 },
+  ] as const)(
+    "merges inherited trees into a standalone file at the Stack's $targetScope scope (count: $count)",
+    ({ targetScope, count }) => {
+      const stack = new Stack(`standalone-${targetScope}-${count}`, {
+        targetScope,
+      });
+      for (let index = 0; index < count; index++) {
+        new Resource(
+          stack,
+          targetScope === "managementGroup"
+            ? {
+                type: "Microsoft.Authorization/policyDefinitions",
+                apiVersion: "2023-04-01",
+                name: `policy${index}`,
+                properties: {
+                  policyType: "Custom",
+                  mode: "All",
+                  policyRule: {
+                    if: {
+                      field: "type",
+                      equals: "Microsoft.Storage/storageAccounts",
                     },
+                    then: { effect: "audit" },
                   },
-                }
-              : {
-                  type: "Microsoft.Management/managementGroups",
-                  apiVersion: "2024-02-01-preview",
-                  name: `group${index}`,
-                  properties: { displayName: `Group ${index}` },
                 },
-          );
-        }
-        const files = renderBicepFiles(stack);
-        expect(files).toHaveLength(1);
-        expect(files[0]!.contents).toContain(`targetScope = '${targetScope}'`);
-        expect(renderBicepFiles(json.deserialize(JSON.stringify(json.serialize(stack))))).toEqual(
-          files,
+              }
+            : {
+                type: "Microsoft.Management/managementGroups",
+                apiVersion: "2024-02-01-preview",
+                name: `group${index}`,
+                properties: { displayName: `Group ${index}` },
+              },
         );
-        validateRenderedBicepFiles(files);
       }
+      const files = renderBicepFiles(stack);
+      expect(files).toHaveLength(1);
+      expect(files[0]!.contents).toContain(`targetScope = '${targetScope}'`);
+      expect(renderBicepFiles(json.deserialize(JSON.stringify(json.serialize(stack))))).toEqual(
+        files,
+      );
+      validateRenderedBicepFiles(files);
     },
     30_000,
   );
