@@ -10,12 +10,12 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type PublicCloudConnectorsTestPermissionsOptionalParams,
-  type PublicCloudConnectorsListBySubscriptionOptionalParams,
-  type PublicCloudConnectorsListByResourceGroupOptionalParams,
-  type PublicCloudConnectorsDeleteOptionalParams,
-  type PublicCloudConnectorsUpdateOptionalParams,
-  type PublicCloudConnectorsCreateOrUpdateOptionalParams,
-  type PublicCloudConnectorsGetOptionalParams,
+export type {
+  PublicCloudConnectorsTestPermissionsOptionalParams,
+  PublicCloudConnectorsListBySubscriptionOptionalParams,
+  PublicCloudConnectorsListByResourceGroupOptionalParams,
+  PublicCloudConnectorsDeleteOptionalParams,
+  PublicCloudConnectorsUpdateOptionalParams,
+  PublicCloudConnectorsCreateOrUpdateOptionalParams,
+  PublicCloudConnectorsGetOptionalParams,
 } from "./options.js";

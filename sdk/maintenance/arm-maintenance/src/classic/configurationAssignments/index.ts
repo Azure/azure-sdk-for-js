@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
+import type { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
 import {
   list,
   $delete,
@@ -12,7 +12,7 @@ import {
   createOrUpdateParent,
   getParent,
 } from "../../api/configurationAssignments/operations.js";
-import {
+import type {
   ConfigurationAssignmentsListOptionalParams,
   ConfigurationAssignmentsDeleteOptionalParams,
   ConfigurationAssignmentsCreateOrUpdateOptionalParams,
@@ -22,8 +22,8 @@ import {
   ConfigurationAssignmentsCreateOrUpdateParentOptionalParams,
   ConfigurationAssignmentsGetParentOptionalParams,
 } from "../../api/configurationAssignments/options.js";
-import { ConfigurationAssignment } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ConfigurationAssignment } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ConfigurationAssignments operations. */
 export interface ConfigurationAssignmentsOperations {
@@ -43,7 +43,7 @@ export interface ConfigurationAssignmentsOperations {
     resourceName: string,
     configurationAssignmentName: string,
     options?: ConfigurationAssignmentsDeleteOptionalParams,
-  ) => Promise<ConfigurationAssignment>;
+  ) => Promise<ConfigurationAssignment | void>;
   /** Register configuration for resource. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -83,7 +83,7 @@ export interface ConfigurationAssignmentsOperations {
     resourceName: string,
     configurationAssignmentName: string,
     options?: ConfigurationAssignmentsDeleteParentOptionalParams,
-  ) => Promise<ConfigurationAssignment>;
+  ) => Promise<ConfigurationAssignment | void>;
   /** Register configuration for resource. */
   createOrUpdateParent: (
     resourceGroupName: string,
