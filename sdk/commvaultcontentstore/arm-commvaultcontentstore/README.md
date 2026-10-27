@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/commvaultcontentstore/arm-commvaultcontentstore)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-commvaultcontentstore)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-commvaultcontentstore?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-commvaultcontentstore)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/commvaultcontentstore/arm-commvaultcontentstore/samples)
 
 ## Getting started

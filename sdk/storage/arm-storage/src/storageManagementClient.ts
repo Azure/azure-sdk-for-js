@@ -8,6 +8,10 @@ import type {
 import { createStorageManagement } from "./api/index.js";
 import type { AdvancedPlatformMetricsOperations } from "./classic/advancedPlatformMetrics/index.js";
 import { _getAdvancedPlatformMetricsOperations } from "./classic/advancedPlatformMetrics/index.js";
+import type { BlobAccessPointConfigurationsOperations } from "./classic/blobAccessPointConfigurations/index.js";
+import { _getBlobAccessPointConfigurationsOperations } from "./classic/blobAccessPointConfigurations/index.js";
+import type { BlobAccessPointConnectionTestsOperations } from "./classic/blobAccessPointConnectionTests/index.js";
+import { _getBlobAccessPointConnectionTestsOperations } from "./classic/blobAccessPointConnectionTests/index.js";
 import type { BlobContainersOperations } from "./classic/blobContainers/index.js";
 import { _getBlobContainersOperations } from "./classic/blobContainers/index.js";
 import type { BlobInventoryPoliciesOperations } from "./classic/blobInventoryPolicies/index.js";
@@ -16,6 +20,10 @@ import type { BlobServicesOperations } from "./classic/blobServices/index.js";
 import { _getBlobServicesOperations } from "./classic/blobServices/index.js";
 import type { ConnectorsOperations } from "./classic/connectors/index.js";
 import { _getConnectorsOperations } from "./classic/connectors/index.js";
+import type { ContextCacheContainersOperations } from "./classic/contextCacheContainers/index.js";
+import { _getContextCacheContainersOperations } from "./classic/contextCacheContainers/index.js";
+import type { ContextCachesOperations } from "./classic/contextCaches/index.js";
+import { _getContextCachesOperations } from "./classic/contextCaches/index.js";
 import type { DataSharesOperations } from "./classic/dataShares/index.js";
 import { _getDataSharesOperations } from "./classic/dataShares/index.js";
 import type { DeletedAccountsOperations } from "./classic/deletedAccounts/index.js";
@@ -91,14 +99,7 @@ export class StorageManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createStorageManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createStorageManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.usages = _getUsagesOperations(this._client);
     this.skus = _getSkusOperations(this._client);
@@ -113,6 +114,12 @@ export class StorageManagementClient {
       _getStorageTaskAssignmentsInstancesReportOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.advancedPlatformMetrics = _getAdvancedPlatformMetricsOperations(this._client);
+    this.blobAccessPointConnectionTests = _getBlobAccessPointConnectionTestsOperations(
+      this._client,
+    );
+    this.blobAccessPointConfigurations = _getBlobAccessPointConfigurationsOperations(this._client);
+    this.contextCacheContainers = _getContextCacheContainersOperations(this._client);
+    this.contextCaches = _getContextCachesOperations(this._client);
     this.dataShares = _getDataSharesOperations(this._client);
     this.connectors = _getConnectorsOperations(this._client);
     this.storageTaskAssignments = _getStorageTaskAssignmentsOperations(this._client);
@@ -153,6 +160,14 @@ export class StorageManagementClient {
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for advancedPlatformMetrics */
   public readonly advancedPlatformMetrics: AdvancedPlatformMetricsOperations;
+  /** The operation groups for blobAccessPointConnectionTests */
+  public readonly blobAccessPointConnectionTests: BlobAccessPointConnectionTestsOperations;
+  /** The operation groups for blobAccessPointConfigurations */
+  public readonly blobAccessPointConfigurations: BlobAccessPointConfigurationsOperations;
+  /** The operation groups for contextCacheContainers */
+  public readonly contextCacheContainers: ContextCacheContainersOperations;
+  /** The operation groups for contextCaches */
+  public readonly contextCaches: ContextCachesOperations;
   /** The operation groups for dataShares */
   public readonly dataShares: DataSharesOperations;
   /** The operation groups for connectors */

@@ -140,6 +140,7 @@ export {
   KnownPublicNetworkAccess,
   KnownActivationStatus,
   KnownManagedHsmSkuFamily,
+  KnownManagedHsmSkuName,
   KnownManagedServiceIdentityType,
   KnownDeletionRecoveryLevel,
   KnownJsonWebKeyType,

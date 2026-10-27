@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
  *
  * @summary creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
- * x-ms-original-file: 2026-01-01/P2SVpnGatewayPut.json
+ * x-ms-original-file: 2026-03-01/P2SVpnGatewayPut.json
  */
 async function p2SVpnGatewayPut(): Promise<void> {
   const credential = new DefaultAzureCredential();

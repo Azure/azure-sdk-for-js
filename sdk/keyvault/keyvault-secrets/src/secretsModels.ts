@@ -17,7 +17,8 @@ export interface SecretClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01";
+  serviceVersion?:
+    "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-04-01";
 
   /**
    * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.

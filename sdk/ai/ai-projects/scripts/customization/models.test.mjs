@@ -44,6 +44,62 @@ function evaluate(text) {
   return sandbox.exports;
 }
 
+const dataGenerationValues = '"simple_qna" | "traces" | "tool_use" | "simulation_seed"';
+
+test("data generation schema renames adopt only the explicitly approved upstream discriminator", () => {
+  const discriminator = `export type DataGenerationJobType = ${dataGenerationValues};`;
+  const options = `
+export interface DataGenerationJobOptions { type: DataGenerationJobType; }
+${["simple_qna", "traces", "tool_use", "simulation_seed"]
+  .map(
+    (value, index) =>
+      `export interface Old${index} extends DataGenerationJobOptions { type: "${value}"; }`,
+  )
+  .join("\n")}`;
+  const base = tree(discriminator + options);
+  const custom = tree(
+    discriminator.replace(";", ' | "task_generation";') +
+      options +
+      'export type Unrelated = "kept";',
+  );
+  const incoming = tree(
+    discriminator +
+      "export interface DataGenerationJobConfiguration { type: DataGenerationJobType; }",
+  );
+  const result = succeeded(base, custom, incoming);
+  const text = result.files.get(modelFile);
+  assert.doesNotMatch(text, /"task_generation"/);
+  assert.match(text, /type Unrelated = "kept"/);
+  for (const value of ["simple_qna", "traces", "tool_use", "simulation_seed"])
+    assert.ok(text.includes(`"${value}"`));
+  assertModelTypes(result.files, path.resolve(fileURLToPath(new URL("../..", import.meta.url))));
+
+  // A subsequent regeneration must not resurrect the customized discriminator.
+  const repeated = succeeded(incoming, result.files, incoming);
+  assert.doesNotMatch(repeated.files.get(modelFile), /"task_generation"/);
+});
+
+test("unapproved data generation values and unrelated full-union retention still require review", () => {
+  const base = tree(`export type DataGenerationJobType = ${dataGenerationValues};`);
+  for (const incoming of [
+    tree(`export type DataGenerationJobType = ${dataGenerationValues} | "future";`),
+    tree('export type DataGenerationJobType = "simple_qna";'),
+    tree("export type DataGenerationJobType = string;"),
+  ]) {
+    const result = plan(base, base, incoming);
+    assert.equal(result.files.size, 0);
+    assert.match(result.diagnostics[0].message, /approved upstream-values policy/);
+  }
+  const unrelated = tree(`
+export type OtherKind = "legacy";
+export interface Other { kind: OtherKind; }
+export interface Legacy extends Other { kind: "legacy"; }
+`);
+  const result = plan(unrelated, unrelated, tree('export type OtherKind = "new";'));
+  assert.equal(result.files.size, 0);
+  assert.ok(result.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)));
+});
+
 function assertModelTypes(files, packageRoot) {
   const configuration = ts.readConfigFile(
     path.join(packageRoot, "tsconfig.test.node.json"),
@@ -142,7 +198,8 @@ export function exampleSerializer(item: Example): any {
   assert.match(output, /source: string/);
   assert.doesNotMatch(output, /old_name/);
   assert.equal((output.match(/export interface Example\b/g) ?? []).length, 1);
-  assert.match(result.files.get("models/openAI/models.ts"), /from "\.\.\/models\.js"/);
+  assert.equal(result.files.has("models/openAI/models.ts"), false);
+  assert.match(result.reexportModules.get("models/openAI/models.ts"), /from "\.\.\/models\.js"/);
   const actual = evaluate(output).exampleSerializer({
     connection_name: "connection",
     source: "+14255550100",
@@ -392,6 +449,122 @@ test("side-effectful concurrent converter insertions remain explicit ordering di
       (diagnostic) => diagnostic.declaration === "convert" && /ordering/.test(diagnostic.message),
     ),
   );
+});
+
+test("voice transcription additions preserve customized member order without recovery", () => {
+  const fields = new Map([
+    ["language", "string"],
+    ["languages", "string[]"],
+    ["keywords", "string[]"],
+    ["prompt", "string"],
+    ["delay", '"minimal" | "low" | "medium" | "high" | "xhigh"'],
+    ["model", "VoiceAgentInputTranscriptionModel"],
+    ["custom_speech", "Record<string, string>"],
+    ["phrase_list", "string[]"],
+    ["profanity_filter", "VoiceAgentProfanityFilterMode"],
+  ]);
+  const emittedOrder = [...fields.keys()].filter((name) => name !== "profanity_filter");
+  const customOrder = [
+    "language",
+    "prompt",
+    "delay",
+    "model",
+    "custom_speech",
+    "phrase_list",
+    "languages",
+    "keywords",
+  ];
+  const declarations = (order) => `
+export type VoiceAgentInputTranscriptionModel = string;
+export interface VoiceAgentInputTranscription {
+${order.map((name) => `${name}${name === "model" ? "" : "?"}: ${fields.get(name)};`).join("\n")}
+}
+export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTranscription): any {
+  return { ${order.map((name) => `${name}: item["${name}"]`).join(", ")} };
+}
+export function voiceAgentInputTranscriptionDeserializer(item: any): VoiceAgentInputTranscription {
+  return { ${order.map((name) => `${name}: item["${name}"]`).join(", ")} };
+}
+`;
+  const result = succeeded(
+    tree(declarations(emittedOrder)),
+    tree(declarations(customOrder)),
+    tree(
+      declarations([...emittedOrder, "profanity_filter"]) +
+        "export type VoiceAgentProfanityFilterMode = string;",
+    ),
+  );
+  const text = result.files.get(modelFile);
+  const source = ts.createSourceFile(modelFile, text, ts.ScriptTarget.Latest, true);
+  const transcription = source.statements.find(
+    (node) => node.name?.text === "VoiceAgentInputTranscription",
+  );
+  assert.deepEqual(
+    transcription.members.map((member) => member.name.text),
+    [...customOrder, "profanity_filter"],
+  );
+  assert.match(text, /profanity_filter\?: VoiceAgentProfanityFilterMode/);
+  const converters = evaluate(text);
+  const item = {
+    language: "en",
+    languages: ["en", "es"],
+    keywords: ["Foundry"],
+    prompt: "Technical terms",
+    delay: "low",
+    model: "azure-speech",
+    custom_speech: { en: "custom-model" },
+    phrase_list: ["Foundry"],
+    profanity_filter: "masked",
+  };
+  for (const name of [
+    "voiceAgentInputTranscriptionSerializer",
+    "voiceAgentInputTranscriptionDeserializer",
+  ]) {
+    assert.deepEqual(JSON.parse(JSON.stringify(converters[name](item))), item);
+  }
+});
+
+test("a customized converter keeps its member order and epoch handling when the emitter reorders it", () => {
+  const converter = (members) => `
+export interface Response { id?: string; usage?: unknown; metadata?: unknown; created_at?: Date; }
+export function usageDeserializer(item: any): unknown { return { usage: item }; }
+export function metadataDeserializer(item: any): unknown { return { metadata: item }; }
+export function responseDeserializer(item: any): Response {
+  return {
+${members}
+  };
+}
+`;
+  const usage = 'usage: !item["usage"] ? item["usage"] : usageDeserializer(item["usage"]),';
+  const fromEntries =
+    'metadata: !item["metadata"] ? item["metadata"] : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),';
+  const metadata =
+    'metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),';
+  const plainDate =
+    'created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),';
+  const result = succeeded(
+    tree(converter([usage, 'id: item["id"],', fromEntries, plainDate].join("\n"))),
+    tree(
+      converter(
+        [
+          'id: item["id"],',
+          usage,
+          fromEntries,
+          'created_at: item["created_at"] === undefined || item["created_at"] === null ? item["created_at"] : new Date(item["created_at"] * 1000),',
+        ].join("\n"),
+      ),
+    ),
+    tree(converter(['id: item["id"],', metadata, usage, plainDate].join("\n"))),
+  );
+  const output = evaluate(result.files.get(modelFile)).responseDeserializer({
+    id: "id",
+    usage: 1,
+    metadata: 2,
+    created_at: 0,
+  });
+  assert.deepEqual(Object.keys(output), ["id", "usage", "metadata", "created_at"]);
+  assert.deepEqual(JSON.parse(JSON.stringify(output.metadata)), { metadata: 2 });
+  assert.equal(output.created_at.getTime(), 0);
 });
 
 test("flat imports retain customized platform streams and add dependencies from relocated modules", () => {

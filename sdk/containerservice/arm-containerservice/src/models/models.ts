@@ -816,6 +816,8 @@ export interface AgentPoolUpgradeSettings {
   nodeSoakDurationInMinutes?: number;
   /** Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes. */
   undrainableNodeBehavior?: UndrainableNodeBehavior;
+  /** Settings for upgrade gating on upgrades of this agent pool. Health signals are `HealthSignal` custom resources published by monitoring components running in the cluster. When the cluster-level `enabled` is unset or `false`, this agent pool can opt in independently. When the cluster-level `enabled` is `true`, gating is inherited and setting this agent pool's `enabled` to `false` is rejected; an omitted value on a newly created agent pool is defaulted to `true`. */
+  upgradeGateSettings?: UpgradeGateSettings;
 }
 
 export function agentPoolUpgradeSettingsSerializer(item: AgentPoolUpgradeSettings): any {
@@ -826,6 +828,9 @@ export function agentPoolUpgradeSettingsSerializer(item: AgentPoolUpgradeSetting
     drainTimeoutInMinutes: item["drainTimeoutInMinutes"],
     nodeSoakDurationInMinutes: item["nodeSoakDurationInMinutes"],
     undrainableNodeBehavior: item["undrainableNodeBehavior"],
+    upgradeGateSettings: !item["upgradeGateSettings"]
+      ? item["upgradeGateSettings"]
+      : upgradeGateSettingsSerializer(item["upgradeGateSettings"]),
   };
 }
 
@@ -837,6 +842,9 @@ export function agentPoolUpgradeSettingsDeserializer(item: any): AgentPoolUpgrad
     drainTimeoutInMinutes: item["drainTimeoutInMinutes"],
     nodeSoakDurationInMinutes: item["nodeSoakDurationInMinutes"],
     undrainableNodeBehavior: item["undrainableNodeBehavior"],
+    upgradeGateSettings: !item["upgradeGateSettings"]
+      ? item["upgradeGateSettings"]
+      : upgradeGateSettingsDeserializer(item["upgradeGateSettings"]),
   };
 }
 
@@ -857,6 +865,22 @@ export enum KnownUndrainableNodeBehavior {
  * **Schedule**: AKS will mark the blocked nodes schedulable, but the blocked nodes are not upgraded. A best-effort attempt will be made to delete all surge nodes. The upgrade operation and the managed cluster will be in failed state if there are any blocked nodes.
  */
 export type UndrainableNodeBehavior = string;
+
+/** Settings for health-aware upgrade gating. */
+export interface UpgradeGateSettings {
+  /** Whether upgrade gating is enabled. Defaults to `false` when unset, except on a newly created agent pool in a cluster where upgrade gating is enabled, which defaults to `true`. When `true`, upgrade-gated health checks are enabled for upgrades in the corresponding scope. Setting this to `true` at the cluster scope enables gating for the entire cluster, including all agent pool upgrades. When the cluster scope is unset or `false`, an agent pool can opt in independently by setting this to `true`. When the cluster scope is `true`, an agent pool cannot set this to `false`. Force upgrade (`overrideSettings.forceUpgrade`) overrides the gate: while the override window is active, the upgrade skips health signal validation and proceeds. */
+  enabled?: boolean;
+}
+
+export function upgradeGateSettingsSerializer(item: UpgradeGateSettings): any {
+  return { enabled: item["enabled"] };
+}
+
+export function upgradeGateSettingsDeserializer(item: any): UpgradeGateSettings {
+  return {
+    enabled: item["enabled"],
+  };
+}
 
 /** Settings for blue-green upgrade on an agentpool */
 export interface AgentPoolBlueGreenUpgradeSettings {
@@ -1814,6 +1838,8 @@ export interface NvidiaGPUProfile {
   driverMode?: NvidiaDriverMode;
   /** Sets the MIG (Multi-Instance GPU) strategy that will be used for managed MIG support. For more information about the different strategies, visit aka.ms/aks/managed-gpu. When not specified, the default is None. */
   migStrategy?: MigStrategy;
+  /** The ordered list of MIG (Multi-Instance GPU) partition profiles to assign to each supported NVIDIA GPU. When `migStrategy` is `Single`, exactly one profile must be specified. When `migStrategy` is `Mixed`, one or more profiles may be specified and the combination is validated against the supported MIG geometry for the agent pool's GPU VM size. The same value may appear more than once to request multiple partitions of that size. This field is mutually exclusive with the top-level `gpuInstanceProfile` property. For more information, see https://aka.ms/aks/managed-gpu. */
+  migProfiles?: GPUInstanceProfile[];
 }
 
 export function nvidiaGPUProfileSerializer(item: NvidiaGPUProfile): any {
@@ -1821,6 +1847,11 @@ export function nvidiaGPUProfileSerializer(item: NvidiaGPUProfile): any {
     managementMode: item["managementMode"],
     driverMode: item["driverMode"],
     migStrategy: item["migStrategy"],
+    migProfiles: !item["migProfiles"]
+      ? item["migProfiles"]
+      : item["migProfiles"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1829,6 +1860,11 @@ export function nvidiaGPUProfileDeserializer(item: any): NvidiaGPUProfile {
     managementMode: item["managementMode"],
     driverMode: item["driverMode"],
     migStrategy: item["migStrategy"],
+    migProfiles: !item["migProfiles"]
+      ? item["migProfiles"]
+      : item["migProfiles"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1870,11 +1906,11 @@ export type NvidiaDriverMode = string;
 
 /** Sets the MIG (Multi-Instance GPU) strategy that will be used for managed MIG support. For more information about the different strategies, visit aka.ms/aks/managed-gpu. When not specified, the default is None. */
 export enum KnownMigStrategy {
-  /** Don't set a MIG strategy. If you previously had one set, this will override it and set remove the set MIG strategy. */
+  /** No MIG partitioning is applied; the GPU is exposed as a single unified whole-device instance. Specifying this value removes any previously active MIG strategy. */
   None = "None",
-  /** Set the MIG strategy for managed MIG as single. */
+  /** All MIG partitions on every GPU in the pool are the same size (`nvidia.com/mig.strategy: single`). The uniform partition size is controlled by `nvidia.migProfiles` (exactly one element required). */
   Single = "Single",
-  /** Set the MIG strategy for managed MIG as mixed. */
+  /** Each GPU in the pool can host heterogeneous partitions of different sizes simultaneously (`nvidia.com/mig.strategy: mixed`). The exact partition mix per GPU is declared via `nvidia.migProfiles`. */
   Mixed = "Mixed",
 }
 
@@ -1883,9 +1919,9 @@ export enum KnownMigStrategy {
  * {@link KnownMigStrategy} can be used interchangeably with MigStrategy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None**: Don't set a MIG strategy. If you previously had one set, this will override it and set remove the set MIG strategy. \
- * **Single**: Set the MIG strategy for managed MIG as single. \
- * **Mixed**: Set the MIG strategy for managed MIG as mixed.
+ * **None**: No MIG partitioning is applied; the GPU is exposed as a single unified whole-device instance. Specifying this value removes any previously active MIG strategy. \
+ * **Single**: All MIG partitions on every GPU in the pool are the same size (`nvidia.com\/mig.strategy: single`). The uniform partition size is controlled by `nvidia.migProfiles` (exactly one element required). \
+ * **Mixed**: Each GPU in the pool can host heterogeneous partitions of different sizes simultaneously (`nvidia.com\/mig.strategy: mixed`). The exact partition mix per GPU is declared via `nvidia.migProfiles`.
  */
 export type MigStrategy = string;
 
@@ -3097,7 +3133,7 @@ export interface ManagedCluster extends TrackedResource {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
-  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. */
+  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. Although this property is available in a stable API version, cluster-wide FIPS remains a preview feature. Write requests whose resulting cluster state has this property set to true require the `Microsoft.ContainerService/EnableFIPSPreview` subscription feature registration. */
   enableFips?: boolean;
   /** Whether to enable node hardening at the cluster level. When enabled, AKS applies hardened defaults for soft eviction thresholds, kube-reserved, and system-reserved on all Linux node pools in the cluster. Per-node-pool kubeletConfig settings take precedence over hardening defaults. On agent pools running Kubernetes 1.37 or later, node hardening is enabled by default and cannot be disabled; setting this field to false has no effect on those pools. */
   enableNodeHardening?: boolean;
@@ -3149,6 +3185,10 @@ export interface ManagedCluster extends TrackedResource {
   bootstrapProfile?: ManagedClusterBootstrapProfile;
   /** AI toolchain operator settings that apply to the whole cluster. */
   aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
+  /** Agent Sandbox settings that apply to the whole cluster. */
+  agentSandboxProfile?: ManagedClusterAgentSandboxProfile;
+  /** The Pod Snapshot Restore profile for the managed cluster. */
+  podSnapshotProfile?: ManagedClusterPodSnapshotProfile;
   /** Profile with scheduler-related settings, like the configuration mode for each scheduler managed by AKS. See https://aka.ms/aks/scheduler-profile. */
   schedulerProfile?: SchedulerProfile;
   /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
@@ -3208,6 +3248,8 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "nodeProvisioningProfile",
       "bootstrapProfile",
       "aiToolchainOperatorProfile",
+      "agentSandboxProfile",
+      "podSnapshotProfile",
       "schedulerProfile",
       "hostedSystemProfile",
       "healthMonitorProfile",
@@ -3301,7 +3343,7 @@ export interface ManagedClusterProperties {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
-  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. */
+  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. Although this property is available in a stable API version, cluster-wide FIPS remains a preview feature. Write requests whose resulting cluster state has this property set to true require the `Microsoft.ContainerService/EnableFIPSPreview` subscription feature registration. */
   enableFips?: boolean;
   /** Whether to enable node hardening at the cluster level. When enabled, AKS applies hardened defaults for soft eviction thresholds, kube-reserved, and system-reserved on all Linux node pools in the cluster. Per-node-pool kubeletConfig settings take precedence over hardening defaults. On agent pools running Kubernetes 1.37 or later, node hardening is enabled by default and cannot be disabled; setting this field to false has no effect on those pools. */
   enableNodeHardening?: boolean;
@@ -3353,6 +3395,10 @@ export interface ManagedClusterProperties {
   bootstrapProfile?: ManagedClusterBootstrapProfile;
   /** AI toolchain operator settings that apply to the whole cluster. */
   aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
+  /** Agent Sandbox settings that apply to the whole cluster. */
+  agentSandboxProfile?: ManagedClusterAgentSandboxProfile;
+  /** The Pod Snapshot Restore profile for the managed cluster. */
+  podSnapshotProfile?: ManagedClusterPodSnapshotProfile;
   /** Profile with scheduler-related settings, like the configuration mode for each scheduler managed by AKS. See https://aka.ms/aks/scheduler-profile. */
   schedulerProfile?: SchedulerProfile;
   /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
@@ -3465,6 +3511,12 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileSerializer(item["aiToolchainOperatorProfile"]),
+    agentSandboxProfile: !item["agentSandboxProfile"]
+      ? item["agentSandboxProfile"]
+      : managedClusterAgentSandboxProfileSerializer(item["agentSandboxProfile"]),
+    podSnapshotProfile: !item["podSnapshotProfile"]
+      ? item["podSnapshotProfile"]
+      : managedClusterPodSnapshotProfileSerializer(item["podSnapshotProfile"]),
     schedulerProfile: !item["schedulerProfile"]
       ? item["schedulerProfile"]
       : schedulerProfileSerializer(item["schedulerProfile"]),
@@ -3592,6 +3644,12 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileDeserializer(item["aiToolchainOperatorProfile"]),
+    agentSandboxProfile: !item["agentSandboxProfile"]
+      ? item["agentSandboxProfile"]
+      : managedClusterAgentSandboxProfileDeserializer(item["agentSandboxProfile"]),
+    podSnapshotProfile: !item["podSnapshotProfile"]
+      ? item["podSnapshotProfile"]
+      : managedClusterPodSnapshotProfileDeserializer(item["podSnapshotProfile"]),
     schedulerProfile: !item["schedulerProfile"]
       ? item["schedulerProfile"]
       : schedulerProfileDeserializer(item["schedulerProfile"]),
@@ -4456,11 +4514,8 @@ export interface ContainerServiceNetworkProfile {
   loadBalancerSku?: LoadBalancerSku;
   /** Profile of the cluster load balancer. */
   loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
-  /**
-   * Profile of the Bastion Host associated with the managed cluster.
-   * See https://aka.ms/aks/BastionConnect for more details.
-   */
-  bastionProfile?: BastionProfile;
+  /** Configuration for accessing the managed cluster API through Bastion or Cloud Shell. */
+  clusterAPIConnectivityProfile?: ClusterAPIConnectivityProfile;
   /** Profile of the cluster NAT gateway. */
   natGatewayProfile?: ManagedClusterNATGatewayProfile;
   /** The Azure resource ID of the NAT gateway to use for egress at cluster startup when outboundType is 'userAssignedNATGateway' using StandardV2 Public IP, backend pool type is podIP, and load balancer type is service SKU. This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}'. When using managed NATGateway this field is auto populated. For more information, see https://aka.ms/aks/container-native-slb */
@@ -4499,9 +4554,9 @@ export function containerServiceNetworkProfileSerializer(
     loadBalancerProfile: !item["loadBalancerProfile"]
       ? item["loadBalancerProfile"]
       : managedClusterLoadBalancerProfileSerializer(item["loadBalancerProfile"]),
-    bastionProfile: !item["bastionProfile"]
-      ? item["bastionProfile"]
-      : bastionProfileSerializer(item["bastionProfile"]),
+    clusterAPIConnectivityProfile: !item["clusterAPIConnectivityProfile"]
+      ? item["clusterAPIConnectivityProfile"]
+      : clusterAPIConnectivityProfileSerializer(item["clusterAPIConnectivityProfile"]),
     natGatewayProfile: !item["natGatewayProfile"]
       ? item["natGatewayProfile"]
       : managedClusterNATGatewayProfileSerializer(item["natGatewayProfile"]),
@@ -4551,9 +4606,9 @@ export function containerServiceNetworkProfileDeserializer(
     loadBalancerProfile: !item["loadBalancerProfile"]
       ? item["loadBalancerProfile"]
       : managedClusterLoadBalancerProfileDeserializer(item["loadBalancerProfile"]),
-    bastionProfile: !item["bastionProfile"]
-      ? item["bastionProfile"]
-      : bastionProfileDeserializer(item["bastionProfile"]),
+    clusterAPIConnectivityProfile: !item["clusterAPIConnectivityProfile"]
+      ? item["clusterAPIConnectivityProfile"]
+      : clusterAPIConnectivityProfileDeserializer(item["clusterAPIConnectivityProfile"]),
     natGatewayProfile: !item["natGatewayProfile"]
       ? item["natGatewayProfile"]
       : managedClusterNATGatewayProfileDeserializer(item["natGatewayProfile"]),
@@ -5126,6 +5181,40 @@ export enum KnownClusterServiceLoadBalancerHealthProbeMode {
  */
 export type ClusterServiceLoadBalancerHealthProbeMode = string;
 
+/** Configuration for accessing the managed cluster API through Bastion or Cloud Shell. */
+export interface ClusterAPIConnectivityProfile {
+  /**
+   * Azure Bastion connectivity settings.
+   * See https://aka.ms/aks/BastionConnect for more details.
+   */
+  bastion?: BastionProfile;
+  /**
+   * Cloud Shell connectivity settings.
+   * For more information, see https://aka.ms/aks/CloudShellConnect.
+   */
+  cloudShell?: CloudShellProfile;
+}
+
+export function clusterAPIConnectivityProfileSerializer(item: ClusterAPIConnectivityProfile): any {
+  return {
+    bastion: !item["bastion"] ? item["bastion"] : bastionProfileSerializer(item["bastion"]),
+    cloudShell: !item["cloudShell"]
+      ? item["cloudShell"]
+      : cloudShellProfileSerializer(item["cloudShell"]),
+  };
+}
+
+export function clusterAPIConnectivityProfileDeserializer(
+  item: any,
+): ClusterAPIConnectivityProfile {
+  return {
+    bastion: !item["bastion"] ? item["bastion"] : bastionProfileDeserializer(item["bastion"]),
+    cloudShell: !item["cloudShell"]
+      ? item["cloudShell"]
+      : cloudShellProfileDeserializer(item["cloudShell"]),
+  };
+}
+
 /**
  * Profile to enable managed Azure Bastion or reference to an existing Bastion for the managed cluster.
  * See https://aka.ms/aks/BastionConnect for more details.
@@ -5195,6 +5284,167 @@ export enum KnownBastionSku {
  * **Premium**: Use the premium SKU of Azure Bastion.
  */
 export type BastionSku = string;
+
+/**
+ * Cloud Shell connectivity and storage settings for a private managed cluster.
+ * For more information, see https://aka.ms/aks/CloudShellConnect.
+ */
+export interface CloudShellProfile {
+  /**
+   * Whether Cloud Shell connectivity is disabled, uses AKS-managed network resources, or uses user-provided
+   * network resources. Defaults to Disabled when omitted during create. On update, omission preserves the existing
+   * mode. Setting this property to Disabled removes AKS-created resources and connectivity artifacts. For Custom
+   * mode, AKS unregisters the user-provided resources but does not delete them.
+   */
+  mode?: CloudShellProfileMode;
+  /**
+   * Network resources used by Cloud Shell. When configuring Custom networking, users must provide
+   * both subnetId and relayNamespaceId. When updating an existing Custom configuration, either resource ID can be
+   * changed independently; omitted fields preserve their existing values. In Custom mode, AKS returns the user-provided
+   * values. In Managed mode, AKS populates the effective values. Users may omit Managed values or resubmit values
+   * returned by GET unchanged; different values are rejected. This property must be omitted when mode is Disabled.
+   * See https://aka.ms/aks/CloudShellConnect for Custom networking requirements.
+   */
+  network?: CloudShellNetworkProfile;
+  /**
+   * Storage resources used for Cloud Shell file persistence. When configuring Custom storage, users
+   * must provide both storageAccountId and fileShareName. When updating an existing Custom configuration, either
+   * property can be changed independently; omitted fields preserve their existing values. In Custom mode, AKS returns
+   * the user-provided values. In Managed mode, AKS populates the effective values. Users may omit Managed values or
+   * resubmit values returned by GET unchanged; different values are rejected. Both properties must be omitted when
+   * mode is Disabled. See https://aka.ms/aks/CloudShellConnect for Custom storage requirements.
+   */
+  storage?: CloudShellStorageProfile;
+}
+
+export function cloudShellProfileSerializer(item: CloudShellProfile): any {
+  return {
+    mode: item["mode"],
+    network: !item["network"]
+      ? item["network"]
+      : cloudShellNetworkProfileSerializer(item["network"]),
+    storage: !item["storage"]
+      ? item["storage"]
+      : cloudShellStorageProfileSerializer(item["storage"]),
+  };
+}
+
+export function cloudShellProfileDeserializer(item: any): CloudShellProfile {
+  return {
+    mode: item["mode"],
+    network: !item["network"]
+      ? item["network"]
+      : cloudShellNetworkProfileDeserializer(item["network"]),
+    storage: !item["storage"]
+      ? item["storage"]
+      : cloudShellStorageProfileDeserializer(item["storage"]),
+  };
+}
+
+/** Cloud Shell connectivity mode. */
+export enum KnownCloudShellProfileMode {
+  /** Cloud Shell connectivity is disabled. */
+  Disabled = "Disabled",
+  /** Cloud Shell connectivity uses network resources managed by AKS. */
+  Managed = "Managed",
+  /** Cloud Shell connectivity uses network resources provided by the user. */
+  Custom = "Custom",
+}
+
+/**
+ * Cloud Shell connectivity mode. \
+ * {@link KnownCloudShellProfileMode} can be used interchangeably with CloudShellProfileMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Cloud Shell connectivity is disabled. \
+ * **Managed**: Cloud Shell connectivity uses network resources managed by AKS. \
+ * **Custom**: Cloud Shell connectivity uses network resources provided by the user.
+ */
+export type CloudShellProfileMode = string;
+
+/**
+ * Network resources used by Cloud Shell. AKS peers the subnet's virtual network with the cluster virtual network.
+ * For Custom resources, their address spaces must not overlap. See https://aka.ms/aks/CloudShellConnect.
+ */
+export interface CloudShellNetworkProfile {
+  /**
+   * Dedicated IPv4 subnet used by Cloud Shell containers. For Custom networking, this subnet must be
+   * delegated to Microsoft.ContainerInstance/containerGroups and be /24 or larger. Grant the cluster identity
+   * Network Contributor on the containing virtual network and grant the Azure Container Instance service principal
+   * Network Contributor on this subnet or its containing virtual network. Required when Cloud Shell mode is Custom.
+   */
+  subnetId?: string;
+  /**
+   * Azure Relay namespace used by Cloud Shell. For Custom networking, this existing namespace is required
+   * with subnetId. Grant the cluster identity Reader and the Azure Container Instance service principal Contributor
+   * on the namespace. Required when Cloud Shell mode is Custom.
+   */
+  relayNamespaceId?: string;
+}
+
+export function cloudShellNetworkProfileSerializer(item: CloudShellNetworkProfile): any {
+  return { subnetId: item["subnetId"], relayNamespaceId: item["relayNamespaceId"] };
+}
+
+export function cloudShellNetworkProfileDeserializer(item: any): CloudShellNetworkProfile {
+  return {
+    subnetId: item["subnetId"],
+    relayNamespaceId: item["relayNamespaceId"],
+  };
+}
+
+/** Storage used for Cloud Shell file persistence. */
+export interface CloudShellStorageProfile {
+  /**
+   * Whether persistent storage is disabled, managed by AKS, or provided by the user. Defaults to Disabled when
+   * omitted during initial Cloud Shell enablement. On update, omission preserves the existing mode.
+   */
+  mode?: CloudShellStorageProfileMode;
+  /**
+   * Storage account used for Cloud Shell files. For Custom storage, grant the cluster identity
+   * Storage File Data SMB Share Contributor on this existing storage account. Required when mode is Custom.
+   */
+  storageAccountId?: string;
+  /** File share used for Cloud Shell files. Required when mode is Custom. */
+  fileShareName?: string;
+}
+
+export function cloudShellStorageProfileSerializer(item: CloudShellStorageProfile): any {
+  return {
+    mode: item["mode"],
+    storageAccountId: item["storageAccountId"],
+    fileShareName: item["fileShareName"],
+  };
+}
+
+export function cloudShellStorageProfileDeserializer(item: any): CloudShellStorageProfile {
+  return {
+    mode: item["mode"],
+    storageAccountId: item["storageAccountId"],
+    fileShareName: item["fileShareName"],
+  };
+}
+
+/** How Cloud Shell storage resources are managed. */
+export enum KnownCloudShellStorageProfileMode {
+  /** Persistent storage is disabled. */
+  Disabled = "Disabled",
+  /** AKS manages the storage resources. */
+  Managed = "Managed",
+  /** The user provides the storage resources. */
+  Custom = "Custom",
+}
+
+/**
+ * How Cloud Shell storage resources are managed. \
+ * {@link KnownCloudShellStorageProfileMode} can be used interchangeably with CloudShellStorageProfileMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Persistent storage is disabled. \
+ * **Managed**: AKS manages the storage resources. \
+ * **Custom**: The user provides the storage resources.
+ */
+export type CloudShellStorageProfileMode = string;
 
 /** Profile of the managed cluster NAT gateway. */
 export interface ManagedClusterNATGatewayProfile {
@@ -5650,6 +5900,8 @@ export type NodeOSUpgradeChannel = string;
 export interface ClusterUpgradeSettings {
   /** Settings for overrides. */
   overrideSettings?: UpgradeOverrideSettings;
+  /** Settings for upgrade gating on upgrades in this managed cluster. Health signals are `HealthSignal` custom resources published by monitoring components running in the cluster. Setting `enabled` to `true` here is a cluster-wide opt-in that applies to all agent pool upgrades in this cluster; an agent pool cannot opt out of it. */
+  upgradeGateSettings?: UpgradeGateSettings;
 }
 
 export function clusterUpgradeSettingsSerializer(item: ClusterUpgradeSettings): any {
@@ -5657,6 +5909,9 @@ export function clusterUpgradeSettingsSerializer(item: ClusterUpgradeSettings): 
     overrideSettings: !item["overrideSettings"]
       ? item["overrideSettings"]
       : upgradeOverrideSettingsSerializer(item["overrideSettings"]),
+    upgradeGateSettings: !item["upgradeGateSettings"]
+      ? item["upgradeGateSettings"]
+      : upgradeGateSettingsSerializer(item["upgradeGateSettings"]),
   };
 }
 
@@ -5665,6 +5920,9 @@ export function clusterUpgradeSettingsDeserializer(item: any): ClusterUpgradeSet
     overrideSettings: !item["overrideSettings"]
       ? item["overrideSettings"]
       : upgradeOverrideSettingsDeserializer(item["overrideSettings"]),
+    upgradeGateSettings: !item["upgradeGateSettings"]
+      ? item["upgradeGateSettings"]
+      : upgradeGateSettingsDeserializer(item["upgradeGateSettings"]),
   };
 }
 
@@ -6240,7 +6498,7 @@ export function managedClusterSecurityProfileDefenderSecurityGatingIdentityDeser
 export interface AzureKeyVaultKms {
   /** Whether to enable Azure Key Vault key management service. The default is false. */
   enabled?: boolean;
-  /** Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty. */
+  /** The identifier of the Azure Key Vault key. For more information, see [Azure Key Vault key identifiers](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name). This property is required when Azure Key Vault key management service is enabled and must be omitted when the service is disabled. Starting with API versions 2026-07-01 and 2026-07-02-preview, a versioned key identifier uses the legacy KMS experience, while an unversioned key identifier uses the new KMS experience. For more information, see [KMS data encryption concepts](https://learn.microsoft.com/en-us/azure/aks/kms-data-encryption-concepts). */
   keyId?: string;
   /** Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`. */
   keyVaultNetworkAccess?: KeyVaultNetworkAccessTypes;
@@ -6308,8 +6566,6 @@ export function kubernetesResourceObjectEncryptionProfileDeserializer(
 export enum KnownInfrastructureEncryption {
   /** Encryption at rest of Kubernetes resource objects using service-managed keys is enabled. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
   Enabled = "Enabled",
-  /** Encryption at rest of Kubernetes resource objects using service-managed keys is disabled. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
-  Disabled = "Disabled",
 }
 
 /**
@@ -6317,8 +6573,7 @@ export enum KnownInfrastructureEncryption {
  * {@link KnownInfrastructureEncryption} can be used interchangeably with InfrastructureEncryption,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled**: Encryption at rest of Kubernetes resource objects using service-managed keys is enabled. More information on this can be found under https:\//aka.ms\/aks\/kubernetesResourceObjectEncryption. \
- * **Disabled**: Encryption at rest of Kubernetes resource objects using service-managed keys is disabled. More information on this can be found under https:\//aka.ms\/aks\/kubernetesResourceObjectEncryption.
+ * **Enabled**: Encryption at rest of Kubernetes resource objects using service-managed keys is enabled. More information on this can be found under https:\//aka.ms\/aks\/kubernetesResourceObjectEncryption.
  */
 export type InfrastructureEncryption = string;
 
@@ -6478,12 +6733,21 @@ export function managedClusterStorageProfileDeserializer(item: any): ManagedClus
 export interface ManagedClusterStorageProfileDiskCSIDriver {
   /** Whether to enable AzureDisk CSI Driver. The default value is true. */
   enabled?: boolean;
+  /** Quick Attach Detach settings for the AzureDisk CSI driver. Quick Attach Detach enables faster, higher-scale Azure Disk attach and detach operations for stateful AKS workloads by bypassing ARM/CRP control-plane bottlenecks. For more information, see https://aka.ms/aks/qad. */
+  quickAttachDetach?: ManagedClusterStorageProfileDiskCSIDriverQuickAttachDetach;
 }
 
 export function managedClusterStorageProfileDiskCSIDriverSerializer(
   item: ManagedClusterStorageProfileDiskCSIDriver,
 ): any {
-  return { enabled: item["enabled"] };
+  return {
+    enabled: item["enabled"],
+    quickAttachDetach: !item["quickAttachDetach"]
+      ? item["quickAttachDetach"]
+      : managedClusterStorageProfileDiskCSIDriverQuickAttachDetachSerializer(
+          item["quickAttachDetach"],
+        ),
+  };
 }
 
 export function managedClusterStorageProfileDiskCSIDriverDeserializer(
@@ -6491,6 +6755,36 @@ export function managedClusterStorageProfileDiskCSIDriverDeserializer(
 ): ManagedClusterStorageProfileDiskCSIDriver {
   return {
     enabled: item["enabled"],
+    quickAttachDetach: !item["quickAttachDetach"]
+      ? item["quickAttachDetach"]
+      : managedClusterStorageProfileDiskCSIDriverQuickAttachDetachDeserializer(
+          item["quickAttachDetach"],
+        ),
+  };
+}
+
+/** Quick Attach Detach settings for the AzureDisk CSI driver. */
+export interface ManagedClusterStorageProfileDiskCSIDriverQuickAttachDetach {
+  /** Whether to enable Quick Attach Detach for the AzureDisk CSI driver. The default value is false. */
+  enabled?: boolean;
+  /** Identity used by Quick Attach Detach. This property is returned by GET and cannot be set by clients. The Quick Attach Detach feature uses a managed identity that is automatically created and managed by the AKS resource provider. In most scenarios, no user action is required. An exception applies when using customer-managed disks that are located outside of the AKS node resource group (Bring Your Own Disk scenario). In this case, users must grant the Quick Attach Detach managed identity the required permissions on the resource group containing the disk. */
+  readonly identity?: UserAssignedIdentity;
+}
+
+export function managedClusterStorageProfileDiskCSIDriverQuickAttachDetachSerializer(
+  item: ManagedClusterStorageProfileDiskCSIDriverQuickAttachDetach,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function managedClusterStorageProfileDiskCSIDriverQuickAttachDetachDeserializer(
+  item: any,
+): ManagedClusterStorageProfileDiskCSIDriverQuickAttachDetach {
+  return {
+    enabled: item["enabled"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : userAssignedIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -7724,6 +8018,46 @@ export function managedClusterAIToolchainOperatorProfileSerializer(
 export function managedClusterAIToolchainOperatorProfileDeserializer(
   item: any,
 ): ManagedClusterAIToolchainOperatorProfile {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+/** Settings for the Agent Sandbox core extension managed by Azure Kubernetes Service (AKS). */
+export interface ManagedClusterAgentSandboxProfile {
+  /** Whether the Agent Sandbox core extension is enabled for the cluster. On cluster creation, the default is false. */
+  enabled?: boolean;
+}
+
+export function managedClusterAgentSandboxProfileSerializer(
+  item: ManagedClusterAgentSandboxProfile,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function managedClusterAgentSandboxProfileDeserializer(
+  item: any,
+): ManagedClusterAgentSandboxProfile {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+/** The Pod Snapshot Restore profile for the managed cluster. */
+export interface ManagedClusterPodSnapshotProfile {
+  /** Whether the Pod Snapshot Restore core extension is enabled for the managed cluster. */
+  enabled?: boolean;
+}
+
+export function managedClusterPodSnapshotProfileSerializer(
+  item: ManagedClusterPodSnapshotProfile,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function managedClusterPodSnapshotProfileDeserializer(
+  item: any,
+): ManagedClusterPodSnapshotProfile {
   return {
     enabled: item["enabled"],
   };
@@ -10045,6 +10379,8 @@ export interface MachineNetworkProperties {
   vnetSubnetID?: string;
   /** The ID of the subnet which pods will join when launched. If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   podSubnetID?: string;
+  /** Pod IP Allocation Mode. The IP allocation mode for pods on the machine. Must be used with podSubnetID. The default is 'DynamicIndividual'. */
+  podIPAllocationMode?: PodIPAllocationMode;
   /** Whether the machine is allocated its own public IP. Some scenarios may require the machine to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. The default is false. */
   enableNodePublicIP?: boolean;
   /** The public IP prefix ID which VM node should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
@@ -10057,6 +10393,7 @@ export function machineNetworkPropertiesSerializer(item: MachineNetworkPropertie
   return {
     vnetSubnetID: item["vnetSubnetID"],
     podSubnetID: item["podSubnetID"],
+    podIPAllocationMode: item["podIPAllocationMode"],
     enableNodePublicIP: item["enableNodePublicIP"],
     nodePublicIPPrefixID: item["nodePublicIPPrefixID"],
     nodePublicIPTags: !item["nodePublicIPTags"]
@@ -10072,6 +10409,7 @@ export function machineNetworkPropertiesDeserializer(item: any): MachineNetworkP
       : machineIpAddressArrayDeserializer(item["ipAddresses"]),
     vnetSubnetID: item["vnetSubnetID"],
     podSubnetID: item["podSubnetID"],
+    podIPAllocationMode: item["podIPAllocationMode"],
     enableNodePublicIP: item["enableNodePublicIP"],
     nodePublicIPPrefixID: item["nodePublicIPPrefixID"],
     nodePublicIPTags: !item["nodePublicIPTags"]
@@ -11302,6 +11640,8 @@ export function loadBalancerArrayDeserializer(result: Array<LoadBalancer>): any[
 export interface IdentityBinding extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: IdentityBindingProperties;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
 }
@@ -11311,6 +11651,7 @@ export function identityBindingSerializer(item: IdentityBinding): any {
     properties: !item["properties"]
       ? item["properties"]
       : identityBindingPropertiesSerializer(item["properties"]),
+    managedBy: item["managedBy"],
   };
 }
 
@@ -11325,6 +11666,7 @@ export function identityBindingDeserializer(item: any): IdentityBinding {
     properties: !item["properties"]
       ? item["properties"]
       : identityBindingPropertiesDeserializer(item["properties"]),
+    managedBy: item["managedBy"],
     eTag: item["eTag"],
   };
 }
@@ -11970,6 +12312,140 @@ export function meshMembershipArrayDeserializer(result: Array<MeshMembership>): 
   });
 }
 
+/** The AgentFabric membership of a managed cluster. A cluster may belong to at most one AgentFabric, so this resource always has the name 'default'. See https://aka.ms/aks/agentfabric-membership. */
+export interface AgentFabricMembership extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: AgentFabricMembershipProperties;
+  /** Resource ID of the AgentFabric that this cluster is a member of. The AgentFabric must be in the same tenant and subscription as the managed cluster. As the ARM envelope property, it also stops a complete mode deployment from deleting the membership and silently detaching the cluster. */
+  managedBy: string;
+}
+
+export function agentFabricMembershipSerializer(item: AgentFabricMembership): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : agentFabricMembershipPropertiesSerializer(item["properties"]),
+    managedBy: item["managedBy"],
+  };
+}
+
+export function agentFabricMembershipDeserializer(item: any): AgentFabricMembership {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : agentFabricMembershipPropertiesDeserializer(item["properties"]),
+    managedBy: item["managedBy"],
+  };
+}
+
+/** Properties of the AgentFabric membership of a managed cluster. */
+export interface AgentFabricMembershipProperties {
+  /** The current provisioning state of the AgentFabric membership. */
+  readonly provisioningState?: AgentFabricMembershipProvisioningState;
+  /** The SKU of the AgentFabric membership. Determines which AgentFabric components are deployed to the cluster. */
+  sku: AgentFabricMembershipSkuName;
+}
+
+export function agentFabricMembershipPropertiesSerializer(
+  item: AgentFabricMembershipProperties,
+): any {
+  return { sku: item["sku"] };
+}
+
+export function agentFabricMembershipPropertiesDeserializer(
+  item: any,
+): AgentFabricMembershipProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    sku: item["sku"],
+  };
+}
+
+/** The current provisioning state of the AgentFabric membership. */
+export enum KnownAgentFabricMembershipProvisioningState {
+  /** The provisioning of the AgentFabric membership was canceled. */
+  Canceled = "Canceled",
+  /** The AgentFabric membership is being created. */
+  Creating = "Creating",
+  /** The AgentFabric membership is being deleted. */
+  Deleting = "Deleting",
+  /** The provisioning of the AgentFabric membership failed. */
+  Failed = "Failed",
+  /** The AgentFabric membership was provisioned successfully. */
+  Succeeded = "Succeeded",
+  /** The AgentFabric membership is being updated. */
+  Updating = "Updating",
+}
+
+/**
+ * The current provisioning state of the AgentFabric membership. \
+ * {@link KnownAgentFabricMembershipProvisioningState} can be used interchangeably with AgentFabricMembershipProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Canceled**: The provisioning of the AgentFabric membership was canceled. \
+ * **Creating**: The AgentFabric membership is being created. \
+ * **Deleting**: The AgentFabric membership is being deleted. \
+ * **Failed**: The provisioning of the AgentFabric membership failed. \
+ * **Succeeded**: The AgentFabric membership was provisioned successfully. \
+ * **Updating**: The AgentFabric membership is being updated.
+ */
+export type AgentFabricMembershipProvisioningState = string;
+
+/** The SKU of the AgentFabric membership. The SKU determines which AgentFabric components are deployed to the cluster. */
+export enum KnownAgentFabricMembershipSkuName {
+  /** The Standard SKU. */
+  Standard = "Standard",
+  /** The Premium SKU. */
+  Premium = "Premium",
+}
+
+/**
+ * The SKU of the AgentFabric membership. The SKU determines which AgentFabric components are deployed to the cluster. \
+ * {@link KnownAgentFabricMembershipSkuName} can be used interchangeably with AgentFabricMembershipSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**: The Standard SKU. \
+ * **Premium**: The Premium SKU.
+ */
+export type AgentFabricMembershipSkuName = string;
+
+/** The result of a request to list the AgentFabric memberships of a managed cluster. */
+export interface _AgentFabricMembershipsListResult {
+  /** The list of AgentFabric memberships. */
+  value: AgentFabricMembership[];
+  /** The URL to get the next set of AgentFabric membership results. */
+  nextLink?: string;
+}
+
+export function _agentFabricMembershipsListResultDeserializer(
+  item: any,
+): _AgentFabricMembershipsListResult {
+  return {
+    value: agentFabricMembershipArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function agentFabricMembershipArraySerializer(result: Array<AgentFabricMembership>): any[] {
+  return result.map((item) => {
+    return agentFabricMembershipSerializer(item);
+  });
+}
+
+export function agentFabricMembershipArrayDeserializer(
+  result: Array<AgentFabricMembership>,
+): any[] {
+  return result.map((item) => {
+    return agentFabricMembershipDeserializer(item);
+  });
+}
+
 /** The List Operation response. */
 export interface _OperationListResult {
   /** The list of operations */
@@ -12184,6 +12660,958 @@ export function alertConfigurationArrayDeserializer(result: Array<AlertConfigura
   return result.map((item) => {
     return alertConfigurationDeserializer(item);
   });
+}
+
+/**
+ * An upgrade insight for a managed cluster: an on-demand readiness evaluation for an
+ * upgrade scope, produced by the generateUpgradeInsights action on the managed cluster
+ * and addressable by a server-generated name. The name identifies
+ * the scope and evaluated target —
+ * `controlPlane-<targetKubernetesVersion>` (for example `controlPlane-1.33.5`),
+ * `controlPlaneAndAgentPools-<targetKubernetesVersion>`,
+ * `agentPool-<agentPoolName>-<targetKubernetesVersion>` (for example
+ * `agentPool-nodepool1-1.33.5`), or
+ * `nodeImage-<agentPoolName>-<nodeImageVersion>` (for example
+ * `nodeImage-nodepool1-202607.01.0`). The node image segment contains only the numeric
+ * image version, while `properties.targetNodeImageVersion` returns the full image name.
+ * The resource itself
+ * is read-only: GET returns the stored evaluation and LIST returns the stored
+ * evaluations for the cluster. Evaluations are (re)generated via the managed cluster's
+ * generateUpgradeInsights action, whose response body is the same UpgradeInsight
+ * representation returned by GET.
+ */
+export interface UpgradeInsight extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: UpgradeInsightPropertiesUnion;
+}
+
+export function upgradeInsightDeserializer(item: any): UpgradeInsight {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : upgradeInsightPropertiesUnionDeserializer(item["properties"]),
+  };
+}
+
+/**
+ * The base properties of an upgrade insight. The concrete shape is determined by
+ * `upgradeType`, which is encoded in the resource name: single-scope evaluations
+ * (`ControlPlane`, `AgentPool`, `NodeImage`) carry a flat per-scope result, while a
+ * combined evaluation (`ControlPlaneAndAgentPools`) carries a nested control plane
+ * result plus a per-agent-pool array.
+ */
+export interface UpgradeInsightProperties {
+  /** The provisioning state of the upgrade insight evaluation. */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** The type of upgrade this insight evaluates. Derived from the resource name. */
+  /** The discriminator possible values: ControlPlane, AgentPool, NodeImage, ControlPlaneAndAgentPools */
+  readonly upgradeType: UpgradeType;
+  /**
+   * The UTC time at which this upgrade insight was last computed (the last time the
+   * compute operation ran for this resource). This is the resource-level "last run"
+   * marker and, for a cached record, indicates how stale the stored evaluation is. For
+   * a combined evaluation it is the umbrella run time across all scopes, whereas each
+   * scope's `evaluation.evaluatedAt` records when that specific snapshot was produced.
+   */
+  readonly lastEvaluatedAt?: Date;
+  /**
+   * The UTC time at which this stored upgrade insight expires and is removed from the
+   * data store (currently `lastEvaluatedAt` plus a 14-day retention window). After this
+   * time a GET for the resource returns 404 Not Found and it no longer appears in the
+   * list, indicating the caller should call the compute operation to produce a fresh
+   * evaluation. Exposing the expiry lets clients decide when to recompute without
+   * hardcoding the retention period.
+   */
+  readonly expiresAt?: Date;
+}
+
+export function upgradeInsightPropertiesDeserializer(item: any): UpgradeInsightProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    upgradeType: item["upgradeType"],
+    lastEvaluatedAt: !item["lastEvaluatedAt"]
+      ? item["lastEvaluatedAt"]
+      : new Date(item["lastEvaluatedAt"]),
+    expiresAt: !item["expiresAt"] ? item["expiresAt"] : new Date(item["expiresAt"]),
+  };
+}
+
+/** Alias for UpgradeInsightPropertiesUnion */
+export type UpgradeInsightPropertiesUnion =
+  | ControlPlaneUpgradeInsightProperties
+  | AgentPoolUpgradeInsightProperties
+  | NodeImageUpgradeInsightProperties
+  | ControlPlaneAndAgentPoolsUpgradeInsightProperties
+  | UpgradeInsightProperties;
+
+export function upgradeInsightPropertiesUnionDeserializer(
+  item: any,
+): UpgradeInsightPropertiesUnion {
+  switch (item["upgradeType"]) {
+    case "ControlPlane":
+      return controlPlaneUpgradeInsightPropertiesDeserializer(
+        item as ControlPlaneUpgradeInsightProperties,
+      );
+
+    case "AgentPool":
+      return agentPoolUpgradeInsightPropertiesDeserializer(
+        item as AgentPoolUpgradeInsightProperties,
+      );
+
+    case "NodeImage":
+      return nodeImageUpgradeInsightPropertiesDeserializer(
+        item as NodeImageUpgradeInsightProperties,
+      );
+
+    case "ControlPlaneAndAgentPools":
+      return controlPlaneAndAgentPoolsUpgradeInsightPropertiesDeserializer(
+        item as ControlPlaneAndAgentPoolsUpgradeInsightProperties,
+      );
+
+    default:
+      return upgradeInsightPropertiesDeserializer(item);
+  }
+}
+
+/**
+ * The type of upgrade an upgrade insight evaluates. Each upgrade insight resource
+ * represents exactly one of these scopes; the scope is encoded in the resource name.
+ */
+export enum KnownUpgradeType {
+  /** The control plane (managed cluster) Kubernetes version upgrade. */
+  ControlPlane = "ControlPlane",
+  /** An agent pool (node pool) Kubernetes version upgrade. */
+  AgentPool = "AgentPool",
+  /** An agent pool node OS image upgrade. NodeImage upgrade insights are evaluated per agent pool, mirroring the per-pool node-image upgrade API (.../agentPools/{name}), and cover the node OS image only; agent-pool Kubernetes version readiness is evaluated separately via the AgentPool or ControlPlaneAndAgentPools scopes. */
+  NodeImage = "NodeImage",
+  /** A combined evaluation of the control plane plus every agent pool for a single target Kubernetes version. This scope covers Kubernetes version upgrades only; node OS image upgrades are not included and must be evaluated separately using the NodeImage scope. */
+  ControlPlaneAndAgentPools = "ControlPlaneAndAgentPools",
+}
+
+/**
+ * The type of upgrade an upgrade insight evaluates. Each upgrade insight resource
+ * represents exactly one of these scopes; the scope is encoded in the resource name. \
+ * {@link KnownUpgradeType} can be used interchangeably with UpgradeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ControlPlane**: The control plane (managed cluster) Kubernetes version upgrade. \
+ * **AgentPool**: An agent pool (node pool) Kubernetes version upgrade. \
+ * **NodeImage**: An agent pool node OS image upgrade. NodeImage upgrade insights are evaluated per agent pool, mirroring the per-pool node-image upgrade API (...\/agentPools\/{name}), and cover the node OS image only; agent-pool Kubernetes version readiness is evaluated separately via the AgentPool or ControlPlaneAndAgentPools scopes. \
+ * **ControlPlaneAndAgentPools**: A combined evaluation of the control plane plus every agent pool for a single target Kubernetes version. This scope covers Kubernetes version upgrades only; node OS image upgrades are not included and must be evaluated separately using the NodeImage scope.
+ */
+export type UpgradeType = string;
+
+/** Properties for a control plane (managed cluster) Kubernetes version upgrade insight. */
+export interface ControlPlaneUpgradeInsightProperties extends UpgradeInsightProperties {
+  /** The type of upgrade this insight evaluates. */
+  upgradeType: "ControlPlane";
+  /** The target Kubernetes version that was evaluated. */
+  readonly targetKubernetesVersion?: string;
+  /** The Kubernetes version the scope was evaluated from (the upgrade source version the scope is currently running). Lets consumers read the result as "from X to targetKubernetesVersion" and detect a stale cached record by comparing against the live cluster version. Populated for Kubernetes version upgrades. */
+  readonly currentKubernetesVersion?: string;
+  /** The support status of the Kubernetes version the scope is currently running (not the target version). Populated for Kubernetes version upgrades. */
+  readonly kubernetesVersionSupportStatus?: KubernetesVersionSupportStatus;
+  /**
+   * The date on which support ends for the Kubernetes version the scope is currently
+   * running (its end-of-support date). Returned as an absolute date so clients can apply
+   * their own "approaching end of support" threshold and compute the remaining days against
+   * the current time; a precomputed remaining-days value is intentionally not returned so
+   * that cached results do not go stale. Populated for Kubernetes version upgrades.
+   */
+  readonly kubernetesVersionEndOfSupportDate?: Date;
+  /** Contextual information about how this upgrade is managed, such as the upgrade strategy, next maintenance window, and last successful upgrade time. */
+  readonly context?: UpgradeContext;
+  /** The evaluation result, including overall status, evaluation time, and any detected issues. */
+  readonly evaluation?: UpgradeInsightEvaluation;
+}
+
+export function controlPlaneUpgradeInsightPropertiesDeserializer(
+  item: any,
+): ControlPlaneUpgradeInsightProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    upgradeType: item["upgradeType"],
+    lastEvaluatedAt: !item["lastEvaluatedAt"]
+      ? item["lastEvaluatedAt"]
+      : new Date(item["lastEvaluatedAt"]),
+    expiresAt: !item["expiresAt"] ? item["expiresAt"] : new Date(item["expiresAt"]),
+    targetKubernetesVersion: item["targetKubernetesVersion"],
+    currentKubernetesVersion: item["currentKubernetesVersion"],
+    kubernetesVersionSupportStatus: item["kubernetesVersionSupportStatus"],
+    kubernetesVersionEndOfSupportDate: !item["kubernetesVersionEndOfSupportDate"]
+      ? item["kubernetesVersionEndOfSupportDate"]
+      : new Date(item["kubernetesVersionEndOfSupportDate"]),
+    context: !item["context"] ? item["context"] : upgradeContextDeserializer(item["context"]),
+    evaluation: !item["evaluation"]
+      ? item["evaluation"]
+      : upgradeInsightEvaluationDeserializer(item["evaluation"]),
+  };
+}
+
+/**
+ * The support status of the Kubernetes version the cluster is currently running. This is
+ * intentionally binary — there is no discrete `ApproachingEOL` value. Proximity to end of
+ * support is derived by clients from `kubernetesVersionEndOfSupportDate` (comparing it
+ * against the current time), so no server-computed "approaching EOS" flag or message is
+ * returned that could go stale in a cached record.
+ */
+export enum KnownKubernetesVersionSupportStatus {
+  /** The scope is running a Kubernetes version that is still within its support window. */
+  InSupport = "InSupport",
+  /** The scope is running a Kubernetes version that is past its end of support. */
+  OutOfSupport = "OutOfSupport",
+}
+
+/**
+ * The support status of the Kubernetes version the cluster is currently running. This is
+ * intentionally binary — there is no discrete `ApproachingEOL` value. Proximity to end of
+ * support is derived by clients from `kubernetesVersionEndOfSupportDate` (comparing it
+ * against the current time), so no server-computed "approaching EOS" flag or message is
+ * returned that could go stale in a cached record. \
+ * {@link KnownKubernetesVersionSupportStatus} can be used interchangeably with KubernetesVersionSupportStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InSupport**: The scope is running a Kubernetes version that is still within its support window. \
+ * **OutOfSupport**: The scope is running a Kubernetes version that is past its end of support.
+ */
+export type KubernetesVersionSupportStatus = string;
+
+/**
+ * Contextual information for a specific upgrade type (Kubernetes version or node OS
+ * image). Because the Kubernetes version and node OS image can be managed
+ * independently — for example, auto-upgrade for the node image but manual for the
+ * Kubernetes version — this context is reported per upgrade type rather than once
+ * for the whole cluster.
+ */
+export interface UpgradeContext {
+  /** The strategy currently used to perform this type of upgrade (manual or auto-upgrade). */
+  readonly currentUpgradeStrategy?: UpgradeInsightStrategy;
+  /** The next scheduled automatic upgrade maintenance window for this upgrade type, if auto-upgrade is configured. */
+  readonly nextMaintenanceWindow?: UpgradeInsightMaintenanceWindow;
+  /**
+   * The UTC time of the last successful upgrade of this type for this scope.
+   * Clients can compute "days since last successful upgrade" from this value and the
+   * current time; the server intentionally does not return a precomputed value so that
+   * cached results do not go stale.
+   */
+  readonly lastSuccessfulUpgradeTime?: Date;
+}
+
+export function upgradeContextDeserializer(item: any): UpgradeContext {
+  return {
+    currentUpgradeStrategy: item["currentUpgradeStrategy"],
+    nextMaintenanceWindow: !item["nextMaintenanceWindow"]
+      ? item["nextMaintenanceWindow"]
+      : upgradeInsightMaintenanceWindowDeserializer(item["nextMaintenanceWindow"]),
+    lastSuccessfulUpgradeTime: !item["lastSuccessfulUpgradeTime"]
+      ? item["lastSuccessfulUpgradeTime"]
+      : new Date(item["lastSuccessfulUpgradeTime"]),
+  };
+}
+
+/** The strategy currently used to perform an upgrade (manual or automatic). */
+export enum KnownUpgradeInsightStrategy {
+  /** Upgrades are initiated manually by the customer. */
+  Manual = "Manual",
+  /** Upgrades are performed automatically by AKS auto-upgrade. */
+  Auto = "Auto",
+}
+
+/**
+ * The strategy currently used to perform an upgrade (manual or automatic). \
+ * {@link KnownUpgradeInsightStrategy} can be used interchangeably with UpgradeInsightStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Manual**: Upgrades are initiated manually by the customer. \
+ * **Auto**: Upgrades are performed automatically by AKS auto-upgrade.
+ */
+export type UpgradeInsightStrategy = string;
+
+/**
+ * A scheduled maintenance window during which an automatic upgrade of this type is
+ * expected to run. The window is derived from the maintenance configuration that
+ * governs this upgrade type — the cluster auto-upgrade schedule for Kubernetes
+ * version upgrades or the node OS upgrade schedule for node image upgrades — so the
+ * same model describes both without duplicating types.
+ */
+export interface UpgradeInsightMaintenanceWindow {
+  /** The name of the maintenance configuration that governs this window (for example, aksManagedAutoUpgradeSchedule or aksManagedNodeOSUpgradeSchedule). */
+  readonly maintenanceConfigurationName?: string;
+  /** The auto-upgrade schedule that this window is derived from. */
+  readonly source?: MaintenanceWindowSource;
+  /** The UTC start time of the next scheduled maintenance window. */
+  readonly startTime?: Date;
+  /** The UTC end time of the next scheduled maintenance window. */
+  readonly endTime?: Date;
+}
+
+export function upgradeInsightMaintenanceWindowDeserializer(
+  item: any,
+): UpgradeInsightMaintenanceWindow {
+  return {
+    maintenanceConfigurationName: item["maintenanceConfigurationName"],
+    source: item["source"],
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+  };
+}
+
+/** The auto-upgrade schedule that a maintenance window is derived from. */
+export enum KnownMaintenanceWindowSource {
+  /** The window is derived from the cluster auto-upgrade schedule (aksManagedAutoUpgradeSchedule), which governs Kubernetes version upgrades. */
+  ClusterAutoUpgradeSchedule = "ClusterAutoUpgradeSchedule",
+  /** The window is derived from the node OS auto-upgrade schedule (aksManagedNodeOSUpgradeSchedule), which governs node OS image upgrades. */
+  NodeOSUpgradeSchedule = "NodeOSUpgradeSchedule",
+}
+
+/**
+ * The auto-upgrade schedule that a maintenance window is derived from. \
+ * {@link KnownMaintenanceWindowSource} can be used interchangeably with MaintenanceWindowSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClusterAutoUpgradeSchedule**: The window is derived from the cluster auto-upgrade schedule (aksManagedAutoUpgradeSchedule), which governs Kubernetes version upgrades. \
+ * **NodeOSUpgradeSchedule**: The window is derived from the node OS auto-upgrade schedule (aksManagedNodeOSUpgradeSchedule), which governs node OS image upgrades.
+ */
+export type MaintenanceWindowSource = string;
+
+/**
+ * The evaluation payload shared by all upgrade insight results, containing the
+ * overall status, evaluation time, and any detected issues. Whenever this object is
+ * present the evaluation has run, so `status` and `evaluatedAt` are always populated;
+ * the "not yet evaluated" state is signaled by the absence of this `evaluation` object
+ * (and by `provisioningState`), never by a present evaluation with an absent status.
+ */
+export interface UpgradeInsightEvaluation {
+  /** The overall upgrade insight status indicating whether issues were detected. Always present when the evaluation has run; absence of the enclosing `evaluation` object—not an absent status—represents "not yet evaluated". */
+  readonly status: UpgradeInsightStatus;
+  /** The UTC time at which the upgrade insight evaluation was performed. */
+  readonly evaluatedAt: Date;
+  /** The list of detected upgrade issues, if any. Empty or absent for a `Passed` status. */
+  readonly detectedIssues?: DetectedUpgradeIssue[];
+}
+
+export function upgradeInsightEvaluationDeserializer(item: any): UpgradeInsightEvaluation {
+  return {
+    status: item["status"],
+    evaluatedAt: new Date(item["evaluatedAt"]),
+    detectedIssues: !item["detectedIssues"]
+      ? item["detectedIssues"]
+      : detectedUpgradeIssueArrayDeserializer(item["detectedIssues"]),
+  };
+}
+
+/**
+ * The overall status of an upgrade insight readiness evaluation. This is an aggregation of the
+ * per-issue `severity` values in `detectedIssues`: any `Blocking` issue ⇒ `Failed`;
+ * otherwise any `Warning` issue ⇒ `Warning`; otherwise (no issues) ⇒ `Passed`. The
+ * scope-level vocabulary here (Passed/Warning/Failed) intentionally differs from the
+ * issue-level `UpgradeIssueSeverity` (Blocking/Warning): a `Blocking` issue maps to
+ * a `Failed` status, while `Warning` maps through unchanged.
+ */
+export enum KnownUpgradeInsightStatus {
+  /** The evaluation completed and no upgrade issues were found for the target version; the scope appears ready to upgrade. */
+  Passed = "Passed",
+  /** The evaluation found one or more non-blocking warnings; the upgrade is expected to succeed but the warnings should be reviewed. */
+  Warning = "Warning",
+  /** The evaluation found one or more blocking issues that will prevent the upgrade from completing until they are resolved. This reflects the readiness result, not a failure of the compute operation itself (that is conveyed by provisioningState). */
+  Failed = "Failed",
+}
+
+/**
+ * The overall status of an upgrade insight readiness evaluation. This is an aggregation of the
+ * per-issue `severity` values in `detectedIssues`: any `Blocking` issue ⇒ `Failed`;
+ * otherwise any `Warning` issue ⇒ `Warning`; otherwise (no issues) ⇒ `Passed`. The
+ * scope-level vocabulary here (Passed/Warning/Failed) intentionally differs from the
+ * issue-level `UpgradeIssueSeverity` (Blocking/Warning): a `Blocking` issue maps to
+ * a `Failed` status, while `Warning` maps through unchanged. \
+ * {@link KnownUpgradeInsightStatus} can be used interchangeably with UpgradeInsightStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Passed**: The evaluation completed and no upgrade issues were found for the target version; the scope appears ready to upgrade. \
+ * **Warning**: The evaluation found one or more non-blocking warnings; the upgrade is expected to succeed but the warnings should be reviewed. \
+ * **Failed**: The evaluation found one or more blocking issues that will prevent the upgrade from completing until they are resolved. This reflects the readiness result, not a failure of the compute operation itself (that is conveyed by provisioningState).
+ */
+export type UpgradeInsightStatus = string;
+
+export function detectedUpgradeIssueArrayDeserializer(result: Array<DetectedUpgradeIssue>): any[] {
+  return result.map((item) => {
+    return detectedUpgradeIssueDeserializer(item);
+  });
+}
+
+/** A detected upgrade issue for a managed cluster. */
+export interface DetectedUpgradeIssue {
+  /** The type of the detected upgrade issue. */
+  readonly issueType?: UpgradeIssueType;
+  /** The severity of the detected issue. */
+  readonly severity?: UpgradeIssueSeverity;
+  /** A human-readable description of the issue and why it may block or risk the upgrade. */
+  readonly message?: string;
+  /** The Azure or Kubernetes resources impacted by this issue. A single issue can affect multiple resources (for example, one removed Kubernetes API version affecting several objects). */
+  readonly impactedResources?: UpgradeInsightImpactedResourceUnion[];
+  /**
+   * The recommended actions to resolve this issue. Today this always contains a
+   * single action whose documentation link covers all of the options the user could
+   * take to remediate the issue; it is modeled as an array so that additional distinct
+   * actions can be returned in the future without a breaking change.
+   */
+  readonly recommendedActions?: UpgradeInsightRecommendedAction[];
+}
+
+export function detectedUpgradeIssueDeserializer(item: any): DetectedUpgradeIssue {
+  return {
+    issueType: item["issueType"],
+    severity: item["severity"],
+    message: item["message"],
+    impactedResources: !item["impactedResources"]
+      ? item["impactedResources"]
+      : upgradeInsightImpactedResourceUnionArrayDeserializer(item["impactedResources"]),
+    recommendedActions: !item["recommendedActions"]
+      ? item["recommendedActions"]
+      : upgradeInsightRecommendedActionArrayDeserializer(item["recommendedActions"]),
+  };
+}
+
+/** The type of a detected upgrade issue. */
+export enum KnownUpgradeIssueType {
+  /** A restrictive PodDisruptionBudget prevents node drain during upgrade. See https://aka.ms/aks/upgrade-insights/pdb-constraint for remediation guidance. */
+  PDBConstraint = "PDBConstraint",
+  /** The cluster subnet does not have sufficient available IP addresses for surge nodes during upgrade. See https://aka.ms/aks/upgrade-insights/subnet-ip-exhaustion for remediation guidance. */
+  SubnetIPExhausted = "SubnetIPExhausted",
+  /** Compute quota for the node pool VM SKU is insufficient to accommodate surge nodes during upgrade. See https://aka.ms/aks/upgrade-insights/quota-exceeded for remediation guidance. */
+  QuotaExceeded = "QuotaExceeded",
+  /** The cluster is using deprecated Kubernetes APIs that are removed in the target version. See https://aka.ms/aks/upgrade-insights/api-breaking-change for remediation guidance. */
+  APIBreakingChange = "APIBreakingChange",
+  /** An add-on or system component is not compatible with the target Kubernetes version. See https://aka.ms/aks/upgrade-insights/component-version-mismatch for remediation guidance. */
+  ComponentVersionMismatch = "ComponentVersionMismatch",
+  /** The cluster is running a Kubernetes version that is no longer supported. See https://aka.ms/aks/upgrade-insights/unsupported-kubernetes-version for remediation guidance. */
+  UnsupportedKubernetesVersion = "UnsupportedKubernetesVersion",
+  /** The cluster node image has not been upgraded within the required compliance interval. See https://aka.ms/aks/upgrade-insights/node-image-out-of-sla for remediation guidance. */
+  NodeImageOutOfSLA = "NodeImageOutOfSLA",
+}
+
+/**
+ * The type of a detected upgrade issue. \
+ * {@link KnownUpgradeIssueType} can be used interchangeably with UpgradeIssueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PDBConstraint**: A restrictive PodDisruptionBudget prevents node drain during upgrade. See https:\//aka.ms\/aks\/upgrade-insights\/pdb-constraint for remediation guidance. \
+ * **SubnetIPExhausted**: The cluster subnet does not have sufficient available IP addresses for surge nodes during upgrade. See https:\//aka.ms\/aks\/upgrade-insights\/subnet-ip-exhaustion for remediation guidance. \
+ * **QuotaExceeded**: Compute quota for the node pool VM SKU is insufficient to accommodate surge nodes during upgrade. See https:\//aka.ms\/aks\/upgrade-insights\/quota-exceeded for remediation guidance. \
+ * **APIBreakingChange**: The cluster is using deprecated Kubernetes APIs that are removed in the target version. See https:\//aka.ms\/aks\/upgrade-insights\/api-breaking-change for remediation guidance. \
+ * **ComponentVersionMismatch**: An add-on or system component is not compatible with the target Kubernetes version. See https:\//aka.ms\/aks\/upgrade-insights\/component-version-mismatch for remediation guidance. \
+ * **UnsupportedKubernetesVersion**: The cluster is running a Kubernetes version that is no longer supported. See https:\//aka.ms\/aks\/upgrade-insights\/unsupported-kubernetes-version for remediation guidance. \
+ * **NodeImageOutOfSLA**: The cluster node image has not been upgraded within the required compliance interval. See https:\//aka.ms\/aks\/upgrade-insights\/node-image-out-of-sla for remediation guidance.
+ */
+export type UpgradeIssueType = string;
+
+/** The severity of a detected upgrade issue. */
+export enum KnownUpgradeIssueSeverity {
+  /** The issue will block the upgrade from completing successfully. */
+  Blocking = "Blocking",
+  /** The issue may cause problems with client applications or services on the cluster but will not necessarily prevent the upgrade from completing. */
+  Warning = "Warning",
+}
+
+/**
+ * The severity of a detected upgrade issue. \
+ * {@link KnownUpgradeIssueSeverity} can be used interchangeably with UpgradeIssueSeverity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Blocking**: The issue will block the upgrade from completing successfully. \
+ * **Warning**: The issue may cause problems with client applications or services on the cluster but will not necessarily prevent the upgrade from completing.
+ */
+export type UpgradeIssueSeverity = string;
+
+export function upgradeInsightImpactedResourceUnionArrayDeserializer(
+  result: Array<UpgradeInsightImpactedResourceUnion>,
+): any[] {
+  return result.map((item) => {
+    return upgradeInsightImpactedResourceUnionDeserializer(item);
+  });
+}
+
+/**
+ * A resource impacted by a detected upgrade issue. The concrete shape is determined
+ * by `kind`: an ARM resource is identified by its ARM resource ID, while a Kubernetes
+ * resource is identified by its namespace and name.
+ */
+export interface UpgradeInsightImpactedResource {
+  /** The category of the impacted resource. */
+  /** The discriminator possible values: Arm, Kubernetes */
+  readonly kind: ImpactedResourceKind;
+  /** The type of the impacted resource (for example, Microsoft.Network/virtualNetworks/subnets or PodDisruptionBudget). */
+  readonly resourceType?: string;
+}
+
+export function upgradeInsightImpactedResourceDeserializer(
+  item: any,
+): UpgradeInsightImpactedResource {
+  return {
+    kind: item["kind"],
+    resourceType: item["resourceType"],
+  };
+}
+
+/** Alias for UpgradeInsightImpactedResourceUnion */
+export type UpgradeInsightImpactedResourceUnion =
+  ArmImpactedResource | KubernetesImpactedResource | UpgradeInsightImpactedResource;
+
+export function upgradeInsightImpactedResourceUnionDeserializer(
+  item: any,
+): UpgradeInsightImpactedResourceUnion {
+  switch (item["kind"]) {
+    case "Arm":
+      return armImpactedResourceDeserializer(item as ArmImpactedResource);
+
+    case "Kubernetes":
+      return kubernetesImpactedResourceDeserializer(item as KubernetesImpactedResource);
+
+    default:
+      return upgradeInsightImpactedResourceDeserializer(item);
+  }
+}
+
+/** The category of a resource impacted by a detected upgrade issue. */
+export enum KnownImpactedResourceKind {
+  /** An Azure Resource Manager (ARM) resource. */
+  Arm = "Arm",
+  /** A Kubernetes resource. */
+  Kubernetes = "Kubernetes",
+}
+
+/**
+ * The category of a resource impacted by a detected upgrade issue. \
+ * {@link KnownImpactedResourceKind} can be used interchangeably with ImpactedResourceKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Arm**: An Azure Resource Manager (ARM) resource. \
+ * **Kubernetes**: A Kubernetes resource.
+ */
+export type ImpactedResourceKind = string;
+
+/** An Azure Resource Manager (ARM) resource impacted by a detected upgrade issue, identified by its ARM resource ID. */
+export interface ArmImpactedResource extends UpgradeInsightImpactedResource {
+  /** The category of the impacted resource. */
+  readonly kind: "Arm";
+  /** The ARM resource ID of the impacted resource. */
+  readonly resourceId?: string;
+}
+
+export function armImpactedResourceDeserializer(item: any): ArmImpactedResource {
+  return {
+    kind: item["kind"],
+    resourceType: item["resourceType"],
+    resourceId: item["resourceId"],
+  };
+}
+
+/** A Kubernetes resource impacted by a detected upgrade issue, identified by its namespace and name. */
+export interface KubernetesImpactedResource extends UpgradeInsightImpactedResource {
+  /** The category of the impacted resource. */
+  readonly kind: "Kubernetes";
+  /** The Kubernetes namespace of the impacted resource, if applicable. */
+  readonly namespace?: string;
+  /** The name of the impacted Kubernetes resource. */
+  readonly name?: string;
+}
+
+export function kubernetesImpactedResourceDeserializer(item: any): KubernetesImpactedResource {
+  return {
+    kind: item["kind"],
+    resourceType: item["resourceType"],
+    namespace: item["namespace"],
+    name: item["name"],
+  };
+}
+
+export function upgradeInsightRecommendedActionArrayDeserializer(
+  result: Array<UpgradeInsightRecommendedAction>,
+): any[] {
+  return result.map((item) => {
+    return upgradeInsightRecommendedActionDeserializer(item);
+  });
+}
+
+/** A recommended action to resolve a detected upgrade issue. */
+export interface UpgradeInsightRecommendedAction {
+  /** A short title describing the recommended action. */
+  readonly title?: string;
+  /** A detailed description of the recommended action and how to perform it. */
+  readonly details?: string;
+  /** A link to customer-facing documentation describing the available options for remediating the issue. */
+  readonly documentationLink?: string;
+}
+
+export function upgradeInsightRecommendedActionDeserializer(
+  item: any,
+): UpgradeInsightRecommendedAction {
+  return {
+    title: item["title"],
+    details: item["details"],
+    documentationLink: item["documentationLink"],
+  };
+}
+
+/** Properties for a single agent pool Kubernetes version upgrade insight. */
+export interface AgentPoolUpgradeInsightProperties extends UpgradeInsightProperties {
+  /** The type of upgrade this insight evaluates. */
+  upgradeType: "AgentPool";
+  /** The name of the agent pool this insight applies to. */
+  readonly agentPoolName?: string;
+  /** The target Kubernetes version that was evaluated. */
+  readonly targetKubernetesVersion?: string;
+  /** The Kubernetes version the scope was evaluated from (the upgrade source version the scope is currently running). Lets consumers read the result as "from X to targetKubernetesVersion" and detect a stale cached record by comparing against the live cluster version. Populated for Kubernetes version upgrades. */
+  readonly currentKubernetesVersion?: string;
+  /** The support status of the Kubernetes version the scope is currently running (not the target version). Populated for Kubernetes version upgrades. */
+  readonly kubernetesVersionSupportStatus?: KubernetesVersionSupportStatus;
+  /**
+   * The date on which support ends for the Kubernetes version the scope is currently
+   * running (its end-of-support date). Returned as an absolute date so clients can apply
+   * their own "approaching end of support" threshold and compute the remaining days against
+   * the current time; a precomputed remaining-days value is intentionally not returned so
+   * that cached results do not go stale. Populated for Kubernetes version upgrades.
+   */
+  readonly kubernetesVersionEndOfSupportDate?: Date;
+  /** Contextual information about how this upgrade is managed, such as the upgrade strategy, next maintenance window, and last successful upgrade time. */
+  readonly context?: UpgradeContext;
+  /** The evaluation result, including overall status, evaluation time, and any detected issues. */
+  readonly evaluation?: UpgradeInsightEvaluation;
+}
+
+export function agentPoolUpgradeInsightPropertiesDeserializer(
+  item: any,
+): AgentPoolUpgradeInsightProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    upgradeType: item["upgradeType"],
+    lastEvaluatedAt: !item["lastEvaluatedAt"]
+      ? item["lastEvaluatedAt"]
+      : new Date(item["lastEvaluatedAt"]),
+    expiresAt: !item["expiresAt"] ? item["expiresAt"] : new Date(item["expiresAt"]),
+    agentPoolName: item["agentPoolName"],
+    targetKubernetesVersion: item["targetKubernetesVersion"],
+    currentKubernetesVersion: item["currentKubernetesVersion"],
+    kubernetesVersionSupportStatus: item["kubernetesVersionSupportStatus"],
+    kubernetesVersionEndOfSupportDate: !item["kubernetesVersionEndOfSupportDate"]
+      ? item["kubernetesVersionEndOfSupportDate"]
+      : new Date(item["kubernetesVersionEndOfSupportDate"]),
+    context: !item["context"] ? item["context"] : upgradeContextDeserializer(item["context"]),
+    evaluation: !item["evaluation"]
+      ? item["evaluation"]
+      : upgradeInsightEvaluationDeserializer(item["evaluation"]),
+  };
+}
+
+/** Properties for a single agent pool node OS image upgrade insight. */
+export interface NodeImageUpgradeInsightProperties extends UpgradeInsightProperties {
+  /** The type of upgrade this insight evaluates. */
+  upgradeType: "NodeImage";
+  /** The name of the agent pool this insight applies to. */
+  readonly agentPoolName?: string;
+  /** The node OS image version the agent pool was evaluated from (the upgrade source version it is currently running). Lets consumers read the result as "from X to targetNodeImageVersion" and detect a stale cached record by comparing against the live node image version. */
+  readonly currentNodeImageVersion?: string;
+  /** The target node OS image version that was evaluated. */
+  readonly targetNodeImageVersion?: string;
+  /** Contextual information about how this upgrade is managed, such as the upgrade strategy, next maintenance window, and last successful upgrade time. */
+  readonly context?: UpgradeContext;
+  /** The evaluation result, including overall status, evaluation time, and any detected issues. */
+  readonly evaluation?: UpgradeInsightEvaluation;
+}
+
+export function nodeImageUpgradeInsightPropertiesDeserializer(
+  item: any,
+): NodeImageUpgradeInsightProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    upgradeType: item["upgradeType"],
+    lastEvaluatedAt: !item["lastEvaluatedAt"]
+      ? item["lastEvaluatedAt"]
+      : new Date(item["lastEvaluatedAt"]),
+    expiresAt: !item["expiresAt"] ? item["expiresAt"] : new Date(item["expiresAt"]),
+    agentPoolName: item["agentPoolName"],
+    currentNodeImageVersion: item["currentNodeImageVersion"],
+    targetNodeImageVersion: item["targetNodeImageVersion"],
+    context: !item["context"] ? item["context"] : upgradeContextDeserializer(item["context"]),
+    evaluation: !item["evaluation"]
+      ? item["evaluation"]
+      : upgradeInsightEvaluationDeserializer(item["evaluation"]),
+  };
+}
+
+/**
+ * Properties for a combined control plane and agent pools Kubernetes version upgrade
+ * insight: a single evaluation of the control plane plus every agent pool for one
+ * target Kubernetes version. This scope is Kubernetes-version-only — node OS image
+ * upgrades are never part of a combined evaluation and must be requested separately
+ * with a `nodeImage-<agentPoolName>-<nodeImageVersion>` insight.
+ */
+export interface ControlPlaneAndAgentPoolsUpgradeInsightProperties extends UpgradeInsightProperties {
+  /** The type of upgrade this insight evaluates. */
+  upgradeType: "ControlPlaneAndAgentPools";
+  /** The target Kubernetes version that was evaluated for all scopes. */
+  readonly targetKubernetesVersion?: string;
+  /** The readiness evaluation for the control plane Kubernetes version upgrade. */
+  readonly controlPlane?: ScopeEvaluationResult;
+  /** The readiness evaluation for each agent pool Kubernetes version upgrade, one entry per agent pool. */
+  readonly agentPools?: AgentPoolScopeEvaluation[];
+}
+
+export function controlPlaneAndAgentPoolsUpgradeInsightPropertiesDeserializer(
+  item: any,
+): ControlPlaneAndAgentPoolsUpgradeInsightProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    upgradeType: item["upgradeType"],
+    lastEvaluatedAt: !item["lastEvaluatedAt"]
+      ? item["lastEvaluatedAt"]
+      : new Date(item["lastEvaluatedAt"]),
+    expiresAt: !item["expiresAt"] ? item["expiresAt"] : new Date(item["expiresAt"]),
+    targetKubernetesVersion: item["targetKubernetesVersion"],
+    controlPlane: !item["controlPlane"]
+      ? item["controlPlane"]
+      : scopeEvaluationResultDeserializer(item["controlPlane"]),
+    agentPools: !item["agentPools"]
+      ? item["agentPools"]
+      : agentPoolScopeEvaluationArrayDeserializer(item["agentPools"]),
+  };
+}
+
+/**
+ * The readiness evaluation details shared by a single scope: the support status of the
+ * version the scope is currently running, the upgrade context, and the evaluation
+ * result. All fields are server-computed and read-only.
+ */
+export interface ScopeEvaluationResult {
+  /** The Kubernetes version the scope was evaluated from (the upgrade source version the scope is currently running). Lets consumers read the result as "from X to targetKubernetesVersion" and detect a stale cached record by comparing against the live cluster version. Populated for Kubernetes version upgrades. */
+  readonly currentKubernetesVersion?: string;
+  /** The support status of the Kubernetes version the scope is currently running (not the target version). Populated for Kubernetes version upgrades. */
+  readonly kubernetesVersionSupportStatus?: KubernetesVersionSupportStatus;
+  /**
+   * The date on which support ends for the Kubernetes version the scope is currently
+   * running (its end-of-support date). Returned as an absolute date so clients can apply
+   * their own "approaching end of support" threshold and compute the remaining days against
+   * the current time; a precomputed remaining-days value is intentionally not returned so
+   * that cached results do not go stale. Populated for Kubernetes version upgrades.
+   */
+  readonly kubernetesVersionEndOfSupportDate?: Date;
+  /** Contextual information about how this upgrade is managed, such as the upgrade strategy, next maintenance window, and last successful upgrade time. */
+  readonly context?: UpgradeContext;
+  /** The evaluation result, including overall status, evaluation time, and any detected issues. */
+  readonly evaluation?: UpgradeInsightEvaluation;
+}
+
+export function scopeEvaluationResultDeserializer(item: any): ScopeEvaluationResult {
+  return {
+    currentKubernetesVersion: item["currentKubernetesVersion"],
+    kubernetesVersionSupportStatus: item["kubernetesVersionSupportStatus"],
+    kubernetesVersionEndOfSupportDate: !item["kubernetesVersionEndOfSupportDate"]
+      ? item["kubernetesVersionEndOfSupportDate"]
+      : new Date(item["kubernetesVersionEndOfSupportDate"]),
+    context: !item["context"] ? item["context"] : upgradeContextDeserializer(item["context"]),
+    evaluation: !item["evaluation"]
+      ? item["evaluation"]
+      : upgradeInsightEvaluationDeserializer(item["evaluation"]),
+  };
+}
+
+export function agentPoolScopeEvaluationArrayDeserializer(
+  result: Array<AgentPoolScopeEvaluation>,
+): any[] {
+  return result.map((item) => {
+    return agentPoolScopeEvaluationDeserializer(item);
+  });
+}
+
+/** The readiness evaluation for a single agent pool within a combined evaluation. */
+export interface AgentPoolScopeEvaluation {
+  /** The name of the agent pool this evaluation applies to. */
+  readonly agentPoolName?: string;
+  /** The Kubernetes version the scope was evaluated from (the upgrade source version the scope is currently running). Lets consumers read the result as "from X to targetKubernetesVersion" and detect a stale cached record by comparing against the live cluster version. Populated for Kubernetes version upgrades. */
+  readonly currentKubernetesVersion?: string;
+  /** The support status of the Kubernetes version the scope is currently running (not the target version). Populated for Kubernetes version upgrades. */
+  readonly kubernetesVersionSupportStatus?: KubernetesVersionSupportStatus;
+  /**
+   * The date on which support ends for the Kubernetes version the scope is currently
+   * running (its end-of-support date). Returned as an absolute date so clients can apply
+   * their own "approaching end of support" threshold and compute the remaining days against
+   * the current time; a precomputed remaining-days value is intentionally not returned so
+   * that cached results do not go stale. Populated for Kubernetes version upgrades.
+   */
+  readonly kubernetesVersionEndOfSupportDate?: Date;
+  /** Contextual information about how this upgrade is managed, such as the upgrade strategy, next maintenance window, and last successful upgrade time. */
+  readonly context?: UpgradeContext;
+  /** The evaluation result, including overall status, evaluation time, and any detected issues. */
+  readonly evaluation?: UpgradeInsightEvaluation;
+}
+
+export function agentPoolScopeEvaluationDeserializer(item: any): AgentPoolScopeEvaluation {
+  return {
+    agentPoolName: item["agentPoolName"],
+    currentKubernetesVersion: item["currentKubernetesVersion"],
+    kubernetesVersionSupportStatus: item["kubernetesVersionSupportStatus"],
+    kubernetesVersionEndOfSupportDate: !item["kubernetesVersionEndOfSupportDate"]
+      ? item["kubernetesVersionEndOfSupportDate"]
+      : new Date(item["kubernetesVersionEndOfSupportDate"]),
+    context: !item["context"] ? item["context"] : upgradeContextDeserializer(item["context"]),
+    evaluation: !item["evaluation"]
+      ? item["evaluation"]
+      : upgradeInsightEvaluationDeserializer(item["evaluation"]),
+  };
+}
+
+/** The response of a UpgradeInsight list operation. */
+export interface _UpgradeInsightListResult {
+  /** The UpgradeInsight items on this page */
+  value: UpgradeInsight[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _upgradeInsightListResultDeserializer(item: any): _UpgradeInsightListResult {
+  return {
+    value: upgradeInsightArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function upgradeInsightArrayDeserializer(result: Array<UpgradeInsight>): any[] {
+  return result.map((item) => {
+    return upgradeInsightDeserializer(item);
+  });
+}
+
+/**
+ * The base request body for the generateUpgradeInsights action. The concrete shape is
+ * determined by `upgradeType`, so that each scope declares exactly the inputs it needs:
+ * the schema itself enforces which of `targetKubernetesVersion`,
+ * `targetNodeImageVersion`, and `agentPoolName` are required or optional, rather than
+ * relying on documented conventions plus server-side validation. The server generates
+ * (or refreshes) the corresponding UpgradeInsight and returns it.
+ */
+export interface GenerateUpgradeInsightsContent {
+  /** The type of upgrade to evaluate. */
+  /** The discriminator possible values: ControlPlane, AgentPool, NodeImage, ControlPlaneAndAgentPools */
+  upgradeType: UpgradeType;
+}
+
+export function generateUpgradeInsightsContentSerializer(
+  item: GenerateUpgradeInsightsContent,
+): any {
+  return { upgradeType: item["upgradeType"] };
+}
+
+/** Alias for GenerateUpgradeInsightsContentUnion */
+export type GenerateUpgradeInsightsContentUnion =
+  | ControlPlaneGenerateUpgradeInsightsContent
+  | AgentPoolGenerateUpgradeInsightsContent
+  | NodeImageGenerateUpgradeInsightsContent
+  | ControlPlaneAndAgentPoolsGenerateUpgradeInsightsContent
+  | GenerateUpgradeInsightsContent;
+
+export function generateUpgradeInsightsContentUnionSerializer(
+  item: GenerateUpgradeInsightsContentUnion,
+): any {
+  switch (item.upgradeType) {
+    case "ControlPlane":
+      return controlPlaneGenerateUpgradeInsightsContentSerializer(
+        item as ControlPlaneGenerateUpgradeInsightsContent,
+      );
+
+    case "AgentPool":
+      return agentPoolGenerateUpgradeInsightsContentSerializer(
+        item as AgentPoolGenerateUpgradeInsightsContent,
+      );
+
+    case "NodeImage":
+      return nodeImageGenerateUpgradeInsightsContentSerializer(
+        item as NodeImageGenerateUpgradeInsightsContent,
+      );
+
+    case "ControlPlaneAndAgentPools":
+      return controlPlaneAndAgentPoolsGenerateUpgradeInsightsContentSerializer(
+        item as ControlPlaneAndAgentPoolsGenerateUpgradeInsightsContent,
+      );
+
+    default:
+      return generateUpgradeInsightsContentSerializer(item);
+  }
+}
+
+/** Request body to evaluate a control plane (managed cluster) Kubernetes version upgrade. */
+export interface ControlPlaneGenerateUpgradeInsightsContent extends GenerateUpgradeInsightsContent {
+  upgradeType: "ControlPlane";
+  /** The target Kubernetes version to evaluate. */
+  targetKubernetesVersion: string;
+}
+
+export function controlPlaneGenerateUpgradeInsightsContentSerializer(
+  item: ControlPlaneGenerateUpgradeInsightsContent,
+): any {
+  return {
+    upgradeType: item["upgradeType"],
+    targetKubernetesVersion: item["targetKubernetesVersion"],
+  };
+}
+
+/** Request body to evaluate a single agent pool Kubernetes version upgrade. */
+export interface AgentPoolGenerateUpgradeInsightsContent extends GenerateUpgradeInsightsContent {
+  upgradeType: "AgentPool";
+  /** The name of the agent pool to evaluate. */
+  agentPoolName: string;
+  /** The target Kubernetes version to evaluate. */
+  targetKubernetesVersion: string;
+}
+
+export function agentPoolGenerateUpgradeInsightsContentSerializer(
+  item: AgentPoolGenerateUpgradeInsightsContent,
+): any {
+  return {
+    upgradeType: item["upgradeType"],
+    agentPoolName: item["agentPoolName"],
+    targetKubernetesVersion: item["targetKubernetesVersion"],
+  };
+}
+
+/** Request body to evaluate a single agent pool node OS image upgrade. */
+export interface NodeImageGenerateUpgradeInsightsContent extends GenerateUpgradeInsightsContent {
+  upgradeType: "NodeImage";
+  /** The name of the agent pool to evaluate. */
+  agentPoolName: string;
+  /** The target node OS image version to evaluate. If omitted, the server resolves and evaluates the latest available node image. The resolved full version is always returned in the generated insight's read-only `targetNodeImageVersion` property. */
+  targetNodeImageVersion?: string;
+}
+
+export function nodeImageGenerateUpgradeInsightsContentSerializer(
+  item: NodeImageGenerateUpgradeInsightsContent,
+): any {
+  return {
+    upgradeType: item["upgradeType"],
+    agentPoolName: item["agentPoolName"],
+    targetNodeImageVersion: item["targetNodeImageVersion"],
+  };
+}
+
+/** Request body to evaluate the combined control plane and agent pools Kubernetes version upgrade. */
+export interface ControlPlaneAndAgentPoolsGenerateUpgradeInsightsContent extends GenerateUpgradeInsightsContent {
+  upgradeType: "ControlPlaneAndAgentPools";
+  /** The target Kubernetes version to evaluate for all scopes. */
+  targetKubernetesVersion: string;
+}
+
+export function controlPlaneAndAgentPoolsGenerateUpgradeInsightsContentSerializer(
+  item: ControlPlaneAndAgentPoolsGenerateUpgradeInsightsContent,
+): any {
+  return {
+    upgradeType: item["upgradeType"],
+    targetKubernetesVersion: item["targetKubernetesVersion"],
+  };
 }
 
 /** The operations list. It contains an URL link to get the next set of results. */
@@ -12773,8 +14201,12 @@ export enum KnownVersions {
   V20260501 = "2026-05-01",
   /** The 2026-06-01 API version. */
   V20260601 = "2026-06-01",
-  /** The 2026-06-02-preview API version. */
-  V20260602Preview = "2026-06-02-preview",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
+  /** The 2026-08-01 API version. */
+  V20260801 = "2026-08-01",
+  /** The 2026-08-02-preview API version. */
+  V20260802Preview = "2026-08-02-preview",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {
@@ -13119,6 +14551,12 @@ export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileSerializer(item["aiToolchainOperatorProfile"]),
+    agentSandboxProfile: !item["agentSandboxProfile"]
+      ? item["agentSandboxProfile"]
+      : managedClusterAgentSandboxProfileSerializer(item["agentSandboxProfile"]),
+    podSnapshotProfile: !item["podSnapshotProfile"]
+      ? item["podSnapshotProfile"]
+      : managedClusterPodSnapshotProfileSerializer(item["podSnapshotProfile"]),
     schedulerProfile: !item["schedulerProfile"]
       ? item["schedulerProfile"]
       : schedulerProfileSerializer(item["schedulerProfile"]),
@@ -13246,6 +14684,12 @@ export function _managedClusterPropertiesDeserializer(item: any) {
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileDeserializer(item["aiToolchainOperatorProfile"]),
+    agentSandboxProfile: !item["agentSandboxProfile"]
+      ? item["agentSandboxProfile"]
+      : managedClusterAgentSandboxProfileDeserializer(item["agentSandboxProfile"]),
+    podSnapshotProfile: !item["podSnapshotProfile"]
+      ? item["podSnapshotProfile"]
+      : managedClusterPodSnapshotProfileDeserializer(item["podSnapshotProfile"]),
     schedulerProfile: !item["schedulerProfile"]
       ? item["schedulerProfile"]
       : schedulerProfileDeserializer(item["schedulerProfile"]),

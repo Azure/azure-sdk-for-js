@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Drill
  *
  * @summary update a Drill
- * x-ms-original-file: 2026-04-01-preview/Drills_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Drills_Update_MaximumSet_Gen.json
  */
 async function drillsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,6 +17,13 @@ async function drillsUpdateMaximumSet(): Promise<void> {
     properties: {
       rbacSetupMode: "AutomatedCustomRole",
       recoveryPlanProperties: {
+        identity: {
+          type: "UserAssigned",
+          userAssignedIdentity:
+            "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+        },
+      },
+      goalAssignmentProperties: {
         identity: {
           type: "UserAssigned",
           userAssignedIdentity:
@@ -43,6 +50,29 @@ async function drillsUpdateMaximumSet(): Promise<void> {
         },
       },
       drillAssetProperties: { subscription: "pxlmwjuhcif", region: "zuvwzxnbqyzdkthrewruw" },
+      healthModelMonitoringProperties: {
+        identity: {
+          type: "UserAssigned",
+          userAssignedIdentity:
+            "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+        },
+        healthModelId:
+          "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourceGroups/contoso-health/providers/Microsoft.CloudHealth/healthmodels/contoso-payments-hm",
+      },
+      sliMonitoringProperties: {
+        identity: {
+          type: "UserAssigned",
+          userAssignedIdentity:
+            "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+        },
+        slis: [
+          {
+            sliId:
+              "/providers/Microsoft.Management/serviceGroups/sampleServiceGroupName/providers/Microsoft.Monitor/slis/checkout-availability",
+            type: "Availability",
+          },
+        ],
+      },
     },
     identity: { type: "None", userAssignedIdentities: {} },
   });

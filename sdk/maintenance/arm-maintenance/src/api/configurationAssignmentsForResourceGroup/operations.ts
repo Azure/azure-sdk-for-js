@@ -1,26 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MaintenanceManagementContext as Client } from "../index.js";
+import type { MaintenanceManagementContext as Client } from "../index.js";
+import type { ConfigurationAssignment } from "../../models/models.js";
 import {
   maintenanceErrorDeserializer,
-  ConfigurationAssignment,
   configurationAssignmentSerializer,
   configurationAssignmentDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ConfigurationAssignmentsForResourceGroupDeleteOptionalParams,
   ConfigurationAssignmentsForResourceGroupUpdateOptionalParams,
   ConfigurationAssignmentsForResourceGroupCreateOrUpdateOptionalParams,
   ConfigurationAssignmentsForResourceGroupGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _$deleteSend(
   context: Client,
@@ -34,7 +30,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       configurationAssignmentName: configurationAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -48,13 +44,19 @@ export function _$deleteSend(
 
 export async function _$deleteDeserialize(
   result: PathUncheckedResponse,
-): Promise<ConfigurationAssignment> {
+): Promise<ConfigurationAssignment | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return configurationAssignmentDeserializer(result.body);
@@ -66,7 +68,7 @@ export async function $delete(
   resourceGroupName: string,
   configurationAssignmentName: string,
   options: ConfigurationAssignmentsForResourceGroupDeleteOptionalParams = { requestOptions: {} },
-): Promise<ConfigurationAssignment> {
+): Promise<ConfigurationAssignment | void> {
   const result = await _$deleteSend(
     context,
     resourceGroupName,
@@ -89,7 +91,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       configurationAssignmentName: configurationAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,7 +111,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -150,7 +154,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       configurationAssignmentName: configurationAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -170,7 +174,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -210,7 +216,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       configurationAssignmentName: configurationAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2023-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -228,7 +234,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }

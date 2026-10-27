@@ -33,7 +33,7 @@
     "dotenv": "latest",
     "@azure/identity": "^4.7.0",
     "ws": "^8.0.0",
-    "https-proxy-agent": "^7.0.0"
+    "https-proxy-agent": "^9.1.0"
   },
   "devDependencies": {
     "@types/ws": "^7.2.4",

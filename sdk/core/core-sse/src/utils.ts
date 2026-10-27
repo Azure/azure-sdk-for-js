@@ -3,7 +3,10 @@
 
 import type { NodeIncomingMessage } from "#platform/types";
 import { cancelNodeStream } from "#platform/types";
+import { stringToUint8Array } from "@azure/core-util";
 import type { NodeJSReadableStream } from "./models.js";
+
+export class InvalidSseChunkError extends TypeError {}
 
 export function createStream<T>(
   asyncIter: AsyncIterableIterator<T>,
@@ -69,16 +72,69 @@ export function ensureAsyncIterable(
   iterable: AsyncIterable<Uint8Array>;
 } {
   if (isReadableStream(stream)) {
-    makeAsyncIterable<Uint8Array>(stream);
+    const reader = stream.getReader();
+    let released = false;
+    const release = (): void => {
+      if (!released) {
+        released = true;
+        reader.releaseLock();
+      }
+    };
+    const cancel = async (): Promise<void> => {
+      if (released) {
+        return;
+      }
+      try {
+        await reader.cancel();
+      } finally {
+        release();
+      }
+    };
     return {
-      cancel: () => stream.cancel(),
-      iterable: stream,
+      cancel,
+      iterable: readStream(reader, cancel),
     };
   } else {
     return {
       cancel: async () => cancelNodeStream(stream),
-      iterable: stream as AsyncIterable<Uint8Array>,
+      iterable: toUint8ArrayIterable(stream as AsyncIterable<unknown>),
     };
+  }
+}
+
+async function* readStream(
+  reader: ReadableStreamDefaultReader<Uint8Array>,
+  cancel: () => Promise<void>,
+): AsyncIterableIterator<Uint8Array> {
+  try {
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) {
+        return;
+      }
+      if (!(value instanceof Uint8Array)) {
+        throw new InvalidSseChunkError("Expected the SSE stream to contain Uint8Array chunks.");
+      }
+      yield value;
+    }
+  } finally {
+    await cancel().catch(() => undefined);
+  }
+}
+
+async function* toUint8ArrayIterable(
+  iterable: AsyncIterable<unknown>,
+): AsyncIterableIterator<Uint8Array> {
+  for await (const chunk of iterable) {
+    if (chunk instanceof Uint8Array) {
+      yield chunk;
+    } else if (typeof chunk === "string") {
+      yield stringToUint8Array(chunk, "utf-8");
+    } else {
+      throw new InvalidSseChunkError(
+        "Expected the SSE stream to contain Uint8Array or string chunks.",
+      );
+    }
   }
 }
 

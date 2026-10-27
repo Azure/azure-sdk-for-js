@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified static member.
  *
  * @summary gets the specified static member.
- * x-ms-original-file: 2026-01-01/NetworkManagerStaticMemberGet.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerStaticMemberGet.json
  */
 async function staticMembersGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

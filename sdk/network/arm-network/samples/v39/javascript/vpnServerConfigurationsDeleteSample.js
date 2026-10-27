@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a VpnServerConfiguration.
  *
  * @summary deletes a VpnServerConfiguration.
- * x-ms-original-file: 2026-01-01/VpnServerConfigurationDelete.json
+ * x-ms-original-file: 2026-03-01/VpnServerConfigurationDelete.json
  */
 async function vpnServerConfigurationDelete() {
   const credential = new DefaultAzureCredential();

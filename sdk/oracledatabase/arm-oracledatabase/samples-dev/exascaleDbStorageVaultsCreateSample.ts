@@ -8,53 +8,33 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a ExascaleDbStorageVault
  *
  * @summary create a ExascaleDbStorageVault
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/ExascaleDbStorageVaults_Create_MaximumSet_Gen.json
  */
-async function exascaleDbStorageVaultsCreateMaximumSet(): Promise<void> {
+async function exascaleDbStorageVaultsCreateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.exascaleDbStorageVaults.create("rgopenapi", "storagevault1", {
+  const result = await client.exascaleDbStorageVaults.create("rgopenapi", "resource1", {
     properties: {
       additionalFlashCacheInPercent: 0,
-      description:
-        "kgqvxvtegzwyppegpvqxnlslvetbjlgveofcpjddenhbpocyzwtswaeaetqkipcxyhedsymuljalirryldlbviuvidhssyiwodacajjnbpkbvbvzwzsjctsidchalyjkievnivikwnnypaojcvhmokddstxwiqxmbfmbvglfimseguwyvibwzllggjtwejdfgezoeuvjjbsyfozswihydzuscjrqnklewongumiljeordhqlsclwlmftzdoey",
-      displayName: "storagevault1",
-      highCapacityDatabaseStorageInput: { totalSizeInGbs: 1 },
-      highCapacityDatabaseStorage: {
-        availableSizeInGbs: 4,
-        totalSizeInGbs: 12,
-      },
-      timeZone: "hyjcftlal",
-      lifecycleState: "Provisioning",
-      ocid: "ocid1.autonomousdatabase.oc1..aaaaa3klq",
+      description: "example",
+      displayName: "resource1",
+      highCapacityDatabaseStorageInput: { totalSizeInGbs: 24 },
+      timeZone: "2026-06-01T00:00:00Z",
+      exadataInfrastructureId:
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg000/providers/Oracle.Database/cloudExadataInfrastructures/infra1",
+      isAutoscaleEnabled: true,
+      autoscaleLimitInGbs: 10,
     },
-    zones: ["npqjhyekyumfybqas"],
-    tags: { key4521: "rrgotvwzckepkhgkbz" },
-    location: "zuoudqbvlxerpjtlfooyqlb",
-  });
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to create a ExascaleDbStorageVault
- *
- * @summary create a ExascaleDbStorageVault
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_Create_MinimumSet_Gen.json
- */
-async function exascaleDbStorageVaultsCreateMaximumSetGeneratedByMinimumSetRule(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.exascaleDbStorageVaults.create("rgopenapi", "storagevault1", {
-    location: "odxgtv",
+    zones: ["zsw"],
+    tags: { key4308: "example" },
+    location: "eastus",
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await exascaleDbStorageVaultsCreateMaximumSet();
-  await exascaleDbStorageVaultsCreateMaximumSetGeneratedByMinimumSetRule();
+  await exascaleDbStorageVaultsCreateMaximumSetGenGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

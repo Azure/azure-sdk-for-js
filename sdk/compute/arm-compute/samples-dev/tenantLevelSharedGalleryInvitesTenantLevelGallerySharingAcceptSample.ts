@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to accept sharing of a tenant-level shared gallery.
  *
  * @summary accept sharing of a tenant-level shared gallery.
- * x-ms-original-file: 2025-12-03/tenantLevelSharedGalleryInviteExamples/TenantLevelSharedGalleryInvite_Accept.json
+ * x-ms-original-file: 2026-03-03/tenantLevelSharedGalleryInviteExamples/TenantLevelSharedGalleryInvite_Accept.json
  */
 async function acceptAGallerySharedToTenant(): Promise<void> {
   const credential = new DefaultAzureCredential();

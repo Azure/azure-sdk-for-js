@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list what values of endpoint services are available for use.
  *
  * @summary list what values of endpoint services are available for use.
- * x-ms-original-file: 2026-01-01/EndpointServicesList.json
+ * x-ms-original-file: 2026-03-01/EndpointServicesList.json
  */
 async function endpointServicesList() {
   const credential = new DefaultAzureCredential();

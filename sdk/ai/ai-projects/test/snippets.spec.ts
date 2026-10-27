@@ -40,6 +40,25 @@ describe("snippets", function () {
     project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   });
 
+  it("ReadmeSampleVoiceAgentTracing", async function () {
+    const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential(), {
+      tracingOptions: {
+        experimental: true,
+        contentRecording: false,
+      },
+    });
+
+    const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
+    try {
+      await connection.sendText("Hello.");
+      for await (const event of connection) {
+        if (event.type === "response.done") break;
+      }
+    } finally {
+      await connection.close();
+    }
+  });
+
   it("previewflag", async function () {
     await project.agents.createVersion(
       "preview-agent",
@@ -164,6 +183,18 @@ describe("snippets", function () {
         requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
       });
     }
+  });
+
+  it("ReadmeSampleVoiceAgentQuery", async function () {
+    const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
+      agentSessionId: "session-123",
+      store: false,
+      query: {
+        custom_key: "custom value",
+        custom_flag: true,
+      },
+    });
+    await connection.close();
   });
 
   it("agent-code-interpreter", async function () {
@@ -590,7 +621,7 @@ Be direct and efficient. When you reach the search results page, read and descri
 
   it("agent-browser-automation", async function () {
     const browserAutomationProjectConnectionId =
-      process.env["BROWSER_AUTOMATION_CONNECTION_ID"] || "";
+      process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] || "";
     const agent = await project.agents.createVersion("MyAgent", {
       kind: "prompt",
       model: deploymentName,
@@ -600,8 +631,8 @@ Be direct and efficient. When you reach the search results page, read and descri
       // Define Browser Automation tool
       tools: [
         {
-          type: "browser_automation_preview",
-          browser_automation_preview: {
+          type: "browser_automation",
+          browser_automation: {
             connection: {
               project_connection_id: browserAutomationProjectConnectionId,
             },

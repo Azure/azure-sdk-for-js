@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for explicitly selecting service API version `2026-04-01`.
+
 ### Breaking Changes
 
 ### Bugs Fixed

@@ -114,14 +114,24 @@ export class ConfigurationManager {
   /**
    * Register a callback to be invoked whenever OneSettings reports a configuration change.
    * If settings are already cached, they are replayed immediately to the new callback.
+   * @returns A function that unregisters this subscription.
    */
-  public registerCallback(callback: ConfigurationChangeCallback): void {
-    this.callbacks.push(callback);
+  public registerCallback(callback: ConfigurationChangeCallback): () => void {
+    // Wrap each registration so it can be unregistered independently, even for the same callback.
+    const subscription: ConfigurationChangeCallback = (settings) => callback(settings);
+    this.callbacks.push(subscription);
     if (Object.keys(this.state.settings).length > 0) {
       // A callback may register after the last configuration change, so replay the cache now rather
       // than leaving the consumer stale until another change occurs (which may never happen).
-      this.invokeCallback(callback, this.state.settings);
+      this.invokeCallback(subscription, this.state.settings);
     }
+    // Return a cleanup function that unregisters this callback subscription.
+    return () => {
+      const index = this.callbacks.indexOf(subscription);
+      if (index !== -1) {
+        this.callbacks.splice(index, 1);
+      }
+    };
   }
 
   /**
