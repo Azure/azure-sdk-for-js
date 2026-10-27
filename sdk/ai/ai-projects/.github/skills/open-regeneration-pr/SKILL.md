@@ -47,7 +47,7 @@ The script ([scripts/open-pr.ps1](./scripts/open-pr.ps1)) does:
    - `[ai-projects] regen: emitter output @ <short-sha>` — `generated/`, `tsp-location.saved.yaml`.
    - `[ai-projects] regen: post-emitter edits` — `src/`, API reports, and post-emitter workaround data (excluding samples/tests).
    - `[ai-projects] regen: samples for new features` — `samples-dev/`, omitted when sample authoring was a documented no-op.
-   - `[ai-projects] regen: tests for new GA features` — `test/`, omitted when test authoring was a documented no-op.
+   - `[ai-projects] regen: tests for new GA features` — `test/` and synchronized `README.md` snippets, omitted when test authoring was a documented no-op.
    - `[ai-projects] regen: changelog` — `CHANGELOG.md`.
 4. Pushes to `origin` (no force).
 5. Calls `gh pr create --draft` against `baseBranch` with title `[ai-projects] Regenerate from azure-rest-api-specs@<short-sha>` and a body templated from changelog content + a verification checklist.
@@ -65,13 +65,14 @@ When this workflow started by assigning an issue to Copilot, the session already
 
 Pass `-SamplesNoOp` or `-TestsNoOp` only when the corresponding authoring skill explicitly completed as a documented no-op; omit each switch when that skill produced changes.
 
-Managed mode keeps the current branch and prepares the same logical commits, but does not switch branches, push, or call `gh pr create`. The Copilot session publishes its existing branch and updates its existing draft PR.
+Managed mode keeps the current branch and prepares the same logical commits, but does not switch branches, push, or call `gh pr create`. The Copilot session publishes its existing branch and updates its existing draft PR. When recovery mode ran, the session's PR description must include the judgement-call table described in Step 2.
 
 ### Step 2: Verify
 
 - The PR shows up as **Draft** in GitHub.
 - The PR body links the upstream commit: `https://github.com/Azure/azure-rest-api-specs/commit/<sha>`.
 - The verification checklist (build, format, test TypeScript/lint, build:samples) reports the checks that actually ran.
+- If `temp/customization-worklist.md` exists (the script warns when it does), the PR body contains the judgement-call table from `apply-post-emitter-edits` Step 0a: one row per worklist entry with its disposition (adopt, keep, port, combine, apply, or drop) and a one-line reason, with **needs review** flagged where the call was uncertain. In manual mode the script's generated body does not include it; add it with `gh pr edit`.
 
 ## Safety rails
 

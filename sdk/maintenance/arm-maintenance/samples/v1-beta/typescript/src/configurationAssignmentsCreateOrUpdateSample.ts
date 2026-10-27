@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to register configuration for resource.
  *
  * @summary register configuration for resource.
- * x-ms-original-file: 2023-10-01-preview/ConfigurationAssignments_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01-preview/ConfigurationAssignments_CreateOrUpdate.json
  */
 async function configurationAssignmentsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

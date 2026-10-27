@@ -4,6 +4,7 @@ packages:
   - common/tools/eslint-plugin-azure-sdk
   - eng/containers/turborepo-remote-cache
   - eng/tools/ci-runner
+  - eng/tools/js-sdk-release-tools
   - eng/tools/eng-package-utils
   - eng/tools/versioning
   - eng/tools/dependency-testing
@@ -34,7 +35,7 @@ catalog:
   tslib: ^2.8.1
   tsx: ^4.20.4
   typescript: ~6.0.2
-  typescript-eslint: ~8.65.0
+  typescript-eslint: ~8.71.1
 
 catalogs:
   arm:
@@ -57,13 +58,14 @@ catalogs:
     chai-exclude: ^3.0.1
     '@types/react': ^19.2.14
     dotenv: ^18.0.5
-    nock: ^14.0.17
+    nock: ^15.0.1
     playwright: ^1.60.0
-    react-native: ^0.87.1
+    react-native: ^0.88.0
     vitest: ^5.0.0
 
 overrides:
   '@azure/core-rest-pipeline': 'link:sdk/core/core-rest-pipeline'
+  'front-matter>js-yaml': ^5.2.2
   'vitest>vite': ^8.0.0
   '@vitest/mocker>vite': ^8.0.0
 

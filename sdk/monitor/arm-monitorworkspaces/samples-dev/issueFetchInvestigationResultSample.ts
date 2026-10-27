@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to fetch investigation result
  *
  * @summary fetch investigation result
- * x-ms-original-file: 2025-10-03/Issue_FetchInvestigationResult_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/Issue_FetchInvestigationResult_MaximumSet_Gen.json
  */
 async function issueFetchInvestigationResultMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

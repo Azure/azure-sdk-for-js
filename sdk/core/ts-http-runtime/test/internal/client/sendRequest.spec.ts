@@ -649,15 +649,24 @@ describe("sendRequest", () => {
     await sendRequest("POST", mockBaseUrl, mockPipeline, { headers: { foo: 123 } });
   });
 
-  it("should set octet-stream when binary body", async () => {
-    const mockPipeline: Pipeline = createEmptyPipeline();
-    mockPipeline.sendRequest = async (_client, request) => {
-      assert.equal(request.headers.get("content-type"), "application/octet-stream");
-      return { headers: createHttpHeaders() } as PipelineResponse;
-    };
+  it.each([
+    ["ArrayBuffer", new ArrayBuffer(4)],
+    ["DataView", new DataView(new ArrayBuffer(4))],
+    ["Uint8Array", new Uint8Array(4)],
+    ["Uint16Array", new Uint16Array(2)],
+  ] satisfies [string, ArrayBuffer | ArrayBufferView][])(
+    "should set octet-stream for a %s body",
+    async (_, body) => {
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      mockPipeline.sendRequest = async (_client, request) => {
+        assert.equal(request.headers.get("content-type"), "application/octet-stream");
+        assert.strictEqual(request.body, body);
+        return { headers: createHttpHeaders() } as PipelineResponse;
+      };
 
-    await sendRequest("POST", mockBaseUrl, mockPipeline, { body: new Uint8Array() });
-  });
+      await sendRequest("POST", mockBaseUrl, mockPipeline, { body });
+    },
+  );
 
   it("should set content-type as undefined if it's unknown", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
