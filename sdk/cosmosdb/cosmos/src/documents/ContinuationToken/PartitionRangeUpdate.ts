@@ -15,6 +15,10 @@ export interface PartitionRangeUpdate {
   newRanges: QueryRange[];
   /** The continuation token associated with this range update */
   continuationToken: string | undefined;
+  /** Whether replacement ranges still have work to resume */
+  isActive?: boolean;
+  /** Whether replacement ranges inherit the global ORDER BY checkpoint */
+  isOrderByCheckpoint?: boolean;
 }
 
 /**

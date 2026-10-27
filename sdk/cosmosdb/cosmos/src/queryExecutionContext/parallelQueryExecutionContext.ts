@@ -89,7 +89,7 @@ export class ParallelQueryExecutionContext
         // If minInclusive values are the same, check minEPK ranges if they exist
         const aMinEpk = docProd1.startEpk;
         const bMinEpk = docProd2.startEpk;
-        if (aMinEpk && bMinEpk) {
+        if (aMinEpk !== undefined && bMinEpk !== undefined) {
           return aMinEpk < bMinEpk ? -1 : 1;
         }
         return 0;

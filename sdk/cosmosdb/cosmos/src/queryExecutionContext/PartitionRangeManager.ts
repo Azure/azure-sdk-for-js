@@ -19,6 +19,13 @@ export function isPartitionExhausted(continuationToken: string | undefined): boo
   );
 }
 
+export function isPartitionRangeActive(
+  continuationToken: string | undefined,
+  isActive?: boolean,
+): boolean {
+  return isActive ?? !isPartitionExhausted(continuationToken);
+}
+
 /**
  * Manages partition key range mappings for query execution.
  * Handles range operations, offset/limit processing, and distinct query logic.
@@ -40,6 +47,10 @@ export class PartitionRangeManager {
     return new Map(this.partitionKeyRangeMap);
   }
 
+  public clear(): void {
+    this.partitionKeyRangeMap.clear();
+  }
+
   /**
    * Adds a range mapping to the partition key range map
    * Does not allow updates to existing keys - only new additions
@@ -47,9 +58,7 @@ export class PartitionRangeManager {
    * @param mapping - The QueryRangeMapping to add
    */
   private addPartitionRangeMapping(rangeId: string, mapping: QueryRangeMapping): void {
-    if (!this.partitionKeyRangeMap.has(rangeId)) {
-      this.partitionKeyRangeMap.set(rangeId, mapping);
-    }
+    this.partitionKeyRangeMap.set(rangeId, mapping);
   }
 
   /**

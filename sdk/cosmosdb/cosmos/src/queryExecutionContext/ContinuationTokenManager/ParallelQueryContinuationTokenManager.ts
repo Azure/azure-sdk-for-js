@@ -12,6 +12,7 @@ import {
   convertRangeMappingToQueryRange,
 } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type { QueryRangeMapping } from "../queryRangeMapping.js";
+import { isPartitionRangeActive } from "../PartitionRangeManager.js";
 
 /**
  * Manages continuation tokens for parallel queries using multi-range aggregation.
@@ -28,9 +29,21 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
       return { endIndex: 0, processedRanges: [] };
     }
 
-    const rangeMappings: QueryRangeWithContinuationToken[] = result.processedRangeMappings.map(
-      (mapping: QueryRangeMapping) => convertRangeMappingToQueryRange(mapping),
-    );
+    const processedMappings = new Set(result.processedRangeMappings);
+    const rangeMappings: QueryRangeWithContinuationToken[] = Array.from(
+      this.partitionManager.getPartitionKeyRangeMap().values(),
+    )
+      .map((mapping: QueryRangeMapping) =>
+        processedMappings.has(mapping)
+          ? mapping
+          : {
+              ...mapping,
+              continuationToken: mapping.previousContinuationToken,
+              isActive: true,
+            },
+      )
+      .filter((mapping) => isPartitionRangeActive(mapping.continuationToken, mapping.isActive))
+      .map((mapping) => convertRangeMappingToQueryRange(mapping));
 
     this.updateRangeList(rangeMappings);
 
@@ -57,12 +70,32 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     return serializeCompositeToken;
   }
 
-  protected processQuerySpecificResponse(_responseResult: ParallelQueryResult): void {
-    // Parallel queries don't need additional response processing
+  protected processQuerySpecificResponse(responseResult: ParallelQueryResult): void {
+    for (const mapping of responseResult.partitionKeyRangeMap.values()) {
+      const range = convertRangeMappingToQueryRange(mapping);
+      const existingRangeIndex = this.rangeList.findIndex(
+        (existingRange) =>
+          existingRange.queryRange.min === range.queryRange.min &&
+          existingRange.queryRange.max === range.queryRange.max,
+      );
+      if (!isPartitionRangeActive(mapping.continuationToken, mapping.isActive)) {
+        if (existingRangeIndex >= 0) {
+          this.rangeList.splice(existingRangeIndex, 1);
+        }
+      } else if (existingRangeIndex >= 0) {
+        this.rangeList[existingRangeIndex] = range;
+      } else {
+        this.rangeList.push(range);
+      }
+    }
   }
 
   protected performQuerySpecificDataTrim(_processedRanges: string[], _endIndex: number): void {
     // Parallel queries don't need additional cleanup
+  }
+
+  protected clearQuerySpecificState(): void {
+    // Parallel queries don't have additional token state.
   }
 
   private updateRangeList(rangeMappings: QueryRangeWithContinuationToken[]): void {

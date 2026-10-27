@@ -20,6 +20,21 @@ export interface QueryRangeMapping {
   continuationToken: string | undefined;
 
   /**
+   * Continuation token from before the buffered page was fetched.
+   */
+  previousContinuationToken?: string;
+
+  /**
+   * Whether this logical range still has work to resume.
+   */
+  isActive?: boolean;
+
+  /**
+   * Whether this logical range owns the global ORDER BY RID/skip checkpoint.
+   */
+  isOrderByCheckpoint?: boolean;
+
+  /**
    * The partition key range this mapping belongs to
    */
   partitionKeyRange: PartitionKeyRange;

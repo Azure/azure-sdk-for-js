@@ -11,7 +11,7 @@ import type {
   PartitionRangeUpdate,
   PartitionRangeUpdates,
 } from "../../documents/ContinuationToken/PartitionRangeUpdate.js";
-import { PartitionRangeManager, isPartitionExhausted } from "../PartitionRangeManager.js";
+import { PartitionRangeManager, isPartitionRangeActive } from "../PartitionRangeManager.js";
 import type { ParallelQueryResult } from "../parallelQueryResult.js";
 
 /**
@@ -73,12 +73,18 @@ export abstract class BaseContinuationTokenManager {
     pageSize: number,
     isResponseEmpty: boolean,
     responseResult?: ParallelQueryResult,
+    isTerminal: boolean = false,
   ): {
     endIndex: number;
     continuationToken?: string;
   } {
     if (responseResult) {
       this.processResponseResult(responseResult);
+    }
+
+    if (isTerminal) {
+      this.clearState();
+      return { endIndex: 0 };
     }
 
     this.removeExhaustedRangesFromRanges();
@@ -107,6 +113,7 @@ export abstract class BaseContinuationTokenManager {
     processedRanges: string[],
     endIndex: number,
   ): void;
+  protected clearQuerySpecificState(): void {}
 
   /**
    * Gets the serialization function for the specific continuation token type.
@@ -138,6 +145,14 @@ export abstract class BaseContinuationTokenManager {
 
     // Delegate query-specific cleanup to subclass
     this.performQuerySpecificDataTrim(processedRanges, endIndex);
+  }
+
+  private clearState(): void {
+    this.ranges.length = 0;
+    this.partitionRangeManager.clear();
+    this.offset = undefined;
+    this.limit = undefined;
+    this.clearQuerySpecificState();
   }
 
   private addPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
@@ -185,7 +200,10 @@ export abstract class BaseContinuationTokenManager {
       return;
     }
     this.compactRangesInPlace(
-      (mapping) => !!mapping && !isPartitionExhausted(mapping.continuationToken),
+      (mapping) =>
+        !!mapping &&
+        (mapping.isOrderByCheckpoint === true ||
+          isPartitionRangeActive(mapping.continuationToken, mapping.isActive)),
     );
   }
 
@@ -199,15 +217,27 @@ export abstract class BaseContinuationTokenManager {
   }
 
   private processRangeChange(_rangeKey: string, rangeChange: PartitionRangeUpdate): void {
-    const { oldRange, newRanges, continuationToken } = rangeChange;
+    const { oldRange, newRanges, continuationToken, isActive, isOrderByCheckpoint } = rangeChange;
     if (newRanges.length === 1) {
-      this.handleRangeMerge(oldRange, newRanges[0], continuationToken);
+      this.handleRangeMerge(
+        oldRange,
+        newRanges[0],
+        continuationToken,
+        isActive,
+        isOrderByCheckpoint,
+      );
     } else {
-      this.handleRangeSplit(oldRange, newRanges, continuationToken);
+      this.handleRangeSplit(oldRange, newRanges, continuationToken, isActive, isOrderByCheckpoint);
     }
   }
 
-  private handleRangeMerge(oldRange: any, newRange: any, continuationToken: string): void {
+  private handleRangeMerge(
+    oldRange: any,
+    newRange: any,
+    continuationToken: string | undefined,
+    isActive?: boolean,
+    isOrderByCheckpoint?: boolean,
+  ): void {
     // Find existing range mapping to update in the common ranges array
     const existingMappingIndex = this.ranges.findIndex(
       (mapping) =>
@@ -215,6 +245,9 @@ export abstract class BaseContinuationTokenManager {
     );
 
     if (existingMappingIndex < 0) {
+      if (isActive) {
+        this.createNewRangeMapping(newRange, continuationToken, isActive, isOrderByCheckpoint);
+      }
       return;
     }
 
@@ -230,9 +263,17 @@ export abstract class BaseContinuationTokenManager {
     // Update the mapping
     existingMapping.queryRange = updatedQueryRange;
     existingMapping.continuationToken = continuationToken;
+    existingMapping.isActive = isActive;
+    existingMapping.isOrderByCheckpoint = isOrderByCheckpoint;
   }
 
-  private handleRangeSplit(oldRange: any, newRanges: any[], continuationToken: string): void {
+  private handleRangeSplit(
+    oldRange: any,
+    newRanges: any[],
+    continuationToken: string | undefined,
+    isActive?: boolean,
+    isOrderByCheckpoint?: boolean,
+  ): void {
     // Remove the old range mapping from the common ranges array (in-place, no reinitialization)
     this.compactRangesInPlace(
       (mapping) =>
@@ -241,11 +282,16 @@ export abstract class BaseContinuationTokenManager {
 
     // Add new range mappings for each split range
     newRanges.forEach((newRange) => {
-      this.createNewRangeMapping(newRange, continuationToken);
+      this.createNewRangeMapping(newRange, continuationToken, isActive, isOrderByCheckpoint);
     });
   }
 
-  private createNewRangeMapping(partitionKeyRange: any, continuationToken: string): void {
+  private createNewRangeMapping(
+    partitionKeyRange: any,
+    continuationToken: string | undefined,
+    isActive?: boolean,
+    isOrderByCheckpoint?: boolean,
+  ): void {
     // Create new simplified QueryRange
     const queryRange: RangeBoundary = {
       min: partitionKeyRange.min,
@@ -256,6 +302,8 @@ export abstract class BaseContinuationTokenManager {
     const newRangeWithToken: QueryRangeWithContinuationToken = {
       queryRange: queryRange,
       continuationToken: continuationToken,
+      isActive,
+      isOrderByCheckpoint,
     };
 
     this.ranges.push(newRangeWithToken);

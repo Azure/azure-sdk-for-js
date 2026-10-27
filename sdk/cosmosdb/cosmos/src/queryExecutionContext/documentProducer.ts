@@ -18,7 +18,7 @@ import type { FetchFunctionCallback } from "./defaultQueryExecutionContext.js";
 import { FetchResult, FetchResultType } from "./FetchResult.js";
 import { getInitialHeader } from "./headerUtils.js";
 import type { CosmosHeaders } from "./headerUtils.js";
-import type { SqlQuerySpec, FilterStrategy } from "./index.js";
+import type { SqlQuerySpec, FilterContext, FilterStrategy } from "./index.js";
 
 /** @hidden */
 export class DocumentProducer {
@@ -57,6 +57,8 @@ export class DocumentProducer {
     endEpk?: string,
     populateEpkRangeHeaders: boolean = false,
     filter?: FilterStrategy,
+    private readonly filterCondition?: string,
+    public readonly isOrderByCheckpoint?: boolean,
   ) {
     // TODO: any options
     this.collectionLink = collectionLink;
@@ -68,7 +70,7 @@ export class DocumentProducer {
     this.err = undefined;
 
     this.previousContinuationToken = undefined;
-    this.continuationToken = undefined;
+    this.continuationToken = options.continuationToken ?? options.continuation;
 
     this.internalExecutionContext = new DefaultQueryExecutionContext(
       options,
@@ -346,5 +348,13 @@ export class DocumentProducer {
   public getQueryExecutionInfo():
     { reverseRidEnabled: boolean; reverseIndexScan: boolean } | undefined {
     return this.queryExecutionInfo;
+  }
+
+  public getFilterCondition(): string | undefined {
+    return this.filterCondition;
+  }
+
+  public getFilterContext(): FilterContext | undefined {
+    return this.filter?.getFilterContext();
   }
 }
