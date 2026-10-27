@@ -65,14 +65,7 @@ export class MicrosoftResourceHealth {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createMicrosoftResourceHealth(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createMicrosoftResourceHealth(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.childResources = _getChildResourcesOperations(this._client);
     this.emergingIssues = _getEmergingIssuesOperations(this._client);

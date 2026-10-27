@@ -27,7 +27,7 @@ export function _fetchDetailsByTenantIdAndTrackingIdSend(
     "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/fetchEventDetails{?api%2Dversion}",
     {
       eventTrackingId: eventTrackingId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -45,7 +45,9 @@ export async function _fetchDetailsByTenantIdAndTrackingIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -72,7 +74,7 @@ export function _getByTenantIdAndTrackingIdSend(
     "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}{?api%2Dversion,%24filter,queryStartTime}",
     {
       eventTrackingId: eventTrackingId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
       queryStartTime: options?.queryStartTime,
     },
@@ -92,7 +94,9 @@ export async function _getByTenantIdAndTrackingIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -122,7 +126,7 @@ export function _fetchBilllingCommunicationDetailsBySubscriptionIdAndTrackingIdS
     {
       subscriptionId: context.subscriptionId,
       eventTrackingId: eventTrackingId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +144,9 @@ export async function _fetchBilllingCommunicationDetailsBySubscriptionIdAndTrack
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -174,7 +180,7 @@ export function _fetchDetailsBySubscriptionIdAndTrackingIdSend(
     {
       subscriptionId: context.subscriptionId,
       eventTrackingId: eventTrackingId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,7 +198,9 @@ export async function _fetchDetailsBySubscriptionIdAndTrackingIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -224,7 +232,7 @@ export function _getBySubscriptionIdAndTrackingIdSend(
     {
       subscriptionId: context.subscriptionId,
       eventTrackingId: eventTrackingId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
       queryStartTime: options?.queryStartTime,
     },
@@ -244,7 +252,9 @@ export async function _getBySubscriptionIdAndTrackingIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

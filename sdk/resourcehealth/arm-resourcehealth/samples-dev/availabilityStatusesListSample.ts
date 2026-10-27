@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all historical availability transitions and impacting events for a single resource.
  *
  * @summary lists all historical availability transitions and impacting events for a single resource.
- * x-ms-original-file: 2025-05-01/AvailabilityStatuses_List.json
+ * x-ms-original-file: 2026-07-01/AvailabilityStatuses_List.json
  */
 async function getHealthHistoryByResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

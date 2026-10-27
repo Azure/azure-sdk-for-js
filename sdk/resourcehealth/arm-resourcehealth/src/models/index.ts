@@ -31,6 +31,7 @@ export type {
   EventProperties,
   EventTypeValues,
   EventSubTypeValues,
+  ApiOperationLink,
   EventSourceValues,
   EventStatusValues,
   LevelValues,
