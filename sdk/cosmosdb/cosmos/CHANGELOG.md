@@ -1549,7 +1549,7 @@ Not always the most visible changes, but they help our team ship better code, fa
 
 ## 1.0.2 (2015-05-23)
 
-- PR [#45](https://github.com/Azure/azure-cosmos-js/pull/45) - Promises wrapper does not include header with error.
+- Issue [#45](https://github.com/Azure/azure-cosmosdb-node/issues/45) - Promises wrapper does not include headers with error.
 
 ## 1.0.1 (2015-05-15)
 
