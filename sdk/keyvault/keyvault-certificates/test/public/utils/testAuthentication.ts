@@ -4,9 +4,10 @@
 import { CertificateClient } from "../../../src/index.js";
 import { uniqueString } from "./recorderUtils.js";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import TestClient from "./testClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 
 export async function authenticate(ctx: TestInfo): Promise<any> {
   const suffix = uniqueString();
@@ -54,6 +55,24 @@ export async function authenticate(ctx: TestInfo): Promise<any> {
 
   const recorder = new Recorder(ctx);
   await recorder.start(startOptions);
+  if (isPlaybackMode()) {
+    // Keep playback stable while the package transitions recordings to the GA api-version.
+    const httpClient = createDefaultHttpClient();
+    const request = createPipelineRequest({
+      url: `${(Recorder as typeof Recorder & { url: string }).url}/Admin/SetMatcher`,
+      method: "POST",
+      allowInsecureConnection: true,
+    });
+    request.headers.set("x-abstraction-identifier", "CustomDefaultMatcher");
+    request.headers.set(
+      "x-recording-id",
+      (recorder as Recorder & { recordingId: string }).recordingId,
+    );
+    request.body = JSON.stringify({
+      ignoredQueryParameters: "api-version",
+    });
+    await httpClient.sendRequest(request);
+  }
   if (suffix !== "") {
     await recorder.addSanitizers({
       generalSanitizers: [
