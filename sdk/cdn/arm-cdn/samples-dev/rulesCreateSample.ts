@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new delivery rule within the specified rule set.
  *
  * @summary creates a new delivery rule within the specified rule set.
- * x-ms-original-file: 2025-12-01/Rules_Create.json
+ * x-ms-original-file: 2026-07-01/Rules_Create.json
  */
 async function rulesCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

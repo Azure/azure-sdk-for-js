@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
  *
  * @summary creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
- * x-ms-original-file: 2025-12-01/Endpoints_Create.json
+ * x-ms-original-file: 2026-07-01/Endpoints_Create.json
  */
 async function endpointsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint.
  *
  * @summary check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint.
- * x-ms-original-file: 2025-12-01/CheckNameAvailabilityWithSubscription.json
+ * x-ms-original-file: 2026-07-01/CheckNameAvailabilityWithSubscription.json
  */
 async function checkNameAvailabilityWithSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

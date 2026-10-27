@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new origin within the specified endpoint.
  *
  * @summary creates a new origin within the specified endpoint.
- * x-ms-original-file: 2025-12-01/Origins_Create.json
+ * x-ms-original-file: 2026-07-01/Origins_Create.json
  */
 async function originsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
