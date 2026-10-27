@@ -17,7 +17,7 @@ API version; do not rewrite recording contents or suppress mismatches.
 
 Use an existing, explicitly approved test service. These tests create, populate,
 query, and delete indexes and knowledge resources; do not target a production
-service. Set the variables from [`sample.env`](../sample.env) locally:
+service. Set the variables from [`sample.env`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/sample.env) locally:
 
 - `TEST_MODE=live` to call the service without recording, or `TEST_MODE=record` to
   regenerate recordings.
@@ -43,7 +43,7 @@ These live-only tests do not produce playback recordings.
 ### Authentication
 
 Public service tests use `createTestCredential()` from
-[`@azure-tools/test-credential`](../../../test-utils/test-credential/src/index.ts).
+[`@azure-tools/test-credential`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/test-credential/src/index.ts).
 In Node live/record mode, its credential chain supports existing Azure PowerShell,
 Azure CLI (`az login`), and Azure Developer CLI sessions, followed by environment
 credentials. An existing Entra session is sufficient for client authentication
@@ -57,7 +57,7 @@ relay managed by the repository's browser test tooling.
 
 ### Resource template and recording assets
 
-The shared [Bicep template](../../test-resources.bicep) provisions a basic Search
+The shared [Bicep template](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/test-resources.bicep) provisions a basic Search
 service and the two Search roles. It does **not** provision the OpenAI, Fabric,
 Work IQ, or managed-identity dependencies needed for all preview scenarios.
 The optional
