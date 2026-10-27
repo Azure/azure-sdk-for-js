@@ -92,6 +92,9 @@ export function parseOrderByQueryContinuationToken(
       "Invalid continuation token. ORDER BY tokens require non-empty orderByItems.",
     );
   }
+  if (token.orderByItems.some((item) => !item || typeof item !== "object" || Array.isArray(item))) {
+    throw new ErrorResponse("Invalid continuation token. ORDER BY items must be objects.");
+  }
   if (
     typeof token.skipCount !== "number" ||
     !Number.isInteger(token.skipCount) ||
@@ -104,6 +107,22 @@ export function parseOrderByQueryContinuationToken(
   if (token.documentRid !== undefined && typeof token.documentRid !== "string") {
     throw new ErrorResponse(
       "Invalid continuation token. ORDER BY documentRid must be a string when present.",
+    );
+  }
+  const checkpointIndexes = token.rangeMappings
+    .map((mapping, index) => (mapping.isOrderByCheckpoint === true ? index : -1))
+    .filter((index) => index >= 0);
+  const hasCheckpointMetadata = token.rangeMappings.some(
+    (mapping) => mapping.isOrderByCheckpoint !== undefined,
+  );
+  if (
+    hasCheckpointMetadata &&
+    (checkpointIndexes.length === 0 ||
+      checkpointIndexes[checkpointIndexes.length - 1] - checkpointIndexes[0] + 1 !==
+        checkpointIndexes.length)
+  ) {
+    throw new ErrorResponse(
+      "Invalid continuation token. ORDER BY checkpoint owners must form one contiguous logical interval.",
     );
   }
   return token as OrderByQueryContinuationToken;

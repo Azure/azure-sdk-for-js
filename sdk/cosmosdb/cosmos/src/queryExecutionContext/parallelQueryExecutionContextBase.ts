@@ -107,6 +107,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       dp1: DocumentProducer,
       dp2: DocumentProducer,
     ) => number,
+    private readonly parsedContinuationToken?: BaseContinuationToken,
   ) {
     this.clientContext = clientContext;
     this.collectionLink = collectionLink;
@@ -375,7 +376,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     targetPartitionRanges: any[],
   ): Promise<DocumentProducer[]> {
     // Parse continuation token to get range mappings and check for split/merge scenarios
-    const parsedToken = this._parseContinuationToken(this.requestContinuation);
+    const parsedToken =
+      this.parsedContinuationToken ?? this._parseContinuationToken(this.requestContinuation);
     const continuationRanges = await this._handlePartitionRangeChanges(parsedToken);
 
     // Use strategy to create additional query info from parsed token

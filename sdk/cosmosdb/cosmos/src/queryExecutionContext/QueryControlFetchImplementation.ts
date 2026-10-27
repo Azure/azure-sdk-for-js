@@ -8,6 +8,7 @@ import type { BaseContinuationTokenManager } from "./ContinuationTokenManager/Ba
 import { ContinuationTokenManagerFactory } from "./ContinuationTokenManager/ContinuationTokenManagerFactory.js";
 import { Constants } from "../common/index.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
+import type { BaseContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 
 /**
  * Query control enabled fetch implementation with continuation token support
@@ -25,6 +26,7 @@ export class QueryControlFetchImplementation {
     continuationToken: string | undefined,
     isOrderByQuery: boolean,
     querySupportsTokens: boolean,
+    parsedContinuationToken?: BaseContinuationToken,
   ) {
     this.querySupportsTokens = querySupportsTokens;
 
@@ -33,6 +35,7 @@ export class QueryControlFetchImplementation {
       collectionLink,
       continuationToken,
       isOrderByQuery,
+      parsedContinuationToken,
     );
   }
 
@@ -87,9 +90,12 @@ export class QueryControlFetchImplementation {
     fetchMoreRespHeaders: Record<string, any>,
   ): Promise<Response<any>> {
     if (fetchBuffer.length > 0) {
+      const workRemains = fetchBuffer.length > this.pageSize || this.endpoint.hasMoreResults();
       const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
         this.pageSize,
         false,
+        undefined,
+        workRemains,
       );
       const temp = fetchBuffer.slice(0, endIndex);
       fetchBuffer.splice(0, endIndex); // Remove returned items in place
@@ -104,22 +110,24 @@ export class QueryControlFetchImplementation {
     mergeHeaders(fetchMoreRespHeaders, response.headers);
 
     if (!response?.result?.buffer || response.result.buffer.length === 0) {
-      const isTerminal = !this.endpoint.hasMoreResults();
+      const workRemains = this.endpoint.hasMoreResults();
       const { continuationToken } = this.continuationTokenManager.paginateResults(
         this.pageSize,
         true, // isResponseEmpty = true
         response?.result, // Pass response data for processing
-        isTerminal,
+        workRemains,
       );
       this._setContinuationTokenInHeaders(continuationToken, fetchMoreRespHeaders);
       return this._createEmptyResult(fetchMoreRespHeaders);
     }
 
     fetchBuffer.push(...response.result.buffer); // Add new items to existing buffer
+    const workRemains = fetchBuffer.length > this.pageSize || this.endpoint.hasMoreResults();
     const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
       this.pageSize,
       false, // isResponseEmpty = false
       response.result, // Pass response data for processing
+      workRemains,
     );
 
     const temp = fetchBuffer.slice(0, endIndex);

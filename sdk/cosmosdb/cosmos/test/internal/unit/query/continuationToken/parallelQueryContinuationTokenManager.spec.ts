@@ -310,7 +310,7 @@ describe("ParallelQueryContinuationTokenManager - Sliding Window Flow", () => {
       // Empty response - no new ranges
       const emptyRanges = new Map<string, QueryRangeMapping>();
 
-      result = tokenManager.paginateResults(0, true, createParallelQueryResult(emptyRanges), true);
+      result = tokenManager.paginateResults(0, true, createParallelQueryResult(emptyRanges), false);
 
       expect(result.continuationToken).toBeUndefined();
     });
@@ -382,7 +382,11 @@ describe("ParallelQueryContinuationTokenManager - Sliding Window Flow", () => {
           });
         });
 
-        const result = tokenManager.paginateResults(2, false, createParallelQueryResult(mappings));
+        const result = tokenManager.paginateResults(
+          terminalIndex === 2 ? 3 : 2,
+          false,
+          createParallelQueryResult(mappings),
+        );
         expect(result.continuationToken).toBeDefined();
         const parsed = parseCompositeQueryContinuationToken(
           JSON.stringify(parseCompositeQueryContinuationToken(result.continuationToken!)),

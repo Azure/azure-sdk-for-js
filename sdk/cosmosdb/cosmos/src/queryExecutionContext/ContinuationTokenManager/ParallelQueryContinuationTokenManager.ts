@@ -31,11 +31,20 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
 
     const processedMappings = new Set(result.processedRangeMappings);
     const observedMappings = Array.from(this.partitionManager.getPartitionKeyRangeMap().values());
+    const pageMappings = observedMappings.map((mapping: QueryRangeMapping) =>
+      processedMappings.has(mapping)
+        ? mapping
+        : {
+            ...mapping,
+            continuationToken: mapping.previousContinuationToken,
+            isActive: true,
+          },
+    );
     const hasActiveRange =
       this.rangeList.some((mapping) =>
         isPartitionRangeActive(mapping.continuationToken, mapping.isActive),
       ) ||
-      observedMappings.some((mapping) =>
+      pageMappings.some((mapping) =>
         isPartitionRangeActive(mapping.continuationToken, mapping.isActive),
       );
     if (!hasActiveRange) {
@@ -43,18 +52,8 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
       return { endIndex: result.endIndex, processedRanges: result.processedRanges };
     }
 
-    const rangeMappings: QueryRangeWithContinuationToken[] = observedMappings.map(
-      (mapping: QueryRangeMapping) =>
-        convertRangeMappingToQueryRange(
-          processedMappings.has(mapping) ||
-            !isPartitionRangeActive(mapping.continuationToken, mapping.isActive)
-            ? mapping
-            : {
-                ...mapping,
-                continuationToken: mapping.previousContinuationToken,
-                isActive: true,
-              },
-        ),
+    const rangeMappings: QueryRangeWithContinuationToken[] = pageMappings.map(
+      (mapping: QueryRangeMapping) => convertRangeMappingToQueryRange(mapping),
     );
 
     this.updateRangeList(rangeMappings);

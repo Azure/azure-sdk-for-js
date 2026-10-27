@@ -121,11 +121,27 @@ function validateBaseContinuationToken(token: unknown): asserts token is BaseCon
   if (!Array.isArray(candidate.rangeMappings) || candidate.rangeMappings.length === 0) {
     throw createInvalidContinuationTokenError("Token rangeMappings must be a non-empty array.");
   }
-  if (candidate.offset !== undefined && !Number.isFinite(candidate.offset)) {
-    throw createInvalidContinuationTokenError("Token offset must be a finite number.");
+  if (
+    candidate.offset !== undefined &&
+    (!Number.isSafeInteger(candidate.offset) || candidate.offset < 0)
+  ) {
+    throw createInvalidContinuationTokenError("Token offset must be a non-negative safe integer.");
   }
-  if (candidate.limit !== undefined && !Number.isFinite(candidate.limit)) {
-    throw createInvalidContinuationTokenError("Token limit must be a finite number.");
+  if (
+    candidate.limit !== undefined &&
+    (!Number.isSafeInteger(candidate.limit) || candidate.limit < 0)
+  ) {
+    throw createInvalidContinuationTokenError("Token limit must be a non-negative safe integer.");
+  }
+  const hashedLastResult = (
+    candidate as BaseContinuationToken & {
+      hashedLastResult?: unknown;
+    }
+  ).hashedLastResult;
+  if (hashedLastResult !== undefined && typeof hashedLastResult !== "string") {
+    throw createInvalidContinuationTokenError(
+      "Token hashedLastResult must be a string when present.",
+    );
   }
 
   const ranges = candidate.rangeMappings.map((mapping, index) => {
@@ -249,7 +265,9 @@ export function convertRangeMappingToQueryRange(
   const isActive =
     rangeMapping.isActive === false
       ? false
-      : rangeMapping.isActive === true && !inferredActive
+      : rangeMapping.isActive === true &&
+          (rangeMapping.continuationToken === rangeMapping.previousContinuationToken ||
+            !inferredActive)
         ? true
         : undefined;
 

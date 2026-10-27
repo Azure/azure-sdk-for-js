@@ -12,6 +12,7 @@ import type { QueryRangeWithContinuationToken } from "../../documents/Continuati
 import { convertRangeMappingToQueryRange } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { isPartitionRangeActive } from "../PartitionRangeManager.js";
 import type { QueryRangeMapping } from "../queryRangeMapping.js";
+import type { BaseContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 
 /**
  * Manages continuation tokens for ORDER BY queries using single-range sequential processing.
@@ -28,11 +29,18 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   private tokenDocumentRid: string = "";
   private tokenHashedLastResult?: string;
 
-  constructor(collectionLink: string, initialContinuationToken?: string) {
-    super(collectionLink, initialContinuationToken);
+  constructor(
+    collectionLink: string,
+    initialContinuationToken?: string,
+    parsedContinuationToken?: BaseContinuationToken,
+  ) {
+    super(collectionLink, parsedContinuationToken ?? initialContinuationToken);
     this.orderByItemsArray = [];
     if (initialContinuationToken) {
-      const parsed = parseOrderByQueryContinuationToken(initialContinuationToken);
+      const parsed = (parsedContinuationToken ??
+        parseOrderByQueryContinuationToken(
+          initialContinuationToken,
+        )) as OrderByQueryContinuationToken;
       this.normalizeCheckpointOwnership(parsed.rangeMappings);
       this.tokenRangeMappings = parsed.rangeMappings;
       this.tokenOrderByItems = parsed.orderByItems;

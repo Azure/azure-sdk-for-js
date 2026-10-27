@@ -4,6 +4,7 @@
 import type { QueryRangeMapping } from "../queryRangeMapping.js";
 import {
   parseBaseContinuationToken,
+  type BaseContinuationToken,
   type QueryRangeWithContinuationToken,
   type RangeBoundary,
 } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
@@ -26,10 +27,13 @@ export abstract class BaseContinuationTokenManager {
   protected offset?: number;
   protected limit?: number;
 
-  constructor(collectionLink: string, initialContinuationToken?: string) {
+  constructor(collectionLink: string, initialContinuationToken?: string | BaseContinuationToken) {
     this.collectionLink = collectionLink;
     if (initialContinuationToken) {
-      const token = parseBaseContinuationToken(initialContinuationToken);
+      const token =
+        typeof initialContinuationToken === "string"
+          ? parseBaseContinuationToken(initialContinuationToken)
+          : initialContinuationToken;
       if (token?.rangeMappings) {
         this.ranges.push(...token.rangeMappings);
       }
@@ -73,7 +77,7 @@ export abstract class BaseContinuationTokenManager {
     pageSize: number,
     isResponseEmpty: boolean,
     responseResult?: ParallelQueryResult,
-    isTerminal: boolean = false,
+    workRemains: boolean = true,
   ): {
     endIndex: number;
     continuationToken?: string;
@@ -82,13 +86,16 @@ export abstract class BaseContinuationTokenManager {
       this.processResponseResult(responseResult);
     }
 
-    if (isTerminal) {
-      this.clearState();
-      return { endIndex: 0 };
-    }
-
     this.removeExhaustedRangesFromRanges();
     const result = this.processRangesForPagination(pageSize, isResponseEmpty);
+    const hasUnprocessedMappings =
+      result.processedRanges.length < this.partitionRangeManager.getPartitionKeyRangeMap().size;
+    const shouldSerializeContinuation = workRemains || hasUnprocessedMappings;
+    if (!shouldSerializeContinuation) {
+      this.trimProcessedData(result.processedRanges, result.endIndex);
+      this.clearState();
+      return { endIndex: result.endIndex };
+    }
     const tokenString = this.generateContinuationTokenString();
 
     // Clean up processed ranges

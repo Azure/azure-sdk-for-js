@@ -2463,6 +2463,144 @@ describe("partition split recovery", () => {
     );
   });
 
+  it("rewinds an unprocessed terminal range and clears the final token after its page", async () => {
+    const clientContext = createClientContext();
+    const ranges = [
+      createPartitionKeyRange("R0", "", "40"),
+      createPartitionKeyRange("R1", "40", "80"),
+      createPartitionKeyRange("R2", "80", "FF"),
+    ];
+    mockStableTopology(clientContext, ranges);
+    const requestCounts = new Map<string, number>();
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ options: requestOptions, partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requestCounts.set(rangeId, (requestCounts.get(rangeId) ?? 0) + 1);
+        assert.equal(requestOptions.continuationToken, `${rangeId.toLowerCase()}-token`);
+        return {
+          result: [{ id: rangeId.toLowerCase(), source: rangeId }] as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+    const initialToken = JSON.stringify({
+      rid: "container-rid",
+      rangeMappings: ranges.map((range) => ({
+        queryRange: { min: range.minInclusive, max: range.maxExclusive },
+        continuationToken: `${range.id.toLowerCase()}-token`,
+      })),
+    });
+    const firstContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuationToken: initialToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 3,
+        maxItemCount: 2,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const firstPage = await withTimeout(firstContext.fetchMore(createDummyDiagnosticNode()), 1000);
+    const continuationToken = firstPage.headers["x-ms-continuation"];
+    assert.deepEqual(
+      firstPage.result.map((resource: TestDocument) => resource.id),
+      ["r0", "r1"],
+    );
+    assert.isString(continuationToken);
+    assert.deepInclude(JSON.parse(continuationToken).rangeMappings, {
+      queryRange: { min: "40", max: "80" },
+      isActive: false,
+    });
+    assert.deepInclude(JSON.parse(continuationToken).rangeMappings, {
+      queryRange: { min: "80", max: "FF" },
+      continuationToken: "r2-token",
+      isActive: true,
+    });
+
+    const resumedContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuationToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 1,
+        maxItemCount: 2,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const finalPage = await withTimeout(
+      resumedContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+    assert.deepEqual(finalPage.result, [{ id: "r2", source: "R2" }]);
+    assert.isUndefined(finalPage.headers["x-ms-continuation"]);
+    assert.deepEqual(Object.fromEntries(requestCounts), { R0: 1, R1: 1, R2: 2 });
+  });
+
+  it("preserves unstarted Parallel suffix ranges with MDoP1 stateless recreation", async () => {
+    const clientContext = createClientContext();
+    const ranges = [
+      createPartitionKeyRange("R0", "", "40"),
+      createPartitionKeyRange("R1", "40", "80"),
+      createPartitionKeyRange("R2", "80", "FF"),
+    ];
+    mockStableTopology(clientContext, ranges);
+    const requestCounts = new Map<string, number>();
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ options: requestOptions, partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requestCounts.set(rangeId, (requestCounts.get(rangeId) ?? 0) + 1);
+        assert.equal(requestOptions.continuationToken, `${rangeId.toLowerCase()}-token`);
+        return {
+          result: [{ id: rangeId.toLowerCase(), source: rangeId }] as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+    let continuationToken: string | undefined = JSON.stringify({
+      rid: "container-rid",
+      rangeMappings: ranges.map((range) => ({
+        queryRange: { min: range.minInclusive, max: range.maxExclusive },
+        continuationToken: `${range.id.toLowerCase()}-token`,
+      })),
+    });
+    const resourceIds: string[] = [];
+    for (let page = 0; continuationToken; page++) {
+      if (page > 3) {
+        throw new Error("MDoP1 stateless suffix page guard exceeded");
+      }
+      const context = new PipelinedQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        {
+          ...options,
+          continuationToken,
+          enableQueryControl: true,
+          maxDegreeOfParallelism: 1,
+          maxItemCount: 1,
+        },
+        createParallelPipelinedQueryInfo(),
+        correlatedActivityId,
+      );
+      const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+      resourceIds.push(...response.result.map((resource: TestDocument) => resource.id));
+      continuationToken = response.headers["x-ms-continuation"];
+    }
+
+    assert.deepEqual(resourceIds, ["r0", "r1", "r2"]);
+    assert.deepEqual(Object.fromEntries(requestCounts), { R0: 1, R1: 1, R2: 1 });
+  });
+
   it("keeps ORDER BY checkpoint ownership separate from sibling backend cursors", async () => {
     const clientContext = createClientContext();
     mockStableTopology(clientContext, [childRange1, childRange2]);
@@ -2754,6 +2892,21 @@ describe("partition split recovery", () => {
           { queryRange: { min: "40", max: "FF" } },
         ],
       },
+      {
+        rid: "container-rid",
+        rangeMappings: [{ queryRange: { min: "", max: "FF" } }],
+        offset: -1,
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [{ queryRange: { min: "", max: "FF" } }],
+        limit: 1.5,
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [{ queryRange: { min: "", max: "FF" } }],
+        hashedLastResult: 1,
+      },
     ];
 
     for (const queryType of ["Parallel", "ORDER BY"] as const) {
@@ -2787,6 +2940,85 @@ describe("partition split recovery", () => {
         expect(queryFeedSpy).not.toHaveBeenCalled();
         expect(routingSpy).not.toHaveBeenCalled();
       }
+    }
+
+    const validBase = {
+      rid: "container-rid",
+      rangeMappings: [{ queryRange: { min: "", max: "FF" } }],
+    };
+    const malformedOrderByTokens = [
+      validBase,
+      { ...validBase, orderByItems: [], skipCount: 0 },
+      { ...validBase, orderByItems: [null], skipCount: 0 },
+      { ...validBase, orderByItems: [{ item: 5 }], skipCount: -1 },
+      { ...validBase, orderByItems: [{ item: 5 }], skipCount: 1.5 },
+      {
+        ...validBase,
+        orderByItems: [{ item: 5 }],
+        skipCount: 0,
+        documentRid: 1,
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [
+          {
+            queryRange: { min: "", max: "40" },
+            isOrderByCheckpoint: false,
+          },
+          {
+            queryRange: { min: "40", max: "80" },
+            isOrderByCheckpoint: false,
+          },
+        ],
+        orderByItems: [{ item: 5 }],
+        skipCount: 0,
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [
+          {
+            queryRange: { min: "", max: "30" },
+            isOrderByCheckpoint: true,
+          },
+          {
+            queryRange: { min: "30", max: "60" },
+            isOrderByCheckpoint: false,
+          },
+          {
+            queryRange: { min: "60", max: "FF" },
+            isOrderByCheckpoint: true,
+          },
+        ],
+        orderByItems: [{ item: 5 }],
+        skipCount: 0,
+      },
+    ];
+    for (const malformedToken of malformedOrderByTokens) {
+      const clientContext = createClientContext();
+      const queryFeedSpy = vi.spyOn(clientContext, "queryFeed");
+      const routingSpy = vi.spyOn(clientContext, "queryPartitionKeyRanges");
+      let error: unknown;
+      try {
+        new PipelinedQueryExecutionContext(
+          clientContext,
+          collectionLink,
+          "SELECT * FROM c ORDER BY c.value",
+          {
+            ...options,
+            continuationToken: JSON.stringify(malformedToken),
+            enableQueryControl: true,
+          },
+          createOrderByQueryInfo(),
+          correlatedActivityId,
+        );
+      } catch (caughtError) {
+        error = caughtError;
+      }
+      assert.instanceOf(error, ErrorResponse);
+      assert.isUndefined((error as ErrorResponse).code);
+      assert.match((error as Error).message, /Invalid continuation token/i);
+      expect(queryFeedSpy).not.toHaveBeenCalled();
+      expect(routingSpy).not.toHaveBeenCalled();
     }
   });
 
