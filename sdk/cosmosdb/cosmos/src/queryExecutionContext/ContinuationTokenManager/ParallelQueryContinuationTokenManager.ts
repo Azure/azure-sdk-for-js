@@ -23,6 +23,7 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
   protected processRangesForPagination(
     pageSize: number,
     _isResponseEmpty: boolean,
+    workRemains: boolean,
   ): { endIndex: number; processedRanges: string[] } {
     const result = this.partitionManager.processParallelRanges(pageSize);
     if (!result || !result.processedRangeMappings || result.processedRangeMappings.length === 0) {
@@ -31,6 +32,8 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
 
     const processedMappings = new Set(result.processedRangeMappings);
     const observedMappings = Array.from(this.partitionManager.getPartitionKeyRangeMap().values());
+    const hasUnprocessedMappings =
+      result.processedRanges.length < this.partitionManager.getPartitionKeyRangeMap().size;
     const pageMappings = observedMappings.map((mapping: QueryRangeMapping) =>
       processedMappings.has(mapping)
         ? mapping
@@ -47,7 +50,7 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
       pageMappings.some((mapping) =>
         isPartitionRangeActive(mapping.continuationToken, mapping.isActive),
       );
-    if (!hasActiveRange) {
+    if (!hasActiveRange && !workRemains && !hasUnprocessedMappings) {
       this.rangeList.length = 0;
       return { endIndex: result.endIndex, processedRanges: result.processedRanges };
     }
@@ -59,8 +62,12 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     this.updateRangeList(rangeMappings);
 
     if (result.lastPartitionBeforeCutoff && result.lastPartitionBeforeCutoff.mapping) {
-      this.offset = result.lastPartitionBeforeCutoff.mapping.offset;
-      this.limit = result.lastPartitionBeforeCutoff.mapping.limit;
+      if (result.lastPartitionBeforeCutoff.mapping.offset !== undefined) {
+        this.offset = result.lastPartitionBeforeCutoff.mapping.offset;
+      }
+      if (result.lastPartitionBeforeCutoff.mapping.limit !== undefined) {
+        this.limit = result.lastPartitionBeforeCutoff.mapping.limit;
+      }
     }
     return { endIndex: result.endIndex, processedRanges: result.processedRanges };
   }

@@ -6,6 +6,7 @@ import {
   parseOrderByQueryContinuationToken,
   type OrderByQueryContinuationToken,
 } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
+import { ErrorResponse } from "../request/ErrorResponse.js";
 
 /**
  * Lightweight interface for continuation token fields needed by pipeline
@@ -28,10 +29,20 @@ export interface ContinuationTokenFields {
 export function parseContinuationTokenFields(
   continuationToken: string,
   isOrderByQuery: boolean,
+  expectedOrderByItemCount?: number,
 ): ContinuationTokenFields {
   const parsed = isOrderByQuery
     ? parseOrderByQueryContinuationToken(continuationToken)
     : parseCompositeQueryContinuationToken(continuationToken);
+  if (
+    isOrderByQuery &&
+    expectedOrderByItemCount !== undefined &&
+    (parsed as OrderByQueryContinuationToken).orderByItems.length !== expectedOrderByItemCount
+  ) {
+    throw new ErrorResponse(
+      "Invalid continuation token. ORDER BY item count must match the query plan.",
+    );
+  }
   const hashedLastResult = "hashedLastResult" in parsed ? parsed.hashedLastResult : undefined;
   return {
     offset: parsed.offset,

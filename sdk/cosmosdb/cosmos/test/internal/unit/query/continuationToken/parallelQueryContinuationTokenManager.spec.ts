@@ -169,7 +169,7 @@ describe("ParallelQueryContinuationTokenManager - Sliding Window Flow", () => {
       rangesStep3.set("e", createRangeMapping("5", "40", "50", 0, null));
       rangesStep3.set("f", createRangeMapping("6", "50", "FF", 0, null));
 
-      result = tokenManager.paginateResults(0, true, createParallelQueryResult(rangesStep3));
+      result = tokenManager.paginateResults(0, true, createParallelQueryResult(rangesStep3), false);
       expect(result.continuationToken).toBeUndefined();
     });
   });
@@ -269,7 +269,12 @@ describe("ParallelQueryContinuationTokenManager - Sliding Window Flow", () => {
       const exhaustedRange = new Map<string, QueryRangeMapping>();
       exhaustedRange.set("a", createRangeMapping("1", "00", "FF", 0, null));
 
-      result = tokenManager.paginateResults(0, true, createParallelQueryResult(exhaustedRange));
+      result = tokenManager.paginateResults(
+        0,
+        true,
+        createParallelQueryResult(exhaustedRange),
+        false,
+      );
       expect(result.continuationToken).toBeUndefined();
     });
 
@@ -294,7 +299,12 @@ describe("ParallelQueryContinuationTokenManager - Sliding Window Flow", () => {
       exhaustedRanges.set("b", createRangeMapping("2", "10", "20", 0, null));
       exhaustedRanges.set("c", createRangeMapping("3", "20", "30", 0, null));
 
-      result = tokenManager.paginateResults(0, true, createParallelQueryResult(exhaustedRanges));
+      result = tokenManager.paginateResults(
+        0,
+        true,
+        createParallelQueryResult(exhaustedRanges),
+        false,
+      );
       expect(result.continuationToken).toBeUndefined();
     });
 
@@ -335,6 +345,27 @@ describe("ParallelQueryContinuationTokenManager - Sliding Window Flow", () => {
         {
           queryRange: { min: "00", max: "10" },
           continuationToken: "token-a-next",
+        },
+      ]);
+    });
+
+    it("should preserve processed inactive coverage when unobserved work remains", () => {
+      const tokenManager = new ParallelQueryContinuationTokenManager(testCollectionLink);
+      const terminalRange = createRangeMapping("1", "", "40", 1, null);
+      terminalRange.isActive = false;
+      const result = tokenManager.paginateResults(
+        1,
+        false,
+        createParallelQueryResult(new Map([["R0", terminalRange]])),
+        true,
+      );
+
+      expect(result.continuationToken).toBeDefined();
+      const parsedToken = parseCompositeQueryContinuationToken(result.continuationToken!);
+      expect(parsedToken.rangeMappings).toEqual([
+        {
+          queryRange: { min: "", max: "40" },
+          isActive: false,
         },
       ]);
     });
@@ -433,7 +464,12 @@ describe("ParallelQueryContinuationTokenManager - Sliding Window Flow", () => {
         partitionKeyRange: createMockPartitionKeyRange("2", "10", "20"),
       });
 
-      const result = tokenManager.paginateResults(0, true, createParallelQueryResult(mappings));
+      const result = tokenManager.paginateResults(
+        0,
+        true,
+        createParallelQueryResult(mappings),
+        false,
+      );
       expect(result.continuationToken).toBeUndefined();
     });
 

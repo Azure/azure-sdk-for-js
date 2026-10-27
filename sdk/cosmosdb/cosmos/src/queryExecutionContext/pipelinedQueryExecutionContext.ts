@@ -58,6 +58,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.options.maxItemCount = QueryExecution.DEFAULT_PAGE_SIZE;
     }
     const pageSize = this.options.maxItemCount;
+    const rawContinuationToken =
+      this.options.continuationToken || this.options.continuation || undefined;
+    this.options.continuationToken = rawContinuationToken;
+    this.options.continuation = rawContinuationToken;
 
     // Extract query information and characteristics
     const analyzedQueryInfo = this.analyzeQueryInfo(partitionedQueryExecutionInfo.queryInfo);
@@ -72,7 +76,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
     // Reject continuation token usage for unsupported query types
     if (!querySupportsTokens) {
-      rejectContinuationTokenForUnsupportedQueries(this.options.continuationToken, [
+      rejectContinuationTokenForUnsupportedQueries(rawContinuationToken, [
         QueryTypes.nonStreamingOrderBy(nonStreamingOrderBy),
         QueryTypes.groupBy(isGroupByQuery),
         QueryTypes.unorderedDistinct(isUnorderedDistinctQuery),
@@ -80,8 +84,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     }
 
     // Parse continuation token fields once for reuse in pipeline construction
-    const queryContinuationFields = this.options.continuationToken
-      ? parseContinuationTokenFields(this.options.continuationToken, isOrderByQuery)
+    const queryContinuationFields = rawContinuationToken
+      ? parseContinuationTokenFields(
+          rawContinuationToken,
+          isOrderByQuery,
+          isOrderByQuery ? sortOrders.length : undefined,
+        )
       : undefined;
 
     // Pick between non-streaming vs streaming execution context
@@ -109,7 +117,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.endpoint,
         pageSize,
         this.collectionLink,
-        this.options.continuationToken,
+        rawContinuationToken,
         isOrderByQuery,
         querySupportsContinuationTokens,
         queryContinuationFields?.parsedToken,

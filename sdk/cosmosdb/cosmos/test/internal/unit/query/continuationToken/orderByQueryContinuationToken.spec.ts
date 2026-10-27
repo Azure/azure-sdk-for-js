@@ -305,6 +305,53 @@ describe("OrderByQueryContinuationToken", () => {
       assert.equal(parsedToken.skipCount, largeSkipCount);
     });
 
+    it.each([-1, 1.5, Number.MAX_VALUE])(
+      "should reject unsafe or invalid skip count %s",
+      (skipCount) => {
+        const token = createOrderByQueryContinuationToken(
+          mockRangeMappings,
+          mockOrderByItems,
+          mockRid,
+          skipCount,
+        );
+
+        assert.throws(
+          () => parseOrderByQueryContinuationToken(serializeOrderByQueryContinuationToken(token)),
+          "Invalid continuation token",
+        );
+      },
+    );
+
+    it("should validate checkpoint ownership in logical range order", () => {
+      const token = createOrderByQueryContinuationToken(
+        [
+          {
+            queryRange: new QueryRange("60", "FF", true, false),
+            continuationToken: "token-2",
+            isOrderByCheckpoint: true,
+          },
+          {
+            queryRange: new QueryRange("", "30", true, false),
+            continuationToken: "token-0",
+            isOrderByCheckpoint: true,
+          },
+          {
+            queryRange: new QueryRange("30", "60", true, false),
+            continuationToken: "token-1",
+            isOrderByCheckpoint: false,
+          },
+        ],
+        mockOrderByItems,
+        mockRid,
+        mockSkipCount,
+      );
+
+      assert.throws(
+        () => parseOrderByQueryContinuationToken(serializeOrderByQueryContinuationToken(token)),
+        "Invalid continuation token",
+      );
+    });
+
     it("should handle special characters in rid and documentRid", () => {
       const specialRid = "test-resource-id-with-special-chars!@#$%";
       const specialDocumentRid = "doc-with-special-chars!@#$%";

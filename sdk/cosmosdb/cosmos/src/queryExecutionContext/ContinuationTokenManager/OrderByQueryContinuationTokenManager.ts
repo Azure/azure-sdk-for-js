@@ -81,6 +81,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   protected processRangesForPagination(
     pageSize: number,
     isResponseEmpty: boolean = false,
+    _workRemains: boolean = true,
   ): { endIndex: number; processedRanges: string[] } {
     // Handle empty response case - preserve previous token state with updated range
     if (isResponseEmpty && this.tokenRangeMappings) {

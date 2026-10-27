@@ -226,12 +226,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const hasActiveProducers =
       this.unfilledDocumentProducersQueue.size() > 0 ||
       this.bufferedDocumentProducersQueue.size() > 0;
+    const isOrderByQuery = this.rangeManager.getStrategyType() === "OrderByQuery";
     const hasMeaningfulCheckpoint = Array.from(this.partitionDataPatchMap.values()).some(
-      (mapping) => isPartitionRangeActive(mapping.continuationToken, mapping.isActive),
+      (mapping) =>
+        !isOrderByQuery || isPartitionRangeActive(mapping.continuationToken, mapping.isActive),
     );
-    const canReturnMeaningfulCheckpoint =
-      this.rangeManager.getStrategyType() !== "OrderByQuery" ||
-      this.requestContinuation !== undefined;
+    const canReturnMeaningfulCheckpoint = !isOrderByQuery || this.requestContinuation !== undefined;
     return (
       this.options.enableQueryControl === true &&
       this.buffer.length === 0 &&
@@ -888,6 +888,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
     const options = { ...this.options };
     options.continuationToken = continuationToken;
+    options.continuation = continuationToken;
 
     let filter: FilterStrategy | undefined;
     if (filterContext) {

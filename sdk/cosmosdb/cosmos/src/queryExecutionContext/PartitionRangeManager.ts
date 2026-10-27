@@ -53,29 +53,30 @@ export class PartitionRangeManager {
 
   /**
    * Adds or replaces a response-local range mapping.
-   * The latest observation for a range ID is authoritative within the current response.
-   * @param rangeId - Unique identifier for the partition range
+   * Mapping keys are response-local numeric or composite logical-range identifiers. The latest
+   * observation for the same key is authoritative within the current response.
+   * @param mappingKey - Response-local key for the range mapping
    * @param mapping - The QueryRangeMapping to add
    */
-  private addPartitionRangeMapping(rangeId: string, mapping: QueryRangeMapping): void {
-    this.partitionKeyRangeMap.set(rangeId, mapping);
+  private addPartitionRangeMapping(mappingKey: string, mapping: QueryRangeMapping): void {
+    this.partitionKeyRangeMap.set(mappingKey, mapping);
   }
 
   /**
    * Removes a range mapping from the partition key range map
    */
-  public removePartitionRangeMapping(rangeId: string): void {
-    this.partitionKeyRangeMap.delete(rangeId);
+  public removePartitionRangeMapping(mappingKey: string): void {
+    this.partitionKeyRangeMap.delete(mappingKey);
   }
 
   /**
    * Updates the partition key range map with new mappings from the endpoint response
-   * @param partitionKeyRangeMap - Map of range IDs to QueryRangeMapping objects
+   * @param partitionKeyRangeMap - Map of response-local keys to QueryRangeMapping objects
    */
   public addPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
     if (partitionKeyRangeMap) {
-      for (const [rangeId, mapping] of partitionKeyRangeMap) {
-        this.addPartitionRangeMapping(rangeId, mapping);
+      for (const [mappingKey, mapping] of partitionKeyRangeMap) {
+        this.addPartitionRangeMapping(mappingKey, mapping);
       }
     }
   }
@@ -122,14 +123,14 @@ export class PartitionRangeManager {
     const processedRanges: string[] = [];
     let lastRangeBeforePageLimit: QueryRangeMapping | null = null;
     let rangeIndex = 0;
-    for (const [rangeId, value] of this.partitionKeyRangeMap) {
+    for (const [mappingKey, value] of this.partitionKeyRangeMap) {
       rangeIndex++;
       const { itemCount } = value;
       // Check if this complete range fits within remaining page size capacity
       if (endIndex + itemCount <= pageSize) {
         lastRangeBeforePageLimit = value;
         endIndex += itemCount;
-        processedRanges.push(rangeId);
+        processedRanges.push(mappingKey);
       } else {
         break;
       }
@@ -148,8 +149,8 @@ export class PartitionRangeManager {
     let lastRangeBeforePageLimit: QueryRangeMapping | undefined;
 
     // since there is no data returned add all the ids to processed ranges
-    for (const [rangeId, _] of this.partitionKeyRangeMap) {
-      processedRanges.push(rangeId);
+    for (const [mappingKey, _] of this.partitionKeyRangeMap) {
+      processedRanges.push(mappingKey);
     }
     // search for matching range in the map(min max value exact match) and return that as lastRangeBeforePageLimit
     for (const [_, mapping] of this.partitionKeyRangeMap) {
@@ -179,7 +180,7 @@ export class PartitionRangeManager {
     let rangesAggregatedInCurrentToken = 0;
     let lastPartitionBeforeCutoff: { rangeId: string; mapping: QueryRangeMapping } | undefined;
 
-    for (const [rangeId, value] of this.partitionKeyRangeMap) {
+    for (const [mappingKey, value] of this.partitionKeyRangeMap) {
       rangesAggregatedInCurrentToken++;
 
       // Validate range data
@@ -195,9 +196,9 @@ export class PartitionRangeManager {
       // returning more items per partition than maxItemCount specified. This causes pagination logic to fail,
       // as ranges with itemCount > pageSize cannot fit and result in endIndex=0.
       if (endIndex + itemCount <= pageSize) {
-        lastPartitionBeforeCutoff = { rangeId, mapping: value };
+        lastPartitionBeforeCutoff = { rangeId: mappingKey, mapping: value };
         endIndex += itemCount;
-        processedRanges.push(rangeId);
+        processedRanges.push(mappingKey);
         processedRangeMappings.push(value);
       } else {
         break; // No more ranges can fit, exit loop

@@ -2545,7 +2545,7 @@ describe("partition split recovery", () => {
     assert.deepEqual(Object.fromEntries(requestCounts), { R0: 1, R1: 1, R2: 2 });
   });
 
-  it("preserves unstarted Parallel suffix ranges with MDoP1 stateless recreation", async () => {
+  it("preserves fresh unstarted Parallel suffix ranges after terminal data", async () => {
     const clientContext = createClientContext();
     const ranges = [
       createPartitionKeyRange("R0", "", "40"),
@@ -2558,7 +2558,7 @@ describe("partition split recovery", () => {
       async ({ options: requestOptions, partitionKeyRangeId }) => {
         const rangeId = partitionKeyRangeId ?? "none";
         requestCounts.set(rangeId, (requestCounts.get(rangeId) ?? 0) + 1);
-        assert.equal(requestOptions.continuationToken, `${rangeId.toLowerCase()}-token`);
+        assert.isUndefined(requestOptions.continuationToken);
         return {
           result: [{ id: rangeId.toLowerCase(), source: rangeId }] as unknown as Resource,
           headers: { "x-ms-request-charge": "1" },
@@ -2566,15 +2566,9 @@ describe("partition split recovery", () => {
         };
       },
     );
-    let continuationToken: string | undefined = JSON.stringify({
-      rid: "container-rid",
-      rangeMappings: ranges.map((range) => ({
-        queryRange: { min: range.minInclusive, max: range.maxExclusive },
-        continuationToken: `${range.id.toLowerCase()}-token`,
-      })),
-    });
+    let continuationToken: string | undefined;
     const resourceIds: string[] = [];
-    for (let page = 0; continuationToken; page++) {
+    for (let page = 0; ; page++) {
       if (page > 3) {
         throw new Error("MDoP1 stateless suffix page guard exceeded");
       }
@@ -2584,7 +2578,7 @@ describe("partition split recovery", () => {
         query,
         {
           ...options,
-          continuationToken,
+          ...(continuationToken ? { continuationToken } : {}),
           enableQueryControl: true,
           maxDegreeOfParallelism: 1,
           maxItemCount: 1,
@@ -2595,9 +2589,83 @@ describe("partition split recovery", () => {
       const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
       resourceIds.push(...response.result.map((resource: TestDocument) => resource.id));
       continuationToken = response.headers["x-ms-continuation"];
+      if (page === 0) {
+        assert.isString(continuationToken);
+        assert.deepInclude(JSON.parse(continuationToken).rangeMappings, {
+          queryRange: { min: "", max: "40" },
+          isActive: false,
+        });
+      }
+      if (!continuationToken) {
+        break;
+      }
     }
 
     assert.deepEqual(resourceIds, ["r0", "r1", "r2"]);
+    assert.deepEqual(Object.fromEntries(requestCounts), { R0: 1, R1: 1, R2: 1 });
+  });
+
+  it("preserves fresh unstarted Parallel suffix ranges after a terminal empty response", async () => {
+    const clientContext = createClientContext();
+    const ranges = [
+      createPartitionKeyRange("R0", "", "40"),
+      createPartitionKeyRange("R1", "40", "80"),
+      createPartitionKeyRange("R2", "80", "FF"),
+    ];
+    mockStableTopology(clientContext, ranges);
+    const requestCounts = new Map<string, number>();
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ options: requestOptions, partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requestCounts.set(rangeId, (requestCounts.get(rangeId) ?? 0) + 1);
+        assert.isUndefined(requestOptions.continuationToken);
+        return {
+          result:
+            rangeId === "R0"
+              ? ([] as unknown as Resource)
+              : ([{ id: rangeId.toLowerCase(), source: rangeId }] as unknown as Resource),
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+
+    let continuationToken: string | undefined;
+    const pages: string[][] = [];
+    for (let page = 0; ; page++) {
+      if (page > 3) {
+        throw new Error("MDoP1 terminal-empty stateless suffix page guard exceeded");
+      }
+      const context = new PipelinedQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        {
+          ...options,
+          ...(continuationToken ? { continuationToken } : {}),
+          enableQueryControl: true,
+          maxDegreeOfParallelism: 1,
+          maxItemCount: 1,
+        },
+        createParallelPipelinedQueryInfo(),
+        correlatedActivityId,
+      );
+      const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+      pages.push(response.result.map((resource: TestDocument) => resource.id));
+      continuationToken = response.headers["x-ms-continuation"];
+      if (page === 0) {
+        assert.isString(continuationToken);
+        assert.deepInclude(JSON.parse(continuationToken).rangeMappings, {
+          queryRange: { min: "", max: "40" },
+          isActive: false,
+        });
+      }
+      if (!continuationToken) {
+        break;
+      }
+    }
+
+    assert.deepEqual(pages, [[], ["r1"], ["r2"]]);
     assert.deepEqual(Object.fromEntries(requestCounts), { R0: 1, R1: 1, R2: 1 });
   });
 
@@ -2900,7 +2968,27 @@ describe("partition split recovery", () => {
       {
         rid: "container-rid",
         rangeMappings: [{ queryRange: { min: "", max: "FF" } }],
+        offset: 1.5,
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [{ queryRange: { min: "", max: "FF" } }],
+        offset: Number.MAX_VALUE,
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [{ queryRange: { min: "", max: "FF" } }],
+        limit: -1,
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [{ queryRange: { min: "", max: "FF" } }],
         limit: 1.5,
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [{ queryRange: { min: "", max: "FF" } }],
+        limit: Number.MAX_VALUE,
       },
       {
         rid: "container-rid",
@@ -2952,6 +3040,7 @@ describe("partition split recovery", () => {
       { ...validBase, orderByItems: [null], skipCount: 0 },
       { ...validBase, orderByItems: [{ item: 5 }], skipCount: -1 },
       { ...validBase, orderByItems: [{ item: 5 }], skipCount: 1.5 },
+      { ...validBase, orderByItems: [{ item: 5 }], skipCount: Number.MAX_VALUE },
       {
         ...validBase,
         orderByItems: [{ item: 5 }],
@@ -2977,16 +3066,16 @@ describe("partition split recovery", () => {
         rid: "container-rid",
         rangeMappings: [
           {
+            queryRange: { min: "60", max: "FF" },
+            isOrderByCheckpoint: true,
+          },
+          {
             queryRange: { min: "", max: "30" },
             isOrderByCheckpoint: true,
           },
           {
             queryRange: { min: "30", max: "60" },
             isOrderByCheckpoint: false,
-          },
-          {
-            queryRange: { min: "60", max: "FF" },
-            isOrderByCheckpoint: true,
           },
         ],
         orderByItems: [{ item: 5 }],
@@ -3020,6 +3109,235 @@ describe("partition split recovery", () => {
       expect(queryFeedSpy).not.toHaveBeenCalled();
       expect(routingSpy).not.toHaveBeenCalled();
     }
+  });
+
+  it("rejects ORDER BY tokens whose item count does not match the query plan", () => {
+    for (const orderByItems of [[{ item: 5 }], [{ item: 5 }, { item: 6 }, { item: 7 }]]) {
+      const clientContext = createClientContext();
+      const queryFeedSpy = vi.spyOn(clientContext, "queryFeed");
+      const routingSpy = vi.spyOn(clientContext, "queryPartitionKeyRanges");
+      let error: unknown;
+      try {
+        new PipelinedQueryExecutionContext(
+          clientContext,
+          collectionLink,
+          "SELECT * FROM c ORDER BY c.value, c.id DESC",
+          {
+            ...options,
+            continuationToken: JSON.stringify({
+              rid: "container-rid",
+              rangeMappings: [
+                {
+                  queryRange: { min: "", max: "FF" },
+                  continuationToken: "orderby-token",
+                },
+              ],
+              orderByItems,
+              skipCount: 0,
+            }),
+            enableQueryControl: true,
+          },
+          createTwoFieldOrderByQueryInfo(),
+          correlatedActivityId,
+        );
+      } catch (caughtError) {
+        error = caughtError;
+      }
+
+      assert.instanceOf(error, ErrorResponse);
+      assert.isUndefined((error as ErrorResponse).code);
+      assert.match((error as Error).message, /Invalid continuation token/i);
+      expect(queryFeedSpy).not.toHaveBeenCalled();
+      expect(routingSpy).not.toHaveBeenCalled();
+    }
+  });
+
+  it("rejects malformed deprecated continuation aliases before routing or queryFeed", () => {
+    for (const queryType of ["Parallel", "ORDER BY"] as const) {
+      const clientContext = createClientContext();
+      const queryFeedSpy = vi.spyOn(clientContext, "queryFeed");
+      const routingSpy = vi.spyOn(clientContext, "queryPartitionKeyRanges");
+      let error: unknown;
+      try {
+        new PipelinedQueryExecutionContext(
+          clientContext,
+          collectionLink,
+          queryType === "ORDER BY" ? "SELECT * FROM c ORDER BY c.value" : query,
+          {
+            ...options,
+            continuation: JSON.stringify({}),
+            enableQueryControl: true,
+          },
+          queryType === "ORDER BY" ? createOrderByQueryInfo() : createParallelPipelinedQueryInfo(),
+          correlatedActivityId,
+        );
+      } catch (caughtError) {
+        error = caughtError;
+      }
+
+      assert.instanceOf(error, ErrorResponse, queryType);
+      assert.isUndefined((error as ErrorResponse).code, queryType);
+      assert.match((error as Error).message, /Invalid continuation token/i, queryType);
+      expect(queryFeedSpy).not.toHaveBeenCalled();
+      expect(routingSpy).not.toHaveBeenCalled();
+    }
+  });
+
+  it("resumes Parallel empty checkpoints through the deprecated continuation alias", async () => {
+    const clientContext = createClientContext();
+    mockStableTopology(clientContext, [parentRange]);
+    const backendTokens: (string | undefined)[] = [];
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ options: requestOptions }) => {
+      backendTokens.push(requestOptions.continuationToken);
+      return backendTokens.length === 1
+        ? {
+            result: [] as unknown as Resource,
+            headers: {
+              "x-ms-continuation": "parallel-next",
+              "x-ms-request-charge": "1",
+            },
+            code: StatusCodes.Ok,
+          }
+        : {
+            result: [{ id: "parallel", source: "P" }] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+    });
+    const initialToken = JSON.stringify({
+      rid: "container-rid",
+      rangeMappings: [
+        {
+          queryRange: { min: "", max: "FF" },
+          continuationToken: "parallel-start",
+        },
+      ],
+      offset: 0,
+      limit: 2,
+    });
+    const firstContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuation: initialToken,
+        enableQueryControl: true,
+        maxItemCount: 1,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const emptyPage = await withTimeout(firstContext.fetchMore(createDummyDiagnosticNode()), 1000);
+    const continuationToken = emptyPage.headers["x-ms-continuation"];
+    assert.deepEqual(emptyPage.result, []);
+    assert.isString(continuationToken);
+    assert.include(JSON.parse(continuationToken), { offset: 0, limit: 2 });
+
+    const resumedContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuation: continuationToken,
+        enableQueryControl: true,
+        maxItemCount: 1,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const finalPage = await withTimeout(
+      resumedContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+    assert.deepEqual(finalPage.result, [{ id: "parallel", source: "P" }]);
+    assert.isUndefined(finalPage.headers["x-ms-continuation"]);
+    assert.deepEqual(backendTokens, ["parallel-start", "parallel-next"]);
+  });
+
+  it("resumes ORDER BY empty checkpoints through the deprecated continuation alias", async () => {
+    const clientContext = createClientContext();
+    mockStableTopology(clientContext, [parentRange]);
+    const backendTokens: (string | undefined)[] = [];
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ options: requestOptions }) => {
+      backendTokens.push(requestOptions.continuationToken);
+      return backendTokens.length === 1
+        ? {
+            result: [] as unknown as Resource,
+            headers: {
+              "x-ms-continuation": "orderby-next",
+              "x-ms-request-charge": "1",
+            },
+            code: StatusCodes.Ok,
+          }
+        : {
+            result: [
+              createOrderByDocument("orderby", 6, "AAAAAAAAAAAAAAAAAAAAAg=="),
+            ] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+    });
+    const initialToken = JSON.stringify({
+      rid: "container-rid",
+      rangeMappings: [
+        {
+          queryRange: { min: "", max: "FF" },
+          continuationToken: "orderby-start",
+          isOrderByCheckpoint: true,
+        },
+      ],
+      orderByItems: [{ item: 5 }],
+      skipCount: 0,
+      documentRid: "AAAAAAAAAAAAAAAAAAAAAQ==",
+      offset: 0,
+      limit: 2,
+      hashedLastResult: "hash",
+    });
+    const firstContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuation: initialToken,
+        enableQueryControl: true,
+        maxItemCount: 1,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const emptyPage = await withTimeout(firstContext.fetchMore(createDummyDiagnosticNode()), 1000);
+    const continuationToken = emptyPage.headers["x-ms-continuation"];
+    assert.deepEqual(emptyPage.result, []);
+    assert.isString(continuationToken);
+    assert.include(JSON.parse(continuationToken), {
+      offset: 0,
+      limit: 2,
+      hashedLastResult: "hash",
+    });
+
+    const resumedContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuation: continuationToken,
+        enableQueryControl: true,
+        maxItemCount: 1,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const finalPage = await withTimeout(
+      resumedContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+    assert.equal(finalPage.result[0].id, "orderby");
+    assert.isUndefined(finalPage.headers["x-ms-continuation"]);
+    assert.deepEqual(backendTokens, ["orderby-start", "orderby-next"]);
   });
 
   it("resumes valid old and new continuation token formats after JSON round trip", async () => {
@@ -3197,6 +3515,27 @@ function createOrderByQueryInfo() {
       rewrittenQuery:
         'SELECT c._rid, [{"item": c.value}] AS orderByItems, c AS payload ' +
         "FROM c WHERE {documentdb-formattableorderbyquery-filter} ORDER BY c.value",
+      groupByAliasToAggregateType: {},
+      distinctType: "None",
+      hasSelectValue: false,
+      hasNonStreamingOrderBy: false,
+    },
+    partitionedQueryExecutionInfoVersion: 1,
+  };
+}
+
+function createTwoFieldOrderByQueryInfo() {
+  return {
+    queryRanges: partitionedQueryExecutionInfo.queryRanges,
+    queryInfo: {
+      orderBy: ["Ascending", "Descending"],
+      orderByExpressions: [
+        { expression: "c.value", type: "PropertyRef" },
+        { expression: "c.id", type: "PropertyRef" },
+      ],
+      rewrittenQuery:
+        'SELECT c._rid, [{"item": c.value}, {"item": c.id}] AS orderByItems, c AS payload ' +
+        "FROM c WHERE {documentdb-formattableorderbyquery-filter} ORDER BY c.value, c.id DESC",
       groupByAliasToAggregateType: {},
       distinctType: "None",
       hasSelectValue: false,

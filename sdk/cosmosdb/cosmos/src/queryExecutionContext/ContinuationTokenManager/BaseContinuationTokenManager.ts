@@ -87,7 +87,7 @@ export abstract class BaseContinuationTokenManager {
     }
 
     this.removeExhaustedRangesFromRanges();
-    const result = this.processRangesForPagination(pageSize, isResponseEmpty);
+    const result = this.processRangesForPagination(pageSize, isResponseEmpty, workRemains);
     const hasUnprocessedMappings =
       result.processedRanges.length < this.partitionRangeManager.getPartitionKeyRangeMap().size;
     const shouldSerializeContinuation = workRemains || hasUnprocessedMappings;
@@ -110,6 +110,7 @@ export abstract class BaseContinuationTokenManager {
   protected abstract processRangesForPagination(
     pageSize: number,
     isResponseEmpty: boolean,
+    workRemains: boolean,
   ): {
     endIndex: number;
     processedRanges: string[];

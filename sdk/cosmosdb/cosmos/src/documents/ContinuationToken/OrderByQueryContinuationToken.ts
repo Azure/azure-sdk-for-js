@@ -97,11 +97,11 @@ export function parseOrderByQueryContinuationToken(
   }
   if (
     typeof token.skipCount !== "number" ||
-    !Number.isInteger(token.skipCount) ||
+    !Number.isSafeInteger(token.skipCount) ||
     token.skipCount < 0
   ) {
     throw new ErrorResponse(
-      "Invalid continuation token. ORDER BY tokens require a non-negative integer skipCount.",
+      "Invalid continuation token. ORDER BY tokens require a non-negative safe integer skipCount.",
     );
   }
   if (token.documentRid !== undefined && typeof token.documentRid !== "string") {
@@ -109,10 +109,13 @@ export function parseOrderByQueryContinuationToken(
       "Invalid continuation token. ORDER BY documentRid must be a string when present.",
     );
   }
-  const checkpointIndexes = token.rangeMappings
+  const logicallyOrderedMappings = [...token.rangeMappings].sort((left, right) =>
+    left.queryRange.min.localeCompare(right.queryRange.min),
+  );
+  const checkpointIndexes = logicallyOrderedMappings
     .map((mapping, index) => (mapping.isOrderByCheckpoint === true ? index : -1))
     .filter((index) => index >= 0);
-  const hasCheckpointMetadata = token.rangeMappings.some(
+  const hasCheckpointMetadata = logicallyOrderedMappings.some(
     (mapping) => mapping.isOrderByCheckpoint !== undefined,
   );
   if (
