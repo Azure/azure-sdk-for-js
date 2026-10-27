@@ -15,6 +15,114 @@ function models() {
   ]);
 }
 
+function rleClientFixture() {
+  const baseGenerated = models();
+  const baseSource = models();
+  const generated = models();
+  const scaffold = `import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";`;
+  for (const tree of [baseGenerated, baseSource, generated])
+    tree.set("index.ts", scaffold + tree.get("index.ts"));
+  const base = `export class AIProjectClient {
+    constructor() { this.beta = _getBetaOperations(this._client); }
+  }`;
+  const customized = `export class AIProjectClient {
+    constructor() {
+      this._cognitiveScopeClient = createAIProject(endpoint, credential, { scopes: ["https://ai.azure.com/.default"] });
+      this._azureScopeClient = createAIProject(endpoint, credential);
+      this.beta = _getBetaOperations(this._cognitiveScopeClient, credential, endpoint);
+      this.telemetry = customTelemetry();
+    }
+  }`;
+  const incoming = `import { RLEOperations, _getRLEOperations } from "./classic/rle/index.js";
+${base
+  .replace("constructor()", "public readonly rle: RLEOperations; constructor()")
+  .replace("this.beta =", "this.rle = _getRLEOperations(this._client); this.beta =")}`;
+  baseGenerated.set("aiProjectClient.ts", base);
+  baseSource.set("aiProjectClient.ts", customized);
+  generated.set("aiProjectClient.ts", incoming);
+  return { baseGenerated, baseSource, generated };
+}
+
+test("adds emitted RLE client members with the maintained Foundry auth context", () => {
+  const inputs = rleClientFixture();
+  const plan = planCustomization(inputs);
+  assert.deepEqual(plan.diagnostics, []);
+  assert.deepEqual(validateCustomization({ ...inputs, ...plan }), []);
+  const client = plan.source.get("aiProjectClient.ts");
+  assert.match(client, /import type \{ RLEOperations \} from "\.\/classic\/rle\/index\.js"/);
+  assert.match(client, /import \{ _getRLEOperations \} from "\.\/classic\/rle\/index\.js"/);
+  assert.match(client, /public readonly rle: RLEOperations/);
+  assert.match(client, /this.rle = _getRLEOperations\(this._cognitiveScopeClient\)/);
+  assert.match(client, /this.telemetry = customTelemetry\(\)/);
+  assert.match(client, /this._azureScopeClient = createAIProject\(endpoint, credential\)/);
+  const repeated = planCustomization({
+    baseGenerated: inputs.generated,
+    baseSource: plan.source,
+    generated: inputs.generated,
+  });
+  assert.deepEqual(repeated.diagnostics, []);
+  assert.equal(repeated.source.get("aiProjectClient.ts"), client);
+});
+
+test("RLE guards reject wrong auth context, missing wiring, and unrelated constructor edits", () => {
+  for (const change of [
+    (text) =>
+      text.replace(
+        "_getRLEOperations(this._cognitiveScopeClient)",
+        "_getRLEOperations(this._azureScopeClient)",
+      ),
+    (text) => text.replace("this.rle = _getRLEOperations(this._cognitiveScopeClient);", ""),
+    (text) => text.replace("this.telemetry = customTelemetry();", ""),
+    (text) =>
+      text.replace("https://ai.azure.com/.default", "https://management.azure.com/.default"),
+  ]) {
+    const inputs = rleClientFixture();
+    const plan = planCustomization(inputs);
+    plan.source.set("aiProjectClient.ts", change(plan.source.get("aiProjectClient.ts")));
+    assert.notDeepEqual(validateCustomization({ ...inputs, ...plan }), []);
+  }
+});
+
+test("does not infer RLE wiring from an unsupported factory or missing Foundry context", () => {
+  for (const target of ["generated", "baseSource"]) {
+    const inputs = rleClientFixture();
+    inputs[target].set(
+      "aiProjectClient.ts",
+      inputs[target]
+        .get("aiProjectClient.ts")
+        .replace(
+          target === "generated" ? "_getRLEOperations(this._client)" : "_getBetaOperations",
+          "unknownFactory",
+        ),
+    );
+    assert.ok(planCustomization(inputs).diagnostics.some((item) => item.member === "rle"));
+  }
+});
+
+test("does not automatically wire unrelated new protected client groups", () => {
+  const inputs = rleClientFixture();
+  inputs.generated.set(
+    "aiProjectClient.ts",
+    inputs.generated
+      .get("aiProjectClient.ts")
+      .replaceAll("rle", "other")
+      .replaceAll("RLE", "Other"),
+  );
+  const plan = planCustomization(inputs);
+  assert.equal(plan.source.get("aiProjectClient.ts"), inputs.baseSource.get("aiProjectClient.ts"));
+  assert.notDeepEqual(validateCustomization({ ...inputs, ...plan }), []);
+});
+
+test("requires generated RLE imports rather than inferring their module", () => {
+  const inputs = rleClientFixture();
+  inputs.generated.set(
+    "aiProjectClient.ts",
+    inputs.generated.get("aiProjectClient.ts").replace("./classic/rle/index.js", "./custom.js"),
+  );
+  assert.ok(planCustomization(inputs).diagnostics.some((item) => item.member === "rle"));
+});
+
 function groups(names) {
   return `
 import type { Context } from "../../context.js";

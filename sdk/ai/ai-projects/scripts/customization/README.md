@@ -120,6 +120,12 @@ regeneration script falls back to it when the strict run fails.
   unmodified generated export of a group module the emitter removed, for
   example when its operations were merged into another group, is removed rather
   than retained as a compatibility alias.
+- A newly emitted top-level `AIProjectClient.rle` group receives its generated
+  property and imports, with its factory wired to the existing beta Foundry
+  authentication context. All maintained constructor statements are preserved.
+  Unsupported factory shapes and other new protected client groups still
+  require an explicit policy; regeneration does not guess their authentication
+  context.
 
 The guard phase checks syntax/conflict markers, declaration/member completeness,
 customized exports, and protected behavior. These structural checks complement,

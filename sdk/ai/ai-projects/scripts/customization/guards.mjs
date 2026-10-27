@@ -1176,7 +1176,7 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
             });
           if (
             !generatedAddition &&
-            !preservesPromotedEvaluatorContext(statement, before, baseGenerated, generated, renames)
+            !preservesFoundryGroupContext(statement, before, baseGenerated, generated, renames)
           )
             return false;
         }
@@ -1206,39 +1206,45 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
   return false;
 }
 
-// Evaluators were promoted from beta in azure-rest-api-specs#46830. The
-// customized client has two auth contexts, unlike the emitted single _client.
-// Admit only the new evaluator factory, using the same context as beta before
-// promotion; never substitute or rewrite the maintained constructor.
-function preservesPromotedEvaluatorContext(statement, before, baseGenerated, generated, renames) {
+// Evaluators and RLE use the existing beta Foundry auth context, not the
+// emitter's single _client. Only these proven additions may adapt that context.
+function preservesFoundryGroupContext(statement, before, baseGenerated, generated, renames) {
   if (
     !ts.isClassDeclaration(before) ||
     before.name?.text !== "AIProjectClient" ||
     !baseGenerated ||
     !generated ||
-    !ts.isClassDeclaration(generated) ||
-    baseGenerated?.members?.some((member) => nameOf(member.name) === "evaluators")
+    !ts.isClassDeclaration(generated)
   )
     return false;
   const key = (node) => (node ? nodeKey(node, renames) : "");
   const initializers = (node) => classInitializers({ node });
   const previousBeta = unwrap(initializers(before).get("beta"));
-  const emitted = unwrap(initializers(generated).get("evaluators"));
   if (
     !previousBeta ||
     !ts.isCallExpression(previousBeta) ||
     previousBeta.expression.getText() !== "_getBetaOperations" ||
-    !previousBeta.arguments.length ||
-    !emitted ||
-    !ts.isCallExpression(emitted) ||
-    emitted.expression.getText() !== "_getEvaluatorsOperations" ||
-    emitted.arguments.length !== 1
+    !previousBeta.arguments.length
   )
     return false;
-  const expected = parse(
-    `this.evaluators = _getEvaluatorsOperations(${previousBeta.arguments[0].getText()});`,
-  ).statements[0];
-  return key(statement) === key(expected);
+  for (const [group, factory] of [
+    ["evaluators", "_getEvaluatorsOperations"],
+    ["rle", "_getRLEOperations"],
+  ]) {
+    if (baseGenerated.members?.some((member) => nameOf(member.name) === group)) continue;
+    const emitted = unwrap(initializers(generated).get(group));
+    if (
+      !emitted ||
+      !ts.isCallExpression(emitted) ||
+      emitted.expression.getText() !== factory ||
+      emitted.arguments.length !== 1
+    )
+      continue;
+    const expected = parse(`this.${group} = ${factory}(${previousBeta.arguments[0].getText()});`)
+      .statements[0];
+    if (key(statement) === key(expected)) return true;
+  }
+  return false;
 }
 
 function isProtectedFile(file) {
