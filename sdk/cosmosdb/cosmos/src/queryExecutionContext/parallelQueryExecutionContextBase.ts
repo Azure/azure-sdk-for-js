@@ -580,7 +580,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           continuationToken: rangeWithToken.continuationToken,
           epkMin: logicalRange.minInclusive,
           epkMax: logicalRange.maxExclusive,
-          isContinuationRange: true,
           isOrderByCheckpoint,
           isActive:
             rangeWithToken.isActive ??

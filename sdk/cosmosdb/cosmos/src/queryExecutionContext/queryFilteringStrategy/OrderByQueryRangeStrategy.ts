@@ -96,7 +96,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
             filteringCondition: logicalMax <= checkpointMin ? leftFilter : rightFilter,
             epkMin: range.epkMin,
             epkMax: range.epkMax,
-            isContinuationRange: true,
             isActive: range.isActive,
             isOrderByCheckpoint: range.isOrderByCheckpoint,
           });
@@ -110,7 +109,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
           filteringCondition: range.maxExclusive <= checkpointMin ? leftFilter : rightFilter,
           epkMin: range.minInclusive,
           epkMax: range.maxExclusive,
-          isContinuationRange: false,
         });
       });
 

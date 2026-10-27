@@ -23,32 +23,6 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
     return "ParallelQuery";
   }
 
-  validateContinuationToken(continuationToken: string): boolean {
-    // Check for null, undefined, or empty string inputs
-    if (!continuationToken) {
-      return false;
-    }
-
-    try {
-      const parsed = JSON.parse(continuationToken);
-      // Check if it's a composite continuation token (has rangeMappings)
-      if (!parsed || !Array.isArray(parsed.rangeMappings)) {
-        return false;
-      }
-
-      // Validate each range mapping has a non-null partitionKeyRange
-      for (const rangeMapping of parsed.rangeMappings) {
-        if (!rangeMapping || !rangeMapping.partitionKeyRange) {
-          return false;
-        }
-      }
-
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
   filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
     continuationRanges?: PartitionRangeWithContinuationToken[],
@@ -76,7 +50,7 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
 
     for (const range of continuationRanges) {
       if (isPartitionRangeActive(range.continuationToken, range.isActive)) {
-        rangeTokenPairs.push({ ...range, isContinuationRange: true });
+        rangeTokenPairs.push({ ...range });
       }
     }
 
@@ -105,7 +79,6 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
         filteringCondition: undefined as string | undefined,
         epkMin: range.minInclusive,
         epkMax: range.maxExclusive,
-        isContinuationRange: false,
       })),
     );
 
