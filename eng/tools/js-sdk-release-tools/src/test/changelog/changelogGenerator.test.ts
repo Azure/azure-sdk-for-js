@@ -818,6 +818,70 @@ export interface DataProduct {
       );
     });
 
+    test.each([
+      ["getter", "get value(): string;", "get value(): number;", "string", "number"],
+      [
+        "setter",
+        "set value(input: string | number);",
+        "set value(input: string);",
+        "string | number",
+        "string",
+      ],
+    ])("Model %s accessor type changed", async (_kind, baseline, current, oldType, newType) => {
+      const detector = new DifferenceDetector(
+        {
+          apiView: `\`\`\`ts\nexport interface DataProduct { ${baseline} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+        {
+          apiView: `\`\`\`ts\nexport interface DataProduct { ${current} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(true);
+      expect(
+        getItemsByCategory(
+          changelog.changelogItems,
+          ChangelogItemCategory.ModelPropertyTypeChanged,
+        ),
+      ).toEqual([
+        `Type of parameter value of interface DataProduct is changed from ${oldType} to ${newType}`,
+      ]);
+    });
+
+    test.each([
+      ["setter removed", "get value(): string; set value(input: string);", "get value(): string;"],
+      [
+        "setter narrowed",
+        "get value(): string; set value(input: string | number);",
+        "get value(): string; set value(input: string);",
+      ],
+    ])("Model interface %s is breaking", async (_kind, baseline, current) => {
+      const detector = new DifferenceDetector(
+        {
+          apiView: `\`\`\`ts\nexport interface DataProduct { ${baseline} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+        {
+          apiView: `\`\`\`ts\nexport interface DataProduct { ${current} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(true);
+      expect(
+        getItemsByCategory(
+          changelog.changelogItems,
+          ChangelogItemCategory.ModelPropertyTypeChanged,
+        ),
+      ).toEqual(["Property value of interface DataProduct has changed"]);
+    });
+
     test("Model Property Type Changed From TS Record to JS Dictionary Type", async () => {
       const baselineApiView = `
 \`\`\`ts

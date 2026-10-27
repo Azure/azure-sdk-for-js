@@ -113,6 +113,8 @@ export class ChangelogGenerator {
   // TODO: should be called 'property'
   private modelPropertyTypeChangedTemplate =
     "Type of parameter {newPropertyName} of interface {interfaceName} is changed from {oldPropertyType} to {newPropertyType}";
+  private modelPropertyChangedTemplate =
+    "Property {propertyName} of interface {interfaceName} has changed";
   private modelPropertyRemovedTemplate =
     "Interface {interfaceName} no longer has parameter {propertyName}";
   private modelPropertyOptionalToRequiredTemplate =
@@ -721,8 +723,12 @@ export class ChangelogGenerator {
       diffPair.location === DiffLocation.Property &&
       this.hasReasons(diffPair.reasons, DiffReasons.TypeChanged)
     ) {
-      const getTypeText = (node: Node) =>
-        node.asKindOrThrow(SyntaxKind.PropertySignature).getTypeNodeOrThrow().getText();
+      const getTypeText = (node: Node) => {
+        if (Node.isGetAccessorDeclaration(node)) return node.getReturnTypeNodeOrThrow().getText();
+        if (Node.isSetAccessorDeclaration(node))
+          return node.getParameters()[0].getTypeNodeOrThrow().getText();
+        return node.asKindOrThrow(SyntaxKind.PropertySignature).getTypeNodeOrThrow().getText();
+      };
       const oldPropertyTypeText = getTypeText(diffPair.target!.node);
       const newPropertyTypeText = getTypeText(diffPair.source!.node);
       // TODO: improve changelog to tell the most outer impacted declarations
@@ -732,6 +738,17 @@ export class ChangelogGenerator {
           newPropertyName: diffPair.source!.name,
           oldPropertyType: oldPropertyTypeText,
           newPropertyType: newPropertyTypeText,
+        });
+        this.addChangelogItem(ChangelogItemCategory.ModelPropertyTypeChanged, message);
+      } else if (
+        Node.isGetAccessorDeclaration(diffPair.target!.node) ||
+        Node.isSetAccessorDeclaration(diffPair.target!.node) ||
+        Node.isGetAccessorDeclaration(diffPair.source!.node) ||
+        Node.isSetAccessorDeclaration(diffPair.source!.node)
+      ) {
+        const message = template(this.modelPropertyChangedTemplate, {
+          interfaceName,
+          propertyName: diffPair.source!.name,
         });
         this.addChangelogItem(ChangelogItemCategory.ModelPropertyTypeChanged, message);
       }
