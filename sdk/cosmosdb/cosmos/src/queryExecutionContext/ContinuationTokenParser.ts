@@ -37,7 +37,12 @@ export function parseContinuationTokenFields(
   if (
     isOrderByQuery &&
     expectedOrderByItemCount !== undefined &&
-    (parsed as OrderByQueryContinuationToken).orderByItems.length !== expectedOrderByItemCount
+    ((parsed as OrderByQueryContinuationToken).orderByItems.length !== expectedOrderByItemCount ||
+      parsed.rangeMappings.some(
+        (mapping) =>
+          mapping.orderByFilter !== undefined &&
+          mapping.orderByFilter.orderByItems.length !== expectedOrderByItemCount,
+      ))
   ) {
     throw new ErrorResponse(
       "Invalid continuation token. ORDER BY item count must match the query plan.",

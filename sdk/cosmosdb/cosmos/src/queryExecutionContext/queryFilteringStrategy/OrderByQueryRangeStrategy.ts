@@ -98,6 +98,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
             epkMax: range.epkMax,
             isActive: range.isActive,
             isOrderByCheckpoint: range.isOrderByCheckpoint,
+            orderByFilter: range.orderByFilter,
           });
         }
       });

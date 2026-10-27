@@ -42,6 +42,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
           initialContinuationToken,
         )) as OrderByQueryContinuationToken;
       this.normalizeCheckpointOwnership(parsed.rangeMappings);
+      this.initializeRangeFilters(parsed);
       this.tokenRangeMappings = parsed.rangeMappings;
       this.tokenOrderByItems = parsed.orderByItems;
       this.tokenSkipCount = parsed.skipCount;
@@ -97,6 +98,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
           continuationToken: mapping.continuationToken,
           isActive: mapping.isActive,
           isOrderByCheckpoint: mapping.isOrderByCheckpoint,
+          orderByFilter: this.cloneOrderByFilter(mapping.orderByFilter),
         }));
       } else {
         this.clearTokenState();
@@ -154,6 +156,11 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     // Update token state fields
     const checkpointRange = convertRangeMappingToQueryRange(lastRangeBeforePageLimit);
     const checkpointKey = this.rangeKey(checkpointRange);
+    const checkpointFilter = {
+      orderByItems: [...lastOrderByItems],
+      rid: documentRid!,
+      skipCount,
+    };
     const pageRangeMappings = this.createPageRangeMappings(
       rangeProcessingResult.processedRanges,
     ).filter(
@@ -165,7 +172,11 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
       pageRangeMappings.push(checkpointRange);
     }
     for (const mapping of pageRangeMappings) {
-      mapping.isOrderByCheckpoint = this.rangeKey(mapping) === checkpointKey;
+      const isCheckpoint = this.rangeKey(mapping) === checkpointKey;
+      mapping.isOrderByCheckpoint = isCheckpoint;
+      if (isCheckpoint) {
+        mapping.orderByFilter = this.cloneOrderByFilter(checkpointFilter);
+      }
     }
     this.replaceRangeList(pageRangeMappings);
     this.tokenRangeMappings = pageRangeMappings;
@@ -248,6 +259,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
         continuationToken: mapping.continuationToken,
         isActive: mapping.isActive,
         isOrderByCheckpoint: mapping.isOrderByCheckpoint,
+        orderByFilter: this.cloneOrderByFilter(mapping.orderByFilter),
       });
     }
 
@@ -258,6 +270,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
         : {
             ...mapping,
             continuationToken: mapping.previousContinuationToken,
+            orderByFilter: mapping.previousOrderByFilter ?? mapping.orderByFilter,
             isActive: true,
           };
       const tokenMapping = convertRangeMappingToQueryRange(checkpointMapping);
@@ -267,6 +280,9 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
       tokenMapping.isOrderByCheckpoint =
         checkpointMapping.isOrderByCheckpoint ??
         mappingsByRange.get(this.rangeKey(tokenMapping))?.isOrderByCheckpoint;
+      tokenMapping.orderByFilter =
+        this.cloneOrderByFilter(checkpointMapping.orderByFilter) ??
+        this.cloneOrderByFilter(mappingsByRange.get(this.rangeKey(tokenMapping))?.orderByFilter);
       mappingsByRange.set(this.rangeKey(tokenMapping), tokenMapping);
     }
 
@@ -287,12 +303,38 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     });
   }
 
+  private initializeRangeFilters(token: OrderByQueryContinuationToken): void {
+    const checkpointFilter =
+      typeof token.documentRid === "string"
+        ? {
+            orderByItems: [...token.orderByItems],
+            rid: token.documentRid,
+            skipCount: token.skipCount,
+          }
+        : undefined;
+    if (!checkpointFilter) {
+      return;
+    }
+    token.rangeMappings.forEach((mapping) => {
+      if (mapping.isOrderByCheckpoint === true && !mapping.orderByFilter) {
+        mapping.orderByFilter = this.cloneOrderByFilter(checkpointFilter);
+      }
+    });
+    this.rangeList.forEach((mapping) => {
+      const tokenMapping = token.rangeMappings.find(
+        (candidate) => this.rangeKey(candidate) === this.rangeKey(mapping),
+      );
+      mapping.orderByFilter = this.cloneOrderByFilter(tokenMapping?.orderByFilter);
+    });
+  }
+
   private replaceRangeList(mappings: QueryRangeWithContinuationToken[]): void {
     this.rangeList.length = 0;
     this.rangeList.push(
       ...mappings.map((mapping) => ({
         ...mapping,
         queryRange: { ...mapping.queryRange },
+        orderByFilter: this.cloneOrderByFilter(mapping.orderByFilter),
       })),
     );
   }

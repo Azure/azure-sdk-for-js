@@ -8,6 +8,7 @@ import type {
 } from "./TargetPartitionRangeStrategy.js";
 import { ParallelQueryRangeStrategy } from "./ParallelQueryRangeStrategy.js";
 import { OrderByQueryRangeStrategy } from "./OrderByQueryRangeStrategy.js";
+import type { OrderByContinuationFilter } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 
 /**
  * Interface representing a partition key range with its associated continuation token and filtering condition
@@ -21,6 +22,7 @@ export interface PartitionRangeWithContinuationToken {
   epkMax?: string;
   isActive?: boolean;
   isOrderByCheckpoint?: boolean;
+  orderByFilter?: OrderByContinuationFilter;
 }
 
 /**

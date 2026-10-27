@@ -20,6 +20,16 @@ export interface RangeBoundary {
 }
 
 /**
+ * ORDER BY post-fetch state paired with a range's backend continuation.
+ * @hidden
+ */
+export interface OrderByContinuationFilter {
+  orderByItems: any[];
+  rid: string;
+  skipCount: number;
+}
+
+/**
  * @hidden
  * Base interface for all continuation tokens containing common fields
  */
@@ -233,6 +243,11 @@ export interface QueryRangeWithContinuationToken {
    * Whether this range owns the global ORDER BY RID/skip checkpoint.
    */
   isOrderByCheckpoint?: boolean;
+
+  /**
+   * ORDER BY post-fetch state required when this range resumes from its saved backend cursor.
+   */
+  orderByFilter?: OrderByContinuationFilter;
 }
 
 /**
@@ -276,6 +291,13 @@ export function convertRangeMappingToQueryRange(
     continuationToken: rangeMapping.continuationToken,
     isActive,
     isOrderByCheckpoint: rangeMapping.isOrderByCheckpoint,
+    orderByFilter: rangeMapping.orderByFilter
+      ? {
+          orderByItems: [...rangeMapping.orderByFilter.orderByItems],
+          rid: rangeMapping.orderByFilter.rid,
+          skipCount: rangeMapping.orderByFilter.skipCount,
+        }
+      : undefined,
   };
 }
 

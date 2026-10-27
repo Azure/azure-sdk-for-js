@@ -36,6 +36,7 @@ export class DocumentProducer {
   public endEpk: string;
   public populateEpkRangeHeaders: boolean;
   private filter?: FilterStrategy;
+  private previousFilterContext?: FilterContext;
   private queryExecutionInfo?: { reverseRidEnabled: boolean; reverseIndexScan: boolean };
 
   /**
@@ -177,8 +178,10 @@ export class DocumentProducer {
     }
 
     try {
+      const previousFilterContext = this.filter?.getFilterContext();
       const { result: resourcesResult, headers: headerResponse } =
         await this.internalExecutionContext.fetchMore(diagnosticNode);
+      this.previousFilterContext = previousFilterContext;
       let resources = resourcesResult;
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
@@ -356,5 +359,18 @@ export class DocumentProducer {
 
   public getFilterContext(): FilterContext | undefined {
     return this.filter?.getFilterContext();
+  }
+
+  public getPreviousFilterContext(): FilterContext | undefined {
+    return this.previousFilterContext
+      ? {
+          ...this.previousFilterContext,
+          orderByItems: [...this.previousFilterContext.orderByItems],
+          sortOrders: [...this.previousFilterContext.sortOrders],
+          queryExecutionInfo: this.previousFilterContext.queryExecutionInfo
+            ? { ...this.previousFilterContext.queryExecutionInfo }
+            : undefined,
+        }
+      : undefined;
   }
 }

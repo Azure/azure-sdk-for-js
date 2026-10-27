@@ -1293,6 +1293,7 @@ describe("partition split recovery", () => {
         queryRange: { min: "", max: "80" },
         continuationToken: "c1-next",
         isOrderByCheckpoint: true,
+        orderByFilter: createOrderByFilter("resume-rid"),
       },
       {
         queryRange: { min: "80", max: "FF" },
@@ -1407,6 +1408,7 @@ describe("partition split recovery", () => {
         continuationToken: "c1-token",
         isActive: true,
         isOrderByCheckpoint: true,
+        orderByFilter: createOrderByFilter("resume-rid"),
       },
       {
         queryRange: { min: "80", max: "FF" },
@@ -1548,6 +1550,7 @@ describe("partition split recovery", () => {
         queryRange: { min: "", max: "80" },
         continuationToken: "c1-next",
         isOrderByCheckpoint: true,
+        orderByFilter: createOrderByFilter("resume-rid"),
       },
       {
         queryRange: { min: "80", max: "FF" },
@@ -1601,6 +1604,7 @@ describe("partition split recovery", () => {
         queryRange: { min: "", max: "80" },
         isActive: false,
         isOrderByCheckpoint: true,
+        orderByFilter: createOrderByFilter("resume-rid"),
       },
       {
         queryRange: { min: "80", max: "FF" },
@@ -2463,6 +2467,181 @@ describe("partition split recovery", () => {
     );
   });
 
+  it("preserves completed Parallel coverage while only an uncovered suffix remains", async () => {
+    const clientContext = createClientContext();
+    const ranges = [
+      createPartitionKeyRange("R0", "", "20"),
+      createPartitionKeyRange("R1", "20", "40"),
+      createPartitionKeyRange("R2", "40", "60"),
+      createPartitionKeyRange("R3", "60", "FF"),
+    ];
+    mockStableTopology(clientContext, ranges);
+    const requests: string[] = [];
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ options: requestOptions, partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requests.push(rangeId);
+        assert.notInclude(["R1", "R2"], rangeId);
+        if (rangeId === "R0") {
+          assert.equal(requestOptions.continuationToken, "r0-token");
+        } else {
+          assert.equal(rangeId, "R3");
+          assert.isUndefined(requestOptions.continuationToken);
+        }
+        return {
+          result: [{ id: rangeId.toLowerCase(), source: rangeId }] as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+    const initialToken = JSON.stringify({
+      rid: "container-rid",
+      rangeMappings: [
+        {
+          queryRange: { min: "", max: "20" },
+          continuationToken: "r0-token",
+          isActive: true,
+        },
+        { queryRange: { min: "20", max: "40" }, isActive: false },
+        { queryRange: { min: "40", max: "60" }, isActive: false },
+      ],
+    });
+
+    const firstContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuationToken: initialToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 1,
+        maxItemCount: 1,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const firstPage = await withTimeout(firstContext.fetchMore(createDummyDiagnosticNode()), 1000);
+    const continuationToken = JSON.stringify(JSON.parse(firstPage.headers["x-ms-continuation"]));
+    assert.deepEqual(firstPage.result, [{ id: "r0", source: "R0" }]);
+    assert.deepInclude(JSON.parse(continuationToken).rangeMappings, {
+      queryRange: { min: "20", max: "40" },
+      isActive: false,
+    });
+    assert.deepInclude(JSON.parse(continuationToken).rangeMappings, {
+      queryRange: { min: "40", max: "60" },
+      isActive: false,
+    });
+
+    const resumedContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuationToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 1,
+        maxItemCount: 1,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const finalPage = await withTimeout(
+      resumedContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+    assert.deepEqual(finalPage.result, [{ id: "r3", source: "R3" }]);
+    assert.isUndefined(finalPage.headers["x-ms-continuation"]);
+    assert.deepEqual(requests, ["R0", "R3"]);
+  });
+
+  it("keeps legacy completed replacements inactive across repeated stateless resumes", async () => {
+    const clientContext = createClientContext();
+    const completedParent = createPartitionKeyRange("P0", "", "40");
+    const completedChild0 = createPartitionKeyRange("C0", "", "20", ["P0"]);
+    const completedChild1 = createPartitionKeyRange("C1", "20", "40", ["P0"]);
+    const activeRange = createPartitionKeyRange("R1", "40", "FF");
+    mockStableTopology(clientContext, [completedChild0, completedChild1, activeRange]);
+    const requests: { rangeId: string; token?: string }[] = [];
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ options: requestOptions, partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requests.push({ rangeId, token: requestOptions.continuationToken });
+        assert.equal(rangeId, "R1");
+        const token = requestOptions.continuationToken;
+        const page = token === "r1-start" ? 0 : token === "r1-next" ? 1 : 2;
+        assert.equal(token, page === 0 ? "r1-start" : page === 1 ? "r1-next" : "r1-final");
+        return {
+          result: [{ id: `r1-${page}`, source: "R1" }] as unknown as Resource,
+          headers:
+            page < 2
+              ? {
+                  "x-ms-continuation": page === 0 ? "r1-next" : "r1-final",
+                  "x-ms-request-charge": "1",
+                }
+              : { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+    let continuationToken: string | undefined = JSON.stringify({
+      rid: "container-rid",
+      rangeMappings: [
+        { queryRange: { min: "", max: "40" } },
+        {
+          queryRange: { min: "40", max: "FF" },
+          continuationToken: "r1-start",
+        },
+      ],
+    });
+    const ids: string[] = [];
+    for (let page = 0; ; page++) {
+      if (page > 2) {
+        throw new Error("Legacy completed replacement page guard exceeded");
+      }
+      const context = new PipelinedQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        {
+          ...options,
+          continuationToken,
+          enableQueryControl: true,
+          maxDegreeOfParallelism: 1,
+          maxItemCount: 1,
+        },
+        createParallelPipelinedQueryInfo(),
+        correlatedActivityId,
+      );
+      const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+      ids.push(...response.result.map((resource: TestDocument) => resource.id));
+      continuationToken = response.headers["x-ms-continuation"];
+      if (continuationToken) {
+        const parsed = JSON.parse(JSON.stringify(JSON.parse(continuationToken)));
+        assert.deepInclude(parsed.rangeMappings, {
+          queryRange: { min: "", max: "20" },
+          isActive: false,
+        });
+        assert.deepInclude(parsed.rangeMappings, {
+          queryRange: { min: "20", max: "40" },
+          isActive: false,
+        });
+        continuationToken = JSON.stringify(parsed);
+      } else {
+        break;
+      }
+    }
+
+    assert.deepEqual(ids, ["r1-0", "r1-1", "r1-2"]);
+    assert.deepEqual(requests, [
+      { rangeId: "R1", token: "r1-start" },
+      { rangeId: "R1", token: "r1-next" },
+      { rangeId: "R1", token: "r1-final" },
+    ]);
+  });
+
   it("rewinds an unprocessed terminal range and clears the final token after its page", async () => {
     const clientContext = createClientContext();
     const ranges = [
@@ -2773,6 +2952,193 @@ describe("partition split recovery", () => {
     );
   });
 
+  it("preserves split-child RID and skip filters across an ORDER BY page cutoff", async () => {
+    const clientContext = createClientContext();
+    mockStableTopology(clientContext, [childRange1, childRange2]);
+    const checkpointRid = "AAAAAAAAAAAAAAAAAAAAAQ==";
+    const requests: string[] = [];
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ partitionKeyRangeId }) => {
+      const rangeId = partitionKeyRangeId ?? "none";
+      requests.push(rangeId);
+      const prefix = rangeId.toLowerCase();
+      return {
+        result: [
+          createOrderByDocument(`${prefix}-consumed`, 5, checkpointRid),
+          createOrderByDocument(`${prefix}-unread`, 5, checkpointRid),
+        ] as unknown as Resource,
+        headers: { "x-ms-request-charge": "1" },
+        code: StatusCodes.Ok,
+      };
+    });
+    const initialToken = createOrderByOptions("parent-token", checkpointRid, 1, [
+      {
+        queryRange: { min: "", max: "FF" },
+        continuationToken: "parent-token",
+        isActive: true,
+        isOrderByCheckpoint: true,
+      },
+    ]).continuationToken;
+    const firstContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuationToken: initialToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+        maxItemCount: 1,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const firstPage = await withTimeout(firstContext.fetchMore(createDummyDiagnosticNode()), 1000);
+    const continuationToken = JSON.stringify(JSON.parse(firstPage.headers["x-ms-continuation"]));
+    assert.deepEqual(
+      firstPage.result.map((resource: { id: string }) => resource.id),
+      ["c1-unread"],
+    );
+    const child2Mapping = JSON.parse(continuationToken).rangeMappings.find(
+      (mapping: { queryRange: { min: string } }) => mapping.queryRange.min === "80",
+    );
+    assert.deepEqual(child2Mapping.orderByFilter, {
+      orderByItems: [{ item: 5 }],
+      rid: checkpointRid,
+      skipCount: 1,
+    });
+
+    const resumedContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuationToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+        maxItemCount: 2,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const finalPage = await withTimeout(
+      resumedContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+    assert.deepEqual(
+      finalPage.result.map((resource: { id: string }) => resource.id),
+      ["c2-unread"],
+    );
+    assert.isUndefined(finalPage.headers["x-ms-continuation"]);
+    assert.deepEqual(requests, ["C1", "C2", "C2"]);
+  });
+
+  it("removes a retired empty patch before a nested split token is serialized", async () => {
+    const clientContext = createClientContext();
+    const nestedChild0 = createPartitionKeyRange("N0", "", "40", ["C1"]);
+    const nestedChild1 = createPartitionKeyRange("N1", "40", "80", ["C1"]);
+    let routingRequestCount = 0;
+    vi.spyOn(clientContext, "queryPartitionKeyRanges").mockImplementation(
+      () =>
+        ({
+          fetchAllInternal: vi.fn(async () => {
+            routingRequestCount++;
+            return {
+              resources:
+                routingRequestCount === 1
+                  ? [parentRange]
+                  : routingRequestCount === 2
+                    ? [childRange1, childRange2]
+                    : [nestedChild0, nestedChild1, childRange2],
+              headers: { "x-ms-request-charge": "1" },
+              code: StatusCodes.Ok,
+            };
+          }),
+        }) as unknown as QueryIterator<PartitionKeyRange>,
+    );
+    const requests: { rangeId: string; token?: string }[] = [];
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ options: requestOptions, partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        const token = requestOptions.continuationToken;
+        requests.push({ rangeId, token });
+        if (rangeId === "P" || (rangeId === "C1" && token === "c1-next")) {
+          throw createSplitError();
+        }
+        if (rangeId === "C1") {
+          return {
+            result: [] as unknown as Resource,
+            headers: { "x-ms-continuation": "c1-next", "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (rangeId === "N0" || rangeId === "N1") {
+          return {
+            result: [] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        assert.equal(rangeId, "C2");
+        return {
+          result: [{ id: token ? "c2-final" : "c2-first", source: "C2" }] as unknown as Resource,
+          headers: token
+            ? { "x-ms-request-charge": "1" }
+            : { "x-ms-continuation": "c2-next", "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+
+    const firstContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 1,
+        maxItemCount: 1,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const firstPage = await withTimeout(firstContext.fetchMore(createDummyDiagnosticNode()), 1000);
+    const continuationToken = firstPage.headers["x-ms-continuation"];
+    assert.deepEqual(firstPage.result, [{ id: "c2-first", source: "C2" }]);
+    assert.doesNotThrow(() => JSON.parse(JSON.stringify(JSON.parse(continuationToken))));
+
+    const resumedContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      query,
+      {
+        ...options,
+        continuationToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 1,
+        maxItemCount: 1,
+      },
+      createParallelPipelinedQueryInfo(),
+      correlatedActivityId,
+    );
+    const finalPage = await withTimeout(
+      resumedContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+    assert.deepEqual(finalPage.result, [{ id: "c2-final", source: "C2" }]);
+    assert.isUndefined(finalPage.headers["x-ms-continuation"]);
+    assert.deepEqual(requests, [
+      { rangeId: "P", token: undefined },
+      { rangeId: "C1", token: undefined },
+      { rangeId: "C1", token: "c1-next" },
+      { rangeId: "N0", token: "c1-next" },
+      { rangeId: "N1", token: "c1-next" },
+      { rangeId: "C2", token: undefined },
+      { rangeId: "C2", token: "c2-next" },
+    ]);
+  });
+
   it("preserves tokenless ORDER BY split-checkpoint children across an empty page", async () => {
     const clientContext = createClientContext();
     mockStableTopology(clientContext, [childRange1, childRange2]);
@@ -2830,11 +3196,13 @@ describe("partition split recovery", () => {
         queryRange: { min: "", max: "80" },
         continuationToken: "c1-next",
         isOrderByCheckpoint: true,
+        orderByFilter: createOrderByFilter(checkpointRid),
       },
       {
         queryRange: { min: "80", max: "FF" },
         isActive: true,
         isOrderByCheckpoint: true,
+        orderByFilter: createOrderByFilter(checkpointRid),
       },
     ]);
 
@@ -3046,6 +3414,21 @@ describe("partition split recovery", () => {
         orderByItems: [{ item: 5 }],
         skipCount: 0,
         documentRid: 1,
+      },
+      {
+        rid: "container-rid",
+        rangeMappings: [
+          {
+            queryRange: { min: "", max: "FF" },
+            orderByFilter: {
+              orderByItems: [{ item: 5 }],
+              rid: "resume-rid",
+              skipCount: -1,
+            },
+          },
+        ],
+        orderByItems: [{ item: 5 }],
+        skipCount: 0,
       },
       {
         rid: "container-rid",
@@ -3503,6 +3886,14 @@ function createOrderByOptions(
       skipCount,
       documentRid: continuationRid,
     }),
+  };
+}
+
+function createOrderByFilter(rid: string) {
+  return {
+    orderByItems: [{ item: 5 }],
+    rid,
+    skipCount: 1,
   };
 }
 

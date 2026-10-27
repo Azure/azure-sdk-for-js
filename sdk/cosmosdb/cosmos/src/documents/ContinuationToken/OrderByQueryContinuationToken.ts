@@ -109,6 +109,40 @@ export function parseOrderByQueryContinuationToken(
       "Invalid continuation token. ORDER BY documentRid must be a string when present.",
     );
   }
+  for (const [index, mapping] of token.rangeMappings.entries()) {
+    const filter = mapping.orderByFilter;
+    if (filter === undefined) {
+      continue;
+    }
+    if (!filter || typeof filter !== "object" || Array.isArray(filter)) {
+      throw new ErrorResponse(
+        `Invalid continuation token. ORDER BY rangeMappings[${index}].orderByFilter must be an object.`,
+      );
+    }
+    if (
+      !Array.isArray(filter.orderByItems) ||
+      filter.orderByItems.length === 0 ||
+      filter.orderByItems.some((item) => !item || typeof item !== "object" || Array.isArray(item))
+    ) {
+      throw new ErrorResponse(
+        `Invalid continuation token. ORDER BY rangeMappings[${index}].orderByFilter requires non-empty object-valued orderByItems.`,
+      );
+    }
+    if (
+      typeof filter.skipCount !== "number" ||
+      !Number.isSafeInteger(filter.skipCount) ||
+      filter.skipCount < 0
+    ) {
+      throw new ErrorResponse(
+        `Invalid continuation token. ORDER BY rangeMappings[${index}].orderByFilter requires a non-negative safe integer skipCount.`,
+      );
+    }
+    if (typeof filter.rid !== "string") {
+      throw new ErrorResponse(
+        `Invalid continuation token. ORDER BY rangeMappings[${index}].orderByFilter requires a string rid.`,
+      );
+    }
+  }
   const logicallyOrderedMappings = [...token.rangeMappings].sort((left, right) =>
     left.queryRange.min.localeCompare(right.queryRange.min),
   );

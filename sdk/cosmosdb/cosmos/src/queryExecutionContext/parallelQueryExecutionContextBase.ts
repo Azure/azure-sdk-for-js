@@ -30,6 +30,7 @@ import type {
   QueryRangeWithContinuationToken,
   RangeBoundary,
   BaseContinuationToken,
+  OrderByContinuationFilter,
 } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { createParallelQueryResult } from "./parallelQueryResult.js";
 import type {
@@ -306,6 +307,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       previousContinuationToken: producer.previousContinuationToken,
       isActive: producer.hasMoreResults(),
       isOrderByCheckpoint: producer.isOrderByCheckpoint,
+      orderByFilter: ParallelQueryExecutionContextBase._toOrderByFilter(
+        producer.getFilterContext(),
+      ),
+      previousOrderByFilter: ParallelQueryExecutionContextBase._toOrderByFilter(
+        producer.getPreviousFilterContext(),
+      ),
     };
   }
 
@@ -336,6 +343,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       currentPatch.itemCount += mapping.itemCount;
       currentPatch.continuationToken = mapping.continuationToken;
       currentPatch.isActive = mapping.isActive;
+      currentPatch.orderByFilter = mapping.orderByFilter;
+      currentPatch.previousOrderByFilter = mapping.previousOrderByFilter;
       return;
     }
     // Create new partition mapping entry
@@ -424,7 +433,17 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       rangeTokenPair.epkMin,
       rangeTokenPair.epkMax,
     );
-    const partitionFilterContext = rangeTokenPair.isOrderByCheckpoint ? filterContext : undefined;
+    const partitionFilterContext =
+      rangeTokenPair.orderByFilter && filterContext
+        ? {
+            ...filterContext,
+            orderByItems: [...rangeTokenPair.orderByFilter.orderByItems],
+            rid: rangeTokenPair.orderByFilter.rid,
+            skipCount: rangeTokenPair.orderByFilter.skipCount,
+          }
+        : rangeTokenPair.isOrderByCheckpoint
+          ? filterContext
+          : undefined;
 
     return this._createTargetPartitionQueryExecutionContext(
       partitionTargetRange,
@@ -581,9 +600,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           epkMin: logicalRange.minInclusive,
           epkMax: logicalRange.maxExclusive,
           isOrderByCheckpoint,
-          isActive:
-            rangeWithToken.isActive ??
-            (isOrderBy ? true : isPartitionRangeActive(rangeWithToken.continuationToken)),
+          isActive: this._inferRangeActivity(rangeWithToken),
+          orderByFilter: rangeWithToken.orderByFilter,
         })),
       );
     }
@@ -627,9 +645,19 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         isMaxInclusive: false,
       })),
       continuationToken: rangeWithToken.continuationToken,
-      isActive: rangeWithToken.isActive ?? true,
+      isActive: this._inferRangeActivity(rangeWithToken),
       isOrderByCheckpoint: rangeWithToken.isOrderByCheckpoint,
+      orderByFilter: rangeWithToken.orderByFilter,
     });
+  }
+
+  private _inferRangeActivity(rangeWithToken: QueryRangeWithContinuationToken): boolean {
+    return (
+      rangeWithToken.isActive ??
+      (this.rangeManager.getStrategyType() === "OrderByQuery"
+        ? true
+        : isPartitionRangeActive(rangeWithToken.continuationToken))
+    );
   }
 
   /**
@@ -766,6 +794,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       this.completeDrainError ??= error;
     }
     if (this.options.enableQueryControl) {
+      this._removeRetiredEmptyPatch(effectiveRange);
       this._recordPartitionRangeUpdate(
         this._createQueryRangeWithContinuationToken(documentProducer),
         replacementRanges.map(({ max, min, partitionKeyRange }) =>
@@ -796,7 +825,34 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       continuationToken: documentProducer.continuationToken,
       isActive: documentProducer.hasMoreResults(),
       isOrderByCheckpoint: documentProducer.isOrderByCheckpoint,
+      orderByFilter: ParallelQueryExecutionContextBase._toOrderByFilter(
+        documentProducer.getFilterContext(),
+      ),
     };
+  }
+
+  private _removeRetiredEmptyPatch(effectiveRange: QueryRange): void {
+    for (const [key, mapping] of this.partitionDataPatchMap) {
+      if (
+        mapping.itemCount === 0 &&
+        mapping.partitionKeyRange.minInclusive === effectiveRange.min &&
+        mapping.partitionKeyRange.maxExclusive === effectiveRange.max
+      ) {
+        this.partitionDataPatchMap.delete(key);
+      }
+    }
+  }
+
+  private static _toOrderByFilter(
+    filterContext?: FilterContext,
+  ): OrderByContinuationFilter | undefined {
+    return filterContext && typeof filterContext.rid === "string"
+      ? {
+          orderByItems: [...filterContext.orderByItems],
+          rid: filterContext.rid,
+          skipCount: filterContext.skipCount,
+        }
+      : undefined;
   }
 
   private static _getEffectiveQueryRange(documentProducer: DocumentProducer): QueryRange {
