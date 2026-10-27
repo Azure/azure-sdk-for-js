@@ -32,6 +32,7 @@
 
 ### Bugs Fixed
 
+- Preserved the `13.0.0` argument order for protocol `SearchIndexClient.createOrUpdateIndex` and `analyzeText` while retaining the name-first signatures, and exported `KnownContentUnderstandingSkillChunkingMethod` from the package root. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Fixed a `TypeError` when document lookup or other operations receive an empty error response body. These operations now throw a `RestError` with the HTTP status code. [#38842](https://github.com/Azure/azure-sdk-for-js/issues/38842)
 - Preserved document fields named `score` in search results and `text` in suggestions, and separated `@search.*` metadata from document contents. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Corrected ETag mapping so resources returned by index, indexer, and skillset operations support conditional updates and deletes with `onlyIfUnchanged`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)

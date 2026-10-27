@@ -2000,6 +2000,12 @@ export enum KnownChatCompletionResponseFormatType {
 }
 
 // @public
+export enum KnownContentUnderstandingSkillChunkingMethod {
+    FixedSize = "fixedSize",
+    Semantic = "semantic"
+}
+
+// @public
 export enum KnownContentUnderstandingSkillChunkingUnit {
     Characters = "characters",
     Tokens = "tokens"

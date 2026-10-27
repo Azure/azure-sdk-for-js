@@ -11,6 +11,7 @@ import {
   SearchIndexClient,
   SearchIndexerClient,
 } from "../../../src/index.js";
+import { SearchIndexClient as ProtocolSearchIndexClient } from "../../../src/searchIndex/index.js";
 
 const endpoint = "https://example.search.windows.net";
 const credential = new AzureKeyCredential("key");
@@ -39,6 +40,66 @@ const body = (request: PipelineRequest): ReturnType<typeof JSON.parse> =>
 const index = { name: "idx", fields: [] };
 
 describe("runtime compatibility", () => {
+  it.each([false, true])(
+    "preserves protocol index update arguments (name first: %s)",
+    async (nameFirst) => {
+      const t = transport([index]);
+      const client = new ProtocolSearchIndexClient(endpoint, credential, {
+        httpClient: t.httpClient,
+      });
+      const options = { ifMatch: '"index-etag"', allowIndexDowntime: true };
+
+      for (const requestOptions of [undefined, options]) {
+        const result = nameFirst
+          ? await client.createOrUpdateIndex("hotels", index, requestOptions)
+          : await client.createOrUpdateIndex(index, "hotels", requestOptions);
+        const request = t.requests[t.requests.length - 1];
+        assert.equal(request.method, "PUT");
+        assert.equal(new URL(request.url).pathname, "/indexes('hotels')");
+        assert.deepEqual(body(request), index);
+        assert.equal(request.headers.get("if-match"), requestOptions?.ifMatch);
+        assert.equal(
+          new URL(request.url).searchParams.get("allowIndexDowntime"),
+          requestOptions ? "true" : null,
+        );
+        assert.equal(result.name, index.name);
+        assert.deepEqual(result.fields, index.fields);
+      }
+    },
+  );
+
+  it.each([false, true])(
+    "preserves protocol analysis arguments (name first: %s)",
+    async (nameFirst) => {
+      const response = { tokens: [{ token: "hotel", startOffset: 0, endOffset: 5, position: 0 }] };
+      const t = transport([response]);
+      const client = new ProtocolSearchIndexClient(endpoint, credential, {
+        httpClient: t.httpClient,
+      });
+      const parameters = { text: "hotel", analyzerName: "standard.lucene" };
+      const controller = new AbortController();
+      const options = {
+        abortSignal: controller.signal,
+        requestOptions: { headers: { "x-test": "present" } },
+      };
+
+      for (const requestOptions of [undefined, options]) {
+        const result = nameFirst
+          ? await client.analyzeText("hotels", parameters, requestOptions)
+          : await client.analyzeText(parameters, "hotels", requestOptions);
+        const request = t.requests[t.requests.length - 1];
+        assert.equal(request.method, "POST");
+        assert.equal(new URL(request.url).pathname, "/indexes('hotels')/search.analyze");
+        assert.deepEqual(body(request), { text: "hotel", analyzer: "standard.lucene" });
+        assert.equal(request.headers.get("x-test"), requestOptions ? "present" : undefined);
+        if (requestOptions) {
+          assert.equal(request.abortSignal, controller.signal);
+        }
+        assert.deepEqual(result, response);
+      }
+    },
+  );
+
   it("preserves request headers, callbacks, cancellation, and generated serialization", async () => {
     const t = transport([{ value: [], "@odata.count": 0 }], 206);
     const client = new SearchClient(endpoint, "idx", credential, { httpClient: t.httpClient });

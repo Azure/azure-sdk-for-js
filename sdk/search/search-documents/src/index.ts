@@ -360,6 +360,7 @@ export {
   type BlobIndexerParsingMode,
   type WordDelimiterTokenFilter,
   type ContentUnderstandingSkillChunkingMethod,
+  KnownContentUnderstandingSkillChunkingMethod,
   type SharePointConnectorAppRegistration,
   type FileKnowledgeSourceExtractionMode,
   type ListingSearchType,

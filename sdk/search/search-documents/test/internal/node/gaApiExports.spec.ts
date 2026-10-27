@@ -4,6 +4,7 @@
 import { assert, describe, expectTypeOf, it } from "vitest";
 import {
   KnownAzureOpenAIModelName,
+  KnownContentUnderstandingSkillChunkingMethod,
   KnownKnowledgeBaseActivityRecordType,
   KnownKnowledgeBaseRetrievalStatusCode,
   KnownKnowledgeSourceNetworkAccessMode,
@@ -34,6 +35,8 @@ describe("GA root exports", () => {
     assert.equal(KnownAzureOpenAIModelName.Gpt56Sol, "gpt-5.6-sol");
     assert.equal(KnownAzureOpenAIModelName.Gpt56Terra, "gpt-5.6-terra");
     assert.equal(KnownAzureOpenAIModelName.Gpt56Luna, "gpt-5.6-luna");
+    assert.equal(KnownContentUnderstandingSkillChunkingMethod.FixedSize, "fixedSize");
+    assert.equal(KnownContentUnderstandingSkillChunkingMethod.Semantic, "semantic");
     assert.equal(KnownKnowledgeSourceNetworkAccessMode.Private, "private");
     assert.equal(KnownKnowledgeBaseRetrievalStatusCode.PartialContent, 206);
     assert.equal(KnownKnowledgeBaseActivityRecordType.SearchIndex, "searchIndex");

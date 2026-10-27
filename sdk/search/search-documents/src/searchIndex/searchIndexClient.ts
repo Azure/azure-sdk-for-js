@@ -295,12 +295,31 @@ export class SearchIndexClient {
     return createOrUpdateAlias(this._client, name, alias, options);
   }
 
-  /** Shows how an analyzer breaks text into tokens. */
+  /**
+   * Shows how an analyzer breaks text into tokens.
+   * @remarks Preserves the body-first argument order shipped in version 13.0.0.
+   */
+  analyzeText(
+    request: AnalyzeTextOptions,
+    name: string,
+    options?: AnalyzeTextOptionalParams,
+  ): Promise<AnalyzeResult>;
+
+  /** Shows how an analyzer breaks text into tokens, using the index name first. */
   analyzeText(
     name: string,
     request: AnalyzeTextOptions,
+    options?: AnalyzeTextOptionalParams,
+  ): Promise<AnalyzeResult>;
+
+  analyzeText(
+    nameOrRequest: string | AnalyzeTextOptions,
+    requestOrName: AnalyzeTextOptions | string,
     options: AnalyzeTextOptionalParams = { requestOptions: {} },
   ): Promise<AnalyzeResult> {
+    const name = typeof nameOrRequest === "string" ? nameOrRequest : (requestOrName as string);
+    const request =
+      typeof nameOrRequest === "string" ? (requestOrName as AnalyzeTextOptions) : nameOrRequest;
     return analyzeText(this._client, name, request, options);
   }
 
@@ -350,12 +369,30 @@ export class SearchIndexClient {
     return deleteIndex(this._client, name, options);
   }
 
-  /** Creates a new search index or updates an index if it already exists. */
+  /**
+   * Creates a new search index or updates an index if it already exists.
+   * @remarks Preserves the body-first argument order shipped in version 13.0.0.
+   */
+  createOrUpdateIndex(
+    index: SearchIndex,
+    name: string,
+    options?: CreateOrUpdateIndexOptionalParams,
+  ): Promise<SearchIndex>;
+
+  /** Creates or updates a search index, using the index name first. */
   createOrUpdateIndex(
     name: string,
     index: SearchIndex,
+    options?: CreateOrUpdateIndexOptionalParams,
+  ): Promise<SearchIndex>;
+
+  createOrUpdateIndex(
+    nameOrIndex: string | SearchIndex,
+    indexOrName: SearchIndex | string,
     options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndex> {
+    const name = typeof nameOrIndex === "string" ? nameOrIndex : (indexOrName as string);
+    const index = typeof nameOrIndex === "string" ? (indexOrName as SearchIndex) : nameOrIndex;
     return createOrUpdateIndex(this._client, name, index, options);
   }
 

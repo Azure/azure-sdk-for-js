@@ -261,12 +261,14 @@ export interface ListSynonymMapsOptionalParams extends OperationOptions {
 // @public (undocumented)
 export class SearchIndexClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: SearchIndexClientOptionalParams);
+    analyzeText(request: AnalyzeTextOptions, name: string, options?: AnalyzeTextOptionalParams): Promise<AnalyzeResult>;
     analyzeText(name: string, request: AnalyzeTextOptions, options?: AnalyzeTextOptionalParams): Promise<AnalyzeResult>;
     createAlias(alias: SearchAlias, options?: CreateAliasOptionalParams): Promise<SearchAlias>;
     createIndex(index: SearchIndex, options?: CreateIndexOptionalParams): Promise<SearchIndex>;
     createKnowledgeBase(knowledgeBase: KnowledgeBase, options?: CreateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
     createKnowledgeSource(knowledgeSource: KnowledgeSourceUnion, options?: CreateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
     createOrUpdateAlias(name: string, alias: SearchAlias, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
+    createOrUpdateIndex(index: SearchIndex, name: string, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
     createOrUpdateIndex(name: string, index: SearchIndex, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
     createOrUpdateKnowledgeBase(name: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
     createOrUpdateKnowledgeSource(name: string, knowledgeSource: KnowledgeSourceUnion, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
