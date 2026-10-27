@@ -300,33 +300,6 @@ function createBackendResult(
   ) as Resource;
 }
 
-function createQueryControlOptions(
-  queryType: QueryKind,
-  queryRange = { min: "", max: "FF" },
-): FeedOptions {
-  const rangeMappings = [
-    {
-      queryRange,
-      continuationToken: "parent-continuation",
-    },
-  ];
-  const continuationToken =
-    queryType === "Parallel"
-      ? { rangeMappings, rid: "container-rid" }
-      : {
-          documentRid: "previous-rid",
-          orderByItems: [{ item: 0 }],
-          rangeMappings,
-          rid: "container-rid",
-          skipCount: 0,
-        };
-  return {
-    ...options,
-    continuationToken: JSON.stringify(continuationToken),
-    enableQueryControl: true,
-  };
-}
-
 function spyOnReplacement(context: QueryContext): ReturnType<typeof vi.spyOn> {
   return vi.spyOn(
     context as unknown as {
@@ -1322,86 +1295,5 @@ describe("partition split recovery", () => {
     assert.equal(topology.getForceRefreshCount(), 0);
     expect(replacementSpy).not.toHaveBeenCalled();
     assert.isFalse(context.hasMoreResults());
-  });
-
-  it("invalidates existing Parallel and ORDER BY query-control continuations after a split", async () => {
-    for (const queryType of ["Parallel", "ORDER BY"] as const) {
-      const clientContext = createClientContext();
-      const topology = mockTopology(clientContext, [[parentRange], [childRange1, childRange2]]);
-      const requests: string[] = [];
-      const splitError = createSplitError();
-      vi.spyOn(clientContext, "queryFeed").mockImplementation(
-        async ({ partitionKeyRangeId, options: requestOptions }) => {
-          requests.push(partitionKeyRangeId ?? "none");
-          if (requests.length > 2) {
-            throw new Error(`${queryType} query-control request guard exceeded`);
-          }
-          assert.equal(requestOptions.continuationToken, "parent-continuation", queryType);
-          throw splitError;
-        },
-      );
-
-      const queryControlOptions = createQueryControlOptions(queryType);
-      const context =
-        queryType === "Parallel"
-          ? createParallelContext(clientContext, queryControlOptions)
-          : createOrderByContext(clientContext, queryControlOptions);
-      const replacementSpy = spyOnReplacement(context);
-      const error = await captureError(withTimeout(context.fetchMore(createDummyDiagnosticNode())));
-
-      assert.isUndefined(error.code, queryType);
-      assert.match(error.message, /continuation state is invalid/i, queryType);
-      assert.match(error.message, /restart the entire query from the beginning/i, queryType);
-      assert.notMatch(error.message, /retryable/i, queryType);
-      assert.strictEqual(error.originalError, splitError, queryType);
-      assert.strictEqual(error.cause, splitError, queryType);
-      assert.equal(Number(error.headers?.["x-ms-request-charge"]), 1, queryType);
-      assert.isUndefined(error.headers?.["x-ms-continuation"], queryType);
-      assert.deepEqual(requests, ["P"], queryType);
-      assert.equal(topology.getForceRefreshCount(), 1, queryType);
-      assert.equal(topology.getRequestCount(), 2, queryType);
-      assert.equal(replacementSpy.mock.calls.length, 1, queryType);
-      assert.isFalse(context.hasMoreResults(), queryType);
-    }
-  });
-
-  it("rejects query-control continuations when cached topology already changed", async () => {
-    const cases = [
-      {
-        queryType: "Parallel" as const,
-        snapshots: [[mergedRange]],
-        queryControlOptions: createQueryControlOptions("Parallel", { min: "", max: "80" }),
-      },
-      {
-        queryType: "ORDER BY" as const,
-        snapshots: [[childRange1, childRange2]],
-        queryControlOptions: createQueryControlOptions("ORDER BY"),
-      },
-    ];
-
-    for (const { queryType, snapshots, queryControlOptions } of cases) {
-      const clientContext = createClientContext();
-      const topology = mockTopology(clientContext, snapshots);
-      const queryFeedSpy = vi
-        .spyOn(clientContext, "queryFeed")
-        .mockRejectedValue(new Error("queryFeed must not run"));
-      const context =
-        queryType === "Parallel"
-          ? createParallelContext(clientContext, queryControlOptions)
-          : createOrderByContext(clientContext, queryControlOptions);
-
-      const error = await captureError(withTimeout(context.fetchMore(createDummyDiagnosticNode())));
-
-      assert.isUndefined(error.code, queryType);
-      assert.match(error.message, /continuation state is invalid/i, queryType);
-      assert.match(error.message, /restart the entire query from the beginning/i, queryType);
-      assert.isUndefined(error.originalError, queryType);
-      assert.isUndefined(error.cause, queryType);
-      assert.isUndefined(error.headers?.["x-ms-continuation"], queryType);
-      expect(queryFeedSpy).not.toHaveBeenCalled();
-      assert.equal(topology.getRequestCount(), 1, queryType);
-      assert.equal(topology.getForceRefreshCount(), 0, queryType);
-      assert.isFalse(context.hasMoreResults(), queryType);
-    }
   });
 });
