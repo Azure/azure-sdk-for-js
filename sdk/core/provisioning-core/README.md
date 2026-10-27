@@ -38,7 +38,7 @@ new Resource(resourceGroup, {
 });
 ```
 
-For service-specific typed resource classes, see the [Key Vault provisioning example](../../keyvault/provisioning-keyvault/README.md#getting-started).
+For service-specific typed resource classes, see the [Key Vault provisioning example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/provisioning-keyvault/README.md#getting-started).
 
 Provisioning definitions are authored before deployment. Read-only resource properties remain available as expressions for wiring outputs and dependent resources, while only writable properties can be assigned.
 
