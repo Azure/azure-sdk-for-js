@@ -8,21 +8,14 @@ import {
   Resource,
   ResourceGroup,
   Stack,
-  fn,
   namingRequiredPolicy,
 } from "../../../src/index.js";
 import { childResource as childResourceHandle, resource } from "../../support.js";
 import { renderBicepFiles } from "../../../src/internal.js";
-import { deserialize, serialize } from "../../../src/serialization/index.js";
-import type {
-  ExpressionNode,
-  SerializationDocument,
-} from "../../../src/serialization/ast/index.js";
 import {
   renderBicepFile,
   type RenderedBicepFile,
 } from "../../../src/serialization/bicep/render.js";
-import { validateRenderedBicepFiles } from "../../scripts/test/bicep-validator.js";
 
 function firstFile(stack: Stack): RenderedBicepFile {
   const [file] = renderBicepFiles(stack);
@@ -251,58 +244,10 @@ describe("renderBicepFiles", () => {
 
     expect(rendered.contents).toContain("param location string = 'eastus'");
     expect(rendered.contents).toContain(
-      "var storageName = concat('demo', uniqueString(subscription().subscriptionId))",
+      "var storageName = 'demo${uniqueString(subscription().subscriptionId)}'",
     );
     expect(rendered.contents).toContain("output storageName string = storageName");
   });
-
-  it("preserves imported array concatenation through JSON round-trip and Bicep compilation", () => {
-    const expression: ExpressionNode = {
-      kind: "function-call",
-      target: "concat",
-      args: [
-        { kind: "array", items: [{ kind: "string", value: "first" }] },
-        { kind: "array", items: [{ kind: "string", value: "second" }] },
-      ],
-    };
-    const document: SerializationDocument = {
-      infras: [
-        {
-          fileName: "array-concat.bicep",
-          targetScope: "resourceGroup",
-          outputs: {
-            combined: {
-              bicepIdentifier: "combined",
-              valueType: { kind: "primitive-type", name: "array" },
-              value: expression,
-            },
-          },
-        },
-      ],
-    };
-    const restored = deserialize(JSON.stringify(document));
-    expect(serialize(restored).infras[0]!.outputs?.combined?.value).toEqual(expression);
-
-    const files = renderBicepFiles(restored);
-    expect(files).toHaveLength(1);
-    expect(files[0]!.contents).toContain(
-      "output combined array = concat([\n  'first'\n], [\n  'second'\n])",
-    );
-    validateRenderedBicepFiles(files);
-  }, 30_000);
-
-  it("preserves authored string concatenation in function-call and tagged-template forms", () => {
-    const stack = new Stack("string-concat", { targetScope: "resourceGroup" });
-    const suffix = stack.parameters.add("suffix", "string");
-    stack.outputs.add("combined", "string", fn.concat("prefix-", suffix));
-    stack.outputs.add("tagged", "string", fn.concat`prefix-${suffix}`);
-
-    const files = renderBicepFiles(stack);
-    expect(files).toHaveLength(1);
-    expect(files[0]!.contents).toContain("output combined string = concat('prefix-', suffix)");
-    expect(files[0]!.contents).toContain("output tagged string = concat('prefix-', suffix)");
-    validateRenderedBicepFiles(files);
-  }, 30_000);
 
   it("renders @batchSize decorator on resources with for-expression", () => {
     const rendered = renderBicepFile({

@@ -1,7 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { asDiscriminator, ParameterCollection, type ExpressionOrValue } from "../src/index.js";
+import {
+  asDiscriminator,
+  ParameterCollection,
+  Resource,
+  ResourceGroup,
+  Stack,
+  fn,
+  type ExpressionOrValue,
+} from "../src/index.js";
 import { describe, expect, expectTypeOf, it } from "vitest";
 
 type RuleInput =
@@ -16,16 +24,52 @@ type RuleInput =
     };
 
 describe("documentation snippets", () => {
+  it("ReadmeCreateStack", () => {
+    const stack = new Stack("application");
+
+    new ResourceGroup(stack, {
+      name: fn.concat("rg-", fn.uniqueString("application")),
+      location: "eastus",
+    });
+  });
+
+  it("ReadmeCreateKeyVault", () => {
+    const stack = new Stack("keyvault-deployment");
+    const resourceGroup = new ResourceGroup(stack, {
+      name: "rg-keyvault",
+      location: "eastus",
+    });
+
+    new Resource(resourceGroup, {
+      type: "Microsoft.KeyVault/vaults",
+      apiVersion: "2024-11-01",
+      name: fn.concat("kv-", fn.uniqueString(resourceGroup.id)),
+      location: resourceGroup.location,
+      properties: {
+        tenantId: "00000000-0000-0000-0000-000000000000",
+        sku: { family: "A", name: "standard" },
+      },
+    });
+  });
+
   const kindParam = new ParameterCollection().add("ruleKind", "string", {
     allowed: ["cache"],
   });
-  const widget: { properties: { primaryRule?: RuleInput } } = {
-    properties: {},
-  };
 
   it("AsDiscriminator", () => {
+    type Rule =
+      | { kind: "cache"; cacheKind: "long" | "short"; days: number }
+      | { kind: "redirect"; url: string };
+
+    const ruleKind = new ParameterCollection().add("ruleKind", "string", {
+      allowed: ["cache"],
+    });
+    const widget: { properties: { primaryRule?: Rule } } = {
+      properties: {},
+    };
+
     widget.properties.primaryRule = {
-      kind: asDiscriminator(kindParam),
+      kind: asDiscriminator(ruleKind),
       cacheKind: "long",
       days: 7,
     };
