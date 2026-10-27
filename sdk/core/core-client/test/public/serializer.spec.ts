@@ -2586,6 +2586,31 @@ describe("serializer", () => {
   });
 
   describe("deserializeDictionaryType", () => {
+    it("should preserve header collection entries as own data properties", () => {
+      const mapper: CompositeMapper = {
+        type: {
+          name: "Composite",
+          className: "Headers",
+          modelProperties: {
+            metadata: {
+              serializedName: "x-ms-meta",
+              headerCollectionPrefix: "x-ms-meta-",
+              type: { name: "Dictionary", value: { type: { name: "String" } } },
+            },
+          },
+        },
+      };
+      const output = serializer.deserialize(
+        mapper,
+        { "x-ms-meta-__proto__": "a", "x-ms-meta-ordinary": "b" },
+        "headers",
+      );
+      assert.strictEqual(Object.getPrototypeOf(output.metadata), Object.prototype);
+      assert.deepEqual(Object.keys(output.metadata), ["__proto__", "ordinary"]);
+      assert.strictEqual(Object.getOwnPropertyDescriptor(output.metadata, "__proto__")?.value, "a");
+      assert.strictEqual(output.metadata.ordinary, "b");
+    });
+
     it("should preserve dictionary entries as own data properties", () => {
       const mapper: DictionaryMapper = {
         type: { name: "Dictionary", value: { type: { name: "any" } } },

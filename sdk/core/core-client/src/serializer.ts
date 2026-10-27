@@ -887,12 +887,17 @@ function deserializeCompositeType(
       const dictionary: any = {};
       for (const headerKey of Object.keys(responseBody)) {
         if (headerKey.startsWith(headerCollectionPrefix)) {
-          dictionary[headerKey.substring(headerCollectionPrefix.length)] = serializer.deserialize(
-            (propertyMapper as DictionaryMapper).type.value,
-            responseBody[headerKey],
-            propertyObjectName,
-            options,
-          );
+          Object.defineProperty(dictionary, headerKey.substring(headerCollectionPrefix.length), {
+            value: serializer.deserialize(
+              (propertyMapper as DictionaryMapper).type.value,
+              responseBody[headerKey],
+              propertyObjectName,
+              options,
+            ),
+            enumerable: true,
+            configurable: true,
+            writable: true,
+          });
         }
 
         handledPropertyNames.push(headerKey);
