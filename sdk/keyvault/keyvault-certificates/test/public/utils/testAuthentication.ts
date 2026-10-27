@@ -64,7 +64,10 @@ export async function authenticate(ctx: TestInfo): Promise<any> {
       allowInsecureConnection: true,
     });
     request.headers.set("x-abstraction-identifier", "CustomDefaultMatcher");
-    request.headers.set("x-recording-id", (recorder as Recorder & { recordingId: string }).recordingId);
+    request.headers.set(
+      "x-recording-id",
+      (recorder as Recorder & { recordingId: string }).recordingId,
+    );
     request.body = JSON.stringify({
       ignoredQueryParameters: "api-version",
     });
