@@ -60,6 +60,20 @@ describe("The Secrets client should set the serviceVersion", () => {
   type ApiVersions =
     "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-04-01";
 
+  it("it should allow the stable API version used by certificate helpers", async () => {
+    const client = new SecretClient(keyVaultUrl, credential, {
+      serviceVersion: "2026-04-01",
+      httpClient: mockHttpClient,
+    });
+    await client.getSecret("secretName");
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: expect.stringContaining("api%2Dversion=2026-04-01"),
+      }),
+    );
+  });
+
   it("it should allow us to specify an API version from a specific set of versions", async () => {
     const versions: ApiVersions[] = [
       "7.0",

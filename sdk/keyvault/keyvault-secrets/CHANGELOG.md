@@ -4,7 +4,11 @@
 
 ### Features Added
 
-- Added support for service API version `2026-04-01`, which is now the default.
+- Added support for service API version `2026-04-01`, which is now the default, and for explicitly selecting it via `serviceVersion`.
+
+### Breaking Changes
+
+### Bugs Fixed
 
 ### Other Changes
 
