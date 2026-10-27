@@ -136,6 +136,11 @@ validated dispatch contract. The bot allowlist is scoped to each reviewer.
 - If no issues are found, the agent posts a single summary comment noting that
   no significant issues were identified.
 
+Management review explicitly trusts content authored by `azure-sdk-automation[bot]`
+while retaining the `approved` GitHub integrity threshold for other authors.
+The trigger's bot allowlist authorizes review requests; it does not grant access
+to the bot's PR content through the GitHub tools.
+
 ### Recommended Combinations
 
 | Scenario | Labels to Apply |
