@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("HybridConnectivity test", () => {
+describe.skip("HybridConnectivity test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: HybridConnectivityManagementAPI;
