@@ -67,6 +67,7 @@ interface QueryControlError extends Error {
 
 type QueryKind = "Parallel" | "ORDER BY";
 type QueryContext = ParallelQueryExecutionContext | OrderByQueryExecutionContext;
+type AggregateShape = "GROUP BY" | "VALUE";
 
 interface Deferred<T> {
   promise: Promise<T>;
@@ -282,6 +283,17 @@ function createGroupByQueryInfo() {
       hasSelectValue: false,
     },
   };
+}
+
+function createAggregateBackendResult(shape: AggregateShape, value: number): Resource {
+  return (shape === "VALUE"
+    ? [[{ item: value }]]
+    : [
+        {
+          groupByItems: [{ item: "group" }],
+          payload: { total: { item: value } },
+        },
+      ]) as unknown as Resource;
 }
 
 function createBackendResult(
@@ -655,6 +667,191 @@ describe("partition split recovery", () => {
     assert.isFalse(response.hasMoreResults);
     assert.equal(topology.getForceRefreshCount(), 1);
   });
+
+  it.each([
+    {
+      expected: [5],
+      queryInfo: createAggregateQueryInfo(),
+      shape: "VALUE" as const,
+    },
+    {
+      expected: [{ total: 5 }],
+      queryInfo: createGroupByQueryInfo(),
+      shape: "GROUP BY" as const,
+    },
+  ])(
+    "does not finalize a no-split query-control $shape result on a terminal empty partition",
+    async ({ expected, queryInfo: aggregateQueryInfo, shape }) => {
+      const clientContext = createClientContext();
+      const topology = mockTopology(clientContext, [
+        [aggregateLeft, aggregateSplitParent, aggregateTrailing],
+      ]);
+      const requests: string[] = [];
+      vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requests.push(rangeId);
+        if (requests.length > 3) {
+          throw new Error(`No-split ${shape} terminal-empty request guard exceeded`);
+        }
+        if (rangeId === "G1") {
+          return {
+            result: [] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        const value = rangeId === "G0" ? 1 : 4;
+        return {
+          result: createAggregateBackendResult(shape, value),
+          headers: { "x-ms-request-charge": `${value}` },
+          code: StatusCodes.Ok,
+        };
+      });
+
+      const iterator = createPublicIterator<any>(clientContext, "Parallel", aggregateQueryInfo, {
+        ...options,
+        enableQueryControl: true,
+        forceQueryPlan: true,
+        maxDegreeOfParallelism: 1,
+      });
+      const response = await fetchAllWithEndpointGuard(iterator);
+
+      assert.deepEqual(response.resources, expected);
+      assert.deepEqual(requests, ["G0", "G1", "G2"]);
+      assert.equal(requests.filter((rangeId) => rangeId === "G2").length, 1);
+      assert.equal(response.requestCharge, 6);
+      assert.isFalse(response.hasMoreResults);
+      assert.equal(topology.getForceRefreshCount(), 0);
+    },
+  );
+
+  it.each([
+    {
+      expected: [5],
+      queryInfo: createAggregateQueryInfo(),
+      shape: "VALUE" as const,
+    },
+    {
+      expected: [{ total: 5 }],
+      queryInfo: createGroupByQueryInfo(),
+      shape: "GROUP BY" as const,
+    },
+  ])(
+    "does not finalize a no-split query-control $shape result on an empty continuation page",
+    async ({ expected, queryInfo: aggregateQueryInfo, shape }) => {
+      const clientContext = createClientContext();
+      const topology = mockTopology(clientContext, [
+        [aggregateLeft, aggregateSplitParent, aggregateTrailing],
+      ]);
+      const requests: string[] = [];
+      let middleRequestCount = 0;
+      vi.spyOn(clientContext, "queryFeed").mockImplementation(
+        async ({ partitionKeyRangeId, options: requestOptions }) => {
+          const rangeId = partitionKeyRangeId ?? "none";
+          requests.push(rangeId);
+          if (requests.length > 4) {
+            throw new Error(`No-split ${shape} empty-continuation request guard exceeded`);
+          }
+          if (rangeId === "G1") {
+            middleRequestCount++;
+            if (middleRequestCount === 1) {
+              return {
+                result: [] as unknown as Resource,
+                headers: {
+                  "x-ms-continuation": "G1-next",
+                  "x-ms-request-charge": "1",
+                },
+                code: StatusCodes.Ok,
+              };
+            }
+            assert.equal(requestOptions.continuationToken, "G1-next");
+            return {
+              result: [] as unknown as Resource,
+              headers: { "x-ms-request-charge": "1" },
+              code: StatusCodes.Ok,
+            };
+          }
+          const value = rangeId === "G0" ? 1 : 4;
+          return {
+            result: createAggregateBackendResult(shape, value),
+            headers: { "x-ms-request-charge": `${value}` },
+            code: StatusCodes.Ok,
+          };
+        },
+      );
+
+      const iterator = createPublicIterator<any>(clientContext, "Parallel", aggregateQueryInfo, {
+        ...options,
+        enableQueryControl: true,
+        forceQueryPlan: true,
+        maxDegreeOfParallelism: 1,
+      });
+      const response = await fetchAllWithEndpointGuard(iterator);
+
+      assert.deepEqual(response.resources, expected);
+      assert.deepEqual(requests, ["G0", "G1", "G1", "G2"]);
+      assert.equal(requests.filter((rangeId) => rangeId === "G2").length, 1);
+      assert.equal(response.requestCharge, 7);
+      assert.isFalse(response.hasMoreResults);
+      assert.equal(topology.getForceRefreshCount(), 0);
+    },
+  );
+
+  it.each([
+    {
+      expected: [5],
+      queryInfo: createAggregateQueryInfo(),
+      shape: "VALUE" as const,
+    },
+    {
+      expected: [{ total: 5 }],
+      queryInfo: createGroupByQueryInfo(),
+      shape: "GROUP BY" as const,
+    },
+  ])(
+    "preserves no-split non-query-control $shape behavior across a terminal empty partition",
+    async ({ expected, queryInfo: aggregateQueryInfo, shape }) => {
+      const clientContext = createClientContext();
+      const topology = mockTopology(clientContext, [
+        [aggregateLeft, aggregateSplitParent, aggregateTrailing],
+      ]);
+      const requests: string[] = [];
+      vi.spyOn(clientContext, "queryFeed").mockImplementation(async ({ partitionKeyRangeId }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        requests.push(rangeId);
+        if (requests.length > 3) {
+          throw new Error(`No-split default ${shape} request guard exceeded`);
+        }
+        if (rangeId === "G1") {
+          return {
+            result: [] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        const value = rangeId === "G0" ? 1 : 4;
+        return {
+          result: createAggregateBackendResult(shape, value),
+          headers: { "x-ms-request-charge": `${value}` },
+          code: StatusCodes.Ok,
+        };
+      });
+
+      const iterator = createPublicIterator<any>(clientContext, "Parallel", aggregateQueryInfo, {
+        ...options,
+        enableQueryControl: false,
+        forceQueryPlan: true,
+        maxDegreeOfParallelism: 1,
+      });
+      const response = await fetchAllWithEndpointGuard(iterator);
+
+      assert.deepEqual(response.resources, expected);
+      assert.deepEqual(requests, ["G0", "G1", "G2"]);
+      assert.equal(response.requestCharge, 6);
+      assert.isFalse(response.hasMoreResults);
+      assert.equal(topology.getForceRefreshCount(), 0);
+    },
+  );
 
   it("consumes terminal repair children before finalizing aggregates", async () => {
     const cases = [
