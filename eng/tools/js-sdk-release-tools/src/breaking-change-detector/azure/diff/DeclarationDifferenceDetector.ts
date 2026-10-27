@@ -177,7 +177,11 @@ export class DeclarationDifferenceDetector {
   }
 
   private isClassicProperty(p: Symbol) {
-    return (p.getFlags() & SymbolFlags.Property) !== 0 && !isMethodOrArrowFunction(p);
+    return (
+      (p.getFlags() &
+        (SymbolFlags.Property | SymbolFlags.GetAccessor | SymbolFlags.SetAccessor)) !==
+        0 && !isMethodOrArrowFunction(p)
+    );
   }
 
   private canConvertConcretTypeToAny(

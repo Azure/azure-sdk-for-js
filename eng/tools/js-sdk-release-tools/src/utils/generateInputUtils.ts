@@ -1,6 +1,6 @@
 import path from "path";
 import { SDKType, RunMode, ModularSDKType } from "../common/types.js";
-import { loadTspConfig } from "../common/utils.js";
+import { loadTspConfig, provisioningEmitterName } from "../common/utils.js";
 import { RunningEnvironment } from "./runningEnvironment.js";
 import fsExtra from "fs-extra";
 
@@ -46,7 +46,7 @@ function getSDKType(isMgmtWithHLC: boolean, isModular: boolean) {
 }
 
 // TODO: generate interface for inputJson
-export async function parseInputJson(inputJson: any) {
+export async function parseInputJson(inputJson: any, typespecEmitter?: string) {
   // inputJson schema: https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/sdkautomation/GenerateInputSchema.json
   // todo: add interface for the schema
   const specFolder: string = inputJson["specFolder"];
@@ -101,7 +101,13 @@ export async function parseInputJson(inputJson: any) {
 
   const isMgmtWithHLC = isTypeSpecProject ? false : readmeMd!.includes("resource-manager");
   const isModular = await isModularClient(specFolder, typespecProjectFolder);
-  const sdkType = getSDKType(isMgmtWithHLC, isModular);
+  if (typespecEmitter === provisioningEmitterName && !isTypeSpecProject) {
+    throw new Error("Provisioning generation requires a TypeSpec project.");
+  }
+  const sdkType =
+    typespecEmitter === provisioningEmitterName
+      ? SDKType.Provisioning
+      : getSDKType(isMgmtWithHLC, isModular);
 
   if (runMode === RunMode.Release || runMode === RunMode.Local) {
     apiVersion = inputJson["apiVersion"];

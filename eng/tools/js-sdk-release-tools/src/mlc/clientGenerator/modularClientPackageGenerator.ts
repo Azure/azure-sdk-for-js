@@ -18,8 +18,6 @@ import {
   getGeneratedPackageDirectory,
   specifyApiVersionToGenerateSDKByTypeSpec,
   cleanUpPackageDirectory,
-  cleanUpDirectory,
-  provisioningEmitterName,
 } from "../../common/utils.js";
 import { getNpmPackageInfo } from "../../common/npmUtils.js";
 import { logger } from "../../utils/logger.js";
@@ -57,12 +55,7 @@ export async function generateAzureSDKPackage(
     if (await exists(packageJsonPath))
       originalNpmPackageInfo = await getNpmPackageInfo(packageDirectory);
 
-    if (options.emitterName == provisioningEmitterName) {
-      // Preserve tests when regenerating with the provisioning emitter.
-      await cleanUpDirectory(packageDirectory, ["test"]);
-    } else {
-      await cleanUpPackageDirectory(packageDirectory, options.runMode);
-    }
+    await cleanUpPackageDirectory(packageDirectory, options.runMode);
     if (options.apiVersion) {
       specifyApiVersionToGenerateSDKByTypeSpec(
         options.typeSpecDirectory,
