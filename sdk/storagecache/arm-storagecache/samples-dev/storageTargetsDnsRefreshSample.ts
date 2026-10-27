@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to tells a storage target to refresh its DNS information.
  *
  * @summary tells a storage target to refresh its DNS information.
- * x-ms-original-file: 2026-01-01/StorageTargets_DnsRefresh.json
+ * x-ms-original-file: 2026-08-01/StorageTargets_DnsRefresh.json
  */
-async function cachesDnsRefresh(): Promise<void> {
+async function storageTargetsDnsRefresh(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageCacheManagementClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function cachesDnsRefresh(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await cachesDnsRefresh();
+  await storageTargetsDnsRefresh();
 }
 
 main().catch(console.error);

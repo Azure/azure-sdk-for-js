@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the license for the private cloud
  *
  * @summary get the license for the private cloud
- * x-ms-original-file: 2025-09-01/PrivateClouds_GetVcfLicense.json
+ * x-ms-original-file: 2026-03-01/PrivateClouds_GetVcfLicense.json
  */
 async function privateCloudsGetVcfLicense(): Promise<void> {
   const credential = new DefaultAzureCredential();

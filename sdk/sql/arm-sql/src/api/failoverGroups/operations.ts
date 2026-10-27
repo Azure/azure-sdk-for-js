@@ -46,7 +46,7 @@ export function _tryPlannedBeforeForcedFailoverSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       failoverGroupName: failoverGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +73,6 @@ export async function _tryPlannedBeforeForcedFailoverDeserialize(
 
   return failoverGroupDeserializer(result.body);
 }
-
 /** Fails over from the current primary server to this server. This operation tries planned before forced failover but might still result in data loss. */
 export function tryPlannedBeforeForcedFailover(
   context: Client,
@@ -98,7 +97,7 @@ export function tryPlannedBeforeForcedFailover(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
 }
@@ -117,7 +116,7 @@ export function _forceFailoverAllowDataLossSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       failoverGroupName: failoverGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,7 +143,6 @@ export async function _forceFailoverAllowDataLossDeserialize(
 
   return failoverGroupDeserializer(result.body);
 }
-
 /** Fails over from the current primary server to this server. This operation might result in data loss. */
 export function forceFailoverAllowDataLoss(
   context: Client,
@@ -169,7 +167,7 @@ export function forceFailoverAllowDataLoss(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
 }
@@ -188,7 +186,7 @@ export function _failoverSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       failoverGroupName: failoverGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,7 +211,6 @@ export async function _failoverDeserialize(result: PathUncheckedResponse): Promi
 
   return failoverGroupDeserializer(result.body);
 }
-
 /** Fails over from the current primary server to this server. */
 export function failover(
   context: Client,
@@ -228,7 +225,7 @@ export function failover(
     getInitialResponse: () =>
       _failoverSend(context, resourceGroupName, serverName, failoverGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
 }
 
@@ -244,7 +241,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -271,7 +268,6 @@ export async function _listByServerDeserialize(
 
   return _failoverGroupListResultDeserializer(result.body);
 }
-
 /** Lists the failover groups in a server. */
 export function listByServer(
   context: Client,
@@ -284,7 +280,11 @@ export function listByServer(
     () => _listByServerSend(context, resourceGroupName, serverName, options),
     _listByServerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -302,7 +302,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       failoverGroupName: failoverGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -324,7 +324,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a failover group. */
 export function $delete(
   context: Client,
@@ -339,7 +338,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, serverName, failoverGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -358,7 +357,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       failoverGroupName: failoverGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -385,7 +384,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return failoverGroupDeserializer(result.body);
 }
-
 /** Updates a failover group. */
 export function update(
   context: Client,
@@ -401,7 +399,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, serverName, failoverGroupName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
 }
 
@@ -420,7 +418,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       failoverGroupName: failoverGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -449,7 +447,6 @@ export async function _createOrUpdateDeserialize(
 
   return failoverGroupDeserializer(result.body);
 }
-
 /** Creates or updates a failover group. */
 export function createOrUpdate(
   context: Client,
@@ -472,7 +469,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
 }
 
@@ -490,7 +487,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       failoverGroupName: failoverGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -515,7 +512,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fa
 
   return failoverGroupDeserializer(result.body);
 }
-
 /** Gets a failover group. */
 export async function get(
   context: Client,

@@ -46,7 +46,7 @@ export function _notifyInitiatorSend(
     {
       resourceUri: resourceUri,
       approvalName: approvalName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,6 +75,7 @@ export async function _notifyInitiatorDeserialize(
 
   return approvalActionResponseDeserializer(result.body);
 }
+
 /** Upon receiving approval or rejection from approver, this facilitates actions on approval resource */
 export function notifyInitiator(
   context: Client,
@@ -89,7 +90,7 @@ export function notifyInitiator(
     getInitialResponse: () =>
       _notifyInitiatorSend(context, resourceUri, approvalName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<ApprovalActionResponse>, ApprovalActionResponse>;
 }
 
@@ -104,7 +105,7 @@ export function _$deleteSend(
     {
       resourceUri: resourceUri,
       approvalName: approvalName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,6 +127,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a ApprovalResource */
 export function $delete(
   context: Client,
@@ -138,7 +140,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceUri, approvalName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -154,7 +156,7 @@ export function _updateSend(
     {
       resourceUri: resourceUri,
       approvalName: approvalName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -181,6 +183,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return approvalResourceDeserializer(result.body);
 }
+
 /** Update a ApprovalResource */
 export function update(
   context: Client,
@@ -194,7 +197,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceUri, approvalName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<ApprovalResource>, ApprovalResource>;
 }
 
@@ -207,7 +210,7 @@ export function _listByParentSend(
     "/{+resourceUri}/providers/Microsoft.Mission/approvals{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -234,6 +237,7 @@ export async function _listByParentDeserialize(
 
   return _approvalResourceListResultDeserializer(result.body);
 }
+
 /** List ApprovalResource resources by parent */
 export function listByParent(
   context: Client,
@@ -245,11 +249,7 @@ export function listByParent(
     () => _listByParentSend(context, resourceUri, options),
     _listByParentDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -265,7 +265,7 @@ export function _createOrUpdateSend(
     {
       resourceUri: resourceUri,
       approvalName: approvalName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -294,6 +294,7 @@ export async function _createOrUpdateDeserialize(
 
   return approvalResourceDeserializer(result.body);
 }
+
 /** Create a ApprovalResource */
 export function createOrUpdate(
   context: Client,
@@ -308,7 +309,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceUri, approvalName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<ApprovalResource>, ApprovalResource>;
 }
 
@@ -323,7 +324,7 @@ export function _getSend(
     {
       resourceUri: resourceUri,
       approvalName: approvalName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -348,6 +349,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ap
 
   return approvalResourceDeserializer(result.body);
 }
+
 /** Get a ApprovalResource */
 export async function get(
   context: Client,

@@ -5,6 +5,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface MachinesListOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface MachinesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -14,5 +15,6 @@ export interface MachinesCreateOrUpdateOptionalParams extends OperationOptions {
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
 }
+
 /** Optional parameters. */
 export interface MachinesGetOptionalParams extends OperationOptions {}

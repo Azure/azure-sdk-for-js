@@ -10,6 +10,7 @@ export type { ApplicationGatewaysOperations } from "./applicationGateways/index.
 export type { ApplicationGatewayWafDynamicManifestsOperations } from "./applicationGatewayWafDynamicManifests/index.js";
 export type { ApplicationGatewayWafDynamicManifestsDefaultOperations } from "./applicationGatewayWafDynamicManifestsDefault/index.js";
 export type { ApplicationSecurityGroupsOperations } from "./applicationSecurityGroups/index.js";
+export type { AuthenticationPoliciesOperations } from "./authenticationPolicies/index.js";
 export type { AvailableDelegationsOperations } from "./availableDelegations/index.js";
 export type { AvailableEndpointServicesOperations } from "./availableEndpointServices/index.js";
 export type { AvailablePrivateEndpointTypesOperations } from "./availablePrivateEndpointTypes/index.js";
@@ -37,6 +38,7 @@ export type { ExpressRouteConnectionsOperations } from "./expressRouteConnection
 export type { ExpressRouteCrossConnectionPeeringsOperations } from "./expressRouteCrossConnectionPeerings/index.js";
 export type { ExpressRouteCrossConnectionsOperations } from "./expressRouteCrossConnections/index.js";
 export type { ExpressRouteGatewaysOperations } from "./expressRouteGateways/index.js";
+export type { ExpressRouteLagAuthorizationsOperations } from "./expressRouteLagAuthorizations/index.js";
 export type { ExpressRouteLagsOperations } from "./expressRouteLags/index.js";
 export type { ExpressRouteLinksOperations } from "./expressRouteLinks/index.js";
 export type { ExpressRoutePortAuthorizationsOperations } from "./expressRoutePortAuthorizations/index.js";
@@ -146,6 +148,7 @@ export type { VirtualHubBgpConnectionsOperations } from "./virtualHubBgpConnecti
 export type { VirtualHubIpConfigurationOperations } from "./virtualHubIpConfiguration/index.js";
 export type { VirtualHubRouteTableV2SOperations } from "./virtualHubRouteTableV2S/index.js";
 export type { VirtualHubsOperations } from "./virtualHubs/index.js";
+export type { VirtualNetworkApplianceCapabilitiesOperations } from "./virtualNetworkApplianceCapabilities/index.js";
 export type { VirtualNetworkAppliancesOperations } from "./virtualNetworkAppliances/index.js";
 export type { VirtualNetworkGatewayConnectionsOperations } from "./virtualNetworkGatewayConnections/index.js";
 export type { VirtualNetworkGatewayNatRulesOperations } from "./virtualNetworkGatewayNatRules/index.js";

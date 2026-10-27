@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a logic app extension resource.
  *
  * @summary gets a logic app extension resource.
- * x-ms-original-file: 2025-10-02-preview/LogicApps_Get.json
+ * x-ms-original-file: 2026-07-01/LogicApps_Get.json
  */
 async function getLogicAppExtensionByName(): Promise<void> {
   const credential = new DefaultAzureCredential();

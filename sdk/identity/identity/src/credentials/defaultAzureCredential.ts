@@ -127,7 +127,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       createDefaultWorkloadIdentityCredential,
       createDefaultManagedIdentityCredential,
     ];
-    let credentialFunctions = [];
+    let credentialFunctions: Array<(options: DefaultAzureCredentialOptions) => TokenCredential>;
     const validCredentialNames =
       "EnvironmentCredential, WorkloadIdentityCredential, ManagedIdentityCredential, VisualStudioCodeCredential, AzureCliCredential, AzurePowerShellCredential, AzureDeveloperCliCredential";
     // If AZURE_TOKEN_CREDENTIALS is set, use it to determine which credentials to use.

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a hunt relation
  *
  * @summary gets a hunt relation
- * x-ms-original-file: 2025-07-01-preview/hunts/GetHuntRelationById.json
+ * x-ms-original-file: 2025-10-01-preview/hunts/GetHuntRelationById.json
  */
 async function getAHuntRelation(): Promise<void> {
   const credential = new DefaultAzureCredential();

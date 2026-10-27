@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Traffic Manager profiles within a subscription.
  *
  * @summary lists all Traffic Manager profiles within a subscription.
- * x-ms-original-file: 2024-04-01-preview/Profile-GET-BySubscription.json
+ * x-ms-original-file: 2026-09-01/Profile-GET-BySubscription.json
  */
 async function listBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext } from "../../api/providerHubContext.js";
+import type { ProviderHubContext } from "../../api/providerHubContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/authorizedApplications/operations.js";
-import {
+import type {
   AuthorizedApplicationsListOptionalParams,
   AuthorizedApplicationsDeleteOptionalParams,
   AuthorizedApplicationsCreateOrUpdateOptionalParams,
   AuthorizedApplicationsGetOptionalParams,
 } from "../../api/authorizedApplications/options.js";
-import { AuthorizedApplication } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { AuthorizedApplication } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AuthorizedApplications operations. */
 export interface AuthorizedApplicationsOperations {

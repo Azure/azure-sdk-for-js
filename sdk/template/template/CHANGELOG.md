@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.13-beta.4 (2026-09-14)
+
+### Features Added
+- Test Release Pipeline
+
 ## 1.0.13-beta.3 (2026-07-13)
 
 ### Features Added

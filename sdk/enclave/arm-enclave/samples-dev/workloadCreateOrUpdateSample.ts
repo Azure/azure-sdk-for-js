@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a WorkloadResource
  *
  * @summary create a WorkloadResource
- * x-ms-original-file: 2026-03-01-preview/Workload_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01/Workload_CreateOrUpdate.json
  */
 async function workloadCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

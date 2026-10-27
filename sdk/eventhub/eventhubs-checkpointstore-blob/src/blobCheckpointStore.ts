@@ -92,7 +92,7 @@ export class BlobCheckpointStore implements CheckpointStore {
 
       if (err?.name === "AbortError") throw err;
 
-      throw new Error(`Error occurred while fetching the list of blobs. \n${err}`);
+      throw new Error(`Error occurred while fetching the list of blobs. \n${err}`, { cause: err });
     }
   }
 

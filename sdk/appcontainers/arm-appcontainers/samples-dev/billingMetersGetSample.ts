@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all billingMeters for a location.
  *
  * @summary get all billingMeters for a location.
- * x-ms-original-file: 2025-10-02-preview/BillingMeters_Get.json
+ * x-ms-original-file: 2026-07-01/BillingMeters_Get.json
  */
 async function billingMetersGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

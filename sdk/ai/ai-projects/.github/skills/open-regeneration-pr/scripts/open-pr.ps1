@@ -133,7 +133,8 @@ try {
   ) -NoOp:$SamplesNoOp
 
   Commit-Group "[ai-projects] regen: tests for new GA features" @(
-    "$pkg/test"
+    "$pkg/test",
+    "$pkg/README.md"
   ) -NoOp:$TestsNoOp
 
   Commit-Group "[ai-projects] regen: changelog" @(
@@ -144,6 +145,10 @@ try {
   $remaining = & git status --porcelain -- $pkg
   if ($remaining) {
     throw "Uncategorized changes remain under ${pkg}:`n$($remaining -join "`n")"
+  }
+
+  if (Test-Path -LiteralPath "$pkg/temp/customization-worklist.md") {
+    Write-Warning 'temp/customization-worklist.md exists: recovery mode kept customized code during this regeneration. The pull request description must include the judgement-call table from apply-post-emitter-edits Step 0a (one row per worklist entry: disposition and reason).'
   }
 
   if ($ManagedAgentSession) {

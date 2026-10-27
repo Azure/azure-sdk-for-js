@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to activates a revision for a Container App
  *
  * @summary activates a revision for a Container App
- * x-ms-original-file: 2025-10-02-preview/Revisions_Activate.json
+ * x-ms-original-file: 2026-07-01/Revisions_Activate.json
  */
 async function activateContainerAppRevision(): Promise<void> {
   const credential = new DefaultAzureCredential();

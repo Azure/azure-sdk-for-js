@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of all search services in the given resource group.
  *
  * @summary gets a list of all search services in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchListServicesByResourceGroup.json
+ * x-ms-original-file: 2026-11-01/SearchListServicesByResourceGroup.json
  */
 async function searchListServicesByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

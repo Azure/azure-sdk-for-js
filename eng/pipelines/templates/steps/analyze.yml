@@ -48,32 +48,24 @@ steps:
     parameters:
       ServiceDirectories: $(ChangedServicesCsv)
 
-  - script: |
-      npm ci
-    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
-    displayName: "Install eng-package-utils dependencies"
+  - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: |
-      npm ci
-    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
-    displayName: "Install tool dependencies"
+      pnpm install
+    displayName: "Install repository dependencies"
 
   - script: |
       node index.js --verbose --dump "$(Build.ArtifactStagingDirectory)" --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Analyze library dependencies"
 
-  - template: /eng/pipelines/templates/steps/install-pnpm.yml
-
-  - script: |
-      pnpm install
-    displayName: "Install library dependencies"
-
   - pwsh: |
-      pnpm build --filter @azure/eslint-plugin-azure-sdk...
+      # Typed linting needs built declarations for workspace dependencies.
+      pnpm build --filter @azure/monitor-opentelemetry...
+      if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       $env:FORCE_COLOR = "1"
       node eng/tools/ci-runner/index.js lint "$(ChangedServices)"
-    displayName: "Build ESLint Plugin and Lint Libraries"
+    displayName: "Build Lint Prerequisites and Lint Libraries"
 
   - pwsh: |
       node eng/tools/ci-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)"
@@ -88,8 +80,9 @@ steps:
     displayName: "Check snippet changes"
 
   - pwsh: |
-      node eng/tools/ci-runner/index.js check-package-version $(ChangedServices) -packages "$(ArtifactPackageNames)"
+      node eng/tools/ci-runner/index.js check-package-version $(ChangedServices) -packages "$(DirectArtifactPackageNames)"
     displayName: "Check package version"
+    condition: and(succeeded(), ne(variables['DirectArtifactPackageNames'], ''))
 
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
     parameters:

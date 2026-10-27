@@ -25,5 +25,5 @@ extends:
   parameters:
     ServiceDirectory: contentsafety
     Artifacts:
-      - name: azure-rest-ai-content-safety
-        safeName: azurerestaicontentsafety
+      - name: azure-ai-content-safety
+        safeName: azureaicontentsafety

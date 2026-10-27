@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists major version upgrade prechecks for a flexible server.
  *
  * @summary lists major version upgrade prechecks for a flexible server.
- * x-ms-original-file: 2026-04-01-preview/MajorVersionUpgradePrecheckListByServer.json
+ * x-ms-original-file: 2026-07-01-preview/MajorVersionUpgradePrecheckListByServer.json
  */
 async function listAllMajorVersionUpgradePrecheckValidationsForAServer() {
   const credential = new DefaultAzureCredential();

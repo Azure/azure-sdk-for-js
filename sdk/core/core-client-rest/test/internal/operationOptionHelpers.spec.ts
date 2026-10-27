@@ -3,6 +3,7 @@
 
 import { describe, it, assert } from "vitest";
 import { operationOptionsToRequestParameters } from "../../src/operationOptionHelpers.js";
+import type { OperationOptions, OperationRequestOptions } from "../../src/common.js";
 
 describe("operationOptionsToRequestParameters", () => {
   it("promotes requestOptions fields to root-level request parameters", () => {
@@ -24,6 +25,33 @@ describe("operationOptionsToRequestParameters", () => {
     assert.equal(result.onUploadProgress, onUpload);
     assert.equal(result.onDownloadProgress, onDownload);
     assert.deepEqual(result.headers, { "x-custom": "value" });
+  });
+
+  it("maps package-local customHeaders to headers and prefers canonical headers", () => {
+    const options: Omit<OperationOptions, "requestOptions"> & {
+      requestOptions: OperationRequestOptions & {
+        customHeaders: Record<string, string>;
+      };
+    } = {
+      requestOptions: {
+        customHeaders: {
+          "x-legacy": "legacy",
+          "X-Shared": "legacy",
+        },
+        headers: {
+          "X-Current": "current",
+          "x-shared": "current",
+        },
+      },
+    };
+
+    const result = operationOptionsToRequestParameters(options);
+
+    assert.deepEqual(result.headers, {
+      "x-legacy": "legacy",
+      "x-current": "current",
+      "x-shared": "current",
+    });
   });
 
   it("passes through abortSignal and onResponse", () => {

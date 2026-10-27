@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patches a Java Component using JSON Merge Patch
  *
  * @summary patches a Java Component using JSON Merge Patch
- * x-ms-original-file: 2025-10-02-preview/JavaComponents_Patch.json
+ * x-ms-original-file: 2026-07-01/JavaComponents_Patch.json
  */
 async function patchJavaComponent(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function patchJavaComponent(): Promise<void> {
  * This sample demonstrates how to patches a Java Component using JSON Merge Patch
  *
  * @summary patches a Java Component using JSON Merge Patch
- * x-ms-original-file: 2025-10-02-preview/JavaComponents_Patch_ServiceBind.json
+ * x-ms-original-file: 2026-07-01/JavaComponents_Patch_ServiceBind.json
  */
 async function patchJavaComponentWithServiceBinds(): Promise<void> {
   const credential = new DefaultAzureCredential();

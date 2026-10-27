@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all threat intelligence indicators.
  *
  * @summary get all threat intelligence indicators.
- * x-ms-original-file: 2025-07-01-preview/threatintelligence/GetThreatIntelligence.json
+ * x-ms-original-file: 2025-10-01-preview/threatintelligence/GetThreatIntelligence.json
  */
 async function getAllThreatIntelligenceIndicators(): Promise<void> {
   const credential = new DefaultAzureCredential();

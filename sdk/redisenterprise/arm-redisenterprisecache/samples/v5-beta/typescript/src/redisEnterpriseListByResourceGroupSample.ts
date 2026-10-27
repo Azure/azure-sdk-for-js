@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Redis Enterprise clusters in a resource group.
  *
  * @summary lists all Redis Enterprise clusters in a resource group.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseListByResourceGroup.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseListByResourceGroup.json
  */
 async function redisEnterpriseListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

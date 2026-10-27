@@ -58,6 +58,7 @@ import type {
 import {
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
+  encodePathParameter,
   extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
@@ -154,7 +155,7 @@ export class AppConfigurationClient {
     tokenCredentialOrOptions?: TokenCredential | AppConfigurationClientOptions,
     options?: AppConfigurationClientOptions,
   ) {
-    let appConfigOptions: InternalAppConfigurationClientOptions = {};
+    let appConfigOptions: InternalAppConfigurationClientOptions;
     let appConfigCredential: TokenCredential | undefined = undefined;
     let appConfigEndpoint: string;
     let authPolicy: PipelinePolicy | undefined;
@@ -270,7 +271,7 @@ export class AppConfigurationClient {
         try {
           const originalResponse = await this.client.putKeyValue(
             "application/json",
-            configurationSetting.key,
+            encodePathParameter(configurationSetting.key),
             {
               ifNoneMatch: "*",
               label: configurationSetting.label,
@@ -329,12 +330,13 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         let status;
         logger.info("[deleteConfigurationSetting] Deleting key value pair");
-        const originalResponse = await this.client.deleteKeyValue(id.key, {
+        const originalResponse = await this.client.deleteKeyValue(encodePathParameter(id.key), {
           label: id.label,
           ...updatedOptions,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
-          onResponse: (response) => {
-            status = response.status;
+          onResponse: (...args) => {
+            status = args[0].status;
+            updatedOptions.onResponse?.(...args);
           },
           requestOptions: {
             ...updatedOptions.requestOptions,
@@ -377,17 +379,24 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         let status;
         let rawResponse: any;
+        let callbackThrew = false;
         logger.info("[getConfigurationSetting] Getting key value pair");
         try {
-          const originalResponse = await this.client.getKeyValue(id.key, {
+          const originalResponse = await this.client.getKeyValue(encodePathParameter(id.key), {
             ...updatedOptions,
             label: id.label,
             select: formatFieldsForSelect(options.fields),
             ...formatAcceptDateTime(options),
             ...checkAndFormatIfAndIfNoneMatch(id, options),
-            onResponse: (response) => {
-              status = response.status;
-              rawResponse = response;
+            onResponse: (...args) => {
+              status = args[0].status;
+              rawResponse = args[0];
+              try {
+                updatedOptions.onResponse?.(...args);
+              } catch (error) {
+                callbackThrew = true;
+                throw error;
+              }
             },
             requestOptions: {
               ...updatedOptions.requestOptions,
@@ -399,6 +408,9 @@ export class AppConfigurationClient {
           assertResponse(response);
           return response;
         } catch (error) {
+          if (callbackThrew) {
+            throw error;
+          }
           const err = error as RestError;
           // 304 only comes back if the user has passed a conditional option in their
           // request _and_ the remote object has the same etag as what the user passed.
@@ -845,17 +857,21 @@ export class AppConfigurationClient {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
         logger.info("[setConfigurationSetting] Setting new key value");
         const response = transformKeyValueResponse(
-          await this.client.putKeyValue("application/json", configurationSetting.key, {
-            ...updatedOptions,
-            label: configurationSetting.label,
-            entity: keyValue,
-            ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
+          await this.client.putKeyValue(
+            "application/json",
+            encodePathParameter(configurationSetting.key),
+            {
+              ...updatedOptions,
+              label: configurationSetting.label,
+              entity: keyValue,
+              ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
 
-            requestOptions: {
-              ...updatedOptions.requestOptions,
-              skipUrlEncoding: true,
+              requestOptions: {
+                ...updatedOptions.requestOptions,
+                skipUrlEncoding: true,
+              },
             },
-          }),
+          ),
         );
         assertResponse(response);
         return response;
@@ -879,7 +895,7 @@ export class AppConfigurationClient {
         let response;
         if (readOnly) {
           logger.info("[setReadOnly] Setting read-only status to ${readOnly}");
-          response = await this.client.putLock(id.key, {
+          response = await this.client.putLock(encodePathParameter(id.key), {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
@@ -891,7 +907,7 @@ export class AppConfigurationClient {
           });
         } else {
           logger.info("[setReadOnly] Deleting read-only lock");
-          response = await this.client.deleteLock(id.key, {
+          response = await this.client.deleteLock(encodePathParameter(id.key), {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),

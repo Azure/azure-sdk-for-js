@@ -111,7 +111,6 @@ export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicie
     options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetOptionalParams,
   ) => Promise<ManagedBackupShortTermRetentionPolicy>;
 }
-
 function _getManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies(
   context: SqlManagementContext,
 ) {
@@ -256,7 +255,6 @@ function _getManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies(
       ),
   };
 }
-
 export function _getManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations(
   context: SqlManagementContext,
 ): ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a DedicatedHubResource
  *
  * @summary update a DedicatedHubResource
- * x-ms-original-file: 2026-03-01-preview/DedicatedHubs_Update.json
+ * x-ms-original-file: 2026-04-01/DedicatedHubs_Update.json
  */
 async function dedicatedHubUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

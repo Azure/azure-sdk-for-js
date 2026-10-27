@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext } from "../../api/providerHubContext.js";
+import type { ProviderHubContext } from "../../api/providerHubContext.js";
 import {
   listByProviderRegistration,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/resourceTypeRegistrations/operations.js";
-import {
+import type {
   ResourceTypeRegistrationsListByProviderRegistrationOptionalParams,
   ResourceTypeRegistrationsDeleteOptionalParams,
   ResourceTypeRegistrationsCreateOrUpdateOptionalParams,
   ResourceTypeRegistrationsGetOptionalParams,
 } from "../../api/resourceTypeRegistrations/options.js";
-import { ResourceTypeRegistration } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { ResourceTypeRegistration } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ResourceTypeRegistrations operations. */
 export interface ResourceTypeRegistrationsOperations {

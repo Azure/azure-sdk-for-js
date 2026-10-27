@@ -40,6 +40,7 @@ export type {
   PrivateLinkServiceConnection,
   PrivateLinkServiceConnectionProperties,
   PrivateLinkServiceConnectionState,
+  ApprovalReference,
   CustomDnsConfigPropertiesFormat,
   PrivateEndpointIPConfiguration,
   PrivateEndpointIPConfigurationProperties,

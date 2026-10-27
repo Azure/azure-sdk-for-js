@@ -83,7 +83,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
 }
-
 function _getPrivateEndpointConnections(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -184,7 +183,6 @@ function _getPrivateEndpointConnections(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, privateEndpointConnectionName, options),
   };
 }
-
 export function _getPrivateEndpointConnectionsOperations(
   context: SqlManagementContext,
 ): PrivateEndpointConnectionsOperations {

@@ -30,6 +30,7 @@ export function parseContinuationTokenFields(continuationToken: string): Continu
   } catch (error) {
     throw new Error(
       `Failed to parse continuation token: ${error instanceof Error ? error.message : String(error)}`,
+      { cause: error },
     );
   }
 }

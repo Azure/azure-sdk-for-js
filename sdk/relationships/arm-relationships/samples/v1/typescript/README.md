@@ -1,0 +1,91 @@
+# @azure/arm-relationships client library samples for TypeScript
+
+These sample programs show how to use the TypeScript client libraries for @azure/arm-relationships in some common scenarios.
+
+| **File Name**                                                                                                                 | **Description**                                                                                                                          |
+| ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| [containsRelationshipsListByResourceGroupSample.ts][containsrelationshipslistbyresourcegroupsample]                           | list ContainsRelationship resources by resource group x-ms-original-file: 2026-08-01/ContainsRelationships_ListByResourceGroup.json      |
+| [containsRelationshipsListBySubscriptionSample.ts][containsrelationshipslistbysubscriptionsample]                             | list ContainsRelationship resources by subscription ID x-ms-original-file: 2026-08-01/ContainsRelationships_ListBySubscription.json      |
+| [dependencyOfRelationshipsByServiceGroupCreateOrUpdateSample.ts][dependencyofrelationshipsbyservicegroupcreateorupdatesample] | create a DependencyOfRelationship x-ms-original-file: 2026-08-01/DependencyOfRelationshipsByServiceGroup_CreateOrUpdate.json             |
+| [dependencyOfRelationshipsByServiceGroupDeleteSample.ts][dependencyofrelationshipsbyservicegroupdeletesample]                 | delete a DependencyOfRelationship x-ms-original-file: 2026-08-01/DependencyOfRelationshipsByServiceGroup_Delete.json                     |
+| [dependencyOfRelationshipsByServiceGroupGetSample.ts][dependencyofrelationshipsbyservicegroupgetsample]                       | get a DependencyOfRelationship x-ms-original-file: 2026-08-01/DependencyOfRelationshipsByServiceGroup_Get.json                           |
+| [dependencyOfRelationshipsByServiceGroupListSample.ts][dependencyofrelationshipsbyservicegrouplistsample]                     | list DependencyOfRelationship resources by scope x-ms-original-file: 2026-08-01/DependencyOfRelationshipsByServiceGroup_List.json        |
+| [dependencyOfRelationshipsCreateOrUpdateSample.ts][dependencyofrelationshipscreateorupdatesample]                             | create a DependencyOfRelationship x-ms-original-file: 2026-08-01/DependencyOfRelationships_CreateOrUpdate.json                           |
+| [dependencyOfRelationshipsDeleteSample.ts][dependencyofrelationshipsdeletesample]                                             | delete a DependencyOfRelationship x-ms-original-file: 2026-08-01/DependencyOfRelationships_Delete.json                                   |
+| [dependencyOfRelationshipsGetSample.ts][dependencyofrelationshipsgetsample]                                                   | get a DependencyOfRelationship x-ms-original-file: 2026-08-01/DependencyOfRelationships_Get.json                                         |
+| [dependencyOfRelationshipsListByParentSample.ts][dependencyofrelationshipslistbyparentsample]                                 | list DependencyOfRelationship resources by parent x-ms-original-file: 2026-08-01/DependencyOfRelationships_ListByParent.json             |
+| [operationsListSample.ts][operationslistsample]                                                                               | list the operations for the provider x-ms-original-file: 2026-08-01/Operations_List_MaximumSet_Gen.json                                  |
+| [serviceGroupMemberRelationshipsCreateOrUpdateSample.ts][servicegroupmemberrelationshipscreateorupdatesample]                 | create a ServiceGroupMemberRelationship x-ms-original-file: 2026-08-01/ServiceGroupMemberRelationships_CreateOrUpdate.json               |
+| [serviceGroupMemberRelationshipsDeleteSample.ts][servicegroupmemberrelationshipsdeletesample]                                 | delete a ServiceGroupMemberRelationship x-ms-original-file: 2026-08-01/ServiceGroupMemberRelationships_Delete.json                       |
+| [serviceGroupMemberRelationshipsGetSample.ts][servicegroupmemberrelationshipsgetsample]                                       | get a ServiceGroupMemberRelationship x-ms-original-file: 2026-08-01/ServiceGroupMemberRelationships_Get.json                             |
+| [serviceGroupMemberRelationshipsListByParentSample.ts][servicegroupmemberrelationshipslistbyparentsample]                     | list ServiceGroupMemberRelationship resources by parent x-ms-original-file: 2026-08-01/ServiceGroupMemberRelationships_ListByParent.json |
+
+## Prerequisites
+
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
+
+Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
+
+```bash
+npm install -g typescript
+```
+
+You need [an Azure subscription][freesub] to run these sample programs.
+
+Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
+
+Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
+
+## Setup
+
+To run the samples using the published version of the package:
+
+1. Install the dependencies using `npm`:
+
+```bash
+npm install
+```
+
+2. Compile the samples:
+
+```bash
+npm run build
+```
+
+3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+
+4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+
+```bash
+node dist/containsRelationshipsListByResourceGroupSample.js
+```
+
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+
+```bash
+node dist/containsRelationshipsListByResourceGroupSample.js
+```
+
+## Next Steps
+
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
+[containsrelationshipslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/containsRelationshipsListByResourceGroupSample.ts
+[containsrelationshipslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/containsRelationshipsListBySubscriptionSample.ts
+[dependencyofrelationshipsbyservicegroupcreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/dependencyOfRelationshipsByServiceGroupCreateOrUpdateSample.ts
+[dependencyofrelationshipsbyservicegroupdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/dependencyOfRelationshipsByServiceGroupDeleteSample.ts
+[dependencyofrelationshipsbyservicegroupgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/dependencyOfRelationshipsByServiceGroupGetSample.ts
+[dependencyofrelationshipsbyservicegrouplistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/dependencyOfRelationshipsByServiceGroupListSample.ts
+[dependencyofrelationshipscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/dependencyOfRelationshipsCreateOrUpdateSample.ts
+[dependencyofrelationshipsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/dependencyOfRelationshipsDeleteSample.ts
+[dependencyofrelationshipsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/dependencyOfRelationshipsGetSample.ts
+[dependencyofrelationshipslistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/dependencyOfRelationshipsListByParentSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/operationsListSample.ts
+[servicegroupmemberrelationshipscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/serviceGroupMemberRelationshipsCreateOrUpdateSample.ts
+[servicegroupmemberrelationshipsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/serviceGroupMemberRelationshipsDeleteSample.ts
+[servicegroupmemberrelationshipsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/serviceGroupMemberRelationshipsGetSample.ts
+[servicegroupmemberrelationshipslistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1/typescript/src/serviceGroupMemberRelationshipsListByParentSample.ts
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-relationships
+[freesub]: https://azure.microsoft.com/free/
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/relationships/arm-relationships/README.md
+[typescript]: https://www.typescriptlang.org/docs/home.html

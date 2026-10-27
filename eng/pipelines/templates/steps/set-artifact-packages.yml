@@ -38,7 +38,15 @@ steps:
 
       $packageSet = "$(ArtifactPackageNames)" -split ","
 
-      $changedServicesArray = $packageProperties | Where-Object { $packageSet -contains $_.ArtifactName }
+      $selectedPackageProperties = $packageProperties | Where-Object { $packageSet -contains $_.ArtifactName }
+
+      $directArtifactPackageNames = $selectedPackageProperties `
+        | Where-Object { $_.IncludedForValidation -eq $false } `
+        | Select-Object -ExpandProperty ArtifactName -Unique
+      $directArtifactSetting = $directArtifactPackageNames -join ","
+      Write-Host "##vso[task.setvariable variable=DirectArtifactPackageNames;]$directArtifactSetting"
+
+      $changedServicesArray = $selectedPackageProperties
         | ForEach-Object { $_.ServiceDirectory } | Get-Unique
 
       $changedServices = $changedServicesArray -join " "
@@ -47,5 +55,6 @@ steps:
       Write-Host "##vso[task.setvariable variable=ChangedServicesCsv;]$commaChangedServices"
 
       Write-Host "This run is targeting: `n$(ArtifactPackageNames) in [$changedServices]"
+      Write-Host "Directly changed packages: `n$directArtifactSetting"
     displayName: Resolve Targeted Packages
     condition: ne(variables['ArtifactPackageNames'], '')

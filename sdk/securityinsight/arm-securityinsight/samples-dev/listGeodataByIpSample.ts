@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get geodata for a single IP address
  *
  * @summary get geodata for a single IP address
- * x-ms-original-file: 2025-07-01-preview/enrichment/GetGeodataWithWorkspaceByIp.json
+ * x-ms-original-file: 2025-10-01-preview/enrichment/GetGeodataWithWorkspaceByIp.json
  */
 async function getGeodataForASingleIPAddress(): Promise<void> {
   const credential = new DefaultAzureCredential();

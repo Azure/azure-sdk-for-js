@@ -104,6 +104,42 @@ const loggerProvider = new LoggerProvider({
 logs.setGlobalLoggerProvider(loggerProvider);
 ```
 
+#### Availability results
+
+After registering the logger provider, emit an OpenTelemetry log record with the availability attributes below. The exporter converts the record to Application Insights availability telemetry.
+
+```ts snippet:ReadmeSampleAvailability
+import { logs } from "@opentelemetry/api-logs";
+
+const logger = logs.getLogger("availability");
+logger.emit({
+  body: "Homepage availability test completed.",
+  attributes: {
+    "microsoft.availability.id": "availability-test-run-123",
+    "microsoft.availability.name": "Homepage",
+    "microsoft.availability.duration": "00:00:00.250",
+    "microsoft.availability.success": true,
+    "microsoft.availability.runLocation": "westus2",
+    "microsoft.availability.message": "HTTP 200",
+  },
+});
+```
+
+The following attributes are required:
+
+| Attribute | Description |
+| --- | --- |
+| `microsoft.availability.id` | Identifier for this test run. |
+| `microsoft.availability.name` | Name of the availability test. |
+| `microsoft.availability.duration` | Test duration, for example `00:00:00.250`. |
+| `microsoft.availability.success` | Whether the test succeeded. |
+
+`microsoft.availability.runLocation` and `microsoft.availability.message` are optional. If the message attribute is omitted, the log body is used as the availability message. The availability result timestamp comes from the OpenTelemetry log record.
+
+Availability records use the same correlation context as other OpenTelemetry logs. When a record is emitted with an active span (or an explicit OpenTelemetry context), the span trace ID and span ID populate the Application Insights operation ID and parent ID. These values are authoritative and cannot be overridden by log attributes. The availability test-run ID remains separate from the operation ID.
+
+If any required attribute is missing or empty, the exporter sends the record as regular message telemetry instead. Exception and custom event attributes take precedence over availability attributes.
+
 ### Sampling
 
 You can enable sampling to limit the amount of telemetry records you receive. In order to enable correct sampling in Application Insights, use the `ApplicationInsightsSampler` as shown below.
@@ -138,6 +174,14 @@ For more information on the OpenTelemetry project, please review the [**OpenTele
 ### Custom Dimensions Size Limit
 
 By default, custom dimension values are truncated to 64KB. This protects against unexpectedly large payloads.
+
+### Request compression
+
+The exporter automatically gzip-compresses telemetry sent over HTTPS to Azure Monitor ingestion endpoints, including internal Statsbeat and customer SDK Stats. Compression applies to `/v2/track` and `/v2.1/track` on recognized Azure Monitor domains in the public, US Government, and China clouds. Custom ingestion endpoints and reverse proxies outside those domains continue to receive uncompressed JSON.
+
+Compression happens after pipeline policies run. A custom `httpClient` receives the compressed body with `Content-Encoding: gzip` and the compressed `Content-Length`. Requests with an existing `Content-Encoding` are left unchanged. Offline telemetry is stored as envelopes and compressed only when sent or replayed. This does not change Live Metrics, OTLP exporters, or other Azure SDK clients.
+
+If gzip compression fails, the exporter logs a diagnostic warning and sends the original uncompressed request. Normal retry and offline storage behavior still applies if sending that request fails.
 
 ## Troubleshooting
 

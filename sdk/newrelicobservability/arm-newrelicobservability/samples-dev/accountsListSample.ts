@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the New Relic accounts linked to your email address, helping you understand the existing accounts that have been created
  *
  * @summary lists all the New Relic accounts linked to your email address, helping you understand the existing accounts that have been created
- * x-ms-original-file: 2025-05-01-preview/Accounts_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Accounts_List_MaximumSet_Gen.json
  */
 async function accountsListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function accountsListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to lists all the New Relic accounts linked to your email address, helping you understand the existing accounts that have been created
  *
  * @summary lists all the New Relic accounts linked to your email address, helping you understand the existing accounts that have been created
- * x-ms-original-file: 2025-05-01-preview/Accounts_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Accounts_List_MinimumSet_Gen.json
  */
 async function accountsListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

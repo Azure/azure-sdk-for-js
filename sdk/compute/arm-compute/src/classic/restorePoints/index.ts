@@ -68,6 +68,7 @@ export interface RestorePointsOperations {
     options?: RestorePointsGetOptionalParams,
   ) => Promise<RestorePoint>;
 }
+
 function _getRestorePoints(context: ComputeManagementContext) {
   return {
     delete: (
@@ -163,6 +164,7 @@ function _getRestorePoints(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, restorePointCollectionName, restorePointName, options),
   };
 }
+
 export function _getRestorePointsOperations(
   context: ComputeManagementContext,
 ): RestorePointsOperations {

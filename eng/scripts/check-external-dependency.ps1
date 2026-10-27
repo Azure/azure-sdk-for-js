@@ -133,6 +133,11 @@ foreach ($update in $availableUpdates.PSObject.Properties) {
         continue
       }
 
+      if ($p.IsDeprecated) {
+        Write-Host "Skipping deprecated version for $($p.Name): $($p.NewVersion)."
+        continue
+      }
+
       Write-Host $update.Name, $update.Value.'wanted', $update.Value.'latest'
       Set-GitHubIssue -Package $p
       Start-Sleep -s 5

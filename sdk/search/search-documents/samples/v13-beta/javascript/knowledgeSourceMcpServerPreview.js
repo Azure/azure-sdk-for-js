@@ -23,8 +23,8 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const {
   KnowledgeRetrievalClient,
+  KnownKnowledgeSourceResultsProcessing,
   KnownMcpServerOutputParsingKind,
-  KnownMcpServerToolInclusionMode,
   SearchIndexClient,
 } = require("@azure/search-documents");
 
@@ -52,7 +52,7 @@ async function main() {
     kind: "mcpServer",
     description: "MCP server knowledge source delegating retrieval to a remote MCP endpoint.",
     mcpServerParameters: {
-      serverURL: mcpServerUrl || "https://contoso.example.com/mcp",
+      serverUrl: mcpServerUrl || "https://contoso.example.com/mcp",
       authentication: {
         kind: "storedHeaders",
         storedHeadersParameters: {
@@ -67,7 +67,7 @@ async function main() {
         {
           name: "search",
           outputParsing: { kind: KnownMcpServerOutputParsingKind.Auto },
-          inclusionMode: KnownMcpServerToolInclusionMode.Reranked,
+          resultsProcessing: KnownKnowledgeSourceResultsProcessing.Rerank,
           maxOutputTokens: 2048,
         },
         {

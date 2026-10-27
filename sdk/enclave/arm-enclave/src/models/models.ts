@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -3428,14 +3429,6 @@ export function approvalActionRequestSerializer(item: ApprovalActionRequest): an
 
 /** Supported API versions for the Microsoft.Mission resource provider. */
 export enum KnownVersions {
-  /** The 2024-06-01-preview version. */
-  V20240601Preview = "2024-06-01-preview",
-  /** The 2024-12-01-preview version. */
-  V20241201Preview = "2024-12-01-preview",
-  /** The 2025-05-01-preview version. */
-  V20250501Preview = "2025-05-01-preview",
-  /** The 2025-11-01-preview version. */
-  V20251101Preview = "2025-11-01-preview",
-  /** The 2026-03-01-preview version. */
-  V20260301Preview = "2026-03-01-preview",
+  /** The 2026-04-01 version. */
+  V20260401 = "2026-04-01",
 }

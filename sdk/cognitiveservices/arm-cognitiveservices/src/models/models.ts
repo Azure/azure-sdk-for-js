@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+
 /** Check SKU availability parameter. */
 export interface CheckSkuAvailabilityParameter {
   /** The SKU of the resource. */
@@ -583,6 +583,8 @@ export interface AccountProperties {
   dynamicThrottlingEnabled?: boolean;
   /** The flag to disable stored completions. */
   storedCompletionsDisabled?: boolean;
+  /** Specifies whether A365 logging is enabled. Defaults to true. Set to false to opt out. */
+  a365LoggingEnabled?: boolean;
   readonly quotaLimit?: QuotaLimit;
   restrictOutboundNetworkAccess?: boolean;
   allowedFqdnList?: string[];
@@ -611,6 +613,17 @@ export interface AccountProperties {
   defaultProject?: string;
   /** Specifies the projects, by project name, that are associated with this resource. */
   associatedProjects?: string[];
+  /** Reusable default agent capability settings inherited by child projects. */
+  capabilitySettings?: CapabilitySettings;
+  /** Customer-owned AKS hosting configurations for Foundry agents. This property can only be specified when the account is created; an existing account without a hosting configuration cannot add one later. This API version supports exactly one configuration, while the array shape is reserved for future API versions that may support multiple configurations. Once set, the configuration cannot be changed, removed, or reordered. Account update requests should omit this property or send the complete existing value unchanged. Responses only include hosting configuration types defined by the requested API version. */
+  agentHostingConfigurations?: AgentHostingConfigurationUnion[];
+  /**
+   * The full resource IDs of cost controls directly attached to this account.
+   * At the moment the service only supports a single cost control. This will be expanded in future API versions.
+   */
+  costControlIds?: string[];
+  /** The account-level connections used to publish cost control telemetry and events. Application Insights is optional for attachment, accounting, and enforcement and can be configured later. Event Grid must be configured before attaching a cost control with an alert threshold. */
+  costControlConnections?: CostControlConnections;
 }
 
 export function accountPropertiesSerializer(item: AccountProperties): any {
@@ -633,6 +646,7 @@ export function accountPropertiesSerializer(item: AccountProperties): any {
       : apiPropertiesSerializer(item["apiProperties"]),
     dynamicThrottlingEnabled: item["dynamicThrottlingEnabled"],
     storedCompletionsDisabled: item["storedCompletionsDisabled"],
+    a365LoggingEnabled: item["a365LoggingEnabled"],
     restrictOutboundNetworkAccess: item["restrictOutboundNetworkAccess"],
     allowedFqdnList: !item["allowedFqdnList"]
       ? item["allowedFqdnList"]
@@ -660,6 +674,20 @@ export function accountPropertiesSerializer(item: AccountProperties): any {
       : item["associatedProjects"].map((p: any) => {
           return p;
         }),
+    capabilitySettings: !item["capabilitySettings"]
+      ? item["capabilitySettings"]
+      : capabilitySettingsSerializer(item["capabilitySettings"]),
+    agentHostingConfigurations: !item["agentHostingConfigurations"]
+      ? item["agentHostingConfigurations"]
+      : agentHostingConfigurationUnionArraySerializer(item["agentHostingConfigurations"]),
+    costControlIds: !item["costControlIds"]
+      ? item["costControlIds"]
+      : item["costControlIds"].map((p: any) => {
+          return p;
+        }),
+    costControlConnections: !item["costControlConnections"]
+      ? item["costControlConnections"]
+      : costControlConnectionsSerializer(item["costControlConnections"]),
   };
 }
 
@@ -702,6 +730,7 @@ export function accountPropertiesDeserializer(item: any): AccountProperties {
       : callRateLimitDeserializer(item["callRateLimit"]),
     dynamicThrottlingEnabled: item["dynamicThrottlingEnabled"],
     storedCompletionsDisabled: item["storedCompletionsDisabled"],
+    a365LoggingEnabled: item["a365LoggingEnabled"],
     quotaLimit: !item["quotaLimit"]
       ? item["quotaLimit"]
       : quotaLimitDeserializer(item["quotaLimit"]),
@@ -745,6 +774,20 @@ export function accountPropertiesDeserializer(item: any): AccountProperties {
       : item["associatedProjects"].map((p: any) => {
           return p;
         }),
+    capabilitySettings: !item["capabilitySettings"]
+      ? item["capabilitySettings"]
+      : capabilitySettingsDeserializer(item["capabilitySettings"]),
+    agentHostingConfigurations: !item["agentHostingConfigurations"]
+      ? item["agentHostingConfigurations"]
+      : agentHostingConfigurationUnionArrayDeserializer(item["agentHostingConfigurations"]),
+    costControlIds: !item["costControlIds"]
+      ? item["costControlIds"]
+      : item["costControlIds"].map((p: any) => {
+          return p;
+        }),
+    costControlConnections: !item["costControlConnections"]
+      ? item["costControlConnections"]
+      : costControlConnectionsDeserializer(item["costControlConnections"]),
   };
 }
 
@@ -766,6 +809,8 @@ export enum KnownProvisioningState {
   Canceled = "Canceled",
   /** ResolvingDNS */
   ResolvingDNS = "ResolvingDNS",
+  /** ExtensionUnreachable */
+  ExtensionUnreachable = "ExtensionUnreachable",
 }
 
 /**
@@ -780,7 +825,8 @@ export enum KnownProvisioningState {
  * **Failed** \
  * **Succeeded** \
  * **Canceled** \
- * **ResolvingDNS**
+ * **ResolvingDNS** \
+ * **ExtensionUnreachable**
  */
 export type ProvisioningState = string;
 
@@ -1638,6 +1684,181 @@ export enum KnownFoundryAutoUpgradeMode {
  */
 export type FoundryAutoUpgradeMode = string;
 
+/** Extensible agent capability configuration. Carries the Azure resource IDs of the agent storage dependencies. Modeled as an object so future capability-backed resources can be added without changing the account or project contract. */
+export interface CapabilitySettings {
+  /** Azure resource ID of the document store used by agent runtime state. */
+  documentStore?: string;
+  /** Azure resource ID of the vector store used by agent retrieval and indexing. */
+  vectorStore?: string;
+  /** Azure resource ID of the blob store used by agent file and artifact storage. */
+  blobStore?: string;
+}
+
+export function capabilitySettingsSerializer(item: CapabilitySettings): any {
+  return {
+    documentStore: item["documentStore"],
+    vectorStore: item["vectorStore"],
+    blobStore: item["blobStore"],
+  };
+}
+
+export function capabilitySettingsDeserializer(item: any): CapabilitySettings {
+  return {
+    documentStore: item["documentStore"],
+    vectorStore: item["vectorStore"],
+    blobStore: item["blobStore"],
+  };
+}
+
+export function agentHostingConfigurationUnionArraySerializer(
+  result: Array<AgentHostingConfigurationUnion>,
+): any[] {
+  return result.map((item) => {
+    return agentHostingConfigurationUnionSerializer(item);
+  });
+}
+
+export function agentHostingConfigurationUnionArrayDeserializer(
+  result: Array<AgentHostingConfigurationUnion>,
+): any[] {
+  return result.map((item) => {
+    return agentHostingConfigurationUnionDeserializer(item);
+  });
+}
+
+/** Base configuration for hosting Foundry agents. */
+export interface AgentHostingConfiguration {
+  /** Unique name of the hosting configuration within the Foundry account. */
+  name: string;
+  /** Type of infrastructure used to host Foundry agents. */
+  /** The discriminator possible values: ManagedCluster */
+  hostingType: AgentHostingType;
+}
+
+export function agentHostingConfigurationSerializer(item: AgentHostingConfiguration): any {
+  return { name: item["name"], hostingType: item["hostingType"] };
+}
+
+export function agentHostingConfigurationDeserializer(item: any): AgentHostingConfiguration {
+  return {
+    name: item["name"],
+    hostingType: item["hostingType"],
+  };
+}
+
+/** Alias for AgentHostingConfigurationUnion */
+export type AgentHostingConfigurationUnion =
+  ManagedClusterAgentHostingConfiguration | AgentHostingConfiguration;
+
+export function agentHostingConfigurationUnionSerializer(
+  item: AgentHostingConfigurationUnion,
+): any {
+  switch (item.hostingType) {
+    case "ManagedCluster":
+      return managedClusterAgentHostingConfigurationSerializer(
+        item as ManagedClusterAgentHostingConfiguration,
+      );
+
+    default:
+      return agentHostingConfigurationSerializer(item);
+  }
+}
+
+export function agentHostingConfigurationUnionDeserializer(
+  item: any,
+): AgentHostingConfigurationUnion {
+  switch (item["hostingType"]) {
+    case "ManagedCluster":
+      return managedClusterAgentHostingConfigurationDeserializer(
+        item as ManagedClusterAgentHostingConfiguration,
+      );
+
+    default:
+      return agentHostingConfigurationDeserializer(item);
+  }
+}
+
+/** Type of infrastructure used to host Foundry agents. */
+export enum KnownAgentHostingType {
+  /** Agents are hosted on an Azure Kubernetes Service managed cluster. */
+  ManagedCluster = "ManagedCluster",
+}
+
+/**
+ * Type of infrastructure used to host Foundry agents. \
+ * {@link KnownAgentHostingType} can be used interchangeably with AgentHostingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ManagedCluster**: Agents are hosted on an Azure Kubernetes Service managed cluster.
+ */
+export type AgentHostingType = string;
+
+/** Configuration for hosting Foundry agents on an Azure Kubernetes Service managed cluster. */
+export interface ManagedClusterAgentHostingConfiguration extends AgentHostingConfiguration {
+  /** Type of infrastructure used to host Foundry agents. */
+  hostingType: "ManagedCluster";
+  /** Azure resource ID of the user-assigned managed identity used by the Foundry resource provider to manage the hosting configuration. The identity must be assigned to the Foundry account in identity.userAssignedIdentities. */
+  hostingManagementIdentityResourceId: string;
+  /** Azure resource ID of the separate user-assigned managed identity federated to service accounts on the AKS cluster. Hosted agents use this identity to access the Azure Storage blob data plane. */
+  workloadIdentityResourceId: string;
+  /** Azure resource ID of the customer-owned AKS managed cluster that runs the hosted agent workloads. */
+  clusterResourceId: string;
+  /** Azure resource ID of the customer-owned storage account used by the hosted agents. The storage account must be in the same subscription and region as the AKS cluster, and its data-plane endpoint must be reachable from the workload network. */
+  storageAccountResourceId: string;
+}
+
+export function managedClusterAgentHostingConfigurationSerializer(
+  item: ManagedClusterAgentHostingConfiguration,
+): any {
+  return {
+    name: item["name"],
+    hostingType: item["hostingType"],
+    hostingManagementIdentityResourceId: item["hostingManagementIdentityResourceId"],
+    workloadIdentityResourceId: item["workloadIdentityResourceId"],
+    clusterResourceId: item["clusterResourceId"],
+    storageAccountResourceId: item["storageAccountResourceId"],
+  };
+}
+
+export function managedClusterAgentHostingConfigurationDeserializer(
+  item: any,
+): ManagedClusterAgentHostingConfiguration {
+  return {
+    name: item["name"],
+    hostingType: item["hostingType"],
+    hostingManagementIdentityResourceId: item["hostingManagementIdentityResourceId"],
+    workloadIdentityResourceId: item["workloadIdentityResourceId"],
+    clusterResourceId: item["clusterResourceId"],
+    storageAccountResourceId: item["storageAccountResourceId"],
+  };
+}
+
+/**
+ * Defines account-level connections used to publish cost-control telemetry and events.
+ * Application Insights is optional and may be removed while policies remain attached.
+ * Event Grid is required for alerts; supplied connection references must still be valid.
+ */
+export interface CostControlConnections {
+  /** Gets or sets the full resource ID of the optional Application Insights connection. */
+  appInsightsConnectionId?: string;
+  /** The full resource ID of the Event Grid connection used for cost control alerts. This connection must be configured when an attached cost control contains an alert threshold action and cannot be removed while such an action remains attached. */
+  eventGridConnectionId?: string;
+}
+
+export function costControlConnectionsSerializer(item: CostControlConnections): any {
+  return {
+    appInsightsConnectionId: item["appInsightsConnectionId"],
+    eventGridConnectionId: item["eventGridConnectionId"],
+  };
+}
+
+export function costControlConnectionsDeserializer(item: any): CostControlConnections {
+  return {
+    appInsightsConnectionId: item["appInsightsConnectionId"],
+    eventGridConnectionId: item["eventGridConnectionId"],
+  };
+}
+
 /** The resource model definition representing SKU */
 export interface Sku {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
@@ -1983,6 +2204,10 @@ export function usageArrayDeserializer(result: Array<Usage>): any[] {
 
 /** The usage data for a usage request. */
 export interface Usage {
+  /** Fully qualified resource ID for the usage. Ex - /subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/usages/{usageName} */
+  readonly id?: string;
+  /** The type of the usage resource. E.g. "Microsoft.CognitiveServices/locations/usages" */
+  readonly type?: string;
   /** The unit of the metric. */
   unit?: UnitType;
   /** The name information for the metric. */
@@ -2005,6 +2230,8 @@ export interface Usage {
 
 export function usageDeserializer(item: any): Usage {
   return {
+    id: item["id"],
+    type: item["type"],
     unit: item["unit"],
     name: !item["name"] ? item["name"] : metricNameDeserializer(item["name"]),
     quotaPeriod: item["quotaPeriod"],
@@ -2644,6 +2871,8 @@ export interface DeploymentProperties {
   readonly provisioningState?: DeploymentProvisioningState;
   /** Properties of Cognitive Services account deployment model. */
   model?: DeploymentModel;
+  /** The resource ID of the context cache container associated with this deployment. */
+  contextCacheContainerId?: string;
   /** Speculative decoding settings for the deployment. This configuration applies to Fireworks model formats. */
   speculativeDecoding?: DeploymentSpeculativeDecoding;
   /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
@@ -2673,11 +2902,17 @@ export interface DeploymentProperties {
   deploymentState?: DeploymentState;
   /** Routing configuration for the model-router deployment. This property is only applicable when the deployed model is 'model-router' version 2025-11-18 or later. Allows you to select the models subset for routing and the routing mode (balanced, quality, cost) for routing across all supported models or the model subset. */
   routing?: DeploymentRouting;
+  /**
+   * The full resource IDs of cost controls directly attached to this deployment.
+   * At the moment the service only supports a single cost control. This will be expanded in future API versions.
+   */
+  costControlIds?: string[];
 }
 
 export function deploymentPropertiesSerializer(item: DeploymentProperties): any {
   return {
     model: !item["model"] ? item["model"] : deploymentModelSerializer(item["model"]),
+    contextCacheContainerId: item["contextCacheContainerId"],
     speculativeDecoding: !item["speculativeDecoding"]
       ? item["speculativeDecoding"]
       : deploymentSpeculativeDecodingSerializer(item["speculativeDecoding"]),
@@ -2695,6 +2930,11 @@ export function deploymentPropertiesSerializer(item: DeploymentProperties): any 
     serviceTier: item["serviceTier"],
     deploymentState: item["deploymentState"],
     routing: !item["routing"] ? item["routing"] : deploymentRoutingSerializer(item["routing"]),
+    costControlIds: !item["costControlIds"]
+      ? item["costControlIds"]
+      : item["costControlIds"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -2702,6 +2942,7 @@ export function deploymentPropertiesDeserializer(item: any): DeploymentPropertie
   return {
     provisioningState: item["provisioningState"],
     model: !item["model"] ? item["model"] : deploymentModelDeserializer(item["model"]),
+    contextCacheContainerId: item["contextCacheContainerId"],
     speculativeDecoding: !item["speculativeDecoding"]
       ? item["speculativeDecoding"]
       : deploymentSpeculativeDecodingDeserializer(item["speculativeDecoding"]),
@@ -2731,6 +2972,11 @@ export function deploymentPropertiesDeserializer(item: any): DeploymentPropertie
     serviceTier: item["serviceTier"],
     deploymentState: item["deploymentState"],
     routing: !item["routing"] ? item["routing"] : deploymentRoutingDeserializer(item["routing"]),
+    costControlIds: !item["costControlIds"]
+      ? item["costControlIds"]
+      : item["costControlIds"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -3557,6 +3803,15 @@ export function raiPolicyDeserializer(item: any): RaiPolicy {
 
 /** Azure OpenAI Content Filters properties. */
 export interface RaiPolicyProperties {
+  /**
+   * The policy representation. Omission selects ContentFilters when creating a policy. ACS policy
+   * creation and replacement require ACS.
+   */
+  format?: RaiPolicyFormat;
+  /** The ACS manifest. Required by service validation when format is ACS. */
+  acs?: RaiAcsManifest;
+  /** Reusable same-account Rego resources loaded with the ACS manifest. */
+  acsRegos?: RaiRegoReference[];
   /** Content Filters policy type. */
   readonly type?: RaiPolicyType;
   /** Rai policy mode. The enum value mapping is as below: Default = 0, Deferred=1, Blocking=2, Asynchronous_filter =3. Please use 'Asynchronous_filter' after 2025-06-01. It is the same as 'Deferred' in previous version. */
@@ -3569,6 +3824,8 @@ export interface RaiPolicyProperties {
   customBlocklists?: CustomBlocklistConfig[];
   /** The list of Safety Providers. */
   safetyProviders?: SafetyProviderConfig[];
+  /** Optional external safety-provider references used by this policy. */
+  customExternalSafetyProviders?: RaiPolicyCustomExternalSafetyProviderReference[];
   /**
    * Egress (outbound network) policy controlling which external endpoints sandboxed
    * agents can reach. Includes rules with Allow/Deny/Transform/Rewrite actions.
@@ -3578,6 +3835,11 @@ export interface RaiPolicyProperties {
 
 export function raiPolicyPropertiesSerializer(item: RaiPolicyProperties): any {
   return {
+    format: item["format"],
+    acs: !item["acs"] ? item["acs"] : raiAcsManifestSerializer(item["acs"]),
+    acsRegos: !item["acsRegos"]
+      ? item["acsRegos"]
+      : raiRegoReferenceArraySerializer(item["acsRegos"]),
     mode: item["mode"],
     basePolicyName: item["basePolicyName"],
     contentFilters: !item["contentFilters"]
@@ -3589,6 +3851,11 @@ export function raiPolicyPropertiesSerializer(item: RaiPolicyProperties): any {
     safetyProviders: !item["safetyProviders"]
       ? item["safetyProviders"]
       : safetyProviderConfigArraySerializer(item["safetyProviders"]),
+    customExternalSafetyProviders: !item["customExternalSafetyProviders"]
+      ? item["customExternalSafetyProviders"]
+      : raiPolicyCustomExternalSafetyProviderReferenceArraySerializer(
+          item["customExternalSafetyProviders"],
+        ),
     egressPolicy: !item["egressPolicy"]
       ? item["egressPolicy"]
       : raiEgressPolicyConfigSerializer(item["egressPolicy"]),
@@ -3597,6 +3864,11 @@ export function raiPolicyPropertiesSerializer(item: RaiPolicyProperties): any {
 
 export function raiPolicyPropertiesDeserializer(item: any): RaiPolicyProperties {
   return {
+    format: item["format"],
+    acs: !item["acs"] ? item["acs"] : raiAcsManifestDeserializer(item["acs"]),
+    acsRegos: !item["acsRegos"]
+      ? item["acsRegos"]
+      : raiRegoReferenceArrayDeserializer(item["acsRegos"]),
     type: item["type"],
     mode: item["mode"],
     basePolicyName: item["basePolicyName"],
@@ -3609,9 +3881,576 @@ export function raiPolicyPropertiesDeserializer(item: any): RaiPolicyProperties 
     safetyProviders: !item["safetyProviders"]
       ? item["safetyProviders"]
       : safetyProviderConfigArrayDeserializer(item["safetyProviders"]),
+    customExternalSafetyProviders: !item["customExternalSafetyProviders"]
+      ? item["customExternalSafetyProviders"]
+      : raiPolicyCustomExternalSafetyProviderReferenceArrayDeserializer(
+          item["customExternalSafetyProviders"],
+        ),
     egressPolicy: !item["egressPolicy"]
       ? item["egressPolicy"]
       : raiEgressPolicyConfigDeserializer(item["egressPolicy"]),
+  };
+}
+
+/** The public representation used by a RAI policy body. */
+export enum KnownRaiPolicyFormat {
+  /** A legacy content-filter policy. */
+  ContentFilters = "ContentFilters",
+  /** An Agent Control Specification policy. */
+  ACS = "ACS",
+}
+
+/**
+ * The public representation used by a RAI policy body. \
+ * {@link KnownRaiPolicyFormat} can be used interchangeably with RaiPolicyFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ContentFilters**: A legacy content-filter policy. \
+ * **ACS**: An Agent Control Specification policy.
+ */
+export type RaiPolicyFormat = string;
+
+/**
+ * The closed Rego-only Agent Control Specification (ACS) profile supported by
+ * Azure AI Content Safety Unified Moderate.
+ */
+export interface RaiAcsManifest {
+  /** The declared Agent Control Specification manifest version. */
+  agentControlSpecificationVersion: string;
+  /** Non-policy manifest metadata. */
+  metadata?: Record<string, any>;
+  /** Named Rego policies in this manifest. */
+  policies: Record<string, RaiAcsRegoPolicyDefinition>;
+  /** Agent Control Specification intervention-point bindings. At least one intervention point is required. */
+  interventionPoints: RaiAcsInterventionPoints;
+  /**
+   * Static tool catalog keyed by canonical tool name. The catalog may be omitted or empty when no
+   * tool selector is configured. A tool selector requires a non-empty catalog, and an unknown
+   * selected key fails closed.
+   */
+  tools?: Record<string, RaiAcsToolDefinition>;
+  /** Standard Agent Control Specification annotator dispatch is disabled; when present, this object must be empty. */
+  annotators?: RaiAcsEmptyObject;
+}
+
+export function raiAcsManifestSerializer(item: RaiAcsManifest): any {
+  return {
+    agent_control_specification_version: item["agentControlSpecificationVersion"],
+    metadata: item["metadata"],
+    policies: raiAcsRegoPolicyDefinitionRecordSerializer(item["policies"]),
+    intervention_points: raiAcsInterventionPointsSerializer(item["interventionPoints"]),
+    tools: !item["tools"] ? item["tools"] : raiAcsToolDefinitionRecordSerializer(item["tools"]),
+    annotators: !item["annotators"]
+      ? item["annotators"]
+      : raiAcsEmptyObjectSerializer(item["annotators"]),
+  };
+}
+
+export function raiAcsManifestDeserializer(item: any): RaiAcsManifest {
+  return {
+    agentControlSpecificationVersion: item["agent_control_specification_version"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    policies: raiAcsRegoPolicyDefinitionRecordDeserializer(item["policies"]),
+    interventionPoints: raiAcsInterventionPointsDeserializer(item["intervention_points"]),
+    tools: !item["tools"] ? item["tools"] : raiAcsToolDefinitionRecordDeserializer(item["tools"]),
+    annotators: !item["annotators"]
+      ? item["annotators"]
+      : raiAcsEmptyObjectDeserializer(item["annotators"]),
+  };
+}
+
+export function raiAcsRegoPolicyDefinitionRecordSerializer(
+  item: Record<string, RaiAcsRegoPolicyDefinition>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : raiAcsRegoPolicyDefinitionSerializer(item[key]);
+  });
+  return result;
+}
+
+export function raiAcsRegoPolicyDefinitionRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, RaiAcsRegoPolicyDefinition> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : raiAcsRegoPolicyDefinitionDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** A Rego policy definition in the Azure AI Content Safety Unified Moderate host profile. */
+export interface RaiAcsRegoPolicyDefinition {
+  /** The policy language. This profile supports only Rego. */
+  type: RaiAcsPolicyDefinitionType;
+  /** The fully qualified Rego query evaluated for this policy. */
+  query: string;
+}
+
+export function raiAcsRegoPolicyDefinitionSerializer(item: RaiAcsRegoPolicyDefinition): any {
+  return { type: item["type"], query: item["query"] };
+}
+
+export function raiAcsRegoPolicyDefinitionDeserializer(item: any): RaiAcsRegoPolicyDefinition {
+  return {
+    type: item["type"],
+    query: item["query"],
+  };
+}
+
+/** The policy language supported by the Azure AI Content Safety Unified Moderate host profile. */
+export enum KnownRaiAcsPolicyDefinitionType {
+  /** A policy evaluated by Rego. */
+  Rego = "rego",
+}
+
+/**
+ * The policy language supported by the Azure AI Content Safety Unified Moderate host profile. \
+ * {@link KnownRaiAcsPolicyDefinitionType} can be used interchangeably with RaiAcsPolicyDefinitionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **rego**: A policy evaluated by Rego.
+ */
+export type RaiAcsPolicyDefinitionType = string;
+
+/** Intervention points supported by the Azure AI Content Safety Unified Moderate host profile. */
+export interface RaiAcsInterventionPoints {
+  /** The policy evaluated for user input. */
+  input?: RaiAcsInterventionPoint;
+  /** The policy evaluated before a tool call. */
+  preToolCall?: RaiAcsToolInterventionPoint;
+  /** The policy evaluated after a tool call. */
+  postToolCall?: RaiAcsToolInterventionPoint;
+  /** The policy evaluated for final output. */
+  output?: RaiAcsInterventionPoint;
+}
+
+export function raiAcsInterventionPointsSerializer(item: RaiAcsInterventionPoints): any {
+  return {
+    input: !item["input"] ? item["input"] : raiAcsInterventionPointSerializer(item["input"]),
+    pre_tool_call: !item["preToolCall"]
+      ? item["preToolCall"]
+      : raiAcsToolInterventionPointSerializer(item["preToolCall"]),
+    post_tool_call: !item["postToolCall"]
+      ? item["postToolCall"]
+      : raiAcsToolInterventionPointSerializer(item["postToolCall"]),
+    output: !item["output"] ? item["output"] : raiAcsInterventionPointSerializer(item["output"]),
+  };
+}
+
+export function raiAcsInterventionPointsDeserializer(item: any): RaiAcsInterventionPoints {
+  return {
+    input: !item["input"] ? item["input"] : raiAcsInterventionPointDeserializer(item["input"]),
+    preToolCall: !item["pre_tool_call"]
+      ? item["pre_tool_call"]
+      : raiAcsToolInterventionPointDeserializer(item["pre_tool_call"]),
+    postToolCall: !item["post_tool_call"]
+      ? item["post_tool_call"]
+      : raiAcsToolInterventionPointDeserializer(item["post_tool_call"]),
+    output: !item["output"] ? item["output"] : raiAcsInterventionPointDeserializer(item["output"]),
+  };
+}
+
+/** Binds one logical policy to an Agent Control Specification intervention point. */
+export interface RaiAcsInterventionPoint {
+  /** The canonical Agent Hooks snapshot path projected as the policy target. */
+  policyTarget: RaiAcsPolicyTarget;
+  /** The semantic kind of the projected policy target. */
+  policyTargetKind: RaiAcsPolicyTargetKind;
+  /** The logical policy evaluated at this intervention point. */
+  policy: RaiAcsPolicyBinding;
+  /** Standard Agent Control Specification annotation bindings are disabled; when present, this object must be empty. */
+  annotations?: RaiAcsEmptyObject;
+}
+
+export function raiAcsInterventionPointSerializer(item: RaiAcsInterventionPoint): any {
+  return {
+    policy_target: item["policyTarget"],
+    policy_target_kind: item["policyTargetKind"],
+    policy: raiAcsPolicyBindingSerializer(item["policy"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : raiAcsEmptyObjectSerializer(item["annotations"]),
+  };
+}
+
+export function raiAcsInterventionPointDeserializer(item: any): RaiAcsInterventionPoint {
+  return {
+    policyTarget: item["policy_target"],
+    policyTargetKind: item["policy_target_kind"],
+    policy: raiAcsPolicyBindingDeserializer(item["policy"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : raiAcsEmptyObjectDeserializer(item["annotations"]),
+  };
+}
+
+/** Canonical policy targets supported by the Azure AI Content Safety Unified Moderate host profile. */
+export enum KnownRaiAcsPolicyTarget {
+  /** Selects the incoming user input. */
+  Input = "$snap.input",
+  /** Selects the assistant output. */
+  Output = "$snap.output",
+  /** Selects tool-call arguments. */
+  ToolArguments = "$snap.tool_call.args",
+  /** Selects a tool result. */
+  ToolResult = "$snap.tool_result.value",
+}
+
+/**
+ * Canonical policy targets supported by the Azure AI Content Safety Unified Moderate host profile. \
+ * {@link KnownRaiAcsPolicyTarget} can be used interchangeably with RaiAcsPolicyTarget,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **$snap.input**: Selects the incoming user input. \
+ * **$snap.output**: Selects the assistant output. \
+ * **$snap.tool_call.args**: Selects tool-call arguments. \
+ * **$snap.tool_result.value**: Selects a tool result.
+ */
+export type RaiAcsPolicyTarget = string;
+
+/** Canonical target kinds supported by the Azure AI Content Safety Unified Moderate host profile. */
+export enum KnownRaiAcsPolicyTargetKind {
+  /** The target contains user input. */
+  UserInput = "user_input",
+  /** The target contains assistant output. */
+  AssistantOutput = "assistant_output",
+  /** The target contains tool-call arguments. */
+  ToolArguments = "tool_args",
+  /** The target contains a tool result. */
+  ToolResult = "tool_result",
+}
+
+/**
+ * Canonical target kinds supported by the Azure AI Content Safety Unified Moderate host profile. \
+ * {@link KnownRaiAcsPolicyTargetKind} can be used interchangeably with RaiAcsPolicyTargetKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user_input**: The target contains user input. \
+ * **assistant_output**: The target contains assistant output. \
+ * **tool_args**: The target contains tool-call arguments. \
+ * **tool_result**: The target contains a tool result.
+ */
+export type RaiAcsPolicyTargetKind = string;
+
+/** Identifies the logical policy evaluated at an Agent Control Specification intervention point. */
+export interface RaiAcsPolicyBinding {
+  /** The logical policy identifier. */
+  id: string;
+  /** An optional intervention-specific Rego query override. */
+  query?: string;
+  /** Optional Azure AI Content Safety moderation capabilities invoked before Rego evaluation. */
+  aacsModeration?: RaiAcsModerationBindingExtension;
+}
+
+export function raiAcsPolicyBindingSerializer(item: RaiAcsPolicyBinding): any {
+  return {
+    id: item["id"],
+    query: item["query"],
+    aacs_moderation: !item["aacsModeration"]
+      ? item["aacsModeration"]
+      : raiAcsModerationBindingExtensionSerializer(item["aacsModeration"]),
+  };
+}
+
+export function raiAcsPolicyBindingDeserializer(item: any): RaiAcsPolicyBinding {
+  return {
+    id: item["id"],
+    query: item["query"],
+    aacsModeration: !item["aacs_moderation"]
+      ? item["aacs_moderation"]
+      : raiAcsModerationBindingExtensionDeserializer(item["aacs_moderation"]),
+  };
+}
+
+/**
+ * Azure AI Content Safety moderation work performed before the Agent Control
+ * Specification runtime evaluates the selected Rego query.
+ */
+export interface RaiAcsModerationBindingExtension {
+  /** How the selected policy target is represented to moderation capabilities. */
+  subjectFormat: RaiAcsModerationSubjectFormat;
+  /** Harm signals requested for this intervention point. */
+  harmConfigs: RaiAcsHarmConfiguration[];
+}
+
+export function raiAcsModerationBindingExtensionSerializer(
+  item: RaiAcsModerationBindingExtension,
+): any {
+  return {
+    subject_format: item["subjectFormat"],
+    harm_configs: raiAcsHarmConfigurationArraySerializer(item["harmConfigs"]),
+  };
+}
+
+export function raiAcsModerationBindingExtensionDeserializer(
+  item: any,
+): RaiAcsModerationBindingExtension {
+  return {
+    subjectFormat: item["subject_format"],
+    harmConfigs: raiAcsHarmConfigurationArrayDeserializer(item["harm_configs"]),
+  };
+}
+
+/** The representation sent to Azure AI Content Safety moderation capabilities. */
+export enum KnownRaiAcsModerationSubjectFormat {
+  /** Moderates the selected policy target as text. */
+  Text = "text",
+  /** Moderates the canonical JSON representation of the selected policy target. */
+  CanonicalJson = "canonical_json",
+}
+
+/**
+ * The representation sent to Azure AI Content Safety moderation capabilities. \
+ * {@link KnownRaiAcsModerationSubjectFormat} can be used interchangeably with RaiAcsModerationSubjectFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **text**: Moderates the selected policy target as text. \
+ * **canonical_json**: Moderates the canonical JSON representation of the selected policy target.
+ */
+export type RaiAcsModerationSubjectFormat = string;
+
+export function raiAcsHarmConfigurationArraySerializer(
+  result: Array<RaiAcsHarmConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return raiAcsHarmConfigurationSerializer(item);
+  });
+}
+
+export function raiAcsHarmConfigurationArrayDeserializer(
+  result: Array<RaiAcsHarmConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return raiAcsHarmConfigurationDeserializer(item);
+  });
+}
+
+/** Selects one Azure AI Content Safety harm-detector configuration. */
+export interface RaiAcsHarmConfiguration {
+  /** The logical harm category exposed under input.snapshot.moderation.harm. */
+  category: RaiAcsHarmCategory;
+  /**
+   * The Azure AI Content Safety detector configuration identifier. When supplied, it must be the
+   * configuration supported for the selected category.
+   */
+  harmConfigId?: string;
+}
+
+export function raiAcsHarmConfigurationSerializer(item: RaiAcsHarmConfiguration): any {
+  return { category: item["category"], harm_config_id: item["harmConfigId"] };
+}
+
+export function raiAcsHarmConfigurationDeserializer(item: any): RaiAcsHarmConfiguration {
+  return {
+    category: item["category"],
+    harmConfigId: item["harm_config_id"],
+  };
+}
+
+/** Harm categories supported by the Unified Moderate text profile. */
+export enum KnownRaiAcsHarmCategory {
+  /** Hate-related content. */
+  Hate = "Hate",
+  /** Self-harm-related content. */
+  SelfHarm = "SelfHarm",
+  /** Sexual content. */
+  Sexual = "Sexual",
+  /** Violent content. */
+  Violence = "Violence",
+  /** Prompt-injection content. */
+  PromptInjection = "PromptInjection",
+  /** Protected text material. */
+  ProtectedMaterialText = "ProtectedMaterialText",
+  /** Protected source-code material. */
+  ProtectedMaterialCode = "ProtectedMaterialCode",
+}
+
+/**
+ * Harm categories supported by the Unified Moderate text profile. \
+ * {@link KnownRaiAcsHarmCategory} can be used interchangeably with RaiAcsHarmCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Hate**: Hate-related content. \
+ * **SelfHarm**: Self-harm-related content. \
+ * **Sexual**: Sexual content. \
+ * **Violence**: Violent content. \
+ * **PromptInjection**: Prompt-injection content. \
+ * **ProtectedMaterialText**: Protected text material. \
+ * **ProtectedMaterialCode**: Protected source-code material.
+ */
+export type RaiAcsHarmCategory = string;
+
+/** An object that must contain no properties. */
+export interface RaiAcsEmptyObject {}
+
+export function raiAcsEmptyObjectSerializer(_item: RaiAcsEmptyObject): any {
+  return {};
+}
+
+export function raiAcsEmptyObjectDeserializer(item: any): RaiAcsEmptyObject {
+  return item;
+}
+
+/** Binds one logical policy to a tool-call intervention point. */
+export interface RaiAcsToolInterventionPoint {
+  /** The canonical Agent Hooks snapshot path projected as the policy target. */
+  policyTarget: RaiAcsPolicyTarget;
+  /** The semantic kind of the projected policy target. */
+  policyTargetKind: RaiAcsPolicyTargetKind;
+  /** The logical policy evaluated at this intervention point. */
+  policy: RaiAcsPolicyBinding;
+  /** Standard Agent Control Specification annotation bindings are disabled; when present, this object must be empty. */
+  annotations?: RaiAcsEmptyObject;
+  /** Selects the tool catalog key from the raw Agent Hooks snapshot using an extensible snapshot path. */
+  toolNameFrom?: RaiAcsToolNameSelector;
+}
+
+export function raiAcsToolInterventionPointSerializer(item: RaiAcsToolInterventionPoint): any {
+  return {
+    policy_target: item["policyTarget"],
+    policy_target_kind: item["policyTargetKind"],
+    policy: raiAcsPolicyBindingSerializer(item["policy"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : raiAcsEmptyObjectSerializer(item["annotations"]),
+    tool_name_from: item["toolNameFrom"],
+  };
+}
+
+export function raiAcsToolInterventionPointDeserializer(item: any): RaiAcsToolInterventionPoint {
+  return {
+    policyTarget: item["policy_target"],
+    policyTargetKind: item["policy_target_kind"],
+    policy: raiAcsPolicyBindingDeserializer(item["policy"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : raiAcsEmptyObjectDeserializer(item["annotations"]),
+    toolNameFrom: item["tool_name_from"],
+  };
+}
+
+/**
+ * Snapshot paths for selecting a tool catalog entry.
+ * The listed values are recognized by the Azure AI Content Safety Unified Moderate host profile; other values are allowed for forward compatibility.
+ */
+export enum KnownRaiAcsToolNameSelector {
+  /** Selects the tool-call name from the canonical snapshot root. */
+  ToolCallName = "$snap.tool_call.name",
+  /** Selects the tool-call name through the snapshot-root alias. */
+  ToolCallNameAlias = "$.tool_call.name",
+}
+
+/**
+ * Snapshot paths for selecting a tool catalog entry.
+ * The listed values are recognized by the Azure AI Content Safety Unified Moderate host profile; other values are allowed for forward compatibility. \
+ * {@link KnownRaiAcsToolNameSelector} can be used interchangeably with RaiAcsToolNameSelector,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **$snap.tool_call.name**: Selects the tool-call name from the canonical snapshot root. \
+ * **$.tool_call.name**: Selects the tool-call name through the snapshot-root alias.
+ */
+export type RaiAcsToolNameSelector = string;
+
+export function raiAcsToolDefinitionRecordSerializer(
+  item: Record<string, RaiAcsToolDefinition>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : raiAcsToolDefinitionSerializer(item[key]);
+  });
+  return result;
+}
+
+export function raiAcsToolDefinitionRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, RaiAcsToolDefinition> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : raiAcsToolDefinitionDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Static policy metadata for one Agent Control Specification tool catalog entry. */
+export interface RaiAcsToolDefinition {
+  /** Optional host-defined tool identifier. The catalog map key, not this value, controls tool lookup. */
+  id?: string;
+  /** Optional host-defined tool type. */
+  type?: string;
+  /** Human-readable policy metadata. */
+  description?: string;
+  /** Labels describing the sink or capability. */
+  securityLabels?: string[];
+  /** Maximum sensitivity or host-defined clearance metadata. */
+  clearance?: string;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function raiAcsToolDefinitionSerializer(item: RaiAcsToolDefinition): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    id: item["id"],
+    type: item["type"],
+    description: item["description"],
+    security_labels: !item["securityLabels"]
+      ? item["securityLabels"]
+      : item["securityLabels"].map((p: any) => {
+          return p;
+        }),
+    clearance: item["clearance"],
+  };
+}
+
+export function raiAcsToolDefinitionDeserializer(item: any): RaiAcsToolDefinition {
+  return {
+    additionalProperties: serializeRecord(item, [
+      "id",
+      "type",
+      "description",
+      "securityLabels",
+      "clearance",
+    ]),
+    id: item["id"],
+    type: item["type"],
+    description: item["description"],
+    securityLabels: !item["security_labels"]
+      ? item["security_labels"]
+      : item["security_labels"].map((p: any) => {
+          return p;
+        }),
+    clearance: item["clearance"],
+  };
+}
+
+export function raiRegoReferenceArraySerializer(result: Array<RaiRegoReference>): any[] {
+  return result.map((item) => {
+    return raiRegoReferenceSerializer(item);
+  });
+}
+
+export function raiRegoReferenceArrayDeserializer(result: Array<RaiRegoReference>): any[] {
+  return result.map((item) => {
+    return raiRegoReferenceDeserializer(item);
+  });
+}
+
+/** References one reusable Rego resource on the same account. */
+export interface RaiRegoReference {
+  /** The same-account Rego resource name. */
+  regoName: string;
+}
+
+export function raiRegoReferenceSerializer(item: RaiRegoReference): any {
+  return { regoName: item["regoName"] };
+}
+
+export function raiRegoReferenceDeserializer(item: any): RaiRegoReference {
+  return {
+    regoName: item["regoName"],
   };
 }
 
@@ -3859,6 +4698,56 @@ export function safetyProviderConfigDeserializer(item: any): SafetyProviderConfi
   };
 }
 
+export function raiPolicyCustomExternalSafetyProviderReferenceArraySerializer(
+  result: Array<RaiPolicyCustomExternalSafetyProviderReference>,
+): any[] {
+  return result.map((item) => {
+    return raiPolicyCustomExternalSafetyProviderReferenceSerializer(item);
+  });
+}
+
+export function raiPolicyCustomExternalSafetyProviderReferenceArrayDeserializer(
+  result: Array<RaiPolicyCustomExternalSafetyProviderReference>,
+): any[] {
+  return result.map((item) => {
+    return raiPolicyCustomExternalSafetyProviderReferenceDeserializer(item);
+  });
+}
+
+/** A customer-visible reference to a subscription-level external safety provider. */
+export interface RaiPolicyCustomExternalSafetyProviderReference {
+  /** The registered external safety-provider name. */
+  externalSafetyProviderName: string;
+  /** Optional managed identity used when invoking the external safety provider. */
+  managedIdentityResourceId?: string;
+  /** The request stage at which the provider runs. */
+  source: RaiPolicyContentSource;
+  /** Whether a provider rejection blocks the request. */
+  blocking?: boolean;
+}
+
+export function raiPolicyCustomExternalSafetyProviderReferenceSerializer(
+  item: RaiPolicyCustomExternalSafetyProviderReference,
+): any {
+  return {
+    externalSafetyProviderName: item["externalSafetyProviderName"],
+    managedIdentityResourceId: item["managedIdentityResourceId"],
+    source: item["source"],
+    blocking: item["blocking"],
+  };
+}
+
+export function raiPolicyCustomExternalSafetyProviderReferenceDeserializer(
+  item: any,
+): RaiPolicyCustomExternalSafetyProviderReference {
+  return {
+    externalSafetyProviderName: item["externalSafetyProviderName"],
+    managedIdentityResourceId: item["managedIdentityResourceId"],
+    source: item["source"],
+    blocking: item["blocking"],
+  };
+}
+
 /**
  * Egress (outbound network) policy configuration nested within an RAI policy.
  * Controls which external endpoints sandboxed agents can reach and what
@@ -4021,18 +4910,20 @@ export type RaiEgressRuleType = string;
 /**
  * The match criteria for an egress rule.
  * If both host and path are omitted, the rule matches all traffic.
- * Host uses DNS wildcard syntax (e.g., "*.openai.com" matches "api.openai.com").
- * Path uses URI prefix matching with '*' as a single-segment wildcard (e.g., "/v1/*" matches "/v1/chat").
+ * Host uses DNS wildcard syntax (e.g., "\*.openai.com" matches "api.openai.com").
+ * Path uses URI prefix matching with an asterisk as a single-segment wildcard.
+ * For example, "/v1/\*" matches "/v1/chat".
  */
 export interface RaiEgressRuleMatch {
   /**
-   * Host pattern to match using DNS wildcard syntax (e.g., "*.openai.com").
-   * A leading "*." matches any subdomain. Omit to match all hosts.
+   * Host pattern to match using DNS wildcard syntax (e.g., "\*.openai.com").
+   * A leading "\*." matches any subdomain. Omit to match all hosts.
    */
   host?: string;
   /**
-   * Path pattern to match using URI prefix with '*' wildcard (e.g., "/v1/*").
-   * Omit to match all paths.
+   * Path pattern to match using URI prefix matching.
+   * An asterisk serves as a single-segment wildcard.
+   * For example, "/v1/\*" matches "/v1/chat". Omit to match all paths.
    */
   path?: string;
 }
@@ -4369,6 +5260,190 @@ export function raiPolicyArraySerializer(result: Array<RaiPolicy>): any[] {
 export function raiPolicyArrayDeserializer(result: Array<RaiPolicy>): any[] {
   return result.map((item) => {
     return raiPolicyDeserializer(item);
+  });
+}
+
+/** An account-scoped reusable Rego artifact. */
+export interface RaiRego extends ProxyResource {
+  /** Properties of the reusable Rego artifact. */
+  properties?: RaiRegoProperties;
+  /** Resource ETag. */
+  readonly etag?: string;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function raiRegoSerializer(item: RaiRego): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : raiRegoPropertiesSerializer(item["properties"]),
+    tags: item["tags"],
+  };
+}
+
+export function raiRegoDeserializer(item: any): RaiRego {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : raiRegoPropertiesDeserializer(item["properties"]),
+    etag: item["etag"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** Properties of an account-scoped reusable Rego resource. */
+export interface RaiRegoProperties {
+  /** How the Rego source is encoded on the wire. The default is None. */
+  encoding?: RaiRegoEncoding;
+  /** Rego source in the selected transport encoding. */
+  rego: string;
+}
+
+export function raiRegoPropertiesSerializer(item: RaiRegoProperties): any {
+  return { encoding: item["encoding"], rego: item["rego"] };
+}
+
+export function raiRegoPropertiesDeserializer(item: any): RaiRegoProperties {
+  return {
+    encoding: item["encoding"],
+    rego: item["rego"],
+  };
+}
+
+/** The transport encoding of reusable Rego source. */
+export enum KnownRaiRegoEncoding {
+  /** The Rego property contains plain UTF-8 source. */
+  None = "None",
+  /** The Rego property contains Base64-encoded UTF-8 source. */
+  Base64 = "Base64",
+}
+
+/**
+ * The transport encoding of reusable Rego source. \
+ * {@link KnownRaiRegoEncoding} can be used interchangeably with RaiRegoEncoding,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: The Rego property contains plain UTF-8 source. \
+ * **Base64**: The Rego property contains Base64-encoded UTF-8 source.
+ */
+export type RaiRegoEncoding = string;
+
+/** The list of account-scoped reusable Rego resources. */
+export interface _RaiRegoListResult {
+  /** The link used to get the next page. */
+  nextLink?: string;
+  /** The Rego resources in this page. */
+  value: RaiRego[];
+}
+
+export function _raiRegoListResultDeserializer(item: any): _RaiRegoListResult {
+  return {
+    nextLink: item["nextLink"],
+    value: raiRegoArrayDeserializer(item["value"]),
+  };
+}
+
+export function raiRegoArraySerializer(result: Array<RaiRego>): any[] {
+  return result.map((item) => {
+    return raiRegoSerializer(item);
+  });
+}
+
+export function raiRegoArrayDeserializer(result: Array<RaiRego>): any[] {
+  return result.map((item) => {
+    return raiRegoDeserializer(item);
+  });
+}
+
+/** An account-scoped binding from an Azure resource to an Agent Control Specification policy. */
+export interface RaiBinding extends ProxyResource {
+  /** Properties of the RAI binding. */
+  properties?: RaiBindingProperties;
+  /** Resource ETag. */
+  readonly etag?: string;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function raiBindingSerializer(item: RaiBinding): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : raiBindingPropertiesSerializer(item["properties"]),
+    tags: item["tags"],
+  };
+}
+
+export function raiBindingDeserializer(item: any): RaiBinding {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : raiBindingPropertiesDeserializer(item["properties"]),
+    etag: item["etag"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** Properties of a binding from an Azure resource to an Agent Control Specification policy. */
+export interface RaiBindingProperties {
+  /** A valid Azure Resource Manager resource ID of the resource to bind to the target RAI policy. */
+  boundResourceId: string;
+  /** The same-account Agent Control Specification policy name targeted by the binding. */
+  targetPolicyName: string;
+}
+
+export function raiBindingPropertiesSerializer(item: RaiBindingProperties): any {
+  return { boundResourceId: item["boundResourceId"], targetPolicyName: item["targetPolicyName"] };
+}
+
+export function raiBindingPropertiesDeserializer(item: any): RaiBindingProperties {
+  return {
+    boundResourceId: item["boundResourceId"],
+    targetPolicyName: item["targetPolicyName"],
+  };
+}
+
+/** The list of account-scoped RAI bindings. */
+export interface _RaiBindingListResult {
+  /** The link used to get the next page. */
+  nextLink?: string;
+  /** The RAI bindings in this page. */
+  value: RaiBinding[];
+}
+
+export function _raiBindingListResultDeserializer(item: any): _RaiBindingListResult {
+  return {
+    nextLink: item["nextLink"],
+    value: raiBindingArrayDeserializer(item["value"]),
+  };
+}
+
+export function raiBindingArraySerializer(result: Array<RaiBinding>): any[] {
+  return result.map((item) => {
+    return raiBindingSerializer(item);
+  });
+}
+
+export function raiBindingArrayDeserializer(result: Array<RaiBinding>): any[] {
+  return result.map((item) => {
+    return raiBindingDeserializer(item);
   });
 }
 
@@ -5365,10 +6440,18 @@ export interface ProjectProperties {
   readonly endpoints?: Record<string, string>;
   /** Indicates whether the project is the default project for the account. */
   readonly isDefault?: boolean;
+  /** Effective agent capability settings for the project. Optional partial override of the account defaults; omitted fields inherit from the parent account when present. Settable only at create time. */
+  capabilitySettings?: CapabilitySettings;
 }
 
 export function projectPropertiesSerializer(item: ProjectProperties): any {
-  return { displayName: item["displayName"], description: item["description"] };
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    capabilitySettings: !item["capabilitySettings"]
+      ? item["capabilitySettings"]
+      : capabilitySettingsSerializer(item["capabilitySettings"]),
+  };
 }
 
 export function projectPropertiesDeserializer(item: any): ProjectProperties {
@@ -5382,6 +6465,9 @@ export function projectPropertiesDeserializer(item: any): ProjectProperties {
           Object.entries(item["endpoints"]).map(([k, p]: [string, any]) => [k, p]),
         ),
     isDefault: item["isDefault"],
+    capabilitySettings: !item["capabilitySettings"]
+      ? item["capabilitySettings"]
+      : capabilitySettingsDeserializer(item["capabilitySettings"]),
   };
 }
 
@@ -5855,6 +6941,8 @@ export enum KnownConnectionCategory {
   GenericRest = "GenericRest",
   /** RemoteTool */
   RemoteTool = "RemoteTool",
+  /** Connection to an endpoint described by an OpenAPI specification. */
+  OpenAPI = "OpenAPI",
   /** AmazonMws */
   AmazonMws = "AmazonMws",
   /** Concur */
@@ -6027,6 +7115,7 @@ export enum KnownConnectionCategory {
  * **Odbc** \
  * **GenericRest** \
  * **RemoteTool** \
+ * **OpenAPI**: Connection to an endpoint described by an OpenAPI specification. \
  * **AmazonMws** \
  * **Concur** \
  * **Dynamics** \
@@ -7448,6 +8537,438 @@ export function quotaTierArrayDeserializer(result: Array<QuotaTier>): any[] {
   });
 }
 
+/** Cognitive Services account Arc deployment, backed by customer-managed Arc-enabled Kubernetes resources. */
+export interface ArcDeployment extends ProxyResource {
+  /** Properties of the Cognitive Services Arc deployment. */
+  properties: ArcDeploymentProperties;
+  /** The Arc deployment SKU. Only the SKU name is required for Arc deployments. */
+  sku: ArcDeploymentSku;
+  /** Resource Etag. */
+  readonly etag?: string;
+}
+
+export function arcDeploymentSerializer(item: ArcDeployment): any {
+  return {
+    properties: arcDeploymentPropertiesSerializer(item["properties"]),
+    sku: arcDeploymentSkuSerializer(item["sku"]),
+  };
+}
+
+export function arcDeploymentDeserializer(item: any): ArcDeployment {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: arcDeploymentPropertiesDeserializer(item["properties"]),
+    sku: arcDeploymentSkuDeserializer(item["sku"]),
+    etag: item["etag"],
+  };
+}
+
+/** Properties of a Cognitive Services Arc deployment. */
+export interface ArcDeploymentProperties {
+  /** Model reference. Required on creation and immutable after creation. */
+  model: ArcDeploymentModel;
+  /** Full Azure resource ID of the Foundry inference extension on the target Arc-enabled Kubernetes cluster. Required on creation and immutable after creation. */
+  extensionId: string;
+  /** Inference runtime. Required on creation and immutable after creation. */
+  runtime: ArcDeploymentRuntime;
+  /** Compute type for the deployment. Required on creation and immutable after creation. */
+  compute: ArcDeploymentComputeType;
+  /**
+   * Optional deployment template identifier for advanced vLLM tuning. Allowed only when runtime is vllm.
+   * Example: azureml://registries/{registry}/deploymenttemplates/{template}/versions/{version}
+   */
+  deploymentTemplate?: string;
+  /** Read-only. Effective vLLM runtime parameters resolved for the deployed model. Returned only when runtime is vllm. */
+  readonly vllmParameters?: ArcDeploymentVllmParameters;
+  /** Physical replica count on the Arc cluster. */
+  replicas: number;
+  /** Per-replica Kubernetes resource requests and limits. */
+  resources: ArcDeploymentKubernetesResources;
+  /** Kubernetes node selector key-value map used to schedule pods onto nodes with matching labels. */
+  nodeSelector?: Record<string, string>;
+  /** The deployment state. */
+  deploymentState?: DeploymentState;
+  /** The name of RAI policy. */
+  raiPolicyName?: string;
+  /** Read-only. Current provisioning state. */
+  readonly provisioningState?: ProvisioningState;
+  /** Read-only. Status message and timestamp from the last provisioning operation. */
+  readonly provisioningDetails?: ArcDeploymentProvisioningDetails;
+  /** Read-only. Base URL for inference calls to this deployment on the Arc cluster. Populated when provisioningState is Succeeded. */
+  readonly inferenceEndpoint?: string;
+  /** Read-only. Deployment capabilities represented as key-value pairs. */
+  readonly capabilities?: Record<string, string>;
+}
+
+export function arcDeploymentPropertiesSerializer(item: ArcDeploymentProperties): any {
+  return {
+    model: arcDeploymentModelSerializer(item["model"]),
+    extensionId: item["extensionId"],
+    runtime: item["runtime"],
+    compute: item["compute"],
+    deploymentTemplate: item["deploymentTemplate"],
+    replicas: item["replicas"],
+    resources: arcDeploymentKubernetesResourcesSerializer(item["resources"]),
+    nodeSelector: item["nodeSelector"],
+    deploymentState: item["deploymentState"],
+    raiPolicyName: item["raiPolicyName"],
+  };
+}
+
+export function arcDeploymentPropertiesDeserializer(item: any): ArcDeploymentProperties {
+  return {
+    model: arcDeploymentModelDeserializer(item["model"]),
+    extensionId: item["extensionId"],
+    runtime: item["runtime"],
+    compute: item["compute"],
+    deploymentTemplate: item["deploymentTemplate"],
+    vllmParameters: !item["vllmParameters"]
+      ? item["vllmParameters"]
+      : arcDeploymentVllmParametersDeserializer(item["vllmParameters"]),
+    replicas: item["replicas"],
+    resources: arcDeploymentKubernetesResourcesDeserializer(item["resources"]),
+    nodeSelector: !item["nodeSelector"]
+      ? item["nodeSelector"]
+      : Object.fromEntries(
+          Object.entries(item["nodeSelector"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    deploymentState: item["deploymentState"],
+    raiPolicyName: item["raiPolicyName"],
+    provisioningState: item["provisioningState"],
+    provisioningDetails: !item["provisioningDetails"]
+      ? item["provisioningDetails"]
+      : arcDeploymentProvisioningDetailsDeserializer(item["provisioningDetails"]),
+    inferenceEndpoint: item["inferenceEndpoint"],
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : Object.fromEntries(
+          Object.entries(item["capabilities"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/** Model reference for an Arc deployment. */
+export interface ArcDeploymentModel {
+  /** Deployment model format. */
+  format: string;
+  /** Deployment model name. */
+  name: string;
+}
+
+export function arcDeploymentModelSerializer(item: ArcDeploymentModel): any {
+  return { format: item["format"], name: item["name"] };
+}
+
+export function arcDeploymentModelDeserializer(item: any): ArcDeploymentModel {
+  return {
+    format: item["format"],
+    name: item["name"],
+  };
+}
+
+/** Inference runtime for an Arc deployment. */
+export enum KnownArcDeploymentRuntime {
+  /** vLLM runtime. */
+  Vllm = "vllm",
+  /** ONNX runtime. */
+  Onnx = "onnx-genai",
+}
+
+/**
+ * Inference runtime for an Arc deployment. \
+ * {@link KnownArcDeploymentRuntime} can be used interchangeably with ArcDeploymentRuntime,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **vllm**: vLLM runtime. \
+ * **onnx-genai**: ONNX runtime.
+ */
+export type ArcDeploymentRuntime = string;
+
+/** Compute type for an Arc deployment. */
+export enum KnownArcDeploymentComputeType {
+  /** GPU compute. */
+  Gpu = "gpu",
+  /** CPU compute. */
+  Cpu = "cpu",
+}
+
+/**
+ * Compute type for an Arc deployment. \
+ * {@link KnownArcDeploymentComputeType} can be used interchangeably with ArcDeploymentComputeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **gpu**: GPU compute. \
+ * **cpu**: CPU compute.
+ */
+export type ArcDeploymentComputeType = string;
+
+/** Effective vLLM runtime parameters for an Arc deployment. */
+export interface ArcDeploymentVllmParameters {
+  /** Number of GPUs used for tensor parallelism. */
+  tensorParallelSize?: number;
+  /** Maximum model context length. */
+  maxModelLen?: number;
+  /** Fraction of GPU memory reserved for model execution. */
+  gpuMemoryUtilization?: number;
+  /** Whether eager execution is enforced for the vLLM runtime. */
+  enforceEager?: boolean;
+}
+
+export function arcDeploymentVllmParametersDeserializer(item: any): ArcDeploymentVllmParameters {
+  return {
+    tensorParallelSize: item["tensorParallelSize"],
+    maxModelLen: item["maxModelLen"],
+    gpuMemoryUtilization: item["gpuMemoryUtilization"],
+    enforceEager: item["enforceEager"],
+  };
+}
+
+/** Per-replica Kubernetes resource requests and limits for an Arc deployment. */
+export interface ArcDeploymentKubernetesResources {
+  /** Kubernetes CPU and memory resource requests for each deployment replica. */
+  requests?: ArcDeploymentCpuMemoryResourceRequirements;
+  /** Kubernetes resource limits for each deployment replica. */
+  limits?: ArcDeploymentResourceRequirements;
+}
+
+export function arcDeploymentKubernetesResourcesSerializer(
+  item: ArcDeploymentKubernetesResources,
+): any {
+  return {
+    requests: !item["requests"]
+      ? item["requests"]
+      : arcDeploymentCpuMemoryResourceRequirementsSerializer(item["requests"]),
+    limits: !item["limits"]
+      ? item["limits"]
+      : arcDeploymentResourceRequirementsSerializer(item["limits"]),
+  };
+}
+
+export function arcDeploymentKubernetesResourcesDeserializer(
+  item: any,
+): ArcDeploymentKubernetesResources {
+  return {
+    requests: !item["requests"]
+      ? item["requests"]
+      : arcDeploymentCpuMemoryResourceRequirementsDeserializer(item["requests"]),
+    limits: !item["limits"]
+      ? item["limits"]
+      : arcDeploymentResourceRequirementsDeserializer(item["limits"]),
+  };
+}
+
+/** CPU and memory resource requirements for an Arc deployment replica. */
+export interface ArcDeploymentCpuMemoryResourceRequirements {
+  /** Kubernetes CPU quantity string, for example 500m, 2, 4, or 8. */
+  cpu: string;
+  /** Kubernetes memory quantity string, for example 512Mi, 2Gi, or 16Gi. */
+  memory: string;
+}
+
+export function arcDeploymentCpuMemoryResourceRequirementsSerializer(
+  item: ArcDeploymentCpuMemoryResourceRequirements,
+): any {
+  return { cpu: item["cpu"], memory: item["memory"] };
+}
+
+export function arcDeploymentCpuMemoryResourceRequirementsDeserializer(
+  item: any,
+): ArcDeploymentCpuMemoryResourceRequirements {
+  return {
+    cpu: item["cpu"],
+    memory: item["memory"],
+  };
+}
+
+/**
+ * Kubernetes resource requirements for an Arc deployment replica.
+ * Specify either cpu and memory together, or gpu. GPU is supported only in limits, not requests.
+ */
+export interface ArcDeploymentResourceRequirements {
+  /**
+   * Kubernetes CPU quantity string, for example 500m, 2, 4, or 8.
+   * Required with memory when specifying CPU and memory limits. Do not specify with gpu.
+   */
+  cpu?: string;
+  /**
+   * Kubernetes memory quantity string, for example 512Mi, 2Gi, or 16Gi.
+   * Required with cpu when specifying CPU and memory limits. Do not specify with gpu.
+   */
+  memory?: string;
+  /**
+   * Kubernetes GPU quantity, for example 1, 2, or 5.
+   * Required when specifying GPU limits. Do not specify with cpu or memory.
+   */
+  gpu?: number;
+}
+
+export function arcDeploymentResourceRequirementsSerializer(
+  item: ArcDeploymentResourceRequirements,
+): any {
+  return { cpu: item["cpu"], memory: item["memory"], gpu: item["gpu"] };
+}
+
+export function arcDeploymentResourceRequirementsDeserializer(
+  item: any,
+): ArcDeploymentResourceRequirements {
+  return {
+    cpu: item["cpu"],
+    memory: item["memory"],
+    gpu: item["gpu"],
+  };
+}
+
+/** Provisioning status details for an Arc deployment. */
+export interface ArcDeploymentProvisioningDetails {
+  /** A human-readable status message from the last provisioning operation. */
+  message?: string;
+  /** Timestamp of the last provisioning operation. */
+  lastOperationTimestamp?: Date;
+}
+
+export function arcDeploymentProvisioningDetailsDeserializer(
+  item: any,
+): ArcDeploymentProvisioningDetails {
+  return {
+    message: item["message"],
+    lastOperationTimestamp: !item["lastOperationTimestamp"]
+      ? item["lastOperationTimestamp"]
+      : new Date(item["lastOperationTimestamp"]),
+  };
+}
+
+/** SKU for an Arc deployment. */
+export interface ArcDeploymentSku {
+  /** The name of the Arc deployment SKU. Must be Arc. */
+  name: ArcDeploymentSkuName;
+}
+
+export function arcDeploymentSkuSerializer(item: ArcDeploymentSku): any {
+  return { name: item["name"] };
+}
+
+export function arcDeploymentSkuDeserializer(item: any): ArcDeploymentSku {
+  return {
+    name: item["name"],
+  };
+}
+
+/** SKU for an Arc deployment. */
+export enum KnownArcDeploymentSkuName {
+  /** Arc SKU. */
+  Arc = "Arc",
+}
+
+/**
+ * SKU for an Arc deployment. \
+ * {@link KnownArcDeploymentSkuName} can be used interchangeably with ArcDeploymentSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Arc**: Arc SKU.
+ */
+export type ArcDeploymentSkuName = string;
+
+/** The object used to update an Arc deployment. */
+export interface ArcDeploymentUpdate {
+  /** Properties that can be updated on an Arc deployment. */
+  properties?: ArcDeploymentUpdateProperties;
+}
+
+export function arcDeploymentUpdateSerializer(item: ArcDeploymentUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : arcDeploymentUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Mutable properties for an Arc deployment. */
+export interface ArcDeploymentUpdateProperties {
+  /** Physical replica count on the Arc cluster. */
+  replicas?: number;
+  /** Per-replica Kubernetes resource requests and limits. */
+  resources?: ArcDeploymentPatchKubernetesResources;
+  /** Kubernetes node selector key-value map used to schedule pods onto nodes with matching labels. */
+  nodeSelector?: Record<string, string>;
+}
+
+export function arcDeploymentUpdatePropertiesSerializer(item: ArcDeploymentUpdateProperties): any {
+  return {
+    replicas: item["replicas"],
+    resources: !item["resources"]
+      ? item["resources"]
+      : arcDeploymentPatchKubernetesResourcesSerializer(item["resources"]),
+    nodeSelector: item["nodeSelector"],
+  };
+}
+
+/** Per-replica Kubernetes resource requests and limits for an Arc deployment update. */
+export interface ArcDeploymentPatchKubernetesResources {
+  /** Kubernetes CPU and memory resource requests for each deployment replica. */
+  requests?: ArcDeploymentPatchCpuMemoryResourceRequirements;
+  /** Kubernetes resource limits for each deployment replica. */
+  limits?: ArcDeploymentResourceRequirements;
+}
+
+export function arcDeploymentPatchKubernetesResourcesSerializer(
+  item: ArcDeploymentPatchKubernetesResources,
+): any {
+  return {
+    requests: !item["requests"]
+      ? item["requests"]
+      : arcDeploymentPatchCpuMemoryResourceRequirementsSerializer(item["requests"]),
+    limits: !item["limits"]
+      ? item["limits"]
+      : arcDeploymentResourceRequirementsSerializer(item["limits"]),
+  };
+}
+
+/** CPU and memory resource requirements for an Arc deployment replica update. */
+export interface ArcDeploymentPatchCpuMemoryResourceRequirements {
+  /** Kubernetes CPU quantity string, for example 500m, 2, 4, or 8. */
+  cpu?: string;
+  /** Kubernetes memory quantity string, for example 512Mi, 2Gi, or 16Gi. */
+  memory?: string;
+}
+
+export function arcDeploymentPatchCpuMemoryResourceRequirementsSerializer(
+  item: ArcDeploymentPatchCpuMemoryResourceRequirements,
+): any {
+  return { cpu: item["cpu"], memory: item["memory"] };
+}
+
+/** The list of Arc deployments. */
+export interface _ArcDeploymentListResult {
+  /** The link used to get the next page of Arc deployments. */
+  nextLink?: string;
+  /** Gets the list of Arc deployments and their properties. */
+  readonly value: ArcDeployment[];
+}
+
+export function _arcDeploymentListResultDeserializer(item: any): _ArcDeploymentListResult {
+  return {
+    nextLink: item["nextLink"],
+    value: arcDeploymentArrayDeserializer(item["value"]),
+  };
+}
+
+export function arcDeploymentArraySerializer(result: Array<ArcDeployment>): any[] {
+  return result.map((item) => {
+    return arcDeploymentSerializer(item);
+  });
+}
+
+export function arcDeploymentArrayDeserializer(result: Array<ArcDeployment>): any[] {
+  return result.map((item) => {
+    return arcDeploymentDeserializer(item);
+  });
+}
+
 /** Agent Application resource */
 export interface AgentApplication extends ProxyResource {
   /** [Required] Additional attributes of the entity. */
@@ -8114,6 +9635,8 @@ export interface ManagedComputeDeploymentProperties {
   acceleratorType?: string;
   /** Template auto-upgrade policy. Defaults to OnceNewDefaultVersionAvailable. */
   versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
+  /** Configuration used to authorize access to a gated model during deployment creation. */
+  gatedModelAccess?: GatedModelAccessProperties;
   /**
    * Deployment capabilities represented as key-value pairs.
    * Example: { assetsV2: "true" }.
@@ -8143,6 +9666,9 @@ export function managedComputeDeploymentPropertiesSerializer(
     deploymentTemplate: item["deploymentTemplate"],
     acceleratorType: item["acceleratorType"],
     versionUpgradeOption: item["versionUpgradeOption"],
+    gatedModelAccess: !item["gatedModelAccess"]
+      ? item["gatedModelAccess"]
+      : gatedModelAccessPropertiesSerializer(item["gatedModelAccess"]),
     computeId: item["computeId"],
     priority: item["priority"],
   };
@@ -8156,6 +9682,9 @@ export function managedComputeDeploymentPropertiesDeserializer(
     deploymentTemplate: item["deploymentTemplate"],
     acceleratorType: item["acceleratorType"],
     versionUpgradeOption: item["versionUpgradeOption"],
+    gatedModelAccess: !item["gatedModelAccess"]
+      ? item["gatedModelAccess"]
+      : gatedModelAccessPropertiesDeserializer(item["gatedModelAccess"]),
     capabilities: !item["capabilities"]
       ? item["capabilities"]
       : Object.fromEntries(
@@ -8172,6 +9701,22 @@ export function managedComputeDeploymentPropertiesDeserializer(
     routes: !item["routes"]
       ? item["routes"]
       : managedComputeDeploymentRoutesDeserializer(item["routes"]),
+  };
+}
+
+/** Gated model access configuration for a managed compute deployment. */
+export interface GatedModelAccessProperties {
+  /** The fully qualified Azure resource ID of the project connection used to authorize access to a gated model during deployment creation. */
+  connectionId: string;
+}
+
+export function gatedModelAccessPropertiesSerializer(item: GatedModelAccessProperties): any {
+  return { connectionId: item["connectionId"] };
+}
+
+export function gatedModelAccessPropertiesDeserializer(item: any): GatedModelAccessProperties {
+  return {
+    connectionId: item["connectionId"],
   };
 }
 
@@ -8259,6 +9804,183 @@ export function managedComputeDeploymentArrayDeserializer(
 ): any[] {
   return result.map((item) => {
     return managedComputeDeploymentDeserializer(item);
+  });
+}
+
+/** An independently managed LoRA adapter attached to a managed compute deployment. */
+export interface AdapterDeployment extends ProxyResource {
+  /** Properties of the Cognitive Services adapter deployment. */
+  properties?: AdapterDeploymentProperties;
+  /** The concurrency token for this adapter deployment. */
+  readonly etag?: string;
+}
+
+export function adapterDeploymentSerializer(item: AdapterDeployment): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : adapterDeploymentPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function adapterDeploymentDeserializer(item: any): AdapterDeployment {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : adapterDeploymentPropertiesDeserializer(item["properties"]),
+    etag: item["etag"],
+  };
+}
+
+/** Properties of an adapter deployment. */
+export interface AdapterDeploymentProperties {
+  /**
+   * The immutable Project Models version produced by Foundry fine-tuning.
+   * The identifier uses the Azure AI project model URI format.
+   * Model and version segments use ASCII letters, digits, periods, underscores, and hyphens.
+   * The service validates LoRA weight type, protected status, provenance,
+   * compatibility metadata, and registration state.
+   */
+  sourceModelId: string;
+  /**
+   * The name of the compatible managed compute parent deployment.
+   * The service resolves this name within the adapter's owning account; full
+   * Azure Resource Manager resource IDs and cross-account references are not accepted. It cannot
+   * equal the adapter deployment's resource name. Updating this value
+   * re-targets the adapter while its source model remains unchanged.
+   */
+  targetDeploymentName: string;
+  /**
+   * The managed compute deployment currently serving the adapter.
+   * During re-targeting this remains the prior deployment until atomic cutover.
+   */
+  readonly activeTargetDeploymentName?: string;
+  /** The provisioning state of the adapter deployment. */
+  readonly provisioningState?: ProvisioningState;
+  /** Information about the most recently requested lifecycle operation. */
+  readonly lastOperation?: AdapterDeploymentLastOperation;
+}
+
+export function adapterDeploymentPropertiesSerializer(item: AdapterDeploymentProperties): any {
+  return {
+    sourceModelId: item["sourceModelId"],
+    targetDeploymentName: item["targetDeploymentName"],
+  };
+}
+
+export function adapterDeploymentPropertiesDeserializer(item: any): AdapterDeploymentProperties {
+  return {
+    sourceModelId: item["sourceModelId"],
+    targetDeploymentName: item["targetDeploymentName"],
+    activeTargetDeploymentName: item["activeTargetDeploymentName"],
+    provisioningState: item["provisioningState"],
+    lastOperation: !item["lastOperation"]
+      ? item["lastOperation"]
+      : adapterDeploymentLastOperationDeserializer(item["lastOperation"]),
+  };
+}
+
+/** The most recently requested adapter lifecycle operation. */
+export interface AdapterDeploymentLastOperation {
+  /** The type of lifecycle operation. */
+  type: AdapterDeploymentOperationType;
+  /** The current or terminal operation state. */
+  status: AdapterDeploymentOperationState;
+  /** The target deployment requested by a create or re-target operation. */
+  requestedTargetDeploymentName?: string;
+  /** The time at which the operation started. */
+  startedAt: Date;
+  /** The time at which the operation reached a terminal state. */
+  completedAt?: Date;
+}
+
+export function adapterDeploymentLastOperationDeserializer(
+  item: any,
+): AdapterDeploymentLastOperation {
+  return {
+    type: item["type"],
+    status: item["status"],
+    requestedTargetDeploymentName: item["requestedTargetDeploymentName"],
+    startedAt: new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+  };
+}
+
+/** Lifecycle operation types reported by an adapter deployment. */
+export enum KnownAdapterDeploymentOperationType {
+  /** Creates the adapter deployment. */
+  Create = "Create",
+  /** Re-targets the adapter deployment. */
+  Update = "Update",
+  /** Deletes the adapter deployment. */
+  Delete = "Delete",
+}
+
+/**
+ * Lifecycle operation types reported by an adapter deployment. \
+ * {@link KnownAdapterDeploymentOperationType} can be used interchangeably with AdapterDeploymentOperationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Create**: Creates the adapter deployment. \
+ * **Update**: Re-targets the adapter deployment. \
+ * **Delete**: Deletes the adapter deployment.
+ */
+export type AdapterDeploymentOperationType = string;
+
+/** Lifecycle operation states reported by an adapter deployment. */
+export enum KnownAdapterDeploymentOperationState {
+  /** The operation was accepted. */
+  Accepted = "Accepted",
+  /** The operation is running. */
+  Running = "Running",
+  /** The operation completed successfully. */
+  Succeeded = "Succeeded",
+  /** The operation failed. */
+  Failed = "Failed",
+}
+
+/**
+ * Lifecycle operation states reported by an adapter deployment. \
+ * {@link KnownAdapterDeploymentOperationState} can be used interchangeably with AdapterDeploymentOperationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted**: The operation was accepted. \
+ * **Running**: The operation is running. \
+ * **Succeeded**: The operation completed successfully. \
+ * **Failed**: The operation failed.
+ */
+export type AdapterDeploymentOperationState = string;
+
+/** A paginated collection of adapter deployments. */
+export interface _AdapterDeploymentListResult {
+  /** Adapter deployments in this page. */
+  readonly value: AdapterDeployment[];
+  /** URL used to retrieve the next page, when one exists. */
+  nextLink?: string;
+}
+
+export function _adapterDeploymentListResultDeserializer(item: any): _AdapterDeploymentListResult {
+  return {
+    value: adapterDeploymentArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function adapterDeploymentArraySerializer(result: Array<AdapterDeployment>): any[] {
+  return result.map((item) => {
+    return adapterDeploymentSerializer(item);
+  });
+}
+
+export function adapterDeploymentArrayDeserializer(result: Array<AdapterDeployment>): any[] {
+  return result.map((item) => {
+    return adapterDeploymentDeserializer(item);
   });
 }
 
@@ -8428,10 +10150,6 @@ export interface Compute extends ProxyResource {
   properties: ComputePropertiesUnion;
   /** Resource Etag. */
   readonly etag?: string;
-  /** The location of the compute resource. */
-  location?: string;
-  /** Resource tags. */
-  tags?: Record<string, string>;
   /** The kind (type) of compute resource. */
   kind?: string;
   /** Identity for the resource. */
@@ -8441,8 +10159,6 @@ export interface Compute extends ProxyResource {
 export function computeSerializer(item: Compute): any {
   return {
     properties: computePropertiesUnionSerializer(item["properties"]),
-    location: item["location"],
-    tags: item["tags"],
     kind: item["kind"],
     identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
   };
@@ -8458,10 +10174,6 @@ export function computeDeserializer(item: any): Compute {
       : systemDataDeserializer(item["systemData"]),
     properties: computePropertiesUnionDeserializer(item["properties"]),
     etag: item["etag"],
-    location: item["location"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     kind: item["kind"],
     identity: !item["identity"] ? item["identity"] : identityDeserializer(item["identity"]),
   };
@@ -8475,6 +10187,8 @@ export interface ComputeProperties {
   /** The type of compute resource. */
   /** The discriminator possible values: Cluster, ContainerInstance */
   computeType: ComputeType;
+  /** The location of the compute resource. */
+  location: string;
   /** Provisioning state of the compute resource. */
   readonly provisioningState?: ComputeProvisioningState;
   /** Error details for the compute resource. */
@@ -8484,12 +10198,13 @@ export interface ComputeProperties {
 }
 
 export function computePropertiesSerializer(item: ComputeProperties): any {
-  return { computeType: item["computeType"] };
+  return { computeType: item["computeType"], location: item["location"] };
 }
 
 export function computePropertiesDeserializer(item: any): ComputeProperties {
   return {
     computeType: item["computeType"],
+    location: item["location"],
     provisioningState: item["provisioningState"],
     errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
     creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
@@ -8606,6 +10321,7 @@ export interface ClusterComputeProperties extends ComputeProperties {
 export function clusterComputePropertiesSerializer(item: ClusterComputeProperties): any {
   return {
     computeType: item["computeType"],
+    location: item["location"],
     pools: poolArraySerializer(item["pools"]),
     subnetArmId: item["subnetArmId"],
   };
@@ -8614,6 +10330,7 @@ export function clusterComputePropertiesSerializer(item: ClusterComputePropertie
 export function clusterComputePropertiesDeserializer(item: any): ClusterComputeProperties {
   return {
     computeType: item["computeType"],
+    location: item["location"],
     provisioningState: item["provisioningState"],
     errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
     creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
@@ -8639,7 +10356,7 @@ export interface Pool {
   /** The name of the pool. */
   name: string;
   /** The VM priority of the pool. */
-  vmPriority: VmPriority;
+  vmPriority?: VmPriority;
   /** The instance type (VM SKU) used in the pool. */
   instanceType: string;
   /** The number of nodes in the pool. */
@@ -8668,8 +10385,8 @@ export function poolDeserializer(item: any): Pool {
 export enum KnownVmPriority {
   /** Regular VM priority. */
   Regular = "Regular",
-  /** Low-priority VM. */
-  LowPriority = "LowPriority",
+  /** Spot VM priority. */
+  Spot = "Spot",
 }
 
 /**
@@ -8678,7 +10395,7 @@ export enum KnownVmPriority {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Regular**: Regular VM priority. \
- * **LowPriority**: Low-priority VM.
+ * **Spot**: Spot VM priority.
  */
 export type VmPriority = string;
 
@@ -8703,6 +10420,7 @@ export function containerInstanceComputePropertiesSerializer(
 ): any {
   return {
     computeType: item["computeType"],
+    location: item["location"],
     targetClusterId: item["targetClusterId"],
     imageLink: item["imageLink"],
     idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
@@ -8717,6 +10435,7 @@ export function containerInstanceComputePropertiesDeserializer(
 ): ContainerInstanceComputeProperties {
   return {
     computeType: item["computeType"],
+    location: item["location"],
     provisioningState: item["provisioningState"],
     errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
     creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
@@ -8802,10 +10521,6 @@ export interface Workbench extends ProxyResource {
   properties: WorkbenchProperties;
   /** Resource Etag. */
   readonly etag?: string;
-  /** The location of the workbench resource. */
-  location?: string;
-  /** Resource tags. */
-  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: Identity;
 }
@@ -8813,8 +10528,6 @@ export interface Workbench extends ProxyResource {
 export function workbenchSerializer(item: Workbench): any {
   return {
     properties: workbenchPropertiesSerializer(item["properties"]),
-    location: item["location"],
-    tags: item["tags"],
     identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
   };
 }
@@ -8829,32 +10542,34 @@ export function workbenchDeserializer(item: any): Workbench {
       : systemDataDeserializer(item["systemData"]),
     properties: workbenchPropertiesDeserializer(item["properties"]),
     etag: item["etag"],
-    location: item["location"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     identity: !item["identity"] ? item["identity"] : identityDeserializer(item["identity"]),
   };
 }
 
 /** Properties for a Workbench resource. */
 export interface WorkbenchProperties {
-  /** ARM resource ID of the parent cluster that hosts this workbench. */
+  /** Resource ID of the Foundry Compute or virtual cluster that hosts this workbench. Changing the cluster requires the workbench to be stopped. */
   targetClusterId: string;
-  /** Container image URI (e.g., MCR or ACR image path) for the workbench. */
+  /** Container image URI (e.g., MCR or ACR image path) for the workbench. Immutable after creation. */
   imageLink: string;
+  /** For virtual clusters, an exact Singularity instance type or a full-node Azure VM size. If omitted on creation, defaults to Singularity.D4_v3. Foundry Compute ignores this override and uses the pool configuration. Changing the instance type requires the workbench to be stopped. */
+  instanceType?: string;
+  /** GPU count for GPU pools or vCPU count for CPU pools. Must be 1, 2, 4, 8, or a positive multiple of 8. A full-node Azure VM size permits partition selection; omission uses the full node. For an exact Singularity instance type, a supplied count must match that type; the Singularity.D4_v3 fallback accepts 4. */
+  gpuCount?: number;
   /** ISO 8601 duration before the idle workbench is automatically shut down (e.g., 'PT30M'). */
   idleTimeBeforeShutdown?: string;
-  /** The dataset ID to mount for the workbench. */
+  /** The dataset ID to mount for the workbench. Set only during creation. */
   datasetId?: string;
-  /** SSH configuration for remote access to the workbench. */
+  /** SSH configuration for remote access to the workbench. Set only during creation. */
   sshSettings?: SshSettings;
   /** Network connectivity endpoints assigned to the workbench. */
   readonly connectivityEndpoints?: ConnectivityEndpoints;
   /** The web endpoint URL for accessing the workbench. */
   readonly webEndpoint?: string;
-  /** Provisioning state of the workbench resource. */
-  readonly provisioningState?: ComputeProvisioningState;
+  /** Provisioning state of the workbench resource, independent of runtime lifecycle status. */
+  readonly provisioningState?: WorkbenchProvisioningState;
+  /** Runtime lifecycle status of the workbench. Independent of resource provisioning; start, stop, restart, and runtime health changes do not change provisioningState. */
+  readonly status?: WorkbenchStatus;
   /** Error details for the workbench resource. */
   readonly errors?: ErrorDetail[];
   /** Creation time of the workbench resource. */
@@ -8865,6 +10580,8 @@ export function workbenchPropertiesSerializer(item: WorkbenchProperties): any {
   return {
     targetClusterId: item["targetClusterId"],
     imageLink: item["imageLink"],
+    instanceType: item["instanceType"],
+    gpuCount: item["gpuCount"],
     idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
     datasetId: item["datasetId"],
     sshSettings: !item["sshSettings"]
@@ -8877,6 +10594,8 @@ export function workbenchPropertiesDeserializer(item: any): WorkbenchProperties 
   return {
     targetClusterId: item["targetClusterId"],
     imageLink: item["imageLink"],
+    instanceType: item["instanceType"],
+    gpuCount: item["gpuCount"],
     idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
     datasetId: item["datasetId"],
     sshSettings: !item["sshSettings"]
@@ -8887,8 +10606,113 @@ export function workbenchPropertiesDeserializer(item: any): WorkbenchProperties 
       : connectivityEndpointsDeserializer(item["connectivityEndpoints"]),
     webEndpoint: item["webEndpoint"],
     provisioningState: item["provisioningState"],
+    status: item["status"],
     errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
     creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
+  };
+}
+
+/** Provisioning state of a workbench resource, independent of runtime lifecycle status. */
+export enum KnownWorkbenchProvisioningState {
+  /** The workbench resource is being created. */
+  Creating = "Creating",
+  /** The workbench resource has been provisioned. */
+  Succeeded = "Succeeded",
+  /** Provisioning of the workbench resource failed. */
+  Failed = "Failed",
+  /** Provisioning of the workbench resource was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Provisioning state of a workbench resource, independent of runtime lifecycle status. \
+ * {@link KnownWorkbenchProvisioningState} can be used interchangeably with WorkbenchProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating**: The workbench resource is being created. \
+ * **Succeeded**: The workbench resource has been provisioned. \
+ * **Failed**: Provisioning of the workbench resource failed. \
+ * **Canceled**: Provisioning of the workbench resource was canceled.
+ */
+export type WorkbenchProvisioningState = string;
+
+/** Runtime lifecycle status of a workbench. */
+export enum KnownWorkbenchStatus {
+  /** The runtime status is unknown. */
+  Unknown = "Unknown",
+  /** The runtime is being created. */
+  Creating = "Creating",
+  /** The runtime is starting. */
+  Starting = "Starting",
+  /** The runtime is running. */
+  Running = "Running",
+  /** The runtime is stopping. */
+  Stopping = "Stopping",
+  /** The runtime is stopped. */
+  Stopped = "Stopped",
+  /** The runtime is restarting. */
+  Restarting = "Restarting",
+  /** The runtime is being updated. */
+  Updating = "Updating",
+  /** The runtime is being deleted. */
+  Deleting = "Deleting",
+  /** The runtime has failed. */
+  Failed = "Failed",
+}
+
+/**
+ * Runtime lifecycle status of a workbench. \
+ * {@link KnownWorkbenchStatus} can be used interchangeably with WorkbenchStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: The runtime status is unknown. \
+ * **Creating**: The runtime is being created. \
+ * **Starting**: The runtime is starting. \
+ * **Running**: The runtime is running. \
+ * **Stopping**: The runtime is stopping. \
+ * **Stopped**: The runtime is stopped. \
+ * **Restarting**: The runtime is restarting. \
+ * **Updating**: The runtime is being updated. \
+ * **Deleting**: The runtime is being deleted. \
+ * **Failed**: The runtime has failed.
+ */
+export type WorkbenchStatus = string;
+
+/** The mutable fields of a workbench resource. */
+export interface WorkbenchUpdate {
+  /** Properties of the workbench to update. */
+  properties?: WorkbenchUpdateProperties;
+  /** Identity for the resource. May be changed while the workbench is running only when properties is omitted or null; the change takes effect after restart. If a properties object is supplied, including an empty object or timeout-only update, changing identity requires the workbench to be stopped. */
+  identity?: Identity;
+}
+
+export function workbenchUpdateSerializer(item: WorkbenchUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : workbenchUpdatePropertiesSerializer(item["properties"]),
+    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+  };
+}
+
+/** Mutable properties for a Workbench resource. */
+export interface WorkbenchUpdateProperties {
+  /** Resource ID of the Foundry Compute or virtual cluster that hosts this workbench. Changing the cluster requires the workbench to be stopped. */
+  targetClusterId?: string;
+  /** ISO 8601 duration before the idle workbench is automatically shut down (e.g., 'PT30M'). */
+  idleTimeBeforeShutdown?: string;
+  /** For virtual clusters, an exact Singularity instance type or a full-node Azure VM size. Omit to preserve the current value; null resets to the Singularity.D4_v3 fallback. Foundry Compute ignores this override and uses the pool configuration. An actual instance type change requires the workbench to be stopped. */
+  instanceType?: string;
+  /** GPU count for GPU pools or vCPU count for CPU pools. Must be 1, 2, 4, 8, or a positive multiple of 8. Omit to preserve the current value; null clears the override to use the full node or the instance type's default count. Full-node Azure VM sizes permit partition selection. A supplied count must match an exact Singularity instance type; the Singularity.D4_v3 fallback accepts 4. */
+  gpuCount?: number;
+}
+
+export function workbenchUpdatePropertiesSerializer(item: WorkbenchUpdateProperties): any {
+  return {
+    targetClusterId: item["targetClusterId"],
+    idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
+    instanceType: item["instanceType"],
+    gpuCount: item["gpuCount"],
   };
 }
 
@@ -9013,6 +10837,438 @@ export function deploymentSizeCapacityDeserializer(item: any): DeploymentSizeCap
     totalAvailableCapacity: item["totalAvailableCapacity"],
     largestDeploymentCapacity: item["largestDeploymentCapacity"],
   };
+}
+
+/** A cost control owned by a Cognitive Services account. */
+export interface CostControl extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: CostControlProperties;
+  /** The entity tag used for optimistic concurrency. */
+  readonly etag?: string;
+}
+
+export function costControlSerializer(item: CostControl): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : costControlPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function costControlDeserializer(item: any): CostControl {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : costControlPropertiesDeserializer(item["properties"]),
+    etag: item["etag"],
+  };
+}
+
+/** The customer-authored settings of a cost control. */
+export interface CostControlProperties {
+  /** An optional human-readable name for the cost control. */
+  displayName?: string;
+  /** The rules enforced by the cost control. */
+  rules: CostControlRule[];
+}
+
+export function costControlPropertiesSerializer(item: CostControlProperties): any {
+  return { displayName: item["displayName"], rules: costControlRuleArraySerializer(item["rules"]) };
+}
+
+export function costControlPropertiesDeserializer(item: any): CostControlProperties {
+  return {
+    displayName: item["displayName"],
+    rules: costControlRuleArrayDeserializer(item["rules"]),
+  };
+}
+
+export function costControlRuleArraySerializer(result: Array<CostControlRule>): any[] {
+  return result.map((item) => {
+    return costControlRuleSerializer(item);
+  });
+}
+
+export function costControlRuleArrayDeserializer(result: Array<CostControlRule>): any[] {
+  return result.map((item) => {
+    return costControlRuleDeserializer(item);
+  });
+}
+
+/** A cost limit and the population to which it applies. */
+export interface CostControlRule {
+  /** The stable rule identifier, unique within the cost control without regard to case. */
+  name: string;
+  /**
+   * Gets or sets the single built-in dimension used to partition consumption.
+   * Custom dimensions are retained only for legacy reads and metadata-only updates.
+   * Legacy singleton arrays are accepted on read; serialization always emits an object.
+   * To track another field, create another rule.
+   */
+  counterKey: CostControlDimension;
+  /** The unit used for the cost control amount and absolute thresholds. */
+  unit: CostControlUnit;
+  /** The maximum consumption allowed by this rule, expressed in the selected unit. */
+  amount: number;
+  /**
+   * Gets or sets the calendar-aligned UTC renewal period. Authored rules support Day, Week, or Month.
+   * This field is required for recurring rules and must be omitted for non-recurring rules.
+   * Legacy stored minute, hour, and year periods are preserved when reading definitions.
+   */
+  period?: CostControlPeriod;
+  /** Whether the cost control renews. The default is true. */
+  recurring?: boolean;
+  /**
+   * Gets or sets optional match arrays keyed by `agentResourceIds`, `identityObjectIds`,
+   * `sessionIds`, or `projectIds`. Each array contains 1 to 20 non-empty values.
+   * Agent resource IDs use /subscriptions/{subscription_guid}/accounts/{account-name}/project/{project-name}/agent/{agent_name}.
+   * Legacy dotted identity, session, and project keys remain accepted, but cannot be combined with their canonical key.
+   */
+  match?: CostControlMatch;
+  /**
+   * Gets or sets optional thresholds. Omitted or empty thresholds track usage without explicit actions.
+   * Authored thresholds must explicitly specify Alert or Block; Audit is retained for legacy reads.
+   */
+  thresholds?: CostControlThreshold[];
+}
+
+export function costControlRuleSerializer(item: CostControlRule): any {
+  return {
+    name: item["name"],
+    counterKey: costControlDimensionSerializer(item["counterKey"]),
+    unit: item["unit"],
+    amount: item["amount"],
+    period: item["period"],
+    recurring: item["recurring"],
+    match: !item["match"] ? item["match"] : costControlMatchSerializer(item["match"]),
+    thresholds: !item["thresholds"]
+      ? item["thresholds"]
+      : costControlThresholdArraySerializer(item["thresholds"]),
+  };
+}
+
+export function costControlRuleDeserializer(item: any): CostControlRule {
+  return {
+    name: item["name"],
+    counterKey: costControlDimensionDeserializer(item["counterKey"]),
+    unit: item["unit"],
+    amount: item["amount"],
+    period: item["period"],
+    recurring: item["recurring"],
+    match: !item["match"] ? item["match"] : costControlMatchDeserializer(item["match"]),
+    thresholds: !item["thresholds"]
+      ? item["thresholds"]
+      : costControlThresholdArrayDeserializer(item["thresholds"]),
+  };
+}
+
+/** A request dimension used to partition cost control consumption. */
+export interface CostControlDimension {
+  /** The kind of request dimension. */
+  type: CostControlDimensionType;
+  /**
+   * Gets or sets the attribute path retained for legacy Custom counters.
+   * Authored rules cannot select Custom; built-in dimensions must omit this property.
+   */
+  readonly attribute?: string;
+}
+
+export function costControlDimensionSerializer(item: CostControlDimension): any {
+  return { type: item["type"] };
+}
+
+export function costControlDimensionDeserializer(item: any): CostControlDimension {
+  return {
+    type: item["type"],
+    attribute: item["attribute"],
+  };
+}
+
+/** Cost control counter dimensions, including Custom retained for legacy read compatibility. */
+export enum KnownCostControlDimensionType {
+  /** Consumption is partitioned by the stable Foundry agent ID. */
+  Agent = "Agent",
+  /** Consumption is partitioned by the authenticated principal object ID. */
+  Identity = "Identity",
+  /** Consumption is partitioned by the Foundry session ID. */
+  Session = "Session",
+  /** Consumption is partitioned by the Foundry project resource ID. */
+  Project = "Project",
+  /** Consumption is partitioned by the owning Cognitive Services account. */
+  Account = "Account",
+  /**
+   * Legacy read-only dimension using `CostControlDimension.Attribute`.
+   * New Custom counter authoring is reserved for future support.
+   */
+  Custom = "Custom",
+}
+
+/**
+ * Cost control counter dimensions, including Custom retained for legacy read compatibility. \
+ * {@link KnownCostControlDimensionType} can be used interchangeably with CostControlDimensionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Agent**: Consumption is partitioned by the stable Foundry agent ID. \
+ * **Identity**: Consumption is partitioned by the authenticated principal object ID. \
+ * **Session**: Consumption is partitioned by the Foundry session ID. \
+ * **Project**: Consumption is partitioned by the Foundry project resource ID. \
+ * **Account**: Consumption is partitioned by the owning Cognitive Services account. \
+ * **Custom**: Legacy read-only dimension using `CostControlDimension.Attribute`.
+ * New Custom counter authoring is reserved for future support.
+ */
+export type CostControlDimensionType = string;
+
+/** The supported unit for cost control amounts and thresholds. */
+export enum KnownCostControlUnit {
+  /** Estimated cost in United States dollars. */
+  Usd = "Usd",
+}
+
+/**
+ * The supported unit for cost control amounts and thresholds. \
+ * {@link KnownCostControlUnit} can be used interchangeably with CostControlUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Usd**: Estimated cost in United States dollars.
+ */
+export type CostControlUnit = string;
+
+/** Calendar-aligned UTC renewal periods, including legacy values retained for read compatibility. */
+export enum KnownCostControlPeriod {
+  /** Legacy read-only period renewing at the start of the next UTC minute. */
+  Minute = "Minute",
+  /** Legacy read-only period renewing at the start of the next UTC hour. */
+  Hour = "Hour",
+  /** Renews daily at 00:00 UTC. */
+  Day = "Day",
+  /** Renews Monday at 00:00 UTC. */
+  Week = "Week",
+  /** Renews on the first day of each month at 00:00 UTC. */
+  Month = "Month",
+  /** Legacy read-only period renewing January 1 at 00:00 UTC. */
+  Year = "Year",
+}
+
+/**
+ * Calendar-aligned UTC renewal periods, including legacy values retained for read compatibility. \
+ * {@link KnownCostControlPeriod} can be used interchangeably with CostControlPeriod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Minute**: Legacy read-only period renewing at the start of the next UTC minute. \
+ * **Hour**: Legacy read-only period renewing at the start of the next UTC hour. \
+ * **Day**: Renews daily at 00:00 UTC. \
+ * **Week**: Renews Monday at 00:00 UTC. \
+ * **Month**: Renews on the first day of each month at 00:00 UTC. \
+ * **Year**: Legacy read-only period renewing January 1 at 00:00 UTC.
+ */
+export type CostControlPeriod = string;
+
+/**
+ * Gets or sets optional match arrays keyed by `agentResourceIds`, `identityObjectIds`,
+ * `sessionIds`, or `projectIds`. Each array contains 1 to 20 non-empty values.
+ * Agent resource IDs use /subscriptions/{subscription_guid}/accounts/{account-name}/project/{project-name}/agent/{agent_name}.
+ * Legacy dotted identity, session, and project keys remain accepted, but cannot be combined with their canonical key.
+ */
+export interface CostControlMatch {
+  /** Agent resource IDs use /subscriptions/{subscription_guid}/accounts/{account-name}/project/{project-name}/agent/{agent_name}. */
+  agentResourceIds?: string[];
+  /** The authenticated principal object IDs to match. */
+  identityObjectIds?: string[];
+  /** The Foundry session IDs to match. */
+  sessionIds?: string[];
+  /** The Foundry project resource IDs to match. */
+  projectIds?: string[];
+}
+
+export function costControlMatchSerializer(item: CostControlMatch): any {
+  return {
+    agentResourceIds: !item["agentResourceIds"]
+      ? item["agentResourceIds"]
+      : item["agentResourceIds"].map((p: any) => {
+          return p;
+        }),
+    identityObjectIds: !item["identityObjectIds"]
+      ? item["identityObjectIds"]
+      : item["identityObjectIds"].map((p: any) => {
+          return p;
+        }),
+    sessionIds: !item["sessionIds"]
+      ? item["sessionIds"]
+      : item["sessionIds"].map((p: any) => {
+          return p;
+        }),
+    projectIds: !item["projectIds"]
+      ? item["projectIds"]
+      : item["projectIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function costControlMatchDeserializer(item: any): CostControlMatch {
+  return {
+    agentResourceIds: !item["agentResourceIds"]
+      ? item["agentResourceIds"]
+      : item["agentResourceIds"].map((p: any) => {
+          return p;
+        }),
+    identityObjectIds: !item["identityObjectIds"]
+      ? item["identityObjectIds"]
+      : item["identityObjectIds"].map((p: any) => {
+          return p;
+        }),
+    sessionIds: !item["sessionIds"]
+      ? item["sessionIds"]
+      : item["sessionIds"].map((p: any) => {
+          return p;
+        }),
+    projectIds: !item["projectIds"]
+      ? item["projectIds"]
+      : item["projectIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function costControlThresholdArraySerializer(result: Array<CostControlThreshold>): any[] {
+  return result.map((item) => {
+    return costControlThresholdSerializer(item);
+  });
+}
+
+export function costControlThresholdArrayDeserializer(result: Array<CostControlThreshold>): any[] {
+  return result.map((item) => {
+    return costControlThresholdDeserializer(item);
+  });
+}
+
+/** An action evaluated when cost control consumption reaches a threshold. */
+export interface CostControlThreshold {
+  /** How the threshold value is interpreted. */
+  type: CostControlThresholdType;
+  /**
+   * Gets or sets the threshold value. Legacy Audit definitions retain their stored values;
+   * new thresholds support only Alert or Block.
+   */
+  value: number;
+  /**
+   * Gets or sets the threshold action. Authored thresholds must explicitly specify Alert or Block.
+   * Legacy stored definitions with omitted actions continue to read as Audit.
+   */
+  action: CostControlThresholdAction;
+}
+
+export function costControlThresholdSerializer(item: CostControlThreshold): any {
+  return { type: item["type"], value: item["value"], action: item["action"] };
+}
+
+export function costControlThresholdDeserializer(item: any): CostControlThreshold {
+  return {
+    type: item["type"],
+    value: item["value"],
+    action: item["action"],
+  };
+}
+
+/** The supported threshold value interpretations. */
+export enum KnownCostControlThresholdType {
+  /** The value is a percentage of the configured rule amount. */
+  Percentage = "Percentage",
+  /** The value is expressed in the rule's unit. */
+  Absolute = "Absolute",
+}
+
+/**
+ * The supported threshold value interpretations. \
+ * {@link KnownCostControlThresholdType} can be used interchangeably with CostControlThresholdType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Percentage**: The value is a percentage of the configured rule amount. \
+ * **Absolute**: The value is expressed in the rule's unit.
+ */
+export type CostControlThresholdType = string;
+
+/** The supported actions when a threshold is reached. */
+export enum KnownCostControlThresholdAction {
+  /** Legacy read-only action retained to deserialize existing definitions without changing their semantics. */
+  Audit = "Audit",
+  /** Emits a customer-facing alert without blocking requests. */
+  Alert = "Alert",
+  /** Blocks the request without emitting a customer-facing alert. */
+  Block = "Block",
+}
+
+/**
+ * The supported actions when a threshold is reached. \
+ * {@link KnownCostControlThresholdAction} can be used interchangeably with CostControlThresholdAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Audit**: Legacy read-only action retained to deserialize existing definitions without changing their semantics. \
+ * **Alert**: Emits a customer-facing alert without blocking requests. \
+ * **Block**: Blocks the request without emitting a customer-facing alert.
+ */
+export type CostControlThresholdAction = string;
+
+/** The request used to update a cost control. */
+export interface CostControlPatch {
+  /** The cost control properties to update. */
+  properties?: CostControlPatchProperties;
+}
+
+export function costControlPatchSerializer(item: CostControlPatch): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : costControlPatchPropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The properties that can be changed on a cost control. */
+export interface CostControlPatchProperties {
+  /** An optional human-readable name for the cost control. Set this property to null to clear it. */
+  displayName?: string;
+  /** The complete replacement set of cost control rules. */
+  rules?: CostControlRule[];
+}
+
+export function costControlPatchPropertiesSerializer(item: CostControlPatchProperties): any {
+  return {
+    displayName: item["displayName"],
+    rules: !item["rules"] ? item["rules"] : costControlRuleArraySerializer(item["rules"]),
+  };
+}
+
+/** A page of cost controls. */
+export interface _CostControlListResult {
+  /** The link used to get the next page of cost controls. */
+  nextLink?: string;
+  /** The cost controls in this page. */
+  value: CostControl[];
+}
+
+export function _costControlListResultDeserializer(item: any): _CostControlListResult {
+  return {
+    nextLink: item["nextLink"],
+    value: costControlArrayDeserializer(item["value"]),
+  };
+}
+
+export function costControlArraySerializer(result: Array<CostControl>): any[] {
+  return result.map((item) => {
+    return costControlSerializer(item);
+  });
+}
+
+export function costControlArrayDeserializer(result: Array<CostControl>): any[] {
+  return result.map((item) => {
+    return costControlDeserializer(item);
+  });
 }
 
 /** A list of private link resources */
@@ -10848,6 +13104,14 @@ export enum KnownVersions {
   V20260501 = "2026-05-01",
   /** The 2026-05-15-preview API version. */
   V20260515Preview = "2026-05-15-preview",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
+  /** The 2026-07-15-preview API version. */
+  V20260715Preview = "2026-07-15-preview",
+  /** The 2026-09-01 API version. */
+  V20260901 = "2026-09-01",
+  /** The 2026-09-15-preview API version. */
+  V20260915Preview = "2026-09-15-preview",
 }
 
 export function raiBlocklistItemBulkRequestArraySerializer(

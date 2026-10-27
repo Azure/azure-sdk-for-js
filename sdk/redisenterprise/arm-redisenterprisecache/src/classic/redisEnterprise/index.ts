@@ -108,7 +108,6 @@ export interface RedisEnterpriseOperations {
     options?: RedisEnterpriseGetOptionalParams,
   ) => Promise<Cluster>;
 }
-
 function _getRedisEnterprise(context: RedisEnterpriseManagementContext) {
   return {
     listSkusForScaling: (
@@ -197,7 +196,6 @@ function _getRedisEnterprise(context: RedisEnterpriseManagementContext) {
     ) => get(context, resourceGroupName, clusterName, options),
   };
 }
-
 export function _getRedisEnterpriseOperations(
   context: RedisEnterpriseManagementContext,
 ): RedisEnterpriseOperations {

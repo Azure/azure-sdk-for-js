@@ -31,7 +31,7 @@ export function _getSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       restoreDetailsName: restoreDetailsName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,7 +58,6 @@ export async function _getDeserialize(
 
   return managedDatabaseRestoreDetailsResultDeserializer(result.body);
 }
-
 /** Gets managed database restore details. */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all bookmarks.
  *
  * @summary gets all bookmarks.
- * x-ms-original-file: 2025-07-01-preview/bookmarks/GetBookmarks.json
+ * x-ms-original-file: 2025-10-01-preview/bookmarks/GetBookmarks.json
  */
 async function getAllBookmarks() {
   const credential = new DefaultAzureCredential();

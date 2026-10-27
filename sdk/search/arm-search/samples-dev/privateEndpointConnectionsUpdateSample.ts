@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a private endpoint connection to the search service in the given resource group.
  *
  * @summary updates a private endpoint connection to the search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/UpdatePrivateEndpointConnection.json
+ * x-ms-original-file: 2026-11-01/UpdatePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,9 +21,8 @@ async function privateEndpointConnectionUpdate(): Promise<void> {
     {
       properties: {
         privateLinkServiceConnectionState: {
+          description: "Rejected for some reason.",
           status: "Rejected",
-          description:
-            "Connection is rejected due to lack of authorization or failure to meet security compliance requirements.",
         },
       },
     },

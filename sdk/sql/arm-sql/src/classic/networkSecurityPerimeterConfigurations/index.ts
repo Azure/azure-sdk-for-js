@@ -63,7 +63,6 @@ export interface NetworkSecurityPerimeterConfigurationsOperations {
     options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams,
   ) => Promise<NetworkSecurityPerimeterConfiguration>;
 }
-
 function _getNetworkSecurityPerimeterConfigurations(context: SqlManagementContext) {
   return {
     reconcile: (
@@ -103,7 +102,6 @@ function _getNetworkSecurityPerimeterConfigurations(context: SqlManagementContex
     ) => get(context, resourceGroupName, serverName, nspConfigName, options),
   };
 }
-
 export function _getNetworkSecurityPerimeterConfigurationsOperations(
   context: SqlManagementContext,
 ): NetworkSecurityPerimeterConfigurationsOperations {

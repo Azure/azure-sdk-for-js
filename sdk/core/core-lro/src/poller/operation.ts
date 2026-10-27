@@ -21,7 +21,7 @@ export function deserializeState<TResult, TState extends OperationState<TResult>
   try {
     return JSON.parse(serializedState).state;
   } catch (e) {
-    throw new Error(`Unable to deserialize input state: ${serializedState}`);
+    throw new Error(`Unable to deserialize input state: ${serializedState}`, { cause: e });
   }
 }
 
@@ -303,7 +303,12 @@ export async function pollOperation<
 
     if (!terminalStates.includes(status)) {
       const intervalInMs = getPollingInterval?.(response);
-      if (intervalInMs) setDelay(intervalInMs);
+      // `undefined` means the response carried no polling interval at all, in
+      // which case the current delay is kept. Any other value — including one
+      // that cannot be honored — is routed through `setDelay`, which bounds it
+      // and falls back to the configured interval so a stale server delay is
+      // never reused.
+      if (intervalInMs !== undefined) setDelay(intervalInMs);
       const location = getOperationLocation?.(response, state);
       if (location !== undefined) {
         const isUpdated = operationLocation !== location;

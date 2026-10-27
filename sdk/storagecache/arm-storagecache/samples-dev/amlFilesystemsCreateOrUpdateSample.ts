@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an AML file system.
  *
  * @summary create or update an AML file system.
- * x-ms-original-file: 2026-01-01/amlFilesystems_CreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01/amlFilesystems_CreateOrUpdate.json
  */
 async function amlFilesystemsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

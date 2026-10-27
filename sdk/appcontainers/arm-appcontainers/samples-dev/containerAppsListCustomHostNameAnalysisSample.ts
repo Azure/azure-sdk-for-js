@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to analyzes a custom hostname for a Container App
  *
  * @summary analyzes a custom hostname for a Container App
- * x-ms-original-file: 2025-10-02-preview/ContainerApps_ListCustomHostNameAnalysis.json
+ * x-ms-original-file: 2026-07-01/ContainerApps_ListCustomHostNameAnalysis.json
  */
 async function analyzeCustomHostname(): Promise<void> {
   const credential = new DefaultAzureCredential();

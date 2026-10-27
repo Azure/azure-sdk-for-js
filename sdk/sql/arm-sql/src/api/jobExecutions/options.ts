@@ -8,7 +8,6 @@ export interface JobExecutionsCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface JobExecutionsListByAgentOptionalParams extends OperationOptions {
   /** If specified, only job executions created at or after the specified time are included. */
@@ -26,7 +25,6 @@ export interface JobExecutionsListByAgentOptionalParams extends OperationOptions
   /** The number of elements to return from the collection. */
   top?: number;
 }
-
 /** Optional parameters. */
 export interface JobExecutionsListByJobOptionalParams extends OperationOptions {
   /** If specified, only job executions created at or after the specified time are included. */
@@ -44,15 +42,12 @@ export interface JobExecutionsListByJobOptionalParams extends OperationOptions {
   /** The number of elements to return from the collection. */
   top?: number;
 }
-
 /** Optional parameters. */
 export interface JobExecutionsCancelOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface JobExecutionsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface JobExecutionsGetOptionalParams extends OperationOptions {}

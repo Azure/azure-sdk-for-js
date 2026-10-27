@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about a Redis Enterprise cluster
  *
  * @summary gets information about a Redis Enterprise cluster
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseGet.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseGet.json
  */
 async function redisEnterpriseGet() {
   const credential = new DefaultAzureCredential();

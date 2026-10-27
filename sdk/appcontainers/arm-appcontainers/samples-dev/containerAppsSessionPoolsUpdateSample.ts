@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patches a session pool using JSON merge patch
  *
  * @summary patches a session pool using JSON merge patch
- * x-ms-original-file: 2025-10-02-preview/SessionPools_Patch.json
+ * x-ms-original-file: 2026-07-01/SessionPools_Patch.json
  */
 async function updateSessionPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to callback that triggers on approval state change.
  *
  * @summary callback that triggers on approval state change.
- * x-ms-original-file: 2026-03-01-preview/EnclaveEndpoints_HandleApprovalCreation.json
+ * x-ms-original-file: 2026-04-01/EnclaveEndpoints_HandleApprovalCreation.json
  */
 async function enclaveEndpointsHandleApprovalCreation(): Promise<void> {
   const credential = new DefaultAzureCredential();

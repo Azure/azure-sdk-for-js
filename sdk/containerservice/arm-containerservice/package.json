@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerservice",
-  "version": "25.5.0-beta.1",
+  "version": "25.8.0-beta.1",
   "description": "A generated SDK for ContainerServiceClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -126,6 +126,20 @@
         "default": "./dist/commonjs/api/operationStatusResult/index.js"
       }
     },
+    "./api/upgradeInsights": {
+      "browser": {
+        "types": "./dist/browser/api/upgradeInsights/index.d.ts",
+        "default": "./dist/browser/api/upgradeInsights/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/upgradeInsights/index.d.ts",
+        "default": "./dist/esm/api/upgradeInsights/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/upgradeInsights/index.d.ts",
+        "default": "./dist/commonjs/api/upgradeInsights/index.js"
+      }
+    },
     "./api/alertConfigurations": {
       "browser": {
         "types": "./dist/browser/api/alertConfigurations/index.d.ts",
@@ -152,6 +166,20 @@
       "require": {
         "types": "./dist/commonjs/api/operations/index.d.ts",
         "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./api/agentFabricMemberships": {
+      "browser": {
+        "types": "./dist/browser/api/agentFabricMemberships/index.d.ts",
+        "default": "./dist/browser/api/agentFabricMemberships/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/agentFabricMemberships/index.d.ts",
+        "default": "./dist/esm/api/agentFabricMemberships/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/agentFabricMemberships/index.d.ts",
+        "default": "./dist/commonjs/api/agentFabricMemberships/index.js"
       }
     },
     "./api/meshMemberships": {
@@ -402,11 +430,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -444,7 +472,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-containerservice",

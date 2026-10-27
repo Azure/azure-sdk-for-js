@@ -436,6 +436,7 @@ export interface ManagedClustersOperations {
     options?: ManagedClustersGetOptionalParams,
   ) => Promise<ManagedCluster>;
 }
+
 function _getManagedClusters(context: ContainerServiceContext) {
   return {
     listKubernetesVersions: (
@@ -835,6 +836,7 @@ function _getManagedClusters(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, options),
   };
 }
+
 export function _getManagedClustersOperations(
   context: ContainerServiceContext,
 ): ManagedClustersOperations {

@@ -23,7 +23,7 @@ async function waitForStreamIdReusable(
       }
 
       if (Date.now() - start > timeoutInMs) {
-        throw new Error(`Timed out waiting to reuse streamId '${streamId}'.`);
+        throw new Error(`Timed out waiting to reuse streamId '${streamId}'.`, { cause: err });
       }
 
       await sleep(20);

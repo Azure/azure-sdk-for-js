@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a sync member database schema.
  *
  * @summary gets a sync member database schema.
- * x-ms-original-file: 2025-01-01/SyncMemberGetSchema.json
+ * x-ms-original-file: 2025-08-01-preview/SyncMemberGetSchema.json
  */
 async function getASyncMemberSchema(): Promise<void> {
   const credential = new DefaultAzureCredential();

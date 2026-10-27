@@ -10,7 +10,6 @@ import type {
   GetTokenOptions,
   TokenScope,
   CreateUserOptions,
-  CommunicationUserDetail,
 } from "./models.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import {
@@ -18,12 +17,13 @@ import {
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import type { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure/core-client";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { IdentityRestClient } from "./generated/src/identityRestClient.js";
+import { IdentityClient } from "./generated/identityClient.js";
 import { logger } from "./common/logger.js";
-import { tracingClient } from "./generated/src/tracing.js";
+import { tracingClient } from "./tracing.js";
+import { withLegacyOperationOptions } from "./legacyOperationOptions.js";
 
 const isCommunicationIdentityClientOptions = (
   options: any,
@@ -35,9 +35,9 @@ const isCommunicationIdentityClientOptions = (
  */
 export class CommunicationIdentityClient {
   /**
-   * A reference to the auto-generated UserToken HTTP client.
+   * A reference to the auto-generated Identity HTTP client.
    */
-  private readonly client: IdentityRestClient;
+  private readonly client: IdentityClient;
 
   /**
    * Initializes a new instance of the CommunicationIdentity class.
@@ -83,16 +83,13 @@ export class CommunicationIdentityClient {
       ? credentialOrOptions
       : maybeOptions;
 
-    const internalPipelineOptions: InternalClientPipelineOptions = {
+    this.client = new IdentityClient(url, {
       ...options,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-        },
+      endpoint: url,
+      loggingOptions: {
+        logger: logger.info,
       },
-    };
-
-    this.client = new IdentityRestClient(url, { endpoint: url, ...internalPipelineOptions });
+    });
 
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.client.pipeline.addPolicy(authPolicy);
@@ -111,10 +108,14 @@ export class CommunicationIdentityClient {
     options: GetTokenOptions = {},
   ): Promise<CommunicationAccessToken> {
     return tracingClient.withSpan("CommunicationIdentity-issueToken", options, (updatedOptions) => {
-      return this.client.communicationIdentityOperations.issueAccessToken(
-        user.communicationUserId,
-        scopes,
-        { expiresInMinutes: options.tokenExpiresInMinutes, ...updatedOptions },
+      const userId = getCommunicationUserId(user);
+      assertRequired(scopes, "scopes");
+      return withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
+        this.client.identityOperations.issueAccessToken(
+          userId,
+          { scopes, expiresInMinutes: options.tokenExpiresInMinutes },
+          generatedOptions,
+        ),
       );
     });
   }
@@ -133,46 +134,18 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-revokeTokens",
       options,
       async (updatedOptions) => {
-        await this.client.communicationIdentityOperations.revokeAccessTokens(
-          user.communicationUserId,
-          updatedOptions,
+        const userId = getCommunicationUserId(user);
+        await withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
+          this.client.identityOperations.revokeAccessTokens(userId, generatedOptions),
         );
-      },
-    );
-  }
-
-  /**
-   * Get an identity by its id.
-   *
-   * @param user - The user to get.
-   * @param options - Additional options for the request.
-   */
-  public getUserDetail(
-    user: CommunicationUserIdentifier,
-    options: OperationOptions = {},
-  ): Promise<CommunicationUserDetail> {
-    return tracingClient.withSpan(
-      "CommunicationIdentity-getUser",
-      options,
-      async (updatedOptions) => {
-        const result = await this.client.communicationIdentityOperations.get(
-          user.communicationUserId,
-          {
-            ...updatedOptions,
-          },
-        );
-
-        return {
-          user: { communicationUserId: result.id },
-          customId: result.customId,
-          lastTokenIssuedAt: result.lastTokenIssuedAt,
-        };
       },
     );
   }
 
   /**
    * Creates a single user.
+   *
+   * The request is sent without a body, matching previous versions of this client.
    *
    * @param options - Additional options for the request.
    */
@@ -181,11 +154,10 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-createUser",
       options,
       async (updatedOptions) => {
-        const result = await this.client.communicationIdentityOperations.create({
-          expiresInMinutes: undefined,
-          customId: options.customId,
-          ...updatedOptions,
-        });
+        // Keep the body undefined because the GA client omitted an empty serialized body on the wire.
+        const result = await withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
+          this.client.identityOperations.create(generatedOptions),
+        );
         return {
           communicationUserId: result.identity.id,
         };
@@ -207,12 +179,18 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-createUserAndToken",
       options,
       async (updatedOptions) => {
-        const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
-          createTokenWithScopes: scopes,
-          expiresInMinutes: options.tokenExpiresInMinutes,
-          customId: options.customId,
-          ...updatedOptions,
-        });
+        assertRequired(scopes, "scopes");
+        const { identity, accessToken } = await withLegacyOperationOptions(
+          updatedOptions,
+          (generatedOptions) =>
+            this.client.identityOperations.create({
+              ...generatedOptions,
+              body: {
+                createTokenWithScopes: scopes,
+                expiresInMinutes: options.tokenExpiresInMinutes,
+              },
+            }),
+        );
         return {
           ...accessToken!,
           user: { communicationUserId: identity.id },
@@ -235,9 +213,9 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-deleteUser",
       options,
       async (updatedOptions) => {
-        await this.client.communicationIdentityOperations.delete(
-          user.communicationUserId,
-          updatedOptions,
+        const userId = getCommunicationUserId(user);
+        await withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
+          this.client.identityOperations.deleteIdentityOperation(userId, generatedOptions),
         );
       },
     );
@@ -255,14 +233,34 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-getTokenForTeamsUser",
       options,
       (updatedOptions) => {
+        assertRequired(options, "options");
+        assertRequired(options.teamsUserAadToken, "teamsUserAadToken");
+        assertRequired(options.clientId, "clientId");
+        assertRequired(options.userObjectId, "userObjectId");
         const { teamsUserAadToken, clientId, userObjectId } = updatedOptions;
-        return this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
-          teamsUserAadToken,
-          clientId,
-          userObjectId,
-          updatedOptions,
+        return withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
+          this.client.teamsUserOperations.exchangeTeamsUserAccessToken(
+            {
+              token: teamsUserAadToken,
+              appId: clientId,
+              userId: userObjectId,
+            },
+            generatedOptions,
+          ),
         );
       },
     );
+  }
+}
+
+function getCommunicationUserId(user: CommunicationUserIdentifier): string {
+  const userId = user?.communicationUserId;
+  assertRequired(userId, "id");
+  return userId;
+}
+
+function assertRequired<T>(value: T | null | undefined, name: string): asserts value is T {
+  if (value === null || value === undefined) {
+    throw new Error(`${name} cannot be null or undefined.`);
   }
 }

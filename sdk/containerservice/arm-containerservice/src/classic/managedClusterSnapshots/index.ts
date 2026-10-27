@@ -59,6 +59,7 @@ export interface ManagedClusterSnapshotsOperations {
     options?: ManagedClusterSnapshotsGetOptionalParams,
   ) => Promise<ManagedClusterSnapshot>;
 }
+
 function _getManagedClusterSnapshots(context: ContainerServiceContext) {
   return {
     list: (options?: ManagedClusterSnapshotsListOptionalParams) => list(context, options),
@@ -90,6 +91,7 @@ function _getManagedClusterSnapshots(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, options),
   };
 }
+
 export function _getManagedClusterSnapshotsOperations(
   context: ContainerServiceContext,
 ): ManagedClusterSnapshotsOperations {

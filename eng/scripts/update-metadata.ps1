@@ -3,8 +3,8 @@
 .SYNOPSIS
     Updates the metadata for a specific Azure SDK package.
 .DESCRIPTION
-    This script updates the package metadata by invoking the generate-ci-yaml 
-    command from @azure-tools/js-sdk-release-tools.
+  This script updates the package metadata by invoking the generate-ci-yaml
+  command from the internal local source tool under eng/tools/js-sdk-release-tools.
     
     The script validates the package path and runs the metadata update tool.
 .PARAMETER SdkRepoPath
@@ -19,7 +19,7 @@
     
     Updates the metadata for the arm-storage package.
 .NOTES
-    - Requires js-sdk-release-tools to be installed in eng/tools/js-sdk-release-tools.
+  - Uses the internal source tool in eng/tools/js-sdk-release-tools.
     - The tool will generate or update CI YAML configuration for the package.
 #>
 [CmdletBinding()]
@@ -48,20 +48,41 @@ try {
 
   Push-Location $SdkRepoPath
   
-  # Install js-sdk-release-tools if needed
-  $releaseToolsPath = "eng\tools\js-sdk-release-tools"
+  # Use the local internal source tree instead of a published package.
+  $releaseToolsPath = Join-Path $SdkRepoPath "eng/tools/js-sdk-release-tools"
+  $releaseToolsPackage = "@azure-tools/js-sdk-release-tools"
   if (-not (Test-Path $releaseToolsPath)) {
     throw "Release tools path does not exist: $releaseToolsPath"
   }
   
-  Write-Host "Installing js-sdk-release-tools dependencies..." -ForegroundColor Cyan
-  Invoke-LoggedCommand "npm --prefix $releaseToolsPath ci"
+  $packageManager = (Get-Content -Raw "package.json" | ConvertFrom-Json).packageManager
+  if (-not $packageManager -or -not $packageManager.StartsWith("pnpm@")) {
+    throw "Expected repository packageManager to specify pnpm, but got: $packageManager"
+  }
+
+  $npmRegistry = npm config get registry
+  if ($LASTEXITCODE -ne 0 -or -not $npmRegistry) {
+    throw "Failed to resolve the repository npm registry"
+  }
+  $npmRegistry = $npmRegistry.Trim()
+
+  Write-Host "Installing $packageManager..." -ForegroundColor Cyan
+  Invoke-LoggedCommand "npm install -g $packageManager --registry=$npmRegistry"
   Write-Host ""
 
-  # Run the generate-ci-yaml command using npm exec
+  Write-Host "Installing local js-sdk-release-tools dependencies..." -ForegroundColor Cyan
+  Invoke-LoggedCommand "pnpm install --frozen-lockfile"
+  Write-Host ""
+
+  Write-Host "Building local js-sdk-release-tools..." -ForegroundColor Cyan
+  Invoke-LoggedCommand "pnpm turbo build --filter=$releaseToolsPackage... --token 1"
+  Write-Host ""
+
+  # Run the built generate-ci-yaml command from the local workspace package.
   Write-Host "Creating or updating CI files..." -ForegroundColor Cyan
   Write-Host ""
-  $command = "npm --prefix $releaseToolsPath exec --no -- generate-ci-yaml --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
+  $releaseToolsCli = Join-Path $releaseToolsPath "dist/generateCiYamlCli.js"
+  $command = "node `"$releaseToolsCli`" --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
   Invoke-LoggedCommand $command
 
   # Additional commands can be added here if needed

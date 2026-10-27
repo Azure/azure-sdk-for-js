@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a session pool with the given properties.
  *
  * @summary create or update a session pool with the given properties.
- * x-ms-original-file: 2025-10-02-preview/SessionPools_LifecycleOnContainerExit_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/SessionPools_LifecycleOnContainerExit_CreateOrUpdate.json
  */
 async function createOrUpdateSessionPoolWithLifecycleOnContainerExitTimed(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function createOrUpdateSessionPoolWithLifecycleOnContainerExitTimed(): Pro
  * This sample demonstrates how to create or update a session pool with the given properties.
  *
  * @summary create or update a session pool with the given properties.
- * x-ms-original-file: 2025-10-02-preview/SessionPools_LifecycleTimed_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/SessionPools_LifecycleTimed_CreateOrUpdate.json
  */
 async function createOrUpdateSessionPoolWithLifecycleTypeTimed(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -96,7 +96,7 @@ async function createOrUpdateSessionPoolWithLifecycleTypeTimed(): Promise<void> 
  * This sample demonstrates how to create or update a session pool with the given properties.
  *
  * @summary create or update a session pool with the given properties.
- * x-ms-original-file: 2025-10-02-preview/SessionPools_McpServer_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/SessionPools_McpServer_CreateOrUpdate.json
  */
 async function createOrUpdateSessionPoolWithMCPServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -108,7 +108,6 @@ async function createOrUpdateSessionPoolWithMCPServer(): Promise<void> {
     dynamicPoolConfiguration: {
       lifecycleConfiguration: { cooldownPeriodInSeconds: 600, lifecycleType: "Timed" },
     },
-    mcpServerSettings: { isMcpServerApiKeyDisabled: false, isMcpServerEnabled: true },
     poolManagementType: "Dynamic",
     scaleConfiguration: { maxConcurrentSessions: 50 },
     sessionNetworkConfiguration: { status: "EgressEnabled" },

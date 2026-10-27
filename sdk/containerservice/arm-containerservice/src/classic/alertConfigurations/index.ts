@@ -81,6 +81,7 @@ export interface AlertConfigurationsOperations {
     options?: AlertConfigurationsGetOptionalParams,
   ) => Promise<AlertConfiguration>;
 }
+
 function _getAlertConfigurations(context: ContainerServiceContext) {
   return {
     listByManagedCluster: (
@@ -169,6 +170,7 @@ function _getAlertConfigurations(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, configurationName, options),
   };
 }
+
 export function _getAlertConfigurationsOperations(
   context: ContainerServiceContext,
 ): AlertConfigurationsOperations {

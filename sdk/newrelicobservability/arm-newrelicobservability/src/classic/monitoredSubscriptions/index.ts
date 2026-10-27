@@ -111,7 +111,6 @@ export interface MonitoredSubscriptionsOperations {
     options?: MonitoredSubscriptionsGetOptionalParams,
   ) => Promise<MonitoredSubscriptionProperties>;
 }
-
 function _getMonitoredSubscriptions(context: NewRelicObservabilityContext) {
   return {
     list: (
@@ -211,7 +210,6 @@ function _getMonitoredSubscriptions(context: NewRelicObservabilityContext) {
     ) => get(context, resourceGroupName, monitorName, configurationName, options),
   };
 }
-
 export function _getMonitoredSubscriptionsOperations(
   context: NewRelicObservabilityContext,
 ): MonitoredSubscriptionsOperations {

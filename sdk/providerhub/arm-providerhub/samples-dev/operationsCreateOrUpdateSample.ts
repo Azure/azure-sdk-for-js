@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the operation supported by the given provider.
  *
  * @summary creates or updates the operation supported by the given provider.
- * x-ms-original-file: 2024-09-01/Operations_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01/Operations_CreateOrUpdate.json
  */
 async function operationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,37 +19,37 @@ async function operationsCreateOrUpdate(): Promise<void> {
       contents: [
         {
           name: "RP.69C09791/register/action",
-          actionType: "Internal",
+          isDataAction: true,
           display: {
             default: {
-              description:
-                "Registers the subscription for the RP.69C09791 resource provider and enables the creation of RP.69C09791.",
-              operation: "Registers the RP.69C09791 Resource Provider",
               provider: "RP.69C09791",
               resource: "Register",
+              operation: "Registers the RP.69C09791 Resource Provider",
+              description:
+                "Registers the subscription for the RP.69C09791 resource provider and enables the creation of RP.69C09791.",
             },
           },
-          isDataAction: true,
+          actionType: "Internal",
         },
         {
           name: "RP.69C09791/unregister/action",
-          display: {
-            default: {
-              description:
-                "Unregisters the subscription for the RP.69C09791 resource provider and enables the creation of RP.69C09791.",
-              operation: "Unregisters the RP.69C09791 Resource Provider",
-              provider: "RP.69C09791",
-              resource: "Unregister",
-            },
-            en: {
-              description: "ece249f5-b5b9-492d-ac68-b4e1be1677bc",
-              operation: "d31623d6-8765-42fb-aca2-5a58303e52dd",
-              provider: "RP.69C09791",
-              resource: "2e1803d4-417f-492c-b305-148da38b211e",
-            },
-          },
           isDataAction: false,
           origin: "System",
+          display: {
+            default: {
+              provider: "RP.69C09791",
+              resource: "Unregister",
+              operation: "Unregisters the RP.69C09791 Resource Provider",
+              description:
+                "Unregisters the subscription for the RP.69C09791 resource provider and enables the creation of RP.69C09791.",
+            },
+            en: {
+              provider: "RP.69C09791",
+              resource: "2e1803d4-417f-492c-b305-148da38b211e",
+              operation: "d31623d6-8765-42fb-aca2-5a58303e52dd",
+              description: "ece249f5-b5b9-492d-ac68-b4e1be1677bc",
+            },
+          },
         },
       ],
     },

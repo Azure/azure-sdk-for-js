@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
+import type { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
 import { list } from "../../api/applyUpdateForResourceGroup/operations.js";
-import { ApplyUpdateForResourceGroupListOptionalParams } from "../../api/applyUpdateForResourceGroup/options.js";
-import { ApplyUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ApplyUpdateForResourceGroupListOptionalParams } from "../../api/applyUpdateForResourceGroup/options.js";
+import type { ApplyUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApplyUpdateForResourceGroup operations. */
 export interface ApplyUpdateForResourceGroupOperations {

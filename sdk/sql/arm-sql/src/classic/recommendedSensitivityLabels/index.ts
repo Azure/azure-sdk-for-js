@@ -17,7 +17,6 @@ export interface RecommendedSensitivityLabelsOperations {
     options?: RecommendedSensitivityLabelsUpdateOptionalParams,
   ) => Promise<void>;
 }
-
 function _getRecommendedSensitivityLabels(context: SqlManagementContext) {
   return {
     update: (
@@ -29,7 +28,6 @@ function _getRecommendedSensitivityLabels(context: SqlManagementContext) {
     ) => update(context, resourceGroupName, serverName, databaseName, parameters, options),
   };
 }
-
 export function _getRecommendedSensitivityLabelsOperations(
   context: SqlManagementContext,
 ): RecommendedSensitivityLabelsOperations {
