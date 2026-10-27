@@ -177,7 +177,11 @@ export class DeclarationDifferenceDetector {
   }
 
   private isClassicProperty(p: Symbol) {
-    return (p.getFlags() & SymbolFlags.Property) !== 0 && !isMethodOrArrowFunction(p);
+    return (
+      (p.getFlags() &
+        (SymbolFlags.Property | SymbolFlags.GetAccessor | SymbolFlags.SetAccessor)) !==
+        0 && !isMethodOrArrowFunction(p)
+    );
   }
 
   private canConvertConcretTypeToAny(
@@ -191,10 +195,73 @@ export class DeclarationDifferenceDetector {
     sourceProperty: Symbol,
     targetProperty: Symbol,
   ): DiffPair | undefined {
-    const reasons = this.findBreakingReasons(
-      sourceProperty.getValueDeclarationOrThrow(),
-      targetProperty.getValueDeclarationOrThrow(),
-    );
+    const sourceGetter = sourceProperty.getDeclarations().find(Node.isGetAccessorDeclaration);
+    const targetGetter = targetProperty.getDeclarations().find(Node.isGetAccessorDeclaration);
+    const sourceSetter = sourceProperty.getDeclarations().find(Node.isSetAccessorDeclaration);
+    const targetSetter = targetProperty.getDeclarations().find(Node.isSetAccessorDeclaration);
+
+    let reasons = DiffReasons.None;
+    if ((sourceGetter || sourceSetter) && (targetGetter || targetSetter)) {
+      if ((targetGetter && !sourceGetter) || (targetSetter && !sourceSetter)) {
+        reasons |= DiffReasons.TypeChanged;
+      }
+      if (sourceGetter && targetGetter) {
+        reasons |= this.findBreakingReasons(sourceGetter, targetGetter);
+      }
+      if (sourceSetter && targetSetter) {
+        const sourceInput = sourceSetter.getParameters()[0].getType();
+        const targetInput = targetSetter.getParameters()[0].getType();
+        if (!targetInput.isAssignableTo(sourceInput)) reasons |= DiffReasons.TypeChanged;
+      }
+    } else if (sourceGetter || sourceSetter || targetGetter || targetSetter) {
+      if (
+        this.options.RequiredToOptionalAsBreakingChange &&
+        targetProperty.isOptional() &&
+        !sourceProperty.isOptional()
+      ) {
+        reasons |= DiffReasons.RequiredToOptional;
+      }
+      if (
+        this.options.OptionalToRequiredAsBreakingChange &&
+        sourceProperty.isOptional() &&
+        !targetProperty.isOptional()
+      ) {
+        reasons |= DiffReasons.OptionalToRequired;
+      }
+      const sourceDeclaration = sourceProperty.getValueDeclarationOrThrow();
+      const targetDeclaration = targetProperty.getValueDeclarationOrThrow();
+      const sourceReadType =
+        sourceGetter?.getReturnType() ?? (!sourceSetter ? sourceDeclaration.getType() : undefined);
+      const targetReadType =
+        targetGetter?.getReturnType() ?? (!targetSetter ? targetDeclaration.getType() : undefined);
+      const sourceWriteType =
+        sourceSetter?.getParameters()[0].getType() ??
+        (!sourceGetter &&
+        !(Node.isReadonlyable(sourceDeclaration) && sourceDeclaration.isReadonly())
+          ? sourceDeclaration.getType()
+          : undefined);
+      const targetWriteType =
+        targetSetter?.getParameters()[0].getType() ??
+        (!targetGetter &&
+        !(Node.isReadonlyable(targetDeclaration) && targetDeclaration.isReadonly())
+          ? targetDeclaration.getType()
+          : undefined);
+
+      if (targetReadType && (!sourceReadType || !sourceReadType.isAssignableTo(targetReadType))) {
+        reasons |= DiffReasons.TypeChanged;
+      }
+      if (
+        targetWriteType &&
+        (!sourceWriteType || !targetWriteType.isAssignableTo(sourceWriteType))
+      ) {
+        reasons |= DiffReasons.TypeChanged;
+      }
+    } else {
+      reasons = this.findBreakingReasons(
+        sourceProperty.getValueDeclarationOrThrow(),
+        targetProperty.getValueDeclarationOrThrow(),
+      );
+    }
 
     if (reasons === DiffReasons.None) return undefined;
     return this.createDiffPair(

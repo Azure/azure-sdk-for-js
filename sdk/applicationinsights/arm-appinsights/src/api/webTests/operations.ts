@@ -1,24 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext as Client } from "../index.js";
+import type { ApplicationInsightsManagementContext as Client } from "../index.js";
+import type { TagsResource } from "../../models/applicationInsightsCommonTypes/models.js";
+import { tagsResourceSerializer } from "../../models/applicationInsightsCommonTypes/models.js";
+import type { WebTest, _WebTestListResult } from "../../models/webTestsApi/models.js";
 import {
-  TagsResource,
-  tagsResourceSerializer,
-} from "../../models/applicationInsightsCommonTypes/models.js";
-import {
-  WebTest,
   webTestSerializer,
   webTestDeserializer,
-  _WebTestListResult,
   _webTestListResultDeserializer,
 } from "../../models/webTestsApi/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   WebTestsListByComponentOptionalParams,
   WebTestsListOptionalParams,
   WebTestsListByResourceGroupOptionalParams,
@@ -27,12 +22,8 @@ import {
   WebTestsCreateOrUpdateOptionalParams,
   WebTestsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByComponentSend(
   context: Client,
