@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-privatetrafficmanager": ["../src/index.ts"],
+      "@azure/arm-privatetrafficmanager/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
