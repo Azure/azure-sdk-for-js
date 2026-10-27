@@ -214,6 +214,20 @@ export class DeclarationDifferenceDetector {
         if (!targetInput.isAssignableTo(sourceInput)) reasons |= DiffReasons.TypeChanged;
       }
     } else if (sourceGetter || sourceSetter || targetGetter || targetSetter) {
+      if (
+        this.options.RequiredToOptionalAsBreakingChange &&
+        targetProperty.isOptional() &&
+        !sourceProperty.isOptional()
+      ) {
+        reasons |= DiffReasons.RequiredToOptional;
+      }
+      if (
+        this.options.OptionalToRequiredAsBreakingChange &&
+        sourceProperty.isOptional() &&
+        !targetProperty.isOptional()
+      ) {
+        reasons |= DiffReasons.OptionalToRequired;
+      }
       const sourceDeclaration = sourceProperty.getValueDeclarationOrThrow();
       const targetDeclaration = targetProperty.getValueDeclarationOrThrow();
       const sourceReadType =
