@@ -5,6 +5,8 @@ import type {
   QueryRangeWithContinuationToken,
   BaseContinuationToken,
 } from "./CompositeQueryContinuationToken.js";
+import { parseBaseContinuationToken } from "./CompositeQueryContinuationToken.js";
+import { ErrorResponse } from "../../request/ErrorResponse.js";
 
 /**
  * Continuation token for order by queries.
@@ -84,5 +86,25 @@ export function serializeOrderByQueryContinuationToken(
 export function parseOrderByQueryContinuationToken(
   tokenString: string,
 ): OrderByQueryContinuationToken {
-  return JSON.parse(tokenString);
+  const token = parseBaseContinuationToken(tokenString) as Partial<OrderByQueryContinuationToken>;
+  if (!Array.isArray(token.orderByItems) || token.orderByItems.length === 0) {
+    throw new ErrorResponse(
+      "Invalid continuation token. ORDER BY tokens require non-empty orderByItems.",
+    );
+  }
+  if (
+    typeof token.skipCount !== "number" ||
+    !Number.isInteger(token.skipCount) ||
+    token.skipCount < 0
+  ) {
+    throw new ErrorResponse(
+      "Invalid continuation token. ORDER BY tokens require a non-negative integer skipCount.",
+    );
+  }
+  if (token.documentRid !== undefined && typeof token.documentRid !== "string") {
+    throw new ErrorResponse(
+      "Invalid continuation token. ORDER BY documentRid must be a string when present.",
+    );
+  }
+  return token as OrderByQueryContinuationToken;
 }

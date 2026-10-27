@@ -114,6 +114,9 @@ export abstract class BaseContinuationTokenManager {
     endIndex: number,
   ): void;
   protected clearQuerySpecificState(): void {}
+  protected preserveInactiveRangeCoverage(): boolean {
+    return false;
+  }
 
   /**
    * Gets the serialization function for the specific continuation token type.
@@ -199,12 +202,21 @@ export abstract class BaseContinuationTokenManager {
     if (!this.ranges || !Array.isArray(this.ranges)) {
       return;
     }
-    this.compactRangesInPlace(
-      (mapping) =>
-        !!mapping &&
-        (mapping.isOrderByCheckpoint === true ||
-          isPartitionRangeActive(mapping.continuationToken, mapping.isActive)),
+    const hasActiveRange = this.ranges.some(
+      (mapping) => !!mapping && isPartitionRangeActive(mapping.continuationToken, mapping.isActive),
     );
+    this.compactRangesInPlace((mapping) => {
+      if (!mapping) {
+        return false;
+      }
+      if (isPartitionRangeActive(mapping.continuationToken, mapping.isActive)) {
+        return true;
+      }
+      return (
+        mapping.isOrderByCheckpoint === true ||
+        (hasActiveRange && this.preserveInactiveRangeCoverage())
+      );
+    });
   }
 
   private handlePartitionRangeChanges(updatedContinuationRanges: PartitionRangeUpdates): void {

@@ -30,20 +30,32 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     }
 
     const processedMappings = new Set(result.processedRangeMappings);
-    const rangeMappings: QueryRangeWithContinuationToken[] = Array.from(
-      this.partitionManager.getPartitionKeyRangeMap().values(),
-    )
-      .map((mapping: QueryRangeMapping) =>
-        processedMappings.has(mapping)
-          ? mapping
-          : {
-              ...mapping,
-              continuationToken: mapping.previousContinuationToken,
-              isActive: true,
-            },
-      )
-      .filter((mapping) => isPartitionRangeActive(mapping.continuationToken, mapping.isActive))
-      .map((mapping) => convertRangeMappingToQueryRange(mapping));
+    const observedMappings = Array.from(this.partitionManager.getPartitionKeyRangeMap().values());
+    const hasActiveRange =
+      this.rangeList.some((mapping) =>
+        isPartitionRangeActive(mapping.continuationToken, mapping.isActive),
+      ) ||
+      observedMappings.some((mapping) =>
+        isPartitionRangeActive(mapping.continuationToken, mapping.isActive),
+      );
+    if (!hasActiveRange) {
+      this.rangeList.length = 0;
+      return { endIndex: result.endIndex, processedRanges: result.processedRanges };
+    }
+
+    const rangeMappings: QueryRangeWithContinuationToken[] = observedMappings.map(
+      (mapping: QueryRangeMapping) =>
+        convertRangeMappingToQueryRange(
+          processedMappings.has(mapping) ||
+            !isPartitionRangeActive(mapping.continuationToken, mapping.isActive)
+            ? mapping
+            : {
+                ...mapping,
+                continuationToken: mapping.previousContinuationToken,
+                isActive: true,
+              },
+        ),
+    );
 
     this.updateRangeList(rangeMappings);
 
@@ -80,7 +92,11 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
       );
       if (!isPartitionRangeActive(mapping.continuationToken, mapping.isActive)) {
         if (existingRangeIndex >= 0) {
-          this.rangeList.splice(existingRangeIndex, 1);
+          range.isActive = false;
+          this.rangeList[existingRangeIndex] = range;
+        } else {
+          range.isActive = false;
+          this.rangeList.push(range);
         }
       } else if (existingRangeIndex >= 0) {
         this.rangeList[existingRangeIndex] = range;
@@ -96,6 +112,10 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
 
   protected clearQuerySpecificState(): void {
     // Parallel queries don't have additional token state.
+  }
+
+  protected preserveInactiveRangeCoverage(): boolean {
+    return true;
   }
 
   private updateRangeList(rangeMappings: QueryRangeWithContinuationToken[]): void {

@@ -1,5 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import {
+  parseBaseContinuationToken,
+  type BaseContinuationToken,
+} from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 
 /**
  * Lightweight interface for continuation token fields needed by pipeline
@@ -19,18 +23,12 @@ export interface ContinuationTokenFields {
  * @internal
  */
 export function parseContinuationTokenFields(continuationToken: string): ContinuationTokenFields {
-  try {
-    const parsed = JSON.parse(continuationToken);
-
-    return {
-      offset: parsed.offset,
-      limit: parsed.limit,
-      hashedLastResult: parsed.hashedLastResult,
-    };
-  } catch (error) {
-    throw new Error(
-      `Failed to parse continuation token: ${error instanceof Error ? error.message : String(error)}`,
-      { cause: error },
-    );
-  }
+  const parsed = parseBaseContinuationToken(continuationToken) as BaseContinuationToken & {
+    hashedLastResult?: string;
+  };
+  return {
+    offset: parsed.offset,
+    limit: parsed.limit,
+    hashedLastResult: parsed.hashedLastResult,
+  };
 }

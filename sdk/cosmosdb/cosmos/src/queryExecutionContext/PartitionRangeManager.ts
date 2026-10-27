@@ -52,8 +52,8 @@ export class PartitionRangeManager {
   }
 
   /**
-   * Adds a range mapping to the partition key range map
-   * Does not allow updates to existing keys - only new additions
+   * Adds or replaces a response-local range mapping.
+   * The latest observation for a range ID is authoritative within the current response.
    * @param rangeId - Unique identifier for the partition range
    * @param mapping - The QueryRangeMapping to add
    */
