@@ -202,12 +202,15 @@ export interface ServiceBusMessage {
    */
   replyTo?: string;
   /**
-   * The date and time in UTC at which the message will
-   * be enqueued. This property returns the time in UTC; when setting the property, the
-   * supplied DateTime value must also be in UTC. This value is for delayed message sending.
-   * It is utilized to delay messages sending to a specific time in the future. Message enqueuing
-   * time does not mean that the message will be sent at the same time. It will get enqueued,
-   * but the actual sending time depends on the queue's workload and its state.
+   * The date and time in UTC at which the message should be made available to receivers.
+   * This property does not control when the message is sent by the client; sending happens
+   * immediately when `sendMessages` is called. Service Bus hides the message from receivers
+   * until the requested time. This time may not be exact; the actual time depends on the
+   * entity's workload and state.
+   *
+   * When setting this property, the supplied Date must be in UTC.
+   *
+   * @see https://learn.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
    */
   scheduledEnqueueTimeUtc?: Date;
   /**
@@ -817,12 +820,15 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   replyTo?: string;
   /**
-   * The date and time in UTC at which the message will
-   * be enqueued. This property returns the time in UTC; when setting the property, the
-   * supplied DateTime value must also be in UTC. This value is for delayed message sending.
-   * It is utilized to delay messages sending to a specific time in the future. Message enqueuing
-   * time does not mean that the message will be sent at the same time. It will get enqueued,
-   * but the actual sending time depends on the queue's workload and its state.
+   * The date and time in UTC at which the message should be made available to receivers.
+   * This property does not control when the message is sent by the client; sending happens
+   * immediately when `sendMessages` is called. Service Bus hides the message from receivers
+   * until the requested time. This time may not be exact; the actual time depends on the
+   * entity's workload and state.
+   *
+   * When setting this property, the supplied Date must be in UTC.
+   *
+   * @see https://learn.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
    */
   scheduledEnqueueTimeUtc?: Date;
   /**
