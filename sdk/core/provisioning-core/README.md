@@ -27,7 +27,7 @@ new Resource(resourceGroup, {
 });
 ```
 
-Use the core `Resource` API to attach a Key Vault resource directly to a resource group:
+Prefer the typed resource class, such as  KeyVault , whenever available for resource-specific type checking. Use the core  Resource  API as a fallback when a resource type has no supported typed class. The following Key Vault example illustrates the generic API; normally, use the typed  KeyVault  class instead:
 
 ```ts snippet:ReadmeGeneralResource
 import { Stack, ResourceGroup, Resource, fn } from "@azure/provisioning-core";
