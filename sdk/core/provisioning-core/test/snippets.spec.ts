@@ -10,6 +10,7 @@ import {
   fn,
   type ExpressionOrValue,
 } from "../src/index.js";
+import { KeyVault } from "@azure/provisioning-keyvault";
 import { describe, expect, expectTypeOf, it } from "vitest";
 
 type RuleInput =
@@ -32,17 +33,13 @@ describe("documentation snippets", () => {
       location: "eastus",
     });
 
-    new Resource(resourceGroup, {
-      type: "Microsoft.Storage/storageAccounts",
-      apiVersion: "2026-04-01",
-      name: "stbasemodeltest",
-      location: "eastus",
-      kind: "StorageV2",
-      sku: { name: "Standard_LRS" },
+    const vault = new KeyVault(group, {
       properties: {
-        supportsHttpsTrafficOnly: true,
+        tenantId: "00000000-0000-0000-0000-000000000000",
+        sku: { family: "A", name: "standard" },
       },
     });
+    stack.outputs.add("vaultId", "string", vault.id);
   });
 
   it("ReadmeGeneralResource", () => {

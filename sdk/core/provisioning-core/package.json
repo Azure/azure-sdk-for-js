@@ -109,7 +109,8 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:testing"
+    "vitest": "catalog:testing",
+    "@azure/provisioning-keyvault": "1.0.0-beta.1"
   },
   "keywords": [
     "azure",

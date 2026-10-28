@@ -7,24 +7,21 @@
 Create a deployment stack, then attach resources to the stack or to another provisioning component:
 
 ```ts snippet:ReadmeCreateStack
-import { Stack, ResourceGroup, fn, Resource } from "@azure/provisioning-core";
+import { Stack, ResourceGroup, fn } from "@azure/provisioning-core";
+import { KeyVault } from "@azure/provisioning-keyvault";
 
 const stack = new Stack("application");
 const resourceGroup = new ResourceGroup(stack, {
   name: fn.concat("rg-", fn.uniqueString("application")),
   location: "eastus",
 });
-new Resource(resourceGroup, {
-  type: "Microsoft.Storage/storageAccounts",
-  apiVersion: "2026-04-01",
-  name: "stbasemodeltest",
-  location: "eastus",
-  kind: "StorageV2",
-  sku: { name: "Standard_LRS" },
+const vault = new KeyVault(group, {
   properties: {
-    supportsHttpsTrafficOnly: true,
+    tenantId: "00000000-0000-0000-0000-000000000000",
+    sku: { family: "A", name: "standard" },
   },
 });
+stack.outputs.add("vaultId", "string", vault.id);
 ```
 
 Prefer the typed resource class, such as  KeyVault , whenever available for resource-specific type checking. Use the core  Resource  API as a fallback when a resource type has no supported typed class. The following Key Vault example illustrates the generic API; normally, use the typed  KeyVault  class instead:
