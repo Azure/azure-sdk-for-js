@@ -1,5 +1,12 @@
 # Release History
 
+## 3.1.0-beta.1 (2026-09-08)
+Compared with version 3.0.0
+
+### Features Added
+  - Interface MonitorsDeleteOptionalParams has a new optional parameter softDelete
+  - Enum KnownVersions has a new value V20260315Preview
+
 ## 3.0.0 (2026-07-27)
 
 ### Features Added

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update external user configurations for your Elastic monitor resource, enabling access and management by external users.
  *
  * @summary create or update external user configurations for your Elastic monitor resource, enabling access and management by external users.
- * x-ms-original-file: 2025-06-01/ExternalUserInfo.json
+ * x-ms-original-file: 2026-03-15-preview/ExternalUserInfo.json
  */
 async function externalUserCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

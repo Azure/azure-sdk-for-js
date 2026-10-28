@@ -83,14 +83,7 @@ export class MicrosoftElastic {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createMicrosoftElastic(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createMicrosoftElastic(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.elasticVersions = _getElasticVersionsOperations(this._client);
     this.openAI = _getOpenAIOperations(this._client);
