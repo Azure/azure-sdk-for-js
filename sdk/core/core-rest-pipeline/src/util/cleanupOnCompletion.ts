@@ -10,14 +10,16 @@ import {
  * Runs the cleanup callback associated with the response and its request once they are complete.
  */
 export function cleanupOnRequestResponseCompletion(
-  response: {
-    readableStreamBody?: {
-      readable: boolean;
-      once(event: string, listener: () => void): unknown;
-      removeListener(event: string, listener: () => void): unknown;
-    };
-    browserStreamBody?: unknown;
-  },
+  response:
+    | {
+        readableStreamBody?: {
+          readable: boolean;
+          once(event: string, listener: () => void): unknown;
+          removeListener(event: string, listener: () => void): unknown;
+        };
+        browserStreamBody?: unknown;
+      }
+    | undefined,
   cleanup: () => void,
 ): void {
   const stream = response?.readableStreamBody;

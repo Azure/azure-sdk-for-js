@@ -31,7 +31,7 @@ export function wrapAbortSignalLikePolicy(): PipelinePolicy {
         return response;
       } finally {
         request.abortSignal = originalAbortSignal;
-        if (response && cleanup) {
+        if (cleanup) {
           cleanupOnRequestResponseCompletion(response, cleanup);
         }
       }
