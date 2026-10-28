@@ -717,7 +717,7 @@ export interface Event extends ProxyResource {
   level?: LevelValues;
   /** Level of event. */
   eventLevel?: EventLevelValues;
-  /** If true the event may contains sensitive data. Use the post events/{trackingId}/fetchEventDetails endpoint to fetch sensitive data see https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access */
+  /** If true the event may contains sensitive data. Use the post events/{trackingId}/fetchEventDetails endpoint to fetch sensitive data see https://learn.microsoft.com/azure/service-health/security-advisories-elevated-access */
   isEventSensitive?: boolean;
   /** The id of the Incident */
   externalIncidentId?: string;
@@ -813,7 +813,7 @@ export interface EventProperties {
   level?: LevelValues;
   /** Level of event. */
   eventLevel?: EventLevelValues;
-  /** If true the event may contains sensitive data. Use the post events/{trackingId}/fetchEventDetails endpoint to fetch sensitive data see https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access */
+  /** If true the event may contains sensitive data. Use the post events/{trackingId}/fetchEventDetails endpoint to fetch sensitive data see https://learn.microsoft.com/azure/service-health/security-advisories-elevated-access */
   isEventSensitive?: boolean;
   /** The id of the Incident */
   externalIncidentId?: string;

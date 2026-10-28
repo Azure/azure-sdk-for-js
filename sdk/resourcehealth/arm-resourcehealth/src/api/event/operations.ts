@@ -55,7 +55,7 @@ export async function _fetchDetailsByTenantIdAndTrackingIdDeserialize(
   return eventDeserializer(result.body);
 }
 
-/** Service health event details in the tenant by event tracking id. This can be used to fetch sensitive properties for Security Advisory events. Please see https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access */
+/** Service health event details in the tenant by event tracking id. This can be used to fetch sensitive properties for Security Advisory events. Please see https://learn.microsoft.com/azure/service-health/security-advisories-elevated-access */
 export async function fetchDetailsByTenantIdAndTrackingId(
   context: Client,
   eventTrackingId: string,
@@ -208,7 +208,7 @@ export async function _fetchDetailsBySubscriptionIdAndTrackingIdDeserialize(
   return eventDeserializer(result.body);
 }
 
-/** Service health event details in the subscription by event tracking id. This can be used to fetch sensitive properties for Security Advisory events. Please see https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access */
+/** Service health event details in the subscription by event tracking id. This can be used to fetch sensitive properties for Security Advisory events. Please see https://learn.microsoft.com/azure/service-health/security-advisories-elevated-access */
 export async function fetchDetailsBySubscriptionIdAndTrackingId(
   context: Client,
   eventTrackingId: string,
