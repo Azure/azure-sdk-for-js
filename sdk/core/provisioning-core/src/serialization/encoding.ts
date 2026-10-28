@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isExpressionNode } from "../../expression/ast-nodes.js";
-import { isExpression } from "../../expression/expressions.js";
+import { isExpressionNode } from "../expression/ast-nodes.js";
+import { isExpression } from "../expression/expressions.js";
 import type {
   BytesEncodingDescriptor,
   DateTimeTextEncodingDescriptor,
@@ -11,7 +11,7 @@ import type {
   NumericStringEncodingDescriptor,
   UnixTimestampEncodingDescriptor,
   ValueEncodingDescriptor,
-} from "../../shape/value-encoding.js";
+} from "../shape/value-encoding.js";
 
 export function encodeWireValue(
   value: unknown,
@@ -97,7 +97,6 @@ function encodeDateTimeText(
     if (encoding.source === "offsetDateTime") {
       const clientText = requireDateString(value, "rfc3339", path);
       if (encoding.format === "rfc7231") {
-        requireWholeSecondDateTime(clientText, path);
         return new Date(clientText).toUTCString();
       }
       return clientText;
@@ -106,9 +105,6 @@ function encodeDateTimeText(
   }
   const date = requireDate(value, path);
   if (encoding.format === "rfc7231") {
-    if (date.getUTCMilliseconds() !== 0) {
-      fail(path, "RFC7231 conversion would lose millisecond precision.");
-    }
     return date.toUTCString();
   }
   return date.toISOString();
@@ -186,13 +182,6 @@ function encodePlainDate(value: unknown, path: readonly string[]): string {
     fail(path, "Plain-date conversion requires UTC midnight.");
   }
   return date.toISOString().slice(0, 10);
-}
-
-function requireWholeSecondDateTime(value: string, path: readonly string[]): void {
-  const fraction = /\.(\d+)(?:Z|[+-]\d{2}:\d{2})$/.exec(value)?.[1];
-  if (fraction !== undefined && /[1-9]/.test(fraction)) {
-    fail(path, "RFC7231 conversion would lose subsecond precision.");
-  }
 }
 
 function requireDateString(

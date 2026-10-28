@@ -9820,6 +9820,9 @@ importers:
 
   sdk/core/provisioning-core:
     dependencies:
+      '@eslint-community/regexpp':
+        specifier: ^4.12.2
+        version: 4.12.2
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -19037,7 +19040,7 @@ importers:
     dependencies:
       '@azure/provisioning-core':
         specifier: 'catalog:'
-        version: link:../../core/provisioning-core
+        version: 1.0.0-beta.1
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
@@ -36634,6 +36637,10 @@ packages:
     resolution: {integrity: sha1-jq6h9ZGcvym6g/L6yZ2JRDbhfco=}
     engines: {node: '>=20.0.0'}
 
+  '@azure/provisioning-core@1.0.0-beta.1':
+    resolution: {integrity: sha512-MJgbaWl55QdBLeACeHwKHO7KFuOfpMktNoyWYZGYdqGTFz7hXPD0UCocX3c3dCxXmJFyJXGJEUnrG0J6gtosuA==}
+    engines: {node: '>=22.0.0'}
+
   '@azure/schema-registry@1.3.0':
     resolution: {integrity: sha1-ar8s+l5LGqEE/fiSs2F9FmM9xxQ=}
     engines: {node: '>=18.0.0'}
@@ -37798,7 +37805,7 @@ packages:
     engines: {node: '>= 20'}
 
   '@open-draft/until@3.0.1':
-    resolution: {integrity: sha1-bTX6WELj9yiCic9I3gqD87g8xaw=}
+    resolution: {integrity: sha512-s7/9ELP4aP9YZtW7RJaa0Xf3RISaRH9+EFN18FtykJYRHGNrl8f9ymvoNXzjhrjmftFvkQudtuDU9RYhk0xs3A==}
 
   '@opentelemetry/api-logs@0.211.0':
     resolution: {integrity: sha1-MtntmJOZVqhNTi/14BWYy50o10Q=}
@@ -40373,7 +40380,7 @@ packages:
     engines: {node: '>=18'}
 
   flow-estree@0.331.0:
-    resolution: {integrity: sha1-QGn2tehjN4BUE+5RHXhXU6AVzqo=}
+    resolution: {integrity: sha512-FVLYkSL/ITb/QXBEQvNWPjPooRGswuUtGOwrH+puSlMDneNkxy640+FZsk/TfKL+b7Wbw/Fg9FTUv2bMQDpj2w==}
     engines: {node: '>=18'}
 
   flow-parser@0.327.0:
@@ -40381,7 +40388,7 @@ packages:
     engines: {node: '>=0.4.0'}
 
   flow-parser@0.331.0:
-    resolution: {integrity: sha1-1LH/ACaTD7gniLAhc0Se/V57JcA=}
+    resolution: {integrity: sha512-vEZcHIlnKeN8JSVtYFczj8sWJfHIJOkz+YG00O/oul/Bete+t1ZhTi+O6JRRLFYvGW+yJkZ0YgL16iStnbkUqQ==}
     engines: {node: '>=0.4.0'}
 
   flru@1.0.2:
@@ -42587,7 +42594,7 @@ packages:
     resolution: {integrity: sha1-ryT7t7kfzKlFOZoE+pAKEPlQYkI=}
 
   sort-package-json@3.7.1:
-    resolution: {integrity: sha512-ssk1HG7whF8N/T1IsNAQrtHG5Cbdi0rAgRJZXYBr9hF5xaHnBNzUx/W6LcthEW7FhOwvZssbESZuO+GxssqAyA==}
+    resolution: {integrity: sha1-fy6YFf4lp031sOpyXk2MnLQ7Nvw=}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -43965,6 +43972,11 @@ snapshots:
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
+
+  '@azure/provisioning-core@1.0.0-beta.1':
+    dependencies:
+      pluralize: 8.0.0
+      tslib: 2.8.1
 
   '@azure/schema-registry@1.3.0(supports-color@10.2.2)':
     dependencies:
