@@ -1,9 +1,21 @@
+parameters:
+- name: jobToRun
+  displayName: Job to run
+  type: string
+  default: All
+  values:
+  - All
+  - CheckAgenticWorkflows
+  - PnpmUpdate
+  - CheckDependency
+
 trigger: none
 pr: none
 
 jobs:
 - job: 'CheckAgenticWorkflows'
   displayName: 'Check Agentic Workflows Upgrade'
+  condition: and(succeeded(), or(eq('${{ parameters.jobToRun }}', 'All'), eq('${{ parameters.jobToRun }}', 'CheckAgenticWorkflows')))
   variables:
   - template: /eng/pipelines/templates/variables/globals.yml
 
@@ -30,6 +42,7 @@ jobs:
 
 - job: 'PnpmUpdate'
   displayName: 'Pnpm Update'
+  condition: and(succeeded(), or(eq('${{ parameters.jobToRun }}', 'All'), eq('${{ parameters.jobToRun }}', 'PnpmUpdate')))
   timeoutInMinutes: 180
   variables:
   - template: /eng/pipelines/templates/variables/globals.yml
@@ -75,6 +88,7 @@ jobs:
 
 - job: 'CheckDependency'
   displayName: 'Check Package Dependency'
+  condition: and(succeeded(), or(eq('${{ parameters.jobToRun }}', 'All'), eq('${{ parameters.jobToRun }}', 'CheckDependency')))
   variables:
   - template: /eng/pipelines/templates/variables/globals.yml
 
