@@ -27,7 +27,9 @@ export function createDefaultHttpClient(): HttpClient {
         return response;
       } finally {
         request.abortSignal = originalAbortSignal;
-        cleanupOnRequestResponseCompletion(response, cleanup);
+        if (response && cleanup) {
+          cleanupOnRequestResponseCompletion(response, cleanup);
+        }
       }
     },
   };

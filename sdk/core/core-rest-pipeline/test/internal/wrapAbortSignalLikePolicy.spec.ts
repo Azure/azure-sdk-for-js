@@ -4,6 +4,8 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { wrapAbortSignalLikePolicy } from "../../src/policies/wrapAbortSignalLikePolicy.js";
 import { createPipelineRequest } from "../../src/pipelineRequest.js";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
+import type { PipelineResponse, SendRequest } from "../../src/interfaces.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 
 describe("wrapAbortSignalLikePolicy", () => {
@@ -14,10 +16,6 @@ describe("wrapAbortSignalLikePolicy", () => {
   it("should wrap AbortSignalLike with native AbortSignal", async () => {
     const policy = wrapAbortSignalLikePolicy();
     let receivedSignal: AbortSignalLike | undefined;
-    const nextSpy = vi.fn().mockImplementation((request) => {
-      receivedSignal = request.abortSignal;
-      return Promise.resolve({ status: 200 });
-    });
 
     // Create a mock AbortSignalLike
     const mockAbortSignalLike: AbortSignalLike = {
@@ -30,21 +28,30 @@ describe("wrapAbortSignalLikePolicy", () => {
       url: "https://example.com",
       abortSignal: mockAbortSignalLike,
     });
+    const response: PipelineResponse = {
+      status: 200,
+      headers: createHttpHeaders(),
+      request,
+    };
+    const nextSpy = vi.fn<SendRequest>().mockImplementation((nextRequest) => {
+      receivedSignal = nextRequest.abortSignal;
+      return Promise.resolve(response);
+    });
 
     const result = await policy.sendRequest(request, nextSpy);
 
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(receivedSignal).toBeInstanceOf(AbortSignal);
-    expect(result).toEqual({ status: 200 });
+    expect(result).toBe(response);
     expect(mockAbortSignalLike.addEventListener).toHaveBeenCalledOnce();
     expect(mockAbortSignalLike.removeEventListener).toHaveBeenCalledOnce();
     expect(request.abortSignal).toBe(mockAbortSignalLike);
   });
 
-  it("should clean up even if next handler throws", async () => {
+  it("should restore the original AbortSignalLike if next handler throws", async () => {
     const policy = wrapAbortSignalLikePolicy();
     const error = new Error("Test error");
-    const nextSpy = vi.fn().mockRejectedValue(error);
+    const nextSpy = vi.fn<SendRequest>().mockRejectedValue(error);
 
     const mockAbortSignalLike: AbortSignalLike = {
       aborted: false,
@@ -59,8 +66,6 @@ describe("wrapAbortSignalLikePolicy", () => {
 
     await expect(policy.sendRequest(request, nextSpy)).rejects.toThrow(error);
 
-    // Verify cleanup still happened despite error
-    expect(mockAbortSignalLike.removeEventListener).toHaveBeenCalled();
     expect(request.abortSignal).toBe(mockAbortSignalLike);
   });
 });

@@ -10,19 +10,16 @@ import {
  * Runs the cleanup callback associated with the response and its request once they are complete.
  */
 export function cleanupOnRequestResponseCompletion(
-  response:
-    | {
-        readableStreamBody?: {
-          readable: boolean;
-          once(event: string, listener: () => void): unknown;
-          removeListener(event: string, listener: () => void): unknown;
-        };
-        browserStreamBody?: unknown;
-      }
-    | undefined,
-  cleanup: (() => void) | undefined,
+  response: {
+    readableStreamBody?: {
+      readable: boolean;
+      once(event: string, listener: () => void): unknown;
+      removeListener(event: string, listener: () => void): unknown;
+    };
+    browserStreamBody?: unknown;
+  },
+  cleanup: () => void,
 ): void {
-  if (!cleanup) return;
   const stream = response?.readableStreamBody;
   const requestCompletion = response ? getRequestCompletion(response) : undefined;
   const browserResponseCompletion = response ? getResponseBodyCompletion(response) : undefined;
@@ -48,18 +45,26 @@ export function cleanupOnRequestResponseCompletion(
     stream.once("error", onResponseComplete);
   }
   if (requestCompletion) {
-    void requestCompletion.then(() => {
-      requestDone = true;
-      cleanupIfComplete();
-      return undefined;
-    });
+    requestCompletion
+      // eslint-disable-next-line promise/always-return
+      .then(() => {
+        requestDone = true;
+        cleanupIfComplete();
+      })
+      .catch(() => {
+        // Ignore errors from request completion
+      });
   }
   if (browserResponseCompletion) {
-    void browserResponseCompletion.then(() => {
-      browserResponseDone = true;
-      cleanupIfComplete();
-      return undefined;
-    });
+    browserResponseCompletion
+      // eslint-disable-next-line promise/always-return
+      .then(() => {
+        browserResponseDone = true;
+        cleanupIfComplete();
+      })
+      .catch(() => {
+        // Ignore errors from request completion
+      });
   }
   cleanupIfComplete();
 }
