@@ -1295,3 +1295,122 @@ test("management API exclusions remain explicit within the public-surface review
   );
   assert.doesNotMatch(apiStep, /^- (Review submodules|Focus on issues)/m);
 });
+
+const completionStep = workflowText("mgmt-review.md")
+  .split("    - name: Verify management review completion\n")[1]
+  .split("    - name: Reject stale review outputs\n")[0];
+const completionScript = completionStep
+  .split("        script: |\n")[1]
+  .split("\n")
+  .map((line) => line.slice(10))
+  .join("\n");
+const runCompletionGuard = new AsyncFunction("require", completionScript);
+const completeReview = {
+  type: "submit_pull_request_review",
+  body: 'No API design issues found.\n```json\n{"agent":"mgmt-reviewer","coverage":"complete","summary":"clean","findings":[]}\n```',
+};
+const intentionalSkip = { type: "noop", message: "No applicable management SDK changes." };
+const cacheMiss = {
+  type: "report_missing_data",
+  data_type: "cache_memory",
+  reason: "cache_memory_miss",
+};
+
+function checkManagementCompletion(output) {
+  return runCompletionGuard((name) => {
+    assert.equal(name, "node:fs");
+    return {
+      readFileSync(file, encoding) {
+        assert.equal(file, "/tmp/gh-aw/agent_output.json");
+        assert.equal(encoding, "utf8");
+        return JSON.stringify(output);
+      },
+    };
+  });
+}
+
+for (const [name, items] of [
+  ["a complete clean review", [completeReview]],
+  [
+    "a complete review with findings",
+    [{ ...completeReview, body: completeReview.body.replace('"clean"', '"issues_found"') }],
+  ],
+  ["an intentional error-free skip", [intentionalSkip]],
+  ["an intentional skip after a cache miss", [cacheMiss, intentionalSkip]],
+  ["a complete review after a cache miss", [cacheMiss, completeReview]],
+]) {
+  test(`management completion allows ${name}`, async () => {
+    await checkManagementCompletion({ items, errors: [] });
+  });
+}
+
+for (const [name, output] of [
+  ["empty output", { items: [] }],
+  ["missing output items", {}],
+  ["output errors", { items: [intentionalSkip], errors: ["Invalid output"] }],
+  ["an incomplete review", { items: [{ type: "report_incomplete" }, completeReview] }],
+  ["an unavailable tool", { items: [{ type: "report_missing_tool" }, intentionalSkip] }],
+  [
+    "missing required data disguised as a skip",
+    { items: [{ type: "report_missing_data", data_type: "PR files" }, intentionalSkip] },
+  ],
+  [
+    "missing required data alongside a review",
+    { items: [{ type: "report_missing_data", data_type: "PR files" }, completeReview] },
+  ],
+  [
+    "a cache error other than a miss",
+    { items: [{ ...cacheMiss, reason: "Cache unavailable" }, intentionalSkip] },
+  ],
+  ["labels without a review", { items: [{ type: "add_labels" }] }],
+  ["a skip with completion labels", { items: [intentionalSkip, { type: "add_labels" }] }],
+  [
+    "a skip with review comments",
+    { items: [intentionalSkip, { type: "create_pull_request_review_comment" }] },
+  ],
+  [
+    "a skip with a format-fix dispatch",
+    { items: [intentionalSkip, { type: "dispatch_workflow" }] },
+  ],
+  ["contradictory outcomes", { items: [intentionalSkip, completeReview] }],
+  ["duplicate reviews", { items: [completeReview, completeReview] }],
+  [
+    "a review without coverage",
+    { items: [{ type: "submit_pull_request_review", body: "Looks good." }] },
+  ],
+  [
+    "a partial review",
+    {
+      items: [{ ...completeReview, body: completeReview.body.replace('"complete"', '"partial"') }],
+    },
+  ],
+  [
+    "unknown coverage",
+    {
+      items: [{ ...completeReview, body: completeReview.body.replace('"complete"', '"unknown"') }],
+    },
+  ],
+]) {
+  test(`management completion rejects ${name}`, async () => {
+    await assert.rejects(checkManagementCompletion(output));
+  });
+}
+
+test("management completion checks run before review publication", () => {
+  const compiled = workflowText("mgmt-review.lock.yml");
+  const jobStart = compiled.indexOf("\n  safe_outputs:\n");
+  const completion = compiled.indexOf("- name: Verify management review completion", jobStart);
+  const stale = compiled.indexOf("- name: Reject stale review outputs", jobStart);
+  const publish = compiled.indexOf("- name: Process Safe Outputs", jobStart);
+  assert.ok(completion > jobStart && stale > completion && publish > stale);
+});
+
+test("management review distinguishes intentional skips from error-blocked partial reviews", () => {
+  const source = workflowText("mgmt-review.md");
+  assert.match(source, /intentional skip with no blocking error may use `noop`/);
+  assert.match(source, /call `report_incomplete`.*even if some files were successfully reviewed/);
+  assert.match(source, /Do not bypass an integrity-policy denial/);
+  assert.match(source, /A recovered error is not blocking if all required checks/);
+  assert.match(source, /"coverage":"complete"/);
+  assert.match(source, /coverage remains partial or unknown, do not submit/);
+});

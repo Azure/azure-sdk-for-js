@@ -80,6 +80,43 @@ tools:
   repo-memory:
 safe-outputs:
   steps:
+    - name: Verify management review completion
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      with:
+        script: |
+          const fs = require('node:fs');
+          const output = JSON.parse(fs.readFileSync('/tmp/gh-aw/agent_output.json', 'utf8'));
+          const items = output?.items;
+          if (!Array.isArray(items) || items.length === 0 || output.errors?.length) {
+            throw new Error('Management review produced no usable output or reported output errors.');
+          }
+          const failed = items.some((item) =>
+            item.type === 'report_incomplete' ||
+            item.type === 'report_missing_tool' ||
+            (item.type === 'report_missing_data' &&
+              !(item.data_type === 'cache_memory' && item.reason === 'cache_memory_miss'))
+          );
+          if (failed) {
+            throw new Error('Management review is incomplete because required tools or data were unavailable. No review outputs were published.');
+          }
+          const reviews = items.filter((item) => item.type === 'submit_pull_request_review');
+          const skipped = items.some((item) => item.type === 'noop');
+          if (reviews.length === 0) {
+            const completion = items.some((item) =>
+              ['create_pull_request_review_comment', 'add_labels', 'remove_labels', 'dispatch_workflow'].includes(item.type)
+            );
+            if (!skipped || completion) {
+              throw new Error('Management review must submit a complete review or explicitly skip without review outputs.');
+            }
+            return;
+          }
+          if (skipped || reviews.length !== 1) {
+            throw new Error('Management review must have exactly one completion outcome.');
+          }
+          const report = reviews[0].body?.match(/```json\s*([\s\S]*?)\s*```/);
+          if (!report || JSON.parse(report[1]).coverage !== 'complete') {
+            throw new Error('Management review did not confirm complete coverage of the required tooling and public API checks.');
+          }
     - name: Reject stale review outputs
       uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
       env:
@@ -171,6 +208,19 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 - Do **not** raise CHANGELOG `Compared with version X.Y.Z` baseline issues except an `alpha` baseline — see the **CHANGELOG comparison baseline** rule in the guidelines for why skipped previews and "missing" intermediate entries are expected.
 - **Do** flag if the `api-version` introduced in this PR is not strictly newer than the one already present in the package (i.e., it is the same as or older than the existing version).
 
+### Completion and error handling
+
+- An intentional skip with no blocking error may use `noop` with a clear reason and remain successful; do not submit a review or update completion labels for a skip.
+- If an error prevents any required tooling or public API check, call `report_incomplete` with the error and the checks that could not be completed, even if some files were successfully reviewed.
+- Filtered or inaccessible required data, unresolved file-read failures, and unavailable required tools are incomplete outcomes, not intentional skips.
+- Do not use `noop` or `report_missing_data` alone to report a blocked review.
+- An empty cache is not a review failure; continue gathering evidence when no previous review is cached.
+- Do not bypass an integrity-policy denial using another tool or retrieval path.
+- Before submitting any review, confirm that the changed-file list and all applicable tooling and public API checks were covered at the specified head SHA.
+- A recovered error is not blocking if all required checks were subsequently completed through permitted access.
+- If coverage remains partial or unknown, do not submit review comments, a clean review, completion labels, or a format-fix dispatch; report incomplete instead.
+- Safe outputs are declarations for later publication, so decide the completion outcome before emitting review or label outputs.
+
 ### Step 1 — Context Gathering
 
 1. **Recall past context** — use `cache-memory` to check whether this PR or package has been reviewed before.
@@ -191,7 +241,7 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
    Do not review submodules such as `/models` or `/api`, or issues outside the
    guidelines such as `undocumented`.
 
-3. If no guideline violations are found, state that there are no public API concerns.
+3. Only state that there are no public API concerns after all applicable public API checks have been completed; unread or inaccessible APIs are not evidence of a clean review.
 
 ### Step 4 - Double check review comments
 
@@ -202,6 +252,8 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 3. If the data is missing, keep the comment; otherwise remove it because the data exists but is not part of the current PR.
 
 ### Step 5 — Submit Review
+
+Proceed only after confirming complete coverage under **Completion and error handling**.
 
 Submit your findings as a **pull request review** with inline code comments.
 
@@ -224,14 +276,13 @@ After all inline comments, **submit the review** using
 &lt;summary&gt;📊 Structured Report&lt;/summary&gt;
 
 ```json
-{"agent":"mgmt-reviewer","pr":NUMBER,"summary":"clean|issues_found","findings":[{"file":"...","line":0,"issueType":"tool|design","category":"...","description":"..."}]}
+{"agent":"mgmt-reviewer","pr":NUMBER,"coverage":"complete","summary":"clean|issues_found","findings":[{"file":"...","line":0,"issueType":"tool|design","category":"...","description":"..."}]}
 ```
 
 &lt;/details&gt;
 </pre>
 
-If no issues were found, submit a `COMMENT` review with a one-sentence
-body confirming that the API surface looks good.
+If all applicable checks were completed and no issues were found, submit a `COMMENT` review with a one-sentence summary confirming that the API surface looks good and the structured report above with `"coverage":"complete"`, `"summary":"clean"`, and `"findings":[]`.
 
 ### Step 6 — Update Memory
 
@@ -239,7 +290,7 @@ Store a brief summary in `cache-memory` (PR number, package, outcome) so future 
 
 ## Final Step — Update Labels
 
-After completing all review steps, update the PR labels to indicate completion:
+Only after completing all required checks and emitting the complete review, update the PR labels to indicate completion:
 
 1. Remove the `mgmt-review-in-progress` label
 2. Add the `mgmt-review-added` label
