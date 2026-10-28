@@ -5,26 +5,17 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type {
-  BlockDeviceItem,
-  CharDeviceItem,
-  FifoItem,
-  FileItem as FileItemInternal,
-  FileProperty as FilePropertyInternal,
   ListFilesAndDirectoriesSegmentResponse as ListFilesAndDirectoriesSegmentResponseInternal,
   ListHandlesResponse as ListHandlesResponseInternal,
   SharePermission,
-  SocketItem,
   StringEncoded,
-  SymLinkItem,
 } from "../generated-classic-models.js";
 import type {
   DirectoryItem,
   FileItem,
-  FileProperty,
   HandleItem,
   ListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse,
-  NfsFileType,
   RangeModel,
   ShareFileRange,
 } from "../generatedModels.js";
@@ -830,30 +821,9 @@ export function StringEncodedToString(name: StringEncoded): string {
   }
 }
 
-function toFileProperty(properties: FilePropertyInternal | undefined): FileProperty | undefined {
-  if (!properties) {
-    return properties;
-  }
-  const { fileMode, ...rest } = properties;
-  return fileMode === undefined ? rest : { ...rest, fileMode: parseOctalFileMode(fileMode) };
-}
-
-function toFileItem(
-  item: FileItemInternal | SymLinkItem | BlockDeviceItem | CharDeviceItem | FifoItem | SocketItem,
-  fileType: NfsFileType,
-): FileItem {
-  return {
-    ...item,
-    name: StringEncodedToString(item.name),
-    properties: toFileProperty(item.properties)!,
-    fileType,
-  };
-}
-
 export function ConvertInternalResponseOfListFiles(
   internalResponse: ListFilesAndDirectoriesSegmentResponseInternal,
 ): ListFilesAndDirectoriesSegmentResponse {
-  const segment = internalResponse.segment;
   const wrappedResponse = {
     ...internalResponse,
     prefix: undefined,
@@ -862,20 +832,17 @@ export function ConvertInternalResponseOfListFiles(
       content: internalResponse.directoryPath,
     }),
     segment: {
-      fileItems: [
-        ...segment.fileItems.map((item) => toFileItem(item, "Regular")),
-        ...(segment.symLinkItems ?? []).map((item) => toFileItem(item, "SymLink")),
-        ...(segment.blockDeviceItems ?? []).map((item) => toFileItem(item, "BlockDevice")),
-        ...(segment.charDeviceItems ?? []).map((item) => toFileItem(item, "CharacterDevice")),
-        ...(segment.fifoItems ?? []).map((item) => toFileItem(item, "Fifo")),
-        ...(segment.socketItems ?? []).map((item) => toFileItem(item, "Socket")),
-      ],
-      directoryItems: segment.directoryItems.map(({ properties, ...directoryItemInternal }) => {
+      fileItems: internalResponse.segment.fileItems.map((fileItemInternal) => {
+        const fileItem: FileItem = {
+          ...fileItemInternal,
+          name: StringEncodedToString(fileItemInternal.name),
+        };
+        return fileItem;
+      }),
+      directoryItems: internalResponse.segment.directoryItems.map((directoryItemInternal) => {
         const directoryItem: DirectoryItem = {
           ...directoryItemInternal,
           name: StringEncodedToString(directoryItemInternal.name),
-          ...(properties ? { properties: toFileProperty(properties) } : {}),
-          fileType: "Directory",
         };
         return directoryItem;
       }),

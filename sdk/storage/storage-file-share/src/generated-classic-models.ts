@@ -248,11 +248,6 @@ export interface StringEncoded {
 export interface FilesAndDirectoriesListSegment {
   directoryItems: DirectoryItem[];
   fileItems: FileItem[];
-  symLinkItems?: SymLinkItem[];
-  blockDeviceItems?: BlockDeviceItem[];
-  charDeviceItems?: CharDeviceItem[];
-  fifoItems?: FifoItem[];
-  socketItems?: SocketItem[];
 }
 
 /** A listed directory item. */
@@ -263,7 +258,6 @@ export interface DirectoryItem {
   properties?: FileProperty;
   attributes?: string;
   permissionKey?: string;
-  linkCount?: number;
 }
 
 /** File properties. */
@@ -276,9 +270,6 @@ export interface FileProperty {
   changeTime?: Date;
   lastModified?: Date;
   etag?: string;
-  owner?: string;
-  group?: string;
-  fileMode?: string;
 }
 
 /** A listed file item. */
@@ -289,52 +280,6 @@ export interface FileItem {
   properties: FileProperty;
   attributes?: string;
   permissionKey?: string;
-  linkCount?: number;
-}
-
-/** A listed symbolic link item. */
-export interface SymLinkItem {
-  name: StringEncoded;
-  fileId?: string;
-  properties: FileProperty;
-  linkCount?: number;
-  linkText?: string;
-}
-
-/** A listed block device item. */
-export interface BlockDeviceItem {
-  name: StringEncoded;
-  fileId?: string;
-  properties: FileProperty;
-  linkCount?: number;
-  deviceMajor?: number;
-  deviceMinor?: number;
-}
-
-/** A listed character device item. */
-export interface CharDeviceItem {
-  name: StringEncoded;
-  fileId?: string;
-  properties: FileProperty;
-  linkCount?: number;
-  deviceMajor?: number;
-  deviceMinor?: number;
-}
-
-/** A listed FIFO item. */
-export interface FifoItem {
-  name: StringEncoded;
-  fileId?: string;
-  properties: FileProperty;
-  linkCount?: number;
-}
-
-/** A listed socket item. */
-export interface SocketItem {
-  name: StringEncoded;
-  fileId?: string;
-  properties: FileProperty;
-  linkCount?: number;
 }
 
 /** An enumeration of handles. */
@@ -1982,9 +1927,6 @@ export enum KnownNfsFileType {
  * **Regular** \
  * **Directory** \
  * **SymLink**
- *
- * File items listed by `ShareDirectoryClient.listFilesAndDirectories()` on NFS shares can also be of
- * type **BlockDevice**, **CharacterDevice**, **Fifo** or **Socket**.
  */
 export type NfsFileType = string;
 
