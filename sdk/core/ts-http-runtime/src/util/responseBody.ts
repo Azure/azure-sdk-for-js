@@ -69,10 +69,15 @@ export function setResponseBodyDisposer(response: object, dispose: () => void): 
   };
 }
 
+/**
+ * Destroys a Node response stream, or drains it if destruction is unavailable,
+ * and recursively disposes its tracked upstream sources.
+ */
 function disposeNodeResponseBody(
   readableStream: NodeResponseBody,
-  disposed: Set<NodeResponseBody>,
+  disposed: Set<NodeResponseBody> = new Set(),
 ): void {
+  // Avoid disposing a stream twice if the source chain contains a cycle.
   if (disposed.has(readableStream)) {
     return;
   }
@@ -129,7 +134,7 @@ export async function disposeResponseBody(response: {
     try {
       const readableStream: unknown = response.readableStreamBody;
       if (isNodeResponseBody(readableStream)) {
-        disposeNodeResponseBody(readableStream, new Set());
+        disposeNodeResponseBody(readableStream);
         return;
       }
 
