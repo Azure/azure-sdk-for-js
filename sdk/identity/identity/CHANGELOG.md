@@ -2,9 +2,10 @@
 
 ## 4.15.0-beta.2 (Unreleased)
 
-### Bugs Fixed
+### Other Changes
 
-- Restored the fix from 4.13.3 that forwards constructor options from `DefaultAzureCredential` to `ManagedIdentityCredential` when selected through `AZURE_TOKEN_CREDENTIALS`, including `managedIdentityClientId` and `managedIdentityResourceId`. [#39927](https://github.com/Azure/azure-sdk-for-js/pull/39927)
+- Updated `@azure/msal-node` to `^7.1.0`. Interactive browser authentication now requires `form_post` callbacks, as described in the [MSAL Node v7 migration guide](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/v7-migration.md). [#40532](https://github.com/Azure/azure-sdk-for-js/pull/40532)
+
 
 ## 4.15.0-beta.1 (2026-10-14)
 
