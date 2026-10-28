@@ -12,9 +12,7 @@ import { BaseRequestPolicy } from '@azure/storage-common';
 import type { BlobGetLayoutHeaders } from '@azure/storage-blob';
 import type { BlobLayout } from '@azure/storage-blob';
 import type { BlobLayoutEndpoint } from '@azure/storage-blob';
-import type { BlobLayoutEndpoints } from '@azure/storage-blob';
 import type { BlobLayoutRange } from '@azure/storage-blob';
-import type { BlobLayoutRanges } from '@azure/storage-blob';
 import type { BlobLeaseClient } from '@azure/storage-blob';
 import type { BlobQueryArrowConfiguration } from '@azure/storage-blob';
 import type { BlobTags } from '@azure/storage-blob';
@@ -34,6 +32,7 @@ import { isPipelineLike } from '@azure/storage-blob';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import { LayoutAwareRouting } from '@azure/storage-blob';
+import { LayoutEndpoint } from '@azure/storage-blob';
 import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
@@ -49,6 +48,7 @@ import { Pipeline as Pipeline_2 } from '@azure/core-rest-pipeline';
 import { PipelineLike } from '@azure/storage-blob';
 import { PipelineOptions } from '@azure/storage-blob';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
+import type { Range as Range_2 } from '@azure/storage-blob';
 import type { Readable } from 'node:stream';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
@@ -666,13 +666,7 @@ export type FileLayout = BlobLayout;
 export type FileLayoutEndpoint = BlobLayoutEndpoint;
 
 // @public
-export type FileLayoutEndpoints = BlobLayoutEndpoints;
-
-// @public
 export type FileLayoutRange = BlobLayoutRange;
-
-// @public
-export type FileLayoutRanges = BlobLayoutRanges;
 
 // @public
 export interface FileParallelUploadOptions extends CommonOptions {
@@ -736,10 +730,7 @@ export interface FileQueryParquetConfiguration {
 }
 
 // @public
-export interface FileRange {
-    count?: number;
-    offset: number;
-}
+export type FileRange = Range_2;
 
 // @public (undocumented)
 export interface FileReadHeaders {
@@ -822,7 +813,7 @@ export interface FileReadOptions extends CommonOptions {
     conditions?: DataLakeRequestConditions;
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
-    layoutEndpoint?: string;
+    layoutEndpoint?: LayoutEndpoint;
     // (undocumented)
     maxRetryRequests?: number;
     // (undocumented)
@@ -1208,6 +1199,8 @@ export { isPipelineLike }
 export { isRestError }
 
 export { LayoutAwareRouting }
+
+export { LayoutEndpoint }
 
 export { Lease }
 

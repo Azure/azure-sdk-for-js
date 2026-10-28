@@ -7,9 +7,11 @@
 - Added `sessionOptions`, forwarding the session token authentication added in `@azure/storage-blob`. Disabled by default, Node.js only, and limited to blob-endpoint requests, so in Data Lake only file reads are affected.
 - Added opt-in data locality support to `readToBuffer`, using the routing added in `@azure/storage-blob`. Set `layoutAwareRouting` on `FileReadToBufferOptions` to `"enabled"` to read chunks from the endpoints that hold them; disabled by default and Node.js only.
 - Added `DataLakeFileClient.getLayout`, which pages through the file's layout so callers can orchestrate their own routed reads. Each page carries the ranges and the endpoints that serve them.
-- Added `layoutEndpoint` to `FileReadOptions`, to route a single `read` call.
+- Added `layoutEndpoint` to `FileReadOptions`, to route a single `read` call to an endpoint returned by `getLayout`. Both use the `LayoutEndpoint` type re-exported from `@azure/storage-blob`.
 
 ### Breaking Changes
+
+- `DataLakeFileClient.upload` and `uploadFile` now default `singleUploadThreshold` to 8MB instead of 100MB; set it to `100 * 1024 * 1024` to restore the previous behavior. Data between 8MB and 100MB is now appended in parallel chunks of `chunkSize` (8MB by default) instead of a single append, so more requests are sent and `onProgress` is called once per chunk. [#40286](https://github.com/Azure/azure-sdk-for-js/pull/40286)
 
 ### Bugs Fixed
 

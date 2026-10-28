@@ -308,6 +308,75 @@ export function getURLParameter(url: string, name: string): string | string[] | 
 }
 
 /**
+ * Get the file ID of a URL that addresses a file or directory by its file ID.
+ *
+ * @param url - Source URL string
+ * @returns The value of the `fileid` query parameter (name matched case-insensitively), or undefined when it's missing or empty.
+ */
+export function getFileIdFromURL(url: string): string | undefined {
+  for (const [name, value] of new URL(url).searchParams) {
+    if (value && name.toLowerCase() === URLConstants.Parameters.FILE_ID) {
+      return value;
+    }
+  }
+  return undefined;
+}
+
+/**
+ * Whether a raw `name=value` piece of a query string is a `fileid` parameter, with its name matched the way
+ * {@link getFileIdFromURL} matches it.
+ *
+ * @param pair - A piece of a query string, between two `&`
+ */
+function isFileIdParameter(pair: string): boolean {
+  const names = Array.from(new URLSearchParams(pair).keys());
+  return names.length > 0 && names[0].toLowerCase() === URLConstants.Parameters.FILE_ID;
+}
+
+/**
+ * Build the URL that addresses a file or directory by its file ID from the URL of its share.
+ *
+ * @param shareUrl - URL of the share, which may carry a SAS or a share snapshot
+ * @param fileId - File ID of the file or directory
+ * @returns The share URL, without a trailing slash, with the `fileid` query parameter set to the file ID. Any
+ * `fileid` parameter the share URL already has, whatever the case of its name, is removed.
+ */
+export function setFileIdOnShareURL(shareUrl: string, fileId: string): string {
+  if (!fileId || !fileId.trim()) {
+    throw new RangeError("fileId must be a non-empty string.");
+  }
+  const urlParsed = new URL(shareUrl);
+  const path = urlParsed.pathname;
+  let end = path.length;
+  while (end > 0 && path[end - 1] === "/") {
+    end--;
+  }
+  urlParsed.pathname = path.slice(0, end);
+  // The other parameters are kept as they are: rebuilding them with URLSearchParams would change a SAS's encoding.
+  const searchPieces = urlParsed.search
+    .slice(1)
+    .split("&")
+    .filter((pair) => pair !== "" && !isFileIdParameter(pair));
+  searchPieces.push(`${URLConstants.Parameters.FILE_ID}=${encodeURIComponent(fileId)}`);
+  urlParsed.search = `?${searchPieces.join("&")}`;
+  return urlParsed.toString();
+}
+
+/**
+ * Throw when a client that addresses its resource by file ID is asked for a member that only works with paths.
+ *
+ * @param fileId - File ID of the client, undefined when the client addresses its resource by path
+ * @param memberName - Name of the member being called
+ */
+export function assertNotFileIdAddressed(fileId: string | undefined, memberName: string): void {
+  if (fileId) {
+    throw new Error(
+      `${memberName} is not supported when the client addresses the resource by file ID.`,
+    );
+  }
+}
+
+/**
  * Set URL host.
  *
  * @param url - Source URL string

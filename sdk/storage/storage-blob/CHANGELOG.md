@@ -8,10 +8,18 @@
 - Added opt-in session token authentication for blob downloads with a `TokenCredential`. Set `sessionOptions.mode` to `"enabled"` to sign eligible downloads with a container-scoped session token instead of a bearer token; disabled by default and Node.js only.
 - Added opt-in data locality support to `downloadToBuffer`. Set `layoutAwareRouting` to `"enabled"` to read blocks from the endpoints that hold them when the service hints at it; disabled by default and Node.js only.
 - Added `BlobClient.getLayout`, which pages through the blob's layout so callers can orchestrate their own routed reads. Each page carries the ranges and the endpoints that serve them.
-- Added `layoutEndpoint` to `BlobDownloadOptions`, to route a single `download` call.
+- Added `layoutEndpoint` to `BlobDownloadOptions`, to route a single `download` call to an endpoint returned by `getLayout`. Both use the new `LayoutEndpoint` type.
 - Added `downloadHint` to the blob download response.
+- `listBlobsFlat` and `listBlobsByHierarchy` now use the Apache Arrow response format by default (`StorageResponseFormat.Auto` now resolves to `StorageResponseFormat.Arrow`), so `endBefore` no longer requires setting `responseFormat`. The service falls back to XML for accounts that don't support Apache Arrow. Set `responseFormat` to `StorageResponseFormat.Xml` to keep requesting XML.
 
 ### Breaking Changes
+
+- `BlockBlobClient.uploadData`, `uploadFile` and `uploadBrowserData` now default `maxSingleShotSize` to 4MB instead of 256MB; set it to `256 * 1024 * 1024` to restore the previous behavior. Data larger than 4MB is now staged in parallel blocks of `blockSize` (4MB by default) with `stageBlock` and committed with `commitBlockList`, instead of being sent in a single `upload` call. For data between 4MB and 256MB this means: [#40286](https://github.com/Azure/azure-sdk-for-js/pull/40286)
+  - More requests are sent, and `onProgress` is called once per block.
+  - The service doesn't compute a Content-MD5 property for the blob, so `getProperties`, `download` and blob listings return no `contentMD5` unless `blobHTTPHeaders.blobContentMD5` is set.
+  - The response comes from `commitBlockList`: it has no `contentMD5` or `structuredBodyType`, and its `xMsContentCrc64` covers the block list rather than the data.
+  - Blob created events report the `PutBlockList` operation instead of `PutBlob`.
+  - When another upload to the same blob finishes while this one is still staging blocks, the service discards this upload's staged blocks, so it fails with a 400 error (`InvalidBlockList` or `InvalidBlobOrBlock`) instead of overwriting the blob.
 
 ### Bugs Fixed
 

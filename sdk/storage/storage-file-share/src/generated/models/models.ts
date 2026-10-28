@@ -2008,6 +2008,87 @@ export function shareFileRangeListSegmentXmlDeserializer(
   return deserializeFromXml<ShareFileRangeListSegment>(xmlString, properties, "Ranges");
 }
 
+/** The list of hard links for a file. */
+export interface HardLinkList {
+  /** The hard links. */
+  hardLinks: HardLink[];
+}
+
+export function hardLinkListDeserializer(item: any): HardLinkList {
+  return {
+    hardLinks: hardLinkArrayDeserializer(item["hardLinks"]),
+  };
+}
+
+export function hardLinkListXmlDeserializer(xmlString: string): HardLinkList {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "hardLinks",
+      xmlOptions: { name: "HardLink", unwrapped: true, itemsName: "HardLink" },
+      type: "array",
+      deserializer: hardLinkXmlObjectDeserializer,
+    },
+  ];
+  return deserializeFromXml<HardLinkList>(xmlString, properties, "HardLinks");
+}
+
+export function hardLinkArrayDeserializer(result: Array<HardLink>): any[] {
+  return result.map((item) => {
+    return hardLinkDeserializer(item);
+  });
+}
+
+/** A hard link to a file. */
+export interface HardLink {
+  /** The name of the hard link. */
+  fileName: StringEncoded;
+  /** The fileId of the parent directory of the hard link. */
+  parentId: string;
+}
+
+export function hardLinkDeserializer(item: any): HardLink {
+  return {
+    fileName: stringEncodedDeserializer(item["fileName"]),
+    parentId: item["parentId"],
+  };
+}
+
+export function hardLinkXmlDeserializer(xmlString: string): HardLink {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "fileName",
+      xmlOptions: { name: "FileName" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "parentId",
+      xmlOptions: { name: "ParentId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<HardLink>(xmlString, properties, "HardLink");
+}
+
+export function hardLinkXmlObjectDeserializer(xmlObject: Record<string, unknown>): HardLink {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "fileName",
+      xmlOptions: { name: "FileName" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "parentId",
+      xmlOptions: { name: "ParentId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeXmlObject<HardLink>(xmlObject, properties);
+}
+
 /** Storage service properties. */
 export interface FileServiceProperties {
   /** A summary of request statistics grouped by API in hourly aggregates for files. */

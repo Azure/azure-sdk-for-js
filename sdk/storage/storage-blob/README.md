@@ -380,7 +380,7 @@ For a complete sample on iterating blobs please see [samples/v12/typescript/src/
 
 ### List blobs using the Apache Arrow response format
 
-Request the listing as Apache Arrow with `responseFormat`. The service falls back to XML for accounts that don't support Apache Arrow, and the parsed blob items are identical either way.
+`listBlobsFlat` and `listBlobsByHierarchy` use the Apache Arrow response format by default; set `responseFormat` to choose it explicitly, or set it to `StorageResponseFormat.Xml` to request XML. The service falls back to XML for accounts that don't support Apache Arrow, and the parsed blob items are identical either way.
 
 ```ts snippet:ReadmeSampleListBlobs_ApacheArrow
 import { BlobServiceClient, StorageResponseFormat } from "@azure/storage-blob";
@@ -533,9 +533,8 @@ console.log(`Downloaded ${downloaded.length} bytes`);
 
 // To route reads yourself, read each range of the layout from the endpoint that serves it.
 for await (const page of blobClient.getLayout()) {
-  const endpoints = page.endpoints?.endpoint ?? [];
-  for (const range of page.ranges?.range ?? []) {
-    const endpoint = endpoints.find((e) => e.index === range.endpointIndex);
+  for (const range of page.ranges) {
+    const endpoint = page.endpoints.find((e) => e.index === range.endpointIndex);
     const response = await blobClient.download(range.start, range.end - range.start + 1, {
       layoutEndpoint: endpoint?.value,
     });
