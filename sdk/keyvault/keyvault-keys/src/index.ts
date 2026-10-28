@@ -259,19 +259,15 @@ export class KeyClient {
     this.vaultUrl = vaultUrl;
 
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
-
-    const userAgentOptions = pipelineOptions.userAgentOptions;
-
-    pipelineOptions.userAgentOptions = {
-      userAgentPrefix:
-        userAgentOptions && userAgentOptions.userAgentPrefix
-          ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
-          : libInfo,
-    };
+    const userAgentPrefix = pipelineOptions.userAgentOptions?.userAgentPrefix;
 
     const internalPipelineOptions: KeyVaultClientOptionalParams = {
       ...pipelineOptions,
       apiVersion: pipelineOptions.serviceVersion || LATEST_API_VERSION,
+      userAgentOptions: {
+        ...pipelineOptions.userAgentOptions,
+        userAgentPrefix: userAgentPrefix ? `${userAgentPrefix} ${libInfo}` : libInfo,
+      },
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [
