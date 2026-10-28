@@ -21,9 +21,9 @@ import { isRestError, RestError } from "./restError.js";
 import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
-import { setRequestCompletion } from "./util/requestCompletion.js";
 import {
   disposeNodeStream,
+  setRequestCompletion,
   setResponseBodyDisposer,
   setResponseBodySource,
 } from "./util/responseBody.js";

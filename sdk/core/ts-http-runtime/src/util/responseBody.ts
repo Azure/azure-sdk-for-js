@@ -22,6 +22,49 @@ interface BrowserResponseBody {
 
 const responseBodySources = new WeakMap<NodeResponseBody, NodeResponseBody>();
 const responseBodyDisposers = new WeakMap<object, () => void>();
+const requestCompletions = new WeakMap<object, Promise<void>>();
+const responseBodyCompletions = new WeakMap<object, Promise<void>>();
+
+export function setRequestCompletion(response: object, completion: Promise<void>): void {
+  requestCompletions.set(response, completion);
+  void completion.then(() => {
+    if (requestCompletions.get(response) === completion) {
+      requestCompletions.delete(response);
+    }
+    return undefined;
+  });
+}
+
+/**
+ * Returns a promise that resolves when the response's outgoing request has completed.
+ *
+ * @param response - The response whose request completion should be observed.
+ * @returns The request completion promise, if the transport provides one.
+ */
+export function getRequestCompletion(response: object): Promise<void> | undefined {
+  return requestCompletions.get(response);
+}
+
+export function setResponseBodyCompletion(response: object, completion: Promise<void>): void {
+  responseBodyCompletions.set(response, completion);
+  // eslint-disable-next-line promise/catch-or-return
+  completion.then(() => {
+    // eslint-disable-next-line promise/always-return
+    if (responseBodyCompletions.get(response) === completion) {
+      responseBodyCompletions.delete(response);
+    }
+  });
+}
+
+/**
+ * Returns a promise that resolves when the response body has completed, errored, or been canceled.
+ *
+ * @param response - The response whose body completion should be observed.
+ * @returns The response body completion promise, if the transport provides one.
+ */
+export function getResponseBodyCompletion(response: object): Promise<void> | undefined {
+  return responseBodyCompletions.get(response);
+}
 
 function isNodeResponseBody(value: unknown): value is NodeResponseBody {
   return (

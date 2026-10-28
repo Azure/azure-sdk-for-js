@@ -14,7 +14,7 @@ import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 import { isObject } from "./util/object.js";
-import { setResponseBodyCompletion } from "./util/responseBodyCompletion.js";
+import { setResponseBodyCompletion } from "./util/responseBody.js";
 import { logger } from "./log.js";
 
 // The Fetch spec requires `duplex: "half"` when body is a ReadableStream,

@@ -9,8 +9,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "../../../src/index.js";
-import { getRequestCompletion } from "../../../src/util/requestCompletion.js";
-import { disposeResponseBody } from "../../../src/util/responseBody.js";
+import { disposeResponseBody, getRequestCompletion } from "../../../src/util/responseBody.js";
 
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");

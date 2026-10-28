@@ -18,6 +18,8 @@ export {
 } from "#platform/env";
 export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "#platform/bytesEncoding";
 export { Sanitizer, type SanitizerOptions } from "./sanitizer.js";
-export { disposeResponseBody } from "./responseBody.js";
-export { getRequestCompletion } from "./requestCompletion.js";
-export { getResponseBodyCompletion } from "./responseBodyCompletion.js";
+export {
+  disposeResponseBody,
+  getRequestCompletion,
+  getResponseBodyCompletion,
+} from "./responseBody.js";
