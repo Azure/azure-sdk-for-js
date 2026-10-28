@@ -948,4 +948,8 @@ export type {
   MicrosoftCopilotToolsetDefaultConfig,
   MicrosoftCopilotToolsetConfig,
   MicrosoftCopilotBuiltInTool,
+  VoiceAgentServerEventSessionHandoffStarted,
+  VoiceAgentServerEventSessionHandoffCompleted,
+  VoiceAgentServerEventSessionHandoffAborted,
+  VoiceAgentHandoffAbortReason,
 } from "./models.js";

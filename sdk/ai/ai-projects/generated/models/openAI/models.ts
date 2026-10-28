@@ -137,6 +137,15 @@ import {
   VoiceAgentServerEventResponseVideoDelta,
   voiceAgentServerEventResponseVideoDeltaSerializer,
   voiceAgentServerEventResponseVideoDeltaDeserializer,
+VoiceAgentServerEventSessionHandoffStarted,
+VoiceAgentServerEventSessionHandoffCompleted,
+VoiceAgentServerEventSessionHandoffAborted,
+voiceAgentServerEventSessionHandoffStartedSerializer,
+voiceAgentServerEventSessionHandoffStartedDeserializer,
+voiceAgentServerEventSessionHandoffCompletedSerializer,
+voiceAgentServerEventSessionHandoffCompletedDeserializer,
+voiceAgentServerEventSessionHandoffAbortedSerializer,
+voiceAgentServerEventSessionHandoffAbortedDeserializer,
 } from "../models.js";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
@@ -5253,7 +5262,10 @@ export type RealtimeServerEventUnion =
   | VoiceAgentServerEventResponseAnimationVisemeDelta
   | VoiceAgentServerEventResponseAnimationVisemeDone
   | VoiceAgentServerEventResponseVideoDelta
-  | RealtimeServerEvent;
+  | RealtimeServerEvent
+  | VoiceAgentServerEventSessionHandoffStarted
+  | VoiceAgentServerEventSessionHandoffCompleted
+  | VoiceAgentServerEventSessionHandoffAborted;
 
 export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnion): any {
   switch (item.type) {
@@ -5532,7 +5544,19 @@ export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnio
         item as VoiceAgentServerEventResponseVideoDelta,
       );
 
-    default:
+    case "session.handoff.started":
+      return voiceAgentServerEventSessionHandoffStartedSerializer(
+        item as VoiceAgentServerEventSessionHandoffStarted,
+      );
+case "session.handoff.completed":
+      return voiceAgentServerEventSessionHandoffCompletedSerializer(
+        item as VoiceAgentServerEventSessionHandoffCompleted,
+      );
+case "session.handoff.aborted":
+      return voiceAgentServerEventSessionHandoffAbortedSerializer(
+        item as VoiceAgentServerEventSessionHandoffAborted,
+      );
+default:
       return realtimeServerEventSerializer(item);
   }
 }
@@ -5820,7 +5844,19 @@ export function realtimeServerEventUnionDeserializer(item: any): RealtimeServerE
         item as VoiceAgentServerEventResponseVideoDelta,
       );
 
-    default:
+    case "session.handoff.started":
+      return voiceAgentServerEventSessionHandoffStartedDeserializer(
+        item as VoiceAgentServerEventSessionHandoffStarted,
+      );
+case "session.handoff.completed":
+      return voiceAgentServerEventSessionHandoffCompletedDeserializer(
+        item as VoiceAgentServerEventSessionHandoffCompleted,
+      );
+case "session.handoff.aborted":
+      return voiceAgentServerEventSessionHandoffAbortedDeserializer(
+        item as VoiceAgentServerEventSessionHandoffAborted,
+      );
+default:
       return realtimeServerEventDeserializer(item);
   }
 }
@@ -5888,7 +5924,10 @@ export type RealtimeServerEventType =
   | "response.animation_blendshapes.done"
   | "response.animation_viseme.delta"
   | "response.animation_viseme.done"
-  | "response.video.delta";
+  | "response.video.delta"
+  | "session.handoff.started"
+  | "session.handoff.completed"
+  | "session.handoff.aborted";
 
 /**
  * Returned when a conversation item is created. There are several scenarios that produce this event:

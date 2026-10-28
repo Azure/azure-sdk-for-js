@@ -6,6 +6,7 @@ import { AIProjectClient, VoiceAgentProtocolError } from "@azure/ai-projects";
 import { SDK_VERSION } from "$internal/constants.js";
 import { addHeadersToUrl } from "$internal/webSocketTransport.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { handoffEvents } from "../handoffEvents.js";
 
 class BrowserTestCredential implements TokenCredential {
   public async getToken(
@@ -257,6 +258,22 @@ describe("AIProjectClient browser realtime", () => {
 
     await connection.close();
     expect((await iterator.next()).done).toBe(true);
+  });
+
+  it("recognizes Handoff lifecycle Blob events and preserves their order", async () => {
+    const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent");
+    try {
+      const iterator = connection[Symbol.asyncIterator]();
+      for (const event of handoffEvents) {
+        getSocket().receive(new Blob([JSON.stringify(event)]));
+      }
+      for (const event of handoffEvents) {
+        expect((await iterator.next()).value).toEqual(event);
+      }
+      expect(connection.state).toBe("connected");
+    } finally {
+      await connection.close();
+    }
   });
 
   it("fails the iterator on malformed server data", async () => {

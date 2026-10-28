@@ -716,5 +716,9 @@ export type {
   BetaVoiceAgentsConversationsDownloadAudioResponse,
   BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
   BetaVoiceAgentsConversationsDownloadAudioItemResponse,
+VoiceAgentServerEventSessionHandoffStarted,
+VoiceAgentServerEventSessionHandoffCompleted,
+VoiceAgentServerEventSessionHandoffAborted,
+VoiceAgentHandoffAbortReason,
 } from "./models.js";
 export { KnownVersions } from "./models.js";

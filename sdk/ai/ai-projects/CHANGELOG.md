@@ -1,5 +1,15 @@
 # Release History
 
+## 2.10.0 (Unreleased)
+
+### Features Added
+
+- Add preview Handoff lifecycle event models to the public realtime event types.
+
+### Bugs Fixed
+
+- Recognize `session.handoff.started`, `session.handoff.completed`, and `session.handoff.aborted` as typed realtime events instead of unknown events. Validate their required fields and preserve the fallback for unknown future events.
+
 ## 2.9.0 (2026-10-19)
 
 ### Breaking Changes

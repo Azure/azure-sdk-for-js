@@ -91,6 +91,9 @@ const serverEventDeserializers: {
   "rtc.call.error": models.voiceAgentServerEventRtcCallErrorDeserializer,
   "rtc.call.sdp.created": models.voiceAgentServerEventRtcCallSdpCreatedDeserializer,
   "session.created": models.realtimeServerEventSessionCreatedDeserializer,
+  "session.handoff.started": models.voiceAgentServerEventSessionHandoffStartedDeserializer,
+  "session.handoff.completed": models.voiceAgentServerEventSessionHandoffCompletedDeserializer,
+  "session.handoff.aborted": models.voiceAgentServerEventSessionHandoffAbortedDeserializer,
   "session.subagent.aborted": models.voiceAgentServerEventSessionSubagentAbortedDeserializer,
   "session.subagent.completed": models.voiceAgentServerEventSessionSubagentCompletedDeserializer,
   "session.subagent.started": models.voiceAgentServerEventSessionSubagentStartedDeserializer,
@@ -205,6 +208,17 @@ export function deserializeVoiceAgentServerEvent(
  * field renamed/removed by a future regeneration, fails to compile here instead of silently
  * no-op'ing at runtime.
  */
+const handoffLifecycleRequiredFields = [
+  "handoff_id",
+  "edge_id",
+  "from_node_id",
+  "to_node_id",
+  "from_model",
+  "to_model",
+  "tool_call_id",
+  "node_generation",
+] as const;
+
 const requiredServerEventFields: {
   readonly [K in VoiceAgentServerEvent["type"]]?: RequiredEventFields<K>;
 } = {
@@ -219,6 +233,13 @@ const requiredServerEventFields: {
   "rtc.call.sdp.created": ["rtc_call_id", "sdp_answer"],
   error: ["error"],
   "session.created": ["session"],
+  "session.handoff.started": handoffLifecycleRequiredFields,
+  "session.handoff.completed": [
+    ...handoffLifecycleRequiredFields,
+    "prepare_duration_ms",
+    "duration_ms",
+  ],
+  "session.handoff.aborted": [...handoffLifecycleRequiredFields, "reason"],
   "session.subagent.aborted": ["consultation_id", "call_id", "subagent_name", "reason"],
   "session.subagent.completed": ["consultation_id", "call_id", "subagent_name"],
   "session.subagent.started": ["consultation_id", "call_id", "subagent_name"],
