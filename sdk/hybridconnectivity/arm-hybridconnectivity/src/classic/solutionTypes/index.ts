@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
+import type { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
   get,
 } from "../../api/solutionTypes/operations.js";
-import {
+import type {
   SolutionTypesListBySubscriptionOptionalParams,
   SolutionTypesListByResourceGroupOptionalParams,
   SolutionTypesGetOptionalParams,
 } from "../../api/solutionTypes/options.js";
-import { SolutionTypeResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SolutionTypeResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SolutionTypes operations. */
 export interface SolutionTypesOperations {
