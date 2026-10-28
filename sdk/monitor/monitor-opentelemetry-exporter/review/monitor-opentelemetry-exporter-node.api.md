@@ -14,12 +14,12 @@ import type { Link } from '@opentelemetry/api';
 import type { LogRecordExporter } from '@opentelemetry/sdk-logs';
 import type { PushMetricExporter } from '@opentelemetry/sdk-metrics';
 import type { ReadableLogRecord } from '@opentelemetry/sdk-logs';
-import type { ReadableSpan } from '@opentelemetry/sdk-trace-base';
+import type { ReadableSpan } from '@opentelemetry/sdk-trace';
 import type { ResourceMetrics } from '@opentelemetry/sdk-metrics';
-import type { Sampler } from '@opentelemetry/sdk-trace-base';
-import type { SamplingResult } from '@opentelemetry/sdk-trace-base';
+import type { Sampler } from '@opentelemetry/sdk-trace';
+import type { SamplingResult } from '@opentelemetry/sdk-trace';
 import type { ServiceClientOptions } from '@azure/core-client';
-import type { SpanExporter } from '@opentelemetry/sdk-trace-base';
+import type { SpanExporter } from '@opentelemetry/sdk-trace';
 import type { SpanKind } from '@opentelemetry/api';
 import type { TokenCredential } from '@azure/core-auth';
 

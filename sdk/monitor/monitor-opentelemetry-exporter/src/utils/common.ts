@@ -42,9 +42,8 @@ import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.
 import { KnownContextTagKeys } from "../generated/index.js";
 import { type Resource } from "@opentelemetry/resources";
 import { diag } from "@opentelemetry/api";
-import type { Attributes, HrTime } from "@opentelemetry/api";
+import type { AnyValue, Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
-import type { AnyValue } from "@opentelemetry/api-logs";
 import {
   APPLICATION_ID_RESOURCE_KEY,
   CUSTOM_DIMENSIONS_GENAI_KEYS,

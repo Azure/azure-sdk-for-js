@@ -3,7 +3,7 @@
 
 /**
  * This example shows how to use
- * [@opentelemetry/sdk-logs](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/sdk-logs)
+ * [@opentelemetry/sdk-logs](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/sdk-logs)
  * to instrument a simple Node.js application.
  * It also demonstrates how to associate custom measurements with logs.
  *
@@ -14,7 +14,7 @@ import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { LoggerProvider, SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
-import { SeverityNumber } from "@opentelemetry/api-logs";
+import { SeverityNumber } from "@opentelemetry/api";
 
 // Load the .env file if it exists
 import "dotenv/config";

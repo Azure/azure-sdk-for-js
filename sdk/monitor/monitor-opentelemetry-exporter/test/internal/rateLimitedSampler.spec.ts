@@ -3,7 +3,7 @@
 
 import { describe, it, assert, beforeEach } from "vitest";
 import { RateLimitedSampler } from "../../src/sampling/rateLimitedSampler.js";
-import { SamplingDecision } from "@opentelemetry/sdk-trace-base";
+import { SamplingDecision } from "@opentelemetry/sdk-trace";
 import { context, SpanKind } from "@opentelemetry/api";
 
 describe("RateLimitedSampler", () => {
