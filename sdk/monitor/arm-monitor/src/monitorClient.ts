@@ -35,8 +35,6 @@ import type { DiagnosticSettingsCategoryOperations } from "./classic/diagnosticS
 import { _getDiagnosticSettingsCategoryOperations } from "./classic/diagnosticSettingsCategory/index.js";
 import type { EventCategoriesOperations } from "./classic/eventCategories/index.js";
 import { _getEventCategoriesOperations } from "./classic/eventCategories/index.js";
-import type { ExactVMInsightsOperations } from "./classic/exactVMInsights/index.js";
-import { _getExactVMInsightsOperations } from "./classic/exactVMInsights/index.js";
 import type { LogProfilesOperations } from "./classic/logProfiles/index.js";
 import { _getLogProfilesOperations } from "./classic/logProfiles/index.js";
 import type { MetricAlertsOperations } from "./classic/metricAlerts/index.js";
@@ -71,6 +69,8 @@ import type { TenantActionGroupsOperations } from "./classic/tenantActionGroups/
 import { _getTenantActionGroupsOperations } from "./classic/tenantActionGroups/index.js";
 import type { TenantActivityLogsOperations } from "./classic/tenantActivityLogs/index.js";
 import { _getTenantActivityLogsOperations } from "./classic/tenantActivityLogs/index.js";
+import type { vMInsightsOperations } from "./classic/vMInsights/index.js";
+import { _getvMInsightsOperations } from "./classic/vMInsights/index.js";
 import type {
   TenantNotificationRequestBody,
   TenantActionGroupTestNotificationDetailsResponse,
@@ -112,7 +112,6 @@ export class MonitorClient {
     this.pipeline = this._client.pipeline;
     this.diagnosticSettingsCategory = _getDiagnosticSettingsCategoryOperations(this._client);
     this.diagnosticSettings = _getDiagnosticSettingsOperations(this._client);
-    this.exactVMInsights = _getExactVMInsightsOperations(this._client);
     this.tenantActionGroups = _getTenantActionGroupsOperations(this._client);
     this.actionGroups = _getActionGroupsOperations(this._client);
     this.baselines = _getBaselinesOperations(this._client);
@@ -140,6 +139,7 @@ export class MonitorClient {
     this.dataCollectionRuleAssociations = _getDataCollectionRuleAssociationsOperations(
       this._client,
     );
+    this.vMInsights = _getvMInsightsOperations(this._client);
     this.scheduledQueryRule = _getScheduledQueryRuleOperations(this._client);
     this.dataCollectionEndpoints = _getDataCollectionEndpointsOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
@@ -240,8 +240,6 @@ export class MonitorClient {
   public readonly diagnosticSettingsCategory: DiagnosticSettingsCategoryOperations;
   /** The operation groups for diagnosticSettings */
   public readonly diagnosticSettings: DiagnosticSettingsOperations;
-  /** The operation groups for exactVMInsights */
-  public readonly exactVMInsights: ExactVMInsightsOperations;
   /** The operation groups for tenantActionGroups */
   public readonly tenantActionGroups: TenantActionGroupsOperations;
   /** The operation groups for actionGroups */
@@ -288,6 +286,8 @@ export class MonitorClient {
   public readonly dataCollectionRules: DataCollectionRulesOperations;
   /** The operation groups for dataCollectionRuleAssociations */
   public readonly dataCollectionRuleAssociations: DataCollectionRuleAssociationsOperations;
+  /** The operation groups for vMInsights */
+  public readonly vMInsights: vMInsightsOperations;
   /** The operation groups for scheduledQueryRule */
   public readonly scheduledQueryRule: ScheduledQueryRuleOperations;
   /** The operation groups for dataCollectionEndpoints */

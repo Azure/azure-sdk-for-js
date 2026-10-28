@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-monitor",
-  "version": "9.0.0-beta.1",
+  "version": "8.1.0-beta.1",
   "description": "A generated SDK for MonitorClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -74,20 +74,6 @@
       "require": {
         "types": "./dist/commonjs/api/diagnosticSettings/index.d.ts",
         "default": "./dist/commonjs/api/diagnosticSettings/index.js"
-      }
-    },
-    "./api/exactVMInsights": {
-      "browser": {
-        "types": "./dist/browser/api/exactVMInsights/index.d.ts",
-        "default": "./dist/browser/api/exactVMInsights/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/exactVMInsights/index.d.ts",
-        "default": "./dist/esm/api/exactVMInsights/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/exactVMInsights/index.d.ts",
-        "default": "./dist/commonjs/api/exactVMInsights/index.js"
       }
     },
     "./api/tenantActionGroups": {
@@ -410,6 +396,20 @@
       "require": {
         "types": "./dist/commonjs/api/dataCollectionRuleAssociations/index.d.ts",
         "default": "./dist/commonjs/api/dataCollectionRuleAssociations/index.js"
+      }
+    },
+    "./api/vMInsights": {
+      "browser": {
+        "types": "./dist/browser/api/vMInsights/index.d.ts",
+        "default": "./dist/browser/api/vMInsights/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vMInsights/index.d.ts",
+        "default": "./dist/esm/api/vMInsights/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vMInsights/index.d.ts",
+        "default": "./dist/commonjs/api/vMInsights/index.js"
       }
     },
     "./api/scheduledQueryRule": {
