@@ -86,55 +86,39 @@ const keyCredentialClient = new WebPubSubChatServiceClient(
 
 ## Key concepts
 
-### WebPubSubChatServiceClient
-
-`WebPubSubChatServiceClient` is the primary interface for managing chat resources in a Web PubSub hub.
-
 ### Hub
 
-A hub is the logical boundary for a chat application. Roles, users, rooms, topics, conversations, and messages managed by a client all belong to the hub supplied to the client constructor.
+A hub is a logical collection of WebSocket connections. A chat hub adds built-in rooms, member management, message persistence, and chat-specific APIs.
 
-### Roles and permissions
+This SDK applies only to chat hubs. Chat must be enabled on the target hub before the SDK can manage roles, users, rooms, members, conversations, or messages.
 
-A user role controls hub-level actions such as creating rooms. A room role controls actions within a room, such as publishing messages, reading message history, or inviting users.
+### Role and permission
 
-### Rooms, members, and conversations
+A role is a named collection of Chat permissions. User role names start with `user.`, and room role names start with `room.`. Do not combine user and room permissions in one role.
 
-A room contains members and has a default conversation. Add a user to a room by assigning the user a room role. Messages are published by connected chat clients and can be listed, updated, or deleted through the service client.
+User roles control operations such as creating rooms. Room roles control what a member can do in a particular room, such as publishing messages or reading message history.
 
-### Topics
+### User
 
-A topic organizes a discussion within a room and has its own `conversationId`. Creating a room also creates its default topic. Topic identifiers are unique within a room and contain 1 to 64 letters, digits, underscores, or hyphens. Topic titles contain 1 to 256 characters.
+A user represents an identity participating in chat, such as a human end user or an application. Client access credentials associate WebSocket connections with a user ID.
 
-`KnownChatTopicState` contains the known lifecycle states: `Normal`, `Archived`, and `SoftDeleted`. Topic creation requires a title; omit `state` when creating a topic. When replacing an existing topic with `createOrReplaceTopic`, you can also supply `state`. The service supplies identifiers, creation metadata, and the entity tag. PATCH updates can change the title or state without resending other properties. Deletion is a soft delete; retrieving a deleted topic returns HTTP 404.
+### Room
 
-### Pagination
+A room groups users together and is the primary organizational unit for chat interactions. Every room has an automatically created default conversation.
 
-List methods return async iterators. Use `for await` to iterate through items, or `byPage()` to process pages. `maxPageSize` requests the maximum number of items per page; it does not limit the total items returned by the iterator. Save a page's opaque `continuationToken` and pass it to `byPage({ continuationToken })` to resume.
+### Room member
 
-### Write inputs and response models
+A room member represents a user added to a room. Membership controls which users can receive and send messages in the room. In the service API, each room member is assigned a room role.
 
-Write operations accept input types that are separate from response models. You do not need to supply service-generated identifiers, timestamps, conversation identifiers, or entity tags in request bodies.
+### Conversation and message history
 
-| Operation                       | Input type            | Writable body properties       |
-| ------------------------------- | --------------------- | ------------------------------ |
-| Create or replace a role        | `ChatRoleCreateOrReplace`       | `permissions`                  |
-| Create or replace a room        | `ChatRoomCreateOrReplace`       | `title`                        |
-| Create or replace a room member | `ChatRoomMemberCreateOrReplace` | `roleName`                     |
-| Create or replace a human user  | `HumanChatUserCreateOrReplace`  | `kind`, `nickname`, `roleName` |
-| Update a message                | `ChatMessageUpdate`    | `createdBy`, `content`         |
-| Create or replace a topic       | `ChatTopicCreateOrReplace`      | Required `title`, optional `state` |
-| Update a topic                  | `ChatTopicUpdate`     | Optional `title` and `state`   |
+A conversation is an ordered message stream within a room. Every room has a default conversation, and additional named conversations can be created through topics.
 
-Response models contain the full resource, including read-only properties. Serializers omit those read-only properties when a response object is reused as a write input. Topic PUT inputs optionally accept `state`; PATCH inputs make all updateable properties optional. For conditional requests, pass an entity tag in the operation's `ifMatch` option rather than in its body.
+Messages sent to a conversation are delivered in real time to the room's connected members. The chat service manages ordering and persistence, allowing members to load message history after reconnecting or joining later. The service client can list, update, and delete persisted messages.
 
-### Service API versions
+### Topic
 
-The client defaults to `2026-08-01-preview`. To explicitly select a version, pass `apiVersion` in the constructor options. The new room and user list operations and topic operations require `2026-08-01-preview`.
-
-### Entity tags
-
-Chat resources include an `etag` value. Pass that value through an operation's `ifMatch` option to perform a conditional update or delete and prevent overwriting a newer resource version.
+A topic represents a named conversation within a room. Topics can be created, renamed, archived, and soft deleted independently of the room's default conversation.
 
 ## Examples
 

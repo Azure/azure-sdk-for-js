@@ -64,7 +64,7 @@ node createOrReplaceRoleSample.js
 Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env WEB_PUB_SUB_CHAT_SERVICE_ENDPOINT="<web pub sub chat service endpoint>" WEB_PUB_SUB_CHAT_HUB="<web pub sub chat hub>" node createOrReplaceRoleSample.js
+npx cross-env WPS_CHAT_ENDPOINT="<wps chat endpoint>" WPS_CHAT_HUB="<wps chat hub>" node createOrReplaceRoleSample.js
 ```
 
 ## Next Steps

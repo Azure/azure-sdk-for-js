@@ -10,14 +10,12 @@ require("dotenv/config");
  * @summary Get a room topic.
  */
 async function main() {
-  const endpoint = process.env.WEB_PUB_SUB_CHAT_SERVICE_ENDPOINT;
-  const hub = process.env.WEB_PUB_SUB_CHAT_HUB;
-  const roomId = process.env.WEB_PUB_SUB_CHAT_ROOM_ID;
-  const topicId = process.env.WEB_PUB_SUB_CHAT_TOPIC_ID;
-  if (!endpoint || !hub || !roomId || !topicId) {
-    throw new Error(
-      "Set WEB_PUB_SUB_CHAT_SERVICE_ENDPOINT, WEB_PUB_SUB_CHAT_HUB, WEB_PUB_SUB_CHAT_ROOM_ID, and WEB_PUB_SUB_CHAT_TOPIC_ID.",
-    );
+  const endpoint = process.env.WPS_CHAT_ENDPOINT;
+  const hub = process.env.WPS_CHAT_HUB;
+  const roomId = "general";
+  const topicId = "announcements";
+  if (!endpoint || !hub) {
+    throw new Error("Set WPS_CHAT_ENDPOINT and WPS_CHAT_HUB.");
   }
   const client = new WebPubSubChatServiceClient(endpoint, new DefaultAzureCredential(), hub);
   const topic = await client.getTopic(roomId, topicId);

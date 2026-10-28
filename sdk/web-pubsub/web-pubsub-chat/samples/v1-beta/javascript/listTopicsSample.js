@@ -10,13 +10,11 @@ require("dotenv/config");
  * @summary List room topics.
  */
 async function main() {
-  const endpoint = process.env.WEB_PUB_SUB_CHAT_SERVICE_ENDPOINT;
-  const hub = process.env.WEB_PUB_SUB_CHAT_HUB;
-  const roomId = process.env.WEB_PUB_SUB_CHAT_ROOM_ID;
-  if (!endpoint || !hub || !roomId) {
-    throw new Error(
-      "Set WEB_PUB_SUB_CHAT_SERVICE_ENDPOINT, WEB_PUB_SUB_CHAT_HUB, and WEB_PUB_SUB_CHAT_ROOM_ID.",
-    );
+  const endpoint = process.env.WPS_CHAT_ENDPOINT;
+  const hub = process.env.WPS_CHAT_HUB;
+  const roomId = "general";
+  if (!endpoint || !hub) {
+    throw new Error("Set WPS_CHAT_ENDPOINT and WPS_CHAT_HUB.");
   }
   const client = new WebPubSubChatServiceClient(endpoint, new DefaultAzureCredential(), hub);
   for await (const topic of client.listTopics(roomId, { maxPageSize: 10 })) {

@@ -56,7 +56,7 @@ function createClient(
   );
 }
 
-describe("new operation requests", () => {
+describe("operation requests", () => {
   it("accepts write inputs without any read-only response properties", async () => {
     expectTypeOf<keyof ChatRoleCreateOrReplace>().toEqualTypeOf<"permissions">();
     expectTypeOf<keyof ChatRoomCreateOrReplace>().toEqualTypeOf<"title">();
@@ -304,7 +304,7 @@ describe("new operation requests", () => {
     );
   });
 
-  it("uses the new version by default for old and new operations and supports override", async () => {
+  it("uses the default API version for room and topic operations and supports override", async () => {
     for (const apiVersion of [undefined, "2026-02-01-preview"]) {
       const urls: URL[] = [];
       const client = createClient((request) => {
@@ -349,7 +349,7 @@ describe("new operation requests", () => {
     assert.equal(requests[2].headers.get("if-match"), created.etag);
   });
 
-  it("paginates all new lists and preserves the API version on continuation links", async () => {
+  it("paginates room, user, user room, and topic lists and preserves the API version on continuation links", async () => {
     const paths = [
       "/api/hubs/hub/chat/rooms",
       "/api/hubs/hub/chat/users",
@@ -397,7 +397,7 @@ describe("new operation requests", () => {
     }
   });
 
-  it("returns empty pages for all new lists", async () => {
+  it("returns empty pages for room, user, user room, and topic lists", async () => {
     const client = createClient(() => ({ body: { value: [] } }));
     for (const iterator of [
       client.listRooms(),
@@ -429,7 +429,7 @@ describe("new operation requests", () => {
     assert.equal(requestUrl?.searchParams.get("api-version"), "2026-08-01-preview");
   });
 
-  it("surfaces service errors for every new operation", async () => {
+  it("surfaces service errors for topic and list operations", async () => {
     const client = createClient(() => ({
       status: 404,
       body: { error: { code: "NotFound", message: "Missing" } },
@@ -448,7 +448,7 @@ describe("new operation requests", () => {
     }
   });
 
-  it("forwards cancellation for every new operation", async () => {
+  it("forwards cancellation for topic and list operations", async () => {
     const controller = new AbortController();
     const options = { abortSignal: controller.signal };
     let calls = 0;

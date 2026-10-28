@@ -10,10 +10,10 @@ require("dotenv/config");
  * @summary List users in a hub.
  */
 async function main() {
-  const endpoint = process.env.WEB_PUB_SUB_CHAT_SERVICE_ENDPOINT;
-  const hub = process.env.WEB_PUB_SUB_CHAT_HUB;
+  const endpoint = process.env.WPS_CHAT_ENDPOINT;
+  const hub = process.env.WPS_CHAT_HUB;
   if (!endpoint || !hub) {
-    throw new Error("Set WEB_PUB_SUB_CHAT_SERVICE_ENDPOINT and WEB_PUB_SUB_CHAT_HUB.");
+    throw new Error("Set WPS_CHAT_ENDPOINT and WPS_CHAT_HUB.");
   }
   const client = new WebPubSubChatServiceClient(endpoint, new DefaultAzureCredential(), hub);
   for await (const user of client.listUsers({ maxPageSize: 10 })) {

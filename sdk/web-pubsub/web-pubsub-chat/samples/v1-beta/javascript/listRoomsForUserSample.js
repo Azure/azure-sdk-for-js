@@ -10,13 +10,11 @@ require("dotenv/config");
  * @summary List a user's rooms with pagination.
  */
 async function main() {
-  const endpoint = process.env.WEB_PUB_SUB_CHAT_SERVICE_ENDPOINT;
-  const hub = process.env.WEB_PUB_SUB_CHAT_HUB;
-  const userId = process.env.WEB_PUB_SUB_CHAT_USER_ID;
-  if (!endpoint || !hub || !userId) {
-    throw new Error(
-      "Set WEB_PUB_SUB_CHAT_SERVICE_ENDPOINT, WEB_PUB_SUB_CHAT_HUB, and WEB_PUB_SUB_CHAT_USER_ID.",
-    );
+  const endpoint = process.env.WPS_CHAT_ENDPOINT;
+  const hub = process.env.WPS_CHAT_HUB;
+  const userId = "alice";
+  if (!endpoint || !hub) {
+    throw new Error("Set WPS_CHAT_ENDPOINT and WPS_CHAT_HUB.");
   }
   const client = new WebPubSubChatServiceClient(endpoint, new DefaultAzureCredential(), hub);
   for await (const page of client.listRoomsForUser(userId, { maxPageSize: 10 }).byPage()) {
