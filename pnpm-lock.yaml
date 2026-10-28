@@ -467,6 +467,19 @@ importers:
         specifier: ^5.0.0
         version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  eng/tools/agentic-workflows:
+    dependencies:
+      semver:
+        specifier: ^7.7.3
+        version: 7.8.5
+      yaml:
+        specifier: ^2.8.1
+        version: 2.9.1
+    devDependencies:
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+
   eng/tools/analyze-deps:
     dependencies:
       '@azure-tools/eng-package-utils':
@@ -39671,7 +39684,7 @@ packages:
     engines: {node: '>= 0.10.0'}
 
   content-disposition@2.0.1:
-    resolution: {integrity: sha1-iKdcelLvnEB8lgNf6Dpmk5wqTck=}
+    resolution: {integrity: sha512-e+H0ZXHSWYrENhQzw1LPuP4oF5MzVKmDU6d3hxlvaPEYLLg62MxtQNPRx4SYSuYJSBUgnQIG4HIN2tEtNv7Dog==}
     engines: {node: '>=18'}
 
   content-type@1.0.5:
@@ -40376,7 +40389,7 @@ packages:
     resolution: {integrity: sha1-W7DNGwo+RxMw9NEJA5t+ulyz54c=}
 
   flow-estree@0.327.0:
-    resolution: {integrity: sha1-WcG4fMbF3XrRlawFnp+O+mwowt8=}
+    resolution: {integrity: sha512-f9vK751YUzD0qaHSpKc5/qQM6gqOlgGS+4ZRqTNcZOpVqn3mC55yEQ6dUG2K1eaVm5FbKkz9CFWe6XNvrkQFQg==}
     engines: {node: '>=18'}
 
   flow-estree@0.331.0:
@@ -40384,7 +40397,7 @@ packages:
     engines: {node: '>=18'}
 
   flow-parser@0.327.0:
-    resolution: {integrity: sha1-Bat+erYwSpkqFRzIn6+REdidhZY=}
+    resolution: {integrity: sha512-/MYZ5hXWf5ozpbdfUDmazMgQXviLxWEiRLH3MppEGDdW0itRVqmB5UaU7QX+SBCDNiq+gEesSVn8nlxmPDyDkw==}
     engines: {node: '>=0.4.0'}
 
   flow-parser@0.331.0:

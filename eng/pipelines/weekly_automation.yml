@@ -2,6 +2,32 @@ trigger: none
 pr: none
 
 jobs:
+- job: 'CheckAgenticWorkflows'
+  displayName: 'Check Agentic Workflows Upgrade'
+  variables:
+  - template: /eng/pipelines/templates/variables/globals.yml
+
+  pool:
+    name: azsdk-pool
+    demands: ImageOverride -equals ubuntu-24.04
+
+  steps:
+  - template: /eng/pipelines/templates/steps/common.yml
+  - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+  - template: /eng/pipelines/templates/steps/install-pnpm.yml
+  - template: /eng/common/pipelines/templates/steps/login-to-github.yml
+
+  - script: pnpm install --filter @azure-tools/agentic-workflows-upgrade-check --frozen-lockfile
+    displayName: 'Install Upgrade Checker Dependencies'
+
+  - script: pnpm --filter @azure-tools/agentic-workflows-upgrade-check test
+    displayName: 'Test Upgrade Checker'
+
+  - script: node eng/tools/agentic-workflows/check-upgrade.mjs
+    displayName: 'Check gh-aw Release and File Upgrade Issue'
+    env:
+      GH_TOKEN: $(GH_TOKEN)
+
 - job: 'PnpmUpdate'
   displayName: 'Pnpm Update'
   timeoutInMinutes: 180
