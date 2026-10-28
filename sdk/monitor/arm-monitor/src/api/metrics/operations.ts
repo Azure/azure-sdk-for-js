@@ -67,7 +67,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<R
   return responseDeserializer(result.body);
 }
 
-/** **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling). */
+/** **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling). */
 export async function list(
   context: Client,
   resourceUri: string,
@@ -131,7 +131,7 @@ export async function _listAtSubscriptionScopePostDeserialize(
   return responseDeserializer(result.body);
 }
 
-/** **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling). */
+/** **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling). */
 export async function listAtSubscriptionScopePost(
   context: Client,
   region: string,
@@ -191,7 +191,7 @@ export async function _listAtSubscriptionScopeDeserialize(
   return responseDeserializer(result.body);
 }
 
-/** **Lists the metric data for a subscription**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling). */
+/** **Lists the metric data for a subscription**. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling). */
 export async function listAtSubscriptionScope(
   context: Client,
   region: string,
