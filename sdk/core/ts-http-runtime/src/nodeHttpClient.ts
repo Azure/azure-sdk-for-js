@@ -177,25 +177,7 @@ class NodeHttpClient implements HttpClient {
           logger.error("Error in upload progress", e);
         });
         if (isReadableStream(body)) {
-          const source = body;
-          let cleanupFinished = (): void => {};
-          function onUploadClose(): void {
-            cleanupSource();
-            source.unpipe(uploadReportStream);
-            disposeNodeStream(source);
-          }
-          function cleanupSource(): void {
-            cleanupFinished();
-            uploadReportStream.removeListener("close", onUploadClose);
-          }
-          cleanupFinished = finished(source, { writable: false }, (error) => {
-            cleanupSource();
-            if (error) {
-              uploadReportStream.destroy(toRequestSendError(error, request));
-            }
-          });
-          uploadReportStream.once("close", onUploadClose);
-          source.pipe(uploadReportStream);
+          pipeUploadStream(body, uploadReportStream, request);
         } else {
           uploadReportStream.end(body);
         }
@@ -362,27 +344,7 @@ class NodeHttpClient implements HttpClient {
         reject(abortError);
       });
       if (body && isReadableStream(body)) {
-        const upload = body;
-        let cleanupFinished = (): void => {};
-        function onRequestClose(): void {
-          cleanupBody();
-          upload.unpipe(req);
-          disposeNodeStream(upload);
-        }
-        function cleanupBody(): void {
-          cleanupFinished();
-          req.removeListener("close", onRequestClose);
-        }
-        cleanupFinished = finished(upload, { writable: false }, (error) => {
-          cleanupBody();
-          if (error) {
-            const requestError = toRequestSendError(error, request);
-            req.destroy(requestError);
-            reject(requestError);
-          }
-        });
-        req.once("close", onRequestClose);
-        upload.pipe(req);
+        pipeUploadStream(body, req, request, reject);
       } else if (body) {
         if (typeof body === "string" || Buffer.isBuffer(body)) {
           req.end(body);
@@ -472,6 +434,36 @@ function getDecodedResponseStream(
   }
 
   return stream;
+}
+
+function pipeUploadStream(
+  source: NodeJS.ReadableStream,
+  destination: NodeJS.WritableStream & { destroy(error?: Error): void },
+  request: PipelineRequest,
+  onError?: (error: RestError) => void,
+): void {
+  const cleanupFinished = finished(source, { writable: false }, onSourceComplete);
+
+  function cleanup(): void {
+    cleanupFinished();
+    destination.removeListener("close", onDestinationClose);
+  }
+  function onSourceComplete(error?: Error | null): void {
+    cleanup();
+    if (error) {
+      const requestError = toRequestSendError(error, request);
+      destination.destroy(requestError);
+      onError?.(requestError);
+    }
+  }
+  function onDestinationClose(): void {
+    cleanup();
+    source.unpipe(destination);
+    disposeNodeStream(source);
+  }
+
+  destination.once("close", onDestinationClose);
+  source.pipe(destination);
 }
 
 function pipeResponseStream(

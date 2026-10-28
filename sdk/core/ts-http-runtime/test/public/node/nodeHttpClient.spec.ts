@@ -594,33 +594,62 @@ describe("NodeHttpClient", function () {
     },
   );
 
-  it("should preserve request body stream error codes", async function () {
-    const client = createDefaultHttpClient();
-    const writable = new Writable({
-      write(_chunk, _encoding, callback) {
-        callback();
-      },
-    }) as unknown as ClientRequest;
-    vi.mocked(https.request).mockReturnValueOnce(writable);
-    const body = new Readable({
-      read() {
-        this.destroy(Object.assign(new Error("upload failed"), { code: "EIO" }));
-      },
-    });
-    const request = createPipelineRequest({
-      url: "https://example.com",
-      body,
-    });
+  it.each([false, true])(
+    "should preserve request body stream error codes (progress=%s)",
+    async function (progress) {
+      const client = createDefaultHttpClient();
+      const writable = new Writable({
+        write(_chunk, _encoding, callback) {
+          callback();
+        },
+      }) as unknown as ClientRequest;
+      vi.mocked(https.request).mockReturnValueOnce(writable);
+      const body = new Readable({
+        read() {
+          this.destroy(Object.assign(new Error("upload failed"), { code: "EIO" }));
+        },
+      });
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        body,
+        onUploadProgress: progress ? () => {} : undefined,
+      });
 
-    try {
-      await client.sendRequest(request);
-      assert.fail("Expected await to throw");
-    } catch (error: any) {
-      assert.strictEqual(error.name, "RestError");
-      assert.strictEqual(error.code, "EIO");
-      assert.strictEqual(error.message, "upload failed");
-    }
-  });
+      await expect(client.sendRequest(request)).rejects.toMatchObject({
+        name: "RestError",
+        code: "EIO",
+        message: "upload failed",
+      });
+    },
+  );
+
+  it.each([false, true])(
+    "removes upload completion listeners after the source ends (progress=%s)",
+    async function (progress) {
+      vi.useRealTimers();
+      const body = new PassThrough();
+      const writable = new Writable({
+        write(_chunk, _encoding, callback) {
+          callback();
+        },
+      });
+      vi.mocked(https.request).mockReturnValueOnce(writable as unknown as ClientRequest);
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        body,
+        onUploadProgress: progress ? () => {} : undefined,
+      });
+      const promise = createDefaultHttpClient().sendRequest(request);
+      body.end("complete upload");
+      yieldHttpsResponse(createResponse(200));
+      await promise;
+      await delay(0);
+
+      expect(body.listenerCount("end")).toBe(0);
+      expect(body.listenerCount("error")).toBe(0);
+      expect(body.listenerCount("close")).toBe(0);
+    },
+  );
 
   it("tracks an outgoing request after response headers arrive", async function () {
     const client = createDefaultHttpClient();
