@@ -10,6 +10,7 @@ import {
   fn,
   type ExpressionOrValue,
 } from "../src/index.js";
+import { KeyVault } from "@azure/provisioning-keyvault";
 import { describe, expect, expectTypeOf, it } from "vitest";
 
 type RuleInput =
@@ -27,13 +28,21 @@ describe("documentation snippets", () => {
   it("ReadmeCreateStack", () => {
     const stack = new Stack("application");
 
-    new ResourceGroup(stack, {
+    const resourceGroup = new ResourceGroup(stack, {
       name: fn.concat("rg-", fn.uniqueString("application")),
       location: "eastus",
     });
+
+    const vault = new KeyVault(group, {
+      properties: {
+        tenantId: "00000000-0000-0000-0000-000000000000",
+        sku: { family: "A", name: "standard" },
+      },
+    });
+    stack.outputs.add("vaultId", "string", vault.id);
   });
 
-  it("ReadmeCreateKeyVault", () => {
+  it("ReadmeGeneralResource", () => {
     const stack = new Stack("keyvault-deployment");
     const resourceGroup = new ResourceGroup(stack, {
       name: "rg-keyvault",
@@ -61,7 +70,8 @@ describe("documentation snippets", () => {
       | { kind: "cache"; cacheKind: "long" | "short"; days: number }
       | { kind: "redirect"; url: string };
 
-    const ruleKind = new ParameterCollection().add("ruleKind", "string", {
+    const stack = new Stack("discriminator-example");
+    const ruleKind = stack.parameters.add("ruleKind", "string", {
       allowed: ["cache"],
     });
     const widget: { properties: { primaryRule?: Rule } } = {

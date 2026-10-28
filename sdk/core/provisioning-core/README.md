@@ -8,17 +8,25 @@ Create a deployment stack, then attach resources to the stack or to another prov
 
 ```ts snippet:ReadmeCreateStack
 import { Stack, ResourceGroup, fn } from "@azure/provisioning-core";
+import { KeyVault } from "@azure/provisioning-keyvault";
 
 const stack = new Stack("application");
-new ResourceGroup(stack, {
+const resourceGroup = new ResourceGroup(stack, {
   name: fn.concat("rg-", fn.uniqueString("application")),
   location: "eastus",
 });
+const vault = new KeyVault(group, {
+  properties: {
+    tenantId: "00000000-0000-0000-0000-000000000000",
+    sku: { family: "A", name: "standard" },
+  },
+});
+stack.outputs.add("vaultId", "string", vault.id);
 ```
 
-Use the core `Resource` API to attach a Key Vault resource directly to a resource group:
+Prefer the typed resource class, such as  KeyVault , whenever available for resource-specific type checking. Use the core  Resource  API as a fallback when a resource type has no supported typed class. The following Key Vault example illustrates the generic API; normally, use the typed  KeyVault  class instead:
 
-```ts snippet:ReadmeCreateKeyVault
+```ts snippet:ReadmeGeneralResource
 import { Stack, ResourceGroup, Resource, fn } from "@azure/provisioning-core";
 
 const stack = new Stack("keyvault-deployment");
@@ -47,7 +55,7 @@ Provisioning definitions are authored before deployment. Read-only resource prop
 Discriminator properties use literal types so TypeScript can select the correct union member. When a discriminator comes from a deployment-time expression, use `asDiscriminator` to select the intended variant while retaining type checking for its other properties:
 
 ```ts snippet:AsDiscriminator
-import { ParameterCollection, asDiscriminator } from "@azure/provisioning-core";
+import { Stack, asDiscriminator } from "@azure/provisioning-core";
 
 type Rule =
   | {
@@ -59,7 +67,8 @@ type Rule =
       kind: "redirect";
       url: string;
     };
-const ruleKind = new ParameterCollection().add("ruleKind", "string", {
+const stack = new Stack("discriminator-example");
+const ruleKind = stack.parameters.add("ruleKind", "string", {
   allowed: ["cache"],
 });
 const widget: {
