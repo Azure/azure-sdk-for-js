@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists CVE analysis results of a firmware.
  *
  * @summary lists CVE analysis results of a firmware.
- * x-ms-original-file: 2025-08-02/Cves_ListByFirmware_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Cves_ListByFirmware_MaximumSet_Gen.json
  */
 async function cvesListByFirmwareMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function cvesListByFirmwareMaximumSetGenGeneratedByMaximumSetRule(): Promi
  * This sample demonstrates how to lists CVE analysis results of a firmware.
  *
  * @summary lists CVE analysis results of a firmware.
- * x-ms-original-file: 2025-08-02/Cves_ListByFirmware_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Cves_ListByFirmware_MinimumSet_Gen.json
  */
 async function cvesListByFirmwareMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

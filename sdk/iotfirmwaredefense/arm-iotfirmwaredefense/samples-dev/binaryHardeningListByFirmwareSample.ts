@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists binary hardening analysis results of a firmware.
  *
  * @summary lists binary hardening analysis results of a firmware.
- * x-ms-original-file: 2025-08-02/BinaryHardening_ListByFirmware_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/BinaryHardening_ListByFirmware_MaximumSet_Gen.json
  */
 async function binaryHardeningListByFirmwareMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function binaryHardeningListByFirmwareMaximumSetGenGeneratedByMaximumSetRu
  * This sample demonstrates how to lists binary hardening analysis results of a firmware.
  *
  * @summary lists binary hardening analysis results of a firmware.
- * x-ms-original-file: 2025-08-02/BinaryHardening_ListByFirmware_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/BinaryHardening_ListByFirmware_MinimumSet_Gen.json
  */
 async function binaryHardeningListByFirmwareMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

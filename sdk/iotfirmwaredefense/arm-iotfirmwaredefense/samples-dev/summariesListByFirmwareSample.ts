@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists analysis result summary names of a firmware. To fetch the full summary data, get that summary by name.
  *
  * @summary lists analysis result summary names of a firmware. To fetch the full summary data, get that summary by name.
- * x-ms-original-file: 2025-08-02/Summaries_ListByFirmware_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Summaries_ListByFirmware_MaximumSet_Gen.json
  */
 async function summariesListByFirmwareMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function summariesListByFirmwareMaximumSetGenGeneratedByMaximumSetRule(): 
  * This sample demonstrates how to lists analysis result summary names of a firmware. To fetch the full summary data, get that summary by name.
  *
  * @summary lists analysis result summary names of a firmware. To fetch the full summary data, get that summary by name.
- * x-ms-original-file: 2025-08-02/Summaries_ListByFirmware_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Summaries_ListByFirmware_MinimumSet_Gen.json
  */
 async function summariesListByFirmwareMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists monthly usage information for a workspace.
  *
  * @summary lists monthly usage information for a workspace.
- * x-ms-original-file: 2025-08-02/UsageMetrics_ListByWorkspace_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/UsageMetrics_ListByWorkspace_MaximumSet_Gen.json
  */
 async function usageMetricsListByWorkspaceGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
