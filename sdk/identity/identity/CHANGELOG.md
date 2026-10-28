@@ -1,5 +1,11 @@
 # Release History
 
+## 4.15.0-beta.2 (Unreleased)
+
+### Bugs Fixed
+
+- Restored the fix from 4.13.3 that forwards constructor options from `DefaultAzureCredential` to `ManagedIdentityCredential` when selected through `AZURE_TOKEN_CREDENTIALS`, including `managedIdentityClientId` and `managedIdentityResourceId`. [#39927](https://github.com/Azure/azure-sdk-for-js/pull/39927)
+
 ## 4.15.0-beta.1 (2026-10-14)
 
 ### Features Added
@@ -20,6 +26,22 @@ This release includes all changes introduced in versions 4.14.0-beta.1 through 4
 
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
 - Updated `@azure/msal-node` to `^6.0.0`. [#39965](https://github.com/Azure/azure-sdk-for-js/pull/39965)
+
+## 4.13.3 (2026-09-10)
+
+### Features Added
+
+- Bumped the minimum `@azure/msal-node` dependency to `^6.0.0` to provide Azure Arc user-assigned managed identity support. [#39927](https://github.com/Azure/azure-sdk-for-js/pull/39927)
+
+### Bugs Fixed
+
+- Fixed `AzurePipelinesCredential` to include only relevant details in error messages and logs when the OIDC token request fails. [#39774](https://github.com/Azure/azure-sdk-for-js/pull/39774)
+- Fixed `InteractiveBrowserCredential` failing to authenticate when the user's default browser is already running and only permits a single instance. The browser is no longer launched with `newInstance`, which on macOS passed `open --new`. [#39814](https://github.com/Azure/azure-sdk-for-js/pull/39814)
+- Fixed an issue where `DefaultAzureCredential` does not pass constructor options to `ManagedIdentityCredential` when selected through `AZURE_TOKEN_CREDENTIALS`. [#39927](https://github.com/Azure/azure-sdk-for-js/pull/39927)
+
+### Other Changes
+
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
 
 ## 4.14.0-beta.5 (2026-08-12)
 
