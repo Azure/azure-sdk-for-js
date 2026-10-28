@@ -1,5 +1,11 @@
 # Release History
 
+## 1.4.3 (Unreleased)
+
+### Other Changes
+
+- Updated `@azure/msal-node` to `^7.1.0`.
+
 ## 1.4.2 (2026-09-15)
 
 ### Other Changes
