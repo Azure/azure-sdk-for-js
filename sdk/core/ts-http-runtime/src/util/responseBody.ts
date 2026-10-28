@@ -73,7 +73,9 @@ function disposeNodeResponseBody(
   readableStream: NodeResponseBody,
   disposed: Set<NodeResponseBody>,
 ): void {
-  if (disposed.has(readableStream)) return;
+  if (disposed.has(readableStream)) {
+    return;
+  }
   disposed.add(readableStream);
 
   const source = responseBodySources.get(readableStream);

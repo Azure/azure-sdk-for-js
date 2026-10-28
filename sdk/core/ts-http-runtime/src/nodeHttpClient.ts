@@ -97,7 +97,9 @@ interface NodeRequestResult {
 }
 
 function toRequestSendError(error: Error & { code?: string }, request: PipelineRequest): RestError {
-  if (isRestError(error)) return error;
+  if (isRestError(error)) {
+    return error;
+  }
   const prematureClose = error.code === "ERR_STREAM_PREMATURE_CLOSE";
   return new RestError(
     prematureClose ? "Request body stream closed before ending" : error.message,
@@ -332,7 +334,9 @@ class NodeHttpClient implements HttpClient {
           requestComplete,
           isRequestComplete: () => requestDone,
           disposeRequest: () => {
-            if (!requestDone) req.destroy();
+            if (!requestDone) {
+              req.destroy();
+            }
           },
         });
       }

@@ -28,7 +28,9 @@ export function cleanupOnRequestResponseCompletion(
   let browserResponseDone = browserResponseCompletion === undefined;
   let cleanedUp = false;
   const cleanupIfComplete = (): void => {
-    if (cleanedUp || !requestDone || !nodeResponseDone || !browserResponseDone) return;
+    if (cleanedUp || !requestDone || !nodeResponseDone || !browserResponseDone) {
+      return;
+    }
     cleanedUp = true;
     cleanup();
   };

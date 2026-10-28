@@ -136,8 +136,9 @@ describe("disposeResponseBody in Node", () => {
         server.closeAllConnections();
         await new Promise<void>((resolve, reject) => {
           server.close((error) => {
-            if (error) reject(error);
-            else resolve();
+            if (error) {
+              reject(error);
+            } else resolve();
           });
         });
       }
@@ -154,7 +155,9 @@ describe("disposeResponseBody in Node", () => {
   ])(
     "propagates cancellation through a real response stream (encoding=$encoding, stream=$stream, timeout=$timeout)",
     async ({ encoding, stream, timeout }) => {
-      if (timeout) vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+      if (timeout) {
+        vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+      }
       const text = Buffer.from("partial response");
       const chunk =
         encoding === "gzip"
@@ -204,8 +207,9 @@ describe("disposeResponseBody in Node", () => {
         const rejection = expect(result).rejects.toMatchObject({ name: "AbortError" });
         await progress;
 
-        if (timeout) vi.advanceTimersByTime(1000);
-        else controller.abort();
+        if (timeout) {
+          vi.advanceTimersByTime(1000);
+        } else controller.abort();
 
         await rejection;
         await new Promise<void>((resolve) => setImmediate(resolve));
@@ -215,11 +219,14 @@ describe("disposeResponseBody in Node", () => {
         server.closeAllConnections();
         await new Promise<void>((resolve, reject) => {
           server.close((error) => {
-            if (error) reject(error);
-            else resolve();
+            if (error) {
+              reject(error);
+            } else resolve();
           });
         });
-        if (timeout) vi.useRealTimers();
+        if (timeout) {
+          vi.useRealTimers();
+        }
       }
     },
   );
@@ -268,8 +275,9 @@ describe("disposeResponseBody in Node", () => {
         server.closeAllConnections();
         await new Promise<void>((resolve, reject) => {
           server.close((error) => {
-            if (error) reject(error);
-            else resolve();
+            if (error) {
+              reject(error);
+            } else resolve();
           });
         });
       }

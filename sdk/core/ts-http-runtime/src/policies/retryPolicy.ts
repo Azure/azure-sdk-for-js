@@ -121,7 +121,9 @@ export function retryPolicy(
             strategyLogger.info(
               `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`,
             );
-            if (response) await disposeResponseBody(response);
+            if (response) {
+              await disposeResponseBody(response);
+            }
             await delay(retryAfterInMs, undefined, { abortSignal: request.abortSignal });
             continue retryRequest;
           }
@@ -130,7 +132,9 @@ export function retryPolicy(
             strategyLogger.info(
               `Retry ${retryCount}: Retry strategy ${strategy.name} redirects to ${redirectTo}`,
             );
-            if (response) await disposeResponseBody(response);
+            if (response) {
+              await disposeResponseBody(response);
+            }
             request.url = redirectTo;
             continue retryRequest;
           }

@@ -139,7 +139,9 @@ async function buildPipelineResponse(
       });
       let bodyComplete = false;
       const onBodyComplete = (): void => {
-        if (bodyComplete) return;
+        if (bodyComplete) {
+          return;
+        }
         bodyComplete = true;
         abortControllerCleanup?.();
         resolveBodyCompletion();
@@ -305,12 +307,16 @@ function buildBodyStream(
   const { onProgress, onEnd } = options;
   const reader = readableStream.getReader();
   const end = (): void => {
-    if (ended) return;
+    if (ended) {
+      return;
+    }
     ended = true;
     onEnd?.();
   };
   const close = (controller: ReadableStreamDefaultController<Uint8Array>): void => {
-    if (ended) return;
+    if (ended) {
+      return;
+    }
     end();
     controller.close();
     reader.releaseLock();
@@ -322,11 +328,15 @@ function buildBodyStream(
           () => {
             sourceClosed = true;
             // The final read result must be enqueued before forwarding closure.
-            if (!reading) close(controller);
+            if (!reading) {
+              close(controller);
+            }
             return undefined;
           },
           (error: unknown) => {
-            if (ended) return;
+            if (ended) {
+              return;
+            }
             end();
             controller.error(error);
             reader.releaseLock();
@@ -334,11 +344,15 @@ function buildBodyStream(
         );
       },
       async pull(controller) {
-        if (ended) return;
+        if (ended) {
+          return;
+        }
         reading = true;
         try {
           const { done, value } = await reader.read();
-          if (ended) return;
+          if (ended) {
+            return;
+          }
           if (done || !value) {
             close(controller);
             if (!done) {
@@ -351,14 +365,18 @@ function buildBodyStream(
           onProgress?.({ loadedBytes });
           controller.enqueue(value);
         } catch (error) {
-          if (ended) return;
+          if (ended) {
+            return;
+          }
           end();
           controller.error(error);
           await disposeResponseBody({ browserStreamBody: { cancel: () => reader.cancel(error) } });
           reader.releaseLock();
         } finally {
           reading = false;
-          if (sourceClosed) close(controller);
+          if (sourceClosed) {
+            close(controller);
+          }
         }
       },
       async cancel(reason?: unknown) {
