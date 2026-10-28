@@ -14,6 +14,22 @@ import {
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface FileGetHardLinksOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+  /** The snapshot parameter is an opaque DateTime value that specifies a share snapshot. */
+  shareSnapshot?: string;
+  /** The timeout parameter is expressed in seconds. */
+  timeoutInSeconds?: number;
+  /** If specified, the lease ID must match the lease ID of the file. */
+  leaseId?: string;
+  /** If true, the trailing dot will not be trimmed from the target file/directory path. */
+  allowTrailingDot?: boolean;
+  /** Valid values are 'backup'. */
+  fileRequestIntent?: ShareTokenIntent;
+}
+
+/** Optional parameters. */
 export interface FileCreateHardLinkOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;

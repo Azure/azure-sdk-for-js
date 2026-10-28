@@ -241,6 +241,7 @@ export interface DirectoryOperations {
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
+      fileName?: string;
       serverEncrypted?: boolean;
       fileMode?: string;
       owner?: string;
@@ -262,6 +263,7 @@ export interface DirectoryOperations {
         fileChangeOn?: Date;
         fileId?: string;
         fileParentId?: string;
+        fileName?: string;
         serverEncrypted?: boolean;
         fileMode?: string;
         owner?: string;

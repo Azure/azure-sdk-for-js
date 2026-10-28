@@ -585,6 +585,32 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleGetFileByFileId", async () => {
+    const account = "<account>";
+    const accountKey = "<accountkey>";
+    // @ts-preserve-whitespace
+    const credential = new StorageSharedKeyCredential(account, accountKey);
+    const serviceClient = new ShareServiceClient(
+      `https://${account}.file.core.windows.net`,
+      credential,
+    );
+    // @ts-preserve-whitespace
+    const shareName = "<share name>";
+    const fileId = "<file id>";
+    const fileClient = serviceClient.getShareClient(shareName).getShareFileClient(fileId);
+    // @ts-preserve-whitespace
+    const properties = await fileClient.getProperties();
+    // The file name is returned percent-encoded
+    const name = properties.fileName && decodeURIComponent(properties.fileName);
+    console.log(`File ${name} has ${properties.contentLength} bytes`);
+    // @ts-preserve-whitespace
+    // Each link has the name of the file and the file ID of the directory that contains it
+    const { links } = await fileClient.getFileLinks();
+    for (const link of links) {
+      console.log(`Link: ${link.name} in directory ${link.parentId}`);
+    }
+  });
+
   it("SetLogLevel", async () => {
     setLogLevel("info");
   });
