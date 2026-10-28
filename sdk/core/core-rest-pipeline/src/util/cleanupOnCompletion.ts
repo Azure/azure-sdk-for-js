@@ -17,7 +17,6 @@ export function cleanupOnRequestResponseCompletion(
           once(event: string, listener: () => void): unknown;
           removeListener(event: string, listener: () => void): unknown;
         };
-        browserStreamBody?: unknown;
       }
     | undefined,
   cleanup: () => void,
