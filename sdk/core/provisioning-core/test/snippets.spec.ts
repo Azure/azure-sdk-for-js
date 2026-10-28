@@ -24,26 +24,25 @@ type RuleInput =
     };
 
 describe("documentation snippets", () => {
-  
   it("ReadmeCreateStack", () => {
     const stack = new Stack("application");
 
     const resourceGroup = new ResourceGroup(stack, {
-          name: fn.concat("rg-", fn.uniqueString("application")),
-          location: "eastus",
+      name: fn.concat("rg-", fn.uniqueString("application")),
+      location: "eastus",
     });
 
     new Resource(resourceGroup, {
-        type: "Microsoft.Storage/storageAccounts",
-        apiVersion: "2026-04-01",
-        name: "stbasemodeltest",
-        location: "eastus",
-        kind: "StorageV2",
-        sku: { name: "Standard_LRS" },
-        properties: {
-          supportsHttpsTrafficOnly: true,
-        },
-      });
+      type: "Microsoft.Storage/storageAccounts",
+      apiVersion: "2026-04-01",
+      name: "stbasemodeltest",
+      location: "eastus",
+      kind: "StorageV2",
+      sku: { name: "Standard_LRS" },
+      properties: {
+        supportsHttpsTrafficOnly: true,
+      },
+    });
   });
 
   it("ReadmeGeneralResource", () => {

@@ -7,25 +7,24 @@
 Create a deployment stack, then attach resources to the stack or to another provisioning component:
 
 ```ts snippet:ReadmeCreateStack
-import { Stack, ResourceGroup, fn } from "@azure/provisioning-core";
+import { Stack, ResourceGroup, fn, Resource } from "@azure/provisioning-core";
 
 const stack = new Stack("application");
 const resourceGroup = new ResourceGroup(stack, {
   name: fn.concat("rg-", fn.uniqueString("application")),
   location: "eastus",
 });
-
- new Resource(resourceGroup, {
-    type: "Microsoft.Storage/storageAccounts",
-    apiVersion: "2026-04-01",
-    name: "stbasemodeltest",
-    location: "eastus",
-    kind: "StorageV2",
-    sku: { name: "Standard_LRS" },
-    properties: {
-      supportsHttpsTrafficOnly: true,
-    },
-  });
+new Resource(resourceGroup, {
+  type: "Microsoft.Storage/storageAccounts",
+  apiVersion: "2026-04-01",
+  name: "stbasemodeltest",
+  location: "eastus",
+  kind: "StorageV2",
+  sku: { name: "Standard_LRS" },
+  properties: {
+    supportsHttpsTrafficOnly: true,
+  },
+});
 ```
 
 Use the core `Resource` API to attach a Key Vault resource directly to a resource group:
@@ -72,7 +71,7 @@ type Rule =
       url: string;
     };
 const stack = new Stack("discriminator-example");
-const kindParam = stack.parameters.add("ruleKind", "string", {
+const ruleKind = stack.parameters.add("ruleKind", "string", {
   allowed: ["cache"],
 });
 const widget: {
