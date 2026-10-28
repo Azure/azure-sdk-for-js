@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves all the ExpressRouteCrossConnections in a resource group.
  *
  * @summary retrieves all the ExpressRouteCrossConnections in a resource group.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionListByResourceGroup.json
  */
 async function expressRouteCrossConnectionListByResourceGroup() {
   const credential = new DefaultAzureCredential();

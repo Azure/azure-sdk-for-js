@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an existing Secret within a profile.
  *
  * @summary gets an existing Secret within a profile.
- * x-ms-original-file: 2025-12-01/Secrets_Get.json
+ * x-ms-original-file: 2026-10-01/Secrets_Get.json
  */
 async function secretsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or updates a route table in a specified resource group.
  *
  * @summary create or updates a route table in a specified resource group.
- * x-ms-original-file: 2026-01-01/RouteTableCreate.json
+ * x-ms-original-file: 2026-03-01/RouteTableCreate.json
  */
 async function createRouteTable(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function createRouteTable(): Promise<void> {
  * This sample demonstrates how to create or updates a route table in a specified resource group.
  *
  * @summary create or updates a route table in a specified resource group.
- * x-ms-original-file: 2026-01-01/RouteTableCreateWithDisablePeeringRoute.json
+ * x-ms-original-file: 2026-03-01/RouteTableCreateWithDisablePeeringRoute.json
  */
 async function createRouteTableWithDisablePeeringRoute(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function createRouteTableWithDisablePeeringRoute(): Promise<void> {
  * This sample demonstrates how to create or updates a route table in a specified resource group.
  *
  * @summary create or updates a route table in a specified resource group.
- * x-ms-original-file: 2026-01-01/RouteTableCreateWithEcmpRoute.json
+ * x-ms-original-file: 2026-03-01/RouteTableCreateWithEcmpRoute.json
  */
 async function createRouteTableWithEcmpRoute(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function createRouteTableWithEcmpRoute(): Promise<void> {
  * This sample demonstrates how to create or updates a route table in a specified resource group.
  *
  * @summary create or updates a route table in a specified resource group.
- * x-ms-original-file: 2026-01-01/RouteTableCreateWithRoute.json
+ * x-ms-original-file: 2026-03-01/RouteTableCreateWithRoute.json
  */
 async function createRouteTableWithRoute(): Promise<void> {
   const credential = new DefaultAzureCredential();

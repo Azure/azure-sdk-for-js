@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns all signatures overrides objects for a specific policy as a list containing a single value.
  *
  * @summary returns all signatures overrides objects for a specific policy as a list containing a single value.
- * x-ms-original-file: 2026-01-01/FirewallPolicySignatureOverridesList.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicySignatureOverridesList.json
  */
 async function getSignatureOverrides() {
   const credential = new DefaultAzureCredential();

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import ts from "typescript";
-import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
+import { canonicalize, mergeDeclaration, retainCustomized } from "./ast-merge.mjs";
 import {
   declarations,
   edit,
@@ -27,6 +27,19 @@ export function classicFile(apiFile) {
 
 export function classicMemberName(operationName) {
   return operationName === "$delete" ? "delete" : operationName;
+}
+
+/**
+ * A classic member that cannot be rendered from its resolved operation. The
+ * planner reports it as a diagnostic so it never hides the unresolved changes
+ * collected before it; other errors are tool defects and still throw.
+ */
+export class ClassicRenderError extends Error {
+  constructor(file, declaration, message) {
+    super(`${file}::${declaration}: ${message}`);
+    this.name = "ClassicRenderError";
+    this.diagnostic = { file, declaration, message };
+  }
 }
 
 /**
@@ -141,11 +154,19 @@ export function classicMember(
   const apiFile = classicApiFile(file);
   const node = declarations(resolved).get(match.names.publicNode);
   if (!node || !ts.isFunctionDeclaration(node) || !node.type)
-    throw new Error(`${file}: missing resolved operation ${match.names.publicNode}`);
+    throw new ClassicRenderError(
+      file,
+      match.names.publicNode,
+      `missing resolved operation ${match.names.publicNode} in ${apiFile}; resolve the unresolved changes reported for that module first.`,
+    );
   const parameters = node.parameters.slice(1).map((parameter) => {
     const type = parameter.type?.getText(resolved);
     if (!type || !ts.isIdentifier(parameter.name))
-      throw new Error(`${file}: unsupported operation parameter`);
+      throw new ClassicRenderError(
+        file,
+        match.names.publicNode,
+        `unsupported parameter of resolved operation ${match.names.publicNode}.`,
+      );
     return `${parameter.name.text}${parameter.questionToken || parameter.initializer ? "?" : ""}: ${type}`;
   });
   const args = node.parameters.slice(1).map((parameter) => parameter.name.text);
@@ -153,7 +174,11 @@ export function classicMember(
     (member) => nameOf(member.name) === classicMemberName(match.incoming.name),
   );
   if (!incomingMember)
-    throw new Error(`${file}: missing interface member for ${match.incoming.name}`);
+    throw new ClassicRenderError(
+      file,
+      match.names.publicNode,
+      `missing emitted interface member for ${match.incoming.name}.`,
+    );
   const name = classicMemberName(match.names.publicNode);
   const comment = source.text
     .slice(incomingMember.getFullStart(), incomingMember.getStart(source))
@@ -201,6 +226,37 @@ function shapeOf(source, interfaceName) {
     properties.push({ name, nodes: [property] });
   }
   return { source, interfaceNode, factory, members, properties };
+}
+
+function layoutless(text) {
+  const scanner = ts.createScanner(
+    ts.ScriptTarget.Latest,
+    false,
+    ts.LanguageVariant.Standard,
+    text ?? "",
+  );
+  const tokens = [];
+  let kind;
+  while ((kind = scanner.scan()) !== ts.SyntaxKind.EndOfFileToken) {
+    if (kind === ts.SyntaxKind.WhitespaceTrivia || kind === ts.SyntaxKind.NewLineTrivia) continue;
+    tokens.push({ kind, text: scanner.getTokenText() });
+  }
+  const comments = new Set([
+    ts.SyntaxKind.SingleLineCommentTrivia,
+    ts.SyntaxKind.MultiLineCommentTrivia,
+  ]);
+  const closing = new Set([
+    ts.SyntaxKind.CloseParenToken,
+    ts.SyntaxKind.CloseBracketToken,
+    ts.SyntaxKind.CloseBraceToken,
+  ]);
+  return JSON.stringify(
+    tokens.filter((token, index) => {
+      if (token.kind !== ts.SyntaxKind.CommaToken) return true;
+      const next = tokens.slice(index + 1).find((item) => !comments.has(item.kind));
+      return !closing.has(next?.kind);
+    }),
+  );
 }
 
 function group(slots, name) {
@@ -433,7 +489,27 @@ export function mergeCustomizedClassic({
   mapImport = (item) => item,
 }) {
   const diagnostics = [];
-  const report = (declaration, message) => diagnostics.push({ file, declaration, message });
+  // Per-member rejections leave the customized member in place, so a recovery
+  // run can keep it and record the unapplied emitted change.
+  const report = (declaration, message, entry) => {
+    const diagnostic = { file, declaration, message };
+    // `null` means the member is absent on that side; `undefined`, that the call site has no text.
+    const versions = (nodes) =>
+      nodes
+        ? [...(nodes.member ?? []), ...(nodes.property ?? [])]
+            .map((node) => textOf(node, node.getSourceFile()))
+            .join("\n") || null
+        : undefined;
+    const retained = retainCustomized({
+      file,
+      declaration,
+      diagnostics: [diagnostic],
+      baseText: versions(entry?.before),
+      customText: versions(entry?.current),
+      incomingText: versions(entry?.after),
+    });
+    if (!retained) diagnostics.push(diagnostic);
+  };
   const apiFile = classicApiFile(file);
   const incomingSource = parse(incomingText, file);
   const incomingInterface = incomingSource.statements.find(ts.isInterfaceDeclaration);
@@ -511,6 +587,7 @@ export function mergeCustomizedClassic({
         report(
           name,
           "The emitter removed or relocated a classic operation whose customized member requires review.",
+          { before, current, after },
         );
         continue;
       }
@@ -522,11 +599,16 @@ export function mergeCustomizedClassic({
       report(
         name,
         "The emitter changed a classic operation that the customization removed or replaced.",
+        { before, current, after },
       );
       continue;
     }
     if (!emitted && owned) {
-      report(name, "An emitted classic member collides with a customized member.");
+      report(name, "An emitted classic member collides with a customized member.", {
+        before,
+        current,
+        after,
+      });
       continue;
     }
     if (uncustomized || !owned) {
@@ -542,9 +624,24 @@ export function mergeCustomizedClassic({
         rendered.name !== name &&
         (group(custom.members, rendered.name) || group(custom.properties, rendered.name))
       ) {
-        report(rendered.name, "An emitted classic member collides with a customized member.");
+        report(rendered.name, "An emitted classic member collides with a customized member.", {
+          before,
+          current,
+          after,
+        });
         continue;
       }
+      // Re-rendering a member whose meaning did not change only churns its layout,
+      // which formatting restores but the pre-format guards would read as a change.
+      const currentText = (kind) => slots[kind].find((slot) => slot.name === name)?.text;
+      if (
+        owned &&
+        rendered.name === name &&
+        ["member", "property"].every(
+          (kind) => layoutless(rendered[kind]) === layoutless(currentText(kind)),
+        )
+      )
+        continue;
       for (const kind of ["member", "property"]) {
         slots[kind] = slots[kind].filter((slot) => slot.name !== name || rendered.name === name);
         if (!rendered[kind]) continue;
@@ -608,11 +705,13 @@ export function mergeCustomizedClassic({
   };
   for (const item of importsOf(parse(text, file))) {
     const declared = available[item.module];
+    // Never retained: the customized module would import a missing declaration.
     if (declared && !declared.has(item.imported))
-      report(
-        item.local,
-        `Customized classic module imports '${item.imported}', which the resolved '${item.module}' module no longer declares.`,
-      );
+      diagnostics.push({
+        file,
+        declaration: item.local,
+        message: `Customized classic module imports '${item.imported}', which the resolved '${item.module}' module no longer declares.`,
+      });
   }
   return diagnostics.length ? { text: undefined, diagnostics } : { text, diagnostics };
 }

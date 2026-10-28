@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added automatic gzip request compression for Azure Monitor ingestion, including internal Statsbeat and customer SDK Stats, while preserving uncompressed requests to custom ingestion domains and falling back to the original request if compression fails. [#40414](https://github.com/Azure/azure-sdk-for-js/pull/40414)
+
 ### Breaking Changes
 
 - Updated to OpenTelemetry SDK 3.x and the matching 0.300.x instrumentation packages. Tracing now uses `@opentelemetry/sdk-trace`, and the logs API comes from `@opentelemetry/api` 1.10.0 instead of `@opentelemetry/api-logs`. See the [OpenTelemetry migration guide](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/3.x/migration-guide.md).
@@ -11,7 +13,11 @@
 
 ### Bugs Fixed
 
+- Preserved sampler attribute types so OpenTelemetry 2.x consumers continue to compile when using the exporter. [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)
+
 ### Other Changes
+
+- Added an internal `_configuration` subscription entry point so the Azure Monitor distro can reuse the existing OneSettings polling worker and boolean feature evaluation. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
 
 ## 1.0.0-beta.46 (2026-10-05)
 

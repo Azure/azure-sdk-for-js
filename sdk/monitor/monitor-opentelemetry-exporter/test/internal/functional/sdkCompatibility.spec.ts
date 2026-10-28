@@ -8,7 +8,12 @@ import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider, SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { BatchSpanProcessor, SimpleSpanProcessor, TracerProvider } from "@opentelemetry/sdk-trace";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { AzureMonitorLogExporter, AzureMonitorTraceExporter } from "../../../src/index.js";
+import {
+  ApplicationInsightsSampler,
+  AzureMonitorLogExporter,
+  AzureMonitorTraceExporter,
+  RateLimitedSampler,
+} from "../../../src/index.js";
 import { ConfigurationManager } from "../../../src/_configuration/configurationManager.js";
 import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
 import { KnownContextTagKeys } from "../../../src/generated/index.js";
@@ -39,6 +44,41 @@ describe("OpenTelemetry SDK compatibility", () => {
     vi.restoreAllMocks();
     send.mockReset();
   });
+
+  it.each([new ApplicationInsightsSampler(0.5), new RateLimitedSampler(0)])(
+    "preserves caller attribute types with %s",
+    (sampler) => {
+      const attributes: Record<string, string | number | boolean> = {
+        name: "request",
+        count: 1,
+        success: true,
+      };
+      const result = sampler.shouldSample(
+        context.active(),
+        "1234567890abcdef1234567890abcdef",
+        "sample",
+        SpanKind.INTERNAL,
+        attributes,
+        [],
+      );
+      const returnedAttributes: typeof attributes = result.attributes;
+      expect(returnedAttributes).toBe(attributes);
+      expect(returnedAttributes).toMatchObject({ name: "request", count: 1, success: true });
+
+      const structuredAttributes = { request: { count: 1 } };
+      const structuredResult = sampler.shouldSample(
+        context.active(),
+        "1234567890abcdef1234567890abcdef",
+        "sample",
+        SpanKind.INTERNAL,
+        structuredAttributes,
+        [],
+      );
+      const returnedStructuredAttributes: typeof structuredAttributes = structuredResult.attributes;
+      expect(returnedStructuredAttributes).toBe(structuredAttributes);
+      expect(returnedStructuredAttributes.request.count).toBe(1);
+    },
+  );
 
   it.each(["simple", "batch"])(
     "exports correlated spans and logs with the %s span processor",

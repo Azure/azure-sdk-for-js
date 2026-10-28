@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a service gateway.
  *
  * @summary creates or updates a service gateway.
- * x-ms-original-file: 2026-01-01/ServiceGatewayCreate.json
+ * x-ms-original-file: 2026-03-01/ServiceGatewayCreate.json
  */
 async function createServiceGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

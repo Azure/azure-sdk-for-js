@@ -39,19 +39,19 @@ export class ApplicationInsightsSampler implements Sampler {
    * @param attributes - Initial set of SpanAttributes for the Span being constructed.
    * @param links - Collection of links that will be associated with the Span to
    *     be created. Typically useful for batch operations.
-   * @returns a {@link SamplingResult}.
+   * @returns a {@link SamplingResult} retaining the supplied attribute type.
    */
-  public shouldSample(
+  public shouldSample<T extends Attributes>(
     context: Context,
     traceId: string,
     // @ts-expect-error unused argument
     spanName: string,
     // @ts-expect-error unused argument
     spanKind: SpanKind,
-    attributes: Attributes,
+    attributes: T,
     // @ts-expect-error unused argument
     links: Link[],
-  ): SamplingResult {
+  ): SamplingResult & { attributes: T } {
     return shouldSample(this._sampleRate, context, traceId, attributes)
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.NOT_RECORD, attributes: attributes };

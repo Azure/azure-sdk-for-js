@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a workbench associated with the project.
  *
  * @summary creates or updates a workbench associated with the project.
- * x-ms-original-file: 2026-07-15-preview/PutWorkbench.json
+ * x-ms-original-file: 2026-09-15-preview/PutWorkbench.json
  */
 async function putWorkbench() {
   const credential = new DefaultAzureCredential();
@@ -22,8 +22,10 @@ async function putWorkbench() {
     {
       properties: {
         targetClusterId:
-          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/rgcognitiveservices/providers/Microsoft.CognitiveServices/accounts/myAccount/computes/myCluster",
+          "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/vc-rg/providers/Microsoft.MachineLearningServices/virtualClusters/test-vc",
         imageLink: "mcr.microsoft.com/azureml/curated/pytorch-gpu:latest",
+        instanceType: "Singularity.ND12_H100_v5-n1",
+        gpuCount: 1,
         idleTimeBeforeShutdown: "PT30M",
         datasetId: "dataset-12345",
         sshSettings: {
@@ -31,7 +33,6 @@ async function putWorkbench() {
           adminEnabled: true,
         },
       },
-      location: "eastus",
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
@@ -44,8 +45,35 @@ async function putWorkbench() {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to creates or updates a workbench associated with the project.
+ *
+ * @summary creates or updates a workbench associated with the project.
+ * x-ms-original-file: 2026-09-15-preview/PutWorkbenchPending.json
+ */
+async function putWorkbenchPending() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.workbenches.createOrUpdate(
+    "rgcognitiveservices",
+    "myAccount",
+    "myProject",
+    "myWorkbench",
+    {
+      properties: {
+        targetClusterId:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/rgcognitiveservices/providers/Microsoft.CognitiveServices/accounts/myAccount/computes/myCluster",
+        imageLink: "mcr.microsoft.com/azureml/curated/pytorch-gpu:latest",
+      },
+    },
+  );
+  console.log(result);
+}
+
 async function main() {
   await putWorkbench();
+  await putWorkbenchPending();
 }
 
 main().catch(console.error);

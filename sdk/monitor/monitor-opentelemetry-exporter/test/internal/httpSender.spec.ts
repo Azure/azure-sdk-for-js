@@ -154,13 +154,11 @@ describe("HttpSender", () => {
         exporterOptions: {},
       });
       scope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
-      setTimeout(async () => {
-        const { result, statusCode } = await sender.send([envelope]);
-        assert.strictEqual(statusCode, 200);
-        assert.deepStrictEqual(JSON.parse(result), successfulBreezeResponse(1));
-      }, 1500);
 
-      await delay(2000); // wait enough time for timeout callback
+      const { result, statusCode } = await sender.send([envelope]);
+
+      assert.strictEqual(statusCode, 200);
+      assert.deepStrictEqual(JSON.parse(result), successfulBreezeResponse(1));
     });
 
     it("should send an invalid non-retriable envelope", async () => {
@@ -188,13 +186,11 @@ describe("HttpSender", () => {
         exporterOptions: {},
       });
       scope.reply(206, JSON.stringify(partialBreezeResponse([200, 408, 408])));
-      setTimeout(async () => {
-        const { result, statusCode } = await sender.send([envelope, envelope]);
-        assert.strictEqual(statusCode, 206);
-        assert.deepStrictEqual(JSON.parse(result), partialBreezeResponse([200, 408, 408]));
-      }, 1500);
 
-      await delay(2000); // wait enough time for timeout callback
+      const { result, statusCode } = await sender.send([envelope, envelope]);
+
+      assert.strictEqual(statusCode, 206);
+      assert.deepStrictEqual(JSON.parse(result), partialBreezeResponse([200, 408, 408]));
     });
 
     it.each([

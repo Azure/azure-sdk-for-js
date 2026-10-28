@@ -1,5 +1,37 @@
 # Release History
 
+## 25.0.0 (2026-10-21)
+
+### Features Added
+  - Added operation AccountsOperations.refreshLdapBindPassword
+  - Added Interface AccountEncryptionPatch
+  - Added Interface AccountPropertiesPatch
+  - Added Interface AccountsRefreshLdapBindPasswordOptionalParams
+  - Added Interface ActiveDirectoryPatch
+  - Added Interface BindPasswordAkvConfig
+  - Added Interface BindPasswordAkvConfigPatch
+  - Added Interface EncryptionIdentityPatch
+  - Added Interface KeyVaultPropertiesPatch
+  - Added Interface LdapConfiguration
+  - Added Interface LdapConfigurationPatch
+  - Interface AccountProperties has a new optional parameter ldapConfiguration
+  - Added Type Alias BindAuthenticationLevel
+  - Added Type Alias SecureLdapType
+  - Added Enum KnownBindAuthenticationLevel
+  - Added Enum KnownSecureLdapType
+  - Enum KnownNetAppProvisioningState has a new value Canceled
+  - Enum KnownVersions has a new value V20260601
+  - Enum KnownVersions has a new value V20260701
+  - Enum KnownVersions has a new value V20260801
+
+### Breaking Changes
+  - Operation AccountsOperations.update has a new signature
+  - Type of parameter properties of interface NetAppAccountPatch is changed from AccountProperties to AccountPropertiesPatch
+  - Interface NetAppAccountPatch no longer has parameter id
+  - Interface NetAppAccountPatch no longer has parameter location
+  - Interface NetAppAccountPatch no longer has parameter name
+  - Interface NetAppAccountPatch no longer has parameter type
+
 ## 25.0.0-beta.3 (2026-08-26)
 Compared with version 24.2.0
 

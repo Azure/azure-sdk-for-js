@@ -203,6 +203,14 @@ For more information on the OpenTelemetry project, please review the [**OpenTele
 
 By default, custom dimension values are truncated to 64KB. This protects against unexpectedly large payloads.
 
+### Request compression
+
+The exporter automatically gzip-compresses telemetry sent over HTTPS to Azure Monitor ingestion endpoints, including internal Statsbeat and customer SDK Stats. Compression applies to `/v2/track` and `/v2.1/track` on recognized Azure Monitor domains in the public, US Government, and China clouds. Custom ingestion endpoints and reverse proxies outside those domains continue to receive uncompressed JSON.
+
+Compression happens after pipeline policies run. A custom `httpClient` receives the compressed body with `Content-Encoding: gzip` and the compressed `Content-Length`. Requests with an existing `Content-Encoding` are left unchanged. Offline telemetry is stored as envelopes and compressed only when sent or replayed. This does not change Live Metrics, OTLP exporters, or other Azure SDK clients.
+
+If gzip compression fails, the exporter logs a diagnostic warning and sends the original uncompressed request. Normal retry and offline storage behavior still applies if sending that request fails.
+
 ## Troubleshooting
 
 ### Enable debug logging

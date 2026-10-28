@@ -35,7 +35,9 @@ export interface ApplicationInsightsClientOptionalParams extends ServiceClientOp
 // @public
 export class ApplicationInsightsSampler implements Sampler {
     constructor(samplingRatio?: number);
-    shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult;
+    shouldSample<T extends Attributes>(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: T, links: Link[]): SamplingResult & {
+        attributes: T;
+    };
     toString(): string;
 }
 
@@ -85,7 +87,9 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
 export class RateLimitedSampler implements Sampler {
     constructor(tracesPerSecond: number);
     getSampleRate(): number;
-    shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult;
+    shouldSample<T extends Attributes>(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: T, links: Link[]): SamplingResult & {
+        attributes: T;
+    };
     toString(): string;
 }
 

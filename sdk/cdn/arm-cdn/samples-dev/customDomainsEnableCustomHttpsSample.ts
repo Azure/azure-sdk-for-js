@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to enable https delivery of the custom domain.
  *
  * @summary enable https delivery of the custom domain.
- * x-ms-original-file: 2025-12-01/CustomDomains_EnableCustomHttpsUsingBYOC.json
+ * x-ms-original-file: 2026-10-01/CustomDomains_EnableCustomHttpsUsingBYOC.json
  */
 async function customDomainsEnableCustomHttpsUsingYourOwnCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function customDomainsEnableCustomHttpsUsingYourOwnCertificate(): Promise<
  * This sample demonstrates how to enable https delivery of the custom domain.
  *
  * @summary enable https delivery of the custom domain.
- * x-ms-original-file: 2025-12-01/CustomDomains_EnableCustomHttpsUsingCDNManagedCertificate.json
+ * x-ms-original-file: 2026-10-01/CustomDomains_EnableCustomHttpsUsingCDNManagedCertificate.json
  */
 async function customDomainsEnableCustomHttpsUsingCDNManagedCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();

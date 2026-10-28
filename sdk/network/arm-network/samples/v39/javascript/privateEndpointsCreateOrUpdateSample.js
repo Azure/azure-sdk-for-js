@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an private endpoint in the specified resource group.
  *
  * @summary creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: 2026-01-01/PrivateEndpointCreate.json
+ * x-ms-original-file: 2026-03-01/PrivateEndpointCreate.json
  */
 async function createPrivateEndpoint() {
   const credential = new DefaultAzureCredential();
@@ -45,7 +45,7 @@ async function createPrivateEndpoint() {
  * This sample demonstrates how to creates or updates an private endpoint in the specified resource group.
  *
  * @summary creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: 2026-01-01/PrivateEndpointCreateForManualApproval.json
+ * x-ms-original-file: 2026-03-01/PrivateEndpointCreateForManualApproval.json
  */
 async function createPrivateEndpointWithManualApprovalConnection() {
   const credential = new DefaultAzureCredential();
@@ -81,7 +81,7 @@ async function createPrivateEndpointWithManualApprovalConnection() {
  * This sample demonstrates how to creates or updates an private endpoint in the specified resource group.
  *
  * @summary creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: 2026-01-01/PrivateEndpointCreateWithASG.json
+ * x-ms-original-file: 2026-03-01/PrivateEndpointCreateWithASG.json
  */
 async function createPrivateEndpointWithApplicationSecurityGroups() {
   const credential = new DefaultAzureCredential();
