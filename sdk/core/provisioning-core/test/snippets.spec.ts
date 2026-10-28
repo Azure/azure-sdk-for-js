@@ -24,16 +24,29 @@ type RuleInput =
     };
 
 describe("documentation snippets", () => {
+  
   it("ReadmeCreateStack", () => {
     const stack = new Stack("application");
 
-    new ResourceGroup(stack, {
-      name: fn.concat("rg-", fn.uniqueString("application")),
-      location: "eastus",
+    const resourceGroup = new ResourceGroup(stack, {
+          name: fn.concat("rg-", fn.uniqueString("application")),
+          location: "eastus",
     });
+
+    new Resource(resourceGroup, {
+        type: "Microsoft.Storage/storageAccounts",
+        apiVersion: "2026-04-01",
+        name: "stbasemodeltest",
+        location: "eastus",
+        kind: "StorageV2",
+        sku: { name: "Standard_LRS" },
+        properties: {
+          supportsHttpsTrafficOnly: true,
+        },
+      });
   });
 
-  it("ReadmeCreateKeyVault", () => {
+  it("ReadmeGeneralResource", () => {
     const stack = new Stack("keyvault-deployment");
     const resourceGroup = new ResourceGroup(stack, {
       name: "rg-keyvault",
@@ -61,7 +74,8 @@ describe("documentation snippets", () => {
       | { kind: "cache"; cacheKind: "long" | "short"; days: number }
       | { kind: "redirect"; url: string };
 
-    const ruleKind = new ParameterCollection().add("ruleKind", "string", {
+    const stack = new Stack("discriminator-example");
+    const ruleKind = stack.parameters.add("ruleKind", "string", {
       allowed: ["cache"],
     });
     const widget: { properties: { primaryRule?: Rule } } = {

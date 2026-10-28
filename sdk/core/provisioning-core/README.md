@@ -10,15 +10,27 @@ Create a deployment stack, then attach resources to the stack or to another prov
 import { Stack, ResourceGroup, fn } from "@azure/provisioning-core";
 
 const stack = new Stack("application");
-new ResourceGroup(stack, {
+const resourceGroup = new ResourceGroup(stack, {
   name: fn.concat("rg-", fn.uniqueString("application")),
   location: "eastus",
 });
+
+ new Resource(resourceGroup, {
+    type: "Microsoft.Storage/storageAccounts",
+    apiVersion: "2026-04-01",
+    name: "stbasemodeltest",
+    location: "eastus",
+    kind: "StorageV2",
+    sku: { name: "Standard_LRS" },
+    properties: {
+      supportsHttpsTrafficOnly: true,
+    },
+  });
 ```
 
 Use the core `Resource` API to attach a Key Vault resource directly to a resource group:
 
-```ts snippet:ReadmeCreateKeyVault
+```ts snippet:ReadmeGeneralResource
 import { Stack, ResourceGroup, Resource, fn } from "@azure/provisioning-core";
 
 const stack = new Stack("keyvault-deployment");
@@ -47,7 +59,7 @@ Provisioning definitions are authored before deployment. Read-only resource prop
 Discriminator properties use literal types so TypeScript can select the correct union member. When a discriminator comes from a deployment-time expression, use `asDiscriminator` to select the intended variant while retaining type checking for its other properties:
 
 ```ts snippet:AsDiscriminator
-import { ParameterCollection, asDiscriminator } from "@azure/provisioning-core";
+import { Stack, asDiscriminator } from "@azure/provisioning-core";
 
 type Rule =
   | {
@@ -59,7 +71,8 @@ type Rule =
       kind: "redirect";
       url: string;
     };
-const ruleKind = new ParameterCollection().add("ruleKind", "string", {
+const stack = new Stack("discriminator-example");
+const kindParam = stack.parameters.add("ruleKind", "string", {
   allowed: ["cache"],
 });
 const widget: {
