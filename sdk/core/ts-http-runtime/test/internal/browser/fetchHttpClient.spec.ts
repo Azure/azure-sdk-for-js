@@ -14,6 +14,7 @@ import { systemErrorRetryPolicy } from "../../../src/policies/internal.js";
 import { png } from "./mocks/encodedPng.js";
 import { delay } from "../../../src/util/helpers.js";
 import { arrayBufferViewToArrayBuffer } from "../../../src/util/arrayBuffer.js";
+import { logger } from "../../../src/log.js";
 
 const streamBody = new ReadableStream({
   async start(controller) {
@@ -529,6 +530,112 @@ describe("FetchHttpClient", function () {
     expect(responseBody.locked).toBe(false);
     reader.releaseLock();
   });
+
+  it.each([false, true])(
+    "does not cancel or warn on a failed source read (delayedClosed=%s)",
+    async function (delayedClosed) {
+      const failure = new Error("source failed");
+      const responseBody = new ReadableStream<Uint8Array>(
+        {
+          pull(controller) {
+            controller.error(failure);
+          },
+        },
+        { highWaterMark: 0 },
+      );
+      const response = new Response(responseBody);
+      const getReader = responseBody.getReader.bind(responseBody);
+      let cancellations = 0;
+      vi.spyOn(responseBody, "getReader").mockImplementation(() => {
+        const reader = getReader();
+        const cancel = reader.cancel.bind(reader);
+        vi.spyOn(reader, "cancel").mockImplementation((reason) => {
+          cancellations++;
+          return cancel(reason);
+        });
+        if (delayedClosed) {
+          // Exercise read failure independently of the closed-notification ordering.
+          Object.defineProperty(reader, "closed", { value: reader.closed.then(() => undefined) });
+        }
+        return reader;
+      });
+      vi.mocked(fetch).mockResolvedValue(response);
+      const warning = vi.spyOn(logger, "warning").mockImplementation(() => {});
+      let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
+
+      try {
+        const result = await createFetchHttpClient().sendRequest(
+          createPipelineRequest({
+            url: "https://localhost/read-failure-cleanup",
+            enableBrowserStreams: true,
+            streamResponseStatusCodes: new Set([200]),
+          }),
+        );
+        reader = result.browserStreamBody!.getReader();
+
+        await expect(reader.read()).rejects.toBe(failure);
+        await delay(0);
+
+        expect(cancellations).toBe(0);
+        expect(warning).not.toHaveBeenCalled();
+        expect(responseBody.locked).toBe(false);
+      } finally {
+        reader?.releaseLock();
+        warning.mockRestore();
+      }
+    },
+  );
+
+  it.each(["progress", "null chunk"])(
+    "logs a cancellation failure without replacing the original outcome (%s)",
+    async function (cause) {
+      const failure = new Error("progress failed");
+      const cancelFailure = new Error("cancel failed");
+      const responseBody = new ReadableStream<Uint8Array | null>({
+        start(controller) {
+          controller.enqueue(cause === "progress" ? Uint8Array.of(1) : null);
+        },
+        cancel() {
+          return Promise.reject(cancelFailure);
+        },
+      });
+      vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+      const warning = vi.spyOn(logger, "warning").mockImplementation(() => {});
+      let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
+
+      try {
+        const response = await createFetchHttpClient().sendRequest(
+          createPipelineRequest({
+            url: "https://localhost/cancel-failure",
+            enableBrowserStreams: true,
+            streamResponseStatusCodes: new Set([200]),
+            onDownloadProgress: () => {
+              throw failure;
+            },
+          }),
+        );
+        reader = response.browserStreamBody!.getReader();
+        if (cause === "progress") {
+          const closed = expect(reader.closed).rejects.toBe(failure);
+          await expect(reader.read()).rejects.toBe(failure);
+          await closed;
+        } else {
+          expect(await reader.read()).toEqual({ value: undefined, done: true });
+          await expect(reader.closed).resolves.toBeUndefined();
+        }
+        await delay(0);
+
+        expect(warning).toHaveBeenCalledExactlyOnceWith(
+          "Error canceling body stream",
+          cancelFailure,
+        );
+        expect(responseBody.locked).toBe(false);
+      } finally {
+        reader?.releaseLock();
+        warning.mockRestore();
+      }
+    },
+  );
 
   it("should allow canceling of requests before the request is made", async function () {
     const blob = new Blob();

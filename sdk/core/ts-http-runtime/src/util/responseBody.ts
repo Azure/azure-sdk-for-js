@@ -70,7 +70,7 @@ export function setResponseBodyDisposer(response: object, dispose: () => void): 
 }
 
 /**
- * Destroys a Node response stream, or drains it if destruction is unavailable,
+ * Destroys a Node stream, or drains it if destruction is unavailable,
  * and recursively disposes its tracked upstream sources.
  */
 function disposeNodeResponseBody(
@@ -90,7 +90,7 @@ function disposeNodeResponseBody(
     if (readableStream.destroy) {
       if (isNodeEventEmitterBody(readableStream)) {
         const onError = (error: unknown): void => {
-          logger.warning("Error disposing response body", error);
+          logger.warning("Error disposing Node stream", error);
         };
         const onClose = (): void => {
           readableStream.removeListener("error", onError);
@@ -118,6 +118,19 @@ function disposeNodeResponseBody(
 }
 
 /**
+ * Disposes a raw Node stream and its tracked upstream sources without throwing.
+ *
+ * @param stream - The stream to destroy, or drain if destruction is unavailable.
+ */
+export function disposeNodeStream(stream: NodeResponseBody): void {
+  try {
+    disposeNodeResponseBody(stream);
+  } catch (error) {
+    logger.warning("Error disposing Node stream", error);
+  }
+}
+
+/**
  * Releases the body of a response that will not be read, so the underlying connection can be
  * reused or closed. Handles Node readable streams and browser web streams, and never throws:
  * disposal failures are logged as warnings.
@@ -134,7 +147,7 @@ export async function disposeResponseBody(response: {
     try {
       const readableStream: unknown = response.readableStreamBody;
       if (isNodeResponseBody(readableStream)) {
-        disposeNodeResponseBody(readableStream);
+        disposeNodeStream(readableStream);
         return;
       }
 

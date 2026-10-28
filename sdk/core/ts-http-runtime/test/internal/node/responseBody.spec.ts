@@ -7,7 +7,12 @@ import http from "node:http";
 import { deflateSync, gzipSync } from "node:zlib";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { logger } from "../../../src/log.js";
-import { disposeResponseBody, setResponseBodyDisposer } from "../../../src/util/responseBody.js";
+import {
+  disposeNodeStream,
+  disposeResponseBody,
+  setResponseBodyDisposer,
+  setResponseBodySource,
+} from "../../../src/util/responseBody.js";
 import { createNodeHttpClient } from "../../../src/nodeHttpClient.js";
 import { createPipelineRequest } from "../../../src/pipelineRequest.js";
 import { redirectPolicy } from "../../../src/policies/redirectPolicy.js";
@@ -17,25 +22,32 @@ describe("disposeResponseBody in Node", () => {
     vi.restoreAllMocks();
   });
 
-  it("logs asynchronous destroy errors without leaving an unhandled error listener", async () => {
-    const warning = vi.spyOn(logger, "warning").mockImplementation(() => {});
-    const stream = new Readable({
-      read() {},
-      destroy(_error, callback) {
-        queueMicrotask(() => callback(new Error("cleanup failed")));
-      },
-    });
-    const closed = new Promise<void>((resolve) => stream.once("close", resolve));
+  it.each([false, true])(
+    "logs asynchronous destroy errors without leaking listeners (raw=%s)",
+    async (raw) => {
+      const warning = vi.spyOn(logger, "warning").mockImplementation(() => {});
+      const stream = new Readable({
+        read() {},
+        destroy(_error, callback) {
+          queueMicrotask(() => callback(new Error("cleanup failed")));
+        },
+      });
+      const closed = new Promise<void>((resolve) => stream.once("close", resolve));
 
-    await expect(disposeResponseBody({ readableStreamBody: stream })).resolves.toBeUndefined();
-    await closed;
+      if (raw) {
+        disposeNodeStream(stream);
+      } else {
+        await expect(disposeResponseBody({ readableStreamBody: stream })).resolves.toBeUndefined();
+      }
+      await closed;
 
-    expect(warning).toHaveBeenCalledWith(
-      "Error disposing response body",
-      expect.objectContaining({ message: "cleanup failed" }),
-    );
-    expect(stream.listenerCount("error")).toBe(0);
-  });
+      expect(warning).toHaveBeenCalledWith(
+        "Error disposing Node stream",
+        expect.objectContaining({ message: "cleanup failed" }),
+      );
+      expect(stream.listenerCount("error")).toBe(0);
+    },
+  );
 
   it("does not attach disposal listeners to an already-closed stream", async () => {
     const stream = Readable.from([]);
@@ -49,6 +61,48 @@ describe("disposeResponseBody in Node", () => {
 
     expect(stream.listenerCount("error")).toBe(errorListeners);
     expect(stream.listenerCount("close")).toBe(closeListeners);
+  });
+
+  describe("disposeNodeStream", () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it("disposes each stream once when the source chain contains a cycle", () => {
+      const stream = { resume: vi.fn(), destroy: vi.fn() };
+      const source = { resume: vi.fn(), destroy: vi.fn() };
+      setResponseBodySource(stream, source);
+      setResponseBodySource(source, stream);
+
+      disposeNodeStream(stream);
+
+      expect(stream.destroy).toHaveBeenCalledOnce();
+      expect(source.destroy).toHaveBeenCalledOnce();
+      expect(stream.resume).not.toHaveBeenCalled();
+      expect(source.resume).not.toHaveBeenCalled();
+    });
+
+    it("drains streams that cannot be destroyed", () => {
+      const stream = { resume: vi.fn() };
+
+      disposeNodeStream(stream);
+
+      expect(stream.resume).toHaveBeenCalledOnce();
+    });
+
+    it("logs synchronous destruction errors without throwing", () => {
+      const warning = vi.spyOn(logger, "warning").mockImplementation(() => {});
+      const failure = new Error("destroy failed");
+      const stream = {
+        resume: vi.fn(),
+        destroy() {
+          throw failure;
+        },
+      };
+
+      expect(() => disposeNodeStream(stream)).not.toThrow();
+      expect(warning).toHaveBeenCalledExactlyOnceWith("Error disposing Node stream", failure);
+    });
   });
 
   it("runs the transport disposer once even when destroying the response body throws", async () => {
@@ -69,7 +123,7 @@ describe("disposeResponseBody in Node", () => {
 
     expect(dispose).toHaveBeenCalledOnce();
     expect(logger.warning).toHaveBeenCalledWith(
-      "Error disposing response body",
+      "Error disposing Node stream",
       expect.objectContaining({ message: "cleanup failed" }),
     );
   });

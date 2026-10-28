@@ -15,7 +15,7 @@ import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js"
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 import { isObject } from "./util/object.js";
 import { setResponseBodyCompletion } from "./util/responseBodyCompletion.js";
-import { disposeResponseBody } from "./util/responseBody.js";
+import { logger } from "./log.js";
 
 // The Fetch spec requires `duplex: "half"` when body is a ReadableStream,
 // but TypeScript's lib.dom.d.ts hasn't added it to RequestInit yet.
@@ -349,29 +349,50 @@ function buildBodyStream(
         }
         reading = true;
         try {
-          const { done, value } = await reader.read();
+          let result: ReadableStreamReadResult<Uint8Array>;
+          try {
+            result = await reader.read();
+          } catch (error) {
+            if (ended) {
+              return;
+            }
+            end();
+            controller.error(error);
+            reader.releaseLock();
+            return;
+          }
           if (ended) {
             return;
           }
+          const { done, value } = result;
           if (done || !value) {
             close(controller);
             if (!done) {
-              await disposeResponseBody({ browserStreamBody: readableStream });
+              await readableStream.cancel().catch((error: unknown) => {
+                logger.warning("Error canceling body stream", error);
+              });
             }
             return;
           }
 
           loadedBytes += value.length;
-          onProgress?.({ loadedBytes });
-          controller.enqueue(value);
-        } catch (error) {
-          if (ended) {
+          try {
+            onProgress?.({ loadedBytes });
+          } catch (error) {
+            if (ended) {
+              return;
+            }
+            end();
+            controller.error(error);
+            await reader.cancel(error).catch((cancelError: unknown) => {
+              logger.warning("Error canceling body stream", cancelError);
+            });
+            reader.releaseLock();
             return;
           }
-          end();
-          controller.error(error);
-          await disposeResponseBody({ browserStreamBody: { cancel: () => reader.cancel(error) } });
-          reader.releaseLock();
+          if (!ended) {
+            controller.enqueue(value);
+          }
         } finally {
           reading = false;
           if (sourceClosed) {

@@ -5,11 +5,12 @@ const responseBodyCompletions = new WeakMap<object, Promise<void>>();
 
 export function setResponseBodyCompletion(response: object, completion: Promise<void>): void {
   responseBodyCompletions.set(response, completion);
-  void completion.then(() => {
+  // eslint-disable-next-line promise/catch-or-return
+  completion.then(() => {
+    // eslint-disable-next-line promise/always-return
     if (responseBodyCompletions.get(response) === completion) {
       responseBodyCompletions.delete(response);
     }
-    return undefined;
   });
 }
 

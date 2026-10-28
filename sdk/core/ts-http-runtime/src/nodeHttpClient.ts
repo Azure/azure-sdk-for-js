@@ -23,7 +23,7 @@ import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
 import { setRequestCompletion } from "./util/requestCompletion.js";
 import {
-  disposeResponseBody,
+  disposeNodeStream,
   setResponseBodyDisposer,
   setResponseBodySource,
 } from "./util/responseBody.js";
@@ -182,7 +182,7 @@ class NodeHttpClient implements HttpClient {
           function onUploadClose(): void {
             cleanupSource();
             source.unpipe(uploadReportStream);
-            void disposeResponseBody({ readableStreamBody: source });
+            disposeNodeStream(source);
           }
           function cleanupSource(): void {
             cleanupFinished();
@@ -260,10 +260,10 @@ class NodeHttpClient implements HttpClient {
       return response;
     } catch (error) {
       if (isReadableStream(body)) {
-        await disposeResponseBody({ readableStreamBody: body });
+        disposeNodeStream(body);
       }
       if (responseStream) {
-        await disposeResponseBody({ readableStreamBody: responseStream });
+        disposeNodeStream(responseStream);
       }
       throw error;
     } finally {
@@ -367,7 +367,7 @@ class NodeHttpClient implements HttpClient {
         function onRequestClose(): void {
           cleanupBody();
           upload.unpipe(req);
-          void disposeResponseBody({ readableStreamBody: upload });
+          disposeNodeStream(upload);
         }
         function cleanupBody(): void {
           cleanupFinished();
@@ -493,7 +493,7 @@ function pipeResponseStream(
     cleanupSource();
     source.unpipe(destination);
     if (source.readable) {
-      void disposeResponseBody({ readableStreamBody: source });
+      disposeNodeStream(source);
     }
   });
   return source.pipe(destination);
