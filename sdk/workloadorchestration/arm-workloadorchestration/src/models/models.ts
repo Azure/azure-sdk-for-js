@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** DynamicSchema Resource */
 export interface DynamicSchema extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -34,6 +41,8 @@ export function dynamicSchemaDeserializer(item: any): DynamicSchema {
 
 /** DynamicSchema Properties */
 export interface DynamicSchemaProperties {
+  /** Display name of the dynamic schema */
+  readonly displayName?: string;
   /** Type of configuration */
   readonly configurationType?: ConfigurationType;
   /** Type of configuration model */
@@ -42,12 +51,13 @@ export interface DynamicSchemaProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function dynamicSchemaPropertiesSerializer(item: DynamicSchemaProperties): any {
-  return item;
+export function dynamicSchemaPropertiesSerializer(_item: DynamicSchemaProperties): any {
+  return {};
 }
 
 export function dynamicSchemaPropertiesDeserializer(item: any): DynamicSchemaProperties {
   return {
+    displayName: item["displayName"],
     configurationType: item["configurationType"],
     configurationModel: item["configurationModel"],
     provisioningState: item["provisioningState"],
@@ -123,8 +133,8 @@ export type ProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -150,8 +160,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -208,7 +218,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -244,8 +254,8 @@ export interface ErrorDetail {
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-export function errorDetailSerializer(item: ErrorDetail): any {
-  return item;
+export function errorDetailSerializer(_item: ErrorDetail): any {
+  return {};
 }
 
 export function errorDetailDeserializer(item: any): ErrorDetail {
@@ -340,7 +350,9 @@ export function schemaSerializer(item: Schema): any {
 
 export function schemaDeserializer(item: any): Schema {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -363,8 +375,8 @@ export interface SchemaProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function schemaPropertiesSerializer(item: SchemaProperties): any {
-  return item;
+export function schemaPropertiesSerializer(_item: SchemaProperties): any {
+  return {};
 }
 
 export function schemaPropertiesDeserializer(item: any): SchemaProperties {
@@ -394,12 +406,14 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
 
-/** The type used for update operations of the Schema. */
+/** The updatable properties of the Schema. */
 export interface SchemaUpdate {
   /** The resource-specific properties for this resource. */
   properties?: SchemaUpdateProperties;
@@ -417,10 +431,15 @@ export function schemaUpdateSerializer(item: SchemaUpdate): any {
 }
 
 /** The updatable properties of the Schema. */
-export interface SchemaUpdateProperties {}
+export interface SchemaUpdateProperties {
+  /** Current Version of schema */
+  readonly currentVersion?: string;
+  /** Provisioning state of resource */
+  readonly provisioningState?: ProvisioningState;
+}
 
-export function schemaUpdatePropertiesSerializer(item: SchemaUpdateProperties): any {
-  return item;
+export function schemaUpdatePropertiesSerializer(_item: SchemaUpdateProperties): any {
+  return {};
 }
 
 /** Schema Version With Update Type */
@@ -496,20 +515,33 @@ export function schemaVersionDeserializer(item: any): SchemaVersion {
 /** Schema Version Properties */
 export interface SchemaVersionProperties {
   /** Value of schema version */
-  value: string;
+  value: string | Record<string, any>;
   /** Provisioning state of resource */
   readonly provisioningState?: ProvisioningState;
 }
 
 export function schemaVersionPropertiesSerializer(item: SchemaVersionProperties): any {
-  return { value: item["value"] };
+  return { value: _schemaVersionPropertiesValueSerializer(item["value"]) };
 }
 
 export function schemaVersionPropertiesDeserializer(item: any): SchemaVersionProperties {
   return {
-    value: item["value"],
+    value: _schemaVersionPropertiesValueDeserializer(item["value"]),
     provisioningState: item["provisioningState"],
   };
+}
+
+/** Alias for _SchemaVersionPropertiesValue */
+export type _SchemaVersionPropertiesValue = string | Record<string, any>;
+
+export function _schemaVersionPropertiesValueSerializer(item: _SchemaVersionPropertiesValue): any {
+  return item;
+}
+
+export function _schemaVersionPropertiesValueDeserializer(
+  item: any,
+): _SchemaVersionPropertiesValue {
+  return item;
 }
 
 /** Version Parameter */
@@ -592,6 +624,7 @@ export function schemaVersionArrayDeserializer(result: Array<SchemaVersion>): an
 export interface SolutionVersion extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: SolutionVersionProperties;
+  /** The extended location of the resource. */
   extendedLocation?: ExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
@@ -635,9 +668,9 @@ export interface SolutionVersionProperties {
   /** Name of applicable target's display name */
   readonly targetDisplayName?: string;
   /** Resolved configuration values */
-  readonly configuration?: string;
+  readonly configuration?: string | Record<string, any>;
   /** Configuration on the line level across all solution template versions */
-  readonly targetLevelConfiguration?: string;
+  readonly targetLevelConfiguration?: string | Record<string, any>;
   /** App components spec */
   specification: Record<string, any>;
   /** Review id of resolved config for this solution version */
@@ -646,6 +679,10 @@ export interface SolutionVersionProperties {
   readonly externalValidationId?: string;
   /** State of solution instance */
   readonly state?: State;
+  /** Current Stage of revision */
+  readonly currentStage?: StageMap;
+  /** Stages of revision */
+  readonly stages?: StageMap[];
   /** Solution instance name */
   readonly solutionInstanceName?: string;
   /** Solution Dependency Context */
@@ -654,6 +691,8 @@ export interface SolutionVersionProperties {
   readonly errorDetails?: ErrorDetail;
   /** The URI for tracking the latest action performed on this solution version. */
   readonly latestActionTrackingUri?: string;
+  /** Object Id of user who triggered the latest action on this solution version. */
+  readonly latestActionTriggeredBy?: string;
   /** The type of the latest action performed on this solution version. */
   readonly actionType?: JobType;
   /** Provisioning state of resource */
@@ -669,12 +708,24 @@ export function solutionVersionPropertiesDeserializer(item: any): SolutionVersio
     solutionTemplateVersionId: item["solutionTemplateVersionId"],
     revision: item["revision"],
     targetDisplayName: item["targetDisplayName"],
-    configuration: item["configuration"],
-    targetLevelConfiguration: item["targetLevelConfiguration"],
-    specification: item["specification"],
+    configuration: !item["configuration"]
+      ? item["configuration"]
+      : _solutionVersionPropertiesConfigurationDeserializer(item["configuration"]),
+    targetLevelConfiguration: !item["targetLevelConfiguration"]
+      ? item["targetLevelConfiguration"]
+      : _solutionVersionPropertiesTargetLevelConfigurationDeserializer(
+          item["targetLevelConfiguration"],
+        ),
+    specification: Object.fromEntries(
+      Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     reviewId: item["reviewId"],
     externalValidationId: item["externalValidationId"],
     state: item["state"],
+    currentStage: !item["currentStage"]
+      ? item["currentStage"]
+      : stageMapDeserializer(item["currentStage"]),
+    stages: !item["stages"] ? item["stages"] : stageMapArrayDeserializer(item["stages"]),
     solutionInstanceName: item["solutionInstanceName"],
     solutionDependencies: !item["solutionDependencies"]
       ? item["solutionDependencies"]
@@ -683,9 +734,28 @@ export function solutionVersionPropertiesDeserializer(item: any): SolutionVersio
       ? item["errorDetails"]
       : errorDetailDeserializer(item["errorDetails"]),
     latestActionTrackingUri: item["latestActionTrackingUri"],
+    latestActionTriggeredBy: item["latestActionTriggeredBy"],
     actionType: item["actionType"],
     provisioningState: item["provisioningState"],
   };
+}
+
+/** Alias for _SolutionVersionPropertiesConfiguration */
+export type _SolutionVersionPropertiesConfiguration = string | Record<string, any>;
+
+export function _solutionVersionPropertiesConfigurationDeserializer(
+  item: any,
+): _SolutionVersionPropertiesConfiguration {
+  return item;
+}
+
+/** Alias for _SolutionVersionPropertiesTargetLevelConfiguration */
+export type _SolutionVersionPropertiesTargetLevelConfiguration = string | Record<string, any>;
+
+export function _solutionVersionPropertiesTargetLevelConfigurationDeserializer(
+  item: any,
+): _SolutionVersionPropertiesTargetLevelConfiguration {
+  return item;
 }
 
 /** Solution Instance State */
@@ -712,6 +782,8 @@ export enum KnownState {
   ExternalValidationFailed = "ExternalValidationFailed",
   /** Solution Instance is staging the images */
   Staging = "Staging",
+  /** State is not applicable */
+  NotApplicable = "NotApplicable",
 }
 
 /**
@@ -729,9 +801,105 @@ export enum KnownState {
  * **Undeployed**: Solution Instance is undeployed \
  * **PendingExternalValidation**: Solution Instance is pending external validation \
  * **ExternalValidationFailed**: Solution Instance failed external validation \
- * **Staging**: Solution Instance is staging the images
+ * **Staging**: Solution Instance is staging the images \
+ * **NotApplicable**: State is not applicable
  */
 export type State = string;
+
+/** Stage Map for Solution Version */
+export interface StageMap {
+  /** Display State */
+  readonly displayState: string;
+  /** Stage name */
+  readonly stage: CMStages;
+  /** Stage status */
+  readonly status: StateCategory;
+  /** Stage start time */
+  readonly startTime?: Date;
+  /** Stage end time */
+  readonly endTime?: Date;
+  /** Child stages which represents more granular level stage status if any */
+  readonly childStages?: StageMap[];
+}
+
+export function stageMapDeserializer(item: any): StageMap {
+  return {
+    displayState: item["displayState"],
+    stage: item["stage"],
+    status: item["status"],
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    childStages: !item["childStages"]
+      ? item["childStages"]
+      : stageMapArrayDeserializer(item["childStages"]),
+  };
+}
+
+/** Stages for Solution Version */
+export enum KnownCMStages {
+  /** Configuration stage */
+  Configuration = "Configuration",
+  /** Publish stage */
+  Publish = "Publish",
+  /** Deployment stage */
+  Deployment = "Deployment",
+  /** Uninstallation stage */
+  Uninstallation = "Uninstallation",
+  /** External Validation stage */
+  ExternalValidation = "ExternalValidation",
+  /** Staging stage */
+  Staging = "Staging",
+  /** Unstaging stage */
+  Unstaging = "Unstaging",
+}
+
+/**
+ * Stages for Solution Version \
+ * {@link KnownCMStages} can be used interchangeably with CMStages,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Configuration**: Configuration stage \
+ * **Publish**: Publish stage \
+ * **Deployment**: Deployment stage \
+ * **Uninstallation**: Uninstallation stage \
+ * **ExternalValidation**: External Validation stage \
+ * **Staging**: Staging stage \
+ * **Unstaging**: Unstaging stage
+ */
+export type CMStages = string;
+
+/** State Category for Solution Version */
+export enum KnownStateCategory {
+  /** Pending state [Non-Terminal] */
+  Pending = "Pending",
+  /** InProgress state [Non-Terminal] */
+  InProgress = "InProgress",
+  /** Completed state [Terminal] */
+  Completed = "Completed",
+  /** Failed state [Terminal] */
+  Failed = "Failed",
+  /** None state [Terminal] */
+  None = "None",
+}
+
+/**
+ * State Category for Solution Version \
+ * {@link KnownStateCategory} can be used interchangeably with StateCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: Pending state [Non-Terminal] \
+ * **InProgress**: InProgress state [Non-Terminal] \
+ * **Completed**: Completed state [Terminal] \
+ * **Failed**: Failed state [Terminal] \
+ * **None**: None state [Terminal]
+ */
+export type StateCategory = string;
+
+export function stageMapArrayDeserializer(result: Array<StageMap>): any[] {
+  return result.map((item) => {
+    return stageMapDeserializer(item);
+  });
+}
 
 export function solutionDependencyArrayDeserializer(result: Array<SolutionDependency>): any[] {
   return result.map((item) => {
@@ -769,10 +937,14 @@ export function solutionDependencyDeserializer(item: any): SolutionDependency {
 export enum KnownJobType {
   /** A deployment job. */
   Deploy = "deploy",
+  /** A publish job. */
+  Publish = "publish",
   /** A staging job. */
   Staging = "staging",
   /** A validation job. */
   ExternalValidation = "externalValidation",
+  /** An Uninstall job. */
+  Uninstall = "uninstall",
 }
 
 /**
@@ -781,8 +953,10 @@ export enum KnownJobType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **deploy**: A deployment job. \
+ * **publish**: A publish job. \
  * **staging**: A staging job. \
- * **externalValidation**: A validation job.
+ * **externalValidation**: A validation job. \
+ * **uninstall**: An Uninstall job.
  */
 export type JobType = string;
 
@@ -895,6 +1069,8 @@ export interface JobProperties {
   readonly provisioningState?: ProvisioningState;
   /** Error Details if any failure is there */
   readonly errorDetails?: ErrorDetail;
+  /** Additional metadata or properties. */
+  additionalData?: AdditionalData;
 }
 
 export function jobPropertiesDeserializer(item: any): JobProperties {
@@ -913,6 +1089,9 @@ export function jobPropertiesDeserializer(item: any): JobProperties {
     errorDetails: !item["errorDetails"]
       ? item["errorDetails"]
       : errorDetailDeserializer(item["errorDetails"]),
+    additionalData: !item["additionalData"]
+      ? item["additionalData"]
+      : additionalDataDeserializer(item["additionalData"]),
   };
 }
 
@@ -943,7 +1122,7 @@ export type JobStatus = string;
 /** Base Job Parameter */
 export interface JobParameterBase {
   /** Job type discriminator value */
-  /** The discriminator possible values: deploy */
+  /** The discriminator possible values: deploy, publish, uninstall */
   jobType: JobType;
 }
 
@@ -954,12 +1133,19 @@ export function jobParameterBaseDeserializer(item: any): JobParameterBase {
 }
 
 /** Alias for JobParameterBaseUnion */
-export type JobParameterBaseUnion = DeployJobParameter | JobParameterBase;
+export type JobParameterBaseUnion =
+  DeployJobParameter | PublishJobParameter | UninstallJobParameter | JobParameterBase;
 
 export function jobParameterBaseUnionDeserializer(item: any): JobParameterBaseUnion {
-  switch (item.jobType) {
+  switch (item["jobType"]) {
     case "deploy":
       return deployJobParameterDeserializer(item as DeployJobParameter);
+
+    case "publish":
+      return publishJobParameterDeserializer(item as PublishJobParameter);
+
+    case "uninstall":
+      return uninstallJobParameterDeserializer(item as UninstallJobParameter);
 
     default:
       return jobParameterBaseDeserializer(item);
@@ -995,6 +1181,76 @@ export function installSolutionParameterSerializer(item: InstallSolutionParamete
 export function installSolutionParameterDeserializer(item: any): InstallSolutionParameter {
   return {
     solutionVersionId: item["solutionVersionId"],
+  };
+}
+
+/** Parameters for a publish job. */
+export interface PublishJobParameter extends JobParameterBase {
+  /** Job type discriminator value */
+  jobType: "publish";
+  parameter?: SolutionVersionParameter;
+}
+
+export function publishJobParameterDeserializer(item: any): PublishJobParameter {
+  return {
+    jobType: item["jobType"],
+    parameter: !item["parameter"]
+      ? item["parameter"]
+      : solutionVersionParameterDeserializer(item["parameter"]),
+  };
+}
+
+/** Solution Version Parameter */
+export interface SolutionVersionParameter {
+  /** Solution Version ARM Id */
+  solutionVersionId: string;
+}
+
+export function solutionVersionParameterSerializer(item: SolutionVersionParameter): any {
+  return { solutionVersionId: item["solutionVersionId"] };
+}
+
+export function solutionVersionParameterDeserializer(item: any): SolutionVersionParameter {
+  return {
+    solutionVersionId: item["solutionVersionId"],
+  };
+}
+
+/** Parameters for an Uninstall job. */
+export interface UninstallJobParameter extends JobParameterBase {
+  /** Job type discriminator value */
+  jobType: "uninstall";
+  parameter?: UninstallSolutionParameter;
+}
+
+export function uninstallJobParameterDeserializer(item: any): UninstallJobParameter {
+  return {
+    jobType: item["jobType"],
+    parameter: !item["parameter"]
+      ? item["parameter"]
+      : uninstallSolutionParameterDeserializer(item["parameter"]),
+  };
+}
+
+/** Uninstall Solution Parameter */
+export interface UninstallSolutionParameter {
+  /** Solution Template ARM Id */
+  solutionTemplateId: string;
+  /** Solution Instance Name */
+  solutionInstanceName?: string;
+}
+
+export function uninstallSolutionParameterSerializer(item: UninstallSolutionParameter): any {
+  return {
+    solutionTemplateId: item["solutionTemplateId"],
+    solutionInstanceName: item["solutionInstanceName"],
+  };
+}
+
+export function uninstallSolutionParameterDeserializer(item: any): UninstallSolutionParameter {
+  return {
+    solutionTemplateId: item["solutionTemplateId"],
+    solutionInstanceName: item["solutionInstanceName"],
   };
 }
 
@@ -1044,7 +1300,7 @@ export function jobStepDeserializer(item: any): JobStep {
 /** Base Job Step Statistics */
 export interface JobStepStatisticsBase {
   /** Statistics type discriminator value */
-  /** The discriminator possible values: deploy */
+  /** The discriminator possible values: deploy, publish, uninstall */
   statisticsType: JobType;
 }
 
@@ -1055,12 +1311,22 @@ export function jobStepStatisticsBaseDeserializer(item: any): JobStepStatisticsB
 }
 
 /** Alias for JobStepStatisticsBaseUnion */
-export type JobStepStatisticsBaseUnion = DeployJobStepStatistics | JobStepStatisticsBase;
+export type JobStepStatisticsBaseUnion =
+  | DeployJobStepStatistics
+  | PublishJobStepStatistics
+  | UninstallJobStepStatistics
+  | JobStepStatisticsBase;
 
 export function jobStepStatisticsBaseUnionDeserializer(item: any): JobStepStatisticsBaseUnion {
-  switch (item.statisticsType) {
+  switch (item["statisticsType"]) {
     case "deploy":
       return deployJobStepStatisticsDeserializer(item as DeployJobStepStatistics);
+
+    case "publish":
+      return publishJobStepStatisticsDeserializer(item as PublishJobStepStatistics);
+
+    case "uninstall":
+      return uninstallJobStepStatisticsDeserializer(item as UninstallJobStepStatistics);
 
     default:
       return jobStepStatisticsBaseDeserializer(item);
@@ -1088,8 +1354,66 @@ export function deployJobStepStatisticsDeserializer(item: any): DeployJobStepSta
   };
 }
 
+/** Publish statistics for a job step, including total, success, and failed counts. */
+export interface PublishJobStepStatistics extends JobStepStatisticsBase {
+  /** Statistics type discriminator value */
+  statisticsType: "publish";
+  /** Total count of items processed in this step */
+  totalCount?: number;
+  /** Count of successful items in this step */
+  successCount?: number;
+  /** Count of failed items in this step */
+  failedCount?: number;
+}
+
+export function publishJobStepStatisticsDeserializer(item: any): PublishJobStepStatistics {
+  return {
+    statisticsType: item["statisticsType"],
+    totalCount: item["totalCount"],
+    successCount: item["successCount"],
+    failedCount: item["failedCount"],
+  };
+}
+
+/** Uninstall statistics for a job step, including total, success, and failed counts. */
+export interface UninstallJobStepStatistics extends JobStepStatisticsBase {
+  /** Statistics type discriminator value */
+  statisticsType: "uninstall";
+  /** Total count of items processed in this step */
+  totalCount?: number;
+  /** Count of successful items in this step */
+  successCount?: number;
+  /** Count of failed items in this step */
+  failedCount?: number;
+}
+
+export function uninstallJobStepStatisticsDeserializer(item: any): UninstallJobStepStatistics {
+  return {
+    statisticsType: item["statisticsType"],
+    totalCount: item["totalCount"],
+    successCount: item["successCount"],
+    failedCount: item["failedCount"],
+  };
+}
+
+/** Additional metadata or properties. */
+export interface AdditionalData {
+  /** Id of the workflow. */
+  workflowId?: string;
+}
+
+export function additionalDataDeserializer(item: any): AdditionalData {
+  return {
+    workflowId: item["workflowId"],
+  };
+}
+
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
+
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
+}
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
   return {
@@ -1129,6 +1453,7 @@ export interface Target extends TrackedResource {
   properties?: TargetProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
+  /** The extended location of the resource. */
   extendedLocation?: ExtendedLocation;
 }
 
@@ -1147,7 +1472,9 @@ export function targetSerializer(item: Target): any {
 
 export function targetDeserializer(item: any): Target {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1174,7 +1501,7 @@ export interface TargetProperties {
   /** ArmId of Context */
   contextId: string;
   /** target spec */
-  targetSpecification: Record<string, any>;
+  targetSpecification?: Record<string, any>;
   /** List of capabilities */
   capabilities: string[];
   /** Hierarchy Level */
@@ -1209,7 +1536,11 @@ export function targetPropertiesDeserializer(item: any): TargetProperties {
     description: item["description"],
     displayName: item["displayName"],
     contextId: item["contextId"],
-    targetSpecification: item["targetSpecification"],
+    targetSpecification: !item["targetSpecification"]
+      ? item["targetSpecification"]
+      : Object.fromEntries(
+          Object.entries(item["targetSpecification"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     capabilities: item["capabilities"].map((p: any) => {
       return p;
     }),
@@ -1402,21 +1733,6 @@ export function targetArrayDeserializer(result: Array<Target>): any[] {
   });
 }
 
-/** Uninstall Solution Parameter */
-export interface UninstallSolutionParameter {
-  /** Solution Template ARM Id */
-  solutionTemplateId: string;
-  /** Solution Instance Name */
-  solutionInstanceName?: string;
-}
-
-export function uninstallSolutionParameterSerializer(item: UninstallSolutionParameter): any {
-  return {
-    solutionTemplateId: item["solutionTemplateId"],
-    solutionInstanceName: item["solutionInstanceName"],
-  };
-}
-
 /** Install Solution Parameter */
 export interface RemoveRevisionParameter {
   /** Solution Template ARM Id */
@@ -1499,16 +1815,6 @@ export function resolvedConfigurationDeserializer(item: any): ResolvedConfigurat
   return {
     configuration: item["configuration"],
   };
-}
-
-/** Solution Version Parameter */
-export interface SolutionVersionParameter {
-  /** Solution Version ARM Id */
-  solutionVersionId: string;
-}
-
-export function solutionVersionParameterSerializer(item: SolutionVersionParameter): any {
-  return { solutionVersionId: item["solutionVersionId"] };
 }
 
 /** Update External Validation Status Parameter */
@@ -1622,6 +1928,14 @@ export interface SchemaReference extends ExtensionResource {
   readonly eTag?: string;
 }
 
+export function schemaReferenceSerializer(item: SchemaReference): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : schemaReferencePropertiesSerializer(item["properties"]),
+  };
+}
+
 export function schemaReferenceDeserializer(item: any): SchemaReference {
   return {
     id: item["id"],
@@ -1643,6 +1957,10 @@ export interface SchemaReferenceProperties {
   schemaId: string;
   /** Provisioning state of resource */
   readonly provisioningState?: ProvisioningState;
+}
+
+export function schemaReferencePropertiesSerializer(item: SchemaReferenceProperties): any {
+  return { schemaId: item["schemaId"] };
 }
 
 export function schemaReferencePropertiesDeserializer(item: any): SchemaReferenceProperties {
@@ -1667,6 +1985,12 @@ export function _schemaReferenceListResultDeserializer(item: any): _SchemaRefere
   };
 }
 
+export function schemaReferenceArraySerializer(result: Array<SchemaReference>): any[] {
+  return result.map((item) => {
+    return schemaReferenceSerializer(item);
+  });
+}
+
 export function schemaReferenceArrayDeserializer(result: Array<SchemaReference>): any[] {
   return result.map((item) => {
     return schemaReferenceDeserializer(item);
@@ -1677,6 +2001,7 @@ export function schemaReferenceArrayDeserializer(result: Array<SchemaReference>)
 export interface Solution extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: SolutionProperties;
+  /** The extended location of the resource. */
   extendedLocation?: ExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
@@ -1715,19 +2040,22 @@ export function solutionDeserializer(item: any): Solution {
 export interface SolutionProperties {
   /** Solution template Id */
   readonly solutionTemplateId?: string;
+  /** Display name of the solution */
+  readonly displayName?: string;
   /** List of latest revisions for available solution template versions */
   readonly availableSolutionTemplateVersions?: AvailableSolutionTemplateVersion[];
   /** Provisioning state of resource */
   readonly provisioningState?: ProvisioningState;
 }
 
-export function solutionPropertiesSerializer(item: SolutionProperties): any {
-  return item;
+export function solutionPropertiesSerializer(_item: SolutionProperties): any {
+  return {};
 }
 
 export function solutionPropertiesDeserializer(item: any): SolutionProperties {
   return {
     solutionTemplateId: item["solutionTemplateId"],
+    displayName: item["displayName"],
     availableSolutionTemplateVersions: !item["availableSolutionTemplateVersions"]
       ? item["availableSolutionTemplateVersions"]
       : availableSolutionTemplateVersionArrayDeserializer(
@@ -1765,7 +2093,7 @@ export function availableSolutionTemplateVersionDeserializer(
   };
 }
 
-/** The type used for update operations of the Solution. */
+/** The updatable properties of the Solution. */
 export interface SolutionUpdate {
   /** The resource-specific properties for this resource. */
   properties?: SolutionUpdateProperties;
@@ -1780,10 +2108,19 @@ export function solutionUpdateSerializer(item: SolutionUpdate): any {
 }
 
 /** The updatable properties of the Solution. */
-export interface SolutionUpdateProperties {}
+export interface SolutionUpdateProperties {
+  /** Solution template Id */
+  readonly solutionTemplateId?: string;
+  /** Display name of the solution */
+  readonly displayName?: string;
+  /** List of latest revisions for available solution template versions */
+  readonly availableSolutionTemplateVersions?: AvailableSolutionTemplateVersion[];
+  /** Provisioning state of resource */
+  readonly provisioningState?: ProvisioningState;
+}
 
-export function solutionUpdatePropertiesSerializer(item: SolutionUpdateProperties): any {
-  return item;
+export function solutionUpdatePropertiesSerializer(_item: SolutionUpdateProperties): any {
+  return {};
 }
 
 /** The response of a Solution list operation. */
@@ -1810,6 +2147,157 @@ export function solutionArraySerializer(result: Array<Solution>): any[] {
 export function solutionArrayDeserializer(result: Array<Solution>): any[] {
   return result.map((item) => {
     return solutionDeserializer(item);
+  });
+}
+
+/** Solution Metadata Resource attached to a Target or Site */
+export interface SolutionMetadata extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SolutionMetadataProperties;
+}
+
+export function solutionMetadataDeserializer(item: any): SolutionMetadata {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : solutionMetadataPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Solution Metadata Properties */
+export interface SolutionMetadataProperties {
+  /** Display name of the solution metadata resource */
+  readonly displayName?: string;
+  /** Solution template Id */
+  readonly solutionTemplateId?: string;
+  /** Latest solution template version */
+  readonly latestVersion?: string;
+  /** Current solution template version */
+  readonly currentVersion?: string;
+}
+
+export function solutionMetadataPropertiesDeserializer(item: any): SolutionMetadataProperties {
+  return {
+    displayName: item["displayName"],
+    solutionTemplateId: item["solutionTemplateId"],
+    latestVersion: item["latestVersion"],
+    currentVersion: item["currentVersion"],
+  };
+}
+
+/** The response of a SolutionMetadata list operation. */
+export interface _SolutionMetadataListResult {
+  /** The SolutionMetadata items on this page */
+  value: SolutionMetadata[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _solutionMetadataListResultDeserializer(item: any): _SolutionMetadataListResult {
+  return {
+    value: solutionMetadataArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function solutionMetadataArrayDeserializer(result: Array<SolutionMetadata>): any[] {
+  return result.map((item) => {
+    return solutionMetadataDeserializer(item);
+  });
+}
+
+/** Solution Metadata Version Resource */
+export interface SolutionMetadataVersion extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SolutionMetadataVersionProperties;
+}
+
+export function solutionMetadataVersionDeserializer(item: any): SolutionMetadataVersion {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : solutionMetadataVersionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Solution Metadata Version Properties */
+export interface SolutionMetadataVersionProperties {
+  /** Display name of the solution metadata resource */
+  readonly parentDisplayName?: string;
+  /** Solution template version Id */
+  readonly solutionTemplateVersionId?: string;
+  /** Schema Id for the solution template version at the hierarchy */
+  readonly schemaId?: string;
+  /** Dynamic Configuration Id for the solution template version */
+  readonly dynamicConfigurationVersionId?: string;
+  /** Configuration status of the solution template version */
+  readonly configurationStatus?: ConfigurationState;
+}
+
+export function solutionMetadataVersionPropertiesDeserializer(
+  item: any,
+): SolutionMetadataVersionProperties {
+  return {
+    parentDisplayName: item["parentDisplayName"],
+    solutionTemplateVersionId: item["solutionTemplateVersionId"],
+    schemaId: item["schemaId"],
+    dynamicConfigurationVersionId: item["dynamicConfigurationVersionId"],
+    configurationStatus: item["configurationStatus"],
+  };
+}
+
+/** Configuration State Enums */
+export enum KnownConfigurationState {
+  /** Configuration Completed */
+  ConfigurationCompleted = "ConfigurationCompleted",
+  /** Configuration Completed */
+  ConfigurationPending = "ConfigurationPending",
+}
+
+/**
+ * Configuration State Enums \
+ * {@link KnownConfigurationState} can be used interchangeably with ConfigurationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ConfigurationCompleted**: Configuration Completed \
+ * **ConfigurationPending**: Configuration Completed
+ */
+export type ConfigurationState = string;
+
+/** The response of a SolutionMetadataVersion list operation. */
+export interface _SolutionMetadataVersionListResult {
+  /** The SolutionMetadataVersion items on this page */
+  value: SolutionMetadataVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _solutionMetadataVersionListResultDeserializer(
+  item: any,
+): _SolutionMetadataVersionListResult {
+  return {
+    value: solutionMetadataVersionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function solutionMetadataVersionArrayDeserializer(
+  result: Array<SolutionMetadataVersion>,
+): any[] {
+  return result.map((item) => {
+    return solutionMetadataVersionDeserializer(item);
   });
 }
 
@@ -1847,11 +2335,13 @@ export function solutionTemplateVersionDeserializer(item: any): SolutionTemplate
 /** Solution Template Version Properties */
 export interface SolutionTemplateVersionProperties {
   /** Config expressions for this solution version */
-  configurations: string;
+  configurations?: string | Record<string, any>;
   /** App components spec */
   specification: Record<string, any>;
   /** Orchestrator type */
   orchestratorType?: OrchestratorType;
+  /** Internal State of resource */
+  readonly internalState?: InternalState;
   /** Provisioning state of resource */
   readonly provisioningState?: ProvisioningState;
 }
@@ -1860,7 +2350,9 @@ export function solutionTemplateVersionPropertiesSerializer(
   item: SolutionTemplateVersionProperties,
 ): any {
   return {
-    configurations: item["configurations"],
+    configurations: !item["configurations"]
+      ? item["configurations"]
+      : _solutionTemplateVersionPropertiesConfigurationsSerializer(item["configurations"]),
     specification: item["specification"],
     orchestratorType: item["orchestratorType"],
   };
@@ -1870,11 +2362,31 @@ export function solutionTemplateVersionPropertiesDeserializer(
   item: any,
 ): SolutionTemplateVersionProperties {
   return {
-    configurations: item["configurations"],
-    specification: item["specification"],
+    configurations: !item["configurations"]
+      ? item["configurations"]
+      : _solutionTemplateVersionPropertiesConfigurationsDeserializer(item["configurations"]),
+    specification: Object.fromEntries(
+      Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     orchestratorType: item["orchestratorType"],
+    internalState: item["internalState"],
     provisioningState: item["provisioningState"],
   };
+}
+
+/** Alias for _SolutionTemplateVersionPropertiesConfigurations */
+export type _SolutionTemplateVersionPropertiesConfigurations = string | Record<string, any>;
+
+export function _solutionTemplateVersionPropertiesConfigurationsSerializer(
+  item: _SolutionTemplateVersionPropertiesConfigurations,
+): any {
+  return item;
+}
+
+export function _solutionTemplateVersionPropertiesConfigurationsDeserializer(
+  item: any,
+): _SolutionTemplateVersionPropertiesConfigurations {
+  return item;
 }
 
 /** Available Orchestrator types */
@@ -1891,6 +2403,30 @@ export enum KnownOrchestratorType {
  * **TO**: Default type
  */
 export type OrchestratorType = string;
+
+/** Internal state of resource */
+export enum KnownInternalState {
+  /** Resource is pending validation */
+  PendingValidation = "PendingValidation",
+  /** Resource is validated */
+  Validated = "Validated",
+  /** Resource is ValidatedWithSchema */
+  ValidatedWithSchema = "ValidatedWithSchema",
+  /** Resource is ValidatedWithoutSchema */
+  ValidatedWithoutSchema = "ValidatedWithoutSchema",
+}
+
+/**
+ * Internal state of resource \
+ * {@link KnownInternalState} can be used interchangeably with InternalState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PendingValidation**: Resource is pending validation \
+ * **Validated**: Resource is validated \
+ * **ValidatedWithSchema**: Resource is ValidatedWithSchema \
+ * **ValidatedWithoutSchema**: Resource is ValidatedWithoutSchema
+ */
+export type InternalState = string;
 
 /** The response of a SolutionTemplateVersion list operation. */
 export interface _SolutionTemplateVersionListResult {
@@ -1961,6 +2497,8 @@ export interface BulkPublishSolutionParameter {
   solutionInstanceName?: string;
   /** Solution dependencies */
   solutionDependencies?: SolutionDependencyParameter[];
+  /** Configuration of solution */
+  solutionConfiguration?: string;
 }
 
 export function bulkPublishSolutionParameterSerializer(item: BulkPublishSolutionParameter): any {
@@ -1970,6 +2508,7 @@ export function bulkPublishSolutionParameterSerializer(item: BulkPublishSolution
     solutionDependencies: !item["solutionDependencies"]
       ? item["solutionDependencies"]
       : solutionDependencyParameterArraySerializer(item["solutionDependencies"]),
+    solutionConfiguration: item["solutionConfiguration"],
   };
 }
 
@@ -1985,14 +2524,79 @@ export function bulkPublishTargetDetailsArraySerializer(
 export interface BulkPublishTargetDetails {
   /** ArmId of Target */
   targetId: string;
+  /** Solution dependencies */
+  solutionDependencies?: SolutionDependencyParameter[];
   /** Name of the solution instance */
   solutionInstanceName?: string;
+  /** ArmId of Target Solution Version */
+  solutionVersionId?: string;
+  /** Configuration of solution */
+  solutionConfiguration?: string;
 }
 
 export function bulkPublishTargetDetailsSerializer(item: BulkPublishTargetDetails): any {
   return {
     targetId: item["targetId"],
+    solutionDependencies: !item["solutionDependencies"]
+      ? item["solutionDependencies"]
+      : solutionDependencyParameterArraySerializer(item["solutionDependencies"]),
     solutionInstanceName: item["solutionInstanceName"],
+    solutionVersionId: item["solutionVersionId"],
+    solutionConfiguration: item["solutionConfiguration"],
+  };
+}
+
+/** Bulk publish solution parameter */
+export interface BulkReviewSolutionParameter {
+  /** Targets to which solution needs to be published */
+  targets: BulkReviewTargetDetails[];
+  /** Name of the solution instance */
+  solutionInstanceName?: string;
+  /** Solution dependencies */
+  solutionDependencies?: SolutionDependencyParameter[];
+  /** Configuration of solution */
+  solutionConfiguration?: string;
+}
+
+export function bulkReviewSolutionParameterSerializer(item: BulkReviewSolutionParameter): any {
+  return {
+    targets: bulkReviewTargetDetailsArraySerializer(item["targets"]),
+    solutionInstanceName: item["solutionInstanceName"],
+    solutionDependencies: !item["solutionDependencies"]
+      ? item["solutionDependencies"]
+      : solutionDependencyParameterArraySerializer(item["solutionDependencies"]),
+    solutionConfiguration: item["solutionConfiguration"],
+  };
+}
+
+export function bulkReviewTargetDetailsArraySerializer(
+  result: Array<BulkReviewTargetDetails>,
+): any[] {
+  return result.map((item) => {
+    return bulkReviewTargetDetailsSerializer(item);
+  });
+}
+
+/** Bulk publish target details */
+export interface BulkReviewTargetDetails {
+  /** ArmId of Target */
+  targetId: string;
+  /** Solution dependencies */
+  solutionDependencies?: SolutionDependencyParameter[];
+  /** Name of the solution instance */
+  solutionInstanceName?: string;
+  /** Configuration of solution */
+  solutionConfiguration?: string;
+}
+
+export function bulkReviewTargetDetailsSerializer(item: BulkReviewTargetDetails): any {
+  return {
+    targetId: item["targetId"],
+    solutionDependencies: !item["solutionDependencies"]
+      ? item["solutionDependencies"]
+      : solutionDependencyParameterArraySerializer(item["solutionDependencies"]),
+    solutionInstanceName: item["solutionInstanceName"],
+    solutionConfiguration: item["solutionConfiguration"],
   };
 }
 
@@ -2016,7 +2620,9 @@ export function solutionTemplateSerializer(item: SolutionTemplate): any {
 
 export function solutionTemplateDeserializer(item: any): SolutionTemplate {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -2033,6 +2639,8 @@ export function solutionTemplateDeserializer(item: any): SolutionTemplate {
 
 /** Solution Template Properties */
 export interface SolutionTemplateProperties {
+  /** A unique identifier for the solution template, generated by the system */
+  readonly uniqueIdentifier?: string;
   /** Description of Solution template */
   description: string;
   /** List of capabilities */
@@ -2060,6 +2668,7 @@ export function solutionTemplatePropertiesSerializer(item: SolutionTemplatePrope
 
 export function solutionTemplatePropertiesDeserializer(item: any): SolutionTemplateProperties {
   return {
+    uniqueIdentifier: item["uniqueIdentifier"],
     description: item["description"],
     capabilities: item["capabilities"].map((p: any) => {
       return p;
@@ -2166,6 +2775,7 @@ export function solutionTemplateArrayDeserializer(result: Array<SolutionTemplate
 export interface Instance extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: InstanceProperties;
+  /** The extended location of the resource. */
   extendedLocation?: ExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
@@ -2337,6 +2947,7 @@ export function instanceArrayDeserializer(result: Array<Instance>): any[] {
 export interface InstanceHistory extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: InstanceHistoryProperties;
+  /** The extended location of the resource. */
   extendedLocation?: ExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
@@ -2403,7 +3014,11 @@ export interface SolutionVersionSnapshot {
 export function solutionVersionSnapshotDeserializer(item: any): SolutionVersionSnapshot {
   return {
     solutionVersionId: item["solutionVersionId"],
-    specification: item["specification"],
+    specification: !item["specification"]
+      ? item["specification"]
+      : Object.fromEntries(
+          Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -2420,7 +3035,11 @@ export interface TargetSnapshot {
 export function targetSnapshotDeserializer(item: any): TargetSnapshot {
   return {
     targetId: item["targetId"],
-    targetSpecification: item["targetSpecification"],
+    targetSpecification: !item["targetSpecification"]
+      ? item["targetSpecification"]
+      : Object.fromEntries(
+          Object.entries(item["targetSpecification"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     solutionScope: item["solutionScope"],
   };
 }
@@ -2466,7 +3085,9 @@ export function configTemplateSerializer(item: ConfigTemplate): any {
 
 export function configTemplateDeserializer(item: any): ConfigTemplate {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -2483,6 +3104,8 @@ export function configTemplateDeserializer(item: any): ConfigTemplate {
 
 /** Config Template Properties */
 export interface ConfigTemplateProperties {
+  /** A unique identifier for the config template, generated by the system */
+  readonly uniqueIdentifier?: string;
   /** Description of config template */
   description: string;
   /** Latest config template version */
@@ -2497,6 +3120,7 @@ export function configTemplatePropertiesSerializer(item: ConfigTemplatePropertie
 
 export function configTemplatePropertiesDeserializer(item: any): ConfigTemplateProperties {
   return {
+    uniqueIdentifier: item["uniqueIdentifier"],
     description: item["description"],
     latestVersion: item["latestVersion"],
     provisioningState: item["provisioningState"],
@@ -2530,6 +3154,28 @@ export function configTemplateUpdatePropertiesSerializer(
   item: ConfigTemplateUpdateProperties,
 ): any {
   return { description: item["description"] };
+}
+
+/** Hierarchy Ids With Level for applying config Template which will further generate ARG objects */
+export interface HierarchySelector {
+  /** Context Id */
+  contextId: string;
+  /** Hierarchy Ids */
+  hierarchyIds?: string[];
+  /** Hierarchy Level */
+  level?: string;
+}
+
+export function hierarchySelectorSerializer(item: HierarchySelector): any {
+  return {
+    contextId: item["contextId"],
+    hierarchyIds: !item["hierarchyIds"]
+      ? item["hierarchyIds"]
+      : item["hierarchyIds"].map((p: any) => {
+          return p;
+        }),
+    level: item["level"],
+  };
 }
 
 /** Config Template Version With Update Type */
@@ -2586,7 +3232,7 @@ export function configTemplateVersionDeserializer(item: any): ConfigTemplateVers
 /** Config Template Version Properties */
 export interface ConfigTemplateVersionProperties {
   /** Configuration values */
-  configurations: string;
+  configurations: string | Record<string, any>;
   /** Provisioning state of resource */
   readonly provisioningState?: ProvisioningState;
 }
@@ -2594,16 +3240,37 @@ export interface ConfigTemplateVersionProperties {
 export function configTemplateVersionPropertiesSerializer(
   item: ConfigTemplateVersionProperties,
 ): any {
-  return { configurations: item["configurations"] };
+  return {
+    configurations: _configTemplateVersionPropertiesConfigurationsSerializer(
+      item["configurations"],
+    ),
+  };
 }
 
 export function configTemplateVersionPropertiesDeserializer(
   item: any,
 ): ConfigTemplateVersionProperties {
   return {
-    configurations: item["configurations"],
+    configurations: _configTemplateVersionPropertiesConfigurationsDeserializer(
+      item["configurations"],
+    ),
     provisioningState: item["provisioningState"],
   };
+}
+
+/** Alias for _ConfigTemplateVersionPropertiesConfigurations */
+export type _ConfigTemplateVersionPropertiesConfigurations = string | Record<string, any>;
+
+export function _configTemplateVersionPropertiesConfigurationsSerializer(
+  item: _ConfigTemplateVersionPropertiesConfigurations,
+): any {
+  return item;
+}
+
+export function _configTemplateVersionPropertiesConfigurationsDeserializer(
+  item: any,
+): _ConfigTemplateVersionPropertiesConfigurations {
+  return item;
 }
 
 /** The response of a ConfigTemplate list operation. */
@@ -2668,6 +3335,7 @@ export function configTemplateVersionArrayDeserializer(
 export interface Workflow extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: WorkflowProperties;
+  /** The extended location of the resource. */
   extendedLocation?: ExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
@@ -2710,8 +3378,8 @@ export interface WorkflowProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function workflowPropertiesSerializer(item: WorkflowProperties): any {
-  return item;
+export function workflowPropertiesSerializer(_item: WorkflowProperties): any {
+  return {};
 }
 
 export function workflowPropertiesDeserializer(item: any): WorkflowProperties {
@@ -2752,6 +3420,7 @@ export function workflowArrayDeserializer(result: Array<Workflow>): any[] {
 export interface WorkflowVersion extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: WorkflowVersionProperties;
+  /** The extended location of the resource. */
   extendedLocation?: ExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
@@ -2818,7 +3487,11 @@ export function workflowVersionPropertiesDeserializer(item: any): WorkflowVersio
     stageSpec: stageSpecArrayDeserializer(item["stageSpec"]),
     reviewId: item["reviewId"],
     state: item["state"],
-    specification: item["specification"],
+    specification: !item["specification"]
+      ? item["specification"]
+      : Object.fromEntries(
+          Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     provisioningState: item["provisioningState"],
   };
 }
@@ -2859,7 +3532,11 @@ export function stageSpecSerializer(item: StageSpec): any {
 export function stageSpecDeserializer(item: any): StageSpec {
   return {
     name: item["name"],
-    specification: item["specification"],
+    specification: !item["specification"]
+      ? item["specification"]
+      : Object.fromEntries(
+          Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     tasks: !item["tasks"] ? item["tasks"] : taskSpecArrayDeserializer(item["tasks"]),
     taskOption: !item["taskOption"]
       ? item["taskOption"]
@@ -2890,18 +3567,16 @@ export interface TaskSpec {
 }
 
 export function taskSpecSerializer(item: TaskSpec): any {
-  return {
-    name: item["name"],
-    targetId: item["targetId"],
-    specification: item["specification"],
-  };
+  return { name: item["name"], targetId: item["targetId"], specification: item["specification"] };
 }
 
 export function taskSpecDeserializer(item: any): TaskSpec {
   return {
     name: item["name"],
     targetId: item["targetId"],
-    specification: item["specification"],
+    specification: Object.fromEntries(
+      Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -2940,10 +3615,7 @@ export interface ErrorAction {
 }
 
 export function errorActionSerializer(item: ErrorAction): any {
-  return {
-    mode: item["mode"],
-    maxToleratedFailures: item["maxToleratedFailures"],
-  };
+  return { mode: item["mode"], maxToleratedFailures: item["maxToleratedFailures"] };
 }
 
 export function errorActionDeserializer(item: any): ErrorAction {
@@ -3005,6 +3677,7 @@ export function workflowVersionArrayDeserializer(result: Array<WorkflowVersion>)
 export interface Execution extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: ExecutionProperties;
+  /** The extended location of the resource. */
   extendedLocation?: ExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
@@ -3052,16 +3725,17 @@ export interface ExecutionProperties {
 }
 
 export function executionPropertiesSerializer(item: ExecutionProperties): any {
-  return {
-    workflowVersionId: item["workflowVersionId"],
-    specification: item["specification"],
-  };
+  return { workflowVersionId: item["workflowVersionId"], specification: item["specification"] };
 }
 
 export function executionPropertiesDeserializer(item: any): ExecutionProperties {
   return {
     workflowVersionId: item["workflowVersionId"],
-    specification: item["specification"],
+    specification: !item["specification"]
+      ? item["specification"]
+      : Object.fromEntries(
+          Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     status: !item["status"] ? item["status"] : executionStatusDeserializer(item["status"]),
     provisioningState: item["provisioningState"],
   };
@@ -3124,8 +3798,12 @@ export function stageStatusDeserializer(item: any): StageStatus {
     nextstage: item["nextstage"],
     errorMessage: item["errorMessage"],
     isActive: item["isActive"],
-    inputs: item["inputs"],
-    outputs: item["outputs"],
+    inputs: !item["inputs"]
+      ? item["inputs"]
+      : Object.fromEntries(Object.entries(item["inputs"]).map(([k, p]: [string, any]) => [k, p])),
+    outputs: !item["outputs"]
+      ? item["outputs"]
+      : Object.fromEntries(Object.entries(item["outputs"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -3160,6 +3838,7 @@ export function executionArrayDeserializer(result: Array<Execution>): any[] {
 export interface Diagnostic extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: DiagnosticProperties;
+  /** The extended location of the resource. */
   extendedLocation?: ExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
@@ -3180,7 +3859,9 @@ export function diagnosticSerializer(item: Diagnostic): any {
 
 export function diagnosticDeserializer(item: any): Diagnostic {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3204,8 +3885,8 @@ export interface DiagnosticProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function diagnosticPropertiesSerializer(item: DiagnosticProperties): any {
-  return item;
+export function diagnosticPropertiesSerializer(_item: DiagnosticProperties): any {
+  return {};
 }
 
 export function diagnosticPropertiesDeserializer(item: any): DiagnosticProperties {
@@ -3214,7 +3895,7 @@ export function diagnosticPropertiesDeserializer(item: any): DiagnosticPropertie
   };
 }
 
-/** The type used for update operations of the Diagnostic. */
+/** The updatable properties of the Diagnostic. */
 export interface DiagnosticUpdate {
   /** The resource-specific properties for this resource. */
   properties?: DiagnosticUpdateProperties;
@@ -3232,10 +3913,13 @@ export function diagnosticUpdateSerializer(item: DiagnosticUpdate): any {
 }
 
 /** The updatable properties of the Diagnostic. */
-export interface DiagnosticUpdateProperties {}
+export interface DiagnosticUpdateProperties {
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+}
 
-export function diagnosticUpdatePropertiesSerializer(item: DiagnosticUpdateProperties): any {
-  return item;
+export function diagnosticUpdatePropertiesSerializer(_item: DiagnosticUpdateProperties): any {
+  return {};
 }
 
 /** The response of a Diagnostic list operation. */
@@ -3283,7 +3967,9 @@ export function contextSerializer(item: Context): any {
 
 export function contextDeserializer(item: any): Context {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3299,6 +3985,8 @@ export function contextDeserializer(item: any): Context {
 
 /** Context Properties */
 export interface ContextProperties {
+  /** A unique identifier for the context, generated by the system */
+  readonly uniqueIdentifier?: string;
   /** List of Capabilities */
   capabilities: Capability[];
   /** List of Hierarchies */
@@ -3316,6 +4004,7 @@ export function contextPropertiesSerializer(item: ContextProperties): any {
 
 export function contextPropertiesDeserializer(item: any): ContextProperties {
   return {
+    uniqueIdentifier: item["uniqueIdentifier"],
     capabilities: capabilityArrayDeserializer(item["capabilities"]),
     hierarchies: hierarchyArrayDeserializer(item["hierarchies"]),
     provisioningState: item["provisioningState"],
@@ -3345,11 +4034,7 @@ export interface Capability {
 }
 
 export function capabilitySerializer(item: Capability): any {
-  return {
-    name: item["name"],
-    description: item["description"],
-    state: item["state"],
-  };
+  return { name: item["name"], description: item["description"], state: item["state"] };
 }
 
 export function capabilityDeserializer(item: any): Capability {
@@ -3528,7 +4213,750 @@ export function siteReferenceArrayDeserializer(result: Array<SiteReference>): an
   });
 }
 
+/** SolutionSchema Resource */
+export interface SolutionSchema extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SolutionSchemaProperties;
+  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  readonly eTag?: string;
+}
+
+export function solutionSchemaDeserializer(item: any): SolutionSchema {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : solutionSchemaPropertiesDeserializer(item["properties"]),
+    eTag: item["eTag"],
+  };
+}
+
+/** SolutionSchema Properties */
+export interface SolutionSchemaProperties {
+  /** Value of schema */
+  readonly value?: string | Record<string, any>;
+  /** Hierarchy Level */
+  readonly level?: string;
+  /** Unique identifier for the solution template, generated by the system */
+  readonly templateUniqueIdentifier?: string;
+  /** Provisioning state of resource */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function solutionSchemaPropertiesDeserializer(item: any): SolutionSchemaProperties {
+  return {
+    value: !item["value"]
+      ? item["value"]
+      : _solutionSchemaPropertiesValueDeserializer(item["value"]),
+    level: item["level"],
+    templateUniqueIdentifier: item["templateUniqueIdentifier"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Alias for _SolutionSchemaPropertiesValue */
+export type _SolutionSchemaPropertiesValue = string | Record<string, any>;
+
+export function _solutionSchemaPropertiesValueDeserializer(
+  item: any,
+): _SolutionSchemaPropertiesValue {
+  return item;
+}
+
+/** The response of a SolutionSchema list operation. */
+export interface _SolutionSchemaListResult {
+  /** The SolutionSchema items on this page */
+  value: SolutionSchema[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _solutionSchemaListResultDeserializer(item: any): _SolutionSchemaListResult {
+  return {
+    value: solutionSchemaArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function solutionSchemaArrayDeserializer(result: Array<SolutionSchema>): any[] {
+  return result.map((item) => {
+    return solutionSchemaDeserializer(item);
+  });
+}
+
+/** SolutionSchema Resource */
+export interface ConfigTemplateSchema extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ConfigTemplateSchemaProperties;
+  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  readonly eTag?: string;
+}
+
+export function configTemplateSchemaDeserializer(item: any): ConfigTemplateSchema {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : configTemplateSchemaPropertiesDeserializer(item["properties"]),
+    eTag: item["eTag"],
+  };
+}
+
+/** ConfigTemplateSchema Properties */
+export interface ConfigTemplateSchemaProperties {
+  /** Value of schema */
+  readonly value?: string | Record<string, any>;
+  /** Unique identifier for the config template, generated by the system */
+  readonly templateUniqueIdentifier?: string;
+  /** Provisioning state of resource */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function configTemplateSchemaPropertiesDeserializer(
+  item: any,
+): ConfigTemplateSchemaProperties {
+  return {
+    value: !item["value"]
+      ? item["value"]
+      : _configTemplateSchemaPropertiesValueDeserializer(item["value"]),
+    templateUniqueIdentifier: item["templateUniqueIdentifier"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Alias for _ConfigTemplateSchemaPropertiesValue */
+export type _ConfigTemplateSchemaPropertiesValue = string | Record<string, any>;
+
+export function _configTemplateSchemaPropertiesValueDeserializer(
+  item: any,
+): _ConfigTemplateSchemaPropertiesValue {
+  return item;
+}
+
+/** The response of a ConfigTemplateSchema list operation. */
+export interface _ConfigTemplateSchemaListResult {
+  /** The ConfigTemplateSchema items on this page */
+  value: ConfigTemplateSchema[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _configTemplateSchemaListResultDeserializer(
+  item: any,
+): _ConfigTemplateSchemaListResult {
+  return {
+    value: configTemplateSchemaArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function configTemplateSchemaArrayDeserializer(result: Array<ConfigTemplateSchema>): any[] {
+  return result.map((item) => {
+    return configTemplateSchemaDeserializer(item);
+  });
+}
+
+/** ConfigTemplateMetadata Resource */
+export interface ConfigTemplateMetadata extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ConfigTemplateMetadataProperties;
+  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  readonly eTag?: string;
+}
+
+export function configTemplateMetadataSerializer(item: ConfigTemplateMetadata): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : configTemplateMetadataPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function configTemplateMetadataDeserializer(item: any): ConfigTemplateMetadata {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : configTemplateMetadataPropertiesDeserializer(item["properties"]),
+    eTag: item["eTag"],
+  };
+}
+
+/** ConfigTemplateMetadata Properties */
+export interface ConfigTemplateMetadataProperties {
+  /** ArmId of Context */
+  contextId?: string;
+  /** Hierarchy ARM Ids */
+  linkedHierarchies?: HierarchyMetadata[];
+  /** Hierarchy ARM Ids */
+  unLinkedHierarchies?: HierarchyMetadata[];
+  /** Unique identifier for the config template, generated by the system */
+  readonly templateUniqueIdentifier?: string;
+  /** Provisioning state of resource */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function configTemplateMetadataPropertiesSerializer(
+  item: ConfigTemplateMetadataProperties,
+): any {
+  return {
+    contextId: item["contextId"],
+    linkedHierarchies: !item["linkedHierarchies"]
+      ? item["linkedHierarchies"]
+      : hierarchyMetadataArraySerializer(item["linkedHierarchies"]),
+    unLinkedHierarchies: !item["unLinkedHierarchies"]
+      ? item["unLinkedHierarchies"]
+      : hierarchyMetadataArraySerializer(item["unLinkedHierarchies"]),
+  };
+}
+
+export function configTemplateMetadataPropertiesDeserializer(
+  item: any,
+): ConfigTemplateMetadataProperties {
+  return {
+    contextId: item["contextId"],
+    linkedHierarchies: !item["linkedHierarchies"]
+      ? item["linkedHierarchies"]
+      : hierarchyMetadataArrayDeserializer(item["linkedHierarchies"]),
+    unLinkedHierarchies: !item["unLinkedHierarchies"]
+      ? item["unLinkedHierarchies"]
+      : hierarchyMetadataArrayDeserializer(item["unLinkedHierarchies"]),
+    templateUniqueIdentifier: item["templateUniqueIdentifier"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function hierarchyMetadataArraySerializer(result: Array<HierarchyMetadata>): any[] {
+  return result.map((item) => {
+    return hierarchyMetadataSerializer(item);
+  });
+}
+
+export function hierarchyMetadataArrayDeserializer(result: Array<HierarchyMetadata>): any[] {
+  return result.map((item) => {
+    return hierarchyMetadataDeserializer(item);
+  });
+}
+
+/** Hierarchy Ids With Level for applying config Template which will further generate ARG objects */
+export interface HierarchyMetadata {
+  /** Hierarchy Ids */
+  hierarchyIds?: string[];
+  /** Hierarchy Level */
+  level?: string;
+}
+
+export function hierarchyMetadataSerializer(item: HierarchyMetadata): any {
+  return {
+    hierarchyIds: !item["hierarchyIds"]
+      ? item["hierarchyIds"]
+      : item["hierarchyIds"].map((p: any) => {
+          return p;
+        }),
+    level: item["level"],
+  };
+}
+
+export function hierarchyMetadataDeserializer(item: any): HierarchyMetadata {
+  return {
+    hierarchyIds: !item["hierarchyIds"]
+      ? item["hierarchyIds"]
+      : item["hierarchyIds"].map((p: any) => {
+          return p;
+        }),
+    level: item["level"],
+  };
+}
+
+/** The type used for update operations of the ConfigTemplateMetadata. */
+export interface ConfigTemplateMetadataUpdate {
+  /** The resource-specific properties for this resource. */
+  properties?: ConfigTemplateMetadataUpdateProperties;
+}
+
+export function configTemplateMetadataUpdateSerializer(item: ConfigTemplateMetadataUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : configTemplateMetadataUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the ConfigTemplateMetadata. */
+export interface ConfigTemplateMetadataUpdateProperties {
+  /** ArmId of Context */
+  contextId?: string;
+  /** Hierarchy ARM Ids */
+  linkedHierarchies?: HierarchyMetadata[];
+  /** Hierarchy ARM Ids */
+  unLinkedHierarchies?: HierarchyMetadata[];
+}
+
+export function configTemplateMetadataUpdatePropertiesSerializer(
+  item: ConfigTemplateMetadataUpdateProperties,
+): any {
+  return {
+    contextId: item["contextId"],
+    linkedHierarchies: !item["linkedHierarchies"]
+      ? item["linkedHierarchies"]
+      : hierarchyMetadataArraySerializer(item["linkedHierarchies"]),
+    unLinkedHierarchies: !item["unLinkedHierarchies"]
+      ? item["unLinkedHierarchies"]
+      : hierarchyMetadataArraySerializer(item["unLinkedHierarchies"]),
+  };
+}
+
+/** The response of a ConfigTemplateMetadata list operation. */
+export interface _ConfigTemplateMetadataListResult {
+  /** The ConfigTemplateMetadata items on this page */
+  value: ConfigTemplateMetadata[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _configTemplateMetadataListResultDeserializer(
+  item: any,
+): _ConfigTemplateMetadataListResult {
+  return {
+    value: configTemplateMetadataArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function configTemplateMetadataArraySerializer(
+  result: Array<ConfigTemplateMetadata>,
+): any[] {
+  return result.map((item) => {
+    return configTemplateMetadataSerializer(item);
+  });
+}
+
+export function configTemplateMetadataArrayDeserializer(
+  result: Array<ConfigTemplateMetadata>,
+): any[] {
+  return result.map((item) => {
+    return configTemplateMetadataDeserializer(item);
+  });
+}
+
+/** Hierarchy Configuration Metadata Resource attached to a Target or Site */
+export interface HierarchyConfigurationMetadata extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
+  properties?: HierarchyConfigurationMetadataProperties;
+}
+
+export function hierarchyConfigurationMetadataDeserializer(
+  item: any,
+): HierarchyConfigurationMetadata {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : hierarchyConfigurationMetadataPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Hierarchy Configuration Metadata Properties */
+export interface HierarchyConfigurationMetadataProperties {
+  /** Display name of the hierarchy configuration metadata resource */
+  readonly displayName?: string;
+  /** Configuration template Id */
+  readonly configTemplateId?: string;
+}
+
+export function hierarchyConfigurationMetadataPropertiesDeserializer(
+  item: any,
+): HierarchyConfigurationMetadataProperties {
+  return {
+    displayName: item["displayName"],
+    configTemplateId: item["configTemplateId"],
+  };
+}
+
+/** The response of a HierarchyConfigurationMetadata list operation. */
+export interface _HierarchyConfigurationMetadataListResult {
+  /** The HierarchyConfigurationMetadata items on this page */
+  value: HierarchyConfigurationMetadata[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _hierarchyConfigurationMetadataListResultDeserializer(
+  item: any,
+): _HierarchyConfigurationMetadataListResult {
+  return {
+    value: hierarchyConfigurationMetadataArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function hierarchyConfigurationMetadataArrayDeserializer(
+  result: Array<HierarchyConfigurationMetadata>,
+): any[] {
+  return result.map((item) => {
+    return hierarchyConfigurationMetadataDeserializer(item);
+  });
+}
+
+/** Configuration Metadata Version Resource */
+export interface HierarchyConfigurationMetadataVersion extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: HierarchyConfigurationMetadataVersionProperties;
+}
+
+export function hierarchyConfigurationMetadataVersionDeserializer(
+  item: any,
+): HierarchyConfigurationMetadataVersion {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : hierarchyConfigurationMetadataVersionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Hierarchy Configuration Metadata Version Properties */
+export interface HierarchyConfigurationMetadataVersionProperties {
+  /** Display name of the hierarchy configuration metadata resource */
+  readonly parentDisplayName?: string;
+  /** Configuration template version Id */
+  readonly configTemplateVersionId?: string;
+  /** Schema Id for the config template version at the hierarchy */
+  readonly schemaId?: string;
+  /** Dynamic Configuration Id for the config template version */
+  readonly dynamicConfigurationVersionId?: string;
+  /** Configuration status of the config template version */
+  readonly configurationStatus?: ConfigTemplateConfigurationState;
+}
+
+export function hierarchyConfigurationMetadataVersionPropertiesDeserializer(
+  item: any,
+): HierarchyConfigurationMetadataVersionProperties {
+  return {
+    parentDisplayName: item["parentDisplayName"],
+    configTemplateVersionId: item["configTemplateVersionId"],
+    schemaId: item["schemaId"],
+    dynamicConfigurationVersionId: item["dynamicConfigurationVersionId"],
+    configurationStatus: item["configurationStatus"],
+  };
+}
+
+/** Configuration State Enums */
+export enum KnownConfigTemplateConfigurationState {
+  /** Configuration Completed */
+  ConfigurationCompleted = "ConfigurationCompleted",
+  /** Configuration Completed */
+  ConfigurationPending = "ConfigurationPending",
+}
+
+/**
+ * Configuration State Enums \
+ * {@link KnownConfigTemplateConfigurationState} can be used interchangeably with ConfigTemplateConfigurationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ConfigurationCompleted**: Configuration Completed \
+ * **ConfigurationPending**: Configuration Completed
+ */
+export type ConfigTemplateConfigurationState = string;
+
+/** The response of a HierarchyConfigurationMetadataVersion list operation. */
+export interface _HierarchyConfigurationMetadataVersionListResult {
+  /** The HierarchyConfigurationMetadataVersion items on this page */
+  value: HierarchyConfigurationMetadataVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _hierarchyConfigurationMetadataVersionListResultDeserializer(
+  item: any,
+): _HierarchyConfigurationMetadataVersionListResult {
+  return {
+    value: hierarchyConfigurationMetadataVersionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function hierarchyConfigurationMetadataVersionArrayDeserializer(
+  result: Array<HierarchyConfigurationMetadataVersion>,
+): any[] {
+  return result.map((item) => {
+    return hierarchyConfigurationMetadataVersionDeserializer(item);
+  });
+}
+
+/** Solution Deployment Resource. Represents a resource to be deployed on the cloud or edge. */
+export interface SolutionDeployment extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SolutionDeploymentProperties;
+  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  readonly eTag?: string;
+}
+
+export function solutionDeploymentSerializer(item: SolutionDeployment): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : solutionDeploymentPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function solutionDeploymentDeserializer(item: any): SolutionDeployment {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : solutionDeploymentPropertiesDeserializer(item["properties"]),
+    eTag: item["eTag"],
+  };
+}
+
+/** Solution Deployment Properties */
+export interface SolutionDeploymentProperties {
+  /** Target properties */
+  solutionTemplateProperties: SolutionTemplateMetadata;
+  /** Input field */
+  input?: Record<string, any>;
+  /** Output field */
+  readonly output?: Record<string, any>;
+  /** Target properties */
+  targetProperties: TargetMetadata;
+  /** Provisioning state of resource */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function solutionDeploymentPropertiesSerializer(item: SolutionDeploymentProperties): any {
+  return {
+    solutionTemplateProperties: solutionTemplateMetadataSerializer(
+      item["solutionTemplateProperties"],
+    ),
+    input: item["input"],
+    targetProperties: targetMetadataSerializer(item["targetProperties"]),
+  };
+}
+
+export function solutionDeploymentPropertiesDeserializer(item: any): SolutionDeploymentProperties {
+  return {
+    solutionTemplateProperties: solutionTemplateMetadataDeserializer(
+      item["solutionTemplateProperties"],
+    ),
+    input: !item["input"]
+      ? item["input"]
+      : Object.fromEntries(Object.entries(item["input"]).map(([k, p]: [string, any]) => [k, p])),
+    output: !item["output"]
+      ? item["output"]
+      : Object.fromEntries(Object.entries(item["output"]).map(([k, p]: [string, any]) => [k, p])),
+    targetProperties: targetMetadataDeserializer(item["targetProperties"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Solution Template Details */
+export interface SolutionTemplateMetadata {
+  /** Solution template subscription */
+  subscriptionId?: string;
+  /** Solution template resource group */
+  resourceGroupName?: string;
+  /** Solution template name */
+  name: string;
+  /** Solution template version */
+  version: string;
+}
+
+export function solutionTemplateMetadataSerializer(item: SolutionTemplateMetadata): any {
+  return {
+    subscriptionId: item["subscriptionId"],
+    resourceGroupName: item["resourceGroupName"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+export function solutionTemplateMetadataDeserializer(item: any): SolutionTemplateMetadata {
+  return {
+    subscriptionId: item["subscriptionId"],
+    resourceGroupName: item["resourceGroupName"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Solution Deployment Target Details */
+export interface TargetMetadata {
+  /** List of capabilities */
+  capabilities?: string[];
+  /** ARM resource IDs of the Targets resources */
+  targetIds?: string[];
+}
+
+export function targetMetadataSerializer(item: TargetMetadata): any {
+  return {
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : item["capabilities"].map((p: any) => {
+          return p;
+        }),
+    targetIds: !item["targetIds"]
+      ? item["targetIds"]
+      : item["targetIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function targetMetadataDeserializer(item: any): TargetMetadata {
+  return {
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : item["capabilities"].map((p: any) => {
+          return p;
+        }),
+    targetIds: !item["targetIds"]
+      ? item["targetIds"]
+      : item["targetIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The type used for update operations of the SolutionDeployment. */
+export interface SolutionDeploymentUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: SolutionDeploymentUpdateProperties;
+}
+
+export function solutionDeploymentUpdateSerializer(item: SolutionDeploymentUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : solutionDeploymentUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the SolutionDeploymentProperties. */
+export interface SolutionDeploymentUpdateProperties {
+  /** Target properties */
+  solutionTemplateProperties?: SolutionTemplateMetadataUpdate;
+  /** Input field */
+  input?: Record<string, any>;
+  /** Target properties */
+  targetProperties?: TargetMetadata;
+}
+
+export function solutionDeploymentUpdatePropertiesSerializer(
+  item: SolutionDeploymentUpdateProperties,
+): any {
+  return {
+    solutionTemplateProperties: !item["solutionTemplateProperties"]
+      ? item["solutionTemplateProperties"]
+      : solutionTemplateMetadataUpdateSerializer(item["solutionTemplateProperties"]),
+    input: item["input"],
+    targetProperties: !item["targetProperties"]
+      ? item["targetProperties"]
+      : targetMetadataSerializer(item["targetProperties"]),
+  };
+}
+
+/** Solution Template Details for update operations */
+export interface SolutionTemplateMetadataUpdate {
+  /** Solution template subscription */
+  subscriptionId?: string;
+  /** Solution template resource group */
+  resourceGroupName?: string;
+  /** Solution template name */
+  name?: string;
+  /** Solution template version */
+  version?: string;
+}
+
+export function solutionTemplateMetadataUpdateSerializer(
+  item: SolutionTemplateMetadataUpdate,
+): any {
+  return {
+    subscriptionId: item["subscriptionId"],
+    resourceGroupName: item["resourceGroupName"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** The response of a SolutionDeployment list operation. */
+export interface _SolutionDeploymentListResult {
+  /** The SolutionDeployment items on this page */
+  value: SolutionDeployment[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _solutionDeploymentListResultDeserializer(
+  item: any,
+): _SolutionDeploymentListResult {
+  return {
+    value: solutionDeploymentArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function solutionDeploymentArraySerializer(result: Array<SolutionDeployment>): any[] {
+  return result.map((item) => {
+    return solutionDeploymentSerializer(item);
+  });
+}
+
+export function solutionDeploymentArrayDeserializer(result: Array<SolutionDeployment>): any[] {
+  return result.map((item) => {
+    return solutionDeploymentDeserializer(item);
+  });
+}
+
 /** The available API versions. */
 export enum KnownVersions {
+  /** 2025-06-01 */
   V20250601 = "2025-06-01",
+  /** 2025-08-01 */
+  V20250801 = "2025-08-01",
+  /** 2025-08-15-preview */
+  V20250815Preview = "2025-08-15-preview",
+  /** 2026-03-01 */
+  V20260301 = "2026-03-01",
+  /** 2026-05-01-preview */
+  V20260501Preview = "2026-05-01-preview",
 }
