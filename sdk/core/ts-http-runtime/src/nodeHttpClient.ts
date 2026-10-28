@@ -303,6 +303,7 @@ class NodeHttpClient implements HttpClient {
 
     return new Promise<NodeRequestResult>((_resolve, reject) => {
       let requestDone = false;
+      let response: IncomingMessage | undefined;
       let resolveRequestComplete!: () => void;
       const requestComplete = new Promise<void>((resolve) => {
         resolveRequestComplete = resolve;
@@ -310,9 +311,10 @@ class NodeHttpClient implements HttpClient {
       const req = isInsecure
         ? http.request(options, onResponse)
         : https.request(options, onResponse);
-      function onResponse(response: IncomingMessage): void {
+      function onResponse(incomingResponse: IncomingMessage): void {
+        response = incomingResponse;
         _resolve({
-          response,
+          response: incomingResponse,
           requestComplete,
           isRequestComplete: () => requestDone,
           disposeRequest: () => {
@@ -340,6 +342,7 @@ class NodeHttpClient implements HttpClient {
         const abortError = new AbortError(
           "The operation was aborted. Rejecting from abort signal callback while making request.",
         );
+        response?.destroy(abortError);
         req.destroy(abortError);
         reject(abortError);
       });
@@ -494,28 +497,31 @@ function pipeResponseStream(
 function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const buffer: Buffer[] = [];
+    const cleanupFinished = finished(stream, { writable: false }, onComplete);
 
-    stream.on("data", (chunk) => {
+    function onData(chunk: Uint8Array | string): void {
       if (Buffer.isBuffer(chunk)) {
         buffer.push(chunk);
       } else {
         buffer.push(Buffer.from(chunk));
       }
-    });
-    stream.on("end", () => {
-      resolve(Buffer.concat(buffer).toString("utf8"));
-    });
-    stream.on("error", (e) => {
-      if (e && e?.name === "AbortError") {
-        reject(e);
-      } else {
+    }
+    function onComplete(error?: Error | null): void {
+      cleanupFinished();
+      stream.removeListener("data", onData);
+      if (error?.name === "AbortError") {
+        reject(error);
+      } else if (error) {
         reject(
-          new RestError(`Error reading response as text: ${e.message}`, {
+          new RestError(`Error reading response as text: ${error.message}`, {
             code: RestError.PARSE_ERROR,
           }),
         );
+      } else {
+        resolve(Buffer.concat(buffer).toString("utf8"));
       }
-    });
+    }
+    stream.on("data", onData);
   });
 }
 

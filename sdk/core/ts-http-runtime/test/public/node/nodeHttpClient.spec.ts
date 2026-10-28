@@ -757,6 +757,7 @@ describe("NodeHttpClient", function () {
   it.each([
     { encoding: "gzip", progress: false },
     { encoding: "deflate", progress: false },
+    { encoding: undefined, progress: false },
     { encoding: undefined, progress: true },
     { encoding: "gzip", progress: true },
   ])(
@@ -783,6 +784,38 @@ describe("NodeHttpClient", function () {
       streamResponse.destroy();
 
       expect(await result).toMatchObject({ name: "RestError", code: "PARSE_ERROR" });
+    },
+  );
+
+  it.each([false, true])(
+    "removes buffered response listeners after settlement (failure=%s)",
+    async function (failure) {
+      vi.useRealTimers();
+      const streamResponse = new FakeResponse();
+      streamResponse.headers = {};
+      streamResponse.statusCode = 200;
+      const promise = createDefaultHttpClient().sendRequest(
+        createPipelineRequest({ url: "https://example.com" }),
+      );
+      yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+      await Promise.resolve();
+
+      if (failure) {
+        streamResponse.destroy(new Error("response failed"));
+        await expect(promise).rejects.toMatchObject({
+          name: "RestError",
+          code: "PARSE_ERROR",
+        });
+      } else {
+        streamResponse.end("complete response");
+        expect((await promise).bodyAsText).toBe("complete response");
+      }
+      await delay(0);
+
+      expect(streamResponse.listenerCount("data")).toBe(0);
+      expect(streamResponse.listenerCount("end")).toBe(0);
+      expect(streamResponse.listenerCount("error")).toBe(0);
+      expect(streamResponse.listenerCount("close")).toBe(0);
     },
   );
 

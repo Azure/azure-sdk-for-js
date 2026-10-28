@@ -200,15 +200,18 @@ describe("disposeResponseBody in Node", () => {
   );
 
   it.each([
-    { encoding: "gzip", stream: false, timeout: false },
-    { encoding: "gzip", stream: true, timeout: false },
-    { encoding: "deflate", stream: false, timeout: true },
-    { encoding: "deflate", stream: true, timeout: false },
-    { encoding: undefined, stream: false, timeout: false },
-    { encoding: undefined, stream: true, timeout: false },
+    { encoding: "gzip", progress: true, stream: false, timeout: false },
+    { encoding: "gzip", progress: true, stream: true, timeout: false },
+    { encoding: "deflate", progress: true, stream: false, timeout: true },
+    { encoding: "deflate", progress: true, stream: true, timeout: false },
+    { encoding: undefined, progress: true, stream: false, timeout: false },
+    { encoding: undefined, progress: true, stream: true, timeout: false },
+    { encoding: undefined, progress: false, stream: false, timeout: false },
+    { encoding: undefined, progress: false, stream: true, timeout: false },
+    { encoding: undefined, progress: false, stream: false, timeout: true },
   ])(
-    "propagates cancellation through a real response stream (encoding=$encoding, stream=$stream, timeout=$timeout)",
-    async ({ encoding, stream, timeout }) => {
+    "propagates cancellation through a real response stream (encoding=$encoding, progress=$progress, stream=$stream, timeout=$timeout)",
+    async ({ encoding, progress, stream, timeout }) => {
       if (timeout) {
         vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
       }
@@ -232,10 +235,21 @@ describe("disposeResponseBody in Node", () => {
         if (!address || typeof address === "string") {
           throw new Error("Expected a TCP server address");
         }
-        let resolveProgress!: () => void;
-        const progress = new Promise<void>((resolve) => {
-          resolveProgress = resolve;
+        let resolveBodyReceived!: () => void;
+        const bodyReceived = new Promise<void>((resolve) => {
+          resolveBodyReceived = resolve;
         });
+        if (!progress) {
+          // Observe arrival without adding the progress transform under test.
+          const sendRequest = http.request;
+          vi.spyOn(http, "request").mockImplementation((...args) => {
+            const outgoing = sendRequest(...args);
+            outgoing.once("response", (response) => {
+              response.once("data", () => resolveBodyReceived());
+            });
+            return outgoing;
+          });
+        }
         const controller = new AbortController();
         const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
         const request = createPipelineRequest({
@@ -244,9 +258,11 @@ describe("disposeResponseBody in Node", () => {
           abortSignal: controller.signal,
           timeout: timeout ? 1000 : 0,
           streamResponseStatusCodes: stream ? new Set([200]) : undefined,
-          onDownloadProgress: () => resolveProgress(),
+          onDownloadProgress: progress ? () => resolveBodyReceived() : undefined,
         });
-        request.headers.set("Accept-Encoding", "gzip,deflate");
+        if (encoding) {
+          request.headers.set("Accept-Encoding", "gzip,deflate");
+        }
         request.agent = agent;
         const result = createNodeHttpClient()
           .sendRequest(request)
@@ -259,7 +275,7 @@ describe("disposeResponseBody in Node", () => {
             return response;
           });
         const rejection = expect(result).rejects.toMatchObject({ name: "AbortError" });
-        await progress;
+        await bodyReceived;
 
         if (timeout) {
           vi.advanceTimersByTime(1000);
@@ -290,6 +306,7 @@ describe("disposeResponseBody in Node", () => {
     { encoding: "deflate", progress: false },
     { encoding: "gzip", progress: true },
     { encoding: undefined, progress: true },
+    { encoding: undefined, progress: false },
   ])(
     "keeps a completed response connection reusable (encoding=$encoding, progress=$progress)",
     async ({ encoding, progress }) => {
