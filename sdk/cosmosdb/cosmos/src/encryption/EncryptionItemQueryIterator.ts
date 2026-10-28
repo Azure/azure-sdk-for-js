@@ -132,6 +132,7 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
     // Ensure encryption is initialized and set rid in options
     await this.container.checkAndInitializeEncryption();
     this.encryptionOptions.containerRid = this.container._rid;
+    this.createDefaultQueryExecutionContext();
     await QueryIterator.prototype.init.call(this, diagnosticNode);
   }
 }

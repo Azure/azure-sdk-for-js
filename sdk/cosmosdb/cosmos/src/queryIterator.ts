@@ -306,6 +306,19 @@ export class QueryIterator<T> {
     this.initPromise = undefined;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.fetchAllTempResources = [];
+    this.createDefaultQueryExecutionContext();
+  }
+
+  /**
+   * Recreates the default execution context from the current iterator options.
+   *
+   * Subclasses may update internal options during asynchronous initialization before
+   * the first request is sent. Recreating the context after that update ensures the
+   * context-owned copy includes those internal options.
+   *
+   * @internal
+   */
+  protected createDefaultQueryExecutionContext(): void {
     this.queryExecutionContext = new DefaultQueryExecutionContext(
       this.options,
       this.fetchFunctions,
