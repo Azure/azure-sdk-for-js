@@ -8,6 +8,7 @@
 
 ### Breaking Changes
 
+- Renamed `ChatConversation.parentRoom` to `roomId` in the SDK; the service JSON property remains `parentRoom`.
 - Renamed PUT request models from `ChatRoleInput`, `ChatRoomInput`, `ChatRoomMemberInput`, `ChatTopicInput`, and `HumanChatUserInput` to their corresponding `CreateOrReplace` names. Renamed `ChatMessageInput` to `ChatMessageUpdate` to match `ChatTopicUpdate` and Python lifecycle naming.
 - Changed `createOrReplaceUser` to accept `HumanChatUserCreateOrReplace`, requiring `kind: "Human"`, `nickname`, and `roleName`. Removed the generic `ChatUserInput` and `ChatUserInputUnion` request types; response models continue to support unknown user kinds.
 - Changed `ChatUserKind` to an extensible string type to match the response contract. Human creation inputs still require the literal `"Human"`.
@@ -16,11 +17,14 @@
 
 ### Bugs Fixed
 
+- Preserved request headers and cancellation when following message pagination links or resuming message pages.
 - Made `ChatMessageUpdate.createdBy` and `content` optional so that `updateMessage` supports partial PATCH requests.
 - Preserved the optional `state` property in `ChatTopicCreateOrReplace` so topic PUT requests support replacement without requiring state during creation.
 
 ### Other Changes
 
+- Named request body parameters `role`, `room`, `member`, `user`, `topic`, and `message` consistently across the client and operation functions.
+- Documented message-ID pagination cursors and resuming message pages with the returned continuation token.
 - Moved lifecycle request model and serializer customizations into TypeSpec, sharing the request-model helper with Python.
 
 - Removed the dependency on `@azure/web-pubsub` by implementing client access token generation directly. [#39855](https://github.com/Azure/azure-sdk-for-js/pull/39855)

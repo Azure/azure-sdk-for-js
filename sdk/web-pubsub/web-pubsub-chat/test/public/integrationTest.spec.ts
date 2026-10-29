@@ -206,7 +206,7 @@ describe("", () => {
 
         const conversation = await client.getConversation(room.defaultConversation);
         assert.equal(conversation.id, room.defaultConversation);
-        assert.equal(conversation.parentRoom, roomId);
+        assert.equal(conversation.roomId, roomId);
 
         const messages = [];
         for await (const message of client.listMessages(room.defaultConversation)) {

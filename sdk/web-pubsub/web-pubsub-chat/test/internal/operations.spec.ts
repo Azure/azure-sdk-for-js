@@ -5,6 +5,7 @@ import {
   AzureKeyCredential,
   WebPubSubChatServiceClient,
   KnownChatTopicState,
+  type ChatConversation,
   type ChatRoleCreateOrReplace,
   type ChatRoomCreateOrReplace,
   type ChatRoomMemberCreateOrReplace,
@@ -57,6 +58,86 @@ function createClient(
 }
 
 describe("operation requests", () => {
+  it("maps the conversation parentRoom wire property to roomId", async () => {
+    expectTypeOf<keyof ChatConversation>().toEqualTypeOf<"id" | "roomId" | "etag">();
+    const client = createClient(() => ({
+      body: { id: "c.room.default", parentRoom: "room", etag: '"one"' },
+    }));
+
+    const conversation = await client.getConversation("c.room.default");
+
+    assert.deepEqual(conversation, {
+      id: "c.room.default",
+      roomId: "room",
+      etag: '"one"',
+    });
+    assert.notProperty(conversation, "parentRoom");
+  });
+
+  it("follows message-ID next links and resumes message pages with the returned token", async () => {
+    const requests: PipelineRequest[] = [];
+    const conversationId = "c.room.default";
+    const nextLink =
+      `https://example.webpubsub.azure.com/api/hubs/hub/chat/conversations/${conversationId}/messages` +
+      "?latestMessageId=message%2B2%2F%3D&earliestMessageId=message0&maxpagesize=1";
+    const client = createClient((request) => {
+      requests.push(request);
+      const resumed = new URL(request.url).searchParams.get("latestMessageId") === "message+2/=";
+      return {
+        body: {
+          value: [
+            {
+              id: resumed ? "message1" : "message+2/=",
+              createdBy: "user",
+              createdAt: "2026-10-29T00:00:00Z",
+              content: { text: resumed ? "Older" : "Newer" },
+              etag: '"one"',
+            },
+          ],
+          ...(resumed ? {} : { nextLink }),
+        },
+      };
+    });
+    const options = {
+      latestMessageId: "message3",
+      earliestMessageId: "message0",
+      maxPageSize: 1,
+      requestOptions: { headers: { "x-test-header": "messages" } },
+    };
+    const pages = client.listMessages(conversationId, options).byPage();
+    const first = await pages.next();
+    assert.equal(first.value[0].id, "message+2/=");
+    assert.instanceOf(first.value[0].createdAt, Date);
+    assert.equal(first.value.continuationToken, nextLink);
+    const second = await pages.next();
+    assert.equal(second.value[0].id, "message1");
+    assert.isUndefined(second.value.continuationToken);
+    assert.isTrue((await pages.next()).done);
+
+    const resumed = await client
+      .listMessages(conversationId, options)
+      .byPage({ continuationToken: first.value.continuationToken })
+      .next();
+    assert.equal(resumed.value[0].id, "message1");
+    const ids: string[] = [];
+    for await (const message of client.listMessages(conversationId, options)) {
+      ids.push(message.id);
+    }
+    assert.deepEqual(ids, ["message+2/=", "message1"]);
+    assert.lengthOf(requests, 5);
+    assert.equal(new URL(requests[0].url).searchParams.get("latestMessageId"), "message3");
+    for (const index of [1, 2, 4]) {
+      assert.equal(new URL(requests[index].url).searchParams.get("latestMessageId"), "message+2/=");
+    }
+    for (const request of requests) {
+      const url = new URL(request.url);
+      assert.equal(url.searchParams.get("api-version"), "2026-08-01-preview");
+      assert.equal(url.searchParams.get("earliestMessageId"), "message0");
+      assert.equal(url.searchParams.get("maxpagesize"), "1");
+      assert.equal(request.headers.get("x-test-header"), "messages");
+    }
+  });
+
   it("accepts write inputs without any read-only response properties", async () => {
     expectTypeOf<keyof ChatRoleCreateOrReplace>().toEqualTypeOf<"permissions">();
     expectTypeOf<keyof ChatRoomCreateOrReplace>().toEqualTypeOf<"title">();
@@ -493,6 +574,10 @@ describe("operation requests", () => {
         client: WebPubSubChatServiceClient,
         options: { abortSignal: AbortSignal; requestOptions: { headers: Record<string, string> } },
       ) => client.listTopics("room", options),
+      (
+        client: WebPubSubChatServiceClient,
+        options: { abortSignal: AbortSignal; requestOptions: { headers: Record<string, string> } },
+      ) => client.listMessages("c.room.default", options),
     ]) {
       const controller = new AbortController();
       let calls = 0;

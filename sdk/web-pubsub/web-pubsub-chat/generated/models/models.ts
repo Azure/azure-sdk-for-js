@@ -14,7 +14,7 @@ export interface ChatConversation {
   /** Conversation identifier. */
   readonly id: string;
   /** Parent room identifier. */
-  parentRoom: string;
+  roomId: string;
   /** The entity tag for this resource. */
   readonly etag: string;
 }
@@ -22,7 +22,7 @@ export interface ChatConversation {
 export function chatConversationDeserializer(item: any): ChatConversation {
   return {
     id: item["id"],
-    parentRoom: item["parentRoom"],
+    roomId: item["parentRoom"],
     etag: item["etag"],
   };
 }

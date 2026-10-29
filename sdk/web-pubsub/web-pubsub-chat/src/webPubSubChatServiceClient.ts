@@ -217,13 +217,13 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. */
   createOrReplaceUser(
     userId: string,
-    resource: HumanChatUserCreateOrReplace,
+    user: HumanChatUserCreateOrReplace,
     options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
   ): Promise<ChatUserUnion> {
     return tracingClient.withSpan(
       "WebPubSubChatServiceClient.createOrReplaceUser",
       options,
-      (updatedOptions) => createOrReplaceUser(this._client, userId, resource, updatedOptions),
+      (updatedOptions) => createOrReplaceUser(this._client, userId, user, updatedOptions),
     );
   }
 
@@ -276,14 +276,14 @@ export class WebPubSubChatServiceClient {
   createOrReplaceRoomMember(
     roomId: string,
     userId: string,
-    resource: ChatRoomMemberCreateOrReplace,
+    member: ChatRoomMemberCreateOrReplace,
     options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoomMember> {
     return tracingClient.withSpan(
       "WebPubSubChatServiceClient.createOrReplaceRoomMember",
       options,
       (updatedOptions) =>
-        createOrReplaceRoomMember(this._client, roomId, userId, resource, updatedOptions),
+        createOrReplaceRoomMember(this._client, roomId, userId, member, updatedOptions),
     );
   }
 
@@ -328,20 +328,20 @@ export class WebPubSubChatServiceClient {
    * Update a topic's title or lifecycle state.
    * @param roomId - Room containing the topic.
    * @param topicId - Topic to update.
-   * @param resource - Properties to change; omitted properties are unchanged.
+   * @param topic - Properties to change; omitted properties are unchanged.
    * @param options - Conditional headers and request options.
    * @returns The updated topic.
    */
   updateTopic(
     roomId: string,
     topicId: string,
-    resource: ChatTopicUpdate,
+    topic: ChatTopicUpdate,
     options: UpdateTopicOptionalParams = { requestOptions: {} },
   ): Promise<ChatTopic> {
     return tracingClient.withSpan(
       "WebPubSubChatServiceClient.updateTopic",
       options,
-      (updatedOptions) => updateTopic(this._client, roomId, topicId, resource, updatedOptions),
+      (updatedOptions) => updateTopic(this._client, roomId, topicId, topic, updatedOptions),
     );
   }
 
@@ -368,21 +368,21 @@ export class WebPubSubChatServiceClient {
    * Create or replace a topic with a client-specified identifier.
    * @param roomId - Room containing the topic.
    * @param topicId - Topic identifier, unique within the room.
-   * @param resource - Topic title.
+   * @param topic - Topic title and optional lifecycle state.
    * @param options - Conditional headers and request options.
    * @returns The created or replaced topic.
    */
   createOrReplaceTopic(
     roomId: string,
     topicId: string,
-    resource: ChatTopicCreateOrReplace,
+    topic: ChatTopicCreateOrReplace,
     options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
   ): Promise<ChatTopic> {
     return tracingClient.withSpan(
       "WebPubSubChatServiceClient.createOrReplaceTopic",
       options,
       (updatedOptions) =>
-        createOrReplaceTopic(this._client, roomId, topicId, resource, updatedOptions),
+        createOrReplaceTopic(this._client, roomId, topicId, topic, updatedOptions),
     );
   }
 
@@ -435,13 +435,13 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a room with a client-specified ID. */
   createOrReplaceRoom(
     roomId: string,
-    resource: ChatRoomCreateOrReplace,
+    room: ChatRoomCreateOrReplace,
     options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoom> {
     return tracingClient.withSpan(
       "WebPubSubChatServiceClient.createOrReplaceRoom",
       options,
-      (updatedOptions) => createOrReplaceRoom(this._client, roomId, resource, updatedOptions),
+      (updatedOptions) => createOrReplaceRoom(this._client, roomId, room, updatedOptions),
     );
   }
 
@@ -482,13 +482,13 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a role. */
   createOrReplaceRole(
     roleName: string,
-    resource: ChatRoleCreateOrReplace,
+    role: ChatRoleCreateOrReplace,
     options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
   ): Promise<ChatRole> {
     return tracingClient.withSpan(
       "WebPubSubChatServiceClient.createOrReplaceRole",
       options,
-      (updatedOptions) => createOrReplaceRole(this._client, roleName, resource, updatedOptions),
+      (updatedOptions) => createOrReplaceRole(this._client, roleName, role, updatedOptions),
     );
   }
 
@@ -524,14 +524,14 @@ export class WebPubSubChatServiceClient {
   updateMessage(
     conversationId: string,
     messageId: string,
-    resource: ChatMessageUpdate,
+    message: ChatMessageUpdate,
     options: UpdateMessageOptionalParams = { requestOptions: {} },
   ): Promise<ChatMessage> {
     return tracingClient.withSpan(
       "WebPubSubChatServiceClient.updateMessage",
       options,
       (updatedOptions) =>
-        updateMessage(this._client, conversationId, messageId, resource, updatedOptions),
+        updateMessage(this._client, conversationId, messageId, message, updatedOptions),
     );
   }
 
@@ -548,7 +548,11 @@ export class WebPubSubChatServiceClient {
     );
   }
 
-  /** Query messages in a conversation from latest to earliest. */
+  /**
+   * Query messages in a conversation from latest to earliest.
+   * Message IDs are used as pagination cursors. Follow the response nextLink,
+   * which contains the message ID cursor, to retrieve the next page.
+   */
   listMessages(
     conversationId: string,
     options: ListMessagesOptionalParams = { requestOptions: {} },

@@ -8,7 +8,7 @@
 export interface ChatConversation {
     readonly etag: string;
     readonly id: string;
-    parentRoom: string;
+    roomId: string;
 }
 
 // @public

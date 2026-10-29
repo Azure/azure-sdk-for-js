@@ -271,7 +271,11 @@ Supply only the fields to change; omitted fields retain their current values.
 
 ### List messages in a conversation
 
-Use asynchronous iteration to read messages from a conversation across all result pages.
+Use asynchronous iteration to read messages from a conversation across all result pages,
+from latest to earliest. Message IDs are pagination cursors: the iterator follows the
+service's `nextLink`, which contains the next message ID cursor. To resume later, save
+a page's `continuationToken` and pass it to `byPage({ continuationToken })`; use the
+returned token unchanged rather than passing a bare message ID.
 
 ```ts snippet:ReadmeSampleListMessages
 import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";

@@ -127,10 +127,10 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. */
   createOrReplaceUser(
     userId: string,
-    resource: HumanChatUserCreateOrReplace,
+    user: HumanChatUserCreateOrReplace,
     options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
   ): Promise<ChatUserUnion> {
-    return createOrReplaceUser(this._client, userId, resource, options);
+    return createOrReplaceUser(this._client, userId, user, options);
   }
 
   /** Get a user's profile. The response is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. */
@@ -161,10 +161,10 @@ export class WebPubSubChatServiceClient {
   createOrReplaceRoomMember(
     roomId: string,
     userId: string,
-    resource: ChatRoomMemberCreateOrReplace,
+    member: ChatRoomMemberCreateOrReplace,
     options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoomMember> {
-    return createOrReplaceRoomMember(this._client, roomId, userId, resource, options);
+    return createOrReplaceRoomMember(this._client, roomId, userId, member, options);
   }
 
   /** Get room members. */
@@ -188,10 +188,10 @@ export class WebPubSubChatServiceClient {
   updateTopic(
     roomId: string,
     topicId: string,
-    resource: ChatTopicUpdate,
+    topic: ChatTopicUpdate,
     options: UpdateTopicOptionalParams = { requestOptions: {} },
   ): Promise<ChatTopic> {
-    return updateTopic(this._client, roomId, topicId, resource, options);
+    return updateTopic(this._client, roomId, topicId, topic, options);
   }
 
   /** Get topic information. */
@@ -207,10 +207,10 @@ export class WebPubSubChatServiceClient {
   createOrReplaceTopic(
     roomId: string,
     topicId: string,
-    resource: ChatTopicCreateOrReplace,
+    topic: ChatTopicCreateOrReplace,
     options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
   ): Promise<ChatTopic> {
-    return createOrReplaceTopic(this._client, roomId, topicId, resource, options);
+    return createOrReplaceTopic(this._client, roomId, topicId, topic, options);
   }
 
   /** List topics in a room with pagination. */
@@ -240,10 +240,10 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a room with a client-specified ID. */
   createOrReplaceRoom(
     roomId: string,
-    resource: ChatRoomCreateOrReplace,
+    room: ChatRoomCreateOrReplace,
     options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoom> {
-    return createOrReplaceRoom(this._client, roomId, resource, options);
+    return createOrReplaceRoom(this._client, roomId, room, options);
   }
 
   /** List rooms with pagination. */
@@ -264,10 +264,10 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a role. */
   createOrReplaceRole(
     roleName: string,
-    resource: ChatRoleCreateOrReplace,
+    role: ChatRoleCreateOrReplace,
     options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
   ): Promise<ChatRole> {
-    return createOrReplaceRole(this._client, roleName, resource, options);
+    return createOrReplaceRole(this._client, roleName, role, options);
   }
 
   /** Get role information. */
@@ -289,10 +289,10 @@ export class WebPubSubChatServiceClient {
   updateMessage(
     conversationId: string,
     messageId: string,
-    resource: ChatMessageUpdate,
+    message: ChatMessageUpdate,
     options: UpdateMessageOptionalParams = { requestOptions: {} },
   ): Promise<ChatMessage> {
-    return updateMessage(this._client, conversationId, messageId, resource, options);
+    return updateMessage(this._client, conversationId, messageId, message, options);
   }
 
   /** Delete a message. */
@@ -304,7 +304,11 @@ export class WebPubSubChatServiceClient {
     return deleteMessage(this._client, conversationId, messageId, options);
   }
 
-  /** Query messages in a conversation from latest to earliest. */
+  /**
+   * Query messages in a conversation from latest to earliest.
+   * Message IDs are used as pagination cursors. Follow the response nextLink,
+   * which contains the message ID cursor, to retrieve the next page.
+   */
   listMessages(
     conversationId: string,
     options: ListMessagesOptionalParams = { requestOptions: {} },

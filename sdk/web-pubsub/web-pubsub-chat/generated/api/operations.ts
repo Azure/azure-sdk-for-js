@@ -246,7 +246,7 @@ export async function deleteUser(
 export function _createOrReplaceUserSend(
   context: Client,
   userId: string,
-  resource: HumanChatUserCreateOrReplace,
+  user: HumanChatUserCreateOrReplace,
   options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -271,7 +271,7 @@ export function _createOrReplaceUserSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: humanChatUserCreateOrReplaceSerializer(resource),
+      body: humanChatUserCreateOrReplaceSerializer(user),
     });
 }
 
@@ -290,10 +290,10 @@ export async function _createOrReplaceUserDeserialize(
 export async function createOrReplaceUser(
   context: Client,
   userId: string,
-  resource: HumanChatUserCreateOrReplace,
+  user: HumanChatUserCreateOrReplace,
   options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
 ): Promise<ChatUserUnion> {
-  const result = await _createOrReplaceUserSend(context, userId, resource, options);
+  const result = await _createOrReplaceUserSend(context, userId, user, options);
   return _createOrReplaceUserDeserialize(result);
 }
 
@@ -447,7 +447,7 @@ export function _createOrReplaceRoomMemberSend(
   context: Client,
   roomId: string,
   userId: string,
-  resource: ChatRoomMemberCreateOrReplace,
+  member: ChatRoomMemberCreateOrReplace,
   options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -473,7 +473,7 @@ export function _createOrReplaceRoomMemberSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatRoomMemberCreateOrReplaceSerializer(resource),
+      body: chatRoomMemberCreateOrReplaceSerializer(member),
     });
 }
 
@@ -493,10 +493,10 @@ export async function createOrReplaceRoomMember(
   context: Client,
   roomId: string,
   userId: string,
-  resource: ChatRoomMemberCreateOrReplace,
+  member: ChatRoomMemberCreateOrReplace,
   options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
 ): Promise<ChatRoomMember> {
-  const result = await _createOrReplaceRoomMemberSend(context, roomId, userId, resource, options);
+  const result = await _createOrReplaceRoomMemberSend(context, roomId, userId, member, options);
   return _createOrReplaceRoomMemberDeserialize(result);
 }
 
@@ -610,7 +610,7 @@ export function _updateTopicSend(
   context: Client,
   roomId: string,
   topicId: string,
-  resource: ChatTopicUpdate,
+  topic: ChatTopicUpdate,
   options: UpdateTopicOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -636,7 +636,7 @@ export function _updateTopicSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatTopicUpdateSerializer(resource),
+      body: chatTopicUpdateSerializer(topic),
     });
 }
 
@@ -654,10 +654,10 @@ export async function updateTopic(
   context: Client,
   roomId: string,
   topicId: string,
-  resource: ChatTopicUpdate,
+  topic: ChatTopicUpdate,
   options: UpdateTopicOptionalParams = { requestOptions: {} },
 ): Promise<ChatTopic> {
-  const result = await _updateTopicSend(context, roomId, topicId, resource, options);
+  const result = await _updateTopicSend(context, roomId, topicId, topic, options);
   return _updateTopicDeserialize(result);
 }
 
@@ -711,7 +711,7 @@ export function _createOrReplaceTopicSend(
   context: Client,
   roomId: string,
   topicId: string,
-  resource: ChatTopicCreateOrReplace,
+  topic: ChatTopicCreateOrReplace,
   options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -737,7 +737,7 @@ export function _createOrReplaceTopicSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatTopicCreateOrReplaceSerializer(resource),
+      body: chatTopicCreateOrReplaceSerializer(topic),
     });
 }
 
@@ -757,10 +757,10 @@ export async function createOrReplaceTopic(
   context: Client,
   roomId: string,
   topicId: string,
-  resource: ChatTopicCreateOrReplace,
+  topic: ChatTopicCreateOrReplace,
   options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
 ): Promise<ChatTopic> {
-  const result = await _createOrReplaceTopicSend(context, roomId, topicId, resource, options);
+  const result = await _createOrReplaceTopicSend(context, roomId, topicId, topic, options);
   return _createOrReplaceTopicDeserialize(result);
 }
 
@@ -913,7 +913,7 @@ export async function getRoom(
 export function _createOrReplaceRoomSend(
   context: Client,
   roomId: string,
-  resource: ChatRoomCreateOrReplace,
+  room: ChatRoomCreateOrReplace,
   options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -938,7 +938,7 @@ export function _createOrReplaceRoomSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatRoomCreateOrReplaceSerializer(resource),
+      body: chatRoomCreateOrReplaceSerializer(room),
     });
 }
 
@@ -957,10 +957,10 @@ export async function _createOrReplaceRoomDeserialize(
 export async function createOrReplaceRoom(
   context: Client,
   roomId: string,
-  resource: ChatRoomCreateOrReplace,
+  room: ChatRoomCreateOrReplace,
   options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
 ): Promise<ChatRoom> {
-  const result = await _createOrReplaceRoomSend(context, roomId, resource, options);
+  const result = await _createOrReplaceRoomSend(context, roomId, room, options);
   return _createOrReplaceRoomDeserialize(result);
 }
 
@@ -1067,7 +1067,7 @@ export async function deleteRole(
 export function _createOrReplaceRoleSend(
   context: Client,
   roleName: string,
-  resource: ChatRoleCreateOrReplace,
+  role: ChatRoleCreateOrReplace,
   options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1092,7 +1092,7 @@ export function _createOrReplaceRoleSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatRoleCreateOrReplaceSerializer(resource),
+      body: chatRoleCreateOrReplaceSerializer(role),
     });
 }
 
@@ -1111,10 +1111,10 @@ export async function _createOrReplaceRoleDeserialize(
 export async function createOrReplaceRole(
   context: Client,
   roleName: string,
-  resource: ChatRoleCreateOrReplace,
+  role: ChatRoleCreateOrReplace,
   options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
 ): Promise<ChatRole> {
-  const result = await _createOrReplaceRoleSend(context, roleName, resource, options);
+  const result = await _createOrReplaceRoleSend(context, roleName, role, options);
   return _createOrReplaceRoleDeserialize(result);
 }
 
@@ -1218,7 +1218,7 @@ export function _updateMessageSend(
   context: Client,
   conversationId: string,
   messageId: string,
-  resource: ChatMessageUpdate,
+  message: ChatMessageUpdate,
   options: UpdateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1244,7 +1244,7 @@ export function _updateMessageSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatMessageUpdateSerializer(resource),
+      body: chatMessageUpdateSerializer(message),
     });
 }
 
@@ -1264,10 +1264,10 @@ export async function updateMessage(
   context: Client,
   conversationId: string,
   messageId: string,
-  resource: ChatMessageUpdate,
+  message: ChatMessageUpdate,
   options: UpdateMessageOptionalParams = { requestOptions: {} },
 ): Promise<ChatMessage> {
-  const result = await _updateMessageSend(context, conversationId, messageId, resource, options);
+  const result = await _updateMessageSend(context, conversationId, messageId, message, options);
   return _updateMessageDeserialize(result);
 }
 
@@ -1359,7 +1359,11 @@ export async function _listMessagesDeserialize(
   return _pagedChatMessageDeserializer(result.body);
 }
 
-/** Query messages in a conversation from latest to earliest. */
+/**
+ * Query messages in a conversation from latest to earliest.
+ * Message IDs are used as pagination cursors. Follow the response nextLink,
+ * which contains the message ID cursor, to retrieve the next page.
+ */
 export function listMessages(
   context: Client,
   conversationId: string,
