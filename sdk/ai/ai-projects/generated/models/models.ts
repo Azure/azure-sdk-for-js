@@ -19,14 +19,7 @@ import {
   ToolUnion,
   MCPToolRequireApproval,
   MCPToolFilter,
-  MCPTool,
-  _mcpToolAllowedToolsSerializer,
-  _mcpToolAllowedToolsDeserializer,
   CallableToolAllowedCaller,
-  _mcpToolRequireApprovalSerializer,
-  _mcpToolRequireApprovalDeserializer,
-  AutoCodeInterpreterToolParam,
-  ContainerMemoryLimit,
   RankingOptions,
   rankingOptionsSerializer,
   rankingOptionsDeserializer,
@@ -39,6 +32,12 @@ import {
   WebSearchApproximateLocation,
   webSearchApproximateLocationSerializer,
   webSearchApproximateLocationDeserializer,
+  _toolMcpToolAllowedToolsSerializer,
+  _toolMcpToolAllowedToolsDeserializer,
+  _toolMcpToolRequireApprovalSerializer,
+  _toolMcpToolRequireApprovalDeserializer,
+  AutoCodeInterpreterToolParam,
+  ContainerMemoryLimit,
   containerSkillUnionArraySerializer,
   containerSkillUnionArrayDeserializer,
   ContainerSkillUnion,
@@ -105,6 +104,7 @@ import {
   _voiceAgentResponseCreateParamsToolArraySerializer,
   _voiceAgentResponseCreateParamsToolArrayDeserializer,
   RealtimeFunctionTool,
+  MCPTool,
   _voiceAgentResponseCreateParamsToolChoiceSerializer,
   _voiceAgentResponseCreateParamsToolChoiceDeserializer,
   ToolChoiceOptions,
@@ -155,6 +155,8 @@ import {
   ModelIdsLive,
   liveInitialItemUnionArrayDeserializer,
   LiveInitialItemUnion,
+  liveDecisionTriggerInputParam2ArrayDeserializer,
+  LiveDecisionTriggerInputParam2,
   LiveClientConfigParam,
   liveClientConfigParamDeserializer,
   RealtimeServerEventError,
@@ -2685,19 +2687,6 @@ export function memorySearchOptionsDeserializer(item: any): MemorySearchOptions 
   };
 }
 
-/** Alias for _CodeInterpreterToolContainer */
-export type _CodeInterpreterToolContainer = string | AutoCodeInterpreterToolParam;
-
-export function _codeInterpreterToolContainerSerializer(item: _CodeInterpreterToolContainer): any {
-  return item;
-}
-
-export function _codeInterpreterToolContainerDeserializer(
-  item: any,
-): _CodeInterpreterToolContainer {
-  return item;
-}
-
 /** A web search configuration for bing custom search */
 export interface WebSearchConfiguration {
   /** Project connection id for grounding with bing custom search */
@@ -2718,6 +2707,21 @@ export function webSearchConfigurationDeserializer(item: any): WebSearchConfigur
     project_connection_id: item["project_connection_id"],
     instance_name: item["instance_name"],
   };
+}
+
+/** Alias for _ToolCodeInterpreterToolContainer */
+export type _ToolCodeInterpreterToolContainer = string | AutoCodeInterpreterToolParam;
+
+export function _toolCodeInterpreterToolContainerSerializer(
+  item: _ToolCodeInterpreterToolContainer,
+): any {
+  return item;
+}
+
+export function _toolCodeInterpreterToolContainerDeserializer(
+  item: any,
+): _ToolCodeInterpreterToolContainer {
+  return item;
 }
 
 /** Alias for _PromptAgentDefinitionToolChoice */
@@ -9439,7 +9443,7 @@ export function codeInterpreterToolboxToolSerializer(item: CodeInterpreterToolbo
         }),
     container: !item["container"]
       ? item["container"]
-      : _codeInterpreterToolContainerSerializer(item["container"]),
+      : _toolCodeInterpreterToolContainerSerializer(item["container"]),
   };
 }
 
@@ -9458,7 +9462,7 @@ export function codeInterpreterToolboxToolDeserializer(item: any): CodeInterpret
         }),
     container: !item["container"]
       ? item["container"]
-      : _codeInterpreterToolContainerDeserializer(item["container"]),
+      : _toolCodeInterpreterToolContainerDeserializer(item["container"]),
   };
 }
 
@@ -9892,7 +9896,7 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
     headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p: any) => {
@@ -9900,7 +9904,7 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
   };
@@ -9927,7 +9931,7 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
         ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p1: any) => {
@@ -9935,7 +9939,7 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
   };
@@ -10832,7 +10836,7 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
     headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p: any) => {
@@ -10840,7 +10844,7 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -10864,7 +10868,7 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
         ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p1: any) => {
@@ -10872,7 +10876,7 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -20692,10 +20696,12 @@ export function updateToolboxRequestSerializer(item: UpdateToolboxRequest): any 
 export interface VoiceAgentLiveSessionResource {
   model: ModelIdsLive;
   instructions?: string;
-  /** Ordered text-only history supplied before startup. Supports developer, user, and assistant messages with one text part each; at most 128 messages and 8,192 rendered tokens in total. */
+  /** Ordered text-only history supplied before startup. Supports developer, user, and assistant messages with one text part each; at most 128 messages and a configured rendered-token limit (8,192 by default). */
   input?: LiveInitialItemUnion[];
   /** Startup audio configuration. Only primary WebSockets accept audio.format; WebRTC and SIP negotiate their media format. Voice and format are immutable after startup. */
   audio?: LiveInitialSessionAudioParam;
+  /** At most one Decisions trigger per transcript event type. Triggers run independently of delegation. On update, omit triggers to keep the current configuration, send a list to replace it, or send an empty list to disable triggers. */
+  triggers?: LiveDecisionTriggerInputParam2[];
   /** Whether to store the session for later forking and recording download. Defaults to false for new sessions. */
   store?: boolean;
   /** Startup-only capabilities for an untrusted frontend attached to a unified WebRTC session. Trusted sideband connections are unaffected. */
@@ -20718,6 +20724,9 @@ export function voiceAgentLiveSessionResourceDeserializer(
     instructions: item["instructions"],
     input: !item["input"] ? item["input"] : liveInitialItemUnionArrayDeserializer(item["input"]),
     audio: !item["audio"] ? item["audio"] : liveInitialSessionAudioParamDeserializer(item["audio"]),
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : liveDecisionTriggerInputParam2ArrayDeserializer(item["triggers"]),
     store: item["store"],
     client: !item["client"] ? item["client"] : liveClientConfigParamDeserializer(item["client"]),
     id: item["id"],
@@ -20731,7 +20740,7 @@ export function voiceAgentLiveSessionResourceDeserializer(
 
 /** Live delegation trigger metadata reported to Foundry clients. This object contains metadata, not the task text. */
 export interface VoiceAgentLiveDelegationItem {
-  /** The unique ID of the delegation. Use this as delegation_id when replying to client-owned work or correlating Responses events. */
+  /** The unique ID of the delegation. Use this as delegation_id when replying to client-owned work or correlating backend events. */
   id: string;
   /** The object type, always `delegation`. */
   type: "delegation";

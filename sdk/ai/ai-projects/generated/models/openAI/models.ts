@@ -66,11 +66,11 @@ import {
   MemorySearchPreviewTool,
   memorySearchPreviewToolSerializer,
   memorySearchPreviewToolDeserializer,
-  _codeInterpreterToolContainerSerializer,
-  _codeInterpreterToolContainerDeserializer,
   WebSearchConfiguration,
   webSearchConfigurationSerializer,
   webSearchConfigurationDeserializer,
+  _toolCodeInterpreterToolContainerSerializer,
+  _toolCodeInterpreterToolContainerDeserializer,
   VoiceAgentClientEventSessionAvatarConnect,
   voiceAgentClientEventSessionAvatarConnectSerializer,
   voiceAgentClientEventSessionAvatarConnectDeserializer,
@@ -249,22 +249,22 @@ export type ToolUnion =
   | FabricIQPreviewTool
   | WebIQPreviewTool
   | MemorySearchPreviewTool
-  | MCPTool
-  | CodeInterpreterTool
-  | FunctionTool
-  | FileSearchTool
-  | ComputerUsePreviewTool
-  | WebSearchTool
-  | ProgrammaticToolCallingParam
-  | ImageGenTool
-  | LocalShellToolParam
-  | FunctionShellToolParam
-  | CustomToolParam
-  | WebSearchPreviewTool
-  | ApplyPatchToolParam
-  | ComputerTool
+  | ToolFunctionTool
+  | ToolFileSearchTool
+  | ToolComputerTool
+  | ToolComputerUsePreviewTool
+  | ToolWebSearchTool
+  | ToolMcpTool
+  | ToolCodeInterpreterTool
+  | ToolProgrammaticToolCallingParam
+  | ToolImageGenTool
+  | ToolLocalShellToolParam
+  | ToolFunctionShellToolParam
+  | ToolCustomToolParam
+  | ToolToolSearchToolParam
+  | ToolWebSearchPreviewTool
+  | ToolApplyPatchToolParam
   | NamespaceToolParam
-  | ToolSearchToolParam
   | Tool;
 
 export function toolUnionSerializer(item: ToolUnion): any {
@@ -323,53 +323,53 @@ export function toolUnionSerializer(item: ToolUnion): any {
     case "memory_search_preview":
       return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
 
-    case "mcp":
-      return mcpToolSerializer(item as MCPTool);
-
-    case "code_interpreter":
-      return codeInterpreterToolSerializer(item as CodeInterpreterTool);
-
     case "function":
-      return functionToolSerializer(item as FunctionTool);
+      return toolFunctionToolSerializer(item as ToolFunctionTool);
 
     case "file_search":
-      return fileSearchToolSerializer(item as FileSearchTool);
-
-    case "computer_use_preview":
-      return computerUsePreviewToolSerializer(item as ComputerUsePreviewTool);
-
-    case "web_search":
-      return webSearchToolSerializer(item as WebSearchTool);
-
-    case "programmatic_tool_calling":
-      return programmaticToolCallingParamSerializer(item as ProgrammaticToolCallingParam);
-
-    case "image_generation":
-      return imageGenToolSerializer(item as ImageGenTool);
-
-    case "local_shell":
-      return localShellToolParamSerializer(item as LocalShellToolParam);
-
-    case "shell":
-      return functionShellToolParamSerializer(item as FunctionShellToolParam);
-
-    case "custom":
-      return customToolParamSerializer(item as CustomToolParam);
-
-    case "web_search_preview":
-      return webSearchPreviewToolSerializer(item as WebSearchPreviewTool);
-
-    case "apply_patch":
-      return applyPatchToolParamSerializer(item as ApplyPatchToolParam);
+      return toolFileSearchToolSerializer(item as ToolFileSearchTool);
 
     case "computer":
-      return computerToolSerializer(item as ComputerTool);
+      return toolComputerToolSerializer(item as ToolComputerTool);
+
+    case "computer_use_preview":
+      return toolComputerUsePreviewToolSerializer(item as ToolComputerUsePreviewTool);
+
+    case "web_search":
+      return toolWebSearchToolSerializer(item as ToolWebSearchTool);
+
+    case "mcp":
+      return toolMcpToolSerializer(item as ToolMcpTool);
+
+    case "code_interpreter":
+      return toolCodeInterpreterToolSerializer(item as ToolCodeInterpreterTool);
+
+    case "programmatic_tool_calling":
+      return toolProgrammaticToolCallingParamSerializer(item as ToolProgrammaticToolCallingParam);
+
+    case "image_generation":
+      return toolImageGenToolSerializer(item as ToolImageGenTool);
+
+    case "local_shell":
+      return toolLocalShellToolParamSerializer(item as ToolLocalShellToolParam);
+
+    case "shell":
+      return toolFunctionShellToolParamSerializer(item as ToolFunctionShellToolParam);
+
+    case "custom":
+      return toolCustomToolParamSerializer(item as ToolCustomToolParam);
+
+    case "tool_search":
+      return toolToolSearchToolParamSerializer(item as ToolToolSearchToolParam);
+
+    case "web_search_preview":
+      return toolWebSearchPreviewToolSerializer(item as ToolWebSearchPreviewTool);
+
+    case "apply_patch":
+      return toolApplyPatchToolParamSerializer(item as ToolApplyPatchToolParam);
 
     case "namespace":
       return namespaceToolParamSerializer(item as NamespaceToolParam);
-
-    case "tool_search":
-      return toolSearchToolParamSerializer(item as ToolSearchToolParam);
 
     default:
       return toolSerializer(item);
@@ -432,53 +432,53 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "memory_search_preview":
       return memorySearchPreviewToolDeserializer(item as MemorySearchPreviewTool);
 
-    case "mcp":
-      return mcpToolDeserializer(item as MCPTool);
-
-    case "code_interpreter":
-      return codeInterpreterToolDeserializer(item as CodeInterpreterTool);
-
     case "function":
-      return functionToolDeserializer(item as FunctionTool);
+      return toolFunctionToolDeserializer(item as ToolFunctionTool);
 
     case "file_search":
-      return fileSearchToolDeserializer(item as FileSearchTool);
-
-    case "computer_use_preview":
-      return computerUsePreviewToolDeserializer(item as ComputerUsePreviewTool);
-
-    case "web_search":
-      return webSearchToolDeserializer(item as WebSearchTool);
-
-    case "programmatic_tool_calling":
-      return programmaticToolCallingParamDeserializer(item as ProgrammaticToolCallingParam);
-
-    case "image_generation":
-      return imageGenToolDeserializer(item as ImageGenTool);
-
-    case "local_shell":
-      return localShellToolParamDeserializer(item as LocalShellToolParam);
-
-    case "shell":
-      return functionShellToolParamDeserializer(item as FunctionShellToolParam);
-
-    case "custom":
-      return customToolParamDeserializer(item as CustomToolParam);
-
-    case "web_search_preview":
-      return webSearchPreviewToolDeserializer(item as WebSearchPreviewTool);
-
-    case "apply_patch":
-      return applyPatchToolParamDeserializer(item as ApplyPatchToolParam);
+      return toolFileSearchToolDeserializer(item as ToolFileSearchTool);
 
     case "computer":
-      return computerToolDeserializer(item as ComputerTool);
+      return toolComputerToolDeserializer(item as ToolComputerTool);
+
+    case "computer_use_preview":
+      return toolComputerUsePreviewToolDeserializer(item as ToolComputerUsePreviewTool);
+
+    case "web_search":
+      return toolWebSearchToolDeserializer(item as ToolWebSearchTool);
+
+    case "mcp":
+      return toolMcpToolDeserializer(item as ToolMcpTool);
+
+    case "code_interpreter":
+      return toolCodeInterpreterToolDeserializer(item as ToolCodeInterpreterTool);
+
+    case "programmatic_tool_calling":
+      return toolProgrammaticToolCallingParamDeserializer(item as ToolProgrammaticToolCallingParam);
+
+    case "image_generation":
+      return toolImageGenToolDeserializer(item as ToolImageGenTool);
+
+    case "local_shell":
+      return toolLocalShellToolParamDeserializer(item as ToolLocalShellToolParam);
+
+    case "shell":
+      return toolFunctionShellToolParamDeserializer(item as ToolFunctionShellToolParam);
+
+    case "custom":
+      return toolCustomToolParamDeserializer(item as ToolCustomToolParam);
+
+    case "tool_search":
+      return toolToolSearchToolParamDeserializer(item as ToolToolSearchToolParam);
+
+    case "web_search_preview":
+      return toolWebSearchPreviewToolDeserializer(item as ToolWebSearchPreviewTool);
+
+    case "apply_patch":
+      return toolApplyPatchToolParamDeserializer(item as ToolApplyPatchToolParam);
 
     case "namespace":
       return namespaceToolParamDeserializer(item as NamespaceToolParam);
-
-    case "tool_search":
-      return toolSearchToolParamDeserializer(item as ToolSearchToolParam);
 
     default:
       return toolDeserializer(item);
@@ -577,11 +577,504 @@ export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
   };
 }
 
+/** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://developers.openai.com/api/docs/guides/function-calling). */
+export interface ToolFunctionTool extends Tool {
+  /** The type of the function tool. Always `function`. */
+  type: "function";
+  /** The name of the function to call. */
+  name: string;
+  async?: boolean;
+  description?: string;
+  parameters: Record<string, any> | null;
+  output_schema?: Record<string, any>;
+  strict: boolean | null;
+  /** Whether this function is deferred and loaded via tool search. */
+  defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
+}
+
+export function toolFunctionToolSerializer(item: ToolFunctionTool): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    async: item["async"],
+    description: item["description"],
+    parameters: item["parameters"],
+    output_schema: item["output_schema"],
+    strict: item["strict"],
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function toolFunctionToolDeserializer(item: any): ToolFunctionTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    async: item["async"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : Object.fromEntries(
+          Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    output_schema: !item["output_schema"]
+      ? item["output_schema"]
+      : Object.fromEntries(
+          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    strict: item["strict"],
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+  };
+}
+
+/** Type of CallableToolAllowedCaller */
+export type CallableToolAllowedCaller = "direct" | "programmatic";
+
+/** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search). */
+export interface ToolFileSearchTool extends Tool {
+  /** The type of the file search tool. Always `file_search`. */
+  type: "file_search";
+  /** The IDs of the vector stores to search. */
+  vector_store_ids: string[];
+  /** The maximum number of results to return. This number should be between 1 and 50 inclusive. */
+  max_num_results?: number;
+  /** Ranking options for search. */
+  ranking_options?: RankingOptions;
+  filters?: Filters;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+}
+
+export function toolFileSearchToolSerializer(item: ToolFileSearchTool): any {
+  return {
+    type: item["type"],
+    vector_store_ids: item["vector_store_ids"].map((p: any) => {
+      return p;
+    }),
+    max_num_results: item["max_num_results"],
+    ranking_options: !item["ranking_options"]
+      ? item["ranking_options"]
+      : rankingOptionsSerializer(item["ranking_options"]),
+    filters: !item["filters"] ? item["filters"] : filtersSerializer(item["filters"]),
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+export function toolFileSearchToolDeserializer(item: any): ToolFileSearchTool {
+  return {
+    type: item["type"],
+    vector_store_ids: item["vector_store_ids"].map((p: any) => {
+      return p;
+    }),
+    max_num_results: item["max_num_results"],
+    ranking_options: !item["ranking_options"]
+      ? item["ranking_options"]
+      : rankingOptionsDeserializer(item["ranking_options"]),
+    filters: !item["filters"] ? item["filters"] : filtersDeserializer(item["filters"]),
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+  };
+}
+
+/** model interface RankingOptions */
+export interface RankingOptions {
+  /** The ranker to use for the file search. */
+  ranker?: RankerVersionType;
+  /** The score threshold for the file search, a number between 0 and 1. Numbers closer to 1 will attempt to return only the most relevant results, but may return fewer results. */
+  score_threshold?: number;
+  /** Weights that control how reciprocal rank fusion balances semantic embedding matches versus sparse keyword matches when hybrid search is enabled. */
+  hybrid_search?: HybridSearchOptions;
+}
+
+export function rankingOptionsSerializer(item: RankingOptions): any {
+  return {
+    ranker: item["ranker"],
+    score_threshold: item["score_threshold"],
+    hybrid_search: !item["hybrid_search"]
+      ? item["hybrid_search"]
+      : hybridSearchOptionsSerializer(item["hybrid_search"]),
+  };
+}
+
+export function rankingOptionsDeserializer(item: any): RankingOptions {
+  return {
+    ranker: item["ranker"],
+    score_threshold: item["score_threshold"],
+    hybrid_search: !item["hybrid_search"]
+      ? item["hybrid_search"]
+      : hybridSearchOptionsDeserializer(item["hybrid_search"]),
+  };
+}
+
+/** Type of RankerVersionType */
+export type RankerVersionType = "auto" | "default-2024-11-15";
+
+/** model interface HybridSearchOptions */
+export interface HybridSearchOptions {
+  /** The weight of the embedding in the reciprocal ranking fusion. */
+  embedding_weight: number;
+  /** The weight of the text in the reciprocal ranking fusion. */
+  text_weight: number;
+}
+
+export function hybridSearchOptionsSerializer(item: HybridSearchOptions): any {
+  return { embedding_weight: item["embedding_weight"], text_weight: item["text_weight"] };
+}
+
+export function hybridSearchOptionsDeserializer(item: any): HybridSearchOptions {
+  return {
+    embedding_weight: item["embedding_weight"],
+    text_weight: item["text_weight"],
+  };
+}
+
+/** Alias for Filters */
+export type Filters = ComparisonFilter | CompoundFilter;
+
+export function filtersSerializer(item: Filters): any {
+  return item;
+}
+
+export function filtersDeserializer(item: any): Filters {
+  return item;
+}
+
+/** A filter used to compare a specified attribute key to a given value using a defined comparison operation. */
+export interface ComparisonFilter {
+  /**
+   * Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
+   *   - `eq`: equals
+   *   - `ne`: not equal
+   *   - `gt`: greater than
+   *   - `gte`: greater than or equal
+   *   - `lt`: less than
+   *   - `lte`: less than or equal
+   *   - `in`: in
+   *   - `nin`: not in
+   */
+  type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "nin";
+  /** The key to compare against the value. */
+  key: string;
+  /** The value to compare against the attribute key; supports string, number, or boolean types. */
+  value: string | number | boolean | (string | number)[];
+}
+
+export function comparisonFilterSerializer(item: ComparisonFilter): any {
+  return {
+    type: item["type"],
+    key: item["key"],
+    value: _toolFileSearchToolFiltersValueSerializer(item["value"]),
+  };
+}
+
+export function comparisonFilterDeserializer(item: any): ComparisonFilter {
+  return {
+    type: item["type"],
+    key: item["key"],
+    value: _toolFileSearchToolFiltersValueDeserializer(item["value"]),
+  };
+}
+
+/** Alias for _ToolFileSearchToolFiltersValue */
+export type _ToolFileSearchToolFiltersValue = string | number | boolean | (string | number)[];
+
+export function _toolFileSearchToolFiltersValueSerializer(
+  item: _ToolFileSearchToolFiltersValue,
+): any {
+  return item;
+}
+
+export function _toolFileSearchToolFiltersValueDeserializer(
+  item: any,
+): _ToolFileSearchToolFiltersValue {
+  return item;
+}
+
+export function _toolFileSearchToolFiltersValue1ArraySerializer(
+  result: Array<_ToolFileSearchToolFiltersValue1>,
+): any[] {
+  return result.map((item) => {
+    return _toolFileSearchToolFiltersValue1Serializer(item);
+  });
+}
+
+export function _toolFileSearchToolFiltersValue1ArrayDeserializer(
+  result: Array<_ToolFileSearchToolFiltersValue1>,
+): any[] {
+  return result.map((item) => {
+    return _toolFileSearchToolFiltersValue1Deserializer(item);
+  });
+}
+
+/** Alias for _ToolFileSearchToolFiltersValue1 */
+export type _ToolFileSearchToolFiltersValue1 = string | number;
+
+export function _toolFileSearchToolFiltersValue1Serializer(
+  item: _ToolFileSearchToolFiltersValue1,
+): any {
+  return item;
+}
+
+export function _toolFileSearchToolFiltersValue1Deserializer(
+  item: any,
+): _ToolFileSearchToolFiltersValue1 {
+  return item;
+}
+
+/** Combine multiple filters using `and` or `or`. */
+export interface CompoundFilter {
+  /** Type of operation: `and` or `or`. */
+  type: "and" | "or";
+  /** Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`. */
+  filters: (ComparisonFilter | CompoundFilter)[];
+}
+
+export function compoundFilterSerializer(item: CompoundFilter): any {
+  return {
+    type: item["type"],
+    filters: _toolFileSearchToolFiltersFilterArraySerializer(item["filters"]),
+  };
+}
+
+export function compoundFilterDeserializer(item: any): CompoundFilter {
+  return {
+    type: item["type"],
+    filters: _toolFileSearchToolFiltersFilterArrayDeserializer(item["filters"]),
+  };
+}
+
+export function _toolFileSearchToolFiltersFilterArraySerializer(
+  result: Array<_ToolFileSearchToolFiltersFilter>,
+): any[] {
+  return result.map((item) => {
+    return _toolFileSearchToolFiltersFilterSerializer(item);
+  });
+}
+
+export function _toolFileSearchToolFiltersFilterArrayDeserializer(
+  result: Array<_ToolFileSearchToolFiltersFilter>,
+): any[] {
+  return result.map((item) => {
+    return _toolFileSearchToolFiltersFilterDeserializer(item);
+  });
+}
+
+/** Alias for _ToolFileSearchToolFiltersFilter */
+export type _ToolFileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
+
+export function _toolFileSearchToolFiltersFilterSerializer(
+  item: _ToolFileSearchToolFiltersFilter,
+): any {
+  return item;
+}
+
+export function _toolFileSearchToolFiltersFilterDeserializer(
+  item: any,
+): _ToolFileSearchToolFiltersFilter {
+  return item;
+}
+
+/** A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use). */
+export interface ToolComputerTool extends Tool {
+  /** The type of the computer tool. Always `computer`. */
+  type: "computer";
+}
+
+export function toolComputerToolSerializer(item: ToolComputerTool): any {
+  return { type: item["type"] };
+}
+
+export function toolComputerToolDeserializer(item: any): ToolComputerTool {
+  return {
+    type: item["type"],
+  };
+}
+
+/** A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use). */
+export interface ToolComputerUsePreviewTool extends Tool {
+  /** The type of the computer use tool. Always `computer_use_preview`. */
+  type: "computer_use_preview";
+  /** The type of computer environment to control. */
+  environment: ComputerEnvironment;
+  /** The width of the computer display. */
+  display_width: number;
+  /** The height of the computer display. */
+  display_height: number;
+}
+
+export function toolComputerUsePreviewToolSerializer(item: ToolComputerUsePreviewTool): any {
+  return {
+    type: item["type"],
+    environment: item["environment"],
+    display_width: item["display_width"],
+    display_height: item["display_height"],
+  };
+}
+
+export function toolComputerUsePreviewToolDeserializer(item: any): ToolComputerUsePreviewTool {
+  return {
+    type: item["type"],
+    environment: item["environment"],
+    display_width: item["display_width"],
+    display_height: item["display_height"],
+  };
+}
+
+/** Type of ComputerEnvironment */
+export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
+
+/**
+ * Search the Internet for sources related to the prompt. Learn more about the
+ * [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
+ */
+export interface ToolWebSearchTool extends Tool {
+  /** The type of the web search tool. One of `web_search` or `web_search_2025_08_26`. */
+  type: "web_search";
+  /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
+  external_web_access?: boolean;
+  filters?: WebSearchToolFilters;
+  /**
+   * The approximate location of the user. If omitted or null, defaults to the
+   *   United States. To avoid this fallback, pass `{"type": "approximate"}` without
+   *   location fields. To localize results, provide the relevant location fields.
+   */
+  user_location?: WebSearchApproximateLocation;
+  /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
+  search_context_size?: "low" | "medium" | "high";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /**
+   * The project connections attached to this tool. There can be a maximum of 1 connection
+   * resource attached to the tool.
+   */
+  custom_search_configuration?: WebSearchConfiguration;
+}
+
+export function toolWebSearchToolSerializer(item: ToolWebSearchTool): any {
+  return {
+    type: item["type"],
+    external_web_access: item["external_web_access"],
+    filters: !item["filters"] ? item["filters"] : webSearchToolFiltersSerializer(item["filters"]),
+    user_location: !item["user_location"]
+      ? item["user_location"]
+      : webSearchApproximateLocationSerializer(item["user_location"]),
+    search_context_size: item["search_context_size"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    custom_search_configuration: !item["custom_search_configuration"]
+      ? item["custom_search_configuration"]
+      : webSearchConfigurationSerializer(item["custom_search_configuration"]),
+  };
+}
+
+export function toolWebSearchToolDeserializer(item: any): ToolWebSearchTool {
+  return {
+    type: item["type"],
+    external_web_access: item["external_web_access"],
+    filters: !item["filters"] ? item["filters"] : webSearchToolFiltersDeserializer(item["filters"]),
+    user_location: !item["user_location"]
+      ? item["user_location"]
+      : webSearchApproximateLocationDeserializer(item["user_location"]),
+    search_context_size: item["search_context_size"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+    custom_search_configuration: !item["custom_search_configuration"]
+      ? item["custom_search_configuration"]
+      : webSearchConfigurationDeserializer(item["custom_search_configuration"]),
+  };
+}
+
+/** model interface WebSearchToolFilters */
+export interface WebSearchToolFilters {
+  allowed_domains?: string[];
+}
+
+export function webSearchToolFiltersSerializer(item: WebSearchToolFilters): any {
+  return {
+    allowed_domains: !item["allowed_domains"]
+      ? item["allowed_domains"]
+      : item["allowed_domains"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function webSearchToolFiltersDeserializer(item: any): WebSearchToolFilters {
+  return {
+    allowed_domains: !item["allowed_domains"]
+      ? item["allowed_domains"]
+      : item["allowed_domains"].map((p1: any) => {
+          return p1;
+        }),
+  };
+}
+
+/** The approximate location of the user. */
+export interface WebSearchApproximateLocation {
+  /** The type of location approximation. Always `approximate`. */
+  type: "approximate";
+  country?: string;
+  region?: string;
+  city?: string;
+  timezone?: string;
+}
+
+export function webSearchApproximateLocationSerializer(item: WebSearchApproximateLocation): any {
+  return {
+    type: item["type"],
+    country: item["country"],
+    region: item["region"],
+    city: item["city"],
+    timezone: item["timezone"],
+  };
+}
+
+export function webSearchApproximateLocationDeserializer(item: any): WebSearchApproximateLocation {
+  return {
+    type: item["type"],
+    country: item["country"],
+    region: item["region"],
+    city: item["city"],
+    timezone: item["timezone"],
+  };
+}
+
 /**
  * Give the model access to additional tools via remote Model Context Protocol
  * (MCP) servers. [Learn more about MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp).
  */
-export interface MCPTool extends Tool {
+export interface ToolMcpTool extends Tool {
   /** The type of the MCP tool. Always `mcp`. */
   type: "mcp";
   /** A label for this MCP server, used to identify it in tool calls. */
@@ -642,7 +1135,7 @@ export interface MCPTool extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function mcpToolSerializer(item: MCPTool): any {
+export function toolMcpToolSerializer(item: ToolMcpTool): any {
   return {
     type: item["type"],
     server_label: item["server_label"],
@@ -654,7 +1147,7 @@ export function mcpToolSerializer(item: MCPTool): any {
     headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p: any) => {
@@ -662,7 +1155,7 @@ export function mcpToolSerializer(item: MCPTool): any {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -671,7 +1164,7 @@ export function mcpToolSerializer(item: MCPTool): any {
   };
 }
 
-export function mcpToolDeserializer(item: any): MCPTool {
+export function toolMcpToolDeserializer(item: any): ToolMcpTool {
   return {
     type: item["type"],
     server_label: item["server_label"],
@@ -687,7 +1180,7 @@ export function mcpToolDeserializer(item: any): MCPTool {
         ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p1: any) => {
@@ -695,7 +1188,7 @@ export function mcpToolDeserializer(item: any): MCPTool {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -704,42 +1197,33 @@ export function mcpToolDeserializer(item: any): MCPTool {
   };
 }
 
-/** Alias for _MCPToolAllowedTools */
-export type _MCPToolAllowedTools = string[] | MCPToolFilter;
+/** Alias for _ToolMcpToolAllowedTools */
+export type _ToolMcpToolAllowedTools = string[] | MCPToolFilter;
 
-export function _mcpToolAllowedToolsSerializer(item: _MCPToolAllowedTools): any {
+export function _toolMcpToolAllowedToolsSerializer(item: _ToolMcpToolAllowedTools): any {
   return item;
 }
 
-export function _mcpToolAllowedToolsDeserializer(item: any): _MCPToolAllowedTools {
+export function _toolMcpToolAllowedToolsDeserializer(item: any): _ToolMcpToolAllowedTools {
   return item;
 }
 
-/** Type of CallableToolAllowedCaller */
-export type CallableToolAllowedCaller = "direct" | "programmatic";
+/** Alias for _ToolMcpToolRequireApproval */
+export type _ToolMcpToolRequireApproval = MCPToolRequireApproval | "always" | "never";
 
-/** Alias for _MCPToolRequireApproval */
-export type _MCPToolRequireApproval = MCPToolRequireApproval | "always" | "never";
-
-export function _mcpToolRequireApprovalSerializer(item: _MCPToolRequireApproval): any {
+export function _toolMcpToolRequireApprovalSerializer(item: _ToolMcpToolRequireApproval): any {
   return item;
 }
 
-export function _mcpToolRequireApprovalDeserializer(item: any): _MCPToolRequireApproval {
+export function _toolMcpToolRequireApprovalDeserializer(item: any): _ToolMcpToolRequireApproval {
   return item;
 }
 
 /** A tool that runs Python code to help generate a response to a prompt. */
-export interface CodeInterpreterTool extends Tool {
+export interface ToolCodeInterpreterTool extends Tool {
   /** The type of the code interpreter tool. Always `code_interpreter`. */
   type: "code_interpreter";
   allowed_callers?: CallableToolAllowedCaller[];
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  name?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  description?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
   /**
    * The code interpreter container. Can be a container ID or an object that
    * specifies uploaded file IDs to make available to your code, along with an
@@ -747,9 +1231,15 @@ export interface CodeInterpreterTool extends Tool {
    * If not provided, the service assumes auto.
    */
   container?: string | AutoCodeInterpreterToolParam;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
-export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
+export function toolCodeInterpreterToolSerializer(item: ToolCodeInterpreterTool): any {
   return {
     type: item["type"],
     allowed_callers: !item["allowed_callers"]
@@ -757,18 +1247,18 @@ export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
       : item["allowed_callers"].map((p: any) => {
           return p;
         }),
+    container: !item["container"]
+      ? item["container"]
+      : _toolCodeInterpreterToolContainerSerializer(item["container"]),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
-    container: !item["container"]
-      ? item["container"]
-      : _codeInterpreterToolContainerSerializer(item["container"]),
   };
 }
 
-export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool {
+export function toolCodeInterpreterToolDeserializer(item: any): ToolCodeInterpreterTool {
   return {
     type: item["type"],
     allowed_callers: !item["allowed_callers"]
@@ -776,14 +1266,14 @@ export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool 
       : item["allowed_callers"].map((p1: any) => {
           return p1;
         }),
+    container: !item["container"]
+      ? item["container"]
+      : _toolCodeInterpreterToolContainerDeserializer(item["container"]),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordDeserializer(item["tool_configs"]),
-    container: !item["container"]
-      ? item["container"]
-      : _codeInterpreterToolContainerDeserializer(item["container"]),
   };
 }
 
@@ -992,486 +1482,28 @@ export function containerNetworkPolicyDomainSecretParamDeserializer(
   };
 }
 
-/** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://developers.openai.com/api/docs/guides/function-calling). */
-export interface FunctionTool extends Tool {
-  /** The type of the function tool. Always `function`. */
-  type: "function";
-  /** The name of the function to call. */
-  name: string;
-  async?: boolean;
-  description?: string;
-  parameters: Record<string, any> | null;
-  output_schema?: Record<string, any>;
-  strict: boolean | null;
-  /** Whether this function is deferred and loaded via tool search. */
-  defer_loading?: boolean;
-  allowed_callers?: CallableToolAllowedCaller[];
-}
-
-export function functionToolSerializer(item: FunctionTool): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    async: item["async"],
-    description: item["description"],
-    parameters: item["parameters"],
-    output_schema: item["output_schema"],
-    strict: item["strict"],
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function functionToolDeserializer(item: any): FunctionTool {
-  return {
-    type: item["type"],
-    name: item["name"],
-    async: item["async"],
-    description: item["description"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : Object.fromEntries(
-          Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
-    output_schema: !item["output_schema"]
-      ? item["output_schema"]
-      : Object.fromEntries(
-          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
-    strict: item["strict"],
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search). */
-export interface FileSearchTool extends Tool {
-  /** The type of the file search tool. Always `file_search`. */
-  type: "file_search";
-  /** The IDs of the vector stores to search. */
-  vector_store_ids: string[];
-  /** The maximum number of results to return. This number should be between 1 and 50 inclusive. */
-  max_num_results?: number;
-  /** Ranking options for search. */
-  ranking_options?: RankingOptions;
-  filters?: Filters;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  name?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  description?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-}
-
-export function fileSearchToolSerializer(item: FileSearchTool): any {
-  return {
-    type: item["type"],
-    vector_store_ids: item["vector_store_ids"].map((p: any) => {
-      return p;
-    }),
-    max_num_results: item["max_num_results"],
-    ranking_options: !item["ranking_options"]
-      ? item["ranking_options"]
-      : rankingOptionsSerializer(item["ranking_options"]),
-    filters: !item["filters"] ? item["filters"] : filtersSerializer(item["filters"]),
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-  };
-}
-
-export function fileSearchToolDeserializer(item: any): FileSearchTool {
-  return {
-    type: item["type"],
-    vector_store_ids: item["vector_store_ids"].map((p: any) => {
-      return p;
-    }),
-    max_num_results: item["max_num_results"],
-    ranking_options: !item["ranking_options"]
-      ? item["ranking_options"]
-      : rankingOptionsDeserializer(item["ranking_options"]),
-    filters: !item["filters"] ? item["filters"] : filtersDeserializer(item["filters"]),
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-  };
-}
-
-/** model interface RankingOptions */
-export interface RankingOptions {
-  /** The ranker to use for the file search. */
-  ranker?: RankerVersionType;
-  /** The score threshold for the file search, a number between 0 and 1. Numbers closer to 1 will attempt to return only the most relevant results, but may return fewer results. */
-  score_threshold?: number;
-  /** Weights that control how reciprocal rank fusion balances semantic embedding matches versus sparse keyword matches when hybrid search is enabled. */
-  hybrid_search?: HybridSearchOptions;
-}
-
-export function rankingOptionsSerializer(item: RankingOptions): any {
-  return {
-    ranker: item["ranker"],
-    score_threshold: item["score_threshold"],
-    hybrid_search: !item["hybrid_search"]
-      ? item["hybrid_search"]
-      : hybridSearchOptionsSerializer(item["hybrid_search"]),
-  };
-}
-
-export function rankingOptionsDeserializer(item: any): RankingOptions {
-  return {
-    ranker: item["ranker"],
-    score_threshold: item["score_threshold"],
-    hybrid_search: !item["hybrid_search"]
-      ? item["hybrid_search"]
-      : hybridSearchOptionsDeserializer(item["hybrid_search"]),
-  };
-}
-
-/** Type of RankerVersionType */
-export type RankerVersionType = "auto" | "default-2024-11-15";
-
-/** model interface HybridSearchOptions */
-export interface HybridSearchOptions {
-  /** The weight of the embedding in the reciprocal ranking fusion. */
-  embedding_weight: number;
-  /** The weight of the text in the reciprocal ranking fusion. */
-  text_weight: number;
-}
-
-export function hybridSearchOptionsSerializer(item: HybridSearchOptions): any {
-  return { embedding_weight: item["embedding_weight"], text_weight: item["text_weight"] };
-}
-
-export function hybridSearchOptionsDeserializer(item: any): HybridSearchOptions {
-  return {
-    embedding_weight: item["embedding_weight"],
-    text_weight: item["text_weight"],
-  };
-}
-
-/** Alias for Filters */
-export type Filters = ComparisonFilter | CompoundFilter;
-
-export function filtersSerializer(item: Filters): any {
-  return item;
-}
-
-export function filtersDeserializer(item: any): Filters {
-  return item;
-}
-
-/** A filter used to compare a specified attribute key to a given value using a defined comparison operation. */
-export interface ComparisonFilter {
-  /**
-   * Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
-   *   - `eq`: equals
-   *   - `ne`: not equal
-   *   - `gt`: greater than
-   *   - `gte`: greater than or equal
-   *   - `lt`: less than
-   *   - `lte`: less than or equal
-   *   - `in`: in
-   *   - `nin`: not in
-   */
-  type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "nin";
-  /** The key to compare against the value. */
-  key: string;
-  /** The value to compare against the attribute key; supports string, number, or boolean types. */
-  value: string | number | boolean | (string | number)[];
-}
-
-export function comparisonFilterSerializer(item: ComparisonFilter): any {
-  return {
-    type: item["type"],
-    key: item["key"],
-    value: _fileSearchToolFiltersValueSerializer(item["value"]),
-  };
-}
-
-export function comparisonFilterDeserializer(item: any): ComparisonFilter {
-  return {
-    type: item["type"],
-    key: item["key"],
-    value: _fileSearchToolFiltersValueDeserializer(item["value"]),
-  };
-}
-
-/** Alias for _FileSearchToolFiltersValue */
-export type _FileSearchToolFiltersValue = string | number | boolean | (string | number)[];
-
-export function _fileSearchToolFiltersValueSerializer(item: _FileSearchToolFiltersValue): any {
-  return item;
-}
-
-export function _fileSearchToolFiltersValueDeserializer(item: any): _FileSearchToolFiltersValue {
-  return item;
-}
-
-export function _fileSearchToolFiltersValue1ArraySerializer(
-  result: Array<_FileSearchToolFiltersValue1>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersValue1Serializer(item);
-  });
-}
-
-export function _fileSearchToolFiltersValue1ArrayDeserializer(
-  result: Array<_FileSearchToolFiltersValue1>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersValue1Deserializer(item);
-  });
-}
-
-/** Alias for _FileSearchToolFiltersValue1 */
-export type _FileSearchToolFiltersValue1 = string | number;
-
-export function _fileSearchToolFiltersValue1Serializer(item: _FileSearchToolFiltersValue1): any {
-  return item;
-}
-
-export function _fileSearchToolFiltersValue1Deserializer(item: any): _FileSearchToolFiltersValue1 {
-  return item;
-}
-
-/** Combine multiple filters using `and` or `or`. */
-export interface CompoundFilter {
-  /** Type of operation: `and` or `or`. */
-  type: "and" | "or";
-  /** Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`. */
-  filters: (ComparisonFilter | CompoundFilter)[];
-}
-
-export function compoundFilterSerializer(item: CompoundFilter): any {
-  return {
-    type: item["type"],
-    filters: _fileSearchToolFiltersFilterArraySerializer(item["filters"]),
-  };
-}
-
-export function compoundFilterDeserializer(item: any): CompoundFilter {
-  return {
-    type: item["type"],
-    filters: _fileSearchToolFiltersFilterArrayDeserializer(item["filters"]),
-  };
-}
-
-export function _fileSearchToolFiltersFilterArraySerializer(
-  result: Array<_FileSearchToolFiltersFilter>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersFilterSerializer(item);
-  });
-}
-
-export function _fileSearchToolFiltersFilterArrayDeserializer(
-  result: Array<_FileSearchToolFiltersFilter>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersFilterDeserializer(item);
-  });
-}
-
-/** Alias for _FileSearchToolFiltersFilter */
-export type _FileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
-
-export function _fileSearchToolFiltersFilterSerializer(item: _FileSearchToolFiltersFilter): any {
-  return item;
-}
-
-export function _fileSearchToolFiltersFilterDeserializer(item: any): _FileSearchToolFiltersFilter {
-  return item;
-}
-
-/** A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use). */
-export interface ComputerUsePreviewTool extends Tool {
-  /** The type of the computer use tool. Always `computer_use_preview`. */
-  type: "computer_use_preview";
-  /** The type of computer environment to control. */
-  environment: ComputerEnvironment;
-  /** The width of the computer display. */
-  display_width: number;
-  /** The height of the computer display. */
-  display_height: number;
-}
-
-export function computerUsePreviewToolSerializer(item: ComputerUsePreviewTool): any {
-  return {
-    type: item["type"],
-    environment: item["environment"],
-    display_width: item["display_width"],
-    display_height: item["display_height"],
-  };
-}
-
-export function computerUsePreviewToolDeserializer(item: any): ComputerUsePreviewTool {
-  return {
-    type: item["type"],
-    environment: item["environment"],
-    display_width: item["display_width"],
-    display_height: item["display_height"],
-  };
-}
-
-/** Type of ComputerEnvironment */
-export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
-
-/**
- * Search the Internet for sources related to the prompt. Learn more about the
- * [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
- */
-export interface WebSearchTool extends Tool {
-  /** The type of the web search tool. One of `web_search` or `web_search_2025_08_26`. */
-  type: "web_search";
-  /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
-  external_web_access?: boolean;
-  filters?: WebSearchToolFilters;
-  /**
-   * The approximate location of the user. If omitted or null, defaults to the
-   *   United States. To avoid this fallback, pass `{"type": "approximate"}` without
-   *   location fields. To localize results, provide the relevant location fields.
-   */
-  user_location?: WebSearchApproximateLocation;
-  /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
-  search_context_size?: "low" | "medium" | "high";
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  name?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  description?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-  /**
-   * The project connections attached to this tool. There can be a maximum of 1 connection
-   * resource attached to the tool.
-   */
-  custom_search_configuration?: WebSearchConfiguration;
-}
-
-export function webSearchToolSerializer(item: WebSearchTool): any {
-  return {
-    type: item["type"],
-    external_web_access: item["external_web_access"],
-    filters: !item["filters"] ? item["filters"] : webSearchToolFiltersSerializer(item["filters"]),
-    user_location: !item["user_location"]
-      ? item["user_location"]
-      : webSearchApproximateLocationSerializer(item["user_location"]),
-    search_context_size: item["search_context_size"],
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-    custom_search_configuration: !item["custom_search_configuration"]
-      ? item["custom_search_configuration"]
-      : webSearchConfigurationSerializer(item["custom_search_configuration"]),
-  };
-}
-
-export function webSearchToolDeserializer(item: any): WebSearchTool {
-  return {
-    type: item["type"],
-    external_web_access: item["external_web_access"],
-    filters: !item["filters"] ? item["filters"] : webSearchToolFiltersDeserializer(item["filters"]),
-    user_location: !item["user_location"]
-      ? item["user_location"]
-      : webSearchApproximateLocationDeserializer(item["user_location"]),
-    search_context_size: item["search_context_size"],
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-    custom_search_configuration: !item["custom_search_configuration"]
-      ? item["custom_search_configuration"]
-      : webSearchConfigurationDeserializer(item["custom_search_configuration"]),
-  };
-}
-
-/** model interface WebSearchToolFilters */
-export interface WebSearchToolFilters {
-  allowed_domains?: string[];
-}
-
-export function webSearchToolFiltersSerializer(item: WebSearchToolFilters): any {
-  return {
-    allowed_domains: !item["allowed_domains"]
-      ? item["allowed_domains"]
-      : item["allowed_domains"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function webSearchToolFiltersDeserializer(item: any): WebSearchToolFilters {
-  return {
-    allowed_domains: !item["allowed_domains"]
-      ? item["allowed_domains"]
-      : item["allowed_domains"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** The approximate location of the user. */
-export interface WebSearchApproximateLocation {
-  /** The type of location approximation. Always `approximate`. */
-  type: "approximate";
-  country?: string;
-  region?: string;
-  city?: string;
-  timezone?: string;
-}
-
-export function webSearchApproximateLocationSerializer(item: WebSearchApproximateLocation): any {
-  return {
-    type: item["type"],
-    country: item["country"],
-    region: item["region"],
-    city: item["city"],
-    timezone: item["timezone"],
-  };
-}
-
-export function webSearchApproximateLocationDeserializer(item: any): WebSearchApproximateLocation {
-  return {
-    type: item["type"],
-    country: item["country"],
-    region: item["region"],
-    city: item["city"],
-    timezone: item["timezone"],
-  };
-}
-
-/** model interface ProgrammaticToolCallingParam */
-export interface ProgrammaticToolCallingParam extends Tool {
+/** model interface ToolProgrammaticToolCallingParam */
+export interface ToolProgrammaticToolCallingParam extends Tool {
   /** The type of the tool. Always `programmatic_tool_calling`. */
   type: "programmatic_tool_calling";
 }
 
-export function programmaticToolCallingParamSerializer(item: ProgrammaticToolCallingParam): any {
+export function toolProgrammaticToolCallingParamSerializer(
+  item: ToolProgrammaticToolCallingParam,
+): any {
   return { type: item["type"] };
 }
 
-export function programmaticToolCallingParamDeserializer(item: any): ProgrammaticToolCallingParam {
+export function toolProgrammaticToolCallingParamDeserializer(
+  item: any,
+): ToolProgrammaticToolCallingParam {
   return {
     type: item["type"],
   };
 }
 
 /** A tool that generates images using the GPT image models. */
-export interface ImageGenTool extends Tool {
+export interface ToolImageGenTool extends Tool {
   /** The type of the image generation tool. Always `image_generation`. */
   type: "image_generation";
   model?:
@@ -1491,7 +1523,7 @@ export interface ImageGenTool extends Tool {
    *   Default: `auto`.
    */
   quality?: "low" | "medium" | "high" | "xhigh" | "max" | "auto";
-  /** The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
+  /** The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. */
   size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
   /**
    * The output format of the generated image. One of `png`, `webp`, or
@@ -1530,7 +1562,7 @@ export interface ImageGenTool extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function imageGenToolSerializer(item: ImageGenTool): any {
+export function toolImageGenToolSerializer(item: ToolImageGenTool): any {
   return {
     type: item["type"],
     model: item["model"],
@@ -1554,7 +1586,7 @@ export function imageGenToolSerializer(item: ImageGenTool): any {
   };
 }
 
-export function imageGenToolDeserializer(item: any): ImageGenTool {
+export function toolImageGenToolDeserializer(item: any): ToolImageGenTool {
   return {
     type: item["type"],
     model: item["model"],
@@ -1578,7 +1610,7 @@ export function imageGenToolDeserializer(item: any): ImageGenTool {
   };
 }
 
-/** Control how much effort the model will exert to match the style and features, especially facial features, of input images. This parameter is only supported for `gpt-image-1` and `gpt-image-1.5` and later models, unsupported for `gpt-image-1-mini`. Supports `high` and `low`. Defaults to `low`. */
+/** Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models. */
 export type InputFidelity = "high" | "low";
 
 /** model interface ImageGenToolInputImageMask */
@@ -1602,7 +1634,7 @@ export function imageGenToolInputImageMaskDeserializer(item: any): ImageGenToolI
 export type ImageGenAction = "generate" | "edit" | "auto";
 
 /** A tool that allows the model to execute shell commands in a local environment. */
-export interface LocalShellToolParam extends Tool {
+export interface ToolLocalShellToolParam extends Tool {
   /** The type of the local shell tool. Always `local_shell`. */
   type: "local_shell";
   /** Deprecated. This property is deprecated and will be removed in a future version. */
@@ -1613,7 +1645,7 @@ export interface LocalShellToolParam extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function localShellToolParamSerializer(item: LocalShellToolParam): any {
+export function toolLocalShellToolParamSerializer(item: ToolLocalShellToolParam): any {
   return {
     type: item["type"],
     name: item["name"],
@@ -1624,7 +1656,7 @@ export function localShellToolParamSerializer(item: LocalShellToolParam): any {
   };
 }
 
-export function localShellToolParamDeserializer(item: any): LocalShellToolParam {
+export function toolLocalShellToolParamDeserializer(item: any): ToolLocalShellToolParam {
   return {
     type: item["type"],
     name: item["name"],
@@ -1636,7 +1668,7 @@ export function localShellToolParamDeserializer(item: any): LocalShellToolParam 
 }
 
 /** A tool that allows the model to execute shell commands. */
-export interface FunctionShellToolParam extends Tool {
+export interface ToolFunctionShellToolParam extends Tool {
   /** The type of the shell tool. Always `shell`. */
   type: "shell";
   environment?: FunctionShellToolParamEnvironmentUnion;
@@ -1649,7 +1681,7 @@ export interface FunctionShellToolParam extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function functionShellToolParamSerializer(item: FunctionShellToolParam): any {
+export function toolFunctionShellToolParamSerializer(item: ToolFunctionShellToolParam): any {
   return {
     type: item["type"],
     environment: !item["environment"]
@@ -1668,7 +1700,7 @@ export function functionShellToolParamSerializer(item: FunctionShellToolParam): 
   };
 }
 
-export function functionShellToolParamDeserializer(item: any): FunctionShellToolParam {
+export function toolFunctionShellToolParamDeserializer(item: any): ToolFunctionShellToolParam {
   return {
     type: item["type"],
     environment: !item["environment"]
@@ -2022,7 +2054,7 @@ export function inlineSkillSourceParamDeserializer(item: any): InlineSkillSource
 }
 
 /** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/api/docs/guides/function-calling#custom-tools) */
-export interface CustomToolParam extends Tool {
+export interface ToolCustomToolParam extends Tool {
   /** The type of the custom tool. Always `custom`. */
   type: "custom";
   /** The name of the custom tool, used to identify it in tool calls. */
@@ -2038,7 +2070,7 @@ export interface CustomToolParam extends Tool {
   allowed_callers?: CallableToolAllowedCaller[];
 }
 
-export function customToolParamSerializer(item: CustomToolParam): any {
+export function toolCustomToolParamSerializer(item: ToolCustomToolParam): any {
   return {
     type: item["type"],
     name: item["name"],
@@ -2054,7 +2086,7 @@ export function customToolParamSerializer(item: CustomToolParam): any {
   };
 }
 
-export function customToolParamDeserializer(item: any): CustomToolParam {
+export function toolCustomToolParamDeserializer(item: any): ToolCustomToolParam {
   return {
     type: item["type"],
     name: item["name"],
@@ -2161,8 +2193,54 @@ export function customGrammarFormatParamDeserializer(item: any): CustomGrammarFo
 /** Type of GrammarSyntax1 */
 export type GrammarSyntax1 = "lark" | "regex";
 
+/** Hosted or BYOT tool search configuration for deferred tools. */
+export interface ToolToolSearchToolParam extends Tool {
+  /** The type of the tool. Always `tool_search`. */
+  type: "tool_search";
+  /** Whether tool search is executed by the server or by the client. */
+  execution?: ToolSearchExecutionType;
+  description?: string;
+  parameters?: EmptyModelParam;
+}
+
+export function toolToolSearchToolParamSerializer(item: ToolToolSearchToolParam): any {
+  return {
+    type: item["type"],
+    execution: item["execution"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamSerializer(item["parameters"]),
+  };
+}
+
+export function toolToolSearchToolParamDeserializer(item: any): ToolToolSearchToolParam {
+  return {
+    type: item["type"],
+    execution: item["execution"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamDeserializer(item["parameters"]),
+  };
+}
+
+/** Type of ToolSearchExecutionType */
+export type ToolSearchExecutionType = "server" | "client";
+
+/** model interface EmptyModelParam */
+export interface EmptyModelParam {}
+
+export function emptyModelParamSerializer(_item: EmptyModelParam): any {
+  return {};
+}
+
+export function emptyModelParamDeserializer(item: any): EmptyModelParam {
+  return item;
+}
+
 /** This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search). */
-export interface WebSearchPreviewTool extends Tool {
+export interface ToolWebSearchPreviewTool extends Tool {
   /** The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`. */
   type: "web_search_preview";
   user_location?: ApproximateLocation;
@@ -2171,7 +2249,7 @@ export interface WebSearchPreviewTool extends Tool {
   search_content_types?: SearchContentType[];
 }
 
-export function webSearchPreviewToolSerializer(item: WebSearchPreviewTool): any {
+export function toolWebSearchPreviewToolSerializer(item: ToolWebSearchPreviewTool): any {
   return {
     type: item["type"],
     user_location: !item["user_location"]
@@ -2186,7 +2264,7 @@ export function webSearchPreviewToolSerializer(item: WebSearchPreviewTool): any 
   };
 }
 
-export function webSearchPreviewToolDeserializer(item: any): WebSearchPreviewTool {
+export function toolWebSearchPreviewToolDeserializer(item: any): ToolWebSearchPreviewTool {
   return {
     type: item["type"],
     user_location: !item["user_location"]
@@ -2238,13 +2316,13 @@ export type SearchContextSize = "low" | "medium" | "high";
 export type SearchContentType = "text" | "image";
 
 /** Allows the assistant to create, delete, or update files using unified diffs. */
-export interface ApplyPatchToolParam extends Tool {
+export interface ToolApplyPatchToolParam extends Tool {
   /** The type of the tool. Always `apply_patch`. */
   type: "apply_patch";
   allowed_callers?: CallableToolAllowedCaller[];
 }
 
-export function applyPatchToolParamSerializer(item: ApplyPatchToolParam): any {
+export function toolApplyPatchToolParamSerializer(item: ToolApplyPatchToolParam): any {
   return {
     type: item["type"],
     allowed_callers: !item["allowed_callers"]
@@ -2255,7 +2333,7 @@ export function applyPatchToolParamSerializer(item: ApplyPatchToolParam): any {
   };
 }
 
-export function applyPatchToolParamDeserializer(item: any): ApplyPatchToolParam {
+export function toolApplyPatchToolParamDeserializer(item: any): ToolApplyPatchToolParam {
   return {
     type: item["type"],
     allowed_callers: !item["allowed_callers"]
@@ -2263,22 +2341,6 @@ export function applyPatchToolParamDeserializer(item: any): ApplyPatchToolParam 
       : item["allowed_callers"].map((p1: any) => {
           return p1;
         }),
-  };
-}
-
-/** A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use). */
-export interface ComputerTool extends Tool {
-  /** The type of the computer tool. Always `computer`. */
-  type: "computer";
-}
-
-export function computerToolSerializer(item: ComputerTool): any {
-  return { type: item["type"] };
-}
-
-export function computerToolDeserializer(item: any): ComputerTool {
-  return {
-    type: item["type"],
   };
 }
 
@@ -2398,51 +2460,56 @@ export function functionToolParamDeserializer(item: any): FunctionToolParam {
   };
 }
 
-/** model interface EmptyModelParam */
-export interface EmptyModelParam {}
-
-export function emptyModelParamSerializer(_item: EmptyModelParam): any {
-  return {};
-}
-
-export function emptyModelParamDeserializer(item: any): EmptyModelParam {
-  return item;
-}
-
-/** Hosted or BYOT tool search configuration for deferred tools. */
-export interface ToolSearchToolParam extends Tool {
-  /** The type of the tool. Always `tool_search`. */
-  type: "tool_search";
-  /** Whether tool search is executed by the server or by the client. */
-  execution?: ToolSearchExecutionType;
+/** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/api/docs/guides/function-calling#custom-tools) */
+export interface CustomToolParam {
+  /** The type of the custom tool. Always `custom`. */
+  type: "custom";
+  /** The name of the custom tool, used to identify it in tool calls. */
+  name: string;
+  /** Whether the tool response can be returned asynchronously versus immediately returned on next response creation. */
+  async?: boolean;
+  /** Optional description of the custom tool, used to provide more context. */
   description?: string;
-  parameters?: EmptyModelParam;
+  /** The input format for the custom tool. Default is unconstrained text. */
+  format?: CustomToolParamFormatUnion;
+  /** Whether this tool should be deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
 }
 
-export function toolSearchToolParamSerializer(item: ToolSearchToolParam): any {
+export function customToolParamSerializer(item: CustomToolParam): any {
   return {
     type: item["type"],
-    execution: item["execution"],
+    name: item["name"],
+    async: item["async"],
     description: item["description"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : emptyModelParamSerializer(item["parameters"]),
+    format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
-export function toolSearchToolParamDeserializer(item: any): ToolSearchToolParam {
+export function customToolParamDeserializer(item: any): CustomToolParam {
   return {
     type: item["type"],
-    execution: item["execution"],
+    name: item["name"],
+    async: item["async"],
     description: item["description"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : emptyModelParamDeserializer(item["parameters"]),
+    format: !item["format"]
+      ? item["format"]
+      : customToolParamFormatUnionDeserializer(item["format"]),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
-
-/** Type of ToolSearchExecutionType */
-export type ToolSearchExecutionType = "server" | "client";
 
 /**
  * How the model should select which tool (or tools) to use when generating
@@ -3103,6 +3170,7 @@ export function apiErrorDeserializer(item: any): ApiError {
 
 /** model interface MisalignmentErrorDetailsResource */
 export interface MisalignmentErrorDetailsResource {
+  review_target?: string;
   /** An optional classification; clients must accept additional values. */
   error_type?: MisalignmentErrorType;
   /** The public explanation for this block. */
@@ -3115,6 +3183,7 @@ export function misalignmentErrorDetailsResourceDeserializer(
   item: any,
 ): MisalignmentErrorDetailsResource {
   return {
+    review_target: item["review_target"],
     error_type: !item["error_type"]
       ? item["error_type"]
       : misalignmentErrorTypeDeserializer(item["error_type"]),
@@ -3436,12 +3505,13 @@ export function realtimeResponseStatusDetailsDeserializer(
 export interface RealtimeResponseStatusDetailsError {
   type?: string;
   code?: string;
+  message?: string;
 }
 
 export function realtimeResponseStatusDetailsErrorSerializer(
   item: RealtimeResponseStatusDetailsError,
 ): any {
-  return { type: item["type"], code: item["code"] };
+  return { type: item["type"], code: item["code"], message: item["message"] };
 }
 
 export function realtimeResponseStatusDetailsErrorDeserializer(
@@ -3450,6 +3520,7 @@ export function realtimeResponseStatusDetailsErrorDeserializer(
   return {
     type: item["type"],
     code: item["code"],
+    message: item["message"],
   };
 }
 
@@ -4698,18 +4769,27 @@ export interface LiveInitialSessionAudioOutputParam {
     | "ballad"
     | "beacon"
     | "bossa"
+    | "brise"
     | "cedar"
     | "cinder"
     | "coral"
     | "delta"
     | "echo"
+    | "flitz"
     | "gleam"
+    | "harema"
+    | "juni"
     | "marin"
     | "meridian"
+    | "nira"
+    | "noeul"
+    | "nuri"
     | "quartz"
     | "ripple"
     | "sage"
+    | "shida"
     | "shimmer"
+    | "sillage"
     | "stone"
     | "tempo"
     | "verse"
@@ -4746,18 +4826,27 @@ export type _LiveInitialSessionAudioOutputParamVoice =
   | "ballad"
   | "beacon"
   | "bossa"
+  | "brise"
   | "cedar"
   | "cinder"
   | "coral"
   | "delta"
   | "echo"
+  | "flitz"
   | "gleam"
+  | "harema"
+  | "juni"
   | "marin"
   | "meridian"
+  | "nira"
+  | "noeul"
+  | "nuri"
   | "quartz"
   | "ripple"
   | "sage"
+  | "shida"
   | "shimmer"
+  | "sillage"
   | "stone"
   | "tempo"
   | "verse"
@@ -4805,9 +4894,37 @@ export interface LiveResponsesDelegationSettingsInputParam {
   reasoning?: LiveDelegationReasoningInputParam;
   text?: LiveDelegationTextInputParam;
   /** Tools available to the Responses backend while it handles tasks delegated by the Live model. */
-  tools?: (LiveFunctionToolInputParam | LiveWebSearchToolInputParam)[];
+  tools?: (
+    | LiveFunctionToolInputParam
+    | LiveWebSearchToolInputParam
+    | LiveFileSearchToolInputParam
+    | LiveCodeInterpreterToolInputParam
+    | LiveHostedShellToolInputParam
+    | LiveImageGenerationToolInputParam
+    | LiveMCPToolInputParam
+    | LiveCustomToolInputParam
+    | LiveNamespaceToolInputParam
+    | LiveToolSearchToolInputParam
+    | LiveProgrammaticToolInputParam
+    | LiveComputerToolInputParam
+    | LiveApplyPatchToolInputParam
+  )[];
   /** Controls which tool the Responses backend uses when handling a task delegated by the Live model. */
-  tool_choice?: LiveToolChoiceEnum | LiveFunctionToolChoiceParam | LiveMCPToolChoiceParam;
+  tool_choice?:
+    | LiveToolChoiceEnum
+    | LiveFunctionToolChoiceParam
+    | LiveMCPToolChoiceParam
+    | LiveSpecificFileSearchParam
+    | LiveSpecificWebSearchParam
+    | LiveSpecificWebSearchPreviewParam
+    | LiveSpecificImageGenParam
+    | LiveSpecificComputerParam
+    | LiveSpecificCodeInterpreterParam
+    | LiveSpecificProgrammaticToolCallingParam
+    | LiveSpecificFunctionShellParam
+    | LiveSpecificCustomToolParam
+    | LiveSpecificApplyPatchParam
+    | LiveAllowedToolsChoiceParam;
   parallel_tool_calls?: boolean;
 }
 
@@ -4922,7 +5039,19 @@ export function _liveResponsesDelegationSettingsInputParamToolArrayDeserializer(
 
 /** Alias for _LiveResponsesDelegationSettingsInputParamTool */
 export type _LiveResponsesDelegationSettingsInputParamTool =
-  LiveFunctionToolInputParam | LiveWebSearchToolInputParam;
+  | LiveFunctionToolInputParam
+  | LiveWebSearchToolInputParam
+  | LiveFileSearchToolInputParam
+  | LiveCodeInterpreterToolInputParam
+  | LiveHostedShellToolInputParam
+  | LiveImageGenerationToolInputParam
+  | LiveMCPToolInputParam
+  | LiveCustomToolInputParam
+  | LiveNamespaceToolInputParam
+  | LiveToolSearchToolInputParam
+  | LiveProgrammaticToolInputParam
+  | LiveComputerToolInputParam
+  | LiveApplyPatchToolInputParam;
 
 export function _liveResponsesDelegationSettingsInputParamToolSerializer(
   item: _LiveResponsesDelegationSettingsInputParamTool,
@@ -4987,9 +5116,534 @@ export function liveWebSearchToolInputParamDeserializer(item: any): LiveWebSearc
   };
 }
 
+/** model interface LiveFileSearchToolInputParam */
+export interface LiveFileSearchToolInputParam {
+  type: "file_search";
+}
+
+export function liveFileSearchToolInputParamSerializer(item: LiveFileSearchToolInputParam): any {
+  return { type: item["type"] };
+}
+
+export function liveFileSearchToolInputParamDeserializer(item: any): LiveFileSearchToolInputParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveCodeInterpreterToolInputParam */
+export interface LiveCodeInterpreterToolInputParam {
+  type: "code_interpreter";
+}
+
+export function liveCodeInterpreterToolInputParamSerializer(
+  item: LiveCodeInterpreterToolInputParam,
+): any {
+  return { type: item["type"] };
+}
+
+export function liveCodeInterpreterToolInputParamDeserializer(
+  item: any,
+): LiveCodeInterpreterToolInputParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** A Responses shell tool. Use a hosted container or return local shell results with response.item.create. Domain secrets are not supported. */
+export interface LiveHostedShellToolInputParam {
+  type: "shell";
+  environment?:
+    LiveHostedShellContainerAutoParam | LiveContainerReferenceParam | LiveLocalEnvironmentParam;
+}
+
+export function liveHostedShellToolInputParamSerializer(item: LiveHostedShellToolInputParam): any {
+  return {
+    type: item["type"],
+    environment: !item["environment"]
+      ? item["environment"]
+      : _liveResponsesDelegationSettingsInputParamToolEnvironmentSerializer(item["environment"]),
+  };
+}
+
+export function liveHostedShellToolInputParamDeserializer(
+  item: any,
+): LiveHostedShellToolInputParam {
+  return {
+    type: item["type"],
+    environment: !item["environment"]
+      ? item["environment"]
+      : _liveResponsesDelegationSettingsInputParamToolEnvironmentDeserializer(item["environment"]),
+  };
+}
+
+/** Alias for _LiveResponsesDelegationSettingsInputParamToolEnvironment */
+export type _LiveResponsesDelegationSettingsInputParamToolEnvironment =
+  LiveHostedShellContainerAutoParam | LiveContainerReferenceParam | LiveLocalEnvironmentParam;
+
+export function _liveResponsesDelegationSettingsInputParamToolEnvironmentSerializer(
+  item: _LiveResponsesDelegationSettingsInputParamToolEnvironment,
+): any {
+  return item;
+}
+
+export function _liveResponsesDelegationSettingsInputParamToolEnvironmentDeserializer(
+  item: any,
+): _LiveResponsesDelegationSettingsInputParamToolEnvironment {
+  return item;
+}
+
+/** model interface LiveHostedShellContainerAutoParam */
+export interface LiveHostedShellContainerAutoParam {
+  /** Automatically creates a container for this request */
+  type: "container_auto";
+  file_ids?: string[];
+  memory_limit?: LiveContainerMemoryLimit;
+  network_policy?:
+    LiveContainerNetworkPolicyDisabledParam | LiveHostedShellNetworkPolicyAllowlistParam;
+  skills?: (LiveSkillReferenceParam | LiveInlineSkillParam)[];
+}
+
+export function liveHostedShellContainerAutoParamSerializer(
+  item: LiveHostedShellContainerAutoParam,
+): any {
+  return {
+    type: item["type"],
+    file_ids: !item["file_ids"]
+      ? item["file_ids"]
+      : item["file_ids"].map((p: any) => {
+          return p;
+        }),
+    memory_limit: item["memory_limit"],
+    network_policy: !item["network_policy"]
+      ? item["network_policy"]
+      : _liveResponsesDelegationSettingsInputParamToolEnvironmentNetworkPolicySerializer(
+          item["network_policy"],
+        ),
+    skills: !item["skills"]
+      ? item["skills"]
+      : _liveResponsesDelegationSettingsInputParamToolEnvironmentSkillArraySerializer(
+          item["skills"],
+        ),
+  };
+}
+
+export function liveHostedShellContainerAutoParamDeserializer(
+  item: any,
+): LiveHostedShellContainerAutoParam {
+  return {
+    type: item["type"],
+    file_ids: !item["file_ids"]
+      ? item["file_ids"]
+      : item["file_ids"].map((p1: any) => {
+          return p1;
+        }),
+    memory_limit: item["memory_limit"],
+    network_policy: !item["network_policy"]
+      ? item["network_policy"]
+      : _liveResponsesDelegationSettingsInputParamToolEnvironmentNetworkPolicyDeserializer(
+          item["network_policy"],
+        ),
+    skills: !item["skills"]
+      ? item["skills"]
+      : _liveResponsesDelegationSettingsInputParamToolEnvironmentSkillArrayDeserializer(
+          item["skills"],
+        ),
+  };
+}
+
+/** Type of LiveContainerMemoryLimit */
+export type LiveContainerMemoryLimit = "1g" | "4g" | "16g" | "64g";
+
+/** Alias for _LiveResponsesDelegationSettingsInputParamToolEnvironmentNetworkPolicy */
+export type _LiveResponsesDelegationSettingsInputParamToolEnvironmentNetworkPolicy =
+  LiveContainerNetworkPolicyDisabledParam | LiveHostedShellNetworkPolicyAllowlistParam;
+
+export function _liveResponsesDelegationSettingsInputParamToolEnvironmentNetworkPolicySerializer(
+  item: _LiveResponsesDelegationSettingsInputParamToolEnvironmentNetworkPolicy,
+): any {
+  return item;
+}
+
+export function _liveResponsesDelegationSettingsInputParamToolEnvironmentNetworkPolicyDeserializer(
+  item: any,
+): _LiveResponsesDelegationSettingsInputParamToolEnvironmentNetworkPolicy {
+  return item;
+}
+
+/** model interface LiveContainerNetworkPolicyDisabledParam */
+export interface LiveContainerNetworkPolicyDisabledParam {
+  /** Disable outbound network access. Always `disabled`. */
+  type: "disabled";
+}
+
+export function liveContainerNetworkPolicyDisabledParamSerializer(
+  item: LiveContainerNetworkPolicyDisabledParam,
+): any {
+  return { type: item["type"] };
+}
+
+export function liveContainerNetworkPolicyDisabledParamDeserializer(
+  item: any,
+): LiveContainerNetworkPolicyDisabledParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveHostedShellNetworkPolicyAllowlistParam */
+export interface LiveHostedShellNetworkPolicyAllowlistParam {
+  /** Allow outbound network access only to specified domains. Always `allowlist`. */
+  type: "allowlist";
+  /** A list of allowed domains when type is `allowlist`. */
+  allowed_domains: string[];
+}
+
+export function liveHostedShellNetworkPolicyAllowlistParamSerializer(
+  item: LiveHostedShellNetworkPolicyAllowlistParam,
+): any {
+  return {
+    type: item["type"],
+    allowed_domains: item["allowed_domains"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function liveHostedShellNetworkPolicyAllowlistParamDeserializer(
+  item: any,
+): LiveHostedShellNetworkPolicyAllowlistParam {
+  return {
+    type: item["type"],
+    allowed_domains: item["allowed_domains"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function _liveResponsesDelegationSettingsInputParamToolEnvironmentSkillArraySerializer(
+  result: Array<_LiveResponsesDelegationSettingsInputParamToolEnvironmentSkill>,
+): any[] {
+  return result.map((item) => {
+    return _liveResponsesDelegationSettingsInputParamToolEnvironmentSkillSerializer(item);
+  });
+}
+
+export function _liveResponsesDelegationSettingsInputParamToolEnvironmentSkillArrayDeserializer(
+  result: Array<_LiveResponsesDelegationSettingsInputParamToolEnvironmentSkill>,
+): any[] {
+  return result.map((item) => {
+    return _liveResponsesDelegationSettingsInputParamToolEnvironmentSkillDeserializer(item);
+  });
+}
+
+/** Alias for _LiveResponsesDelegationSettingsInputParamToolEnvironmentSkill */
+export type _LiveResponsesDelegationSettingsInputParamToolEnvironmentSkill =
+  LiveSkillReferenceParam | LiveInlineSkillParam;
+
+export function _liveResponsesDelegationSettingsInputParamToolEnvironmentSkillSerializer(
+  item: _LiveResponsesDelegationSettingsInputParamToolEnvironmentSkill,
+): any {
+  return item;
+}
+
+export function _liveResponsesDelegationSettingsInputParamToolEnvironmentSkillDeserializer(
+  item: any,
+): _LiveResponsesDelegationSettingsInputParamToolEnvironmentSkill {
+  return item;
+}
+
+/** model interface LiveSkillReferenceParam */
+export interface LiveSkillReferenceParam {
+  /** References a skill created with the /v1/skills endpoint. */
+  type: "skill_reference";
+  /** The ID of the referenced skill. */
+  skill_id: string;
+  version?: string;
+}
+
+export function liveSkillReferenceParamSerializer(item: LiveSkillReferenceParam): any {
+  return { type: item["type"], skill_id: item["skill_id"], version: item["version"] };
+}
+
+export function liveSkillReferenceParamDeserializer(item: any): LiveSkillReferenceParam {
+  return {
+    type: item["type"],
+    skill_id: item["skill_id"],
+    version: item["version"],
+  };
+}
+
+/** model interface LiveInlineSkillParam */
+export interface LiveInlineSkillParam {
+  /** Defines an inline skill for this request. */
+  type: "inline";
+  /** The name of the skill. */
+  name: string;
+  /** The description of the skill. */
+  description: string;
+  /** Inline skill payload */
+  source: LiveInlineSkillSourceParam;
+}
+
+export function liveInlineSkillParamSerializer(item: LiveInlineSkillParam): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    source: liveInlineSkillSourceParamSerializer(item["source"]),
+  };
+}
+
+export function liveInlineSkillParamDeserializer(item: any): LiveInlineSkillParam {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    source: liveInlineSkillSourceParamDeserializer(item["source"]),
+  };
+}
+
+/** Inline skill payload */
+export interface LiveInlineSkillSourceParam {
+  /** The type of the inline skill source. Must be `base64`. */
+  type: "base64";
+  /** The media type of the inline skill payload. Must be `application/zip`. */
+  media_type: "application/zip";
+  /** Base64-encoded skill zip bundle. */
+  data: string;
+}
+
+export function liveInlineSkillSourceParamSerializer(item: LiveInlineSkillSourceParam): any {
+  return { type: item["type"], media_type: item["media_type"], data: item["data"] };
+}
+
+export function liveInlineSkillSourceParamDeserializer(item: any): LiveInlineSkillSourceParam {
+  return {
+    type: item["type"],
+    media_type: item["media_type"],
+    data: item["data"],
+  };
+}
+
+/** model interface LiveContainerReferenceParam */
+export interface LiveContainerReferenceParam {
+  /** References a container created with the /v1/containers endpoint */
+  type: "container_reference";
+  /** The ID of the referenced container. */
+  container_id: string;
+}
+
+export function liveContainerReferenceParamSerializer(item: LiveContainerReferenceParam): any {
+  return { type: item["type"], container_id: item["container_id"] };
+}
+
+export function liveContainerReferenceParamDeserializer(item: any): LiveContainerReferenceParam {
+  return {
+    type: item["type"],
+    container_id: item["container_id"],
+  };
+}
+
+/** model interface LiveLocalEnvironmentParam */
+export interface LiveLocalEnvironmentParam {
+  /** Use a local computer environment. */
+  type: "local";
+  skills?: LiveLocalSkillParam[];
+}
+
+export function liveLocalEnvironmentParamSerializer(item: LiveLocalEnvironmentParam): any {
+  return {
+    type: item["type"],
+    skills: !item["skills"] ? item["skills"] : liveLocalSkillParamArraySerializer(item["skills"]),
+  };
+}
+
+export function liveLocalEnvironmentParamDeserializer(item: any): LiveLocalEnvironmentParam {
+  return {
+    type: item["type"],
+    skills: !item["skills"] ? item["skills"] : liveLocalSkillParamArrayDeserializer(item["skills"]),
+  };
+}
+
+export function liveLocalSkillParamArraySerializer(result: Array<LiveLocalSkillParam>): any[] {
+  return result.map((item) => {
+    return liveLocalSkillParamSerializer(item);
+  });
+}
+
+export function liveLocalSkillParamArrayDeserializer(result: Array<LiveLocalSkillParam>): any[] {
+  return result.map((item) => {
+    return liveLocalSkillParamDeserializer(item);
+  });
+}
+
+/** model interface LiveLocalSkillParam */
+export interface LiveLocalSkillParam {
+  /** The name of the skill. */
+  name: string;
+  /** The description of the skill. */
+  description: string;
+  /** The path to the directory containing the skill. */
+  path: string;
+}
+
+export function liveLocalSkillParamSerializer(item: LiveLocalSkillParam): any {
+  return { name: item["name"], description: item["description"], path: item["path"] };
+}
+
+export function liveLocalSkillParamDeserializer(item: any): LiveLocalSkillParam {
+  return {
+    name: item["name"],
+    description: item["description"],
+    path: item["path"],
+  };
+}
+
+/** model interface LiveImageGenerationToolInputParam */
+export interface LiveImageGenerationToolInputParam {
+  type: "image_generation";
+}
+
+export function liveImageGenerationToolInputParamSerializer(
+  item: LiveImageGenerationToolInputParam,
+): any {
+  return { type: item["type"] };
+}
+
+export function liveImageGenerationToolInputParamDeserializer(
+  item: any,
+): LiveImageGenerationToolInputParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveMCPToolInputParam */
+export interface LiveMCPToolInputParam {
+  type: "mcp";
+}
+
+export function liveMCPToolInputParamSerializer(item: LiveMCPToolInputParam): any {
+  return { type: item["type"] };
+}
+
+export function liveMCPToolInputParamDeserializer(item: any): LiveMCPToolInputParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveCustomToolInputParam */
+export interface LiveCustomToolInputParam {
+  type: "custom";
+}
+
+export function liveCustomToolInputParamSerializer(item: LiveCustomToolInputParam): any {
+  return { type: item["type"] };
+}
+
+export function liveCustomToolInputParamDeserializer(item: any): LiveCustomToolInputParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveNamespaceToolInputParam */
+export interface LiveNamespaceToolInputParam {
+  type: "namespace";
+}
+
+export function liveNamespaceToolInputParamSerializer(item: LiveNamespaceToolInputParam): any {
+  return { type: item["type"] };
+}
+
+export function liveNamespaceToolInputParamDeserializer(item: any): LiveNamespaceToolInputParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveToolSearchToolInputParam */
+export interface LiveToolSearchToolInputParam {
+  type: "tool_search";
+}
+
+export function liveToolSearchToolInputParamSerializer(item: LiveToolSearchToolInputParam): any {
+  return { type: item["type"] };
+}
+
+export function liveToolSearchToolInputParamDeserializer(item: any): LiveToolSearchToolInputParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveProgrammaticToolInputParam */
+export interface LiveProgrammaticToolInputParam {
+  type: "programmatic_tool_calling";
+}
+
+export function liveProgrammaticToolInputParamSerializer(
+  item: LiveProgrammaticToolInputParam,
+): any {
+  return { type: item["type"] };
+}
+
+export function liveProgrammaticToolInputParamDeserializer(
+  item: any,
+): LiveProgrammaticToolInputParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveComputerToolInputParam */
+export interface LiveComputerToolInputParam {
+  type: "computer";
+}
+
+export function liveComputerToolInputParamSerializer(item: LiveComputerToolInputParam): any {
+  return { type: item["type"] };
+}
+
+export function liveComputerToolInputParamDeserializer(item: any): LiveComputerToolInputParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveApplyPatchToolInputParam */
+export interface LiveApplyPatchToolInputParam {
+  type: "apply_patch";
+}
+
+export function liveApplyPatchToolInputParamSerializer(item: LiveApplyPatchToolInputParam): any {
+  return { type: item["type"] };
+}
+
+export function liveApplyPatchToolInputParamDeserializer(item: any): LiveApplyPatchToolInputParam {
+  return {
+    type: item["type"],
+  };
+}
+
 /** Alias for _LiveResponsesDelegationSettingsInputParamToolChoice */
 export type _LiveResponsesDelegationSettingsInputParamToolChoice =
-  LiveToolChoiceEnum | LiveFunctionToolChoiceParam | LiveMCPToolChoiceParam;
+  | LiveToolChoiceEnum
+  | LiveFunctionToolChoiceParam
+  | LiveMCPToolChoiceParam
+  | LiveSpecificFileSearchParam
+  | LiveSpecificWebSearchParam
+  | LiveSpecificWebSearchPreviewParam
+  | LiveSpecificImageGenParam
+  | LiveSpecificComputerParam
+  | LiveSpecificCodeInterpreterParam
+  | LiveSpecificProgrammaticToolCallingParam
+  | LiveSpecificFunctionShellParam
+  | LiveSpecificCustomToolParam
+  | LiveSpecificApplyPatchParam
+  | LiveAllowedToolsChoiceParam;
 
 export function _liveResponsesDelegationSettingsInputParamToolChoiceSerializer(
   item: _LiveResponsesDelegationSettingsInputParamToolChoice,
@@ -5008,7 +5662,9 @@ export type LiveToolChoiceEnum = "auto" | "none" | "required";
 
 /** model interface LiveFunctionToolChoiceParam */
 export interface LiveFunctionToolChoiceParam {
+  /** The tool to call. Always `function`. */
   type: "function";
+  /** The name of the function tool to call. */
   name: string;
 }
 
@@ -5025,9 +5681,11 @@ export function liveFunctionToolChoiceParamDeserializer(item: any): LiveFunction
 
 /** model interface LiveMCPToolChoiceParam */
 export interface LiveMCPToolChoiceParam {
+  /** The tool to call. Always `mcp`. */
   type: "mcp";
+  /** The label of the MCP server to call. */
   server_label: string;
-  name: string;
+  name?: string;
 }
 
 export function liveMCPToolChoiceParamSerializer(item: LiveMCPToolChoiceParam): any {
@@ -5041,6 +5699,269 @@ export function liveMCPToolChoiceParamDeserializer(item: any): LiveMCPToolChoice
     name: item["name"],
   };
 }
+
+/** model interface LiveSpecificFileSearchParam */
+export interface LiveSpecificFileSearchParam {
+  /** The tool to call. Always `file_search`. */
+  type: "file_search";
+}
+
+export function liveSpecificFileSearchParamSerializer(item: LiveSpecificFileSearchParam): any {
+  return { type: item["type"] };
+}
+
+export function liveSpecificFileSearchParamDeserializer(item: any): LiveSpecificFileSearchParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveSpecificWebSearchParam */
+export interface LiveSpecificWebSearchParam {
+  /** The tool to call. Always `web_search`. */
+  type: "web_search";
+}
+
+export function liveSpecificWebSearchParamSerializer(item: LiveSpecificWebSearchParam): any {
+  return { type: item["type"] };
+}
+
+export function liveSpecificWebSearchParamDeserializer(item: any): LiveSpecificWebSearchParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveSpecificWebSearchPreviewParam */
+export interface LiveSpecificWebSearchPreviewParam {
+  /** The tool to call. Always `web_search_preview`. */
+  type: "web_search_preview";
+}
+
+export function liveSpecificWebSearchPreviewParamSerializer(
+  item: LiveSpecificWebSearchPreviewParam,
+): any {
+  return { type: item["type"] };
+}
+
+export function liveSpecificWebSearchPreviewParamDeserializer(
+  item: any,
+): LiveSpecificWebSearchPreviewParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveSpecificImageGenParam */
+export interface LiveSpecificImageGenParam {
+  /** The tool to call. Always `image_generation`. */
+  type: "image_generation";
+}
+
+export function liveSpecificImageGenParamSerializer(item: LiveSpecificImageGenParam): any {
+  return { type: item["type"] };
+}
+
+export function liveSpecificImageGenParamDeserializer(item: any): LiveSpecificImageGenParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveSpecificComputerParam */
+export interface LiveSpecificComputerParam {
+  /** The tool to call. Always `computer`. */
+  type: "computer";
+}
+
+export function liveSpecificComputerParamSerializer(item: LiveSpecificComputerParam): any {
+  return { type: item["type"] };
+}
+
+export function liveSpecificComputerParamDeserializer(item: any): LiveSpecificComputerParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveSpecificCodeInterpreterParam */
+export interface LiveSpecificCodeInterpreterParam {
+  /** The tool to call. Always `code_interpreter`. */
+  type: "code_interpreter";
+}
+
+export function liveSpecificCodeInterpreterParamSerializer(
+  item: LiveSpecificCodeInterpreterParam,
+): any {
+  return { type: item["type"] };
+}
+
+export function liveSpecificCodeInterpreterParamDeserializer(
+  item: any,
+): LiveSpecificCodeInterpreterParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveSpecificProgrammaticToolCallingParam */
+export interface LiveSpecificProgrammaticToolCallingParam {
+  /** The tool to call. Always `programmatic_tool_calling`. */
+  type: "programmatic_tool_calling";
+}
+
+export function liveSpecificProgrammaticToolCallingParamSerializer(
+  item: LiveSpecificProgrammaticToolCallingParam,
+): any {
+  return { type: item["type"] };
+}
+
+export function liveSpecificProgrammaticToolCallingParamDeserializer(
+  item: any,
+): LiveSpecificProgrammaticToolCallingParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Forces the model to call the shell tool when a tool call is required. */
+export interface LiveSpecificFunctionShellParam {
+  /** The tool to call. Always `shell`. */
+  type: "shell";
+}
+
+export function liveSpecificFunctionShellParamSerializer(
+  item: LiveSpecificFunctionShellParam,
+): any {
+  return { type: item["type"] };
+}
+
+export function liveSpecificFunctionShellParamDeserializer(
+  item: any,
+): LiveSpecificFunctionShellParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveSpecificCustomToolParam */
+export interface LiveSpecificCustomToolParam {
+  /** The tool to call. Always `custom`. */
+  type: "custom";
+  /** The name of the custom tool to call. */
+  name: string;
+}
+
+export function liveSpecificCustomToolParamSerializer(item: LiveSpecificCustomToolParam): any {
+  return { type: item["type"], name: item["name"] };
+}
+
+export function liveSpecificCustomToolParamDeserializer(item: any): LiveSpecificCustomToolParam {
+  return {
+    type: item["type"],
+    name: item["name"],
+  };
+}
+
+/** Forces the model to call the apply_patch tool when executing a tool call. */
+export interface LiveSpecificApplyPatchParam {
+  /** The tool to call. Always `apply_patch`. */
+  type: "apply_patch";
+}
+
+export function liveSpecificApplyPatchParamSerializer(item: LiveSpecificApplyPatchParam): any {
+  return { type: item["type"] };
+}
+
+export function liveSpecificApplyPatchParamDeserializer(item: any): LiveSpecificApplyPatchParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** model interface LiveAllowedToolsChoiceParam */
+export interface LiveAllowedToolsChoiceParam {
+  /** The tool choice type. Always `allowed_tools`. */
+  type: "allowed_tools";
+  /** The tools that the delegated Responses model may call. */
+  tools: (
+    | LiveFunctionToolChoiceParam
+    | LiveMCPToolChoiceParam
+    | LiveSpecificFileSearchParam
+    | LiveSpecificWebSearchParam
+    | LiveSpecificWebSearchPreviewParam
+    | LiveSpecificImageGenParam
+    | LiveSpecificComputerParam
+    | LiveSpecificCodeInterpreterParam
+    | LiveSpecificProgrammaticToolCallingParam
+    | LiveSpecificFunctionShellParam
+    | LiveSpecificCustomToolParam
+    | LiveSpecificApplyPatchParam
+  )[];
+  mode?: LiveToolChoiceValueEnum;
+}
+
+export function liveAllowedToolsChoiceParamSerializer(item: LiveAllowedToolsChoiceParam): any {
+  return {
+    type: item["type"],
+    tools: _liveResponsesDelegationSettingsInputParamToolChoiceToolArraySerializer(item["tools"]),
+    mode: item["mode"],
+  };
+}
+
+export function liveAllowedToolsChoiceParamDeserializer(item: any): LiveAllowedToolsChoiceParam {
+  return {
+    type: item["type"],
+    tools: _liveResponsesDelegationSettingsInputParamToolChoiceToolArrayDeserializer(item["tools"]),
+    mode: item["mode"],
+  };
+}
+
+export function _liveResponsesDelegationSettingsInputParamToolChoiceToolArraySerializer(
+  result: Array<_LiveResponsesDelegationSettingsInputParamToolChoiceTool>,
+): any[] {
+  return result.map((item) => {
+    return _liveResponsesDelegationSettingsInputParamToolChoiceToolSerializer(item);
+  });
+}
+
+export function _liveResponsesDelegationSettingsInputParamToolChoiceToolArrayDeserializer(
+  result: Array<_LiveResponsesDelegationSettingsInputParamToolChoiceTool>,
+): any[] {
+  return result.map((item) => {
+    return _liveResponsesDelegationSettingsInputParamToolChoiceToolDeserializer(item);
+  });
+}
+
+/** Alias for _LiveResponsesDelegationSettingsInputParamToolChoiceTool */
+export type _LiveResponsesDelegationSettingsInputParamToolChoiceTool =
+  | LiveFunctionToolChoiceParam
+  | LiveMCPToolChoiceParam
+  | LiveSpecificFileSearchParam
+  | LiveSpecificWebSearchParam
+  | LiveSpecificWebSearchPreviewParam
+  | LiveSpecificImageGenParam
+  | LiveSpecificComputerParam
+  | LiveSpecificCodeInterpreterParam
+  | LiveSpecificProgrammaticToolCallingParam
+  | LiveSpecificFunctionShellParam
+  | LiveSpecificCustomToolParam
+  | LiveSpecificApplyPatchParam;
+
+export function _liveResponsesDelegationSettingsInputParamToolChoiceToolSerializer(
+  item: _LiveResponsesDelegationSettingsInputParamToolChoiceTool,
+): any {
+  return item;
+}
+
+export function _liveResponsesDelegationSettingsInputParamToolChoiceToolDeserializer(
+  item: any,
+): _LiveResponsesDelegationSettingsInputParamToolChoiceTool {
+  return item;
+}
+
+/** Type of LiveToolChoiceValueEnum */
+export type LiveToolChoiceValueEnum = "none" | "auto" | "required";
 
 /** Configuration for reasoning-capable Realtime models such as `gpt-realtime-2`. */
 export interface RealtimeReasoning {
@@ -5679,6 +6600,133 @@ export function realtimeFunctionToolDeserializer(item: any): RealtimeFunctionToo
     parameters: !item["parameters"]
       ? item["parameters"]
       : realtimeFunctionToolParametersDeserializer(item["parameters"]),
+  };
+}
+
+/**
+ * Give the model access to additional tools via remote Model Context Protocol
+ * (MCP) servers. [Learn more about MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp).
+ */
+export interface MCPTool {
+  /** The type of the MCP tool. Always `mcp`. */
+  type: "mcp";
+  /** A label for this MCP server, used to identify it in tool calls. */
+  server_label: string;
+  /**
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
+   */
+  server_url?: string;
+  /**
+   * Identifier for service connectors, like those available in ChatGPT. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
+   *   about service connectors [here](https://developers.openai.com/api/docs/guides/tools-connectors-mcp#connectors).
+   *   This field is deprecated for models released after September 1, 2026.
+   *   Use `server_url` to connect to a remote MCP server, or `tunnel_id` to
+   *   connect through a Secure MCP Tunnel.
+   *   Currently supported `connector_id` values are:
+   *   - Dropbox: `connector_dropbox`
+   *   - Gmail: `connector_gmail`
+   *   - Google Calendar: `connector_googlecalendar`
+   *   - Google Drive: `connector_googledrive`
+   *   - Microsoft Teams: `connector_microsoftteams`
+   *   - Outlook Calendar: `connector_outlookcalendar`
+   *   - Outlook Email: `connector_outlookemail`
+   *   - SharePoint: `connector_sharepoint`
+   */
+  connector_id?:
+    | "connector_dropbox"
+    | "connector_gmail"
+    | "connector_googlecalendar"
+    | "connector_googledrive"
+    | "connector_microsoftteams"
+    | "connector_outlookcalendar"
+    | "connector_outlookemail"
+    | "connector_sharepoint";
+  /**
+   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
+   */
+  tunnel_id?: string;
+  /**
+   * An OAuth access token that can be used with a remote MCP server, either
+   *   with a custom MCP server URL or a service connector. Your application
+   *   must handle the OAuth authorization flow and provide the token here.
+   */
+  authorization?: string;
+  /** Optional description of the MCP server, used to provide more context. */
+  server_description?: string;
+  headers?: Record<string, string>;
+  allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
+  require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
+  project_connection_id?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+}
+
+export function mcpToolSerializer(item: MCPTool): any {
+  return {
+    type: item["type"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: item["headers"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+export function mcpToolDeserializer(item: any): MCPTool {
+  return {
+    type: item["type"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(
+          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -8531,9 +9579,13 @@ export type LiveClientEventUnion =
   | LiveClientEventLiveInputAudioAppendEvent
   | LiveClientEventLiveInputAudioMuteParam
   | LiveClientEventLiveInputAudioUnmuteParam
+  | LiveClientEventLiveOutputAudioFixturePlayParam
   | LiveClientEventLiveInstructionsAppendParam
   | LiveClientEventLiveThinkingAppendParam
   | LiveClientEventLiveCommentaryAppendParam
+  | LiveClientEventLiveDecisionCreateParam
+  | LiveClientEventLiveDecisionItemCreateParam
+  | LiveClientEventLiveDecisionItemDeleteParam
   | LiveClientEventLiveResponseItemCreateParam
   | LiveClientEventLiveResponseCreateParam
   | LiveClientEventLiveSessionCloseParam
@@ -8564,6 +9616,11 @@ export function liveClientEventUnionSerializer(item: LiveClientEventUnion): any 
         item as LiveClientEventLiveInputAudioUnmuteParam,
       );
 
+    case "session.output_audio.fixture.play":
+      return liveClientEventLiveOutputAudioFixturePlayParamSerializer(
+        item as LiveClientEventLiveOutputAudioFixturePlayParam,
+      );
+
     case "session.instructions.append":
       return liveClientEventLiveInstructionsAppendParamSerializer(
         item as LiveClientEventLiveInstructionsAppendParam,
@@ -8577,6 +9634,21 @@ export function liveClientEventUnionSerializer(item: LiveClientEventUnion): any 
     case "session.commentary.append":
       return liveClientEventLiveCommentaryAppendParamSerializer(
         item as LiveClientEventLiveCommentaryAppendParam,
+      );
+
+    case "decision.create":
+      return liveClientEventLiveDecisionCreateParamSerializer(
+        item as LiveClientEventLiveDecisionCreateParam,
+      );
+
+    case "decision.item.create":
+      return liveClientEventLiveDecisionItemCreateParamSerializer(
+        item as LiveClientEventLiveDecisionItemCreateParam,
+      );
+
+    case "decision.item.delete":
+      return liveClientEventLiveDecisionItemDeleteParamSerializer(
+        item as LiveClientEventLiveDecisionItemDeleteParam,
       );
 
     case "response.item.create":
@@ -8606,9 +9678,13 @@ export type LiveClientEventType =
   | "session.input_audio.append"
   | "session.input_audio.mute"
   | "session.input_audio.unmute"
+  | "session.output_audio.fixture.play"
   | "session.instructions.append"
   | "session.thinking.append"
   | "session.commentary.append"
+  | "decision.create"
+  | "decision.item.create"
+  | "decision.item.delete"
   | "response.item.create"
   | "response.create"
   | "session.close";
@@ -8634,11 +9710,14 @@ export function liveSessionStartEventSerializer(item: LiveSessionStartEvent): an
 export interface LiveSessionCreateParams {
   model: ModelIdsLive;
   instructions?: string;
-  /** Ordered text-only history supplied before startup. Supports developer, user, and assistant messages with one text part each; at most 128 messages and 8,192 rendered tokens in total. */
+  /** Ordered text-only history supplied before startup. Supports developer, user, and assistant messages with one text part each; at most 128 messages and a configured rendered-token limit (8,192 by default). */
   input?: LiveInitialItemUnion[];
   /** Startup audio configuration. Only primary WebSockets accept audio.format; WebRTC and SIP negotiate their media format. Voice and format are immutable after startup. */
   audio?: LiveInitialSessionAudioParam;
-  delegation?: LiveClientDelegationParam | LiveResponsesDelegationParam;
+  delegation?:
+    LiveClientDelegationParam | LiveResponsesDelegationParam | LiveDecisionsDelegationParam2;
+  /** At most one Decisions trigger per transcript event type. Triggers run independently of delegation. On update, omit triggers to keep the current configuration, send a list to replace it, or send an empty list to disable triggers. */
+  triggers?: LiveDecisionTriggerInputParam2[];
   /** Whether to store the session for later forking and recording download. Defaults to false for new sessions. */
   store?: boolean;
   /** Startup-only capabilities for an untrusted frontend attached to a unified WebRTC session. Trusted sideband connections are unaffected. */
@@ -8654,6 +9733,9 @@ export function liveSessionCreateParamsSerializer(item: LiveSessionCreateParams)
     delegation: !item["delegation"]
       ? item["delegation"]
       : _liveSessionCreateParamsDelegationSerializer(item["delegation"]),
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : liveDecisionTriggerInputParam2ArraySerializer(item["triggers"]),
     store: item["store"],
     client: !item["client"] ? item["client"] : liveClientConfigParamSerializer(item["client"]),
   };
@@ -8969,7 +10051,7 @@ export function liveInitialOutputTextContentPartParamDeserializer(
 
 /** Alias for _LiveSessionCreateParamsDelegation */
 export type _LiveSessionCreateParamsDelegation =
-  LiveClientDelegationParam | LiveResponsesDelegationParam;
+  LiveClientDelegationParam | LiveResponsesDelegationParam | LiveDecisionsDelegationParam2;
 
 export function _liveSessionCreateParamsDelegationSerializer(
   item: _LiveSessionCreateParamsDelegation,
@@ -8999,6 +10081,306 @@ export function liveResponsesDelegationParamSerializer(item: LiveResponsesDelega
   return {
     type: item["type"],
     responses: liveResponsesDelegationSettingsInputParamSerializer(item["responses"]),
+  };
+}
+
+/** model interface LiveDecisionsDelegationParam2 */
+export interface LiveDecisionsDelegationParam2 {
+  type: "decisions";
+  decisions: LiveDecisionsSettingsInputParam2;
+}
+
+export function liveDecisionsDelegationParam2Serializer(item: LiveDecisionsDelegationParam2): any {
+  return {
+    type: item["type"],
+    decisions: liveDecisionsSettingsInputParam2Serializer(item["decisions"]),
+  };
+}
+
+/** model interface LiveDecisionsSettingsInputParam2 */
+export interface LiveDecisionsSettingsInputParam2 {
+  /** Native Decision API questions evaluated together, in order. */
+  questions: QuestionParamUnion[];
+  model: string;
+}
+
+export function liveDecisionsSettingsInputParam2Serializer(
+  item: LiveDecisionsSettingsInputParam2,
+): any {
+  return { questions: questionParamUnionArraySerializer(item["questions"]), model: item["model"] };
+}
+
+export function questionParamUnionArraySerializer(result: Array<QuestionParamUnion>): any[] {
+  return result.map((item) => {
+    return questionParamUnionSerializer(item);
+  });
+}
+
+export function questionParamUnionArrayDeserializer(result: Array<QuestionParamUnion>): any[] {
+  return result.map((item) => {
+    return questionParamUnionDeserializer(item);
+  });
+}
+
+/** A question about the request's input, with an optional correlation name. */
+export interface QuestionParam {
+  type: QuestionParamType;
+}
+
+export function questionParamSerializer(item: QuestionParam): any {
+  return { type: item["type"] };
+}
+
+export function questionParamDeserializer(item: any): QuestionParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for QuestionParamUnion */
+export type QuestionParamUnion =
+  QuestionParamPredicate | QuestionParamChoice | QuestionParamScore | QuestionParam;
+
+export function questionParamUnionSerializer(item: QuestionParamUnion): any {
+  switch (item.type) {
+    case "predicate":
+      return questionParamPredicateSerializer(item as QuestionParamPredicate);
+
+    case "choice":
+      return questionParamChoiceSerializer(item as QuestionParamChoice);
+
+    case "score":
+      return questionParamScoreSerializer(item as QuestionParamScore);
+
+    default:
+      return questionParamSerializer(item);
+  }
+}
+
+export function questionParamUnionDeserializer(item: any): QuestionParamUnion {
+  switch (item["type"]) {
+    case "predicate":
+      return questionParamPredicateDeserializer(item as QuestionParamPredicate);
+
+    case "choice":
+      return questionParamChoiceDeserializer(item as QuestionParamChoice);
+
+    case "score":
+      return questionParamScoreDeserializer(item as QuestionParamScore);
+
+    default:
+      return questionParamDeserializer(item);
+  }
+}
+
+/** Type of QuestionParamType */
+export type QuestionParamType = "predicate" | "choice" | "score";
+
+/** Estimate how likely it is that a statement about the input is true. */
+export interface QuestionParamPredicate extends QuestionParam {
+  /** The type of the object. Always `predicate`. */
+  type: "predicate";
+  name?: string;
+  instructions: string;
+}
+
+export function questionParamPredicateSerializer(item: QuestionParamPredicate): any {
+  return { type: item["type"], name: item["name"], instructions: item["instructions"] };
+}
+
+export function questionParamPredicateDeserializer(item: any): QuestionParamPredicate {
+  return {
+    type: item["type"],
+    name: item["name"],
+    instructions: item["instructions"],
+  };
+}
+
+/** Choose from the supplied options based on the input. */
+export interface QuestionParamChoice extends QuestionParam {
+  /** The type of the object. Always `choice`. */
+  type: "choice";
+  name?: string;
+  instructions: string;
+  /** Provide between 2 and 255 choices. Each choice must be unique. */
+  choices: ChoiceOptionParam[];
+}
+
+export function questionParamChoiceSerializer(item: QuestionParamChoice): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    instructions: item["instructions"],
+    choices: choiceOptionParamArraySerializer(item["choices"]),
+  };
+}
+
+export function questionParamChoiceDeserializer(item: any): QuestionParamChoice {
+  return {
+    type: item["type"],
+    name: item["name"],
+    instructions: item["instructions"],
+    choices: choiceOptionParamArrayDeserializer(item["choices"]),
+  };
+}
+
+export function choiceOptionParamArraySerializer(result: Array<ChoiceOptionParam>): any[] {
+  return result.map((item) => {
+    return choiceOptionParamSerializer(item);
+  });
+}
+
+export function choiceOptionParamArrayDeserializer(result: Array<ChoiceOptionParam>): any[] {
+  return result.map((item) => {
+    return choiceOptionParamDeserializer(item);
+  });
+}
+
+/** model interface ChoiceOptionParam */
+export interface ChoiceOptionParam {
+  value: ChoiceValueParam;
+  description?: string;
+}
+
+export function choiceOptionParamSerializer(item: ChoiceOptionParam): any {
+  return { value: choiceValueParamSerializer(item["value"]), description: item["description"] };
+}
+
+export function choiceOptionParamDeserializer(item: any): ChoiceOptionParam {
+  return {
+    value: choiceValueParamDeserializer(item["value"]),
+    description: item["description"],
+  };
+}
+
+/** Choice values are typed: a string and a boolean with the same text are distinct. */
+export type ChoiceValueParam = string | boolean;
+
+export function choiceValueParamSerializer(item: ChoiceValueParam): any {
+  return item;
+}
+
+export function choiceValueParamDeserializer(item: any): ChoiceValueParam {
+  return item;
+}
+
+/** Rate the input against the supplied ordered levels. */
+export interface QuestionParamScore extends QuestionParam {
+  /** The type of the object. Always `score`. */
+  type: "score";
+  name?: string;
+  instructions: string;
+  levels: ScoreLevelParam[];
+}
+
+export function questionParamScoreSerializer(item: QuestionParamScore): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    instructions: item["instructions"],
+    levels: scoreLevelParamArraySerializer(item["levels"]),
+  };
+}
+
+export function questionParamScoreDeserializer(item: any): QuestionParamScore {
+  return {
+    type: item["type"],
+    name: item["name"],
+    instructions: item["instructions"],
+    levels: scoreLevelParamArrayDeserializer(item["levels"]),
+  };
+}
+
+export function scoreLevelParamArraySerializer(result: Array<ScoreLevelParam>): any[] {
+  return result.map((item) => {
+    return scoreLevelParamSerializer(item);
+  });
+}
+
+export function scoreLevelParamArrayDeserializer(result: Array<ScoreLevelParam>): any[] {
+  return result.map((item) => {
+    return scoreLevelParamDeserializer(item);
+  });
+}
+
+/** model interface ScoreLevelParam */
+export interface ScoreLevelParam {
+  label: string;
+  description?: string;
+}
+
+export function scoreLevelParamSerializer(item: ScoreLevelParam): any {
+  return { label: item["label"], description: item["description"] };
+}
+
+export function scoreLevelParamDeserializer(item: any): ScoreLevelParam {
+  return {
+    label: item["label"],
+    description: item["description"],
+  };
+}
+
+export function liveDecisionTriggerInputParam2ArraySerializer(
+  result: Array<LiveDecisionTriggerInputParam2>,
+): any[] {
+  return result.map((item) => {
+    return liveDecisionTriggerInputParam2Serializer(item);
+  });
+}
+
+export function liveDecisionTriggerInputParam2ArrayDeserializer(
+  result: Array<LiveDecisionTriggerInputParam2>,
+): any[] {
+  return result.map((item) => {
+    return liveDecisionTriggerInputParam2Deserializer(item);
+  });
+}
+
+/** model interface LiveDecisionTriggerInputParam2 */
+export interface LiveDecisionTriggerInputParam2 {
+  type: "decisions";
+  event_type: "session.input_transcript.delta" | "session.output_transcript.delta";
+  /** Questions evaluated using the current transcript and the session's shared Decision items. */
+  decisions: LiveDecisionQuestionsInputParam2;
+}
+
+export function liveDecisionTriggerInputParam2Serializer(
+  item: LiveDecisionTriggerInputParam2,
+): any {
+  return {
+    type: item["type"],
+    event_type: item["event_type"],
+    decisions: liveDecisionQuestionsInputParam2Serializer(item["decisions"]),
+  };
+}
+
+export function liveDecisionTriggerInputParam2Deserializer(
+  item: any,
+): LiveDecisionTriggerInputParam2 {
+  return {
+    type: item["type"],
+    event_type: item["event_type"],
+    decisions: liveDecisionQuestionsInputParam2Deserializer(item["decisions"]),
+  };
+}
+
+/** Questions evaluated using the current transcript and the session's shared Decision items. */
+export interface LiveDecisionQuestionsInputParam2 {
+  /** Native Decision API questions evaluated together, in order. */
+  questions: QuestionParamUnion[];
+}
+
+export function liveDecisionQuestionsInputParam2Serializer(
+  item: LiveDecisionQuestionsInputParam2,
+): any {
+  return { questions: questionParamUnionArraySerializer(item["questions"]) };
+}
+
+export function liveDecisionQuestionsInputParam2Deserializer(
+  item: any,
+): LiveDecisionQuestionsInputParam2 {
+  return {
+    questions: questionParamUnionArrayDeserializer(item["questions"]),
   };
 }
 
@@ -9113,12 +10495,12 @@ export function liveAllowedServerEventParamDeserializer(item: any): LiveAllowedS
   };
 }
 
-/** Update the delegation settings of an active Live session. The server acknowledges accepted changes with `session.updated`. */
+/** Update the delegation settings or transcript triggers of an active Live session. The server acknowledges accepted changes with `session.updated`. */
 export interface LiveClientEventLiveSessionUpdateParam extends LiveClientEvent {
   event_id?: string;
   /** The Live client event type. Always `session.update`. */
   type: "session.update";
-  /** Sparse delegation updates. Omitted settings retain their values. The delegation type cannot change, including resetting Responses delegation to null or client. Model, frontend instructions, audio, and startup input are immutable. */
+  /** Sparse delegation and trigger updates. Omitted settings retain their values. The delegation type cannot change. Model, frontend instructions, audio, and startup input are immutable. */
   session: LiveSessionUpdateParams;
 }
 
@@ -9132,9 +10514,14 @@ export function liveClientEventLiveSessionUpdateParamSerializer(
   };
 }
 
-/** Changes to an active Live session. Only delegation backend settings can be updated after startup. */
+/** Changes to an active Live session's delegation settings and transcript triggers. */
 export interface LiveSessionUpdateParams {
-  delegation?: LiveClientDelegationParam | LiveResponsesDelegationUpdateParam;
+  delegation?:
+    | LiveClientDelegationParam
+    | LiveResponsesDelegationUpdateParam
+    | LiveDecisionsDelegationUpdateParam;
+  /** At most one Decisions trigger per transcript event type. Triggers run independently of delegation. On update, omit triggers to keep the current configuration, send a list to replace it, or send an empty list to disable triggers. */
+  triggers?: LiveDecisionTriggerInputParam2[];
 }
 
 export function liveSessionUpdateParamsSerializer(item: LiveSessionUpdateParams): any {
@@ -9142,12 +10529,17 @@ export function liveSessionUpdateParamsSerializer(item: LiveSessionUpdateParams)
     delegation: !item["delegation"]
       ? item["delegation"]
       : _liveSessionUpdateParamsDelegationSerializer(item["delegation"]),
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : liveDecisionTriggerInputParam2ArraySerializer(item["triggers"]),
   };
 }
 
 /** Alias for _LiveSessionUpdateParamsDelegation */
 export type _LiveSessionUpdateParamsDelegation =
-  LiveClientDelegationParam | LiveResponsesDelegationUpdateParam;
+  | LiveClientDelegationParam
+  | LiveResponsesDelegationUpdateParam
+  | LiveDecisionsDelegationUpdateParam;
 
 export function _liveSessionUpdateParamsDelegationSerializer(
   item: _LiveSessionUpdateParamsDelegation,
@@ -9184,9 +10576,37 @@ export interface LiveResponsesDelegationSettingsUpdateInputParam {
   reasoning?: LiveDelegationReasoningInputParam;
   text?: LiveDelegationTextInputParam;
   /** Tools available to the Responses backend while it handles tasks delegated by the Live model. */
-  tools?: (LiveFunctionToolInputParam | LiveWebSearchToolInputParam)[];
+  tools?: (
+    | LiveFunctionToolInputParam
+    | LiveWebSearchToolInputParam
+    | LiveFileSearchToolInputParam
+    | LiveCodeInterpreterToolInputParam
+    | LiveHostedShellToolInputParam
+    | LiveImageGenerationToolInputParam
+    | LiveMCPToolInputParam
+    | LiveCustomToolInputParam
+    | LiveNamespaceToolInputParam
+    | LiveToolSearchToolInputParam
+    | LiveProgrammaticToolInputParam
+    | LiveComputerToolInputParam
+    | LiveApplyPatchToolInputParam
+  )[];
   /** Controls which tool the Responses backend uses when handling a task delegated by the Live model. */
-  tool_choice?: LiveToolChoiceEnum | LiveFunctionToolChoiceParam | LiveMCPToolChoiceParam;
+  tool_choice?:
+    | LiveToolChoiceEnum
+    | LiveFunctionToolChoiceParam
+    | LiveMCPToolChoiceParam
+    | LiveSpecificFileSearchParam
+    | LiveSpecificWebSearchParam
+    | LiveSpecificWebSearchPreviewParam
+    | LiveSpecificImageGenParam
+    | LiveSpecificComputerParam
+    | LiveSpecificCodeInterpreterParam
+    | LiveSpecificProgrammaticToolCallingParam
+    | LiveSpecificFunctionShellParam
+    | LiveSpecificCustomToolParam
+    | LiveSpecificApplyPatchParam
+    | LiveAllowedToolsChoiceParam;
   parallel_tool_calls?: boolean;
 }
 
@@ -9222,7 +10642,19 @@ export function _liveResponsesDelegationSettingsUpdateInputParamToolArraySeriali
 
 /** Alias for _LiveResponsesDelegationSettingsUpdateInputParamTool */
 export type _LiveResponsesDelegationSettingsUpdateInputParamTool =
-  LiveFunctionToolInputParam | LiveWebSearchToolInputParam;
+  | LiveFunctionToolInputParam
+  | LiveWebSearchToolInputParam
+  | LiveFileSearchToolInputParam
+  | LiveCodeInterpreterToolInputParam
+  | LiveHostedShellToolInputParam
+  | LiveImageGenerationToolInputParam
+  | LiveMCPToolInputParam
+  | LiveCustomToolInputParam
+  | LiveNamespaceToolInputParam
+  | LiveToolSearchToolInputParam
+  | LiveProgrammaticToolInputParam
+  | LiveComputerToolInputParam
+  | LiveApplyPatchToolInputParam;
 
 export function _liveResponsesDelegationSettingsUpdateInputParamToolSerializer(
   item: _LiveResponsesDelegationSettingsUpdateInputParamTool,
@@ -9232,12 +10664,60 @@ export function _liveResponsesDelegationSettingsUpdateInputParamToolSerializer(
 
 /** Alias for _LiveResponsesDelegationSettingsUpdateInputParamToolChoice */
 export type _LiveResponsesDelegationSettingsUpdateInputParamToolChoice =
-  LiveToolChoiceEnum | LiveFunctionToolChoiceParam | LiveMCPToolChoiceParam;
+  | LiveToolChoiceEnum
+  | LiveFunctionToolChoiceParam
+  | LiveMCPToolChoiceParam
+  | LiveSpecificFileSearchParam
+  | LiveSpecificWebSearchParam
+  | LiveSpecificWebSearchPreviewParam
+  | LiveSpecificImageGenParam
+  | LiveSpecificComputerParam
+  | LiveSpecificCodeInterpreterParam
+  | LiveSpecificProgrammaticToolCallingParam
+  | LiveSpecificFunctionShellParam
+  | LiveSpecificCustomToolParam
+  | LiveSpecificApplyPatchParam
+  | LiveAllowedToolsChoiceParam;
 
 export function _liveResponsesDelegationSettingsUpdateInputParamToolChoiceSerializer(
   item: _LiveResponsesDelegationSettingsUpdateInputParamToolChoice,
 ): any {
   return item;
+}
+
+/** model interface LiveDecisionsDelegationUpdateParam */
+export interface LiveDecisionsDelegationUpdateParam {
+  type: "decisions";
+  decisions?: LiveDecisionsSettingsUpdateParam;
+}
+
+export function liveDecisionsDelegationUpdateParamSerializer(
+  item: LiveDecisionsDelegationUpdateParam,
+): any {
+  return {
+    type: item["type"],
+    decisions: !item["decisions"]
+      ? item["decisions"]
+      : liveDecisionsSettingsUpdateParamSerializer(item["decisions"]),
+  };
+}
+
+/** model interface LiveDecisionsSettingsUpdateParam */
+export interface LiveDecisionsSettingsUpdateParam {
+  model?: string;
+  /** Native Decision API questions evaluated together, in order. */
+  questions?: QuestionParamUnion[];
+}
+
+export function liveDecisionsSettingsUpdateParamSerializer(
+  item: LiveDecisionsSettingsUpdateParam,
+): any {
+  return {
+    model: item["model"],
+    questions: !item["questions"]
+      ? item["questions"]
+      : questionParamUnionArraySerializer(item["questions"]),
+  };
 }
 
 /** Send audio to a Live session over its primary WebSocket. WebRTC and SIP sessions send audio over their media transport. */
@@ -9268,7 +10748,7 @@ export function liveClientEventLiveInputAudioMuteParamSerializer(
   return { type: item["type"], event_id: item["event_id"] };
 }
 
-/** Resume audio input to a Live model after muting it. The server acknowledges with `session.input_audio.unmuted`. */
+/** Resume audio input to a Live model after muting it. The server acknowledges with `session.input_audio.unmuted`. An active audio fixture still pauses inference until playback finishes. */
 export interface LiveClientEventLiveInputAudioUnmuteParam extends LiveClientEvent {
   event_id?: string;
   /** The Live client event type. Always `session.input_audio.unmute`. */
@@ -9281,7 +10761,21 @@ export function liveClientEventLiveInputAudioUnmuteParamSerializer(
   return { type: item["type"], event_id: item["event_id"] };
 }
 
-/** Append instructions to the Live conversation while it is running, optionally associating them with an existing client delegation. */
+/** Play one complete audio fixture through the session output. Send this event over the primary WebSocket or a server sideband. Audio must be raw mono PCM16 little-endian at 24 kHz, regardless of the session audio format, and at most 30 seconds. The entire payload is validated before model speech is interrupted and input is muted. Only one fixture can be active. fixture.playing acknowledges acceptance and fixture.played reports server mixer drain. These notifications are not exact transport-media boundaries. Input arriving during playback is dropped and not replayed. */
+export interface LiveClientEventLiveOutputAudioFixturePlayParam extends LiveClientEvent {
+  event_id?: string;
+  type: "session.output_audio.fixture.play";
+  /** Base64-encoded raw mono PCM16 audio, little-endian, at 24 kHz. Do not include a WAV or other container header. */
+  audio: string;
+}
+
+export function liveClientEventLiveOutputAudioFixturePlayParamSerializer(
+  item: LiveClientEventLiveOutputAudioFixturePlayParam,
+): any {
+  return { type: item["type"], event_id: item["event_id"], audio: item["audio"] };
+}
+
+/** Append developer instructions to the Live conversation while it is running, optionally associating them with an existing client delegation. Rejected while an audio fixture is active. These instructions remain in conversation history through compaction and are included in future backend delegations. For external audio, describe content already delivered so the assistant does not repeat it. */
 export interface LiveClientEventLiveInstructionsAppendParam extends LiveClientEvent {
   event_id?: string;
   /** The Live client event type. Always `session.instructions.append`. */
@@ -9302,7 +10796,7 @@ export function liveClientEventLiveInstructionsAppendParamSerializer(
   };
 }
 
-/** Provide silent reasoning or progress context to the Live model, optionally for an existing client delegation. */
+/** Provide silent reasoning or progress context to the Live model, optionally for an existing client delegation. Rejected while an audio fixture is active. */
 export interface LiveClientEventLiveThinkingAppendParam extends LiveClientEvent {
   event_id?: string;
   /** The Live client event type. Always `session.thinking.append`. */
@@ -9323,7 +10817,7 @@ export function liveClientEventLiveThinkingAppendParamSerializer(
   };
 }
 
-/** Provide context the Live model can communicate to the user, optionally for an existing client delegation. */
+/** Provide context the Live model can communicate to the user, optionally for an existing client delegation. Rejected while an audio fixture is active. */
 export interface LiveClientEventLiveCommentaryAppendParam extends LiveClientEvent {
   event_id?: string;
   /** The Live client event type. Always `session.commentary.append`. */
@@ -9342,6 +10836,137 @@ export function liveClientEventLiveCommentaryAppendParamSerializer(
     delegation_id: item["delegation_id"],
     content: item["content"],
   };
+}
+
+/** Evaluate the configured questions using the current conversation and Decision inputs. Reusing an event_id is rejected for the lifetime of the session. */
+export interface LiveClientEventLiveDecisionCreateParam extends LiveClientEvent {
+  event_id: string;
+  type: "decision.create";
+}
+
+export function liveClientEventLiveDecisionCreateParamSerializer(
+  item: LiveClientEventLiveDecisionCreateParam,
+): any {
+  return { type: item["type"], event_id: item["event_id"] };
+}
+
+/** Append an input item for future decisions without starting an evaluation or changing Live voice context. */
+export interface LiveClientEventLiveDecisionItemCreateParam extends LiveClientEvent {
+  event_id?: string;
+  type: "decision.item.create";
+  item: LiveDecisionInputItemParam;
+}
+
+export function liveClientEventLiveDecisionItemCreateParamSerializer(
+  item: LiveClientEventLiveDecisionItemCreateParam,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    item: liveDecisionInputItemParamSerializer(item["item"]),
+  };
+}
+
+/** model interface LiveDecisionInputItemParam */
+export interface LiveDecisionInputItemParam {
+  id?: string;
+  type?: "message";
+  /** The message role. Always `user`. */
+  role: "user";
+  content: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
+}
+
+export function liveDecisionInputItemParamSerializer(item: LiveDecisionInputItemParam): any {
+  return {
+    id: item["id"],
+    type: item["type"],
+    role: item["role"],
+    content: _liveDecisionInputItemParamContentSerializer(item["content"]),
+  };
+}
+
+/** Alias for _LiveDecisionInputItemParamContent */
+export type _LiveDecisionInputItemParamContent =
+  string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
+
+export function _liveDecisionInputItemParamContentSerializer(
+  item: _LiveDecisionInputItemParamContent,
+): any {
+  return item;
+}
+
+export function _liveDecisionInputItemParamContent1ArraySerializer(
+  result: Array<_LiveDecisionInputItemParamContent1>,
+): any[] {
+  return result.map((item) => {
+    return _liveDecisionInputItemParamContent1Serializer(item);
+  });
+}
+
+/** Alias for _LiveDecisionInputItemParamContent1 */
+export type _LiveDecisionInputItemParamContent1 =
+  LiveDecisionInputTextParam | LiveDecisionInputImageParam;
+
+export function _liveDecisionInputItemParamContent1Serializer(
+  item: _LiveDecisionInputItemParamContent1,
+): any {
+  return item;
+}
+
+/** model interface LiveDecisionInputTextParam */
+export interface LiveDecisionInputTextParam {
+  /** The type of the input item. Always `input_text`. */
+  type: "input_text";
+  /** The text input to the model. */
+  text: string;
+}
+
+export function liveDecisionInputTextParamSerializer(item: LiveDecisionInputTextParam): any {
+  return { type: item["type"], text: item["text"] };
+}
+
+export function liveDecisionInputTextParamDeserializer(item: any): LiveDecisionInputTextParam {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** model interface LiveDecisionInputImageParam */
+export interface LiveDecisionInputImageParam {
+  /** The type of the input item. Always `input_image`. */
+  type: "input_image";
+  /** An inline image encoded as a data URL. */
+  image_url: string;
+  detail?: LiveDetailEnum;
+}
+
+export function liveDecisionInputImageParamSerializer(item: LiveDecisionInputImageParam): any {
+  return { type: item["type"], image_url: item["image_url"], detail: item["detail"] };
+}
+
+export function liveDecisionInputImageParamDeserializer(item: any): LiveDecisionInputImageParam {
+  return {
+    type: item["type"],
+    image_url: item["image_url"],
+    detail: item["detail"],
+  };
+}
+
+/** Type of LiveDetailEnum */
+export type LiveDetailEnum = "low" | "high" | "auto" | "original";
+
+/** Delete an input item from future decisions without starting an evaluation or changing Live voice context. */
+export interface LiveClientEventLiveDecisionItemDeleteParam extends LiveClientEvent {
+  event_id?: string;
+  type: "decision.item.delete";
+  item_id: string;
+}
+
+export function liveClientEventLiveDecisionItemDeleteParamSerializer(
+  item: LiveClientEventLiveDecisionItemDeleteParam,
+): any {
+  return { type: item["type"], event_id: item["event_id"], item_id: item["item_id"] };
 }
 
 /** Add an input item to the Live session’s Responses backend. Requires Responses delegation; use `response.create` to request a response. */
@@ -9427,24 +11052,29 @@ export type LiveServerEventUnion =
   | LiveOutputAudioDelta
   | LiveTransportDtmfReceived
   | LiveTransportDtmfSend
-  | LiveTransportRinging
-  | LiveTransportAnswered
-  | LiveTransportFailed
   | LiveServerEventLiveSessionStarted
   | LiveServerEventLiveSessionUpdated
   | LiveServerEventLiveInputAudioMuted
   | LiveServerEventLiveInputAudioUnmuted
+  | LiveServerEventLiveOutputAudioFixturePlaying
+  | LiveServerEventLiveOutputAudioFixturePlayed
   | LiveServerEventLiveInstructionsAppended
   | LiveServerEventLiveThinkingAppended
   | LiveServerEventLiveCommentaryAppended
   | LiveServerEventLiveInputTranscriptDelta
   | LiveServerEventLiveOutputTranscriptDelta
   | LiveServerEventLiveDelegationCreated
+  | LiveServerEventLiveDecisionEvent
+  | LiveServerEventLiveDecisionItemCreated
+  | LiveServerEventLiveDecisionItemDeleted
   | LiveServerEventLiveResponseEvent
   | LiveServerEventLiveSessionUsageUpdated
   | LiveServerEventLiveSessionClosed
   | LiveServerEventLiveErrorEvent
   | LiveServerEventLiveInfoEvent
+  | LiveServerEventLiveTransportRinging
+  | LiveServerEventLiveTransportAnswered
+  | LiveServerEventLiveTransportFailed
   | LiveServerEvent;
 
 export function liveServerEventUnionDeserializer(item: any): LiveServerEventUnion {
@@ -9460,15 +11090,6 @@ export function liveServerEventUnionDeserializer(item: any): LiveServerEventUnio
 
     case "transport.dtmf.send":
       return liveTransportDtmfSendDeserializer(item as LiveTransportDtmfSend);
-
-    case "transport.ringing":
-      return liveTransportRingingDeserializer(item as LiveTransportRinging);
-
-    case "transport.answered":
-      return liveTransportAnsweredDeserializer(item as LiveTransportAnswered);
-
-    case "transport.failed":
-      return liveTransportFailedDeserializer(item as LiveTransportFailed);
 
     case "session.started":
       return liveServerEventLiveSessionStartedDeserializer(
@@ -9488,6 +11109,16 @@ export function liveServerEventUnionDeserializer(item: any): LiveServerEventUnio
     case "session.input_audio.unmuted":
       return liveServerEventLiveInputAudioUnmutedDeserializer(
         item as LiveServerEventLiveInputAudioUnmuted,
+      );
+
+    case "session.output_audio.fixture.playing":
+      return liveServerEventLiveOutputAudioFixturePlayingDeserializer(
+        item as LiveServerEventLiveOutputAudioFixturePlaying,
+      );
+
+    case "session.output_audio.fixture.played":
+      return liveServerEventLiveOutputAudioFixturePlayedDeserializer(
+        item as LiveServerEventLiveOutputAudioFixturePlayed,
       );
 
     case "session.instructions.appended":
@@ -9520,6 +11151,19 @@ export function liveServerEventUnionDeserializer(item: any): LiveServerEventUnio
         item as LiveServerEventLiveDelegationCreated,
       );
 
+    case "decision.event":
+      return liveServerEventLiveDecisionEventDeserializer(item as LiveServerEventLiveDecisionEvent);
+
+    case "decision.item.created":
+      return liveServerEventLiveDecisionItemCreatedDeserializer(
+        item as LiveServerEventLiveDecisionItemCreated,
+      );
+
+    case "decision.item.deleted":
+      return liveServerEventLiveDecisionItemDeletedDeserializer(
+        item as LiveServerEventLiveDecisionItemDeleted,
+      );
+
     case "response.event":
       return liveServerEventLiveResponseEventDeserializer(item as LiveServerEventLiveResponseEvent);
 
@@ -9537,6 +11181,21 @@ export function liveServerEventUnionDeserializer(item: any): LiveServerEventUnio
     case "info":
       return liveServerEventLiveInfoEventDeserializer(item as LiveServerEventLiveInfoEvent);
 
+    case "transport.ringing":
+      return liveServerEventLiveTransportRingingDeserializer(
+        item as LiveServerEventLiveTransportRinging,
+      );
+
+    case "transport.answered":
+      return liveServerEventLiveTransportAnsweredDeserializer(
+        item as LiveServerEventLiveTransportAnswered,
+      );
+
+    case "transport.failed":
+      return liveServerEventLiveTransportFailedDeserializer(
+        item as LiveServerEventLiveTransportFailed,
+      );
+
     default:
       return liveServerEventDeserializer(item);
   }
@@ -9548,6 +11207,8 @@ export type LiveServerEventType =
   | "session.updated"
   | "session.input_audio.muted"
   | "session.input_audio.unmuted"
+  | "session.output_audio.fixture.playing"
+  | "session.output_audio.fixture.played"
   | "session.instructions.appended"
   | "session.thinking.appended"
   | "session.commentary.appended"
@@ -9556,6 +11217,9 @@ export type LiveServerEventType =
   | "session.input_transcript.delta"
   | "session.output_transcript.delta"
   | "session.delegation.created"
+  | "decision.event"
+  | "decision.item.created"
+  | "decision.item.deleted"
   | "response.event"
   | "session.usage.updated"
   | "session.closed"
@@ -9618,11 +11282,13 @@ export function liveTransportDtmfReceivedDeserializer(item: any): LiveTransportD
   };
 }
 
-/** A SIP DTMF keypress successfully sent by the hosted tool. Delivered only to sideband observers; this is not a client command. */
+/** A SIP DTMF keypress successfully sent to the SIP trunk. Delivered only to sideband observers; this is not a client command. */
 export interface LiveTransportDtmfSend extends LiveServerEvent {
   type: "transport.dtmf.send";
   event_id: string;
   event: string;
+  /** The event_id of the client command, when supplied. */
+  client_event_id?: string;
 }
 
 export function liveTransportDtmfSendDeserializer(item: any): LiveTransportDtmfSend {
@@ -9630,75 +11296,7 @@ export function liveTransportDtmfSendDeserializer(item: any): LiveTransportDtmfS
     type: item["type"],
     event_id: item["event_id"],
     event: item["event"],
-  };
-}
-
-/** The outbound SIP provider leg is ringing or providing early media. Delivered only to sideband observers. */
-export interface LiveTransportRinging extends LiveServerEvent {
-  event_id: string;
-  /** The canonical Live session ID. */
-  session_id: string;
-  type: "transport.ringing";
-}
-
-export function liveTransportRingingDeserializer(item: any): LiveTransportRinging {
-  return {
-    type: item["type"],
-    event_id: item["event_id"],
-    session_id: item["session_id"],
-  };
-}
-
-/** The outbound SIP provider leg answered and media is established. Delivered only to sideband observers. */
-export interface LiveTransportAnswered extends LiveServerEvent {
-  event_id: string;
-  /** The canonical Live session ID. */
-  session_id: string;
-  type: "transport.answered";
-}
-
-export function liveTransportAnsweredDeserializer(item: any): LiveTransportAnswered {
-  return {
-    type: item["type"],
-    event_id: item["event_id"],
-    session_id: item["session_id"],
-  };
-}
-
-/** An asynchronous outbound SIP setup failure. Delivered only to sideband observers. */
-export interface LiveTransportFailed extends LiveServerEvent {
-  event_id: string;
-  /** The canonical Live session ID. */
-  session_id: string;
-  type: "transport.failed";
-  error: LiveTransportCallError;
-}
-
-export function liveTransportFailedDeserializer(item: any): LiveTransportFailed {
-  return {
-    type: item["type"],
-    event_id: item["event_id"],
-    session_id: item["session_id"],
-    error: liveTransportCallErrorDeserializer(item["error"]),
-  };
-}
-
-/** model interface LiveTransportCallError */
-export interface LiveTransportCallError {
-  type: "call_error";
-  /** The call setup failure code. */
-  code: string;
-  message: string;
-  /** The parameter related to the error, if any. Empty when no parameter applies. */
-  param?: string;
-}
-
-export function liveTransportCallErrorDeserializer(item: any): LiveTransportCallError {
-  return {
-    type: item["type"],
-    code: item["code"],
-    message: item["message"],
-    param: item["param"],
+    client_event_id: item["client_event_id"],
   };
 }
 
@@ -9749,7 +11347,7 @@ export function liveServerEventLiveSessionUpdatedDeserializer(
   };
 }
 
-/** Returned when a session.input_audio.mute command is accepted. Input audio is no longer sent to the model; sideband audio reflection continues. */
+/** Acknowledges a session.input_audio.mute command. An independent input mute sends silence to the model and preserves sideband audio reflection. Fixture playback does not emit this event. */
 export interface LiveServerEventLiveInputAudioMuted extends LiveServerEvent {
   /** The unique ID of the Live server event. */
   event_id: string;
@@ -9769,7 +11367,7 @@ export function liveServerEventLiveInputAudioMutedDeserializer(
   };
 }
 
-/** Returned when a session.input_audio.unmute command is accepted. Input audio is sent to the model again. */
+/** Acknowledges a session.input_audio.unmute command, removing the independent input mute. An active audio fixture still pauses inference until playback finishes. Fixture playback does not emit this event. */
 export interface LiveServerEventLiveInputAudioUnmuted extends LiveServerEvent {
   /** The unique ID of the Live server event. */
   event_id: string;
@@ -9782,6 +11380,44 @@ export interface LiveServerEventLiveInputAudioUnmuted extends LiveServerEvent {
 export function liveServerEventLiveInputAudioUnmutedDeserializer(
   item: any,
 ): LiveServerEventLiveInputAudioUnmuted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+  };
+}
+
+/** The existing playback path has accepted the validated audio fixture. This acknowledgment does not identify when the listener receives the first sample. The optional client_event_id echoes the play command. */
+export interface LiveServerEventLiveOutputAudioFixturePlaying extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  type: "session.output_audio.fixture.playing";
+}
+
+export function liveServerEventLiveOutputAudioFixturePlayingDeserializer(
+  item: any,
+): LiveServerEventLiveOutputAudioFixturePlaying {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+  };
+}
+
+/** The complete audio fixture has drained from the server mixer and normal inference has resumed. Transport buffers may still contain audio; this event does not prove listener-side completion. The optional client_event_id echoes the play command. This event is not emitted for canceled or failed playback. */
+export interface LiveServerEventLiveOutputAudioFixturePlayed extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  type: "session.output_audio.fixture.played";
+}
+
+export function liveServerEventLiveOutputAudioFixturePlayedDeserializer(
+  item: any,
+): LiveServerEventLiveOutputAudioFixturePlayed {
   return {
     type: item["type"],
     event_id: item["event_id"],
@@ -9925,7 +11561,7 @@ export function liveServerEventLiveOutputTranscriptDeltaDeserializer(
   };
 }
 
-/** Returned when the Live model delegates work to your application or a Responses backend. Contains delegation metadata and the position on the session timeline where the work was delegated. */
+/** Returned when the Live model delegates work to your application, Responses, or Decisions. Contains delegation metadata and the position on the session timeline where the work was delegated. */
 export interface LiveServerEventLiveDelegationCreated extends LiveServerEvent {
   /** The unique ID of the Live server event. */
   event_id: string;
@@ -9948,6 +11584,366 @@ export function liveServerEventLiveDelegationCreatedDeserializer(
     client_event_id: item["client_event_id"],
     offset_ms: item["offset_ms"],
     delegation: voiceAgentLiveDelegationItemDeserializer(item["delegation"]),
+  };
+}
+
+/** A Decision API event for a Live delegation or transcript trigger. For a trigger, source_event_id identifies the transcript delta that caused this evaluation. */
+export interface LiveServerEventLiveDecisionEvent extends LiveServerEvent {
+  type: "decision.event";
+  /** The unique ID of this Live server event. */
+  event_id: string;
+  delegation_id: string | null;
+  trigger_id: string | null;
+  source_event_type: ("session.input_transcript.delta" | "session.output_transcript.delta") | null;
+  source_event_id: string | null;
+  event: LiveDecisionCompleted;
+}
+
+export function liveServerEventLiveDecisionEventDeserializer(
+  item: any,
+): LiveServerEventLiveDecisionEvent {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    delegation_id: item["delegation_id"],
+    trigger_id: item["trigger_id"],
+    source_event_type: item["source_event_type"],
+    source_event_id: item["source_event_id"],
+    event: liveDecisionCompletedDeserializer(item["event"]),
+  };
+}
+
+/** model interface LiveDecisionCompleted */
+export interface LiveDecisionCompleted {
+  type: "decision.completed";
+  /** The native Decision API response, including its model, ordered answers, and token usage. */
+  decision: DecisionResponse;
+}
+
+export function liveDecisionCompletedDeserializer(item: any): LiveDecisionCompleted {
+  return {
+    type: item["type"],
+    decision: decisionResponseDeserializer(item["decision"]),
+  };
+}
+
+/** model interface DecisionResponse */
+export interface DecisionResponse {
+  /** The model used. */
+  model: string;
+  /** Answers in question order. Any question can return a refusal instead of an answer; other questions can still receive answers. A refusal has `type: "refusal"` and the question's `name`, or `null` if it was unnamed. */
+  answers: AnswerResourceUnion[];
+  /** Token usage for the request. */
+  usage: ResponseUsageResource;
+}
+
+export function decisionResponseDeserializer(item: any): DecisionResponse {
+  return {
+    model: item["model"],
+    answers: answerResourceUnionArrayDeserializer(item["answers"]),
+    usage: responseUsageResourceDeserializer(item["usage"]),
+  };
+}
+
+export function answerResourceUnionArrayDeserializer(result: Array<AnswerResourceUnion>): any[] {
+  return result.map((item) => {
+    return answerResourceUnionDeserializer(item);
+  });
+}
+
+/** A completed question always includes its name, including null when unnamed. */
+export interface AnswerResource {
+  type: AnswerResourceType;
+}
+
+export function answerResourceDeserializer(item: any): AnswerResource {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for AnswerResourceUnion */
+export type AnswerResourceUnion =
+  | AnswerResourcePredicate
+  | AnswerResourceChoice
+  | AnswerResourceScore
+  | AnswerResourceRefusal
+  | AnswerResource;
+
+export function answerResourceUnionDeserializer(item: any): AnswerResourceUnion {
+  switch (item["type"]) {
+    case "predicate":
+      return answerResourcePredicateDeserializer(item as AnswerResourcePredicate);
+
+    case "choice":
+      return answerResourceChoiceDeserializer(item as AnswerResourceChoice);
+
+    case "score":
+      return answerResourceScoreDeserializer(item as AnswerResourceScore);
+
+    case "refusal":
+      return answerResourceRefusalDeserializer(item as AnswerResourceRefusal);
+
+    default:
+      return answerResourceDeserializer(item);
+  }
+}
+
+/** Type of AnswerResourceType */
+export type AnswerResourceType = "predicate" | "choice" | "score" | "refusal";
+
+/** model interface AnswerResourcePredicate */
+export interface AnswerResourcePredicate extends AnswerResource {
+  /** The type of the object. Always `predicate`. */
+  type: "predicate";
+  name: string | null;
+  probability: number;
+}
+
+export function answerResourcePredicateDeserializer(item: any): AnswerResourcePredicate {
+  return {
+    type: item["type"],
+    name: item["name"],
+    probability: item["probability"],
+  };
+}
+
+/** model interface AnswerResourceChoice */
+export interface AnswerResourceChoice extends AnswerResource {
+  /** The type of the object. Always `choice`. */
+  type: "choice";
+  name: string | null;
+  choice: ChoiceValueResource;
+  probabilities: ChoiceProbabilityResource[];
+  confidence: number;
+}
+
+export function answerResourceChoiceDeserializer(item: any): AnswerResourceChoice {
+  return {
+    type: item["type"],
+    name: item["name"],
+    choice: choiceValueResourceDeserializer(item["choice"]),
+    probabilities: choiceProbabilityResourceArrayDeserializer(item["probabilities"]),
+    confidence: item["confidence"],
+  };
+}
+
+/** Choice values are typed: a string and a boolean with the same text are distinct. */
+export type ChoiceValueResource = string | boolean;
+
+export function choiceValueResourceDeserializer(item: any): ChoiceValueResource {
+  return item;
+}
+
+export function choiceProbabilityResourceArrayDeserializer(
+  result: Array<ChoiceProbabilityResource>,
+): any[] {
+  return result.map((item) => {
+    return choiceProbabilityResourceDeserializer(item);
+  });
+}
+
+/** model interface ChoiceProbabilityResource */
+export interface ChoiceProbabilityResource {
+  value: ChoiceValueResource;
+  probability: number;
+}
+
+export function choiceProbabilityResourceDeserializer(item: any): ChoiceProbabilityResource {
+  return {
+    value: choiceValueResourceDeserializer(item["value"]),
+    probability: item["probability"],
+  };
+}
+
+/** model interface AnswerResourceScore */
+export interface AnswerResourceScore extends AnswerResource {
+  /** The type of the object. Always `score`. */
+  type: "score";
+  name: string | null;
+  score: number;
+  probabilities: ScoreProbabilityResource[];
+  confidence: number;
+}
+
+export function answerResourceScoreDeserializer(item: any): AnswerResourceScore {
+  return {
+    type: item["type"],
+    name: item["name"],
+    score: item["score"],
+    probabilities: scoreProbabilityResourceArrayDeserializer(item["probabilities"]),
+    confidence: item["confidence"],
+  };
+}
+
+export function scoreProbabilityResourceArrayDeserializer(
+  result: Array<ScoreProbabilityResource>,
+): any[] {
+  return result.map((item) => {
+    return scoreProbabilityResourceDeserializer(item);
+  });
+}
+
+/** model interface ScoreProbabilityResource */
+export interface ScoreProbabilityResource {
+  value: number;
+  label: string;
+  probability: number;
+}
+
+export function scoreProbabilityResourceDeserializer(item: any): ScoreProbabilityResource {
+  return {
+    value: item["value"],
+    label: item["label"],
+    probability: item["probability"],
+  };
+}
+
+/** The model declined to answer this question. Other questions in the same request can still receive answers. */
+export interface AnswerResourceRefusal extends AnswerResource {
+  /** The type of the object. Always `refusal`. */
+  type: "refusal";
+  name: string | null;
+}
+
+export function answerResourceRefusalDeserializer(item: any): AnswerResourceRefusal {
+  return {
+    type: item["type"],
+    name: item["name"],
+  };
+}
+
+/** model interface ResponseUsageResource */
+export interface ResponseUsageResource {
+  input_tokens: number;
+  input_tokens_details: InputTokensDetailsResource;
+  output_tokens: number;
+  output_tokens_details: OutputTokensDetailsResource;
+  total_tokens: number;
+}
+
+export function responseUsageResourceDeserializer(item: any): ResponseUsageResource {
+  return {
+    input_tokens: item["input_tokens"],
+    input_tokens_details: inputTokensDetailsResourceDeserializer(item["input_tokens_details"]),
+    output_tokens: item["output_tokens"],
+    output_tokens_details: outputTokensDetailsResourceDeserializer(item["output_tokens_details"]),
+    total_tokens: item["total_tokens"],
+  };
+}
+
+/** model interface InputTokensDetailsResource */
+export interface InputTokensDetailsResource {
+  cached_tokens: number;
+  cache_write_tokens: number;
+}
+
+export function inputTokensDetailsResourceDeserializer(item: any): InputTokensDetailsResource {
+  return {
+    cached_tokens: item["cached_tokens"],
+    cache_write_tokens: item["cache_write_tokens"],
+  };
+}
+
+/** model interface OutputTokensDetailsResource */
+export interface OutputTokensDetailsResource {
+  reasoning_tokens: number;
+}
+
+export function outputTokensDetailsResourceDeserializer(item: any): OutputTokensDetailsResource {
+  return {
+    reasoning_tokens: item["reasoning_tokens"],
+  };
+}
+
+/** An input item was appended for future decisions. */
+export interface LiveServerEventLiveDecisionItemCreated extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  type: "decision.item.created";
+  item: LiveDecisionStoredInputItemParam;
+}
+
+export function liveServerEventLiveDecisionItemCreatedDeserializer(
+  item: any,
+): LiveServerEventLiveDecisionItemCreated {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    item: liveDecisionStoredInputItemParamDeserializer(item["item"]),
+  };
+}
+
+/** model interface LiveDecisionStoredInputItemParam */
+export interface LiveDecisionStoredInputItemParam {
+  /** The ID of the stored Decision input item. */
+  id: string;
+  type?: "message";
+  /** The message role. Always `user`. */
+  role: "user";
+  content: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
+}
+
+export function liveDecisionStoredInputItemParamDeserializer(
+  item: any,
+): LiveDecisionStoredInputItemParam {
+  return {
+    id: item["id"],
+    type: item["type"],
+    role: item["role"],
+    content: _liveDecisionStoredInputItemParamContentDeserializer(item["content"]),
+  };
+}
+
+/** Alias for _LiveDecisionStoredInputItemParamContent */
+export type _LiveDecisionStoredInputItemParamContent =
+  string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
+
+export function _liveDecisionStoredInputItemParamContentDeserializer(
+  item: any,
+): _LiveDecisionStoredInputItemParamContent {
+  return item;
+}
+
+export function _liveDecisionStoredInputItemParamContent1ArrayDeserializer(
+  result: Array<_LiveDecisionStoredInputItemParamContent1>,
+): any[] {
+  return result.map((item) => {
+    return _liveDecisionStoredInputItemParamContent1Deserializer(item);
+  });
+}
+
+/** Alias for _LiveDecisionStoredInputItemParamContent1 */
+export type _LiveDecisionStoredInputItemParamContent1 =
+  LiveDecisionInputTextParam | LiveDecisionInputImageParam;
+
+export function _liveDecisionStoredInputItemParamContent1Deserializer(
+  item: any,
+): _LiveDecisionStoredInputItemParamContent1 {
+  return item;
+}
+
+/** An input item was removed from future decisions. */
+export interface LiveServerEventLiveDecisionItemDeleted extends LiveServerEvent {
+  /** The unique ID of the Live server event. */
+  event_id: string;
+  /** The event_id of the client command associated with this server event, when supplied. */
+  client_event_id?: string;
+  type: "decision.item.deleted";
+  item_id: string;
+}
+
+export function liveServerEventLiveDecisionItemDeletedDeserializer(
+  item: any,
+): LiveServerEventLiveDecisionItemDeleted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_event_id: item["client_event_id"],
+    item_id: item["item_id"],
   };
 }
 
@@ -10112,6 +12108,81 @@ export function liveServerEventLiveInfoEventDeserializer(item: any): LiveServerE
     client_event_id: item["client_event_id"],
     code: item["code"],
     message: item["message"],
+  };
+}
+
+/** The outbound SIP provider leg is ringing or providing early media. Delivered only to sideband observers. */
+export interface LiveServerEventLiveTransportRinging extends LiveServerEvent {
+  event_id: string;
+  /** The canonical Live session ID. */
+  session_id: string;
+  type: "transport.ringing";
+}
+
+export function liveServerEventLiveTransportRingingDeserializer(
+  item: any,
+): LiveServerEventLiveTransportRinging {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    session_id: item["session_id"],
+  };
+}
+
+/** The outbound SIP provider leg answered and media is established. Delivered only to sideband observers. */
+export interface LiveServerEventLiveTransportAnswered extends LiveServerEvent {
+  event_id: string;
+  /** The canonical Live session ID. */
+  session_id: string;
+  type: "transport.answered";
+}
+
+export function liveServerEventLiveTransportAnsweredDeserializer(
+  item: any,
+): LiveServerEventLiveTransportAnswered {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    session_id: item["session_id"],
+  };
+}
+
+/** An asynchronous outbound SIP setup failure. Delivered only to sideband observers. */
+export interface LiveServerEventLiveTransportFailed extends LiveServerEvent {
+  event_id: string;
+  /** The canonical Live session ID. */
+  session_id: string;
+  type: "transport.failed";
+  error: LiveTransportCallError;
+}
+
+export function liveServerEventLiveTransportFailedDeserializer(
+  item: any,
+): LiveServerEventLiveTransportFailed {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    session_id: item["session_id"],
+    error: liveTransportCallErrorDeserializer(item["error"]),
+  };
+}
+
+/** model interface LiveTransportCallError */
+export interface LiveTransportCallError {
+  type: "call_error";
+  /** The call setup failure code. */
+  code: string;
+  message: string;
+  /** The parameter related to the error, if any. Empty when no parameter applies. */
+  param?: string;
+}
+
+export function liveTransportCallErrorDeserializer(item: any): LiveTransportCallError {
+  return {
+    type: item["type"],
+    code: item["code"],
+    message: item["message"],
+    param: item["param"],
   };
 }
 
