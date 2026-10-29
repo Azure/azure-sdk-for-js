@@ -118,7 +118,7 @@ export interface VoiceAgentLiveConnection extends AsyncIterable<VoiceAgentLiveEv
     type: K,
     handler: VoiceAgentLiveEventHandler<K>,
   ): this;
-  /** Updates delegation backend settings. The audio format, model, and delegation owner cannot change. */
+  /** Updates delegation backend settings and transcript triggers. The audio format, model, and delegation owner cannot change. */
   configureSession(
     session: LiveSessionUpdateParams,
     options?: VoiceAgentEventOptions,
@@ -735,18 +735,22 @@ function validateTimeout(value: number | undefined, name: string): void {
   }
 }
 
-const clientTypes: ReadonlySet<VoiceAgentLiveClientEvent["type"]> = new Set([
-  "session.update",
-  "session.input_audio.append",
-  "session.input_audio.mute",
-  "session.input_audio.unmute",
-  "session.instructions.append",
-  "session.thinking.append",
-  "session.commentary.append",
-  "response.item.create",
-  "response.create",
-  "session.close",
-]);
+const clientTypes: { [K in VoiceAgentLiveClientEvent["type"]]: true } = {
+  "session.update": true,
+  "session.input_audio.append": true,
+  "session.input_audio.mute": true,
+  "session.input_audio.unmute": true,
+  "session.output_audio.fixture.play": true,
+  "session.instructions.append": true,
+  "session.thinking.append": true,
+  "session.commentary.append": true,
+  "decision.create": true,
+  "decision.item.create": true,
+  "decision.item.delete": true,
+  "response.item.create": true,
+  "response.create": true,
+  "session.close": true,
+};
 
 const requiredFields: {
   [K in KnownLiveServerEvent["type"]]: readonly (keyof Extract<
@@ -758,6 +762,8 @@ const requiredFields: {
   "session.updated": ["session"],
   "session.input_audio.muted": [],
   "session.input_audio.unmuted": [],
+  "session.output_audio.fixture.playing": [],
+  "session.output_audio.fixture.played": [],
   "session.instructions.appended": ["start_ms", "end_ms"],
   "session.thinking.appended": ["start_ms", "end_ms"],
   "session.commentary.appended": ["start_ms", "end_ms"],
@@ -766,6 +772,9 @@ const requiredFields: {
   "session.input_transcript.delta": ["delta", "start_ms", "end_ms"],
   "session.output_transcript.delta": ["delta", "start_ms", "end_ms"],
   "session.delegation.created": ["delegation", "offset_ms"],
+  "decision.event": ["event"],
+  "decision.item.created": ["item"],
+  "decision.item.deleted": ["item_id"],
   "response.event": ["event"],
   "session.usage.updated": ["usage"],
   "session.closed": ["session", "reason", "usage"],
@@ -780,13 +789,14 @@ const requiredFields: {
 
 /** @internal */
 export function serializeVoiceAgentLiveEvent(event: VoiceAgentLiveClientEvent): string {
-  if (!event || !clientTypes.has(event.type)) {
+  if (!event || !Object.prototype.hasOwnProperty.call(clientTypes, event.type)) {
     throw new VoiceAgentProtocolError(
       "Unsupported Live client event. Foundry owns session.start; Realtime commands are not Live commands.",
     );
   }
   switch (event.type) {
     case "session.input_audio.append":
+    case "session.output_audio.fixture.play":
       if (typeof event.audio !== "string") {
         throw new VoiceAgentProtocolError("Live audio must be a base64 string.");
       }
@@ -811,6 +821,25 @@ export function serializeVoiceAgentLiveEvent(event: VoiceAgentLiveClientEvent): 
     case "response.item.create":
       if (!isRecord(event.item)) {
         throw new VoiceAgentProtocolError("Live response items must be objects.");
+      }
+      break;
+    case "decision.create":
+      if (typeof event.event_id !== "string" || !event.event_id) {
+        throw new VoiceAgentProtocolError("Live decision requests require an event_id.");
+      }
+      break;
+    case "decision.item.create":
+      if (
+        !isRecord(event.item) ||
+        event.item.role !== "user" ||
+        (typeof event.item.content !== "string" && !Array.isArray(event.item.content))
+      ) {
+        throw new VoiceAgentProtocolError("Live decision items require user content.");
+      }
+      break;
+    case "decision.item.delete":
+      if (typeof event.item_id !== "string" || !event.item_id) {
+        throw new VoiceAgentProtocolError("Live decision item deletion requires an item_id.");
       }
       break;
   }
@@ -858,6 +887,39 @@ export function deserializeVoiceAgentLiveEvent(data: string | ArrayBuffer): Voic
   }
   if (type === "response.event" && (!isRecord(raw.event) || typeof raw.event.type !== "string")) {
     throw new VoiceAgentProtocolError("The service returned an invalid delegated response event.");
+  }
+  if (type === "decision.event") {
+    if (
+      !isRecord(raw.event) ||
+      raw.event.type !== "decision.completed" ||
+      !isRecord(raw.event.decision) ||
+      typeof raw.event.decision.model !== "string" ||
+      !Array.isArray(raw.event.decision.answers) ||
+      !isRecord(raw.event.decision.usage)
+    ) {
+      throw new VoiceAgentProtocolError("The service returned an invalid Live decision event.");
+    }
+    for (const field of ["delegation_id", "trigger_id", "source_event_type", "source_event_id"]) {
+      if (
+        !Object.prototype.hasOwnProperty.call(raw, field) ||
+        (raw[field] !== null && typeof raw[field] !== "string")
+      ) {
+        throw new VoiceAgentProtocolError(`The service returned invalid decision "${field}".`);
+      }
+    }
+  }
+  if (
+    type === "decision.item.created" &&
+    (!isRecord(raw.item) ||
+      typeof raw.item.id !== "string" ||
+      !raw.item.id ||
+      raw.item.role !== "user" ||
+      (typeof raw.item.content !== "string" && !Array.isArray(raw.item.content)))
+  ) {
+    throw new VoiceAgentProtocolError("The service returned an invalid Live decision item.");
+  }
+  if (type === "decision.item.deleted" && (typeof raw.item_id !== "string" || !raw.item_id)) {
+    throw new VoiceAgentProtocolError("The service returned an invalid Live decision item id.");
   }
   if (
     type === "error" &&

@@ -373,15 +373,15 @@ response does not mean the agent has finished speaking.
 including the selected managed agent and version when applicable. Read events with one
 `for await` loop or use `on`, `off`, and `once` listeners.
 
-| Task                                         | API or event                                                                              |
-| -------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| Send raw audio                               | `sendAudio()`; Live detects speech boundaries, so no audio-buffer commit is needed        |
-| Read transcripts                             | `session.input_transcript.delta`, `session.output_transcript.delta`                       |
-| Receive audio                                | `session.output_audio.delta`; decode the base64 data before saving or playing it          |
-| Add text context, rather than a user message | `appendInstructions()`, `appendThinking()`, `appendCommentary()`                          |
-| Pause or resume audio processing             | `muteInputAudio()`, `unmuteInputAudio()`                                                  |
-| Update delegation backend settings           | `configureSession()`; the initial model, audio format, and delegation owner cannot change |
-| Close the session                            | `close()`; waits for `session.closed` and rejects if finalization is not confirmed        |
+| Task                                            | API or event                                                                              |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Send raw audio                                  | `sendAudio()`; Live detects speech boundaries, so no audio-buffer commit is needed        |
+| Read transcripts                                | `session.input_transcript.delta`, `session.output_transcript.delta`                       |
+| Receive audio                                   | `session.output_audio.delta`; decode the base64 data before saving or playing it          |
+| Add text context, rather than a user message    | `appendInstructions()`, `appendThinking()`, `appendCommentary()`                          |
+| Pause or resume audio processing                | `muteInputAudio()`, `unmuteInputAudio()`                                                  |
+| Update backend settings and transcript triggers | `configureSession()`; the initial model, audio format, and delegation owner cannot change |
+| Close the session                               | `close()`; waits for `session.closed` and rejects if finalization is not confirmed        |
 
 With Responses delegation, backend events arrive inside `response.event`. Use
 `sendResponseItem()` to add a user message and `requestResponse()` to ask for a reply.
