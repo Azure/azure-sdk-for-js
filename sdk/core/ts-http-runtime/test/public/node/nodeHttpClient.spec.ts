@@ -958,6 +958,74 @@ describe("NodeHttpClient", function () {
   );
 
   it.each([false, true])(
+    "keeps upload source observers through destination teardown (progress=%s)",
+    async function (progress) {
+      vi.useRealTimers();
+      const body = new Readable({ read() {} });
+      const clientRequest = new Writable({
+        write(_chunk, _encoding, callback) {
+          callback();
+        },
+      });
+      let upload: Readable | undefined;
+      clientRequest.once("pipe", (source: Readable) => {
+        upload = source;
+      });
+      vi.mocked(https.request).mockReturnValueOnce(clientRequest as unknown as ClientRequest);
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const promise = createDefaultHttpClient().sendRequest(
+        createPipelineRequest({
+          url: "https://example.com",
+          body,
+          abortSignal: controller.signal,
+          onUploadProgress: progress ? () => {} : undefined,
+        }),
+      );
+      yieldHttpsResponse(createResponse(200));
+      await promise;
+      if (!upload) {
+        throw new Error("Expected an upload stream");
+      }
+
+      const destination = progress ? upload : clientRequest;
+      const destroyDestination = vi.spyOn(destination, "destroy");
+      const sourceError = vi.fn();
+      // Guard the queued error while checking that the transport keeps its own observer.
+      body.on("error", sourceError);
+      const errorObserversBeforeClose = body.listenerCount("error");
+      const sourceClosed = new Promise<void>((resolve) => body.once("close", resolve));
+      const destinationClosed = new Promise<number>((resolve) => {
+        destination.once("close", () => resolve(body.listenerCount("error")));
+      });
+      const failure = new Error("upload failed during teardown");
+
+      try {
+        destination.destroy();
+        body.destroy(failure);
+        const closedBeforeEvents = body.closed;
+        const errorObserversAtClose = await destinationClosed;
+        await sourceClosed;
+        await delay(0);
+
+        expect(closedBeforeEvents).toBe(true);
+        expect(errorObserversAtClose).toBe(errorObserversBeforeClose);
+        expect(sourceError).toHaveBeenCalledExactlyOnceWith(failure);
+        expect(destroyDestination).not.toHaveBeenCalledWith(expect.any(Error));
+        expect(body.listenerCount("error")).toBe(1);
+        expect(body.listenerCount("end")).toBe(0);
+        expect(body.listenerCount("close")).toBe(0);
+        expect(removeEventListener).toHaveBeenCalledOnce();
+      } finally {
+        body.removeListener("error", sourceError);
+        clientRequest.destroy();
+        upload.destroy();
+        body.destroy();
+      }
+    },
+  );
+
+  it.each([false, true])(
     "removes the abort listener when request validation fails before creating a transport (progress=%s)",
     async function (progress) {
       vi.useRealTimers();

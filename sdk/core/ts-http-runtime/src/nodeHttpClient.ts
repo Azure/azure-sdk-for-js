@@ -445,22 +445,21 @@ function pipeUploadStream(
   request: PipelineRequest,
   onError?: (error: RestError) => void,
 ): void {
+  let tearingDown = false;
   const cleanupFinished = finished(source, { writable: false }, onSourceComplete);
 
-  function cleanup(): void {
+  function onSourceComplete(error?: Error | null): void {
     cleanupFinished();
     destination.removeListener("close", onDestinationClose);
-  }
-  function onSourceComplete(error?: Error | null): void {
-    cleanup();
-    if (error) {
+    if (error && !tearingDown) {
       const requestError = toRequestSendError(error, request);
       destination.destroy(requestError);
       onError?.(requestError);
     }
   }
   function onDestinationClose(): void {
-    cleanup();
+    // Keep observing the source, but do not forward failures caused by intentional teardown.
+    tearingDown = true;
     source.unpipe(destination);
     disposeNodeStream(source);
   }
