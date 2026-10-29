@@ -1,6 +1,6 @@
 # Release History
 
-## 4.14.1 (Unreleased)
+## 4.14.1 (2026-10-29)
 
 ### Bugs Fixed
 
