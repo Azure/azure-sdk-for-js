@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   getRequestCompletion,
   getResponseBodyCompletion,
   setRequestCompletion,
   setResponseBodyCompletion,
 } from "../../src/util/responseBody.js";
+import { logger } from "../../src/log.js";
 
 function deferred(): { promise: Promise<void>; resolve: () => void } {
   let resolveCompletion!: () => void;
@@ -20,7 +21,23 @@ function deferred(): { promise: Promise<void>; resolve: () => void } {
 describe.each([
   { name: "request", set: setRequestCompletion, get: getRequestCompletion },
   { name: "response body", set: setResponseBodyCompletion, get: getResponseBodyCompletion },
-])("$name completion", ({ set, get }) => {
+])("$name completion", ({ name, set, get }) => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("logs an unexpected completion rejection", async () => {
+    const failure = new Error("unexpected completion failure");
+    const warning = vi.spyOn(logger, "warning").mockImplementation(() => {});
+    const completion = Promise.reject<void>(failure);
+
+    set({}, completion);
+    await expect(completion).rejects.toBe(failure);
+    await Promise.resolve();
+
+    expect(warning).toHaveBeenCalledExactlyOnceWith(`Error tracking ${name} completion`, failure);
+  });
+
   it("removes completion metadata after completion", async () => {
     const response = {};
     const completion = deferred();

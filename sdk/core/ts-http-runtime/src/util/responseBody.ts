@@ -27,12 +27,13 @@ const responseBodyCompletions = new WeakMap<object, Promise<void>>();
 
 export function setRequestCompletion(response: object, completion: Promise<void>): void {
   requestCompletions.set(response, completion);
-  void completion.then(() => {
-    if (requestCompletions.get(response) === completion) {
-      requestCompletions.delete(response);
-    }
-    return undefined;
-  });
+  completion
+    .then(
+      () => requestCompletions.get(response) === completion && requestCompletions.delete(response),
+    )
+    .catch((error: unknown) => {
+      logger.warning("Error tracking request completion", error);
+    });
 }
 
 /**
@@ -47,13 +48,15 @@ export function getRequestCompletion(response: object): Promise<void> | undefine
 
 export function setResponseBodyCompletion(response: object, completion: Promise<void>): void {
   responseBodyCompletions.set(response, completion);
-  // eslint-disable-next-line promise/catch-or-return
-  completion.then(() => {
-    // eslint-disable-next-line promise/always-return
-    if (responseBodyCompletions.get(response) === completion) {
-      responseBodyCompletions.delete(response);
-    }
-  });
+  completion
+    .then(
+      () =>
+        responseBodyCompletions.get(response) === completion &&
+        responseBodyCompletions.delete(response),
+    )
+    .catch((error: unknown) => {
+      logger.warning("Error tracking response body completion", error);
+    });
 }
 
 /**

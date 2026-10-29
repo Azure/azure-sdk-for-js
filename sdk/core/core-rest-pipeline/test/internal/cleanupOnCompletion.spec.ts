@@ -1,15 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import { getRequestCompletion } from "@typespec/ts-http-runtime/internal/util";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  getRequestCompletion,
+  getResponseBodyCompletion,
+} from "@typespec/ts-http-runtime/internal/util";
 import { cleanupOnRequestResponseCompletion } from "../../src/util/cleanupOnCompletion.js";
+import { logger } from "../../src/log.js";
 
 vi.mock(import("@typespec/ts-http-runtime/internal/util"), async (importOriginal) => {
   const original = await importOriginal();
   return {
     ...original,
     getRequestCompletion: vi.fn(original.getRequestCompletion),
+    getResponseBodyCompletion: vi.fn(original.getResponseBodyCompletion),
   };
 });
 
@@ -51,6 +56,42 @@ function createResponseStream(): {
 describe("cleanupOnRequestResponseCompletion", () => {
   beforeEach(() => {
     vi.mocked(getRequestCompletion).mockReset();
+    vi.mocked(getResponseBodyCompletion).mockReset();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it.each([
+    {
+      completionType: "request",
+      getCompletion: getRequestCompletion,
+      message: "Error cleaning up after request completion",
+    },
+    {
+      completionType: "response body",
+      getCompletion: getResponseBodyCompletion,
+      message: "Error cleaning up after response body completion",
+    },
+  ])("logs cleanup errors after $completionType completion", async ({ getCompletion, message }) => {
+    const completion = deferred();
+    vi.mocked(getCompletion).mockReturnValueOnce(completion.promise);
+    const failure = new Error("cleanup failed");
+    const cleanup = vi.fn(() => {
+      throw failure;
+    });
+    const warning = vi.spyOn(logger, "warning").mockImplementation(() => {});
+
+    cleanupOnRequestResponseCompletion({}, cleanup);
+    expect(cleanup).not.toHaveBeenCalled();
+
+    completion.resolve();
+    await completion.promise;
+    await Promise.resolve();
+
+    expect(cleanup).toHaveBeenCalledOnce();
+    expect(warning).toHaveBeenCalledExactlyOnceWith(message, failure);
   });
 
   it("waits for response stream completion", async () => {

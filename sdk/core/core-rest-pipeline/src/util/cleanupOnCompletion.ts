@@ -5,6 +5,7 @@ import {
   getRequestCompletion,
   getResponseBodyCompletion,
 } from "@typespec/ts-http-runtime/internal/util";
+import { logger } from "../log.js";
 
 /**
  * Runs the cleanup callback associated with the response and its request once they are complete.
@@ -49,24 +50,22 @@ export function cleanupOnRequestResponseCompletion(
   }
   if (requestCompletion) {
     requestCompletion
-      // eslint-disable-next-line promise/always-return
       .then(() => {
         requestDone = true;
-        cleanupIfComplete();
+        return cleanupIfComplete();
       })
-      .catch(() => {
-        // Ignore errors from request completion
+      .catch((error: unknown) => {
+        logger.warning("Error cleaning up after request completion", error);
       });
   }
   if (browserResponseCompletion) {
     browserResponseCompletion
-      // eslint-disable-next-line promise/always-return
       .then(() => {
         browserResponseDone = true;
-        cleanupIfComplete();
+        return cleanupIfComplete();
       })
-      .catch(() => {
-        // Ignore errors from request completion
+      .catch((error: unknown) => {
+        logger.warning("Error cleaning up after response body completion", error);
       });
   }
   cleanupIfComplete();
