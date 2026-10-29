@@ -26,6 +26,8 @@ Read the PR description or release plan for the package, target version, and ser
 
 If the `mgmt-review` result is missing and no review is running, apply `mgmt-review-needed`. The request label is consumed when review starts, so its absence alone does not mean a review needs to be requested again. `mgmt-review-in-progress` indicates an active review; `mgmt-review-added` indicates completion, **not approval**.
 
+A green workflow run does not guarantee complete review coverage: read the review summary and its diagnostic sections for missing tools, missing data, or incomplete checks, and ask the JS owner to resolve any remaining review limitations before relying on a clean result.
+
 If Next Steps to Merge is missing, first check whether CI is still running. Automatic guidance applies to PRs with the `Mgmt` label and `AutoPR` in the title. If CI has finished but guidance is missing or failed, ask the JS owner to investigate or manually rerun `mgmt-guidance`. Missing output is not a clean result.
 
 ## Step 3. Act on the findings and merge guidance
