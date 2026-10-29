@@ -29,8 +29,10 @@ import type {
   LiveClientEventLiveResponseItemCreateParam,
   LiveClientEventUnion,
   LiveDelegationItem,
+  LiveMCPToolChoiceParam,
   LiveServerEventLiveResponseEvent,
   LiveServerEventUnion,
+  ToolUnion,
   VoiceAgentDefinition,
   VoiceAgentLiveDefinition,
   VoiceAgentLiveDelegationItem,
@@ -42,7 +44,11 @@ import {
   agentDefinitionUnionDeserializer,
   agentDefinitionUnionSerializer,
   liveClientEventUnionSerializer,
+  liveMCPToolChoiceParamDeserializer,
+  liveMCPToolChoiceParamSerializer,
   liveServerEventUnionDeserializer,
+  toolUnionDeserializer,
+  toolUnionSerializer,
   voiceAgentLiveConversationItemUnionDeserializer,
 } from "../../../src/models/models.js";
 
@@ -188,18 +194,92 @@ function agent(
 }
 
 describe("Live generated-contract integration", () => {
-  it("supports nullable Live instructions without widening the legacy Realtime field", () => {
-    expectTypeOf<VoiceAgentLiveDefinition["instructions"]>().toEqualTypeOf<
-      string | null | undefined
-    >();
+  it("keeps both voice protocols' management instructions optional and non-nullable", () => {
+    expectTypeOf<VoiceAgentLiveDefinition["instructions"]>().toEqualTypeOf<string | undefined>();
     expectTypeOf<VoiceAgentDefinition["instructions"]>().toEqualTypeOf<string | undefined>();
-    const definition: VoiceAgentLiveDefinition = { ...live, instructions: null };
-    expect(agentDefinitionUnionSerializer(definition).instructions).toBeNull();
-    expect(agentDefinitionUnionDeserializer({ ...definition }).kind).toBe("voice");
-    expect(agentDefinitionUnionDeserializer({ ...definition })).toHaveProperty(
-      "instructions",
-      null,
-    );
+    const definition: VoiceAgentLiveDefinition = { ...live, instructions: undefined };
+    expect(toWire(agentDefinitionUnionSerializer(definition))).not.toHaveProperty("instructions");
+    expect(agentDefinitionUnionDeserializer(definition).kind).toBe("voice");
+  });
+
+  it("allows an omitted or nullable name in the native Live MCP tool choice", () => {
+    expectTypeOf<LiveMCPToolChoiceParam["name"]>().toEqualTypeOf<string | null | undefined>();
+    for (const name of [undefined, null, "lookup"]) {
+      const choice: LiveMCPToolChoiceParam = { type: "mcp", server_label: "tools", name };
+      expect(toWire(liveMCPToolChoiceParamSerializer(choice))).toEqual(toWire(choice));
+      expect(toWire(liveMCPToolChoiceParamDeserializer(choice))).toEqual(toWire(choice));
+    }
+  });
+
+  const toolFixtures = [
+    { type: "function", name: "lookup", parameters, strict: true },
+    { type: "function", name: "nullable", parameters: null, strict: null },
+    { type: "file_search", vector_store_ids: ["store-test"] },
+    {
+      type: "mcp",
+      server_label: "tools",
+      server_url: "https://example.com/tools",
+      headers: { "x-test": "fixture" },
+      allowed_tools: ["lookup"],
+      require_approval: "never",
+    },
+    { type: "code_interpreter", container: { type: "auto", file_ids: ["file-test"] } },
+  ] satisfies ToolUnion[];
+
+  it.each(toolFixtures)("preserves contextual OpenAI tool wire fields for $type", (tool) => {
+    expect(toWire(toolUnionSerializer(tool))).toEqual(tool);
+    expect(toWire(toolUnionDeserializer(tool))).toEqual(tool);
+  });
+
+  const nativeEvents = [
+    {
+      type: "session.output_audio.fixture.playing",
+      event_id: "event-playing",
+      client_event_id: "play-request",
+    },
+    {
+      type: "session.output_audio.fixture.played",
+      event_id: "event-played",
+      client_event_id: "play-request",
+    },
+    {
+      type: "decision.event",
+      event_id: "event-decision",
+      delegation_id: null,
+      trigger_id: "trigger-test",
+      source_event_type: "session.input_transcript.delta",
+      source_event_id: "input-event",
+      event: {
+        type: "decision.completed",
+        decision: {
+          model: "decision-model",
+          answers: [],
+          usage: {
+            input_tokens: 1,
+            input_tokens_details: { cached_tokens: 0, cache_write_tokens: 0 },
+            output_tokens: 1,
+            output_tokens_details: { reasoning_tokens: 0 },
+            total_tokens: 2,
+          },
+        },
+      },
+    },
+    {
+      type: "decision.item.created",
+      event_id: "event-item-created",
+      client_event_id: "item-request",
+      item: { id: "item-test", type: "message", role: "user", content: "Remember this." },
+    },
+    {
+      type: "decision.item.deleted",
+      event_id: "event-item-deleted",
+      client_event_id: "delete-request",
+      item_id: "item-test",
+    },
+  ] satisfies LiveServerEventUnion[];
+
+  it.each(nativeEvents)("preserves generated native Live event fields for $type", (event) => {
+    expect(toWire(liveServerEventUnionDeserializer(event))).toEqual(event);
   });
 
   describe.each(definitions)("$name", ({ definition }) => {
