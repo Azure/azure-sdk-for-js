@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the available namespaces within a resource group.
  *
  * @summary gets the available namespaces within a resource group.
- * x-ms-original-file: 2026-01-01/NameSpaces/SBNameSpaceListByResourceGroup.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/SBNameSpaceListByResourceGroup.json
  */
 async function nameSpaceListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -71,7 +71,7 @@ export function _checkNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceBus/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -100,7 +100,6 @@ export async function _checkNameAvailabilityDeserialize(
 
   return checkNameAvailabilityResultDeserializer(result.body);
 }
-
 /** Check the give namespace name availability. */
 export async function checkNameAvailability(
   context: Client,
@@ -126,7 +125,7 @@ export function _regenerateKeysSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +154,6 @@ export async function _regenerateKeysDeserialize(
 
   return accessKeysDeserializer(result.body);
 }
-
 /** Regenerates the primary or secondary connection strings for the namespace. */
 export async function regenerateKeys(
   context: Client,
@@ -190,7 +188,7 @@ export function _listKeysSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,7 +213,6 @@ export async function _listKeysDeserialize(result: PathUncheckedResponse): Promi
 
   return accessKeysDeserializer(result.body);
 }
-
 /** Gets the primary and secondary connection strings for the namespace. */
 export async function listKeys(
   context: Client,
@@ -246,7 +243,7 @@ export function _listAuthorizationRulesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -273,7 +270,6 @@ export async function _listAuthorizationRulesDeserialize(
 
   return _sbAuthorizationRuleListResultDeserializer(result.body);
 }
-
 /** Gets the authorization rules for a namespace. */
 export function listAuthorizationRules(
   context: Client,
@@ -286,7 +282,11 @@ export function listAuthorizationRules(
     () => _listAuthorizationRulesSend(context, resourceGroupName, namespaceName, options),
     _listAuthorizationRulesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -304,7 +304,7 @@ export function _deleteAuthorizationRuleSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -328,7 +328,6 @@ export async function _deleteAuthorizationRuleDeserialize(
 
   return;
 }
-
 /** Deletes a namespace authorization rule. */
 export async function deleteAuthorizationRule(
   context: Client,
@@ -362,7 +361,7 @@ export function _createOrUpdateAuthorizationRuleSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -391,7 +390,6 @@ export async function _createOrUpdateAuthorizationRuleDeserialize(
 
   return sbAuthorizationRuleDeserializer(result.body);
 }
-
 /** Creates or updates an authorization rule for a namespace. */
 export async function createOrUpdateAuthorizationRule(
   context: Client,
@@ -426,7 +424,7 @@ export function _getAuthorizationRuleSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -453,7 +451,6 @@ export async function _getAuthorizationRuleDeserialize(
 
   return sbAuthorizationRuleDeserializer(result.body);
 }
-
 /** Gets an authorization rule for a namespace by rule name. */
 export async function getAuthorizationRule(
   context: Client,
@@ -484,7 +481,7 @@ export function _listNetworkRuleSetsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -511,7 +508,6 @@ export async function _listNetworkRuleSetsDeserialize(
 
   return _networkRuleSetListResultDeserializer(result.body);
 }
-
 /** Gets list of NetworkRuleSet for a Namespace. */
 export function listNetworkRuleSets(
   context: Client,
@@ -524,7 +520,11 @@ export function listNetworkRuleSets(
     () => _listNetworkRuleSetsSend(context, resourceGroupName, namespaceName, options),
     _listNetworkRuleSetsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -541,7 +541,7 @@ export function _createOrUpdateNetworkRuleSetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -570,7 +570,6 @@ export async function _createOrUpdateNetworkRuleSetDeserialize(
 
   return networkRuleSetDeserializer(result.body);
 }
-
 /** Create or update NetworkRuleSet for a Namespace. */
 export async function createOrUpdateNetworkRuleSet(
   context: Client,
@@ -601,7 +600,7 @@ export function _getNetworkRuleSetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -628,7 +627,6 @@ export async function _getNetworkRuleSetDeserialize(
 
   return networkRuleSetDeserializer(result.body);
 }
-
 /** Gets NetworkRuleSet for a Namespace. */
 export async function getNetworkRuleSet(
   context: Client,
@@ -653,7 +651,7 @@ export function _failoverSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -679,7 +677,6 @@ export async function _failoverDeserialize(result: PathUncheckedResponse): Promi
 
   return failOverDeserializer(result.body);
 }
-
 /** GeoDR Failover */
 export function failover(
   context: Client,
@@ -694,7 +691,7 @@ export function failover(
     getInitialResponse: () =>
       _failoverSend(context, resourceGroupName, namespaceName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<FailOver>, FailOver>;
 }
 
@@ -706,7 +703,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceBus/namespaces{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -733,7 +730,6 @@ export async function _listDeserialize(
 
   return _sbNamespaceListResultDeserializer(result.body);
 }
-
 /** Gets all the available namespaces within the subscription, irrespective of the resource groups. */
 export function list(
   context: Client,
@@ -744,7 +740,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -758,7 +758,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -785,7 +785,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _sbNamespaceListResultDeserializer(result.body);
 }
-
 /** Gets the available namespaces within a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -797,7 +796,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -813,7 +816,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -835,7 +838,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes an existing namespace. This operation also removes all associated resources under the namespace. */
 export function $delete(
   context: Client,
@@ -848,7 +850,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, namespaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -865,7 +867,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -881,7 +883,7 @@ export function _updateSend(
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<SBNamespace | undefined> {
+): Promise<SBNamespace | void> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -892,9 +894,12 @@ export async function _updateDeserialize(
     throw error;
   }
 
-  return result.body ? sbNamespaceDeserializer(result.body) : undefined;
-}
+  if (!result.body) {
+    return;
+  }
 
+  return sbNamespaceDeserializer(result.body);
+}
 /** Updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent. */
 export async function update(
   context: Client,
@@ -902,7 +907,7 @@ export async function update(
   namespaceName: string,
   parameters: SBNamespaceUpdateParameters,
   options: NamespacesUpdateOptionalParams = { requestOptions: {} },
-): Promise<SBNamespace | undefined> {
+): Promise<SBNamespace | void> {
   const result = await _updateSend(context, resourceGroupName, namespaceName, parameters, options);
   return _updateDeserialize(result);
 }
@@ -920,7 +925,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -949,7 +954,6 @@ export async function _createOrUpdateDeserialize(
 
   return sbNamespaceDeserializer(result.body);
 }
-
 /** Creates or updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent. */
 export function createOrUpdate(
   context: Client,
@@ -964,7 +968,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, namespaceName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<SBNamespace>, SBNamespace>;
 }
 
@@ -980,7 +984,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1005,7 +1009,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<SB
 
   return sbNamespaceDeserializer(result.body);
 }
-
 /** Gets a description for the specified namespace. */
 export async function get(
   context: Client,

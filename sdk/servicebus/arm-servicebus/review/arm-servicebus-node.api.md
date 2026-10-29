@@ -244,6 +244,9 @@ export interface Identity {
     userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
+// @public
+export type IpAddressType = string;
+
 export { isRestError }
 
 // @public
@@ -286,6 +289,12 @@ export enum KnownEndPointProvisioningState {
 export enum KnownGeoDRRoleType {
     Primary = "Primary",
     Secondary = "Secondary"
+}
+
+// @public
+export enum KnownIpAddressType {
+    DualStack = "DualStack",
+    IPv4 = "IPv4"
 }
 
 // @public
@@ -365,7 +374,9 @@ export enum KnownTlsVersion {
 
 // @public
 export enum KnownVersions {
-    V20260101 = "2026-01-01"
+    V20250501Preview = "2025-05-01-preview",
+    V20260101 = "2026-01-01",
+    V20260701Preview = "2026-07-01-preview"
 }
 
 // @public
@@ -446,7 +457,6 @@ export type Mode = string;
 
 // @public
 export interface NamespaceReplicaLocation {
-    clusterArmId?: string;
     locationName?: string;
     roleType?: GeoDRRoleType;
 }
@@ -544,7 +554,7 @@ export interface NamespacesOperations {
     listKeys: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesListKeysOptionalParams) => Promise<AccessKeys>;
     listNetworkRuleSets: (resourceGroupName: string, namespaceName: string, options?: NamespacesListNetworkRuleSetsOptionalParams) => PagedAsyncIterableIterator<NetworkRuleSet>;
     regenerateKeys: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: NamespacesRegenerateKeysOptionalParams) => Promise<AccessKeys>;
-    update: (resourceGroupName: string, namespaceName: string, parameters: SBNamespaceUpdateParameters, options?: NamespacesUpdateOptionalParams) => Promise<SBNamespace | undefined>;
+    update: (resourceGroupName: string, namespaceName: string, parameters: SBNamespaceUpdateParameters, options?: NamespacesUpdateOptionalParams) => Promise<SBNamespace | void>;
 }
 
 // @public
@@ -1005,7 +1015,7 @@ export interface SBNamespace extends TrackedResource {
     encryption?: Encryption;
     geoDataReplication?: GeoDataReplicationProperties;
     identity?: Identity;
-    ipV6Enabled?: boolean;
+    ipAddressType?: IpAddressType;
     readonly metricId?: string;
     minimumTlsVersion?: TlsVersion;
     // (undocumented)
@@ -1028,7 +1038,7 @@ export interface SBNamespaceProperties {
     disableLocalAuth?: boolean;
     encryption?: Encryption;
     geoDataReplication?: GeoDataReplicationProperties;
-    ipV6Enabled?: boolean;
+    ipAddressType?: IpAddressType;
     readonly metricId?: string;
     minimumTlsVersion?: TlsVersion;
     // (undocumented)

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to geoDR Failover
  *
  * @summary geoDR Failover
- * x-ms-original-file: 2026-01-01/NameSpaces/SBNamespaceFailover.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/SBNamespaceFailover.json
  */
 async function nameSpaceCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
