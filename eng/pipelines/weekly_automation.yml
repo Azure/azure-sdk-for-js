@@ -14,7 +14,8 @@ pr: none
 
 jobs:
 - job: 'CheckAgenticWorkflows'
-  displayName: 'Check Agentic Workflows Upgrade'
+  displayName: 'Upgrade Agentic Workflows'
+  timeoutInMinutes: 45
   condition: and(succeeded(), or(eq('${{ parameters.jobToRun }}', 'All'), eq('${{ parameters.jobToRun }}', 'CheckAgenticWorkflows')))
   variables:
   - template: /eng/pipelines/templates/variables/globals.yml
@@ -36,7 +37,7 @@ jobs:
     displayName: 'Test Upgrade Checker'
 
   - script: node eng/tools/agentic-workflows/check-upgrade.mjs
-    displayName: 'Check gh-aw Release and File Upgrade Issue'
+    displayName: 'Upgrade gh-aw and Create PR (Issue on Failure)'
     env:
       GH_TOKEN: $(GH_TOKEN)
 

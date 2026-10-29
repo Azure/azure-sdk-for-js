@@ -3,14 +3,34 @@
 The `CheckAgenticWorkflows` job in `eng/pipelines/weekly_automation.yml` runs this
 Node.js tool without an AI agent. It reads the gh-aw CLI pin from
 `.github/workflows/copilot-setup-steps.yml`, compares semantic versions against
-the latest `github/gh-aw` release, and files an upgrade issue only when the latest
-version is strictly newer and no open issue has the same title.
+the latest `github/gh-aw` release, and runs
+`gh aw upgrade --create-pull-request` when the latest version is strictly newer.
+An existing open upgrade PR or an issue with the same upgrade title prevents
+duplicate work.
 
-Issues retain the `agentic-workflows`, `automated`, and `dependencies` labels and
-request the **Agentic Workflows** custom agent. This tool only requests an
-upgrade; it does not change pins or run the upgrade itself.
+The upgrade runs in a temporary, shallow clone of the target repository's default
+branch, leaving the pipeline checkout unchanged. The clone's CLI pin must still
+match the detected version; otherwise the attempt fails for a later rerun or
+manual investigation. A separate GitHub CLI configuration and extension directory
+is used to install the exact target version. Automatic extension self-upgrades
+are disabled so a release published mid-run cannot change the selected version.
+The CLI updates templates, applies codemods, refreshes action/container pins, and
+recompiles workflows. Its generated PR description includes the repository PR
+template. No AI agent, automatic approval, force push, or auto-merge is used.
 
-The issue links directly to the upstream upgrade instructions and requires the
+Because `gh aw upgrade` can report compilation failures as warnings, an external
+pre-push hook requires a successful standalone compilation, the target setup pin
+and compiler metadata in every workflow lock, and no uncommitted changes after
+recompilation. The CLI cannot publish the upgrade unless this gate passes.
+Temporary files and the isolated CLI installation are removed on completion.
+
+If installation, upgrade, compilation, push, or PR creation fails, the tool logs
+the failure and files a fallback issue. It checks for a PR again first in case
+publication succeeded before the CLI reported an error. Fallback issues retain
+the `agentic-workflows`, `automated`, and `dependencies` labels and include the
+failure details, release link, and full manual-upgrade instructions.
+
+The fallback issue links directly to the upstream upgrade instructions and requires the
 agent to read them before editing, perform the full upgrade with the target CLI
 version, recompile every workflow, and commit generated changes. Instruction-fetch
 or compilation failures must be reported as blockers, not treated as a successful
@@ -25,13 +45,22 @@ pnpm --filter @azure-tools/agentic-workflows-upgrade-check test
 node eng/tools/agentic-workflows/check-upgrade.mjs --dry-run
 ```
 
-Omit `--dry-run` to enable issue creation. Use `--repo owner/repo` to select an
-issue repository other than `Azure/azure-sdk-for-js`. The script always reads
-the pin from this checkout, regardless of the current working directory.
+Omit `--dry-run` to enable upgrades, PR publication, and fallback issue creation.
+Dry runs perform API reads only: they never install extensions, clone or modify
+repositories, or create issues or PRs. Use `--repo owner/repo` to select a target
+other than `Azure/azure-sdk-for-js`; the pin in this checkout must match that
+repository's default branch.
 
-The GitHub CLI is not required. The script calls the GitHub REST API directly
-using Node.js `fetch` and the `GH_TOKEN` supplied by the weekly pipeline's GitHub
-login step. The token needs access to read gh-aw releases and repository issues,
-and permission to create issues with the existing labels in the target
-repository. Authentication, API, and malformed-pin errors fail the run rather
-than being reported as successful no-ops.
+Node.js, Git, and the GitHub CLI (`gh`) must be available; the weekly pipeline's
+Ubuntu image provides these tools. Release discovery and issue fallback use
+Node.js `fetch` and `GH_TOKEN` from the pipeline's GitHub login step. The token
+needs access to read gh-aw releases and repository issues/PRs, plus **Contents:
+write**, **Workflows: write**, **Pull requests: write**, and **Issues: write** in
+the target repository. The GitHub App installation must grant these permissions;
+the script cannot elevate its token. Git authentication and commit identity are
+configured only in the temporary clone.
+
+Logs include the pinned and target versions and the created/existing PR or issue
+URL. A handled upgrade failure ends successfully only after an issue is created;
+authentication, discovery, malformed-pin, and fallback-issue API failures fail
+the run instead of being reported as successful no-ops.

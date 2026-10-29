@@ -1,14 +1,180 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { readFileSync } from "node:fs";
-import { pathToFileURL } from "node:url";
-import { parseArgs } from "node:util";
+import { execFile } from "node:child_process";
+import {
+  existsSync,
+  mkdtempSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { parseArgs, promisify } from "node:util";
 import semver from "semver";
 import { parse } from "yaml";
 
 const setupPath = new URL("../../../.github/workflows/copilot-setup-steps.yml", import.meta.url);
 const labels = ["agentic-workflows", "automated", "dependencies"];
+const execute = promisify(execFile);
+
+async function runCommand(command, args, options) {
+  const redact = (text) =>
+    options?.env?.GH_TOKEN ? text.replaceAll(options.env.GH_TOKEN, "[REDACTED]") : text;
+  try {
+    const { stdout, stderr } = await execute(command, args, {
+      encoding: "utf8",
+      timeout: 20 * 60 * 1000,
+      maxBuffer: 16 * 1024 * 1024,
+      ...options,
+    });
+    if (stdout) console.log(redact(stdout.trimEnd()));
+    if (stderr) console.error(redact(stderr.trimEnd()));
+    return stdout.trim();
+  } catch (error) {
+    if (error.stdout) console.error(redact(error.stdout));
+    if (error.stderr) console.error(redact(error.stderr));
+    throw error;
+  }
+}
+
+function failureDetails(error, token) {
+  return String(error?.message ?? error)
+    .replaceAll(token, "[REDACTED]")
+    .slice(-8000);
+}
+
+// gh-aw's upgrade command treats compilation errors as warnings. Enforce this
+// gate after its commit but before its push, including recompilation stability.
+export async function verifyUpgrade({ cwd, latest, run = runCommand }) {
+  if (
+    pinnedVersion(
+      readFileSync(join(cwd, ".github", "workflows", "copilot-setup-steps.yml"), "utf8"),
+    ) !== latest
+  ) {
+    throw new Error(`The upgraded setup CLI pin is not v${latest}`);
+  }
+  await run("gh", ["aw", "compile"], { cwd });
+  const workflows = join(cwd, ".github", "workflows");
+  const locks = readdirSync(workflows).filter((name) => name.endsWith(".lock.yml"));
+  if (!locks.length) throw new Error("No compiled agentic workflow lock files found");
+  for (const name of locks) {
+    const text = readFileSync(join(workflows, name), "utf8");
+    const metadata = text.match(/^# gh-aw-metadata: (.+)$/m);
+    if (!metadata || version(JSON.parse(metadata[1]).compiler_version) !== latest) {
+      throw new Error(`${name} was not generated with gh-aw v${latest}`);
+    }
+  }
+  if (await run("git", ["status", "--porcelain", "--untracked-files=all"], { cwd })) {
+    throw new Error(
+      "Recompilation changed the committed upgrade; refusing to push incomplete generated changes",
+    );
+  }
+}
+
+function upgradePRMessage(cwd, pinned, latest) {
+  const candidates = [
+    join(cwd, ".github", "PULL_REQUEST_TEMPLATE", "pull_request_template.md"),
+    join(cwd, ".github", "pull_request_template.md"),
+  ];
+  const path = candidates.find(existsSync);
+  if (!path) throw new Error("No repository pull request template found");
+  const answers = [
+    ["Packages impacted", "Repository agentic workflows; no SDK packages."],
+    ["Issues associated", "N/A."],
+    [
+      "Describe the problem",
+      `Upgrade gh-aw from v${pinned} to [v${latest}](https://github.com/github/gh-aw/releases/tag/v${latest}), including repository components and generated workflows.`,
+    ],
+    [
+      "What are the possible designs",
+      "Use the gh-aw CLI's full upgrade instead of an AI-authored version-pin-only change.",
+    ],
+    ["Are there test cases", "N/A: this pull request contains CLI-generated upgrade changes."],
+    ["Provide a list", "N/A."],
+  ];
+  return readFileSync(path, "utf8").replace(/^### .+$/gm, (heading) => {
+    const answer = answers.find(([prefix]) => heading.startsWith(`### ${prefix}`));
+    return answer ? `${heading}\n\n${answer[1]}` : heading;
+  });
+}
+
+export async function createUpgradePullRequest({ repo, pinned, latest, token, run = runCommand }) {
+  const directory = mkdtempSync(join(tmpdir(), "gh-aw-upgrade-"));
+  const cwd = join(directory, "repository");
+  const gateLog = join(directory, "gate-error.txt");
+  const env = {
+    ...process.env,
+    GH_TOKEN: token,
+    GH_HOST: "github.com",
+    GH_REPO: repo,
+    GH_PROMPT_DISABLED: "1",
+    GIT_TERMINAL_PROMPT: "0",
+    GH_CONFIG_DIR: join(directory, "gh-config"),
+    XDG_DATA_HOME: join(directory, "data"),
+    GH_AW_UPGRADE_GATE_LOG: gateLog,
+  };
+  const command = (executable, args) => run(executable, args, { cwd, env });
+  try {
+    await run(
+      "git",
+      [
+        "clone",
+        "--depth=1",
+        "--single-branch",
+        "--config",
+        "credential.helper=",
+        "--config",
+        "credential.helper=!gh auth git-credential",
+        `https://github.com/${repo}.git`,
+        cwd,
+      ],
+      { env },
+    );
+    const actualPin = pinnedVersion(
+      readFileSync(join(cwd, ".github", "workflows", "copilot-setup-steps.yml"), "utf8"),
+    );
+    if (actualPin !== pinned)
+      throw new Error(`Default branch pin changed to v${actualPin}; rerun the checker`);
+    await command("git", ["config", "user.name", "azure-sdk"]);
+    await command("git", ["config", "user.email", "azuresdk@microsoft.com"]);
+    const hooks = join(directory, "hooks");
+    mkdirSync(hooks);
+    // Keep the gate outside the checkout so an upgrade cannot replace it.
+    const quote = (value) => `'${value.replaceAll("\\", "/").replaceAll("'", "'\\''")}'`;
+    writeFileSync(
+      join(hooks, "pre-push"),
+      `#!/bin/sh\nexec ${quote(process.execPath)} ${quote(fileURLToPath(import.meta.url))} --verify-upgrade ${quote(latest)}\n`,
+      { mode: 0o755 },
+    );
+    await command("git", ["config", "core.hooksPath", hooks]);
+    // Isolate the extension installation from the invoking user's gh environment.
+    await command("gh", ["extension", "install", "github/gh-aw", "--pin", `v${latest}`]);
+    const installed = await command("gh", ["aw", "--version"]);
+    if (!new RegExp(`(?:^|\\s)v?${latest.replaceAll(".", "\\.")}(?:\\s|$)`).test(installed)) {
+      throw new Error(`Unexpected gh-aw CLI version: ${installed}`);
+    }
+    await command("gh", [
+      "aw",
+      "upgrade",
+      "--create-pull-request",
+      "--skip-extension-upgrade",
+      "--pr-message",
+      upgradePRMessage(cwd, pinned, latest),
+    ]);
+  } catch (error) {
+    const gateError = existsSync(gateLog)
+      ? `\nPublication gate: ${readFileSync(gateLog, "utf8")}`
+      : "";
+    throw new Error(`${failureDetails(error, token)}${gateError}`);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+}
 
 function version(value) {
   const normalized = typeof value === "string" && semver.valid(value);
@@ -62,6 +228,7 @@ export async function checkUpgrade({
   token = process.env.GH_TOKEN,
   fetchImpl = fetch,
   log = console.log,
+  upgrade = createUpgradePullRequest,
 }) {
   if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) {
     throw new Error("Repository must have the form owner/repo");
@@ -76,6 +243,32 @@ export async function checkUpgrade({
   }
 
   const title = `[agentic-workflows] Upgrade gh-aw from v${pinned} to v${latest}`;
+  const findPullRequest = async () => {
+    for (let page = 1; ; page++) {
+      const pulls = await requestGitHub(
+        `/repos/${repo}/pulls?state=open&per_page=100&page=${page}`,
+        { token, fetchImpl },
+      );
+      if (!Array.isArray(pulls))
+        throw new Error("GitHub API returned an invalid pull requests response");
+      const found = pulls.find(
+        (pr) =>
+          pr.head?.repo?.full_name?.toLowerCase() === repo.toLowerCase() &&
+          (pr.head?.ref?.startsWith("upgrade-agentic-workflows-") ||
+            /upgrade.*gh-aw/i.test(pr.title) ||
+            pr.title === "Upgrade agentic workflows"),
+      );
+      if (found) return found;
+      if (pulls.length < 100) return undefined;
+    }
+  };
+  const existingPR = await findPullRequest();
+  if (existingPR) {
+    log(
+      `An upgrade pull request is already open (pinned v${pinned}, latest v${latest}): ${existingPR.html_url}`,
+    );
+    return;
+  }
   let page = 1;
   while (true) {
     const issues = await requestGitHub(
@@ -83,14 +276,40 @@ export async function checkUpgrade({
       { token, fetchImpl },
     );
     if (!Array.isArray(issues)) throw new Error("GitHub API returned an invalid issues response");
-    if (issues.some((issue) => !issue.pull_request && issue.title === title)) {
-      log(`An open issue already exists: ${title}`);
+    const existingIssue = issues.find((issue) => !issue.pull_request && issue.title === title);
+    if (existingIssue) {
+      log(`An open issue already exists: ${title}: ${existingIssue.html_url}`);
       return;
     }
     if (issues.length < 100) break;
     page++;
   }
 
+  if (dryRun) {
+    log(
+      `Would upgrade gh-aw from v${pinned} to v${latest} in ${repo} using gh aw upgrade --create-pull-request; create an issue if that fails.`,
+    );
+    return;
+  }
+  let upgradeError;
+  try {
+    log(`Upgrading gh-aw from v${pinned} to v${latest} in ${repo}.`);
+    await upgrade({ repo, pinned, latest, token });
+  } catch (error) {
+    upgradeError = failureDetails(error, token);
+    log(`Automatic gh-aw upgrade from v${pinned} to v${latest} failed:\n${upgradeError}`);
+  }
+  // A command may fail after GitHub accepted PR creation. Recover before filing
+  // an issue rather than creating duplicate work after an ambiguous response.
+  const createdPR = await findPullRequest();
+  if (createdPR) {
+    log(
+      `${upgradeError ? "Recovered" : "Created"} gh-aw upgrade pull request from v${pinned} to v${latest}: ${createdPR.html_url}`,
+    );
+    return;
+  }
+  upgradeError ??= "gh aw upgrade completed without an open upgrade pull request.";
+  log(`Filing a fallback issue: ${upgradeError}`);
   const body =
     `The \`gh-aw\` CLI pinned in \`.github/workflows/copilot-setup-steps.yml\` is currently v${pinned}. ` +
     `The latest released version is [v${latest}](https://github.com/github/gh-aw/releases/tag/v${latest}).\n\n` +
@@ -112,11 +331,11 @@ export async function checkUpgrade({
     "do not edit generated lock files by hand.\n" +
     "- Report the compiler version, compilation outcome, and any blockers in the pull request. " +
     "If compilation produces no changes, explain why. " +
-    "Do not treat a version-pin-only change as a completed upgrade.";
-  if (dryRun) {
-    log(`Would create issue in ${repo}:\n${title}\n\n${body}`);
-    return;
-  }
+    "Do not treat a version-pin-only change as a completed upgrade.\n\n" +
+    "## Automatic upgrade failure\n\n" +
+    "The weekly automation attempted `gh aw upgrade --create-pull-request` but could not publish an upgrade PR. " +
+    "Check the pipeline logs for the complete command output. A branch may have been pushed before PR creation failed.\n\n" +
+    `<details><summary>Failure details</summary>\n\n<pre>${upgradeError.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</pre>\n\n</details>`;
   const created = await requestGitHub(`/repos/${repo}/issues`, {
     token,
     method: "POST",
@@ -132,11 +351,23 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     options: {
       repo: { type: "string", default: "Azure/azure-sdk-for-js" },
       "dry-run": { type: "boolean", default: false },
+      "verify-upgrade": { type: "string" },
     },
   });
-  await checkUpgrade({
-    setup: readFileSync(setupPath, "utf8"),
-    repo: values.repo,
-    dryRun: values["dry-run"],
-  });
+  if (values["verify-upgrade"]) {
+    try {
+      await verifyUpgrade({ cwd: process.cwd(), latest: version(values["verify-upgrade"]) });
+    } catch (error) {
+      if (process.env.GH_AW_UPGRADE_GATE_LOG) {
+        writeFileSync(process.env.GH_AW_UPGRADE_GATE_LOG, String(error?.message ?? error));
+      }
+      throw error;
+    }
+  } else {
+    await checkUpgrade({
+      setup: readFileSync(setupPath, "utf8"),
+      repo: values.repo,
+      dryRun: values["dry-run"],
+    });
+  }
 }
