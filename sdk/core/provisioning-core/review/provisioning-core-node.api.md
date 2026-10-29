@@ -291,8 +291,8 @@ function environment(): Expression<unknown>;
 function eq(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
 
 // @public
-export interface ExistingResourceProps {
-    readonly name: ExpressionOrValue<string>;
+export interface ExistingResourceProps<TName extends string = string> {
+    readonly name: ExpressionOrValue<TName>;
     readonly scope?: ScopeExpression;
 }
 
@@ -579,6 +579,7 @@ function mul(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>):
 export interface NamingContext {
     // (undocumented)
     readonly label?: string | undefined;
+    readonly nameSegments?: number | undefined;
     // (undocumented)
     readonly rules: ResourceNamingRules;
     // (undocumented)
@@ -587,7 +588,6 @@ export interface NamingContext {
 
 // @public
 export interface NamingPolicy {
-    // (undocumented)
     generateName(context: NamingContext): ExpressionOrValue<string>;
 }
 
@@ -757,9 +757,6 @@ export type ParameterOptions<T extends keyof PrimitiveTypeMap = keyof PrimitiveT
     readonly sealed?: boolean | undefined;
 };
 
-// @public
-export type ParameterValue<T extends keyof PrimitiveTypeMap = keyof PrimitiveTypeMap> = ExpressionOrValue<PrimitiveTypeMap[T]>;
-
 // @public (undocumented)
 export interface PlainDateEncodingDescriptor {
     // (undocumented)
@@ -873,6 +870,7 @@ export class Resource<TType extends string = string> extends ResourceDeclaration
     get self(): this;
     // (undocumented)
     protected _selfProxy: this | undefined;
+    protected static validate(_context: ProvisioningComponent, _props: ResourceProps<string> & Record<string, unknown>, _options?: ResourceOptions, _namingRules?: ResourceNamingRules): void;
 }
 
 // @public
@@ -898,6 +896,8 @@ export abstract class ResourceDeclaration<TType extends string = string> extends
     get existing(): boolean | undefined;
     // (undocumented)
     protected expr<TValue>(...path: readonly PropertySegment[]): Expression<TValue> & TValue;
+    // (undocumented)
+    protected readonly namingRules: ResourceNamingRules | undefined;
     // (undocumented)
     protected setProperty(key: string, value: unknown): void;
     // (undocumented)
@@ -929,6 +929,8 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
     // (undocumented)
     get tags(): InputRecord<ExpressionOrValue<string>, Record<string, string>> | undefined;
     set tags(value: InputRecord<ExpressionOrValue<string>, Record<string, string>> | undefined);
+    // (undocumented)
+    protected static validate(context: ProvisioningComponent, props: ResourceProps<string> & Record<string, unknown>, _options?: ResourceOptions, _namingRules?: ResourceNamingRules): void;
 }
 
 // @public
@@ -970,25 +972,18 @@ export interface ResourceNamingRules {
     // (undocumented)
     readonly abbreviation: string;
     // (undocumented)
-    readonly maxLength: number;
+    readonly maxLength?: number;
     // (undocumented)
-    readonly minLength: number;
+    readonly minLength?: number;
+    readonly nameSegments?: number;
     // (undocumented)
-    readonly scope: "global" | "resourceGroup" | "subscription";
+    readonly pattern?: {
+        readonly regex: string;
+        readonly message?: string;
+    };
+    readonly scope: "global" | "resourceGroup" | "subscription" | "parent";
     // (undocumented)
-    readonly validCharacters: ResourceNamingValidCharacters;
-}
-
-// @public (undocumented)
-export interface ResourceNamingValidCharacters {
-    // (undocumented)
-    readonly hyphens: boolean;
-    // (undocumented)
-    readonly periods: boolean;
-    // (undocumented)
-    readonly underscores: boolean;
-    // (undocumented)
-    readonly uppercase: boolean;
+    readonly separator?: string;
 }
 
 // @public
@@ -1228,9 +1223,6 @@ export interface UnixTimestampEncodingDescriptor {
         readonly scalar: IntegerScalarName;
     };
 }
-
-// @public (undocumented)
-export type ValueEncodingDescriptor = DateTimeTextEncodingDescriptor | UnixTimestampEncodingDescriptor | DurationIso8601EncodingDescriptor | DurationNumericEncodingDescriptor | BytesEncodingDescriptor | PlainDateEncodingDescriptor | NumericStringEncodingDescriptor | BooleanStringEncodingDescriptor;
 
 // @public (undocumented)
 export type ValueShape = TerminalValueShape | DeferredShape<ModelShape> | ContainerShape;

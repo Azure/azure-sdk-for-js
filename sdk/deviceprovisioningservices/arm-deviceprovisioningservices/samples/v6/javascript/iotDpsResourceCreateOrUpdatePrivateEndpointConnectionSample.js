@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update the status of a private endpoint connection with the specified name
  *
  * @summary create or update the status of a private endpoint connection with the specified name
- * x-ms-original-file: 2026-08-31/DPSCreateOrUpdatePrivateEndpointConnection.json
+ * x-ms-original-file: 2026-11-01/DPSCreateOrUpdatePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

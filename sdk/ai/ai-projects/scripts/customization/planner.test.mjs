@@ -3,6 +3,8 @@
 
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { retainCustomizedOnConflict } from "./ast-merge.mjs";
+import { validateCustomization } from "./guards.mjs";
 import { planCustomization } from "./planner.mjs";
 
 function models() {
@@ -51,6 +53,79 @@ test("reports an incompatible declaration change rather than choosing a side", (
   generated.set("api/example/options.ts", "export interface Options { value: boolean; }");
   const plan = planCustomization({ baseGenerated, baseSource, generated });
   assert.ok(plan.diagnostics.some((item) => item.file === "api/example/options.ts"));
+});
+
+test("recovery keeps the customized declaration of an incompatible change and applies the rest", () => {
+  const baseGenerated = models();
+  const baseSource = models();
+  const generated = models();
+  baseGenerated.set("api/example/options.ts", "export interface Options { value: string; }");
+  baseSource.set("api/example/options.ts", "export interface Options { value: number; }");
+  generated.set("api/example/options.ts", "export interface Options { value: boolean; }");
+  for (const tree of [baseGenerated, baseSource])
+    tree.set("api/example/other.ts", "export interface Other { a: string; }");
+  generated.set("api/example/other.ts", "export interface Other { a: string; b?: string; }");
+  const inputs = { baseGenerated, baseSource, generated };
+  assert.ok(
+    planCustomization(inputs).diagnostics.some((item) => item.file === "api/example/options.ts"),
+  );
+  const retained = [];
+  retainCustomizedOnConflict(retained);
+  try {
+    const plan = planCustomization(inputs);
+    assert.deepEqual(plan.diagnostics, []);
+    assert.match(plan.source.get("api/example/options.ts"), /value: number/);
+    assert.match(plan.source.get("api/example/other.ts"), /b\?: string/);
+    assert.deepEqual(
+      retained.map((item) => `${item.file}::${item.declaration}`),
+      ["api/example/options.ts::Options"],
+    );
+    assert.equal(retained[0].incomingText.includes("boolean"), true);
+  } finally {
+    retainCustomizedOnConflict(null);
+  }
+});
+
+test("recovery keeps a declaration whose emitted addition conflicts and lists the addition", () => {
+  const baseGenerated = models();
+  const baseSource = models();
+  const generated = models();
+  // The guards require the hand-maintained paging imports in the package entry point.
+  const entryPoint = `import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
+export type { Model } from "./models/index.js";`;
+  for (const tree of [baseGenerated, baseSource, generated]) tree.set("index.ts", entryPoint);
+  baseGenerated.set("api/example/options.ts", "export interface Options { value: string; }");
+  baseSource.set("api/example/options.ts", "export interface Options { value: number; }");
+  generated.set(
+    "api/example/options.ts",
+    "export interface Options { value: boolean; extra?: string; }",
+  );
+  const inputs = { baseGenerated, baseSource, generated };
+  const retained = [];
+  retainCustomizedOnConflict(retained);
+  try {
+    const plan = planCustomization(inputs);
+    assert.deepEqual(plan.diagnostics, []);
+    const guardInputs = {
+      ...inputs,
+      source: plan.source,
+      matches: plan.matches,
+      modelRenames: plan.modelRenames,
+    };
+    // The keys the planner records are the keys the guards excuse.
+    const strict = validateCustomization(guardInputs);
+    assert.ok(strict.some((item) => item.declaration === "Options" && item.member === "extra"));
+    const unapplied = [];
+    const keys = new Set(retained.map((item) => `${item.file}::${item.declaration}`));
+    assert.deepEqual(validateCustomization({ ...guardInputs, retained: keys, unapplied }), []);
+    assert.deepEqual(
+      unapplied.map((item) => `${item.file}::${item.declaration}.${item.member}`),
+      ["api/example/options.ts::Options.extra"],
+    );
+  } finally {
+    retainCustomizedOnConflict(null);
+  }
 });
 
 test("rejects a new emitted file that collides with custom-only source", () => {

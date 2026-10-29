@@ -12,6 +12,7 @@
     "../src/api/nodePools/index.ts",
     "../src/api/hcpOpenShiftClusters/index.ts",
     "../src/api/operations/index.ts",
-    "../src/models/index.ts"
+    "../src/models/index.ts",
+    "../src/models/typeSpec/index.ts"
   ]
 }

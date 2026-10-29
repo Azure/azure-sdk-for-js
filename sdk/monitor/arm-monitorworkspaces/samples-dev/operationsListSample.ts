@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-10-03/Operations_List.json
+ * x-ms-original-file: 2026-09-03-preview/Operations_List.json
  */
 async function listsTheMicrosoftMonitorResourceProviderOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();

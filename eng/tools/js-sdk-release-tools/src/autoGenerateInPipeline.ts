@@ -6,15 +6,18 @@ import { backupNodeModules, restoreNodeModules } from "./utils/backupNodeModules
 import { logger } from "./utils/logger.js";
 import { ModularClientPackageOptions, SDKType, RunMode } from "./common/types.js";
 import { generateAzureSDKPackage } from "./mlc/clientGenerator/modularClientPackageGenerator.js";
+import { generateProvisioningSDKPackage } from "./provisioning/provisioningPackageGenerator.js";
 import { parseInputJson } from "./utils/generateInputUtils.js";
 import { configureNpmFromRepo } from "./common/npmUtils.js";
 import shell from "shelljs";
 import fs from "fs";
+import { emitterName as defaultEmitterName, provisioningEmitterName } from "./common/utils.js";
 
 async function automationGenerateInPipeline(
   inputJsonPath: string,
   outputJsonPath: string,
   use: string | undefined,
+  typespecEmitter: string | undefined,
   localOverride?: boolean,
 ) {
   const inputJson = JSON.parse(fs.readFileSync(inputJsonPath, { encoding: "utf-8" }));
@@ -32,10 +35,17 @@ async function automationGenerateInPipeline(
     apiVersion,
     runMode,
     sdkReleaseType,
-  } = await parseInputJson(inputJson);
+  } = await parseInputJson(inputJson, typespecEmitter);
   // If --local parameter is used, local is true; otherwise, determine from runMode
   const local = localOverride || runMode === RunMode.Local;
   try {
+    if (
+      sdkType === SDKType.ModularClient &&
+      typespecEmitter &&
+      typespecEmitter !== defaultEmitterName
+    ) {
+      throw new Error(`Unsupported TypeSpec emitter '${typespecEmitter}'.`);
+    }
     if (local) {
       configureNpmFromRepo(String(shell.pwd()));
     }
@@ -44,6 +54,14 @@ async function automationGenerateInPipeline(
     }
     switch (sdkType) {
       case SDKType.HighLevelClient:
+        if (!local) {
+          throw new Error(
+            `High Level Client (HLC) generation is no longer supported in the SDK automation pipeline. ` +
+              `If you are using a Swagger-based management SDK configuration, please migrate the service to TypeSpec and use modular client generation. ` +
+              `If your service already has a TypeSpec project, configure the '@azure-tools/typespec-ts' emitter in tspconfig.yaml and ensure the pipeline uses that project instead of the Swagger README configuration. ` +
+              `For guidance, see https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/migrating-to-typespec.md.`,
+          );
+        }
         await generateMgmt({
           sdkRepo: String(shell.pwd()),
           swaggerRepo: specFolder,
@@ -77,6 +95,7 @@ async function automationGenerateInPipeline(
           sdkRepoRoot,
           specRepoRoot: specFolder,
           typeSpecDirectory,
+          emitterName: defaultEmitterName,
           gitCommitId,
           skip,
           repoUrl,
@@ -88,6 +107,33 @@ async function automationGenerateInPipeline(
           runMode: runMode as RunMode,
         };
         const packageResult = await generateAzureSDKPackage(options);
+        outputJson.packages = [packageResult];
+        break;
+      }
+      case SDKType.Provisioning: {
+        if (!typespecProject) {
+          throw new Error("Provisioning generation requires a TypeSpec project.");
+        }
+        const options: ModularClientPackageOptions = {
+          sdkRepoRoot: String(shell.pwd()).replaceAll("\\", "/"),
+          specRepoRoot: specFolder,
+          typeSpecDirectory: path.posix.join(specFolder, typespecProject),
+          emitterName: provisioningEmitterName,
+          emitterPackageJsonPath: path.join(
+            process.cwd(),
+            "eng",
+            "provisioning-emitter-package.json",
+          ),
+          gitCommitId,
+          skip: skipGeneration ?? false,
+          repoUrl: repoHttpsUrl,
+          local,
+          versionPolicyName: "management",
+          apiVersion,
+          sdkReleaseType,
+          runMode: runMode as RunMode,
+        };
+        const packageResult = await generateProvisioningSDKPackage(options);
         outputJson.packages = [packageResult];
         break;
       }
@@ -108,12 +154,14 @@ async function automationGenerateInPipeline(
     if (!local) {
       await restoreNodeModules(String(shell.pwd()));
     }
+    fs.mkdirSync(path.dirname(path.resolve(outputJsonPath)), { recursive: true });
     fs.writeFileSync(outputJsonPath, JSON.stringify(outputJson, null, "  "), { encoding: "utf-8" });
   }
 }
 
 const optionDefinitions = [
   { name: "use", type: String },
+  { name: "typespecEmitter", type: String },
   { name: "inputJsonPath", type: String },
   { name: "outputJsonPath", type: String },
   // this option should be only used in local run, it will skip backup node modules, etc.
@@ -121,11 +169,13 @@ const optionDefinitions = [
   { name: "local", type: Boolean, defaultValue: false },
 ];
 import commandLineArgs from "command-line-args";
+
 const options = commandLineArgs(optionDefinitions);
 automationGenerateInPipeline(
   options.inputJsonPath,
   options.outputJsonPath,
   options.use,
+  options.typespecEmitter,
   options.local,
 ).catch((e) => {
   logger.error(e.message);

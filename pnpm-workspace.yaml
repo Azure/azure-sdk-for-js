@@ -4,6 +4,7 @@ packages:
   - common/tools/eslint-plugin-azure-sdk
   - eng/containers/turborepo-remote-cache
   - eng/tools/ci-runner
+  - eng/tools/repo-health-status-report
   - eng/tools/js-sdk-release-tools
   - eng/tools/eng-package-utils
   - eng/tools/versioning
@@ -25,6 +26,7 @@ packages:
   - '!sdk/eventhub/event-hubs/test/stress/**'
 
 catalog:
+  '@azure/provisioning-core': 1.0.0-beta.1
   '@eslint/js': ^10.0.1
   '@types/node': ^22.0.0
   autorest: latest
@@ -58,9 +60,9 @@ catalogs:
     chai-exclude: ^3.0.1
     '@types/react': ^19.2.14
     dotenv: ^18.0.5
-    nock: ^14.0.17
+    nock: ^15.0.1
     playwright: ^1.60.0
-    react-native: ^0.87.1
+    react-native: ^0.88.0
     vitest: ^5.0.0
 
 overrides:

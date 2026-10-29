@@ -463,6 +463,8 @@ export interface IotDpsPropertiesDescription {
   provisioningState?: string;
   /** List of IoT hubs associated with this provisioning service. */
   iotHubs?: IotHubDefinitionDescription[];
+  /** The Device Registry namespaces linked to the provisioning service. */
+  readonly deviceRegistryNamespaces?: DeviceRegistryNamespaceDescription[];
   /** Allocation policy to be used by this provisioning service. */
   allocationPolicy?: AllocationPolicy;
   /** Service endpoint for provisioning service. */
@@ -524,6 +526,9 @@ export function iotDpsPropertiesDescriptionDeserializer(item: any): IotDpsProper
     iotHubs: !item["iotHubs"]
       ? item["iotHubs"]
       : iotHubDefinitionDescriptionArrayDeserializer(item["iotHubs"]),
+    deviceRegistryNamespaces: !item["deviceRegistryNamespaces"]
+      ? item["deviceRegistryNamespaces"]
+      : deviceRegistryNamespaceDescriptionArrayDeserializer(item["deviceRegistryNamespaces"]),
     allocationPolicy: item["allocationPolicy"],
     serviceOperationsHostName: item["serviceOperationsHostName"],
     deviceProvisioningHostName: item["deviceProvisioningHostName"],
@@ -876,6 +881,88 @@ export enum KnownIotHubAuthenticationType {
  * **SystemAssigned**: System assigned authentication type.
  */
 export type IotHubAuthenticationType = string;
+
+export function deviceRegistryNamespaceDescriptionArrayDeserializer(
+  result: Array<DeviceRegistryNamespaceDescription>,
+): any[] {
+  return result.map((item) => {
+    return deviceRegistryNamespaceDescriptionDeserializer(item);
+  });
+}
+
+/** Description of the Device Registry namespace that is linked to the provisioning service. */
+export interface DeviceRegistryNamespaceDescription {
+  /** The ARM resource ID of the Device Registry namespace. */
+  resourceId: string;
+  /** Device Registry Namespace MI authentication type: UserAssigned, SystemAssigned. */
+  authenticationType: DeviceRegistryNamespaceAuthenticationType;
+  /** The selected user-assigned identity resource Id associated with Device Registry namespace. This is required when authenticationType is UserAssigned. */
+  selectedUserAssignedIdentityResourceId?: string;
+  /** Unique identifier of the linked Device Registry namespace. */
+  namespaceUuid?: string;
+  /** The data plane address of the linked Azure Device Registry namespace. */
+  dataAddress?: string;
+  /** Azure location of the linked Device Registry namespace. */
+  location?: string;
+  /** The linking state of this namespace. */
+  linkingState?: LinkingState;
+}
+
+export function deviceRegistryNamespaceDescriptionDeserializer(
+  item: any,
+): DeviceRegistryNamespaceDescription {
+  return {
+    resourceId: item["resourceId"],
+    authenticationType: item["authenticationType"],
+    selectedUserAssignedIdentityResourceId: item["selectedUserAssignedIdentityResourceId"],
+    namespaceUuid: item["namespaceUuid"],
+    dataAddress: item["dataAddress"],
+    location: item["location"],
+    linkingState: item["linkingState"],
+  };
+}
+
+/** Device Registry Namespace MI authentication type: UserAssigned, SystemAssigned. */
+export enum KnownDeviceRegistryNamespaceAuthenticationType {
+  /** User assigned authentication type. */
+  UserAssigned = "UserAssigned",
+  /** System assigned authentication type. */
+  SystemAssigned = "SystemAssigned",
+}
+
+/**
+ * Device Registry Namespace MI authentication type: UserAssigned, SystemAssigned. \
+ * {@link KnownDeviceRegistryNamespaceAuthenticationType} can be used interchangeably with DeviceRegistryNamespaceAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UserAssigned**: User assigned authentication type. \
+ * **SystemAssigned**: System assigned authentication type.
+ */
+export type DeviceRegistryNamespaceAuthenticationType = string;
+
+/** The state of ADR linking for a provisioning service. */
+export enum KnownLinkingState {
+  /** The provisioning service is not linked to a Device Registry namespace. */
+  NotLinked = "NotLinked",
+  /** The linking process is in progress. */
+  InProgress = "InProgress",
+  /** The linking process succeeded. */
+  Succeeded = "Succeeded",
+  /** The linked Device Registry namespace no longer exists. */
+  Orphaned = "Orphaned",
+}
+
+/**
+ * The state of ADR linking for a provisioning service. \
+ * {@link KnownLinkingState} can be used interchangeably with LinkingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotLinked**: The provisioning service is not linked to a Device Registry namespace. \
+ * **InProgress**: The linking process is in progress. \
+ * **Succeeded**: The linking process succeeded. \
+ * **Orphaned**: The linked Device Registry namespace no longer exists.
+ */
+export type LinkingState = string;
 
 /** Allocation policy to be used by this provisioning service. */
 export enum KnownAllocationPolicy {
@@ -1422,6 +1509,8 @@ export type CertificatePurpose = string;
 export enum KnownVersions {
   /** The 2026-08-31 API version. */
   V20260831 = "2026-08-31",
+  /** The 2026-11-01 API version. */
+  V20261101 = "2026-11-01",
 }
 
 export function privateEndpointConnectionArraySerializer_1(
