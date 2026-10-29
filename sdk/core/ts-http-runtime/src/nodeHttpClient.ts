@@ -485,7 +485,7 @@ function pipeResponseStream(
   });
   cleanupDestination = finished(destination, { writable: false }, () => {
     cleanupDestination();
-    cleanupSource();
+    // Keep the source observer until its own completion, including any queued error.
     source.unpipe(destination);
     if (source.readable) {
       disposeNodeStream(source);

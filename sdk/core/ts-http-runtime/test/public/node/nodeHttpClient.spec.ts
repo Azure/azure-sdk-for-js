@@ -753,6 +753,58 @@ describe("NodeHttpClient", function () {
     expect(destroy).toHaveBeenCalledOnce();
   });
 
+  it("keeps the source error observer until completion after destroy then abort", async function () {
+    vi.useRealTimers();
+    const streamResponse = new FakeResponse();
+    streamResponse.headers = {};
+    streamResponse.statusCode = 200;
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const promise = createDefaultHttpClient().sendRequest(
+      createPipelineRequest({
+        url: "https://example.com",
+        abortSignal: controller.signal,
+        onDownloadProgress: () => {},
+        streamResponseStatusCodes: new Set([200]),
+      }),
+    );
+    yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+    const response = await promise;
+    const body = response.readableStreamBody;
+    if (!(body instanceof Readable)) {
+      throw new Error("Expected a Node readable response");
+    }
+
+    const sourceError = vi.fn();
+    streamResponse.on("error", sourceError);
+    const sourceClosed = new Promise<void>((resolve) => streamResponse.once("close", resolve));
+    const destinationClosed = new Promise<number>((resolve) => {
+      body.once("close", () => {
+        // The test observer prevents a process crash; the transport must retain its own too.
+        resolve(streamResponse.listenerCount("error"));
+      });
+    });
+
+    try {
+      body.destroy();
+      controller.abort();
+      const errorObserversAtClose = await destinationClosed;
+      await sourceClosed;
+      await delay(0);
+
+      expect(errorObserversAtClose).toBeGreaterThan(1);
+      expect(sourceError).toHaveBeenCalledExactlyOnceWith(
+        expect.objectContaining({ name: "AbortError" }),
+      );
+      expect(streamResponse.listenerCount("error")).toBe(1);
+      expect(removeEventListener).toHaveBeenCalledOnce();
+    } finally {
+      streamResponse.removeListener("error", sourceError);
+      body.destroy();
+      streamResponse.destroy();
+    }
+  });
+
   it.each([
     { encoding: "gzip", progress: false },
     { encoding: "deflate", progress: false },

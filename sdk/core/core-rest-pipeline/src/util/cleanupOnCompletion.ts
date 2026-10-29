@@ -41,7 +41,11 @@ export function cleanupOnRequestResponseCompletion(
     stream?.removeListener("close", onResponseComplete);
     stream?.removeListener("error", onResponseComplete);
     nodeResponseDone = true;
-    cleanupIfComplete();
+    try {
+      cleanupIfComplete();
+    } catch (error: unknown) {
+      logger.warning("Error cleaning up after response stream completion", error);
+    }
   };
   if (!nodeResponseDone && stream) {
     stream.once("end", onResponseComplete);

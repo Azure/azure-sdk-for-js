@@ -32,7 +32,7 @@ function createResponseStream(): {
     once(event: string, listener: () => void): void;
     removeListener(event: string): void;
   };
-  complete(): void;
+  complete(event?: string): void;
 } {
   const listeners = new Map<string, () => void>();
   const stream = {
@@ -46,9 +46,9 @@ function createResponseStream(): {
   };
   return {
     stream,
-    complete() {
+    complete(event = "end") {
       stream.readable = false;
-      listeners.get("end")?.();
+      listeners.get(event)?.();
     },
   };
 }
@@ -93,6 +93,31 @@ describe("cleanupOnRequestResponseCompletion", () => {
     expect(cleanup).toHaveBeenCalledOnce();
     expect(warning).toHaveBeenCalledExactlyOnceWith(message, failure);
   });
+
+  it.each(["end", "close", "error"])(
+    "logs cleanup errors when the response stream completes last via %s",
+    (event) => {
+      const responseStream = createResponseStream();
+      const failure = new Error("cleanup failed");
+      const cleanup = vi.fn(() => {
+        throw failure;
+      });
+      const warning = vi.spyOn(logger, "warning").mockImplementation(() => {});
+
+      cleanupOnRequestResponseCompletion({ readableStreamBody: responseStream.stream }, cleanup);
+
+      expect(() => responseStream.complete(event)).not.toThrow();
+      expect(cleanup).toHaveBeenCalledOnce();
+      expect(warning).toHaveBeenCalledExactlyOnceWith(
+        "Error cleaning up after response stream completion",
+        failure,
+      );
+
+      responseStream.complete(event);
+      expect(cleanup).toHaveBeenCalledOnce();
+      expect(warning).toHaveBeenCalledOnce();
+    },
+  );
 
   it("waits for response stream completion", async () => {
     const responseStream = createResponseStream();
