@@ -5,7 +5,7 @@
         "ubuntu_ManagedHSM": {
           "OSVmImage": "env:LINUXVMIMAGE",
           "Pool": "env:LINUXPOOL",
-          "ArmTemplateParameters": "@{ enableHsm = $true }"
+          "ArmTemplateParameters": "@{ enableHsm = $true; attestationImage = 'keyvault-mock-attestation:icm-brotli-test-20261029-193447' }"
         }
       },
       "NodeTestVersion": "env:NODE_VERSION_LTS_MAINTENANCE",
