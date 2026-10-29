@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancel a log analytics workspace search results table query run.
  *
  * @summary cancel a log analytics workspace search results table query run.
- * x-ms-original-file: 2025-07-01/TablesSearchCancel.json
+ * x-ms-original-file: 2026-03-01/TablesSearchCancel.json
  */
 async function tablesSearchCancel(): Promise<void> {
   const credential = new DefaultAzureCredential();

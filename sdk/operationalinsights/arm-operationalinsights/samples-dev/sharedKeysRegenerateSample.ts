@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to regenerates the shared keys for a Log Analytics Workspace. These keys are used to connect Microsoft Operational Insights agents to the workspace.
  *
  * @summary regenerates the shared keys for a Log Analytics Workspace. These keys are used to connect Microsoft Operational Insights agents to the workspace.
- * x-ms-original-file: 2025-07-01/WorkspacesRegenerateSharedKeys.json
+ * x-ms-original-file: 2026-03-01/WorkspacesRegenerateSharedKeys.json
  */
 async function regenerateSharedKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();

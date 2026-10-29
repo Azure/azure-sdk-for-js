@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the linked services instances in a workspace.
  *
  * @summary gets the linked services instances in a workspace.
- * x-ms-original-file: 2025-07-01/LinkedServicesListByWorkspace.json
+ * x-ms-original-file: 2026-03-01/LinkedServicesListByWorkspace.json
  */
 async function linkedServicesListByWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();

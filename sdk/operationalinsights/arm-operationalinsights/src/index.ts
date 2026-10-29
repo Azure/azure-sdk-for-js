@@ -94,6 +94,7 @@ export type {
   RestoredLogs,
   ResultStatistics,
   TablePlanEnum,
+  TableProtectionLevelEnum,
   Schema,
   Column,
   ColumnTypeEnum,
@@ -122,6 +123,8 @@ export type {
   WorkspacePurgeResponse,
   WorkspacePurgeStatusResponse,
   PurgeState,
+  WorkspacePurgeLakeDataBody,
+  WorkspacePurgeLakeDataTimeRange,
   LinkedStorageAccountsResource,
   LinkedStorageAccountsProperties,
   DataSourceType,
@@ -145,6 +148,9 @@ export type {
   ProvisioningStateEnum,
   RuleDefinition,
   TimeSelectorEnum,
+  SummaryLogsIdentity,
+  SummaryLogsIdentityType,
+  SummaryLogsUserIdentityProperties,
   SummaryLogsRetryBin,
   SummaryLogsRetryBinProperties,
   OperationStatus,
@@ -171,6 +177,7 @@ export {
   KnownDataSourceKind,
   KnownLinkedServiceEntityStatus,
   KnownTablePlanEnum,
+  KnownTableProtectionLevelEnum,
   KnownColumnTypeEnum,
   KnownColumnDataTypeHintEnum,
   KnownSourceEnum,
@@ -185,6 +192,7 @@ export {
   KnownStatusCodeEnum,
   KnownProvisioningStateEnum,
   KnownTimeSelectorEnum,
+  KnownSummaryLogsIdentityType,
   KnownVersions,
 } from "./models/index.js";
 export type { OperationalInsightsManagementClientOptionalParams } from "./api/index.js";
@@ -288,6 +296,7 @@ export type {
 } from "./api/tables/index.js";
 export type { UsagesListOptionalParams } from "./api/usages/index.js";
 export type {
+  WorkspacePurgePurgeLakeDataOptionalParams,
   WorkspacePurgeGetPurgeStatusOptionalParams,
   WorkspacePurgePurgeOptionalParams,
 } from "./api/workspacePurge/index.js";

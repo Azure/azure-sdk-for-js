@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a storage insight.
  *
  * @summary create or update a storage insight.
- * x-ms-original-file: 2025-07-01/StorageInsightsCreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/StorageInsightsCreateOrUpdate.json
  */
 async function storageInsightsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

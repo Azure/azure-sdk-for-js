@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a workspace.
  *
  * @summary updates a workspace.
- * x-ms-original-file: 2025-07-01/WorkspacesUpdate.json
+ * x-ms-original-file: 2026-03-01/WorkspacesUpdate.json
  */
 async function workspacesPatch(): Promise<void> {
   const credential = new DefaultAzureCredential();

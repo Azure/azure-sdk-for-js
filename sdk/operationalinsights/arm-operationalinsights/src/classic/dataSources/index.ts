@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { listByWorkspace, $delete, createOrUpdate, get } from "../../api/dataSources/operations.js";
-import {
+import type {
   DataSourcesListByWorkspaceOptionalParams,
   DataSourcesDeleteOptionalParams,
   DataSourcesCreateOrUpdateOptionalParams,
   DataSourcesGetOptionalParams,
 } from "../../api/dataSources/options.js";
-import { DataSource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DataSource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DataSources operations. */
 export interface DataSourcesOperations {

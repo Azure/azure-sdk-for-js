@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
  *
  * @summary search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
- * x-ms-original-file: 2025-07-01/QueryPackQueriesSearch.json
+ * x-ms-original-file: 2026-03-01/QueryPackQueriesSearch.json
  */
 async function querySearch(): Promise<void> {
   const credential = new DefaultAzureCredential();

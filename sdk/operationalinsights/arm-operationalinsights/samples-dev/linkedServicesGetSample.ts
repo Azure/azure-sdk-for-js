@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a linked service instance.
  *
  * @summary gets a linked service instance.
- * x-ms-original-file: 2025-07-01/LinkedServicesGet.json
+ * x-ms-original-file: 2026-03-01/LinkedServicesGet.json
  */
 async function linkedServicesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

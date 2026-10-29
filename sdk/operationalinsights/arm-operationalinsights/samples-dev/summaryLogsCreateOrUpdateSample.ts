@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates Log Analytics workspace Summary rules.
  *
  * @summary creates or updates Log Analytics workspace Summary rules.
- * x-ms-original-file: 2025-07-01/SummaryLogsUpsert.json
+ * x-ms-original-file: 2026-03-01/SummaryLogsUpsert.json
  */
 async function summaryLogsUpsert(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,6 +27,13 @@ async function summaryLogsUpsert(): Promise<void> {
         query: "MyTable_CL",
       },
       ruleType: "User",
+      identity: {
+        type: "UserAssigned",
+        userAssignedIdentities: {
+          "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/oiautorest6685/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myIdentity":
+            {},
+        },
+      },
     },
   );
   console.log(result);

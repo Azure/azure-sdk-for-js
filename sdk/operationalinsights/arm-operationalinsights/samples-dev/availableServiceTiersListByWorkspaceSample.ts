@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the available service tiers for the workspace.
  *
  * @summary gets the available service tiers for the workspace.
- * x-ms-original-file: 2025-07-01/WorkspacesAvailableServiceTiers.json
+ * x-ms-original-file: 2026-03-01/WorkspacesAvailableServiceTiers.json
  */
 async function availableServiceTiers(): Promise<void> {
   const credential = new DefaultAzureCredential();

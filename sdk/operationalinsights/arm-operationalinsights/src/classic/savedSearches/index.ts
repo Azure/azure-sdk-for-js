@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import {
   listByWorkspace,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/savedSearches/operations.js";
-import {
+import type {
   SavedSearchesListByWorkspaceOptionalParams,
   SavedSearchesDeleteOptionalParams,
   SavedSearchesCreateOrUpdateOptionalParams,
   SavedSearchesGetOptionalParams,
 } from "../../api/savedSearches/options.js";
-import { SavedSearch, SavedSearchesListResult } from "../../models/models.js";
+import type { SavedSearch, SavedSearchesListResult } from "../../models/models.js";
 
 /** Interface representing a SavedSearches operations. */
 export interface SavedSearchesOperations {
