@@ -54,13 +54,13 @@ Invoke-Checked 'tsp-client sync' { npm --prefix $tspClientPrefix exec -- tsp-cli
 $lockPath = Join-Path 'TempTypeSpecFiles' 'package-lock.json'
 if (Test-Path $lockPath) {
   $registry = $PublicRegistry.TrimEnd('/') + '/'
-  $feedPattern = 'https://[^"/\s]+/(?:[^"\s]*/)?_packaging/[^"/\s]+/npm/registry/'
+  $feedPattern = 'https://[^"/\s]+/(?:[^"\s]*/)?_packaging/[^"/\s]+/npm/registry/|https://registry\.npmjs\.org/|https://packagefeedproxy\.microsoft\.io/npm/'
   $content = Get-Content $lockPath -Raw
   $rewriteCount = [regex]::Matches($content, $feedPattern).Count
   if ($rewriteCount -gt 0) {
     Set-Content -Path $lockPath -Value ([regex]::Replace($content, $feedPattern, $registry)) -NoNewline
   }
-  Write-Host "Rewrote $rewriteCount Azure Artifacts tarball URL(s) in $lockPath to $registry"
+  Write-Host "Normalized $rewriteCount tarball registry URL(s) in $lockPath to $registry"
 
   $registryHost = ([uri]$registry).Host
   $otherHosts = (Get-Content $lockPath -Raw | ConvertFrom-Json -AsHashtable).packages.Values |

@@ -11,6 +11,7 @@
 - Add `project.beta.voiceAgents.live` for native GPT Live WebSocket sessions, including typed events, streamed audio and transcripts, context appends, Responses function results, cancellation through operation signals, and graceful session finalization. Preserve existing Realtime behavior. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 - Add GPT Live agent definitions, lifecycle/delegation events with effective Foundry ownership, and `project.beta.voiceAgents.liveConversations` for persisted Live conversations and audio. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 - Add self-contained Node.js samples for GPT Live text, PCM audio, and Responses function calling. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
+- Expand native GPT Live models for additional delegation tools, decisions, and prerecorded audio playback. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 - Add voice-agent `soundscape` configuration for built-in background ambience and opening, working, transfer, and closing cues on telephony calls. [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
 - Add managed Azure Speech transcription `profanity_filter` modes, the `azure-speech-streaming` transcription model, and headset and personalized noise suppression options. [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
 - Add `enable_memory_snapshot` to hosted agent definitions and `voice_conversation_engine` to supported agent protocols. [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
@@ -19,8 +20,11 @@
 ### Bugs Fixed
 
 - Correlate the Realtime tracing sample and Voice Agent documentation example with the requested response instead of closing on a generated greeting. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
+- Keep Voice Agent instructions optional and non-nullable, and support nullable names in native Live MCP tool choices. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
 
 ### Other Changes
+
+- Deprecate `BrowserAutomationPreviewTool` and `BrowserAutomationPreviewToolboxTool` in favor of their non-preview replacements. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 
 - Regenerate the client from azure-rest-api-specs commit `1af5aada936fd34b72a8362d832b4d7fcd0a9ac6`, preserving customized transcription fields and voice audio contracts. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/1af5aada936fd34b72a8362d832b4d7fcd0a9ac6). [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
 

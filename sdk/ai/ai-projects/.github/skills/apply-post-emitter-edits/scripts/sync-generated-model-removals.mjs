@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
@@ -96,7 +96,10 @@ function collectDeclarationGraph(source, fileName) {
 
 export function planModelRemovals({
   previousGenerated,
+  previousGeneratedModules = [],
   currentGenerated,
+  currentGeneratedModules = [],
+  generatedRenames = {},
   previousSource,
   currentSource = previousSource,
 }) {
@@ -104,10 +107,28 @@ export function planModelRemovals({
     previousGenerated,
     "previous-generated/models/models.ts",
   );
+  for (const source of previousGeneratedModules) {
+    for (const name of collectModelExports(source)) {
+      previousGeneratedGraph.exportedNames.add(name);
+    }
+  }
   const currentGeneratedGraph = collectDeclarationGraph(
     currentGenerated,
     "generated/models/models.ts",
   );
+  for (const source of currentGeneratedModules) {
+    for (const name of collectModelExports(source)) {
+      currentGeneratedGraph.exportedNames.add(name);
+    }
+  }
+  for (const [previousName, currentName] of Object.entries(generatedRenames)) {
+    if (
+      previousGeneratedGraph.exportedNames.has(previousName) &&
+      currentGeneratedGraph.exportedNames.has(currentName)
+    ) {
+      currentGeneratedGraph.exportedNames.add(previousName);
+    }
+  }
   const sourceGraph = collectDeclarationGraph(previousSource, "previous-src/models/models.ts");
   const currentSourceGraph = collectDeclarationGraph(currentSource, "src/models/models.ts");
   const generatedRemovedNames = new Set(
@@ -294,6 +315,45 @@ function parseArguments(argv) {
   return options;
 }
 
+export function getReviewedGeneratedModelRenames() {
+  // OpenAI 1.32 contextual names retain these existing SDK wire capabilities.
+  const contextualRenames = [
+    ["CodeInterpreterTool", "ToolCodeInterpreterTool"],
+    ["FileSearchTool", "ToolFileSearchTool"],
+    ["WebSearchTool", "ToolWebSearchTool"],
+    ["FunctionTool", "ToolFunctionTool"],
+    ["ComputerUsePreviewTool", "ToolComputerUsePreviewTool"],
+    ["ProgrammaticToolCallingParam", "ToolProgrammaticToolCallingParam"],
+    ["ImageGenTool", "ToolImageGenTool"],
+    ["LocalShellToolParam", "ToolLocalShellToolParam"],
+    ["FunctionShellToolParam", "ToolFunctionShellToolParam"],
+    ["WebSearchPreviewTool", "ToolWebSearchPreviewTool"],
+    ["ApplyPatchToolParam", "ToolApplyPatchToolParam"],
+    ["ComputerTool", "ToolComputerTool"],
+    ["ToolSearchToolParam", "ToolToolSearchToolParam"],
+    ["LiveTransportRinging", "LiveServerEventLiveTransportRinging"],
+    ["LiveTransportAnswered", "LiveServerEventLiveTransportAnswered"],
+    ["LiveTransportFailed", "LiveServerEventLiveTransportFailed"],
+  ];
+  const converterPrefix = (name) => name[0].toLowerCase() + name.slice(1);
+  return {
+    ...Object.fromEntries(
+      contextualRenames.flatMap(([previousName, currentName]) => [
+        [previousName, currentName],
+        [`${converterPrefix(previousName)}Serializer`, `${converterPrefix(currentName)}Serializer`],
+        [
+          `${converterPrefix(previousName)}Deserializer`,
+          `${converterPrefix(currentName)}Deserializer`,
+        ],
+      ]),
+    ),
+    _CodeInterpreterToolContainer: "_ToolCodeInterpreterToolContainer",
+    _codeInterpreterToolContainerSerializer: "_toolCodeInterpreterToolContainerSerializer",
+    _codeInterpreterToolContainerDeserializer: "_toolCodeInterpreterToolContainerDeserializer",
+    _FileSearchToolFiltersValue: "_ToolFileSearchToolFiltersValue",
+  };
+}
+
 function main() {
   const options = parseArguments(process.argv.slice(2));
   const repoRoot = runGit(packageRoot, ["rev-parse", "--show-toplevel"]).trim();
@@ -304,12 +364,49 @@ function main() {
     readFileSync(path.join(packageRoot, directory, ...file.split("/")), "utf8");
 
   const previousGenerated = fromBase("generated", "models/models.ts");
+  const previousGeneratedPaths = runGit(repoRoot, [
+    "ls-tree",
+    "-r",
+    "--name-only",
+    options.baseRef,
+    "--",
+    `${packageRelative}/generated/models`,
+  ])
+    .trim()
+    .split(/\r?\n/)
+    .filter(
+      (file) => file.endsWith(".ts") && file !== `${packageRelative}/generated/models/models.ts`,
+    );
+  const previousGeneratedModules = previousGeneratedPaths.map((file) =>
+    runGit(repoRoot, ["show", `${options.baseRef}:${file}`]),
+  );
   const currentGenerated = readPackageFile("generated", "models/models.ts");
+  function readGeneratedModelModules(directory) {
+    return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+      const file = path.join(directory, entry.name);
+      if (entry.isDirectory()) return readGeneratedModelModules(file);
+      if (
+        entry.isFile() &&
+        entry.name.endsWith(".ts") &&
+        file !== path.join(packageRoot, "generated", "models", "models.ts")
+      ) {
+        return [readFileSync(file, "utf8")];
+      }
+      return [];
+    });
+  }
+  const currentGeneratedModules = readGeneratedModelModules(
+    path.join(packageRoot, "generated", "models"),
+  );
   const previousSource = fromBase("src", "models/models.ts");
   const currentModels = readPackageFile("src", "models/models.ts");
+  const generatedRenames = getReviewedGeneratedModelRenames();
   const plan = planModelRemovals({
     previousGenerated,
+    previousGeneratedModules,
     currentGenerated,
+    currentGeneratedModules,
+    generatedRenames,
     previousSource,
     currentSource: currentModels,
   });
@@ -357,6 +454,7 @@ function main() {
   }
 
   if (!options.write) {
+    console.error(`Declarations requiring review: ${plan.sourceNames.join(", ")}`);
     console.error(
       `Generated model removals are not synchronized in: ${updates.map(([file]) => file).join(", ")}`,
     );

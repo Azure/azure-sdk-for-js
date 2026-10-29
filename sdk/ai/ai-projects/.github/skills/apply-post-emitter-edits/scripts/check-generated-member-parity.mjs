@@ -6,7 +6,10 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
-import { planModelRemovals } from "./sync-generated-model-removals.mjs";
+import {
+  getReviewedGeneratedModelRenames,
+  planModelRemovals,
+} from "./sync-generated-model-removals.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
 const packageRoot = path.resolve(path.dirname(scriptPath), "../../../..");
@@ -644,6 +647,20 @@ function main() {
     options.files.length > 0
       ? preservedSourceFiles.filter((file) => options.files.includes(file))
       : preservedSourceFiles;
+  const previousGeneratedTree = readTree(repoRoot, packageRelative, "generated", options.baseRef);
+  const currentGeneratedTree = readTree(
+    repoRoot,
+    packageRelative,
+    "generated",
+    options.generatedRef,
+  );
+  const modelModules = (tree) =>
+    [...tree]
+      .filter(
+        ([file]) =>
+          file.startsWith("models/") && file.endsWith(".ts") && file !== "models/models.ts",
+      )
+      .map(([, source]) => source);
   const previousGeneratedModels = readVersion(
     repoRoot,
     packageRelative,
@@ -670,7 +687,10 @@ function main() {
       ? new Set(
           planModelRemovals({
             previousGenerated: previousGeneratedModels,
+            previousGeneratedModules: modelModules(previousGeneratedTree),
             currentGenerated: currentGeneratedModels,
+            currentGeneratedModules: modelModules(currentGeneratedTree),
+            generatedRenames: getReviewedGeneratedModelRenames(),
             previousSource: previousSourceModels,
           }).sourceNames,
         )
@@ -690,8 +710,8 @@ function main() {
   }
   const missingNames = new Set(allMissingPreservedExports.map((item) => item.name));
   const promotedOptionRemovals = findPromotedOptionRemovals({
-    previousGenerated: readTree(repoRoot, packageRelative, "generated", options.baseRef),
-    currentGenerated: readTree(repoRoot, packageRelative, "generated", options.generatedRef),
+    previousGenerated: previousGeneratedTree,
+    currentGenerated: currentGeneratedTree,
     currentSource: readTree(repoRoot, packageRelative, "src", options.sourceRef),
   });
   const unusedSourceRemovalAllowances = [...options.allowedSourceRemovals].filter(
