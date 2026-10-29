@@ -1295,3 +1295,286 @@ test("management API exclusions remain explicit within the public-surface review
   );
   assert.doesNotMatch(apiStep, /^- (Review submodules|Focus on issues)/m);
 });
+
+const completionStep = workflowText("mgmt-review.md")
+  .split("    - name: Verify management review completion\n")[1]
+  .split("    - name: Reject stale review outputs\n")[0];
+const completionScript = completionStep
+  .split("        script: |\n")[1]
+  .split("\n")
+  .map((line) => line.slice(10))
+  .join("\n");
+const runCompletionGuard = new AsyncFunction("require", "process", completionScript);
+const completeReview = {
+  type: "submit_pull_request_review",
+  body: 'No API design issues found.\n```json\n{"agent":"mgmt-reviewer","coverage":"complete","summary":"clean","findings":[]}\n```',
+};
+const intentionalSkip = { type: "noop", message: "No applicable management SDK changes." };
+const cacheMiss = {
+  type: "report_missing_data",
+  data_type: "cache_memory",
+  reason: "cache_memory_miss",
+};
+
+async function checkManagementCompletion(output) {
+  let contents = JSON.stringify(output);
+  await runCompletionGuard(
+    (name) => {
+      if (name === "node:fs") {
+        return {
+          readFileSync(file, encoding) {
+            assert.equal(file, "/tmp/gh-aw/agent_output.json");
+            assert.equal(encoding, "utf8");
+            return contents;
+          },
+          writeFileSync(file, value, encoding) {
+            assert.equal(file, "/tmp/gh-aw/agent_output.json");
+            assert.equal(encoding, "utf8");
+            contents = value;
+          },
+        };
+      }
+      if (name === "node:path") return path;
+      assert.equal(
+        name,
+        path.join("runner-temp", "gh-aw", "actions", "missing_info_formatter.cjs"),
+      );
+      return {
+        generateMissingInfoSections(missings) {
+          assert.deepEqual(Object.keys(missings), [
+            "missingTools",
+            "missingData",
+            "reportIncomplete",
+          ]);
+          for (const [field, type] of [
+            ["missingTools", "report_missing_tool"],
+            ["missingData", "report_missing_data"],
+            ["reportIncomplete", "report_incomplete"],
+          ]) {
+            assert.deepEqual(
+              missings[field],
+              output.items.filter(
+                (item) =>
+                  item.type === type &&
+                  !(item.data_type === "cache_memory" && item.reason === "cache_memory_miss"),
+              ),
+            );
+          }
+          return JSON.stringify(missings);
+        },
+      };
+    },
+    { env: { RUNNER_TEMP: "runner-temp" } },
+  );
+  return JSON.parse(contents);
+}
+
+for (const [name, items] of [
+  ["a complete clean review", [completeReview]],
+  [
+    "a complete review with findings",
+    [{ ...completeReview, body: completeReview.body.replace('"clean"', '"issues_found"') }],
+  ],
+  ["an intentional error-free skip", [intentionalSkip]],
+  ["an intentional skip after a cache miss", [cacheMiss, intentionalSkip]],
+  ["a complete review after a cache miss", [cacheMiss, completeReview]],
+]) {
+  test(`management completion allows ${name}`, async () => {
+    const output = { items, errors: [] };
+    assert.deepEqual(await checkManagementCompletion(output), output);
+  });
+}
+
+for (const diagnostic of [
+  {
+    type: "report_incomplete",
+    reason: "PR files are filtered by the integrity policy.",
+    details: "The changed API report could not be read.",
+  },
+  {
+    type: "report_missing_tool",
+    tool: "GitHub API",
+    reason: "Required file reads are unavailable.",
+    alternatives: "Retry after access is restored.",
+  },
+  {
+    type: "report_missing_data",
+    data_type: "PR changed files / file contents",
+    reason: "Changed files could not be listed.",
+    context: "The API report was not reviewed.",
+  },
+  { ...cacheMiss, reason: "Cache unavailable" },
+]) {
+  test(`management completion annotates ${diagnostic.type}: ${diagnostic.reason}`, async () => {
+    const original = {
+      items: [
+        diagnostic,
+        completeReview,
+        { type: "create_pull_request_review_comment", body: "A verified finding." },
+        { type: "add_labels", labels: ["mgmt-review-added"] },
+        { type: "remove_labels", labels: ["mgmt-review-in-progress"] },
+        { type: "dispatch_workflow", workflow: "format-auto-fix" },
+      ],
+      errors: [],
+    };
+    const output = await checkManagementCompletion(original);
+    assert.deepEqual(output.items[0], diagnostic);
+    const review = output.items.find((item) => item.type === "submit_pull_request_review");
+    assert.match(review.body, /^> \[!WARNING\]/);
+    assert.match(review.body, /reported limitations below/);
+    for (const field of ["tool", "data_type", "reason", "context", "alternatives", "details"]) {
+      if (diagnostic[field]) assert.ok(review.body.includes(diagnostic[field]));
+    }
+    const report = JSON.parse(review.body.match(/```json\s*([\s\S]*?)\s*```/)[1]);
+    assert.deepEqual(report, {
+      agent: "mgmt-reviewer",
+      coverage: "partial",
+      summary: "incomplete",
+      findings: [],
+    });
+    assert.equal(output.items.length, 3);
+    assert.equal(output.items[2].type, "create_pull_request_review_comment");
+    assert.deepEqual(output.errors, []);
+    assert.equal(original.items[1].body, completeReview.body);
+    assert.equal(original.items.length, 6);
+  });
+}
+
+for (const items of [
+  [{ type: "report_missing_data", data_type: "PR files" }, intentionalSkip],
+  [{ type: "report_missing_tool", reason: "Required tool unavailable" }],
+  [{ type: "report_incomplete", reason: "PR files are filtered" }],
+]) {
+  test(`management completion explains diagnostics without a review: ${items[0].type}`, async () => {
+    const output = await checkManagementCompletion({ items, errors: [] });
+    assert.deepEqual(output.items.slice(0, items.length), items);
+    const review = output.items.at(-1);
+    assert.equal(review.type, "submit_pull_request_review");
+    assert.equal(review.event, "COMMENT");
+    assert.match(review.body, /coverage is incomplete or unconfirmed/);
+    if (items[0].reason) assert.ok(review.body.includes(items[0].reason));
+    assert.match(review.body, /"coverage":"unknown","summary":"incomplete"/);
+    assert.equal(output.items.length, items.length + 1);
+  });
+}
+
+test("management completion preserves findings and every native diagnostic signal", async () => {
+  const findings = [
+    { file: "review/pkg.api.md", line: 42, description: "A verified issue with $& $$ $' $`." },
+  ];
+  const diagnostics = [
+    { type: "report_incomplete", reason: "Some checks were blocked." },
+    { type: "report_missing_tool", tool: "GitHub API", reason: "File reads unavailable." },
+    { type: "report_missing_data", data_type: "PR files", reason: "File list unavailable." },
+    cacheMiss,
+  ];
+  const review = {
+    ...completeReview,
+    body:
+      "Verified findings.\n```json\n" +
+      JSON.stringify({
+        agent: "mgmt-reviewer",
+        coverage: "partial",
+        summary: "incomplete",
+        findings,
+      }) +
+      "\n```",
+  };
+  const output = await checkManagementCompletion({ items: [review, ...diagnostics], errors: [] });
+  assert.deepEqual(output.items.slice(1), diagnostics);
+  assert.equal(output.items.filter((item) => item.type === "submit_pull_request_review").length, 1);
+  assert.match(output.items[0].body, /Verified findings/);
+  assert.deepEqual(
+    JSON.parse(output.items[0].body.match(/```json\s*([\s\S]*?)\s*```/)[1]).findings,
+    findings,
+  );
+});
+
+test("management completion adds coverage when a diagnostic review has no structured report", async () => {
+  const output = await checkManagementCompletion({
+    items: [
+      { type: "submit_pull_request_review", body: "Only package metadata was reviewed." },
+      { type: "report_missing_data", reason: "API report unavailable." },
+    ],
+  });
+  assert.match(output.items[0].body, /Only package metadata was reviewed/);
+  assert.match(output.items[0].body, /"coverage":"unknown","summary":"incomplete"/);
+});
+
+for (const [name, output] of [
+  ["empty output", { items: [] }],
+  ["missing output items", {}],
+  ["output errors", { items: [intentionalSkip], errors: ["Invalid output"] }],
+  [
+    "output errors alongside diagnostic items",
+    {
+      items: [{ type: "report_missing_data", data_type: "PR files" }, completeReview],
+      errors: ["Invalid output"],
+    },
+  ],
+  ["labels without a review", { items: [{ type: "add_labels" }] }],
+  ["a skip with completion labels", { items: [intentionalSkip, { type: "add_labels" }] }],
+  [
+    "a skip with review comments",
+    { items: [intentionalSkip, { type: "create_pull_request_review_comment" }] },
+  ],
+  [
+    "a skip with a format-fix dispatch",
+    { items: [intentionalSkip, { type: "dispatch_workflow" }] },
+  ],
+  ["contradictory outcomes", { items: [intentionalSkip, completeReview] }],
+  ["duplicate reviews", { items: [completeReview, completeReview] }],
+  [
+    "duplicate reviews alongside diagnostic items",
+    { items: [{ type: "report_missing_tool" }, completeReview, completeReview] },
+  ],
+  [
+    "a review without coverage",
+    { items: [{ type: "submit_pull_request_review", body: "Looks good." }] },
+  ],
+  [
+    "a partial review",
+    {
+      items: [{ ...completeReview, body: completeReview.body.replace('"complete"', '"partial"') }],
+    },
+  ],
+  [
+    "unknown coverage",
+    {
+      items: [{ ...completeReview, body: completeReview.body.replace('"complete"', '"unknown"') }],
+    },
+  ],
+]) {
+  test(`management completion rejects ${name}`, async () => {
+    await assert.rejects(checkManagementCompletion(output));
+  });
+}
+
+test("management completion checks run before review publication", () => {
+  const compiled = workflowText("mgmt-review.lock.yml");
+  const jobStart = compiled.indexOf("\n  safe_outputs:\n");
+  const completion = compiled.indexOf("- name: Verify management review completion", jobStart);
+  const stale = compiled.indexOf("- name: Reject stale review outputs", jobStart);
+  const publish = compiled.indexOf("- name: Process Safe Outputs", jobStart);
+  assert.ok(completion > jobStart && stale > completion && publish > stale);
+});
+
+test("management review preserves native failures and explains diagnostic-limited reviews", () => {
+  const source = workflowText("mgmt-review.md");
+  assert.match(source, /intentional skip with no blocking error may use `noop`/);
+  assert.match(source, /call `report_incomplete`.*even if some files were successfully reviewed/);
+  assert.match(source, /Do not bypass an integrity-policy denial/);
+  assert.match(source, /A recovered error is not blocking if all required checks/);
+  assert.match(source, /"coverage":"complete"/);
+  assert.match(source, /Preserve gh-aw's native failure signals/);
+  assert.match(
+    source,
+    /details are included in the advisory review using gh-aw's native formatter/,
+  );
+  assert.match(
+    source,
+    /coverage remains partial or unknown, report incomplete and submit only verified findings/,
+  );
+  assert.match(source, /run-success:.*Check the review summary for coverage/);
+  assert.doesNotMatch(source, /run-success:.*completed the management SDK PR review/);
+});
