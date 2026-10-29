@@ -1,0 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { PlatformClient } from "@azure/arm-anyscale";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to creates or updates a container image.
+ *
+ * @summary creates or updates a container image.
+ * x-ms-original-file: 2026-09-01/ContainerImages_CreateOrUpdate.json
+ */
+async function containerImagesCreateOrUpdate(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "14AB8053-986C-414E-96B3-11D82B8B478D";
+  const client = new PlatformClient(credential, subscriptionId);
+  const result = await client.containerImages.createOrUpdate(
+    "rganyscale",
+    "testcloud",
+    "testcontainerimage",
+    { properties: { containerImageUri: "myacr.azurecr.io/anyscale/my-ray-image:latest" } },
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await containerImagesCreateOrUpdate();
+}
+
+main().catch(console.error);
