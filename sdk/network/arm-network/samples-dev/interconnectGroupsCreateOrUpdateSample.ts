@@ -15,13 +15,11 @@ async function createInterconnectGroup(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.interconnectGroups.createOrUpdate("rg1", "test-ig", {
-    properties: {
-      scope: "InfiniBand",
-      subgroupProfile: {
-        vmSize: "Standard_ND128isr_NDR_GB200_v6",
-        scope: "VerticalConnect",
-        size: 18,
-      },
+    scope: "InfiniBand",
+    subgroupProfile: {
+      vmSize: "Standard_ND128isr_NDR_GB200_v6",
+      scope: "VerticalConnect",
+      size: 18,
     },
     location: "eastus",
   });

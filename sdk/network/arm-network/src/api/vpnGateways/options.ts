@@ -4,7 +4,7 @@
 import type {
   VpnGatewayPacketCaptureStartParameters,
   VpnGatewayPacketCaptureStopParameters,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

@@ -2,19 +2,17 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { LoadBalancingRule } from "../../models/common/models.js";
+import type {
+  LoadBalancingRule,
+  _LoadBalancerLoadBalancingRuleListResult,
+  LoadBalancerHealthPerRule,
+} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   loadBalancingRuleDeserializer,
-} from "../../models/common/models.js";
-import type {
-  _LoadBalancerLoadBalancingRuleListResult,
-  LoadBalancerHealthPerRule,
-} from "../../models/network/models.js";
-import {
   _loadBalancerLoadBalancingRuleListResultDeserializer,
   loadBalancerHealthPerRuleDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -42,7 +40,7 @@ export function _healthSend(
       groupName: groupName,
       loadBalancerName: loadBalancerName,
       loadBalancingRuleName: loadBalancingRuleName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,7 +82,7 @@ export function health(
     getInitialResponse: () =>
       _healthSend(context, groupName, loadBalancerName, loadBalancingRuleName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<LoadBalancerHealthPerRule>, LoadBalancerHealthPerRule>;
 }
 
@@ -100,7 +98,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       loadBalancerName: loadBalancerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +138,7 @@ export function list(
     () => _listSend(context, resourceGroupName, loadBalancerName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -158,7 +156,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       loadBalancerName: loadBalancerName,
       loadBalancingRuleName: loadBalancingRuleName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

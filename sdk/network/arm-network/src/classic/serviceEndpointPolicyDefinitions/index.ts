@@ -14,7 +14,7 @@ import type {
   ServiceEndpointPolicyDefinitionsCreateOrUpdateOptionalParams,
   ServiceEndpointPolicyDefinitionsGetOptionalParams,
 } from "../../api/serviceEndpointPolicyDefinitions/options.js";
-import type { ServiceEndpointPolicyDefinition } from "../../models/common/models.js";
+import type { ServiceEndpointPolicyDefinition } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

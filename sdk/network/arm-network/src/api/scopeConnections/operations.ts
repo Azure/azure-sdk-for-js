@@ -2,14 +2,13 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { _ScopeConnectionListResult } from "../../models/models.js";
-import { _scopeConnectionListResultDeserializer } from "../../models/models.js";
-import type { ScopeConnection } from "../../models/network/models.js";
+import type { ScopeConnection, _ScopeConnectionListResult } from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   scopeConnectionSerializer,
   scopeConnectionDeserializer,
-} from "../../models/network/models.js";
+  _scopeConnectionListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -34,7 +33,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -76,7 +75,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkManagerName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -94,7 +93,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       scopeConnectionName: scopeConnectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -150,7 +149,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       scopeConnectionName: scopeConnectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -214,7 +213,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       scopeConnectionName: scopeConnectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -88,6 +88,8 @@ exports:
   "./api/vpnServerConfigurations": "./src/api/vpnServerConfigurations/index.ts"
   "./api/vpnSiteLinks": "./src/api/vpnSiteLinks/index.ts"
   "./api/vpnSites": "./src/api/vpnSites/index.ts"
+  "./api/vmssPublicIPAddresses": "./src/api/vmssPublicIPAddresses/index.ts"
+  "./api/vmssNetworkInterfaces": "./src/api/vmssNetworkInterfaces/index.ts"
   "./api/virtualWans": "./src/api/virtualWans/index.ts"
   "./api/virtualRouterPeerings": "./src/api/virtualRouterPeerings/index.ts"
   "./api/virtualRouters": "./src/api/virtualRouters/index.ts"
@@ -174,9 +176,7 @@ exports:
   "./api/applicationGateways": "./src/api/applicationGateways/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
-  "./models/common": "./src/models/common/index.ts"
-  "./models/network": "./src/models/network/index.ts"
-  "./models/network/connectionAnalyzerEndpointTypes": "./src/models/network/connectionAnalyzerEndpointTypes/index.ts"
+  "./models/connectionAnalyzerEndpointTypes": "./src/models/connectionAnalyzerEndpointTypes/index.ts"
 
 targets:
   - name: browser

@@ -2,11 +2,13 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { _StaticMemberListResult } from "../../models/models.js";
-import { _staticMemberListResultDeserializer } from "../../models/models.js";
-import type { StaticMember } from "../../models/network/models.js";
-import { staticMemberSerializer, staticMemberDeserializer } from "../../models/network/models.js";
+import type { StaticMember, _StaticMemberListResult } from "../../models/models.js";
+import {
+  cloudErrorDeserializer,
+  staticMemberSerializer,
+  staticMemberDeserializer,
+  _staticMemberListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -33,7 +35,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       networkGroupName: networkGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -76,7 +78,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkManagerName, networkGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -96,7 +98,7 @@ export function _$deleteSend(
       networkManagerName: networkManagerName,
       networkGroupName: networkGroupName,
       staticMemberName: staticMemberName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -156,7 +158,7 @@ export function _createOrUpdateSend(
       networkManagerName: networkManagerName,
       networkGroupName: networkGroupName,
       staticMemberName: staticMemberName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -224,7 +226,7 @@ export function _getSend(
       networkManagerName: networkManagerName,
       networkGroupName: networkGroupName,
       staticMemberName: staticMemberName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

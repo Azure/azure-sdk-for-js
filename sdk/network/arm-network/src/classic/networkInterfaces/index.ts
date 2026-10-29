@@ -3,10 +3,10 @@
 
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import {
-  listVirtualMachineScaleSetNetworkInterfaces,
   listCloudServiceNetworkInterfaces,
   listVirtualMachineScaleSetIpConfigurations,
   getVirtualMachineScaleSetIpConfiguration,
+  listVirtualMachineScaleSetNetworkInterfaces,
   listEffectiveNetworkSecurityGroups,
   getEffectiveRouteTable,
   listAll,
@@ -15,16 +15,14 @@ import {
   updateTags,
   createOrUpdate,
   get,
-  listVirtualMachineScaleSetVMNetworkInterfaces,
-  getVirtualMachineScaleSetNetworkInterface,
   listCloudServiceRoleInstanceNetworkInterfaces,
   getCloudServiceNetworkInterface,
 } from "../../api/networkInterfaces/operations.js";
 import type {
-  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
   NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams,
   NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams,
   NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams,
+  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
   NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams,
   NetworkInterfacesGetEffectiveRouteTableOptionalParams,
   NetworkInterfacesListAllOptionalParams,
@@ -33,20 +31,16 @@ import type {
   NetworkInterfacesUpdateTagsOptionalParams,
   NetworkInterfacesCreateOrUpdateOptionalParams,
   NetworkInterfacesGetOptionalParams,
-  NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams,
-  NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams,
   NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams,
   NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams,
 } from "../../api/networkInterfaces/options.js";
 import type {
   NetworkInterfaceIPConfiguration,
   NetworkInterface,
-} from "../../models/common/models.js";
-import type {
   TagsObject,
   EffectiveRouteListResult,
   EffectiveNetworkSecurityGroupListResult,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -54,12 +48,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkInterfaces operations. */
 export interface NetworkInterfacesOperations {
-  /** Gets all network interfaces in a virtual machine scale set. */
-  listVirtualMachineScaleSetNetworkInterfaces: (
-    resourceGroupName: string,
-    virtualMachineScaleSetName: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
-  ) => PagedAsyncIterableIterator<NetworkInterface>;
   /** Gets all network interfaces in a cloud service. */
   listCloudServiceNetworkInterfaces: (
     resourceGroupName: string,
@@ -83,6 +71,12 @@ export interface NetworkInterfacesOperations {
     ipConfigurationName: string,
     options?: NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams,
   ) => Promise<NetworkInterfaceIPConfiguration>;
+  /** Gets all network interfaces in a virtual machine scale set. */
+  listVirtualMachineScaleSetNetworkInterfaces: (
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string,
+    options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
+  ) => PagedAsyncIterableIterator<NetworkInterface>;
   /** Gets all network security groups applied to a network interface. */
   listEffectiveNetworkSecurityGroups: (
     resourceGroupName: string,
@@ -190,21 +184,6 @@ export interface NetworkInterfacesOperations {
     networkInterfaceName: string,
     options?: NetworkInterfacesGetOptionalParams,
   ) => Promise<NetworkInterface>;
-  /** Gets information about all network interfaces in a virtual machine in a virtual machine scale set. */
-  listVirtualMachineScaleSetVMNetworkInterfaces: (
-    resourceGroupName: string,
-    virtualMachineScaleSetName: string,
-    virtualmachineIndex: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams,
-  ) => PagedAsyncIterableIterator<NetworkInterface>;
-  /** Get the specified network interface in a virtual machine scale set. */
-  getVirtualMachineScaleSetNetworkInterface: (
-    resourceGroupName: string,
-    virtualMachineScaleSetName: string,
-    virtualmachineIndex: string,
-    networkInterfaceName: string,
-    options?: NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams,
-  ) => Promise<NetworkInterface>;
   /** Gets information about all network interfaces in a role instance in a cloud service. */
   listCloudServiceRoleInstanceNetworkInterfaces: (
     resourceGroupName: string,
@@ -224,17 +203,6 @@ export interface NetworkInterfacesOperations {
 
 function _getNetworkInterfaces(context: NetworkManagementContext) {
   return {
-    listVirtualMachineScaleSetNetworkInterfaces: (
-      resourceGroupName: string,
-      virtualMachineScaleSetName: string,
-      options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
-    ) =>
-      listVirtualMachineScaleSetNetworkInterfaces(
-        context,
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        options,
-      ),
     listCloudServiceNetworkInterfaces: (
       resourceGroupName: string,
       cloudServiceName: string,
@@ -270,6 +238,17 @@ function _getNetworkInterfaces(context: NetworkManagementContext) {
         virtualmachineIndex,
         networkInterfaceName,
         ipConfigurationName,
+        options,
+      ),
+    listVirtualMachineScaleSetNetworkInterfaces: (
+      resourceGroupName: string,
+      virtualMachineScaleSetName: string,
+      options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
+    ) =>
+      listVirtualMachineScaleSetNetworkInterfaces(
+        context,
+        resourceGroupName,
+        virtualMachineScaleSetName,
         options,
       ),
     listEffectiveNetworkSecurityGroups: (
@@ -406,34 +385,6 @@ function _getNetworkInterfaces(context: NetworkManagementContext) {
       networkInterfaceName: string,
       options?: NetworkInterfacesGetOptionalParams,
     ) => get(context, resourceGroupName, networkInterfaceName, options),
-    listVirtualMachineScaleSetVMNetworkInterfaces: (
-      resourceGroupName: string,
-      virtualMachineScaleSetName: string,
-      virtualmachineIndex: string,
-      options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams,
-    ) =>
-      listVirtualMachineScaleSetVMNetworkInterfaces(
-        context,
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        virtualmachineIndex,
-        options,
-      ),
-    getVirtualMachineScaleSetNetworkInterface: (
-      resourceGroupName: string,
-      virtualMachineScaleSetName: string,
-      virtualmachineIndex: string,
-      networkInterfaceName: string,
-      options?: NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams,
-    ) =>
-      getVirtualMachineScaleSetNetworkInterface(
-        context,
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        virtualmachineIndex,
-        networkInterfaceName,
-        options,
-      ),
     listCloudServiceRoleInstanceNetworkInterfaces: (
       resourceGroupName: string,
       cloudServiceName: string,

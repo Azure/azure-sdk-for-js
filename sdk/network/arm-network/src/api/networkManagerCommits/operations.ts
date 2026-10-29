@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { NetworkManagerCommit } from "../../models/network/models.js";
+import type { NetworkManagerCommit } from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   networkManagerCommitSerializer,
   networkManagerCommitDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { NetworkManagerCommitsPostOptionalParams } from "./options.js";
@@ -28,7 +28,7 @@ export function _postSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,6 +72,6 @@ export function post(
     getInitialResponse: () =>
       _postSend(context, resourceGroupName, networkManagerName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<NetworkManagerCommit>, NetworkManagerCommit>;
 }

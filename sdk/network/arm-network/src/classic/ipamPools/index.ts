@@ -20,7 +20,7 @@ import type {
   IpamPoolsCreateOptionalParams,
   IpamPoolsGetOptionalParams,
 } from "../../api/ipamPools/options.js";
-import type { IpamPool, PoolUsage, PoolAssociation } from "../../models/network/models.js";
+import type { IpamPool, PoolUsage, PoolAssociation } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

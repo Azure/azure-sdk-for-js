@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VerifierWorkspaceUpdate } from "../../models/network/models.js";
+import type { VerifierWorkspaceUpdate } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { _OperationListResult, Operation } from "../../models/network/models.js";
-import { _operationListResultDeserializer } from "../../models/network/models.js";
+import type { _OperationListResult, Operation } from "../../models/models.js";
+import { cloudErrorDeserializer, _operationListResultDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -19,7 +18,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Network/operations{?api%2Dversion}",
     {
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,6 +56,6 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }

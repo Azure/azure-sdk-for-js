@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
   NetworkManagerDeploymentStatusParameter,
   NetworkManagerDeploymentStatusListResult,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   networkManagerDeploymentStatusParameterSerializer,
   networkManagerDeploymentStatusListResultDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { NetworkManagerDeploymentStatusOperationsListOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -29,7 +29,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24top": options?.top,
     },
     {

@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/networkInterfaceLoadBalancers/operations.js";
 import type { NetworkInterfaceLoadBalancersListOptionalParams } from "../../api/networkInterfaceLoadBalancers/options.js";
-import type { LoadBalancer } from "../../models/common/models.js";
+import type { LoadBalancer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NetworkInterfaceLoadBalancers operations. */
