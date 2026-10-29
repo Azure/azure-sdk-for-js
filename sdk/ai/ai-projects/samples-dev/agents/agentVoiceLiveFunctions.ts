@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Handles a GPT Live Responses function call and prints the spoken answer as captions.
+ * @summary Answer a GPT Live function call and print the spoken reply as captions.
  * @azsdk-weight 100
  */
 
@@ -15,31 +15,31 @@ import { createInterface } from "node:readline";
 import "dotenv/config";
 
 export async function main(): Promise<void> {
-  const endpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"];
-  const model = process.env["FOUNDRY_LIVE_MODEL"];
-  const backendModel = process.env["FOUNDRY_LIVE_BACKEND_MODEL"];
-  if (!endpoint || !model || !backendModel) {
+  const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"]?.trim();
+  const modelName = process.env["FOUNDRY_LIVE_MODEL"]?.trim();
+  const backendModelName = process.env["FOUNDRY_LIVE_BACKEND_MODEL"]?.trim();
+  if (!projectEndpoint || !modelName || !backendModelName) {
     throw new Error(
       "Set FOUNDRY_PROJECT_ENDPOINT, FOUNDRY_LIVE_MODEL and FOUNDRY_LIVE_BACKEND_MODEL.",
     );
   }
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
-  const name = `live-functions-${randomUUID().slice(0, 8)}`;
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const agentName = `live-functions-${randomUUID().slice(0, 8)}`;
   await project.agents.create(
-    name,
+    agentName,
     {
       kind: "voice",
       sub_protocol: "live",
       model_type: "self_deployed",
-      model,
-      instructions: "Read delegated commentary faithfully. Do not answer independently.",
+      model: modelName,
+      instructions: "Read the backend's commentary aloud. Do not answer independently.",
       audio: { format: { type: "audio/pcm", rate: 24000 } },
       delegation: {
         type: "responses",
         responses: {
-          model: backendModel,
+          model: backendModelName,
           instructions:
-            "Call get_current_time once. Return the UTC time in [commentary] tags. Spell out hours, minutes and seconds on the twenty-four-hour clock, including zero units.",
+            "Call get_current_time once, then say the returned UTC time (24-hour clock, including seconds) in [commentary].",
           parallel_tool_calls: false,
           tools: [
             {
@@ -57,7 +57,7 @@ export async function main(): Promise<void> {
     { foundryFeatures: "VoiceAgents=V1Preview" },
   );
   try {
-    const connection = await project.beta.voiceAgents.live.connect(name, { store: false });
+    const connection = await project.beta.voiceAgents.live.connect(agentName, { store: false });
     const stop = new AbortController();
     const terminal = createInterface({ input: process.stdin, output: process.stdout });
     const finished = once(terminal, "close");
@@ -87,9 +87,14 @@ export async function main(): Promise<void> {
           if (
             item.name !== "get_current_time" ||
             typeof item.call_id !== "string" ||
-            !item.call_id
+            !item.call_id ||
+            typeof item.arguments !== "string"
           ) {
-            throw new Error("Unexpected function call.");
+            throw new Error("Unexpected or malformed get_current_time call.");
+          }
+          const args: unknown = JSON.parse(item.arguments);
+          if (!isRecord(args) || Object.keys(args).length !== 0) {
+            throw new Error("get_current_time takes an empty arguments object.");
           }
           if (handledCalls.has(item.call_id)) continue;
           if (pendingCall) throw new Error("This example expects one function call at a time.");
@@ -104,7 +109,7 @@ export async function main(): Promise<void> {
           }
           if (pendingCall) {
             console.log("\nTool result:", pendingCall.output);
-            // Wait for the calling response to finish; sendToolOutput requests continuation.
+            // Return the result after its calling response finishes; this also requests continuation.
             await connection.sendToolOutput(pendingCall.callId, pendingCall.output);
             pendingCall = undefined;
           }
@@ -122,20 +127,19 @@ export async function main(): Promise<void> {
       }
     })().catch((error: unknown) => {
       if (
-        !stop.signal.aborted ||
-        !(error instanceof VoiceAgentConnectionError) ||
-        error.code !== "operationCancelled"
+        stop.signal.aborted &&
+        error instanceof VoiceAgentConnectionError &&
+        error.code === "operationCancelled"
       ) {
-        throw error;
+        return;
       }
+      throw error;
     });
     const ask = (async () => {
       await connection.sendResponseItem({
         type: "message",
         role: "user",
-        content: [
-          { type: "input_text", text: "What is the current UTC time? Use get_current_time." },
-        ],
+        content: [{ type: "input_text", text: "What time is it in UTC?" }],
       });
       await connection.requestResponse();
       await finished;
@@ -153,7 +157,7 @@ export async function main(): Promise<void> {
       }
     }
   } finally {
-    await project.agents.delete(name);
+    await project.agents.delete(agentName);
   }
 }
 

@@ -44,26 +44,26 @@ import type {
 } from "../realtime/webSocketTransport.js";
 import type { VoiceAgentUnknownEvent } from "../realtime/events.js";
 
-/** Generated Live commands accepted after Foundry has started the session. */
+/** Commands you can send after the service starts a GPT Live session. */
 export type VoiceAgentLiveClientEvent = {
   [K in Exclude<LiveClientEventType, "session.start">]: Extract<LiveClientEventUnion, { type: K }>;
 }[Exclude<LiveClientEventType, "session.start">];
 
-/** Generated Live payloads or the shared SDK wrapper for a future unknown event. */
+/** Events received from GPT Live, including unrecognized service events. */
 export type VoiceAgentLiveEvent =
   | {
       [K in LiveServerEventType]: Extract<LiveServerEventUnion, { type: K }>;
     }[LiveServerEventType]
   | VoiceAgentUnknownEvent;
 
-/** Listener for one native Live event type. */
+/** Handler for one GPT Live event type. */
 export type VoiceAgentLiveEventHandler<K extends VoiceAgentLiveEvent["type"]> = (
   event: Extract<VoiceAgentLiveEvent, { type: K }>,
 ) => void;
 
 type KnownLiveServerEvent = Exclude<VoiceAgentLiveEvent, VoiceAgentUnknownEvent>;
 
-/** Connection defaults for the GPT Live voice-agent client. */
+/** Default settings for GPT Live connections. */
 export interface VoiceAgentLiveClientOptions extends VoiceAgentRealtimeClientOptions {
   /** Time to wait for Foundry's session.started event, in milliseconds. Defaults to 30,000. */
   sessionTimeoutInMs?: number;
@@ -71,7 +71,7 @@ export interface VoiceAgentLiveClientOptions extends VoiceAgentRealtimeClientOpt
   closeTimeoutInMs?: number;
 }
 
-/** Per-connection options for GPT Live. Realtime's transport and agentSessionId do not apply. */
+/** Settings for one GPT Live connection. Live does not use transport or agentSessionId. */
 export interface VoiceAgentLiveClientConnectOptions extends Omit<
   VoiceAgentRealtimeClientConnectOptions,
   "transport" | "agentSessionId"
@@ -80,80 +80,87 @@ export interface VoiceAgentLiveClientConnectOptions extends Omit<
   sessionTimeoutInMs?: number;
 }
 
-/** Options for appending Live instructions, silent context, or speakable commentary. */
+/** Options for adding text context to a GPT Live session. */
 export interface VoiceAgentLiveAppendOptions extends VoiceAgentEventOptions {
-  /** Correlates the append to client-owned delegated work; omitted means no delegation. */
+  /** ID from a client delegation event. Omit when the text is not a delegation reply. */
   delegationId?: string | null;
 }
 
-/** The socket close result and, when observed, the authoritative Live finalization event. */
+/** Details reported when a GPT Live connection closes. */
 export interface VoiceAgentLiveCloseResult extends VoiceAgentCloseResult {
-  /** Native terminal event. Its absence means successful service finalization was not confirmed. */
+  /** Service confirmation that the session finished. If absent, finalization was not confirmed. */
   sessionClosed?: LiveServerEventLiveSessionClosed;
 }
 
 /**
- * A GPT Live session, using native Live commands and events rather than Realtime response events.
- * Consume events with one async iterator or typed on/off listeners. Exiting the iterator closes
- * the session. Audio deltas retain the native base64 representation.
+ * A GPT Live voice session.
+ *
+ * Read events with one `for await` loop or use `on`, `off`, and `once` listeners.
+ * Leaving the loop closes the session. Received audio chunks are base64 strings.
  */
 export interface VoiceAgentLiveConnection extends AsyncIterable<VoiceAgentLiveEvent> {
-  /** Current transport/session state. */
+  /** Current connection state. */
   readonly state: VoiceAgentConnectionState;
-  /** Most recently received session snapshot. Foundry has started it before connect resolves. */
+  /** Latest session settings. Available as soon as connect() returns. */
   readonly session: VoiceAgentLiveSessionResource;
-  /** Resolves when the connection is closed, including any finalization event and error. */
+  /** Resolves when the connection closes, with service confirmation and error details if available. */
   readonly closed: Promise<VoiceAgentLiveCloseResult>;
-  /** Sends a native Live command. Foundry owns session.start; it must not be sent by the caller. */
+  /** Sends a Live command. Do not send session.start; the service starts the session. */
   send(event: VoiceAgentLiveClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
-  /** Equivalent to send, matching the Voice Agents Realtime helper's naming. */
+  /** Alias for send(). */
   sendEvent(event: VoiceAgentLiveClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
-  /** Adds a typed native event listener. Use session for the startup snapshot after connect. */
+  /** Adds an event listener. Read session for settings received before connect() returned. */
   on<K extends VoiceAgentLiveEvent["type"]>(type: K, handler: VoiceAgentLiveEventHandler<K>): this;
   /** Removes a previously registered listener. */
   off<K extends VoiceAgentLiveEvent["type"]>(type: K, handler: VoiceAgentLiveEventHandler<K>): this;
-  /** Registers a listener that is removed before its first invocation. */
+  /** Adds a listener that runs once. */
   once<K extends VoiceAgentLiveEvent["type"]>(
     type: K,
     handler: VoiceAgentLiveEventHandler<K>,
   ): this;
-  /** Updates delegation backend settings; startup audio, model and delegation owner are immutable. */
+  /** Updates delegation backend settings. The audio format, model, and delegation owner cannot change. */
   configureSession(
     session: LiveSessionUpdateParams,
     options?: VoiceAgentEventOptions,
   ): Promise<void>;
-  /** Sends raw audio in the session's configured input format, without a container header. */
+  /** Sends raw audio in the configured input format, without a WAV or other file header. */
   sendAudio(audio: Uint8Array | ArrayBuffer, options?: VoiceAgentEventOptions): Promise<void>;
-  /** Mutes model audio input. Live has no Realtime-style input buffer commit/clear commands. */
+  /** Stops the model from processing input audio. Live has no input buffer to commit or clear. */
   muteInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
   /** Resumes model audio input. */
   unmuteInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
-  /** Appends instruction text, not a user conversation item. */
+  /** Adds instructions to the session, not a user message. */
   appendInstructions(content: string, options?: VoiceAgentLiveAppendOptions): Promise<void>;
-  /** Appends context that does not directly request speech; it is not a secrecy boundary. */
+  /** Adds background context without asking the model to speak it. Do not use this to hide secrets. */
   appendThinking(content: string, options?: VoiceAgentLiveAppendOptions): Promise<void>;
-  /** Appends context the Live model may communicate to the user. */
+  /** Adds text for the model to say to the user. This is context, not a user message. */
   appendCommentary(content: string, options?: VoiceAgentLiveAppendOptions): Promise<void>;
-  /** Adds an item to a Responses delegation's backend conversation. */
+  /** Adds a conversation item when the session uses Responses delegation. */
   sendResponseItem(item: Record<string, unknown>, options?: VoiceAgentEventOptions): Promise<void>;
-  /** Returns a function result to a Responses delegation, requesting continuation by default. */
+  /** Sends a function result to the Responses backend and requests a follow-up response by default. */
   sendToolOutput(
     callId: string,
     output: string,
     options?: VoiceAgentSendToolOutputOptions,
   ): Promise<void>;
-  /** Requests or continues the Responses delegation backend; unavailable in client delegation mode. */
+  /** Asks the Responses backend to respond. Requires Responses delegation. */
   requestResponse(options?: VoiceAgentEventOptions): Promise<void>;
-  /** Sends session.close, waits for finalization, and closes the socket. Rejects on timeout. */
+  /** Closes the session and waits for service confirmation. Rejects if confirmation times out. */
   close(code?: number, reason?: string): Promise<void>;
-  /** Gracefully closes the session. */
+  /** Closes the session. Equivalent to close(). */
   dispose(): Promise<void>;
 }
 
-/** Client for GPT Live sessions on Foundry voice agents; a sibling of VoiceAgentRealtimeClient. */
+/** Connects to Foundry voice agents that use GPT Live. */
 export class VoiceAgentLiveClient {
   private readonly options: VoiceAgentLiveClientOptions;
 
+  /**
+   * Creates a GPT Live client.
+   * @param endpoint - Foundry project endpoint.
+   * @param credential - Credential for Microsoft Entra authentication.
+   * @param options - Default connection settings.
+   */
   public constructor(
     private readonly endpoint: string,
     private readonly credential: TokenCredential,
@@ -166,7 +173,12 @@ export class VoiceAgentLiveClient {
     this.options = { ...options };
   }
 
-  /** Opens a native Live WebSocket and waits for Foundry's session.started event. */
+  /**
+   * Connects to a voice agent and waits for the service to start the GPT Live session.
+   * @param agentName - Name of an existing GPT Live voice agent.
+   * @param options - Settings for this connection.
+   * @returns The connected session, ready to send audio and receive events.
+   */
   public async connect(
     agentName: string,
     options: VoiceAgentLiveClientConnectOptions = {},

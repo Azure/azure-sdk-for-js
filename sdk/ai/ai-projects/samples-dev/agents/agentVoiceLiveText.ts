@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sends a greeting to GPT Live and prints its spoken reply as captions.
+ * @summary Send text to GPT Live and print its spoken reply as captions.
  * @azsdk-weight 100
  */
 
@@ -15,28 +15,28 @@ import { createInterface } from "node:readline";
 import "dotenv/config";
 
 export async function main(): Promise<void> {
-  const endpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"];
-  const model = process.env["FOUNDRY_LIVE_MODEL"];
-  if (!endpoint || !model) {
+  const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"]?.trim();
+  const modelName = process.env["FOUNDRY_LIVE_MODEL"]?.trim();
+  if (!projectEndpoint || !modelName) {
     throw new Error("Set FOUNDRY_PROJECT_ENDPOINT and FOUNDRY_LIVE_MODEL (a deployment name).");
   }
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
-  const name = `live-text-${randomUUID().slice(0, 8)}`;
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const agentName = `live-text-${randomUUID().slice(0, 8)}`;
   await project.agents.create(
-    name,
+    agentName,
     {
       kind: "voice",
       sub_protocol: "live",
       model_type: "self_deployed",
-      model,
-      instructions: "Speak supplied commentary briefly and faithfully.",
+      model: modelName,
+      instructions: "Read the supplied commentary aloud.",
       audio: { format: { type: "audio/pcm", rate: 24000 } },
       store: false,
     },
     { foundryFeatures: "VoiceAgents=V1Preview" },
   );
   try {
-    const connection = await project.beta.voiceAgents.live.connect(name, { store: false });
+    const connection = await project.beta.voiceAgents.live.connect(agentName, { store: false });
     const stop = new AbortController();
     const terminal = createInterface({ input: process.stdin, output: process.stdout });
     const finished = once(terminal, "close");
@@ -66,15 +66,16 @@ export async function main(): Promise<void> {
       }
     })().catch((error: unknown) => {
       if (
-        !stop.signal.aborted ||
-        !(error instanceof VoiceAgentConnectionError) ||
-        error.code !== "operationCancelled"
+        stop.signal.aborted &&
+        error instanceof VoiceAgentConnectionError &&
+        error.code === "operationCancelled"
       ) {
-        throw error;
+        return;
       }
+      throw error;
     });
     const greet = (async () => {
-      await connection.appendCommentary("Say: Hello from Microsoft Foundry GPT Live.");
+      await connection.appendCommentary("Hello from Microsoft Foundry GPT Live.");
       await finished;
     })();
     try {
@@ -90,7 +91,7 @@ export async function main(): Promise<void> {
       }
     }
   } finally {
-    await project.agents.delete(name);
+    await project.agents.delete(agentName);
   }
 }
 

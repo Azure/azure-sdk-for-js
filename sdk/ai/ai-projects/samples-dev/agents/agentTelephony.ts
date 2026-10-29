@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to inspect a voice agent's telephony configuration and call history.
- *
- * @summary List telephony bindings, read transfer target names, and inspect call lifecycle status.
+ * @summary Inspect a voice agent's telephony bindings, transfer targets, and recent calls.
  * @azsdk-weight 50
  */
 
@@ -13,9 +11,9 @@ import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
 export async function main(): Promise<void> {
-  // Set these values in .env for an existing voice agent with telephony configured.
-  const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"];
-  const agentName = process.env["FOUNDRY_AGENT_NAME"];
+  // Use an existing voice agent with telephony configured.
+  const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"]?.trim();
+  const agentName = process.env["FOUNDRY_AGENT_NAME"]?.trim();
   if (!projectEndpoint || !agentName) {
     throw new Error(
       "Set FOUNDRY_PROJECT_ENDPOINT and FOUNDRY_AGENT_NAME before running this sample.",
@@ -24,6 +22,7 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const options = { foundryFeatures: "VoiceAgents=V1Preview" } as const;
 
+  // This sample only reads configuration and history; it does not place or change calls.
   console.log("Listing telephony bindings...");
   for await (const binding of project.beta.voiceAgents.telephony.listBindings(agentName, options)) {
     const details = await project.beta.voiceAgents.telephony.getBinding(
@@ -42,7 +41,7 @@ export async function main(): Promise<void> {
     targets.transfer_targets.map((target) => target.name),
   );
 
-  console.log("Reading the most recent page of call history...");
+  console.log("Reading up to five recent calls...");
   const pages = project.beta.voiceAgents.telephony
     .listCalls(agentName, { ...options, order: "desc", limit: 5 })
     .byPage();
@@ -52,9 +51,9 @@ export async function main(): Promise<void> {
     console.log(`Call status: ${details.status}, phase: ${details.phase}`);
     console.log(`Lifecycle events: ${details.events.length}`);
   }
-  // Read-only: this sample does not place, transfer, end, or record calls.
 }
 
-main().catch((err) => {
-  console.error("Sample failed: ", err);
+main().catch((error: unknown) => {
+  console.error("Sample failed:", error);
+  process.exitCode = 1;
 });

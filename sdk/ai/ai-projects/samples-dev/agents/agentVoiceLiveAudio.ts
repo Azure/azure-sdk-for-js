@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sends a raw PCM speech file to GPT Live and saves the streamed audio response.
+ * @summary Send a PCM speech file to GPT Live and save its spoken reply.
  * @azsdk-weight 100
  */
 
@@ -16,13 +16,14 @@ import { createInterface } from "node:readline";
 import "dotenv/config";
 
 export async function main(): Promise<void> {
-  const endpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"];
-  const model = process.env["FOUNDRY_LIVE_MODEL"];
-  if (!endpoint || !model) {
+  const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"]?.trim();
+  const modelName = process.env["FOUNDRY_LIVE_MODEL"]?.trim();
+  if (!projectEndpoint || !modelName) {
     throw new Error("Set FOUNDRY_PROJECT_ENDPOINT and FOUNDRY_LIVE_MODEL (a deployment name).");
   }
   const inputPath =
-    process.env["FOUNDRY_LIVE_AUDIO_INPUT"] ?? new URL("./assets/input.pcm", import.meta.url);
+    process.env["FOUNDRY_LIVE_AUDIO_INPUT"]?.trim() ||
+    new URL("./assets/input.pcm", import.meta.url);
   const input = await readFile(inputPath);
   if (
     !input.length ||
@@ -31,16 +32,16 @@ export async function main(): Promise<void> {
   ) {
     throw new Error("Input must be raw mono PCM16LE at 24 kHz, not a WAV container.");
   }
-  const outputPath = process.env["FOUNDRY_LIVE_AUDIO_OUTPUT"] ?? "voice-live-output.pcm";
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
-  const name = `live-audio-${randomUUID().slice(0, 8)}`;
+  const outputPath = process.env["FOUNDRY_LIVE_AUDIO_OUTPUT"]?.trim() || "voice-live-output.pcm";
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const agentName = `live-audio-${randomUUID().slice(0, 8)}`;
   await project.agents.create(
-    name,
+    agentName,
     {
       kind: "voice",
       sub_protocol: "live",
       model_type: "self_deployed",
-      model,
+      model: modelName,
       instructions: "Answer the user's spoken question briefly.",
       audio: { format: { type: "audio/pcm", rate: 24000 } },
       store: false,
@@ -50,7 +51,7 @@ export async function main(): Promise<void> {
   try {
     const output = await open(outputPath, "w");
     try {
-      const connection = await project.beta.voiceAgents.live.connect(name, { store: false });
+      const connection = await project.beta.voiceAgents.live.connect(agentName, { store: false });
       const stop = new AbortController();
       const terminal = createInterface({ input: process.stdin, output: process.stdout });
       const finished = once(terminal, "close");
@@ -61,6 +62,7 @@ export async function main(): Promise<void> {
       console.log(
         "Press Enter after the reply, or Ctrl+C, to stop. Live remains billable until then.",
       );
+      console.log(`Saving the reply to ${outputPath}; this sample does not play audio.`);
 
       const receive = (async () => {
         for await (const event of connection) {
@@ -68,9 +70,7 @@ export async function main(): Promise<void> {
             throw new Error(`Live service error ${event.error.code}: ${event.error.message}`);
           }
           if (event.type === "session.output_audio.delta") {
-            const bytes = Buffer.from(event.delta, "base64");
-            if (bytes.length % 2) throw new Error("The service returned incomplete PCM16 audio.");
-            await output.writeFile(bytes);
+            await output.writeFile(Buffer.from(event.delta, "base64"));
           } else if (event.type === "session.output_transcript.delta") {
             process.stdout.write(event.delta);
           }
@@ -78,22 +78,23 @@ export async function main(): Promise<void> {
         if (!stop.signal.aborted) throw new Error("Live closed before the sample was stopped.");
       })();
       const send = (async () => {
-        const silence = new Uint8Array(4800);
-        // Send 100 ms PCM chunks, then silence to keep the reply's audio timeline advancing.
+        // Live needs paced audio even during its reply: 4800 PCM16 bytes = 100 ms.
         for (let offset = 0; !stop.signal.aborted; offset += 4800) {
-          const bytes = offset < input.length ? input.subarray(offset, offset + 4800) : silence;
+          const bytes = new Uint8Array(4800);
+          bytes.set(input.subarray(offset, offset + 4800));
           const started = Date.now();
           await connection.sendAudio(bytes, { abortSignal: stop.signal });
-          await delay(Math.max(0, bytes.length / 48 - (Date.now() - started)));
+          await delay(Math.max(0, 100 - (Date.now() - started)));
         }
       })().catch((error: unknown) => {
         if (
-          !stop.signal.aborted ||
-          !(error instanceof VoiceAgentConnectionError) ||
-          error.code !== "operationCancelled"
+          stop.signal.aborted &&
+          error instanceof VoiceAgentConnectionError &&
+          error.code === "operationCancelled"
         ) {
-          throw error;
+          return;
         }
+        throw error;
       });
       try {
         await Promise.race([receive, send, finished]);
@@ -112,7 +113,7 @@ export async function main(): Promise<void> {
       await output.close();
     }
   } finally {
-    await project.agents.delete(name);
+    await project.agents.delete(agentName);
   }
 }
 
