@@ -26,17 +26,7 @@ const NUMBER_OF_DOCUMENTS = 3;
 const OUTPUT_FOLDER = "_output";
 const INPUT_PREFIX = "example_patient_1";
 const TERMINAL_JOB_STATUSES = ["Succeeded", "Failed", "Canceled"];
-// A canceled job reports "Canceled" immediately, but the service rejects DELETE with a 400
-// until in-flight documents drain, and GET can briefly return 200 after a successful DELETE.
-const DELETE_MAX_ATTEMPTS = 20;
-const DELETE_RETRY_INTERVAL_MS = isPlaybackMode() ? 0 : 5000;
-const GET_AFTER_DELETE_MAX_ATTEMPTS = 10;
-const GET_AFTER_DELETE_RETRY_INTERVAL_MS = isPlaybackMode() ? 0 : 3000;
 let jobName: string;
-
-function delay(ms: number): Promise<void> {
-  return ms > 0 ? new Promise((resolve) => setTimeout(resolve, ms)) : Promise.resolve();
-}
 
 function getErrorCode(body: unknown): string | undefined {
   return (body as ErrorResponse | undefined)?.error?.code;
@@ -315,41 +305,25 @@ describe("Batch", () => {
           TERMINAL_JOB_STATUSES,
           currentJob.body.status,
           `Cancel failed (status ${cancelledJob.status}, code ${getErrorCode(cancelledJob.body)}) ` +
-            "so job should already be in a terminal state",
+            `so job should already be in a terminal state; job status ${currentJob.body.status}`,
         );
       } else {
         assert.equal(cancelledJob.body.status, "Canceled", "Job status should be Canceled");
       }
 
-      let deleteResponse = await client.path("/jobs/{name}", jobName).delete();
-      for (
-        let attempt = 1;
-        attempt < DELETE_MAX_ATTEMPTS && deleteResponse.status === "400";
-        attempt++
-      ) {
-        await delay(DELETE_RETRY_INTERVAL_MS);
-        deleteResponse = await client.path("/jobs/{name}", jobName).delete();
-      }
+      const deleteResponse = await client.path("/jobs/{name}", jobName).delete();
       assert.equal(
         deleteResponse.status,
         "204",
-        `Job should be deleted; last status ${deleteResponse.status}, ` +
+        `Job should be deleted; status ${deleteResponse.status}, ` +
           `code ${getErrorCode(deleteResponse.body)}`,
       );
 
-      let deletedJob = await client.path("/jobs/{name}", jobName).get();
-      for (
-        let attempt = 1;
-        attempt < GET_AFTER_DELETE_MAX_ATTEMPTS && deletedJob.status === "200";
-        attempt++
-      ) {
-        await delay(GET_AFTER_DELETE_RETRY_INTERVAL_MS);
-        deletedJob = await client.path("/jobs/{name}", jobName).get();
-      }
+      const deletedJob = await client.path("/jobs/{name}", jobName).get();
       assert.equal(
         deletedJob.status,
         "404",
-        `Job should not be found after delete; last status ${deletedJob.status}, ` +
+        `Job should not be found after delete; status ${deletedJob.status}, ` +
           (isUnexpected(deletedJob)
             ? `code ${getErrorCode(deletedJob.body)}`
             : `job status ${deletedJob.body.status}`),
