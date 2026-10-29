@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Trace Voice Agent generation and, with explicit opt-in, an outbound telephony job.
+ * @summary Trace voice agent generation and an optional outbound call.
  * @azsdk-weight 50
  */
 
@@ -18,13 +18,13 @@ import { randomUUID } from "node:crypto";
 import "dotenv/config";
 
 function required(name: string): string {
-  const value = process.env[name];
+  const value = process.env[name]?.trim();
   if (!value) throw new Error(`Set ${name}.`);
   return value;
 }
 
 export async function main(): Promise<void> {
-  const endpoint = required("FOUNDRY_PROJECT_ENDPOINT");
+  const projectEndpoint = required("FOUNDRY_PROJECT_ENDPOINT");
   const provider = new NodeTracerProvider({
     spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
   });
@@ -32,21 +32,22 @@ export async function main(): Promise<void> {
   const unregister = registerInstrumentations({
     instrumentations: [createAzureSdkInstrumentation()],
   });
-  const { AIProjectClient } = await import("@azure/ai-projects");
-  const { DefaultAzureCredential } = await import("@azure/identity");
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential(), {
-    tracingOptions: { experimental: true, contentRecording: false },
-  });
-  const parent = trace.getTracer("voice-tracing-sample").startSpan("voice REST operations");
+  const operationsSpan = trace.getTracer("voice-tracing-sample").startSpan("voice REST operations");
   try {
-    await context.with(trace.setSpan(context.active(), parent), async () => {
+    // Load the clients after registering instrumentation. Do not record caller content.
+    const { AIProjectClient } = await import("@azure/ai-projects");
+    const { DefaultAzureCredential } = await import("@azure/identity");
+    const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+      tracingOptions: { experimental: true, contentRecording: false },
+    });
+    await context.with(trace.setSpan(context.active(), operationsSpan), async () => {
       const agent = await project.beta.agents.createFromPrompt({
         kind: "voice",
         name: `voice-rest-tracing-${Date.now()}`,
         goal: "Help callers find public transport information.",
       });
       try {
-        console.log("Voice Agent generation completed. Inspect the create_agent span.");
+        console.log("Voice agent created. Inspect the create_agent span.");
       } finally {
         await project.agents.delete(agent.name, {
           requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
@@ -65,9 +66,7 @@ export async function main(): Promise<void> {
           },
           { foundryFeatures: "VoiceAgents=V1Preview" },
         );
-        console.log(
-          `Call job accepted; current status: ${job.status}. Acceptance is not call completion.`,
-        );
+        console.log(`Call job accepted (${job.status}); the call may still be in progress.`);
       } else {
         console.log(
           "Telephony skipped. Explicitly set FOUNDRY_ENABLE_OUTBOUND_CALL=true to place a test call.",
@@ -75,7 +74,7 @@ export async function main(): Promise<void> {
       }
     });
   } finally {
-    parent.end();
+    operationsSpan.end();
     try {
       await provider.shutdown();
     } finally {
@@ -84,7 +83,7 @@ export async function main(): Promise<void> {
   }
 }
 
-main().catch((error) => {
+main().catch((error: unknown) => {
   console.error("Sample failed:", error);
   process.exitCode = 1;
 });

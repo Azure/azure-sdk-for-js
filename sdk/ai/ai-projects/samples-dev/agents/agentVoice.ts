@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to configure and retrieve a voice agent definition.
- *
  * @summary Create a voice agent with a greeting, disabled conversation storage, and optional post-call notifications.
  * @azsdk-weight 50
  */
@@ -14,10 +12,10 @@ import type { VoiceAgentPostCallDestinationUnion } from "@azure/ai-projects";
 import "dotenv/config";
 
 export async function main(): Promise<void> {
-  // Set these values in .env. The deployment must support realtime or cascaded voice.
-  const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"];
-  const deploymentName = process.env["FOUNDRY_MODEL_NAME"];
-  if (!projectEndpoint || !deploymentName) {
+  const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"]?.trim();
+  // Use a deployment that supports realtime or cascaded voice.
+  const modelName = process.env["FOUNDRY_MODEL_NAME"]?.trim();
+  if (!projectEndpoint || !modelName) {
     throw new Error(
       "Set FOUNDRY_PROJECT_ENDPOINT and FOUNDRY_MODEL_NAME before running this sample.",
     );
@@ -45,7 +43,7 @@ export async function main(): Promise<void> {
     {
       kind: "voice",
       model_type: "self_deployed",
-      model: deploymentName,
+      model: modelName,
       instructions: "Help callers find public transport information. Keep answers short.",
       greeting: { type: "template", text: "Hello! How can I help with your journey?" },
       output_modalities: ["audio"],
@@ -66,13 +64,14 @@ export async function main(): Promise<void> {
     if ("post_call" in version.definition) {
       console.log("Post-call delivery:", version.definition.post_call);
     }
-    // This sample configures the agent; it does not open a microphone or voice session.
+    console.log("Agent configured. No voice session was opened.");
   } finally {
     console.log("Deleting the sample agent...");
     await project.agents.delete(agent.name, options);
   }
 }
 
-main().catch((err) => {
-  console.error("Sample failed: ", err);
+main().catch((error: unknown) => {
+  console.error("Sample failed:", error);
+  process.exitCode = 1;
 });

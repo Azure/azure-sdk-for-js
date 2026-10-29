@@ -28,9 +28,8 @@ export interface VoiceAgentWebSocketConnectOptions {
 }
 
 /**
- * A pluggable WebSocket transport shared by the Voice Agents Realtime and GPT Live clients. Implement this
- * interface to customize how the realtime connection is established, for example to route it
- * through an authenticated relay.
+ * WebSocket transport used by Realtime and GPT Live.
+ * Implement this interface to connect through an authenticated relay or another custom transport.
  */
 export interface VoiceAgentWebSocketTransport {
   /** Registers the handlers invoked as connection events occur. */
