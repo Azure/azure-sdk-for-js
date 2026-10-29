@@ -120,15 +120,32 @@ test("creates the expected title, labels, release link, and agent request", asyn
   const { url, options } = check.calls[2];
   assert.equal(url, "https://api.github.com/repos/Azure/azure-sdk-for-js/issues");
   assert.equal(options.method, "POST");
-  assert.deepEqual(JSON.parse(options.body), {
+  const { body, ...issueMetadata } = JSON.parse(options.body);
+  assert.deepEqual(issueMetadata, {
     title: "[agentic-workflows] Upgrade gh-aw from v0.89.21 to v0.92.0",
-    body:
-      "The `gh-aw` CLI pinned in `.github/workflows/copilot-setup-steps.yml` is currently v0.89.21. " +
-      "The latest released version is [v0.92.0](https://github.com/github/gh-aw/releases/tag/v0.92.0).\n\n" +
-      "Please use the **Agentic Workflows** custom agent to upgrade this repository to gh-aw v0.92.0. " +
-      "The agent already knows how to perform this upgrade.",
     labels: ["agentic-workflows", "automated", "dependencies"],
   });
+  for (const required of [
+    "is currently v0.89.21",
+    "[v0.92.0](https://github.com/github/gh-aw/releases/tag/v0.92.0)",
+    "select the **Agentic Workflows** custom agent",
+    "Before making changes, read",
+    ".github/skills/agentic-workflows/SKILL.md",
+    "https://raw.githubusercontent.com/github/gh-aw/main/.github/aw/upgrade-agentic-workflows.md",
+    "Follow those instructions even if you are running as the default agent",
+    "If the instructions cannot be retrieved, report that blocker",
+    "Install and verify gh-aw v0.92.0",
+    "gh aw upgrade",
+    "Recompile every agentic workflow with the target version",
+    "generated `.lock.yml` changes",
+    "do not edit generated lock files by hand",
+    "Report the compiler version, compilation outcome, and any blockers",
+    "If compilation produces no changes, explain why",
+    "Do not treat a version-pin-only change as a completed upgrade",
+  ]) {
+    assert.ok(body.includes(required), `Missing issue instruction: ${required}`);
+  }
+  assert.ok(body.startsWith("The `gh-aw` CLI pinned in"));
   assert.equal(options.headers.Authorization, "Bearer test-token");
   assert.equal(options.headers["X-GitHub-Api-Version"], "2022-11-28");
   assert.deepEqual(check.logs, [

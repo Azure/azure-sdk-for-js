@@ -94,8 +94,25 @@ export async function checkUpgrade({
   const body =
     `The \`gh-aw\` CLI pinned in \`.github/workflows/copilot-setup-steps.yml\` is currently v${pinned}. ` +
     `The latest released version is [v${latest}](https://github.com/github/gh-aw/releases/tag/v${latest}).\n\n` +
-    `Please use the **Agentic Workflows** custom agent to upgrade this repository to gh-aw v${latest}. ` +
-    "The agent already knows how to perform this upgrade.";
+    `Upgrade this repository to gh-aw v${latest}, not just the CLI version pin.\n\n` +
+    "## Instructions\n\n" +
+    "When assigning this issue to Copilot, select the **Agentic Workflows** custom agent. " +
+    "Mentioning the agent here does not select it automatically.\n\n" +
+    "Before making changes, read the repository's `.github/skills/agentic-workflows/SKILL.md` " +
+    "and fetch and read the complete " +
+    "[upgrade instructions](https://raw.githubusercontent.com/github/gh-aw/main/.github/aw/upgrade-agentic-workflows.md). " +
+    "Follow those instructions even if you are running as the default agent. " +
+    "If the instructions cannot be retrieved, report that blocker instead of proceeding with only a pin update.\n\n" +
+    "## Completion criteria\n\n" +
+    `- Install and verify gh-aw v${latest}; use that version for the full repository upgrade, ` +
+    "including `gh aw upgrade` (or the equivalent upgrade tool described in the instructions).\n" +
+    "- Update the setup CLI version and action ref, refresh repository components, and apply required migrations.\n" +
+    "- Recompile every agentic workflow with the target version and resolve compilation errors.\n" +
+    "- Commit all resulting source, configuration, and generated `.lock.yml` changes; " +
+    "do not edit generated lock files by hand.\n" +
+    "- Report the compiler version, compilation outcome, and any blockers in the pull request. " +
+    "If compilation produces no changes, explain why. " +
+    "Do not treat a version-pin-only change as a completed upgrade.";
   if (dryRun) {
     log(`Would create issue in ${repo}:\n${title}\n\n${body}`);
     return;

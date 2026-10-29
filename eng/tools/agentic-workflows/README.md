@@ -10,6 +10,13 @@ Issues retain the `agentic-workflows`, `automated`, and `dependencies` labels an
 request the **Agentic Workflows** custom agent. This tool only requests an
 upgrade; it does not change pins or run the upgrade itself.
 
+The issue links directly to the upstream upgrade instructions and requires the
+agent to read them before editing, perform the full upgrade with the target CLI
+version, recompile every workflow, and commit generated changes. Instruction-fetch
+or compilation failures must be reported as blockers, not treated as a successful
+pin-only upgrade. Select **Agentic Workflows** when assigning the issue to Copilot;
+the checker does not assign an agent automatically.
+
 From the repository root:
 
 ```shell
