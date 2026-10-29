@@ -64,7 +64,7 @@ describe("knowledge retrieval stream HTTP transport", () => {
       events.map((event) => event.event),
       ["retrieval.started", "response.completed"],
     );
-    assert.include(requests[0].url, "api-version=2026-08-01-preview");
+    assert.include(requests[0].url, "api-version=2026-11-01-preview");
     assert.equal(requests[0].headers.get("accept"), "text/event-stream");
     assert.equal(requests[0].headers.get("x-ms-query-work-iq-source-authorization"), "assertion");
   });

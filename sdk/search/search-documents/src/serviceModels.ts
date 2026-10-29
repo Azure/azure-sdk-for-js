@@ -2,6 +2,24 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+import type { VectorQueryTopicGraphUnion } from "./models/azure/search/documents/index.js";
+import type {
+  GraphProfile,
+  OneLakeSecuritySource,
+  RandomScoringParameters,
+  ScoringFunctionInterpolation,
+  VectorSearchTopicGraphProfile,
+  OpenAICompatibleVectorizerParameters,
+  KnowledgeBaseOpenAICompatibleModel,
+  KnowledgeBaseMicrosoftRetriever1Model,
+  KnowledgeSourceGraphExtractionParameters,
+  KnowledgeSourceFile,
+} from "./models/azure/search/documents/indexes/index.js";
+import type {
+  KnowledgeSourceCache,
+  KnowledgeSourceOpenAICompatibleVectorizer,
+} from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   WorkIQKnowledgeSourceParameters,
@@ -259,7 +277,7 @@ export interface SearchServiceStatistics {
   /**
    * Service level information related to indexer runtime.
    */
-  indexersRuntime: ServiceIndexersRuntime;
+  indexersRuntime?: ServiceIndexersRuntime;
 }
 
 /**
@@ -1061,7 +1079,30 @@ export type LexicalNormalizer = CustomNormalizer;
 /**
  * Contains the possible cases for ScoringFunction.
  */
+export interface BaseScoringFunction {
+  /** The field used as input to a classic scoring function. */
+  fieldName: string;
+  /** A positive multiplier for a classic scoring function. */
+  boost: number;
+  /** Boost interpolation strategy. */
+  interpolation?: ScoringFunctionInterpolation;
+  /** The classic scoring function kind. */
+  type: string;
+}
+
+/** Applies random scoring without a field or boost multiplier. */
+export interface RandomScoringFunction {
+  /** The random scoring discriminator. */
+  type: "random";
+  /** Seed configuration used to produce repeatable random ordering. */
+  parameters?: RandomScoringParameters;
+  /** Boost interpolation strategy. */
+  interpolation?: ScoringFunctionInterpolation;
+}
+
+/** Classic field-based scoring functions and random scoring. */
 export type ScoringFunction =
+  | RandomScoringFunction
   | DistanceScoringFunction
   | FreshnessScoringFunction
   | MagnitudeScoringFunction
@@ -1085,6 +1126,10 @@ export type SearchField = SimpleField | ComplexField;
  * behavior of a field.
  */
 export interface SimpleField {
+  /** The topic graph profile used for this vector field. */
+  topicGraphProfile?: string;
+  /** Whether this field contains the organization access expiration. */
+  organizationAccessExpiration?: boolean;
   /**
    * The name of the field, which must be unique within the fields collection of the index or
    * parent field.
@@ -1313,6 +1358,10 @@ export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>
  * index.
  */
 export interface SearchIndex {
+  /** Graph schema and field mappings for graph queries. */
+  graphProfile?: GraphProfile;
+  /** OneLake security information associated with the index. */
+  oneLakeSecuritySource?: OneLakeSecuritySource;
   /**
    * The name of the index.
    */
@@ -2316,6 +2365,8 @@ export interface SearchIndexerDataSourceConnection {
  * Contains configuration options related to vector search.
  */
 export interface VectorSearch {
+  /** Topic graph profiles used during vector retrieval. */
+  topicGraphProfiles?: VectorSearchTopicGraphProfile[];
   /**
    * Defines combinations of configurations to use with vector search.
    */
@@ -2542,7 +2593,18 @@ export interface WebApiParameters {
  * Contains configuration options on how to vectorize text vector queries.
  */
 export type VectorSearchVectorizer =
-  AzureMachineLearningVectorizer | AzureOpenAIVectorizer | WebApiVectorizer;
+  | AzureMachineLearningVectorizer
+  | AzureOpenAIVectorizer
+  | WebApiVectorizer
+  | OpenAICompatibleVectorizer;
+
+/** An OpenAI-compatible embedding endpoint used to vectorize text queries. */
+export interface OpenAICompatibleVectorizer extends BaseVectorSearchVectorizer {
+  /** The vectorizer discriminator. */
+  kind: "openAICompatible";
+  /** Endpoint, embedding profile, and authentication configuration. */
+  openAICompatibleParameters: OpenAICompatibleVectorizerParameters;
+}
 
 /**
  * Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for
@@ -2696,6 +2758,8 @@ export interface SearchIndexerKnowledgeStoreParameters {
  * property. Each value must be of a primitive type.
  */
 export interface IndexingParametersConfiguration {
+  /** Whether to refresh all document access control lists. */
+  refreshAllAcls?: boolean;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -3185,6 +3249,10 @@ export interface AzureBlobKnowledgeSource extends BaseKnowledgeSource {
  * Parameters for Azure Blob Storage knowledge source.
  */
 export interface AzureBlobKnowledgeSourceParameters {
+  /** Graph extraction configuration applied during ingestion. */
+  graphExtraction?: KnowledgeSourceGraphExtractionParameters;
+  /** Topic graph configuration applied during retrieval. */
+  topicGraph?: VectorQueryTopicGraphUnion;
   /**
    * Key-based connection string or the ResourceId format if using a managed identity.
    */
@@ -3596,6 +3664,8 @@ export interface McpServerNoneOutputParsing extends McpServerOutputParsing {
 
 /** Consolidates all general ingestion settings for knowledge sources. */
 export interface KnowledgeSourceIngestionParameters {
+  /** Incremental enrichment cache configuration. */
+  cache?: KnowledgeSourceCache;
   /** An explicit identity to use for this knowledge source. */
   identity?: SearchIndexerDataIdentity;
   /** Optional vectorizer configuration for vectorizing content. */
@@ -3623,7 +3693,10 @@ export interface KnowledgeSourceIngestionParameters {
   networkAccessMode?: KnowledgeSourceNetworkAccessMode;
 }
 
-export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
+export type KnowledgeBaseModel =
+  | KnowledgeBaseAzureOpenAIModel
+  | KnowledgeBaseOpenAICompatibleModel
+  | KnowledgeBaseMicrosoftRetriever1Model;
 
 /** Specifies the Azure OpenAI resource used to do query planning. */
 export interface KnowledgeBaseAzureOpenAIModel extends BaseKnowledgeBaseModel {
@@ -3633,7 +3706,34 @@ export interface KnowledgeBaseAzureOpenAIModel extends BaseKnowledgeBaseModel {
   azureOpenAIParameters: AzureOpenAIParameters;
 }
 
-export type KnowledgeSourceVectorizer = KnowledgeSourceAzureOpenAIVectorizer;
+export type KnowledgeSourceVectorizer =
+  KnowledgeSourceAzureOpenAIVectorizer | KnowledgeSourceOpenAICompatibleVectorizer;
+
+/** Options for asynchronously ingesting a file. */
+export interface IngestKnowledgeSourceFileOptions extends OperationOptions {
+  /** Delay in milliseconds between polling requests. */
+  updateIntervalInMs?: number;
+  /** Serialized poller state from a previous invocation to resume without uploading again. */
+  resumeFrom?: string;
+}
+
+/** Options for beginning asynchronous file ingestion. */
+export type BeginIngestKnowledgeSourceFileOptions = IngestKnowledgeSourceFileOptions;
+
+/** Options for beginning asynchronous replacement of a file. */
+export type BeginReplaceKnowledgeSourceFileOptions = IngestKnowledgeSourceFileOptions;
+
+/** A resumable asynchronous file ingestion operation. */
+export type KnowledgeSourceFileIngestionPoller = PollerLike<
+  OperationState<KnowledgeSourceFile>,
+  KnowledgeSourceFile
+>;
+
+/** Options for listing retained file ingestion operations. */
+export type ListKnowledgeSourceFileIngestionOperationsOptions = OperationOptions;
+
+/** Options for retrieving a file ingestion operation. */
+export type GetKnowledgeSourceFileIngestionOperationOptions = OperationOptions;
 
 /** Specifies the Azure OpenAI resource used to vectorize a query string. */
 export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourceVectorizer {

@@ -144,7 +144,7 @@ import type {
   KnowledgeSourceVectorizerUnion as GeneratedKnowledgeSourceVectorizer,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 
-export const defaultServiceVersion = "2026-08-01-preview";
+export const defaultServiceVersion = "2026-11-01-preview";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.ChatCompletionSkill": true,
@@ -500,6 +500,8 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
     VectorSearchVectorizer["kind"],
     () => VectorSearchVectorizer
   > = {
+    openAICompatible: () =>
+      generatedVectorizer as Extract<VectorSearchVectorizer, { kind: "openAICompatible" }>,
     azureOpenAI: () => {
       const { parameters } = generatedVectorizer as GeneratedAzureOpenAIVectorizer;
       const authIdentity = convertSearchIndexerDataIdentityToPublic(parameters?.authIdentity);
@@ -561,6 +563,8 @@ export function generatedKnowledgeSourceVectorizerToPublicVectorizer(
     KnowledgeSourceVectorizer["kind"],
     () => KnowledgeSourceVectorizer
   > = {
+    openAICompatible: () =>
+      generatedVectorizer as Extract<KnowledgeSourceVectorizer, { kind: "openAICompatible" }>,
     azureOpenAI: () => {
       const { azureOpenAIParameters, ...vectorizerProperties } =
         generatedVectorizer as GeneratedKnowledgeSourceAzureOpenAIVectorizer;
@@ -1149,12 +1153,12 @@ function convertAzureBlobKnowledgeSourceParametersToPublic(
     return undefined;
   }
   return {
+    ...params,
     connectionString: params.connectionString,
     containerName: params.containerName,
     folderPath: params.folderPath,
     isAdlsGen2: params.isAdlsGen2,
     ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
-    queryHints: params.queryHints,
     createdResources: params.createdResources?.additionalProperties,
   };
 }
@@ -1163,11 +1167,11 @@ function convertIndexedSharePointParametersToPublic(
   params: GeneratedIndexedSharePointKnowledgeSource["indexedSharePointParameters"],
 ): IndexedSharePointKnowledgeSourceParameters {
   return {
+    ...params,
     connectionString: params.connectionString,
     containerName: params.containerName,
     query: params.query,
     ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
-    queryHints: params.queryHints,
     createdResources: params.createdResources?.additionalProperties,
   };
 }
@@ -1176,13 +1180,13 @@ function convertIndexedSqlParametersToPublic(
   params: GeneratedIndexedSqlKnowledgeSource["indexedSqlParameters"],
 ): IndexedSqlKnowledgeSource["indexedSqlParameters"] {
   return {
+    ...params,
     connectionString: params.connectionString,
     tableOrView: params.tableOrView,
     highWaterMarkColumnName: params.highWaterMarkColumnName,
     contentColumns: params.contentColumns,
     embeddingColumns: params.embeddingColumns,
     ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
-    queryHints: params.queryHints,
     createdResources: params.createdResources?.additionalProperties,
   };
 }
@@ -1191,14 +1195,17 @@ function convertFileKnowledgeSourceParametersToPublic(
   params: GeneratedFileKnowledgeSource["fileParameters"],
 ): FileKnowledgeSourceParameters {
   return {
+    ...params,
     ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
-    queryHints: params.queryHints,
     createdResources: params.createdResources?.additionalProperties,
   };
 }
 
 function convertKnowledgeBaseModelToPublic(model: GeneratedKnowledgeBaseModel): KnowledgeBaseModel {
   switch (model.kind) {
+    case "openAICompatible":
+    case "microsoftRetriever1":
+      return model as Exclude<KnowledgeBaseModel, { kind: "azureOpenAI" }>;
     case "azureOpenAI": {
       const { azureOpenAIParameters, ...rest } = model as GeneratedKnowledgeBaseAzureOpenAIModel;
       return {
