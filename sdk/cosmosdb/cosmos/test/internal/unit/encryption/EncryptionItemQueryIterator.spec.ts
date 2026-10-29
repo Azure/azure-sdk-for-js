@@ -45,5 +45,6 @@ describe("EncryptionItemQueryIterator", () => {
 
     assert.equal(observedOptions.length, 1);
     assert.equal(observedOptions[0].containerRid, "container-rid");
+    assert.equal(options.containerRid, undefined);
   });
 });
