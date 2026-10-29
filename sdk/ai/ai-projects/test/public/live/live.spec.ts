@@ -12,6 +12,7 @@ import type {
   AIProjectClientOptionalParams,
   KnownApiVersions,
   LiveServerEventLiveErrorEvent,
+  LiveSessionUpdateParams,
   VoiceAgentConnectionState,
   VoiceAgentLiveClientEvent,
   VoiceAgentLiveConnection,
@@ -541,7 +542,52 @@ describe("VoiceAgentLiveClient connection", () => {
 });
 
 describe("VoiceAgentLiveClient native commands", () => {
-  it("serializes only delegation settings and preserves arbitrary tool schemas", async () => {
+  it("sends typed Decision and audio-fixture commands without Realtime conversions", async () => {
+    const factory = createFactory();
+    const connection = await connect(factory);
+    const events: VoiceAgentLiveClientEvent[] = [
+      { type: "decision.create", event_id: "decision-request" },
+      {
+        type: "decision.item.create",
+        event_id: "item-request",
+        item: { id: "input-test", role: "user", content: "Remember the number seven." },
+      },
+      { type: "decision.item.delete", event_id: "delete-request", item_id: "input-test" },
+      {
+        type: "session.output_audio.fixture.play",
+        event_id: "play-request",
+        audio: "AQIDBA==",
+      },
+    ];
+    for (const event of events) await connection.sendEvent(event);
+    expect(factory.transport.sentMessages.map((message) => JSON.parse(message))).toEqual(events);
+    await connection.close();
+  });
+
+  it("preserves transcript Decision trigger configuration", async () => {
+    const factory = createFactory();
+    const connection = await connect(factory);
+    const session: LiveSessionUpdateParams = {
+      triggers: [
+        {
+          type: "decisions",
+          event_type: "session.input_transcript.delta",
+          decisions: {
+            questions: [{ type: "predicate", name: "ready", instructions: "Is the user ready?" }],
+          },
+        },
+      ],
+    };
+    await connection.configureSession(session, { eventId: "trigger-update" });
+    expect(JSON.parse(factory.transport.sentMessages[0])).toEqual({
+      type: "session.update",
+      event_id: "trigger-update",
+      session,
+    });
+    await connection.close();
+  });
+
+  it("serializes delegation settings and preserves arbitrary tool schemas", async () => {
     const factory = createFactory();
     const connection = await connect(factory);
     const parameters = {
@@ -764,6 +810,69 @@ describe("VoiceAgentLiveClient native commands", () => {
 });
 
 describe("VoiceAgentLiveClient native protocol", () => {
+  const decisionEvent = {
+    type: "decision.event",
+    event_id: "decision-event",
+    delegation_id: null,
+    trigger_id: null,
+    source_event_type: null,
+    source_event_id: null,
+    event: {
+      type: "decision.completed",
+      decision: {
+        model: "decision-model",
+        answers: [],
+        usage: {
+          input_tokens: 1,
+          input_tokens_details: { cached_tokens: 0, cache_write_tokens: 0 },
+          output_tokens: 1,
+          output_tokens_details: { reasoning_tokens: 0 },
+          total_tokens: 2,
+        },
+      },
+    },
+  };
+
+  it.each([
+    {
+      type: "session.output_audio.fixture.playing",
+      event_id: "fixture-playing",
+      client_event_id: "play-request",
+    },
+    {
+      type: "session.output_audio.fixture.played",
+      event_id: "fixture-played",
+      client_event_id: "play-request",
+    },
+    decisionEvent,
+    {
+      type: "decision.item.created",
+      event_id: "item-created",
+      client_event_id: "item-request",
+      item: { id: "input-test", type: "message", role: "user", content: "Seven." },
+    },
+    {
+      type: "decision.item.deleted",
+      event_id: "item-deleted",
+      client_event_id: "delete-request",
+      item_id: "input-test",
+    },
+  ])("recognizes the generated $type event and preserves its fields", (event) => {
+    expect(deserializeVoiceAgentLiveEvent(JSON.stringify(event))).toEqual(event);
+  });
+
+  it.each([
+    { type: "decision.item.created", event_id: "e", item: { role: "user", content: "text" } },
+    { type: "decision.item.deleted", event_id: "e", item_id: 42 },
+    { ...decisionEvent, event: [] },
+    { ...decisionEvent, delegation_id: 42 },
+    { ...decisionEvent, trigger_id: undefined },
+  ])("rejects malformed generated $type payloads", (event) => {
+    expect(() => deserializeVoiceAgentLiveEvent(JSON.stringify(event))).toThrow(
+      VoiceAgentProtocolError,
+    );
+  });
+
   it("rejects malformed UTF-8 binary JSON rather than replacing corrupted bytes", () => {
     const before = new TextEncoder().encode('{"type":"future.live.event","message":"');
     const after = new TextEncoder().encode('"}');
@@ -847,6 +956,12 @@ describe("VoiceAgentLiveClient native protocol", () => {
     { type: "session.instructions.append", content: "text", delegation_id: 1 },
     { type: "session.update", session: [] },
     { type: "response.item.create", item: null },
+    { type: "session.output_audio.fixture.play", audio: new Uint8Array([1, 2]) },
+    { type: "decision.create" },
+    { type: "decision.create", event_id: "" },
+    { type: "decision.item.create", item: { role: "assistant", content: "text" } },
+    { type: "decision.item.create", item: { role: "user", content: 42 } },
+    { type: "decision.item.delete", item_id: "" },
   ])("rejects malformed outbound $type", (event) => {
     expect(() =>
       serializeVoiceAgentLiveEvent(event as unknown as VoiceAgentLiveClientEvent),
