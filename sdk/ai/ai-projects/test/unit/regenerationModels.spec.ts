@@ -19,6 +19,7 @@ import type {
   EvaluationDataGenerationJobOutputConfiguration,
   ErrorModel,
   FunctionTool,
+  HostedAgentDefinition,
   MisalignmentErrorDetailsResource,
   MisalignmentErrorType,
   RealtimeConversationItemMessageAssistant,
@@ -36,9 +37,19 @@ import type {
   TelephonyOutboundRetryPolicyUnion,
   UpdateTelephonyBindingRequest,
   VoiceAgentInputTranscription,
+  VoiceAgentDefinition,
 } from "../../src/models/index.js";
 import type {
+  BetaRoutinesCreateOrUpdateOptionalParams,
+  BetaRoutinesDeleteOptionalParams,
+  BetaRoutinesDisableOptionalParams,
+  BetaRoutinesDispatchOptionalParams,
+  BetaRoutinesEnableOptionalParams,
+  BetaRoutinesGetOptionalParams,
+  BetaRoutinesListOptionalParams,
+  BetaRoutinesListRunsOptionalParams,
   FoundryFeaturesOptInKeys,
+  PageOrder,
   TelephonyCallLifecycleEventSource,
   TelephonyProvider,
   TeamsPhoneExtensibilityTelephonyBinding,
@@ -62,6 +73,8 @@ import {
   functionToolParamDeserializer,
   functionToolParamSerializer,
   functionToolSerializer,
+  hostedAgentDefinitionDeserializer,
+  hostedAgentDefinitionSerializer,
   imageGenToolDeserializer,
   imageGenToolSerializer,
   misalignmentErrorDetailsResourceDeserializer,
@@ -83,6 +96,8 @@ import {
   updateTelephonyBindingRequestSerializer,
   voiceAgentInputTranscriptionDeserializer,
   voiceAgentInputTranscriptionSerializer,
+  voiceAgentDefinitionDeserializer,
+  voiceAgentDefinitionSerializer,
   webSearchToolboxToolDeserializer,
   webSearchToolboxToolSerializer,
   webSearchToolDeserializer,
@@ -100,6 +115,49 @@ describe("regenerated model wire contracts", () => {
   it("exports the upstream voice transports and fine-tuning preview opt-in", () => {
     expectTypeOf<VoiceAgentTransport>().toEqualTypeOf<"websocket" | "webrtc">();
     expectTypeOf<"FineTuningSessions=V1Preview">().toExtend<FoundryFeaturesOptInKeys>();
+  });
+
+  it("uses only the generated V2 routines feature flag", () => {
+    expectTypeOf<
+      (
+        | BetaRoutinesCreateOrUpdateOptionalParams
+        | BetaRoutinesDeleteOptionalParams
+        | BetaRoutinesDisableOptionalParams
+        | BetaRoutinesDispatchOptionalParams
+        | BetaRoutinesEnableOptionalParams
+        | BetaRoutinesGetOptionalParams
+        | BetaRoutinesListOptionalParams
+        | BetaRoutinesListRunsOptionalParams
+      )["foundryFeatures"]
+    >().toEqualTypeOf<"Routines=V2Preview" | undefined>();
+    expectTypeOf<
+      Extract<FoundryFeaturesOptInKeys, `Routines=${string}`>
+    >().toEqualTypeOf<"Routines=V2Preview">();
+  });
+
+  it("uses the generated routines list parameters without backward pagination", () => {
+    expectTypeOf<
+      Pick<BetaRoutinesListOptionalParams, "limit" | "after" | "order">
+    >().toEqualTypeOf<{
+      limit?: number;
+      after?: string;
+      order?: PageOrder;
+    }>();
+    expectTypeOf<Extract<keyof BetaRoutinesListOptionalParams, "before">>().toEqualTypeOf<never>();
+  });
+
+  it("uses the generated routine-run list parameters without backward pagination", () => {
+    expectTypeOf<
+      Pick<BetaRoutinesListRunsOptionalParams, "filter" | "limit" | "after" | "order">
+    >().toEqualTypeOf<{
+      filter?: string;
+      limit?: number;
+      after?: string;
+      order?: PageOrder;
+    }>();
+    expectTypeOf<
+      Extract<keyof BetaRoutinesListRunsOptionalParams, "before">
+    >().toEqualTypeOf<never>();
   });
 
   it("uses the Teams Phone extensibility discriminator on all binding shapes", () => {
@@ -476,6 +534,57 @@ describe("regenerated model wire contracts", () => {
     expect(voiceAgentInputTranscriptionDeserializer(configuration)).toMatchObject(configuration);
   });
 
+  it.each(["masked", "unfiltered", "removed"] as const)(
+    "round-trips streaming speech transcription with profanity mode %s",
+    (profanityFilter) => {
+      const configuration: VoiceAgentInputTranscription = {
+        model: "azure-speech-streaming",
+        language: "en-US",
+        languages: ["en"],
+        keywords: ["Foundry"],
+        phrase_list: ["existing phrase"],
+        custom_speech: { "en-US": "custom-deployment" },
+        profanity_filter: profanityFilter,
+      };
+      expect(toWire(voiceAgentInputTranscriptionSerializer(configuration))).toEqual(configuration);
+      expect(voiceAgentInputTranscriptionDeserializer(configuration)).toMatchObject(configuration);
+    },
+  );
+
+  it("round-trips all soundscape tracks without dropping zero gain or delay", () => {
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      soundscape: {
+        background: { source: { type: "built_in", name: "office" }, gain: 0 },
+        working: {
+          source: { type: "built_in", name: "call_center" },
+          gain: 0.5,
+          delay_ms: 0,
+        },
+        opening: { source: { type: "built_in", name: "ding1" } },
+        transfer: { source: { type: "built_in", name: "ding2" } },
+        closing: { source: { type: "built_in", name: "people_talking" } },
+      },
+      audio: { input: { noise_reduction: { type: "azure_deep_noise_suppression_headset" } } },
+    };
+    expect(toWire(voiceAgentDefinitionSerializer(definition))).toEqual(definition);
+    expect(voiceAgentDefinitionDeserializer(definition)).toMatchObject(definition);
+    const withoutSoundscape: VoiceAgentDefinition = { kind: "voice" };
+    expect(toWire(voiceAgentDefinitionSerializer(withoutSoundscape))).toEqual(withoutSoundscape);
+  });
+
+  it.each([false, true])("preserves hosted memory snapshot opt-in %s", (enabled) => {
+    const definition: HostedAgentDefinition = {
+      kind: "hosted",
+      cpu: "1",
+      memory: "2Gi",
+      enable_memory_snapshot: enabled,
+      protocol_versions: [{ protocol: "voice_conversation_engine", version: "1.0.0" }],
+    };
+    expect(toWire(hostedAgentDefinitionSerializer(definition))).toEqual(definition);
+    expect(hostedAgentDefinitionDeserializer(definition)).toMatchObject(definition);
+  });
+
   it.each([{ languages: [{ code: "en" }, { code: "fr" }] }, { languages: [] }])(
     "retains detected transcription languages $languages",
     ({ languages }) => {
@@ -562,14 +671,18 @@ describe("regenerated model wire contracts", () => {
     expect(customToolParamDeserializer(custom)).toMatchObject(custom);
   });
 
-  it.each(["gpt-image-2", "gpt-image-2-2026-04-21"] as const)(
-    "preserves image model %s",
-    (model) => {
-      const tool = { type: "image_generation" as const, model };
-      expect(toWire(imageGenToolSerializer(tool))).toEqual(tool);
-      expect(imageGenToolDeserializer(tool)).toMatchObject(tool);
-    },
-  );
+  it.each([
+    "gpt-image-2",
+    "gpt-image-2-2026-04-21",
+    "gpt-image-2.5-sunburst",
+    "gpt-image-2.5-sunburst-2026-09-08",
+    "gpt-image-2.5-flare",
+    "gpt-image-2.5-flare-2026-09-08",
+  ] as const)("preserves image model %s", (model) => {
+    const tool = { type: "image_generation" as const, model };
+    expect(toWire(imageGenToolSerializer(tool))).toEqual(tool);
+    expect(imageGenToolDeserializer(tool)).toMatchObject(tool);
+  });
 
   it("retains preview browser automation and its shared parameters after stable-model removal", () => {
     const tool: BrowserAutomationPreviewTool = {

@@ -25,7 +25,7 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
-} from "$internal/realtime/webSocketTransportLike.js";
+} from "$internal/realtime/webSocketTransport.js";
 import {
   deserializeVoiceAgentServerEvent,
   serializeVoiceAgentClientEvent,
