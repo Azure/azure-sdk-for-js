@@ -9,6 +9,7 @@
 ### Other Changes
 
 - Updated `@azure/msal-node` to `^7.1.0`. Interactive browser authentication now requires `form_post` callbacks, as described in the [MSAL Node v7 migration guide](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/v7-migration.md). [#40532](https://github.com/Azure/azure-sdk-for-js/pull/40532)
+- Corrected the brokered authentication documentation to refer to the broker plugin's supported platforms rather than claiming Windows-only support. [#40538](https://github.com/Azure/azure-sdk-for-js/issues/40538)
 
 ## 4.15.0-beta.1 (2026-10-14)
 
