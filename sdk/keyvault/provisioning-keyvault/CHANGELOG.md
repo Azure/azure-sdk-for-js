@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.2 (2026-10-29)
+
+### Other Changes
+
+- Update. [#39825](https://github.com/Azure/azure-sdk-for-js/pull/39825)
+
 ## 1.0.0-beta.1 (2026-09-28)
 
 ### Features Added
