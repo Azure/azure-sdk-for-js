@@ -25,4 +25,4 @@ Use `existing: true` in resource constructor properties to reference an existing
 
 ## License
 
-This library is licensed under the [MIT License](./LICENSE).
+This library is licensed under the MIT License.
