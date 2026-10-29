@@ -107,7 +107,7 @@ export async function checkUpgrade({
     fetchImpl,
   });
   if (!created?.html_url) throw new Error("GitHub API issue response did not include html_url");
-  log(created.html_url);
+  log(`Created gh-aw upgrade issue from v${pinned} to v${latest}: ${created.html_url}`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

@@ -131,7 +131,9 @@ test("creates the expected title, labels, release link, and agent request", asyn
   });
   assert.equal(options.headers.Authorization, "Bearer test-token");
   assert.equal(options.headers["X-GitHub-Api-Version"], "2022-11-28");
-  assert.equal(check.logs[0], "https://github.com/Azure/azure-sdk-for-js/issues/123");
+  assert.deepEqual(check.logs, [
+    "Created gh-aw upgrade issue from v0.89.21 to v0.92.0: https://github.com/Azure/azure-sdk-for-js/issues/123",
+  ]);
 });
 
 test("dry run performs reads but never creates an issue", async () => {
