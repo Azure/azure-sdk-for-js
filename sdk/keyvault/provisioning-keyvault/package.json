@@ -1,6 +1,6 @@
 {
   "name": "@azure/provisioning-keyvault",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Azure Provisioning constructs for Azure Key Vault",
   "sdk-type": "provisioning",
   "autoPublish": false,
