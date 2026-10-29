@@ -18,7 +18,7 @@ import {
   LAYOUT_ENDPOINT_HEADER,
   storageDataLocalityPolicy,
 } from "../../src/policies/StorageDataLocalityPolicy.js";
-import { storageRetryPolicy } from "../../src/policies/StorageRetryPolicyV2.js";
+import { storageRetryPolicy } from "@azure/storage-common";
 
 const platform = vi.hoisted(() => ({ isNodeLike: true }));
 vi.mock("@azure/core-util", async (importOriginal) => ({
