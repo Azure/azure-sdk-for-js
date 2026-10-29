@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing Front Door with the specified parameters.
  *
  * @summary deletes an existing Front Door with the specified parameters.
- * x-ms-original-file: 2025-11-01/FrontdoorDelete.json
+ * x-ms-original-file: 2026-04-01/FrontdoorDelete.json
  */
 async function deleteFrontDoor(): Promise<void> {
   const credential = new DefaultAzureCredential();
