@@ -134,7 +134,9 @@ test("skips an exact existing open upgrade issue and checks subsequent pages", a
   await check.invoke();
   assert.equal(check.calls.length, 4);
   assert.equal(check.upgrades.length, 0);
-  assert.match(check.logs[0], /v0.89.21 to v0.92.0.*\/issues\/123/);
+  assert.ok(check.logs.some((message) => /v0.89.21 to v0.92.0.*\/issues\/123/.test(message)));
+  assert.match(check.logs.at(-1), /\[SKIP\].*no upgrade attempted and no new issue created/);
+  assert.ok(!check.logs.some((message) => message.includes("[START] Upgrade gh-aw and publish")));
   assert.match(check.calls[2].url, /state=open&per_page=100&page=1/);
   assert.match(check.calls[3].url, /state=open&per_page=100&page=2/);
 });
@@ -187,7 +189,7 @@ test("dry run performs reads but never runs commands or creates issues or PRs", 
   await check.invoke();
   assert.equal(check.calls.length, 3);
   assert.equal(check.upgrades.length, 0);
-  assert.match(check.logs[0], /Would upgrade gh-aw from v0.89.21 to v0.92.0/);
+  assert.match(check.logs.at(-1), /Would upgrade gh-aw from v0.89.21 to v0.92.0/);
 });
 
 test("requires a token and surfaces API, transport, and version failures", async () => {
@@ -245,7 +247,8 @@ test("deduplicates native CLI upgrade PRs across pages, ignoring unrelated PRs",
   await check.invoke();
   assert.equal(check.upgrades.length, 0);
   assert.equal(check.calls.length, 3);
-  assert.match(check.logs[0], /already open.*\/pull\/456/);
+  assert.ok(check.logs.some((message) => /already open.*\/pull\/456/.test(message)));
+  assert.match(check.logs.at(-1), /\[SKIP\].*PR is already open/);
 });
 
 test("falls back when the CLI reports success without publishing a PR", async () => {
@@ -261,6 +264,24 @@ test("redacts tokens and escapes failure details in fallback issues", async () =
   const { body } = JSON.parse(check.calls.at(-1).options.body);
   assert.ok(body.includes("[REDACTED] &lt;secret&gt;"));
   assert.ok(!body.includes("test-token"));
+});
+
+test("logs discovery, upgrade failure, publication check, and fallback outcomes in order", async () => {
+  const check = run();
+  await check.invoke();
+  const steps = check.logs.filter((message) => /^\[(START|SUCCESS|FAILURE)\]/.test(message));
+  assert.ok(steps.includes("[START] Read pinned gh-aw version"));
+  assert.ok(steps.includes("[SUCCESS] Read pinned gh-aw version"));
+  const failed = steps.findIndex((message) =>
+    message.startsWith("[FAILURE] Upgrade gh-aw and publish pull request:"),
+  );
+  const confirm = steps.indexOf("[START] Confirm upgrade PR publication");
+  const fallback = steps.indexOf("[START] Create fallback upgrade issue");
+  assert.ok(failed >= 0 && confirm > failed && fallback > confirm);
+  assert.equal(steps.at(-1), "[SUCCESS] Create fallback upgrade issue");
+  const broken = run({ failAt: 1 });
+  await assert.rejects(broken.invoke, /Fetch latest gh-aw release: GitHub request failed/);
+  assert.equal(broken.logs.at(-1), "[FAILURE] Fetch latest gh-aw release: GitHub request failed");
 });
 
 function fixture(t) {
@@ -456,7 +477,7 @@ test("the installed pre-push hook actually blocks publication and preserves fail
         return "";
       },
     }),
-    /Publication gate: The upgraded setup CLI pin is not v1.0.1/,
+    /Publication gate: Verify upgrade before push: The upgraded setup CLI pin is not v1.0.1/,
   );
   assert.equal(
     execFileSync("git", ["--git-dir", remote, "for-each-ref"], { encoding: "utf8" }).trim(),

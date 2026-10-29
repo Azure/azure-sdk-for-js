@@ -61,6 +61,13 @@ the script cannot elevate its token. Git authentication and commit identity are
 configured only in the temporary clone.
 
 Logs include the pinned and target versions and the created/existing PR or issue
-URL. A handled upgrade failure ends successfully only after an issue is created;
+URL. Each discovery and upgrade step logs `[START]`, followed by `[SUCCESS]` or
+`[FAILURE]` with failure details. Command output is retained, and failures identify
+the failed command or named step. `[SKIP]` messages distinguish an existing issue
+or PR, no eligible release, and dry runs from attempted upgrades. Finding an
+existing issue means no upgrade was attempted and no new fallback issue was
+created. The CLI's combined upgrade/publication step includes its commit, push,
+and PR creation; the pre-push gate logs compilation and verification separately.
+A handled upgrade failure ends successfully only after an issue is created;
 authentication, discovery, malformed-pin, and fallback-issue API failures fail
 the run instead of being reported as successful no-ops.
