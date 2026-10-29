@@ -4,7 +4,7 @@
 import type { Attributes, HrTime, SpanContext, SpanOptions } from "@opentelemetry/api";
 import { SpanKind, ROOT_CONTEXT } from "@opentelemetry/api";
 import { timeInputToHrTime } from "@opentelemetry/core";
-import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
+import { TracerProvider } from "@opentelemetry/sdk-trace";
 import {
   ENQUEUED_TIME,
   TIME_SINCE_ENQUEUED,
@@ -23,7 +23,7 @@ import type {
 import { describe, it, assert } from "vitest";
 import { spanToReadableSpan } from "../utils/spanToReadableSpan.js";
 
-const tracer = new BasicTracerProvider().getTracer("default");
+const tracer = new TracerProvider().getTracer("default");
 
 describe("#parseEventHubSpan(...)", () => {
   const peerAddress = "example.servicebus.windows.net";

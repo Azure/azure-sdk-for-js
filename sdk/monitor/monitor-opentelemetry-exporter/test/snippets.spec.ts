@@ -8,12 +8,26 @@ import {
   AzureMonitorTraceExporter,
 } from "../src/index.js";
 import { setLogLevel } from "@azure/logger";
-import { diag, DiagConsoleLogger, DiagLogLevel, metrics } from "@opentelemetry/api";
-import { logs } from "@opentelemetry/api-logs";
+import {
+  context,
+  diag,
+  DiagConsoleLogger,
+  DiagLogLevel,
+  logs,
+  metrics,
+  propagation,
+  trace,
+} from "@opentelemetry/api";
+import { AsyncLocalStorageContextManager } from "@opentelemetry/context-async-hooks";
+import {
+  CompositePropagator,
+  W3CBaggagePropagator,
+  W3CTraceContextPropagator,
+} from "@opentelemetry/core";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { BatchLogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
-import { BatchSpanProcessor, NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { BatchSpanProcessor, TracerProvider } from "@opentelemetry/sdk-trace";
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 import { describe, it } from "vitest";
 
@@ -25,20 +39,27 @@ describe("snippets", () => {
     });
     // @ts-preserve-whitespace
     // Create and configure the Node Tracer provider
-    const tracerProvider = new NodeTracerProvider({
+    const tracerProvider = new TracerProvider({
       resource: resourceFromAttributes({
         [ATTR_SERVICE_NAME]: "basic-service",
       }),
       spanProcessors: [
-        new BatchSpanProcessor(exporter, {
+        new BatchSpanProcessor({
+          exporter,
           exportTimeoutMillis: 15000,
           maxQueueSize: 1000,
         }),
       ],
     });
     // @ts-preserve-whitespace
-    // Register Tracer Provider as global
-    tracerProvider.register();
+    // Register tracing, asynchronous context, and W3C propagation
+    trace.setGlobalTracerProvider(tracerProvider);
+    context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable());
+    propagation.setGlobalPropagator(
+      new CompositePropagator({
+        propagators: [new W3CTraceContextPropagator(), new W3CBaggagePropagator()],
+      }),
+    );
   });
 
   it("ReadmeSampleMetrics", async () => {
@@ -94,20 +115,32 @@ describe("snippets", () => {
     // Sampler expects a sample rate of between 0 and 1 inclusive
     // A rate of 0.75 means approximately 75 % of your traces will be sent
     const aiSampler = new ApplicationInsightsSampler(0.75);
-    const provider = new NodeTracerProvider({
+    const provider = new TracerProvider({
       sampler: aiSampler,
       resource: resourceFromAttributes({
         [ATTR_SERVICE_NAME]: "basic-service",
       }),
     });
     // @ts-preserve-whitespace
-    provider.register();
+    trace.setGlobalTracerProvider(provider);
+    context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable());
+    propagation.setGlobalPropagator(
+      new CompositePropagator({
+        propagators: [new W3CTraceContextPropagator(), new W3CBaggagePropagator()],
+      }),
+    );
   });
 
   it("EnableDebugLogging", async () => {
-    const provider = new NodeTracerProvider();
+    const provider = new TracerProvider();
     diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.ALL);
-    provider.register();
+    trace.setGlobalTracerProvider(provider);
+    context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable());
+    propagation.setGlobalPropagator(
+      new CompositePropagator({
+        propagators: [new W3CTraceContextPropagator(), new W3CBaggagePropagator()],
+      }),
+    );
   });
 
   it("SetLogLevel", async () => {
