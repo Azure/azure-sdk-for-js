@@ -50,6 +50,7 @@ import type {
   BetaRoutinesListRunsOptionalParams,
   FoundryFeaturesOptInKeys,
   PageOrder,
+  SimulationSeedDataGenerationJobConfiguration,
   TelephonyCallLifecycleEventSource,
   TelephonyProvider,
   TeamsPhoneExtensibilityTelephonyBinding,
@@ -190,13 +191,16 @@ describe("regenerated model wire contracts", () => {
     expectTypeOf<DataGenerationJobType>().toEqualTypeOf<
       "simple_qna" | "traces" | "tool_use" | "simulation_seed"
     >();
+    expectTypeOf<
+      Pick<SimulationSeedDataGenerationJobConfiguration, "max_samples">
+    >().toEqualTypeOf<{ max_samples: number }>();
   });
 
   const generationConfigurations: DataGenerationJobConfigurationUnion[] = [
     { type: "simple_qna", max_samples: 2, question_types: ["short_answer"] },
     { type: "traces", max_samples: 3, redact_private_content: false },
     { type: "tool_use", max_samples: 4 },
-    { type: "simulation_seed" },
+    { type: "simulation_seed", max_samples: 5 },
   ];
 
   it.each(generationConfigurations)(
