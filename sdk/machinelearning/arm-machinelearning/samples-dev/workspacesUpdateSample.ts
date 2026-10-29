@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a machine learning workspace with the specified parameters.
  *
  * @summary updates a machine learning workspace with the specified parameters.
- * x-ms-original-file: 2026-03-15-preview/Workspace/update.json
+ * x-ms-original-file: 2026-09-01/Workspace/update.json
  */
 async function updateWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();
