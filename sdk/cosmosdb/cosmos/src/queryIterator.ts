@@ -326,6 +326,16 @@ export class QueryIterator<T> {
     );
   }
 
+  /**
+   * Updates internal query options without mutating the options object supplied by the caller.
+   * Subclasses use this for options discovered during asynchronous initialization.
+   *
+   * @internal
+   */
+  protected updateQueryOptions(updates: Partial<FeedOptions>): void {
+    this.options = { ...this.options, ...updates };
+  }
+
   private async toArrayImplementation(
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<FeedResponse<T>> {
