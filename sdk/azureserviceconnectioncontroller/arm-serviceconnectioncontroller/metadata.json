@@ -1,0 +1,43 @@
+{
+  "apiVersions": {
+    "Microsoft.Network": "2026-02-09-preview"
+  },
+  "emitterVersion": "0.58.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Network",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-serviceconnectioncontroller!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-serviceconnectioncontroller!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-serviceconnectioncontroller!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-serviceconnectioncontroller!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-serviceconnectioncontroller!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-serviceconnectioncontroller!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-serviceconnectioncontroller!AzureServiceConnectionController:interface": "Microsoft.Network.AzureServiceConnectionController",
+      "@azure/arm-serviceconnectioncontroller!AzureServiceConnectionControllerProperties:interface": "Microsoft.Network.AzureServiceConnectionControllerProperties",
+      "@azure/arm-serviceconnectioncontroller!IpConfiguration:interface": "Microsoft.Network.IpConfiguration",
+      "@azure/arm-serviceconnectioncontroller!ProviderConnectionProperties:interface": "Microsoft.Network.ProviderConnectionProperties",
+      "@azure/arm-serviceconnectioncontroller!ManagedOnBehalfOfConfiguration:interface": "Azure.ResourceManager.CommonTypes.ManagedOnBehalfOfConfiguration",
+      "@azure/arm-serviceconnectioncontroller!MoboBrokerResource:interface": "Azure.ResourceManager.CommonTypes.MoboBrokerResource",
+      "@azure/arm-serviceconnectioncontroller!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-serviceconnectioncontroller!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-serviceconnectioncontroller!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-serviceconnectioncontroller!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-serviceconnectioncontroller!AzureServiceConnectionControllerTagsUpdate:interface": "Azure.ResourceManager.Foundations.TagsUpdateModel",
+      "@azure/arm-serviceconnectioncontroller!AzureServiceConnectionControllerListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-serviceconnectioncontroller!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-serviceconnectioncontroller!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-serviceconnectioncontroller!KnownIPAllocationMethod:enum": "Microsoft.Network.IPAllocationMethod",
+      "@azure/arm-serviceconnectioncontroller!KnownAzureServiceConnectionControllerProvisioningState:enum": "Microsoft.Network.AzureServiceConnectionControllerProvisioningState",
+      "@azure/arm-serviceconnectioncontroller!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-serviceconnectioncontroller!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-serviceconnectioncontroller!KnownVersions:enum": "Microsoft.Network.Versions",
+      "@azure/arm-serviceconnectioncontroller!AzureServiceConnectionControllersOperations#listBySubscription:member": "Microsoft.Network.AzureServiceConnectionControllers.listBySubscription",
+      "@azure/arm-serviceconnectioncontroller!AzureServiceConnectionControllersOperations#listByResourceGroup:member": "Microsoft.Network.AzureServiceConnectionControllers.listByResourceGroup",
+      "@azure/arm-serviceconnectioncontroller!AzureServiceConnectionControllersOperations#update:member": "Microsoft.Network.AzureServiceConnectionControllers.update",
+      "@azure/arm-serviceconnectioncontroller!AzureServiceConnectionControllersOperations#delete:member": "Microsoft.Network.AzureServiceConnectionControllers.delete",
+      "@azure/arm-serviceconnectioncontroller!AzureServiceConnectionControllersOperations#createOrUpdate:member": "Microsoft.Network.AzureServiceConnectionControllers.createOrUpdate",
+      "@azure/arm-serviceconnectioncontroller!AzureServiceConnectionControllersOperations#get:member": "Microsoft.Network.AzureServiceConnectionControllers.get",
+      "@azure/arm-serviceconnectioncontroller!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}
