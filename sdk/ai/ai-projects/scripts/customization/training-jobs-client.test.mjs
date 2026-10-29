@@ -97,6 +97,17 @@ test("does nothing for the default generated baseline or existing customized Job
   assert.equal(wireTrainingJobsClient(incoming, first.text, incoming).text, first.text);
 });
 
+test("does not promote a beta Jobs group to the root client", () => {
+  const betaIncoming =
+    base.replace(
+      "public readonly agents: AgentsOperations;",
+      "public readonly agents: AgentsOperations;\npublic readonly beta: BetaOperations;",
+    ) + "\nexport class BetaOperations { public readonly jobs: JobsOperations; }";
+  const result = wireTrainingJobsClient(base, customized, betaIncoming);
+  assert.equal(result.text, customized);
+  assert.deepEqual(result.diagnostics, []);
+});
+
 for (const [name, changed] of [
   ["type", incoming.replace(declaration, "public readonly jobs: OtherOperations;")],
   ["factory", incoming.replace("_getJobsOperations(this._client)", "getUnknown(this._client)")],
@@ -113,6 +124,15 @@ for (const [name, changed] of [
     const result = wireTrainingJobsClient(base, customized, changed);
     assert.equal(result.text, customized);
     assert.equal(result.diagnostics.length, 1);
+  });
+
+  test(`revalidates the generated Jobs ${name} after integration`, () => {
+    const integrated = wireTrainingJobsClient(base, customized, incoming).text;
+    for (const baseline of [base, incoming]) {
+      const result = wireTrainingJobsClient(baseline, integrated, changed);
+      assert.equal(result.text, integrated);
+      assert.equal(result.diagnostics.length, 1);
+    }
   });
 }
 

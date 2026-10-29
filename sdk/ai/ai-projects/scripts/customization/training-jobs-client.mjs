@@ -45,22 +45,18 @@ export function isTrainingJobsInitialization(generated, customized) {
   );
 }
 
-/** Integrate only the reviewed, newly emitted Jobs group into the maintained client. */
+/** Validate reviewed Jobs wiring on every run, adding it only when newly emitted. */
 export function wireTrainingJobsClient(baseText, customText, incomingText) {
   const previous = client(parse(baseText, file));
   const incomingSource = parse(incomingText, file);
   const incoming = client(incomingSource);
   const jobMember = incoming?.members.find((member) => nameOf(member.name) === "jobs");
-  if (!jobMember || previous?.members.some((member) => nameOf(member.name) === "jobs")) {
+  if (!jobMember) {
     return { text: customText, diagnostics: [] };
   }
 
   const source = parse(customText, file);
   const customized = client(source);
-  if (customized?.members.some((member) => nameOf(member.name) === "jobs")) {
-    return { text: customText, diagnostics: [] };
-  }
-
   const reject = (message) => ({
     text: customText,
     diagnostics: [{ file, declaration: "AIProjectClient.jobs", message }],
@@ -104,6 +100,13 @@ export function wireTrainingJobsClient(baseText, customText, incomingText) {
         `import ${name === "JobsOperations" ? "type " : ""}{ ${name} } from "${moduleName}";`,
       );
     }
+  }
+
+  if (
+    previous?.members.some((member) => nameOf(member.name) === "jobs") ||
+    customized?.members.some((member) => nameOf(member.name) === "jobs")
+  ) {
+    return { text: customText, diagnostics: [] };
   }
 
   const lastImport = source.statements.filter(ts.isImportDeclaration).at(-1);

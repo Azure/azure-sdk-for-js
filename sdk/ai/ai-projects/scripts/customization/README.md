@@ -114,7 +114,9 @@ regeneration script falls back to it when the strict run fails.
   `AIProjectClient` using its existing configurable API context. This narrow
   policy preserves both authentication contexts, user-agent tokens, tracing,
   OpenAI integration, and all existing members. Other protected additions or
-  unfamiliar Jobs factory/import shapes still require review.
+  unfamiliar Jobs factory/import shapes still require review, including after
+  Jobs has entered the generated or customized baseline. This root-group policy
+  does not relocate beta groups or add a root Jobs group when none is emitted.
 - Public exports are reconciled without replacing the customized import
   scaffold. Generated-backed moves are distinguished from custom-only API. An
   unmodified generated export of a group module the emitter removed, for
