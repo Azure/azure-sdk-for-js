@@ -32,11 +32,12 @@ Getting Started: Generate JS SDK with TypeSpec
 It is recommended to configure TypeSpec package on [REST API specifications](https://github.com/Azure/azure-rest-api-specs). Please refer to [these guidelines](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/Getting-started-with-TypeSpec-specifications.md).
 
 ### How to configure tspconfig.yaml
-You can reference these two config files to configure the Modular or RLC package:
-- [Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
-- [RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.WidgetManager/tspconfig.yaml)
 
-Please make sure `service-dir`, `emitter-output-dir`, `package-details`, `flavor`(for typespec-ts) is correctly configured. `experimental-extensible-enums` is the optional config.The `is-modular-library` option is true by default, if you want to generate RLC libraries for data-plane SDKs, you must add `is-modular-library: false` in your tspconfig.yaml.
+Use modular generation for both management-plane and data-plane SDKs. You can reference this configuration:
+
+- [Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
+
+Make sure `service-dir`, `emitter-output-dir`, `package-details`, and `flavor` (for `typespec-ts`) are configured correctly. `experimental-extensible-enums` is optional. Omit the `is-modular-library` option to use the default modular generation.
 
 - "parameters.service-dir.default" would be `sdk/<service>`
 - "options.@azure-tools/typespec-ts.emitter-output-dir" would be `{output-dir}/{service-dir}/<module>`
@@ -71,7 +72,7 @@ Create a local json file named generatedInput.json with content similar to that 
 
 Run the command
 ```
-node eng/tools/js-sdk-release-tools/dist/autoGenerateInPipeline.js --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath=<path-to-generatedOutput.json> --typespecEmitter=@azure-tools/typespec-ts --local
+node eng/tools/js-sdk-release-tools/dist/autoGenerateInPipeline.js --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath=<path-to-generatedOutput.json> --local
 ```
 
 > path-to-generatedOutput.json is the detailed information of generated package, you can ignore it without pipeline. [generateOutput.json](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/sdkautomation/GenerateOutputSchema.json) is to show us the location of generated artifact and any other messages.
