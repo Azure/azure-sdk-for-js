@@ -140,8 +140,8 @@ describe("Batch", () => {
       const foundJob = (items as DeidentificationJobOutput[]).find((j) => j.name === jobName);
 
       assert.isTrue(foundJob !== undefined, "Job should be found");
-      assert.isDefined(foundJob!.createdAt, "Job should have createdAt");
-      assert.isDefined(foundJob!.lastUpdatedAt, "Job should have lastUpdatedAt");
+      assert.isString(foundJob!.createdAt, "Job should have createdAt");
+      assert.isString(foundJob!.lastUpdatedAt, "Job should have lastUpdatedAt");
       // The job may begin processing before it is listed, so it can be NotStarted or Running,
       // and a summary (with in-progress counts) can appear as soon as processing begins.
       assert.include(
@@ -293,18 +293,25 @@ describe("Batch", () => {
 
       const cancelledJob = await client.path("/jobs/{name}:cancel", jobName).post();
       if (isUnexpected(cancelledJob)) {
-        // The job may have reached a terminal state before cancel was processed.
+        // The service rejects cancel with 400 JobStatusMismatch when the job already reached a
+        // terminal state; any other cancel error is a real failure.
+        const cancelErrorCode = getErrorCode(cancelledJob.body);
+        if (cancelledJob.status !== "400" || cancelErrorCode !== "JobStatusMismatch") {
+          throw new Error(
+            `Cancel failed unexpectedly (status ${cancelledJob.status}, code ${cancelErrorCode})`,
+          );
+        }
         const currentJob = await client.path("/jobs/{name}", jobName).get();
         if (isUnexpected(currentJob)) {
           throw new Error(
-            `Cancel failed (status ${cancelledJob.status}, code ${getErrorCode(cancelledJob.body)}) ` +
+            `Cancel failed (status ${cancelledJob.status}, code ${cancelErrorCode}) ` +
               `and job could not be retrieved (status ${currentJob.status}, code ${getErrorCode(currentJob.body)})`,
           );
         }
         assert.include(
           TERMINAL_JOB_STATUSES,
           currentJob.body.status,
-          `Cancel failed (status ${cancelledJob.status}, code ${getErrorCode(cancelledJob.body)}) ` +
+          `Cancel failed (status ${cancelledJob.status}, code ${cancelErrorCode}) ` +
             `so job should already be in a terminal state; job status ${currentJob.body.status}`,
         );
       } else {
