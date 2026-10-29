@@ -442,20 +442,6 @@ describe("snippets", () => {
       layoutAwareRouting: "enabled",
     });
     console.log(`Downloaded ${downloaded.length} bytes`);
-    // @ts-preserve-whitespace
-    // To route reads yourself, read each range of the layout from the endpoint that serves it.
-    for await (const page of blobClient.getLayout()) {
-      for (const range of page.ranges) {
-        const endpoint = page.endpoints.find((e) => e.index === range.endpointIndex);
-        const response = await blobClient.download(range.start, range.end - range.start + 1, {
-          layoutEndpoint: endpoint?.value,
-        });
-        if (response.readableStreamBody) {
-          const bytes = await buffer(response.readableStreamBody);
-          console.log(`Read ${bytes.length} bytes from ${endpoint?.value}`);
-        }
-      }
-    }
   });
 
   it("ReadmeSampleDownloadBlob_Browser", async () => {
@@ -911,48 +897,6 @@ describe("snippets", () => {
     if (response.pageRange) {
       for (const pageRange of response.pageRange) {
         console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
-      }
-    }
-  });
-
-  it("ClientsGetBlobLayout", async () => {
-    const account = "<account>";
-    const blobServiceClient = new BlobServiceClient(
-      `https://${account}.blob.core.windows.net`,
-      new DefaultAzureCredential(),
-    );
-    // @ts-preserve-whitespace
-    const containerClient = blobServiceClient.getContainerClient("<container name>");
-    const blobClient = containerClient.getBlobClient("<blob name>");
-    // @ts-preserve-whitespace
-    for await (const page of blobClient.getLayout()) {
-      for (const range of page.ranges) {
-        const endpoint = page.endpoints.find((e) => e.index === range.endpointIndex);
-        console.log(`${range.start}-${range.end} is served by ${endpoint?.value}`);
-      }
-    }
-  });
-
-  it("ClientsDownloadFromLayoutEndpoint", async () => {
-    const account = "<account>";
-    const blobServiceClient = new BlobServiceClient(
-      `https://${account}.blob.core.windows.net`,
-      new DefaultAzureCredential(),
-    );
-    // @ts-preserve-whitespace
-    const containerClient = blobServiceClient.getContainerClient("<container name>");
-    const blobClient = containerClient.getBlobClient("<blob name>");
-    // @ts-preserve-whitespace
-    for await (const page of blobClient.getLayout()) {
-      for (const range of page.ranges) {
-        const layoutEndpoint = page.endpoints.find((e) => e.index === range.endpointIndex)?.value;
-        const response = await blobClient.download(range.start, range.end - range.start + 1, {
-          layoutEndpoint,
-        });
-        if (response.readableStreamBody) {
-          const bytes = await buffer(response.readableStreamBody);
-          console.log(`Read ${bytes.length} bytes from ${layoutEndpoint}`);
-        }
       }
     }
   });

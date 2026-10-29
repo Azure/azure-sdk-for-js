@@ -5,8 +5,6 @@ import { describe, it, assert, expect } from "vitest";
 import { RestError } from "@azure/core-rest-pipeline";
 import type { BlobLayoutSegment } from "../../src/utils/BlobLayoutSegment.js";
 import {
-  decodeLayoutContinuationToken,
-  encodeLayoutContinuationToken,
   fetchLayout,
   getLayoutEndpoint,
   toBlobLayoutCacheValue,
@@ -183,23 +181,5 @@ describe("toBlobLayoutCacheValue", () => {
 
     assert.isAtLeast(lifetime, 5 * 60 * 1000 - 1000);
     assert.isAtMost(lifetime, 5 * 60 * 1000 + 1000);
-  });
-});
-
-describe("encodeLayoutContinuationToken and decodeLayoutContinuationToken", () => {
-  it("round-trips the marker and the ETag", () => {
-    const token = encodeLayoutContinuationToken({ marker: "marker-1", etag: "etag-1" });
-
-    assert.deepEqual(decodeLayoutContinuationToken(token), { marker: "marker-1", etag: "etag-1" });
-  });
-
-  it("round-trips a marker without an ETag", () => {
-    const token = encodeLayoutContinuationToken({ marker: "marker-1" });
-
-    assert.deepEqual(decodeLayoutContinuationToken(token), { marker: "marker-1", etag: undefined });
-  });
-
-  it("takes any other token as a bare service marker", () => {
-    assert.deepEqual(decodeLayoutContinuationToken("marker-1"), { marker: "marker-1" });
   });
 });

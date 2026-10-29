@@ -432,7 +432,6 @@ export class BlobClient extends StorageClient {
     getAppendBlobClient(): AppendBlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(): BlockBlobClient;
-    getLayout(options?: BlobGetLayoutOptions): PagedAsyncIterableIterator<BlobGetLayoutResponseModel, BlobGetLayoutResponseModel>;
     getPageBlobClient(): PageBlobClient;
     getProperties(options?: BlobGetPropertiesOptions): Promise<BlobGetPropertiesResponse>;
     getTags(options?: BlobGetTagsOptions): Promise<BlobGetTagsResponse>;
@@ -576,7 +575,6 @@ export interface BlobDownloadHeaders {
     copyStatusDescription?: string;
     createdOn?: Date;
     date?: Date;
-    downloadHint?: DownloadHint;
     encryptionKeySha256?: string;
     encryptionScope?: string;
     errorCode?: string;
@@ -630,7 +628,6 @@ export interface BlobDownloadOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
-    layoutEndpoint?: LayoutEndpoint;
     maxRetryRequests?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
     rangeGetContentCrc64?: boolean;
@@ -709,33 +706,6 @@ export interface BlobGetAccountInfoOptions extends CommonOptions {
 
 // @public
 export type BlobGetAccountInfoResponse = WithResponse<BlobGetAccountInfoHeaders, BlobGetAccountInfoHeaders>;
-
-// @public
-export interface BlobGetLayoutHeaders {
-    blobContentLength?: number;
-    clientRequestId?: string;
-    date?: Date;
-    errorCode?: string;
-    etag?: string;
-    lastModified?: Date;
-    requestId?: string;
-    version?: string;
-    versionId?: string;
-}
-
-// @public
-export interface BlobGetLayoutOptions extends CommonOptions {
-    abortSignal?: AbortSignalLike;
-    conditions?: BlobRequestConditions;
-    customerProvidedKey?: CpkInfo;
-    range?: Range_2;
-}
-
-// @public
-export type BlobGetLayoutResponseInternal = BlobGetLayoutHeaders & BlobLayout;
-
-// @public
-export type BlobGetLayoutResponseModel = BlobGetLayoutResponseInternal & ResponseWithBody<BlobGetLayoutHeaders, BlobLayout | undefined>;
 
 // @public
 export interface BlobGetPropertiesHeaders {
@@ -922,26 +892,6 @@ export interface BlobItemInternal {
     snapshot: string;
     // (undocumented)
     versionId?: string;
-}
-
-// @public
-export interface BlobLayout {
-    continuationToken?: string;
-    endpoints: BlobLayoutEndpoint[];
-    ranges: BlobLayoutRange[];
-}
-
-// @public
-export interface BlobLayoutEndpoint {
-    index: number;
-    value: LayoutEndpoint;
-}
-
-// @public
-export interface BlobLayoutRange {
-    end: number;
-    endpointIndex: number;
-    start: number;
 }
 
 // @public
@@ -2274,9 +2224,6 @@ export { CredentialPolicyCreator }
 export type DeleteSnapshotsOptionType = "include" | "only";
 
 // @public
-export type DownloadHint = "layout";
-
-// @public
 export type EncryptionAlgorithmType = string;
 
 // @public
@@ -2377,9 +2324,6 @@ export enum KnownEncryptionAlgorithmType {
 
 // @public
 export type LayoutAwareRouting = "auto" | "enabled" | "disabled";
-
-// @public
-export type LayoutEndpoint = string;
 
 // @public
 export interface Lease {
