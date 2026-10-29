@@ -92,10 +92,10 @@ describe("defaultQueryExecutionContext", () => {
 
     const firstContext = new DefaultQueryExecutionContext(options, fetchFunction, "first");
     await firstContext.fetchMore(createDummyDiagnosticNode());
-    const secondContext = new DefaultQueryExecutionContext(options, fetchFunction, "second");
 
     const firstContextSecondPage = firstContext.fetchMore(createDummyDiagnosticNode());
     await delayedFetchStarted;
+    const secondContext = new DefaultQueryExecutionContext(options, fetchFunction, "second");
     await secondContext.fetchMore(createDummyDiagnosticNode());
     releaseDelayedFetch();
     await firstContextSecondPage;
