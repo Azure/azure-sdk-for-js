@@ -19,6 +19,9 @@ import type {
   VoiceAgentRealtimeEvent,
   VoiceAgentServerEvent,
   VoiceAgentUnknownEvent,
+  VoiceAgentServerEventSessionHandoffStarted,
+  VoiceAgentServerEventSessionHandoffCompleted,
+  VoiceAgentServerEventSessionHandoffAborted,
 } from "@azure/ai-projects";
 import type {
   VoiceAgentWebSocketConnectOptions,
@@ -32,6 +35,7 @@ import {
 } from "$internal/realtime/protocol.js";
 import { SDK_VERSION } from "$internal/constants.js";
 import { assert, describe, expect, expectTypeOf, it, vi } from "vitest";
+import { handoffEvents } from "./handoffEvents.js";
 
 class TestCredential implements TokenCredential {
   public requestedScopes?: string | string[];
@@ -667,6 +671,42 @@ describe("AIProjectClient realtime", () => {
     },
   );
 
+  it.each(handoffEvents)("recognizes Handoff lifecycle event $event_id", (payload) => {
+    for (const data of [
+      JSON.stringify(payload),
+      new TextEncoder().encode(JSON.stringify(payload)).buffer,
+    ]) {
+      expect(deserializeVoiceAgentServerEvent(data)).toEqual(payload);
+    }
+  });
+
+  it.each(handoffEvents)("rejects missing required Handoff fields for $event_id", (payload) => {
+    for (const field of Object.keys(payload).filter((key) => key !== "type" && key !== "error")) {
+      const malformed: Record<string, unknown> = { ...payload };
+      delete malformed[field];
+      expect(() => deserializeVoiceAgentServerEvent(JSON.stringify(malformed))).toThrow(
+        VoiceAgentProtocolError,
+      );
+    }
+  });
+
+  it("delivers Handoff lifecycle events through the connection iterator in order", async () => {
+    const factory = new MockWebSocketFactory();
+    const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent");
+    try {
+      const iterator = connection[Symbol.asyncIterator]();
+      for (const payload of handoffEvents) {
+        factory.transport.receive(payload);
+      }
+      for (const payload of handoffEvents) {
+        expect((await iterator.next()).value).toEqual(payload);
+      }
+      expect(connection.state).toBe("connected");
+    } finally {
+      await connection.close();
+    }
+  });
+
   it("preserves known-event narrowing in the public realtime event union", () => {
     expectTypeOf<VoiceAgentConnection>().toExtend<AsyncIterable<VoiceAgentRealtimeEvent>>();
     const checkEvent = (event: VoiceAgentRealtimeEvent): void => {
@@ -682,6 +722,18 @@ describe("AIProjectClient realtime", () => {
         case "response.output_audio.delta":
           expectTypeOf(event).toEqualTypeOf<RealtimeServerEventResponseAudioDelta>();
           expectTypeOf(event.delta).toEqualTypeOf<Uint8Array>();
+          break;
+        case "session.handoff.started":
+          expectTypeOf(event).toEqualTypeOf<VoiceAgentServerEventSessionHandoffStarted>();
+          expectTypeOf(event.handoff_id).toEqualTypeOf<string>();
+          break;
+        case "session.handoff.completed":
+          expectTypeOf(event).toEqualTypeOf<VoiceAgentServerEventSessionHandoffCompleted>();
+          expectTypeOf(event.duration_ms).toEqualTypeOf<number>();
+          break;
+        case "session.handoff.aborted":
+          expectTypeOf(event).toEqualTypeOf<VoiceAgentServerEventSessionHandoffAborted>();
+          expectTypeOf(event.reason).toEqualTypeOf<"user_interruption" | "error">();
           break;
       }
       if (event.type !== "unknown") {

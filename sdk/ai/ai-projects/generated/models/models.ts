@@ -19889,7 +19889,10 @@ export type VoiceAgentServerEvent =
   | VoiceAgentServerEventResponseAnimationBlendshapesDone
   | VoiceAgentServerEventResponseAnimationVisemeDelta
   | VoiceAgentServerEventResponseAnimationVisemeDone
-  | VoiceAgentServerEventResponseVideoDelta;
+  | VoiceAgentServerEventResponseVideoDelta
+  | VoiceAgentServerEventSessionHandoffStarted
+  | VoiceAgentServerEventSessionHandoffCompleted
+  | VoiceAgentServerEventSessionHandoffAborted;
 
 export function voiceAgentServerEventSerializer(item: VoiceAgentServerEvent): any {
   return item;
@@ -20102,3 +20105,198 @@ export type BetaVoiceAgentsConversationsDownloadAudioItemResponse = {
    */
   readableStreamBody?: NodeReadableStream;
 };
+
+/** The `session.handoff.started` server event. */
+export interface VoiceAgentServerEventSessionHandoffStarted extends RealtimeServerEvent {
+  /** The event type. Always `session.handoff.started`. */
+  type: "session.handoff.started";
+  /** The server-generated event identifier. */
+  event_id: string;
+  /** The server-generated handoff attempt identifier. */
+  handoff_id: string;
+  /** The configured edge selected for this handoff. */
+  edge_id: string;
+  /** The source node identifier or `$entrypoint`. */
+  from_node_id: string;
+  /** The target node identifier or `$entrypoint`. */
+  to_node_id: string;
+  /** The model active before the handoff. */
+  from_model: string;
+  /** The model prepared for the target behavior. */
+  to_model: string;
+  /** The function-call identifier that initiated the handoff. */
+  tool_call_id: string;
+  /** The source generation for started or aborted events, and the committed target generation for completed events. */
+  node_generation: number;
+}
+
+/** The `session.handoff.completed` server event. */
+export interface VoiceAgentServerEventSessionHandoffCompleted extends RealtimeServerEvent {
+  /** The event type. Always `session.handoff.completed`. */
+  type: "session.handoff.completed";
+  /** The server-generated event identifier. */
+  event_id: string;
+  /** The server-generated handoff attempt identifier. */
+  handoff_id: string;
+  /** The configured edge selected for this handoff. */
+  edge_id: string;
+  /** The source node identifier or `$entrypoint`. */
+  from_node_id: string;
+  /** The target node identifier or `$entrypoint`. */
+  to_node_id: string;
+  /** The model active before the handoff. */
+  from_model: string;
+  /** The model prepared for the target behavior. */
+  to_model: string;
+  /** The function-call identifier that initiated the handoff. */
+  tool_call_id: string;
+  /** The source generation for started or aborted events, and the committed target generation for completed events. */
+  node_generation: number;
+  /** The target-preparation duration. */
+  prepare_duration_ms: number;
+  /** The total handoff duration. */
+  duration_ms: number;
+}
+
+/** The `session.handoff.aborted` server event. */
+export interface VoiceAgentServerEventSessionHandoffAborted extends RealtimeServerEvent {
+  /** The event type. Always `session.handoff.aborted`. */
+  type: "session.handoff.aborted";
+  /** The server-generated event identifier. */
+  event_id: string;
+  /** The server-generated handoff attempt identifier. */
+  handoff_id: string;
+  /** The configured edge selected for this handoff. */
+  edge_id: string;
+  /** The source node identifier or `$entrypoint`. */
+  from_node_id: string;
+  /** The target node identifier or `$entrypoint`. */
+  to_node_id: string;
+  /** The model active before the handoff. */
+  from_model: string;
+  /** The model prepared for the target behavior. */
+  to_model: string;
+  /** The function-call identifier that initiated the handoff. */
+  tool_call_id: string;
+  /** The source generation for started or aborted events, and the committed target generation for completed events. */
+  node_generation: number;
+  /** Why the handoff ended before target commit. */
+  reason: VoiceAgentHandoffAbortReason;
+  /** The handoff failure detail when `reason` is `error`. */
+  error?: RealtimeServerEventErrorError;
+}
+
+export function voiceAgentServerEventSessionHandoffStartedSerializer(
+  item: VoiceAgentServerEventSessionHandoffStarted,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+  };
+}
+
+export function voiceAgentServerEventSessionHandoffStartedDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionHandoffStarted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+  };
+}
+
+export function voiceAgentServerEventSessionHandoffCompletedSerializer(
+  item: VoiceAgentServerEventSessionHandoffCompleted,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+    prepare_duration_ms: item["prepare_duration_ms"],
+    duration_ms: item["duration_ms"],
+  };
+}
+
+export function voiceAgentServerEventSessionHandoffCompletedDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionHandoffCompleted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+    prepare_duration_ms: item["prepare_duration_ms"],
+    duration_ms: item["duration_ms"],
+  };
+}
+
+export function voiceAgentServerEventSessionHandoffAbortedSerializer(
+  item: VoiceAgentServerEventSessionHandoffAborted,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+    reason: item["reason"],
+    error: !item["error"] ? item["error"] : realtimeServerEventErrorErrorSerializer(item["error"]),
+  };
+}
+
+export function voiceAgentServerEventSessionHandoffAbortedDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionHandoffAborted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+    reason: item["reason"],
+    error: !item["error"]
+      ? item["error"]
+      : realtimeServerEventErrorErrorDeserializer(item["error"]),
+  };
+}
+
+/** Why a server-managed handoff ended before target commit. */
+export type VoiceAgentHandoffAbortReason = "user_interruption" | "error";

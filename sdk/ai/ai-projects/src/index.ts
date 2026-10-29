@@ -987,6 +987,10 @@ export type {
   MicrosoftCopilotToolsetDefaultConfig,
   MicrosoftCopilotToolsetConfig,
   MicrosoftCopilotBuiltInTool,
+  VoiceAgentServerEventSessionHandoffStarted,
+  VoiceAgentServerEventSessionHandoffCompleted,
+  VoiceAgentServerEventSessionHandoffAborted,
+  VoiceAgentHandoffAbortReason,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { BetaAgentInsightMonitorsOperations } from "./classic/beta/agentInsightMonitors/index.js";
