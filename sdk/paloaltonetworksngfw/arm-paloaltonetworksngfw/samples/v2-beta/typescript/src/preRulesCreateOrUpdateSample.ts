@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a PreRulesResource
  *
  * @summary create a PreRulesResource
- * x-ms-original-file: 2026-05-11-preview/PreRules_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PreRules_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function preRulesCreateOrUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function preRulesCreateOrUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to create a PreRulesResource
  *
  * @summary create a PreRulesResource
- * x-ms-original-file: 2026-05-11-preview/PreRules_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PreRules_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function preRulesCreateOrUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

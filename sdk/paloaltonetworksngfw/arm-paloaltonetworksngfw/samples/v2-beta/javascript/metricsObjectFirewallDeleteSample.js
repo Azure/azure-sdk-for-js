@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a MetricsObjectFirewallResource
  *
  * @summary delete a MetricsObjectFirewallResource
- * x-ms-original-file: 2026-05-11-preview/MetricsObjectFirewall_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/MetricsObjectFirewall_Delete_MaximumSet_Gen.json
  */
 async function metricsObjectFirewallDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function metricsObjectFirewallDeleteMaximumSetGen() {
  * This sample demonstrates how to delete a MetricsObjectFirewallResource
  *
  * @summary delete a MetricsObjectFirewallResource
- * x-ms-original-file: 2026-05-11-preview/MetricsObjectFirewall_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/MetricsObjectFirewall_Delete_MinimumSet_Gen.json
  */
 async function metricsObjectFirewallDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();

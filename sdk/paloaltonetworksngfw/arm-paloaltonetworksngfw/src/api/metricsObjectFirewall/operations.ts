@@ -38,7 +38,7 @@ export function _listByFirewallsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,6 @@ export async function _listByFirewallsDeserialize(
 
   return _metricsObjectFirewallResourceListResultDeserializer(result.body);
 }
-
 /** List MetricsObjectFirewallResource resources by Firewalls */
 export function listByFirewalls(
   context: Client,
@@ -81,7 +80,7 @@ export function listByFirewalls(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -98,7 +97,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +119,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a MetricsObjectFirewallResource */
 export function $delete(
   context: Client,
@@ -133,7 +131,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, firewallName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -150,7 +148,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -179,7 +177,6 @@ export async function _createOrUpdateDeserialize(
 
   return metricsObjectFirewallResourceDeserializer(result.body);
 }
-
 /** Create a MetricsObjectFirewallResource */
 export function createOrUpdate(
   context: Client,
@@ -194,7 +191,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, firewallName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<MetricsObjectFirewallResource>, MetricsObjectFirewallResource>;
 }
 
@@ -210,7 +207,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -237,7 +234,6 @@ export async function _getDeserialize(
 
   return metricsObjectFirewallResourceDeserializer(result.body);
 }
-
 /** Get a MetricsObjectFirewallResource */
 export async function get(
   context: Client,

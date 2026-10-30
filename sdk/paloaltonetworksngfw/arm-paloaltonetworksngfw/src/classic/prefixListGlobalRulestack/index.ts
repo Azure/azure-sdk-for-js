@@ -81,7 +81,6 @@ export interface PrefixListGlobalRulestackOperations {
     options?: PrefixListGlobalRulestackGetOptionalParams,
   ) => Promise<PrefixListGlobalRulestackResource>;
 }
-
 function _getPrefixListGlobalRulestack(context: PaloAltoNetworksCloudngfwContext) {
   return {
     list: (globalRulestackName: string, options?: PrefixListGlobalRulestackListOptionalParams) =>
@@ -138,7 +137,6 @@ function _getPrefixListGlobalRulestack(context: PaloAltoNetworksCloudngfwContext
     ) => get(context, globalRulestackName, name, options),
   };
 }
-
 export function _getPrefixListGlobalRulestackOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): PrefixListGlobalRulestackOperations {

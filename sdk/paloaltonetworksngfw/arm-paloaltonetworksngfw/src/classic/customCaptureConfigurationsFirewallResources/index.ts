@@ -45,7 +45,6 @@ export interface CustomCaptureConfigurationsFirewallResourcesOperations {
     options?: CustomCaptureConfigurationsFirewallResourcesGetOptionalParams,
   ) => Promise<CustomCaptureConfigurationsFirewallResource>;
 }
-
 function _getCustomCaptureConfigurationsFirewallResources(
   context: PaloAltoNetworksCloudngfwContext,
 ) {
@@ -73,7 +72,6 @@ function _getCustomCaptureConfigurationsFirewallResources(
     ) => get(context, resourceGroupName, firewallName, options),
   };
 }
-
 export function _getCustomCaptureConfigurationsFirewallResourcesOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): CustomCaptureConfigurationsFirewallResourcesOperations {
