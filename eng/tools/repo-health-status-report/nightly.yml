@@ -1,0 +1,53 @@
+trigger: none
+pr: none
+
+jobs:
+  - job: 'JsRepoHealth'
+    displayName: 'JavaScript Repository Health Stats'
+
+    variables:
+      - template: /eng/pipelines/templates/variables/globals.yml
+      - template: /eng/pipelines/templates/variables/image.yml
+
+    pool:
+      name: azsdk-pool
+      demands: ImageOverride -equals ubuntu-24.04
+
+    steps:
+      - template: /eng/pipelines/templates/steps/common.yml
+      - template: /eng/pipelines/templates/steps/install-pnpm.yml
+      - template: /eng/common/pipelines/templates/steps/login-to-github.yml
+        parameters:
+          TokenRequest:
+            repositories:
+              - azure-sdk-for-js
+            permissions:
+              contents: write
+              issues: read
+
+      - script: |
+          pnpm install
+        displayName: "Install repository dependencies"
+
+      - script: |
+          pnpm run build
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
+        displayName: "Build repo-health-status-report tool"
+
+      - script: |
+          pnpm run run-tool -- --upload
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+          GH_TOKEN: $(GH_TOKEN)
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
+        displayName: "Run and upload repo-health-status-report"
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+
+      - script: |
+          pnpm run run-tool
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+          GH_TOKEN: $(GH_TOKEN)
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
+        displayName: "Run repo-health-status-report without upload"
+        condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/main'))

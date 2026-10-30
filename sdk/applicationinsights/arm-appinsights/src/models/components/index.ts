@@ -10,6 +10,7 @@ export type {
   PrivateLinkScopedResource,
   PublicNetworkAccessType,
   IngestionMode,
+  AzureMonitorWorkspaceIngestionMode,
   ComponentsResource,
   ErrorResponseComponents,
   ErrorResponseComponentsError,
@@ -25,5 +26,6 @@ export {
   KnownRequestSource,
   KnownPublicNetworkAccessType,
   KnownIngestionMode,
+  KnownAzureMonitorWorkspaceIngestionMode,
   KnownPurgeState,
 } from "./models.js";

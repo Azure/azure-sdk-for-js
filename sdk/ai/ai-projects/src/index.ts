@@ -1214,6 +1214,13 @@ export type {
   LiveServerEventLiveTransportRinging,
   LiveServerEventLiveTransportAnswered,
   LiveServerEventLiveTransportFailed,
+  VoiceAgentPostCallConfig,
+  VoiceAgentPostCallDestination,
+  VoiceAgentPostCallDestinationUnion,
+  VoiceAgentPostCallDestinationType,
+  VoiceAgentEventGridPostCallDestination,
+  VoiceAgentRoutinePostCallDestination,
+  VoiceAgentPostCallIncludeOption,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { BetaAgentInsightMonitorsOperations } from "./classic/beta/agentInsightMonitors/index.js";

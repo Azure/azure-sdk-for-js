@@ -7000,6 +7000,7 @@ export type SimpleQnAFineTuningQuestionType = "short_answer" | "long_answer";
 
 // @public
 export interface SimulationSeedDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
+    max_samples: number;
     type: "simulation_seed";
 }
 
@@ -8401,6 +8402,7 @@ export interface VoiceAgentDefinition extends VoiceAgentBaseDefinition {
     model_type?: VoiceModelType;
     output_modalities?: VoiceOutputModality[];
     parallel_tool_calls?: boolean;
+    post_call?: VoiceAgentPostCallConfig;
     soundscape?: VoiceAgentSoundscapeConfig;
     sub_protocol?: "realtime";
     subagent_config?: VoiceAgentSubagentConfig;
@@ -8435,6 +8437,13 @@ export type VoiceAgentEndOfUtteranceDetectionModel = "semantic_detection_v1" | "
 
 // @public
 export type VoiceAgentEndOfUtteranceThresholdLevel = "low" | "medium" | "high" | "default";
+
+// @public
+export interface VoiceAgentEventGridPostCallDestination extends VoiceAgentPostCallDestination {
+    connection_name: string;
+    // (undocumented)
+    type: "event_grid";
+}
 
 // @public
 export interface VoiceAgentEventOptions extends VoiceAgentSendOptions {
@@ -8756,6 +8765,26 @@ export interface VoiceAgentNoiseReduction {
 export type VoiceAgentNoiseReductionType = "near_field" | "far_field" | "azure_deep_noise_suppression" | "azure_deep_noise_suppression_headset" | "azure_personal_noise_suppression";
 
 // @public
+export interface VoiceAgentPostCallConfig {
+    destinations: VoiceAgentPostCallDestinationUnion[];
+    include?: VoiceAgentPostCallIncludeOption[];
+}
+
+// @public
+export interface VoiceAgentPostCallDestination {
+    type: VoiceAgentPostCallDestinationType;
+}
+
+// @public
+export type VoiceAgentPostCallDestinationType = "event_grid" | "routine";
+
+// @public
+export type VoiceAgentPostCallDestinationUnion = VoiceAgentEventGridPostCallDestination | VoiceAgentRoutinePostCallDestination | VoiceAgentPostCallDestination;
+
+// @public
+export type VoiceAgentPostCallIncludeOption = "audio";
+
+// @public
 export type VoiceAgentProfanityFilterMode = "masked" | "unfiltered" | "removed";
 
 // @public
@@ -8843,6 +8872,13 @@ export interface VoiceAgentResponseCreateParams {
 // @public
 export interface VoiceAgentResponseOptions extends VoiceAgentEventOptions {
     response?: VoiceAgentResponseCreateParams;
+}
+
+// @public
+export interface VoiceAgentRoutinePostCallDestination extends VoiceAgentPostCallDestination {
+    name: string;
+    // (undocumented)
+    type: "routine";
 }
 
 // @public

@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import {
   $delete,
   update,
   createAndUpdate,
   get,
 } from "../../api/componentLinkedStorageAccounts/operations.js";
-import {
+import type {
   ComponentLinkedStorageAccountsDeleteOptionalParams,
   ComponentLinkedStorageAccountsUpdateOptionalParams,
   ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams,
   ComponentLinkedStorageAccountsGetOptionalParams,
 } from "../../api/componentLinkedStorageAccounts/options.js";
-import {
+import type {
   ComponentLinkedStorageAccounts,
   StorageType,
   ComponentLinkedStorageAccountsPatch,

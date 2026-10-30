@@ -1,0 +1,112 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "vault": {
+          "bicepIdentifier": "vault",
+          "type": "Microsoft.KeyVault/vaults",
+          "apiVersion": "2026-02-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sample-vault"
+              },
+              "location": {
+                "kind": "string",
+                "value": "westus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "enabledForDeployment": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "enabledForDiskEncryption": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "enabledForTemplateDeployment": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "networkAcls": {
+                    "kind": "object",
+                    "value": {
+                      "bypass": {
+                        "kind": "string",
+                        "value": "AzureServices"
+                      },
+                      "defaultAction": {
+                        "kind": "string",
+                        "value": "Deny"
+                      },
+                      "ipRules": {
+                        "kind": "array",
+                        "items": [
+                          {
+                            "kind": "object",
+                            "value": {
+                              "value": {
+                                "kind": "string",
+                                "value": "124.56.78.91"
+                              }
+                            }
+                          },
+                          {
+                            "kind": "object",
+                            "value": {
+                              "value": {
+                                "kind": "string",
+                                "value": "'10.91.4.0/24'"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "virtualNetworkRules": {
+                        "kind": "array",
+                        "items": [
+                          {
+                            "kind": "object",
+                            "value": {
+                              "id": {
+                                "kind": "string",
+                                "value": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "sku": {
+                    "kind": "object",
+                    "value": {
+                      "name": {
+                        "kind": "string",
+                        "value": "standard"
+                      },
+                      "family": {
+                        "kind": "string",
+                        "value": "A"
+                      }
+                    }
+                  },
+                  "tenantId": {
+                    "kind": "string",
+                    "value": "00000000-0000-0000-0000-000000000000"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -50,6 +50,7 @@ import type {
   BetaRoutinesListRunsOptionalParams,
   FoundryFeaturesOptInKeys,
   PageOrder,
+  SimulationSeedDataGenerationJobConfiguration,
   TelephonyCallLifecycleEventSource,
   TelephonyProvider,
   TeamsPhoneExtensibilityTelephonyBinding,
@@ -57,6 +58,8 @@ import type {
   VoiceAgentTransport,
 } from "../../src/index.js";
 import {
+  agentDefinitionUnionDeserializer,
+  agentDefinitionUnionSerializer,
   agentSessionResourceDeserializer,
   apiErrorDeserializer,
   apiErrorResponseDeserializer,
@@ -190,13 +193,16 @@ describe("regenerated model wire contracts", () => {
     expectTypeOf<DataGenerationJobType>().toEqualTypeOf<
       "simple_qna" | "traces" | "tool_use" | "simulation_seed"
     >();
+    expectTypeOf<
+      Pick<SimulationSeedDataGenerationJobConfiguration, "max_samples">
+    >().toEqualTypeOf<{ max_samples: number }>();
   });
 
   const generationConfigurations: DataGenerationJobConfigurationUnion[] = [
     { type: "simple_qna", max_samples: 2, question_types: ["short_answer"] },
     { type: "traces", max_samples: 3, redact_private_content: false },
     { type: "tool_use", max_samples: 4 },
-    { type: "simulation_seed" },
+    { type: "simulation_seed", max_samples: 5 },
   ];
 
   it.each(generationConfigurations)(
@@ -571,6 +577,31 @@ describe("regenerated model wire contracts", () => {
     expect(voiceAgentDefinitionDeserializer(definition)).toMatchObject(definition);
     const withoutSoundscape: VoiceAgentDefinition = { kind: "voice" };
     expect(toWire(voiceAgentDefinitionSerializer(withoutSoundscape))).toEqual(withoutSoundscape);
+  });
+
+  it("preserves both post-call destination types through the agent union", () => {
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      post_call: {
+        destinations: [
+          { type: "event_grid", connection_name: "post-call-events" },
+          { type: "routine", name: "post-call-routine" },
+        ],
+      },
+    };
+    expect(toWire(voiceAgentDefinitionSerializer(definition))).toEqual(definition);
+    expect(voiceAgentDefinitionDeserializer(definition)).toMatchObject(definition);
+    expect(toWire(agentDefinitionUnionSerializer(definition))).toEqual(definition);
+    expect(agentDefinitionUnionDeserializer(definition)).toMatchObject(definition);
+  });
+
+  it("preserves an empty post-call include list", () => {
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      post_call: { destinations: [], include: [] },
+    };
+    expect(toWire(voiceAgentDefinitionSerializer(definition))).toEqual(definition);
+    expect(voiceAgentDefinitionDeserializer(definition)).toMatchObject(definition);
   });
 
   it.each([false, true])("preserves hosted memory snapshot opt-in %s", (enabled) => {
