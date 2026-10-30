@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.RecoveryServices": "2026-07-01"
+    "Microsoft.RecoveryServices": "2026-11-01"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.RecoveryServices",
     "CrossLanguageDefinitionId": {
