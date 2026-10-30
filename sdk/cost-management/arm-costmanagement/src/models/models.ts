@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** The status of the long running operation for cost detailed report. */
 export interface GenerateDetailedCostReportOperationStatuses extends ExtensionResource {
   /** The status of the long running operation. */
@@ -4280,6 +4280,114 @@ export function settingUnionArrayDeserializer(result: Array<SettingUnion>): any[
   });
 }
 
+/** Markup rule */
+export interface MarkupRule extends ProxyResource {
+  /** Markup rule properties */
+  properties?: MarkupRuleProperties;
+}
+
+export function markupRuleSerializer(item: MarkupRule): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : markupRulePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function markupRuleDeserializer(item: any): MarkupRule {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : markupRulePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The properties of the markup rule. */
+export interface MarkupRuleProperties {
+  /** The description of the markup rule. */
+  description?: string;
+  /** The markup percentage of the rule. */
+  percentage: number;
+  /** Starting date of the markup rule. */
+  startDate: Date;
+  /** Ending date of the markup rule. */
+  endDate?: Date;
+  /** Customer information for the markup rule. */
+  customerDetails: CustomerMetadata;
+}
+
+export function markupRulePropertiesSerializer(item: MarkupRuleProperties): any {
+  return {
+    description: item["description"],
+    percentage: item["percentage"],
+    startDate: item["startDate"].toISOString(),
+    endDate: !item["endDate"] ? item["endDate"] : item["endDate"].toISOString(),
+    customerDetails: customerMetadataSerializer(item["customerDetails"]),
+  };
+}
+
+export function markupRulePropertiesDeserializer(item: any): MarkupRuleProperties {
+  return {
+    description: item["description"],
+    percentage: item["percentage"],
+    startDate: new Date(item["startDate"]),
+    endDate: !item["endDate"] ? item["endDate"] : new Date(item["endDate"]),
+    customerDetails: customerMetadataDeserializer(item["customerDetails"]),
+  };
+}
+
+/** The customer billing metadata */
+export interface CustomerMetadata {
+  /** Customer billing account id */
+  billingAccountId: string;
+  /** Customer billing profile id */
+  billingProfileId: string;
+}
+
+export function customerMetadataSerializer(item: CustomerMetadata): any {
+  return { billingAccountId: item["billingAccountId"], billingProfileId: item["billingProfileId"] };
+}
+
+export function customerMetadataDeserializer(item: any): CustomerMetadata {
+  return {
+    billingAccountId: item["billingAccountId"],
+    billingProfileId: item["billingProfileId"],
+  };
+}
+
+/** Markup rule list result. It contains a list of Markup rules. */
+export interface _MarkupRulePagedResponse {
+  /** The list of markup rules. */
+  value?: MarkupRule[];
+  /** The link (url) to the next page of results. */
+  nextLink?: string;
+}
+
+export function _markupRulePagedResponseDeserializer(item: any): _MarkupRulePagedResponse {
+  return {
+    value: !item["value"] ? item["value"] : markupRuleArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function markupRuleArraySerializer(result: Array<MarkupRule>): any[] {
+  return result.map((item) => {
+    return markupRuleSerializer(item);
+  });
+}
+
+export function markupRuleArrayDeserializer(result: Array<MarkupRule>): any[] {
+  return result.map((item) => {
+    return markupRuleDeserializer(item);
+  });
+}
+
 /** The result of the long running operation for cost details Api. */
 export interface CostDetailsOperationResults {
   /** The id of the long running operation. */
@@ -5035,7 +5143,7 @@ export interface BenefitRecommendationProperties {
   /** The list of all benefit recommendations with the recommendation details. */
   readonly allRecommendationDetails?: AllSavingsList;
   /** Benefit scope. For example, Single or Shared. */
-  /** The discriminator possible values: Single, Shared */
+  /** The discriminator possible values: Single, Shared, ManagementGroup */
   scope: Scope;
 }
 
@@ -5071,6 +5179,7 @@ export function benefitRecommendationPropertiesDeserializer(
 export type BenefitRecommendationPropertiesUnion =
   | SingleScopeBenefitRecommendationProperties
   | SharedScopeBenefitRecommendationProperties
+  | ManagementGroupScopeBenefitRecommendationProperties
   | BenefitRecommendationProperties;
 
 export function benefitRecommendationPropertiesUnionDeserializer(
@@ -5085,6 +5194,11 @@ export function benefitRecommendationPropertiesUnionDeserializer(
     case "Shared":
       return sharedScopeBenefitRecommendationPropertiesDeserializer(
         item as SharedScopeBenefitRecommendationProperties,
+      );
+
+    case "ManagementGroup":
+      return managementGroupScopeBenefitRecommendationPropertiesDeserializer(
+        item as ManagementGroupScopeBenefitRecommendationProperties,
       );
 
     default:
@@ -5238,6 +5352,8 @@ export enum KnownScope {
   Single = "Single",
   /** Shared scope recommendation. */
   Shared = "Shared",
+  /** Management group scope recommendation. */
+  ManagementGroup = "ManagementGroup",
 }
 
 /**
@@ -5246,7 +5362,8 @@ export enum KnownScope {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Single**: Single scope recommendation. \
- * **Shared**: Shared scope recommendation.
+ * **Shared**: Shared scope recommendation. \
+ * **ManagementGroup**: Management group scope recommendation.
  */
 export type Scope = string;
 
@@ -5321,6 +5438,46 @@ export function sharedScopeBenefitRecommendationPropertiesDeserializer(
       ? item["allRecommendationDetails"]
       : allSavingsListDeserializer(item["allRecommendationDetails"]),
     scope: item["scope"],
+  };
+}
+
+/** The properties of the benefit recommendation when scope is 'ManagementGroup'. */
+export interface ManagementGroupScopeBenefitRecommendationProperties extends BenefitRecommendationProperties {
+  /** Fully-qualified identifier of the management group that this management group scope recommendation is for, of the format /providers/Microsoft.Management/managementGroups/{managementGroupId}. Applicable only if recommendation is for 'ManagementGroup' scope. */
+  readonly managementGroupId?: string;
+  /** The tenant ID associated with the management group. Populated only when managementGroupId is populated. */
+  readonly tenantId?: string;
+  /** ManagementGroup benefit scope. */
+  scope: "ManagementGroup";
+}
+
+export function managementGroupScopeBenefitRecommendationPropertiesDeserializer(
+  item: any,
+): ManagementGroupScopeBenefitRecommendationProperties {
+  return {
+    firstConsumptionDate: !item["firstConsumptionDate"]
+      ? item["firstConsumptionDate"]
+      : new Date(item["firstConsumptionDate"]),
+    lastConsumptionDate: !item["lastConsumptionDate"]
+      ? item["lastConsumptionDate"]
+      : new Date(item["lastConsumptionDate"]),
+    lookBackPeriod: item["lookBackPeriod"],
+    totalHours: item["totalHours"],
+    usage: !item["usage"] ? item["usage"] : recommendationUsageDetailsDeserializer(item["usage"]),
+    armSkuName: item["armSkuName"],
+    term: item["term"],
+    commitmentGranularity: item["commitmentGranularity"],
+    currencyCode: item["currencyCode"],
+    costWithoutBenefit: item["costWithoutBenefit"],
+    recommendationDetails: !item["recommendationDetails"]
+      ? item["recommendationDetails"]
+      : allSavingsBenefitDetailsDeserializer(item["recommendationDetails"]),
+    allRecommendationDetails: !item["allRecommendationDetails"]
+      ? item["allRecommendationDetails"]
+      : allSavingsListDeserializer(item["allRecommendationDetails"]),
+    scope: item["scope"],
+    managementGroupId: item["managementGroupId"],
+    tenantId: item["tenantId"],
   };
 }
 
@@ -6751,6 +6908,8 @@ export type GrainParameter = string;
 export enum KnownVersions {
   /** The 2025-03-01 API version. */
   V20250301 = "2025-03-01",
+  /** The 2026-06-01 API version. */
+  V20260601 = "2026-06-01",
 }
 
 export function _generateDetailedCostReportOperationStatusesPropertiesDeserializer(item: any) {

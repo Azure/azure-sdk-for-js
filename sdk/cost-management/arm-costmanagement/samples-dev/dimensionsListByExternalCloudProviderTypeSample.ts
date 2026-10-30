@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the dimensions by the external cloud provider type.
  *
  * @summary lists the dimensions by the external cloud provider type.
- * x-ms-original-file: 2025-03-01/ExternalBillingAccountsDimensions.json
+ * x-ms-original-file: 2026-06-01/ExternalBillingAccountsDimensions.json
  */
 async function externalBillingAccountDimensionList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function externalBillingAccountDimensionList(): Promise<void> {
  * This sample demonstrates how to lists the dimensions by the external cloud provider type.
  *
  * @summary lists the dimensions by the external cloud provider type.
- * x-ms-original-file: 2025-03-01/ExternalSubscriptionsDimensions.json
+ * x-ms-original-file: 2026-06-01/ExternalSubscriptionsDimensions.json
  */
 async function externalSubscriptionDimensionList(): Promise<void> {
   const credential = new DefaultAzureCredential();

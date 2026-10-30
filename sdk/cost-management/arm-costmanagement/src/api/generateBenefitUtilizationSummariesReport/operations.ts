@@ -39,7 +39,7 @@ export function _generateBySavingsPlanIdSend(
     {
       savingsPlanOrderId: savingsPlanOrderId,
       savingsPlanId: savingsPlanId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,7 +68,6 @@ export async function _generateBySavingsPlanIdDeserialize(
 
   return benefitUtilizationSummariesOperationStatusDeserializer(result.body);
 }
-
 /** Triggers generation of a benefit utilization summaries report for the provided savings plan. */
 export function generateBySavingsPlanId(
   context: Client,
@@ -94,7 +93,7 @@ export function generateBySavingsPlanId(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-03-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<
     OperationState<BenefitUtilizationSummariesOperationStatus>,
     BenefitUtilizationSummariesOperationStatus
@@ -113,7 +112,7 @@ export function _generateBySavingsPlanOrderIdSend(
     "/providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport{?api%2Dversion}",
     {
       savingsPlanOrderId: savingsPlanOrderId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -142,7 +141,6 @@ export async function _generateBySavingsPlanOrderIdDeserialize(
 
   return benefitUtilizationSummariesOperationStatusDeserializer(result.body);
 }
-
 /** Triggers generation of a benefit utilization summaries report for the provided savings plan order. */
 export function generateBySavingsPlanOrderId(
   context: Client,
@@ -170,7 +168,7 @@ export function generateBySavingsPlanOrderId(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-03-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<
     OperationState<BenefitUtilizationSummariesOperationStatus>,
@@ -192,7 +190,7 @@ export function _generateByReservationIdSend(
     {
       reservationOrderId: reservationOrderId,
       reservationId: reservationId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -221,7 +219,6 @@ export async function _generateByReservationIdDeserialize(
 
   return benefitUtilizationSummariesOperationStatusDeserializer(result.body);
 }
-
 /** Triggers generation of a benefit utilization summaries report for the provided reservation. */
 export function generateByReservationId(
   context: Client,
@@ -247,7 +244,7 @@ export function generateByReservationId(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-03-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<
     OperationState<BenefitUtilizationSummariesOperationStatus>,
     BenefitUtilizationSummariesOperationStatus
@@ -266,7 +263,7 @@ export function _generateByReservationOrderIdSend(
     "/providers/microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport{?api%2Dversion}",
     {
       reservationOrderId: reservationOrderId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -295,7 +292,6 @@ export async function _generateByReservationOrderIdDeserialize(
 
   return benefitUtilizationSummariesOperationStatusDeserializer(result.body);
 }
-
 /** Triggers generation of a benefit utilization summaries report for the provided reservation order. */
 export function generateByReservationOrderId(
   context: Client,
@@ -323,7 +319,7 @@ export function generateByReservationOrderId(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-03-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<
     OperationState<BenefitUtilizationSummariesOperationStatus>,
@@ -345,7 +341,7 @@ export function _generateByBillingProfileSend(
     {
       billingAccountId: billingAccountId,
       billingProfileId: billingProfileId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -374,7 +370,6 @@ export async function _generateByBillingProfileDeserialize(
 
   return benefitUtilizationSummariesOperationStatusDeserializer(result.body);
 }
-
 /** Triggers generation of a benefit utilization summaries report for the provided billing account and billing profile. */
 export function generateByBillingProfile(
   context: Client,
@@ -404,7 +399,7 @@ export function generateByBillingProfile(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-03-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<
     OperationState<BenefitUtilizationSummariesOperationStatus>,
@@ -424,7 +419,7 @@ export function _generateByBillingAccountSend(
     "/providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport{?api%2Dversion}",
     {
       billingAccountId: billingAccountId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -453,7 +448,6 @@ export async function _generateByBillingAccountDeserialize(
 
   return benefitUtilizationSummariesOperationStatusDeserializer(result.body);
 }
-
 /** Triggers generation of a benefit utilization summaries report for the provided billing account. This API supports only enrollment accounts. */
 export function generateByBillingAccount(
   context: Client,
@@ -481,7 +475,7 @@ export function generateByBillingAccount(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-03-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<
     OperationState<BenefitUtilizationSummariesOperationStatus>,

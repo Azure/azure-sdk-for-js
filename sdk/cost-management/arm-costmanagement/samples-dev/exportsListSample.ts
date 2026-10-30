@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to list all exports at the given scope.
  *
  * @summary the operation to list all exports at the given scope.
- * x-ms-original-file: 2025-03-01/ExportsGetByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/ExportsGetByBillingAccount.json
  */
 async function exportsGetByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function exportsGetByBillingAccount(): Promise<void> {
  * This sample demonstrates how to the operation to list all exports at the given scope.
  *
  * @summary the operation to list all exports at the given scope.
- * x-ms-original-file: 2025-03-01/ExportsGetByDepartment.json
+ * x-ms-original-file: 2026-06-01/ExportsGetByDepartment.json
  */
 async function exportsGetByDepartment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function exportsGetByDepartment(): Promise<void> {
  * This sample demonstrates how to the operation to list all exports at the given scope.
  *
  * @summary the operation to list all exports at the given scope.
- * x-ms-original-file: 2025-03-01/ExportsGetByEnrollmentAccount.json
+ * x-ms-original-file: 2026-06-01/ExportsGetByEnrollmentAccount.json
  */
 async function exportsGetByEnrollmentAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -51,7 +51,7 @@ async function exportsGetByEnrollmentAccount(): Promise<void> {
  * This sample demonstrates how to the operation to list all exports at the given scope.
  *
  * @summary the operation to list all exports at the given scope.
- * x-ms-original-file: 2025-03-01/ExportsGetByManagementGroup.json
+ * x-ms-original-file: 2026-06-01/ExportsGetByManagementGroup.json
  */
 async function exportsGetByManagementGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -66,7 +66,7 @@ async function exportsGetByManagementGroup(): Promise<void> {
  * This sample demonstrates how to the operation to list all exports at the given scope.
  *
  * @summary the operation to list all exports at the given scope.
- * x-ms-original-file: 2025-03-01/ExportsGetByResourceGroup.json
+ * x-ms-original-file: 2026-06-01/ExportsGetByResourceGroup.json
  */
 async function exportsGetByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -81,7 +81,7 @@ async function exportsGetByResourceGroup(): Promise<void> {
  * This sample demonstrates how to the operation to list all exports at the given scope.
  *
  * @summary the operation to list all exports at the given scope.
- * x-ms-original-file: 2025-03-01/ExportsGetBySubscription.json
+ * x-ms-original-file: 2026-06-01/ExportsGetBySubscription.json
  */
 async function exportsGetBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

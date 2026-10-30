@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the result of the specified operation. The link with this operationId is provided as a response header of the initial request.
  *
  * @summary gets the result of the specified operation. The link with this operationId is provided as a response header of the initial request.
- * x-ms-original-file: 2025-03-01/GenerateDetailedCostReportOperationResultsBySubscriptionScope.json
+ * x-ms-original-file: 2026-06-01/GenerateDetailedCostReportOperationResultsBySubscriptionScope.json
  */
 async function getDetailsOfTheOperationResult(): Promise<void> {
   const credential = new DefaultAzureCredential();

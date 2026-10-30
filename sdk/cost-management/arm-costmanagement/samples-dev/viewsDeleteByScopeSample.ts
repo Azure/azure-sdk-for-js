@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete a view.
  *
  * @summary the operation to delete a view.
- * x-ms-original-file: 2025-03-01/ViewDeleteByResourceGroup.json
+ * x-ms-original-file: 2026-06-01/ViewDeleteByResourceGroup.json
  */
 async function resourceGroupDeleteView(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks availability and correctness of the name for a scheduled action within the given scope.
  *
  * @summary checks availability and correctness of the name for a scheduled action within the given scope.
- * x-ms-original-file: 2025-03-01/scheduledActions/checkNameAvailability-shared-scheduledAction.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/checkNameAvailability-shared-scheduledAction.json
  */
 async function scheduledActionCheckNameAvailabilityByScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

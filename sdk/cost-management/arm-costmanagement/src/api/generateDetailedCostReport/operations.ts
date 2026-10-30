@@ -28,7 +28,7 @@ export function _createOperationSend(
     "/{+scope}/providers/Microsoft.CostManagement/generateDetailedCostReport{?api%2Dversion}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,7 +57,6 @@ export async function _createOperationDeserialize(
 
   return generateDetailedCostReportOperationResultDeserializer(result.body);
 }
-
 /** Generates the detailed cost report for provided date range, billing period(only enterprise customers) or Invoice ID asynchronously at a certain scope. Call returns a 202 with header Azure-Consumption-AsyncOperation providing a link to the operation created. A call on the operation will provide the status and if the operation is completed the blob file where generated detailed cost report is being stored. */
 export function createOperation(
   context: Client,
@@ -73,7 +72,7 @@ export function createOperation(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createOperationSend(context, scope, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-03-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<
     OperationState<GenerateDetailedCostReportOperationResult>,
     GenerateDetailedCostReportOperationResult

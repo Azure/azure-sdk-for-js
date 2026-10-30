@@ -105,7 +105,6 @@ export interface PriceSheetOperations {
     options?: PriceSheetDownloadByInvoiceOptionalParams,
   ) => Promise<DownloadURL>;
 }
-
 function _getPriceSheet(context: CostManagementContext) {
   return {
     downloadByBillingAccount: (
@@ -203,7 +202,6 @@ function _getPriceSheet(context: CostManagementContext) {
     },
   };
 }
-
 export function _getPriceSheetOperations(context: CostManagementContext): PriceSheetOperations {
   return {
     ..._getPriceSheet(context),

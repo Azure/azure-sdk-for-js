@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the list of all cost allocation rules for a billing account or enterprise enrollment.
  *
  * @summary get the list of all cost allocation rules for a billing account or enterprise enrollment.
- * x-ms-original-file: 2025-03-01/CostAllocationRulesList.json
+ * x-ms-original-file: 2026-06-01/CostAllocationRulesList.json
  */
 async function costAllocationRulesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

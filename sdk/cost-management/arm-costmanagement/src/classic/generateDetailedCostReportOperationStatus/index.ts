@@ -15,7 +15,6 @@ export interface GenerateDetailedCostReportOperationStatusOperations {
     options?: GenerateDetailedCostReportOperationStatusGetOptionalParams,
   ) => Promise<GenerateDetailedCostReportOperationStatuses>;
 }
-
 function _getGenerateDetailedCostReportOperationStatus(context: CostManagementContext) {
   return {
     get: (
@@ -25,7 +24,6 @@ function _getGenerateDetailedCostReportOperationStatus(context: CostManagementCo
     ) => get(context, operationId, scope, options),
   };
 }
-
 export function _getGenerateDetailedCostReportOperationStatusOperations(
   context: CostManagementContext,
 ): GenerateDetailedCostReportOperationStatusOperations {

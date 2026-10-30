@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create/Update a rule to allocate cost between different resources within a billing account or enterprise enrollment.
  *
  * @summary create/Update a rule to allocate cost between different resources within a billing account or enterprise enrollment.
- * x-ms-original-file: 2025-03-01/CostAllocationRuleCreate.json
+ * x-ms-original-file: 2026-06-01/CostAllocationRuleCreate.json
  */
 async function costAllocationRulesCreateResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function costAllocationRulesCreateResourceGroup(): Promise<void> {
  * This sample demonstrates how to create/Update a rule to allocate cost between different resources within a billing account or enterprise enrollment.
  *
  * @summary create/Update a rule to allocate cost between different resources within a billing account or enterprise enrollment.
- * x-ms-original-file: 2025-03-01/CostAllocationRuleCreateTag.json
+ * x-ms-original-file: 2026-06-01/CostAllocationRuleCreateTag.json
  */
 async function costAllocationRulesCreateTag(): Promise<void> {
   const credential = new DefaultAzureCredential();
