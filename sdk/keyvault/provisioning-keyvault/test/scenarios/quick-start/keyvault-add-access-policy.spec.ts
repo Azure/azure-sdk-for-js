@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createParameter } from "@azure/provisioning-core";
 import { AccessPolicy, KeyVault } from "@azure/provisioning-keyvault";
 import { describe, it } from "vitest";
 
