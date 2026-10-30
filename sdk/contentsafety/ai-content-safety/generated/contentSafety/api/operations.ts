@@ -19,10 +19,11 @@ import {
   shieldPromptOptionsSerializer,
   ShieldPromptResult,
   shieldPromptResultDeserializer,
-  UnifiedModerateOptions,
-  unifiedModerateOptionsSerializer,
-  UnifiedModerateResult,
-  unifiedModerateResultDeserializer,
+  agentContextUnionSerializer,
+  AgentContextUnion,
+  AgentEvaluationResult,
+  agentEvaluationResultDeserializer,
+  agentEvaluationErrorDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
@@ -41,13 +42,18 @@ import {
 
 export function _unifiedModerateSend(
   context: Client,
-  body: UnifiedModerateOptions,
+  body: AgentContextUnion,
   options: UnifiedModerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/content:unifiedModerate{?api%2Dversion}",
+    "/content:unifiedModerate{?api%2Dversion,targetResourceId,policyId,selectedPolicyId,selectedPolicyRevision,selectedPolicySemanticDigest}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
+      targetResourceId: options?.targetResourceId,
+      policyId: options?.policyId,
+      selectedPolicyId: options?.selectedPolicyId,
+      selectedPolicyRevision: options?.selectedPolicyRevision,
+      selectedPolicySemanticDigest: options?.selectedPolicySemanticDigest,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,27 +65,62 @@ export function _unifiedModerateSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: unifiedModerateOptionsSerializer(body),
+      body: agentContextUnionSerializer(body),
     });
 }
 
 export async function _unifiedModerateDeserialize(
   result: PathUncheckedResponse,
-): Promise<UnifiedModerateResult> {
+): Promise<AgentEvaluationResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode === 400) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 401) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 403) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 404) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 409) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 429) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 500) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    } else if (statusCode === 503) {
+      if (result.body) {
+        error.details = agentEvaluationErrorDeserializer(result.body);
+      }
+    }
+    throw error;
   }
 
-  return unifiedModerateResultDeserializer(result.body);
+  return agentEvaluationResultDeserializer(result.body);
 }
 
-/** A synchronous API that evaluates input, output, a proposed tool call, or a completed tool result against an applicable Agent Control Specification policy and returns the enforced content and policy verdict. */
+/** Synchronously evaluate a canonical Agent Hooks 0.1 context and return a closed canonical Verdict plus a separate evaluation receipt. The hosted API supports two selector profiles. The Foundry-project profile requires targetResourceId plus one exact selected Guardrail through the all-or-none selectedPolicyId/revision/digest tuple. AACS may additionally resolve zero or more explicit administrator policies bound to the target or its ancestors; no binding is required for the selected-Guardrail-only case. The named-policy profile uses policyId without requiring a Foundry project. Exactly one profile is selected; targetResourceId and policyId cannot be combined. Local Copilot and WorkIQ integrations use in-process Agent Hooks/ACS rather than this hosted protocol. The receipt binds its policy metadata to the exact API version, AgentContext and admitted selectors through an RFC 8785 SHA-256 request digest. The calling host recomputes that binding and owns transform application, final enforcement, approvals, timeouts, audit and any separate host-action attestation. The receipt proves evaluation evidence, not host enforcement or feature activation. Body identity metadata and customer-settable headers are not authorization. Request and response limits are 1,048,576 decoded UTF-8 JSON bytes and container depth 64 including the root. Duplicate members, ambiguous selectors and over-limit requests are errors, not truncated successful responses. */
 export async function unifiedModerate(
   context: Client,
-  body: UnifiedModerateOptions,
+  body: AgentContextUnion,
   options: UnifiedModerateOptionalParams = { requestOptions: {} },
-): Promise<UnifiedModerateResult> {
+): Promise<AgentEvaluationResult> {
   const result = await _unifiedModerateSend(context, body, options);
   return _unifiedModerateDeserialize(result);
 }
@@ -92,7 +133,7 @@ export function _shieldPromptSend(
   const path = expandUrlTemplate(
     "/text:shieldPrompt{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +178,7 @@ export function _detectTextProtectedMaterialSend(
   const path = expandUrlTemplate(
     "/text:detectProtectedMaterial{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,7 +223,7 @@ export function _analyzeTextSend(
   const path = expandUrlTemplate(
     "/text:analyze{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -227,7 +268,7 @@ export function _analyzeImageSend(
   const path = expandUrlTemplate(
     "/image:analyze{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
