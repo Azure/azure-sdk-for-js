@@ -7,7 +7,9 @@ import { entityPathMisMatchError } from "../../../src/util/errors.js";
 import {
   createConnectionContextForConnectionString,
   createConnectionContextForCredential,
+  getRetryOptionsWithServiceBusDefaults,
 } from "../../../src/constructorHelpers.js";
+import { RetryMode } from "@azure/core-amqp";
 import type { TokenCredential } from "@azure/core-auth";
 import type { ConnectionContext } from "../../../src/connectionContext.js";
 import { createConnectionContextForTestsWithSessionId } from "./unittestUtils.js";
@@ -508,3 +510,94 @@ function createAbortSignal(): {
 
   return result;
 }
+
+describe("retry option defaults (Service Bus exponential backoff)", () => {
+  const connectionString =
+    "Endpoint=sb://testnamespace/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=testKey";
+  const tokenCredential: TokenCredential = {
+    async getToken() {
+      return { expiresOnTimestamp: 0, token: "" };
+    },
+  };
+
+  it("getRetryOptionsWithServiceBusDefaults applies exponential defaults when unset", () => {
+    const result = getRetryOptionsWithServiceBusDefaults(undefined);
+    assert.equal(result.mode, RetryMode.Exponential);
+    assert.equal(result.retryDelayInMs, 800);
+    assert.equal(result.maxRetryDelayInMs, 60000);
+  });
+
+  it("preserves explicit delays when defaulting the mode", () => {
+    const result = getRetryOptionsWithServiceBusDefaults({
+      retryDelayInMs: 5000,
+      maxRetryDelayInMs: 12000,
+    });
+    assert.equal(result.mode, RetryMode.Exponential);
+    assert.equal(result.retryDelayInMs, 5000);
+    assert.equal(result.maxRetryDelayInMs, 12000);
+  });
+
+  it("getRetryOptionsWithServiceBusDefaults preserves caller values and does not inject delays for an explicit mode", () => {
+    const result = getRetryOptionsWithServiceBusDefaults({
+      mode: RetryMode.Fixed,
+      retryDelayInMs: 5000,
+      maxRetries: 7,
+    });
+    assert.equal(result.mode, RetryMode.Fixed);
+    assert.equal(result.retryDelayInMs, 5000);
+    assert.equal(result.maxRetries, 7);
+    // Because the caller set `mode` explicitly, Service Bus does not inject its
+    // exponential delay defaults; the unset field is left to core-amqp.
+    assert.equal(result.maxRetryDelayInMs, undefined);
+  });
+
+  it("getRetryOptionsWithServiceBusDefaults does not give an explicit Fixed mode a sub-second delay", () => {
+    // Throttle-storm guard: an explicit Fixed mode must not be handed Service
+    // Bus's 800ms base delay; the delay is left to core-amqp's defaulting.
+    const result = getRetryOptionsWithServiceBusDefaults({ mode: RetryMode.Fixed });
+    assert.equal(result.mode, RetryMode.Fixed);
+    assert.equal(result.retryDelayInMs, undefined);
+    assert.equal(result.maxRetryDelayInMs, undefined);
+  });
+
+  it("a client created without retryOptions defaults to exponential backoff", () => {
+    const client = new ServiceBusClient(connectionString);
+    const retryOptions = client["_clientOptions"].retryOptions;
+    assert.equal(retryOptions?.mode, RetryMode.Exponential);
+    assert.equal(retryOptions?.retryDelayInMs, 800);
+    assert.equal(retryOptions?.maxRetryDelayInMs, 60000);
+  });
+
+  it("a client created with a TokenCredential defaults to exponential backoff without mutating options", () => {
+    const options = Object.freeze({ retryOptions: Object.freeze({ maxRetries: 5 }) });
+    const client = new ServiceBusClient(
+      "testnamespace.servicebus.windows.net",
+      tokenCredential,
+      options,
+    );
+    const retryOptions = client["_clientOptions"].retryOptions;
+    assert.equal(retryOptions?.mode, RetryMode.Exponential);
+    assert.equal(retryOptions?.retryDelayInMs, 800);
+    assert.equal(retryOptions?.maxRetryDelayInMs, 60000);
+    assert.equal(retryOptions?.maxRetries, 5);
+    assert.deepEqual(options.retryOptions, { maxRetries: 5 });
+  });
+
+  it("a client created with a connection string does not mutate frozen options", () => {
+    const options = Object.freeze({ retryOptions: Object.freeze({ maxRetries: 5 }) });
+    const client = new ServiceBusClient(connectionString, options);
+    const retryOptions = client["_clientOptions"].retryOptions;
+    assert.equal(retryOptions?.mode, RetryMode.Exponential);
+    assert.equal(retryOptions?.maxRetries, 5);
+    assert.deepEqual(options.retryOptions, { maxRetries: 5 });
+  });
+
+  it("a client created with explicit retryOptions preserves them", () => {
+    const client = new ServiceBusClient(connectionString, {
+      retryOptions: { mode: RetryMode.Fixed, retryDelayInMs: 1000 },
+    });
+    const retryOptions = client["_clientOptions"].retryOptions;
+    assert.equal(retryOptions?.mode, RetryMode.Fixed);
+    assert.equal(retryOptions?.retryDelayInMs, 1000);
+  });
+});
