@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Recovery point for a migration item. */
 export interface MigrationRecoveryPoint extends ProxyResource {
   /** Recovery point properties. */
@@ -803,6 +804,8 @@ export interface A2AReplicationDetails extends ReplicationProviderSpecificSettin
   isAgentUpgradeRetryThresholdExhausted?: boolean;
   /** the platform fault domain. */
   platformFaultDomain?: number;
+  /** The Azure resource ID of the confidential data disk encryption user-assigned identity. Applicable to CMK confidential VM data disks. */
+  recoveryConfidentialDataDiskEncryptionIdentity?: string;
   /** Gets the Instance type. */
   instanceType: "A2A";
 }
@@ -905,6 +908,8 @@ export function a2AReplicationDetailsDeserializer(item: any): A2AReplicationDeta
     autoAgentUpgradeRetryCount: item["autoAgentUpgradeRetryCount"],
     isAgentUpgradeRetryThresholdExhausted: item["isAgentUpgradeRetryThresholdExhausted"],
     platformFaultDomain: item["platformFaultDomain"],
+    recoveryConfidentialDataDiskEncryptionIdentity:
+      item["recoveryConfidentialDataDiskEncryptionIdentity"],
   };
 }
 
@@ -1180,6 +1185,14 @@ export interface A2AProtectedManagedDiskDetails {
   failoverDiskName?: string;
   /** The test failover name for the managed disk. */
   tfoDiskName?: string;
+  /** The network access policy for the recovery managed disk. */
+  recoveryNetworkAccessPolicy?: DiskNetworkAccessPolicy;
+  /** The recovery disk access Arm Id. */
+  recoveryDiskAccessId?: string;
+  /** The public network access setting for the recovery managed disk. */
+  recoveryPublicNetworkAccess?: DiskPublicNetworkAccess;
+  /** The confidential disk encryption info for the managed disk. Applicable to CMK confidential VMs. */
+  readonly confidentialDiskEncryptionInfo?: ConfidentialDiskEncryptionInfo;
 }
 
 export function a2AProtectedManagedDiskDetailsSerializer(
@@ -1218,6 +1231,9 @@ export function a2AProtectedManagedDiskDetailsSerializer(
     kekKeyVaultArmId: item["kekKeyVaultArmId"],
     failoverDiskName: item["failoverDiskName"],
     tfoDiskName: item["tfoDiskName"],
+    recoveryNetworkAccessPolicy: item["recoveryNetworkAccessPolicy"],
+    recoveryDiskAccessId: item["recoveryDiskAccessId"],
+    recoveryPublicNetworkAccess: item["recoveryPublicNetworkAccess"],
   };
 }
 
@@ -1257,6 +1273,81 @@ export function a2AProtectedManagedDiskDetailsDeserializer(
     kekKeyVaultArmId: item["kekKeyVaultArmId"],
     failoverDiskName: item["failoverDiskName"],
     tfoDiskName: item["tfoDiskName"],
+    recoveryNetworkAccessPolicy: item["recoveryNetworkAccessPolicy"],
+    recoveryDiskAccessId: item["recoveryDiskAccessId"],
+    recoveryPublicNetworkAccess: item["recoveryPublicNetworkAccess"],
+    confidentialDiskEncryptionInfo: !item["confidentialDiskEncryptionInfo"]
+      ? item["confidentialDiskEncryptionInfo"]
+      : confidentialDiskEncryptionInfoDeserializer(item["confidentialDiskEncryptionInfo"]),
+  };
+}
+
+/** The network access policy for managed disks. */
+export enum KnownDiskNetworkAccessPolicy {
+  /** Allow all network access. */
+  AllowAll = "AllowAll",
+  /** Allow private access through disk access resource. */
+  AllowPrivate = "AllowPrivate",
+  /** Deny all network access. */
+  DenyAll = "DenyAll",
+}
+
+/**
+ * The network access policy for managed disks. \
+ * {@link KnownDiskNetworkAccessPolicy} can be used interchangeably with DiskNetworkAccessPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AllowAll**: Allow all network access. \
+ * **AllowPrivate**: Allow private access through disk access resource. \
+ * **DenyAll**: Deny all network access.
+ */
+export type DiskNetworkAccessPolicy = string;
+
+/** The public network access setting for managed disks. */
+export enum KnownDiskPublicNetworkAccess {
+  /** Public network access is enabled. */
+  Enabled = "Enabled",
+  /** Public network access is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * The public network access setting for managed disks. \
+ * {@link KnownDiskPublicNetworkAccess} can be used interchangeably with DiskPublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Public network access is enabled. \
+ * **Disabled**: Public network access is disabled.
+ */
+export type DiskPublicNetworkAccess = string;
+
+/** Confidential disk encryption info for an A2A CMK confidential VM managed disk. Specifies the confidential disk encryption set ID for the replica disk used during replication and the confidential disk encryption set ID for the target disk used after failover. */
+export interface ConfidentialDiskEncryptionInfo {
+  /** The Azure resource ID of the confidential disk encryption set used for the replica disk. Applicable to CMK confidential VMs. */
+  recoveryReplicaConfidentialDiskEncryptionSetId?: string;
+  /** The Azure resource ID of the confidential disk encryption set used for the target disk after failover. Applicable to CMK confidential VMs. */
+  recoveryTargetConfidentialDiskEncryptionSetId?: string;
+}
+
+export function confidentialDiskEncryptionInfoSerializer(
+  item: ConfidentialDiskEncryptionInfo,
+): any {
+  return {
+    recoveryReplicaConfidentialDiskEncryptionSetId:
+      item["recoveryReplicaConfidentialDiskEncryptionSetId"],
+    recoveryTargetConfidentialDiskEncryptionSetId:
+      item["recoveryTargetConfidentialDiskEncryptionSetId"],
+  };
+}
+
+export function confidentialDiskEncryptionInfoDeserializer(
+  item: any,
+): ConfidentialDiskEncryptionInfo {
+  return {
+    recoveryReplicaConfidentialDiskEncryptionSetId:
+      item["recoveryReplicaConfidentialDiskEncryptionSetId"],
+    recoveryTargetConfidentialDiskEncryptionSetId:
+      item["recoveryTargetConfidentialDiskEncryptionSetId"],
   };
 }
 
@@ -1357,6 +1448,8 @@ export interface IPConfigDetails {
   tfoStaticIPAddress?: string;
   tfoPublicIPAddressId?: string;
   tfoLBBackendAddressPoolIds?: string[];
+  /** The IP version (IPv4 / IPv6) of the ip-config, as reported by the service. Read-only - it reflects the discovered NIC configuration and cannot be set by the caller. Orthogonal to the allocation type (static / dynamic). Omitted when IPv6 support is not enabled. */
+  readonly ipVersion?: IPVersion;
 }
 
 export function ipConfigDetailsDeserializer(item: any): IPConfigDetails {
@@ -1384,8 +1477,27 @@ export function ipConfigDetailsDeserializer(item: any): IPConfigDetails {
       : item["tfoLBBackendAddressPoolIds"].map((p: any) => {
           return p;
         }),
+    ipVersion: item["ipVersion"],
   };
 }
+
+/** The IP version (address family) of an ip-config. */
+export enum KnownIPVersion {
+  /** The ip-config carries an IPv4 address. */
+  IPv4 = "IPv4",
+  /** The ip-config carries an IPv6 address. */
+  IPv6 = "IPv6",
+}
+
+/**
+ * The IP version (address family) of an ip-config. \
+ * {@link KnownIPVersion} can be used interchangeably with IPVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4**: The ip-config carries an IPv4 address. \
+ * **IPv6**: The ip-config carries an IPv6 address.
+ */
+export type IPVersion = string;
 
 /** Azure to Azure VM synced configuration details. */
 export interface AzureToAzureVmSyncedConfigDetails {
@@ -3097,6 +3209,8 @@ export interface InMageRcmReplicationDetails extends ReplicationProviderSpecific
   targetAvailabilitySetId?: string;
   /** The target availability zone. */
   targetAvailabilityZone?: string;
+  /** The target extended location. */
+  targetExtendedLocation?: ExtendedLocation;
   /** The target proximity placement group Id. */
   targetProximityPlacementGroupId?: string;
   /** The target boot diagnostics storage account ARM Id. */
@@ -3208,6 +3322,9 @@ export function inMageRcmReplicationDetailsDeserializer(item: any): InMageRcmRep
     targetLocation: item["targetLocation"],
     targetAvailabilitySetId: item["targetAvailabilitySetId"],
     targetAvailabilityZone: item["targetAvailabilityZone"],
+    targetExtendedLocation: !item["targetExtendedLocation"]
+      ? item["targetExtendedLocation"]
+      : extendedLocationDeserializer(item["targetExtendedLocation"]),
     targetProximityPlacementGroupId: item["targetProximityPlacementGroupId"],
     targetBootDiagnosticsStorageAccountId: item["targetBootDiagnosticsStorageAccountId"],
     targetNetworkId: item["targetNetworkId"],
@@ -3334,6 +3451,8 @@ export interface InMageRcmProtectedDiskDetails {
   readonly logStorageAccountId?: string;
   /** The DiskEncryptionSet ARM Id. */
   readonly diskEncryptionSetId?: string;
+  /** The ConfidentialDiskEncryptionSet ARM Id. */
+  readonly confidentialDiskEncryptionSetId?: string;
   /** The ARM Id of the seed managed disk. */
   readonly seedManagedDiskId?: string;
   /** The uri of the seed blob. */
@@ -3375,6 +3494,7 @@ export function inMageRcmProtectedDiskDetailsDeserializer(
     diskState: item["diskState"],
     logStorageAccountId: item["logStorageAccountId"],
     diskEncryptionSetId: item["diskEncryptionSetId"],
+    confidentialDiskEncryptionSetId: item["confidentialDiskEncryptionSetId"],
     seedManagedDiskId: item["seedManagedDiskId"],
     seedBlobUri: item["seedBlobUri"],
     targetManagedDiskId: item["targetManagedDiskId"],
@@ -3504,7 +3624,7 @@ export interface InMageRcmMobilityAgentDetails {
   /** A value indicating whether agent is upgradeable or not. */
   readonly isUpgradeable?: string;
   /** The agent auto reinstall state. */
-  readonly agentReinstallState?: MobilityAgentReinstallType[];
+  readonly agentReinstallState?: MobilityAgentReinstallType;
   /** The last agent reinstall type. */
   readonly lastAgentReinstallType?: string;
   /** The agent reinstall job Id. */
@@ -3553,11 +3673,7 @@ export function inMageRcmMobilityAgentDetailsDeserializer(
           return p;
         }),
     isUpgradeable: item["isUpgradeable"],
-    agentReinstallState: !item["agentReinstallState"]
-      ? item["agentReinstallState"]
-      : item["agentReinstallState"].map((p: any) => {
-          return p;
-        }),
+    agentReinstallState: item["agentReinstallState"],
     lastAgentReinstallType: item["lastAgentReinstallType"],
     agentReinstallJobId: item["agentReinstallJobId"],
     agentReinstallAttemptToVersion: item["agentReinstallAttemptToVersion"],
@@ -4357,6 +4473,8 @@ export interface A2AEnableProtectionInput extends EnableProtectionProviderSpecif
   platformFaultDomain?: number;
   /** A value indicating whether the auto protection is enabled. */
   autoProtectionOfDataDisk?: AutoProtectionOfDataDisk;
+  /** The Azure resource ID of the confidential data disk encryption user-assigned identity. Applicable to CMK confidential VM data disks. */
+  recoveryConfidentialDataDiskEncryptionIdentity?: string;
   /** The class type. */
   instanceType: "A2A";
 }
@@ -4393,6 +4511,8 @@ export function a2AEnableProtectionInputSerializer(item: A2AEnableProtectionInpu
     recoveryCapacityReservationGroupId: item["recoveryCapacityReservationGroupId"],
     platformFaultDomain: item["platformFaultDomain"],
     autoProtectionOfDataDisk: item["autoProtectionOfDataDisk"],
+    recoveryConfidentialDataDiskEncryptionIdentity:
+      item["recoveryConfidentialDataDiskEncryptionIdentity"],
   };
 }
 
@@ -4444,6 +4564,14 @@ export interface A2AVmManagedDiskInputDetails {
   recoveryDiskEncryptionSetId?: string;
   /** The recovery disk encryption information (for one / single pass flows). */
   diskEncryptionInfo?: DiskEncryptionInfo;
+  /** The network access policy for the recovery managed disk. */
+  recoveryNetworkAccessPolicy?: DiskNetworkAccessPolicy;
+  /** The recovery disk access Arm Id. */
+  recoveryDiskAccessId?: string;
+  /** The public network access setting for the recovery managed disk. */
+  recoveryPublicNetworkAccess?: DiskPublicNetworkAccess;
+  /** The confidential disk encryption info for the managed disk. Applicable to CMK confidential VMs. */
+  confidentialDiskEncryptionInfo?: ConfidentialDiskEncryptionInfo;
 }
 
 export function a2AVmManagedDiskInputDetailsSerializer(item: A2AVmManagedDiskInputDetails): any {
@@ -4457,6 +4585,12 @@ export function a2AVmManagedDiskInputDetailsSerializer(item: A2AVmManagedDiskInp
     diskEncryptionInfo: !item["diskEncryptionInfo"]
       ? item["diskEncryptionInfo"]
       : diskEncryptionInfoSerializer(item["diskEncryptionInfo"]),
+    recoveryNetworkAccessPolicy: item["recoveryNetworkAccessPolicy"],
+    recoveryDiskAccessId: item["recoveryDiskAccessId"],
+    recoveryPublicNetworkAccess: item["recoveryPublicNetworkAccess"],
+    confidentialDiskEncryptionInfo: !item["confidentialDiskEncryptionInfo"]
+      ? item["confidentialDiskEncryptionInfo"]
+      : confidentialDiskEncryptionInfoSerializer(item["confidentialDiskEncryptionInfo"]),
   };
 }
 
@@ -5029,6 +5163,8 @@ export interface InMageRcmEnableProtectionInput extends EnableProtectionProvider
   targetVmSecurityProfile?: SecurityProfileProperties;
   /** The target capacity reservation group ARM Id. */
   targetCapacityReservationGroupId?: string;
+  /** The target extended location. */
+  targetExtendedLocation?: ExtendedLocation;
   /** The class type. */
   instanceType: "InMageRcm";
 }
@@ -5079,6 +5215,9 @@ export function inMageRcmEnableProtectionInputSerializer(
       ? item["targetVmSecurityProfile"]
       : securityProfilePropertiesSerializer(item["targetVmSecurityProfile"]),
     targetCapacityReservationGroupId: item["targetCapacityReservationGroupId"],
+    targetExtendedLocation: !item["targetExtendedLocation"]
+      ? item["targetExtendedLocation"]
+      : extendedLocationSerializer(item["targetExtendedLocation"]),
   };
 }
 
@@ -5098,6 +5237,8 @@ export interface InMageRcmDiskInput {
   diskType: DiskAccountType;
   /** The DiskEncryptionSet ARM Id. */
   diskEncryptionSetId?: string;
+  /** The ConfidentialDiskEncryptionSet ARM Id. */
+  confidentialDiskEncryptionSetId?: string;
   /** The logical sector size (in bytes), 512 by default. */
   sectorSizeInBytes?: number;
   /** The number of IOPS allowed for Premium V2 and Ultra disks. */
@@ -5114,6 +5255,7 @@ export function inMageRcmDiskInputSerializer(item: InMageRcmDiskInput): any {
     logStorageAccountId: item["logStorageAccountId"],
     diskType: item["diskType"],
     diskEncryptionSetId: item["diskEncryptionSetId"],
+    confidentialDiskEncryptionSetId: item["confidentialDiskEncryptionSetId"],
     sectorSizeInBytes: item["sectorSizeInBytes"],
     iops: item["iops"],
     throughputInMbps: item["throughputInMbps"],
@@ -5129,6 +5271,8 @@ export interface InMageRcmDisksDefaultInput {
   diskType: DiskAccountType;
   /** The DiskEncryptionSet ARM Id. */
   diskEncryptionSetId?: string;
+  /** The ConfidentialDiskEncryptionSet ARM Id. */
+  confidentialDiskEncryptionSetId?: string;
   /** The logical sector size (in bytes), 512 by default. */
   sectorSizeInBytes?: number;
   /** The number of IOPS allowed for Premium V2 and Ultra disks. */
@@ -5144,6 +5288,7 @@ export function inMageRcmDisksDefaultInputSerializer(item: InMageRcmDisksDefault
     logStorageAccountId: item["logStorageAccountId"],
     diskType: item["diskType"],
     diskEncryptionSetId: item["diskEncryptionSetId"],
+    confidentialDiskEncryptionSetId: item["confidentialDiskEncryptionSetId"],
     sectorSizeInBytes: item["sectorSizeInBytes"],
     iops: item["iops"],
     throughputInMbps: item["throughputInMbps"],
@@ -5441,6 +5586,8 @@ export interface A2AUpdateReplicationProtectedItemInput extends UpdateReplicatio
   recoveryAvailabilityZone?: string;
   /** The platform fault domain. */
   platformFaultDomain?: number;
+  /** The Azure resource ID of the confidential data disk encryption user-assigned identity. Applicable to CMK confidential VM data disks. */
+  recoveryConfidentialDataDiskEncryptionIdentity?: string;
   /** The class type. */
   instanceType: "A2A";
 }
@@ -5465,6 +5612,8 @@ export function a2AUpdateReplicationProtectedItemInputSerializer(
     recoveryCapacityReservationGroupId: item["recoveryCapacityReservationGroupId"],
     recoveryAvailabilityZone: item["recoveryAvailabilityZone"],
     platformFaultDomain: item["platformFaultDomain"],
+    recoveryConfidentialDataDiskEncryptionIdentity:
+      item["recoveryConfidentialDataDiskEncryptionIdentity"],
   };
 }
 
@@ -5490,6 +5639,8 @@ export interface A2AVmManagedDiskUpdateDetails {
   failoverDiskName?: string;
   /** The target disk name for test failover operation. */
   tfoDiskName?: string;
+  /** The confidential disk encryption info to update for the managed disk. Only the recovery target confidential disk encryption set can be changed through this update operation. Applicable to A2A CMK confidential VMs. */
+  confidentialDiskEncryptionInfo?: UpdateConfidentialDiskEncryptionInfo;
 }
 
 export function a2AVmManagedDiskUpdateDetailsSerializer(item: A2AVmManagedDiskUpdateDetails): any {
@@ -5502,6 +5653,24 @@ export function a2AVmManagedDiskUpdateDetailsSerializer(item: A2AVmManagedDiskUp
       : diskEncryptionInfoSerializer(item["diskEncryptionInfo"]),
     failoverDiskName: item["failoverDiskName"],
     tfoDiskName: item["tfoDiskName"],
+    confidentialDiskEncryptionInfo: !item["confidentialDiskEncryptionInfo"]
+      ? item["confidentialDiskEncryptionInfo"]
+      : updateConfidentialDiskEncryptionInfoSerializer(item["confidentialDiskEncryptionInfo"]),
+  };
+}
+
+/** Confidential disk encryption info used while updating replication of a CMK confidential VM managed disk. */
+export interface UpdateConfidentialDiskEncryptionInfo {
+  /** The Azure resource ID of the confidential disk encryption set used for the target disk after failover. Applicable to CMK confidential VMs. */
+  recoveryTargetConfidentialDiskEncryptionSetId?: string;
+}
+
+export function updateConfidentialDiskEncryptionInfoSerializer(
+  item: UpdateConfidentialDiskEncryptionInfo,
+): any {
+  return {
+    recoveryTargetConfidentialDiskEncryptionSetId:
+      item["recoveryTargetConfidentialDiskEncryptionSetId"],
   };
 }
 
@@ -13200,7 +13369,7 @@ export function a2AProtectedItemDetailArraySerializer(
 /** A2A specific switch cluster protection input. */
 export interface A2AProtectedItemDetail {
   /** The list of vm managed disk details. */
-  vmManagedDisks?: A2AVmManagedDiskInputDetails[];
+  vmManagedDisks?: A2AClusterVmManagedDiskInputDetails[];
   /** The recovery resource group Id. */
   recoveryResourceGroupId?: string;
   /** The recovery availability set. */
@@ -13225,7 +13394,7 @@ export function a2AProtectedItemDetailSerializer(item: A2AProtectedItemDetail): 
   return {
     vmManagedDisks: !item["vmManagedDisks"]
       ? item["vmManagedDisks"]
-      : a2AVmManagedDiskInputDetailsArraySerializer(item["vmManagedDisks"]),
+      : a2AClusterVmManagedDiskInputDetailsArraySerializer(item["vmManagedDisks"]),
     recoveryResourceGroupId: item["recoveryResourceGroupId"],
     recoveryAvailabilitySetId: item["recoveryAvailabilitySetId"],
     recoveryBootDiagStorageAccountId: item["recoveryBootDiagStorageAccountId"],
@@ -13237,6 +13406,57 @@ export function a2AProtectedItemDetailSerializer(item: A2AProtectedItemDetail): 
       ? item["diskEncryptionInfo"]
       : diskEncryptionInfoSerializer(item["diskEncryptionInfo"]),
     replicationProtectedItemName: item["replicationProtectedItemName"],
+  };
+}
+
+export function a2AClusterVmManagedDiskInputDetailsArraySerializer(
+  result: Array<A2AClusterVmManagedDiskInputDetails>,
+): any[] {
+  return result.map((item) => {
+    return a2AClusterVmManagedDiskInputDetailsSerializer(item);
+  });
+}
+
+/** A2A managed disk input details for cluster switch protection. */
+export interface A2AClusterVmManagedDiskInputDetails {
+  /** The disk Id. */
+  diskId: string;
+  /** The primary staging storage account Arm Id. */
+  primaryStagingAzureStorageAccountId: string;
+  /** The target resource group Arm Id. */
+  recoveryResourceGroupId: string;
+  /** The replica disk type. Its an optional value and will be same as source disk type if not user provided. */
+  recoveryReplicaDiskAccountType?: string;
+  /** The target disk type after failover. Its an optional value and will be same as source disk type if not user provided. */
+  recoveryTargetDiskAccountType?: string;
+  /** The recovery disk encryption set Id. */
+  recoveryDiskEncryptionSetId?: string;
+  /** The recovery disk encryption information (for one / single pass flows). */
+  diskEncryptionInfo?: DiskEncryptionInfo;
+  /** The network access policy for the recovery managed disk. */
+  recoveryNetworkAccessPolicy?: DiskNetworkAccessPolicy;
+  /** The recovery disk access Arm Id. */
+  recoveryDiskAccessId?: string;
+  /** The public network access setting for the recovery managed disk. */
+  recoveryPublicNetworkAccess?: DiskPublicNetworkAccess;
+}
+
+export function a2AClusterVmManagedDiskInputDetailsSerializer(
+  item: A2AClusterVmManagedDiskInputDetails,
+): any {
+  return {
+    diskId: item["diskId"],
+    primaryStagingAzureStorageAccountId: item["primaryStagingAzureStorageAccountId"],
+    recoveryResourceGroupId: item["recoveryResourceGroupId"],
+    recoveryReplicaDiskAccountType: item["recoveryReplicaDiskAccountType"],
+    recoveryTargetDiskAccountType: item["recoveryTargetDiskAccountType"],
+    recoveryDiskEncryptionSetId: item["recoveryDiskEncryptionSetId"],
+    diskEncryptionInfo: !item["diskEncryptionInfo"]
+      ? item["diskEncryptionInfo"]
+      : diskEncryptionInfoSerializer(item["diskEncryptionInfo"]),
+    recoveryNetworkAccessPolicy: item["recoveryNetworkAccessPolicy"],
+    recoveryDiskAccessId: item["recoveryDiskAccessId"],
+    recoveryPublicNetworkAccess: item["recoveryPublicNetworkAccess"],
   };
 }
 
@@ -13332,6 +13552,8 @@ export interface A2ASwitchProtectionInput extends SwitchProtectionProviderSpecif
   platformFaultDomain?: number;
   /** The recovery disk encryption information. */
   diskEncryptionInfo?: DiskEncryptionInfo;
+  /** The Azure resource ID of the confidential data disk encryption user-assigned identity. Applicable to CMK confidential VM data disks. */
+  recoveryConfidentialDataDiskEncryptionIdentity?: string;
   /** Gets the Instance type. */
   instanceType: "A2A";
 }
@@ -13359,6 +13581,8 @@ export function a2ASwitchProtectionInputSerializer(item: A2ASwitchProtectionInpu
     diskEncryptionInfo: !item["diskEncryptionInfo"]
       ? item["diskEncryptionInfo"]
       : diskEncryptionInfoSerializer(item["diskEncryptionInfo"]),
+    recoveryConfidentialDataDiskEncryptionIdentity:
+      item["recoveryConfidentialDataDiskEncryptionIdentity"],
   };
 }
 
@@ -13935,6 +14159,8 @@ export interface VMwareCbtProtectedDiskDetails {
   readonly logStorageAccountSasSecretName?: string;
   /** The DiskEncryptionSet ARM Id. */
   readonly diskEncryptionSetId?: string;
+  /** The ConfidentialDiskEncryptionSet ARM Id. */
+  readonly confidentialDiskEncryptionSetId?: string;
   /** The ARM Id of the seed managed disk. */
   readonly seedManagedDiskId?: string;
   /** The uri of the seed blob. */
@@ -13970,6 +14196,7 @@ export function vMwareCbtProtectedDiskDetailsDeserializer(
     logStorageAccountId: item["logStorageAccountId"],
     logStorageAccountSasSecretName: item["logStorageAccountSasSecretName"],
     diskEncryptionSetId: item["diskEncryptionSetId"],
+    confidentialDiskEncryptionSetId: item["confidentialDiskEncryptionSetId"],
     seedManagedDiskId: item["seedManagedDiskId"],
     seedBlobUri: item["seedBlobUri"],
     targetManagedDiskId: item["targetManagedDiskId"],
@@ -14341,6 +14568,8 @@ export interface VMwareCbtDiskInput {
   logStorageAccountSasSecretName: string;
   /** The DiskEncryptionSet ARM Id. */
   diskEncryptionSetId?: string;
+  /** The ConfidentialDiskEncryptionSet ARM Id. */
+  confidentialDiskEncryptionSetId?: string;
   /** The logical sector size (in bytes), 512 by default. */
   sectorSizeInBytes?: number;
   /** The number of IOPS allowed for Premium V2 and Ultra disks. */
@@ -14359,6 +14588,7 @@ export function vMwareCbtDiskInputSerializer(item: VMwareCbtDiskInput): any {
     logStorageAccountId: item["logStorageAccountId"],
     logStorageAccountSasSecretName: item["logStorageAccountSasSecretName"],
     diskEncryptionSetId: item["diskEncryptionSetId"],
+    confidentialDiskEncryptionSetId: item["confidentialDiskEncryptionSetId"],
     sectorSizeInBytes: item["sectorSizeInBytes"],
     iops: item["iops"],
     throughputInMbps: item["throughputInMbps"],
@@ -19528,14 +19758,35 @@ export interface VaultSettingProperties {
   migrationSolutionId?: string;
   /** VMware to Azure provider type. */
   vmwareToAzureProviderType?: string;
+  /** The vault level policy controlling whether the A2A recovery network configuration is automatically kept in sync with the source virtual machine. */
+  recoveryNetworkConfigAutoSync?: RecoveryNetworkConfigAutoSyncPolicy;
 }
 
 export function vaultSettingPropertiesDeserializer(item: any): VaultSettingProperties {
   return {
     migrationSolutionId: item["migrationSolutionId"],
     vmwareToAzureProviderType: item["vmwareToAzureProviderType"],
+    recoveryNetworkConfigAutoSync: item["recoveryNetworkConfigAutoSync"],
   };
 }
+
+/** The vault level policy controlling whether the A2A recovery network configuration is automatically kept in sync with the source virtual machine. */
+export enum KnownRecoveryNetworkConfigAutoSyncPolicy {
+  /** Automatic synchronization of the recovery network configuration is turned off. Recovery NIC settings are changed only through an explicit update operation. */
+  Disabled = "Disabled",
+  /** Automatic synchronization of the recovery network configuration is turned on. Recovery NIC settings are refreshed from the source virtual machine as its network configuration changes. */
+  Enabled = "Enabled",
+}
+
+/**
+ * The vault level policy controlling whether the A2A recovery network configuration is automatically kept in sync with the source virtual machine. \
+ * {@link KnownRecoveryNetworkConfigAutoSyncPolicy} can be used interchangeably with RecoveryNetworkConfigAutoSyncPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Automatic synchronization of the recovery network configuration is turned off. Recovery NIC settings are changed only through an explicit update operation. \
+ * **Enabled**: Automatic synchronization of the recovery network configuration is turned on. Recovery NIC settings are refreshed from the source virtual machine as its network configuration changes.
+ */
+export type RecoveryNetworkConfigAutoSyncPolicy = string;
 
 /** Input to create vault setting. */
 export interface VaultSettingCreationInput {
@@ -19553,6 +19804,8 @@ export interface VaultSettingCreationInputProperties {
   migrationSolutionId?: string;
   /** VMware to Azure provider type. */
   vmwareToAzureProviderType?: string;
+  /** The vault level policy controlling whether the A2A recovery network configuration is automatically kept in sync with the source virtual machine. If the property is omitted from the request body, the policy is set to `Disabled`. */
+  recoveryNetworkConfigAutoSync?: RecoveryNetworkConfigAutoSyncPolicy;
 }
 
 export function vaultSettingCreationInputPropertiesSerializer(
@@ -19561,6 +19814,7 @@ export function vaultSettingCreationInputPropertiesSerializer(
   return {
     migrationSolutionId: item["migrationSolutionId"],
     vmwareToAzureProviderType: item["vmwareToAzureProviderType"],
+    recoveryNetworkConfigAutoSync: item["recoveryNetworkConfigAutoSync"],
   };
 }
 
@@ -20154,4 +20408,14 @@ export type Severity = string;
 export enum KnownVersions {
   /** The 2025-08-01 API version. */
   V20250801 = "2025-08-01",
+  /** The 2026-01-01 API version. */
+  V20260101 = "2026-01-01",
+  /** The 2026-02-01 API version. */
+  V20260201 = "2026-02-01",
+  /** The 2026-05-01 API version. */
+  V20260501 = "2026-05-01",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
+  /** The 2026-11-01 API version. */
+  V20261101 = "2026-11-01",
 }

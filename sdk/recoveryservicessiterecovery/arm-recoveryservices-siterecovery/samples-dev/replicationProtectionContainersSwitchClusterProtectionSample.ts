@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to switch protection from one container to another.
  *
  * @summary operation to switch protection from one container to another.
- * x-ms-original-file: 2025-08-01/ReplicationProtectionContainers_SwitchClusterProtection.json
+ * x-ms-original-file: 2026-11-01/ReplicationProtectionContainers_SwitchClusterProtection.json
  */
 async function switchesProtectionFromOneContainerToAnotherOrOneReplicationProviderToAnother(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,6 +38,10 @@ async function switchesProtectionFromOneContainerToAnotherOrOneReplicationProvid
                     "/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/clustertestrg-19-01/providers/Microsoft.Storage/storageAccounts/ix701lvaasrcache",
                   recoveryResourceGroupId:
                     "/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/ClusterTestRG-19-01-asr",
+                  recoveryNetworkAccessPolicy: "AllowPrivate",
+                  recoveryDiskAccessId:
+                    "/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/ClusterTestRG-19-01-asr/providers/Microsoft.Compute/diskAccesses/clusterDiskAccess",
+                  recoveryPublicNetworkAccess: "Disabled",
                 },
               ],
             },
@@ -53,6 +57,10 @@ async function switchesProtectionFromOneContainerToAnotherOrOneReplicationProvid
                     "/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/clustertestrg-19-01/providers/Microsoft.Storage/storageAccounts/ix701lvaasrcache",
                   recoveryResourceGroupId:
                     "/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/ClusterTestRG-19-01-asr",
+                  recoveryNetworkAccessPolicy: "AllowPrivate",
+                  recoveryDiskAccessId:
+                    "/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/ClusterTestRG-19-01-asr/providers/Microsoft.Compute/diskAccesses/clusterDiskAccess",
+                  recoveryPublicNetworkAccess: "Disabled",
                 },
               ],
             },

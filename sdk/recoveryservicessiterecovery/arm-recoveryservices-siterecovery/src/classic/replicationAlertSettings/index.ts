@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { list, create, get } from "../../api/replicationAlertSettings/operations.js";
-import {
+import type {
   ReplicationAlertSettingsListOptionalParams,
   ReplicationAlertSettingsCreateOptionalParams,
   ReplicationAlertSettingsGetOptionalParams,
 } from "../../api/replicationAlertSettings/options.js";
-import { Alert, ConfigureAlertRequest } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Alert, ConfigureAlertRequest } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ReplicationAlertSettings operations. */
 export interface ReplicationAlertSettingsOperations {

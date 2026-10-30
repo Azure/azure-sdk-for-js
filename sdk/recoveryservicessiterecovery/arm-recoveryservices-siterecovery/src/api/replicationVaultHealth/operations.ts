@@ -1,21 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext as Client } from "../index.js";
-import { VaultHealthDetails, vaultHealthDetailsDeserializer } from "../../models/models.js";
+import type { SiteRecoveryManagementContext as Client } from "../index.js";
+import type { VaultHealthDetails } from "../../models/models.js";
+import { vaultHealthDetailsDeserializer } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ReplicationVaultHealthRefreshOptionalParams,
   ReplicationVaultHealthGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _refreshSend(
   context: Client,
@@ -29,7 +26,7 @@ export function _refreshSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -44,7 +41,7 @@ export function _refreshSend(
 export async function _refreshDeserialize(
   result: PathUncheckedResponse,
 ): Promise<VaultHealthDetails> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -59,12 +56,12 @@ export function refresh(
   resourceName: string,
   options: ReplicationVaultHealthRefreshOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<VaultHealthDetails>, VaultHealthDetails> {
-  return getLongRunningPoller(context, _refreshDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _refreshDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _refreshSend(context, resourceGroupName, resourceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<VaultHealthDetails>, VaultHealthDetails>;
 }
 
@@ -80,7 +77,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

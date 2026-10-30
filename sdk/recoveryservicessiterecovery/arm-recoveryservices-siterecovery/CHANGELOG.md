@@ -1,5 +1,51 @@
 # Release History
 
+## 7.0.0 (2026-10-30)
+
+### Features Added
+  - Added Interface A2AClusterVmManagedDiskInputDetails
+  - Added Interface ConfidentialDiskEncryptionInfo
+  - Added Interface UpdateConfidentialDiskEncryptionInfo
+  - Interface A2AEnableProtectionInput has a new optional parameter recoveryConfidentialDataDiskEncryptionIdentity
+  - Interface A2AProtectedManagedDiskDetails has a new optional parameter confidentialDiskEncryptionInfo
+  - Interface A2AProtectedManagedDiskDetails has a new optional parameter recoveryDiskAccessId
+  - Interface A2AProtectedManagedDiskDetails has a new optional parameter recoveryNetworkAccessPolicy
+  - Interface A2AProtectedManagedDiskDetails has a new optional parameter recoveryPublicNetworkAccess
+  - Interface A2AReplicationDetails has a new optional parameter recoveryConfidentialDataDiskEncryptionIdentity
+  - Interface A2ASwitchProtectionInput has a new optional parameter recoveryConfidentialDataDiskEncryptionIdentity
+  - Interface A2AUpdateReplicationProtectedItemInput has a new optional parameter recoveryConfidentialDataDiskEncryptionIdentity
+  - Interface A2AVmManagedDiskInputDetails has a new optional parameter confidentialDiskEncryptionInfo
+  - Interface A2AVmManagedDiskInputDetails has a new optional parameter recoveryDiskAccessId
+  - Interface A2AVmManagedDiskInputDetails has a new optional parameter recoveryNetworkAccessPolicy
+  - Interface A2AVmManagedDiskInputDetails has a new optional parameter recoveryPublicNetworkAccess
+  - Interface A2AVmManagedDiskUpdateDetails has a new optional parameter confidentialDiskEncryptionInfo
+  - Interface InMageRcmDiskInput has a new optional parameter confidentialDiskEncryptionSetId
+  - Interface InMageRcmDisksDefaultInput has a new optional parameter confidentialDiskEncryptionSetId
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter targetExtendedLocation
+  - Interface InMageRcmProtectedDiskDetails has a new optional parameter confidentialDiskEncryptionSetId
+  - Interface InMageRcmReplicationDetails has a new optional parameter targetExtendedLocation
+  - Interface IPConfigDetails has a new optional parameter ipVersion
+  - Interface VaultSettingCreationInputProperties has a new optional parameter recoveryNetworkConfigAutoSync
+  - Interface VaultSettingProperties has a new optional parameter recoveryNetworkConfigAutoSync
+  - Interface VMwareCbtDiskInput has a new optional parameter confidentialDiskEncryptionSetId
+  - Interface VMwareCbtProtectedDiskDetails has a new optional parameter confidentialDiskEncryptionSetId
+  - Added Type Alias DiskNetworkAccessPolicy
+  - Added Type Alias DiskPublicNetworkAccess
+  - Added Type Alias IPVersion
+  - Added Type Alias RecoveryNetworkConfigAutoSyncPolicy
+  - Added Enum KnownDiskNetworkAccessPolicy
+  - Added Enum KnownDiskPublicNetworkAccess
+  - Added Enum KnownIPVersion
+  - Added Enum KnownRecoveryNetworkConfigAutoSyncPolicy
+  - Enum KnownVersions has a new value V20260101
+  - Enum KnownVersions has a new value V20260201
+  - Enum KnownVersions has a new value V20260501
+  - Enum KnownVersions has a new value V20260701
+  - Enum KnownVersions has a new value V20261101
+
+### Breaking Changes
+  - Type of parameter agentReinstallState of interface InMageRcmMobilityAgentDetails is changed from MobilityAgentReinstallType[] to MobilityAgentReinstallType
+
 ## 6.0.0 (2026-07-06)
 
 ### Features Added

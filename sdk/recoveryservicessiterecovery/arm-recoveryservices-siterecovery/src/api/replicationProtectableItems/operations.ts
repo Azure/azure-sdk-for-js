@@ -1,28 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext as Client } from "../index.js";
+import type { SiteRecoveryManagementContext as Client } from "../index.js";
+import type { ProtectableItem, _ProtectableItemCollection } from "../../models/models.js";
 import {
-  ProtectableItem,
   protectableItemDeserializer,
-  _ProtectableItemCollection,
   _protectableItemCollectionDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
   ReplicationProtectableItemsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByReplicationProtectionContainersSend(
   context: Client,
@@ -42,7 +35,7 @@ export function _listByReplicationProtectionContainersSend(
       resourceName: resourceName,
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       "%24filter": options?.filter,
       "%24take": options?.take,
       "%24skipToken": options?.skipToken,
@@ -92,7 +85,7 @@ export function listByReplicationProtectionContainers(
       ),
     _listByReplicationProtectionContainersDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -114,7 +107,7 @@ export function _getSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       protectableItemName: protectableItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

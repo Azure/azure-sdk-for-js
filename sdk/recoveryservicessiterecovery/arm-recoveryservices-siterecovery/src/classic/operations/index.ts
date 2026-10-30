@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { list } from "../../api/operations/operations.js";
-import { OperationsListOptionalParams } from "../../api/operations/options.js";
-import { OperationsDiscovery } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { OperationsListOptionalParams } from "../../api/operations/options.js";
+import type { OperationsDiscovery } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {

@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { list, $delete, update, create, get } from "../../api/replicationPolicies/operations.js";
-import {
+import type {
   ReplicationPoliciesListOptionalParams,
   ReplicationPoliciesDeleteOptionalParams,
   ReplicationPoliciesUpdateOptionalParams,
   ReplicationPoliciesCreateOptionalParams,
   ReplicationPoliciesGetOptionalParams,
 } from "../../api/replicationPolicies/options.js";
-import { Policy, CreatePolicyInput, UpdatePolicyInput } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Policy, CreatePolicyInput, UpdatePolicyInput } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ReplicationPolicies operations. */
 export interface ReplicationPoliciesOperations {
