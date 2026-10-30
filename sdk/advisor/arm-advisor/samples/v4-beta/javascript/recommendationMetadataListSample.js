@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the list of metadata entities.
  *
  * @summary gets the list of metadata entities.
- * x-ms-original-file: 2026-02-01-preview/ListRecommendationMetadata.json
+ * x-ms-original-file: 2026-08-01-preview/ListRecommendationMetadata.json
  */
 async function getMetadata() {
   const credential = new DefaultAzureCredential();

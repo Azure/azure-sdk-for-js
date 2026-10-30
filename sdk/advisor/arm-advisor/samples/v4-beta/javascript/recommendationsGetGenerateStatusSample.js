@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the status of the recommendation computation or generation process. Invoke this API after calling the generation recommendation. The URI of this API is returned in the Location field of the response header.
  *
  * @summary retrieves the status of the recommendation computation or generation process. Invoke this API after calling the generation recommendation. The URI of this API is returned in the Location field of the response header.
- * x-ms-original-file: 2026-02-01-preview/EmptyResponse.json
+ * x-ms-original-file: 2026-08-01-preview/EmptyResponse.json
  */
 async function getGenerateStatus() {
   const credential = new DefaultAzureCredential();
