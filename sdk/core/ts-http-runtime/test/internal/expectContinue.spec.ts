@@ -31,13 +31,42 @@ describe("Expect header detection", () => {
     expect(hasExpectContinue(request)).toBe(false);
   });
 
-  it("supports raw header arrays in request overrides", () => {
+  it.each([
+    {
+      format: "flat",
+      headers: ["x-test", "unrelated", "Expect", "foo", "eXpEcT", "100-continue"],
+    },
+    {
+      format: "paired",
+      headers: [
+        ["x-test", "unrelated"],
+        ["Expect", "foo"],
+        ["eXpEcT", "100-continue"],
+      ],
+    },
+  ])("preserves matching values from $format header arrays in request overrides", ({ headers }) => {
     const request = createPipelineRequest({
       url: "https://localhost",
-      requestOverrides: { headers: ["Expect", "100-continue"] },
+      requestOverrides: { headers },
     });
 
-    expect(getEffectiveHeaderValues(request, "expect")).toEqual(["100-continue"]);
+    expect(getEffectiveHeaderValues(request, "EXPECT")).toEqual(["foo", "100-continue"]);
+    expect(hasExpectHeader(request)).toBe(true);
     expect(hasExpectContinue(request)).toBe(true);
+  });
+
+  it.each([
+    { format: "empty", headers: [] },
+    { format: "flat", headers: ["x-test", "value"] },
+    { format: "paired", headers: [["x-test", "value"]] },
+  ])("returns no values for $format header arrays without Expect", ({ headers }) => {
+    const request = createPipelineRequest({
+      url: "https://localhost",
+      requestOverrides: { headers },
+    });
+
+    expect(getEffectiveHeaderValues(request, "expect")).toEqual([]);
+    expect(hasExpectHeader(request)).toBe(false);
+    expect(hasExpectContinue(request)).toBe(false);
   });
 });

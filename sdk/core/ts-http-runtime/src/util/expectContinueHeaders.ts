@@ -3,17 +3,30 @@
 
 import type { PipelineRequest } from "../interfaces.js";
 
+/**
+ * Reads matching header values from either a flat `[name, value, ...]` raw header
+ * array or an array of `[name, value]` pairs, preserving duplicate-value order.
+ *
+ * @param headers - Header names and values in either array format.
+ * @param name - The lowercase header name to match case-insensitively.
+ * @returns The matching header values in their original order.
+ * @see https://nodejs.org/api/http.html#messagerawheaders
+ */
+function getHeaderValuesFromArray(headers: unknown[], name: string): unknown[] {
+  const pairs = Array.isArray(headers[0])
+    ? (headers as unknown[][])
+    : Array.from({ length: Math.ceil(headers.length / 2) }, (_, index) => [
+        headers[index * 2],
+        headers[index * 2 + 1],
+      ]);
+  return pairs
+    .filter(([key]) => typeof key === "string" && key.toLowerCase() === name)
+    .map(([, value]) => value);
+}
+
 function getHeaderValues(headers: unknown, name: string): unknown[] {
   if (Array.isArray(headers)) {
-    const pairs = Array.isArray(headers[0])
-      ? (headers as unknown[][])
-      : Array.from({ length: Math.ceil(headers.length / 2) }, (_, index) => [
-          headers[index * 2],
-          headers[index * 2 + 1],
-        ]);
-    return pairs
-      .filter(([key]) => typeof key === "string" && key.toLowerCase() === name)
-      .map(([, value]) => value);
+    return getHeaderValuesFromArray(headers, name);
   }
 
   if (headers && typeof headers === "object") {
