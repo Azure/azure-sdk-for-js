@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns a Azure Arc PrivateLinkScope.
  *
  * @summary returns a Azure Arc PrivateLinkScope.
- * x-ms-original-file: 2026-07-15/privateLinkScope/PrivateLinkScopes_Get.json
+ * x-ms-original-file: 2026-09-01/privateLinkScope/PrivateLinkScopes_Get.json
  */
 async function privateLinkScopeGet() {
   const credential = new DefaultAzureCredential();

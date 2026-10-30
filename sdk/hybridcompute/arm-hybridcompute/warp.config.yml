@@ -15,6 +15,7 @@ exports:
   "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
   "./api/gateways": "./src/api/gateways/index.ts"
+  "./api/vmApplications": "./src/api/vmApplications/index.ts"
   "./api/machineRunCommands": "./src/api/machineRunCommands/index.ts"
   "./api/machineExtensions": "./src/api/machineExtensions/index.ts"
   "./api/licenseProfiles": "./src/api/licenseProfiles/index.ts"

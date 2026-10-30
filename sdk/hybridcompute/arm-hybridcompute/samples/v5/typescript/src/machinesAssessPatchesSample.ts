@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to assess patches on a hybrid machine identity in Azure.
  *
  * @summary the operation to assess patches on a hybrid machine identity in Azure.
- * x-ms-original-file: 2026-07-15/machine/Machine_AssessPatches.json
+ * x-ms-original-file: 2026-09-01/machine/Machine_AssessPatches.json
  */
 async function assessPatchStateOfAMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

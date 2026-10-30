@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update a hybrid machine.
  *
  * @summary the operation to update a hybrid machine.
- * x-ms-original-file: 2026-07-15/machine/Machines_Update.json
+ * x-ms-original-file: 2026-09-01/machine/Machines_Update.json
  */
 async function updateAMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

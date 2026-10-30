@@ -31,7 +31,7 @@ export function _listSend(
       location: location,
       publisher: publisher,
       extensionType: extensionType,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,6 +58,7 @@ export async function _listDeserialize(
 
   return _extensionValueListResultV2Deserializer(result.body);
 }
+
 /** Gets all Extension versions based on location, publisher, extensionType */
 export function list(
   context: Client,
@@ -71,7 +72,7 @@ export function list(
     () => _listSend(context, location, publisher, extensionType, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -90,7 +91,7 @@ export function _getSend(
       publisher: publisher,
       extensionType: extensionType,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,6 +116,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ex
 
   return extensionValueV2Deserializer(result.body);
 }
+
 /** Gets an Extension Metadata based on location, publisher, extensionType and version */
 export async function get(
   context: Client,

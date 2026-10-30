@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to get all the run commands of a non-Azure machine.
  *
  * @summary the operation to get all the run commands of a non-Azure machine.
- * x-ms-original-file: 2026-07-15/runCommand/RunCommands_List.json
+ * x-ms-original-file: 2026-09-01/runCommand/RunCommands_List.json
  */
 async function getAllMachineRunCommands(): Promise<void> {
   const credential = new DefaultAzureCredential();
