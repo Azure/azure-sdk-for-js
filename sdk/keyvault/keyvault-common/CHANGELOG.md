@@ -7,6 +7,10 @@
 - Improved authentication challenge validation and cached token handling, including recovery after rejected challenges, sharing of interleaved token acquisitions and equivalent concurrent CAE challenges, and isolation of request cancellation and timeouts. [#40298](https://github.com/Azure/azure-sdk-for-js/pull/40298)
 - Bound cached challenge state to the originating vault origin so bearer tokens are not attached when subsequent requests target a different origin, even when challenge resource verification is disabled. [#40440](https://github.com/Azure/azure-sdk-for-js/pull/40440)
 
+### Other Changes
+
+- Update `engines` to `"node": ">=22.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
 ## 2.1.0 (2026-04-09)
 
 ### Other Changes
