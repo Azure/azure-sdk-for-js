@@ -5693,6 +5693,7 @@ export type SimpleQnAFineTuningQuestionType = "short_answer" | "long_answer";
 
 // @public
 export interface SimulationSeedDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
+    max_samples: number;
     type: "simulation_seed";
 }
 

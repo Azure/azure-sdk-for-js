@@ -9318,6 +9318,8 @@ export function tracesDataGenerationJobConfigurationDeserializer(
 export interface SimulationSeedDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
   /** The data generation job type, which is SimulationSeed for this model. */
   type: "simulation_seed";
+  /** Maximum number of samples to generate, up to service-defined limits. */
+  max_samples: number;
 }
 
 export function simulationSeedDataGenerationJobConfigurationSerializer(
@@ -9329,6 +9331,7 @@ export function simulationSeedDataGenerationJobConfigurationSerializer(
     model_options: !item["model_options"]
       ? item["model_options"]
       : dataGenerationModelOptionsSerializer(item["model_options"]),
+    max_samples: item["max_samples"],
   };
 }
 
@@ -9341,6 +9344,7 @@ export function simulationSeedDataGenerationJobConfigurationDeserializer(
     model_options: !item["model_options"]
       ? item["model_options"]
       : dataGenerationModelOptionsDeserializer(item["model_options"]),
+    max_samples: item["max_samples"],
   };
 }
 
