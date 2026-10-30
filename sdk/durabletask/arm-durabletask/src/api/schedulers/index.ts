@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  restart,
   listPrivateEndpointConnections,
   deletePrivateEndpointConnection,
   updatePrivateEndpointConnection,
@@ -17,6 +18,7 @@ export {
   get,
 } from "./operations.js";
 export type {
+  SchedulersRestartOptionalParams,
   SchedulersListPrivateEndpointConnectionsOptionalParams,
   SchedulersDeletePrivateEndpointConnectionOptionalParams,
   SchedulersUpdatePrivateEndpointConnectionOptionalParams,

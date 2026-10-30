@@ -13,7 +13,8 @@ import type { ExpressionNode } from "../../expression/ast-nodes.js";
 import { symbolicValueExpressionNode } from "../../expression/ast-nodes.js";
 import type { PropertySegment } from "../../types.js";
 import type { ResourceNamingRules } from "../../naming/naming-rules.js";
-import { namingRequiredPolicy, resolveResourceName } from "../../naming/naming-policy.js";
+import { assertValidResourceName } from "../../naming/name-validation.js";
+import { namingRequiredPolicy, generateResourceName } from "../../naming/naming-policy.js";
 import {
   RAW_RESOURCE_HANDLE,
   RESOURCE_BRAND,
@@ -67,21 +68,12 @@ export interface ResourceState<TType extends string = string> {
   readonly apiVersion: string;
   readonly existing?: boolean | undefined;
   /**
-   * Optional Bicep `scope:` expression. Currently emitted only on `existing`
-   * resource references (e.g. `scope: resourceGroup('shared')` for a
-   * cross-RG lookup). Future scope-hoisted resource types may emit it on
-   * deployable resources too — for example, deploying a
-   * `Microsoft.Management/managementGroups` from a subscription-targeted
-   * file requires `scope: tenant()`. See `contributing/bicep/bicep-scope.md` section 2.2.
+   * Explicit scope expression. Authoring populates this for existing-resource
+   * lookups; restoration can retain uninterpreted scope expressions on any
+   * declaration. Expressions are normalized to raw nodes.
    *
-   * For ordinary deployable resources this field is `undefined` — their
-   * deployment scope is determined by the file's `targetScope` (or by the
-   * containing `ResourceGroup` / module the resource lives in).
-   *
-   * Stored as a raw `ExpressionNode` (the user-facing `ScopeExpression`
-   * proxy is unwrapped at the constructor boundary, matching the
-   * "`state` holds normalized raw nodes" invariant that
-   * `normalizeAssignedValue` maintains for every other field).
+   * New-resource authoring still derives placement from the Stack and parent
+   * context rather than accepting an explicit scope override.
    */
   readonly scope?: ExpressionNode | undefined;
   readonly condition?: ExpressionOrValue<boolean> | undefined;
@@ -100,9 +92,9 @@ export interface ResourceState<TType extends string = string> {
  * resource as the ProvisioningComponent `context` argument to the resource constructor
  * (with `{ existing: true }`), not via this `scope` field.
  */
-export interface ExistingResourceProps {
+export interface ExistingResourceProps<TName extends string = string> {
   /** Required. The actual Azure name of the existing resource. */
-  readonly name: ExpressionOrValue<string>;
+  readonly name: ExpressionOrValue<TName>;
 
   /**
    * Optional. The scope at which to look up the resource. Used when the
@@ -190,6 +182,7 @@ export interface ResourceOptions {
 export abstract class ResourceDeclaration<
   TType extends string = string,
 > extends ProvisioningComponent {
+  protected readonly namingRules: ResourceNamingRules | undefined;
   /**
    * Brand marker for cross-realm `isResourceDeclaration()` checks. Uses
    * `Symbol.for` so it survives multiple copies of `@azure/provisioning-core`.
@@ -235,7 +228,22 @@ export abstract class ResourceDeclaration<
     options?: ResourceOptions,
     namingRules?: ResourceNamingRules,
   ) {
+    const armParent =
+      isResourceDeclaration(context) &&
+      props.type.toLowerCase().startsWith(context.type.toLowerCase() + "/")
+        ? context
+        : undefined;
+    // Automatic naming uses the authored rather than the discovered hierarchy.
+    const nameSegments =
+      namingRules !== undefined &&
+      (armParent !== undefined || namingRules.nameSegments !== undefined)
+        ? props.type.split("/").length - (armParent?.type.split("/").length ?? 1)
+        : undefined;
+    if (props.name !== undefined) {
+      assertValidResourceName(props.name, props.type, namingRules);
+    }
     super(context);
+    this.namingRules = namingRules;
 
     if (!this.hasDeploymentContext()) {
       throw new Error("Resource declaration must have a parent deployment context.");
@@ -271,19 +279,20 @@ export abstract class ResourceDeclaration<
     //
     // Bicep requires a child of a conditional resource to itself be
     // conditional on the same expression. When no explicit `condition` is
-    // supplied, inherit the immediate parent resource declaration's
+    // supplied, inherit the nearest parent resource declaration's
     // condition so the emitted template stays valid — child authoring
     // shouldn't have to redundantly restate the parent's guard.
     const isExisting = props.existing === true;
-    const parent = this.parent;
-    const inheritedCondition = isResourceDeclaration(parent)
-      ? (parent.self as unknown as { state: Record<string, unknown> }).state["condition"]
-      : undefined;
+    let parent = this.parent;
+    while (parent !== undefined && !isResourceDeclaration(parent)) {
+      parent = parent.parent;
+    }
+    const inheritedCondition = isResourceDeclaration(parent) ? parent.condition : undefined;
     const explicitCondition = options?.condition;
     const condition =
       explicitCondition !== undefined && inheritedCondition !== undefined
         ? createBinaryExpression<boolean>("&&", inheritedCondition, explicitCondition)
-        : (explicitCondition ?? (inheritedCondition as ExpressionOrValue<boolean> | undefined));
+        : (explicitCondition ?? inheritedCondition);
     const dependsOn = options?.dependsOn;
 
     let data: ResourceState<TType> & Record<string, unknown>;
@@ -320,13 +329,25 @@ export abstract class ResourceDeclaration<
         ...userProps
       } = props as ResourceProps<TType> & Record<string, unknown>;
       const ctx = this.deploymentContext;
+      let resolvedName: ExpressionOrValue<string>;
+      try {
+        resolvedName =
+          props.name ??
+          generateResourceName(
+            ctx.namingPolicy ?? namingRequiredPolicy,
+            props.type,
+            namingRules,
+            nameSegments,
+          );
+      } catch (error) {
+        // A rejected generated name must not leave a partial declaration
+        // registered in its parent's tree.
+        const index = this.parent?.children.indexOf(this) ?? -1;
+        if (index >= 0) this.parent!.children.splice(index, 1);
+        throw error;
+      }
       data = {
-        name: resolveResourceName(
-          ctx.namingPolicy ?? namingRequiredPolicy,
-          props.name,
-          props.type,
-          namingRules,
-        ),
+        name: resolvedName,
         type: props.type,
         apiVersion: props.apiVersion,
         condition,
@@ -349,24 +370,37 @@ export abstract class ResourceDeclaration<
       // replace inherited tags).
       const shape = getShape(props.type, props.apiVersion, data);
       if (shape !== undefined) {
-        const locationShape = shape.byJsName["location"];
+        const properties = Object.entries(shape.byJsName);
+        const locationProperty = properties.find(
+          ([jsName, property]) =>
+            property.armPath.length <= 1 && (property.armPath[0] ?? jsName) === "location",
+        );
+        const locationName = locationProperty?.[0];
+        const locationShape = locationProperty?.[1];
         if (
+          locationName !== undefined &&
           locationShape !== undefined &&
           locationShape.readOnly !== true &&
-          data["location"] === undefined &&
+          data[locationName] === undefined &&
           ctx.location !== undefined
         ) {
-          data["location"] = ctx.location;
+          data[locationName] = ctx.location;
         }
-        const tagsShape = shape.byJsName["tags"];
+        const tagsProperty = properties.find(
+          ([jsName, property]) =>
+            property.armPath.length <= 1 && (property.armPath[0] ?? jsName) === "tags",
+        );
+        const tagsName = tagsProperty?.[0];
+        const tagsShape = tagsProperty?.[1];
         if (
+          tagsName !== undefined &&
           tagsShape !== undefined &&
           tagsShape.readOnly !== true &&
-          data["tags"] === undefined &&
+          data[tagsName] === undefined &&
           ctx.tags !== undefined &&
           Object.keys(ctx.tags).length > 0
         ) {
-          data["tags"] = { ...ctx.tags };
+          data[tagsName] = { ...ctx.tags };
         }
       }
     }
@@ -426,6 +460,9 @@ export abstract class ResourceDeclaration<
   }
 
   protected setProperty(key: string, value: unknown): void {
+    if (key === "name") {
+      assertValidResourceName(value, this.type, this.namingRules);
+    }
     this.state[key] = normalizeAssignedValue(value, this as unknown as Resource);
   }
 }
@@ -539,13 +576,23 @@ export class Resource<TType extends string = string> extends ResourceDeclaration
    * Per-resource-type naming constraints, consumed by the active
    * {@link NamingPolicy} when a resource is created without an explicit
    * `name`. Generated CDK subclasses override this with a concrete value;
-   * the base default of `undefined` yields `MOST_RESTRICTIVE` behavior.
+   * the base default of `undefined` uses the default naming convention.
    *
    * This is type metadata, not user input, so it is kept off the public
    * props surface and read reflectively in the constructor via
    * `this.constructor` rather than being threaded through `ResourceProps`.
    */
   protected static namingRules?: ResourceNamingRules;
+
+  /** Validates construction inputs before a scalar or looped declaration is registered. */
+  protected static validate(
+    _context: ProvisioningComponent,
+    _props: ResourceProps<string> & Record<string, unknown>,
+    _options?: ResourceOptions,
+    _namingRules?: ResourceNamingRules,
+  ): void {
+    // Resource subclasses can impose additional construction constraints.
+  }
 
   protected _selfProxy: this | undefined;
 
@@ -554,21 +601,9 @@ export class Resource<TType extends string = string> extends ResourceDeclaration
     props: ResourceProps<TType> & Record<string, unknown>,
     options?: ResourceOptions,
   ) {
-    super(
-      context,
-      props,
-      options,
-      // Naming rules live as a `protected static namingRules` field on
-      // each concrete resource subclass, not on the public props bag.
-      // Read reflectively off `new.target` (the most-derived class being
-      // instantiated) — `this.constructor` would work too but TS forbids
-      // touching `this` before `super()`. Static inheritance falls back
-      // to `Resource`'s `undefined` default when a subclass omits the
-      // field (e.g. singleton children). `resolveResourceName` (called
-      // inside `ResourceDeclaration`) treats `undefined` as
-      // `MOST_RESTRICTIVE`.
-      (new.target as typeof Resource).namingRules,
-    );
+    const namingRules = (new.target as typeof Resource).namingRules;
+    (new.target as typeof Resource).validate(context, props, options, namingRules);
+    super(context, props, options, namingRules);
 
     const proxy = createResourceProxy(this as this & Resource<TType>);
     this._selfProxy = proxy;
@@ -799,7 +834,10 @@ export class LoopedResource<T extends Resource = Resource> extends ResourceDecla
       options?: ResourceOptions,
     ) => T,
     userProps: unknown,
-    loop: Loop<unknown>,
+    loop: LoopContext & {
+      readonly indexRequested: boolean;
+      readonly indexVariable: string;
+    },
     options?: ResourceOptions,
   ) {
     // The subclass constructor never runs for a looped row — only this
@@ -820,12 +858,22 @@ export class LoopedResource<T extends Resource = Resource> extends ResourceDecla
         buildResourceProps: (props: unknown) => ResourceProps<T["type"]> & Record<string, unknown>;
       }
     ).buildResourceProps.call(wrappedCtor, userProps);
-    super(
-      context,
-      props,
-      options,
-      (wrappedCtor as unknown as { namingRules?: ResourceNamingRules }).namingRules,
-    );
+    if (props.name === undefined) {
+      throw new Error(`Looped resource '${props.type}' requires an explicit per-iteration name.`);
+    }
+    const namingRules = (wrappedCtor as unknown as { namingRules?: ResourceNamingRules })
+      .namingRules;
+    (
+      wrappedCtor as unknown as {
+        validate(
+          context: ProvisioningComponent,
+          props: ResourceProps<string> & Record<string, unknown>,
+          options?: ResourceOptions,
+          namingRules?: ResourceNamingRules,
+        ): void;
+      }
+    ).validate.call(wrappedCtor, context, props, options, namingRules);
+    super(context, props, options, namingRules);
     this.#wrappedCtor = wrappedCtor;
     // Snapshot the loop metadata at declaration time. `indexVariable` is
     // recorded only if the index was requested by now — either the caller
@@ -898,7 +946,10 @@ export function createLoopedResource<T extends Resource, C extends ProvisioningC
       options?: ResourceOptions,
     ) => U,
     userProps: unknown,
-    loop: Loop<unknown>,
+    loop: LoopContext & {
+      readonly indexRequested: boolean;
+      readonly indexVariable: string;
+    },
     options?: ResourceOptions,
   ) => LoopedResource<U>;
   return new LoopedCtor(

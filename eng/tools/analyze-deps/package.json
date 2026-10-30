@@ -26,14 +26,13 @@
   "license": "ISC",
   "dependencies": {
     "@azure-tools/eng-package-utils": "workspace:^",
-    "argparse": "^2.0.1",
+    "argparse": "^3.0.2",
     "handlebars": "^4.7.9",
     "json5": "^2.2.3",
     "js-yaml": "^5.4.2",
     "tar": "^7.5.20"
   },
   "devDependencies": {
-    "@types/argparse": "^2.0.17",
     "@types/node": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"

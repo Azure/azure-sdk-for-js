@@ -17,6 +17,9 @@ import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { BlockBlobTier } from "../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import type { HttpClient } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { newPipeline } from "../src/Pipeline.js";
 
 describe("BlockBlobClient", () => {
   let containerName: string;
@@ -493,5 +496,50 @@ describe("BlockBlobClient", () => {
 
     const result = await blockBlobClient.download();
     assert.deepStrictEqual(await bodyToString(result), content);
+  });
+});
+
+describe("BlockBlobClient request bodies", () => {
+  it.each([
+    ["ArrayBuffer", new Uint8Array([1, 2, 3]).buffer],
+    ["DataView", new DataView(new Uint8Array([1, 2, 3]).buffer, 1, 2)],
+    ["Uint16Array", new Uint16Array([1, 2, 3])],
+  ] satisfies [string, ArrayBuffer | ArrayBufferView][])("preserves %s bodies", async (_, body) => {
+    let requestBody: unknown;
+    let contentLength: string | undefined;
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        requestBody = request.body;
+        contentLength = request.headers.get("content-length");
+        return {
+          request,
+          status: 201,
+          headers: createHttpHeaders({
+            etag: '"etag"',
+            "last-modified": new Date(0).toUTCString(),
+            date: new Date(0).toUTCString(),
+            "x-ms-version": "2026-12-06",
+            "x-ms-version-id": "version",
+          }),
+        };
+      },
+    };
+    const pipeline = newPipeline();
+    Object.assign(pipeline, { _coreHttpClient: httpClient });
+    const client = new BlockBlobClient("https://example.com/container/blob", pipeline);
+
+    await client.upload(body, body.byteLength);
+
+    // Some HTTP runtime versions send only Uint8Array bodies as raw bytes, so the transport must get
+    // a Uint8Array over exactly the caller's bytes, whatever the runtime version.
+    assert.instanceOf(requestBody, Uint8Array);
+    const expected = ArrayBuffer.isView(body)
+      ? new Uint8Array(body.buffer, body.byteOffset, body.byteLength)
+      : new Uint8Array(body);
+    assert.deepEqual(requestBody, expected);
+    // Browsers compute Content-Length from the body, so the pipeline removes the header there.
+    if (isNodeLike) {
+      assert.strictEqual(contentLength, String(body.byteLength));
+    }
   });
 });

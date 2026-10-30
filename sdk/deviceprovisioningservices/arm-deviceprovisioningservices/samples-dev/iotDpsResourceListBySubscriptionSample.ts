@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the provisioning services for a given subscription id.
  *
  * @summary list all the provisioning services for a given subscription id.
- * x-ms-original-file: 2026-08-31/DPSListBySubscription.json
+ * x-ms-original-file: 2026-11-01/DPSListBySubscription.json
  */
 async function dpsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
