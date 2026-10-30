@@ -150,6 +150,11 @@ describe("File ID addressing - clients", () => {
   });
 });
 
+// The names of a client's public methods.
+type MethodName<T> = {
+  [K in keyof T]: T[K] extends (...args: never[]) => unknown ? K : never;
+}[keyof T];
+
 describe("File ID addressing - unsupported members", () => {
   const notSupported = "is not supported when the client addresses the resource by file ID.";
   let fileClient: ShareFileClient;
@@ -164,78 +169,83 @@ describe("File ID addressing - unsupported members", () => {
     respondWith(directoryClient, requests, 200);
   });
 
-  const fileMembers: Array<[string, (client: ShareFileClient) => unknown]> = [
-    ["create", (c) => c.create(1)],
-    ["download", (c) => c.download()],
-    ["exists", (c) => c.exists()],
-    ["setProperties", (c) => c.setProperties()],
-    ["delete", (c) => c.delete()],
-    ["deleteIfExists", (c) => c.deleteIfExists()],
-    ["setHttpHeaders", (c) => c.setHttpHeaders()],
-    ["resize", (c) => c.resize(1)],
-    ["setMetadata", (c) => c.setMetadata()],
-    ["uploadRange", (c) => c.uploadRange("a", 0, 1)],
-    ["uploadRangeFromURL", (c) => c.uploadRangeFromURL(`${shareUrl}/source`, 0, 0, 1)],
-    ["clearRange", (c) => c.clearRange(0, 1)],
-    ["getRangeList", (c) => c.getRangeList()],
-    ["getRangeListDiff", (c) => c.getRangeListDiff(snapshot)],
-    ["listRanges", (c) => c.listRanges()],
-    ["listRangesDiff", (c) => c.listRangesDiff(snapshot)],
-    ["startCopyFromURL", (c) => c.startCopyFromURL(`${shareUrl}/source`)],
-    ["abortCopyFromURL", (c) => c.abortCopyFromURL("copyId")],
-    ["uploadData", (c) => c.uploadData(new Uint8Array(1))],
-    ["uploadFile", (c) => c.uploadFile("file.txt")],
-    ["uploadSeekableBlob", (c) => c.uploadSeekableBlob(() => undefined as any, 1)],
-    ["uploadResetableStream", (c) => c.uploadResetableStream(() => undefined as any, 1)],
-    ["downloadToBuffer", (c) => c.downloadToBuffer()],
-    ["uploadStream", (c) => c.uploadStream(undefined as any, 1, 1, 1)],
-    ["downloadToFile", (c) => c.downloadToFile("file.txt")],
-    ["listHandles", (c) => c.listHandles()],
-    ["forceCloseAllHandles", (c) => c.forceCloseAllHandles()],
-    ["forceCloseHandle", (c) => c.forceCloseHandle("handleId")],
-    ["createHardLink", (c) => c.createHardLink("dir/target")],
-    ["createSymbolicLink", (c) => c.createSymbolicLink("target")],
-    ["getSymbolicLink", (c) => c.getSymbolicLink()],
-    ["getShareLeaseClient", (c) => c.getShareLeaseClient()],
-    ["generateSasUrl", (c) => c.generateSasUrl({})],
-    ["generateSasStringToSign", (c) => c.generateSasStringToSign({})],
-    ["generateUserDelegationSasUrl", (c) => c.generateUserDelegationSasUrl({}, {} as any)],
-    [
-      "generateUserDelegationStringToSign",
-      (c) => c.generateUserDelegationStringToSign({}, {} as any),
-    ],
-    ["rename", (c) => c.rename("dir/newname")],
-  ];
+  // Keyed by every public method except the supported ones: a method added to a client doesn't
+  // compile here until it's listed, and its test below then checks that it throws.
+  const fileMembers: Record<
+    Exclude<MethodName<ShareFileClient>, "getProperties" | "getFileLinks" | "withShareSnapshot">,
+    (client: ShareFileClient) => unknown
+  > = {
+    create: (c) => c.create(1),
+    download: (c) => c.download(),
+    exists: (c) => c.exists(),
+    setProperties: (c) => c.setProperties(),
+    delete: (c) => c.delete(),
+    deleteIfExists: (c) => c.deleteIfExists(),
+    setHttpHeaders: (c) => c.setHttpHeaders(),
+    resize: (c) => c.resize(1),
+    setMetadata: (c) => c.setMetadata(),
+    uploadRange: (c) => c.uploadRange("a", 0, 1),
+    uploadRangeFromURL: (c) => c.uploadRangeFromURL(`${shareUrl}/source`, 0, 0, 1),
+    clearRange: (c) => c.clearRange(0, 1),
+    getRangeList: (c) => c.getRangeList(),
+    getRangeListDiff: (c) => c.getRangeListDiff(snapshot),
+    listRanges: (c) => c.listRanges(),
+    listRangesDiff: (c) => c.listRangesDiff(snapshot),
+    startCopyFromURL: (c) => c.startCopyFromURL(`${shareUrl}/source`),
+    abortCopyFromURL: (c) => c.abortCopyFromURL("copyId"),
+    uploadData: (c) => c.uploadData(new Uint8Array(1)),
+    uploadFile: (c) => c.uploadFile("file.txt"),
+    uploadSeekableBlob: (c) => c.uploadSeekableBlob(() => undefined as any, 1),
+    uploadResetableStream: (c) => c.uploadResetableStream(() => undefined as any, 1),
+    downloadToBuffer: (c) => c.downloadToBuffer(),
+    uploadStream: (c) => c.uploadStream(undefined as any, 1, 1, 1),
+    downloadToFile: (c) => c.downloadToFile("file.txt"),
+    listHandles: (c) => c.listHandles(),
+    forceCloseAllHandles: (c) => c.forceCloseAllHandles(),
+    forceCloseHandle: (c) => c.forceCloseHandle("handleId"),
+    createHardLink: (c) => c.createHardLink("dir/target"),
+    createSymbolicLink: (c) => c.createSymbolicLink("target"),
+    getSymbolicLink: (c) => c.getSymbolicLink(),
+    getShareLeaseClient: (c) => c.getShareLeaseClient(),
+    generateSasUrl: (c) => c.generateSasUrl({}),
+    generateSasStringToSign: (c) => c.generateSasStringToSign({}),
+    generateUserDelegationSasUrl: (c) => c.generateUserDelegationSasUrl({}, {} as any),
+    generateUserDelegationStringToSign: (c) => c.generateUserDelegationStringToSign({}, {} as any),
+    rename: (c) => c.rename("dir/newname"),
+  };
 
-  const directoryMembers: Array<[string, (client: ShareDirectoryClient) => unknown]> = [
-    ["create", (c) => c.create()],
-    ["createIfNotExists", (c) => c.createIfNotExists()],
-    ["setProperties", (c) => c.setProperties()],
-    ["getDirectoryClient", (c) => c.getDirectoryClient("subdir")],
-    ["createSubdirectory", (c) => c.createSubdirectory("subdir")],
-    ["deleteSubdirectory", (c) => c.deleteSubdirectory("subdir")],
-    ["createFile", (c) => c.createFile("file", 1)],
-    ["deleteFile", (c) => c.deleteFile("file")],
-    ["getFileClient", (c) => c.getFileClient("file")],
-    ["exists", (c) => c.exists()],
-    ["delete", (c) => c.delete()],
-    ["deleteIfExists", (c) => c.deleteIfExists()],
-    ["setMetadata", (c) => c.setMetadata()],
-    ["listFilesAndDirectories", (c) => c.listFilesAndDirectories()],
-    ["listHandles", (c) => c.listHandles()],
-    ["forceCloseAllHandles", (c) => c.forceCloseAllHandles()],
-    ["forceCloseHandle", (c) => c.forceCloseHandle("handleId")],
-    ["rename", (c) => c.rename("newdir")],
-  ];
+  const directoryMembers: Record<
+    Exclude<MethodName<ShareDirectoryClient>, "getProperties">,
+    (client: ShareDirectoryClient) => unknown
+  > = {
+    create: (c) => c.create(),
+    createIfNotExists: (c) => c.createIfNotExists(),
+    setProperties: (c) => c.setProperties(),
+    getDirectoryClient: (c) => c.getDirectoryClient("subdir"),
+    createSubdirectory: (c) => c.createSubdirectory("subdir"),
+    deleteSubdirectory: (c) => c.deleteSubdirectory("subdir"),
+    createFile: (c) => c.createFile("file", 1),
+    deleteFile: (c) => c.deleteFile("file"),
+    getFileClient: (c) => c.getFileClient("file"),
+    exists: (c) => c.exists(),
+    delete: (c) => c.delete(),
+    deleteIfExists: (c) => c.deleteIfExists(),
+    setMetadata: (c) => c.setMetadata(),
+    listFilesAndDirectories: (c) => c.listFilesAndDirectories(),
+    listHandles: (c) => c.listHandles(),
+    forceCloseAllHandles: (c) => c.forceCloseAllHandles(),
+    forceCloseHandle: (c) => c.forceCloseHandle("handleId"),
+    rename: (c) => c.rename("newdir"),
+  };
 
-  for (const [name, call] of fileMembers) {
+  for (const [name, call] of Object.entries(fileMembers)) {
     it(`ShareFileClient.${name} throws without sending a request`, async () => {
       await expect((async () => call(fileClient))()).rejects.toThrow(`${name} ${notSupported}`);
       assert.lengthOf(requests, 0);
     });
   }
 
-  for (const [name, call] of directoryMembers) {
+  for (const [name, call] of Object.entries(directoryMembers)) {
     it(`ShareDirectoryClient.${name} throws without sending a request`, async () => {
       await expect((async () => call(directoryClient))()).rejects.toThrow(
         `${name} ${notSupported}`,
