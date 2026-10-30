@@ -7,7 +7,7 @@ import {
   getEffectiveHeaderValues,
   hasExpectContinue,
   hasExpectHeader,
-} from "../../src/util/expectContinue.js";
+} from "../../src/util/expectContinueHeaders.js";
 
 describe("Expect header detection", () => {
   it("detects 100-continue case-insensitively", () => {

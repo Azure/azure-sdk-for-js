@@ -21,7 +21,7 @@ import { isRestError, RestError } from "./restError.js";
 import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
-import { hasExpectContinue } from "./util/expectContinue.js";
+import { hasExpectContinue } from "./util/expectContinueHeaders.js";
 import {
   addExpectContinueFraming,
   createExpectContinueRequest,
@@ -418,7 +418,7 @@ class NodeHttpClient implements HttpClient {
       };
 
       if (useExpectContinue) {
-        const pendingRequest = createExpectContinueRequest({
+        createExpectContinueRequest({
           abortSignal: abortController.signal,
           bodyLength,
           createRequest,
@@ -429,17 +429,15 @@ class NodeHttpClient implements HttpClient {
             sendRequestBody(clientRequest, prepareBody(), request, rejectRequest);
           },
         });
-        pendingRequest.start();
-        return;
-      }
-
-      req = createRequest(onResponse);
-      req.once("error", rejectRequest);
-      abortController.signal.addEventListener("abort", () => abortRequest(req));
-      try {
-        sendRequestBody(req, prepareBody(), request, rejectRequest);
-      } catch (error: unknown) {
-        req.destroy(error instanceof Error ? error : new Error(String(error)));
+      } else {
+        req = createRequest(onResponse);
+        req.once("error", rejectRequest);
+        abortController.signal.addEventListener("abort", () => abortRequest(req));
+        try {
+          sendRequestBody(req, prepareBody(), request, rejectRequest);
+        } catch (error: unknown) {
+          req.destroy(error instanceof Error ? error : new Error(String(error)));
+        }
       }
     });
   }

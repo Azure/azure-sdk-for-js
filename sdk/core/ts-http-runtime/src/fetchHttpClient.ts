@@ -14,7 +14,7 @@ import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 import { isObject } from "./util/object.js";
-import { hasExpectHeader } from "./util/expectContinue.js";
+import { hasExpectHeader } from "./util/expectContinueHeaders.js";
 import { setResponseBodyCompletion } from "./util/responseBody.js";
 import { logger } from "./log.js";
 

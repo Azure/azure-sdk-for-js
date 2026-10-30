@@ -126,8 +126,9 @@ describe("snippets", () => {
     const httpClient: HttpClient = createDefaultHttpClient();
     const request: PipelineRequest = createPipelineRequest({
       url: "https://example.com",
-      method: "GET",
+      method: "PUT",
       headers: createHttpHeaders({ Expect: "100-continue" }),
+      body: "Request body content",
     });
 
     await httpClient.sendRequest(request);
