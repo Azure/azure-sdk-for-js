@@ -901,6 +901,9 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/edgeoperator/arm-edgeoperator/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/deviceregistry/arm-deviceregistrysoftwareupdate/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
