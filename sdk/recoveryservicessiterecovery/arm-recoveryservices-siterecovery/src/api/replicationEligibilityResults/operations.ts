@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext as Client } from "../index.js";
-import {
+import type { SiteRecoveryManagementContext as Client } from "../index.js";
+import type {
   ReplicationEligibilityResults,
-  replicationEligibilityResultsDeserializer,
   ReplicationEligibilityResultsCollection,
+} from "../../models/models.js";
+import {
+  replicationEligibilityResultsDeserializer,
   replicationEligibilityResultsCollectionDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ReplicationEligibilityResultsListOptionalParams,
   ReplicationEligibilityResultsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -27,12 +25,12 @@ export function _listSend(
   options: ReplicationEligibilityResultsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualMachineName: virtualMachineName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,12 +71,12 @@ export function _getSend(
   options: ReplicationEligibilityResultsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults/default{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualMachineName: virtualMachineName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

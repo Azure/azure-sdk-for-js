@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { get } from "../../api/supportedOperatingSystems/operations.js";
-import { SupportedOperatingSystemsGetOptionalParams } from "../../api/supportedOperatingSystems/options.js";
-import { SupportedOperatingSystems } from "../../models/models.js";
+import type { SupportedOperatingSystemsGetOptionalParams } from "../../api/supportedOperatingSystems/options.js";
+import type { SupportedOperatingSystems } from "../../models/models.js";
 
 /** Interface representing a SupportedOperatingSystems operations. */
 export interface SupportedOperatingSystemsOperations {

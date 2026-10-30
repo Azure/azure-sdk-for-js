@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext as Client } from "../index.js";
-import {
+import type { SiteRecoveryManagementContext as Client } from "../index.js";
+import type {
   RecoveryPlan,
-  recoveryPlanDeserializer,
   CreateRecoveryPlanInput,
-  createRecoveryPlanInputSerializer,
   UpdateRecoveryPlanInput,
-  updateRecoveryPlanInputSerializer,
   _RecoveryPlanCollection,
-  _recoveryPlanCollectionDeserializer,
   RecoveryPlanPlannedFailoverInput,
-  recoveryPlanPlannedFailoverInputSerializer,
   RecoveryPlanTestFailoverInput,
-  recoveryPlanTestFailoverInputSerializer,
   RecoveryPlanTestFailoverCleanupInput,
-  recoveryPlanTestFailoverCleanupInputSerializer,
   RecoveryPlanUnplannedFailoverInput,
-  recoveryPlanUnplannedFailoverInputSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  recoveryPlanDeserializer,
+  createRecoveryPlanInputSerializer,
+  updateRecoveryPlanInputSerializer,
+  _recoveryPlanCollectionDeserializer,
+  recoveryPlanPlannedFailoverInputSerializer,
+  recoveryPlanTestFailoverInputSerializer,
+  recoveryPlanTestFailoverCleanupInputSerializer,
+  recoveryPlanUnplannedFailoverInputSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ReplicationRecoveryPlansUnplannedFailoverOptionalParams,
   ReplicationRecoveryPlansTestFailoverCleanupOptionalParams,
   ReplicationRecoveryPlansTestFailoverOptionalParams,
@@ -40,13 +40,9 @@ import {
   ReplicationRecoveryPlansCreateOptionalParams,
   ReplicationRecoveryPlansGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _unplannedFailoverSend(
   context: Client,
@@ -63,7 +59,7 @@ export function _unplannedFailoverSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -110,7 +106,7 @@ export function unplannedFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -129,7 +125,7 @@ export function _testFailoverCleanupSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +172,7 @@ export function testFailoverCleanup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -195,7 +191,7 @@ export function _testFailoverSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -235,7 +231,7 @@ export function testFailover(
     getInitialResponse: () =>
       _testFailoverSend(context, resourceGroupName, resourceName, recoveryPlanName, input, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -253,7 +249,7 @@ export function _reprotectSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -288,7 +284,7 @@ export function reprotect(
     getInitialResponse: () =>
       _reprotectSend(context, resourceGroupName, resourceName, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -307,7 +303,7 @@ export function _plannedFailoverSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -354,7 +350,7 @@ export function plannedFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -372,7 +368,7 @@ export function _failoverCommitSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -409,7 +405,7 @@ export function failoverCommit(
     getInitialResponse: () =>
       _failoverCommitSend(context, resourceGroupName, resourceName, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -427,7 +423,7 @@ export function _failoverCancelSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -464,7 +460,7 @@ export function failoverCancel(
     getInitialResponse: () =>
       _failoverCancelSend(context, resourceGroupName, resourceName, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -480,7 +476,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -515,7 +511,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -533,7 +529,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -565,7 +561,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, resourceName, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -584,7 +580,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -622,7 +618,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, resourceName, recoveryPlanName, input, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -641,7 +637,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -679,7 +675,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, resourceName, recoveryPlanName, input, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -697,7 +693,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

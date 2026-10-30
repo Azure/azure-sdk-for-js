@@ -1,29 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { SiteRecoveryManagementContext as Client } from "../index.js";
+import type {
   ProtectionContainer,
-  protectionContainerDeserializer,
   CreateProtectionContainerInput,
-  createProtectionContainerInputSerializer,
   _ProtectionContainerCollection,
-  _protectionContainerCollectionDeserializer,
   DiscoverProtectableItemRequest,
-  discoverProtectableItemRequestSerializer,
   SwitchClusterProtectionInput,
-  switchClusterProtectionInputSerializer,
   SwitchProtectionInput,
-  switchProtectionInputSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  protectionContainerDeserializer,
+  createProtectionContainerInputSerializer,
+  _protectionContainerCollectionDeserializer,
+  discoverProtectableItemRequestSerializer,
+  switchClusterProtectionInputSerializer,
+  switchProtectionInputSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ReplicationProtectionContainersListOptionalParams,
   ReplicationProtectionContainersSwitchProtectionOptionalParams,
   ReplicationProtectionContainersSwitchClusterProtectionOptionalParams,
@@ -33,13 +33,9 @@ import {
   ReplicationProtectionContainersCreateOptionalParams,
   ReplicationProtectionContainersGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listSend(
   context: Client,
@@ -53,7 +49,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -88,7 +84,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -109,7 +105,7 @@ export function _switchProtectionSend(
       resourceName: resourceName,
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -158,7 +154,7 @@ export function switchProtection(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ProtectionContainer>, ProtectionContainer>;
 }
 
@@ -181,7 +177,7 @@ export function _switchClusterProtectionSend(
       resourceName: resourceName,
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -201,7 +197,9 @@ export async function _switchClusterProtectionDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -235,7 +233,7 @@ export function switchClusterProtection(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ProtectionContainer>, ProtectionContainer>;
 }
 
@@ -255,7 +253,7 @@ export function _$deleteSend(
       resourceName: resourceName,
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -295,7 +293,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -318,7 +316,7 @@ export function _discoverProtectableItemSend(
       resourceName: resourceName,
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -369,7 +367,7 @@ export function discoverProtectableItem(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ProtectionContainer>, ProtectionContainer>;
 }
 
@@ -389,7 +387,7 @@ export function _listByReplicationFabricsSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       fabricName: fabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -428,7 +426,7 @@ export function listByReplicationFabrics(
       _listByReplicationFabricsSend(context, resourceGroupName, resourceName, fabricName, options),
     _listByReplicationFabricsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -449,7 +447,7 @@ export function _createSend(
       resourceName: resourceName,
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -498,7 +496,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ProtectionContainer>, ProtectionContainer>;
 }
 
@@ -518,7 +516,7 @@ export function _getSend(
       resourceName: resourceName,
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

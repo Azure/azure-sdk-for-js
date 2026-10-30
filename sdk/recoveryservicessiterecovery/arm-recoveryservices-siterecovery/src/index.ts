@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -37,8 +38,12 @@ export type {
   A2AUnprotectedDiskDetails,
   AutoProtectionOfDataDisk,
   A2AProtectedManagedDiskDetails,
+  DiskNetworkAccessPolicy,
+  DiskPublicNetworkAccess,
+  ConfidentialDiskEncryptionInfo,
   VMNicDetails,
   IPConfigDetails,
+  IPVersion,
   AzureToAzureVmSyncedConfigDetails,
   InputEndpoint,
   VmEncryptionType,
@@ -129,6 +134,7 @@ export type {
   UpdateReplicationProtectedItemProviderInputUnion,
   A2AUpdateReplicationProtectedItemInput,
   A2AVmManagedDiskUpdateDetails,
+  UpdateConfidentialDiskEncryptionInfo,
   HyperVReplicaAzureUpdateReplicationProtectedItemInput,
   UpdateDiskInput,
   InMageAzureV2UpdateReplicationProtectedItemInput,
@@ -415,6 +421,7 @@ export type {
   SwitchClusterProtectionProviderSpecificInputUnion,
   A2ASwitchClusterProtectionInput,
   A2AProtectedItemDetail,
+  A2AClusterVmManagedDiskInputDetails,
   SwitchProtectionInput,
   SwitchProtectionInputProperties,
   SwitchProtectionProviderSpecificInput,
@@ -650,6 +657,7 @@ export type {
   SourceSiteOperations,
   VaultSetting,
   VaultSettingProperties,
+  RecoveryNetworkConfigAutoSyncPolicy,
   VaultSettingCreationInput,
   VaultSettingCreationInputProperties,
   OperationsDiscovery,
@@ -680,6 +688,9 @@ export {
   KnownExtendedLocationType,
   KnownMultiVmGroupCreateOption,
   KnownAutoProtectionOfDataDisk,
+  KnownDiskNetworkAccessPolicy,
+  KnownDiskPublicNetworkAccess,
+  KnownIPVersion,
   KnownVmEncryptionType,
   KnownChurnOptionSelected,
   KnownLinuxLicenseType,
@@ -730,6 +741,7 @@ export {
   KnownRpInMageRecoveryPointType,
   KnownRecoveryPlanPointType,
   KnownSourceSiteOperations,
+  KnownRecoveryNetworkConfigAutoSyncPolicy,
   KnownHealthErrorCategory,
   KnownSeverity,
   KnownVersions,
@@ -975,3 +987,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import {
   list,
   listByReplicationFabrics,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/replicationvCenters/operations.js";
-import {
+import type {
   ReplicationvCentersListOptionalParams,
   ReplicationvCentersListByReplicationFabricsOptionalParams,
   ReplicationvCentersDeleteOptionalParams,
@@ -18,10 +18,11 @@ import {
   ReplicationvCentersCreateOptionalParams,
   ReplicationvCentersGetOptionalParams,
 } from "../../api/replicationvCenters/options.js";
-import { VCenter, AddVCenterRequest, UpdateVCenterRequest } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { VCenter, AddVCenterRequest, UpdateVCenterRequest } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ReplicationvCenters operations. */
 export interface ReplicationvCentersOperations {
