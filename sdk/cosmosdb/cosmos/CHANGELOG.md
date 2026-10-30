@@ -1,5 +1,11 @@
 # Release History
 
+## Unreleased
+
+### Bugs Fixed
+
+- Hybrid search RRF now assigns ordinal component ranks, using numeric document RIDs to break ties deterministically. For example, scores `10, 5, 5, 5, 0` receive ranks `1, 2, 3, 4, 5`. Set `AZURE_COSMOS_HYBRID_SEARCH_USE_COMPETITION_RANKING=true` in Node.js to use competition ranks `1, 2, 2, 2, 5` instead. This setting is captured when each hybrid query execution context is created. Fused-score ties use descending numeric document RIDs in either mode, matching [Azure/azure-cosmos-dotnet-v3#6130](https://github.com/Azure/azure-cosmos-dotnet-v3/pull/6130).
+
 ## 4.10.1 (2026-09-14)
 
 ### Bugs Fixed
