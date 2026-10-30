@@ -32,9 +32,6 @@ npm install @azure/opentelemetry-instrumentation-azure-sdk
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-The browser adapter installs a global Azure instrumenter. `disable()` updates its enabled
-state but does not uninstall that instrumenter; subsequent Azure operations can still emit spans.
-
 ## Key concepts
 
 - The **createAzureSdkInstrumentation** function is the main hook exported by this library which provides a way to create an Azure SDK Instrumentation object to be registered with OpenTelemetry.
