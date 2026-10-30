@@ -31,7 +31,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "proxy%2Dapi%2Dversion": options?.proxyApiVersion,
     },
     {
@@ -59,7 +59,6 @@ export async function _listDeserialize(
 
   return _raiBlocklistPropertiesBasicResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** Gets the custom blocklists associated with the Azure OpenAI connection. */
 export function list(
   context: Client,
@@ -76,7 +75,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }

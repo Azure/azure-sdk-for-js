@@ -51,7 +51,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
 }
-
 function _getPrivateEndpointConnections(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -88,7 +87,6 @@ function _getPrivateEndpointConnections(context: AzureMachineLearningServicesMan
     ) => get(context, resourceGroupName, workspaceName, privateEndpointConnectionName, options),
   };
 }
-
 export function _getPrivateEndpointConnectionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): PrivateEndpointConnectionsOperations {

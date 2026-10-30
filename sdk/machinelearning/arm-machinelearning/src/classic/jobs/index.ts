@@ -85,7 +85,6 @@ export interface JobsOperations {
     options?: JobsGetOptionalParams,
   ) => Promise<JobBase>;
 }
-
 function _getJobs(context: AzureMachineLearningServicesManagementContext) {
   return {
     cancel: (
@@ -153,7 +152,6 @@ function _getJobs(context: AzureMachineLearningServicesManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, id, options),
   };
 }
-
 export function _getJobsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): JobsOperations {

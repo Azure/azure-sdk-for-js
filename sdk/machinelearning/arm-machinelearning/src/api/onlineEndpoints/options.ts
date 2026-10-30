@@ -6,16 +6,13 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface OnlineEndpointsGetTokenOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface OnlineEndpointsRegenerateKeysOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface OnlineEndpointsListKeysOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface OnlineEndpointsListOptionalParams extends OperationOptions {
   /** Name of the endpoint. */
@@ -33,24 +30,20 @@ export interface OnlineEndpointsListOptionalParams extends OperationOptions {
   /** The option to order the response. */
   orderBy?: OrderString;
 }
-
 /** Optional parameters. */
 export interface OnlineEndpointsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface OnlineEndpointsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface OnlineEndpointsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface OnlineEndpointsGetOptionalParams extends OperationOptions {}

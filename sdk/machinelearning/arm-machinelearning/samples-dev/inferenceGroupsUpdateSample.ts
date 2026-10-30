@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update InferenceGroup (asynchronous).
  *
  * @summary update InferenceGroup (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/InferenceGroup/update.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/InferenceGroup/update.json
  */
 async function updateWorkspaceInferenceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

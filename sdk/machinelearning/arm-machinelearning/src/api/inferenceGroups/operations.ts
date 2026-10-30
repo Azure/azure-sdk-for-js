@@ -65,7 +65,7 @@ export function _listSkusSend(
       workspaceName: workspaceName,
       poolName: poolName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       count: options?.count,
       "%24skip": options?.skip,
     },
@@ -94,7 +94,6 @@ export async function _listSkusDeserialize(
 
   return _skuResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** List Inference Group Skus. */
 export function listSkus(
   context: Client,
@@ -112,7 +111,7 @@ export function listSkus(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -133,7 +132,7 @@ export function _getStatusSend(
       workspaceName: workspaceName,
       poolName: poolName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -158,7 +157,6 @@ export async function _getStatusDeserialize(result: PathUncheckedResponse): Prom
 
   return groupStatusDeserializer(result.body);
 }
-
 /** Retrieve inference group status. */
 export async function getStatus(
   context: Client,
@@ -196,7 +194,7 @@ export function _modifyDeltaModelsAsyncSend(
       workspaceName: workspaceName,
       poolName: poolName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -224,7 +222,6 @@ export async function _modifyDeltaModelsAsyncDeserialize(
 
   return;
 }
-
 /** Modify delta models associated with the InferenceGroup and the target base model. */
 export function modifyDeltaModelsAsync(
   context: Client,
@@ -249,7 +246,7 @@ export function modifyDeltaModelsAsync(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -270,7 +267,7 @@ export function _listDeltaModelsAsyncSend(
       workspaceName: workspaceName,
       poolName: poolName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -299,7 +296,6 @@ export async function _listDeltaModelsAsyncDeserialize(
 
   return _stringArmPaginatedResultDeserializer(result.body);
 }
-
 /** List delta models associated with the InferenceGroup and the target base model. */
 export function listDeltaModelsAsync(
   context: Client,
@@ -327,7 +323,7 @@ export function listDeltaModelsAsync(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -349,7 +345,7 @@ export function _getDeltaModelsStatusAsyncSend(
       workspaceName: workspaceName,
       poolName: poolName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -378,7 +374,6 @@ export async function _getDeltaModelsStatusAsyncDeserialize(
 
   return deltaModelStatusResponseDeserializer(result.body);
 }
-
 /** Retrieve status of delta models associated with the InferenceGroup and the target base model. */
 export async function getDeltaModelsStatusAsync(
   context: Client,
@@ -415,7 +410,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       count: options?.count,
       "%24skip": options?.skip,
       tags: options?.tags,
@@ -447,7 +442,6 @@ export async function _listDeserialize(
 
   return _inferenceGroupTrackedResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** List Inference Groups. */
 export function list(
   context: Client,
@@ -464,7 +458,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -485,7 +479,7 @@ export function _$deleteSend(
       workspaceName: workspaceName,
       poolName: poolName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -507,7 +501,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete InferenceGroup (asynchronous). */
 export function $delete(
   context: Client,
@@ -523,7 +516,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, workspaceName, poolName, groupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -544,7 +537,7 @@ export function _updateSend(
       workspaceName: workspaceName,
       poolName: poolName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -571,7 +564,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return inferenceGroupDeserializer(result.body);
 }
-
 /** Update InferenceGroup (asynchronous). */
 export function update(
   context: Client,
@@ -588,7 +580,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, workspaceName, poolName, groupName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<InferenceGroup>, InferenceGroup>;
 }
 
@@ -609,7 +601,7 @@ export function _createOrUpdateSend(
       workspaceName: workspaceName,
       poolName: poolName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -638,7 +630,6 @@ export async function _createOrUpdateDeserialize(
 
   return inferenceGroupDeserializer(result.body);
 }
-
 /** Create or update InferenceGroup (asynchronous). */
 export function createOrUpdate(
   context: Client,
@@ -663,7 +654,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<InferenceGroup>, InferenceGroup>;
 }
 
@@ -683,7 +674,7 @@ export function _getSend(
       workspaceName: workspaceName,
       poolName: poolName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -708,7 +699,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
 
   return inferenceGroupDeserializer(result.body);
 }
-
 /** Get InferenceGroup. */
 export async function get(
   context: Client,

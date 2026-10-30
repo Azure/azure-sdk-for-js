@@ -29,7 +29,6 @@ export interface OutboundRulesOperations {
     options?: OutboundRulesPostOptionalParams,
   ) => PagedAsyncIterableIterator<OutboundRuleBasicResource>;
 }
-
 function _getOutboundRules(context: AzureMachineLearningServicesManagementContext) {
   return {
     post: (
@@ -50,7 +49,6 @@ function _getOutboundRules(context: AzureMachineLearningServicesManagementContex
     },
   };
 }
-
 export function _getOutboundRulesOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): OutboundRulesOperations {

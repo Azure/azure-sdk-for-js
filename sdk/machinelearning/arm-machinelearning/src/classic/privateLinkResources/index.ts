@@ -22,7 +22,6 @@ export interface PrivateLinkResourcesOperations {
     options?: PrivateLinkResourcesListOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
-
 function _getPrivateLinkResources(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -32,7 +31,6 @@ function _getPrivateLinkResources(context: AzureMachineLearningServicesManagemen
     ) => list(context, resourceGroupName, workspaceName, options),
   };
 }
-
 export function _getPrivateLinkResourcesOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): PrivateLinkResourcesOperations {

@@ -43,7 +43,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "%24orderBy": options?.orderBy,
       "%24top": options?.top,
       "%24skip": options?.skip,
@@ -73,7 +73,6 @@ export async function _listDeserialize(
 
   return _batchDeploymentTrackedResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** Lists Batch inference deployments in the workspace. */
 export function list(
   context: Client,
@@ -90,7 +89,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -111,7 +110,7 @@ export function _$deleteSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +132,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete Batch Inference deployment (asynchronous). */
 export function $delete(
   context: Client,
@@ -156,7 +154,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -177,7 +175,7 @@ export function _updateSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,7 +202,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return batchDeploymentDeserializer(result.body);
 }
-
 /** Update a batch inference deployment (asynchronous). */
 export function update(
   context: Client,
@@ -229,7 +226,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<BatchDeployment>, BatchDeployment>;
 }
 
@@ -250,7 +247,7 @@ export function _createOrUpdateSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -279,7 +276,6 @@ export async function _createOrUpdateDeserialize(
 
   return batchDeploymentDeserializer(result.body);
 }
-
 /** Creates/updates a batch inference deployment (asynchronous). */
 export function createOrUpdate(
   context: Client,
@@ -304,7 +300,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<BatchDeployment>, BatchDeployment>;
 }
 
@@ -324,7 +320,7 @@ export function _getSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -349,7 +345,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ba
 
   return batchDeploymentDeserializer(result.body);
 }
-
 /** Gets a batch inference deployment by id. */
 export async function get(
   context: Client,

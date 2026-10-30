@@ -8,7 +8,6 @@ export interface ConnectionListDeploymentsOptionalParams extends OperationOption
   /** Api version used by proxy call */
   proxyApiVersion?: string;
 }
-
 /** Optional parameters. */
 export interface ConnectionDeleteDeploymentOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -16,7 +15,6 @@ export interface ConnectionDeleteDeploymentOptionalParams extends OperationOptio
   /** Api version used by proxy call */
   proxyApiVersion?: string;
 }
-
 /** Optional parameters. */
 export interface ConnectionCreateOrUpdateDeploymentOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -24,15 +22,12 @@ export interface ConnectionCreateOrUpdateDeploymentOptionalParams extends Operat
   /** Api version used by proxy call */
   proxyApiVersion?: string;
 }
-
 /** Optional parameters. */
 export interface ConnectionGetDeploymentOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ConnectionGetModelsOptionalParams extends OperationOptions {
   /** Api version used by proxy call */
   proxyApiVersion?: string;
 }
-
 /** Optional parameters. */
 export interface ConnectionGetAllModelsOptionalParams extends OperationOptions {}

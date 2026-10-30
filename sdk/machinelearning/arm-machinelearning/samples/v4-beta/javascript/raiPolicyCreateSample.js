@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-03-15-preview/Endpoint/RaiPolicy/create.json
+ * x-ms-original-file: 2026-05-15-preview/Endpoint/RaiPolicy/create.json
  */
 async function createRaiPolicy() {
   const credential = new DefaultAzureCredential();

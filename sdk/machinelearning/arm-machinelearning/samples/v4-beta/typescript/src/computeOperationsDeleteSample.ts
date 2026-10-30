@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes specified Machine Learning compute.
  *
  * @summary deletes specified Machine Learning compute.
- * x-ms-original-file: 2026-03-15-preview/Compute/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/delete.json
  */
 async function deleteCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();

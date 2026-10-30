@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update schedule.
  *
  * @summary create or update schedule.
- * x-ms-original-file: 2026-03-15-preview/Schedule/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Schedule/createOrUpdate.json
  */
 async function createOrUpdateSchedule() {
   const credential = new DefaultAzureCredential();

@@ -104,7 +104,6 @@ export interface InferencePoolsOperations {
     options?: InferencePoolsGetOptionalParams,
   ) => Promise<InferencePool>;
 }
-
 function _getInferencePools(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -227,7 +226,6 @@ function _getInferencePools(context: AzureMachineLearningServicesManagementConte
     ) => get(context, resourceGroupName, workspaceName, inferencePoolName, options),
   };
 }
-
 export function _getInferencePoolsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): InferencePoolsOperations {

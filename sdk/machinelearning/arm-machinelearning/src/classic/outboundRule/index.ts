@@ -86,7 +86,6 @@ export interface OutboundRuleOperations {
     options?: OutboundRuleGetOptionalParams,
   ) => Promise<OutboundRuleBasicResource>;
 }
-
 function _getOutboundRule(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -200,7 +199,6 @@ function _getOutboundRule(context: AzureMachineLearningServicesManagementContext
     ) => get(context, resourceGroupName, workspaceName, managedNetworkName, ruleName, options),
   };
 }
-
 export function _getOutboundRuleOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): OutboundRuleOperations {

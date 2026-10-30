@@ -91,7 +91,6 @@ export interface FeaturestoreEntityVersionsOperations {
     options?: FeaturestoreEntityVersionsGetOptionalParams,
   ) => Promise<FeaturestoreEntityVersion>;
 }
-
 function _getFeaturestoreEntityVersions(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -182,7 +181,6 @@ function _getFeaturestoreEntityVersions(context: AzureMachineLearningServicesMan
     ) => get(context, resourceGroupName, workspaceName, name, version, options),
   };
 }
-
 export function _getFeaturestoreEntityVersionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): FeaturestoreEntityVersionsOperations {
