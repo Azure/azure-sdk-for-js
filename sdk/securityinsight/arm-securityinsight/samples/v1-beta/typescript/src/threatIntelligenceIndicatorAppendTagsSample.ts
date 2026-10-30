@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to append tags to a threat intelligence indicator.
  *
  * @summary append tags to a threat intelligence indicator.
- * x-ms-original-file: 2025-07-01-preview/threatintelligence/AppendTagsThreatIntelligence.json
+ * x-ms-original-file: 2025-10-01-preview/threatintelligence/AppendTagsThreatIntelligence.json
  */
 async function appendTagsToAThreatIntelligenceIndicator(): Promise<void> {
   const credential = new DefaultAzureCredential();

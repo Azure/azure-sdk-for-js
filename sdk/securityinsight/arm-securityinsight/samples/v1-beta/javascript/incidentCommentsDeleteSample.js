@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a comment for a given incident.
  *
  * @summary deletes a comment for a given incident.
- * x-ms-original-file: 2025-07-01-preview/incidents/IncidentComments/IncidentComments_Delete.json
+ * x-ms-original-file: 2025-10-01-preview/incidents/IncidentComments/IncidentComments_Delete.json
  */
 async function incidentCommentsDelete() {
   const credential = new DefaultAzureCredential();

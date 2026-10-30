@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Container App AuthConfigs in a given resource group.
  *
  * @summary get the Container App AuthConfigs in a given resource group.
- * x-ms-original-file: 2025-10-02-preview/AuthConfigs_ListByContainer.json
+ * x-ms-original-file: 2026-07-01/AuthConfigs_ListByContainer.json
  */
 async function listAuthConfigsByContainerApps(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -5,12 +5,26 @@
 ```ts
 
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export interface AzureBlobStorageCapability {
+    capacityDetails: CapacityDetails;
+    prefixConfigurations?: PrefixConfiguration[];
+}
+
+// @public
+export interface AzureBlobStorageCapabilityUpdate {
+    capacityDetails?: CapacityDetailsUpdate;
+    prefixConfigurations?: PrefixConfigurationUpdate[];
+}
 
 // @public
 export enum AzureClouds {
@@ -21,6 +35,19 @@ export enum AzureClouds {
 
 // @public
 export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type CapabilityStatus = string;
+
+// @public
+export interface CapacityDetails {
+    status: CapabilityStatus;
+}
+
+// @public
+export interface CapacityDetailsUpdate {
+    status?: CapabilityStatus;
+}
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -50,6 +77,8 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -57,7 +86,15 @@ export enum KnownActionType {
 
 // @public
 export enum KnownApiVersion {
-    V20250901 = "2025-09-01"
+    V20250601Preview = "2025-06-01-preview",
+    V20250901 = "2025-09-01",
+    V20261001Preview = "2026-10-01-preview"
+}
+
+// @public
+export enum KnownCapabilityStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -135,6 +172,20 @@ export interface PageSettings {
 }
 
 // @public
+export interface PrefixConfiguration {
+    containerName: string;
+    prefix?: string;
+    storageAccountName: string;
+}
+
+// @public
+export interface PrefixConfigurationUpdate {
+    containerName?: string;
+    prefix?: string;
+    storageAccountName?: string;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -144,6 +195,18 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
+
+export { RestError }
+
+// @public
+export interface StorageDiscoveryCapabilities {
+    azureBlobStorage: AzureBlobStorageCapability;
+}
+
+// @public
+export interface StorageDiscoveryCapabilitiesUpdate {
+    azureBlobStorage?: AzureBlobStorageCapabilityUpdate;
+}
 
 // @public (undocumented)
 export class StorageDiscoveryClient {
@@ -180,6 +243,7 @@ export interface StorageDiscoveryWorkspace extends TrackedResource {
 
 // @public
 export interface StorageDiscoveryWorkspaceProperties {
+    capabilities?: StorageDiscoveryCapabilities;
     description?: string;
     readonly provisioningState?: ResourceProvisioningState;
     scopes: StorageDiscoveryScope[];
@@ -189,6 +253,7 @@ export interface StorageDiscoveryWorkspaceProperties {
 
 // @public
 export interface StorageDiscoveryWorkspacePropertiesUpdate {
+    capabilities?: StorageDiscoveryCapabilitiesUpdate;
     description?: string;
     scopes?: StorageDiscoveryScope[];
     sku?: StorageDiscoverySku;

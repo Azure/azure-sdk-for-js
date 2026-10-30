@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a private endpoint.
  *
  * @summary creates or updates a private endpoint.
- * x-ms-original-file: 2025-01-01/CreateOrUpdateJobPrivateEndpoint.json
+ * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateJobPrivateEndpoint.json
  */
 async function createAPrivateEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

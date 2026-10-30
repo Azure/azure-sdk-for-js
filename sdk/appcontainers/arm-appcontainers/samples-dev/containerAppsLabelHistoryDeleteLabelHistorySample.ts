@@ -5,10 +5,10 @@ import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to delete the history of a label.
+ * This sample demonstrates how to deletes the revision history associated with a Container App label.
  *
- * @summary delete the history of a label.
- * x-ms-original-file: 2025-10-02-preview/LabelHistory_Delete.json
+ * @summary deletes the revision history associated with a Container App label.
+ * x-ms-original-file: 2026-07-01/LabelHistory_Delete.json
  */
 async function deleteContainerAppLabelHistoryForAGivenLabel(): Promise<void> {
   const credential = new DefaultAzureCredential();

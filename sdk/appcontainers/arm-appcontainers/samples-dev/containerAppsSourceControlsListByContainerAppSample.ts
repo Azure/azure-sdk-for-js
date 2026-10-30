@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Container App SourceControls in a given resource group.
  *
  * @summary get the Container App SourceControls in a given resource group.
- * x-ms-original-file: 2025-10-02-preview/SourceControls_ListByContainer.json
+ * x-ms-original-file: 2026-07-01/SourceControls_ListByContainer.json
  */
 async function listAppSourceControls(): Promise<void> {
   const credential = new DefaultAzureCredential();

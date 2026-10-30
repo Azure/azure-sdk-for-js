@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets, for the specified location, the current resource usage information as well as the limits under the subscription.
  *
  * @summary gets, for the specified location, the current resource usage information as well as the limits under the subscription.
- * x-ms-original-file: 2025-10-02-preview/Usages_List.json
+ * x-ms-original-file: 2026-07-01/Usages_List.json
  */
 async function listUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();

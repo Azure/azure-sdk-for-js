@@ -12,7 +12,7 @@ import type {
   FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateOptionalParams,
   FirewallPolicyRuleCollectionGroupDraftsGetOptionalParams,
 } from "../../api/firewallPolicyRuleCollectionGroupDrafts/options.js";
-import type { FirewallPolicyRuleCollectionGroupDraft } from "../../models/microsoft/network/models.js";
+import type { FirewallPolicyRuleCollectionGroupDraft } from "../../models/network/models.js";
 
 /** Interface representing a FirewallPolicyRuleCollectionGroupDrafts operations. */
 export interface FirewallPolicyRuleCollectionGroupDraftsOperations {

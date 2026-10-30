@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a hunt.
  *
  * @summary delete a hunt.
- * x-ms-original-file: 2025-07-01-preview/hunts/DeleteHunt.json
+ * x-ms-original-file: 2025-10-01-preview/hunts/DeleteHunt.json
  */
 async function deleteAHunt(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -16,7 +16,7 @@ import type {
   NetworkSecurityPerimeterAccessRulesCreateOrUpdateOptionalParams,
   NetworkSecurityPerimeterAccessRulesGetOptionalParams,
 } from "../../api/networkSecurityPerimeterAccessRules/options.js";
-import type { NspAccessRule } from "../../models/microsoft/network/models.js";
+import type { NspAccessRule } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NetworkSecurityPerimeterAccessRules operations. */

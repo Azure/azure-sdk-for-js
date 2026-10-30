@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all data connector definitions.
  *
  * @summary gets all data connector definitions.
- * x-ms-original-file: 2025-07-01-preview/dataConnectorDefinitions/GetDataConnectorDefinitions.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectorDefinitions/GetDataConnectorDefinitions.json
  */
 async function getAllDataConnectorDefinitions() {
   const credential = new DefaultAzureCredential();

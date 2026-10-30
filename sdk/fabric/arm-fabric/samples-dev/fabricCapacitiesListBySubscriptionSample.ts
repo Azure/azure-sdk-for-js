@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list FabricCapacity resources by subscription ID
  *
  * @summary list FabricCapacity resources by subscription ID
- * x-ms-original-file: 2026-08-01-preview/FabricCapacities_ListBySubscription.json
+ * x-ms-original-file: 2026-09-01-preview/FabricCapacities_ListBySubscription.json
  */
 async function listCapacitiesBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -33,7 +33,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +60,6 @@ export async function _listByServerDeserialize(
 
   return _iPv6FirewallRuleListResultDeserializer(result.body);
 }
-
 /** Gets a list of IPv6 firewall rules. */
 export function listByServer(
   context: Client,
@@ -73,7 +72,11 @@ export function listByServer(
     () => _listByServerSend(context, resourceGroupName, serverName, options),
     _listByServerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -91,7 +94,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +116,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes an IPv6 firewall rule. */
 export async function $delete(
   context: Client,
@@ -147,7 +149,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +178,6 @@ export async function _createOrUpdateDeserialize(
 
   return iPv6FirewallRuleDeserializer(result.body);
 }
-
 /** Creates or updates an IPv6 firewall rule. */
 export async function createOrUpdate(
   context: Client,
@@ -211,7 +212,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -236,7 +237,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<IP
 
   return iPv6FirewallRuleDeserializer(result.body);
 }
-
 /** Gets an IPv6 firewall rule. */
 export async function get(
   context: Client,

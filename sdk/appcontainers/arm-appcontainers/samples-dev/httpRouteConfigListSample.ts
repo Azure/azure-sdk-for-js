@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Managed Http Routes in a given managed environment.
  *
  * @summary get the Managed Http Routes in a given managed environment.
- * x-ms-original-file: 2025-10-02-preview/HttpRouteConfig_ListByManagedEnvironment.json
+ * x-ms-original-file: 2026-07-01/HttpRouteConfig_ListByManagedEnvironment.json
  */
 async function listManagedHttpRoutesByManagedEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();

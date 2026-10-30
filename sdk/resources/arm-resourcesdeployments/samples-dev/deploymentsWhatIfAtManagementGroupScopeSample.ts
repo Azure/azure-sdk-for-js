@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns changes that will be made by the deployment if executed at the scope of the management group.
  *
  * @summary returns changes that will be made by the deployment if executed at the scope of the management group.
- * x-ms-original-file: 2025-04-01/PostDeploymentWhatIfOnManagementGroup.json
+ * x-ms-original-file: 2026-06-01/PostDeploymentWhatIfOnManagementGroup.json
  */
 async function predictTemplateChangesAtManagementGroupScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

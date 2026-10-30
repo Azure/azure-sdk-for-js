@@ -121,6 +121,7 @@ export interface GalleryScriptVersionsOperations {
     options?: GalleryScriptVersionsGetOptionalParams,
   ) => Promise<GalleryScriptVersion>;
 }
+
 function _getGalleryScriptVersions(context: ComputeManagementContext) {
   return {
     listByGalleryScript: (
@@ -305,6 +306,7 @@ function _getGalleryScriptVersions(context: ComputeManagementContext) {
       ),
   };
 }
+
 export function _getGalleryScriptVersionsOperations(
   context: ComputeManagementContext,
 ): GalleryScriptVersionsOperations {

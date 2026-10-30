@@ -20,9 +20,11 @@ export type {
   ChatUserUnion,
   ChatUserKind,
   HumanChatUser,
+  GenerateClientTokenResponse,
 } from "./models/index.js";
 export { KnownChatPermission, KnownChatUserKind, KnownVersions } from "./models/index.js";
 export type {
+  GenerateClientTokenOptionalParams,
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
   GetUserOptionalParams,

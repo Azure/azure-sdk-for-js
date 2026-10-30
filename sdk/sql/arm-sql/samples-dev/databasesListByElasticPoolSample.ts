@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of databases in an elastic pool.
  *
  * @summary gets a list of databases in an elastic pool.
- * x-ms-original-file: 2025-01-01/ListDatabasesByElasticPool.json
+ * x-ms-original-file: 2025-08-01-preview/ListDatabasesByElasticPool.json
  */
 async function getsAListOfDatabasesInAnElasticPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

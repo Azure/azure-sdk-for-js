@@ -42,7 +42,7 @@ export function _listByAmlFilesystemSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       amlFilesystemName: amlFilesystemName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -82,7 +82,7 @@ export function listByAmlFilesystem(
     () => _listByAmlFilesystemSend(context, resourceGroupName, amlFilesystemName, options),
     _listByAmlFilesystemDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -100,7 +100,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       amlFilesystemName: amlFilesystemName,
       autoImportJobName: autoImportJobName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +137,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, amlFilesystemName, autoImportJobName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -156,7 +156,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       amlFilesystemName: amlFilesystemName,
       autoImportJobName: autoImportJobName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -206,7 +206,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<AutoImportJob>, AutoImportJob>;
 }
 
@@ -225,7 +225,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       amlFilesystemName: amlFilesystemName,
       autoImportJobName: autoImportJobName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -277,7 +277,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<AutoImportJob>, AutoImportJob>;
 }
 
@@ -295,7 +295,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       amlFilesystemName: amlFilesystemName,
       autoImportJobName: autoImportJobName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

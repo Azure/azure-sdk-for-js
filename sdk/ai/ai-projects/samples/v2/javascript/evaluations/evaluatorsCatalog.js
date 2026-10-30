@@ -8,6 +8,9 @@
  * @summary This sample demonstrates how to create prompt-based and code-based custom evaluators,
  * retrieve them, update them, list them, and clean up resources.
  *
+ * Custom code and prompt definitions still require the Evaluations=V1Preview header,
+ * even though their version-management operations use project.evaluators.
+ *
  * Before running the sample:
  *
  * npm install @azure/ai-projects @azure/identity dotenv
@@ -26,10 +29,13 @@ const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project end
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const previewOptions = {
+    requestOptions: { headers: { "foundry-features": "Evaluations=V1Preview" } },
+  };
 
   // Create a prompt-based custom evaluator
   console.log("Creating Prompt based custom evaluator version (object style)");
-  const promptEvaluator = await project.beta.evaluators.createVersion(
+  const promptEvaluator = await project.evaluators.createVersion(
     "my_custom_evaluator_code_prompt_based",
     {
       name: "my_custom_evaluator_code_prompt_based",
@@ -95,6 +101,7 @@ async function main() {
         },
       },
     },
+    previewOptions,
   );
   console.log(
     `Prompt evaluator created (name: ${promptEvaluator.name}, version: ${promptEvaluator.version})`,
@@ -103,7 +110,7 @@ async function main() {
 
   // Create a code-based custom evaluator
   console.log("\nCreating Code based custom evaluator version (object style)");
-  const codeEvaluator = await project.beta.evaluators.createVersion(
+  const codeEvaluator = await project.evaluators.createVersion(
     "my_custom_evaluator_code_based",
     {
       name: "my_custom_evaluator_code_based",
@@ -139,6 +146,7 @@ async function main() {
         },
       },
     },
+    previewOptions,
   );
   console.log(
     `Code evaluator created (name: ${codeEvaluator.name}, version: ${codeEvaluator.version})`,
@@ -147,38 +155,42 @@ async function main() {
 
   // Get code based evaluator version
   console.log("\nGet code based evaluator version");
-  const codeEvaluatorLatest = await project.beta.evaluators.getVersion(
+  const codeEvaluatorLatest = await project.evaluators.getVersion(
     codeEvaluator.name,
     codeEvaluator.version ?? "",
+    previewOptions,
   );
   console.log(JSON.stringify(codeEvaluatorLatest, null, 2));
 
   // Get prompt based evaluator version
   console.log("\nGet prompt based evaluator version");
-  const promptEvaluatorLatest = await project.beta.evaluators.getVersion(
+  const promptEvaluatorLatest = await project.evaluators.getVersion(
     promptEvaluator.name,
     promptEvaluator.version ?? "",
+    previewOptions,
   );
   console.log(JSON.stringify(promptEvaluatorLatest, null, 2));
 
   // Delete code based evaluator version
   console.log("\nDeleting code based evaluator version");
-  await project.beta.evaluators.deleteVersion(
+  await project.evaluators.deleteVersion(
     codeEvaluatorLatest.name,
     codeEvaluatorLatest.version ?? "",
+    previewOptions,
   );
   console.log("Code evaluator version deleted");
 
   // Delete prompt based evaluator version
-  await project.beta.evaluators.deleteVersion(
+  await project.evaluators.deleteVersion(
     promptEvaluatorLatest.name,
     promptEvaluatorLatest.version ?? "",
+    previewOptions,
   );
   console.log("Prompt evaluator version deleted");
 
   // List builtin evaluator versions
   console.log("\nGetting list of builtin evaluator versions");
-  const builtinEvaluators = project.beta.evaluators.list({
+  const builtinEvaluators = project.evaluators.list({
     evaluatorType: "builtin",
   });
   console.log("List of builtin evaluator versions:");
@@ -188,8 +200,9 @@ async function main() {
 
   // List custom evaluator versions
   console.log("\nGetting list of custom evaluator versions");
-  const customEvaluators = project.beta.evaluators.list({
+  const customEvaluators = project.evaluators.list({
     evaluatorType: "custom",
+    ...previewOptions,
   });
   console.log("List of custom evaluator versions:");
   for await (const evaluator of customEvaluators) {

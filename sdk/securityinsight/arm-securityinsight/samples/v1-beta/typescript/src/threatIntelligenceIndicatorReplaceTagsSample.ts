@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to replace tags added to a threat intelligence indicator.
  *
  * @summary replace tags added to a threat intelligence indicator.
- * x-ms-original-file: 2025-07-01-preview/threatintelligence/ReplaceTagsThreatIntelligence.json
+ * x-ms-original-file: 2025-10-01-preview/threatintelligence/ReplaceTagsThreatIntelligence.json
  */
 async function replaceTagsToAThreatIntelligence(): Promise<void> {
   const credential = new DefaultAzureCredential();

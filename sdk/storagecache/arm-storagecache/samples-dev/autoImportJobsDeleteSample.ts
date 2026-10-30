@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to schedules an auto import job for deletion.
  *
  * @summary schedules an auto import job for deletion.
- * x-ms-original-file: 2026-01-01/autoImportJobs_Delete.json
+ * x-ms-original-file: 2026-08-01/autoImportJobs_Delete.json
  */
 async function autoImportJobsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

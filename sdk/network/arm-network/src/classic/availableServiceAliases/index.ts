@@ -7,7 +7,7 @@ import type {
   AvailableServiceAliasesListByResourceGroupOptionalParams,
   AvailableServiceAliasesListOptionalParams,
 } from "../../api/availableServiceAliases/options.js";
-import type { AvailableServiceAlias } from "../../models/microsoft/network/models.js";
+import type { AvailableServiceAlias } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AvailableServiceAliases operations. */

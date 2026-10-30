@@ -1,4 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { default } from "../../../eng/vitestconfigs/browser.config.ts";
+import viteConfig from "../../../vitest.browser.shared.config.ts";
+
+export default viteConfig;

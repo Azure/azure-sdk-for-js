@@ -6,6 +6,10 @@ import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import type { Link, Attributes, AttributeValue } from "@opentelemetry/api";
 import { diag, SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
+  ATTR_DB_NAMESPACE,
+  ATTR_DB_OPERATION_NAME,
+  ATTR_DB_QUERY_TEXT,
+  ATTR_DB_SYSTEM_NAME,
   DBSYSTEMVALUES_MONGODB,
   DBSYSTEMVALUES_MYSQL,
   DBSYSTEMVALUES_POSTGRESQL,
@@ -105,6 +109,11 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
     tags[KnownContextTagKeys.AiUserId] = String(endUserPseudoId);
   }
 
+  const sessionId = span.attributes[experimentalOpenTelemetryValues.ATTR_SESSION_ID];
+  if (typeof sessionId === "string") {
+    tags[KnownContextTagKeys.AiSessionId] = sessionId;
+  }
+
   const httpUserAgent = getUserAgent(span.attributes);
   if (httpUserAgent) {
     // TODO: Not exposed in Swagger, need to update def
@@ -161,11 +170,20 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   return tags;
 }
 
-function createPropertiesFromSpanAttributes(attributes?: Attributes): {
+function createPropertiesFromSpanAttributes(
+  attributes?: Attributes,
+  spanKind?: SpanKind,
+): {
   [propertyName: string]: string;
 } {
   const properties: { [propertyName: string]: string } = {};
   if (attributes) {
+    const isDatabase = !getHttpMethod(attributes) && !!getDbSystem(attributes);
+    const isDatabaseDependency =
+      isDatabase &&
+      (spanKind === SpanKind.CLIENT ||
+        spanKind === SpanKind.PRODUCER ||
+        spanKind === SpanKind.INTERNAL);
     for (const key of Object.keys(attributes)) {
       // Avoid duplication ignoring fields already mapped.
       if (
@@ -175,7 +193,14 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
           (key.startsWith("_MS.") && !internalMicrosoftAttributes.includes(key as any)) ||
           (key.startsWith("microsoft.") && !allowedMicrosoftAttributes.includes(key)) ||
           legacySemanticValues.includes(key) ||
-          httpSemanticValues.includes(key as any) ||
+          (isDatabaseDependency &&
+            (key === ATTR_DB_SYSTEM_NAME ||
+              key === ATTR_DB_NAMESPACE ||
+              key === ATTR_DB_QUERY_TEXT ||
+              key === ATTR_DB_OPERATION_NAME)) ||
+          (httpSemanticValues.includes(key as any) &&
+            // Database targets omit ports and may use peer.service instead of the server address.
+            !(isDatabase && (key === ATTR_SERVER_ADDRESS || key === ATTR_SERVER_PORT))) ||
           key === (KnownContextTagKeys.AiOperationName as string)
         )
       ) {
@@ -187,7 +212,7 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
 }
 
 function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements] {
-  const properties: Properties = createPropertiesFromSpanAttributes(span.attributes);
+  const properties: Properties = createPropertiesFromSpanAttributes(span.attributes, span.kind);
   const measurements = createCustomMeasurements(span.attributes);
 
   const links: MSLink[] = span.links.map((link: Link) => ({
@@ -219,7 +244,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   }
 
   const httpMethod = getHttpMethod(span.attributes);
-  const dbSystem = span.attributes[SEMATTRS_DB_SYSTEM];
+  const dbSystem = getDbSystem(span.attributes);
   const rpcSystem = span.attributes[SEMATTRS_RPC_SYSTEM];
   // HTTP Dependency
   if (httpMethod) {
@@ -277,15 +302,17 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     } else {
       remoteDependencyData.type = String(dbSystem);
     }
-    const dbStatement = span.attributes[SEMATTRS_DB_STATEMENT];
-    const dbOperation = span.attributes[SEMATTRS_DB_OPERATION];
+    const dbStatement =
+      span.attributes[ATTR_DB_QUERY_TEXT] || span.attributes[SEMATTRS_DB_STATEMENT];
+    const dbOperation =
+      span.attributes[ATTR_DB_OPERATION_NAME] || span.attributes[SEMATTRS_DB_OPERATION];
     if (dbStatement) {
       remoteDependencyData.data = String(dbStatement);
     } else if (dbOperation) {
       remoteDependencyData.data = String(dbOperation);
     }
     const target = getDependencyTarget(span.attributes);
-    const dbName = span.attributes[SEMATTRS_DB_NAME];
+    const dbName = span.attributes[ATTR_DB_NAMESPACE] || span.attributes[SEMATTRS_DB_NAME];
     if (target) {
       remoteDependencyData.target = dbName ? `${target}|${dbName}` : `${target}`;
     } else {
@@ -463,6 +490,14 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       if (spanId) {
         tags[KnownContextTagKeys.AiOperationParentId] = spanId;
       }
+      const eventSessionId = event.attributes?.[experimentalOpenTelemetryValues.ATTR_SESSION_ID];
+      const sessionId =
+        typeof eventSessionId === "string"
+          ? eventSessionId
+          : span.attributes[experimentalOpenTelemetryValues.ATTR_SESSION_ID];
+      if (typeof sessionId === "string") {
+        tags[KnownContextTagKeys.AiSessionId] = sessionId;
+      }
 
       // Only generate exception telemetry for incoming requests
       if (event.name === "exception") {
@@ -559,6 +594,10 @@ export function getLocationIp(tags: Tags, attributes: Attributes): void {
       tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
     }
   }
+}
+
+function getDbSystem(attributes: Attributes): AttributeValue | undefined {
+  return attributes[ATTR_DB_SYSTEM_NAME] || attributes[SEMATTRS_DB_SYSTEM];
 }
 
 export function getHttpClientIp(attributes: Attributes): AttributeValue | undefined {

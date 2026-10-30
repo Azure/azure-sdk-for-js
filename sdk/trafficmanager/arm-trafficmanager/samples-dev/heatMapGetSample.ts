@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets latest heatmap for Traffic Manager profile.
  *
  * @summary gets latest heatmap for Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/HeatMap-GET-With-Null-Values.json
+ * x-ms-original-file: 2026-09-01/HeatMap-GET-With-Null-Values.json
  */
 async function heatMapGETWithNullValues(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function heatMapGETWithNullValues(): Promise<void> {
  * This sample demonstrates how to gets latest heatmap for Traffic Manager profile.
  *
  * @summary gets latest heatmap for Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/HeatMap-GET-With-TopLeft-BotRight.json
+ * x-ms-original-file: 2026-09-01/HeatMap-GET-With-TopLeft-BotRight.json
  */
 async function heatMapGETWithTopLeftBotRight(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -43,7 +43,7 @@ async function heatMapGETWithTopLeftBotRight(): Promise<void> {
  * This sample demonstrates how to gets latest heatmap for Traffic Manager profile.
  *
  * @summary gets latest heatmap for Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/HeatMap-GET.json
+ * x-ms-original-file: 2026-09-01/HeatMap-GET.json
  */
 async function heatMapGET(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,16 +1,17 @@
 # Release History
 
-## 1.3.2 (Unreleased)
+## 1.3.3 (Unreleased)
 
-### Features Added
+### Other Changes
 
-### Breaking Changes
+- Updated `@azure/msal-node` to `^7.1.0`. [#40532](https://github.com/Azure/azure-sdk-for-js/pull/40532)
 
-### Bugs Fixed
+## 1.3.2 (2026-09-15)
 
 ### Other Changes
 
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+- Updated `@azure/msal-node` to `^6.0.0`. [#39965](https://github.com/Azure/azure-sdk-for-js/pull/39965)
 
 ## 1.3.1 (2026-08-12)
 

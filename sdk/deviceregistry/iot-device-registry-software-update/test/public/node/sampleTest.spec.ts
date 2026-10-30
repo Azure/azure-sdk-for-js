@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  DeviceRegistrySoftwareUpdateClient,
-  ImportUpdateRequest,
+import {
+  isRestError,
+  type DeviceRegistrySoftwareUpdateClient,
+  type ImportUpdateRequest,
 } from "../../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { RestError } from "@azure/core-rest-pipeline";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import {
   createClient,
@@ -176,7 +176,7 @@ async function assertUpdateDoesNotExist(client: DeviceRegistrySoftwareUpdateClie
   try {
     await client.softwareUpdate.getUpdate(updateId.provider, updateId.name, updateId.version);
   } catch (error) {
-    if (error instanceof RestError && error.statusCode === 404) {
+    if (isRestError(error) && error.statusCode === 404) {
       return;
     }
     throw error;

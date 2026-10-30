@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or Update a Http Route Config.
  *
  * @summary create or Update a Http Route Config.
- * x-ms-original-file: 2025-10-02-preview/HttpRouteConfig_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/HttpRouteConfig_CreateOrUpdate.json
  */
 async function createOrUpdateHttpRoute(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,7 +38,7 @@ async function createOrUpdateHttpRoute(): Promise<void> {
                   match: { path: "/v1", caseSensitive: true },
                 },
               ],
-              targets: [{ containerApp: "capp-1", revision: "rev-1", weight: 100 }],
+              targets: [{ containerApp: "capp-1", revision: "rev-1" }],
             },
           ],
         },
@@ -52,7 +52,7 @@ async function createOrUpdateHttpRoute(): Promise<void> {
  * This sample demonstrates how to create or Update a Http Route Config.
  *
  * @summary create or Update a Http Route Config.
- * x-ms-original-file: 2025-10-02-preview/HttpRouteConfig_CreateOrUpdatePrefix.json
+ * x-ms-original-file: 2026-07-01/HttpRouteConfig_CreateOrUpdatePrefix.json
  */
 async function createOrUpdateHttpRoutePrefixRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -96,7 +96,7 @@ async function createOrUpdateHttpRoutePrefixRule(): Promise<void> {
  * This sample demonstrates how to create or Update a Http Route Config.
  *
  * @summary create or Update a Http Route Config.
- * x-ms-original-file: 2025-10-02-preview/HttpRouteConfig_CreateOrUpdate_PathSepPrefix.json
+ * x-ms-original-file: 2026-07-01/HttpRouteConfig_CreateOrUpdate_PathSepPrefix.json
  */
 async function createOrUpdateHttpRoutePathSeparatedPrefixRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

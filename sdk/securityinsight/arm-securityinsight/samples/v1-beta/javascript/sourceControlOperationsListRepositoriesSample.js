@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of repositories metadata.
  *
  * @summary gets a list of repositories metadata.
- * x-ms-original-file: 2025-07-01-preview/repositories/GetRepositories.json
+ * x-ms-original-file: 2025-10-01-preview/repositories/GetRepositories.json
  */
 async function getRepositoryList() {
   const credential = new DefaultAzureCredential();

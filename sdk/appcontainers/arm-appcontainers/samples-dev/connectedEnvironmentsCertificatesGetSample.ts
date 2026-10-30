@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the specified Certificate.
  *
  * @summary get the specified Certificate.
- * x-ms-original-file: 2025-10-02-preview/ConnectedEnvironmentsCertificate_Get.json
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironmentsCertificate_Get.json
  */
 async function getCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();

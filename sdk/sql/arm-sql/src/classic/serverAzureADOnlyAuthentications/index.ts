@@ -86,7 +86,6 @@ export interface ServerAzureADOnlyAuthenticationsOperations {
     options?: ServerAzureADOnlyAuthenticationsGetOptionalParams,
   ) => Promise<ServerAzureADOnlyAuthentication>;
 }
-
 function _getServerAzureADOnlyAuthentications(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -175,7 +174,6 @@ function _getServerAzureADOnlyAuthentications(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, authenticationName, options),
   };
 }
-
 export function _getServerAzureADOnlyAuthenticationsOperations(
   context: SqlManagementContext,
 ): ServerAzureADOnlyAuthenticationsOperations {

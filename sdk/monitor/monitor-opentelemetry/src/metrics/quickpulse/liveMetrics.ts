@@ -68,7 +68,9 @@ import { SEMATTRS_EXCEPTION_TYPE } from "@opentelemetry/semantic-conventions";
 import { getPhysicalMemory, getProcessorTimeNormalized } from "../utils.js";
 import { getCloudRole, getCloudRoleInstance } from "../utils.js";
 import { Logger } from "../../shared/logging/logger.js";
+import { _registerFeatureCallback } from "@azure/monitor-opentelemetry-exporter/_configuration";
 
+const ONE_SETTINGS_FEATURE_LIVE_METRICS = "FEATURE_LIVE_METRICS";
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
 const PING_INTERVAL = 5000;
@@ -100,10 +102,16 @@ export class LiveMetrics {
   private quickpulseExporter: QuickpulseMetricExporter;
   private pingSender: QuickpulseSender;
   private isCollectingData: boolean;
+  private isShutdown = false;
+  private remoteEnabled = true;
+  private unregisterConfigurationCallback: (() => void) | undefined;
+  private configurationTransition: Promise<void> = Promise.resolve();
+  private pingAbortController = new AbortController();
+  private resetCountersOnActivation = true;
   private isDeactivating: boolean = false;
   private deactivatingPromise: Promise<void> | undefined;
   private lastSuccessTime: number = Date.now();
-  private handle: NodeJS.Timer;
+  private handle: NodeJS.Timeout | undefined;
   // Monitoring data point with common properties
   private baseMonitoringDataPoint: MonitoringDataPoint;
   private totalRequestCount = 0;
@@ -200,43 +208,128 @@ export class LiveMetrics {
     this.isCollectingData = false;
     this.pingInterval = PING_INTERVAL; // Default
     this.postInterval = POST_INTERVAL;
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
-    this.handle.unref(); // Don't block apps from terminating
     this.lastCpuUsage = process.cpuUsage();
     this.lastHrTime = process.hrtime.bigint();
+    if (this.config.enableLiveMetrics) {
+      this.unregisterConfigurationCallback = _registerFeatureCallback(
+        ONE_SETTINGS_FEATURE_LIVE_METRICS,
+        (enabled) => this.setFeatureEnabled(enabled),
+      );
+    }
+    this.schedulePing();
   }
 
   public async shutdown(): Promise<void> {
-    // Force collecting=false before tearing down so the shutdown's final
-    // force-flush export, if it fails, cannot trigger the deactivate/
-    // reactivate fallback in quickPulseDone(). Delegate to deactivateMetrics()
-    // which manages the in-flight deactivation promise so callers (including
-    // a concurrent failure-fallback in quickPulseDone) all observe the same
-    // completion and shutdown waits for any in-flight deactivation to finish.
+    this.isShutdown = true;
+    this.unregisterConfigurationCallback?.();
+    this.unregisterConfigurationCallback = undefined;
+    clearTimeout(this.handle);
     this.isCollectingData = false;
-    await this.deactivateMetrics();
+    this.pingAbortController.abort();
+    try {
+      await this.updateFeatureState(false);
+    } finally {
+      this.quickpulseExporter.setEnabled(false);
+    }
+  }
+
+  private get enabled(): boolean {
+    return (
+      !!this.config.enableLiveMetrics &&
+      this.remoteEnabled &&
+      !this.isShutdown &&
+      !this.pingAbortController.signal.aborted
+    );
+  }
+
+  private setFeatureEnabled(enabled: boolean): void | Promise<void> {
+    if (this.isShutdown || this.remoteEnabled === enabled) {
+      return;
+    }
+    this.remoteEnabled = enabled;
+    if (!enabled) {
+      this.pause();
+    }
+    return this.updateFeatureState(enabled);
+  }
+
+  private pause(): void {
+    clearTimeout(this.handle);
+    this.isCollectingData = false;
+    this.pingAbortController.abort();
+    // MeterProvider.shutdown() flushes its reader; do not send that final batch while paused.
+    this.quickpulseExporter.setEnabled(false);
+  }
+
+  private updateFeatureState(enabled: boolean): Promise<void> {
+    this.configurationTransition = this.configurationTransition.then(
+      () => this.applyFeatureState(enabled),
+      () => this.applyFeatureState(enabled),
+    );
+    return this.configurationTransition;
+  }
+
+  private async applyFeatureState(enabled: boolean): Promise<void> {
+    if (!enabled) {
+      if (!this.isShutdown) {
+        this.pause();
+      }
+      try {
+        await this.deactivateMetrics();
+      } finally {
+        this.etag = "";
+        this.quickpulseExporter.setEtag("");
+      }
+    } else if (this.config.enableLiveMetrics && this.remoteEnabled && !this.isShutdown) {
+      this.pingAbortController = new AbortController();
+      this.quickpulseExporter.setEnabled(true);
+      this.lastCpuUsage = process.cpuUsage();
+      this.lastHrTime = process.hrtime.bigint();
+      this.lastSuccessTime = Date.now();
+      this.pingInterval = PING_INTERVAL;
+      this.postInterval = POST_INTERVAL;
+      this.schedulePing();
+    }
+  }
+
+  private schedulePing(): void {
+    clearTimeout(this.handle);
+    if (this.enabled && !this.isCollectingData) {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
+      this.handle.unref();
+    }
   }
 
   private async goQuickpulse(): Promise<void> {
+    if (!this.enabled) {
+      return;
+    }
+    const abortController = this.pingAbortController;
     if (!this.isCollectingData) {
       // If not collecting, Ping
       try {
         const params: IsSubscribedOptionalParams = {
+          abortSignal: abortController.signal,
           transmissionTime: getTransmissionTime(),
           monitoringDataPoint: this.baseMonitoringDataPoint,
           configurationEtag: this.etag,
         };
         await context.with(suppressTracing(context.active()), async () => {
           const response = await this.pingSender.isSubscribed(params);
-          this.quickPulseDone(response);
+          if (this.enabled && this.pingAbortController === abortController) {
+            await this.quickPulseDone(response);
+          }
         });
       } catch (error) {
-        this.quickPulseDone(undefined);
+        if (this.enabled && this.pingAbortController === abortController) {
+          await this.quickPulseDone(undefined);
+        }
       }
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
-      this.handle.unref();
+      if (!this.enabled || this.pingAbortController !== abortController) {
+        return;
+      }
+      this.schedulePing();
     }
     if (this.isCollectingData) {
       this.activateMetrics({ collectionInterval: this.postInterval });
@@ -244,62 +337,37 @@ export class LiveMetrics {
   }
 
   private async quickPulseDone(response: QuickpulseResponse | undefined): Promise<void> {
+    if (!this.enabled) {
+      return;
+    }
     if (!response) {
       if (!this.isCollectingData) {
         if (Date.now() - this.lastSuccessTime >= MAX_PING_WAIT_TIME) {
           this.pingInterval = FALLBACK_INTERVAL;
         }
       } else {
-        if (Date.now() - this.lastSuccessTime >= MAX_POST_WAIT_TIME) {
-          // Re-entrancy guard: MeterProvider.shutdown() triggers a final
-          // force-flush export which, on failure, re-invokes this callback
-          // synchronously from inside the shutdown's export call. If a
-          // deactivation is already in flight, bail out — awaiting the
-          // in-flight promise here would deadlock the exporter's callback.
-          if (this.isDeactivating) {
-            return;
-          }
+        if (
+          Date.now() - this.lastSuccessTime >= MAX_POST_WAIT_TIME &&
+          this.postInterval !== FALLBACK_INTERVAL &&
+          !this.isDeactivating
+        ) {
           this.postInterval = FALLBACK_INTERVAL;
-          try {
-            await this.deactivateMetrics();
-          } catch (error) {
-            // The exporter invokes postCallback without awaiting it, so a
-            // rejection here would surface as an unhandled rejection. Swallow
-            // and log so the failure path stays contained.
-            Logger.getInstance().warn(
-              "Failed to deactivate Live Metrics during failure fallback",
-              error,
-            );
-          }
-          // Reset the success-time baseline so the FALLBACK_INTERVAL backoff
-          // can take effect before we consider deactivating again.
-          this.lastSuccessTime = Date.now();
-          // Re-check after the await: shutdown() may have run concurrently and
-          // flipped isCollectingData to false. Don't restart collection in
-          // that case — doing so would re-create the meterProvider after
-          // shutdown has begun.
-          if (this.isCollectingData) {
-            this.activateMetrics({ collectionInterval: this.postInterval });
-          }
+          await this.restartMetrics();
         }
       }
     } else {
+      const wasBackingOff = this.postInterval !== POST_INTERVAL;
       this.postInterval = POST_INTERVAL;
       // Update using response if needed
       this.lastSuccessTime = Date.now();
       this.isCollectingData =
         response.xMsQpsSubscribed && response.xMsQpsSubscribed === "true" ? true : false;
-      if (response.xMsQpsConfigurationEtag && this.etag !== response.xMsQpsConfigurationEtag) {
+      if (
+        response.eTag !== undefined &&
+        response.xMsQpsConfigurationEtag &&
+        this.etag !== response.xMsQpsConfigurationEtag
+      ) {
         this.updateConfiguration(response);
-      }
-
-      // If collecting was stoped
-      if (!this.isCollectingData && this.meterProvider) {
-        this.etag = "";
-        await this.deactivateMetrics();
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
-        this.handle.unref();
       }
 
       const endpointRedirect = response.xMsQpsServiceEndpointRedirectV2;
@@ -313,12 +381,35 @@ export class LiveMetrics {
       } else {
         this.pingInterval = PING_INTERVAL;
       }
+
+      if (!this.isCollectingData && (this.meterProvider || this.isDeactivating)) {
+        this.etag = "";
+        this.quickpulseExporter.setEtag("");
+        await this.restartMetrics(false);
+      } else if (this.isCollectingData && wasBackingOff && !this.isDeactivating) {
+        await this.restartMetrics();
+      }
+    }
+  }
+
+  private async restartMetrics(preserveConfiguration = true): Promise<void> {
+    // A reader's interval is fixed at construction. Preserve collection state when
+    // replacing it, and let the shutdown flush update the desired interval.
+    try {
+      await this.deactivateMetrics(preserveConfiguration);
+    } catch (error) {
+      Logger.getInstance().warn("Failed to restart Live Metrics collection", error);
+    }
+    if (this.isCollectingData) {
+      this.activateMetrics({ collectionInterval: this.postInterval });
+    } else {
+      this.schedulePing();
     }
   }
 
   // Activate live metrics collection
   public activateMetrics(options?: { collectionInterval: number }): void {
-    if (this.meterProvider) {
+    if (this.meterProvider || this.isDeactivating || !this.enabled) {
       return;
     }
     // Turn on live metrics active collection for statsbeat
@@ -326,20 +417,25 @@ export class LiveMetrics {
       getInstance().setStatsbeatFeatures({}, { liveMetrics: true });
       this.statsbeatOptionsUpdated = true;
     }
-    this.totalDependencyCount = 0;
-    this.totalExceptionCount = 0;
-    this.totalFailedDependencyCount = 0;
-    this.totalFailedRequestCount = 0;
-    this.totalRequestCount = 0;
-    this.requestDuration = 0;
-    this.dependencyDuration = 0;
-    this.lastRequestDuration = { count: 0, duration: 0, time: 0 };
-    this.lastRequestRate = { count: 0, time: 0 };
-    this.lastFailedRequestRate = { count: 0, time: 0 };
-    this.lastDependencyDuration = { count: 0, duration: 0, time: 0 };
-    this.lastDependencyRate = { count: 0, time: 0 };
-    this.lastFailedDependencyRate = { count: 0, time: 0 };
-    this.lastExceptionRate = { count: 0, time: 0 };
+    // Reader replacement must retain both totals and sampling baselines so
+    // telemetry recorded during the final flush is collected exactly once.
+    if (this.resetCountersOnActivation) {
+      this.totalDependencyCount = 0;
+      this.totalExceptionCount = 0;
+      this.totalFailedDependencyCount = 0;
+      this.totalFailedRequestCount = 0;
+      this.totalRequestCount = 0;
+      this.requestDuration = 0;
+      this.dependencyDuration = 0;
+      this.lastRequestDuration = { count: 0, duration: 0, time: 0 };
+      this.lastRequestRate = { count: 0, time: 0 };
+      this.lastFailedRequestRate = { count: 0, time: 0 };
+      this.lastDependencyDuration = { count: 0, duration: 0, time: 0 };
+      this.lastDependencyRate = { count: 0, time: 0 };
+      this.lastFailedDependencyRate = { count: 0, time: 0 };
+      this.lastExceptionRate = { count: 0, time: 0 };
+      this.resetCountersOnActivation = false;
+    }
 
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this.quickpulseExporter,
@@ -425,7 +521,17 @@ export class LiveMetrics {
   /**
    * Deactivate metric collection
    */
-  public async deactivateMetrics(): Promise<void> {
+  public async deactivateMetrics(preserveConfiguration = false): Promise<void> {
+    if (!preserveConfiguration) {
+      this.resetCountersOnActivation = true;
+      this.documents = [];
+      this.validDocumentFilterConjuctionGroupInfos.clear();
+      this.errorTracker.clearRunTimeErrors();
+      this.errorTracker.clearValidationTimeErrors();
+      this.validDerivedMetrics.clear();
+      this.derivedMetricProjection.clearProjectionMaps();
+      this.seenMetricIds.clear();
+    }
     // Coalesce concurrent deactivations: callers (shutdown(), the
     // failure-fallback in quickPulseDone(), and the "unsubscribed" branch in
     // goQuickpulse()) can all race. Return the in-flight promise so every
@@ -437,13 +543,6 @@ export class LiveMetrics {
     this.isDeactivating = true;
     this.deactivatingPromise = (async () => {
       try {
-        this.documents = [];
-        this.validDocumentFilterConjuctionGroupInfos.clear();
-        this.errorTracker.clearRunTimeErrors();
-        this.errorTracker.clearValidationTimeErrors();
-        this.validDerivedMetrics.clear();
-        this.derivedMetricProjection.clearProjectionMaps();
-        this.seenMetricIds.clear();
         // Capture and clear the reference before awaiting shutdown so any
         // re-entrant calls triggered by the shutdown's final force-flush
         // export observe meterProvider as undefined and exit early.
@@ -503,7 +602,7 @@ export class LiveMetrics {
    * @internal
    */
   public recordSpan(span: ReadableSpan): void {
-    if (this.isCollectingData) {
+    if (this.enabled && this.isCollectingData) {
       const columns: RequestData | DependencyData = getSpanData(span);
       let documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>;
       let derivedMetricInfos: DerivedMetricInfo[];
@@ -567,7 +666,7 @@ export class LiveMetrics {
    * @internal
    */
   public recordLog(logRecord: SdkLogRecord): void {
-    if (this.isCollectingData) {
+    if (this.enabled && this.isCollectingData) {
       const columns: TraceData | ExceptionData = getLogData(logRecord);
       let derivedMetricInfos: DerivedMetricInfo[];
       let documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>;
@@ -821,7 +920,7 @@ export class LiveMetrics {
   }
 
   private parseMetricFilterConfiguration(response: QuickpulseResponse): void {
-    if (!response?.documentStreams || typeof response.documentStreams.forEach !== "function") {
+    if (!response.metrics || typeof response.metrics.forEach !== "function") {
       return;
     }
     response.metrics.forEach((derivedMetricInfo) => {

@@ -14,18 +14,10 @@ export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
-  SearchManagementRequestOptions,
   QuotaUsageResult,
   QuotaUsageResultName,
   CloudError,
   CloudErrorBody,
-  OfferingsListResult,
-  OfferingsByRegion,
-  FeatureOffering,
-  SkuOffering,
-  Sku,
-  SkuName,
-  SkuLimits,
   Operation,
   OperationDisplay,
   Origin,
@@ -54,7 +46,6 @@ export type {
   AccessRule,
   AccessRuleProperties,
   AccessRuleDirection,
-  AccessRulePropertiesSubscriptionsItem,
   NetworkSecurityPerimeter,
   ResourceAssociation,
   ResourceAssociationAccessMode,
@@ -76,18 +67,14 @@ export type {
   EncryptionWithCmk,
   SearchEncryptionWithCmk,
   SearchEncryptionComplianceStatus,
-  SearchResourceEncryptionKey,
-  DataIdentity,
-  DataIdentityUnion,
-  DataNoneIdentity,
-  DataUserAssignedIdentity,
-  AzureActiveDirectoryApplicationCredentials,
   DataPlaneAuthOptions,
   DataPlaneAadOrApiKeyAuthOption,
   AadAuthFailureMode,
   SearchSemanticSearch,
   KnowledgeRetrieval,
   UpgradeAvailable,
+  Sku,
+  SkuName,
   Identity,
   IdentityType,
   UserAssignedIdentity,
@@ -102,7 +89,6 @@ export type {
   AdminKeyKind,
 } from "./models/index.js";
 export {
-  KnownSkuName,
   KnownOrigin,
   KnownActionType,
   KnownPrivateLinkServiceConnectionProvisioningState,
@@ -122,9 +108,14 @@ export {
   KnownSearchSemanticSearch,
   KnownKnowledgeRetrieval,
   KnownUpgradeAvailable,
+  KnownSkuName,
   KnownIdentityType,
   KnownVersions,
 } from "./models/index.js";
+export type {
+  SearchManagementRequestOptions,
+  AccessRulePropertiesSubscriptionsItem,
+} from "./models/customizations/index.js";
 export type {
   UsageBySubscriptionSkuOptionalParams,
   SearchManagementClientOptionalParams,
@@ -138,7 +129,6 @@ export type {
   NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams,
   NetworkSecurityPerimeterConfigurationsGetOptionalParams,
 } from "./api/networkSecurityPerimeterConfigurations/index.js";
-export type { OfferingsListOptionalParams } from "./api/offerings/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type {
   PrivateEndpointConnectionsListByServiceOptionalParams,
@@ -172,7 +162,6 @@ export type { UsagesListBySubscriptionOptionalParams } from "./api/usages/index.
 export type {
   AdminKeysOperations,
   NetworkSecurityPerimeterConfigurationsOperations,
-  OfferingsOperations,
   OperationsOperations,
   PrivateEndpointConnectionsOperations,
   PrivateLinkResourcesOperations,
@@ -184,3 +173,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -5,7 +5,7 @@
  * @file Rule to prevent shipped sdk libraries from taking unapproved third-party
  * runtime dependencies.
  *
- * Only packages with `"sdk-type": "client"` or `"sdk-type": "mgmt"` are checked;
+ * Only shipped packages with `"sdk-type": "client"`, `"mgmt"`, or `"provisioning"` are checked;
  * samples, tests, perf tests, and utility/tooling packages are out of scope. A
  * package may only declare a runtime dependency (`dependencies`) on a
  * third-party package if that package is first-party (one of the
@@ -69,7 +69,7 @@ export default createRule<Options, MessageIds>({
     type: "problem",
     docs: {
       description:
-        "ensure client/mgmt library runtime dependencies are first-party or appear in the central third-party allow-list",
+        "ensure shipped library runtime dependencies are first-party or appear in the central third-party allow-list",
     },
     messages: {
       unapproved:
@@ -110,12 +110,12 @@ export default createRule<Options, MessageIds>({
 
     return {
       "ExpressionStatement > ObjectExpression": (node: TSESTree.ObjectExpression): void => {
-        // Only enforce on shipped libraries (client/mgmt). Samples, tests,
+        // Only enforce on shipped libraries. Samples, tests,
         // perf tests, and utility/tooling packages are out of scope.
         const sdkTypeProperty = findProperty(node, "sdk-type");
         const sdkType =
           sdkTypeProperty?.value.type === "Literal" ? sdkTypeProperty.value.value : undefined;
-        if (sdkType !== "client" && sdkType !== "mgmt") {
+        if (sdkType !== "client" && sdkType !== "mgmt" && sdkType !== "provisioning") {
           return;
         }
 

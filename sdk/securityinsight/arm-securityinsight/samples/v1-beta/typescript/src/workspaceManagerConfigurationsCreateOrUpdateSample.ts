@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a workspace manager configuration.
  *
  * @summary creates or updates a workspace manager configuration.
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerConfigurations/CreateOrUpdateWorkspaceManagerConfiguration.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerConfigurations/CreateOrUpdateWorkspaceManagerConfiguration.json
  */
 async function createOrUpdateAWorkspaceManagerConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

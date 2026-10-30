@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a database's short term retention policy.
  *
  * @summary updates a database's short term retention policy.
- * x-ms-original-file: 2025-01-01/UpdateShortTermRetentionPolicy.json
+ * x-ms-original-file: 2025-08-01-preview/UpdateShortTermRetentionPolicy.json
  */
 async function updateTheShortTermRetentionPolicyForTheDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a server trust group.
  *
  * @summary creates or updates a server trust group.
- * x-ms-original-file: 2025-01-01/ServerTrustGroupCreate.json
+ * x-ms-original-file: 2025-08-01-preview/ServerTrustGroupCreate.json
  */
 async function createServerTrustGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

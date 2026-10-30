@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve protection policy with specified name within a resource group.
  *
  * @summary retrieve protection policy with specified name within a resource group.
- * x-ms-original-file: 2025-09-01/WafPolicyGet.json
+ * x-ms-original-file: 2026-03-01/WafPolicyGet.json
  */
 async function getsAWAFPolicyWithinAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,8 +18,23 @@ async function getsAWAFPolicyWithinAResourceGroup(): Promise<void> {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to retrieve protection policy with specified name within a resource group.
+ *
+ * @summary retrieve protection policy with specified name within a resource group.
+ * x-ms-original-file: 2026-03-01/WafPolicyGetBasic.json
+ */
+async function getsABasicTierWAFPolicyWithinAResourceGroup(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.webApplicationFirewallPolicies.get("rg1", "Policy1");
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await getsAWAFPolicyWithinAResourceGroup();
+  await getsABasicTierWAFPolicyWithinAResourceGroup();
 }
 
 main().catch(console.error);

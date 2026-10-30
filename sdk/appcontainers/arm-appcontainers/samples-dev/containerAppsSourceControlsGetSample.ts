@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a SourceControl of a Container App.
  *
  * @summary get a SourceControl of a Container App.
- * x-ms-original-file: 2025-10-02-preview/SourceControls_Get.json
+ * x-ms-original-file: 2026-07-01/SourceControls_Get.json
  */
 async function getContainerAppSourceControl(): Promise<void> {
   const credential = new DefaultAzureCredential();

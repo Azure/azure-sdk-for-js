@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import { update, get, $delete, create, list } from "../../api/exportConfigurations/operations.js";
-import {
+import type {
   ExportConfigurationsUpdateOptionalParams,
   ExportConfigurationsGetOptionalParams,
   ExportConfigurationsDeleteOptionalParams,
   ExportConfigurationsCreateOptionalParams,
   ExportConfigurationsListOptionalParams,
 } from "../../api/exportConfigurations/options.js";
-import {
+import type {
   ApplicationInsightsComponentExportConfiguration,
   ApplicationInsightsComponentExportRequest,
 } from "../../models/componentAPIs/models.js";

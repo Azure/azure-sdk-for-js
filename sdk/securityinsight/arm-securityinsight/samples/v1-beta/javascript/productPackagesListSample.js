@@ -14,7 +14,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * Expandable properties:
  * - properties/installed
  * - properties/packagedContent
- * x-ms-original-file: 2025-07-01-preview/contentPackages/GetProductPackages.json
+ * x-ms-original-file: 2025-10-01-preview/contentPackages/GetProductPackages.json
  */
 async function getAllAvailablePackages() {
   const credential = new DefaultAzureCredential();
