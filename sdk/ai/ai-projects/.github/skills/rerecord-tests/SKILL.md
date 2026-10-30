@@ -67,9 +67,15 @@ The script ([scripts/rerecord.ps1](./scripts/rerecord.ps1)):
 3. If any spec **failed** playback, it refuses to push and prints the exact
    manual steps to drop the failing recordings (so only passing recordings are
    ever published — see "Only passing recordings").
-4. Stops there by default. Pass `-Push` to also run `npx dev-tool test-proxy
+4. Scans all recording JSON files under the `.assets/` clone
+   (`js/sdk/ai/ai-projects/recordings/**/*.json`) to verify that every `"key":`
+   field is followed by a sanitized value (`"00000000000000000000000000000000000000000000000000000000000000000000"`
+   or `"Sanitized"`). If any unsanitized `"key"` value is found, it prints the
+   offending file and line and refuses to push.
+5. Stops there by default. Pass `-Push` to also run `npx dev-tool test-proxy
    push`, which uploads the kept recordings and rewrites the `Tag` in
-   `assets.json`. `-Push` is ignored when playback is red.
+   `assets.json`. `-Push` is ignored when playback is red or when unsanitized
+   `"key"` values are detected.
 
 Useful flags:
 
@@ -129,6 +135,19 @@ To inspect or hand-tune what will be pushed:
 3. Return to `sdk/ai/ai-projects/` and run `npx dev-tool test-proxy push` (or
    `./.github/skills/rerecord-tests/scripts/rerecord.ps1 -SkipRecord -Push`).
 
+## Verify `"key"` values are sanitized
+
+All `"key":` fields in test recordings must be followed by a sanitized value
+(`"00000000000000000000000000000000000000000000000000000000000000000000"` or
+`"Sanitized"`). `test/public/utils/createClient.ts` registers a
+`BodyKeySanitizer` for `$..key` in both `record` and `playback` modes, and
+`scripts/rerecord.ps1` automatically checks every recording JSON file before
+allowing a push.
+
+If you push manually without `rerecord.ps1`, always run `rerecord.ps1 -SkipRecord`
+first (or inspect `"key":` matches across `.assets/<hash>/js/sdk/ai/ai-projects/recordings`)
+to confirm no unsanitized `"key"` values are present.
+
 ## Out of scope
 
 - **Does not provision or configure live Azure resources or env vars.** If
@@ -144,6 +163,7 @@ To inspect or hand-tune what will be pushed:
 - **Never** commits anything other than `assets.json`. Recordings live in the
   assets repo, not here.
 - **Never** pushes recordings for specs that failed playback.
+- **Never** pushes recordings that contain unsanitized `"key"` values.
 - Aborts if the working tree is dirty outside `sdk/ai/ai-projects/`.
 
 ## Notes

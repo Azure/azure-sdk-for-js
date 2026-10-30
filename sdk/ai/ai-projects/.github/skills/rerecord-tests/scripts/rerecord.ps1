@@ -5,6 +5,7 @@
 #
 # Flow: TEST_MODE=record npm run test:node  ->  TEST_MODE=playback npm run test:node
 #       -> revert recordings for specs that failed playback
+#       -> verify all "key" fields in recordings are sanitized
 #       -> (optional) npx dev-tool test-proxy push  (updates assets.json Tag)
 #
 # Run from sdk/ai/ai-projects/. Requires live Azure auth + test env vars for record mode,
@@ -55,6 +56,76 @@ function Invoke-Suite {
   }
 }
 
+function Get-RecordingsDirectory {
+  $assetsDir = Join-Path $repoRoot '.assets'
+  $singleBreadcrumb = Join-Path $assetsDir '.breadcrumb'
+  $multiBreadcrumbDir = Join-Path $assetsDir 'breadcrumb'
+
+  $entries = @()
+  if (Test-Path $singleBreadcrumb) {
+    $entries += Get-Content $singleBreadcrumb | Where-Object { $_.Trim() }
+  }
+  elseif (Test-Path $multiBreadcrumbDir) {
+    Get-ChildItem -Path $multiBreadcrumbDir -Filter '*.breadcrumb' -File | ForEach-Object {
+      $entries += Get-Content $_.FullName | Where-Object { $_.Trim() }
+    }
+  }
+
+  $expectedRel = 'sdk/ai/ai-projects/assets.json'
+  $cloneDir = $null
+  foreach ($entry in $entries) {
+    $parts = $entry.Trim().Split(';')
+    if ($parts.Length -ge 2 -and ($parts[0] -replace '\\', '/') -eq $expectedRel) {
+      $cloneDir = Join-Path $assetsDir $parts[1].Trim()
+      break
+    }
+  }
+
+  if (-not $cloneDir -or -not (Test-Path $cloneDir)) {
+    throw "Could not locate the .assets clone directory for $expectedRel. Run 'npx dev-tool test-proxy restore' first."
+  }
+
+  $assetsConfig = Get-Content './assets.json' -Raw | ConvertFrom-Json
+  $prefix = $assetsConfig.AssetsRepoPrefixPath
+  if ($prefix) {
+    return Join-Path $cloneDir "$prefix/sdk/ai/ai-projects/recordings"
+  }
+  return Join-Path $cloneDir 'sdk/ai/ai-projects/recordings'
+}
+
+function Test-RecordingsKeySanitized {
+  Write-Host "==> Checking recordings to ensure all ""key"" fields are sanitized" -ForegroundColor Cyan
+  $recordingsDir = Get-RecordingsDirectory
+  if (-not (Test-Path $recordingsDir)) {
+    throw "Recordings directory not found at: $recordingsDir"
+  }
+
+  $unsanitized = @()
+  $files = Get-ChildItem -Path $recordingsDir -Filter '*.json' -Recurse -File
+  foreach ($file in $files) {
+    $matchesInFile = Select-String -Path $file.FullName -Pattern '"key"\s*:\s*(?<val>.+)' -AllMatches
+    foreach ($m in $matchesInFile) {
+      $rawVal = $m.Matches[0].Groups['val'].Value.Trim().TrimEnd(',')
+      $isSanitized = ($rawVal -match '^"(?i:Sanitized)"$') -or ($rawVal -match '^"0+"$')
+      if (-not $isSanitized) {
+        $relPath = $file.FullName.Substring($recordingsDir.Length).TrimStart('\', '/')
+        $unsanitized += "${relPath}:$($m.LineNumber): $($m.Line.Trim())"
+      }
+    }
+  }
+
+  if ($unsanitized.Count -gt 0) {
+    Write-Warning "Found unsanitized ""key"" field(s) in local recordings:"
+    foreach ($item in $unsanitized) {
+      Write-Warning "  $item"
+    }
+    return $false
+  }
+
+  Write-Host "==> Verified all ""key"" fields in $($files.Count) recording file(s) are sanitized." -ForegroundColor Green
+  return $true
+}
+
 # --- Step 1: Record -------------------------------------------------------------------
 if (-not $SkipRecord) {
   $recordOk = Invoke-Suite -Mode 'record'
@@ -75,7 +146,10 @@ $playbackOk = Invoke-Suite -Mode 'playback'
 Write-Host "==> Recordings changed since last restore/push:" -ForegroundColor Cyan
 & npx dev-tool test-proxy diff
 
-# --- Step 4: Enforce 'only passing recordings' ----------------------------------------
+# --- Step 4: Verify all "key" values in recordings are sanitized ----------------------
+$keysSanitized = Test-RecordingsKeySanitized
+
+# --- Step 5: Enforce 'only passing recordings' and key sanitization -------------------
 if (-not $playbackOk) {
   Write-Warning @"
 Playback verification FAILED for one or more specs.
@@ -97,7 +171,18 @@ Refusing to auto-push while playback is red.
 
 Write-Host "==> Playback verification PASSED for the selected specs." -ForegroundColor Green
 
-# --- Step 5: Push (optional) ----------------------------------------------------------
+if (-not $keysSanitized) {
+  Write-Warning @"
+Sanitization check FAILED: one or more recordings contain an unsanitized "key": value.
+Ensure 'test/public/utils/createClient.ts' sanitizes '$..key' and sanitize or re-record the affected files before pushing.
+"@
+  if ($Push) {
+    throw "Not pushing: unsanitized 'key' values detected in recordings."
+  }
+  exit 1
+}
+
+# --- Step 6: Push (optional) ----------------------------------------------------------
 if ($Push) {
   Write-Host "==> Pushing recordings to Azure/azure-sdk-assets" -ForegroundColor Cyan
   # Wrap in `cmd /c` so the push failure is reliably reflected in $LASTEXITCODE
