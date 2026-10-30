@@ -5,6 +5,8 @@ import type {
   QueryRangeWithContinuationToken,
   BaseContinuationToken,
 } from "./CompositeQueryContinuationToken.js";
+import { parseBaseContinuationToken } from "./CompositeQueryContinuationToken.js";
+import { ErrorResponse } from "../../request/ErrorResponse.js";
 
 /**
  * Continuation token for order by queries.
@@ -84,5 +86,81 @@ export function serializeOrderByQueryContinuationToken(
 export function parseOrderByQueryContinuationToken(
   tokenString: string,
 ): OrderByQueryContinuationToken {
-  return JSON.parse(tokenString);
+  const token = parseBaseContinuationToken(tokenString) as Partial<OrderByQueryContinuationToken>;
+  if (!Array.isArray(token.orderByItems) || token.orderByItems.length === 0) {
+    throw new ErrorResponse(
+      "Invalid continuation token. ORDER BY tokens require non-empty orderByItems.",
+    );
+  }
+  if (token.orderByItems.some((item) => !item || typeof item !== "object" || Array.isArray(item))) {
+    throw new ErrorResponse("Invalid continuation token. ORDER BY items must be objects.");
+  }
+  if (
+    typeof token.skipCount !== "number" ||
+    !Number.isSafeInteger(token.skipCount) ||
+    token.skipCount < 0
+  ) {
+    throw new ErrorResponse(
+      "Invalid continuation token. ORDER BY tokens require a non-negative safe integer skipCount.",
+    );
+  }
+  if (token.documentRid !== undefined && typeof token.documentRid !== "string") {
+    throw new ErrorResponse(
+      "Invalid continuation token. ORDER BY documentRid must be a string when present.",
+    );
+  }
+  for (const [index, mapping] of token.rangeMappings.entries()) {
+    const filter = mapping.orderByFilter;
+    if (filter === undefined) {
+      continue;
+    }
+    if (!filter || typeof filter !== "object" || Array.isArray(filter)) {
+      throw new ErrorResponse(
+        `Invalid continuation token. ORDER BY rangeMappings[${index}].orderByFilter must be an object.`,
+      );
+    }
+    if (
+      !Array.isArray(filter.orderByItems) ||
+      filter.orderByItems.length === 0 ||
+      filter.orderByItems.some((item) => !item || typeof item !== "object" || Array.isArray(item))
+    ) {
+      throw new ErrorResponse(
+        `Invalid continuation token. ORDER BY rangeMappings[${index}].orderByFilter requires non-empty object-valued orderByItems.`,
+      );
+    }
+    if (
+      typeof filter.skipCount !== "number" ||
+      !Number.isSafeInteger(filter.skipCount) ||
+      filter.skipCount < 0
+    ) {
+      throw new ErrorResponse(
+        `Invalid continuation token. ORDER BY rangeMappings[${index}].orderByFilter requires a non-negative safe integer skipCount.`,
+      );
+    }
+    if (typeof filter.rid !== "string") {
+      throw new ErrorResponse(
+        `Invalid continuation token. ORDER BY rangeMappings[${index}].orderByFilter requires a string rid.`,
+      );
+    }
+  }
+  const logicallyOrderedMappings = [...token.rangeMappings].sort((left, right) =>
+    left.queryRange.min.localeCompare(right.queryRange.min),
+  );
+  const checkpointIndexes = logicallyOrderedMappings
+    .map((mapping, index) => (mapping.isOrderByCheckpoint === true ? index : -1))
+    .filter((index) => index >= 0);
+  const hasCheckpointMetadata = logicallyOrderedMappings.some(
+    (mapping) => mapping.isOrderByCheckpoint !== undefined,
+  );
+  if (
+    hasCheckpointMetadata &&
+    (checkpointIndexes.length === 0 ||
+      checkpointIndexes[checkpointIndexes.length - 1] - checkpointIndexes[0] + 1 !==
+        checkpointIndexes.length)
+  ) {
+    throw new ErrorResponse(
+      "Invalid continuation token. ORDER BY checkpoint owners must form one contiguous logical interval.",
+    );
+  }
+  return token as OrderByQueryContinuationToken;
 }

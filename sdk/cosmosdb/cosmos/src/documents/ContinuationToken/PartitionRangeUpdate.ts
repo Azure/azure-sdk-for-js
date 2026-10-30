@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { QueryRange } from "../../index.js";
+import type { OrderByContinuationFilter } from "./CompositeQueryContinuationToken.js";
 
 /**
  * Represents information about a partition range update that occurred during query execution.
@@ -15,6 +16,12 @@ export interface PartitionRangeUpdate {
   newRanges: QueryRange[];
   /** The continuation token associated with this range update */
   continuationToken: string | undefined;
+  /** Whether replacement ranges still have work to resume */
+  isActive?: boolean;
+  /** Whether replacement ranges inherit the global ORDER BY checkpoint */
+  isOrderByCheckpoint?: boolean;
+  /** ORDER BY post-fetch state inherited by replacement ranges */
+  orderByFilter?: OrderByContinuationFilter;
 }
 
 /**

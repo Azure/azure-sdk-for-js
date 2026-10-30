@@ -21,7 +21,10 @@ import {
   rejectContinuationTokenForUnsupportedQueries,
   QueryTypes,
 } from "./QueryValidationHelper.js";
-import { parseContinuationTokenFields } from "./ContinuationTokenParser.js";
+import {
+  parseContinuationTokenFields,
+  type ContinuationTokenFields,
+} from "./ContinuationTokenParser.js";
 import { LegacyFetchImplementation } from "./LegacyFetchImplementation.js";
 import { QueryControlFetchImplementation } from "./QueryControlFetchImplementation.js";
 import { QueryExecution } from "../common/constants.js";
@@ -55,6 +58,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.options.maxItemCount = QueryExecution.DEFAULT_PAGE_SIZE;
     }
     const pageSize = this.options.maxItemCount;
+    const rawContinuationToken =
+      this.options.continuationToken || this.options.continuation || undefined;
+    this.options.continuationToken = rawContinuationToken;
+    this.options.continuation = rawContinuationToken;
 
     // Extract query information and characteristics
     const analyzedQueryInfo = this.analyzeQueryInfo(partitionedQueryExecutionInfo.queryInfo);
@@ -69,7 +76,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
     // Reject continuation token usage for unsupported query types
     if (!querySupportsTokens) {
-      rejectContinuationTokenForUnsupportedQueries(this.options.continuationToken, [
+      rejectContinuationTokenForUnsupportedQueries(rawContinuationToken, [
         QueryTypes.nonStreamingOrderBy(nonStreamingOrderBy),
         QueryTypes.groupBy(isGroupByQuery),
         QueryTypes.unorderedDistinct(isUnorderedDistinctQuery),
@@ -77,8 +84,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     }
 
     // Parse continuation token fields once for reuse in pipeline construction
-    const queryContinuationFields = this.options.continuationToken
-      ? parseContinuationTokenFields(this.options.continuationToken)
+    const queryContinuationFields = rawContinuationToken
+      ? parseContinuationTokenFields(
+          rawContinuationToken,
+          isOrderByQuery,
+          isOrderByQuery ? sortOrders.length : undefined,
+        )
       : undefined;
 
     // Pick between non-streaming vs streaming execution context
@@ -95,6 +106,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           correlatedActivityId,
           isGroupByQuery,
           queryContinuationFields,
+          queryContinuationFields?.parsedToken,
         );
     this.fetchBuffer = [];
     // Initialize the appropriate fetch implementation based on enableQueryControl
@@ -105,9 +117,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.endpoint,
         pageSize,
         this.collectionLink,
-        this.options.continuationToken,
+        rawContinuationToken,
         isOrderByQuery,
         querySupportsContinuationTokens,
+        queryContinuationFields?.parsedToken,
       );
     } else {
       this.fetchImplementation = new LegacyFetchImplementation(this.endpoint, pageSize);
@@ -167,6 +180,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     correlatedActivityId: string,
     isGroupByQuery: boolean,
     queryContinuationFields: any,
+    parsedContinuationToken?: ContinuationTokenFields["parsedToken"],
   ): ExecutionContext {
     const queryInfo = partitionedQueryExecutionInfo.queryInfo!; // Safe to use ! after validation in constructor
 
@@ -175,6 +189,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       partitionedQueryExecutionInfo,
       sortOrders,
       correlatedActivityId,
+      parsedContinuationToken,
     );
 
     // Apply pipeline transformations
@@ -192,6 +207,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     sortOrders: any[],
     correlatedActivityId: string,
+    parsedContinuationToken?: ContinuationTokenFields["parsedToken"],
   ): ExecutionContext {
     if (Array.isArray(sortOrders) && sortOrders.length > 0) {
       // OrderBy queries need special wrapping for payload structure
@@ -203,6 +219,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.options,
           partitionedQueryExecutionInfo,
           correlatedActivityId,
+          parsedContinuationToken,
         ),
         this.emitRawOrderByPayload,
       );
@@ -216,6 +233,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.options,
       partitionedQueryExecutionInfo,
       correlatedActivityId,
+      parsedContinuationToken,
     );
   }
 

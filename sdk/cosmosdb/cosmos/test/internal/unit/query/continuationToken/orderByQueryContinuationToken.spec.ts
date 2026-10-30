@@ -268,12 +268,8 @@ describe("OrderByQueryContinuationToken", () => {
       });
     });
 
-    it("should parse empty JSON object", () => {
-      const token = parseOrderByQueryContinuationToken("{}");
-      assert.isUndefined(token.rid);
-      assert.isUndefined(token.rangeMappings);
-      assert.isUndefined(token.orderByItems);
-      assert.isUndefined(token.skipCount);
+    it("should reject empty JSON object", () => {
+      assert.throws(() => parseOrderByQueryContinuationToken("{}"), "Invalid continuation token");
     });
 
     it("should preserve complex order by items during serialization round trip", () => {
@@ -307,6 +303,53 @@ describe("OrderByQueryContinuationToken", () => {
       const parsedToken = parseOrderByQueryContinuationToken(serialized);
 
       assert.equal(parsedToken.skipCount, largeSkipCount);
+    });
+
+    it.each([-1, 1.5, Number.MAX_VALUE])(
+      "should reject unsafe or invalid skip count %s",
+      (skipCount) => {
+        const token = createOrderByQueryContinuationToken(
+          mockRangeMappings,
+          mockOrderByItems,
+          mockRid,
+          skipCount,
+        );
+
+        assert.throws(
+          () => parseOrderByQueryContinuationToken(serializeOrderByQueryContinuationToken(token)),
+          "Invalid continuation token",
+        );
+      },
+    );
+
+    it("should validate checkpoint ownership in logical range order", () => {
+      const token = createOrderByQueryContinuationToken(
+        [
+          {
+            queryRange: new QueryRange("60", "FF", true, false),
+            continuationToken: "token-2",
+            isOrderByCheckpoint: true,
+          },
+          {
+            queryRange: new QueryRange("", "30", true, false),
+            continuationToken: "token-0",
+            isOrderByCheckpoint: true,
+          },
+          {
+            queryRange: new QueryRange("30", "60", true, false),
+            continuationToken: "token-1",
+            isOrderByCheckpoint: false,
+          },
+        ],
+        mockOrderByItems,
+        mockRid,
+        mockSkipCount,
+      );
+
+      assert.throws(
+        () => parseOrderByQueryContinuationToken(serializeOrderByQueryContinuationToken(token)),
+        "Invalid continuation token",
+      );
     });
 
     it("should handle special characters in rid and documentRid", () => {
@@ -358,7 +401,7 @@ describe("OrderByQueryContinuationToken", () => {
       assert.deepEqual(parsed3, originalToken);
     });
 
-    it("should handle token with all edge case values", () => {
+    it("should reject a token with an empty logical range", () => {
       const edgeCaseOrderByItems = [
         { value: "", type: "string" }, // empty string
         { value: 0, type: "number" }, // zero
@@ -383,9 +426,10 @@ describe("OrderByQueryContinuationToken", () => {
         "",
       );
       const serialized = serializeOrderByQueryContinuationToken(originalToken);
-      const parsedToken = parseOrderByQueryContinuationToken(serialized);
-
-      assert.deepEqual(parsedToken, originalToken);
+      assert.throws(
+        () => parseOrderByQueryContinuationToken(serialized),
+        "Invalid continuation token",
+      );
     });
   });
 });

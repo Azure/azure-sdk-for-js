@@ -18,7 +18,7 @@ import type { FetchFunctionCallback } from "./defaultQueryExecutionContext.js";
 import { FetchResult, FetchResultType } from "./FetchResult.js";
 import { getInitialHeader } from "./headerUtils.js";
 import type { CosmosHeaders } from "./headerUtils.js";
-import type { SqlQuerySpec, FilterStrategy } from "./index.js";
+import type { SqlQuerySpec, FilterContext, FilterStrategy } from "./index.js";
 
 /** @hidden */
 export class DocumentProducer {
@@ -36,6 +36,7 @@ export class DocumentProducer {
   public endEpk: string;
   public populateEpkRangeHeaders: boolean;
   private filter?: FilterStrategy;
+  private previousFilterContext?: FilterContext;
   private queryExecutionInfo?: { reverseRidEnabled: boolean; reverseIndexScan: boolean };
 
   /**
@@ -57,6 +58,8 @@ export class DocumentProducer {
     endEpk?: string,
     populateEpkRangeHeaders: boolean = false,
     filter?: FilterStrategy,
+    private readonly filterCondition?: string,
+    public readonly isOrderByCheckpoint?: boolean,
   ) {
     // TODO: any options
     this.collectionLink = collectionLink;
@@ -68,7 +71,7 @@ export class DocumentProducer {
     this.err = undefined;
 
     this.previousContinuationToken = undefined;
-    this.continuationToken = undefined;
+    this.continuationToken = options.continuationToken ?? options.continuation;
 
     this.internalExecutionContext = new DefaultQueryExecutionContext(
       options,
@@ -129,18 +132,6 @@ export class DocumentProducer {
     return this.internalExecutionContext.hasMoreResults() || this.fetchResults.length !== 0;
   }
 
-  public gotSplit(): boolean {
-    if (this.fetchResults.length !== 0) {
-      const fetchResult = this.fetchResults[0];
-      if (fetchResult.fetchResultType === FetchResultType.Exception) {
-        if (DocumentProducer._needPartitionKeyRangeCacheRefresh(fetchResult.error)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
   private _updateStates(err: any, allFetched: boolean): void {
     if (err) {
       this.err = err;
@@ -175,8 +166,10 @@ export class DocumentProducer {
     }
 
     try {
+      const previousFilterContext = this.filter?.getFilterContext();
       const { result: resourcesResult, headers: headerResponse } =
         await this.internalExecutionContext.fetchMore(diagnosticNode);
+      this.previousFilterContext = previousFilterContext;
       let resources = resourcesResult;
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
@@ -216,11 +209,7 @@ export class DocumentProducer {
       return headerResponse;
     } catch (err: any) {
       if (DocumentProducer._needPartitionKeyRangeCacheRefresh(err)) {
-        // Split just happend
-        // Buffer the error so the execution context can still get the feedResponses in the itemBuffer
-        const bufferedError = new FetchResult(undefined, err);
-        this.fetchResults.push(bufferedError);
-        return err.headers;
+        throw err;
       } else {
         this._updateStates(err, err.resources === undefined);
         throw err;
@@ -350,5 +339,26 @@ export class DocumentProducer {
   public getQueryExecutionInfo():
     { reverseRidEnabled: boolean; reverseIndexScan: boolean } | undefined {
     return this.queryExecutionInfo;
+  }
+
+  public getFilterCondition(): string | undefined {
+    return this.filterCondition;
+  }
+
+  public getFilterContext(): FilterContext | undefined {
+    return this.filter?.getFilterContext();
+  }
+
+  public getPreviousFilterContext(): FilterContext | undefined {
+    return this.previousFilterContext
+      ? {
+          ...this.previousFilterContext,
+          orderByItems: [...this.previousFilterContext.orderByItems],
+          sortOrders: [...this.previousFilterContext.sortOrders],
+          queryExecutionInfo: this.previousFilterContext.queryExecutionInfo
+            ? { ...this.previousFilterContext.queryExecutionInfo }
+            : undefined,
+        }
+      : undefined;
   }
 }

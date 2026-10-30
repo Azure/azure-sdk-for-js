@@ -41,6 +41,19 @@ describe("OrderByDocumentProducerComparator", () => {
     startEpk: startEpk,
   });
 
+  it("compares buffered producers without a split sentinel", () => {
+    const docProd1 = {
+      ...createMockDocumentProducer(mockPartitionKeyRange1),
+      peekBufferedItems: () => [{ orderByItems: [{ item: 1 }] }],
+    } as DocumentProducer;
+    const docProd2 = {
+      ...createMockDocumentProducer(mockPartitionKeyRange2),
+      peekBufferedItems: () => [{ orderByItems: [{ item: 2 }] }],
+    } as DocumentProducer;
+
+    assert.equal(comparator.compare(docProd1, docProd2), -1);
+  });
+
   describe("targetPartitionKeyRangeDocProdComparator", () => {
     it("should return -1 when first producer has smaller minInclusive", () => {
       const docProd1 = createMockDocumentProducer({
