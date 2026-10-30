@@ -118,11 +118,6 @@ describe("receive and delete", () => {
   });
 
   describe("Streaming Receiver in ReceiveAndDelete mode", function (): void {
-    // NOTE: this is never reassigned, so the `=== undefined` assertion below is
-    // trivially true. Wiring processError to capture the error is tracked in
-    // https://github.com/Azure/azure-sdk-for-js/issues/39462.
-    const errorFromErrorHandler: Error | undefined = undefined;
-
     afterEach(async () => {
       await afterEachTest();
     });
@@ -148,7 +143,14 @@ describe("receive and delete", () => {
         { autoCompleteMessages: autoCompleteFlag },
       );
 
-      const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+      // Stop waiting as soon as either a message or an error arrives, and check
+      // `errors` first so a handler error is reported instead of being masked by
+      // the generic "could not receive" timeout.
+      const msgsCheck = await checkWithTimeout(
+        () => receivedMsgs.length === 1 || errors.length > 0,
+      );
+
+      should.equal(errors.length, 0, `Unexpected errors from error handler: ${errors.join(", ")}`);
       should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
@@ -161,12 +163,6 @@ describe("receive and delete", () => {
         receivedMsgs[0].messageId,
         testMessages.messageId,
         "MessageId is different than expected",
-      );
-
-      should.equal(
-        errorFromErrorHandler,
-        undefined,
-        errorFromErrorHandler && errorFromErrorHandler.message,
       );
 
       await testPeekMsgsLength(receiver, 0);
