@@ -12,7 +12,7 @@ import {
 } from "@azure/provisioning-keyvault";
 import type * as keyVault from "@azure/provisioning-keyvault";
 import type { AccessPolicyEntryInput } from "@azure/provisioning-keyvault/types";
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 
 import {
   createResourceGroupStack,
