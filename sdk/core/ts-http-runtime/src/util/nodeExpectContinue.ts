@@ -62,18 +62,36 @@ export function addExpectContinueFraming(
 export function createExpectContinueRequest(options: ExpectContinueRequestOptions): void {
   let fallback: ReturnType<typeof setTimeout> | undefined;
   let bodyStarted = false;
-  const request = options.createRequest(onResponse);
+  let errorReported = false;
+  let request: http.ClientRequest;
+  try {
+    request = options.createRequest(onResponse);
+  } catch (error: unknown) {
+    onError(error);
+    return;
+  }
 
   function stopWaiting(): void {
     if (fallback !== undefined) {
       clearTimeout(fallback);
       fallback = undefined;
     }
-    request.removeListener("continue", sendBody);
+    request?.removeListener("continue", sendBody);
+  }
+
+  function onError(error: unknown): Error {
+    const requestError = error instanceof Error ? error : new Error(String(error));
+    // destroy() may emit no error on a closed request, or emit this error again on a live one.
+    if (!errorReported) {
+      errorReported = true;
+      stopWaiting();
+      options.onError(requestError);
+    }
+    return requestError;
   }
 
   function sendBody(): void {
-    if (bodyStarted) {
+    if (bodyStarted || errorReported) {
       return;
     }
     bodyStarted = true;
@@ -81,7 +99,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
     try {
       options.sendBody(request);
     } catch (error: unknown) {
-      request.destroy(error instanceof Error ? error : new Error(String(error)));
+      request.destroy(onError(error));
     }
   }
 
@@ -105,7 +123,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
     options.onResponse(response);
   }
 
-  request.once("error", options.onError);
+  request.once("error", onError);
   options.abortSignal.addEventListener("abort", onAbort, { once: true });
   request.once("close", () => {
     stopWaiting();
@@ -125,8 +143,10 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   request.once("continue", sendBody);
   try {
     request.flushHeaders();
-    fallback = setTimeout(sendBody, EXPECT_CONTINUE_TIMEOUT_IN_MS);
+    if (!errorReported) {
+      fallback = setTimeout(sendBody, EXPECT_CONTINUE_TIMEOUT_IN_MS);
+    }
   } catch (error: unknown) {
-    request.destroy(error instanceof Error ? error : new Error(String(error)));
+    request.destroy(onError(error));
   }
 }
