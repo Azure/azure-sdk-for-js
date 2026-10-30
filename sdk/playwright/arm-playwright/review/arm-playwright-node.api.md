@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -82,6 +84,8 @@ export interface FreeTrialProperties {
 // @public
 export type FreeTrialState = string;
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -149,7 +153,8 @@ export enum KnownVersions {
     V20250701Preview = "2025-07-01-preview",
     V20250901 = "2025-09-01",
     V20260101Preview = "2026-01-01-preview",
-    V20260201Preview = "2026-02-01-preview"
+    V20260201Preview = "2026-02-01-preview",
+    V20260801Preview = "2026-08-01-preview"
 }
 
 // @public
@@ -268,6 +273,7 @@ export interface PlaywrightWorkspaceProperties {
     regionalAffinity?: EnablementStatus;
     reporting?: EnablementStatus;
     storageUri?: string;
+    subnetId?: string;
     readonly workspaceId?: string;
 }
 
@@ -369,6 +375,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: PlaywrightManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

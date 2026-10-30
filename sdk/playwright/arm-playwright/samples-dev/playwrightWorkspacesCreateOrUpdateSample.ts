@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a PlaywrightWorkspace
  *
  * @summary create a PlaywrightWorkspace
- * x-ms-original-file: 2026-02-01-preview/PlaywrightWorkspaces_CreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/PlaywrightWorkspaces_CreateOrUpdate.json
  */
 async function playwrightWorkspacesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,6 +22,8 @@ async function playwrightWorkspacesCreateOrUpdate(): Promise<void> {
       localAuth: "Enabled",
       reporting: "Enabled",
       storageUri: "https://examplestorageaccount.blob.core.windows.net",
+      subnetId:
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
     },
   });
   console.log(result);
