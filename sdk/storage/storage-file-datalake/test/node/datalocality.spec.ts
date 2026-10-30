@@ -6,14 +6,13 @@ import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isRecordMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { DataLakeFileSystemClient, FileGetLayoutResponse } from "../../src/index.js";
+import type { DataLakeFileSystemClient, FileReadOptions } from "../../src/index.js";
 import {
   AnonymousCredential,
   DataLakeFileClient,
   DataLakeServiceClient,
   newPipeline,
 } from "../../src/index.js";
-import { toFileGetLayoutResponse } from "../../src/transforms.js";
 import { configureStorageClient, createAndStartRecorder, getUniqueName } from "../utils/index.js";
 
 function newFileClient(): DataLakeFileClient {
@@ -22,86 +21,6 @@ function newFileClient(): DataLakeFileClient {
     new AnonymousCredential(),
   );
 }
-
-/** A Get Blob Layout page, with the non-enumerable `_response` the generated layer attaches. */
-function blobLayoutPage(): any {
-  const page: any = {
-    etag: "etag-1",
-    blobContentLength: 1024,
-    ranges: [{ start: 0, end: 1023, endpointIndex: 0 }],
-    endpoints: [{ index: 0, value: "https://a:443/" }],
-    continuationToken: undefined,
-  };
-  Object.defineProperty(page, "_response", {
-    value: { parsedHeaders: { etag: "etag-1", blobContentLength: 1024 } },
-    enumerable: false,
-  });
-  return page;
-}
-
-describe("toFileGetLayoutResponse", () => {
-  // Reading _response also proves the rewrite is in place: _response is non-enumerable, so a
-  // spread-based transform would silently drop it.
-  it("renames blobContentLength to fileContentLength", () => {
-    const result = toFileGetLayoutResponse(blobLayoutPage()) as any;
-
-    assert.equal(result.fileContentLength, 1024);
-    assert.notProperty(result, "blobContentLength");
-    assert.equal(result._response.parsedHeaders.fileContentLength, 1024);
-    assert.notProperty(result._response.parsedHeaders, "blobContentLength");
-  });
-});
-
-describe("DataLakeFileClient.getLayout", () => {
-  it("delegates to the blob client and maps each page", async () => {
-    const client = newFileClient();
-    let received: any;
-    (client as any).blockBlobClientInternal = {
-      getLayout: (options: any) => {
-        received = options;
-        return {
-          byPage: () =>
-            (async function* () {
-              yield blobLayoutPage();
-            })(),
-        };
-      },
-    };
-
-    const pages = [];
-    for await (const page of client.getLayout({ range: { offset: 0, count: 1024 } })) {
-      pages.push(page);
-    }
-
-    assert.lengthOf(pages, 1);
-    assert.equal((pages[0] as any).fileContentLength, 1024);
-    assert.deepEqual(received.range, { offset: 0, count: 1024 });
-  });
-
-  it("forwards continuationToken and maxPageSize through byPage", async () => {
-    const client = newFileClient();
-    let settings: any;
-    (client as any).blockBlobClientInternal = {
-      getLayout: () => ({
-        byPage: (pageSettings: any) => {
-          settings = pageSettings;
-          return (async function* () {
-            yield blobLayoutPage();
-          })();
-        },
-      }),
-    };
-
-    for await (const _page of client
-      .getLayout()
-      .byPage({ continuationToken: "marker-1", maxPageSize: 10 })) {
-      // drain
-    }
-
-    assert.equal(settings.continuationToken, "marker-1");
-    assert.equal(settings.maxPageSize, 10);
-  });
-});
 
 describe("DataLake read option pass-through", () => {
   it("forwards layoutAwareRouting from readToBuffer", async () => {
@@ -123,6 +42,12 @@ describe("DataLake read option pass-through", () => {
 interface SentRequest {
   host: string;
   hostHeader?: string;
+}
+
+/** The parts of a Get Blob Layout page the routed read needs, as the generated layer returns it. */
+interface LayoutPage {
+  ranges?: { range: Array<{ start: number; end: number; endpointIndex: number }> };
+  endpoints?: { endpoint: Array<{ index: number; value: string }> };
 }
 
 /**
@@ -177,16 +102,21 @@ describe("Data locality Node.js only", () => {
     await recorder.stop();
   });
 
+  // Proves the Data Lake pipeline routes the reads readToBuffer sends through the blob client. The
+  // layout and the endpoint of a single read are internal, so they are reached directly.
   it("reads a range from the endpoint the file's layout names", async () => {
     const offset = 1024;
     const count = 1024;
-    const page: FileGetLayoutResponse = (await fileClient.getLayout().next()).value;
-    assert.equal(page.fileContentLength, content.length);
-    const range = page.ranges.find((r) => r.start <= offset && offset <= r.end)!;
-    const endpoint = page.endpoints.find((e) => e.index === range.endpointIndex)!;
+    const page: LayoutPage = await (
+      fileClient as any
+    ).blockBlobClientInternal.blobContext.getLayout({});
+    const range = page.ranges!.range.find((r) => r.start <= offset && offset <= r.end)!;
+    const endpoint = page.endpoints!.endpoint.find((e) => e.index === range.endpointIndex)!;
     spy.sent.length = 0;
 
-    const response = await fileClient.read(offset, count, { layoutEndpoint: endpoint.value });
+    const response = await fileClient.read(offset, count, {
+      layoutEndpoint: endpoint.value,
+    } as FileReadOptions);
     const chunks: Buffer[] = [];
     for await (const chunk of response.readableStreamBody!) {
       chunks.push(chunk as Buffer);

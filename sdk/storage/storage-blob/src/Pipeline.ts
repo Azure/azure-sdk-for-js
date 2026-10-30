@@ -48,8 +48,8 @@ import {
   StorageBrowserPolicyFactory,
   storageCorrectContentLengthPolicy,
   storageRedirectRangeHeaderPolicy,
-  storageDataLocalityPolicy,
 } from "@azure/storage-common";
+import { storageDataLocalityPolicy } from "./policies/StorageDataLocalityPolicy.js";
 
 import {
   StorageOAuthScopes,

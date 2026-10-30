@@ -12,17 +12,10 @@ import type {
   ContainerRenameResponse,
   ContainerUndeleteResponse,
   WithResponse,
-  ResponseWithBody,
   NodeJSReadableStream,
   BlobTags,
   Tags,
-  BlobGetLayoutHeaders,
-  BlobLayout,
-  BlobLayoutEndpoint,
-  BlobLayoutRange,
   LayoutAwareRouting,
-  LayoutEndpoint,
-  Range as BlobRange,
 } from "@azure/storage-blob";
 import type { DataLakePathClient } from "./clients.js";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
@@ -80,7 +73,6 @@ export {
   type LeaseOperationOptions,
   type LeaseOperationResponse,
   type LayoutAwareRouting,
-  type LayoutEndpoint,
 } from "@azure/storage-blob";
 
 export type {
@@ -1366,57 +1358,6 @@ export interface DirectoryGenerateSasUrlOptions extends CommonGenerateSasUrlOpti
 /** *********************************************************/
 
 /**
- * A byte range of a file.
- */
-export type FileRange = BlobRange;
-
-/** A byte range of a file, and the endpoint that serves it. */
-export type FileLayoutRange = BlobLayoutRange;
-
-/** An endpoint that serves one or more ranges of a file. */
-export type FileLayoutEndpoint = BlobLayoutEndpoint;
-
-/** One page of a file's layout. */
-export type FileLayout = BlobLayout;
-
-/**
- * Options to configure {@link DataLakeFileClient.getLayout}.
- */
-export interface FileGetLayoutOptions extends CommonOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * If provided, returns the layout of only this range of the file. Defaults to the whole file.
-   */
-  range?: FileRange;
-  /**
-   * Conditions to meet when getting the file's layout.
-   */
-  conditions?: DataLakeRequestConditions;
-  /**
-   * Customer Provided Key Info.
-   */
-  customerProvidedKey?: CpkInfo;
-}
-
-/** Defines headers for the {@link DataLakeFileClient.getLayout} operation. */
-export interface FileGetLayoutHeaders extends Omit<BlobGetLayoutHeaders, "blobContentLength"> {
-  /** The size of the file in bytes. */
-  fileContentLength?: number;
-}
-
-/**
- * Contains response data for the {@link DataLakeFileClient.getLayout} operation. A 204 response has
- * no body.
- */
-export type FileGetLayoutResponse = FileGetLayoutHeaders &
-  FileLayout &
-  ResponseWithBody<FileGetLayoutHeaders, FileLayout | undefined>;
-
-/**
  * Option interface for Data Lake file - read operations
  *
  * See:
@@ -1438,16 +1379,6 @@ export interface FileReadOptions extends CommonOptions {
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
-  /**
-   * Optional. ONLY AVAILABLE IN NODE.JS.
-   *
-   * The endpoint to read this range from, as reported by {@link DataLakeFileClient.getLayout}. A
-   * one-shot read never fetches or caches a layout of its own, so supplying one here is the only
-   * way to route it. The account endpoint is read instead when the endpoint cannot be parsed or
-   * the client's URL is not `https://` with a host name. An endpoint that cannot be reached fails
-   * the read.
-   */
-  layoutEndpoint?: LayoutEndpoint;
 }
 
 export interface FileReadHeaders {

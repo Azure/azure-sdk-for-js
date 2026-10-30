@@ -5,7 +5,7 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import { isNodeLike } from "@azure/core-util";
 import type { LayoutAwareRouting } from "../Clients.js";
 import type { BlobOperations, EncryptionAlgorithmType } from "../generated/index.js";
-import type { CpkInfo, DownloadHint } from "../generatedModels.js";
+import type { CpkInfo } from "../generatedModels.js";
 import { rangeToString } from "../Range.js";
 import type { CommonOptions } from "../StorageClient.js";
 import { AutoRefreshingCache } from "./AutoRefreshingCache.js";
@@ -54,7 +54,7 @@ export class BlobLayoutRouter {
    */
   static forDownload(
     blobContext: BlobOperations,
-    options: BlobLayoutRouterOptions & { routing: LayoutAwareRouting; downloadHint?: DownloadHint },
+    options: BlobLayoutRouterOptions & { routing: LayoutAwareRouting; downloadHint?: string },
   ): BlobLayoutRouter | undefined {
     if (
       resolveLayoutAwareRouting(options.routing) !== "enabled" ||

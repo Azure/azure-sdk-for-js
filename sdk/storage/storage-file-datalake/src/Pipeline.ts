@@ -55,7 +55,7 @@ import { StorageBrowserPolicyFactory } from "@azure/storage-common";
 import { storageCorrectContentLengthPolicy } from "@azure/storage-common";
 import { storageRetryPolicy } from "@azure/storage-common";
 import { storageSharedKeyCredentialPolicy } from "@azure/storage-common";
-import { storageDataLocalityPolicy } from "@azure/storage-common";
+import { storageDataLocalityPolicy } from "./policies/StorageDataLocalityPolicy.js";
 import {
   ServiceClientOptions,
   PipelineOptions,
