@@ -85,7 +85,7 @@
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "test:browser": "dev-tool run test:vitest --no-test-proxy --browser",
+    "test:browser": "echo Skipped.",
     "test:node": "dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets"
   },

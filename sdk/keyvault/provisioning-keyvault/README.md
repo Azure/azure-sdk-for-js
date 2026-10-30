@@ -11,6 +11,26 @@ Install the service library and the core authoring library with npm:
 npm install @azure/provisioning-keyvault @azure/provisioning-core
 ```
 
+```ts snippet:StackKeyVault
+import { Stack } from "@azure/provisioning-core";
+import { KeyVault, Secret } from "@azure/provisioning-keyvault";
+
+const stack = new Stack("keyvault", {
+  targetScope: "resourceGroup",
+  location: "eastus",
+});
+const vault = new KeyVault(stack, {
+  properties: {
+    tenantId: "00000000-0000-0000-0000-000000000000",
+    sku: { family: "A", name: "standard" },
+  },
+});
+new Secret(vault, {
+  name: "connection-string",
+  properties: { value: "example" },
+});
+```
+
 1. Create a `Stack` using `@azure/provisioning-core` and define the resource's parent context.
 2. Import resource classes from `@azure/provisioning-keyvault` and add them to your definition with their required properties.
 3. Serialize the definition using `@azure/provisioning-core/serialization`.
@@ -25,4 +45,4 @@ Use `existing: true` in resource constructor properties to reference an existing
 
 ## License
 
-This library is licensed under the [MIT License](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/provisioning-keyvault/LICENSE).
+This library is licensed under the MIT License.

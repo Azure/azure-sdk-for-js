@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Stack, ResourceGroup } from "@azure/provisioning-core";
-import { KeyVault } from "@azure/provisioning-keyvault";
+import { KeyVault, Secret } from "@azure/provisioning-keyvault";
 import { afterEach, describe, it } from "vitest";
 
 describe("documentation snippets", () => {
@@ -20,5 +20,23 @@ describe("documentation snippets", () => {
       },
     });
     stack.outputs.add("vaultId", "string", vault.id);
+  });
+  it("StackKeyVault", () => {
+    const stack = new Stack("keyvault", {
+      targetScope: "resourceGroup",
+      location: "eastus",
+    });
+
+    const vault = new KeyVault(stack, {
+      properties: {
+        tenantId: "00000000-0000-0000-0000-000000000000",
+        sku: { family: "A", name: "standard" },
+      },
+    });
+
+    new Secret(vault, {
+      name: "connection-string",
+      properties: { value: "example" },
+    });
   });
 });
