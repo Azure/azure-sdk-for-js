@@ -36,6 +36,84 @@ export interface UnrelatedCustomModel {}
   assert.equal(plan.sourceNames.includes("CustomSupport"), false);
 });
 
+test("preserves models and converters relocated into generated submodules", () => {
+  const previousGenerated = `
+export interface MovedModel {}
+export function movedModelDeserializer(item: any): MovedModel { return item; }
+export interface RemovedModel {}
+`;
+  const currentGenerated = `
+import { MovedModel, movedModelDeserializer } from "./openAI/models.js";
+`;
+  const currentGeneratedModules = [
+    `
+export interface MovedModel {}
+export function movedModelDeserializer(item: any): MovedModel { return item; }
+`,
+  ];
+  const previousSource = `
+${previousGenerated}
+export interface CustomWrapper { model: MovedModel; }
+export function customWrapperDeserializer(item: any): CustomWrapper {
+  return { model: movedModelDeserializer(item.model) };
+}
+`;
+  const plan = planModelRemovals({
+    previousGenerated,
+    currentGenerated,
+    currentGeneratedModules,
+    previousSource,
+  });
+  assert.deepEqual([...plan.generatedRemovedNames], ["RemovedModel"]);
+  assert.deepEqual(plan.sourceNames, ["RemovedModel"]);
+  assert.deepEqual(plan.retainedReferenceConflicts, []);
+});
+
+test("detects removals and relocations from previous generated submodules", () => {
+  const previousGeneratedModules = [
+    "export interface MovedModel {} export interface RemovedModel {}",
+  ];
+  const previousSource = `
+export interface MovedModel {}
+export interface RemovedModel {}
+`;
+  const plan = planModelRemovals({
+    previousGenerated: "",
+    previousGeneratedModules,
+    currentGenerated: "export interface MovedModel {}",
+    previousSource,
+  });
+  assert.deepEqual([...plan.generatedRemovedNames], ["RemovedModel"]);
+  assert.deepEqual(plan.sourceNames, ["RemovedModel"]);
+});
+
+test("preserves reviewed contextual renames only while their replacements exist", () => {
+  const previousGenerated = "export interface OriginalModel {}";
+  const previousSource = `
+export interface OriginalModel {}
+export interface Wrapper { model: OriginalModel; }
+`;
+  const generatedRenames = { OriginalModel: "ContextualModel" };
+  const renamed = planModelRemovals({
+    previousGenerated,
+    currentGenerated: "export interface ContextualModel {}",
+    previousSource,
+    generatedRenames,
+  });
+  assert.deepEqual([...renamed.generatedRemovedNames], []);
+  assert.deepEqual(renamed.sourceNames, []);
+  assert.deepEqual(renamed.retainedReferenceConflicts, []);
+
+  const removed = planModelRemovals({
+    previousGenerated,
+    currentGenerated: "",
+    previousSource,
+    generatedRenames,
+  });
+  assert.deepEqual([...removed.generatedRemovedNames], ["OriginalModel"]);
+  assert.deepEqual(removed.sourceNames, ["OriginalModel", "Wrapper"]);
+});
+
 test("ignores property-name collisions with removed models", () => {
   const previousGenerated = `
 export interface RemovedModel {}

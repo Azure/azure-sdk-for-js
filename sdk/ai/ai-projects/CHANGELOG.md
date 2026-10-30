@@ -1,5 +1,21 @@
 # Release History
 
+## 2.11.0 (Unreleased)
+
+### Features Added
+
+- Add GPT Live agent definitions, lifecycle/delegation events with effective Foundry ownership, and `project.beta.voiceAgents.liveConversations` for persisted Live conversations and audio. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Expand native GPT Live models for additional delegation tools, decisions, and prerecorded audio playback. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Add `post_call` voice-agent configuration for Event Grid and routine destinations. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+
+### Bugs Fixed
+
+- Keep Voice Agent instructions optional and non-nullable, and support nullable names in native Live MCP tool choices. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
+
+### Other Changes
+
+- Deprecate `BrowserAutomationPreviewTool` and `BrowserAutomationPreviewToolboxTool` in favor of their non-preview replacements. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+
 ## 2.10.0 (2026-10-30)
 
 ### Breaking Changes

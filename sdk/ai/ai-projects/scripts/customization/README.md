@@ -115,6 +115,10 @@ regeneration script falls back to it when the strict run fails.
   their classic interface and factory members. Those operations pass the same
   guards as relocations into unprotected modules; every maintained declaration
   and all other factory behavior must remain unchanged.
+- `SDK_VERSION` must be a static string matching `package.json` version.
+  A coordinated version bump may change only that initializer in
+  `src/constants.ts`; its declaration and every other protected constant
+  remain unchanged.
 - Public exports are reconciled without replacing the customized import
   scaffold. Generated-backed moves are distinguished from custom-only API. An
   unmodified generated export of a group module the emitter removed, for
