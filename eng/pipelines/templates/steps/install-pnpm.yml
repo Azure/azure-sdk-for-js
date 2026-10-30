@@ -13,5 +13,5 @@ steps:
         exit 1
       }
       Write-Host "Installing $packageManager"
-      npm install -g $packageManager
+      npm install -g --allow-scripts=pnpm $packageManager
     displayName: "Install Pnpm"
