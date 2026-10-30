@@ -18,7 +18,6 @@ export interface SaaSOperationGroupOperations {
     options?: SaaSOperationGroupActivateResourceOptionalParams,
   ) => PollerLike<OperationState<SaaSResourceDetailsResponse>, SaaSResourceDetailsResponse>;
 }
-
 function _getSaaSOperationGroup(context: CompanionAPIContext) {
   return {
     activateResource: (
@@ -27,7 +26,6 @@ function _getSaaSOperationGroup(context: CompanionAPIContext) {
     ) => activateResource(context, body, options),
   };
 }
-
 export function _getSaaSOperationGroupOperations(
   context: CompanionAPIContext,
 ): SaaSOperationGroupOperations {
