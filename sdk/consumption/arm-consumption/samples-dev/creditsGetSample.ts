@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the credit summary by billingAccountId and billingProfileId.
  *
  * @summary the credit summary by billingAccountId and billingProfileId.
- * x-ms-original-file: 2024-08-01/CreditSummaryByBillingProfile.json
+ * x-ms-original-file: 2026-06-01/CreditSummaryByBillingProfile.json
  */
 async function creditSummaryByBillingProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

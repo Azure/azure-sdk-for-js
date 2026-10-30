@@ -9,7 +9,7 @@ import type { TagsResult } from "../../models/models.js";
 /** Interface representing a Tags operations. */
 export interface TagsOperations {
   /** Get all available tag keys for the defined scope */
-  get: (scope: string, options?: TagsGetOptionalParams) => Promise<TagsResult | undefined>;
+  get: (scope: string, options?: TagsGetOptionalParams) => Promise<TagsResult | void>;
 }
 
 function _getTags(context: ConsumptionManagementContext) {

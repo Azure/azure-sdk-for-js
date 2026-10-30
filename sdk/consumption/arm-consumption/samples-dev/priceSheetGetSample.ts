@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the price sheet for a subscription. Price sheet is available via this API only for May 1, 2014 or later.
  *
  * @summary gets the price sheet for a subscription. Price sheet is available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/PriceSheet.json
+ * x-ms-original-file: 2026-06-01/PriceSheet.json
  */
 async function priceSheet(): Promise<void> {
   const credential = new DefaultAzureCredential();
