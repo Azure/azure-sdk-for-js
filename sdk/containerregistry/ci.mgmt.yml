@@ -13,6 +13,7 @@ trigger:
       - sdk/containerregistry/ci.mgmt.yml
       - sdk/containerregistry/arm-containerregistry
       - sdk/containerregistry/arm-containerregistrytasks
+      - sdk/containerregistry/provisioning-container-registry
 pr:
   branches:
     include:
@@ -27,6 +28,7 @@ pr:
       - sdk/containerregistry/ci.mgmt.yml
       - sdk/containerregistry/arm-containerregistry
       - sdk/containerregistry/arm-containerregistrytasks
+      - sdk/containerregistry/provisioning-container-registry
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -36,3 +38,5 @@ extends:
         safeName: azurearmcontainerregistry
       - name: azure-arm-containerregistrytasks
         safeName: azurearmcontainerregistrytasks
+      - name: azure-provisioning-container-registry
+        safeName: azureprovisioningcontainerregistry
