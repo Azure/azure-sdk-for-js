@@ -63,6 +63,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
   - [Performing Responses operations using OpenAI client](#performing-responses-operations-using-openai-client)
   - [Performing Agent operations](#performing-agent-operations)
   - [Voice Agent operations (preview)](#voice-agent-operations-preview)
+  - [GPT Live voice agents](#gpt-live-voice-agents)
   - [Using Agent tools](#using-agent-tools)
     - [Built-in Tools](#built-in-tools)
     - [Connection-Based Tools](#connection-based-tools)
@@ -240,71 +241,65 @@ console.log("Agent deleted");
 
 ### Voice Agent operations (preview)
 
-Voice Agents use the unified `project.agents` management surface and a bidirectional WebSocket
-session exposed by `project.beta.voiceAgents.realtime`. The example below generates a Voice Agent, sends text, and
-streams its response:
+Use `project.agents` to create and manage voice agents. Choose the connection client
+that matches your agent:
+
+- `project.beta.voiceAgents.realtime` for Realtime and cascaded voice agents.
+- `project.beta.voiceAgents.live` for [GPT Live](#gpt-live-voice-agents).
+
+This Node.js example sends text to an existing Realtime agent and prints the reply.
+Use an agent without an automatic greeting so the first response is the answer to your message.
 
 ```ts snippet:voiceAgent
-const voiceAgentName = `voice-agent-${Date.now()}`;
-const voiceAgent = await project.beta.agents.createFromPrompt({
-  kind: "voice",
-  name: voiceAgentName,
-});
+const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
 try {
-  const connection = await project.beta.voiceAgents.realtime.connect(voiceAgent.name);
-  try {
-    await connection.sendText("Hello. Please introduce yourself briefly.");
-    for await (const event of connection) {
-      // Voice agents speak their reply, so the text form of it streams as an audio transcript
-      // rather than as `response.output_text.delta`.
-      if (
-        event.type === "response.output_text.delta" ||
-        event.type === "response.output_audio_transcript.delta"
-      ) {
-        process.stdout.write(event.delta);
-      } else if (event.type === "unknown") {
-        // event.rawEvent preserves all wire fields; validate them before using them.
-        console.log(`Unrecognized server event: ${event.eventType}`);
-      } else if (event.type === "response.done") {
-        await connection.close();
+  await connection.sendText("Hello. Please introduce yourself briefly.");
+  for await (const event of connection) {
+    if (
+      event.type === "response.output_text.delta" ||
+      event.type === "response.output_audio_transcript.delta"
+    ) {
+      process.stdout.write(event.delta);
+    } else if (event.type === "error") {
+      throw new Error(event.error.message);
+    } else if (event.type === "response.done") {
+      if (event.response.status !== "completed") {
+        throw new Error(`Voice response ${event.response.status}.`);
       }
+      break;
     }
-  } finally {
-    await connection.dispose();
   }
 } finally {
-  await project.agents.delete(voiceAgent.name, {
-    requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-  });
+  await connection.close();
 }
 ```
 
-The connection yields `VoiceAgentRealtimeEvent`: a known `VoiceAgentServerEvent` or a
-`VoiceAgentUnknownEvent` with `type: "unknown"`. For unknown events, `eventType` retains the
-original wire discriminator and `rawEvent` retains the complete parsed JSON payload, including
-its original `type`. No known-event field validation or normalization is applied to that payload;
-validate raw fields before using them and avoid logging sensitive payloads. Unknown events do not
-disconnect the session, so subsequent events and sends continue normally. Known `event.type`
-branches still narrow to their existing generated types. A handler accepting only
-`VoiceAgentServerEvent` can be called after excluding `event.type === "unknown"`.
+Read events with one `for await` loop. Leaving the loop closes the connection.
+Unknown event types arrive as `type: "unknown"` without disconnecting the session;
+their original type is in `eventType`. Validate `rawEvent` before using its fields.
+Malformed events throw `VoiceAgentProtocolError`. Handle service `error` events as shown above.
 
-Malformed JSON, missing or invalid discriminators, and malformed known events still fail the
-iteration with `VoiceAgentProtocolError`. Service `error` events remain typed events for the
-caller to handle; this fallback does not change which outbound events `sendEvent()` supports.
+To keep conversations, set `store: true` on the agent or on `connect()`, then use
+`project.beta.voiceAgents.conversations` to read them. Connecting to a disabled agent
+fails with `409 Conflict` and error code `agent_disabled`.
 
-Use `project.beta.voiceAgents.conversations` to inspect conversations for Voice Agents configured
-with `store: true`. Pass `store` on `connect()` to override the persisted agent's setting for a
-single session. If the target agent is disabled, the WebSocket handshake fails with `409 Conflict`
-and `error.code = agent_disabled`. See the package samples for generated-agent lifecycle, local
-function tools, and PCM audio streaming.
+Choose a complete sample for the task you want:
 
-Pass `query` to `connect()` to add query parameters to that connection's WebSocket upgrade URL.
-The following parameter names are illustrative; use names supported by your service or gateway:
+| Task                                                    | Node.js sample                                                                                                                                         |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Create and read an agent definition                     | [Configure a voice agent](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoice.ts)                     |
+| Generate an agent from a goal                           | [Generate a voice agent](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentGenerateVoice.ts)              |
+| Send speech and save the audio reply                    | [Realtime audio](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeAudio.ts)                 |
+| Send text and handle a function call                    | [Realtime text and tools](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeTextAndTools.ts) |
+| Inspect bindings and call history without placing calls | [Telephony](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentTelephony.ts)                               |
+
+#### Custom query parameters
+
+Pass `query` to add URL parameters for one connection. Use names supported by your
+service or gateway; the names below are examples:
 
 ```ts snippet:ReadmeSampleVoiceAgentQuery
 const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
-  agentSessionId: "session-123",
-  store: false,
   query: {
     custom_key: "custom value",
     custom_flag: true,
@@ -313,18 +308,105 @@ const connection = await project.beta.voiceAgents.realtime.connect("my-voice-age
 await connection.close();
 ```
 
-Values can be strings, finite numbers, or booleans and are URL-encoded automatically. A value
-overrides matching endpoint query parameters; `undefined` removes a matching parameter. The SDK
-snapshots these values when `connect()` is called and does not reuse them for later connections.
-Do not put secrets in query parameters, because URLs can appear in server or proxy logs.
+Values can be strings, finite numbers, or booleans. The SDK URL-encodes them and captures
+them when `connect()` is called. A value replaces a matching endpoint parameter;
+`undefined` removes it. These values are not reused for later connections.
 
-SDK-managed query names are reserved, case-insensitively: `api-version`, `agent_session_id`,
-`store`, `transport`, `x-agent-version-override`, `x-ms-client-sdk`, `authorization`, `api-key`,
-`foundry_features`, `foundry-features`, `client-request-id`, `x-ms-client-request-id`,
-`structured_input`, `structured_inputs`, `x-ms-voice-structured-inputs`, and names starting with `h-`. Supplying
-these names or unsupported values rejects `connect()` with `TypeError` before authentication.
-Use the existing typed options instead. In particular, use `structuredInputs` for agent prompt
-variables; custom query parameters do not automatically become prompt inputs.
+Use typed options such as `store`, `agentVersionOverride`, and `structuredInputs` instead
+of putting SDK settings in `query`. SDK and authentication parameter names, structured-input
+names, and names starting with `h-` are reserved regardless of case; using them throws
+`TypeError` before authentication. Custom query values do not become prompt variables.
+**Never put secrets in query parameters:** URLs can appear in server or proxy logs.
+
+### GPT Live voice agents
+
+Use `project.beta.voiceAgents.live` for GPT Live agents. When creating the agent, set
+`sub_protocol: "live"`, `model_type: "self_deployed"`, and `model` to your GPT Live
+deployment name. Creation requires `VoiceAgents=V1Preview`.
+
+This short example connects to an existing agent, adds instructions, and closes the
+session. Use the complete samples below to send text or speech and read the reply.
+
+```ts snippet:ReadmeSampleVoiceAgentLive
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+const connection = await project.beta.voiceAgents.live.connect("<GPT Live agent name>", {
+  store: false,
+});
+try {
+  await connection.appendInstructions("Keep your answers brief.");
+} finally {
+  await connection.close();
+}
+```
+
+#### Run a GPT Live sample
+
+Set `FOUNDRY_PROJECT_ENDPOINT` and `FOUNDRY_LIVE_MODEL` in `.env`.
+Use a **deployment name**, not a model catalog ID. The function sample also needs
+`FOUNDRY_LIVE_BACKEND_MODEL`. See [sample.env](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/sample.env)
+for these settings and optional audio file paths.
+
+| Task                                                    | Node.js sample                                                                                                                                    |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Send a greeting and print the spoken reply as text      | [GPT Live text](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveText.ts)                  |
+| Send a speech file and save the audio reply             | [GPT Live audio](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveAudio.ts)                |
+| Run a local function and let the agent speak the result | [GPT Live function calling](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveFunctions.ts) |
+
+From a built SDK checkout, run a sample with Node.js 22.18 or later:
+
+```shell
+node samples-dev/agents/agentVoiceLiveText.ts
+```
+
+Each sample creates and deletes its own agent. It prints captions but does not play
+sound through your speakers. The audio sample uses a recorded file, not a microphone,
+and reads and saves **raw mono PCM16LE at 24 kHz**, without a WAV or other file header.
+
+**Press Enter after the reply, or Ctrl+C, to stop. Usage is billable until the session
+closes.** Live needs continuous audio input, even for text and tools, so the samples
+send silence while idle. Live has no speech-finished event; a completed backend
+response does not mean the agent has finished speaking.
+
+#### Session controls and events
+
+`connect()` waits for `session.started`. Read the current settings from `connection.session`,
+including the selected managed agent and version when applicable. Read events with one
+`for await` loop or use `on`, `off`, and `once` listeners.
+
+| Task                                            | API or event                                                                              |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Send raw audio                                  | `sendAudio()`; Live detects speech boundaries, so no audio-buffer commit is needed        |
+| Read transcripts                                | `session.input_transcript.delta`, `session.output_transcript.delta`                       |
+| Receive audio                                   | `session.output_audio.delta`; decode the base64 data before saving or playing it          |
+| Add text context, rather than a user message    | `appendInstructions()`, `appendThinking()`, `appendCommentary()`                          |
+| Pause or resume audio processing                | `muteInputAudio()`, `unmuteInputAudio()`                                                  |
+| Update backend settings and transcript triggers | `configureSession()`; the initial model, audio format, and delegation owner cannot change |
+| Close the session                               | `close()`; waits for `session.closed` and rejects if finalization is not confirmed        |
+
+With Responses delegation, backend events arrive inside `response.event`. Use
+`sendResponseItem()` to add a user message and `requestResponse()` to ask for a reply.
+For a function call, wait for the calling backend response to finish, then use
+`sendToolOutput()` to return the result and request continuation. These methods require
+Responses delegation. For client-handled delegation, use `appendThinking()` or
+`appendCommentary()` and pass the delegation ID as `delegationId`.
+
+Live does not support Realtime's `response.cancel`. An abort signal cancels an SDK
+connection or send operation, not speech already being generated. To store Live
+conversations, enable `store` and use `project.beta.voiceAgents.liveConversations`;
+the service deployment must support persistence. Set `liveOptions` on `AIProjectClient`
+to change connection, session-start, and close timeouts.
+
+#### Browser authentication
+
+Use a browser credential such as `InteractiveBrowserCredential`. The SDK uses native
+`WebSocket` with `live` and short-lived bearer-token subprotocols, including in Web Workers.
+Node.js uses a bearer header instead. Do not supply `realtime` as a Live subprotocol,
+put tokens in URLs, or embed API keys, client secrets, or long-lived tokens in browser code.
+If direct browser authentication is unavailable, supply an authenticated backend relay
+through `webSocketFactory`.
 
 ### Using Agent tools
 
@@ -1466,11 +1548,10 @@ Each option is resolved using the following precedence order:
 
 #### Voice Agents tracing
 
-After configuring an OpenTelemetry provider/exporter as shown below, the existing
-`tracingOptions: { experimental: true }` setting also traces voice-agent generation,
-telephony mutations, conversation deletion, and realtime connections/responses.
-No separate feature flag is required. Users who do not call Voice Agents APIs
-receive no additional Voice Agents spans.
+Register an OpenTelemetry provider and exporter, then set
+`tracingOptions: { experimental: true }` on `AIProjectClient`. This traces voice-agent
+generation, telephony changes, conversation deletion, and Realtime sessions and responses.
+No separate Voice Agents tracing flag is needed.
 
 ```ts snippet:ReadmeSampleVoiceAgentTracing
 import { AIProjectClient } from "@azure/ai-projects";
@@ -1486,33 +1567,34 @@ const connection = await project.beta.voiceAgents.realtime.connect("<voice agent
 try {
   await connection.sendText("Hello.");
   for await (const event of connection) {
-    if (event.type === "response.done") break;
+    if (event.type === "error") {
+      throw new Error(event.error.message);
+    }
+    if (event.type === "response.done") {
+      if (event.response.status !== "completed") {
+        throw new Error(`Voice response ${event.response.status}.`);
+      }
+      break;
+    }
   }
 } finally {
   await connection.close();
 }
 ```
 
-Realtime creates a session span, a short connection child, and an `invoke_agent`
-child for each observed `response.created`/`response.done` pair. It records status,
-service IDs, token usage, aggregated audio bytes, and received-first-audio latency
-(from `response.created`, not user speech or playback). It does not create a span
-per audio chunk. Service IDs appear only in traces, not metric dimensions.
-REST and `project.beta.voiceAgents.realtime` use the same existing project-level
-`tracingOptions`; no additional options or per-realtime override are required.
-The independently constructed `VoiceAgentRealtimeClient` keeps its existing API
-and does not receive the project's tracing configuration.
+Realtime records a session span, a connection span, and an `invoke_agent` span per
+response, not per audio chunk. These include status, token usage, and audio byte counts.
+First-audio latency is measured from response creation to receipt, not from user speech
+or speaker playback. Service IDs appear in traces, not metric dimensions.
 
-The session's input message summary represents the latest observed input, not
-the full conversation history. New audio replaces an older transcript with audio
-metadata while its item ID is pending. A completed transcript replaces that
-metadata only when its item ID is correlated to the current input.
+REST and `project.beta.voiceAgents.realtime` share the project's tracing settings.
+A separately constructed `VoiceAgentRealtimeClient` does not inherit them.
+Input summaries describe the latest input, not the full conversation history.
 
-Message summaries omit content by default. Explicit `contentRecording: true` allows
-bounded text/transcripts and tool arguments/results; it may expose sensitive user
-information. Raw media, credentials, query values, telephone numbers, SDP, and raw
-error/close messages are never intentionally recorded by this instrumentation.
-Read/list calls continue using the existing HTTP pipeline tracing.
+Content recording is off by default. Enable `contentRecording: true` only if you intend
+to record text, transcripts, and tool arguments/results, which can contain sensitive data.
+Raw media, credentials, query values, telephone numbers, SDP, and raw error/close messages
+are not recorded. Read/list operations use the existing HTTP pipeline tracing.
 
 See [realtime tracing sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeWithTracing.ts)
 and [REST tracing sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRestWithTracing.ts).
