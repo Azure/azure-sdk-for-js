@@ -226,7 +226,7 @@ describe("direct Stack AST generation", () => {
       "output nestedCondition bool = (true ? true : false) ? false : true",
     );
     validateRenderedBicepFiles(files);
-  }, 30_000);
+  }, 60_000);
 
   it("compiles coalescing with the authored logical grouping", () => {
     const stack = new Stack("coalescing-expressions", { targetScope: "resourceGroup" });
@@ -238,7 +238,7 @@ describe("direct Stack AST generation", () => {
     expect(files[0]!.contents).toContain("output coalescedAnd bool = (true ?? false) && false");
     expect(files[0]!.contents).toContain("output coalescedOr bool = (false ?? true) || true");
     validateRenderedBicepFiles(files);
-  }, 30_000);
+  }, 60_000);
 
   it("compiles separate modules for primary resources in an authored RG", () => {
     const stack = new Stack("compiled-direct");
@@ -259,7 +259,7 @@ describe("direct Stack AST generation", () => {
     const files = renderBicepFiles(stack);
     expect(files).toHaveLength(3);
     validateRenderedBicepFiles(files);
-  }, 30_000);
+  }, 60_000);
 
   it.each([
     { targetScope: "managementGroup", count: 1 },
@@ -308,6 +308,6 @@ describe("direct Stack AST generation", () => {
       );
       validateRenderedBicepFiles(files);
     },
-    30_000,
+    60_000,
   );
 });

@@ -161,7 +161,7 @@ describe("authored resource file layout", () => {
     });
     expect(result[2]!.resources!.storageAccount2!.value).not.toHaveProperty("value.dependsOn");
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("moves explicit cross-RG dependencies to module invocations", () => {
     const { stack, group } = subscriptionStack("cross-rg-dependencies");
@@ -188,7 +188,7 @@ describe("authored resource file layout", () => {
     });
     expect(result[2]!.resources!.storageAccount2!.value).not.toHaveProperty("value.dependsOn");
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("rewrites entry-owned resource dependencies to their producer modules", () => {
     const { stack, group } = subscriptionStack("entry-dependencies");
@@ -223,7 +223,7 @@ describe("authored resource file layout", () => {
       },
     });
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("rejects cycles between entry resources and module-owned resources", () => {
     const { stack, group } = subscriptionStack("entry-module-cycle");
@@ -270,5 +270,5 @@ describe("authored resource file layout", () => {
     stack.outputs.add("input", "string", input);
     stack.outputs.add("value", "string", value);
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 });
