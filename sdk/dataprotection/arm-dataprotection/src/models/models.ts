@@ -4063,6 +4063,1011 @@ export function dppTrackedResourceListDeserializer(item: any): DppTrackedResourc
   };
 }
 
+/** Cross-tenant vault mapping resource for cross-tenant restore. */
+export interface CrossTenantVaultMapping extends ProxyResource {
+  /** CrossTenantVaultMapping properties. */
+  properties?: CrossTenantVaultMappingProperties;
+}
+
+export function crossTenantVaultMappingSerializer(item: CrossTenantVaultMapping): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : crossTenantVaultMappingPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function crossTenantVaultMappingDeserializer(item: any): CrossTenantVaultMapping {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : crossTenantVaultMappingPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Cross-tenant vault mapping properties for cross-tenant restore. */
+export interface CrossTenantVaultMappingProperties {
+  /** ARM resource ID of the source backup vault whose data can be restored across tenants. */
+  sourceVaultId: string;
+  /** ResourceGuardOperationRequests on which the MUA (LAC) check will be performed. */
+  resourceGuardOperationRequests?: string[];
+  /** Tenant ID of the source vault in the cross-tenant vault mapping. */
+  readonly sourceTenantId?: string;
+  /** Provisioning state of the cross-tenant vault mapping. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function crossTenantVaultMappingPropertiesSerializer(
+  item: CrossTenantVaultMappingProperties,
+): any {
+  return {
+    sourceVaultId: item["sourceVaultId"],
+    resourceGuardOperationRequests: !item["resourceGuardOperationRequests"]
+      ? item["resourceGuardOperationRequests"]
+      : item["resourceGuardOperationRequests"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function crossTenantVaultMappingPropertiesDeserializer(
+  item: any,
+): CrossTenantVaultMappingProperties {
+  return {
+    sourceVaultId: item["sourceVaultId"],
+    resourceGuardOperationRequests: !item["resourceGuardOperationRequests"]
+      ? item["resourceGuardOperationRequests"]
+      : item["resourceGuardOperationRequests"].map((p: any) => {
+          return p;
+        }),
+    sourceTenantId: item["sourceTenantId"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** List of cross-tenant vault mapping resources. */
+export interface _CrossTenantVaultMappingList extends DppResourceList {
+  /** List of resources. */
+  value?: CrossTenantVaultMapping[];
+}
+
+export function _crossTenantVaultMappingListDeserializer(item: any): _CrossTenantVaultMappingList {
+  return {
+    nextLink: item["nextLink"],
+    value: !item["value"] ? item["value"] : crossTenantVaultMappingArrayDeserializer(item["value"]),
+  };
+}
+
+export function crossTenantVaultMappingArraySerializer(
+  result: Array<CrossTenantVaultMapping>,
+): any[] {
+  return result.map((item) => {
+    return crossTenantVaultMappingSerializer(item);
+  });
+}
+
+export function crossTenantVaultMappingArrayDeserializer(
+  result: Array<CrossTenantVaultMapping>,
+): any[] {
+  return result.map((item) => {
+    return crossTenantVaultMappingDeserializer(item);
+  });
+}
+
+/**
+ * Request body for the remove cross-tenant vault mapping action. Carries the Resource Guard
+ * operation requests used for the MUA (multi-user authorization) check on the remove.
+ */
+export interface CrossTenantVaultMappingRemoveRequest {
+  /** Properties of the remove cross-tenant vault mapping request. */
+  properties?: CrossTenantVaultMappingRemoveRequestProperties;
+}
+
+export function crossTenantVaultMappingRemoveRequestSerializer(
+  item: CrossTenantVaultMappingRemoveRequest,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : crossTenantVaultMappingRemoveRequestPropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Properties of the remove cross-tenant vault mapping request. */
+export interface CrossTenantVaultMappingRemoveRequestProperties {
+  /** ResourceGuardOperationRequests on which the MUA (LAC) check will be performed for the remove. */
+  resourceGuardOperationRequests?: string[];
+}
+
+export function crossTenantVaultMappingRemoveRequestPropertiesSerializer(
+  item: CrossTenantVaultMappingRemoveRequestProperties,
+): any {
+  return {
+    resourceGuardOperationRequests: !item["resourceGuardOperationRequests"]
+      ? item["resourceGuardOperationRequests"]
+      : item["resourceGuardOperationRequests"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Response for the cross-tenant vault mapping status check, from the source vault side. */
+export interface CrossTenantVaultMappingStatusResponse {
+  /** Name of the cross-tenant vault mapping, if the source vault is mapped. */
+  mappingName?: string;
+  /** Current state of the cross-tenant vault mapping. */
+  mappingState?: VaultMappingState;
+}
+
+export function crossTenantVaultMappingStatusResponseDeserializer(
+  item: any,
+): CrossTenantVaultMappingStatusResponse {
+  return {
+    mappingName: item["mappingName"],
+    mappingState: item["mappingState"],
+  };
+}
+
+/** State of a cross-tenant vault mapping. */
+export enum KnownVaultMappingState {
+  /** The cross-tenant vault mapping is active. */
+  Active = "Active",
+  /** The cross-tenant vault mapping is inactive. */
+  Inactive = "Inactive",
+}
+
+/**
+ * State of a cross-tenant vault mapping. \
+ * {@link KnownVaultMappingState} can be used interchangeably with VaultMappingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: The cross-tenant vault mapping is active. \
+ * **Inactive**: The cross-tenant vault mapping is inactive.
+ */
+export type VaultMappingState = string;
+
+/** Cross-tenant BackupInstance resource list response. */
+export interface _CrossTenantBackupInstanceResourceList extends DppResourceList {
+  /** List of resources. */
+  value?: CrossTenantBackupInstanceResource[];
+}
+
+export function _crossTenantBackupInstanceResourceListDeserializer(
+  item: any,
+): _CrossTenantBackupInstanceResourceList {
+  return {
+    nextLink: item["nextLink"],
+    value: !item["value"]
+      ? item["value"]
+      : crossTenantBackupInstanceResourceArrayDeserializer(item["value"]),
+  };
+}
+
+export function crossTenantBackupInstanceResourceArrayDeserializer(
+  result: Array<CrossTenantBackupInstanceResource>,
+): any[] {
+  return result.map((item) => {
+    return crossTenantBackupInstanceResourceDeserializer(item);
+  });
+}
+
+/**
+ * BackupInstance resource as returned by the cross-tenant read surface; its
+ * properties exclude SecretStoreResource.value.
+ */
+export interface CrossTenantBackupInstanceResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: CrossTenantBackupInstance;
+  /** Proxy Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function crossTenantBackupInstanceResourceDeserializer(
+  item: any,
+): CrossTenantBackupInstanceResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : crossTenantBackupInstanceDeserializer(item["properties"]),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/**
+ * Cross-tenant read projection of BackupInstance. Spreads the shared model so new
+ * fields flow through automatically; only datasourceAuthCredentials is re-typed to
+ * the value-less CrossTenantAuthCredentials chain.
+ */
+export interface CrossTenantBackupInstance {
+  /** Gets or sets the Backup Instance friendly name. */
+  friendlyName?: string;
+  /** Gets or sets the data source information. */
+  dataSourceInfo: Datasource;
+  /** Gets or sets the data source set information. */
+  dataSourceSetInfo?: DatasourceSet;
+  /** Gets or sets the policy information. */
+  policyInfo: PolicyInfo;
+  /** ResourceGuardOperationRequests on which LAC check will be performed */
+  resourceGuardOperationRequests?: string[];
+  /** Specifies the protection status of the resource */
+  readonly protectionStatus?: ProtectionStatusDetails;
+  /** Specifies the current protection state of the resource */
+  readonly currentProtectionState?: CurrentProtectionState;
+  /** Specifies the protection error of the resource */
+  readonly protectionErrorDetails?: UserFacingError;
+  /** Specifies the provisioning state of the resource i.e. provisioning/updating/Succeeded/Failed */
+  readonly provisioningState?: string;
+  /** Specifies the type of validation. In case of DeepValidation, all validations from /validateForBackup API will run again. */
+  validationType?: ValidationType;
+  /**
+   * Contains information of the Identity Details for the BI.
+   * If it is null, default will be considered as System Assigned.
+   */
+  identityDetails?: IdentityDetails;
+  objectType: string;
+  /** Credentials to use to authenticate with data source provider. */
+  datasourceAuthCredentials?: CrossTenantAuthCredentialsUnion;
+}
+
+export function crossTenantBackupInstanceDeserializer(item: any): CrossTenantBackupInstance {
+  return {
+    friendlyName: item["friendlyName"],
+    dataSourceInfo: datasourceDeserializer(item["dataSourceInfo"]),
+    dataSourceSetInfo: !item["dataSourceSetInfo"]
+      ? item["dataSourceSetInfo"]
+      : datasourceSetDeserializer(item["dataSourceSetInfo"]),
+    policyInfo: policyInfoDeserializer(item["policyInfo"]),
+    resourceGuardOperationRequests: !item["resourceGuardOperationRequests"]
+      ? item["resourceGuardOperationRequests"]
+      : item["resourceGuardOperationRequests"].map((p: any) => {
+          return p;
+        }),
+    protectionStatus: !item["protectionStatus"]
+      ? item["protectionStatus"]
+      : protectionStatusDetailsDeserializer(item["protectionStatus"]),
+    currentProtectionState: item["currentProtectionState"],
+    protectionErrorDetails: !item["protectionErrorDetails"]
+      ? item["protectionErrorDetails"]
+      : userFacingErrorDeserializer(item["protectionErrorDetails"]),
+    provisioningState: item["provisioningState"],
+    validationType: item["validationType"],
+    identityDetails: !item["identityDetails"]
+      ? item["identityDetails"]
+      : identityDetailsDeserializer(item["identityDetails"]),
+    objectType: item["objectType"],
+    datasourceAuthCredentials: !item["datasourceAuthCredentials"]
+      ? item["datasourceAuthCredentials"]
+      : crossTenantAuthCredentialsUnionDeserializer(item["datasourceAuthCredentials"]),
+  };
+}
+
+/**
+ * Cross-tenant projection of the authentication-credentials discriminated base,
+ * forked so its secret-store subtype references the value-less
+ * CrossTenantSecretStoreResource. Mirror any new AuthCredentials subtype here.
+ */
+export interface CrossTenantAuthCredentials {
+  /** Type of the specific object - used for deserializing. */
+  /** The discriminator possible values: SecretStoreBasedAuthCredentials */
+  objectType: string;
+}
+
+export function crossTenantAuthCredentialsDeserializer(item: any): CrossTenantAuthCredentials {
+  return {
+    objectType: item["objectType"],
+  };
+}
+
+/** Alias for CrossTenantAuthCredentialsUnion */
+export type CrossTenantAuthCredentialsUnion =
+  CrossTenantSecretStoreBasedAuthCredentials | CrossTenantAuthCredentials;
+
+export function crossTenantAuthCredentialsUnionDeserializer(
+  item: any,
+): CrossTenantAuthCredentialsUnion {
+  switch (item["objectType"]) {
+    case "SecretStoreBasedAuthCredentials":
+      return crossTenantSecretStoreBasedAuthCredentialsDeserializer(
+        item as CrossTenantSecretStoreBasedAuthCredentials,
+      );
+
+    default:
+      return crossTenantAuthCredentialsDeserializer(item);
+  }
+}
+
+/**
+ * Cross-tenant projection of SecretStoreBasedAuthCredentials whose secret store
+ * omits `value`.
+ */
+export interface CrossTenantSecretStoreBasedAuthCredentials extends CrossTenantAuthCredentials {
+  /** Secret store resource (cross-tenant read projection, without `value`). */
+  secretStoreResource?: CrossTenantSecretStoreResource;
+  /** Type of the specific object - used for deserializing. */
+  objectType: "SecretStoreBasedAuthCredentials";
+}
+
+export function crossTenantSecretStoreBasedAuthCredentialsDeserializer(
+  item: any,
+): CrossTenantSecretStoreBasedAuthCredentials {
+  return {
+    objectType: item["objectType"],
+    secretStoreResource: !item["secretStoreResource"]
+      ? item["secretStoreResource"]
+      : crossTenantSecretStoreResourceDeserializer(item["secretStoreResource"]),
+  };
+}
+
+/**
+ * Cross-tenant projection of SecretStoreResource used only by the cross-tenant
+ * backup-instance read surface: the shared model minus `value` (a write-time
+ * credential the service never returns). Spread keeps uri/secretStoreType in sync.
+ */
+export interface CrossTenantSecretStoreResource {
+  /** Uri to get to the resource */
+  uri?: string;
+  /** Gets or sets the type of secret store */
+  secretStoreType: SecretStoreType;
+}
+
+export function crossTenantSecretStoreResourceDeserializer(
+  item: any,
+): CrossTenantSecretStoreResource {
+  return {
+    uri: item["uri"],
+    secretStoreType: item["secretStoreType"],
+  };
+}
+
+/** List Restore Ranges Request */
+export interface AzureBackupFindRestorableTimeRangesRequest {
+  /** Gets or sets the type of the source data store. */
+  sourceDataStoreType: RestoreSourceDataStoreType;
+  /** Start time for the List Restore Ranges request. ISO 8601 format. */
+  startTime?: string;
+  /** End time for the List Restore Ranges request. ISO 8601 format. */
+  endTime?: string;
+}
+
+export function azureBackupFindRestorableTimeRangesRequestSerializer(
+  item: AzureBackupFindRestorableTimeRangesRequest,
+): any {
+  return {
+    sourceDataStoreType: item["sourceDataStoreType"],
+    startTime: item["startTime"],
+    endTime: item["endTime"],
+  };
+}
+
+/** Gets or sets the type of the source data store. */
+export enum KnownRestoreSourceDataStoreType {
+  /** OperationalStore */
+  OperationalStore = "OperationalStore",
+  /** VaultStore */
+  VaultStore = "VaultStore",
+  /** ArchiveStore */
+  ArchiveStore = "ArchiveStore",
+}
+
+/**
+ * Gets or sets the type of the source data store. \
+ * {@link KnownRestoreSourceDataStoreType} can be used interchangeably with RestoreSourceDataStoreType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OperationalStore** \
+ * **VaultStore** \
+ * **ArchiveStore**
+ */
+export type RestoreSourceDataStoreType = string;
+
+/** List Restore Ranges Response */
+export interface AzureBackupFindRestorableTimeRangesResponseResource extends DppResource {
+  /** AzureBackupFindRestorableTimeRangesResponseResource properties */
+  properties?: AzureBackupFindRestorableTimeRangesResponse;
+}
+
+export function azureBackupFindRestorableTimeRangesResponseResourceDeserializer(
+  item: any,
+): AzureBackupFindRestorableTimeRangesResponseResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureBackupFindRestorableTimeRangesResponseDeserializer(item["properties"]),
+  };
+}
+
+/** List Restore Ranges Response */
+export interface AzureBackupFindRestorableTimeRangesResponse {
+  /** Returns the Restore Ranges available on the Backup Instance. */
+  restorableTimeRanges?: RestorableTimeRange[];
+  objectType?: string;
+}
+
+export function azureBackupFindRestorableTimeRangesResponseDeserializer(
+  item: any,
+): AzureBackupFindRestorableTimeRangesResponse {
+  return {
+    restorableTimeRanges: !item["restorableTimeRanges"]
+      ? item["restorableTimeRanges"]
+      : restorableTimeRangeArrayDeserializer(item["restorableTimeRanges"]),
+    objectType: item["objectType"],
+  };
+}
+
+export function restorableTimeRangeArrayDeserializer(result: Array<RestorableTimeRange>): any[] {
+  return result.map((item) => {
+    return restorableTimeRangeDeserializer(item);
+  });
+}
+
+/** model interface RestorableTimeRange */
+export interface RestorableTimeRange {
+  /** Start time for the available restore range */
+  startTime: string;
+  /** End time for the available restore range */
+  endTime: string;
+  objectType?: string;
+}
+
+export function restorableTimeRangeDeserializer(item: any): RestorableTimeRange {
+  return {
+    startTime: item["startTime"],
+    endTime: item["endTime"],
+    objectType: item["objectType"],
+  };
+}
+
+/** Resource class */
+export interface DppResource {
+  /** Resource Id represents the complete path to the resource. */
+  readonly id?: string;
+  /** Resource name associated with the resource. */
+  readonly name?: string;
+  /** Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/... */
+  readonly type?: string;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  readonly systemData?: SystemData;
+}
+
+export function dppResourceDeserializer(item: any): DppResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Azure backup recoveryPoint resource list */
+export interface _AzureBackupRecoveryPointResourceList extends DppResourceList {
+  /** List of resources. */
+  value?: AzureBackupRecoveryPointResource[];
+}
+
+export function _azureBackupRecoveryPointResourceListDeserializer(
+  item: any,
+): _AzureBackupRecoveryPointResourceList {
+  return {
+    nextLink: item["nextLink"],
+    value: !item["value"]
+      ? item["value"]
+      : azureBackupRecoveryPointResourceArrayDeserializer(item["value"]),
+  };
+}
+
+export function azureBackupRecoveryPointResourceArrayDeserializer(
+  result: Array<AzureBackupRecoveryPointResource>,
+): any[] {
+  return result.map((item) => {
+    return azureBackupRecoveryPointResourceDeserializer(item);
+  });
+}
+
+/** Azure backup recoveryPoint resource */
+export interface AzureBackupRecoveryPointResource extends ProxyResource {
+  /** AzureBackupRecoveryPointResource properties */
+  properties?: AzureBackupRecoveryPointUnion;
+}
+
+export function azureBackupRecoveryPointResourceDeserializer(
+  item: any,
+): AzureBackupRecoveryPointResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureBackupRecoveryPointUnionDeserializer(item["properties"]),
+  };
+}
+
+/** Azure backup recoveryPoint */
+export interface AzureBackupRecoveryPoint {
+  objectType: string;
+}
+
+export function azureBackupRecoveryPointDeserializer(item: any): AzureBackupRecoveryPoint {
+  return {
+    objectType: item["objectType"],
+  };
+}
+
+/** Alias for AzureBackupRecoveryPointUnion */
+export type AzureBackupRecoveryPointUnion =
+  AzureBackupDiscreteRecoveryPoint | AzureBackupRecoveryPoint;
+
+export function azureBackupRecoveryPointUnionDeserializer(
+  item: any,
+): AzureBackupRecoveryPointUnion {
+  switch (item["objectType"]) {
+    case "AzureBackupDiscreteRecoveryPoint":
+      return azureBackupDiscreteRecoveryPointDeserializer(item as AzureBackupDiscreteRecoveryPoint);
+
+    default:
+      return azureBackupRecoveryPointDeserializer(item);
+  }
+}
+
+/** Azure backup discrete RecoveryPoint */
+export interface AzureBackupDiscreteRecoveryPoint extends AzureBackupRecoveryPoint {
+  friendlyName?: string;
+  recoveryPointDataStoresDetails?: RecoveryPointDataStoreDetails[];
+  recoveryPointTime: Date;
+  policyName?: string;
+  policyVersion?: string;
+  recoveryPointId?: string;
+  recoveryPointType?: string;
+  retentionTagName?: string;
+  retentionTagVersion?: string;
+  readonly expiryTime?: Date;
+  /** Specifies recovery point completeness. Partial (i.e., only some of the intended items were backed up), or Completed (i.e., ALL intended items were backed up). */
+  recoveryPointState?: RecoveryPointCompletionState;
+  /** Immutability properties of the recovery point. */
+  readonly immutabilityProperties?: RecoveryPointImmutabilityProperties;
+  objectType: "AzureBackupDiscreteRecoveryPoint";
+}
+
+export function azureBackupDiscreteRecoveryPointDeserializer(
+  item: any,
+): AzureBackupDiscreteRecoveryPoint {
+  return {
+    objectType: item["objectType"],
+    friendlyName: item["friendlyName"],
+    recoveryPointDataStoresDetails: !item["recoveryPointDataStoresDetails"]
+      ? item["recoveryPointDataStoresDetails"]
+      : recoveryPointDataStoreDetailsArrayDeserializer(item["recoveryPointDataStoresDetails"]),
+    recoveryPointTime: new Date(item["recoveryPointTime"]),
+    policyName: item["policyName"],
+    policyVersion: item["policyVersion"],
+    recoveryPointId: item["recoveryPointId"],
+    recoveryPointType: item["recoveryPointType"],
+    retentionTagName: item["retentionTagName"],
+    retentionTagVersion: item["retentionTagVersion"],
+    expiryTime: !item["expiryTime"] ? item["expiryTime"] : new Date(item["expiryTime"]),
+    recoveryPointState: item["recoveryPointState"],
+    immutabilityProperties: !item["immutabilityProperties"]
+      ? item["immutabilityProperties"]
+      : recoveryPointImmutabilityPropertiesDeserializer(item["immutabilityProperties"]),
+  };
+}
+
+export function recoveryPointDataStoreDetailsArrayDeserializer(
+  result: Array<RecoveryPointDataStoreDetails>,
+): any[] {
+  return result.map((item) => {
+    return recoveryPointDataStoreDetailsDeserializer(item);
+  });
+}
+
+/** RecoveryPoint datastore details */
+export interface RecoveryPointDataStoreDetails {
+  creationTime?: Date;
+  expiryTime?: Date;
+  id?: string;
+  metaData?: string;
+  state?: string;
+  type?: string;
+  visible?: boolean;
+  readonly rehydrationExpiryTime?: Date;
+  readonly rehydrationStatus?: RehydrationStatus;
+}
+
+export function recoveryPointDataStoreDetailsDeserializer(
+  item: any,
+): RecoveryPointDataStoreDetails {
+  return {
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
+    expiryTime: !item["expiryTime"] ? item["expiryTime"] : new Date(item["expiryTime"]),
+    id: item["id"],
+    metaData: item["metaData"],
+    state: item["state"],
+    type: item["type"],
+    visible: item["visible"],
+    rehydrationExpiryTime: !item["rehydrationExpiryTime"]
+      ? item["rehydrationExpiryTime"]
+      : new Date(item["rehydrationExpiryTime"]),
+    rehydrationStatus: item["rehydrationStatus"],
+  };
+}
+
+/** Known values of {@link RehydrationStatus} that the service accepts. */
+export enum KnownRehydrationStatus {
+  /** CREATE_IN_PROGRESS */
+  CreateINProgress = "CREATE_IN_PROGRESS",
+  /** COMPLETED */
+  Completed = "COMPLETED",
+  /** DELETE_IN_PROGRESS */
+  DeleteINProgress = "DELETE_IN_PROGRESS",
+  /** DELETED */
+  Deleted = "DELETED",
+  /** FAILED */
+  Failed = "FAILED",
+}
+
+/** Type of RehydrationStatus */
+export type RehydrationStatus = string;
+
+/** Specifies recovery point completeness. Partial (i.e., only some of the intended items were backed up), or Completed (i.e., ALL intended items were backed up). */
+export enum KnownRecoveryPointCompletionState {
+  /** Completed */
+  Completed = "Completed",
+  /** Partial */
+  Partial = "Partial",
+}
+
+/**
+ * Specifies recovery point completeness. Partial (i.e., only some of the intended items were backed up), or Completed (i.e., ALL intended items were backed up). \
+ * {@link KnownRecoveryPointCompletionState} can be used interchangeably with RecoveryPointCompletionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Completed** \
+ * **Partial**
+ */
+export type RecoveryPointCompletionState = string;
+
+/** Immutability properties of a recovery point. */
+export interface RecoveryPointImmutabilityProperties {
+  /** Whether the recovery point is currently within its immutability window. */
+  isImmutable: boolean;
+  /**
+   * UTC time when the recovery point's immutability window expires.
+   * Null for AsPerPolicy vaults.
+   */
+  expiryTime?: Date;
+}
+
+export function recoveryPointImmutabilityPropertiesDeserializer(
+  item: any,
+): RecoveryPointImmutabilityProperties {
+  return {
+    isImmutable: item["isImmutable"],
+    expiryTime: !item["expiryTime"] ? item["expiryTime"] : new Date(item["expiryTime"]),
+  };
+}
+
+/** List of AzureBackup Job resources */
+export interface _AzureBackupJobResourceList extends DppResourceList {
+  /** List of resources. */
+  value?: AzureBackupJobResource[];
+}
+
+export function _azureBackupJobResourceListDeserializer(item: any): _AzureBackupJobResourceList {
+  return {
+    nextLink: item["nextLink"],
+    value: !item["value"] ? item["value"] : azureBackupJobResourceArrayDeserializer(item["value"]),
+  };
+}
+
+export function azureBackupJobResourceArrayDeserializer(
+  result: Array<AzureBackupJobResource>,
+): any[] {
+  return result.map((item) => {
+    return azureBackupJobResourceDeserializer(item);
+  });
+}
+
+/** AzureBackup Job Resource Class */
+export interface AzureBackupJobResource extends ProxyResource {
+  /** AzureBackupJobResource properties */
+  properties?: AzureBackupJob;
+}
+
+export function azureBackupJobResourceDeserializer(item: any): AzureBackupJobResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureBackupJobDeserializer(item["properties"]),
+  };
+}
+
+/** AzureBackup Job Class */
+export interface AzureBackupJob {
+  /** Job Activity Id */
+  activityID: string;
+  /** Name of the Backup Instance */
+  backupInstanceFriendlyName: string;
+  /** ARM ID of the Backup Instance */
+  readonly backupInstanceId?: string;
+  /** ARM ID of the DataSource */
+  dataSourceId: string;
+  /** Location of the DataSource */
+  dataSourceLocation: string;
+  /** User Friendly Name of the DataSource */
+  dataSourceName: string;
+  /** Data Source Set Name of the DataSource */
+  dataSourceSetName?: string;
+  /** Type of DataSource */
+  dataSourceType: string;
+  /** Total run time of the job. ISO 8601 format. */
+  duration?: string;
+  /** EndTime of the job(in UTC) */
+  readonly endTime?: Date;
+  /** A List, detailing the errors related to the job */
+  readonly errorDetails?: UserFacingError[];
+  /** Extended Information about the job */
+  readonly extendedInfo?: JobExtendedInfo;
+  /** Indicated that whether the job is adhoc(true) or scheduled(false) */
+  isUserTriggered: boolean;
+  /** It indicates the type of Job i.e. Backup:full/log/diff ;Restore:ALR/OLR; Tiering:Backup/Archive ; Management:ConfigureProtection/UnConfigure */
+  operation: string;
+  /** It indicates the type of Job i.e. Backup/Restore/Tiering/Management */
+  operationCategory: string;
+  /** ARM ID of the policy */
+  readonly policyId?: string;
+  /** Name of the policy */
+  readonly policyName?: string;
+  /** Indicated whether progress is enabled for the job */
+  progressEnabled: boolean;
+  /** Url which contains job's progress */
+  readonly progressUrl?: string;
+  /** Priority to be used for rehydration */
+  readonly rehydrationPriority?: string;
+  /** It indicates the sub type of operation i.e. in case of Restore it can be ALR/OLR */
+  readonly restoreType?: string;
+  /** Resource Group Name of the Datasource */
+  sourceResourceGroup: string;
+  /** SubscriptionId corresponding to the DataSource */
+  sourceSubscriptionID: string;
+  /** StartTime of the job(in UTC) */
+  startTime: Date;
+  /** Status of the job like InProgress/Completed/Failed/Cancelled/CompletedWithWarnings/Cancelling/Paused */
+  status: string;
+  /** Subscription Id of the corresponding backup vault */
+  subscriptionId: string;
+  /** List of supported actions */
+  supportedActions: string[];
+  /** Name of the vault */
+  vaultName: string;
+  etag?: string;
+  sourceDataStoreName?: string;
+  destinationDataStoreName?: string;
+}
+
+export function azureBackupJobDeserializer(item: any): AzureBackupJob {
+  return {
+    activityID: item["activityID"],
+    backupInstanceFriendlyName: item["backupInstanceFriendlyName"],
+    backupInstanceId: item["backupInstanceId"],
+    dataSourceId: item["dataSourceId"],
+    dataSourceLocation: item["dataSourceLocation"],
+    dataSourceName: item["dataSourceName"],
+    dataSourceSetName: item["dataSourceSetName"],
+    dataSourceType: item["dataSourceType"],
+    duration: item["duration"],
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    errorDetails: !item["errorDetails"]
+      ? item["errorDetails"]
+      : userFacingErrorArrayDeserializer(item["errorDetails"]),
+    extendedInfo: !item["extendedInfo"]
+      ? item["extendedInfo"]
+      : jobExtendedInfoDeserializer(item["extendedInfo"]),
+    isUserTriggered: item["isUserTriggered"],
+    operation: item["operation"],
+    operationCategory: item["operationCategory"],
+    policyId: item["policyId"],
+    policyName: item["policyName"],
+    progressEnabled: item["progressEnabled"],
+    progressUrl: item["progressUrl"],
+    rehydrationPriority: item["rehydrationPriority"],
+    restoreType: item["restoreType"],
+    sourceResourceGroup: item["sourceResourceGroup"],
+    sourceSubscriptionID: item["sourceSubscriptionID"],
+    startTime: new Date(item["startTime"]),
+    status: item["status"],
+    subscriptionId: item["subscriptionId"],
+    supportedActions: item["supportedActions"].map((p: any) => {
+      return p;
+    }),
+    vaultName: item["vaultName"],
+    etag: item["etag"],
+    sourceDataStoreName: item["sourceDataStoreName"],
+    destinationDataStoreName: item["destinationDataStoreName"],
+  };
+}
+
+/** Extended Information about the job */
+export interface JobExtendedInfo {
+  /** Job's Additional Details */
+  additionalDetails?: Record<string, string>;
+  /** State of the Backup Instance */
+  readonly backupInstanceState?: string;
+  /** Number of bytes transferred */
+  readonly dataTransferredInBytes?: number;
+  /** Destination where restore is done */
+  readonly recoveryDestination?: string;
+  /** Details of the Source Recovery Point */
+  readonly sourceRecoverPoint?: RestoreJobRecoveryPointDetails;
+  /** List of Sub Tasks of the job */
+  readonly subTasks?: JobSubTask[];
+  /** Details of the Target Recovery Point */
+  readonly targetRecoverPoint?: RestoreJobRecoveryPointDetails;
+  /** A List, detailing the warnings related to the job */
+  readonly warningDetails?: UserFacingWarningDetail[];
+}
+
+export function jobExtendedInfoDeserializer(item: any): JobExtendedInfo {
+  return {
+    additionalDetails: !item["additionalDetails"]
+      ? item["additionalDetails"]
+      : Object.fromEntries(
+          Object.entries(item["additionalDetails"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    backupInstanceState: item["backupInstanceState"],
+    dataTransferredInBytes: item["dataTransferredInBytes"],
+    recoveryDestination: item["recoveryDestination"],
+    sourceRecoverPoint: !item["sourceRecoverPoint"]
+      ? item["sourceRecoverPoint"]
+      : restoreJobRecoveryPointDetailsDeserializer(item["sourceRecoverPoint"]),
+    subTasks: !item["subTasks"] ? item["subTasks"] : jobSubTaskArrayDeserializer(item["subTasks"]),
+    targetRecoverPoint: !item["targetRecoverPoint"]
+      ? item["targetRecoverPoint"]
+      : restoreJobRecoveryPointDetailsDeserializer(item["targetRecoverPoint"]),
+    warningDetails: !item["warningDetails"]
+      ? item["warningDetails"]
+      : userFacingWarningDetailArrayDeserializer(item["warningDetails"]),
+  };
+}
+
+/** model interface RestoreJobRecoveryPointDetails */
+export interface RestoreJobRecoveryPointDetails {
+  recoveryPointID?: string;
+  recoveryPointTime?: Date;
+}
+
+export function restoreJobRecoveryPointDetailsDeserializer(
+  item: any,
+): RestoreJobRecoveryPointDetails {
+  return {
+    recoveryPointID: item["recoveryPointID"],
+    recoveryPointTime: !item["recoveryPointTime"]
+      ? item["recoveryPointTime"]
+      : new Date(item["recoveryPointTime"]),
+  };
+}
+
+export function jobSubTaskArrayDeserializer(result: Array<JobSubTask>): any[] {
+  return result.map((item) => {
+    return jobSubTaskDeserializer(item);
+  });
+}
+
+/** Details of Job's Sub Task */
+export interface JobSubTask {
+  /** Additional details of Sub Tasks */
+  additionalDetails?: Record<string, string>;
+  /** Task Id of the Sub Task */
+  taskId: number;
+  /** Name of the Sub Task */
+  taskName: string;
+  /** Progress of the Sub Task */
+  readonly taskProgress?: string;
+  /** Status of the Sub Task */
+  taskStatus: string;
+}
+
+export function jobSubTaskDeserializer(item: any): JobSubTask {
+  return {
+    additionalDetails: !item["additionalDetails"]
+      ? item["additionalDetails"]
+      : Object.fromEntries(
+          Object.entries(item["additionalDetails"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    taskId: item["taskId"],
+    taskName: item["taskName"],
+    taskProgress: item["taskProgress"],
+    taskStatus: item["taskStatus"],
+  };
+}
+
+export function userFacingWarningDetailArrayDeserializer(
+  result: Array<UserFacingWarningDetail>,
+): any[] {
+  return result.map((item) => {
+    return userFacingWarningDetailDeserializer(item);
+  });
+}
+
+/** Warning object used by layers that have access to localized content, and propagate that to user */
+export interface UserFacingWarningDetail {
+  /** Name of resource for which warning is raised. */
+  resourceName?: string;
+  /** Error details for the warning. */
+  warning: UserFacingError;
+}
+
+export function userFacingWarningDetailDeserializer(item: any): UserFacingWarningDetail {
+  return {
+    resourceName: item["resourceName"],
+    warning: userFacingErrorDeserializer(item["warning"]),
+  };
+}
+
+/** Operation Resource */
+export interface OperationResource {
+  /** End time of the operation */
+  endTime?: Date;
+  /**
+   * Required if status == failed or status == canceled. This is the OData v4 error format, used by the RPC and will go into the v2.2 Azure REST API guidelines.
+   * The full set of optional properties (e.g. inner errors / details) can be found in the `Error Response` section.
+   */
+  error?: ErrorModel;
+  /** It should match what is used to GET the operation result */
+  id?: string;
+  /** It must match the last segment of the `id` field, and will typically be a GUID / system generated value. */
+  name?: string;
+  /** End time of the operation */
+  properties?: OperationExtendedInfoUnion;
+  /** Start time of the operation */
+  startTime?: Date;
+  status?: string;
+}
+
+export function operationResourceDeserializer(item: any): OperationResource {
+  return {
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    id: item["id"],
+    name: item["name"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : operationExtendedInfoUnionDeserializer(item["properties"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    status: item["status"],
+  };
+}
+
 /** Patch Request content for Microsoft.DataProtection resources */
 export interface PatchResourceRequestInput {
   /** Input Managed Identity Details */
@@ -4171,40 +5176,6 @@ export function checkNameAvailabilityResultDeserializer(item: any): CheckNameAva
     message: item["message"],
     nameAvailable: item["nameAvailable"],
     reason: item["reason"],
-  };
-}
-
-/** Operation Resource */
-export interface OperationResource {
-  /** End time of the operation */
-  endTime?: Date;
-  /**
-   * Required if status == failed or status == canceled. This is the OData v4 error format, used by the RPC and will go into the v2.2 Azure REST API guidelines.
-   * The full set of optional properties (e.g. inner errors / details) can be found in the `Error Response` section.
-   */
-  error?: ErrorModel;
-  /** It should match what is used to GET the operation result */
-  id?: string;
-  /** It must match the last segment of the `id` field, and will typically be a GUID / system generated value. */
-  name?: string;
-  /** End time of the operation */
-  properties?: OperationExtendedInfoUnion;
-  /** Start time of the operation */
-  startTime?: Date;
-  status?: string;
-}
-
-export function operationResourceDeserializer(item: any): OperationResource {
-  return {
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
-    id: item["id"],
-    name: item["name"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : operationExtendedInfoUnionDeserializer(item["properties"]),
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    status: item["status"],
   };
 }
 
@@ -5296,607 +6267,6 @@ export function baseBackupPolicyResourceArrayDeserializer(
   });
 }
 
-/** List Restore Ranges Request */
-export interface AzureBackupFindRestorableTimeRangesRequest {
-  /** Gets or sets the type of the source data store. */
-  sourceDataStoreType: RestoreSourceDataStoreType;
-  /** Start time for the List Restore Ranges request. ISO 8601 format. */
-  startTime?: string;
-  /** End time for the List Restore Ranges request. ISO 8601 format. */
-  endTime?: string;
-}
-
-export function azureBackupFindRestorableTimeRangesRequestSerializer(
-  item: AzureBackupFindRestorableTimeRangesRequest,
-): any {
-  return {
-    sourceDataStoreType: item["sourceDataStoreType"],
-    startTime: item["startTime"],
-    endTime: item["endTime"],
-  };
-}
-
-/** Gets or sets the type of the source data store. */
-export enum KnownRestoreSourceDataStoreType {
-  /** OperationalStore */
-  OperationalStore = "OperationalStore",
-  /** VaultStore */
-  VaultStore = "VaultStore",
-  /** ArchiveStore */
-  ArchiveStore = "ArchiveStore",
-}
-
-/**
- * Gets or sets the type of the source data store. \
- * {@link KnownRestoreSourceDataStoreType} can be used interchangeably with RestoreSourceDataStoreType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **OperationalStore** \
- * **VaultStore** \
- * **ArchiveStore**
- */
-export type RestoreSourceDataStoreType = string;
-
-/** List Restore Ranges Response */
-export interface AzureBackupFindRestorableTimeRangesResponseResource extends DppResource {
-  /** AzureBackupFindRestorableTimeRangesResponseResource properties */
-  properties?: AzureBackupFindRestorableTimeRangesResponse;
-}
-
-export function azureBackupFindRestorableTimeRangesResponseResourceDeserializer(
-  item: any,
-): AzureBackupFindRestorableTimeRangesResponseResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : azureBackupFindRestorableTimeRangesResponseDeserializer(item["properties"]),
-  };
-}
-
-/** List Restore Ranges Response */
-export interface AzureBackupFindRestorableTimeRangesResponse {
-  /** Returns the Restore Ranges available on the Backup Instance. */
-  restorableTimeRanges?: RestorableTimeRange[];
-  objectType?: string;
-}
-
-export function azureBackupFindRestorableTimeRangesResponseDeserializer(
-  item: any,
-): AzureBackupFindRestorableTimeRangesResponse {
-  return {
-    restorableTimeRanges: !item["restorableTimeRanges"]
-      ? item["restorableTimeRanges"]
-      : restorableTimeRangeArrayDeserializer(item["restorableTimeRanges"]),
-    objectType: item["objectType"],
-  };
-}
-
-export function restorableTimeRangeArrayDeserializer(result: Array<RestorableTimeRange>): any[] {
-  return result.map((item) => {
-    return restorableTimeRangeDeserializer(item);
-  });
-}
-
-/** model interface RestorableTimeRange */
-export interface RestorableTimeRange {
-  /** Start time for the available restore range */
-  startTime: string;
-  /** End time for the available restore range */
-  endTime: string;
-  objectType?: string;
-}
-
-export function restorableTimeRangeDeserializer(item: any): RestorableTimeRange {
-  return {
-    startTime: item["startTime"],
-    endTime: item["endTime"],
-    objectType: item["objectType"],
-  };
-}
-
-/** Resource class */
-export interface DppResource {
-  /** Resource Id represents the complete path to the resource. */
-  readonly id?: string;
-  /** Resource name associated with the resource. */
-  readonly name?: string;
-  /** Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/... */
-  readonly type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  readonly systemData?: SystemData;
-}
-
-export function dppResourceDeserializer(item: any): DppResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Azure backup recoveryPoint resource */
-export interface AzureBackupRecoveryPointResource extends ProxyResource {
-  /** AzureBackupRecoveryPointResource properties */
-  properties?: AzureBackupRecoveryPointUnion;
-}
-
-export function azureBackupRecoveryPointResourceDeserializer(
-  item: any,
-): AzureBackupRecoveryPointResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : azureBackupRecoveryPointUnionDeserializer(item["properties"]),
-  };
-}
-
-/** Azure backup recoveryPoint */
-export interface AzureBackupRecoveryPoint {
-  objectType: string;
-}
-
-export function azureBackupRecoveryPointDeserializer(item: any): AzureBackupRecoveryPoint {
-  return {
-    objectType: item["objectType"],
-  };
-}
-
-/** Alias for AzureBackupRecoveryPointUnion */
-export type AzureBackupRecoveryPointUnion =
-  AzureBackupDiscreteRecoveryPoint | AzureBackupRecoveryPoint;
-
-export function azureBackupRecoveryPointUnionDeserializer(
-  item: any,
-): AzureBackupRecoveryPointUnion {
-  switch (item["objectType"]) {
-    case "AzureBackupDiscreteRecoveryPoint":
-      return azureBackupDiscreteRecoveryPointDeserializer(item as AzureBackupDiscreteRecoveryPoint);
-
-    default:
-      return azureBackupRecoveryPointDeserializer(item);
-  }
-}
-
-/** Azure backup discrete RecoveryPoint */
-export interface AzureBackupDiscreteRecoveryPoint extends AzureBackupRecoveryPoint {
-  friendlyName?: string;
-  recoveryPointDataStoresDetails?: RecoveryPointDataStoreDetails[];
-  recoveryPointTime: Date;
-  policyName?: string;
-  policyVersion?: string;
-  recoveryPointId?: string;
-  recoveryPointType?: string;
-  retentionTagName?: string;
-  retentionTagVersion?: string;
-  readonly expiryTime?: Date;
-  /** Specifies recovery point completeness. Partial (i.e., only some of the intended items were backed up), or Completed (i.e., ALL intended items were backed up). */
-  recoveryPointState?: RecoveryPointCompletionState;
-  /** Immutability properties of the recovery point. */
-  readonly immutabilityProperties?: RecoveryPointImmutabilityProperties;
-  objectType: "AzureBackupDiscreteRecoveryPoint";
-}
-
-export function azureBackupDiscreteRecoveryPointDeserializer(
-  item: any,
-): AzureBackupDiscreteRecoveryPoint {
-  return {
-    objectType: item["objectType"],
-    friendlyName: item["friendlyName"],
-    recoveryPointDataStoresDetails: !item["recoveryPointDataStoresDetails"]
-      ? item["recoveryPointDataStoresDetails"]
-      : recoveryPointDataStoreDetailsArrayDeserializer(item["recoveryPointDataStoresDetails"]),
-    recoveryPointTime: new Date(item["recoveryPointTime"]),
-    policyName: item["policyName"],
-    policyVersion: item["policyVersion"],
-    recoveryPointId: item["recoveryPointId"],
-    recoveryPointType: item["recoveryPointType"],
-    retentionTagName: item["retentionTagName"],
-    retentionTagVersion: item["retentionTagVersion"],
-    expiryTime: !item["expiryTime"] ? item["expiryTime"] : new Date(item["expiryTime"]),
-    recoveryPointState: item["recoveryPointState"],
-    immutabilityProperties: !item["immutabilityProperties"]
-      ? item["immutabilityProperties"]
-      : recoveryPointImmutabilityPropertiesDeserializer(item["immutabilityProperties"]),
-  };
-}
-
-export function recoveryPointDataStoreDetailsArrayDeserializer(
-  result: Array<RecoveryPointDataStoreDetails>,
-): any[] {
-  return result.map((item) => {
-    return recoveryPointDataStoreDetailsDeserializer(item);
-  });
-}
-
-/** RecoveryPoint datastore details */
-export interface RecoveryPointDataStoreDetails {
-  creationTime?: Date;
-  expiryTime?: Date;
-  id?: string;
-  metaData?: string;
-  state?: string;
-  type?: string;
-  visible?: boolean;
-  readonly rehydrationExpiryTime?: Date;
-  readonly rehydrationStatus?: RehydrationStatus;
-}
-
-export function recoveryPointDataStoreDetailsDeserializer(
-  item: any,
-): RecoveryPointDataStoreDetails {
-  return {
-    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
-    expiryTime: !item["expiryTime"] ? item["expiryTime"] : new Date(item["expiryTime"]),
-    id: item["id"],
-    metaData: item["metaData"],
-    state: item["state"],
-    type: item["type"],
-    visible: item["visible"],
-    rehydrationExpiryTime: !item["rehydrationExpiryTime"]
-      ? item["rehydrationExpiryTime"]
-      : new Date(item["rehydrationExpiryTime"]),
-    rehydrationStatus: item["rehydrationStatus"],
-  };
-}
-
-/** Known values of {@link RehydrationStatus} that the service accepts. */
-export enum KnownRehydrationStatus {
-  /** CREATE_IN_PROGRESS */
-  CreateINProgress = "CREATE_IN_PROGRESS",
-  /** COMPLETED */
-  Completed = "COMPLETED",
-  /** DELETE_IN_PROGRESS */
-  DeleteINProgress = "DELETE_IN_PROGRESS",
-  /** DELETED */
-  Deleted = "DELETED",
-  /** FAILED */
-  Failed = "FAILED",
-}
-
-/** Type of RehydrationStatus */
-export type RehydrationStatus = string;
-
-/** Specifies recovery point completeness. Partial (i.e., only some of the intended items were backed up), or Completed (i.e., ALL intended items were backed up). */
-export enum KnownRecoveryPointCompletionState {
-  /** Completed */
-  Completed = "Completed",
-  /** Partial */
-  Partial = "Partial",
-}
-
-/**
- * Specifies recovery point completeness. Partial (i.e., only some of the intended items were backed up), or Completed (i.e., ALL intended items were backed up). \
- * {@link KnownRecoveryPointCompletionState} can be used interchangeably with RecoveryPointCompletionState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Completed** \
- * **Partial**
- */
-export type RecoveryPointCompletionState = string;
-
-/** Immutability properties of a recovery point. */
-export interface RecoveryPointImmutabilityProperties {
-  /** Whether the recovery point is currently within its immutability window. */
-  isImmutable: boolean;
-  /**
-   * UTC time when the recovery point's immutability window expires.
-   * Null for AsPerPolicy vaults.
-   */
-  expiryTime?: Date;
-}
-
-export function recoveryPointImmutabilityPropertiesDeserializer(
-  item: any,
-): RecoveryPointImmutabilityProperties {
-  return {
-    isImmutable: item["isImmutable"],
-    expiryTime: !item["expiryTime"] ? item["expiryTime"] : new Date(item["expiryTime"]),
-  };
-}
-
-/** Azure backup recoveryPoint resource list */
-export interface _AzureBackupRecoveryPointResourceList extends DppResourceList {
-  /** List of resources. */
-  value?: AzureBackupRecoveryPointResource[];
-}
-
-export function _azureBackupRecoveryPointResourceListDeserializer(
-  item: any,
-): _AzureBackupRecoveryPointResourceList {
-  return {
-    nextLink: item["nextLink"],
-    value: !item["value"]
-      ? item["value"]
-      : azureBackupRecoveryPointResourceArrayDeserializer(item["value"]),
-  };
-}
-
-export function azureBackupRecoveryPointResourceArrayDeserializer(
-  result: Array<AzureBackupRecoveryPointResource>,
-): any[] {
-  return result.map((item) => {
-    return azureBackupRecoveryPointResourceDeserializer(item);
-  });
-}
-
-/** AzureBackup Job Resource Class */
-export interface AzureBackupJobResource extends ProxyResource {
-  /** AzureBackupJobResource properties */
-  properties?: AzureBackupJob;
-}
-
-export function azureBackupJobResourceDeserializer(item: any): AzureBackupJobResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : azureBackupJobDeserializer(item["properties"]),
-  };
-}
-
-/** AzureBackup Job Class */
-export interface AzureBackupJob {
-  /** Job Activity Id */
-  activityID: string;
-  /** Name of the Backup Instance */
-  backupInstanceFriendlyName: string;
-  /** ARM ID of the Backup Instance */
-  readonly backupInstanceId?: string;
-  /** ARM ID of the DataSource */
-  dataSourceId: string;
-  /** Location of the DataSource */
-  dataSourceLocation: string;
-  /** User Friendly Name of the DataSource */
-  dataSourceName: string;
-  /** Data Source Set Name of the DataSource */
-  dataSourceSetName?: string;
-  /** Type of DataSource */
-  dataSourceType: string;
-  /** Total run time of the job. ISO 8601 format. */
-  duration?: string;
-  /** EndTime of the job(in UTC) */
-  readonly endTime?: Date;
-  /** A List, detailing the errors related to the job */
-  readonly errorDetails?: UserFacingError[];
-  /** Extended Information about the job */
-  readonly extendedInfo?: JobExtendedInfo;
-  /** Indicated that whether the job is adhoc(true) or scheduled(false) */
-  isUserTriggered: boolean;
-  /** It indicates the type of Job i.e. Backup:full/log/diff ;Restore:ALR/OLR; Tiering:Backup/Archive ; Management:ConfigureProtection/UnConfigure */
-  operation: string;
-  /** It indicates the type of Job i.e. Backup/Restore/Tiering/Management */
-  operationCategory: string;
-  /** ARM ID of the policy */
-  readonly policyId?: string;
-  /** Name of the policy */
-  readonly policyName?: string;
-  /** Indicated whether progress is enabled for the job */
-  progressEnabled: boolean;
-  /** Url which contains job's progress */
-  readonly progressUrl?: string;
-  /** Priority to be used for rehydration */
-  readonly rehydrationPriority?: string;
-  /** It indicates the sub type of operation i.e. in case of Restore it can be ALR/OLR */
-  readonly restoreType?: string;
-  /** Resource Group Name of the Datasource */
-  sourceResourceGroup: string;
-  /** SubscriptionId corresponding to the DataSource */
-  sourceSubscriptionID: string;
-  /** StartTime of the job(in UTC) */
-  startTime: Date;
-  /** Status of the job like InProgress/Completed/Failed/Cancelled/CompletedWithWarnings/Cancelling/Paused */
-  status: string;
-  /** Subscription Id of the corresponding backup vault */
-  subscriptionId: string;
-  /** List of supported actions */
-  supportedActions: string[];
-  /** Name of the vault */
-  vaultName: string;
-  etag?: string;
-  sourceDataStoreName?: string;
-  destinationDataStoreName?: string;
-}
-
-export function azureBackupJobDeserializer(item: any): AzureBackupJob {
-  return {
-    activityID: item["activityID"],
-    backupInstanceFriendlyName: item["backupInstanceFriendlyName"],
-    backupInstanceId: item["backupInstanceId"],
-    dataSourceId: item["dataSourceId"],
-    dataSourceLocation: item["dataSourceLocation"],
-    dataSourceName: item["dataSourceName"],
-    dataSourceSetName: item["dataSourceSetName"],
-    dataSourceType: item["dataSourceType"],
-    duration: item["duration"],
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    errorDetails: !item["errorDetails"]
-      ? item["errorDetails"]
-      : userFacingErrorArrayDeserializer(item["errorDetails"]),
-    extendedInfo: !item["extendedInfo"]
-      ? item["extendedInfo"]
-      : jobExtendedInfoDeserializer(item["extendedInfo"]),
-    isUserTriggered: item["isUserTriggered"],
-    operation: item["operation"],
-    operationCategory: item["operationCategory"],
-    policyId: item["policyId"],
-    policyName: item["policyName"],
-    progressEnabled: item["progressEnabled"],
-    progressUrl: item["progressUrl"],
-    rehydrationPriority: item["rehydrationPriority"],
-    restoreType: item["restoreType"],
-    sourceResourceGroup: item["sourceResourceGroup"],
-    sourceSubscriptionID: item["sourceSubscriptionID"],
-    startTime: new Date(item["startTime"]),
-    status: item["status"],
-    subscriptionId: item["subscriptionId"],
-    supportedActions: item["supportedActions"].map((p: any) => {
-      return p;
-    }),
-    vaultName: item["vaultName"],
-    etag: item["etag"],
-    sourceDataStoreName: item["sourceDataStoreName"],
-    destinationDataStoreName: item["destinationDataStoreName"],
-  };
-}
-
-/** Extended Information about the job */
-export interface JobExtendedInfo {
-  /** Job's Additional Details */
-  additionalDetails?: Record<string, string>;
-  /** State of the Backup Instance */
-  readonly backupInstanceState?: string;
-  /** Number of bytes transferred */
-  readonly dataTransferredInBytes?: number;
-  /** Destination where restore is done */
-  readonly recoveryDestination?: string;
-  /** Details of the Source Recovery Point */
-  readonly sourceRecoverPoint?: RestoreJobRecoveryPointDetails;
-  /** List of Sub Tasks of the job */
-  readonly subTasks?: JobSubTask[];
-  /** Details of the Target Recovery Point */
-  readonly targetRecoverPoint?: RestoreJobRecoveryPointDetails;
-  /** A List, detailing the warnings related to the job */
-  readonly warningDetails?: UserFacingWarningDetail[];
-}
-
-export function jobExtendedInfoDeserializer(item: any): JobExtendedInfo {
-  return {
-    additionalDetails: !item["additionalDetails"]
-      ? item["additionalDetails"]
-      : Object.fromEntries(
-          Object.entries(item["additionalDetails"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    backupInstanceState: item["backupInstanceState"],
-    dataTransferredInBytes: item["dataTransferredInBytes"],
-    recoveryDestination: item["recoveryDestination"],
-    sourceRecoverPoint: !item["sourceRecoverPoint"]
-      ? item["sourceRecoverPoint"]
-      : restoreJobRecoveryPointDetailsDeserializer(item["sourceRecoverPoint"]),
-    subTasks: !item["subTasks"] ? item["subTasks"] : jobSubTaskArrayDeserializer(item["subTasks"]),
-    targetRecoverPoint: !item["targetRecoverPoint"]
-      ? item["targetRecoverPoint"]
-      : restoreJobRecoveryPointDetailsDeserializer(item["targetRecoverPoint"]),
-    warningDetails: !item["warningDetails"]
-      ? item["warningDetails"]
-      : userFacingWarningDetailArrayDeserializer(item["warningDetails"]),
-  };
-}
-
-/** model interface RestoreJobRecoveryPointDetails */
-export interface RestoreJobRecoveryPointDetails {
-  recoveryPointID?: string;
-  recoveryPointTime?: Date;
-}
-
-export function restoreJobRecoveryPointDetailsDeserializer(
-  item: any,
-): RestoreJobRecoveryPointDetails {
-  return {
-    recoveryPointID: item["recoveryPointID"],
-    recoveryPointTime: !item["recoveryPointTime"]
-      ? item["recoveryPointTime"]
-      : new Date(item["recoveryPointTime"]),
-  };
-}
-
-export function jobSubTaskArrayDeserializer(result: Array<JobSubTask>): any[] {
-  return result.map((item) => {
-    return jobSubTaskDeserializer(item);
-  });
-}
-
-/** Details of Job's Sub Task */
-export interface JobSubTask {
-  /** Additional details of Sub Tasks */
-  additionalDetails?: Record<string, string>;
-  /** Task Id of the Sub Task */
-  taskId: number;
-  /** Name of the Sub Task */
-  taskName: string;
-  /** Progress of the Sub Task */
-  readonly taskProgress?: string;
-  /** Status of the Sub Task */
-  taskStatus: string;
-}
-
-export function jobSubTaskDeserializer(item: any): JobSubTask {
-  return {
-    additionalDetails: !item["additionalDetails"]
-      ? item["additionalDetails"]
-      : Object.fromEntries(
-          Object.entries(item["additionalDetails"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    taskId: item["taskId"],
-    taskName: item["taskName"],
-    taskProgress: item["taskProgress"],
-    taskStatus: item["taskStatus"],
-  };
-}
-
-export function userFacingWarningDetailArrayDeserializer(
-  result: Array<UserFacingWarningDetail>,
-): any[] {
-  return result.map((item) => {
-    return userFacingWarningDetailDeserializer(item);
-  });
-}
-
-/** Warning object used by layers that have access to localized content, and propagate that to user */
-export interface UserFacingWarningDetail {
-  /** Name of resource for which warning is raised. */
-  resourceName?: string;
-  /** Error details for the warning. */
-  warning: UserFacingError;
-}
-
-export function userFacingWarningDetailDeserializer(item: any): UserFacingWarningDetail {
-  return {
-    resourceName: item["resourceName"],
-    warning: userFacingErrorDeserializer(item["warning"]),
-  };
-}
-
-/** List of AzureBackup Job resources */
-export interface _AzureBackupJobResourceList extends DppResourceList {
-  /** List of resources. */
-  value?: AzureBackupJobResource[];
-}
-
-export function _azureBackupJobResourceListDeserializer(item: any): _AzureBackupJobResourceList {
-  return {
-    nextLink: item["nextLink"],
-    value: !item["value"] ? item["value"] : azureBackupJobResourceArrayDeserializer(item["value"]),
-  };
-}
-
-export function azureBackupJobResourceArrayDeserializer(
-  result: Array<AzureBackupJobResource>,
-): any[] {
-  return result.map((item) => {
-    return azureBackupJobResourceDeserializer(item);
-  });
-}
-
 /** Deleted Backup Instance */
 export interface DeletedBackupInstanceResource extends ProxyResource {
   /** DeletedBackupInstanceResource properties */
@@ -6393,8 +6763,12 @@ export enum KnownVersions {
   V20250901 = "2025-09-01",
   /** The 2026-03-01 API version. */
   V20260301 = "2026-03-01",
+  /** The 2026-04-01-preview API version. */
+  V20260401Preview = "2026-04-01-preview",
   /** The 2026-06-01 API version. */
   V20260601 = "2026-06-01",
   /** The 2026-07-01 API version. */
   V20260701 = "2026-07-01",
+  /** The 2026-08-31-preview API version. */
+  V20260831Preview = "2026-08-31-preview",
 }

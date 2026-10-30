@@ -1,5 +1,64 @@
 # Release History
 
+## 5.1.0-beta.2 (2026-10-15)
+Compared with version 5.0.0
+
+### Features Added
+  - Added operation group BackupInstanceFromDppCrossTenantVaultOperations
+  - Added operation group BackupInstanceOperationResultFromDppCrossTenantVaultOperations
+  - Added operation group BackupInstanceOperationStatusFromDppCrossTenantVaultOperations
+  - Added operation group BackupInstancesFromDppCrossTenantVaultOperations
+  - Added operation group BackupJobsFromDppCrossTenantVaultOperations
+  - Added operation group DppCrossTenantVaultMappingsOperations
+  - Added operation group DppCrossTenantVaultMappingStatusOperations
+  - Added operation group JobFromDppCrossTenantVaultOperations
+  - Added operation group RecoveryPointFromDppCrossTenantVaultOperations
+  - Added operation group RecoveryPointsFromDppCrossTenantVaultOperations
+  - Added operation group RestorableTimeRangesFromDppCrossTenantVaultOperations
+  - Added operation group RestoresFromDppCrossTenantVaultOperations
+  - Added operation group ValidateRestoreFromDppCrossTenantVaultOperations
+  - Added Interface BackupInstanceFromDppCrossTenantVaultGetOptionalParams
+  - Added Interface BackupInstanceOperationResultFromDppCrossTenantVaultGetOptionalParams
+  - Added Interface BackupInstanceOperationStatusFromDppCrossTenantVaultGetOptionalParams
+  - Added Interface BackupInstancesFromDppCrossTenantVaultListOptionalParams
+  - Added Interface BackupJobsFromDppCrossTenantVaultListOptionalParams
+  - Added Interface CrossTenantAuthCredentials
+  - Added Interface CrossTenantBackupInstance
+  - Added Interface CrossTenantBackupInstanceResource
+  - Added Interface CrossTenantSecretStoreBasedAuthCredentials
+  - Added Interface CrossTenantSecretStoreResource
+  - Added Interface CrossTenantVaultMapping
+  - Added Interface CrossTenantVaultMappingProperties
+  - Added Interface CrossTenantVaultMappingRemoveRequest
+  - Added Interface CrossTenantVaultMappingRemoveRequestProperties
+  - Added Interface CrossTenantVaultMappingStatusResponse
+  - Added Interface DppCrossTenantVaultMappingsCreateOrUpdateOptionalParams
+  - Added Interface DppCrossTenantVaultMappingsGetOptionalParams
+  - Added Interface DppCrossTenantVaultMappingsListOptionalParams
+  - Added Interface DppCrossTenantVaultMappingsRemoveOptionalParams
+  - Added Interface DppCrossTenantVaultMappingStatusCheckOptionalParams
+  - Added Interface ImmutabilityConfiguration
+  - Added Interface JobFromDppCrossTenantVaultGetOptionalParams
+  - Added Interface PostgreSqlFlexibleServerBackupDatasourceParameters
+  - Added Interface RecoveryPointFromDppCrossTenantVaultGetOptionalParams
+  - Added Interface RecoveryPointImmutabilityProperties
+  - Added Interface RecoveryPointsFromDppCrossTenantVaultListOptionalParams
+  - Added Interface RestorableTimeRangesFromDppCrossTenantVaultFindOptionalParams
+  - Added Interface RestoresFromDppCrossTenantVaultTriggerOptionalParams
+  - Added Interface ValidateRestoreFromDppCrossTenantVaultTriggerOptionalParams
+  - Interface AzureBackupDiscreteRecoveryPoint has a new optional parameter immutabilityProperties
+  - Interface ImmutabilitySettings has a new optional parameter configuration
+  - Added Type Alias BackupSolutionType
+  - Added Type Alias CrossTenantAuthCredentialsUnion
+  - Added Type Alias ImmutabilityType
+  - Added Type Alias VaultMappingState
+  - Added Enum KnownBackupSolutionType
+  - Added Enum KnownImmutabilityType
+  - Added Enum KnownVaultMappingState
+  - Enum KnownVersions has a new value V20260401Preview
+  - Enum KnownVersions has a new value V20260701
+  - Enum KnownVersions has a new value V20260831Preview
+
 ## 5.1.0-beta.1 (2026-09-28)
 Compared with version 5.0.0
 

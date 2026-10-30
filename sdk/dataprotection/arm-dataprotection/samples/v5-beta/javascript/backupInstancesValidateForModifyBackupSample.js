@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to validate whether update for backup instance will be successful or not
  *
  * @summary validate whether update for backup instance will be successful or not
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/ValidateForModifyBackup.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/ValidateForModifyBackup.json
  */
 async function validateForModifyBackup() {
   const credential = new DefaultAzureCredential();

@@ -23,7 +23,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
