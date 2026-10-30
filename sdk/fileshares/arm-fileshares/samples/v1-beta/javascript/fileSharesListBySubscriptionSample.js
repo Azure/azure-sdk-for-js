@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list FileShare resources by subscription ID
  *
  * @summary list FileShare resources by subscription ID
- * x-ms-original-file: 2026-06-01/FileShares_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShares_ListBySubscription_MaximumSet_Gen.json
  */
 async function fileSharesListBySubscriptionMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function fileSharesListBySubscriptionMaximumSet() {
  * This sample demonstrates how to list FileShare resources by subscription ID
  *
  * @summary list FileShare resources by subscription ID
- * x-ms-original-file: 2026-06-01/FileShares_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShares_ListBySubscription_MinimumSet_Gen.json
  */
 async function fileSharesListBySubscriptionMinimumSet() {
   const credential = new DefaultAzureCredential();

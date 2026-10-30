@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list FileShareSnapshot by FileShare.
  *
  * @summary list FileShareSnapshot by FileShare.
- * x-ms-original-file: 2026-06-01/FileShareSnapshot_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShareSnapshot_List_MaximumSet_Gen.json
  */
 async function fileShareSnapshotListMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function fileShareSnapshotListMaximumSet() {
  * This sample demonstrates how to list FileShareSnapshot by FileShare.
  *
  * @summary list FileShareSnapshot by FileShare.
- * x-ms-original-file: 2026-06-01/FileShareSnapshot_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShareSnapshot_List_MinimumSet_Gen.json
  */
 async function fileShareSnapshotListMinimumSet() {
   const credential = new DefaultAzureCredential();

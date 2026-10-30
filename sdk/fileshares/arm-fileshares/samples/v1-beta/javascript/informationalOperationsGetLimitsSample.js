@@ -8,13 +8,15 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get file shares limits.
  *
  * @summary get file shares limits.
- * x-ms-original-file: 2026-06-01/FileShare_GetLimits_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShare_GetLimits_MaximumSet_Gen.json
  */
 async function fileShareGetLimitsMaximumSet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0681745E-3F9F-4966-80E6-69624A3B29F2";
   const client = new FileSharesClient(credential, subscriptionId);
-  const result = await client.informationalOperations.getLimits("westus");
+  const result = await client.informationalOperations.getLimits("westus", {
+    body: { properties: { protocol: "NFS", mediaTier: "HDD", scaleMode: "Scale" } },
+  });
   console.log(result);
 }
 
@@ -22,13 +24,15 @@ async function fileShareGetLimitsMaximumSet() {
  * This sample demonstrates how to get file shares limits.
  *
  * @summary get file shares limits.
- * x-ms-original-file: 2026-06-01/FileShare_GetLimits_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShare_GetLimits_MinimumSet_Gen.json
  */
 async function fileShareGetLimitsMinimumSet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0681745E-3F9F-4966-80E6-69624A3B29F2";
   const client = new FileSharesClient(credential, subscriptionId);
-  const result = await client.informationalOperations.getLimits("westus");
+  const result = await client.informationalOperations.getLimits("westus", {
+    body: { properties: {} },
+  });
   console.log(result);
 }
 

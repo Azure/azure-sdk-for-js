@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a file share.
  *
  * @summary create or update a file share.
- * x-ms-original-file: 2026-06-01/FileShares_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShares_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function fileSharesCreateOrUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -20,6 +20,7 @@ async function fileSharesCreateOrUpdateMaximumSet() {
       mediaTier: "SSD",
       redundancy: "Local",
       protocol: "NFS",
+      scaleMode: "Scale",
       provisionedStorageGiB: 8,
       provisionedIOPerSec: 5,
       provisionedThroughputMiBPerSec: 22,
@@ -30,9 +31,27 @@ async function fileSharesCreateOrUpdateMaximumSet() {
         ],
       },
       publicNetworkAccess: "Enabled",
+      encryption: {
+        infrastructureEncryption: "enabled",
+        customerManagedKeyEncryption: {
+          keyEncryptionKeyIdentity: {
+            identityType: "userAssignedIdentity",
+            userAssignedIdentityResourceId:
+              "/subscriptions/0590b445-524e-4caa-9870-2e2461d23434/resourceGroups/fiddler-mfs-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity",
+          },
+          keyEncryptionKeyUrl: "https://myvault.vault.azure.net/keys/myfilesharekey",
+        },
+      },
     },
     tags: { key9647: "xwokdvyoae" },
     location: "westus",
+    identity: {
+      type: "SystemAssigned,UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/0590b445-524e-4caa-9870-2e2461d23434/resourceGroups/fiddler-mfs-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity":
+          {},
+      },
+    },
   });
   console.log(result);
 }

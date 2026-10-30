@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a PrivateEndpointConnection List.
  *
  * @summary get a PrivateEndpointConnection List.
- * x-ms-original-file: 2026-06-01/PrivateEndpointConnections_ListByFileShare.json
+ * x-ms-original-file: 2026-09-01/PrivateEndpointConnections_ListByFileShare.json
  */
 async function privateEndpointConnectionsListByFileShare() {
   const credential = new DefaultAzureCredential();

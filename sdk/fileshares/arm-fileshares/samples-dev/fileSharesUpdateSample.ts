@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a FileShare
  *
  * @summary update a FileShare
- * x-ms-original-file: 2026-06-01/FileShares_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShares_Update_MaximumSet_Gen.json
  */
 async function fileSharesUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,6 +27,24 @@ async function fileSharesUpdateMaximumSet(): Promise<void> {
         ],
       },
       publicNetworkAccess: "Enabled",
+      encryption: {
+        infrastructureEncryption: "enabled",
+        customerManagedKeyEncryption: {
+          keyEncryptionKeyIdentity: {
+            identityType: "userAssignedIdentity",
+            userAssignedIdentityResourceId:
+              "/subscriptions/0590b445-524e-4caa-9870-2e2461d23434/resourceGroups/fiddler-mfs-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity",
+          },
+          keyEncryptionKeyUrl: "https://myvault.vault.azure.net/keys/myfilesharekey",
+        },
+      },
+    },
+    identity: {
+      type: "SystemAssigned,UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/0590b445-524e-4caa-9870-2e2461d23434/resourceGroups/fiddler-mfs-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity":
+          {},
+      },
     },
   });
   console.log(result);

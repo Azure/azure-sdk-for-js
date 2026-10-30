@@ -4,14 +4,16 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -51,6 +53,12 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface CustomerManagedKeyEncryption {
+    keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity;
+    keyEncryptionKeyUrl?: string;
+}
+
+// @public
 export type EncryptionInTransitRequired = string;
 
 // @public
@@ -75,7 +83,17 @@ export interface ErrorResponse {
 
 // @public
 export interface FileShare extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     properties?: FileShareProperties;
+}
+
+// @public
+export interface FileShareEncryption {
+    readonly autoKeyRotationError?: ErrorDetail;
+    readonly currentKeyEncryptionKeyUrl?: string;
+    customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+    infrastructureEncryption?: InfrastructureEncryption;
+    readonly lastKeyRotationTimestamp?: Date;
 }
 
 // @public
@@ -99,16 +117,30 @@ export interface FileShareLimitsOutput {
 }
 
 // @public
+export interface FileShareLimitsRequest {
+    properties: FileShareOfferInput;
+}
+
+// @public
 export interface FileShareLimitsResponse {
     properties: FileShareLimitsOutput;
 }
 
 // @public
+export interface FileShareOfferInput {
+    mediaTier?: MediaTier;
+    protocol?: Protocol;
+    scaleMode?: ScaleMode;
+}
+
+// @public
 export interface FileShareProperties {
+    encryption?: FileShareEncryption;
     readonly hostName?: string;
     readonly includedBurstIOPerSec?: number;
     readonly maxBurstIOPerSecCredits?: number;
     mediaTier?: MediaTier;
+    readonly migrationState?: MigrationState;
     mountName?: string;
     nfsProtocolProperties?: NfsProtocolProperties;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
@@ -123,6 +155,7 @@ export interface FileShareProperties {
     publicAccessProperties?: PublicAccessProperties;
     publicNetworkAccess?: PublicNetworkAccess;
     redundancy?: Redundancy;
+    scaleMode?: ScaleMode;
 }
 
 // @public
@@ -137,7 +170,10 @@ export interface FileShareProvisioningConstants {
 
 // @public
 export interface FileShareProvisioningRecommendationInput {
+    mediaTier?: MediaTier;
+    protocol?: Protocol;
     provisionedStorageGiB: number;
+    scaleMode?: ScaleMode;
 }
 
 // @public
@@ -195,6 +231,10 @@ export interface FileSharesDeleteOptionalParams extends OperationOptions {
 
 // @public
 export interface FileSharesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FileSharesGetRedundancyConversionStatusOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -265,9 +305,15 @@ export interface FileSharesOperations {
     createOrUpdate: (resourceGroupName: string, resourceName: string, resource: FileShare, options?: FileSharesCreateOrUpdateOptionalParams) => PollerLike<OperationState<FileShare>, FileShare>;
     delete: (resourceGroupName: string, resourceName: string, options?: FileSharesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, resourceName: string, options?: FileSharesGetOptionalParams) => Promise<FileShare>;
+    getRedundancyConversionStatus: (resourceGroupName: string, resourceName: string, options?: FileSharesGetRedundancyConversionStatusOptionalParams) => Promise<RedundancyConversionStatusResponse>;
     listByParent: (resourceGroupName: string, options?: FileSharesListByParentOptionalParams) => PagedAsyncIterableIterator<FileShare>;
     listBySubscription: (options?: FileSharesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<FileShare>;
+    startRedundancyConversion: (resourceGroupName: string, resourceName: string, body: StartRedundancyConversionRequest, options?: FileSharesStartRedundancyConversionOptionalParams) => Promise<void>;
     update: (resourceGroupName: string, resourceName: string, properties: FileShareUpdate, options?: FileSharesUpdateOptionalParams) => PollerLike<OperationState<FileShare>, FileShare>;
+}
+
+// @public
+export interface FileSharesStartRedundancyConversionOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -277,12 +323,14 @@ export interface FileSharesUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface FileShareUpdate {
+    identity?: ManagedServiceIdentity;
     properties?: FileShareUpdateProperties;
     tags?: Record<string, string>;
 }
 
 // @public
 export interface FileShareUpdateProperties {
+    encryption?: FileShareEncryption;
     nfsProtocolProperties?: NfsProtocolProperties;
     provisionedIOPerSec?: number;
     provisionedStorageGiB?: number;
@@ -303,6 +351,7 @@ export interface FileShareUsageDataResponse {
 
 // @public
 export interface InformationalOperationsGetLimitsOptionalParams extends OperationOptions {
+    body?: FileShareLimitsRequest;
 }
 
 // @public
@@ -319,6 +368,22 @@ export interface InformationalOperationsOperations {
     getProvisioningRecommendation: (location: string, body: FileShareProvisioningRecommendationRequest, options?: InformationalOperationsGetProvisioningRecommendationOptionalParams) => Promise<FileShareProvisioningRecommendationResponse>;
     getUsageData: (location: string, options?: InformationalOperationsGetUsageDataOptionalParams) => Promise<FileShareUsageDataResponse>;
 }
+
+// @public
+export type InfrastructureEncryption = string;
+
+export { isRestError }
+
+// @public
+export interface KeyEncryptionKeyIdentity {
+    delegatedIdentityClientId?: string;
+    federatedClientId?: string;
+    identityType?: KeyEncryptionKeyIdentityType;
+    userAssignedIdentityResourceId?: string;
+}
+
+// @public
+export type KeyEncryptionKeyIdentityType = string;
 
 // @public
 export enum KnownActionType {
@@ -362,7 +427,29 @@ export enum KnownFileShareProvisioningState {
 }
 
 // @public
+export enum KnownInfrastructureEncryption {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
+export enum KnownKeyEncryptionKeyIdentityType {
+    DelegatedResourceIdentity = "delegatedResourceIdentity",
+    SystemAssignedIdentity = "systemAssignedIdentity",
+    UserAssignedIdentity = "userAssignedIdentity"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownMediaTier {
+    HDD = "HDD",
     SSD = "SSD"
 }
 
@@ -406,6 +493,20 @@ export enum KnownRedundancy {
 }
 
 // @public
+export enum KnownRedundancyConversionStatus {
+    Complete = "Complete",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    SubmittedForConversion = "SubmittedForConversion"
+}
+
+// @public
+export enum KnownScaleMode {
+    Compatibility = "Compatibility",
+    Scale = "Scale"
+}
+
+// @public
 export enum KnownShareRootSquash {
     AllSquash = "AllSquash",
     NoRootSquash = "NoRootSquash",
@@ -414,7 +515,8 @@ export enum KnownShareRootSquash {
 
 // @public
 export enum KnownVersions {
-    V20260601 = "2026-06-01"
+    V20260601 = "2026-06-01",
+    V20260901 = "2026-09-01"
 }
 
 // @public
@@ -423,7 +525,23 @@ export interface LiveSharesUsageData {
 }
 
 // @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
 export type MediaTier = string;
+
+// @public
+export interface MigrationState {
+    readonly redundancyConversionInProgress: boolean;
+}
 
 // @public
 export interface NfsProtocolProperties {
@@ -574,12 +692,30 @@ export type PublicNetworkAccess = string;
 export type Redundancy = string;
 
 // @public
+export type RedundancyConversionStatus = string;
+
+// @public
+export interface RedundancyConversionStatusOutput {
+    readonly conversionFailedDetailedReason?: string;
+    readonly conversionFailedReason?: string;
+    readonly conversionStatus: RedundancyConversionStatus;
+    readonly targetRedundancy: Redundancy;
+}
+
+// @public
+export interface RedundancyConversionStatusResponse {
+    properties: RedundancyConversionStatusOutput;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: FileSharesClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -592,7 +728,20 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
+export type ScaleMode = string;
+
+// @public
 export type ShareRootSquash = string;
+
+// @public
+export interface StartRedundancyConversionInput {
+    targetRedundancy: Redundancy;
+}
+
+// @public
+export interface StartRedundancyConversionRequest {
+    properties: StartRedundancyConversionInput;
+}
 
 // @public
 export interface SystemData {
@@ -608,6 +757,12 @@ export interface SystemData {
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // (No @packageDocumentation comment for this package)

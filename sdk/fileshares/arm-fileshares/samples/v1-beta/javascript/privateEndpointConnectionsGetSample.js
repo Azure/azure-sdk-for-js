@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified private endpoint connection associated with the file share.
  *
  * @summary gets the specified private endpoint connection associated with the file share.
- * x-ms-original-file: 2026-06-01/PrivateEndpointConnections_Get.json
+ * x-ms-original-file: 2026-09-01/PrivateEndpointConnections_Get.json
  */
 async function privateEndpointConnectionsGet() {
   const credential = new DefaultAzureCredential();

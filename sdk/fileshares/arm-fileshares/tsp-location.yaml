@@ -1,4 +1,4 @@
 directory: specification/fileshares/resource-manager/Microsoft.FileShares/FileShares
-commit: 6d4fc44c4606ea890c25a2952edcb509ca510f7a
-repo: azure/azure-rest-api-specs
+commit: 4f84812320680da54d6dd0d0472ad8981618a922
+repo: Azure/azure-rest-api-specs
 additionalDirectories: 

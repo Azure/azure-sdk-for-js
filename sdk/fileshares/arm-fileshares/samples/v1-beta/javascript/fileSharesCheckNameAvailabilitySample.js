@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to implements local CheckNameAvailability operations
  *
  * @summary implements local CheckNameAvailability operations
- * x-ms-original-file: 2026-06-01/FileShares_CheckNameAvailability_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShares_CheckNameAvailability_MaximumSet_Gen.json
  */
 async function fileSharesCheckNameAvailabilityMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function fileSharesCheckNameAvailabilityMaximumSet() {
  * This sample demonstrates how to implements local CheckNameAvailability operations
  *
  * @summary implements local CheckNameAvailability operations
- * x-ms-original-file: 2026-06-01/FileShares_CheckNameAvailability_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShares_CheckNameAvailability_MinimumSet_Gen.json
  */
 async function fileSharesCheckNameAvailabilityMinimumSet() {
   const credential = new DefaultAzureCredential();
