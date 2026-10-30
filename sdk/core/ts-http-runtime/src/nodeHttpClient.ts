@@ -101,6 +101,37 @@ interface NodeRequestResult {
   disposeRequest: () => void;
 }
 
+function createRequestCompletion(): Omit<NodeRequestResult, "response"> & {
+  track(request: http.ClientRequest): void;
+} {
+  let request: http.ClientRequest;
+  let requestDone = false;
+  let resolveRequestComplete!: () => void;
+  const requestComplete = new Promise<void>((resolve) => {
+    resolveRequestComplete = resolve;
+  });
+  const onComplete = (): void => {
+    requestDone = true;
+    request.removeListener("finish", onComplete);
+    request.removeListener("close", onComplete);
+    resolveRequestComplete();
+  };
+  return {
+    requestComplete,
+    isRequestComplete: () => requestDone,
+    disposeRequest: () => {
+      if (!requestDone) {
+        request.destroy();
+      }
+    },
+    track: (clientRequest) => {
+      request = clientRequest;
+      request.once("finish", onComplete);
+      request.once("close", onComplete);
+    },
+  };
+}
+
 function toRequestSendError(error: Error & { code?: string }, request: PipelineRequest): RestError {
   if (isRestError(error)) {
     return error;
@@ -234,13 +265,14 @@ class NodeHttpClient implements HttpClient {
         prepareBody();
       }
 
-      const result = await this.makeRequest(
-        request,
-        abortController,
-        useExpectContinue,
-        prepareBody,
-        bodyInitialized ? getBodyLength(body ?? null) : null,
-      );
+      const result = useExpectContinue
+        ? await this.makeRequestWithExpectContinue(
+            request,
+            abortController,
+            prepareBody,
+            bodyInitialized ? getBodyLength(body ?? null) : null,
+          )
+        : await this.makeRequest(request, abortController, body);
       requestComplete = result.requestComplete;
       const res = result.response;
 
@@ -339,68 +371,80 @@ class NodeHttpClient implements HttpClient {
   private makeRequest(
     request: PipelineRequest,
     abortController: AbortController,
-    useExpectContinue: boolean,
+    body?: RequestBodyType,
+  ): Promise<NodeRequestResult> {
+    const { options, isInsecure } = this.getRequestOptions(request);
+
+    return new Promise<NodeRequestResult>((_resolve, reject) => {
+      let response: IncomingMessage | undefined;
+      const { track, ...completion } = createRequestCompletion();
+      const req = isInsecure
+        ? http.request(options, onResponse)
+        : https.request(options, onResponse);
+      track(req);
+      function onResponse(incomingResponse: IncomingMessage): void {
+        response = incomingResponse;
+        _resolve({
+          response: incomingResponse,
+          ...completion,
+        });
+      }
+
+      req.once("error", (err: Error & { code?: string }) => {
+        reject(toRequestSendError(err, request));
+      });
+
+      abortController.signal.addEventListener("abort", () => {
+        const abortError = new AbortError(
+          "The operation was aborted. Rejecting from abort signal callback while making request.",
+        );
+        response?.destroy(abortError);
+        req.destroy(abortError);
+        reject(abortError);
+      });
+      if (body && isReadableStream(body)) {
+        pipeUploadStream(body, req, request, reject);
+      } else if (body) {
+        if (typeof body === "string" || Buffer.isBuffer(body)) {
+          req.end(body);
+        } else {
+          logger.error("Unrecognized body type", body);
+          reject(new RestError("Unrecognized body type"));
+        }
+      } else {
+        // streams don't like "undefined" being passed as data
+        req.end();
+      }
+    });
+  }
+
+  private makeRequestWithExpectContinue(
+    request: PipelineRequest,
+    abortController: AbortController,
     prepareBody: () => RequestBodyType | undefined,
     bodyLength: number | null,
   ): Promise<NodeRequestResult> {
-    const url = new URL(request.url);
+    const { options, isInsecure } = this.getRequestOptions(request);
 
-    const isInsecure = url.protocol !== "https:";
-
-    if (isInsecure && !request.allowInsecureConnection) {
-      throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
-    }
-
-    const agent = (request.agent as http.Agent) ?? this.getOrCreateAgent(request, isInsecure);
-    const options: http.RequestOptions = {
-      agent,
-      hostname: url.hostname,
-      path: `${url.pathname}${url.search}`,
-      port: url.port,
-      method: request.method,
-      headers: request.headers.toJSON({ preserveCase: true }),
-      ...request.requestOverrides,
-    };
-
-    if (useExpectContinue) {
-      addExpectContinueFraming(options, bodyLength);
-    }
+    addExpectContinueFraming(options, bodyLength);
 
     return new Promise<NodeRequestResult>((_resolve, reject) => {
-      let requestDone = false;
       let response: IncomingMessage | undefined;
-      let req: http.ClientRequest;
-      let resolveRequestComplete!: () => void;
-      const requestComplete = new Promise<void>((resolve) => {
-        resolveRequestComplete = resolve;
-      });
-      const onComplete = (): void => {
-        requestDone = true;
-        req.removeListener("finish", onComplete);
-        req.removeListener("close", onComplete);
-        resolveRequestComplete();
-      };
+      const { track, ...completion } = createRequestCompletion();
       const createRequest = (
         onResponseCallback: (incomingResponse: IncomingMessage) => void,
       ): http.ClientRequest => {
-        req = isInsecure
+        const req = isInsecure
           ? http.request(options, onResponseCallback)
           : https.request(options, onResponseCallback);
-        req.once("finish", onComplete);
-        req.once("close", onComplete);
+        track(req);
         return req;
       };
       function onResponse(incomingResponse: IncomingMessage): void {
         response = incomingResponse;
         _resolve({
           response: incomingResponse,
-          requestComplete,
-          isRequestComplete: () => requestDone,
-          disposeRequest: () => {
-            if (!requestDone) {
-              req.destroy();
-            }
-          },
+          ...completion,
         });
       }
 
@@ -417,29 +461,44 @@ class NodeHttpClient implements HttpClient {
         reject(abortError);
       };
 
-      if (useExpectContinue) {
-        createExpectContinueRequest({
-          abortSignal: abortController.signal,
-          bodyLength,
-          createRequest,
-          onAbort: abortRequest,
-          onError: rejectRequest,
-          onResponse,
-          sendBody: (clientRequest) => {
-            sendRequestBody(clientRequest, prepareBody(), request, rejectRequest);
-          },
-        });
-      } else {
-        req = createRequest(onResponse);
-        req.once("error", rejectRequest);
-        abortController.signal.addEventListener("abort", () => abortRequest(req));
-        try {
-          sendRequestBody(req, prepareBody(), request, rejectRequest);
-        } catch (error: unknown) {
-          req.destroy(error instanceof Error ? error : new Error(String(error)));
-        }
-      }
+      createExpectContinueRequest({
+        abortSignal: abortController.signal,
+        bodyLength,
+        createRequest,
+        onAbort: abortRequest,
+        onError: rejectRequest,
+        onResponse,
+        sendBody: (clientRequest) => {
+          sendRequestBody(clientRequest, prepareBody(), request, rejectRequest);
+        },
+      });
     });
+  }
+
+  private getRequestOptions(request: PipelineRequest): {
+    options: http.RequestOptions;
+    isInsecure: boolean;
+  } {
+    const url = new URL(request.url);
+    const isInsecure = url.protocol !== "https:";
+
+    if (isInsecure && !request.allowInsecureConnection) {
+      throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
+    }
+
+    const agent = (request.agent as http.Agent) ?? this.getOrCreateAgent(request, isInsecure);
+    return {
+      isInsecure,
+      options: {
+        agent,
+        hostname: url.hostname,
+        path: `${url.pathname}${url.search}`,
+        port: url.port,
+        method: request.method,
+        headers: request.headers.toJSON({ preserveCase: true }),
+        ...request.requestOverrides,
+      },
+    };
   }
 
   private getOrCreateAgent(request: PipelineRequest, isInsecure: boolean): http.Agent {
