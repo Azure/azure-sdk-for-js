@@ -194,6 +194,74 @@ function keepImportedModelModules(source, candidates) {
   }
 }
 
+function addRleClient(baseText, customText, incomingText, diagnostics) {
+  const file = "aiProjectClient.ts";
+  const base = declarations(parse(baseText ?? "", file)).get("AIProjectClient");
+  const incoming = parse(incomingText, file);
+  const next = declarations(incoming).get("AIProjectClient");
+  const custom = parse(customText, file);
+  const current = declarations(custom).get("AIProjectClient");
+  const member = (node, name) => node?.members?.find((item) => item.name?.getText() === name);
+  const rle = member(next, "rle");
+  if (!rle || member(base, "rle") || member(current, "rle")) return customText;
+  const constructor = current?.members?.find(ts.isConstructorDeclaration);
+  const emittedConstructor = next?.members?.find(ts.isConstructorDeclaration);
+  const assignment = (node, name) =>
+    node?.body?.statements.find(
+      (statement) =>
+        ts.isExpressionStatement(statement) &&
+        ts.isBinaryExpression(statement.expression) &&
+        statement.expression.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
+        statement.expression.left.getText() === `this.${name}`,
+    )?.expression.right;
+  const beta = assignment(constructor, "beta");
+  const emitted = assignment(emittedConstructor, "rle");
+  const rleImports = importsOf(incoming).filter(
+    (item) =>
+      item.module === "./classic/rle/index.js" &&
+      item.imported === item.local &&
+      ["RLEOperations", "_getRLEOperations"].includes(item.local),
+  );
+  if (
+    !ts.isPropertyDeclaration(rle) ||
+    rle.type?.getText() !== "RLEOperations" ||
+    !constructor?.body ||
+    !beta ||
+    !ts.isCallExpression(beta) ||
+    beta.expression.getText() !== "_getBetaOperations" ||
+    !beta.arguments.length ||
+    rleImports.length !== 2 ||
+    !emitted ||
+    canonicalize(emitted.getText()) !== canonicalize("_getRLEOperations(this._client)")
+  ) {
+    diagnostics.push({
+      file,
+      declaration: "AIProjectClient",
+      member: "rle",
+      message: "New RLE client wiring requires review of its factory and Foundry auth context",
+    });
+    return customText;
+  }
+  const changed = edit(customText, [
+    { start: current.members.end, end: current.members.end, text: `\n${textOf(rle, incoming)}\n` },
+    {
+      start: constructor.body.end - 1,
+      end: constructor.body.end - 1,
+      text: `\nthis.rle = _getRLEOperations(${beta.arguments[0].getText()});\n`,
+    },
+  ]);
+  const existingImports = importsOf(custom);
+  // Detect conflicting bindings even when the maintained file already imports RLE.
+  renderImports(file, changed, [...existingImports, ...rleImports]);
+  const imports = renderImports(
+    file,
+    changed,
+    rleImports.filter((item) => !existingImports.some((old) => old.local === item.local)),
+  );
+  const start = custom.statements[0].getStart(custom);
+  return changed.slice(0, start) + (imports ? `${imports}\n` : "") + changed.slice(start);
+}
+
 export function planCustomization({ baseGenerated, baseSource, generated }) {
   const diagnostics = [];
   const source = new Map(baseSource);
@@ -385,6 +453,8 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
           declaration: "<file>",
           message: "New protected file requires an explicit customization policy",
         });
+      } else if (file === "aiProjectClient.ts") {
+        source.set(file, addRleClient(baseText, customText, incomingText, diagnostics));
       }
       continue;
     }
