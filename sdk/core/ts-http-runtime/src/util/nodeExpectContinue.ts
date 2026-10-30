@@ -61,8 +61,11 @@ export function addExpectContinueFraming(
 
 export function createExpectContinueRequest(options: ExpectContinueRequestOptions): void {
   let fallback: ReturnType<typeof setTimeout> | undefined;
+  let waiting = true;
   let bodyStarted = false;
   let errorReported = false;
+  let abortHandled = false;
+  let responseBeforeRequest: http.IncomingMessage | undefined;
   let request: http.ClientRequest;
   try {
     request = options.createRequest(onResponse);
@@ -72,6 +75,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   }
 
   function stopWaiting(): void {
+    waiting = false;
     if (fallback !== undefined) {
       clearTimeout(fallback);
       fallback = undefined;
@@ -91,7 +95,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   }
 
   function sendBody(): void {
-    if (bodyStarted || errorReported) {
+    if (!waiting) {
       return;
     }
     bodyStarted = true;
@@ -105,11 +109,24 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
 
   function onAbort(): void {
     stopWaiting();
-    options.onAbort(request);
+    if (!abortHandled) {
+      abortHandled = true;
+      options.onAbort(request);
+    }
+  }
+
+  function onClose(): void {
+    stopWaiting();
+    options.abortSignal.removeEventListener("abort", onAbort);
   }
 
   function onResponse(response: http.IncomingMessage): void {
     stopWaiting();
+    if (!request) {
+      // A custom request factory may deliver a response before returning its request.
+      responseBeforeRequest = response;
+      return;
+    }
     if (!bodyStarted) {
       request.shouldKeepAlive = false;
       const destroyRequest = (): void => {
@@ -119,19 +136,31 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
       };
       response.once("end", destroyRequest);
       response.once("close", destroyRequest);
+      if (response.readableEnded || response.destroyed) {
+        destroyRequest();
+      }
     }
     options.onResponse(response);
   }
 
   request.once("error", onError);
   options.abortSignal.addEventListener("abort", onAbort, { once: true });
-  request.once("close", () => {
-    stopWaiting();
-    options.abortSignal.removeEventListener("abort", onAbort);
-  });
+  request.once("close", onClose);
+
+  if (responseBeforeRequest) {
+    onResponse(responseBeforeRequest);
+  }
 
   if (options.abortSignal.aborted) {
     onAbort();
+    return;
+  }
+
+  if (request.destroyed || request.closed) {
+    onClose();
+  }
+
+  if (!waiting) {
     return;
   }
 
@@ -141,9 +170,12 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   }
 
   request.once("continue", sendBody);
+  if (!waiting) {
+    return;
+  }
   try {
     request.flushHeaders();
-    if (!errorReported) {
+    if (waiting) {
       fallback = setTimeout(sendBody, EXPECT_CONTINUE_TIMEOUT_IN_MS);
     }
   } catch (error: unknown) {

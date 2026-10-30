@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientRequest } from "node:http";
-import { Writable } from "node:stream";
+import type { ClientRequest, IncomingMessage } from "node:http";
+import { PassThrough, Writable } from "node:stream";
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock, type Mocked } from "vitest";
 import { createExpectContinueRequest } from "../../../src/util/nodeExpectContinue.js";
 
@@ -41,13 +41,214 @@ function createOptions(
   };
 }
 
-describe("Expect: 100-continue error handling", () => {
+describe("Expect: 100-continue negotiation", () => {
   beforeEach(() => {
     vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
   });
 
   afterEach(() => {
     vi.useRealTimers();
+  });
+
+  it.each(["response", "abort", "close"])(
+    "does not schedule a fallback after %s during header flushing",
+    (event) => {
+      const { request, controller, options } = createOptions();
+      const response = new PassThrough();
+      request.flushHeaders.mockImplementation(() => {
+        if (event === "response") {
+          options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
+        } else if (event === "abort") {
+          controller.abort();
+        } else {
+          request.emit("close");
+        }
+      });
+
+      try {
+        createExpectContinueRequest(options);
+        expect(vi.getTimerCount()).toBe(0);
+        request.emit("continue");
+        vi.advanceTimersByTime(1000);
+
+        expect(options.sendBody).not.toHaveBeenCalled();
+        expect(options.onError).not.toHaveBeenCalled();
+      } finally {
+        request.destroy();
+        response.destroy();
+      }
+    },
+  );
+
+  it.each(["response", "abort", "close"])(
+    "ignores a queued body callback after %s stops negotiation",
+    (event) => {
+      const { request, controller, options } = createOptions();
+      const response = new PassThrough();
+
+      try {
+        createExpectContinueRequest(options);
+        const [sendBody] = request.listeners("continue");
+        if (!sendBody) {
+          throw new Error("Expected a pending Continue listener");
+        }
+        if (event === "response") {
+          options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
+        } else if (event === "abort") {
+          controller.abort();
+        } else {
+          request.emit("close");
+        }
+        sendBody();
+        vi.advanceTimersByTime(1000);
+
+        expect(options.sendBody).not.toHaveBeenCalled();
+        expect(vi.getTimerCount()).toBe(0);
+      } finally {
+        request.destroy();
+        response.destroy();
+      }
+    },
+  );
+
+  it.each([null, 0])(
+    "handles a final response during request construction without dispatching a body (length=%s)",
+    async (bodyLength) => {
+      const { request, options } = createOptions(bodyLength);
+      const response = new PassThrough();
+      const destroy = vi.spyOn(request, "destroy");
+      options.createRequest.mockImplementation((onResponse) => {
+        onResponse(response as unknown as IncomingMessage);
+        return request as unknown as ClientRequest;
+      });
+
+      try {
+        createExpectContinueRequest(options);
+
+        expect(options.onResponse).toHaveBeenCalledExactlyOnceWith(response);
+        expect(options.onError).not.toHaveBeenCalled();
+        expect(options.sendBody).not.toHaveBeenCalled();
+        expect(request.flushHeaders).not.toHaveBeenCalled();
+        expect(request.shouldKeepAlive).toBe(false);
+        expect(destroy).not.toHaveBeenCalled();
+        expect(vi.getTimerCount()).toBe(0);
+
+        response.resume();
+        response.end("rejected");
+        await new Promise<void>((resolve) => setImmediate(resolve));
+
+        expect(destroy).toHaveBeenCalledOnce();
+      } finally {
+        request.destroy();
+        response.destroy();
+      }
+    },
+  );
+
+  it("retires the request if a response was already destroyed during construction", () => {
+    const { request, options } = createOptions();
+    const response = new PassThrough();
+    options.createRequest.mockImplementation((onResponse) => {
+      onResponse(response as unknown as IncomingMessage);
+      response.destroy();
+      return request as unknown as ClientRequest;
+    });
+
+    try {
+      createExpectContinueRequest(options);
+
+      expect(options.onResponse).toHaveBeenCalledExactlyOnceWith(response);
+      expect(options.onError).not.toHaveBeenCalled();
+      expect(options.sendBody).not.toHaveBeenCalled();
+      expect(request.destroyed).toBe(true);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      request.destroy();
+      response.destroy();
+    }
+  });
+
+  it("does not begin negotiation if construction returns a destroyed request", () => {
+    const { request, options } = createOptions();
+    options.createRequest.mockImplementation(() => {
+      request.destroy();
+      return request as unknown as ClientRequest;
+    });
+
+    createExpectContinueRequest(options);
+    vi.advanceTimersByTime(1000);
+
+    expect(request.flushHeaders).not.toHaveBeenCalled();
+    expect(options.sendBody).not.toHaveBeenCalled();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it("aborts once when a synchronous construction response aborts the signal", () => {
+    const { request, controller, options } = createOptions();
+    const response = new PassThrough();
+    options.createRequest.mockImplementation((onResponse) => {
+      onResponse(response as unknown as IncomingMessage);
+      return request as unknown as ClientRequest;
+    });
+    options.onResponse.mockImplementation(() => controller.abort());
+
+    try {
+      createExpectContinueRequest(options);
+
+      expect(options.onResponse).toHaveBeenCalledExactlyOnceWith(response);
+      expect(options.onAbort).toHaveBeenCalledExactlyOnceWith(request);
+      expect(options.onError).not.toHaveBeenCalled();
+      expect(options.sendBody).not.toHaveBeenCalled();
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      request.destroy();
+      response.destroy();
+    }
+  });
+
+  it("does not schedule a fallback when Continue arrives during header flushing", () => {
+    const { request, options } = createOptions();
+    request.flushHeaders.mockImplementation(() => {
+      request.emit("continue");
+    });
+
+    try {
+      createExpectContinueRequest(options);
+      expect(options.sendBody).toHaveBeenCalledExactlyOnceWith(request);
+      expect(vi.getTimerCount()).toBe(0);
+      request.emit("continue");
+      vi.advanceTimersByTime(1000);
+
+      expect(options.sendBody).toHaveBeenCalledOnce();
+    } finally {
+      request.destroy();
+    }
+  });
+
+  it("keeps an authorized upload active after response headers arrive", () => {
+    const { request, options } = createOptions();
+    const response = new PassThrough();
+    options.sendBody.mockImplementation((clientRequest) => {
+      clientRequest.write("partial upload");
+    });
+
+    try {
+      createExpectContinueRequest(options);
+      request.emit("continue");
+      options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
+      response.emit("end");
+      response.emit("close");
+
+      expect(options.sendBody).toHaveBeenCalledExactlyOnceWith(request);
+      expect(options.onResponse).toHaveBeenCalledExactlyOnceWith(response);
+      expect(options.onError).not.toHaveBeenCalled();
+      expect(request.destroyed).toBe(false);
+      expect(request.writableEnded).toBe(false);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      request.destroy();
+      response.destroy();
+    }
   });
 
   it.each(["empty body", "Continue", "fallback"])(
