@@ -1,4 +1,4 @@
-# @azure/arm-fileshares client library samples for TypeScript
+# @azure/arm-fileshares client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-fileshares in some common scenarios.
 
@@ -79,31 +79,31 @@ node dist/fileShareSnapshotsCreateOrUpdateFileShareSnapshotSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[filesharesnapshotscreateorupdatefilesharesnapshotsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileShareSnapshotsCreateOrUpdateFileShareSnapshotSample.ts
-[filesharesnapshotsdeletefilesharesnapshotsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileShareSnapshotsDeleteFileShareSnapshotSample.ts
-[filesharesnapshotsgetfilesharesnapshotsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileShareSnapshotsGetFileShareSnapshotSample.ts
-[filesharesnapshotslistbyfilesharesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileShareSnapshotsListByFileShareSample.ts
-[filesharesnapshotsupdatefilesharesnapshotsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileShareSnapshotsUpdateFileShareSnapshotSample.ts
-[fileshareschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileSharesCheckNameAvailabilitySample.ts
-[filesharescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileSharesCreateOrUpdateSample.ts
-[filesharesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileSharesDeleteSample.ts
-[filesharesgetredundancyconversionstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileSharesGetRedundancyConversionStatusSample.ts
-[filesharesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileSharesGetSample.ts
-[fileshareslistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileSharesListByParentSample.ts
-[fileshareslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileSharesListBySubscriptionSample.ts
-[filesharesstartredundancyconversionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileSharesStartRedundancyConversionSample.ts
-[filesharesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/fileSharesUpdateSample.ts
-[informationaloperationsgetlimitssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/informationalOperationsGetLimitsSample.ts
-[informationaloperationsgetprovisioningrecommendationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/informationalOperationsGetProvisioningRecommendationSample.ts
-[informationaloperationsgetusagedatasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/informationalOperationsGetUsageDataSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/operationsListSample.ts
-[privateendpointconnectionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/privateEndpointConnectionsCreateSample.ts
-[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/privateEndpointConnectionsDeleteSample.ts
-[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/privateEndpointConnectionsGetSample.ts
-[privateendpointconnectionslistbyfilesharesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/privateEndpointConnectionsListByFileShareSample.ts
-[privatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/privateLinkResourcesGetSample.ts
-[privatelinkresourceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1/typescript/src/privateLinkResourcesListSample.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-fileshares
+[filesharesnapshotscreateorupdatefilesharesnapshotsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileShareSnapshotsCreateOrUpdateFileShareSnapshotSample.ts
+[filesharesnapshotsdeletefilesharesnapshotsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileShareSnapshotsDeleteFileShareSnapshotSample.ts
+[filesharesnapshotsgetfilesharesnapshotsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileShareSnapshotsGetFileShareSnapshotSample.ts
+[filesharesnapshotslistbyfilesharesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileShareSnapshotsListByFileShareSample.ts
+[filesharesnapshotsupdatefilesharesnapshotsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileShareSnapshotsUpdateFileShareSnapshotSample.ts
+[fileshareschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileSharesCheckNameAvailabilitySample.ts
+[filesharescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileSharesCreateOrUpdateSample.ts
+[filesharesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileSharesDeleteSample.ts
+[filesharesgetredundancyconversionstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileSharesGetRedundancyConversionStatusSample.ts
+[filesharesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileSharesGetSample.ts
+[fileshareslistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileSharesListByParentSample.ts
+[fileshareslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileSharesListBySubscriptionSample.ts
+[filesharesstartredundancyconversionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileSharesStartRedundancyConversionSample.ts
+[filesharesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/fileSharesUpdateSample.ts
+[informationaloperationsgetlimitssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/informationalOperationsGetLimitsSample.ts
+[informationaloperationsgetprovisioningrecommendationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/informationalOperationsGetProvisioningRecommendationSample.ts
+[informationaloperationsgetusagedatasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/informationalOperationsGetUsageDataSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/operationsListSample.ts
+[privateendpointconnectionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/privateEndpointConnectionsCreateSample.ts
+[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/privateEndpointConnectionsDeleteSample.ts
+[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/privateEndpointConnectionsGetSample.ts
+[privateendpointconnectionslistbyfilesharesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/privateEndpointConnectionsListByFileShareSample.ts
+[privatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/privateLinkResourcesGetSample.ts
+[privatelinkresourceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fileshares/arm-fileshares/samples/v1-beta/typescript/src/privateLinkResourcesListSample.ts
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-fileshares?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/fileshares/arm-fileshares/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
