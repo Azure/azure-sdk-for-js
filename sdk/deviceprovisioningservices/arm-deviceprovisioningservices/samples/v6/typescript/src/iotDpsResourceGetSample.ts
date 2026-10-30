@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the metadata of the provisioning service without SAS keys.
  *
  * @summary get the metadata of the provisioning service without SAS keys.
- * x-ms-original-file: 2026-08-31/DPSGet.json
+ * x-ms-original-file: 2026-11-01/DPSGet.json
  */
 async function dpsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,9 +22,23 @@ async function dpsGet(): Promise<void> {
  * This sample demonstrates how to get the metadata of the provisioning service without SAS keys.
  *
  * @summary get the metadata of the provisioning service without SAS keys.
- * x-ms-original-file: 2026-08-31/DPSGet_DisableLocalAuth.json
+ * x-ms-original-file: 2026-11-01/DPSGet_DisableLocalAuth.json
  */
 async function dpsGetDisableLocalAuth(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const client = new IotDpsClient(credential, subscriptionId);
+  const result = await client.iotDpsResource.get("myResourceGroup", "myFirstProvisioningService");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get the metadata of the provisioning service without SAS keys.
+ *
+ * @summary get the metadata of the provisioning service without SAS keys.
+ * x-ms-original-file: 2026-11-01/DPSGet_UserAssignedNamespaceIdentity.json
+ */
+async function dpsGetWithUserAssignedNamespaceIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const client = new IotDpsClient(credential, subscriptionId);
@@ -35,6 +49,7 @@ async function dpsGetDisableLocalAuth(): Promise<void> {
 async function main(): Promise<void> {
   await dpsGet();
   await dpsGetDisableLocalAuth();
+  await dpsGetWithUserAssignedNamespaceIdentity();
 }
 
 main().catch(console.error);

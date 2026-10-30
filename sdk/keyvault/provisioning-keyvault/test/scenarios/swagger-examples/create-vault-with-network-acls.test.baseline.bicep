@@ -1,0 +1,33 @@
+targetScope = 'resourceGroup'
+
+resource vault 'Microsoft.KeyVault/vaults@2026-02-01' = {
+  name: 'sample-vault'
+  location: 'westus'
+  properties: {
+    enabledForDeployment: true
+    enabledForDiskEncryption: true
+    enabledForTemplateDeployment: true
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Deny'
+      ipRules: [
+        {
+          value: '124.56.78.91'
+        }
+        {
+          value: '\'10.91.4.0/24\''
+        }
+      ]
+      virtualNetworkRules: [
+        {
+          id: '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'
+        }
+      ]
+    }
+    sku: {
+      name: 'standard'
+      family: 'A'
+    }
+    tenantId: '00000000-0000-0000-0000-000000000000'
+  }
+}

@@ -21,7 +21,7 @@ export function _usageBySubscriptionSkuSend(
       location: location,
       subscriptionId: context.subscriptionId,
       skuName: skuName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -54,6 +54,7 @@ export async function _usageBySubscriptionSkuDeserialize(
 
   return quotaUsageResultDeserializer(result.body);
 }
+
 /** Gets the quota usage for a search SKU in the given subscription. */
 export async function usageBySubscriptionSku(
   context: Client,

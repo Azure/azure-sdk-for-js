@@ -45,7 +45,7 @@ regeneration script falls back to it when the strict run fails.
   merge by identity even when their display order changes. Conflicting bodies,
   dynamic cases, and order-sensitive runtime lists still require resolution.
 - When a feature flag advances, post-emitter review must apply the
-  [schema replacement rule](../post-emitter-workarounds.md#feature-flag-version-increments)
+  [schema replacement rule](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/scripts/post-emitter-workarounds.md#feature-flag-version-increments)
   rather than accepting an additive union with the previous version's schema.
   A strict or recovery merge that retained old-version-only fields or literals
   is a starting point for reconciliation, not a completed migration.
@@ -115,6 +115,10 @@ regeneration script falls back to it when the strict run fails.
   their classic interface and factory members. Those operations pass the same
   guards as relocations into unprotected modules; every maintained declaration
   and all other factory behavior must remain unchanged.
+- `SDK_VERSION` must be a static string matching `package.json` version.
+  A coordinated version bump may change only that initializer in
+  `src/constants.ts`; its declaration and every other protected constant
+  remain unchanged.
 - Public exports are reconciled without replacing the customized import
   scaffold. Generated-backed moves are distinguished from custom-only API. An
   unmodified generated export of a group module the emitter removed, for

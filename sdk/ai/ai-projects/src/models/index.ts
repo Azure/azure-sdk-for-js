@@ -1164,4 +1164,11 @@ export type {
   LiveServerEventLiveTransportRinging,
   LiveServerEventLiveTransportAnswered,
   LiveServerEventLiveTransportFailed,
+  VoiceAgentPostCallConfig,
+  VoiceAgentPostCallDestination,
+  VoiceAgentPostCallDestinationUnion,
+  VoiceAgentPostCallDestinationType,
+  VoiceAgentEventGridPostCallDestination,
+  VoiceAgentRoutinePostCallDestination,
+  VoiceAgentPostCallIncludeOption,
 } from "./models.js";

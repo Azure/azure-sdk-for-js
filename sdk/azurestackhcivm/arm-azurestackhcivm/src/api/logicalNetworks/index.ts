@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type LogicalNetworksListAllOptionalParams,
-  type LogicalNetworksListByResourceGroupOptionalParams,
-  type LogicalNetworksDeleteOptionalParams,
-  type LogicalNetworksUpdateOptionalParams,
-  type LogicalNetworksCreateOrUpdateOptionalParams,
-  type LogicalNetworksGetOptionalParams,
+export type {
+  LogicalNetworksListAllOptionalParams,
+  LogicalNetworksListByResourceGroupOptionalParams,
+  LogicalNetworksDeleteOptionalParams,
+  LogicalNetworksUpdateOptionalParams,
+  LogicalNetworksCreateOrUpdateOptionalParams,
+  LogicalNetworksGetOptionalParams,
 } from "./options.js";

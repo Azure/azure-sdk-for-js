@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the status of a long running operation, such as create, update or delete a provisioning service.
  *
  * @summary gets the status of a long running operation, such as create, update or delete a provisioning service.
- * x-ms-original-file: 2026-08-31/DPSGetOperationResult.json
+ * x-ms-original-file: 2026-11-01/DPSGetOperationResult.json
  */
 async function dpsGetOperationResult() {
   const credential = new DefaultAzureCredential();

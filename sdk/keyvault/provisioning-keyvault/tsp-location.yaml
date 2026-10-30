@@ -1,0 +1,6 @@
+directory: specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault
+commit: 7a95278f5d74c3bb201e085a74e4de696dd2beee
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
+
+emitterPackageJsonPath: eng/provisioning-emitter-package.json

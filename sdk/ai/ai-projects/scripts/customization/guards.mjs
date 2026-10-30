@@ -1441,7 +1441,45 @@ function checkProtectedAdditions(trees, renames, report) {
   }
 }
 
-function checkProtected(trees, renames, report, matches = []) {
+function packageVersionUpdate(file, before, after, packageVersion) {
+  if (
+    file !== "constants.ts" ||
+    packageVersion === undefined ||
+    !ts.isVariableDeclaration(before) ||
+    !ts.isVariableDeclaration(after) ||
+    nameOf(before.name) !== "SDK_VERSION" ||
+    !before.initializer ||
+    !after.initializer ||
+    !ts.isStringLiteralLike(before.initializer) ||
+    !ts.isStringLiteralLike(after.initializer) ||
+    after.initializer.text !== packageVersion
+  )
+    return false;
+  const previous = before.parent.parent;
+  const next = after.parent.parent;
+  if (!ts.isVariableStatement(previous) || !ts.isVariableStatement(next)) return false;
+  const text = next.getText();
+  const start = after.initializer.getStart() - next.getStart();
+  const end = after.initializer.getEnd() - next.getStart();
+  const normalized = text.slice(0, start) + before.initializer.getText() + text.slice(end);
+  return canonicalize(previous.getText()) === canonicalize(normalized);
+}
+
+function checkSdkVersion(trees, packageVersion, report) {
+  if (packageVersion === undefined) return;
+  const entry = trees.output.get("constants.ts")?.byName.get("SDK_VERSION");
+  const initializer =
+    entry && ts.isVariableDeclaration(entry.node) ? entry.node.initializer : undefined;
+  if (!initializer || !ts.isStringLiteralLike(initializer) || initializer.text !== packageVersion)
+    report(
+      "constants.ts",
+      "SDK_VERSION",
+      "SDK_VERSION must be a static string matching package.json version.",
+    );
+}
+
+function checkProtected(trees, renames, report, matches = [], packageVersion) {
+  checkSdkVersion(trees, packageVersion, report);
   checkProtectedAdditions(trees, renames, report);
   const relocations = relocationsInto(matches);
   for (const [file, previous] of trees.custom) {
@@ -1457,12 +1495,14 @@ function checkProtected(trees, renames, report, matches = []) {
       const next = output.byName.get(entry.name);
       const base = trees.base.get(file)?.byName.get(entry.name);
       const incoming = trees.incoming.get(file)?.byName.get(entry.name);
+      const versionDeclaration =
+        file === "constants.ts" && entry.name === "SDK_VERSION" && packageVersion !== undefined;
       if (
         !next ||
-        !(
-          additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames) ||
-          relocatedAdditive(entry.node, next.node, relocation, renames)
-        )
+        !(versionDeclaration
+          ? packageVersionUpdate(file, entry.node, next.node, packageVersion)
+          : additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames) ||
+            relocatedAdditive(entry.node, next.node, relocation, renames))
       ) {
         report(
           file,
@@ -1818,6 +1858,7 @@ export function validateCustomization({
   source,
   matches = [],
   modelRenames = new Map(),
+  packageVersion,
   retained,
   unapplied,
 }) {
@@ -1864,6 +1905,11 @@ export function validateCustomization({
         );
       }
     }
+  if (
+    packageVersion !== undefined &&
+    (typeof packageVersion !== "string" || !packageVersion.length)
+  )
+    report("<input>", "packageVersion", "packageVersion must be a nonempty package.json version.");
   if (diagnostics.length) return diagnostics;
   const renames = new Map([...packageRenames, ...modelRenames]);
   for (const name of renames.keys()) {
@@ -1906,7 +1952,7 @@ export function validateCustomization({
   }
   checkExports(trees, exportRenames, report);
   checkOperations(trees, matches, renames, report);
-  checkProtected(trees, renames, report, matches);
+  checkProtected(trees, renames, report, matches, packageVersion);
   checkKnownPolicies(trees, modelIndexes, renames, report);
   return diagnostics;
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a resource group.
  *
  * @summary lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a resource group.
- * x-ms-original-file: 2025-12-01/Profiles_ListByResourceGroup.json
+ * x-ms-original-file: 2026-10-01/Profiles_ListByResourceGroup.json
  */
 async function profilesListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
