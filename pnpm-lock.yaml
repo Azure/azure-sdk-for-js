@@ -1471,6 +1471,79 @@ importers:
         specifier: ^4.2.1
         version: 4.6.7
 
+  sdk/aiinfraoptimization/arm-aiinfraoptimization:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.7.0
+        version: link:../../core/core-client-rest
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-rest-pipeline':
+        specifier: link:../../core/core-rest-pipeline
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0(supports-color@10.2.2)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 18.0.8
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
   sdk/alertprocessingrules/arm-alertprocessingrules:
     dependencies:
       '@azure-rest/core-client':
@@ -39679,7 +39752,7 @@ packages:
     engines: {node: '>= 0.10.0'}
 
   content-disposition@2.0.1:
-    resolution: {integrity: sha1-iKdcelLvnEB8lgNf6Dpmk5wqTck=}
+    resolution: {integrity: sha512-e+H0ZXHSWYrENhQzw1LPuP4oF5MzVKmDU6d3hxlvaPEYLLg62MxtQNPRx4SYSuYJSBUgnQIG4HIN2tEtNv7Dog==}
     engines: {node: '>=18'}
 
   content-type@1.0.5:
@@ -42602,7 +42675,7 @@ packages:
     resolution: {integrity: sha1-ryT7t7kfzKlFOZoE+pAKEPlQYkI=}
 
   sort-package-json@3.7.1:
-    resolution: {integrity: sha1-fy6YFf4lp031sOpyXk2MnLQ7Nvw=}
+    resolution: {integrity: sha512-ssk1HG7whF8N/T1IsNAQrtHG5Cbdi0rAgRJZXYBr9hF5xaHnBNzUx/W6LcthEW7FhOwvZssbESZuO+GxssqAyA==}
     engines: {node: '>=20'}
     hasBin: true
 
