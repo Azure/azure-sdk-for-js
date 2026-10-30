@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a specified NGroups resource.
  *
  * @summary update a specified NGroups resource.
- * x-ms-original-file: 2026-06-01-preview/NGroupsUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/NGroupsUpdate.json
  */
 async function nGroupsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

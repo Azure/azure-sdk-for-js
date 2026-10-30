@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a container group profile.
  *
  * @summary deletes a container group profile.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfilesDelete.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfilesDelete.json
  */
 async function containerGroupProfilesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

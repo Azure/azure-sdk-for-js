@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to stops all container groups in the specified NGroups resource. Compute resources will be deallocated and billing will stop.
  *
  * @summary stops all container groups in the specified NGroups resource. Compute resources will be deallocated and billing will stop.
- * x-ms-original-file: 2026-06-01-preview/NGroupsStop.json
+ * x-ms-original-file: 2026-08-01-preview/NGroupsStop.json
  */
 async function nGroupsStop() {
   const credential = new DefaultAzureCredential();

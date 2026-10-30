@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete container group virtual network association links. The operation does not delete other resources provided by the user.
  *
  * @summary delete container group virtual network association links. The operation does not delete other resources provided by the user.
- * x-ms-original-file: 2026-06-01-preview/SubnetServiceAssociationLinkDelete.json
+ * x-ms-original-file: 2026-08-01-preview/SubnetServiceAssociationLinkDelete.json
  */
 async function subnetServiceAssociationLinkDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

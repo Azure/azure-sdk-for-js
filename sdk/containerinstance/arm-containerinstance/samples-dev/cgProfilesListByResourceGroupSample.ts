@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of all container group profiles under a resource group.
  *
  * @summary gets a list of all container group profiles under a resource group.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfilesListByResourceGroup.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfilesListByResourceGroup.json
  */
 async function containerGroupProfilesListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
