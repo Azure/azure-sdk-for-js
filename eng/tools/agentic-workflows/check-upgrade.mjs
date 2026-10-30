@@ -36,6 +36,7 @@ async function loggedStep(name, action, log, token = process.env.GH_TOKEN) {
 }
 
 async function runCommand(command, args, options) {
+  const { logStdout = true, ...executeOptions } = options ?? {};
   const redact = (text) =>
     options?.env?.GH_TOKEN ? text.replaceAll(options.env.GH_TOKEN, "[REDACTED]") : text;
   try {
@@ -43,9 +44,9 @@ async function runCommand(command, args, options) {
       encoding: "utf8",
       timeout: 20 * 60 * 1000,
       maxBuffer: 16 * 1024 * 1024,
-      ...options,
+      ...executeOptions,
     });
-    if (stdout) console.log(redact(stdout.trimEnd()));
+    if (stdout && logStdout) console.log(redact(stdout.trimEnd()));
     if (stderr) console.error(redact(stderr.trimEnd()));
     return stdout.trim();
   } catch (error) {
@@ -58,6 +59,10 @@ async function runCommand(command, args, options) {
 function failureDetails(error, token) {
   const details = String(error?.message ?? error);
   return (token ? details.replaceAll(token, "[REDACTED]") : details).slice(-8000);
+}
+
+function upgradeSummary(pinned, latest) {
+  return `Upgrade gh-aw from v${pinned} to v${latest}, refresh repository components and action/container pins, and regenerate all workflow locks.`;
 }
 
 // gh-aw's upgrade command treats compilation errors as warnings. Enforce this
@@ -95,33 +100,6 @@ export async function verifyUpgrade({ cwd, latest, run = runCommand, log = conso
     },
     log,
   );
-}
-
-function upgradePRMessage(cwd, pinned, latest) {
-  const candidates = [
-    join(cwd, ".github", "PULL_REQUEST_TEMPLATE", "pull_request_template.md"),
-    join(cwd, ".github", "pull_request_template.md"),
-  ];
-  const path = candidates.find(existsSync);
-  if (!path) throw new Error("No repository pull request template found");
-  const answers = [
-    ["Packages impacted", "Repository agentic workflows; no SDK packages."],
-    ["Issues associated", "N/A."],
-    [
-      "Describe the problem",
-      `Upgrade gh-aw from v${pinned} to [v${latest}](https://github.com/github/gh-aw/releases/tag/v${latest}), including repository components and generated workflows.`,
-    ],
-    [
-      "What are the possible designs",
-      "Use the gh-aw CLI's full upgrade instead of an AI-authored version-pin-only change.",
-    ],
-    ["Are there test cases", "N/A: this pull request contains CLI-generated upgrade changes."],
-    ["Provide a list", "N/A."],
-  ];
-  return readFileSync(path, "utf8").replace(/^### .+$/gm, (heading) => {
-    const answer = answers.find(([prefix]) => heading.startsWith(`### ${prefix}`));
-    return answer ? `${heading}\n\n${answer[1]}` : heading;
-  });
 }
 
 export async function createUpgradePullRequest({
@@ -215,7 +193,7 @@ export async function createUpgradePullRequest({
         "--create-pull-request",
         "--skip-extension-upgrade",
         "--pr-message",
-        upgradePRMessage(cwd, pinned, latest),
+        upgradeSummary(pinned, latest),
       ],
       "Run gh aw upgrade --create-pull-request (includes commit, pre-push gate, push, and PR creation)",
     );
@@ -258,25 +236,18 @@ export function pinnedVersion(setup) {
   return pinned;
 }
 
-async function requestGitHub(path, { token, method = "GET", body, fetchImpl = fetch }) {
-  const response = await fetchImpl(`https://api.github.com${path}`, {
-    method,
-    headers: {
-      Accept: "application/vnd.github+json",
-      Authorization: `Bearer ${token}`,
-      "X-GitHub-Api-Version": "2022-11-28",
-      "User-Agent": "azure-sdk-for-js-agentic-workflows-upgrade-check",
-      ...(body === undefined ? {} : { "Content-Type": "application/json" }),
-    },
-    ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-  });
-  if (!response.ok) {
-    const details = await response.text();
-    throw new Error(
-      `GitHub API ${method} ${path} failed (${response.status} ${response.statusText}): ${details}`,
-    );
+async function requestGitHub(path, { token, method = "GET", body, run }) {
+  const args = ["api", "--hostname", "github.com", "--method", method, path];
+  for (const [key, value] of Object.entries(body ?? {})) {
+    for (const entry of Array.isArray(value) ? value : [value]) {
+      args.push("--raw-field", `${key}${Array.isArray(value) ? "[]" : ""}=${entry}`);
+    }
   }
-  return response.status === 204 ? undefined : response.json();
+  const output = await run("gh", args, {
+    env: { ...process.env, GH_TOKEN: token, GH_PROMPT_DISABLED: "1" },
+    logStdout: false,
+  });
+  return JSON.parse(output);
 }
 
 export async function checkUpgrade({
@@ -284,7 +255,7 @@ export async function checkUpgrade({
   repo,
   dryRun = false,
   token = process.env.GH_TOKEN,
-  fetchImpl = fetch,
+  run = runCommand,
   log = console.log,
   upgrade = createUpgradePullRequest,
 }) {
@@ -295,7 +266,7 @@ export async function checkUpgrade({
   const step = (name, action) => loggedStep(name, action, log, token);
   const pinned = await step("Read pinned gh-aw version", () => pinnedVersion(setup));
   const release = await step("Fetch latest gh-aw release", () =>
-    requestGitHub("/repos/github/gh-aw/releases/latest", { token, fetchImpl }),
+    requestGitHub("/repos/github/gh-aw/releases/latest", { token, run }),
   );
   const latest = await step("Validate latest release version", () => version(release.tag_name));
   log(`Version comparison: pinned v${pinned}, latest v${latest}.`);
@@ -311,7 +282,7 @@ export async function checkUpgrade({
       const pulls = await step(`List open upgrade PRs (page ${page})`, () =>
         requestGitHub(`/repos/${repo}/pulls?state=open&per_page=100&page=${page}`, {
           token,
-          fetchImpl,
+          run,
         }),
       );
       if (!Array.isArray(pulls))
@@ -340,7 +311,7 @@ export async function checkUpgrade({
     const issues = await step(`List open upgrade issues (page ${page})`, () =>
       requestGitHub(`/repos/${repo}/issues?state=open&per_page=100&page=${page}`, {
         token,
-        fetchImpl,
+        run,
       }),
     );
     if (!Array.isArray(issues)) throw new Error("GitHub API returned an invalid issues response");
@@ -377,6 +348,15 @@ export async function checkUpgrade({
   // an issue rather than creating duplicate work after an ambiguous response.
   const createdPR = await step("Confirm upgrade PR publication", findPullRequest);
   if (createdPR) {
+    // --pr-message appends to gh-aw's generated body; replace it with just the summary.
+    await step("Set concise upgrade PR description", () =>
+      requestGitHub(`/repos/${repo}/pulls/${createdPR.number}`, {
+        token,
+        run,
+        method: "PATCH",
+        body: { body: upgradeSummary(pinned, latest) },
+      }),
+    );
     log(
       `${upgradeError ? "Recovered" : "Created"} gh-aw upgrade pull request from v${pinned} to v${latest}: ${createdPR.html_url}`,
     );
@@ -415,7 +395,7 @@ export async function checkUpgrade({
       token,
       method: "POST",
       body: { title, body, labels },
-      fetchImpl,
+      run,
     });
     if (!issue?.html_url) throw new Error("GitHub API issue response did not include html_url");
     return issue;

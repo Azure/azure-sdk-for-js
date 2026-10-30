@@ -25,16 +25,6 @@ jobs:
 `;
 }
 
-function response(data, { status = 200, statusText = "OK" } = {}) {
-  return {
-    ok: status >= 200 && status < 300,
-    status,
-    statusText,
-    json: async () => data,
-    text: async () => String(data),
-  };
-}
-
 function run({
   pin = "v0.89.21",
   latest = "v0.92.0",
@@ -60,18 +50,40 @@ function run({
         upgrades.push(options);
         if (upgradeError) throw upgradeError;
       },
-      fetchImpl: async (url, options) => {
-        calls.push({ url, options });
+      run: async (command, args, { env }) => {
+        assert.equal(command, "gh");
+        assert.deepEqual(args.slice(0, 3), ["api", "--hostname", "github.com"]);
+        assert.equal(env.GH_TOKEN, "test-token");
+        assert.ok(!args.includes("test-token"));
+        const url = `https://api.github.com${args[5]}`;
+        const payload = {};
+        for (let index = 6; index < args.length; index += 2) {
+          assert.equal(args[index], "--raw-field");
+          const field = args[index + 1];
+          const separator = field.indexOf("=");
+          const key = field.slice(0, separator);
+          const value = field.slice(separator + 1);
+          if (key.endsWith("[]")) (payload[key.slice(0, -2)] ??= []).push(value);
+          else payload[key] = value;
+        }
+        const options = { method: args[4], body: JSON.stringify(payload) };
+        calls.push({ url, options, args });
         if (calls.length === failAt) throw new Error("GitHub request failed");
-        if (url.endsWith("/releases/latest")) return response({ tag_name: latest, ...release });
+        if (url.endsWith("/releases/latest"))
+          return JSON.stringify({ tag_name: latest, ...release });
+        if (options.method === "PATCH") return JSON.stringify(createdPR);
         if (options.method === "POST") {
-          return response({ html_url: "https://github.com/Azure/azure-sdk-for-js/issues/123" });
+          return JSON.stringify({
+            html_url: "https://github.com/Azure/azure-sdk-for-js/issues/123",
+          });
         }
         const page = Number(new URL(url).searchParams.get("page"));
         if (new URL(url).pathname.endsWith("/pulls")) {
-          return response(upgrades.length && createdPR ? [createdPR] : (pullPages[page - 1] ?? []));
+          return JSON.stringify(
+            upgrades.length && createdPR ? [createdPR] : (pullPages[page - 1] ?? []),
+          );
         }
-        return response(issuePages[page - 1] ?? []);
+        return JSON.stringify(issuePages[page - 1] ?? []);
       },
     });
   return { calls, logs, upgrades, invoke };
@@ -175,8 +187,6 @@ test("creates the expected title, labels, release link, and agent request", asyn
     assert.ok(body.includes(required), `Missing issue instruction: ${required}`);
   }
   assert.ok(body.startsWith("The `gh-aw` CLI pinned in"));
-  assert.equal(options.headers.Authorization, "Bearer test-token");
-  assert.equal(options.headers["X-GitHub-Api-Version"], "2022-11-28");
   assert.equal(
     check.logs.at(-1),
     "Created gh-aw upgrade issue from v0.89.21 to v0.92.0: https://github.com/Azure/azure-sdk-for-js/issues/123",
@@ -184,11 +194,12 @@ test("creates the expected title, labels, release link, and agent request", asyn
   assert.ok(check.logs.some((message) => message.includes("Simulated upgrade failure")));
 });
 
-test("dry run performs reads but never runs commands or creates issues or PRs", async () => {
+test("dry run only runs read-only gh api commands and never upgrades or creates issues or PRs", async () => {
   const check = run({ dryRun: true });
   await check.invoke();
   assert.equal(check.calls.length, 3);
   assert.equal(check.upgrades.length, 0);
+  assert.ok(check.calls.every(({ options }) => options.method === "GET"));
   assert.match(check.logs.at(-1), /Would upgrade gh-aw from v0.89.21 to v0.92.0/);
 });
 
@@ -199,21 +210,33 @@ test("requires a token and surfaces API, transport, and version failures", async
   for (const failAt of [1, 2, 3, 4, 5]) {
     await assert.rejects(run({ failAt }).invoke, /GitHub request failed/);
   }
-  const fetchImpl = async () =>
-    response("permission denied", { status: 403, statusText: "Forbidden" });
+  const runCommand = async () => {
+    throw new Error("gh: permission denied (HTTP 403)");
+  };
   await assert.rejects(
     checkUpgrade({
       setup: setup("v0.89.21"),
       repo: "Azure/azure-sdk-for-js",
       token: "test-token",
-      fetchImpl,
+      run: runCommand,
     }),
-    /GitHub API GET .* failed \(403 Forbidden\): permission denied/,
+    /Fetch latest gh-aw release: gh: permission denied \(HTTP 403\)/,
   );
   await assert.rejects(run({ latest: "not-a-version" }).invoke, /Invalid gh-aw semantic version/);
+  await assert.rejects(
+    checkUpgrade({
+      setup: setup("v0.89.21"),
+      repo: "Azure/azure-sdk-for-js",
+      token: "test-token",
+      log: () => {},
+      run: async () => "not JSON",
+    }),
+    /Fetch latest gh-aw release:/,
+  );
 });
 
 const pull = {
+  number: 456,
   html_url: "https://github.com/Azure/azure-sdk-for-js/pull/456",
   title: "Upgrade agentic workflows",
   head: { ref: "upgrade-agentic-workflows-1234", repo: { full_name: "Azure/azure-sdk-for-js" } },
@@ -224,7 +247,16 @@ test("logs versions and PR URL without creating an issue on successful upgrades"
   await success.invoke();
   assert.equal(success.upgrades.length, 1);
   assert.equal(success.upgrades[0].latest, "0.92.0");
-  assert.ok(success.calls.every(({ options }) => options.method === "GET"));
+  assert.ok(success.calls.slice(0, -1).every(({ options }) => options.method === "GET"));
+  assert.equal(success.calls.at(-1).options.method, "PATCH");
+  assert.equal(
+    success.calls.at(-1).url,
+    "https://api.github.com/repos/Azure/azure-sdk-for-js/pulls/456",
+  );
+  assert.equal(
+    JSON.parse(success.calls.at(-1).options.body).body,
+    "Upgrade gh-aw from v0.89.21 to v0.92.0, refresh repository components and action/container pins, and regenerate all workflow locks.",
+  );
   assert.match(
     success.logs.at(-1),
     /Created gh-aw upgrade pull request from v0.89.21 to v0.92.0: .*\/pull\/456/,
@@ -235,6 +267,12 @@ test("logs versions and PR URL without creating an issue on successful upgrades"
   });
   await recovered.invoke();
   assert.match(recovered.logs.at(-1), /Recovered gh-aw upgrade pull request/);
+  const descriptionFailure = run({ createdPR: pull, upgradeError: null, failAt: 5 });
+  await assert.rejects(
+    descriptionFailure.invoke,
+    /Set concise upgrade PR description: GitHub request failed/,
+  );
+  assert.ok(descriptionFailure.calls.every(({ options }) => options.method !== "POST"));
 });
 
 test("deduplicates native CLI upgrade PRs across pages, ignoring unrelated PRs", async () => {
@@ -355,10 +393,6 @@ test("installs an isolated target CLI and invokes native PR creation with an ext
           join(cwd, ".github", "workflows", "copilot-setup-steps.yml"),
           setup("v0.93.5"),
         );
-        writeFileSync(
-          join(cwd, ".github", "pull_request_template.md"),
-          "### Packages impacted by this PR\n\n### Checklists\n- [ ] Existing item\n",
-        );
       }
       if (args.includes("core.hooksPath")) {
         const hook = readFileSync(join(args.at(-1), "pre-push"), "utf8");
@@ -375,8 +409,11 @@ test("installs an isolated target CLI and invokes native PR creation with an ext
   assert.ok(upgrade.args.includes("--skip-extension-upgrade"));
   assert.ok(!upgrade.args.includes("--auto-merge"));
   assert.ok(!upgrade.args.includes("--approve"));
-  assert.ok(upgrade.args.at(-1).includes("- [ ] Existing item"));
-  assert.ok(upgrade.args.at(-1).includes("Repository agentic workflows"));
+  assert.equal(
+    upgrade.args.at(-1),
+    "Upgrade gh-aw from v0.93.5 to v1.0.1, refresh repository components and action/container pins, and regenerate all workflow locks.",
+  );
+  assert.ok(!upgrade.args.at(-1).includes("###"));
   assert.equal(upgrade.options.env.GH_TOKEN, "test-token");
 });
 
@@ -454,10 +491,6 @@ test("the installed pre-push hook actually blocks publication and preserves fail
           writeFileSync(
             join(cwd, ".github", "workflows", "copilot-setup-steps.yml"),
             setup("v0.93.5"),
-          );
-          writeFileSync(
-            join(cwd, ".github", "pull_request_template.md"),
-            "### Packages impacted\n",
           );
           execFileSync("git", ["init", "--quiet", cwd]);
           execFileSync("git", ["remote", "add", "origin", remote], { cwd });
