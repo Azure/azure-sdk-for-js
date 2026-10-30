@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import http from "node:http";
+import { lookup } from "node:dns";
 import { Readable } from "node:stream";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
@@ -94,13 +95,18 @@ describe("Expect: 100-continue", () => {
 
   it("sends the body after the fixed fallback when no Continue response arrives", async () => {
     const bodyFactory = vi.fn(() => Readable.from(["payload"]));
+    let headersReceivedAt = 0;
+    let bodyReceivedAt = 0;
     const server = http.createServer();
     server.on("checkContinue", (request, response) => {
+      headersReceivedAt = Date.now();
+      request.once("data", () => {
+        bodyReceivedAt = Date.now();
+      });
       request.resume();
       request.on("end", () => response.end());
     });
     const port = await listen(server);
-    const startedAt = Date.now();
 
     const response = await createDefaultHttpClient().sendRequest(
       createPipelineRequest({
@@ -114,6 +120,122 @@ describe("Expect: 100-continue", () => {
 
     expect(response.status).toBe(200);
     expect(bodyFactory).toHaveBeenCalledOnce();
-    expect(Date.now() - startedAt).toBeGreaterThanOrEqual(900);
+    expect(bodyReceivedAt - headersReceivedAt).toBeGreaterThanOrEqual(900);
+  });
+
+  it.each([false, true])(
+    "excludes slow DNS from the fallback (serverSendsContinue=%s)",
+    async (serverSendsContinue) => {
+      let bodyCreatedAt = 0;
+      let headersReceivedAt = 0;
+      let continueSentAt = 0;
+      const bodyFactory = vi.fn(() => {
+        bodyCreatedAt = Date.now();
+        return Readable.from(["payload"]);
+      });
+      const server = http.createServer();
+      server.on("checkContinue", (request, response) => {
+        headersReceivedAt = Date.now();
+        request.resume();
+        request.on("end", () => response.end("accepted"));
+        if (serverSendsContinue) {
+          setTimeout(() => {
+            continueSentAt = Date.now();
+            response.writeContinue();
+          }, 50);
+        }
+      });
+      const port = await listen(server);
+      const agent = new http.Agent({
+        lookup(_hostname, options, callback) {
+          setTimeout(() => lookup("127.0.0.1", options, callback), 1200);
+        },
+      });
+      try {
+        const response = await createDefaultHttpClient().sendRequest(
+          createPipelineRequest({
+            url: `http://delayed-lookup.test:${port}`,
+            method: "POST",
+            allowInsecureConnection: true,
+            requestOverrides: { agent },
+            headers: createHttpHeaders({ Expect: "100-continue" }),
+            body: bodyFactory,
+          }),
+        );
+
+        expect(response.bodyAsText).toBe("accepted");
+        expect(bodyFactory).toHaveBeenCalledOnce();
+        if (serverSendsContinue) {
+          expect(continueSentAt).toBeGreaterThan(0);
+          expect(bodyCreatedAt).toBeGreaterThanOrEqual(continueSentAt);
+        } else {
+          expect(bodyCreatedAt - headersReceivedAt).toBeGreaterThanOrEqual(900);
+        }
+      } finally {
+        agent.destroy();
+      }
+    },
+  );
+
+  it("does not consume the fallback while queued for a reused agent socket", async () => {
+    let releaseFirstResponse: (() => void) | undefined;
+    let firstRequestArrived!: () => void;
+    const firstRequest = new Promise<void>((resolve) => {
+      firstRequestArrived = resolve;
+    });
+    const server = http.createServer((_request, response) => {
+      releaseFirstResponse = () => response.end("first");
+      firstRequestArrived();
+    });
+    let continueSentAt = 0;
+    let bodyCreatedAt = 0;
+    const bodyFactory = vi.fn(() => {
+      bodyCreatedAt = Date.now();
+      return Readable.from(["payload"]);
+    });
+    server.on("checkContinue", (request, response) => {
+      request.resume();
+      request.on("end", () => response.end("second"));
+      setTimeout(() => {
+        continueSentAt = Date.now();
+        response.writeContinue();
+      }, 50);
+    });
+    const port = await listen(server);
+    const agent = new http.Agent({ keepAlive: true, maxSockets: 1 });
+    const client = createDefaultHttpClient();
+    const first = client.sendRequest(
+      createPipelineRequest({
+        url: `http://127.0.0.1:${port}`,
+        allowInsecureConnection: true,
+        requestOverrides: { agent },
+      }),
+    );
+    try {
+      await firstRequest;
+      const second = client.sendRequest(
+        createPipelineRequest({
+          url: `http://127.0.0.1:${port}`,
+          method: "POST",
+          allowInsecureConnection: true,
+          requestOverrides: { agent },
+          headers: createHttpHeaders({ Expect: "100-continue" }),
+          body: bodyFactory,
+        }),
+      );
+      await new Promise<void>((resolve) => setTimeout(resolve, 1200));
+      const bodyCreatedWhileQueued = bodyFactory.mock.calls.length > 0;
+      releaseFirstResponse?.();
+      const [, response] = await Promise.all([first, second]);
+
+      expect(bodyCreatedWhileQueued).toBe(false);
+      expect(response.bodyAsText).toBe("second");
+      expect(bodyFactory).toHaveBeenCalledOnce();
+      expect(continueSentAt).toBeGreaterThan(0);
+      expect(bodyCreatedAt).toBeGreaterThanOrEqual(continueSentAt);
+    } finally {
+      releaseFirstResponse?.();
+      agent.destroy();
+    }
   });
 });

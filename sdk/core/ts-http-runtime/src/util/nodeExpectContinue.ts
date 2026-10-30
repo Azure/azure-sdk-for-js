@@ -81,6 +81,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
       fallback = undefined;
     }
     request?.removeListener("continue", sendBody);
+    request?.removeListener("socket", onSocket);
   }
 
   function onError(error: unknown): Error {
@@ -118,6 +119,28 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   function onClose(): void {
     stopWaiting();
     options.abortSignal.removeEventListener("abort", onAbort);
+  }
+
+  function onSocket(): void {
+    if (!waiting) {
+      return;
+    }
+    try {
+      request.flushHeaders();
+      if (!waiting) {
+        return;
+      }
+      // This ordered write excludes connection setup and preceding header writes from the timeout.
+      request.write("", (error) => {
+        if (error) {
+          request.destroy(onError(error));
+        } else if (waiting) {
+          fallback = setTimeout(sendBody, EXPECT_CONTINUE_TIMEOUT_IN_MS);
+        }
+      });
+    } catch (error: unknown) {
+      request.destroy(onError(error));
+    }
   }
 
   function onResponse(response: http.IncomingMessage): void {
@@ -173,12 +196,9 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   if (!waiting) {
     return;
   }
-  try {
-    request.flushHeaders();
-    if (waiting) {
-      fallback = setTimeout(sendBody, EXPECT_CONTINUE_TIMEOUT_IN_MS);
-    }
-  } catch (error: unknown) {
-    request.destroy(onError(error));
+  if (request.socket) {
+    onSocket();
+  } else {
+    request.once("socket", onSocket);
   }
 }

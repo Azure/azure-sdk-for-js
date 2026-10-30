@@ -57,7 +57,11 @@ interface HttpClient {
 ### Expect: 100-continue
 
 The Node HttpClient supports opt-in `Expect: 100-continue`. Set the
-header on the request to delay sending its body until the server seconds a 100 Continue response or 1 second elapses.
+header on the request to delay sending its body until the server sends a 100 Continue response
+or the 1-second fallback expires. The fallback starts after socket assignment and completion
+of an ordered empty write following the request headers, excluding agent queueing and
+DNS/TCP/TLS connection setup. This is a client-side write-completion boundary, not confirmation
+that the server has received the headers.
 
 ```ts snippet:ReadmeSampleExpectContinue
 import {

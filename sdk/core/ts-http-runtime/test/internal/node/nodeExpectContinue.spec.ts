@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { ClientRequest, IncomingMessage } from "node:http";
+import { Socket } from "node:net";
 import { PassThrough, Writable } from "node:stream";
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock, type Mocked } from "vitest";
 import { createExpectContinueRequest } from "../../../src/util/nodeExpectContinue.js";
@@ -10,7 +11,12 @@ function createOptions(
   bodyLength: number | null = null,
   suppressDestroyError = true,
 ): {
-  request: Writable & { flushHeaders: Mock<() => void>; shouldKeepAlive: boolean };
+  request: Writable & {
+    flushHeaders: Mock<() => void>;
+    write: Mock<(chunk: string, callback?: (error?: Error | null) => void) => boolean>;
+    shouldKeepAlive: boolean;
+    socket: Socket | null;
+  };
   controller: AbortController;
   options: Mocked<Parameters<typeof createExpectContinueRequest>[0]>;
 } {
@@ -23,7 +29,15 @@ function createOptions(
         callback(suppressDestroyError ? null : error);
       },
     }),
-    { flushHeaders: vi.fn(), shouldKeepAlive: true },
+    {
+      flushHeaders: vi.fn(),
+      write: vi.fn((_chunk: string, callback?: (error?: Error | null) => void) => {
+        callback?.();
+        return true;
+      }),
+      shouldKeepAlive: true,
+      socket: new Socket(),
+    },
   );
   const controller = new AbortController();
   return {
@@ -49,6 +63,166 @@ describe("Expect: 100-continue negotiation", () => {
   afterEach(() => {
     vi.useRealTimers();
   });
+
+  it("dispatches a known-empty body without waiting for a socket or fallback", () => {
+    const { request, options } = createOptions(0);
+    request.socket = null;
+    try {
+      createExpectContinueRequest(options);
+
+      expect(options.sendBody).toHaveBeenCalledExactlyOnceWith(request);
+      expect(request.flushHeaders).not.toHaveBeenCalled();
+      expect(request.write).not.toHaveBeenCalled();
+      expect(request.listenerCount("socket")).toBe(0);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      request.destroy();
+    }
+  });
+
+  it.each([false, true])(
+    "starts the fallback only after socket assignment and ordered write completion (socketAssigned=%s)",
+    (socketAssigned) => {
+      const { request, options } = createOptions();
+      const socket = new Socket();
+      request.socket = socketAssigned ? socket : null;
+      let writeComplete: ((error?: Error | null) => void) | undefined;
+      request.write.mockImplementation((_chunk, callback) => {
+        writeComplete = callback;
+        return true;
+      });
+
+      try {
+        createExpectContinueRequest(options);
+        if (!socketAssigned) {
+          vi.advanceTimersByTime(2000);
+          expect(request.flushHeaders).not.toHaveBeenCalled();
+          expect(request.write).not.toHaveBeenCalled();
+          expect(options.sendBody).not.toHaveBeenCalled();
+          request.socket = socket;
+          request.emit("socket", socket);
+        }
+        expect(request.flushHeaders).toHaveBeenCalledOnce();
+        expect(request.write).toHaveBeenCalledExactlyOnceWith("", expect.any(Function));
+        expect(request.flushHeaders.mock.invocationCallOrder[0]).toBeLessThan(
+          request.write.mock.invocationCallOrder[0],
+        );
+        vi.advanceTimersByTime(2000);
+        expect(vi.getTimerCount()).toBe(0);
+        expect(options.sendBody).not.toHaveBeenCalled();
+
+        if (!writeComplete) {
+          throw new Error("Expected an ordered write callback");
+        }
+        writeComplete();
+        expect(vi.getTimerCount()).toBe(1);
+        vi.advanceTimersByTime(999);
+        expect(options.sendBody).not.toHaveBeenCalled();
+        vi.advanceTimersByTime(1);
+        expect(options.sendBody).toHaveBeenCalledExactlyOnceWith(request);
+        request.emit("continue");
+        expect(options.sendBody).toHaveBeenCalledOnce();
+        expect(request.listenerCount("socket")).toBe(0);
+      } finally {
+        request.destroy();
+        socket.destroy();
+      }
+    },
+  );
+
+  it.each(["response", "abort", "close", "error", "continue"])(
+    "removes the pending socket listener when %s ends negotiation",
+    (event) => {
+      const { request, controller, options } = createOptions();
+      const response = new PassThrough();
+      request.socket = null;
+      try {
+        createExpectContinueRequest(options);
+        const [onSocket] = request.listeners("socket");
+        if (!onSocket) {
+          throw new Error("Expected a pending socket listener");
+        }
+        if (event === "response") {
+          options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
+        } else if (event === "abort") {
+          controller.abort();
+        } else if (event === "error") {
+          request.emit("error", new Error("connection failed"));
+        } else {
+          request.emit(event);
+        }
+        expect(request.listenerCount("socket")).toBe(0);
+        onSocket(new Socket());
+        vi.advanceTimersByTime(2000);
+
+        expect(request.flushHeaders).not.toHaveBeenCalled();
+        expect(request.write).not.toHaveBeenCalled();
+        expect(vi.getTimerCount()).toBe(0);
+        expect(options.sendBody).toHaveBeenCalledTimes(event === "continue" ? 1 : 0);
+      } finally {
+        request.destroy();
+        response.destroy();
+      }
+    },
+  );
+
+  it.each(["response", "abort", "close", "error", "continue"])(
+    "does not arm the fallback when %s arrives before the ordered write completes",
+    (event) => {
+      const { request, controller, options } = createOptions();
+      const response = new PassThrough();
+      let writeComplete: ((error?: Error | null) => void) | undefined;
+      request.write.mockImplementation((_chunk, callback) => {
+        writeComplete = callback;
+        return true;
+      });
+      try {
+        createExpectContinueRequest(options);
+        if (!writeComplete) {
+          throw new Error("Expected an ordered write callback");
+        }
+        if (event === "response") {
+          options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
+        } else if (event === "abort") {
+          controller.abort();
+        } else if (event === "error") {
+          request.emit("error", new Error("connection failed"));
+        } else {
+          request.emit(event);
+        }
+        writeComplete();
+        expect(vi.getTimerCount()).toBe(0);
+        vi.advanceTimersByTime(2000);
+        expect(options.sendBody).toHaveBeenCalledTimes(event === "continue" ? 1 : 0);
+      } finally {
+        request.destroy();
+        response.destroy();
+      }
+    },
+  );
+
+  it.each(["throw", "callback"])(
+    "reports an ordered write %s failure exactly once",
+    async (failureType) => {
+      const { request, options } = createOptions(null, false);
+      const failure = new Error("header write failed");
+      request.write.mockImplementation((_chunk, callback) => {
+        if (failureType === "throw") {
+          throw failure;
+        }
+        callback?.(failure);
+        return true;
+      });
+
+      createExpectContinueRequest(options);
+      await new Promise<void>((resolve) => setImmediate(resolve));
+
+      expect(options.onError).toHaveBeenCalledExactlyOnceWith(failure);
+      expect(request.destroyed).toBe(true);
+      expect(options.sendBody).not.toHaveBeenCalled();
+      expect(vi.getTimerCount()).toBe(0);
+    },
+  );
 
   it.each(["response", "abort", "close"])(
     "does not schedule a fallback after %s during header flushing",
