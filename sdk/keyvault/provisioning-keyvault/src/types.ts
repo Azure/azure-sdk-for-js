@@ -2648,7 +2648,7 @@ export interface VaultProperties {
    */
   sku: Sku;
   /**
-   * softDelete data retention days. It accepts \>=7 and \<=90.
+   * softDelete data retention days. It accepts >=7 and <=90.
    */
   softDeleteRetentionInDays?: number;
   /**
@@ -2714,7 +2714,7 @@ export interface VaultPropertiesInput extends InputOf<VaultProperties> {
    */
   sku: SkuInput;
   /**
-   * softDelete data retention days. It accepts \>=7 and \<=90.
+   * softDelete data retention days. It accepts >=7 and <=90.
    */
   softDeleteRetentionInDays?: ExpressionOrValue<number> | undefined;
   /**
@@ -2788,7 +2788,7 @@ export interface VaultPropertiesView extends InputOf<VaultProperties> {
    */
   sku: SkuView;
   /**
-   * softDelete data retention days. It accepts \>=7 and \<=90.
+   * softDelete data retention days. It accepts >=7 and <=90.
    */
   softDeleteRetentionInDays?: ExpressionOrValue<number> | undefined;
   /**
