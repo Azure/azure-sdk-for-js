@@ -1,6 +1,6 @@
 ---
 name: apply-post-emitter-edits
-description: "Apply language-specific post-emitter fixes to ai-projects after a TypeSpec regeneration writes directly into src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, validating the SDK diff against upstream TypeSpec commit descriptions, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill."
+description: "Apply language-specific post-emitter fixes to ai-projects after a TypeSpec regeneration writes directly into src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, validating the SDK diff against upstream TypeSpec commit descriptions, replacing schemas after feature-flag version increments, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill."
 ---
 
 # Apply Post-Emitter Edits to ai-projects
@@ -16,6 +16,7 @@ When the preceding `regenerate-from-typespec` skill produced `temp/typespec-comm
 - `temp/typespec-commit-descriptions.md` exists and should be used to validate that the post-merge SDK diff adheres to the upstream TypeSpec change descriptions.
 - You need to apply the standing list of search/replace/rename workarounds to emitted code.
 - You're verifying that protected hand-maintained files were not clobbered.
+- A feature flag advanced and the new generated schema must replace, not include, the previous version's schema.
 
 ## Inputs
 
@@ -75,6 +76,8 @@ If any affected file had a user change before regeneration, stop and recover tha
 If `temp/typespec-commit-descriptions.md` exists, read it before resolving conflicts or reverting model changes. Extract the expected upstream themes (for example: added operations, renamed parameters, removed fields, required-vs-optional shape changes, hidden protocol methods). Use those descriptions to validate the final `src/`, `generated/`, and API report diffs.
 
 Do not use the guide to keep extensive emitted-code changes that are unrelated to the captured upstream commit descriptions. Use it as the deciding evidence only for specific conflicts between a standing rule and an upstream-described TypeSpec change, such as a removed field, renamed parameter, requiredness change, or hidden protocol method. In particular, preserve non-additive model changes only when they are clearly described by the TypeSpec commits in the captured range.
+
+Apply the canonical [feature-flag version increment rule](../../../scripts/post-emitter-workarounds.md#feature-flag-version-increments) when a flag advances. The generated replacement contract takes precedence over retaining the prior schema for compatibility.
 
 ### Step 0: Resolve diff3 conflict markers (if present)
 
@@ -220,7 +223,7 @@ For each `missing` entry, **first classify it** as one of:
 
 Then, for each genuine addition:
 
-1. **Models** (`src/models/models.ts`, `src/models/index.ts`): paste the new interfaces / serializers / deserializers / re-exports from `generated/`. The "additions only" rule means **only add**; never delete or modify existing entries even if `generated/` did so.
+1. **Models** (`src/models/models.ts`, `src/models/index.ts`): paste the new interfaces / serializers / deserializers / re-exports from `generated/`. Apply the additions-only default except for validated removals and the [feature-flag schema replacement rule](../../../scripts/post-emitter-workarounds.md#feature-flag-version-increments).
 2. **Operations** (`src/api/.../operations.ts`): paste the new operation function plus its `*Send` and `*Deserialize` helpers, AND any new imports they require (e.g. `SessionLogEvent`, `sessionLogEventDeserializer`). **After pasting, re-apply Step 4 (a) below**: if the new method takes `foundryFeatures` as a positional parameter, refactor it to instantiate `foundryFeatures` locally instead.
 3. **Classic surface** (`src/classic/.../index.ts`): paste the new method onto the operations interface and the factory return object. Same `foundryFeatures` rule.
 4. **Beta union members** (e.g. a new `FabricIQPreviewTool` added to `ToolUnion`): also update the `*Serializer` / `*Deserializer` switch statements that dispatch on the union discriminator.
@@ -326,6 +329,8 @@ Review `git diff` for `src/models/models.ts` and `src/models/index.ts`. Addition
 default: revert deletions or modifications to existing models unless the upstream evidence from
 Step -1 and the current `generated/` versus `HEAD:generated/` diff establish that the target spec
 intentionally removed them.
+
+For a [feature-flag version increment](../../../scripts/post-emitter-workarounds.md#feature-flag-version-increments), reconcile the affected contracts to the target generated schema rather than preserving an inclusive old/new schema. Apply this exception to options and shared flag unions as well as models, even if the target generated files were committed in an earlier regeneration.
 
 Examples of commit-description-validated exceptions include a field explicitly removed upstream, a union member explicitly removed upstream, or response properties explicitly made required. When keeping one of these exceptions, make sure the API report reflects the same upstream intent.
 

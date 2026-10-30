@@ -948,4 +948,10 @@ export type {
   MicrosoftCopilotToolsetDefaultConfig,
   MicrosoftCopilotToolsetConfig,
   MicrosoftCopilotBuiltInTool,
+  VoiceAgentProfanityFilterMode,
+  VoiceAgentSoundscapeConfig,
+  VoiceAgentSoundscapeTrackConfig,
+  VoiceAgentSoundscapeSourceConfig,
+  VoiceAgentSoundscapeSound,
+  VoiceAgentSoundscapeWorkingTrackConfig,
 } from "./models.js";
