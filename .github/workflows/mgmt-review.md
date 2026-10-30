@@ -74,6 +74,7 @@ network:
     - "dev.azure.com"
 tools:
   github:
+    min-integrity: none
     toolsets: [context, repos, pull_requests, actions]
   bash: ["cat", "date", "echo", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
   cache-memory:
