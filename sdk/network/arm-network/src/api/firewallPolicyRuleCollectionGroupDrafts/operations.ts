@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { FirewallPolicyRuleCollectionGroupDraft } from "../../models/network/models.js";
+import type { FirewallPolicyRuleCollectionGroupDraft } from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   firewallPolicyRuleCollectionGroupDraftSerializer,
   firewallPolicyRuleCollectionGroupDraftDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   FirewallPolicyRuleCollectionGroupDraftsDeleteOptionalParams,
@@ -31,7 +31,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
       ruleCollectionGroupName: ruleCollectionGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,7 +89,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
       ruleCollectionGroupName: ruleCollectionGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +155,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
       ruleCollectionGroupName: ruleCollectionGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

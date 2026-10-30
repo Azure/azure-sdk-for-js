@@ -7,7 +7,7 @@ import type { NetworkManagerDeploymentStatusOperationsListOptionalParams } from 
 import type {
   NetworkManagerDeploymentStatusParameter,
   NetworkManagerDeploymentStatusListResult,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 
 /** Interface representing a NetworkManagerDeploymentStatusOperations operations. */
 export interface NetworkManagerDeploymentStatusOperationsOperations {

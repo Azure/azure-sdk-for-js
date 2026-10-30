@@ -4,9 +4,6 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
 export interface NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
@@ -20,6 +17,9 @@ export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOption
   /** Expands referenced resources. */
   expand?: string;
 }
+
+/** Optional parameters. */
+export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams extends OperationOptions {
@@ -56,15 +56,6 @@ export interface NetworkInterfacesCreateOrUpdateOptionalParams extends Operation
 
 /** Optional parameters. */
 export interface NetworkInterfacesGetOptionalParams extends OperationOptions {
-  /** Expands referenced resources. */
-  expand?: string;
-}
-
-/** Optional parameters. */
-export interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams extends OperationOptions {
   /** Expands referenced resources. */
   expand?: string;
 }

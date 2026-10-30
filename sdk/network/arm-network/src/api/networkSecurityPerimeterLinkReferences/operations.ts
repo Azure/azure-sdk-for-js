@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { _NspLinkReferenceListResult } from "../../models/models.js";
-import { _nspLinkReferenceListResultDeserializer } from "../../models/models.js";
-import type { NspLinkReference } from "../../models/network/models.js";
-import { nspLinkReferenceDeserializer } from "../../models/network/models.js";
+import type { NspLinkReference, _NspLinkReferenceListResult } from "../../models/models.js";
+import {
+  cloudErrorDeserializer,
+  nspLinkReferenceDeserializer,
+  _nspLinkReferenceListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -32,7 +33,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkSecurityPerimeterName: networkSecurityPerimeterName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -74,7 +75,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkSecurityPerimeterName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -92,7 +93,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkSecurityPerimeterName: networkSecurityPerimeterName,
       linkReferenceName: linkReferenceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,7 +136,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -153,7 +154,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkSecurityPerimeterName: networkSecurityPerimeterName,
       linkReferenceName: linkReferenceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

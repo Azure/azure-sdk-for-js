@@ -16,7 +16,7 @@ import type {
   PrivateEndpointsCreateOrUpdateOptionalParams,
   PrivateEndpointsGetOptionalParams,
 } from "../../api/privateEndpoints/options.js";
-import type { PrivateEndpoint } from "../../models/common/models.js";
+import type { PrivateEndpoint } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

@@ -20,11 +20,11 @@ import type {
   VpnLinkConnectionsSetOrInitDefaultSharedKeyOptionalParams,
   VpnLinkConnectionsGetDefaultSharedKeyOptionalParams,
 } from "../../api/vpnLinkConnections/options.js";
-import type { VpnLinkConnectionsGetIkeSasResponse } from "../../models/models.js";
 import type {
   VpnSiteLinkConnection,
   ConnectionSharedKeyResult,
-} from "../../models/network/models.js";
+  VpnLinkConnectionsGetIkeSasResponse,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

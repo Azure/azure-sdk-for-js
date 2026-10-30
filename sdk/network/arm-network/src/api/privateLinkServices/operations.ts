@@ -2,34 +2,29 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { PrivateLinkService, PrivateEndpointConnection } from "../../models/common/models.js";
+import type {
+  PrivateLinkService,
+  PrivateEndpointConnection,
+  _PrivateLinkServiceListResult,
+  _PrivateEndpointConnectionListResult,
+  CheckPrivateLinkServiceVisibilityRequest,
+  PrivateLinkServiceVisibility,
+  _AutoApprovedPrivateLinkServicesResult,
+  AutoApprovedPrivateLinkService,
+} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   privateLinkServiceSerializer,
   privateLinkServiceDeserializer,
   privateEndpointConnectionSerializer,
   privateEndpointConnectionDeserializer,
-} from "../../models/common/models.js";
-import type {
-  _PrivateLinkServiceListResult,
-  _PrivateEndpointConnectionListResult,
-} from "../../models/models.js";
-import {
+  errorDeserializer,
   _privateLinkServiceListResultDeserializer,
   _privateEndpointConnectionListResultDeserializer,
-} from "../../models/models.js";
-import type {
-  CheckPrivateLinkServiceVisibilityRequest,
-  PrivateLinkServiceVisibility,
-  _AutoApprovedPrivateLinkServicesResult,
-  AutoApprovedPrivateLinkService,
-} from "../../models/network/models.js";
-import {
-  errorDeserializer,
   checkPrivateLinkServiceVisibilityRequestSerializer,
   privateLinkServiceVisibilityDeserializer,
   _autoApprovedPrivateLinkServicesResultDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -67,7 +62,7 @@ export function _listAutoApprovedPrivateLinkServicesByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,7 +110,7 @@ export function listAutoApprovedPrivateLinkServicesByResourceGroup(
       ),
     _listAutoApprovedPrivateLinkServicesByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -131,7 +126,7 @@ export function _listAutoApprovedPrivateLinkServicesSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -172,7 +167,7 @@ export function listAutoApprovedPrivateLinkServices(
     () => _listAutoApprovedPrivateLinkServicesSend(context, location, options),
     _listAutoApprovedPrivateLinkServicesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -191,7 +186,7 @@ export function _checkPrivateLinkServiceVisibilityByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -247,7 +242,7 @@ export function checkPrivateLinkServiceVisibilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<OperationState<PrivateLinkServiceVisibility>, PrivateLinkServiceVisibility>;
 }
@@ -265,7 +260,7 @@ export function _checkPrivateLinkServiceVisibilitySend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -314,7 +309,7 @@ export function checkPrivateLinkServiceVisibility(
       getInitialResponse: () =>
         _checkPrivateLinkServiceVisibilitySend(context, location, parameters, options),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<OperationState<PrivateLinkServiceVisibility>, PrivateLinkServiceVisibility>;
 }
@@ -331,7 +326,7 @@ export function _listPrivateEndpointConnectionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceName: serviceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -371,7 +366,7 @@ export function listPrivateEndpointConnections(
     () => _listPrivateEndpointConnectionsSend(context, resourceGroupName, serviceName, options),
     _listPrivateEndpointConnectionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -391,7 +386,7 @@ export function _deletePrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       serviceName: serviceName,
       peConnectionName: peConnectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -442,7 +437,7 @@ export function deletePrivateEndpointConnection(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -464,7 +459,7 @@ export function _updatePrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       serviceName: serviceName,
       peConnectionName: peConnectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -530,7 +525,7 @@ export function _getPrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       serviceName: serviceName,
       peConnectionName: peConnectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24expand": options?.expand,
     },
     {
@@ -585,7 +580,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/privateLinkServices{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -623,7 +618,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -637,7 +632,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -676,7 +671,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -692,7 +687,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceName: serviceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -727,7 +722,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, serviceName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -744,7 +739,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceName: serviceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -788,7 +783,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, serviceName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<PrivateLinkService>, PrivateLinkService>;
 }
 
@@ -804,7 +799,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceName: serviceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24expand": options?.expand,
     },
     {

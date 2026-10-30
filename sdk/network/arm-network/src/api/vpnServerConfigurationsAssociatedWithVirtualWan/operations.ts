@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { VpnServerConfigurationsResponse } from "../../models/network/models.js";
-import { vpnServerConfigurationsResponseDeserializer } from "../../models/network/models.js";
+import type { VpnServerConfigurationsResponse } from "../../models/models.js";
+import {
+  cloudErrorDeserializer,
+  vpnServerConfigurationsResponseDeserializer,
+} from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { VpnServerConfigurationsAssociatedWithVirtualWanListOptionalParams } from "./options.js";
@@ -26,7 +28,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualWANName: virtualWANName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,7 +70,7 @@ export function list(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _listSend(context, resourceGroupName, virtualWANName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<
     OperationState<VpnServerConfigurationsResponse>,
     VpnServerConfigurationsResponse
