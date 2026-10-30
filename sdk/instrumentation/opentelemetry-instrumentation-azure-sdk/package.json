@@ -31,7 +31,8 @@
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest --no-test-proxy",
+    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest --no-test-proxy && pnpm test:consumer",
+    "test:consumer": "node test/consumer/verify.cjs",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
@@ -45,7 +46,7 @@
     "directory": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=22.15.0"
   },
   "keywords": [
     "azure",
@@ -64,18 +65,20 @@
   "dependencies": {
     "@azure/core-tracing": "^1.2.0",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^1.9.1",
-    "@opentelemetry/core": "^2.9.0",
-    "@opentelemetry/instrumentation": "^0.220.0",
-    "@opentelemetry/sdk-trace-web": "^2.9.0",
+    "@opentelemetry/api": ">=1.10.0 <1.11.0",
+    "@opentelemetry/core": "^3.0.0",
+    "@opentelemetry/instrumentation": "^0.300.0",
     "tslib": "^2.7.0"
   },
   "devDependencies": {
     "@azure/core-rest-pipeline": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
-    "@opentelemetry/sdk-trace-base": "^2.9.0",
-    "@opentelemetry/sdk-trace-node": "^2.9.0",
+    "@opentelemetry/context-async-hooks": "^3.0.0",
+    "@opentelemetry/instrumentation-express": "^0.72.0",
+    "@opentelemetry/instrumentation-http": "^0.300.0",
+    "@opentelemetry/sdk-node": "^0.300.0",
+    "@opentelemetry/sdk-trace": "^3.0.0",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
