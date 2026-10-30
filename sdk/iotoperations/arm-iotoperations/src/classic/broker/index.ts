@@ -44,6 +44,7 @@ export interface BrokerOperations {
     options?: BrokerGetOptionalParams,
   ) => Promise<BrokerResource>;
 }
+
 function _getBroker(context: IoTOperationsContext) {
   return {
     listByResourceGroup: (
@@ -72,6 +73,7 @@ function _getBroker(context: IoTOperationsContext) {
     ) => get(context, resourceGroupName, instanceName, brokerName, options),
   };
 }
+
 export function _getBrokerOperations(context: IoTOperationsContext): BrokerOperations {
   return {
     ..._getBroker(context),

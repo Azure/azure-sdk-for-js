@@ -49,6 +49,7 @@ export interface AkriServiceOperations {
     options?: AkriServiceGetOptionalParams,
   ) => Promise<AkriServiceResource>;
 }
+
 function _getAkriService(context: IoTOperationsContext) {
   return {
     listByInstanceResource: (
@@ -78,6 +79,7 @@ function _getAkriService(context: IoTOperationsContext) {
     ) => get(context, resourceGroupName, instanceName, akriServiceName, options),
   };
 }
+
 export function _getAkriServiceOperations(context: IoTOperationsContext): AkriServiceOperations {
   return {
     ..._getAkriService(context),

@@ -37,7 +37,7 @@ export function _listByResourceGroupSend(
       resourceGroupName: resourceGroupName,
       instanceName: instanceName,
       dataflowProfileName: dataflowProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,6 +64,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _dataflowResourceListResultDeserializer(result.body);
 }
+
 /** List DataflowResource resources by DataflowProfileResource */
 export function listByResourceGroup(
   context: Client,
@@ -84,7 +85,7 @@ export function listByResourceGroup(
       ),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -104,7 +105,7 @@ export function _$deleteSend(
       instanceName: instanceName,
       dataflowProfileName: dataflowProfileName,
       dataflowName: dataflowName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,6 +127,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a DataflowResource */
 export function $delete(
   context: Client,
@@ -148,7 +150,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -169,7 +171,7 @@ export function _createOrUpdateSend(
       instanceName: instanceName,
       dataflowProfileName: dataflowProfileName,
       dataflowName: dataflowName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,6 +200,7 @@ export async function _createOrUpdateDeserialize(
 
   return dataflowResourceDeserializer(result.body);
 }
+
 /** Create a DataflowResource */
 export function createOrUpdate(
   context: Client,
@@ -222,7 +225,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<DataflowResource>, DataflowResource>;
 }
 
@@ -242,7 +245,7 @@ export function _getSend(
       instanceName: instanceName,
       dataflowProfileName: dataflowProfileName,
       dataflowName: dataflowName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,6 +270,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Da
 
   return dataflowResourceDeserializer(result.body);
 }
+
 /** Get a DataflowResource */
 export async function get(
   context: Client,

@@ -49,6 +49,7 @@ export interface RegistryEndpointOperations {
     options?: RegistryEndpointGetOptionalParams,
   ) => Promise<RegistryEndpointResource>;
 }
+
 function _getRegistryEndpoint(context: IoTOperationsContext) {
   return {
     listByInstanceResource: (
@@ -85,6 +86,7 @@ function _getRegistryEndpoint(context: IoTOperationsContext) {
     ) => get(context, resourceGroupName, instanceName, registryEndpointName, options),
   };
 }
+
 export function _getRegistryEndpointOperations(
   context: IoTOperationsContext,
 ): RegistryEndpointOperations {
