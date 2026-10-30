@@ -5,13 +5,17 @@ import type { RedisEnterpriseManagementClient } from "./redisEnterpriseManagemen
 import {
   _$deleteDeserialize,
   _createUpdateDeserialize,
-} from "./api/accessPolicyAssignment/operations.js";
+} from "./api/accessPolicyAssignmentOperations/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeRedisEnterprise,
   _updateDeserialize,
   _createDeserialize,
 } from "./api/redisEnterprise/operations.js";
-import { _cancelDeserialize, _startDeserialize } from "./api/migrations/operations.js";
+import {
+  _unlinkMigratedEndpointDeserialize,
+  _undoDeserialize,
+  _startDeserialize,
+} from "./api/migrations/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializePrivateEndpointConnections,
   _putDeserialize,
@@ -28,6 +32,7 @@ import {
   _updateDeserialize as _updateDeserializeDatabases,
   _createDeserialize as _createDeserializeDatabases,
 } from "./api/databases/operations.js";
+import { _unlinkMigratedEndpointDeserialize as _unlinkMigratedEndpointDeserializeClusters } from "./api/clusters/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
@@ -108,8 +113,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}":
     { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations/default/unlinkMigratedEndpoint":
+    { deserializer: _unlinkMigratedEndpointDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations/default/cancel":
-    { deserializer: _cancelDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _undoDeserialize, expectedStatuses: ["202", "200", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations/default":
     { deserializer: _startDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
@@ -142,6 +149,11 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserializeDatabases, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}":
     { deserializer: _createDeserializeDatabases, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/unlinkMigratedEndpoint":
+    {
+      deserializer: _unlinkMigratedEndpointDeserializeClusters,
+      expectedStatuses: ["202", "200", "201"],
+    },
 };
 
 function getDeserializationHelper(

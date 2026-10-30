@@ -40,7 +40,7 @@ export function _listSkusForScalingSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,6 +67,7 @@ export async function _listSkusForScalingDeserialize(
 
   return skuDetailsListDeserializer(result.body);
 }
+
 /** Lists the available SKUs for scaling the Redis Enterprise cluster. */
 export async function listSkusForScaling(
   context: Client,
@@ -86,7 +87,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/redisEnterprise{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,6 +112,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _clusterListDeserializer(result.body);
 }
+
 /** Lists all Redis Enterprise clusters in the specified subscription. */
 export function list(
   context: Client,
@@ -124,7 +126,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
     },
   );
 }
@@ -139,7 +141,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -166,6 +168,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _clusterListDeserializer(result.body);
 }
+
 /** Lists all Redis Enterprise clusters in a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -180,7 +183,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
     },
   );
 }
@@ -197,7 +200,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -219,6 +222,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a Redis Enterprise cache cluster. */
 export function $delete(
   context: Client,
@@ -231,7 +235,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, clusterName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -248,7 +252,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -275,6 +279,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return clusterDeserializer(result.body);
 }
+
 /** Updates an existing Redis Enterprise cluster */
 export function update(
   context: Client,
@@ -289,7 +294,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, clusterName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<Cluster>, Cluster>;
 }
 
@@ -306,7 +311,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -333,6 +338,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return clusterDeserializer(result.body);
 }
+
 /** Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster */
 export function create(
   context: Client,
@@ -347,7 +353,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, clusterName, parameters, options),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<Cluster>, Cluster>;
 }
 
@@ -363,7 +369,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -388,6 +394,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cl
 
   return clusterDeserializer(result.body);
 }
+
 /** Gets information about a Redis Enterprise cluster */
 export async function get(
   context: Client,
