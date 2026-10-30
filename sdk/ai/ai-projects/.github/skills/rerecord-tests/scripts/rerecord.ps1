@@ -94,7 +94,7 @@ function Get-RecordingsDirectory {
 }
 
 function Test-RecordingJsonText {
-  param([Parameter(Mandatory = $true)][string]$Text)
+  param([Parameter(Mandatory = $true)][AllowEmptyString()][string]$Text)
 
   try {
     $parsed = ConvertFrom-Json -InputObject $Text -AsHashtable -NoEnumerate -ErrorAction Stop
