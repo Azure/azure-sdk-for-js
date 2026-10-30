@@ -93,6 +93,83 @@ function Get-RecordingsDirectory {
   return Join-Path $cloneDir 'sdk/ai/ai-projects/recordings'
 }
 
+function Test-RecordingJsonText {
+  param([Parameter(Mandatory = $true)][string]$Text)
+
+  try {
+    $parsed = ConvertFrom-Json -InputObject $Text -AsHashtable -NoEnumerate -ErrorAction Stop
+  }
+  catch {
+    $parsed = $null
+  }
+
+  if ($parsed -is [System.Collections.IDictionary] -or $parsed -is [array]) {
+    return Test-RecordingJsonValue -Value $parsed
+  }
+  if ($parsed -is [string] -and $parsed -cne $Text) {
+    return Test-RecordingJsonText -Text $parsed
+  }
+
+  $dataLines = [System.Collections.Generic.List[string]]::new()
+  foreach ($line in ($Text -split '\r?\n')) {
+    if ($line -match '^data:(?: ?)(.*)$') {
+      [void]$dataLines.Add($Matches[1])
+    }
+    elseif ([string]::IsNullOrWhiteSpace($line) -and $dataLines.Count -gt 0) {
+      $payload = [string]::Join("`n", $dataLines)
+      if (-not (Test-RecordingJsonText -Text $payload)) {
+        return $false
+      }
+      $dataLines.Clear()
+    }
+  }
+
+  if ($dataLines.Count -gt 0) {
+    $payload = [string]::Join("`n", $dataLines)
+    if (-not (Test-RecordingJsonText -Text $payload)) {
+      return $false
+    }
+  }
+
+  return $true
+}
+
+function Test-RecordingJsonValue {
+  param([AllowNull()][object]$Value)
+
+  if ($null -eq $Value) {
+    return $true
+  }
+  if ($Value -is [string]) {
+    return Test-RecordingJsonText -Text $Value
+  }
+  if ($Value -is [System.Collections.IDictionary]) {
+    foreach ($propertyName in $Value.Keys) {
+      $propertyValue = $Value[$propertyName]
+      if ($propertyName -ieq 'key') {
+        $isSanitized = $propertyValue -is [string] -and (
+          $propertyValue -match '^(?i:Sanitized)$' -or $propertyValue -match '^0+$'
+        )
+        if (-not $isSanitized) {
+          return $false
+        }
+      }
+      if (-not (Test-RecordingJsonValue -Value $propertyValue)) {
+        return $false
+      }
+    }
+    return $true
+  }
+  if ($Value -is [array]) {
+    foreach ($item in $Value) {
+      if (-not (Test-RecordingJsonValue -Value $item)) {
+        return $false
+      }
+    }
+  }
+  return $true
+}
+
 function Test-RecordingsKeySanitized {
   Write-Host "==> Checking recordings to ensure all ""key"" fields are sanitized" -ForegroundColor Cyan
   $recordingsDir = Get-RecordingsDirectory
@@ -103,14 +180,22 @@ function Test-RecordingsKeySanitized {
   $unsanitized = @()
   $files = Get-ChildItem -Path $recordingsDir -Filter '*.json' -Recurse -File
   foreach ($file in $files) {
-    $matchesInFile = Select-String -Path $file.FullName -Pattern '"key"\s*:\s*(?<val>.+)' -AllMatches
-    foreach ($m in $matchesInFile) {
-      $rawVal = $m.Matches[0].Groups['val'].Value.Trim().TrimEnd(',')
-      $isSanitized = ($rawVal -match '^"(?i:Sanitized)"$') -or ($rawVal -match '^"0+"$')
-      if (-not $isSanitized) {
-        $relPath = $file.FullName.Substring($recordingsDir.Length).TrimStart('\', '/')
-        $unsanitized += "${relPath}:$($m.LineNumber): $($m.Line.Trim())"
-      }
+    $relPath = $file.FullName.Substring($recordingsDir.Length).TrimStart('\', '/')
+    try {
+      $recording = Get-Content -Path $file.FullName -Raw | ConvertFrom-Json -AsHashtable -NoEnumerate -ErrorAction Stop
+    }
+    catch {
+      throw "Unable to parse recording JSON '$relPath'."
+    }
+
+    if (-not (Test-RecordingJsonValue -Value $recording)) {
+      $propertyPattern = '(?:\\*)"(?:k|\\u006b)(?:e|\\u0065)(?:y|\\u0079)(?:\\*)"\s*:'
+      $lineNumbers = @(
+        Select-String -Path $file.FullName -Pattern $propertyPattern |
+          ForEach-Object { $_.LineNumber } |
+          Sort-Object -Unique
+      )
+      $unsanitized += "${relPath}:$($lineNumbers -join ',')"
     }
   }
 

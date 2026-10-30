@@ -67,11 +67,12 @@ The script ([scripts/rerecord.ps1](./scripts/rerecord.ps1)):
 3. If any spec **failed** playback, it refuses to push and prints the exact
    manual steps to drop the failing recordings (so only passing recordings are
    ever published — see "Only passing recordings").
-4. Scans all recording JSON files under the `.assets/` clone
-   (`js/sdk/ai/ai-projects/recordings/**/*.json`) to verify that every `"key":`
-   field is followed by a sanitized value (`"00000000000000000000000000000000000000000000000000000000000000000000"`
-   or `"Sanitized"`). If any unsanitized `"key"` value is found, it prints the
-   offending file and line and refuses to push.
+4. Parses all recording JSON files under the `.assets/` clone
+   (`js/sdk/ai/ai-projects/recordings/**/*.json`) and recursively verifies that
+   every `"key"` field, including fields in JSON- and SSE-backed string payloads,
+   has a sanitized value (`"00000000000000000000000000000000000000000000000000000000000000000000"`
+   or `"Sanitized"`). If any unsanitized `"key"` value is found, it prints only
+   the file and line number and refuses to push.
 5. Stops there by default. Pass `-Push` to also run `npx dev-tool test-proxy
    push`, which uploads the kept recordings and rewrites the `Tag` in
    `assets.json`. `-Push` is ignored when playback is red or when unsanitized
@@ -137,7 +138,8 @@ To inspect or hand-tune what will be pushed:
 
 ## Verify `"key"` values are sanitized
 
-All `"key":` fields in test recordings must be followed by a sanitized value
+All `"key":` fields in test recordings, including nested JSON- and SSE-backed
+string payloads, must have a sanitized value
 (`"00000000000000000000000000000000000000000000000000000000000000000000"` or
 `"Sanitized"`). `test/public/utils/createClient.ts` registers a
 `BodyKeySanitizer` for `$..key` in both `record` and `playback` modes, and
