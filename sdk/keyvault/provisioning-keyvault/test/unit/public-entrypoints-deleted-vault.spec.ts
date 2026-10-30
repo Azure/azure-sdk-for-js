@@ -4,7 +4,7 @@
 import { Stack, namingRequiredPolicy } from "@azure/provisioning-core";
 import { DeletedVault } from "@azure/provisioning-keyvault";
 import type * as keyVault from "@azure/provisioning-keyvault";
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 
 import { expectRenderedOutputsToMatchBaselines, renderStackArtifacts } from "../utils/index.js";
 
