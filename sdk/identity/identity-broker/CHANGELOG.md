@@ -4,6 +4,7 @@
 
 ### Other Changes
 
+- Corrected the introductory documentation to include Linux alongside Windows as a supported broker platform. [#40538](https://github.com/Azure/azure-sdk-for-js/issues/40538)
 - Updated `@azure/msal-node` to `^7.1.0`. [#40532](https://github.com/Azure/azure-sdk-for-js/pull/40532)
 
 ## 1.4.2 (2026-09-15)
