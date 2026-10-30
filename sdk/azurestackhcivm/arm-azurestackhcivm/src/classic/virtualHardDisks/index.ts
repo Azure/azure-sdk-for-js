@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
+import type { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   upload,
   listAll,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/virtualHardDisks/operations.js";
-import {
+import type {
   VirtualHardDisksUploadOptionalParams,
   VirtualHardDisksListAllOptionalParams,
   VirtualHardDisksListByResourceGroupOptionalParams,
@@ -20,14 +20,14 @@ import {
   VirtualHardDisksCreateOrUpdateOptionalParams,
   VirtualHardDisksGetOptionalParams,
 } from "../../api/virtualHardDisks/options.js";
-import {
+import type {
   VirtualHardDisk,
   VirtualHardDisksUpdateRequest,
   VirtualHardDiskUploadRequest,
   VirtualHardDiskUploadResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualHardDisks operations. */
 export interface VirtualHardDisksOperations {
@@ -48,11 +48,6 @@ export interface VirtualHardDisksOperations {
     options?: VirtualHardDisksListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<VirtualHardDisk>;
   /** The operation to delete a virtual hard disk. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     virtualHardDiskName: string,

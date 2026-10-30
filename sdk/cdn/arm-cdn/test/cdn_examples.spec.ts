@@ -40,6 +40,18 @@ describe("CDN test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
+    // Recordings were captured with api-version 2025-12-01
+    await recorder.addSanitizers(
+      {
+        uriSanitizers: [
+          {
+            target: "api-version=2026-10-01",
+            value: "api-version=2025-12-01",
+          },
+        ],
+      },
+      ["playback"],
+    );
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();

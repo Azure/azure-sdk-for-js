@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing Secret within profile.
  *
  * @summary deletes an existing Secret within profile.
- * x-ms-original-file: 2025-12-01/Secrets_Delete.json
+ * x-ms-original-file: 2026-10-01/Secrets_Delete.json
  */
 async function secretsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

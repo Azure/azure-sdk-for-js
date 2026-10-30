@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the existing origin groups within an endpoint.
  *
  * @summary lists all of the existing origin groups within an endpoint.
- * x-ms-original-file: 2025-12-01/OriginGroups_ListByEndpoint.json
+ * x-ms-original-file: 2026-10-01/OriginGroups_ListByEndpoint.json
  */
 async function originsGroupsListByEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

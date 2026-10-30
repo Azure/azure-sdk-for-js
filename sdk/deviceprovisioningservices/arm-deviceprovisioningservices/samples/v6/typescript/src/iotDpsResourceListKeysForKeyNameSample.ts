@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list primary and secondary keys for a specific key name
  *
  * @summary list primary and secondary keys for a specific key name
- * x-ms-original-file: 2026-08-31/DPSGetKey.json
+ * x-ms-original-file: 2026-11-01/DPSGetKey.json
  */
 async function dpsGetKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

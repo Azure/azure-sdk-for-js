@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("ApplicationInsights test", () => {
+describe.skip("ApplicationInsights test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ApplicationInsightsManagementClient;

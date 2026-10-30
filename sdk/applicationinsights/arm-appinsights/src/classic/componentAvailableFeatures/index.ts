@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import { get } from "../../api/componentAvailableFeatures/operations.js";
-import { ComponentAvailableFeaturesGetOptionalParams } from "../../api/componentAvailableFeatures/options.js";
-import { ApplicationInsightsComponentAvailableFeatures } from "../../models/componentAPIs/models.js";
+import type { ComponentAvailableFeaturesGetOptionalParams } from "../../api/componentAvailableFeatures/options.js";
+import type { ApplicationInsightsComponentAvailableFeatures } from "../../models/componentAPIs/models.js";
 
 /** Interface representing a ComponentAvailableFeatures operations. */
 export interface ComponentAvailableFeaturesOperations {

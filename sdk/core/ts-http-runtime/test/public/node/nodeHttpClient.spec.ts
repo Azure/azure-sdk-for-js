@@ -1,10 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
-import { PassThrough, Writable } from "node:stream";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { PassThrough, Readable, Writable } from "node:stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { createPipelineRequest, createDefaultHttpClient } from "../../../src/index.js";
+import {
+  createDefaultHttpClient,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "../../../src/index.js";
+import { disposeResponseBody, getRequestCompletion } from "../../../src/util/responseBody.js";
 
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");
@@ -574,6 +579,632 @@ describe("NodeHttpClient", function () {
     yieldHttpsResponse(createResponse(200));
     await promise;
     assert.isTrue(bodySent, "body should have been piped to request");
+  });
+
+  it.each([false, true])(
+    "should reject when a request body stream closes before ending (progress=%s)",
+    async function (progress) {
+      const client = createDefaultHttpClient();
+      const writable = new Writable({
+        write(_chunk, _encoding, callback) {
+          callback();
+        },
+      }) as unknown as ClientRequest;
+      vi.mocked(https.request).mockReturnValueOnce(writable);
+      const body = new Readable({
+        read() {
+          this.destroy();
+        },
+      });
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        body,
+        onUploadProgress: progress ? () => {} : undefined,
+      });
+
+      await expect(client.sendRequest(request)).rejects.toThrow(
+        "Request body stream closed before ending",
+      );
+    },
+  );
+
+  it.each([false, true])(
+    "should preserve request body stream error codes (progress=%s)",
+    async function (progress) {
+      const client = createDefaultHttpClient();
+      const writable = new Writable({
+        write(_chunk, _encoding, callback) {
+          callback();
+        },
+      }) as unknown as ClientRequest;
+      vi.mocked(https.request).mockReturnValueOnce(writable);
+      const body = new Readable({
+        read() {
+          this.destroy(Object.assign(new Error("upload failed"), { code: "EIO" }));
+        },
+      });
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        body,
+        onUploadProgress: progress ? () => {} : undefined,
+      });
+
+      await expect(client.sendRequest(request)).rejects.toMatchObject({
+        name: "RestError",
+        code: "EIO",
+        message: "upload failed",
+      });
+    },
+  );
+
+  it.each([false, true])(
+    "removes upload completion listeners after the source ends (progress=%s)",
+    async function (progress) {
+      vi.useRealTimers();
+      const body = new PassThrough();
+      const writable = new Writable({
+        write(_chunk, _encoding, callback) {
+          callback();
+        },
+      });
+      vi.mocked(https.request).mockReturnValueOnce(writable as unknown as ClientRequest);
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        body,
+        onUploadProgress: progress ? () => {} : undefined,
+      });
+      const promise = createDefaultHttpClient().sendRequest(request);
+      body.end("complete upload");
+      yieldHttpsResponse(createResponse(200));
+      await promise;
+      await delay(0);
+
+      expect(body.listenerCount("end")).toBe(0);
+      expect(body.listenerCount("error")).toBe(0);
+      expect(body.listenerCount("close")).toBe(0);
+    },
+  );
+
+  it("tracks an outgoing request after response headers arrive", async function () {
+    const client = createDefaultHttpClient();
+    let finishRequest!: () => void;
+    const writable = new Writable({
+      autoDestroy: false,
+      final(callback) {
+        finishRequest = callback;
+      },
+    }) as unknown as ClientRequest;
+    vi.mocked(https.request).mockReturnValueOnce(writable);
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const promise = client.sendRequest(request);
+    yieldHttpsResponse(createResponse(200));
+
+    const response = await promise;
+    const completion = getRequestCompletion(response);
+    assert.isDefined(completion);
+    finishRequest();
+    await completion;
+    assert.isUndefined(getRequestCompletion(response));
+    writable.destroy();
+  });
+
+  it("removes the abort listener from the signal used for the request", async function () {
+    vi.useRealTimers();
+    const client = createDefaultHttpClient();
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const responseStream = new FakeResponse();
+    responseStream.headers = {};
+    responseStream.statusCode = 200;
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      abortSignal: controller.signal,
+      streamResponseStatusCodes: new Set([200]),
+    });
+    const promise = client.sendRequest(request);
+    yieldHttpsResponse(responseStream as unknown as IncomingMessage);
+    const response = await promise;
+    request.abortSignal = new AbortController().signal;
+    responseStream.destroy();
+    await delay(0);
+
+    assert.isDefined(response.readableStreamBody);
+    assert.strictEqual(removeEventListener.mock.calls.length, 1);
+    assert.strictEqual(removeEventListener.mock.calls[0][0], "abort");
+  });
+
+  it("keeps the abort listener until the outgoing request finishes", async function () {
+    vi.useRealTimers();
+    const client = createDefaultHttpClient();
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const clientRequest = new Writable({
+      autoDestroy: false,
+      write(_chunk, _encoding, callback) {
+        callback();
+      },
+      final() {
+        // Keep the request pending after response headers and body complete.
+      },
+    }) as unknown as ClientRequest;
+    const destroy = vi.spyOn(clientRequest, "destroy");
+    vi.mocked(https.request).mockReturnValueOnce(clientRequest);
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      body: "request body",
+      abortSignal: controller.signal,
+    });
+    const promise = client.sendRequest(request);
+    yieldHttpsResponse(createResponse(200));
+
+    await promise;
+    await delay(0);
+    expect(removeEventListener).not.toHaveBeenCalled();
+
+    controller.abort();
+    expect(destroy).toHaveBeenCalledWith(expect.objectContaining({ name: "AbortError" }));
+    await delay(0);
+    expect(removeEventListener).toHaveBeenCalledOnce();
+  });
+
+  it("disposes the underlying response through decompression and progress transforms", async function () {
+    const client = createDefaultHttpClient();
+    const streamResponse = new FakeResponse();
+    streamResponse.headers = { "content-encoding": "gzip" };
+    streamResponse.statusCode = 200;
+    const destroy = vi.spyOn(streamResponse, "destroy");
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      headers: createHttpHeaders({ "Accept-Encoding": "gzip" }),
+      onDownloadProgress: () => {},
+      streamResponseStatusCodes: new Set([200]),
+    });
+    const promise = client.sendRequest(request);
+    yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+
+    const response = await promise;
+    await disposeResponseBody(response);
+
+    expect(destroy).toHaveBeenCalledOnce();
+  });
+
+  it("keeps the source error observer until completion after destroy then abort", async function () {
+    vi.useRealTimers();
+    const streamResponse = new FakeResponse();
+    streamResponse.headers = {};
+    streamResponse.statusCode = 200;
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const promise = createDefaultHttpClient().sendRequest(
+      createPipelineRequest({
+        url: "https://example.com",
+        abortSignal: controller.signal,
+        onDownloadProgress: () => {},
+        streamResponseStatusCodes: new Set([200]),
+      }),
+    );
+    yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+    const response = await promise;
+    const body = response.readableStreamBody;
+    if (!(body instanceof Readable)) {
+      throw new Error("Expected a Node readable response");
+    }
+
+    const sourceError = vi.fn();
+    streamResponse.on("error", sourceError);
+    const sourceClosed = new Promise<void>((resolve) => streamResponse.once("close", resolve));
+    const destinationClosed = new Promise<number>((resolve) => {
+      body.once("close", () => {
+        // The test observer prevents a process crash; the transport must retain its own too.
+        resolve(streamResponse.listenerCount("error"));
+      });
+    });
+
+    try {
+      body.destroy();
+      controller.abort();
+      const errorObserversAtClose = await destinationClosed;
+      await sourceClosed;
+      await delay(0);
+
+      expect(errorObserversAtClose).toBeGreaterThan(1);
+      expect(sourceError).toHaveBeenCalledExactlyOnceWith(
+        expect.objectContaining({ name: "AbortError" }),
+      );
+      expect(streamResponse.listenerCount("error")).toBe(1);
+      expect(removeEventListener).toHaveBeenCalledOnce();
+    } finally {
+      streamResponse.removeListener("error", sourceError);
+      body.destroy();
+      streamResponse.destroy();
+    }
+  });
+
+  it.each([
+    { encoding: "gzip", progress: false },
+    { encoding: "deflate", progress: false },
+    { encoding: undefined, progress: false },
+    { encoding: undefined, progress: true },
+    { encoding: "gzip", progress: true },
+  ])(
+    "rejects a buffered response when its source closes prematurely (encoding=$encoding, progress=$progress)",
+    async function ({ encoding, progress }) {
+      vi.useRealTimers();
+      const streamResponse = new FakeResponse();
+      streamResponse.headers = encoding ? { "content-encoding": encoding } : {};
+      streamResponse.statusCode = 200;
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        headers: createHttpHeaders({ "Accept-Encoding": "gzip,deflate" }),
+        onDownloadProgress: progress ? () => {} : undefined,
+      });
+      const result = createDefaultHttpClient()
+        .sendRequest(request)
+        .then(
+          () => undefined,
+          (error: unknown) => error,
+        );
+      yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+      await delay(0);
+
+      streamResponse.destroy();
+
+      expect(await result).toMatchObject({ name: "RestError", code: "PARSE_ERROR" });
+    },
+  );
+
+  it.each([false, true])(
+    "removes buffered response listeners after settlement (failure=%s)",
+    async function (failure) {
+      vi.useRealTimers();
+      const streamResponse = new FakeResponse();
+      streamResponse.headers = {};
+      streamResponse.statusCode = 200;
+      const promise = createDefaultHttpClient().sendRequest(
+        createPipelineRequest({ url: "https://example.com" }),
+      );
+      yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+      await Promise.resolve();
+
+      if (failure) {
+        streamResponse.destroy(new Error("response failed"));
+        await expect(promise).rejects.toMatchObject({
+          name: "RestError",
+          code: "PARSE_ERROR",
+        });
+      } else {
+        streamResponse.end("complete response");
+        expect((await promise).bodyAsText).toBe("complete response");
+      }
+      await delay(0);
+
+      expect(streamResponse.listenerCount("data")).toBe(0);
+      expect(streamResponse.listenerCount("end")).toBe(0);
+      expect(streamResponse.listenerCount("error")).toBe(0);
+      expect(streamResponse.listenerCount("close")).toBe(0);
+    },
+  );
+
+  it.each([
+    { encoding: "gzip", progress: false },
+    { encoding: "deflate", progress: false },
+    { encoding: undefined, progress: true },
+    { encoding: "gzip", progress: true },
+  ])(
+    "closes the underlying response when the caller destroys its transform (encoding=$encoding, progress=$progress)",
+    async function ({ encoding, progress }) {
+      vi.useRealTimers();
+      const streamResponse = new FakeResponse();
+      streamResponse.headers = encoding ? { "content-encoding": encoding } : {};
+      streamResponse.statusCode = 200;
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        abortSignal: controller.signal,
+        headers: createHttpHeaders({ "Accept-Encoding": "gzip,deflate" }),
+        onDownloadProgress: progress ? () => {} : undefined,
+        streamResponseStatusCodes: new Set([200]),
+      });
+      const promise = createDefaultHttpClient().sendRequest(request);
+      yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+      const response = await promise;
+      const body = response.readableStreamBody;
+      if (!(body instanceof Readable)) {
+        throw new Error("Expected a Node readable response");
+      }
+
+      try {
+        body.destroy();
+        await delay(0);
+
+        expect(streamResponse.destroyed).toBe(true);
+        expect(removeEventListener).toHaveBeenCalledOnce();
+      } finally {
+        streamResponse.destroy();
+      }
+    },
+  );
+
+  it.each([false, true])(
+    "does not turn synchronous upload cleanup into a premature-close error (progress=%s)",
+    async function (progress) {
+      vi.useRealTimers();
+      const body = new Readable({ read() {} });
+      const destroyBody = body.destroy.bind(body);
+      vi.spyOn(body, "destroy").mockImplementation((error) => {
+        body.emit("close");
+        return destroyBody(error);
+      });
+      const clientRequest = new Writable({
+        write(_chunk, _encoding, callback) {
+          callback();
+        },
+      });
+      let upload: Readable | undefined;
+      clientRequest.once("pipe", (source: Readable) => {
+        upload = source;
+      });
+      vi.mocked(https.request).mockReturnValueOnce(clientRequest as unknown as ClientRequest);
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        body,
+        onUploadProgress: progress ? () => {} : undefined,
+      });
+      const promise = createDefaultHttpClient().sendRequest(request);
+      yieldHttpsResponse(createResponse(200));
+      await promise;
+      if (!upload) throw new Error("Expected an upload stream");
+      const destroyUpload = vi.spyOn(upload, "destroy");
+      const destroyRequest = vi.spyOn(clientRequest, "destroy");
+
+      try {
+        clientRequest.destroy();
+        await delay(0);
+
+        expect(body.destroyed).toBe(true);
+        expect(destroyRequest).not.toHaveBeenCalledWith(expect.any(Error));
+        expect(destroyUpload).not.toHaveBeenCalledWith(expect.any(Error));
+      } finally {
+        body.destroy();
+        upload.destroy();
+      }
+    },
+  );
+
+  it.each([false, true])(
+    "keeps upload source observers through destination teardown (progress=%s)",
+    async function (progress) {
+      vi.useRealTimers();
+      const body = new Readable({ read() {} });
+      const clientRequest = new Writable({
+        write(_chunk, _encoding, callback) {
+          callback();
+        },
+      });
+      let upload: Readable | undefined;
+      clientRequest.once("pipe", (source: Readable) => {
+        upload = source;
+      });
+      vi.mocked(https.request).mockReturnValueOnce(clientRequest as unknown as ClientRequest);
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const promise = createDefaultHttpClient().sendRequest(
+        createPipelineRequest({
+          url: "https://example.com",
+          body,
+          abortSignal: controller.signal,
+          onUploadProgress: progress ? () => {} : undefined,
+        }),
+      );
+      yieldHttpsResponse(createResponse(200));
+      await promise;
+      if (!upload) {
+        throw new Error("Expected an upload stream");
+      }
+
+      const destination = progress ? upload : clientRequest;
+      const destroyDestination = vi.spyOn(destination, "destroy");
+      const sourceError = vi.fn();
+      // Guard the queued error while checking that the transport keeps its own observer.
+      body.on("error", sourceError);
+      const errorObserversBeforeClose = body.listenerCount("error");
+      const sourceClosed = new Promise<void>((resolve) => body.once("close", resolve));
+      const destinationClosed = new Promise<number>((resolve) => {
+        destination.once("close", () => resolve(body.listenerCount("error")));
+      });
+      const failure = new Error("upload failed during teardown");
+
+      try {
+        destination.destroy();
+        body.destroy(failure);
+        const closedBeforeEvents = body.closed;
+        const errorObserversAtClose = await destinationClosed;
+        await sourceClosed;
+        await delay(0);
+
+        expect(closedBeforeEvents).toBe(true);
+        expect(errorObserversAtClose).toBe(errorObserversBeforeClose);
+        expect(sourceError).toHaveBeenCalledExactlyOnceWith(failure);
+        expect(destroyDestination).not.toHaveBeenCalledWith(expect.any(Error));
+        expect(body.listenerCount("error")).toBe(1);
+        expect(body.listenerCount("end")).toBe(0);
+        expect(body.listenerCount("close")).toBe(0);
+        expect(removeEventListener).toHaveBeenCalledOnce();
+      } finally {
+        body.removeListener("error", sourceError);
+        clientRequest.destroy();
+        upload.destroy();
+        body.destroy();
+      }
+    },
+  );
+
+  it.each([false, true])(
+    "removes the abort listener when request validation fails before creating a transport (progress=%s)",
+    async function (progress) {
+      vi.useRealTimers();
+      const body = new Readable({ read() {} });
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const request = createPipelineRequest({
+        url: "http://example.com",
+        body,
+        abortSignal: controller.signal,
+        onUploadProgress: progress ? () => {} : undefined,
+      });
+
+      try {
+        await expect(createDefaultHttpClient().sendRequest(request)).rejects.toThrow(
+          "allowInsecureConnection is false",
+        );
+        await delay(0);
+
+        expect(removeEventListener).toHaveBeenCalledOnce();
+        expect(http.request).not.toHaveBeenCalled();
+      } finally {
+        body.destroy();
+      }
+    },
+  );
+
+  it("cleans up the abort listener and timeout if the body factory throws", async function () {
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      abortSignal: controller.signal,
+      timeout: 1000,
+      body: () => {
+        throw new Error("body factory failed");
+      },
+    });
+
+    await expect(createDefaultHttpClient().sendRequest(request)).rejects.toThrow(
+      "body factory failed",
+    );
+    expect(removeEventListener).toHaveBeenCalledOnce();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it.each([false, true])(
+    "terminates the upload when an early response's request closes (progress=%s)",
+    async function (progress) {
+      vi.useRealTimers();
+      const body = new Readable({ read() {} });
+      body.push(Buffer.alloc(128 * 1024));
+      const clientRequest = new Writable({
+        write() {
+          // Hold the upload under backpressure.
+        },
+      });
+      let upload: Readable | undefined;
+      clientRequest.once("pipe", (source: Readable) => {
+        upload = source;
+      });
+      vi.mocked(https.request).mockReturnValueOnce(clientRequest as unknown as ClientRequest);
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        method: "PUT",
+        body,
+        abortSignal: controller.signal,
+        onUploadProgress: progress ? () => {} : undefined,
+        streamResponseStatusCodes: new Set([307]),
+      });
+      const promise = createDefaultHttpClient().sendRequest(request);
+      const streamResponse = createResponse(307);
+      yieldHttpsResponse(streamResponse);
+
+      try {
+        await promise;
+        await delay(0);
+        expect(upload).toBeDefined();
+        expect(body.destroyed).toBe(false);
+        streamResponse.destroy();
+        clientRequest.destroy();
+        await delay(0);
+
+        expect(body.destroyed).toBe(true);
+        expect(upload?.destroyed).toBe(true);
+        expect(removeEventListener).toHaveBeenCalledOnce();
+      } finally {
+        clientRequest.destroy();
+        upload?.destroy();
+        body.destroy();
+        streamResponse.destroy();
+      }
+    },
+  );
+
+  it.each(["buffered", "closed stream", "HEAD"])(
+    "disposes an incomplete outgoing request after a %s response",
+    async function (responseType) {
+      vi.useRealTimers();
+      const body = new Readable({ read() {} });
+      const clientRequest = new Writable({
+        write(_chunk, _encoding, callback) {
+          callback();
+        },
+      });
+      vi.mocked(https.request).mockReturnValueOnce(clientRequest as unknown as ClientRequest);
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        method: responseType === "HEAD" ? "HEAD" : "PUT",
+        body,
+        streamResponseStatusCodes: responseType === "closed stream" ? new Set([503]) : undefined,
+      });
+      const promise = createDefaultHttpClient().sendRequest(request);
+      const streamResponse = createResponse(503);
+      yieldHttpsResponse(streamResponse);
+
+      try {
+        const response = await promise;
+        if (responseType === "closed stream") {
+          streamResponse.resume();
+        }
+        await delay(0);
+        expect(streamResponse.closed).toBe(true);
+        expect(clientRequest.destroyed).toBe(false);
+
+        await disposeResponseBody(response);
+        await delay(0);
+
+        expect(clientRequest.destroyed).toBe(true);
+        expect(body.destroyed).toBe(true);
+      } finally {
+        clientRequest.destroy();
+        body.destroy();
+        streamResponse.destroy();
+      }
+    },
+  );
+
+  it("does not destroy a completed outgoing request when disposing its buffered response", async function () {
+    vi.useRealTimers();
+    const clientRequest = new Writable({
+      autoDestroy: false,
+      write(_chunk, _encoding, callback) {
+        callback();
+      },
+    });
+    vi.mocked(https.request).mockReturnValueOnce(clientRequest as unknown as ClientRequest);
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const promise = createDefaultHttpClient().sendRequest(request);
+    yieldHttpsResponse(createResponse(200));
+
+    try {
+      const response = await promise;
+      await delay(0);
+      expect(clientRequest.writableFinished).toBe(true);
+
+      await disposeResponseBody(response);
+
+      expect(clientRequest.destroyed).toBe(false);
+    } finally {
+      clientRequest.destroy();
+    }
   });
 
   it("should return an AbortError when aborted while reading the HTTP response", async function () {

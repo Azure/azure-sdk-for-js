@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to request a temporary admin kubeconfig for the cluster
  *
  * @summary request a temporary admin kubeconfig for the cluster
- * x-ms-original-file: 2026-09-01-preview/HcpOpenShiftClusters_RequestAdminCredential_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/HcpOpenShiftClusters_RequestAdminCredential_MaximumSet_Gen.json
  */
 async function hcpOpenShiftClustersRequestAdminCredentialMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
