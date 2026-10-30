@@ -3,7 +3,7 @@
 
 import { assert } from "vitest";
 import type { OpenTelemetrySpanWrapper } from "../../../src/spanWrapper.js";
-import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace";
 import { inMemoryExporter } from "./setup.js";
 
 export function getExportedSpan(span: OpenTelemetrySpanWrapper): ReadableSpan {
