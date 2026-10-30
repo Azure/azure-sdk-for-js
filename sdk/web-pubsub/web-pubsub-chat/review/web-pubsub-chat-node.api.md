@@ -25,7 +25,7 @@ export const BuiltInChatRoles: {
 export interface ChatConversation {
     readonly etag: string;
     readonly id: string;
-    parentRoom: string;
+    roomId: string;
 }
 
 // @public
@@ -38,9 +38,9 @@ export interface ChatMessage {
 }
 
 // @public
-export interface ChatMessageInput {
-    content: MessageContent;
-    createdBy: string;
+export interface ChatMessageUpdate {
+    content?: MessageContent;
+    createdBy?: string;
 }
 
 // @public
@@ -54,7 +54,7 @@ export interface ChatRole {
 }
 
 // @public
-export interface ChatRoleInput {
+export interface ChatRoleCreateOrReplace {
     permissions: ChatPermission[];
 }
 
@@ -67,7 +67,7 @@ export interface ChatRoom {
 }
 
 // @public
-export interface ChatRoomInput {
+export interface ChatRoomCreateOrReplace {
     title: string;
 }
 
@@ -79,29 +79,63 @@ export interface ChatRoomMember {
 }
 
 // @public
-export interface ChatRoomMemberInput {
+export interface ChatRoomMemberCreateOrReplace {
     roleName: string;
+}
+
+// @public
+export interface ChatTopic {
+    readonly conversationId: string;
+    readonly createdAt: Date;
+    readonly createdBy: string;
+    readonly etag: string;
+    readonly id: string;
+    state: ChatTopicState;
+    title: string;
+}
+
+// @public
+export interface ChatTopicCreateOrReplace {
+    state?: ChatTopicState;
+    title: string;
+}
+
+// @public
+export type ChatTopicState = string;
+
+// @public
+export interface ChatTopicUpdate {
+    state?: ChatTopicState;
+    title?: string;
 }
 
 // @public
 export interface ChatUser {
     readonly etag: string;
     readonly id: string;
-    kind: string;
-    nickname: string;
-}
-
-// @public
-export interface ChatUserInput {
     kind: ChatUserKind;
     nickname: string;
 }
 
 // @public
-export type ChatUserInputUnion = HumanChatUserInput;
+export interface ChatUserCreateOrReplace {
+    kind: ChatUserKind;
+    nickname: string;
+}
 
 // @public
-export type ChatUserKind = "Human";
+export type ChatUserCreateOrReplaceUnion = HumanChatUserCreateOrReplace | ChatUserCreateOrReplace;
+
+// @public
+export type ChatUserKind = string;
+
+// @public
+export interface ChatUserRoom {
+    readonly defaultConversation: string;
+    readonly etag: string;
+    readonly id: string;
+    title: string;
+}
 
 // @public
 export type ChatUserUnion = HumanChatUser | ChatUser;
@@ -137,6 +171,12 @@ export interface CreateOrReplaceRoomOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface CreateOrReplaceTopicOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
 export interface CreateOrReplaceUserOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -167,6 +207,12 @@ export interface DeleteRoomOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface DeleteTopicOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
 export interface DeleteUserOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -191,6 +237,10 @@ export interface GetRoomOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface GetTopicOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface GetUserOptionalParams extends OperationOptions {
 }
 
@@ -202,9 +252,10 @@ export interface HumanChatUser extends ChatUser {
 }
 
 // @public
-export interface HumanChatUserInput extends ChatUserInput {
+export interface HumanChatUserCreateOrReplace extends ChatUserCreateOrReplace {
     // (undocumented)
     kind: "Human";
+    nickname: string;
     roleName: string;
 }
 
@@ -221,8 +272,16 @@ export enum KnownChatPermission {
 }
 
 // @public
+export enum KnownChatTopicState {
+    Archived = "Archived",
+    Normal = "Normal",
+    SoftDeleted = "SoftDeleted"
+}
+
+// @public
 export enum KnownVersions {
-    V20260201Preview = "2026-02-01-preview"
+    V20260201Preview = "2026-02-01-preview",
+    V20260801Preview = "2026-08-01-preview"
 }
 
 // @public
@@ -240,6 +299,30 @@ export interface ListRolesOptionalParams extends OperationOptions {
 
 // @public
 export interface ListRoomMembersOptionalParams extends OperationOptions {
+    continuationToken?: string;
+    maxPageSize?: number;
+}
+
+// @public
+export interface ListRoomsForUserOptionalParams extends OperationOptions {
+    continuationToken?: string;
+    maxPageSize?: number;
+}
+
+// @public
+export interface ListRoomsOptionalParams extends OperationOptions {
+    continuationToken?: string;
+    maxPageSize?: number;
+}
+
+// @public
+export interface ListTopicsOptionalParams extends OperationOptions {
+    continuationToken?: string;
+    maxPageSize?: number;
+}
+
+// @public
+export interface ListUsersOptionalParams extends OperationOptions {
     continuationToken?: string;
     maxPageSize?: number;
 }
@@ -271,28 +354,42 @@ export interface UpdateMessageOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface UpdateTopicOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
 export class WebPubSubChatServiceClient {
     constructor(connectionString: string, hub: string, options?: WebPubSubChatServiceClientOptions);
     constructor(endpointParam: string, credential: TokenCredential | AzureKeyCredential, hub: string, options?: WebPubSubChatServiceClientOptions);
-    createOrReplaceRole(roleName: string, resource: ChatRoleInput, options?: CreateOrReplaceRoleOptionalParams): Promise<ChatRole>;
-    createOrReplaceRoom(roomId: string, resource: ChatRoomInput, options?: CreateOrReplaceRoomOptionalParams): Promise<ChatRoom>;
-    createOrReplaceRoomMember(roomId: string, userId: string, resource: ChatRoomMemberInput, options?: CreateOrReplaceRoomMemberOptionalParams): Promise<ChatRoomMember>;
-    createOrReplaceUser(userId: string, resource: ChatUserInputUnion, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
+    createOrReplaceRole(roleName: string, role: ChatRoleCreateOrReplace, options?: CreateOrReplaceRoleOptionalParams): Promise<ChatRole>;
+    createOrReplaceRoom(roomId: string, room: ChatRoomCreateOrReplace, options?: CreateOrReplaceRoomOptionalParams): Promise<ChatRoom>;
+    createOrReplaceRoomMember(roomId: string, userId: string, member: ChatRoomMemberCreateOrReplace, options?: CreateOrReplaceRoomMemberOptionalParams): Promise<ChatRoomMember>;
+    createOrReplaceTopic(roomId: string, topicId: string, topic: ChatTopicCreateOrReplace, options?: CreateOrReplaceTopicOptionalParams): Promise<ChatTopic>;
+    createOrReplaceUser(userId: string, user: HumanChatUserCreateOrReplace, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
     deleteMessage(conversationId: string, messageId: string, options?: DeleteMessageOptionalParams): Promise<void>;
     deleteRole(roleName: string, options?: DeleteRoleOptionalParams): Promise<void>;
     deleteRoom(roomId: string, options?: DeleteRoomOptionalParams): Promise<void>;
     deleteRoomMember(roomId: string, userId: string, options?: DeleteRoomMemberOptionalParams): Promise<void>;
+    deleteTopic(roomId: string, topicId: string, options?: DeleteTopicOptionalParams): Promise<void>;
     deleteUser(userId: string, options?: DeleteUserOptionalParams): Promise<void>;
     getClientAccessToken(options?: GetClientAccessTokenOptions): Promise<ClientAccessToken>;
     getConversation(conversationId: string, options?: GetConversationOptionalParams): Promise<ChatConversation>;
     getRole(roleName: string, options?: GetRoleOptionalParams): Promise<ChatRole>;
     getRoom(roomId: string, options?: GetRoomOptionalParams): Promise<ChatRoom>;
+    getTopic(roomId: string, topicId: string, options?: GetTopicOptionalParams): Promise<ChatTopic>;
     getUser(userId: string, options?: GetUserOptionalParams): Promise<ChatUserUnion>;
     listMessages(conversationId: string, options?: ListMessagesOptionalParams): PagedAsyncIterableIterator<ChatMessage>;
     listRoles(options?: ListRolesOptionalParams): PagedAsyncIterableIterator<ChatRole>;
     listRoomMembers(roomId: string, options?: ListRoomMembersOptionalParams): PagedAsyncIterableIterator<ChatRoomMember>;
+    listRooms(options?: ListRoomsOptionalParams): PagedAsyncIterableIterator<ChatRoom>;
+    listRoomsForUser(userId: string, options?: ListRoomsForUserOptionalParams): PagedAsyncIterableIterator<ChatUserRoom>;
+    listTopics(roomId: string, options?: ListTopicsOptionalParams): PagedAsyncIterableIterator<ChatTopic>;
+    listUsers(options?: ListUsersOptionalParams): PagedAsyncIterableIterator<ChatUserUnion>;
     readonly pipeline: Pipeline;
-    updateMessage(conversationId: string, messageId: string, resource: ChatMessageInput, options?: UpdateMessageOptionalParams): Promise<ChatMessage>;
+    updateMessage(conversationId: string, messageId: string, message: ChatMessageUpdate, options?: UpdateMessageOptionalParams): Promise<ChatMessage>;
+    updateTopic(roomId: string, topicId: string, topic: ChatTopicUpdate, options?: UpdateTopicOptionalParams): Promise<ChatTopic>;
 }
 
 // @public
