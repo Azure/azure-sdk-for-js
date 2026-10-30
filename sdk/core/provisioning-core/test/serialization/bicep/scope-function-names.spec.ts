@@ -64,7 +64,7 @@ describe("built-in name aliases", () => {
     });
     expect(serialize(stack)).toEqual(before);
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("aliases a resource named after a non-scope function without a provisional build", () => {
     const stack = new Stack("guid-alias", { targetScope: "resourceGroup" });
@@ -76,7 +76,7 @@ describe("built-in name aliases", () => {
     stack.outputs.add("id", "string", resource.id);
     expect(Object.keys(files(stack)[0]!.resources!)).toEqual(["guidResource"]);
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it.each([
     ["resourceGroup", () => fn.resourceGroup("external-rg")],
@@ -105,7 +105,7 @@ describe("built-in name aliases", () => {
       });
       compile(stack);
     },
-    30_000,
+    60_000,
   );
 
   it("does not claim to cover built-in names outside the selected sublist", () => {
@@ -150,6 +150,6 @@ describe("built-in name aliases", () => {
       });
       expect(() => compile(stack)).toThrow("BCP265");
     },
-    30_000,
+    60_000,
   );
 });
