@@ -1156,6 +1156,40 @@ describe("NodeHttpClient", function () {
   });
 
   it.each([false, true])(
+    "preserves an untouched direct stream when aborted before Continue (progress=%s)",
+    async function (progress) {
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const read = vi.fn();
+      const body = new Readable({ read });
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        headers: createHttpHeaders({ Expect: "100-continue" }),
+        abortSignal: controller.signal,
+        body,
+        onUploadProgress: progress ? vi.fn() : undefined,
+      });
+
+      try {
+        const promise = createDefaultHttpClient().sendRequest(request);
+        const rejection = expect(promise).rejects.toMatchObject({ name: "AbortError" });
+        controller.abort();
+        await rejection;
+
+        expect(removeEventListener).toHaveBeenCalledOnce();
+        expect(read).not.toHaveBeenCalled();
+        expect(body.destroyed).toBe(false);
+        expect(body.listenerCount("data")).toBe(0);
+        expect(body.listenerCount("end")).toBe(0);
+        expect(body.listenerCount("close")).toBe(0);
+        expect(body.listenerCount("error")).toBe(0);
+      } finally {
+        body.destroy();
+      }
+    },
+  );
+
+  it.each([false, true])(
     "terminates the upload when an early response's request closes (progress=%s)",
     async function (progress) {
       vi.useRealTimers();

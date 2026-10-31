@@ -221,16 +221,19 @@ class NodeHttpClient implements HttpClient {
       acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
 
     const useExpectContinue = hasExpectContinue(request);
-    const bodyFactory = typeof request.body === "function" ? request.body : undefined;
-    let body = bodyFactory ? undefined : request.body;
+    const requestBody = request.body;
+    // Keep input separate from the prepared upload. Even a direct stream must leave body
+    // undefined until preparation starts, so early rejection does not transfer its ownership.
+    let body: RequestBodyType | undefined;
 
     let responseStream: NodeJS.ReadableStream | undefined;
     let requestComplete = Promise.resolve();
     try {
-      const knownBodyLength = bodyFactory ? null : getBodyLength(body ?? null);
+      const knownBodyLength =
+        typeof requestBody === "function" ? null : getBodyLength(requestBody ?? null);
 
       const prepareBody = (): RequestBodyType | undefined => {
-        body = initializeBody(bodyFactory ?? body);
+        body = initializeBody(requestBody);
         if (!useExpectContinue && body && !request.headers.has("Content-Length")) {
           const bodyLength = getBodyLength(body);
           if (bodyLength !== null) {
@@ -330,6 +333,8 @@ class NodeHttpClient implements HttpClient {
 
       return response;
     } catch (error) {
+      // Dispose only the prepared upload. If preparation never ran, body is undefined
+      // and the caller's untouched input stream is left alone.
       if (isReadableStream(body)) {
         disposeNodeStream(body);
       }
@@ -342,9 +347,11 @@ class NodeHttpClient implements HttpClient {
         clearTimeout(timeoutId);
       }
 
-      // clean up event listener
+      // Keep abort forwarding until the outgoing request and response have both completed.
       if (requestAbortSignal && abortListener) {
         let uploadStreamDone = Promise.resolve();
+        // Wait only for a prepared upload. If preparation never ran, body is undefined,
+        // so the caller's untouched input stream cannot block abort-listener cleanup.
         if (isReadableStream(body)) {
           uploadStreamDone = isStreamComplete(body);
         }

@@ -4,12 +4,14 @@
 import http from "node:http";
 import { lookup } from "node:dns";
 import { Readable } from "node:stream";
+import { finished } from "node:stream/promises";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   createDefaultHttpClient,
   createHttpHeaders,
   createPipelineRequest,
 } from "../../../src/index.js";
+import { getRequestCompletion } from "../../../src/util/responseBody.js";
 
 const servers: http.Server[] = [];
 
@@ -147,6 +149,72 @@ describe("Expect: 100-continue", () => {
     expect(response.bodyAsText).toBe("rejected");
     expect(bodyFactory).not.toHaveBeenCalled();
   });
+
+  it.each([
+    { streamedResponse: false, progress: false },
+    { streamedResponse: false, progress: true },
+    { streamedResponse: true, progress: false },
+    { streamedResponse: true, progress: true },
+  ])(
+    "releases the abort listener without waiting for an untouched body after rejection (streamedResponse=$streamedResponse, progress=$progress)",
+    async ({ streamedResponse, progress }) => {
+      const read = vi.fn();
+      const body = new Readable({ read });
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const onUploadProgress = vi.fn();
+      const server = http.createServer();
+      server.on("checkContinue", (_request, response) => {
+        response.writeHead(417);
+        response.end("rejected");
+      });
+      const port = await listen(server);
+
+      try {
+        const response = await createDefaultHttpClient().sendRequest(
+          createPipelineRequest({
+            url: `http://127.0.0.1:${port}`,
+            method: "POST",
+            allowInsecureConnection: true,
+            headers: createHttpHeaders({ Expect: "100-continue" }),
+            body,
+            abortSignal: controller.signal,
+            onUploadProgress: progress ? onUploadProgress : undefined,
+            streamResponseStatusCodes: streamedResponse ? new Set([417]) : undefined,
+          }),
+        );
+
+        expect(response.status).toBe(417);
+        if (streamedResponse) {
+          await new Promise<void>((resolve) => setImmediate(resolve));
+          expect(removeEventListener).not.toHaveBeenCalled();
+          const responseStream = response.readableStreamBody;
+          if (!responseStream) {
+            throw new Error("Expected a streamed rejection response");
+          }
+          const responseComplete = finished(responseStream, { writable: false });
+          responseStream.resume();
+          await responseComplete;
+        } else {
+          expect(response.bodyAsText).toBe("rejected");
+        }
+        await getRequestCompletion(response);
+        await new Promise<void>((resolve) => setImmediate(resolve));
+
+        expect(removeEventListener).toHaveBeenCalledExactlyOnceWith("abort", expect.any(Function));
+        expect(read).not.toHaveBeenCalled();
+        expect(onUploadProgress).not.toHaveBeenCalled();
+        expect(body.destroyed).toBe(false);
+        expect(body.readableEnded).toBe(false);
+        expect(body.listenerCount("data")).toBe(0);
+        expect(body.listenerCount("end")).toBe(0);
+        expect(body.listenerCount("close")).toBe(0);
+        expect(body.listenerCount("error")).toBe(0);
+      } finally {
+        body.destroy();
+      }
+    },
+  );
 
   it("sends the body after the fixed fallback when no Continue response arrives", async () => {
     const bodyFactory = vi.fn(() => Readable.from(["payload"]));
