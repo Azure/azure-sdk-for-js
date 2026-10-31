@@ -7,7 +7,7 @@ const EXPECT_CONTINUE_TIMEOUT_IN_MS = 1000;
 
 interface ExpectContinueRequestOptions {
   abortSignal: AbortSignal;
-  bodyLength: number | null;
+  knownBodyLength: number | null;
   createRequest: (onResponse: (response: http.IncomingMessage) => void) => http.ClientRequest;
   onAbort: (request: http.ClientRequest) => void;
   onError: (error: Error & { code?: string }) => void;
@@ -187,7 +187,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
     return;
   }
 
-  if (options.bodyLength === 0) {
+  if (options.knownBodyLength === 0) {
     sendBody();
     return;
   }

@@ -8,7 +8,7 @@ import { afterEach, beforeEach, describe, expect, it, vi, type Mock, type Mocked
 import { createExpectContinueRequest } from "../../../src/util/nodeExpectContinue.js";
 
 function createOptions(
-  bodyLength: number | null = null,
+  knownBodyLength: number | null = null,
   suppressDestroyError = true,
 ): {
   request: Writable & {
@@ -45,7 +45,7 @@ function createOptions(
     controller,
     options: {
       abortSignal: controller.signal,
-      bodyLength,
+      knownBodyLength,
       createRequest: vi.fn(() => request as unknown as ClientRequest),
       onAbort: vi.fn(),
       onError: vi.fn(),
