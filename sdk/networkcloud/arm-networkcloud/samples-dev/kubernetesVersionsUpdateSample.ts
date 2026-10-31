@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update tags associated with the Kubernetes version resource. No other properties are supported for update.
  *
  * @summary update tags associated with the Kubernetes version resource. No other properties are supported for update.
- * x-ms-original-file: 2026-07-01/KubernetesVersions_UpdateTags.json
+ * x-ms-original-file: 2026-08-01-preview/KubernetesVersions_UpdateTags.json
  */
 async function patchKubernetesVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();

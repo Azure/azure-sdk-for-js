@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update tags associated with the provided layer 3 (L3) network.
  *
  * @summary update tags associated with the provided layer 3 (L3) network.
- * x-ms-original-file: 2026-07-01/L3Networks_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/L3Networks_Patch.json
  */
 async function patchL3Network(): Promise<void> {
   const credential = new DefaultAzureCredential();

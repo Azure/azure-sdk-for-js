@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to trigger an inspection of the cluster to perform validation and optional corrective actions based on the supplied additional actions and filters.
  *
  * @summary trigger an inspection of the cluster to perform validation and optional corrective actions based on the supplied additional actions and filters.
- * x-ms-original-file: 2026-07-01/Clusters_Inspect.json
+ * x-ms-original-file: 2026-08-01-preview/Clusters_Inspect.json
  */
 async function inspectCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

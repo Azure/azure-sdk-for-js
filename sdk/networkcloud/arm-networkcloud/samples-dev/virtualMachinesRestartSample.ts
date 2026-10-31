@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to restart the provided virtual machine.
  *
  * @summary restart the provided virtual machine.
- * x-ms-original-file: 2026-07-01/VirtualMachines_Restart.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualMachines_Restart.json
  */
 async function restartVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

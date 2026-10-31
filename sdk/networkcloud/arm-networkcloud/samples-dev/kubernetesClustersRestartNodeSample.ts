@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to restart a targeted node of a Kubernetes cluster.
  *
  * @summary restart a targeted node of a Kubernetes cluster.
- * x-ms-original-file: 2026-07-01/KubernetesClusters_RestartNode.json
+ * x-ms-original-file: 2026-08-01-preview/KubernetesClusters_RestartNode.json
  */
 async function restartAKubernetesClusterNode(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the provided storage appliance. All customer initiated requests will be rejected as the life cycle of this resource is managed by the system.
  *
  * @summary delete the provided storage appliance. All customer initiated requests will be rejected as the life cycle of this resource is managed by the system.
- * x-ms-original-file: 2026-07-01/StorageAppliances_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/StorageAppliances_Delete.json
  */
 async function deleteStorageAppliance(): Promise<void> {
   const credential = new DefaultAzureCredential();

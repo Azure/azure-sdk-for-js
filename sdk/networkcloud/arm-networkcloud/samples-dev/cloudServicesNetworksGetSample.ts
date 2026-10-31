@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of the provided cloud services network.
  *
  * @summary get properties of the provided cloud services network.
- * x-ms-original-file: 2026-07-01/CloudServicesNetworks_Get.json
+ * x-ms-original-file: 2026-08-01-preview/CloudServicesNetworks_Get.json
  */
 async function getCloudServicesNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

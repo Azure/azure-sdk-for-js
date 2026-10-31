@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of the provided rack.
  *
  * @summary get properties of the provided rack.
- * x-ms-original-file: 2026-07-01/Racks_Get.json
+ * x-ms-original-file: 2026-08-01-preview/Racks_Get.json
  */
 async function getRack(): Promise<void> {
   const credential = new DefaultAzureCredential();

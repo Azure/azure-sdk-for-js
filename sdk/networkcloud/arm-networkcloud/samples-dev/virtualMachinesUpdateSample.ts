@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch the properties of the provided virtual machine, or update the tags associated with the virtual machine. Properties and tag updates can be done independently.
  *
  * @summary patch the properties of the provided virtual machine, or update the tags associated with the virtual machine. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-07-01/VirtualMachines_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualMachines_Patch.json
  */
 async function patchVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

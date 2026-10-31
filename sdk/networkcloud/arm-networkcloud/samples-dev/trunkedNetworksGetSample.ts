@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of the provided trunked network.
  *
  * @summary get properties of the provided trunked network.
- * x-ms-original-file: 2026-07-01/TrunkedNetworks_Get.json
+ * x-ms-original-file: 2026-08-01-preview/TrunkedNetworks_Get.json
  */
 async function getTrunkedNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

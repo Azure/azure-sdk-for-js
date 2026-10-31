@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cordon the provided bare metal machine's Kubernetes node.
  *
  * @summary cordon the provided bare metal machine's Kubernetes node.
- * x-ms-original-file: 2026-07-01/BareMetalMachines_Cordon.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachines_Cordon.json
  */
 async function cordonBareMetalMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

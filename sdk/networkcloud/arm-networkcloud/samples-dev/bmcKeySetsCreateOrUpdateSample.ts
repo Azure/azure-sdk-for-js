@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new baseboard management controller key set or update the existing one for the provided cluster.
  *
  * @summary create a new baseboard management controller key set or update the existing one for the provided cluster.
- * x-ms-original-file: 2026-07-01/BmcKeySets_Create.json
+ * x-ms-original-file: 2026-08-01-preview/BmcKeySets_Create.json
  */
 async function createOrUpdateBaseboardManagementControllerKeySetOfCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
