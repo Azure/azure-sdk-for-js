@@ -404,24 +404,12 @@ export interface IotHubProperties {
   cloudToDevice?: CloudToDeviceProperties;
   /** IoT hub comments. */
   comments?: string;
-  /** The device streams properties of iothub. */
-  deviceStreams?: IotHubPropertiesDeviceStreams;
   /** The capabilities and features enabled for the IoT hub. */
   features?: Capabilities;
-  /** The encryption properties for the IoT hub. */
-  encryption?: EncryptionPropertiesDescription;
   /** Primary and secondary location for iot hub */
   readonly locations?: IotHubLocationDescription[];
   /** This property when set to true, will enable data residency, thus, disabling disaster recovery. */
   enableDataResidency?: boolean;
-  /** This property store root certificate related information */
-  rootCertificate?: RootCertificateProperties;
-  /** This property specifies the IP Version the hub is currently utilizing. */
-  ipVersion?: IpVersion;
-  /** The connection profile that the IoT hub uses for device connections. Defaults to 'Classic'. */
-  connectionProfile?: ConnectionProfile;
-  /** The custom topic configuration for an Event Grid-backed MQTT v5 IoT hub. This property is valid only when connectionProfile is 'MqttV5'. */
-  mqttV5Settings?: MqttV5Settings;
   /** Represents properties related to the Azure Device Registry (ADR). */
   readonly deviceRegistry?: DeviceRegistry;
   /** Set of additional read-only properties for the IoT hub. */
@@ -468,22 +456,8 @@ export function iotHubPropertiesSerializer(item: IotHubProperties): any {
       ? item["cloudToDevice"]
       : cloudToDevicePropertiesSerializer(item["cloudToDevice"]),
     comments: item["comments"],
-    deviceStreams: !item["deviceStreams"]
-      ? item["deviceStreams"]
-      : iotHubPropertiesDeviceStreamsSerializer(item["deviceStreams"]),
     features: item["features"],
-    encryption: !item["encryption"]
-      ? item["encryption"]
-      : encryptionPropertiesDescriptionSerializer(item["encryption"]),
     enableDataResidency: item["enableDataResidency"],
-    rootCertificate: !item["rootCertificate"]
-      ? item["rootCertificate"]
-      : rootCertificatePropertiesSerializer(item["rootCertificate"]),
-    ipVersion: item["ipVersion"],
-    connectionProfile: item["connectionProfile"],
-    mqttV5Settings: !item["mqttV5Settings"]
-      ? item["mqttV5Settings"]
-      : mqttV5SettingsSerializer(item["mqttV5Settings"]),
   };
 }
 
@@ -532,25 +506,11 @@ export function iotHubPropertiesDeserializer(item: any): IotHubProperties {
       ? item["cloudToDevice"]
       : cloudToDevicePropertiesDeserializer(item["cloudToDevice"]),
     comments: item["comments"],
-    deviceStreams: !item["deviceStreams"]
-      ? item["deviceStreams"]
-      : iotHubPropertiesDeviceStreamsDeserializer(item["deviceStreams"]),
     features: item["features"],
-    encryption: !item["encryption"]
-      ? item["encryption"]
-      : encryptionPropertiesDescriptionDeserializer(item["encryption"]),
     locations: !item["locations"]
       ? item["locations"]
       : iotHubLocationDescriptionArrayDeserializer(item["locations"]),
     enableDataResidency: item["enableDataResidency"],
-    rootCertificate: !item["rootCertificate"]
-      ? item["rootCertificate"]
-      : rootCertificatePropertiesDeserializer(item["rootCertificate"]),
-    ipVersion: item["ipVersion"],
-    connectionProfile: item["connectionProfile"],
-    mqttV5Settings: !item["mqttV5Settings"]
-      ? item["mqttV5Settings"]
-      : mqttV5SettingsDeserializer(item["mqttV5Settings"]),
     deviceRegistry: !item["deviceRegistry"]
       ? item["deviceRegistry"]
       : deviceRegistryDeserializer(item["deviceRegistry"]),
@@ -987,8 +947,6 @@ export interface RoutingServiceBusQueueEndpointProperties {
   subscriptionId?: string;
   /** The name of the resource group of the service bus queue endpoint. */
   resourceGroup?: string;
-  /** The format of the message payload delivered to this endpoint. */
-  messagePayloadFormat?: MessagePayloadFormat;
 }
 
 export function routingServiceBusQueueEndpointPropertiesSerializer(
@@ -1004,7 +962,6 @@ export function routingServiceBusQueueEndpointPropertiesSerializer(
     name: item["name"],
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
-    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1021,7 +978,6 @@ export function routingServiceBusQueueEndpointPropertiesDeserializer(
     name: item["name"],
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
-    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1059,24 +1015,6 @@ export function managedIdentityDeserializer(item: any): ManagedIdentity {
   };
 }
 
-/** The supported formats for message payloads delivered to routing endpoints. */
-export enum KnownMessagePayloadFormat {
-  /** Formats the message as a com.do.telemetry.observation.v1 payload. */
-  DOObservationV1 = "DOObservationV1",
-  /** Preserves the original message payload. */
-  None = "None",
-}
-
-/**
- * The supported formats for message payloads delivered to routing endpoints. \
- * {@link KnownMessagePayloadFormat} can be used interchangeably with MessagePayloadFormat,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DOObservationV1**: Formats the message as a com.do.telemetry.observation.v1 payload. \
- * **None**: Preserves the original message payload.
- */
-export type MessagePayloadFormat = string;
-
 export function routingServiceBusTopicEndpointPropertiesArraySerializer(
   result: Array<RoutingServiceBusTopicEndpointProperties>,
 ): any[] {
@@ -1113,8 +1051,6 @@ export interface RoutingServiceBusTopicEndpointProperties {
   subscriptionId?: string;
   /** The name of the resource group of the service bus topic endpoint. */
   resourceGroup?: string;
-  /** The format of the message payload delivered to this endpoint. */
-  messagePayloadFormat?: MessagePayloadFormat;
 }
 
 export function routingServiceBusTopicEndpointPropertiesSerializer(
@@ -1130,7 +1066,6 @@ export function routingServiceBusTopicEndpointPropertiesSerializer(
     name: item["name"],
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
-    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1147,7 +1082,6 @@ export function routingServiceBusTopicEndpointPropertiesDeserializer(
     name: item["name"],
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
-    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1187,8 +1121,6 @@ export interface RoutingEventHubProperties {
   subscriptionId?: string;
   /** The name of the resource group of the event hub endpoint. */
   resourceGroup?: string;
-  /** The format of the message payload delivered to this endpoint. */
-  messagePayloadFormat?: MessagePayloadFormat;
 }
 
 export function routingEventHubPropertiesSerializer(item: RoutingEventHubProperties): any {
@@ -1202,7 +1134,6 @@ export function routingEventHubPropertiesSerializer(item: RoutingEventHubPropert
     name: item["name"],
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
-    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1217,7 +1148,6 @@ export function routingEventHubPropertiesDeserializer(item: any): RoutingEventHu
     name: item["name"],
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
-    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1265,8 +1195,6 @@ export interface RoutingStorageContainerProperties {
   maxChunkSizeInBytes?: number;
   /** Encoding that is used to serialize messages to blobs. Supported values are 'avro', 'avrodeflate', and 'JSON'. Default value is 'avro'. */
   encoding?: RoutingStorageContainerPropertiesEncoding;
-  /** The format of the message payload delivered to this endpoint. */
-  messagePayloadFormat?: MessagePayloadFormat;
 }
 
 export function routingStorageContainerPropertiesSerializer(
@@ -1286,7 +1214,6 @@ export function routingStorageContainerPropertiesSerializer(
     batchFrequencyInSeconds: item["batchFrequencyInSeconds"],
     maxChunkSizeInBytes: item["maxChunkSizeInBytes"],
     encoding: item["encoding"],
-    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1307,7 +1234,6 @@ export function routingStorageContainerPropertiesDeserializer(
     batchFrequencyInSeconds: item["batchFrequencyInSeconds"],
     maxChunkSizeInBytes: item["maxChunkSizeInBytes"],
     encoding: item["encoding"],
-    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1376,8 +1302,6 @@ export interface RoutingCosmosDBSqlApiProperties {
   partitionKeyName?: string;
   /** The template for generating a synthetic partition key value for use with this cosmos DB sql container. The template must include at least one of the following placeholders: {iothub}, {deviceid}, {DD}, {MM}, and {YYYY}. Any one placeholder may be specified at most once, but order and non-placeholder components are arbitrary. This parameter is only required if PartitionKeyName is specified. */
   partitionKeyTemplate?: string;
-  /** The format of the message payload delivered to this endpoint. */
-  messagePayloadFormat?: MessagePayloadFormat;
 }
 
 export function routingCosmosDBSqlApiPropertiesSerializer(
@@ -1396,7 +1320,6 @@ export function routingCosmosDBSqlApiPropertiesSerializer(
     containerName: item["containerName"],
     partitionKeyName: item["partitionKeyName"],
     partitionKeyTemplate: item["partitionKeyTemplate"],
-    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1417,7 +1340,6 @@ export function routingCosmosDBSqlApiPropertiesDeserializer(
     containerName: item["containerName"],
     partitionKeyName: item["partitionKeyName"],
     partitionKeyTemplate: item["partitionKeyTemplate"],
-    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1457,8 +1379,6 @@ export interface RoutingEventStreamProperties {
   eventStreamId?: string;
   /** The unique GUID of the custom source for the event stream. */
   sourceId?: string;
-  /** The format of the message payload delivered to this endpoint. */
-  messagePayloadFormat?: MessagePayloadFormat;
 }
 
 export function routingEventStreamPropertiesSerializer(item: RoutingEventStreamProperties): any {
@@ -1471,7 +1391,6 @@ export function routingEventStreamPropertiesSerializer(item: RoutingEventStreamP
     workspaceId: item["workspaceId"],
     eventStreamId: item["eventStreamId"],
     sourceId: item["sourceId"],
-    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1486,7 +1405,6 @@ export function routingEventStreamPropertiesDeserializer(item: any): RoutingEven
     workspaceId: item["workspaceId"],
     eventStreamId: item["eventStreamId"],
     sourceId: item["sourceId"],
-    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1525,8 +1443,6 @@ export interface RouteProperties {
   source: RoutingSource;
   /** The condition that is evaluated to apply the routing rule. If no condition is provided, it evaluates to true by default. For grammar, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language */
   condition?: string;
-  /** The data schema reference that is used to interpret the message body. */
-  dataSchema?: string;
   /** The list of endpoints to which messages that satisfy the condition are routed. Currently only one endpoint is allowed. */
   endpointNames: string[];
   /** Used to specify whether a route is enabled. */
@@ -1538,7 +1454,6 @@ export function routePropertiesSerializer(item: RouteProperties): any {
     name: item["name"],
     source: item["source"],
     condition: item["condition"],
-    dataSchema: item["dataSchema"],
     endpointNames: item["endpointNames"].map((p: any) => {
       return p;
     }),
@@ -1551,7 +1466,6 @@ export function routePropertiesDeserializer(item: any): RouteProperties {
     name: item["name"],
     source: item["source"],
     condition: item["condition"],
-    dataSchema: item["dataSchema"],
     endpointNames: item["endpointNames"].map((p: any) => {
       return p;
     }),
@@ -1571,12 +1485,8 @@ export enum KnownRoutingSource {
   DeviceLifecycleEvents = "DeviceLifecycleEvents",
   /** DeviceJobLifecycleEvents */
   DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
-  /** DigitalTwinChangeEvents */
-  DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
   /** DeviceConnectionStateEvents */
   DeviceConnectionStateEvents = "DeviceConnectionStateEvents",
-  /** MqttBrokerMessages */
-  MqttBrokerMessages = "MqttBrokerMessages",
 }
 
 /**
@@ -1589,9 +1499,7 @@ export enum KnownRoutingSource {
  * **TwinChangeEvents**: TwinChangeEvents \
  * **DeviceLifecycleEvents**: DeviceLifecycleEvents \
  * **DeviceJobLifecycleEvents**: DeviceJobLifecycleEvents \
- * **DigitalTwinChangeEvents**: DigitalTwinChangeEvents \
- * **DeviceConnectionStateEvents**: DeviceConnectionStateEvents \
- * **MqttBrokerMessages**: MqttBrokerMessages
+ * **DeviceConnectionStateEvents**: DeviceConnectionStateEvents
  */
 export type RoutingSource = string;
 
@@ -1600,7 +1508,7 @@ export interface FallbackRouteProperties {
   /** The name of the route. The name can only include alphanumeric characters, periods, underscores, hyphens, has a maximum length of 64 characters, and must be unique. */
   name?: string;
   /** The source to which the routing rule is to be applied to. For example, DeviceMessages */
-  source: RoutingSource;
+  source: FallbackRouteSource;
   /** The condition which is evaluated in order to apply the fallback route. If the condition is not provided it will evaluate to true by default. For grammar, See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language */
   condition?: string;
   /** The list of endpoints to which the messages that satisfy the condition are routed to. Currently only 1 endpoint is allowed. */
@@ -1632,6 +1540,21 @@ export function fallbackRoutePropertiesDeserializer(item: any): FallbackRoutePro
     isEnabled: item["isEnabled"],
   };
 }
+
+/** The source to which the fallback route is applied. */
+export enum KnownFallbackRouteSource {
+  /** Device-to-cloud messages sent by devices. */
+  DeviceMessages = "DeviceMessages",
+}
+
+/**
+ * The source to which the fallback route is applied. \
+ * {@link KnownFallbackRouteSource} can be used interchangeably with FallbackRouteSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DeviceMessages**: Device-to-cloud messages sent by devices.
+ */
+export type FallbackRouteSource = string;
 
 export function enrichmentPropertiesArraySerializer(result: Array<EnrichmentProperties>): any[] {
   return result.map((item) => {
@@ -1829,34 +1752,6 @@ export function feedbackPropertiesDeserializer(item: any): FeedbackProperties {
   };
 }
 
-/** The device streams properties of iothub. */
-export interface IotHubPropertiesDeviceStreams {
-  /** List of Device Streams Endpoints. */
-  streamingEndpoints?: string[];
-}
-
-export function iotHubPropertiesDeviceStreamsSerializer(item: IotHubPropertiesDeviceStreams): any {
-  return {
-    streamingEndpoints: !item["streamingEndpoints"]
-      ? item["streamingEndpoints"]
-      : item["streamingEndpoints"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function iotHubPropertiesDeviceStreamsDeserializer(
-  item: any,
-): IotHubPropertiesDeviceStreams {
-  return {
-    streamingEndpoints: !item["streamingEndpoints"]
-      ? item["streamingEndpoints"]
-      : item["streamingEndpoints"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
 /** The capabilities and features enabled for the IoT hub. */
 export enum KnownCapabilities {
   /** None */
@@ -1874,72 +1769,6 @@ export enum KnownCapabilities {
  * **DeviceManagement**: DeviceManagement
  */
 export type Capabilities = string;
-
-/** The encryption properties for the IoT hub. */
-export interface EncryptionPropertiesDescription {
-  /** The source of the key. */
-  keySource?: string;
-  /** The properties of the KeyVault key. */
-  keyVaultProperties?: KeyVaultKeyProperties[];
-}
-
-export function encryptionPropertiesDescriptionSerializer(
-  item: EncryptionPropertiesDescription,
-): any {
-  return {
-    keySource: item["keySource"],
-    keyVaultProperties: !item["keyVaultProperties"]
-      ? item["keyVaultProperties"]
-      : keyVaultKeyPropertiesArraySerializer(item["keyVaultProperties"]),
-  };
-}
-
-export function encryptionPropertiesDescriptionDeserializer(
-  item: any,
-): EncryptionPropertiesDescription {
-  return {
-    keySource: item["keySource"],
-    keyVaultProperties: !item["keyVaultProperties"]
-      ? item["keyVaultProperties"]
-      : keyVaultKeyPropertiesArrayDeserializer(item["keyVaultProperties"]),
-  };
-}
-
-export function keyVaultKeyPropertiesArraySerializer(result: Array<KeyVaultKeyProperties>): any[] {
-  return result.map((item) => {
-    return keyVaultKeyPropertiesSerializer(item);
-  });
-}
-
-export function keyVaultKeyPropertiesArrayDeserializer(
-  result: Array<KeyVaultKeyProperties>,
-): any[] {
-  return result.map((item) => {
-    return keyVaultKeyPropertiesDeserializer(item);
-  });
-}
-
-/** The properties of the KeyVault key. */
-export interface KeyVaultKeyProperties {
-  /** The identifier of the key. */
-  keyIdentifier?: string;
-  /** Managed identity properties of KeyVault Key. */
-  identity?: ManagedIdentity;
-}
-
-export function keyVaultKeyPropertiesSerializer(item: KeyVaultKeyProperties): any {
-  return {
-    keyIdentifier: item["keyIdentifier"],
-    identity: !item["identity"] ? item["identity"] : managedIdentitySerializer(item["identity"]),
-  };
-}
-
-export function keyVaultKeyPropertiesDeserializer(item: any): KeyVaultKeyProperties {
-  return {
-    keyIdentifier: item["keyIdentifier"],
-    identity: !item["identity"] ? item["identity"] : managedIdentityDeserializer(item["identity"]),
-  };
-}
 
 export function iotHubLocationDescriptionArrayDeserializer(
   result: Array<IotHubLocationDescription>,
@@ -1981,130 +1810,6 @@ export enum KnownIotHubReplicaRoleType {
  * **secondary**: secondary
  */
 export type IotHubReplicaRoleType = string;
-
-/** This property store root certificate related information */
-export interface RootCertificateProperties {
-  /** This property when set to true, hub will use G2 cert; while it's set to false, hub uses Baltimore Cert. */
-  enableRootCertificateV2?: boolean;
-  /** the last update time to root certificate flag. */
-  readonly lastUpdatedTimeUtc?: Date;
-}
-
-export function rootCertificatePropertiesSerializer(item: RootCertificateProperties): any {
-  return { enableRootCertificateV2: item["enableRootCertificateV2"] };
-}
-
-export function rootCertificatePropertiesDeserializer(item: any): RootCertificateProperties {
-  return {
-    enableRootCertificateV2: item["enableRootCertificateV2"],
-    lastUpdatedTimeUtc: !item["lastUpdatedTimeUtc"]
-      ? item["lastUpdatedTimeUtc"]
-      : new Date(item["lastUpdatedTimeUtc"]),
-  };
-}
-
-/** This property specifies the IP Version the hub is currently utilizing. */
-export enum KnownIpVersion {
-  /** ipv4 */
-  Ipv4 = "ipv4",
-  /** ipv6 */
-  Ipv6 = "ipv6",
-  /** ipv4ipv6 */
-  Ipv4Ipv6 = "ipv4ipv6",
-}
-
-/**
- * This property specifies the IP Version the hub is currently utilizing. \
- * {@link KnownIpVersion} can be used interchangeably with IpVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ipv4**: ipv4 \
- * **ipv6**: ipv6 \
- * **ipv4ipv6**: ipv4ipv6
- */
-export type IpVersion = string;
-
-/** The connection profile that the IoT hub uses for device connections. */
-export enum KnownConnectionProfile {
-  /** Classic connection profile. */
-  Classic = "Classic",
-  /** MQTT v5 connection profile. */
-  MqttV5 = "MqttV5",
-}
-
-/**
- * The connection profile that the IoT hub uses for device connections. \
- * {@link KnownConnectionProfile} can be used interchangeably with ConnectionProfile,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Classic**: Classic connection profile. \
- * **MqttV5**: MQTT v5 connection profile.
- */
-export type ConnectionProfile = string;
-
-/** Settings for an Event Grid-backed MQTT v5 IoT hub. */
-export interface MqttV5Settings {
-  /** The customer-defined groups of topic templates that devices publish to. */
-  topicGroups?: TopicGroup[];
-}
-
-export function mqttV5SettingsSerializer(item: MqttV5Settings): any {
-  return {
-    topicGroups: !item["topicGroups"]
-      ? item["topicGroups"]
-      : topicGroupArraySerializer(item["topicGroups"]),
-  };
-}
-
-export function mqttV5SettingsDeserializer(item: any): MqttV5Settings {
-  return {
-    topicGroups: !item["topicGroups"]
-      ? item["topicGroups"]
-      : topicGroupArrayDeserializer(item["topicGroups"]),
-  };
-}
-
-export function topicGroupArraySerializer(result: Array<TopicGroup>): any[] {
-  return result.map((item) => {
-    return topicGroupSerializer(item);
-  });
-}
-
-export function topicGroupArrayDeserializer(result: Array<TopicGroup>): any[] {
-  return result.map((item) => {
-    return topicGroupDeserializer(item);
-  });
-}
-
-/** A named set of topic templates for an Event Grid-backed MQTT v5 IoT hub. */
-export interface TopicGroup {
-  /** The customer-supplied identifier used to reconcile the topic group during updates. */
-  topicGroupId?: string;
-  /** The topic templates in this group. */
-  topicTemplates?: string[];
-}
-
-export function topicGroupSerializer(item: TopicGroup): any {
-  return {
-    topicGroupId: item["topicGroupId"],
-    topicTemplates: !item["topicTemplates"]
-      ? item["topicTemplates"]
-      : item["topicTemplates"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function topicGroupDeserializer(item: any): TopicGroup {
-  return {
-    topicGroupId: item["topicGroupId"],
-    topicTemplates: !item["topicTemplates"]
-      ? item["topicTemplates"]
-      : item["topicTemplates"].map((p: any) => {
-          return p;
-        }),
-  };
-}
 
 /** Represents properties related to the Azure Device Registry (ADR). */
 export interface DeviceRegistry {
@@ -3486,10 +3191,6 @@ export function nameDeserializer(item: any): Name {
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2026-03-01-preview API version. */
-  V20260301Preview = "2026-03-01-preview",
-  /** The 2026-05-01-preview API version. */
-  V20260501Preview = "2026-05-01-preview",
-  /** The 2026-10-01-preview API version. */
-  V20261001Preview = "2026-10-01-preview",
+  /** The 2026-11-01 API version. */
+  V20261101 = "2026-11-01",
 }
