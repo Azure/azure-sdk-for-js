@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists Azure services' emerging issues.
  *
  * @summary lists Azure services' emerging issues.
- * x-ms-original-file: 2025-05-01/EmergingIssues_List.json
+ * x-ms-original-file: 2026-07-01/EmergingIssues_List.json
  */
 async function getEmergingIssues(): Promise<void> {
   const credential = new DefaultAzureCredential();

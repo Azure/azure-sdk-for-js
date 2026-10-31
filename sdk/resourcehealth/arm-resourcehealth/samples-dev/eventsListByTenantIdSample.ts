@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists current service health events in the tenant.
  *
  * @summary lists current service health events in the tenant.
- * x-ms-original-file: 2025-05-01/Events_ListByTenantId.json
+ * x-ms-original-file: 2026-07-01/Events_ListByTenantId.json
  */
 async function listEventsByTenantId(): Promise<void> {
   const credential = new DefaultAzureCredential();

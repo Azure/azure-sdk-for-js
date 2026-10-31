@@ -1,0 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to lists impacted resources in the tenant by an event.
+ *
+ * @summary lists impacted resources in the tenant by an event.
+ * x-ms-original-file: 2026-07-01/ImpactedResources_ListByTenantId_ListByEventId.json
+ */
+async function listEventsByTenantId(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new MicrosoftResourceHealth(credential);
+  const resArray = new Array();
+  for await (const item of client.impactedResources.listByTenantIdAndEventId("BC_1-FXZ", {
+    filter: "targetRegion eq 'westus'",
+  })) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await listEventsByTenantId();
+}
+
+main().catch(console.error);

@@ -28692,7 +28692,7 @@ importers:
   sdk/resourcehealth/arm-resourcehealth:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
@@ -40453,7 +40453,7 @@ packages:
     resolution: {integrity: sha1-W7DNGwo+RxMw9NEJA5t+ulyz54c=}
 
   flow-estree@0.327.0:
-    resolution: {integrity: sha1-WcG4fMbF3XrRlawFnp+O+mwowt8=}
+    resolution: {integrity: sha512-f9vK751YUzD0qaHSpKc5/qQM6gqOlgGS+4ZRqTNcZOpVqn3mC55yEQ6dUG2K1eaVm5FbKkz9CFWe6XNvrkQFQg==}
     engines: {node: '>=18'}
 
   flow-estree@0.331.0:
@@ -40461,7 +40461,7 @@ packages:
     engines: {node: '>=18'}
 
   flow-parser@0.327.0:
-    resolution: {integrity: sha1-Bat+erYwSpkqFRzIn6+REdidhZY=}
+    resolution: {integrity: sha512-/MYZ5hXWf5ozpbdfUDmazMgQXviLxWEiRLH3MppEGDdW0itRVqmB5UaU7QX+SBCDNiq+gEesSVn8nlxmPDyDkw==}
     engines: {node: '>=0.4.0'}
 
   flow-parser@0.331.0:

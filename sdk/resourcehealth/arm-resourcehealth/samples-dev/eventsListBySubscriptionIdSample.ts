@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists service health events in the subscription.
  *
  * @summary lists service health events in the subscription.
- * x-ms-original-file: 2025-05-01/Events_ListBySubscriptionId.json
+ * x-ms-original-file: 2026-07-01/Events_ListBySubscriptionId.json
  */
 async function listEventsBySubscriptionId(): Promise<void> {
   const credential = new DefaultAzureCredential();

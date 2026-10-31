@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets current availability status for a single resource
  *
  * @summary gets current availability status for a single resource
- * x-ms-original-file: 2025-05-01/AvailabilityStatus_GetByResource.json
+ * x-ms-original-file: 2026-07-01/AvailabilityStatus_GetByResource.json
  */
 async function getCurrentHealthByResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

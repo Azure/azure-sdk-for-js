@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists impacted resources in the tenant by an event.
  *
  * @summary lists impacted resources in the tenant by an event.
- * x-ms-original-file: 2025-05-01/ImpactedResources_ListByTenantId_ListByEventId.json
+ * x-ms-original-file: 2026-07-01/ImpactedResources_ListByTenantId_ListByEventId.json
  */
 async function listEventsByTenantId(): Promise<void> {
   const credential = new DefaultAzureCredential();

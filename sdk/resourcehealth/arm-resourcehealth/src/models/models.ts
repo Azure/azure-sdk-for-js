@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Lists the operations response. */
 export interface OperationListResult {
   /** List of operations available in the Microsoft.ResourceHealth resource provider. */
@@ -700,6 +701,8 @@ export interface Event extends ProxyResource {
   eventType?: EventTypeValues;
   /** Sub-type of event. */
   eventSubType?: EventSubTypeValues;
+  /** Operation for listing Advisor recommendations associated with this event's tracking ID in the response subscription. */
+  readonly advisorRecommendations?: ApiOperationLink;
   /** Source of event. */
   eventSource?: EventSourceValues;
   /** Current status of event. */
@@ -714,7 +717,7 @@ export interface Event extends ProxyResource {
   level?: LevelValues;
   /** Level of event. */
   eventLevel?: EventLevelValues;
-  /** If true the event may contains sensitive data. Use the post events/{trackingId}/fetchEventDetails endpoint to fetch sensitive data see https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access */
+  /** If true the event may contains sensitive data. Use the post events/{trackingId}/fetchEventDetails endpoint to fetch sensitive data see https://learn.microsoft.com/azure/service-health/security-advisories-elevated-access */
   isEventSensitive?: boolean;
   /** The id of the Incident */
   externalIncidentId?: string;
@@ -794,6 +797,8 @@ export interface EventProperties {
   eventType?: EventTypeValues;
   /** Sub-type of event. */
   eventSubType?: EventSubTypeValues;
+  /** Operation for listing Advisor recommendations associated with this event's tracking ID in the response subscription. */
+  readonly advisorRecommendations?: ApiOperationLink;
   /** Source of event. */
   eventSource?: EventSourceValues;
   /** Current status of event. */
@@ -808,7 +813,7 @@ export interface EventProperties {
   level?: LevelValues;
   /** Level of event. */
   eventLevel?: EventLevelValues;
-  /** If true the event may contains sensitive data. Use the post events/{trackingId}/fetchEventDetails endpoint to fetch sensitive data see https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access */
+  /** If true the event may contains sensitive data. Use the post events/{trackingId}/fetchEventDetails endpoint to fetch sensitive data see https://learn.microsoft.com/azure/service-health/security-advisories-elevated-access */
   isEventSensitive?: boolean;
   /** The id of the Incident */
   externalIncidentId?: string;
@@ -872,6 +877,9 @@ export function eventPropertiesDeserializer(item: any): EventProperties {
   return {
     eventType: item["eventType"],
     eventSubType: item["eventSubType"],
+    advisorRecommendations: !item["advisorRecommendations"]
+      ? item["advisorRecommendations"]
+      : apiOperationLinkDeserializer(item["advisorRecommendations"]),
     eventSource: item["eventSource"],
     status: item["status"],
     title: item["title"],
@@ -992,6 +1000,24 @@ export enum KnownEventSubTypeValues {
  * **UnauthorizedPartyAbuse**: UnauthorizedPartyAbuse
  */
 export type EventSubTypeValues = string;
+
+/** An API operation associated with an event. */
+export interface ApiOperationLink {
+  /** HTTP method to use. Resource Health returns GET for Advisor recommendations. */
+  readonly httpMethod: string;
+  /** Opaque absolute ARM URL for the associated API operation. */
+  readonly url: string;
+  /** Human-readable description of the operation. Clients must not parse this value. */
+  readonly description?: string;
+}
+
+export function apiOperationLinkDeserializer(item: any): ApiOperationLink {
+  return {
+    httpMethod: item["httpMethod"],
+    url: item["url"],
+    description: item["description"],
+  };
+}
 
 /** Source of event. */
 export enum KnownEventSourceValues {
@@ -1616,6 +1642,8 @@ export function emergingIssuesGetResultArrayDeserializer(
 export enum KnownVersions {
   /** The 2025-05-01 API version. */
   V20250501 = "2025-05-01",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
 }
 
 export function _eventImpactedResourcePropertiesDeserializer(item: any) {
@@ -1650,6 +1678,9 @@ export function _eventPropertiesDeserializer(item: any) {
   return {
     eventType: item["eventType"],
     eventSubType: item["eventSubType"],
+    advisorRecommendations: !item["advisorRecommendations"]
+      ? item["advisorRecommendations"]
+      : apiOperationLinkDeserializer(item["advisorRecommendations"]),
     eventSource: item["eventSource"],
     status: item["status"],
     title: item["title"],
