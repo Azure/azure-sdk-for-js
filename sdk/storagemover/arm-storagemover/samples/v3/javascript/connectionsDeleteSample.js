@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary deletes a Connection resource.
  * Returns 409 if there are active jobs using this connection.
- * x-ms-original-file: 2025-12-01/Connections_Delete.json
+ * x-ms-original-file: 2026-05-01/Connections_Delete.json
  */
 async function connectionsDelete() {
   const credential = new DefaultAzureCredential();
