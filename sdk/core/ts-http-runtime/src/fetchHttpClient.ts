@@ -14,6 +14,7 @@ import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 import { isObject } from "./util/object.js";
+import { hasExpectHeader } from "./util/expectContinueHeaders.js";
 import { setResponseBodyCompletion } from "./util/responseBody.js";
 import { logger } from "./log.js";
 
@@ -43,6 +44,10 @@ class FetchHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+    if (hasExpectHeader(request)) {
+      throw new Error("The Expect header is not supported by the Fetch HttpClient.");
+    }
+
     const url = new URL(request.url);
     const isInsecure = url.protocol !== "https:";
 

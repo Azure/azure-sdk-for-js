@@ -54,6 +54,36 @@ interface HttpClient {
 
 `HttpClient`s are expected to actually make the HTTP request to a server endpoint, using some platform-specific mechanism for doing so.
 
+### Expect: 100-continue
+
+The Node HttpClient supports opt-in `Expect: 100-continue`. Set the
+header on the request to delay sending its body until the server sends a 100 Continue response
+or the 1-second fallback expires. The fallback starts after socket assignment and completion
+of an ordered empty write following the request headers, excluding agent queueing and
+DNS/TCP/TLS connection setup. This is a client-side write-completion boundary, not confirmation
+that the server has received the headers.
+
+```ts snippet:ReadmeSampleExpectContinue
+import {
+  HttpClient,
+  createDefaultHttpClient,
+  PipelineRequest,
+  createPipelineRequest,
+  createHttpHeaders,
+} from "@typespec/ts-http-runtime";
+
+const httpClient: HttpClient = createDefaultHttpClient();
+const request: PipelineRequest = createPipelineRequest({
+  url: "https://example.com",
+  method: "PUT",
+  headers: createHttpHeaders({ Expect: "100-continue" }),
+  body: "Request body content",
+});
+await httpClient.sendRequest(request);
+```
+
+This header is not supported by the browser or React Native transports.
+
 ### Pipeline Policies
 
 A `PipelinePolicy` is a simple object that implements the following interface:

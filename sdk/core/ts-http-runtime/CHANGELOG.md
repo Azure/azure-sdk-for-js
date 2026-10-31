@@ -4,6 +4,7 @@
 
 ### Features Added
 
+- Added opt-in `Expect: 100-continue` support to the Node.js HTTP/1 transport. Browser and React Native transports reject requests with an `Expect` header.
 - `azure-deprecating` response header is now included in the default set of headers logged without redaction. See [Azure API Guidelines: Deprecating Behavior Notification](https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md#deprecating-behavior-notification) for more information.
 
 ### Breaking Changes

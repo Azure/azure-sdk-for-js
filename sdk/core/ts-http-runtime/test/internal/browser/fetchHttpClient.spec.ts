@@ -72,6 +72,19 @@ describe("FetchHttpClient", function () {
     }
   });
 
+  it("rejects the Expect header before calling fetch", async function () {
+    const client = createFetchHttpClient();
+    const request = createPipelineRequest({
+      url: "https://localhost/upload",
+      headers: createHttpHeaders({ Expect: "100-continue" }),
+    });
+
+    await expect(client.sendRequest(request)).rejects.toThrow(
+      "The Expect header is not supported by the Fetch HttpClient.",
+    );
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
   it("shouldn't throw on 404", async function () {
     const mockedResponse = createResponse(404);
     vi.mocked(fetch).mockResolvedValue(mockedResponse);
