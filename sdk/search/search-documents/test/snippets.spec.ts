@@ -8,6 +8,8 @@ import {
   AzureKeyCredential,
   KnowledgeRetrievalClient,
   KnownSearchAudience,
+  KnownIndexedSharePointContainerName,
+  KnownKnowledgeRetrievalReasoningEffortKind,
   odata,
   SearchClient,
   SearchFieldArray,
@@ -402,11 +404,135 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const response = await client.retrieve({
       intents: [{ type: "semantic", search: "What information is available?" }],
-      retrievalReasoningEffort: { kind: "auto" },
+      retrievalReasoningEffort: { kind: KnownKnowledgeRetrievalReasoningEffortKind.Low },
       includeActivity: true,
     });
     // @ts-preserve-whitespace
     console.log(response.response);
+  });
+
+  it("ReadmeSampleSearchMoreLikeThis", async () => {
+    const client = new SearchClient("<endpoint>", "<indexName>", new DefaultAzureCredential());
+    // @ts-preserve-whitespace
+    const response = await client.search(undefined, {
+      moreLikeThis: "1",
+      searchFields: ["hotelName", "description"],
+      select: ["hotelId", "hotelName"],
+      top: 5,
+    });
+    for await (const result of response.results) {
+      console.log(result.document);
+    }
+  });
+
+  it("ReadmeSampleConfigureSharePointPermissions", async () => {
+    const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+    // @ts-preserve-whitespace
+    await client.createIndex({
+      name: "sharepoint-permissions",
+      permissionFilterOption: "enabled",
+      sharePointConnectorAppRegistration: {
+        applicationId: "<applicationId>",
+        federatedCredentialId: "<federatedCredentialId>",
+      },
+      fields: [
+        { name: "id", type: "Edm.String", key: true },
+        { name: "content", type: "Edm.String", searchable: true },
+        {
+          name: "userIds",
+          type: "Collection(Edm.String)",
+          filterable: true,
+          permissionFilter: "userIds",
+        },
+        {
+          name: "organizationLinkExpiresAt",
+          type: "Edm.DateTimeOffset",
+          organizationAccessExpiration: true,
+        },
+      ],
+    });
+  });
+
+  it("ReadmeSampleSharePointScope", async () => {
+    const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+    const connectionString = process.env.SHAREPOINT_CONNECTION_STRING;
+    if (!connectionString) {
+      throw new Error("Set SHAREPOINT_CONNECTION_STRING before creating the knowledge source.");
+    }
+    // @ts-preserve-whitespace
+    await client.createKnowledgeSource({
+      name: "sharepoint-site",
+      kind: "indexedSharePoint",
+      indexedSharePointParameters: {
+        connectionString,
+        containerName: KnownIndexedSharePointContainerName.AllSiteContent,
+      },
+    });
+  });
+
+  it("ReadmeSampleRefreshIndexerPermissions", async () => {
+    const client = new SearchIndexerClient("<endpoint>", new DefaultAzureCredential());
+    const indexer = await client.getIndexer("<existingAdlsGen2Indexer>");
+    // @ts-preserve-whitespace
+    indexer.parameters = {
+      ...indexer.parameters,
+      configuration: {
+        ...indexer.parameters?.configuration,
+        refreshAllAcls: true,
+      },
+    };
+    await client.createOrUpdateIndexer(indexer);
+  });
+
+  it("ReadmeSampleKnowledgeSourceCapacity", async () => {
+    const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+    const status = await client.getKnowledgeSourceStatus("<fileKnowledgeSourceName>");
+    // @ts-preserve-whitespace
+    if (!status.fileCapacity) {
+      throw new Error("The knowledge source did not report File upload capacity.");
+    }
+    console.log(`Remaining files: ${status.fileCapacity.remainingFileCount}`);
+    console.log(`Maximum file size: ${status.fileCapacity.maxFileSizeBytes} bytes`);
+  });
+
+  it("ReadmeSampleConfigureKnowledgeBase", async () => {
+    const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+    // @ts-preserve-whitespace
+    const knowledgeBase = await client.createKnowledgeBase({
+      name: "hotel-knowledge-base",
+      knowledgeSources: [{ name: "<existingKnowledgeSourceName>" }],
+      models: [
+        {
+          kind: "azureOpenAI",
+          azureOpenAIParameters: {
+            resourceUrl: "<azureOpenAIEndpoint>",
+            deploymentId: "<chatDeploymentName>",
+            modelName: "gpt-5.4-mini",
+          },
+        },
+      ],
+      retrievalReasoningEffort: { kind: "low" },
+      outputMode: "answerSynthesis",
+      retrievalInstructions: "Prioritize hotel amenities and pricing information.",
+      answerInstructions: "Answer concisely and cite the supporting sources.",
+    });
+    // @ts-preserve-whitespace
+    knowledgeBase.outputMode = "extractiveData";
+    await client.createOrUpdateKnowledgeBase(knowledgeBase);
+  });
+
+  it("ReadmeSampleListResources", async () => {
+    const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+    // @ts-preserve-whitespace
+    for await (const page of client
+      .listIndexes({
+        search: "hotel",
+        searchType: "prefix",
+        pageSize: 10,
+      })
+      .byPage()) {
+      console.log(page.map((index) => index.name));
+    }
   });
 
   it("ReadmeSampleRetrieveKnowledgeStream", async () => {
@@ -416,13 +542,18 @@ describe("snippets", () => {
       new AzureKeyCredential("<apiKey>"),
     );
     // @ts-preserve-whitespace
-    for await (const event of await client.retrieveStream({
-      intents: [{ type: "semantic", search: "Summarize the indexed information." }],
-      includeActivity: true,
-    })) {
+    const controller = new AbortController();
+    for await (const event of await client.retrieveStream(
+      {
+        intents: [{ type: "semantic", search: "Summarize the indexed information." }],
+        includeActivity: true,
+      },
+      { abortSignal: controller.signal },
+    )) {
       if (event.event === "activity.completed") {
-        console.log(`Activity ${event.data.id} took ${event.data.elapsedInMs}ms`);
+        console.log(`Activity ${event.data.id} took ${event.data.elapsedMs}ms`);
       } else if (event.event === "response.completed") {
+        console.log(event.data.statusCode === 206 ? "Partial results" : "Complete results");
         console.log(event.data.response.response);
       } else if (event.event === "error") {
         throw new Error(event.data.error.message);
@@ -434,15 +565,28 @@ describe("snippets", () => {
     const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
     const body = {
       metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
-      content: { contents: new Uint8Array([1, 2, 3]), contentType: "text/plain" },
+      content: {
+        contents: new TextEncoder().encode("Azure AI Search retrieves relevant information."),
+        contentType: "text/plain",
+        filename: "example.txt",
+      },
     };
     // @ts-preserve-whitespace
     const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+    if (!uploaded.fileId) {
+      throw new Error("The service did not return an uploaded file ID.");
+    }
     // @ts-preserve-whitespace
-    await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId!, {
+    await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId, {
       ...body,
       metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
     });
+    for await (const file of client.listKnowledgeSourceFiles("<knowledgeSourceName>", {
+      prefix: "manuals/",
+      pageSize: 10,
+    })) {
+      console.log(file.fileName, file.parsingMode, file.extractionMode);
+    }
   });
 
   it("SetLogLevel", () => {

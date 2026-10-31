@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "13.1.0-beta.3",
+  "version": "13.1.0",
   "description": "Azure client library to use AI Search for node.js and browser.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -14,7 +14,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"generated/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
-    "generate:client": "tsp-client update -d --emitter-options=\"api-version=2026-08-01-preview;ignore-nullable-on-optional=true;wrap-non-model-return=false\" && npm run format && npx dev-tool customization apply --skip index.ts",
+    "generate:client": "tsp-client update -d --emitter-options=\"api-version=2026-10-01;ignore-nullable-on-optional=true;wrap-non-model-return=false\" && npm run format && npx dev-tool customization apply --skip index.ts",
     "generate:embeddings": "ts-node scripts/generateSampleEmbeddings.ts",
     "lint": "eslint package.json src test samples-dev",
     "lint:fix": "eslint package.json src test samples-dev --fix --fix-type [problem,suggestion]",
@@ -355,6 +355,46 @@
         "types": "./dist/commonjs/models/azure/search/documents/knowledgeBases/index.d.ts",
         "default": "./dist/commonjs/models/azure/search/documents/knowledgeBases/index.js"
       }
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "search": [
+        "dist/commonjs/search/index.d.ts"
+      ],
+      "search/api": [
+        "dist/commonjs/search/api/index.d.ts"
+      ],
+      "searchIndex": [
+        "dist/commonjs/searchIndex/index.d.ts"
+      ],
+      "searchIndex/api": [
+        "dist/commonjs/searchIndex/api/index.d.ts"
+      ],
+      "searchIndexer": [
+        "dist/commonjs/searchIndexer/index.d.ts"
+      ],
+      "searchIndexer/api": [
+        "dist/commonjs/searchIndexer/api/index.d.ts"
+      ],
+      "knowledgeBaseRetrieval": [
+        "dist/commonjs/knowledgeBaseRetrieval/index.d.ts"
+      ],
+      "knowledgeBaseRetrieval/api": [
+        "dist/commonjs/knowledgeBaseRetrieval/api/index.d.ts"
+      ],
+      "models": [
+        "dist/commonjs/models/index.d.ts"
+      ],
+      "models/azure/search/documents": [
+        "dist/commonjs/models/azure/search/documents/index.d.ts"
+      ],
+      "models/azure/search/documents/indexes": [
+        "dist/commonjs/models/azure/search/documents/indexes/index.d.ts"
+      ],
+      "models/azure/search/documents/knowledgeBases": [
+        "dist/commonjs/models/azure/search/documents/knowledgeBases/index.d.ts"
+      ]
     }
   },
   "imports": {

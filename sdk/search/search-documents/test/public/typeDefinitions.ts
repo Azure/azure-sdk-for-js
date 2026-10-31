@@ -463,8 +463,8 @@ type TextTranslationSkillLanguage =
   | "yue"
   | "zh-Hans"
   | "zh-Hant";
-type VectorFilterMode = "postFilter" | "preFilter" | "strictPostFilter";
-type VectorQueryKind = "imageBinary" | "imageUrl" | "text" | "vector";
+type VectorFilterMode = "postFilter" | "preFilter";
+type VectorQueryKind = "text" | "vector";
 type VectorSearchAlgorithmKind = "exhaustiveKnn" | "hnsw";
 type VectorSearchAlgorithmMetric = "cosine" | "dotProduct" | "euclidean" | "hamming";
 type VisualFeature =

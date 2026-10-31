@@ -34,7 +34,10 @@ export function createSearchIndex(
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
-    loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
+    loggingOptions: {
+      ...options.loggingOptions,
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
     credentials: {
       scopes: options.credentials?.scopes ?? ["https://search.azure.com/.default"],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
