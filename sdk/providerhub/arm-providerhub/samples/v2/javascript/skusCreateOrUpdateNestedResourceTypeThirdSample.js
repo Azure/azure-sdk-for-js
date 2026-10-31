@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the resource type skus in the given resource type.
  *
  * @summary creates or updates the resource type skus in the given resource type.
- * x-ms-original-file: 2025-10-01/Skus_CreateOrUpdateNestedResourceTypeThird.json
+ * x-ms-original-file: 2026-10-01/Skus_CreateOrUpdateNestedResourceTypeThird.json
  */
 async function skusCreateOrUpdateNestedResourceTypeThird() {
   const credential = new DefaultAzureCredential();

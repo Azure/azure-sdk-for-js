@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the provider monitor setting details.
  *
  * @summary gets the provider monitor setting details.
- * x-ms-original-file: 2025-10-01/ProviderMonitorSettings_Get.json
+ * x-ms-original-file: 2026-10-01/ProviderMonitorSettings_Get.json
  */
 async function providerMonitorSettingsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

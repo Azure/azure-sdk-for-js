@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the custom rollout resource. Custom rollout must be in terminal state.
  *
  * @summary deletes the custom rollout resource. Custom rollout must be in terminal state.
- * x-ms-original-file: 2025-10-01/CustomRollouts_Delete.json
+ * x-ms-original-file: 2026-10-01/CustomRollouts_Delete.json
  */
 async function providerReleasesDelete() {
   const credential = new DefaultAzureCredential();

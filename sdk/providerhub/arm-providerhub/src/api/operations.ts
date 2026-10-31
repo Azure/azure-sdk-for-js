@@ -29,7 +29,7 @@ export function _checkinManifestSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,7 +85,7 @@ export function _generateManifestSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

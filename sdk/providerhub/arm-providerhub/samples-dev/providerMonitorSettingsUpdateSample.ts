@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the provider monitor setting properties as specified in the request body. Update fails if the specified provider monitor setting does not already exist.
  *
  * @summary updates the provider monitor setting properties as specified in the request body. Update fails if the specified provider monitor setting does not already exist.
- * x-ms-original-file: 2025-10-01/ProviderMonitorSettings_Update.json
+ * x-ms-original-file: 2026-10-01/ProviderMonitorSettings_Update.json
  */
 async function providerMonitorSettingsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

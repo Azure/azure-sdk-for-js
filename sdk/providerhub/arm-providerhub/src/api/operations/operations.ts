@@ -35,7 +35,7 @@ export function _$deleteSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +79,7 @@ export function _createOrUpdateSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,7 +135,7 @@ export function _listByProviderRegistrationSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,7 +180,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.ProviderHub/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -218,6 +218,6 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
