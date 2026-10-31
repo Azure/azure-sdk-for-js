@@ -20,5 +20,6 @@ export interface JobStepExecutionsListByJobExecutionOptionalParams extends Opera
   /** The number of elements to return from the collection. */
   top?: number;
 }
+
 /** Optional parameters. */
 export interface JobStepExecutionsGetOptionalParams extends OperationOptions {}

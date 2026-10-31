@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing long term retention backup.
  *
  * @summary updates an existing long term retention backup.
- * x-ms-original-file: 2025-08-01-preview/ResourceGroupBasedLongTermRetentionBackupUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ResourceGroupBasedLongTermRetentionBackupUpdate.json
  */
 async function updateTheLongTermRetentionBackup(): Promise<void> {
   const credential = new DefaultAzureCredential();

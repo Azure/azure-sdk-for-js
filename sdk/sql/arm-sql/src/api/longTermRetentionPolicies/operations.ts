@@ -40,7 +40,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,6 +67,7 @@ export async function _listByDatabaseDeserialize(
 
   return _longTermRetentionPolicyListResultDeserializer(result.body);
 }
+
 /** Gets a database's long term retention policy. */
 export function listByDatabase(
   context: Client,
@@ -83,7 +84,7 @@ export function listByDatabase(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -105,7 +106,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,6 +135,7 @@ export async function _createOrUpdateDeserialize(
 
   return longTermRetentionPolicyDeserializer(result.body);
 }
+
 /** Set or update a database's long term retention policy. */
 export function createOrUpdate(
   context: Client,
@@ -158,7 +160,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<LongTermRetentionPolicy>, LongTermRetentionPolicy>;
 }
 
@@ -178,7 +180,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -205,6 +207,7 @@ export async function _getDeserialize(
 
   return longTermRetentionPolicyDeserializer(result.body);
 }
+
 /** Gets a database's long term retention policy. */
 export async function get(
   context: Client,

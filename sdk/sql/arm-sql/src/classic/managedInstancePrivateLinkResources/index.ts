@@ -29,6 +29,7 @@ export interface ManagedInstancePrivateLinkResourcesOperations {
     options?: ManagedInstancePrivateLinkResourcesGetOptionalParams,
   ) => Promise<ManagedInstancePrivateLink>;
 }
+
 function _getManagedInstancePrivateLinkResources(context: SqlManagementContext) {
   return {
     listByManagedInstance: (
@@ -44,6 +45,7 @@ function _getManagedInstancePrivateLinkResources(context: SqlManagementContext) 
     ) => get(context, resourceGroupName, managedInstanceName, groupName, options),
   };
 }
+
 export function _getManagedInstancePrivateLinkResourcesOperations(
   context: SqlManagementContext,
 ): ManagedInstancePrivateLinkResourcesOperations {

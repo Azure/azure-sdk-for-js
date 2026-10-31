@@ -25,6 +25,7 @@ export interface ServerAutomaticTuningOperationsOperations {
     options?: ServerAutomaticTuningOperationsGetOptionalParams,
   ) => Promise<ServerAutomaticTuning>;
 }
+
 function _getServerAutomaticTuningOperations(context: SqlManagementContext) {
   return {
     update: (
@@ -40,6 +41,7 @@ function _getServerAutomaticTuningOperations(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, options),
   };
 }
+
 export function _getServerAutomaticTuningOperationsOperations(
   context: SqlManagementContext,
 ): ServerAutomaticTuningOperationsOperations {

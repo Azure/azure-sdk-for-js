@@ -44,7 +44,7 @@ export function _failoverSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,6 +66,7 @@ export async function _failoverDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /** Failovers an elastic pool. */
 export function failover(
   context: Client,
@@ -80,7 +81,7 @@ export function failover(
     getInitialResponse: () =>
       _failoverSend(context, resourceGroupName, serverName, elasticPoolName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -96,7 +97,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24skip": options?.skip,
     },
     {
@@ -124,6 +125,7 @@ export async function _listByServerDeserialize(
 
   return _elasticPoolListResultDeserializer(result.body);
 }
+
 /** Gets all elastic pools in a server. */
 export function listByServer(
   context: Client,
@@ -139,7 +141,7 @@ export function listByServer(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -158,7 +160,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,6 +182,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes an elastic pool. */
 export function $delete(
   context: Client,
@@ -194,7 +197,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, serverName, elasticPoolName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -213,7 +216,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -240,6 +243,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return elasticPoolDeserializer(result.body);
 }
+
 /** Updates an elastic pool. */
 export function update(
   context: Client,
@@ -255,7 +259,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, serverName, elasticPoolName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ElasticPool>, ElasticPool>;
 }
 
@@ -274,7 +278,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -303,6 +307,7 @@ export async function _createOrUpdateDeserialize(
 
   return elasticPoolDeserializer(result.body);
 }
+
 /** Creates or updates an elastic pool. */
 export function createOrUpdate(
   context: Client,
@@ -325,7 +330,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ElasticPool>, ElasticPool>;
 }
 
@@ -343,7 +348,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -368,6 +373,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<El
 
   return elasticPoolDeserializer(result.body);
 }
+
 /** Gets an elastic pool. */
 export async function get(
   context: Client,

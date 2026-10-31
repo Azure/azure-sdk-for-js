@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a management operation on a instance pool.
  *
  * @summary gets a management operation on a instance pool.
- * x-ms-original-file: 2025-08-01-preview/GetInstancePoolOperation.json
+ * x-ms-original-file: 2026-08-01-preview/GetInstancePoolOperation.json
  */
 async function getsTheInstancePoolManagementOperation() {
   const credential = new DefaultAzureCredential();

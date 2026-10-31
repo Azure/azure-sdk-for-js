@@ -5,5 +5,6 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface SubscriptionUsagesListByLocationOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface SubscriptionUsagesGetOptionalParams extends OperationOptions {}

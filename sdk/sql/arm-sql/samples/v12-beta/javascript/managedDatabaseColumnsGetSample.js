@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get managed database column
  *
  * @summary get managed database column
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseColumnGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseColumnGet.json
  */
 async function getManagedDatabaseColumn() {
   const credential = new DefaultAzureCredential();

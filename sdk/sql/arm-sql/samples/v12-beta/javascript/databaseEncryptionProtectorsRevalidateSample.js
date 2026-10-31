@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to revalidates an existing encryption protector for a particular database.
  *
  * @summary revalidates an existing encryption protector for a particular database.
- * x-ms-original-file: 2025-08-01-preview/DatabaseEncryptionProtectorRevalidate.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseEncryptionProtectorRevalidate.json
  */
 async function revalidatesTheEncryptionProtectorForAParticularDatabase() {
   const credential = new DefaultAzureCredential();

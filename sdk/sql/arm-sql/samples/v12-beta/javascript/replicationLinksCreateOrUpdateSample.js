@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates the replication link type.
  *
  * @summary updates the replication link type.
- * x-ms-original-file: 2025-08-01-preview/ReplicationLinkCreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ReplicationLinkCreateOrUpdate.json
  */
 async function updatesReplicationLink() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a database advisor.
  *
  * @summary updates a database advisor.
- * x-ms-original-file: 2025-08-01-preview/DatabaseAdvisorUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseAdvisorUpdate.json
  */
 async function updateDatabaseAdvisor() {
   const credential = new DefaultAzureCredential();

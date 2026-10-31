@@ -24,6 +24,7 @@ export interface SubscriptionUsagesOperations {
     options?: SubscriptionUsagesGetOptionalParams,
   ) => Promise<SubscriptionUsage>;
 }
+
 function _getSubscriptionUsages(context: SqlManagementContext) {
   return {
     listByLocation: (
@@ -34,6 +35,7 @@ function _getSubscriptionUsages(context: SqlManagementContext) {
       get(context, locationName, usageName, options),
   };
 }
+
 export function _getSubscriptionUsagesOperations(
   context: SqlManagementContext,
 ): SubscriptionUsagesOperations {

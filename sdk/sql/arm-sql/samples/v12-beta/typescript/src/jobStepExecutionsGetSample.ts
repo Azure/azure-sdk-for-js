@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a step execution of a job execution.
  *
  * @summary gets a step execution of a job execution.
- * x-ms-original-file: 2025-08-01-preview/GetJobExecutionStep.json
+ * x-ms-original-file: 2026-08-01-preview/GetJobExecutionStep.json
  */
 async function getAJobStepExecution(): Promise<void> {
   const credential = new DefaultAzureCredential();

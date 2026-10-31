@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to remove time based immutability of an existing long term retention backup.
  *
  * @summary remove time based immutability of an existing long term retention backup.
- * x-ms-original-file: 2025-08-01-preview/ResourceGroupBasedRemoveTimeBasedImmutabilityLongTermRetentionBackup.json
+ * x-ms-original-file: 2026-08-01-preview/ResourceGroupBasedRemoveTimeBasedImmutabilityLongTermRetentionBackup.json
  */
 async function removeTimeBasedImmutabilityOfTheLongTermRetentionBackup(): Promise<void> {
   const credential = new DefaultAzureCredential();

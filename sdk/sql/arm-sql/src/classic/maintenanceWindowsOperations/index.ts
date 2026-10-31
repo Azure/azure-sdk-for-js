@@ -29,6 +29,7 @@ export interface MaintenanceWindowsOperationsOperations {
     options?: MaintenanceWindowsOperationsGetOptionalParams,
   ) => Promise<MaintenanceWindows>;
 }
+
 function _getMaintenanceWindowsOperations(context: SqlManagementContext) {
   return {
     createOrUpdate: (
@@ -57,6 +58,7 @@ function _getMaintenanceWindowsOperations(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, maintenanceWindowName, options),
   };
 }
+
 export function _getMaintenanceWindowsOperationsOperations(
   context: SqlManagementContext,
 ): MaintenanceWindowsOperationsOperations {

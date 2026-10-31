@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all long term retention backups for a database based on a particular resource group.
  *
  * @summary lists all long term retention backups for a database based on a particular resource group.
- * x-ms-original-file: 2025-08-01-preview/ResourceGroupBasedLongTermRetentionBackupListByDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/ResourceGroupBasedLongTermRetentionBackupListByDatabase.json
  */
 async function getAllLongTermRetentionBackupsUnderTheDatabase() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function getAllLongTermRetentionBackupsUnderTheDatabase() {
  * This sample demonstrates how to lists all long term retention backups for a database based on a particular resource group.
  *
  * @summary lists all long term retention backups for a database based on a particular resource group.
- * x-ms-original-file: 2025-08-01-preview/ResourceGroupBasedLongTermRetentionBackupListByDatabaseWithPagination.json
+ * x-ms-original-file: 2026-08-01-preview/ResourceGroupBasedLongTermRetentionBackupListByDatabaseWithPagination.json
  */
 async function getLongTermRetentionBackupsUnderTheDatabaseBasedOnResourceGroupWithPagination() {
   const credential = new DefaultAzureCredential();

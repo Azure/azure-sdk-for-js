@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property.
  *
  * @summary sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceAzureADOnlyAuthCreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceAzureADOnlyAuthCreateOrUpdate.json
  */
 async function createsOrUpdatesAzureActiveDirectoryOnlyAuthenticationObject() {
   const credential = new DefaultAzureCredential();

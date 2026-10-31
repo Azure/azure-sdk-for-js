@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a server's Advanced Threat Protection state.
  *
  * @summary get a server's Advanced Threat Protection state.
- * x-ms-original-file: 2025-08-01-preview/ServerAdvancedThreatProtectionSettingsGet.json
+ * x-ms-original-file: 2026-08-01-preview/ServerAdvancedThreatProtectionSettingsGet.json
  */
 async function getAServerAdvancedThreatProtectionSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

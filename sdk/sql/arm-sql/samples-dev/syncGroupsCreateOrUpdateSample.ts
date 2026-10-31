@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a sync group.
  *
  * @summary creates or updates a sync group.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupCreate.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupCreate.json
  */
 async function createASyncGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function createASyncGroup(): Promise<void> {
  * This sample demonstrates how to creates or updates a sync group.
  *
  * @summary creates or updates a sync group.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupCreateWithIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupCreateWithIdentity.json
  */
 async function createASyncGroupWithUserAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -68,7 +68,7 @@ async function createASyncGroupWithUserAssignedIdentity(): Promise<void> {
  * This sample demonstrates how to creates or updates a sync group.
  *
  * @summary creates or updates a sync group.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupUpdate.json
  */
 async function updateASyncGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists managed database move operations.
  *
  * @summary lists managed database move operations.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseMoveOperationResultList.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseMoveOperationResultList.json
  */
 async function getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResourceGroupAndLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResou
  * This sample demonstrates how to lists managed database move operations.
  *
  * @summary lists managed database move operations.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseMoveOperationResultListLastOperations.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseMoveOperationResultListLastOperations.json
  */
 async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpe
  * This sample demonstrates how to lists managed database move operations.
  *
  * @summary lists managed database move operations.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseMoveOperationResultListMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseMoveOperationResultListMax.json
  */
 async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocationFilteredByOperationType(): Promise<void> {
   const credential = new DefaultAzureCredential();

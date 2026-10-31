@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of recoverable managed databases.
  *
  * @summary gets a list of recoverable managed databases.
- * x-ms-original-file: 2025-08-01-preview/ListRecoverableManagedDatabasesByServer.json
+ * x-ms-original-file: 2026-08-01-preview/ListRecoverableManagedDatabasesByServer.json
  */
 async function listRecoverableDatabasesByManagedInstances(): Promise<void> {
   const credential = new DefaultAzureCredential();

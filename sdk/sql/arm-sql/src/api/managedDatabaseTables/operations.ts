@@ -34,7 +34,7 @@ export function _listBySchemaSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       schemaName: schemaName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24filter": options?.filter,
     },
     {
@@ -62,6 +62,7 @@ export async function _listBySchemaDeserialize(
 
   return _databaseTableListResultDeserializer(result.body);
 }
+
 /** List managed database tables */
 export function listBySchema(
   context: Client,
@@ -87,7 +88,7 @@ export function listBySchema(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -110,7 +111,7 @@ export function _getSend(
       databaseName: databaseName,
       schemaName: schemaName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,6 +136,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Da
 
   return databaseTableDeserializer(result.body);
 }
+
 /** Get managed database table */
 export async function get(
   context: Client,

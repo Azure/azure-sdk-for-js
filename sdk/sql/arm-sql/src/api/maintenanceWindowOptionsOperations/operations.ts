@@ -27,7 +27,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       maintenanceWindowOptionsName: maintenanceWindowOptionsName,
     },
     {
@@ -55,6 +55,7 @@ export async function _getDeserialize(
 
   return maintenanceWindowOptionsDeserializer(result.body);
 }
+
 /** Gets a list of available maintenance windows. */
 export async function get(
   context: Client,

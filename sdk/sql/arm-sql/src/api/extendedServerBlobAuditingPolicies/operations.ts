@@ -37,7 +37,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,6 +64,7 @@ export async function _listByServerDeserialize(
 
   return _extendedServerBlobAuditingPolicyListResultDeserializer(result.body);
 }
+
 /** Lists extended auditing settings of a server. */
 export function listByServer(
   context: Client,
@@ -79,7 +80,7 @@ export function listByServer(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -98,7 +99,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       blobAuditingPolicyName: "default",
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,6 +128,7 @@ export async function _createOrUpdateDeserialize(
 
   return extendedServerBlobAuditingPolicyDeserializer(result.body);
 }
+
 /** Creates or updates an extended server's blob auditing policy. */
 export function createOrUpdate(
   context: Client,
@@ -141,7 +143,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, serverName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<
     OperationState<ExtendedServerBlobAuditingPolicy>,
     ExtendedServerBlobAuditingPolicy
@@ -161,7 +163,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       blobAuditingPolicyName: "default",
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -188,6 +190,7 @@ export async function _getDeserialize(
 
   return extendedServerBlobAuditingPolicyDeserializer(result.body);
 }
+
 /** Gets an extended server's blob auditing policy. */
 export async function get(
   context: Client,

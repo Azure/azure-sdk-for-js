@@ -45,6 +45,7 @@ export interface DatabaseAdvancedThreatProtectionSettingsOperations {
     options?: DatabaseAdvancedThreatProtectionSettingsGetOptionalParams,
   ) => Promise<DatabaseAdvancedThreatProtection>;
 }
+
 function _getDatabaseAdvancedThreatProtectionSettings(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -87,6 +88,7 @@ function _getDatabaseAdvancedThreatProtectionSettings(context: SqlManagementCont
       ),
   };
 }
+
 export function _getDatabaseAdvancedThreatProtectionSettingsOperations(
   context: SqlManagementContext,
 ): DatabaseAdvancedThreatProtectionSettingsOperations {

@@ -38,6 +38,7 @@ export interface ManagedInstanceOperationsOperations {
     options?: ManagedInstanceOperationsGetOptionalParams,
   ) => Promise<ManagedInstanceOperation>;
 }
+
 function _getManagedInstanceOperations(context: SqlManagementContext) {
   return {
     cancel: (
@@ -59,6 +60,7 @@ function _getManagedInstanceOperations(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, operationId, options),
   };
 }
+
 export function _getManagedInstanceOperationsOperations(
   context: SqlManagementContext,
 ): ManagedInstanceOperationsOperations {

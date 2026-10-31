@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all versions of a job.
  *
  * @summary gets all versions of a job.
- * x-ms-original-file: 2025-08-01-preview/ListJobVersions.json
+ * x-ms-original-file: 2026-08-01-preview/ListJobVersions.json
  */
 async function getAllVersionsOfAJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

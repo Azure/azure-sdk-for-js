@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a sync group.
  *
  * @summary updates a sync group.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupPatch.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupPatch.json
  */
 async function updateASyncGroup() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function updateASyncGroup() {
  * This sample demonstrates how to updates a sync group.
  *
  * @summary updates a sync group.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupPatchAddAndRemoveIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupPatchAddAndRemoveIdentity.json
  */
 async function updateASyncGroupWithNewUserAssignedIdentityAndRemoveOlderAssignedIdentity() {
   const credential = new DefaultAzureCredential();
@@ -69,7 +69,7 @@ async function updateASyncGroupWithNewUserAssignedIdentityAndRemoveOlderAssigned
  * This sample demonstrates how to updates a sync group.
  *
  * @summary updates a sync group.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupPatchWithIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupPatchWithIdentity.json
  */
 async function updateASyncGroupWithUserAssignedIdentity() {
   const credential = new DefaultAzureCredential();

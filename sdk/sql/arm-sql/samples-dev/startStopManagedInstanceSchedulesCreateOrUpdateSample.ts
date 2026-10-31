@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the managed instance's Start/Stop schedule.
  *
  * @summary creates or updates the managed instance's Start/Stop schedule.
- * x-ms-original-file: 2025-08-01-preview/StartStopManagedInstanceScheduleCreateOrUpdateMax.json
+ * x-ms-original-file: 2026-08-01-preview/StartStopManagedInstanceScheduleCreateOrUpdateMax.json
  */
 async function createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithAllOptionalParametersSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithAllOptio
  * This sample demonstrates how to creates or updates the managed instance's Start/Stop schedule.
  *
  * @summary creates or updates the managed instance's Start/Stop schedule.
- * x-ms-original-file: 2025-08-01-preview/StartStopManagedInstanceScheduleCreateOrUpdateMin.json
+ * x-ms-original-file: 2026-08-01-preview/StartStopManagedInstanceScheduleCreateOrUpdateMin.json
  */
 async function createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithNoOptionalParametersSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();

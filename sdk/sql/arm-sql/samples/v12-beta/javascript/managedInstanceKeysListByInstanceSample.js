@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of managed instance keys.
  *
  * @summary gets a list of managed instance keys.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceKeyList.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceKeyList.json
  */
 async function listTheKeysForAManagedInstance() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to change a long term retention backup access tier.
  *
  * @summary change a long term retention backup access tier.
- * x-ms-original-file: 2025-08-01-preview/ChangeLongTermRetentionBackupAccessTier.json
+ * x-ms-original-file: 2026-08-01-preview/ChangeLongTermRetentionBackupAccessTier.json
  */
 async function changeTheLongTermRetentionBackupStorageAccessTier() {
   const credential = new DefaultAzureCredential();
