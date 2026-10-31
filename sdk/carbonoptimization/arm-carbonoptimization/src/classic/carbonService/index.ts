@@ -1,23 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CarbonOptimizationManagementContext } from "../../api/carbonOptimizationManagementContext.js";
+import type { CarbonOptimizationManagementContext } from "../../api/carbonOptimizationManagementContext.js";
 import {
-  QueryFilterUnion,
-  CarbonEmissionDataListResult,
-  CarbonEmissionDataAvailableDateRange,
-} from "../../models/models.js";
-import {
-  CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
-  CarbonServiceQueryCarbonEmissionReportsOptionalParams,
-} from "../../api/carbonService/options.js";
-import {
+  queryCarbonEmissionReportsByBillingAccount,
   queryCarbonEmissionDataAvailableDateRange,
   queryCarbonEmissionReports,
 } from "../../api/carbonService/operations.js";
+import type {
+  CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams,
+  CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
+  CarbonServiceQueryCarbonEmissionReportsOptionalParams,
+} from "../../api/carbonService/options.js";
+import type {
+  QueryFilterUnion,
+  CarbonEmissionDataListResult,
+  CarbonEmissionDataAvailableDateRange,
+  BillingAccountQueryFilterUnion,
+} from "../../models/models.js";
 
 /** Interface representing a CarbonService operations. */
 export interface CarbonServiceOperations {
+  /** API for Carbon Emissions Reports scoped to a billing account. */
+  queryCarbonEmissionReportsByBillingAccount: (
+    scope: string,
+    queryParameters: BillingAccountQueryFilterUnion,
+    options?: CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams,
+  ) => Promise<CarbonEmissionDataListResult>;
   /** API for query carbon emission data available date range */
   queryCarbonEmissionDataAvailableDateRange: (
     options?: CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
@@ -31,6 +40,11 @@ export interface CarbonServiceOperations {
 
 function _getCarbonService(context: CarbonOptimizationManagementContext) {
   return {
+    queryCarbonEmissionReportsByBillingAccount: (
+      scope: string,
+      queryParameters: BillingAccountQueryFilterUnion,
+      options?: CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams,
+    ) => queryCarbonEmissionReportsByBillingAccount(context, scope, queryParameters, options),
     queryCarbonEmissionDataAvailableDateRange: (
       options?: CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
     ) => queryCarbonEmissionDataAvailableDateRange(context, options),

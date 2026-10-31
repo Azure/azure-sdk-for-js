@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 export {
+  queryCarbonEmissionReportsByBillingAccount,
   queryCarbonEmissionDataAvailableDateRange,
   queryCarbonEmissionReports,
 } from "./operations.js";
-export {
-  type CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
-  type CarbonServiceQueryCarbonEmissionReportsOptionalParams,
+export type {
+  CarbonServiceQueryCarbonEmissionReportsByBillingAccountOptionalParams,
+  CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
+  CarbonServiceQueryCarbonEmissionReportsOptionalParams,
 } from "./options.js";
