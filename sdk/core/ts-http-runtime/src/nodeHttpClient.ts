@@ -168,6 +168,16 @@ function sendRequestBody(
   }
 }
 
+function initializeBody(body: RequestBodyType | undefined): RequestBodyType | undefined {
+  if (typeof body === "function") {
+    return body();
+  } else if (body && isArrayBuffer(body)) {
+    return arrayBufferToBuffer(body);
+  } else {
+    return body;
+  }
+}
+
 /**
  * A HttpClient implementation that uses Node's "https" module to send HTTPS requests.
  * @internal
@@ -213,35 +223,15 @@ class NodeHttpClient implements HttpClient {
     const useExpectContinue = hasExpectContinue(request);
     const bodyFactory = typeof request.body === "function" ? request.body : undefined;
     let body = bodyFactory ? undefined : request.body;
-    let bodyInitialized = !bodyFactory;
-
-    const initializeBody = (): RequestBodyType | undefined => {
-      if (!bodyInitialized) {
-        body = bodyFactory?.();
-        bodyInitialized = true;
-      }
-      if (body && isArrayBuffer(body)) {
-        body = arrayBufferToBuffer(body);
-      }
-      return body;
-    };
 
     let responseStream: NodeJS.ReadableStream | undefined;
     let requestComplete = Promise.resolve();
     try {
-      if (!useExpectContinue) {
-        initializeBody();
-      }
-
-      if (bodyInitialized && body && !request.headers.has("Content-Length")) {
-        const bodyLength = getBodyLength(body);
-        if (bodyLength !== null) {
-          request.headers.set("Content-Length", bodyLength);
-        }
-      }
+      let bodyLength = bodyFactory ? null : getBodyLength(body ?? null);
 
       const prepareBody = (): RequestBodyType | undefined => {
-        initializeBody();
+        body = initializeBody(bodyFactory ?? body);
+        bodyLength = getBodyLength(body ?? null);
         if (!body || !request.onUploadProgress || body instanceof ReportTransform) {
           return body;
         }
@@ -265,14 +255,19 @@ class NodeHttpClient implements HttpClient {
         prepareBody();
       }
 
+      if (body && bodyLength !== null && !request.headers.has("Content-Length")) {
+        request.headers.set("Content-Length", bodyLength);
+      }
+
       const result = useExpectContinue
         ? await this.makeRequestWithExpectContinue(
             request,
             abortController,
             prepareBody,
-            bodyInitialized ? getBodyLength(body ?? null) : null,
+            bodyLength,
           )
         : await this.makeRequest(request, abortController, body);
+
       requestComplete = result.requestComplete;
       const res = result.response;
 
@@ -287,7 +282,9 @@ class NodeHttpClient implements HttpClient {
       if (!result.isRequestComplete()) {
         setRequestCompletion(response, result.requestComplete);
         const clearDisposer = setResponseBodyDisposer(response, result.disposeRequest);
-        void result.requestComplete.then(clearDisposer);
+        result.requestComplete.then(clearDisposer).catch((error) => {
+          logger.warning("Error disposing request", error);
+        });
       }
 
       // Responses to HEAD must not have a body.

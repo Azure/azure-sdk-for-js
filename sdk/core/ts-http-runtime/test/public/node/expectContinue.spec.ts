@@ -35,6 +35,61 @@ afterEach(async () => {
 });
 
 describe("Expect: 100-continue", () => {
+  it.each([
+    { expectContinue: false, factory: false },
+    { expectContinue: false, factory: true },
+    { expectContinue: true, factory: false },
+    { expectContinue: true, factory: true },
+  ])(
+    "prepares a body once and preserves framing with upload progress (expectContinue=$expectContinue, factory=$factory)",
+    async ({ expectContinue, factory }) => {
+      const body = new DataView(Uint8Array.from([0, 1, 2, 3, 4]).buffer, 1, 3);
+      const bodyFactory = vi.fn(() =>
+        Readable.from([Buffer.from(body.buffer, body.byteOffset, body.byteLength)]),
+      );
+      const progress = vi.fn();
+      const chunks: Buffer[] = [];
+      let receivedHeaders: http.IncomingHttpHeaders | undefined;
+      const receiveBody: http.RequestListener = (request, response) => {
+        receivedHeaders = request.headers;
+        request.on("data", (chunk: Buffer) => chunks.push(chunk));
+        request.on("end", () => response.end("accepted"));
+      };
+      const server = http.createServer(receiveBody);
+      server.on("checkContinue", (request, response) => {
+        expect(bodyFactory).not.toHaveBeenCalled();
+        expect(progress).not.toHaveBeenCalled();
+        receiveBody(request, response);
+        response.writeContinue();
+        response.writeContinue();
+      });
+      const port = await listen(server);
+
+      const response = await createDefaultHttpClient().sendRequest(
+        createPipelineRequest({
+          url: `http://127.0.0.1:${port}`,
+          method: "POST",
+          allowInsecureConnection: true,
+          headers: createHttpHeaders(expectContinue ? { Expect: "100-continue" } : {}),
+          body: factory ? bodyFactory : body,
+          onUploadProgress: progress,
+        }),
+      );
+
+      expect(response.bodyAsText).toBe("accepted");
+      expect(bodyFactory).toHaveBeenCalledTimes(factory ? 1 : 0);
+      expect(Buffer.concat(chunks)).toEqual(Buffer.from([1, 2, 3]));
+      expect(progress).toHaveBeenCalledExactlyOnceWith({ loadedBytes: 3 });
+      if (factory) {
+        expect(receivedHeaders?.["content-length"]).toBeUndefined();
+        expect(receivedHeaders?.["transfer-encoding"]).toBe("chunked");
+      } else {
+        expect(receivedHeaders?.["content-length"]).toBe("3");
+        expect(receivedHeaders?.["transfer-encoding"]).toBeUndefined();
+      }
+    },
+  );
+
   it("waits for 100 Continue before creating and sending the body", async () => {
     const bodyFactory = vi.fn(() => Readable.from(["payload"]));
     let receivedBody = "";
