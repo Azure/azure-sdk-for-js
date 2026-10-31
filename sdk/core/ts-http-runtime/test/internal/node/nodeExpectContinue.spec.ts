@@ -399,6 +399,93 @@ describe("Expect: 100-continue negotiation", () => {
     }
   });
 
+  it.each(["Continue", "fallback"])(
+    "dispatches the factory and upload once when %s wins at the fallback deadline",
+    (winner) => {
+      const { request, options } = createOptions();
+      const bodyFactory = vi.fn(() => "payload");
+      options.sendBody.mockImplementation((clientRequest) => {
+        clientRequest.write(bodyFactory());
+      });
+      const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+
+      try {
+        if (winner === "Continue") {
+          setTimeout(() => request.emit("continue"), 1000);
+        }
+        createExpectContinueRequest(options);
+        const [continueDispatch] = request.listeners("continue");
+        const fallback = setTimeoutSpy.mock.lastCall?.[0];
+        if (!continueDispatch || typeof fallback !== "function") {
+          throw new Error("Expected pending Continue and fallback callbacks");
+        }
+        if (winner === "fallback") {
+          setTimeout(() => request.emit("continue"), 1000);
+        }
+        vi.advanceTimersByTime(999);
+        expect(bodyFactory).not.toHaveBeenCalled();
+        expect(options.sendBody).not.toHaveBeenCalled();
+        vi.advanceTimersByTime(1);
+
+        // Also invoke captured callbacks as if they were queued before cleanup.
+        continueDispatch();
+        fallback();
+        request.emit("continue");
+        vi.advanceTimersByTime(1000);
+
+        expect(bodyFactory).toHaveBeenCalledOnce();
+        expect(options.sendBody).toHaveBeenCalledExactlyOnceWith(request);
+        expect(request.write).toHaveBeenCalledTimes(2);
+        expect(request.write).toHaveBeenLastCalledWith("payload");
+        expect(request.listenerCount("continue")).toBe(0);
+        expect(vi.getTimerCount()).toBe(0);
+        expect(options.onError).not.toHaveBeenCalled();
+      } finally {
+        setTimeoutSpy.mockRestore();
+        request.destroy();
+      }
+    },
+  );
+
+  it.each([
+    { statusCode: 102, release: "Continue" },
+    { statusCode: 102, release: "fallback" },
+    { statusCode: 103, release: "Continue" },
+    { statusCode: 103, release: "fallback" },
+  ])("ignores HTTP $statusCode while waiting for $release", ({ statusCode, release }) => {
+    const { request, options } = createOptions();
+    const bodyFactory = vi.fn(() => "payload");
+    options.sendBody.mockImplementation((clientRequest) => {
+      clientRequest.write(bodyFactory());
+    });
+
+    try {
+      createExpectContinueRequest(options);
+      vi.advanceTimersByTime(400);
+      request.emit("information", { statusCode });
+      vi.advanceTimersByTime(599);
+      request.emit("information", { statusCode });
+
+      expect(bodyFactory).not.toHaveBeenCalled();
+      expect(options.sendBody).not.toHaveBeenCalled();
+      expect(options.onResponse).not.toHaveBeenCalled();
+      expect(vi.getTimerCount()).toBe(1);
+      if (release === "Continue") {
+        request.emit("continue");
+      }
+      vi.advanceTimersByTime(1);
+
+      expect(bodyFactory).toHaveBeenCalledOnce();
+      expect(options.sendBody).toHaveBeenCalledExactlyOnceWith(request);
+      expect(request.write).toHaveBeenCalledTimes(2);
+      expect(request.write).toHaveBeenLastCalledWith("payload");
+      expect(vi.getTimerCount()).toBe(0);
+      expect(options.onError).not.toHaveBeenCalled();
+    } finally {
+      request.destroy();
+    }
+  });
+
   it("keeps an authorized upload active after response headers arrive", () => {
     const { request, options } = createOptions();
     const response = new PassThrough();
