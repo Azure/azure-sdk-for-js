@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to resync the Neighbor Group after a configuration change.
  *
  * @summary resync the Neighbor Group after a configuration change.
- * x-ms-original-file: 2025-07-15/NeighborGroups_Resync.json
+ * x-ms-original-file: 2026-01-15-preview/NeighborGroups_Resync.json
  */
 async function neighborGroupsResync(): Promise<void> {
   const credential = new DefaultAzureCredential();

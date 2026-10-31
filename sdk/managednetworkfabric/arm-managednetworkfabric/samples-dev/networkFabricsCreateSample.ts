@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create Network Fabric resource.
  *
  * @summary create Network Fabric resource.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_Create.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_Create.json
  */
 async function networkFabricsCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -108,6 +108,23 @@ async function networkFabricsCreateMaximumSetGen(): Promise<void> {
       nniDerivedUniqueRdConfigurationState: "Enabled",
     },
     authorizedTransceiver: { vendor: "vendorX", key: "example" },
+    secretArchiveSettings: {
+      associatedIdentity: {
+        identityType: "UserAssignedIdentity",
+        userAssignedIdentityResourceId:
+          "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourcegroups/example-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/example-identity",
+      },
+      vaultUri: "https://myvault.vault.azure.net/",
+    },
+    upgradeProfile: [
+      {
+        preUpgradeProfile: { maxEnteringMaintenanceTimeoutInSeconds: 300 },
+        postUpgradeProfile: {
+          maxExitingMaintenanceTimeoutInSeconds: 3000,
+          mlagReloadDelayTimeoutInSeconds: 900,
+        },
+      },
+    ],
     identity: { type: "None", userAssignedIdentities: { key872: {} } },
     tags: { keyId: "keyValue" },
     location: "eastuseuap",

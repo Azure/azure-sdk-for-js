@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/managednetworkfabric/arm-managednetworkfabric)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-managednetworkfabric)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-managednetworkfabric)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-managednetworkfabric?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/managednetworkfabric/arm-managednetworkfabric/samples)
 
 ## Getting started

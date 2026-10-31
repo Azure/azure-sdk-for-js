@@ -1,14 +1,115 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 3.0.0-beta.1 (2026-10-30)
+Compared with version 2.0.0
 
 ### Features Added
+  - Added operation group EdgeConnectorsOperations
+  - Added operation group FabricsOperations
+  - Added Interface EdgeConnector
+  - Added Interface EdgeConnectorPatch
+  - Added Interface EdgeConnectorPatchableProperties
+  - Added Interface EdgeConnectorProperties
+  - Added Interface EdgeConnectorsCreateOptionalParams
+  - Added Interface EdgeConnectorsDeleteOptionalParams
+  - Added Interface EdgeConnectorsGetOptionalParams
+  - Added Interface EdgeConnectorsListByResourceGroupOptionalParams
+  - Added Interface EdgeConnectorsListBySubscriptionOptionalParams
+  - Added Interface EdgeConnectorsUpdateOptionalParams
+  - Added Interface Fabric
+  - Added Interface FabricPatch
+  - Added Interface FabricPatchableProperties
+  - Added Interface FabricProperties
+  - Added Interface FabricsCreateOptionalParams
+  - Added Interface FabricsDeleteOptionalParams
+  - Added Interface FabricsGetOptionalParams
+  - Added Interface FabricsListByResourceGroupOptionalParams
+  - Added Interface FabricsListBySubscriptionOptionalParams
+  - Added Interface FabricsUpdateOptionalParams
+  - Added Interface InfraNetwork
+  - Added Interface InfraNetworkOptionalIp
+  - Added Interface InfrastructureNetworks
+  - Added Interface InfrastructureServices
+  - Added Interface NetworkPacketBrokerPatchProperties
+  - Added Interface PatchInfraNetwork
+  - Added Interface PatchInfrastructureNetworks
+  - Added Interface PatchInfrastructureServices
+  - Added Interface PatchPlatformProxy
+  - Added Interface PlatformProxy
+  - Added Interface PostUpgradeProfilePatchProperties
+  - Added Interface PostUpgradeProfileProperties
+  - Added Interface PreUpgradeProfilePatchProperties
+  - Added Interface PreUpgradeProfileProperties
+  - Added Interface RefreshConfigurationRequestProperties
+  - Added Interface SecretArchivePatchSettings
+  - Added Interface SecretArchiveSettings
+  - Added Interface UpgradeProfileProperties
+  - Added Interface UpgradeProfilePropertiesPatchProperties
+  - Added Interface ValidateConfigurationResponseProperties
+  - Added Interface ValidateConfigurationResponseV2
+  - Added Interface VmProfile
+  - Interface NeighborGroup has a new optional parameter administrativeState
+  - Interface NeighborGroupProperties has a new optional parameter administrativeState
+  - Interface NetworkBootstrapDevice has a new optional parameter controlPlaneAcls
+  - Interface NetworkBootstrapDevice has a new optional parameter operationalState
+  - Interface NetworkBootstrapDevice has a new optional parameter secretRotationStatus
+  - Interface NetworkBootstrapDevicePatch has a new optional parameter controlPlaneAcls
+  - Interface NetworkBootstrapDevicePatchProperties has a new optional parameter controlPlaneAcls
+  - Interface NetworkBootstrapDeviceProperties has a new optional parameter controlPlaneAcls
+  - Interface NetworkBootstrapDeviceProperties has a new optional parameter operationalState
+  - Interface NetworkBootstrapDeviceProperties has a new optional parameter secretRotationStatus
+  - Interface NetworkBootstrapInterface has a new optional parameter operationalState
+  - Interface NetworkBootstrapInterfaceProperties has a new optional parameter operationalState
+  - Interface NetworkDevice has a new optional parameter operationalState
+  - Interface NetworkDeviceProperties has a new optional parameter operationalState
+  - Interface NetworkFabric has a new optional parameter networkBootstrapDeviceId
+  - Interface NetworkFabric has a new optional parameter operationalState
+  - Interface NetworkFabric has a new optional parameter secretArchiveSettings
+  - Interface NetworkFabric has a new optional parameter upgradeProfile
+  - Interface NetworkFabricController has a new optional parameter operationalState
+  - Interface NetworkFabricController has a new optional parameter vmProfile
+  - Interface NetworkFabricControllerProperties has a new optional parameter operationalState
+  - Interface NetworkFabricControllerProperties has a new optional parameter vmProfile
+  - Interface NetworkFabricPatch has a new optional parameter secretArchiveSettings
+  - Interface NetworkFabricPatch has a new optional parameter upgradeProfile
+  - Interface NetworkFabricPatchProperties has a new optional parameter secretArchiveSettings
+  - Interface NetworkFabricPatchProperties has a new optional parameter upgradeProfile
+  - Interface NetworkFabricProperties has a new optional parameter networkBootstrapDeviceId
+  - Interface NetworkFabricProperties has a new optional parameter operationalState
+  - Interface NetworkFabricProperties has a new optional parameter secretArchiveSettings
+  - Interface NetworkFabricProperties has a new optional parameter upgradeProfile
+  - Interface NetworkFabricsRefreshConfigurationOptionalParams has a new optional parameter body
+  - Interface NetworkInterface has a new optional parameter operationalState
+  - Interface NetworkInterfaceProperties has a new optional parameter operationalState
+  - Interface NetworkPacketBroker has a new optional parameter sourceNetworkTapRuleId
+  - Interface NetworkPacketBrokerPatch has a new optional parameter properties
+  - Interface NetworkPacketBrokerProperties has a new optional parameter sourceNetworkTapRuleId
+  - Added Type Alias ConfigurationRegenerationType
+  - Added Type Alias ConnectivityModel
+  - Added Type Alias ControllerType
+  - Added Type Alias GenerateBaseConfiguration
+  - Added Type Alias ManagementMode
+  - Added Type Alias NetworkFabricRefreshDeviceTypes
+  - Added Type Alias OperationalState
+  - Added Type Alias OperationPolicy
+  - Added Enum KnownConfigurationRegenerationType
+  - Added Enum KnownConnectivityModel
+  - Added Enum KnownControllerType
+  - Added Enum KnownGenerateBaseConfiguration
+  - Added Enum KnownManagementMode
+  - Added Enum KnownNetworkFabricRefreshDeviceTypes
+  - Added Enum KnownOperationalState
+  - Added Enum KnownOperationPolicy
+  - Enum KnownConfigurationState has a new value CommitRollbackFailed
+  - Enum KnownConfigurationState has a new value CommitStaged
+  - Enum KnownConfigurationState has a new value CommitStageFailed
+  - Enum KnownDeviceRole has a new value TerminalServer
+  - Enum KnownVersions has a new value V20240215Preview
+  - Enum KnownVersions has a new value V20240615Preview
+  - Enum KnownVersions has a new value V20260115Preview
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Removed Interface ValidateConfigurationResponse
 
 ## 2.0.0 (2026-06-15)
 

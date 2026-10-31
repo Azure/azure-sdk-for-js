@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the Network Bootstrap Device resources in a given subscription.
  *
  * @summary list all the Network Bootstrap Device resources in a given subscription.
- * x-ms-original-file: 2025-07-15/NetworkBootstrapDevices_ListBySubscription.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkBootstrapDevices_ListBySubscription.json
  */
 async function networkBootstrapDevicesListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

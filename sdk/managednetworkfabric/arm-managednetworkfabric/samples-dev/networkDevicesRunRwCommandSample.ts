@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to run the RW Command on the Network Device.
  *
  * @summary run the RW Command on the Network Device.
- * x-ms-original-file: 2025-07-15/NetworkDevices_RunRwCommand.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkDevices_RunRwCommand.json
  */
 async function networkDevicesRunRwCommandMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

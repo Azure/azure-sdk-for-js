@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommitConfigurationRequest } from "../../models/models.js";
+import type {
+  RefreshConfigurationRequestProperties,
+  CommitConfigurationRequest,
+} from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -94,6 +97,8 @@ export interface NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalP
 export interface NetworkFabricsRefreshConfigurationOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** Request payload. */
+  body?: RefreshConfigurationRequestProperties;
 }
 
 /** Optional parameters. */

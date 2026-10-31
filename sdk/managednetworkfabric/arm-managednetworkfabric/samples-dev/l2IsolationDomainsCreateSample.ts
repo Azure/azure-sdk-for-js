@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates layer 2 network connectivity between compute nodes within a rack and across racks.The configuration is applied on the devices only after the isolation domain is enabled.
  *
  * @summary creates layer 2 network connectivity between compute nodes within a rack and across racks.The configuration is applied on the devices only after the isolation domain is enabled.
- * x-ms-original-file: 2025-07-15/L2IsolationDomains_Create.json
+ * x-ms-original-file: 2026-01-15-preview/L2IsolationDomains_Create.json
  */
 async function l2IsolationDomainsCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

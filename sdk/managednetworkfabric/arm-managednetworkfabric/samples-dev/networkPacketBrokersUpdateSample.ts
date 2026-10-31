@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aPI to update certain properties of the Network Packet Broker resource.
  *
  * @summary aPI to update certain properties of the Network Packet Broker resource.
- * x-ms-original-file: 2025-07-15/NetworkPacketBrokers_Update.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkPacketBrokers_Update.json
  */
 async function networkPacketBrokersUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,6 +18,10 @@ async function networkPacketBrokersUpdateMaximumSetGen(): Promise<void> {
     "example-rg",
     "example-networkPacketBroker",
     {
+      properties: {
+        sourceNetworkTapRuleId:
+          "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourcegroups/example-rg/providers/Microsoft.ManagedNetworkFabric/networkTapRules/example-networkTapRule",
+      },
       tags: { keyId: "keyValue" },
       identity: { type: "None", userAssignedIdentities: { key8793: {} } },
     },
