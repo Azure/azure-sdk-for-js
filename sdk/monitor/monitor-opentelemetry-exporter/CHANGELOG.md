@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added opt-in multi-endpoint routing for logs, traces, and metrics.
+- Added opt-in multi-endpoint routing for logs, traces, and metrics. [#40586](https://github.com/Azure/azure-sdk-for-js/pull/40586)
 - Added automatic gzip request compression for Azure Monitor ingestion, including internal Statsbeat and customer SDK Stats, while preserving uncompressed requests to custom ingestion domains and falling back to the original request if compression fails. [#40414](https://github.com/Azure/azure-sdk-for-js/pull/40414)
 
 ### Breaking Changes
