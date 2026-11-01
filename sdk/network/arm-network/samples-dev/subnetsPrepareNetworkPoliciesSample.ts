@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to prepares a subnet by applying network intent policies.
  *
  * @summary prepares a subnet by applying network intent policies.
- * x-ms-original-file: 2026-01-01/SubnetPrepareNetworkPolicies.json
+ * x-ms-original-file: 2026-03-01/SubnetPrepareNetworkPolicies.json
  */
 async function prepareNetworkPolicies(): Promise<void> {
   const credential = new DefaultAzureCredential();

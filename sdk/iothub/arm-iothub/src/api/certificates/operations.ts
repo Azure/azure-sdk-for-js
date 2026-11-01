@@ -44,7 +44,7 @@ export function _verifySend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -77,6 +77,7 @@ export async function _verifyDeserialize(
 
   return certificateDescriptionDeserializer(result.body);
 }
+
 /** Verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate. */
 export async function verify(
   context: Client,
@@ -114,7 +115,7 @@ export function _generateVerificationCodeSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -145,6 +146,7 @@ export async function _generateVerificationCodeDeserialize(
 
   return certificateWithNonceDescriptionDeserializer(result.body);
 }
+
 /** Generates verification code for proof of possession flow. The verification code will be used to generate a leaf certificate. */
 export async function generateVerificationCode(
   context: Client,
@@ -177,7 +179,7 @@ export function _listByIotHubSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,6 +206,7 @@ export async function _listByIotHubDeserialize(
 
   return certificateListDescriptionDeserializer(result.body);
 }
+
 /** Returns the list of certificates. */
 export async function listByIotHub(
   context: Client,
@@ -230,7 +233,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,6 +258,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes an existing X509 certificate or does nothing if it does not exist. */
 export async function $delete(
   context: Client,
@@ -290,7 +294,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -323,6 +327,7 @@ export async function _createOrUpdateDeserialize(
 
   return certificateDescriptionDeserializer(result.body);
 }
+
 /** Adds new or replaces existing certificate. */
 export async function createOrUpdate(
   context: Client,
@@ -357,7 +362,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -384,6 +389,7 @@ export async function _getDeserialize(
 
   return certificateDescriptionDeserializer(result.body);
 }
+
 /** Returns the certificate. */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates an application security group's tags.
  *
  * @summary updates an application security group's tags.
- * x-ms-original-file: 2026-01-01/ApplicationSecurityGroupUpdateTags.json
+ * x-ms-original-file: 2026-03-01/ApplicationSecurityGroupUpdateTags.json
  */
 async function updateApplicationSecurityGroupTags() {
   const credential = new DefaultAzureCredential();

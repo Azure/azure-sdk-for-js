@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkbookTemplateUpdateParameters } from "../../models/workbookTemplatesApi/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { WorkbookTemplateUpdateParameters } from "../../models/workbookTemplatesApi/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface WorkbookTemplatesListByResourceGroupOptionalParams extends OperationOptions {}

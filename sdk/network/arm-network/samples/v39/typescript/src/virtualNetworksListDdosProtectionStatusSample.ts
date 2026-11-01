@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the Ddos Protection Status of all IP Addresses under the Virtual Network
  *
  * @summary gets the Ddos Protection Status of all IP Addresses under the Virtual Network
- * x-ms-original-file: 2026-01-01/VirtualNetworkGetDdosProtectionStatus.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGetDdosProtectionStatus.json
  */
 async function getDdosProtectionStatusOfAVirtualNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

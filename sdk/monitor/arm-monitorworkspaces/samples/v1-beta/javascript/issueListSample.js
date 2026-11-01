@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all issues under the parent
  *
  * @summary list all issues under the parent
- * x-ms-original-file: 2025-10-03/Issue_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/Issue_List_MaximumSet_Gen.json
  */
 async function issueListMaximumSet() {
   const credential = new DefaultAzureCredential();

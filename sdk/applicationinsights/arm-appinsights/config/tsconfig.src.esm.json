@@ -1,4 +1,44 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/webTestLocations/index.ts",
+    "../src/api/liveToken/index.ts",
+    "../src/api/favorites/index.ts",
+    "../src/api/deletedWorkbooks/index.ts",
+    "../src/api/components/index.ts",
+    "../src/api/componentLinkedStorageAccounts/index.ts",
+    "../src/api/workItemConfigurations/index.ts",
+    "../src/api/proactiveDetectionConfigurations/index.ts",
+    "../src/api/componentAvailableFeatures/index.ts",
+    "../src/api/componentFeatureCapabilities/index.ts",
+    "../src/api/componentQuotaStatus/index.ts",
+    "../src/api/componentCurrentBillingFeatures/index.ts",
+    "../src/api/exportConfigurations/index.ts",
+    "../src/api/apiKeys/index.ts",
+    "../src/api/annotations/index.ts",
+    "../src/api/analyticsItems/index.ts",
+    "../src/api/workbookTemplates/index.ts",
+    "../src/api/workbooks/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/api/webTests/index.ts",
+    "../src/models/index.ts",
+    "../src/models/analyticsItems/index.ts",
+    "../src/models/applicationInsightsCommonTypes/index.ts",
+    "../src/models/componentAPIs/index.ts",
+    "../src/models/componentLinkedStorageAccountApi/index.ts",
+    "../src/models/components/index.ts",
+    "../src/models/deletedWorkbookApi/index.ts",
+    "../src/models/favorites/index.ts",
+    "../src/models/liveTokenApi/index.ts",
+    "../src/models/webTestLocation/index.ts",
+    "../src/models/webTestsApi/index.ts",
+    "../src/models/workBookOperations/index.ts",
+    "../src/models/workbooksApi/index.ts",
+    "../src/models/workbookTemplatesApi/index.ts"
+  ]
 }

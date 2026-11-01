@@ -89,7 +89,7 @@ export class CertificateClient {
 // @public
 export interface CertificateClientOptions extends ExtendedCommonClientOptions {
     disableChallengeResourceVerification?: boolean;
-    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-03-01-preview";
+    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-04-01";
 }
 
 // @public

@@ -30,7 +30,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/restorableDatabaseAccounts{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,7 +68,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -82,7 +86,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +125,11 @@ export function listByLocation(
     () => _listByLocationSend(context, location, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -137,7 +145,7 @@ export function _getByLocationSend(
       subscriptionId: context.subscriptionId,
       location: location,
       instanceId: instanceId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

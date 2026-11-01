@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
-  type StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
-  type StorageDiscoveryWorkspacesDeleteOptionalParams,
-  type StorageDiscoveryWorkspacesUpdateOptionalParams,
-  type StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
-  type StorageDiscoveryWorkspacesGetOptionalParams,
+export type {
+  StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
+  StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
+  StorageDiscoveryWorkspacesDeleteOptionalParams,
+  StorageDiscoveryWorkspacesUpdateOptionalParams,
+  StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
+  StorageDiscoveryWorkspacesGetOptionalParams,
 } from "./options.js";

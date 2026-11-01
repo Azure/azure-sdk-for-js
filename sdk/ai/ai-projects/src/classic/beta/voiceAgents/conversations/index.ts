@@ -46,6 +46,8 @@ import type {
   BetaVoiceAgentsConversationsDownloadAudioItemResponse,
 } from "../../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { ResolvedTracingConfig } from "../../../../tracing/configuration.js";
+import { traceVoiceAgentOperation } from "../../../../tracing/voiceAgentTracing.js";
 
 /** Operations for managing voice agent conversations. */
 export interface BetaVoiceAgentsConversationsOperations {
@@ -221,6 +223,7 @@ export interface BetaVoiceAgentsConversationsOperations {
 
 function _getBetaVoiceAgentsConversations(
   context: AIProjectContext,
+  tracingConfig?: ResolvedTracingConfig,
 ): BetaVoiceAgentsConversationsOperations {
   return {
     downloadAudio: (
@@ -289,7 +292,13 @@ function _getBetaVoiceAgentsConversations(
       agentName: string,
       conversationId: string,
       options?: BetaVoiceAgentsConversationsDeleteOptionalParams,
-    ) => $delete(context, agentName, conversationId, options),
+    ) =>
+      traceVoiceAgentOperation(
+        "voice_agents.conversations.delete",
+        context.endpoint,
+        tracingConfig,
+        () => $delete(context, agentName, conversationId, options),
+      ),
     get: (
       agentName: string,
       conversationId: string,
@@ -302,6 +311,7 @@ function _getBetaVoiceAgentsConversations(
 
 export function _getBetaVoiceAgentsConversationsOperations(
   context: AIProjectContext,
+  tracingConfig?: ResolvedTracingConfig,
 ): BetaVoiceAgentsConversationsOperations {
-  return { ..._getBetaVoiceAgentsConversations(context) };
+  return { ..._getBetaVoiceAgentsConversations(context, tracingConfig) };
 }

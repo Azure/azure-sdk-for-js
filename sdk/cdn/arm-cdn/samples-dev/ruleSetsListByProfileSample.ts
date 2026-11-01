@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists existing AzureFrontDoor rule sets within a profile.
  *
  * @summary lists existing AzureFrontDoor rule sets within a profile.
- * x-ms-original-file: 2025-12-01/RuleSets_ListByProfile.json
+ * x-ms-original-file: 2026-10-01/RuleSets_ListByProfile.json
  */
 async function ruleSetsListByProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

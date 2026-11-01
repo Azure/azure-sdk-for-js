@@ -24,6 +24,15 @@ describe("getRequestBody (browser)", () => {
     assert.strictEqual(result.body, array);
   });
 
+  it.each([
+    ["ArrayBuffer", new Uint8Array([1, 2, 3]).buffer],
+    ["DataView", new DataView(new Uint8Array([1, 2, 3]).buffer, 1, 2)],
+    ["Uint16Array", new Uint16Array([1, 2, 3])],
+  ] satisfies [string, ArrayBuffer | ArrayBufferView][])("should handle %s", (_, body) => {
+    const result = getRequestBody(body, "application/octet-stream");
+    assert.strictEqual(result.body, body);
+  });
+
   it("should handle ReadableStream", () => {
     const stream = new ReadableStream();
     const result = getRequestBody(stream);

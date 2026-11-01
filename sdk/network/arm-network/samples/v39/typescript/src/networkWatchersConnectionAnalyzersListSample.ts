@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all connection analyzers in the specified network watcher.
  *
  * @summary lists all connection analyzers in the specified network watcher.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectionAnalyzerList.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectionAnalyzerList.json
  */
 async function listConnectionAnalyzers(): Promise<void> {
   const credential = new DefaultAzureCredential();

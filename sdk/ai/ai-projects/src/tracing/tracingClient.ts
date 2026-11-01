@@ -22,9 +22,12 @@ export interface StartSpanResult {
 /**
  * Starts a new client span using the global OTel TracerProvider.
  */
-export function startSpan(name: string): StartSpanResult {
+export function startSpan(
+  name: string,
+  parentContext: Context = context.active(),
+): StartSpanResult {
   const tracer = trace.getTracer(PACKAGE_NAME, SDK_VERSION);
-  const ctx = context.active();
+  const ctx = parentContext;
   const span = tracer.startSpan(name, { kind: SpanKind.CLIENT }, ctx);
   const spanCtx = trace.setSpan(ctx, span);
   return { span, ctx: spanCtx };

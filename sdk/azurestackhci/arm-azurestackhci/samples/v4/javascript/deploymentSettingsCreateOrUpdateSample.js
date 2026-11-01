@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a DeploymentSetting
  *
  * @summary create a DeploymentSetting
- * x-ms-original-file: 2026-04-30/PutDeploymentSettings.json
+ * x-ms-original-file: 2026-10-01/PutDeploymentSettings.json
  */
 async function createDeploymentSettings() {
   const credential = new DefaultAzureCredential();
@@ -191,7 +191,7 @@ async function createDeploymentSettings() {
  * This sample demonstrates how to create a DeploymentSetting
  *
  * @summary create a DeploymentSetting
- * x-ms-original-file: 2026-04-30/PutDeploymentSettingsWithADLess.json
+ * x-ms-original-file: 2026-10-01/PutDeploymentSettingsWithADLess.json
  */
 async function createDeploymentSettingsWithoutActiveDirectoryIntegration() {
   const credential = new DefaultAzureCredential();
@@ -373,7 +373,7 @@ async function createDeploymentSettingsWithoutActiveDirectoryIntegration() {
  * This sample demonstrates how to create a DeploymentSetting
  *
  * @summary create a DeploymentSetting
- * x-ms-original-file: 2026-04-30/PutDeploymentSettings_StorageS2D.json
+ * x-ms-original-file: 2026-10-01/PutDeploymentSettings_StorageS2D.json
  */
 async function createDeploymentSettingsWithS2DStorage() {
   const credential = new DefaultAzureCredential();
@@ -531,7 +531,7 @@ async function createDeploymentSettingsWithS2DStorage() {
  * This sample demonstrates how to create a DeploymentSetting
  *
  * @summary create a DeploymentSetting
- * x-ms-original-file: 2026-04-30/PutDeploymentSettings_StorageSAN.json
+ * x-ms-original-file: 2026-10-01/PutDeploymentSettings_StorageSAN.json
  */
 async function createDeploymentSettingsWithSANStorage() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all Radius servers with respective radius secrets from VpnServerConfiguration.
  *
  * @summary list all Radius servers with respective radius secrets from VpnServerConfiguration.
- * x-ms-original-file: 2026-01-01/AllVpnServerConfigurationRadiusServerSecretsList.json
+ * x-ms-original-file: 2026-03-01/AllVpnServerConfigurationRadiusServerSecretsList.json
  */
 async function listAllVpnServerConfigurationRadiusServerSecrets(): Promise<void> {
   const credential = new DefaultAzureCredential();

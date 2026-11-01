@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import {
   listByResourceGroup,
   revisionGet,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/workbooks/operations.js";
-import {
+import type {
   WorkbooksListByResourceGroupOptionalParams,
   WorkbooksRevisionGetOptionalParams,
   WorkbooksListRevisionsListOptionalParams,
@@ -22,9 +22,9 @@ import {
   WorkbooksCreateOrUpdateOptionalParams,
   WorkbooksGetOptionalParams,
 } from "../../api/workbooks/options.js";
-import { CategoryType } from "../../models/applicationInsightsCommonTypes/models.js";
-import { Workbook } from "../../models/workbooksApi/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { CategoryType } from "../../models/applicationInsightsCommonTypes/models.js";
+import type { Workbook } from "../../models/workbooksApi/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Workbooks operations. */
 export interface WorkbooksOperations {

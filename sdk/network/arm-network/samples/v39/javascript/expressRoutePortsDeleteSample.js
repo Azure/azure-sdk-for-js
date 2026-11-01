@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified ExpressRoutePort resource.
  *
  * @summary deletes the specified ExpressRoutePort resource.
- * x-ms-original-file: 2026-01-01/ExpressRoutePortDelete.json
+ * x-ms-original-file: 2026-03-01/ExpressRoutePortDelete.json
  */
 async function expressRoutePortDelete() {
   const credential = new DefaultAzureCredential();

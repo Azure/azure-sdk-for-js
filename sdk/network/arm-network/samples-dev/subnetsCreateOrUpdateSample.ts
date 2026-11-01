@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a subnet in the specified virtual network.
  *
  * @summary creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: 2026-01-01/SubnetCreate.json
+ * x-ms-original-file: 2026-03-01/SubnetCreate.json
  */
 async function createSubnet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function createSubnet(): Promise<void> {
  * This sample demonstrates how to creates or updates a subnet in the specified virtual network.
  *
  * @summary creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: 2026-01-01/SubnetCreateServiceEndpoint.json
+ * x-ms-original-file: 2026-03-01/SubnetCreateServiceEndpoint.json
  */
 async function createSubnetWithServiceEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -41,7 +41,7 @@ async function createSubnetWithServiceEndpoints(): Promise<void> {
  * This sample demonstrates how to creates or updates a subnet in the specified virtual network.
  *
  * @summary creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: 2026-01-01/SubnetCreateServiceEndpointNetworkIdentifier.json
+ * x-ms-original-file: 2026-03-01/SubnetCreateServiceEndpointNetworkIdentifier.json
  */
 async function createSubnetWithServiceEndpointsWithNetworkIdentifier(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,7 @@ async function createSubnetWithServiceEndpointsWithNetworkIdentifier(): Promise<
  * This sample demonstrates how to creates or updates a subnet in the specified virtual network.
  *
  * @summary creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: 2026-01-01/SubnetCreateWithDelegation.json
+ * x-ms-original-file: 2026-03-01/SubnetCreateWithDelegation.json
  */
 async function createSubnetWithADelegation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -81,7 +81,7 @@ async function createSubnetWithADelegation(): Promise<void> {
  * This sample demonstrates how to creates or updates a subnet in the specified virtual network.
  *
  * @summary creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: 2026-01-01/SubnetCreateWithServiceGateway.json
+ * x-ms-original-file: 2026-03-01/SubnetCreateWithServiceGateway.json
  */
 async function createSubnetWithServiceGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -100,7 +100,7 @@ async function createSubnetWithServiceGateway(): Promise<void> {
  * This sample demonstrates how to creates or updates a subnet in the specified virtual network.
  *
  * @summary creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: 2026-01-01/SubnetCreateWithSharingScope.json
+ * x-ms-original-file: 2026-03-01/SubnetCreateWithSharingScope.json
  */
 async function createSubnetWithSharingScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

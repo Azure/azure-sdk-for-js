@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function workItemConfigurationsCreate() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "subid";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const result = await client.workItemConfigurations.create("my-resource-group", "my-component", {
     connectorDataConfiguration:

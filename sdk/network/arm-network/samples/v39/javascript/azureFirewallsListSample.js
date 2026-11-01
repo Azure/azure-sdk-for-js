@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all Azure Firewalls in a resource group.
  *
  * @summary lists all Azure Firewalls in a resource group.
- * x-ms-original-file: 2026-01-01/AzureFirewallListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallListByResourceGroup.json
  */
 async function listAllAzureFirewallsForAGivenResourceGroup() {
   const credential = new DefaultAzureCredential();

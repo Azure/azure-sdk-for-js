@@ -23,7 +23,7 @@ import { getNpmPackageInfo } from "../../common/npmUtils.js";
 import { logger } from "../../utils/logger.js";
 import fsExtra from "fs-extra";
 import unixify from "unixify";
-import { codeOwnersAndIgnoreLinkGenerator } from "../../common/codeOwnersAndIgnoreLink/codeOwnersAndIgnoreLinkGenerator.js";
+import { ignoreLinkGenerator } from "../../common/ignoreLink/ignoreLinkGenerator.js";
 import { changeReadmeMd } from "../../hlc/utils/changeReadmeMd.js";
 
 const { exists } = fsExtra;
@@ -43,16 +43,13 @@ export async function generateAzureSDKPackage(
     const packageDirectory = await getGeneratedPackageDirectory(
       options.typeSpecDirectory,
       options.sdkRepoRoot,
+      options.emitterName,
     );
     const relativePackageDirToSdkRoot = posix.relative(
       posix.normalize(options.sdkRepoRoot),
       posix.normalize(packageDirectory),
     );
-    await codeOwnersAndIgnoreLinkGenerator(
-      relativePackageDirToSdkRoot,
-      options.typeSpecDirectory,
-      options.runMode,
-    );
+    await ignoreLinkGenerator(options.typeSpecDirectory, options.emitterName);
     const packageJsonPath = posix.join(packageDirectory, "package.json");
     let originalNpmPackageInfo: undefined | NpmPackageInfo;
     if (await exists(packageJsonPath))
@@ -60,7 +57,11 @@ export async function generateAzureSDKPackage(
 
     await cleanUpPackageDirectory(packageDirectory, options.runMode);
     if (options.apiVersion) {
-      specifyApiVersionToGenerateSDKByTypeSpec(options.typeSpecDirectory, options.apiVersion);
+      specifyApiVersionToGenerateSDKByTypeSpec(
+        options.typeSpecDirectory,
+        options.apiVersion,
+        options.emitterName,
+      );
     }
     await generateTypeScriptCodeFromTypeSpec(
       options,

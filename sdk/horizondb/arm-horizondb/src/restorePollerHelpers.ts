@@ -2,33 +2,70 @@
 // Licensed under the MIT License.
 
 import type { HorizonDbClient } from "./horizonDbClient.js";
+import { _updateDeserialize } from "./api/logCaptureConfigurations/operations.js";
+import {
+  _applyNowDeserialize,
+  _rescheduleDeserialize,
+} from "./api/maintenanceEvents/operations.js";
 import {
   _$deleteDeserialize,
-  _createOrUpdateDeserialize,
-} from "./api/horizonDbAdministrators/operations.js";
+  _updateDeserialize as _updateDeserializeChangeDataCaptureConfigurations,
+  _createOrReplaceDeserialize,
+} from "./api/changeDataCaptureConfigurations/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializeHorizonDbParameterGroups,
-  _updateDeserialize,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeHorizonDbParameterGroups,
-} from "./api/horizonDbParameterGroups/operations.js";
-import { _$deleteDeserialize as _$deleteDeserializeHorizonDbPrivateEndpointConnections } from "./api/horizonDbPrivateEndpointConnections/operations.js";
+  _$deleteDeserialize as _$deleteDeserializeIdentityAssignments,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializeIdentityAssignments,
+} from "./api/identityAssignments/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializeHorizonDbFirewallRules,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeHorizonDbFirewallRules,
-} from "./api/horizonDbFirewallRules/operations.js";
+  _activateIdentityDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeChangeDataCaptureDestinations,
+  _updateDeserialize as _updateDeserializeChangeDataCaptureDestinations,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializeChangeDataCaptureDestinations,
+} from "./api/changeDataCaptureDestinations/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializeHorizonDbReplicas,
-  _updateDeserialize as _updateDeserializeHorizonDbReplicas,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeHorizonDbReplicas,
-} from "./api/horizonDbReplicas/operations.js";
+  _$deleteDeserialize as _$deleteDeserializeChangeDataCaptureCapabilities,
+  _updateDeserialize as _updateDeserializeChangeDataCaptureCapabilities,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializeChangeDataCaptureCapabilities,
+} from "./api/changeDataCaptureCapabilities/operations.js";
+import {
+  _updateDeserialize as _updateDeserializeMicrosoftEntraAuthentications,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializeMicrosoftEntraAuthentications,
+} from "./api/microsoftEntraAuthentications/operations.js";
+import {
+  _updateDeserialize as _updateDeserializePasswordAuthentications,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializePasswordAuthentications,
+} from "./api/passwordAuthentications/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeMicrosoftEntraAdministrators,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializeMicrosoftEntraAdministrators,
+} from "./api/microsoftEntraAdministrators/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeParameterGroups,
+  _updateDeserialize as _updateDeserializeParameterGroups,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializeParameterGroups,
+} from "./api/parameterGroups/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializePrivateEndpointConnections,
+  _approveOrRejectDeserialize,
+} from "./api/privateEndpointConnections/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeFirewallRules,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializeFirewallRules,
+} from "./api/firewallRules/operations.js";
 import {
   _restartDeserialize,
   _stopDeserialize,
   _startDeserialize,
-  _$deleteDeserialize as _$deleteDeserializeHorizonDbClusters,
-  _updateDeserialize as _updateDeserializeHorizonDbClusters,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeHorizonDbClusters,
-} from "./api/horizonDbClusters/operations.js";
+  _$deleteDeserialize as _$deleteDeserializePools,
+  _updateDeserialize as _updateDeserializePools,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializePools,
+} from "./api/pools/operations.js";
+import {
+  _failoverDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeClusters,
+  _updateDeserialize as _updateDeserializeClusters,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializeClusters,
+} from "./api/clusters/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
@@ -99,61 +136,136 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/administrators/{objectId}":
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/logCaptureConfigurations/{logCaptureConfigurationName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}/maintenanceEvents/{maintenanceEventId}/applyNow":
+    { deserializer: _applyNowDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}/maintenanceEvents/{maintenanceEventId}/reschedule":
+    { deserializer: _rescheduleDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/changeDataCaptureConfigurations/{configurationName}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/administrators/{objectId}":
-    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/parameterGroups/{parameterGroupName}":
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/changeDataCaptureConfigurations/{configurationName}":
     {
-      deserializer: _$deleteDeserializeHorizonDbParameterGroups,
+      deserializer: _updateDeserializeChangeDataCaptureConfigurations,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/changeDataCaptureConfigurations/{configurationName}":
+    { deserializer: _createOrReplaceDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/changeDataCaptureDestinations/{destinationName}/identityAssignments/{assignmentName}":
+    {
+      deserializer: _$deleteDeserializeIdentityAssignments,
       expectedStatuses: ["202", "204", "200"],
     },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/changeDataCaptureDestinations/{destinationName}/identityAssignments/{assignmentName}":
+    {
+      deserializer: _createOrReplaceDeserializeIdentityAssignments,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/changeDataCaptureDestinations/{destinationName}/activateIdentity":
+    { deserializer: _activateIdentityDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/changeDataCaptureDestinations/{destinationName}":
+    {
+      deserializer: _$deleteDeserializeChangeDataCaptureDestinations,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/changeDataCaptureDestinations/{destinationName}":
+    {
+      deserializer: _updateDeserializeChangeDataCaptureDestinations,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/changeDataCaptureDestinations/{destinationName}":
+    {
+      deserializer: _createOrReplaceDeserializeChangeDataCaptureDestinations,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/changeDataCapture/default":
+    {
+      deserializer: _$deleteDeserializeChangeDataCaptureCapabilities,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/changeDataCapture/default":
+    {
+      deserializer: _updateDeserializeChangeDataCaptureCapabilities,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/changeDataCapture/default":
+    {
+      deserializer: _createOrReplaceDeserializeChangeDataCaptureCapabilities,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/authentications/microsoftEntra":
+    {
+      deserializer: _updateDeserializeMicrosoftEntraAuthentications,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/authentications/microsoftEntra":
+    {
+      deserializer: _createOrReplaceDeserializeMicrosoftEntraAuthentications,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/authentications/passwordMethod":
+    {
+      deserializer: _updateDeserializePasswordAuthentications,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/authentications/passwordMethod":
+    {
+      deserializer: _createOrReplaceDeserializePasswordAuthentications,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/microsoftEntraAdministrators/{objectId}":
+    {
+      deserializer: _$deleteDeserializeMicrosoftEntraAdministrators,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/microsoftEntraAdministrators/{objectId}":
+    {
+      deserializer: _createOrReplaceDeserializeMicrosoftEntraAdministrators,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/parameterGroups/{parameterGroupName}":
+    { deserializer: _$deleteDeserializeParameterGroups, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/parameterGroups/{parameterGroupName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+    { deserializer: _updateDeserializeParameterGroups, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/parameterGroups/{parameterGroupName}":
     {
-      deserializer: _createOrUpdateDeserializeHorizonDbParameterGroups,
+      deserializer: _createOrReplaceDeserializeParameterGroups,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
-      deserializer: _$deleteDeserializeHorizonDbPrivateEndpointConnections,
+      deserializer: _$deleteDeserializePrivateEndpointConnections,
       expectedStatuses: ["202", "204", "200"],
     },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
+    { deserializer: _approveOrRejectDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}/firewallRules/{firewallRuleName}":
-    {
-      deserializer: _$deleteDeserializeHorizonDbFirewallRules,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeFirewallRules, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}/firewallRules/{firewallRuleName}":
     {
-      deserializer: _createOrUpdateDeserializeHorizonDbFirewallRules,
+      deserializer: _createOrReplaceDeserializeFirewallRules,
       expectedStatuses: ["200", "201", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}/replicas/{replicaName}":
-    { deserializer: _$deleteDeserializeHorizonDbReplicas, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}/replicas/{replicaName}":
-    { deserializer: _updateDeserializeHorizonDbReplicas, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}/replicas/{replicaName}":
-    {
-      deserializer: _createOrUpdateDeserializeHorizonDbReplicas,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/restart":
-    { deserializer: _restartDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/stop":
-    { deserializer: _stopDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/start":
-    { deserializer: _startDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}/restart":
+    { deserializer: _restartDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}/stop":
+    { deserializer: _stopDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}/start":
+    { deserializer: _startDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}":
+    { deserializer: _$deleteDeserializePools, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}":
+    { deserializer: _updateDeserializePools, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/pools/{poolName}":
+    { deserializer: _createOrReplaceDeserializePools, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/failover":
+    { deserializer: _failoverDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}":
-    { deserializer: _$deleteDeserializeHorizonDbClusters, expectedStatuses: ["202", "204", "200"] },
+    { deserializer: _$deleteDeserializeClusters, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}":
-    { deserializer: _updateDeserializeHorizonDbClusters, expectedStatuses: ["200", "202", "201"] },
+    { deserializer: _updateDeserializeClusters, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}":
-    {
-      deserializer: _createOrUpdateDeserializeHorizonDbClusters,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createOrReplaceDeserializeClusters, expectedStatuses: ["200", "201", "202"] },
 };
 
 function getDeserializationHelper(

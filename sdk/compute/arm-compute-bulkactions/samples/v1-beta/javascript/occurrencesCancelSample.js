@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary cancels the specified occurrence for the specified resource IDs.
  * x-ms-original-file: 2026-10-06-preview/Occurrences_Cancel_BasicSuccess.json
  */
-async function _01CancelOperationsInARecurringScheduledActionOccurrence() {
+async function _01CancelOperationsInARecurringBulkActionOccurrence() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -34,7 +34,7 @@ async function _01CancelOperationsInARecurringScheduledActionOccurrence() {
  * @summary cancels the specified occurrence for the specified resource IDs.
  * x-ms-original-file: 2026-10-06-preview/Occurrences_Cancel_EntireOccurrenceSuccess.json
  */
-async function _02CancelAllOperationsInARecurringScheduledActionOccurrence() {
+async function _02CancelAllOperationsInARecurringBulkActionOccurrence() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -53,7 +53,7 @@ async function _02CancelAllOperationsInARecurringScheduledActionOccurrence() {
  * @summary cancels the specified occurrence for the specified resource IDs.
  * x-ms-original-file: 2026-10-06-preview/Occurrences_Cancel_PartialSuccess.json
  */
-async function _03ResponseWithPartialResultsWhenCancelingResourcesInARecurringScheduledActionOccurrence() {
+async function _03ResponseWithPartialResultsWhenCancelingResourcesInARecurringBulkActionOccurrence() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -72,9 +72,9 @@ async function _03ResponseWithPartialResultsWhenCancelingResourcesInARecurringSc
 }
 
 async function main() {
-  await _01CancelOperationsInARecurringScheduledActionOccurrence();
-  await _02CancelAllOperationsInARecurringScheduledActionOccurrence();
-  await _03ResponseWithPartialResultsWhenCancelingResourcesInARecurringScheduledActionOccurrence();
+  await _01CancelOperationsInARecurringBulkActionOccurrence();
+  await _02CancelAllOperationsInARecurringBulkActionOccurrence();
+  await _03ResponseWithPartialResultsWhenCancelingResourcesInARecurringBulkActionOccurrence();
 }
 
 main().catch(console.error);

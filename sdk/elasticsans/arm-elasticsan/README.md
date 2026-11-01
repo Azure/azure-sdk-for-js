@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/elasticsans/arm-elasticsan)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-elasticsan)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-elasticsan)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-elasticsan?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/elasticsans/arm-elasticsan/samples)
 
 ## Getting started

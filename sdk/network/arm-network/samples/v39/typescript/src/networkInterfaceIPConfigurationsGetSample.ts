@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified network interface ip configuration.
  *
  * @summary gets the specified network interface ip configuration.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceIPConfigurationGet.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceIPConfigurationGet.json
  */
 async function networkInterfaceIPConfigurationGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -5,12 +5,12 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to runs the specified scheduled action immediately.
+ * This sample demonstrates how to runs the specified recurring bulk action immediately.
  *
- * @summary runs the specified scheduled action immediately.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_TriggerManualOccurrence_BasicSuccess.json
+ * @summary runs the specified recurring bulk action immediately.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_TriggerManualOccurrence_BasicSuccess.json
  */
-async function runARecurringScheduledActionImmediately() {
+async function runARecurringBulkActionImmediately() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function runARecurringScheduledActionImmediately() {
 }
 
 async function main() {
-  await runARecurringScheduledActionImmediately();
+  await runARecurringBulkActionImmediately();
 }
 
 main().catch(console.error);

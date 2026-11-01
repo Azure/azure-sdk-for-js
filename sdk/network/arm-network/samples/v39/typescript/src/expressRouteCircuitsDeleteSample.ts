@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified express route circuit.
  *
  * @summary deletes the specified express route circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitDelete.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitDelete.json
  */
 async function deleteExpressRouteCircuit(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function deleteExpressRouteCircuit(): Promise<void> {
  * This sample demonstrates how to deletes the specified express route circuit.
  *
  * @summary deletes the specified express route circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteMultiCloudCircuitDelete.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteMultiCloudCircuitDelete.json
  */
 async function deleteMultiCloudExpressRouteCircuit(): Promise<void> {
   const credential = new DefaultAzureCredential();

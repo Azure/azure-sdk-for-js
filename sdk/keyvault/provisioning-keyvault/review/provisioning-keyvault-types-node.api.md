@@ -34,6 +34,9 @@ export const accessPolicyEntryShape: FlatModelShape;
 export type AccessPolicyEntryView = AccessPolicyEntryInput;
 
 // @public (undocumented)
+export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
+
+// @public (undocumented)
 export interface Action {
     type?: KeyRotationPolicyActionType;
 }
@@ -117,6 +120,9 @@ export interface DeletedVaultPropertiesView extends InputOf<DeletedVaultProperti
 
 // @public
 export type DeletionRecoveryLevel = string;
+
+// @public
+export type GeoReplicationRegionProvisioningState = string;
 
 // @public
 export interface IpRule {
@@ -442,6 +448,7 @@ export interface ManagedHsmProperties {
     initialAdminObjectIds?: string[];
     networkAcls?: MhsmNetworkRuleSet;
     privateEndpointConnections?: MhsmPrivateEndpointConnectionItem[];
+    provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     regions?: MhsmGeoReplicatedRegion[];
     scheduledPurgeDate?: Date;
@@ -476,6 +483,7 @@ export interface ManagedHsmPropertiesView extends InputOf<ManagedHsmProperties> 
     initialAdminObjectIds?: InputArray<ExpressionOrValue<string>, string[]> | undefined;
     networkAcls?: MhsmNetworkRuleSetView | undefined;
     readonly privateEndpointConnections?: Expression<MhsmPrivateEndpointConnectionItem[]> | undefined;
+    readonly provisioningState?: Expression<ProvisioningState> | undefined;
     publicNetworkAccess?: ExpressionOrValue<PublicNetworkAccess> | undefined;
     regions?: InputArray<MhsmGeoReplicatedRegionView, MhsmGeoReplicatedRegion[]> | undefined;
     readonly scheduledPurgeDate?: Expression<Date> | undefined;
@@ -599,6 +607,7 @@ export interface ManagedServiceIdentityView extends InputOf<ManagedServiceIdenti
 export interface MhsmGeoReplicatedRegion {
     isPrimary?: boolean;
     name?: string;
+    provisioningState?: GeoReplicationRegionProvisioningState;
 }
 
 // @public
@@ -611,7 +620,11 @@ export interface MhsmGeoReplicatedRegionInput extends InputOf<MhsmGeoReplicatedR
 export const mhsmGeoReplicatedRegionShape: FlatModelShape;
 
 // @public
-export type MhsmGeoReplicatedRegionView = MhsmGeoReplicatedRegionInput;
+export interface MhsmGeoReplicatedRegionView extends InputOf<MhsmGeoReplicatedRegion> {
+    isPrimary?: ExpressionOrValue<boolean> | undefined;
+    name?: ExpressionOrValue<string> | undefined;
+    readonly provisioningState?: Expression<GeoReplicationRegionProvisioningState> | undefined;
+}
 
 // @public
 export interface MhsmipRule {
@@ -655,10 +668,13 @@ export type MhsmNetworkRuleSetView = MhsmNetworkRuleSetInput;
 
 // @public
 export interface MhsmPrivateEndpoint {
+    id?: string;
 }
 
 // @public
 export interface MhsmPrivateEndpointConnectionItem {
+    etag?: string;
+    id?: string;
     properties?: MhsmPrivateEndpointConnectionProperties;
 }
 
@@ -671,6 +687,8 @@ export const mhsmPrivateEndpointConnectionItemShape: FlatModelShape;
 
 // @public
 export interface MhsmPrivateEndpointConnectionItemView extends InputOf<MhsmPrivateEndpointConnectionItem> {
+    readonly etag?: Expression<string> | undefined;
+    readonly id?: Expression<string> | undefined;
     readonly properties?: Expression<MhsmPrivateEndpointConnectionProperties> | undefined;
 }
 
@@ -678,6 +696,7 @@ export interface MhsmPrivateEndpointConnectionItemView extends InputOf<MhsmPriva
 export interface MhsmPrivateEndpointConnectionProperties {
     privateEndpoint?: MhsmPrivateEndpoint;
     privateLinkServiceConnectionState?: MhsmPrivateLinkServiceConnectionState;
+    provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
@@ -690,7 +709,11 @@ export interface MhsmPrivateEndpointConnectionPropertiesInput extends InputOf<Mh
 export const mhsmPrivateEndpointConnectionPropertiesShape: FlatModelShape;
 
 // @public
-export type MhsmPrivateEndpointConnectionPropertiesView = MhsmPrivateEndpointConnectionPropertiesInput;
+export interface MhsmPrivateEndpointConnectionPropertiesView extends InputOf<MhsmPrivateEndpointConnectionProperties> {
+    privateEndpoint?: MhsmPrivateEndpointView | undefined;
+    privateLinkServiceConnectionState?: MhsmPrivateLinkServiceConnectionStateView | undefined;
+    readonly provisioningState?: Expression<PrivateEndpointConnectionProvisioningState> | undefined;
+}
 
 // @public
 export interface MhsmPrivateEndpointInput extends InputOf<MhsmPrivateEndpoint> {
@@ -700,7 +723,9 @@ export interface MhsmPrivateEndpointInput extends InputOf<MhsmPrivateEndpoint> {
 export const mhsmPrivateEndpointShape: FlatModelShape;
 
 // @public
-export type MhsmPrivateEndpointView = MhsmPrivateEndpointInput;
+export interface MhsmPrivateEndpointView extends InputOf<MhsmPrivateEndpoint> {
+    readonly id?: Expression<string> | undefined;
+}
 
 // @public
 export interface MhsmPrivateLinkServiceConnectionState {
@@ -806,10 +831,13 @@ export type PermissionsView = PermissionsInput;
 
 // @public
 export interface PrivateEndpoint {
+    id?: string;
 }
 
 // @public
 export interface PrivateEndpointConnectionItem {
+    etag?: string;
+    id?: string;
     properties?: PrivateEndpointConnectionProperties;
 }
 
@@ -822,6 +850,8 @@ export const privateEndpointConnectionItemShape: FlatModelShape;
 
 // @public
 export interface PrivateEndpointConnectionItemView extends InputOf<PrivateEndpointConnectionItem> {
+    readonly etag?: Expression<string> | undefined;
+    readonly id?: Expression<string> | undefined;
     readonly properties?: Expression<PrivateEndpointConnectionProperties> | undefined;
 }
 
@@ -829,6 +859,7 @@ export interface PrivateEndpointConnectionItemView extends InputOf<PrivateEndpoi
 export interface PrivateEndpointConnectionProperties {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
@@ -841,7 +872,14 @@ export interface PrivateEndpointConnectionPropertiesInput extends InputOf<Privat
 export const privateEndpointConnectionPropertiesShape: FlatModelShape;
 
 // @public
-export type PrivateEndpointConnectionPropertiesView = PrivateEndpointConnectionPropertiesInput;
+export interface PrivateEndpointConnectionPropertiesView extends InputOf<PrivateEndpointConnectionProperties> {
+    privateEndpoint?: PrivateEndpointView | undefined;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateView | undefined;
+    readonly provisioningState?: Expression<PrivateEndpointConnectionProvisioningState> | undefined;
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointInput extends InputOf<PrivateEndpoint> {
@@ -854,7 +892,9 @@ export type PrivateEndpointServiceConnectionStatus = string;
 export const privateEndpointShape: FlatModelShape;
 
 // @public
-export type PrivateEndpointView = PrivateEndpointInput;
+export interface PrivateEndpointView extends InputOf<PrivateEndpoint> {
+    readonly id?: Expression<string> | undefined;
+}
 
 // @public
 export interface PrivateLinkServiceConnectionState {
@@ -875,6 +915,9 @@ export const privateLinkServiceConnectionStateShape: FlatModelShape;
 
 // @public
 export type PrivateLinkServiceConnectionStateView = PrivateLinkServiceConnectionStateInput;
+
+// @public
+export type ProvisioningState = string;
 
 // @public
 export type PublicNetworkAccess = string;
@@ -1052,6 +1095,7 @@ export interface VaultProperties {
     hsmPoolResourceId?: string;
     networkAcls?: NetworkRuleSet;
     privateEndpointConnections?: PrivateEndpointConnectionItem[];
+    provisioningState?: VaultProvisioningState;
     publicNetworkAccess?: string;
     sku: Sku;
     softDeleteRetentionInDays?: number;
@@ -1070,6 +1114,7 @@ export interface VaultPropertiesInput extends InputOf<VaultProperties> {
     enableRbacAuthorization?: ExpressionOrValue<boolean> | undefined;
     enableSoftDelete?: ExpressionOrValue<boolean> | undefined;
     networkAcls?: NetworkRuleSetInput | undefined;
+    provisioningState?: ExpressionOrValue<VaultProvisioningState> | undefined;
     publicNetworkAccess?: ExpressionOrValue<string> | undefined;
     sku: SkuInput;
     softDeleteRetentionInDays?: ExpressionOrValue<number> | undefined;
@@ -1093,12 +1138,16 @@ export interface VaultPropertiesView extends InputOf<VaultProperties> {
     readonly hsmPoolResourceId?: Expression<string> | undefined;
     networkAcls?: NetworkRuleSetView | undefined;
     readonly privateEndpointConnections?: Expression<PrivateEndpointConnectionItem[]> | undefined;
+    provisioningState?: ExpressionOrValue<VaultProvisioningState> | undefined;
     publicNetworkAccess?: ExpressionOrValue<string> | undefined;
     sku: SkuView;
     softDeleteRetentionInDays?: ExpressionOrValue<number> | undefined;
     tenantId: ExpressionOrValue<string>;
     vaultUri?: ExpressionOrValue<string> | undefined;
 }
+
+// @public
+export type VaultProvisioningState = string;
 
 // @public
 export interface VirtualNetworkRule {

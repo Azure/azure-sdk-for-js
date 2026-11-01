@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all network manager connections created by this subscription.
  *
  * @summary list all network manager connections created by this subscription.
- * x-ms-original-file: 2026-01-01/NetworkManagerConnectionSubscriptionList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerConnectionSubscriptionList.json
  */
 async function listSubscriptionNetworkManagerConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

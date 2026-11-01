@@ -26,6 +26,11 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketTransport,
 } from "./webSocketTransportLike.js";
+import type { ResolvedTracingConfig } from "../tracing/configuration.js";
+import { VoiceAgentRealtimeTracing } from "../tracing/voiceAgentTracing.js";
+
+// Project-owned configuration stays private; the standalone constructor/options are unchanged.
+const projectTracingConfigs = new WeakMap<VoiceAgentRealtimeClient, ResolvedTracingConfig>();
 
 const defaultCredentialScope = "https://ai.azure.com/.default";
 const voiceAgentsPreview = "VoiceAgents=V1Preview";
@@ -267,21 +272,43 @@ export class VoiceAgentRealtimeClient {
     const serializedStructuredInputs = options.structuredInputs
       ? JSON.stringify(options.structuredInputs)
       : undefined;
-    const factory =
-      this.options.webSocketFactory ??
-      (await import("#platform/webSocketTransport")).createDefaultVoiceAgentWebSocketFactory();
-    const connection = new VoiceAgentConnectionImpl(
-      url,
-      agentName,
-      this.credential,
-      this.options,
-      options,
-      serializedStructuredInputs,
-      factory,
-    );
-    await connection.open();
-    return connection;
+    const tracingConfig = projectTracingConfigs.get(this);
+    const tracing = tracingConfig?.enabled
+      ? new VoiceAgentRealtimeTracing(this.endpoint, tracingConfig, options.transport)
+      : undefined;
+    try {
+      const factory =
+        this.options.webSocketFactory ??
+        (await import("#platform/webSocketTransport")).createDefaultVoiceAgentWebSocketFactory();
+      const connection = new VoiceAgentConnectionImpl(
+        url,
+        agentName,
+        this.credential,
+        this.options,
+        options,
+        serializedStructuredInputs,
+        factory,
+        tracing,
+      );
+      await connection.open();
+      return connection;
+    } catch (error) {
+      tracing?.close(undefined, false, error);
+      throw error;
+    }
   }
+}
+
+/** Creates the project's realtime client using its already-resolved tracing settings. @internal */
+export function createVoiceAgentRealtimeClient(
+  endpoint: string,
+  credential: TokenCredential,
+  options: VoiceAgentRealtimeClientOptions | undefined,
+  tracingConfig: ResolvedTracingConfig | undefined,
+): VoiceAgentRealtimeClient {
+  const client = new VoiceAgentRealtimeClient(endpoint, credential, options);
+  if (tracingConfig) projectTracingConfigs.set(client, tracingConfig);
+  return client;
 }
 
 class VoiceAgentConnectionImpl implements VoiceAgentConnection {
@@ -304,6 +331,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     private readonly connectOptions: VoiceAgentRealtimeClientConnectOptions,
     private readonly serializedStructuredInputs: string | undefined,
     factory: VoiceAgentWebSocketFactory,
+    private readonly tracing?: VoiceAgentRealtimeTracing,
   ) {
     this.events = new AsyncQueue<VoiceAgentRealtimeEvent>(10_000, {
       onOverflow: (error) => this.handleEventQueueOverflow(error),
@@ -368,6 +396,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
           this.connectOptions.connectionTimeoutInMs ?? this.clientOptions.connectionTimeoutInMs,
         abortSignal: this.connectOptions.abortSignal,
       });
+      this.tracing?.opened();
       this.setState(KnownVoiceAgentConnectionState.Connected);
       logger.info("Connected to voice agent", { agentName: this.agentName });
     } catch (error) {
@@ -398,9 +427,14 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       throw new VoiceAgentConnectionError("Send operation was cancelled.", "operationCancelled");
     }
 
+    let reservation: ReturnType<VoiceAgentRealtimeTracing["reserveSend"]> = undefined;
     try {
-      await this.transport.send(serializeVoiceAgentClientEvent(event), options.abortSignal);
+      const serialized = serializeVoiceAgentClientEvent(event);
+      reservation = this.tracing?.reserveSend(event);
+      await this.transport.send(serialized, options.abortSignal);
+      this.tracing?.sent(event, reservation);
     } catch (error) {
+      this.tracing?.sendFailed(error, reservation);
       if (error instanceof VoiceAgentProtocolError) {
         throw error;
       }
@@ -552,7 +586,9 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
 
   private handleMessage(data: string | ArrayBuffer): void {
     try {
-      this.events.enqueue(deserializeVoiceAgentServerEvent(data));
+      const event = deserializeVoiceAgentServerEvent(data);
+      this.tracing?.received(event);
+      this.events.enqueue(event);
     } catch (error) {
       const protocolError =
         error instanceof VoiceAgentProtocolError
@@ -608,6 +644,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       return;
     }
     this.finished = true;
+    this.tracing?.close(code, wasClean, error);
     if (error) {
       this.events.fail(error);
     } else {

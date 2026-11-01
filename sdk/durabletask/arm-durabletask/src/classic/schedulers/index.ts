@@ -3,6 +3,7 @@
 
 import type { DurableTaskContext } from "../../api/durableTaskContext.js";
 import {
+  restart,
   listPrivateEndpointConnections,
   deletePrivateEndpointConnection,
   updatePrivateEndpointConnection,
@@ -18,6 +19,7 @@ import {
   get,
 } from "../../api/schedulers/operations.js";
 import type {
+  SchedulersRestartOptionalParams,
   SchedulersListPrivateEndpointConnectionsOptionalParams,
   SchedulersDeletePrivateEndpointConnectionOptionalParams,
   SchedulersUpdatePrivateEndpointConnectionOptionalParams,
@@ -44,6 +46,12 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Schedulers operations. */
 export interface SchedulersOperations {
+  /** Restart a Scheduler */
+  restart: (
+    resourceGroupName: string,
+    schedulerName: string,
+    options?: SchedulersRestartOptionalParams,
+  ) => Promise<void>;
   /** List private endpoint connections for the durable task scheduler */
   listPrivateEndpointConnections: (
     resourceGroupName: string,
@@ -103,11 +111,6 @@ export interface SchedulersOperations {
     options?: SchedulersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Scheduler>;
   /** Delete a Scheduler */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     schedulerName: string,
@@ -137,6 +140,11 @@ export interface SchedulersOperations {
 
 function _getSchedulers(context: DurableTaskContext) {
   return {
+    restart: (
+      resourceGroupName: string,
+      schedulerName: string,
+      options?: SchedulersRestartOptionalParams,
+    ) => restart(context, resourceGroupName, schedulerName, options),
     listPrivateEndpointConnections: (
       resourceGroupName: string,
       schedulerName: string,

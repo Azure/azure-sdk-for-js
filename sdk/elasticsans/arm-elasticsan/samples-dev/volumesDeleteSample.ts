@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete an Volume.
  *
  * @summary delete an Volume.
- * x-ms-original-file: 2025-09-01/Volumes_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Volumes_Delete_MaximumSet_Gen.json
  */
 async function volumesDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,7 @@ async function volumesDeleteMaximumSetGen(): Promise<void> {
     "elasticsanname",
     "volumegroupname",
     "volumename",
-    { xMsDeleteSnapshots: "true", xMsForceDelete: "true" },
+    { xMsDeleteSnapshots: "true", xMsForceDelete: "true", deleteType: "permanent" },
   );
 }
 
@@ -27,7 +27,7 @@ async function volumesDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to delete an Volume.
  *
  * @summary delete an Volume.
- * x-ms-original-file: 2025-09-01/Volumes_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Volumes_Delete_MinimumSet_Gen.json
  */
 async function volumesDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,6 +38,7 @@ async function volumesDeleteMinimumSetGen(): Promise<void> {
     "elasticsanname",
     "volumegroupname",
     "volumename",
+    { deleteType: "permanent" },
   );
 }
 

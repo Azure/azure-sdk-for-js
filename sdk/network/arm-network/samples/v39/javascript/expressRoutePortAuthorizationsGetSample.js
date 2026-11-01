@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified authorization from the specified express route port.
  *
  * @summary gets the specified authorization from the specified express route port.
- * x-ms-original-file: 2026-01-01/ExpressRoutePortAuthorizationGet.json
+ * x-ms-original-file: 2026-03-01/ExpressRoutePortAuthorizationGet.json
  */
 async function getExpressRoutePortAuthorization() {
   const credential = new DefaultAzureCredential();

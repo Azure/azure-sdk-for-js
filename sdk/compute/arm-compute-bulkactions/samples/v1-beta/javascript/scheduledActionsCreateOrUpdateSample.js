@@ -5,12 +5,12 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to creates or updates a scheduled action.
+ * This sample demonstrates how to creates or updates a recurring bulk action.
  *
- * @summary creates or updates a scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_CreateOrUpdate_BasicSuccess.json
+ * @summary creates or updates a recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_CreateOrUpdate_BasicSuccess.json
  */
-async function _01CreateANewRecurringScheduledAction() {
+async function _01CreateANewRecurringBulkAction() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -32,12 +32,12 @@ async function _01CreateANewRecurringScheduledAction() {
 }
 
 /**
- * This sample demonstrates how to creates or updates a scheduled action.
+ * This sample demonstrates how to creates or updates a recurring bulk action.
  *
- * @summary creates or updates a scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_CreateOrUpdate_ComprehensiveSuccess.json
+ * @summary creates or updates a recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_CreateOrUpdate_ComprehensiveSuccess.json
  */
-async function _02CreateARecurringScheduledActionWithComprehensiveSettings() {
+async function _02CreateARecurringBulkActionWithComprehensiveSettings() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -70,8 +70,8 @@ async function _02CreateARecurringScheduledActionWithComprehensiveSettings() {
 }
 
 async function main() {
-  await _01CreateANewRecurringScheduledAction();
-  await _02CreateARecurringScheduledActionWithComprehensiveSettings();
+  await _01CreateANewRecurringBulkAction();
+  await _02CreateARecurringBulkActionWithComprehensiveSettings();
 }
 
 main().catch(console.error);

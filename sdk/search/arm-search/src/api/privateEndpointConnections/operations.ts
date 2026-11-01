@@ -36,7 +36,7 @@ export function _listByServiceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -69,6 +69,7 @@ export async function _listByServiceDeserialize(
 
   return _privateEndpointConnectionListResultDeserializer(result.body);
 }
+
 /** Gets a list of all private endpoint connections in the given service. */
 export function listByService(
   context: Client,
@@ -81,11 +82,7 @@ export function listByService(
     () => _listByServiceSend(context, resourceGroupName, searchServiceName, options),
     _listByServiceDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -103,7 +100,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,6 +137,7 @@ export async function _$deleteDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
+
 /**
  * Disconnects the private endpoint connection and deletes it from the search service.
  * Returns 200 (OK) with the deleted connection details on successful deletion, or 404 (Not Found) if the connection does not exist.
@@ -177,7 +175,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,6 +210,7 @@ export async function _updateDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
+
 /** Updates a private endpoint connection to the search service in the given resource group. */
 export async function update(
   context: Client,
@@ -246,7 +245,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -279,6 +278,7 @@ export async function _getDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
+
 /** Gets the details of the private endpoint connection to the search service in the given resource group. */
 export async function get(
   context: Client,

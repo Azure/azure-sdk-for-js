@@ -128,6 +128,10 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeServiceGateways,
 } from "./api/serviceGateways/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeVirtualNetworkApplianceCapabilities,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualNetworkApplianceCapabilities,
+} from "./api/virtualNetworkApplianceCapabilities/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeVirtualNetworkAppliances,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualNetworkAppliances,
 } from "./api/virtualNetworkAppliances/operations.js";
@@ -407,6 +411,10 @@ import {
   _$deleteDeserialize as _$deleteDeserializeFirewallPolicies,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeFirewallPolicies,
 } from "./api/firewallPolicies/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeExpressRouteLagAuthorizations,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeExpressRouteLagAuthorizations,
+} from "./api/expressRouteLagAuthorizations/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeExpressRouteLags,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeExpressRouteLags,
@@ -854,6 +862,16 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}":
     {
       deserializer: _createOrUpdateDeserializeServiceGateways,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkAppliances/{virtualNetworkApplianceName}/capabilities/{capabilityName}":
+    {
+      deserializer: _$deleteDeserializeVirtualNetworkApplianceCapabilities,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkAppliances/{virtualNetworkApplianceName}/capabilities/{capabilityName}":
+    {
+      deserializer: _createOrUpdateDeserializeVirtualNetworkApplianceCapabilities,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkAppliances/{virtualNetworkApplianceName}":
@@ -1541,6 +1559,16 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}":
     {
       deserializer: _createOrUpdateDeserializeFirewallPolicies,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}/authorizations/{authorizationName}":
+    {
+      deserializer: _$deleteDeserializeExpressRouteLagAuthorizations,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}/authorizations/{authorizationName}":
+    {
+      deserializer: _createOrUpdateDeserializeExpressRouteLagAuthorizations,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}":

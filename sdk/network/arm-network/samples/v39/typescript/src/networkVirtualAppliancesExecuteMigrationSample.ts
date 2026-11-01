@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to executes the migration of the specified Network Virtual Appliance. This step performs the migration workflow that was previously prepared.
  *
  * @summary executes the migration of the specified Network Virtual Appliance. This step performs the migration workflow that was previously prepared.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceExecuteMigration.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceExecuteMigration.json
  */
 async function executeMigrationOfANetworkVirtualApplianceToTheNewILBArchitecture(): Promise<void> {
   const credential = new DefaultAzureCredential();

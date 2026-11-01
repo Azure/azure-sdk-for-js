@@ -1,5 +1,448 @@
 # Release History
 
+## 1.0.0-beta.3 (2026-10-15)
+Compared with version 1.0.0-beta.1
+
+### Features Added
+  - Added operation group AuthenticationsOperations
+  - Added operation group CapabilitiesOperations
+  - Added operation group ChangeDataCaptureCapabilitiesOperations
+  - Added operation group ChangeDataCaptureConfigurationsOperations
+  - Added operation group ChangeDataCaptureDestinationsOperations
+  - Added operation group ClustersOperations
+  - Added operation group DefaultParameterGroupsOperations
+  - Added operation group EndpointsOperations
+  - Added operation group FirewallRulesOperations
+  - Added operation group IdentityAssignmentsOperations
+  - Added operation group LogCaptureConfigurationsOperations
+  - Added operation group LogFilesOperations
+  - Added operation group MaintenanceEventsOperations
+  - Added operation group MicrosoftEntraAdministratorsOperations
+  - Added operation group MicrosoftEntraAuthenticationsOperations
+  - Added operation group NodesOperations
+  - Added operation group ParameterGroupsOperations
+  - Added operation group PasswordAuthenticationsOperations
+  - Added operation group PoolsOperations
+  - Added operation group PrivateEndpointConnectionsOperations
+  - Added operation group PrivateLinkResourcesOperations
+  - Added Interface ActivateChangeDataCaptureIdentityRequest
+  - Added Interface ActivateChangeDataCaptureIdentityResult
+  - Added Interface Authentication
+  - Added Interface AuthenticationProperties
+  - Added Interface AuthenticationsListOptionalParams
+  - Added Interface BackupProperties
+  - Added Interface BackupPropertiesCreateOrUpdate
+  - Added Interface BackupPropertiesForPatchUpdate
+  - Added Interface BackupPropertiesForPatchUpdateUpdate
+  - Added Interface CapabilitiesGetOptionalParams
+  - Added Interface CapabilitiesListOptionalParams
+  - Added Interface Capability
+  - Added Interface CapabilityProperties
+  - Added Interface ChangeDataCaptureCapabilitiesCreateOrReplaceOptionalParams
+  - Added Interface ChangeDataCaptureCapabilitiesDeleteOptionalParams
+  - Added Interface ChangeDataCaptureCapabilitiesGetOptionalParams
+  - Added Interface ChangeDataCaptureCapabilitiesListOptionalParams
+  - Added Interface ChangeDataCaptureCapabilitiesUpdateOptionalParams
+  - Added Interface ChangeDataCaptureCapability
+  - Added Interface ChangeDataCaptureCapabilityCreateOrUpdate
+  - Added Interface ChangeDataCaptureCapabilityForPatchUpdate
+  - Added Interface ChangeDataCaptureCapabilityForPatchUpdateUpdate
+  - Added Interface ChangeDataCaptureCapabilityProperties
+  - Added Interface ChangeDataCaptureCapabilityPropertiesCreateOrUpdate
+  - Added Interface ChangeDataCaptureCapabilityPropertiesForPatchUpdate
+  - Added Interface ChangeDataCaptureCapabilityPropertiesForPatchUpdateUpdate
+  - Added Interface ChangeDataCaptureConfiguration
+  - Added Interface ChangeDataCaptureConfigurationCreateOrUpdate
+  - Added Interface ChangeDataCaptureConfigurationForPatchUpdate
+  - Added Interface ChangeDataCaptureConfigurationForPatchUpdateUpdate
+  - Added Interface ChangeDataCaptureConfigurationProperties
+  - Added Interface ChangeDataCaptureConfigurationPropertiesCreateOrUpdate
+  - Added Interface ChangeDataCaptureConfigurationPropertiesForPatchUpdate
+  - Added Interface ChangeDataCaptureConfigurationPropertiesForPatchUpdateUpdate
+  - Added Interface ChangeDataCaptureConfigurationsCreateOrReplaceOptionalParams
+  - Added Interface ChangeDataCaptureConfigurationsDeleteOptionalParams
+  - Added Interface ChangeDataCaptureConfigurationsGetOptionalParams
+  - Added Interface ChangeDataCaptureConfigurationsListOptionalParams
+  - Added Interface ChangeDataCaptureConfigurationsUpdateOptionalParams
+  - Added Interface ChangeDataCaptureDestination
+  - Added Interface ChangeDataCaptureDestinationCreateOrUpdate
+  - Added Interface ChangeDataCaptureDestinationDetails
+  - Added Interface ChangeDataCaptureDestinationForPatchUpdate
+  - Added Interface ChangeDataCaptureDestinationForPatchUpdateUpdate
+  - Added Interface ChangeDataCaptureDestinationProperties
+  - Added Interface ChangeDataCaptureDestinationPropertiesCreateOrUpdate
+  - Added Interface ChangeDataCaptureDestinationPropertiesForPatchUpdate
+  - Added Interface ChangeDataCaptureDestinationPropertiesForPatchUpdateUpdate
+  - Added Interface ChangeDataCaptureDestinationsActivateIdentityOptionalParams
+  - Added Interface ChangeDataCaptureDestinationsCreateOrReplaceOptionalParams
+  - Added Interface ChangeDataCaptureDestinationsDeleteOptionalParams
+  - Added Interface ChangeDataCaptureDestinationsGetOptionalParams
+  - Added Interface ChangeDataCaptureDestinationsListOptionalParams
+  - Added Interface ChangeDataCaptureDestinationsUpdateOptionalParams
+  - Added Interface ChangeDataCaptureExtensionStatus
+  - Added Interface ChangeDataCaptureIdentityAssignmentProperties
+  - Added Interface ChangeDataCaptureIdentityAssignmentPropertiesCreateOrUpdate
+  - Added Interface ChangeDataCapturePrerequisiteStatus
+  - Added Interface ChangeDataCaptureReplicationStatus
+  - Added Interface ChangeDataCaptureStatus
+  - Added Interface ChangeDataCaptureTopologyBindingStatus
+  - Added Interface Cluster
+  - Added Interface ClusterCapability
+  - Added Interface ClusterCreateOrUpdate
+  - Added Interface ClusterFeatureCapability
+  - Added Interface ClusterForPatchUpdate
+  - Added Interface ClusterForPatchUpdateUpdate
+  - Added Interface ClusterProperties
+  - Added Interface ClusterPropertiesCreateOrUpdate
+  - Added Interface ClusterPropertiesForPatchUpdate
+  - Added Interface ClusterPropertiesForPatchUpdateUpdate
+  - Added Interface ClustersCreateOrReplaceOptionalParams
+  - Added Interface ClustersDeleteOptionalParams
+  - Added Interface ClustersFailoverOptionalParams
+  - Added Interface ClustersGetOptionalParams
+  - Added Interface ClustersListByResourceGroupOptionalParams
+  - Added Interface ClustersListBySubscriptionOptionalParams
+  - Added Interface ClustersUpdateOptionalParams
+  - Added Interface ComputeGenerationCapability
+  - Added Interface ComputeModelCapability
+  - Added Interface ComputeProcessorCapability
+  - Added Interface ComputeSizeCapability
+  - Added Interface DefaultParameterGroup
+  - Added Interface DefaultParameterGroupProperties
+  - Added Interface DefaultParameterGroupsGetOptionalParams
+  - Added Interface DefaultParameterGroupsListBySubscriptionAndRegionOptionalParams
+  - Added Interface Endpoint
+  - Added Interface EndpointProperties
+  - Added Interface EndpointsGetOptionalParams
+  - Added Interface EndpointsListOptionalParams
+  - Added Interface FabricDestinationDetails
+  - Added Interface FirewallRule
+  - Added Interface FirewallRuleCreateOrUpdate
+  - Added Interface FirewallRuleProperties
+  - Added Interface FirewallRulePropertiesCreateOrUpdate
+  - Added Interface FirewallRulesCreateOrReplaceOptionalParams
+  - Added Interface FirewallRulesDeleteOptionalParams
+  - Added Interface FirewallRulesGetOptionalParams
+  - Added Interface FirewallRulesListOptionalParams
+  - Added Interface HorizonDbClusterDataEncryption
+  - Added Interface HorizonDbClusterDataEncryptionCreateOrUpdate
+  - Added Interface HorizonDbClusterDataEncryptionForPatchUpdate
+  - Added Interface HorizonDbClusterDataEncryptionForPatchUpdateUpdate
+  - Added Interface HorizonDbClusterManagedServiceIdentity
+  - Added Interface HorizonDbClusterManagedServiceIdentityCreateOrUpdate
+  - Added Interface HorizonDbClusterManagedServiceIdentityUpdate
+  - Added Interface IdentityAssignment
+  - Added Interface IdentityAssignmentCreateOrUpdate
+  - Added Interface IdentityAssignmentsCreateOrReplaceOptionalParams
+  - Added Interface IdentityAssignmentsDeleteOptionalParams
+  - Added Interface IdentityAssignmentsGetOptionalParams
+  - Added Interface IdentityAssignmentsListOptionalParams
+  - Added Interface IdentityValidationStatus
+  - Added Interface LogCaptureConfiguration
+  - Added Interface LogCaptureConfigurationForPatchUpdate
+  - Added Interface LogCaptureConfigurationForPatchUpdateUpdate
+  - Added Interface LogCaptureConfigurationProperties
+  - Added Interface LogCaptureConfigurationPropertiesForPatchUpdate
+  - Added Interface LogCaptureConfigurationPropertiesForPatchUpdateUpdate
+  - Added Interface LogCaptureConfigurationsGetOptionalParams
+  - Added Interface LogCaptureConfigurationsListOptionalParams
+  - Added Interface LogCaptureConfigurationsUpdateOptionalParams
+  - Added Interface LogFile
+  - Added Interface LogFileDownloadUrl
+  - Added Interface LogFileProperties
+  - Added Interface LogFilesGetOptionalParams
+  - Added Interface LogFilesListDownloadUrlsOptionalParams
+  - Added Interface LogFilesListOptionalParams
+  - Added Interface MaintenanceEvent
+  - Added Interface MaintenanceEventActionResponse
+  - Added Interface MaintenanceEventProperties
+  - Added Interface MaintenanceEventRescheduleRequest
+  - Added Interface MaintenanceEventsApplyNowOptionalParams
+  - Added Interface MaintenanceEventsGetOptionalParams
+  - Added Interface MaintenanceEventsListOptionalParams
+  - Added Interface MaintenanceEventsRescheduleOptionalParams
+  - Added Interface MicrosoftEntraAdministrator
+  - Added Interface MicrosoftEntraAdministratorAdd
+  - Added Interface MicrosoftEntraAdministratorProperties
+  - Added Interface MicrosoftEntraAdministratorPropertiesForAdd
+  - Added Interface MicrosoftEntraAdministratorsCreateOrReplaceOptionalParams
+  - Added Interface MicrosoftEntraAdministratorsDeleteOptionalParams
+  - Added Interface MicrosoftEntraAdministratorsGetOptionalParams
+  - Added Interface MicrosoftEntraAdministratorsListOptionalParams
+  - Added Interface MicrosoftEntraAuthentication
+  - Added Interface MicrosoftEntraAuthenticationCreateOrUpdate
+  - Added Interface MicrosoftEntraAuthenticationForPatchUpdate
+  - Added Interface MicrosoftEntraAuthenticationForPatchUpdateUpdate
+  - Added Interface MicrosoftEntraAuthenticationProperties
+  - Added Interface MicrosoftEntraAuthenticationPropertiesCreateOrUpdate
+  - Added Interface MicrosoftEntraAuthenticationPropertiesForPatchUpdate
+  - Added Interface MicrosoftEntraAuthenticationPropertiesForPatchUpdateUpdate
+  - Added Interface MicrosoftEntraAuthenticationsCreateOrReplaceOptionalParams
+  - Added Interface MicrosoftEntraAuthenticationsGetOptionalParams
+  - Added Interface MicrosoftEntraAuthenticationsUpdateOptionalParams
+  - Added Interface NetworkForPatchUpdate
+  - Added Interface NetworkForPatchUpdateUpdate
+  - Added Interface Node
+  - Added Interface NodeProperties
+  - Added Interface NodesGetOptionalParams
+  - Added Interface NodesListOptionalParams
+  - Added Interface ParameterGroup
+  - Added Interface ParameterGroupConnectionProperties
+  - Added Interface ParameterGroupCreateOrUpdate
+  - Added Interface ParameterGroupForPatchUpdate
+  - Added Interface ParameterGroupForPatchUpdateUpdate
+  - Added Interface ParameterGroupProperties
+  - Added Interface ParameterGroupPropertiesCreateOrUpdate
+  - Added Interface ParameterGroupPropertiesForPatchUpdate
+  - Added Interface ParameterGroupPropertiesForPatchUpdateUpdate
+  - Added Interface ParameterGroupsCreateOrReplaceOptionalParams
+  - Added Interface ParameterGroupsDeleteOptionalParams
+  - Added Interface ParameterGroupsGetOptionalParams
+  - Added Interface ParameterGroupsListByResourceGroupOptionalParams
+  - Added Interface ParameterGroupsListBySubscriptionOptionalParams
+  - Added Interface ParameterGroupsListConnectionsOptionalParams
+  - Added Interface ParameterGroupsUpdateOptionalParams
+  - Added Interface ParameterPropertiesCreateOrUpdate
+  - Added Interface ParameterPropertiesUpdate
+  - Added Interface PasswordAuthentication
+  - Added Interface PasswordAuthenticationCreateOrUpdate
+  - Added Interface PasswordAuthenticationForPatchUpdate
+  - Added Interface PasswordAuthenticationForPatchUpdateUpdate
+  - Added Interface PasswordAuthenticationProperties
+  - Added Interface PasswordAuthenticationPropertiesCreateOrUpdate
+  - Added Interface PasswordAuthenticationPropertiesForPatchUpdate
+  - Added Interface PasswordAuthenticationPropertiesForPatchUpdateUpdate
+  - Added Interface PasswordAuthenticationsCreateOrReplaceOptionalParams
+  - Added Interface PasswordAuthenticationsGetOptionalParams
+  - Added Interface PasswordAuthenticationsUpdateOptionalParams
+  - Added Interface Pool
+  - Added Interface PoolCapability
+  - Added Interface PoolComputeModel
+  - Added Interface PoolComputeModelForPatchUpdate
+  - Added Interface PoolComputeModelForPatchUpdateUpdate
+  - Added Interface PoolCreateOrUpdate
+  - Added Interface PoolFeatureCapability
+  - Added Interface PoolForPatchUpdate
+  - Added Interface PoolForPatchUpdateUpdate
+  - Added Interface PoolHighAvailability
+  - Added Interface PoolHighAvailabilityPatch
+  - Added Interface PoolHighAvailabilityPatchUpdate
+  - Added Interface PoolParameterGroupReference
+  - Added Interface PoolParameterGroupReferenceCreateOrUpdate
+  - Added Interface PoolParameterGroupReferenceForPatchUpdate
+  - Added Interface PoolParameterGroupReferenceForPatchUpdateUpdate
+  - Added Interface PoolProperties
+  - Added Interface PoolPropertiesCreateOrUpdate
+  - Added Interface PoolPropertiesForPatchUpdate
+  - Added Interface PoolPropertiesForPatchUpdateUpdate
+  - Added Interface PoolsCreateOrReplaceOptionalParams
+  - Added Interface PoolsDeleteOptionalParams
+  - Added Interface PoolsGetOptionalParams
+  - Added Interface PoolsListOptionalParams
+  - Added Interface PoolsRestartOptionalParams
+  - Added Interface PoolsStartOptionalParams
+  - Added Interface PoolsStopOptionalParams
+  - Added Interface PoolsUpdateOptionalParams
+  - Added Interface PostgreSqlVersionCapability
+  - Added Interface PrivateEndpointConnectionPropertiesCreateOrUpdate
+  - Added Interface PrivateEndpointConnectionResourceCreateOrUpdate
+  - Added Interface PrivateEndpointConnectionsApproveOrRejectOptionalParams
+  - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionsListOptionalParams
+  - Added Interface PrivateEndpointCreateOrUpdate
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourcesGetOptionalParams
+  - Added Interface PrivateLinkResourcesListOptionalParams
+  - Added Interface ProvisionedComputeModelCapability
+  - Added Interface ProxyResourceCreateOrUpdate
+  - Added Interface ReadWritePoolProperties
+  - Added Interface ResourceCreateOrUpdate
+  - Added Interface ScheduledMaintenanceProperties
+  - Added Interface ScheduledMaintenancePropertiesForPatchUpdate
+  - Added Interface ScheduledMaintenancePropertiesForPatchUpdateUpdate
+  - Added Interface SystemScheduledMaintenanceProperties
+  - Added Interface TrackedResourceCreateOrUpdate
+  - Added Interface UserAssignedIdentity
+  - Added Interface UserAssignedIdentityCreateOrUpdate
+  - Added Interface UserAssignedIdentityUpdate
+  - Interface Network has a new optional parameter publicAccess
+  - Interface ParameterProperties has a new optional parameter defaultValue
+  - Interface ParameterProperties has a new optional parameter valueSource
+  - Added Type Alias AiModelManagementStatus
+  - Added Type Alias AuthenticationName
+  - Added Type Alias AuthenticationState
+  - Added Type Alias ChangeDataCaptureDesiredState
+  - Added Type Alias ChangeDataCaptureDestinationDetailsUnion
+  - Added Type Alias ChangeDataCaptureDestinationEffectiveState
+  - Added Type Alias ChangeDataCaptureDestinationType
+  - Added Type Alias ChangeDataCaptureEffectiveState
+  - Added Type Alias ChangeDataCaptureEngineConfigurationState
+  - Added Type Alias ChangeDataCaptureExtensionState
+  - Added Type Alias ChangeDataCaptureIdentityActivationState
+  - Added Type Alias ChangeDataCaptureIdentityAssignmentState
+  - Added Type Alias ChangeDataCaptureIdentityValidationState
+  - Added Type Alias ChangeDataCaptureProtocol
+  - Added Type Alias ChangeDataCaptureReadWriteEndpointState
+  - Added Type Alias ChangeDataCaptureReplicationArchitecture
+  - Added Type Alias ChangeDataCaptureReplicationState
+  - Added Type Alias ChangeDataCaptureTopologyBindingState
+  - Added Type Alias ChangeDataCaptureUsageProfile
+  - Added Type Alias ClusterCreateMode
+  - Added Type Alias ClusterState
+  - Added Type Alias ComputeModelCapabilityUnion
+  - Added Type Alias ComputeProcessorType
+  - Added Type Alias EndpointRole
+  - Added Type Alias EndpointScope
+  - Added Type Alias GeoRedundancyState
+  - Added Type Alias HorizonDbClusterDataEncryptionType
+  - Added Type Alias HorizonDbClusterEncryptionKeyStatus
+  - Added Type Alias HorizonDbClusterIdentityType
+  - Added Type Alias LogCaptureState
+  - Added Type Alias LogFileType
+  - Added Type Alias MaintenanceEventStatus
+  - Added Type Alias MaintenanceType
+  - Added Type Alias MicrosoftEntraAuthenticationName
+  - Added Type Alias NodeRole
+  - Added Type Alias ParameterApplyMethod
+  - Added Type Alias ParameterGroupSyncStatus
+  - Added Type Alias ParameterValueSource
+  - Added Type Alias PasswordAuthenticationName
+  - Added Type Alias PoolComputeModelType
+  - Added Type Alias PoolHighAvailabilityMode
+  - Added Type Alias PoolState
+  - Added Type Alias PostgreSqlCapabilityVersion
+  - Added Type Alias PostgreSqlVersion
+  - Added Type Alias PrincipalTypes
+  - Added Type Alias ScheduledMaintenanceManagementType
+  - Added Type Alias ScheduledMaintenancePropertiesUnion
+  - Added Enum KnownAiModelManagementStatus
+  - Added Enum KnownAuthenticationName
+  - Added Enum KnownAuthenticationState
+  - Added Enum KnownChangeDataCaptureDesiredState
+  - Added Enum KnownChangeDataCaptureDestinationEffectiveState
+  - Added Enum KnownChangeDataCaptureDestinationType
+  - Added Enum KnownChangeDataCaptureEffectiveState
+  - Added Enum KnownChangeDataCaptureEngineConfigurationState
+  - Added Enum KnownChangeDataCaptureExtensionState
+  - Added Enum KnownChangeDataCaptureIdentityActivationState
+  - Added Enum KnownChangeDataCaptureIdentityAssignmentState
+  - Added Enum KnownChangeDataCaptureIdentityValidationState
+  - Added Enum KnownChangeDataCaptureProtocol
+  - Added Enum KnownChangeDataCaptureReadWriteEndpointState
+  - Added Enum KnownChangeDataCaptureReplicationArchitecture
+  - Added Enum KnownChangeDataCaptureReplicationState
+  - Added Enum KnownChangeDataCaptureTopologyBindingState
+  - Added Enum KnownChangeDataCaptureUsageProfile
+  - Added Enum KnownClusterCreateMode
+  - Added Enum KnownClusterState
+  - Added Enum KnownComputeProcessorType
+  - Added Enum KnownEndpointRole
+  - Added Enum KnownEndpointScope
+  - Added Enum KnownGeoRedundancyState
+  - Added Enum KnownHorizonDbClusterDataEncryptionType
+  - Added Enum KnownHorizonDbClusterEncryptionKeyStatus
+  - Added Enum KnownHorizonDbClusterIdentityType
+  - Added Enum KnownLogCaptureState
+  - Added Enum KnownLogFileType
+  - Added Enum KnownMaintenanceEventStatus
+  - Added Enum KnownMaintenanceType
+  - Added Enum KnownMicrosoftEntraAuthenticationName
+  - Added Enum KnownNodeRole
+  - Added Enum KnownParameterApplyMethod
+  - Added Enum KnownParameterGroupSyncStatus
+  - Added Enum KnownParameterValueSource
+  - Added Enum KnownPasswordAuthenticationName
+  - Added Enum KnownPoolComputeModelType
+  - Added Enum KnownPoolHighAvailabilityMode
+  - Added Enum KnownPoolState
+  - Added Enum KnownPostgreSqlCapabilityVersion
+  - Added Enum KnownPostgreSqlVersion
+  - Added Enum KnownPrincipalTypes
+  - Added Enum KnownScheduledMaintenanceManagementType
+  - Enum KnownVersions has a new value V20261001Preview
+
+### Breaking Changes
+  - Removed operation group HorizonDbClustersOperations
+  - Removed operation group HorizonDbFirewallRulesOperations
+  - Removed operation group HorizonDbParameterGroupsOperations
+  - Removed operation group HorizonDbPoolsOperations
+  - Removed operation group HorizonDbPrivateEndpointConnectionsOperations
+  - Removed operation group HorizonDbPrivateLinkResourcesOperations
+  - Removed operation group HorizonDbReplicasOperations
+  - Class HorizonDbClient no longer has parameter horizonDbClusters
+  - Class HorizonDbClient no longer has parameter horizonDbFirewallRules
+  - Class HorizonDbClient no longer has parameter horizonDbParameterGroups
+  - Class HorizonDbClient no longer has parameter horizonDbPools
+  - Class HorizonDbClient no longer has parameter horizonDbPrivateEndpointConnections
+  - Class HorizonDbClient no longer has parameter horizonDbPrivateLinkResources
+  - Class HorizonDbClient no longer has parameter horizonDbReplicas
+  - Removed Interface HorizonDbCluster
+  - Removed Interface HorizonDbClusterForPatchUpdate
+  - Removed Interface HorizonDbClusterParameterGroupConnectionProperties
+  - Removed Interface HorizonDbClusterProperties
+  - Removed Interface HorizonDbClusterPropertiesForPatchUpdate
+  - Removed Interface HorizonDbClustersCreateOrUpdateOptionalParams
+  - Removed Interface HorizonDbClustersDeleteOptionalParams
+  - Removed Interface HorizonDbClustersGetOptionalParams
+  - Removed Interface HorizonDbClustersListByResourceGroupOptionalParams
+  - Removed Interface HorizonDbClustersListBySubscriptionOptionalParams
+  - Removed Interface HorizonDbClustersUpdateOptionalParams
+  - Removed Interface HorizonDbFirewallRule
+  - Removed Interface HorizonDbFirewallRuleProperties
+  - Removed Interface HorizonDbFirewallRulesCreateOrUpdateOptionalParams
+  - Removed Interface HorizonDbFirewallRulesDeleteOptionalParams
+  - Removed Interface HorizonDbFirewallRulesGetOptionalParams
+  - Removed Interface HorizonDbFirewallRulesListOptionalParams
+  - Removed Interface HorizonDbParameterGroup
+  - Removed Interface HorizonDbParameterGroupConnectionProperties
+  - Removed Interface HorizonDbParameterGroupForPatchUpdate
+  - Removed Interface HorizonDbParameterGroupProperties
+  - Removed Interface HorizonDbParameterGroupPropertiesForPatchUpdate
+  - Removed Interface HorizonDbParameterGroupsCreateOrUpdateOptionalParams
+  - Removed Interface HorizonDbParameterGroupsDeleteOptionalParams
+  - Removed Interface HorizonDbParameterGroupsGetOptionalParams
+  - Removed Interface HorizonDbParameterGroupsListByResourceGroupOptionalParams
+  - Removed Interface HorizonDbParameterGroupsListBySubscriptionOptionalParams
+  - Removed Interface HorizonDbParameterGroupsListConnectionsOptionalParams
+  - Removed Interface HorizonDbParameterGroupsListVersionsOptionalParams
+  - Removed Interface HorizonDbParameterGroupsUpdateOptionalParams
+  - Removed Interface HorizonDbPool
+  - Removed Interface HorizonDbPoolProperties
+  - Removed Interface HorizonDbPoolsGetOptionalParams
+  - Removed Interface HorizonDbPoolsListOptionalParams
+  - Removed Interface HorizonDbPrivateEndpointConnectionsDeleteOptionalParams
+  - Removed Interface HorizonDbPrivateEndpointConnectionsGetOptionalParams
+  - Removed Interface HorizonDbPrivateEndpointConnectionsListOptionalParams
+  - Removed Interface HorizonDbPrivateEndpointConnectionsUpdateOptionalParams
+  - Removed Interface HorizonDbPrivateLinkResource
+  - Removed Interface HorizonDbPrivateLinkResourcesGetOptionalParams
+  - Removed Interface HorizonDbPrivateLinkResourcesListOptionalParams
+  - Removed Interface HorizonDbReplica
+  - Removed Interface HorizonDbReplicaForPatchUpdate
+  - Removed Interface HorizonDbReplicaProperties
+  - Removed Interface HorizonDbReplicaPropertiesForPatchUpdate
+  - Removed Interface HorizonDbReplicasCreateOrUpdateOptionalParams
+  - Removed Interface HorizonDbReplicasDeleteOptionalParams
+  - Removed Interface HorizonDbReplicasGetOptionalParams
+  - Removed Interface HorizonDbReplicasListOptionalParams
+  - Removed Interface HorizonDbReplicasUpdateOptionalParams
+  - Removed Interface OptionalPropertiesUpdateableProperties
+  - Removed Interface PrivateEndpointConnection
+  - Removed Interface PrivateEndpointConnectionUpdate
+  - Interface Network no longer has parameter publicNetworkAccess
+  - Removed Type Alias CreateModeCluster
+  - Removed Type Alias CreateModePool
+  - Removed Type Alias ReplicaRole
+  - Removed Type Alias State
+  - Removed Type Alias ZonePlacementPolicy
+  - Removed Enum KnownCreateModeCluster
+  - Removed Enum KnownCreateModePool
+  - Removed Enum KnownReplicaRole
+  - Removed Enum KnownState
+  - Removed Enum KnownZonePlacementPolicy
+  - Enum KnownVersions no longer has value V20260120Preview
+
 ## 1.0.0-beta.2 (2026-08-20)
 Compared with version 1.0.0-beta.1
 

@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delays the specified occurrence for the specified resource IDs.
  * x-ms-original-file: 2026-10-06-preview/Occurrences_Delay_BasicSuccess.json
  */
-async function _01DelayOperationsInARecurringScheduledActionOccurrence(): Promise<void> {
+async function _01DelayOperationsInARecurringBulkActionOccurrence(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -35,7 +35,7 @@ async function _01DelayOperationsInARecurringScheduledActionOccurrence(): Promis
  * @summary delays the specified occurrence for the specified resource IDs.
  * x-ms-original-file: 2026-10-06-preview/Occurrences_Delay_EntireOccurrenceSuccess.json
  */
-async function _02DelayAllOperationsInARecurringScheduledActionOccurrence(): Promise<void> {
+async function _02DelayAllOperationsInARecurringBulkActionOccurrence(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -54,7 +54,7 @@ async function _02DelayAllOperationsInARecurringScheduledActionOccurrence(): Pro
  * @summary delays the specified occurrence for the specified resource IDs.
  * x-ms-original-file: 2026-10-06-preview/Occurrences_Delay_PartialSuccess.json
  */
-async function _03ResponseWithPartialSuccessResultsWhenDelayingOperationsInARecurringScheduledActionOccurrence(): Promise<void> {
+async function _03ResponseWithPartialSuccessResultsWhenDelayingOperationsInARecurringBulkActionOccurrence(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -74,9 +74,9 @@ async function _03ResponseWithPartialSuccessResultsWhenDelayingOperationsInARecu
 }
 
 async function main(): Promise<void> {
-  await _01DelayOperationsInARecurringScheduledActionOccurrence();
-  await _02DelayAllOperationsInARecurringScheduledActionOccurrence();
-  await _03ResponseWithPartialSuccessResultsWhenDelayingOperationsInARecurringScheduledActionOccurrence();
+  await _01DelayOperationsInARecurringBulkActionOccurrence();
+  await _02DelayAllOperationsInARecurringBulkActionOccurrence();
+  await _03ResponseWithPartialSuccessResultsWhenDelayingOperationsInARecurringBulkActionOccurrence();
 }
 
 main().catch(console.error);

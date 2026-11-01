@@ -75,7 +75,7 @@ try {
   try {
     # Install dependencies
     Write-Host "Installing dependencies..."
-    pnpm install
+    pnpm install --no-frozen-lockfile
     if ($LASTEXITCODE -ne 0) {
       throw "pnpm install failed with exit code $LASTEXITCODE"
     }

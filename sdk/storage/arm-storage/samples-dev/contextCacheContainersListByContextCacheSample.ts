@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all containers in a Context Cache.
  *
  * @summary list all containers in a Context Cache.
- * x-ms-original-file: 2026-06-01/StorageContextCacheContainerCRUD/ContextCacheContainers_ListByContextCache.json
+ * x-ms-original-file: 2026-09-01/StorageContextCacheContainerCRUD/ContextCacheContainers_ListByContextCache.json
  */
 async function listContextCacheContainersInAContextCache(): Promise<void> {
   const credential = new DefaultAzureCredential();

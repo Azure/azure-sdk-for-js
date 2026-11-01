@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified private endpoint connection associated with the Elastic San
  *
  * @summary deletes the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: 2025-09-01/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
  */
 async function privateEndpointConnectionsDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function privateEndpointConnectionsDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to deletes the specified private endpoint connection associated with the Elastic San
  *
  * @summary deletes the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: 2025-09-01/PrivateEndpointConnections_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/PrivateEndpointConnections_Delete_MinimumSet_Gen.json
  */
 async function privateEndpointConnectionsDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

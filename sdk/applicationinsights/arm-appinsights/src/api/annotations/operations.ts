@@ -1,32 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext as Client } from "../index.js";
+import type { ApplicationInsightsManagementContext as Client } from "../index.js";
+import type { _AnnotationsListResult, Annotation } from "../../models/componentAPIs/models.js";
 import {
-  _AnnotationsListResult,
   _annotationsListResultDeserializer,
   annotationArrayDeserializer,
-  Annotation,
   annotationSerializer,
   annotationErrorDeserializer,
 } from "../../models/componentAPIs/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   AnnotationsGetOptionalParams,
   AnnotationsDeleteOptionalParams,
   AnnotationsCreateOptionalParams,
   AnnotationsListOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,
@@ -58,7 +51,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<An
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = annotationErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = annotationErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -159,7 +154,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = annotationErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = annotationErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -219,7 +216,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = annotationErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = annotationErrorDeserializer(result.body);
+    }
 
     throw error;
   }

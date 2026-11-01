@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets node availability for all subgroups in the specified interconnect group.
  *
  * @summary gets node availability for all subgroups in the specified interconnect group.
- * x-ms-original-file: 2026-01-01/InterconnectGroupGetNodeAvailability.json
+ * x-ms-original-file: 2026-03-01/InterconnectGroupGetNodeAvailability.json
  */
 async function getInterconnectGroupNodeAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();

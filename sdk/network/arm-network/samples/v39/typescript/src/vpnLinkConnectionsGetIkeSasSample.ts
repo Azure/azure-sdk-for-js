@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists IKE Security Associations for Vpn Site Link Connection in the specified resource group.
  *
  * @summary lists IKE Security Associations for Vpn Site Link Connection in the specified resource group.
- * x-ms-original-file: 2026-01-01/VpnSiteLinkConnectionGetIkeSas.json
+ * x-ms-original-file: 2026-03-01/VpnSiteLinkConnectionGetIkeSas.json
  */
 async function getVpnLinkConnectionIkeSa(): Promise<void> {
   const credential = new DefaultAzureCredential();

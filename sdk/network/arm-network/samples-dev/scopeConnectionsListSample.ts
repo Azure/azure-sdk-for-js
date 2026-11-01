@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all scope connections created by this network manager.
  *
  * @summary list all scope connections created by this network manager.
- * x-ms-original-file: 2026-01-01/NetworkManagerScopeConnectionList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerScopeConnectionList.json
  */
 async function listNetworkManagerScopeConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

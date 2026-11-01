@@ -20,6 +20,7 @@
   "generateOptions": {
     "generateScript": {
       "path": "sh .scripts/automation_generate.sh",
+      "envs": ["TYPESPEC_EMITTER"],
       "stderr": {
         "showInComment": ".*ERROR.*",
         "scriptError": "\\[ERROR\\]"

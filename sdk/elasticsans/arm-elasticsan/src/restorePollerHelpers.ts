@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { ElasticSanManagement } from "./elasticSanManagement.js";
+import { _restoreVolumeDeserialize } from "./api/operations.js";
 import { _$deleteDeserialize, _createDeserialize } from "./api/volumeSnapshots/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeVolumeGroups,
@@ -94,6 +95,8 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}/restore":
+    { deserializer: _restoreVolumeDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/snapshots/{snapshotName}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/snapshots/{snapshotName}":
@@ -105,9 +108,9 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}":
     { deserializer: _createDeserializeVolumeGroups, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/preRestore":
-    { deserializer: _preRestoreDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _preRestoreDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/preBackup":
-    { deserializer: _preBackupDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _preBackupDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}":
     { deserializer: _$deleteDeserializeVolumes, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}":

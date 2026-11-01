@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the VirtualWANs in a resource group.
  *
  * @summary lists all the VirtualWANs in a resource group.
- * x-ms-original-file: 2026-01-01/VirtualWANListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/VirtualWANListByResourceGroup.json
  */
 async function virtualWANListByResourceGroup() {
   const credential = new DefaultAzureCredential();

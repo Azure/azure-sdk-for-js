@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all dscp configurations in a subscription.
  *
  * @summary gets all dscp configurations in a subscription.
- * x-ms-original-file: 2026-01-01/DscpConfigurationListAll.json
+ * x-ms-original-file: 2026-03-01/DscpConfigurationListAll.json
  */
 async function listAllNetworkInterfaces(): Promise<void> {
   const credential = new DefaultAzureCredential();

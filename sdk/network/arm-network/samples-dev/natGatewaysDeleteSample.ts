@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified nat gateway.
  *
  * @summary deletes the specified nat gateway.
- * x-ms-original-file: 2026-01-01/NatGatewayDelete.json
+ * x-ms-original-file: 2026-03-01/NatGatewayDelete.json
  */
 async function deleteNatGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

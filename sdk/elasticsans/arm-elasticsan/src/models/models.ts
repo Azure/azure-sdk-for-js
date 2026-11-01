@@ -1,12 +1,440 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
+/** Response for Volume request. */
+export interface Volume extends ProxyResource {
+  /** Properties of Volume. */
+  properties: VolumeProperties;
+}
+
+export function volumeSerializer(item: Volume): any {
+  return { properties: volumePropertiesSerializer(item["properties"]) };
+}
+
+export function volumeDeserializer(item: any): Volume {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: volumePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Volume response properties. */
+export interface VolumeProperties {
+  /** Unique Id of the volume in GUID format */
+  readonly volumeId?: string;
+  /** State of the operation on the resource. */
+  creationData?: SourceCreationData;
+  /** Volume size. */
+  sizeGiB: number;
+  /** Storage target information */
+  readonly storageTarget?: IscsiTargetInfo;
+  /** Information about Azure services owning the ElasticSan volume resource. */
+  managedBy?: ManagedByResources[];
+  /** State of the operation on the resource. */
+  readonly provisioningState?: ProvisioningStates;
+}
+
+export function volumePropertiesSerializer(item: VolumeProperties): any {
+  return {
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : sourceCreationDataSerializer(item["creationData"]),
+    sizeGiB: item["sizeGiB"],
+    managedBy: !item["managedBy"]
+      ? item["managedBy"]
+      : managedByResourcesArraySerializer(item["managedBy"]),
+  };
+}
+
+export function volumePropertiesDeserializer(item: any): VolumeProperties {
+  return {
+    volumeId: item["volumeId"],
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : sourceCreationDataDeserializer(item["creationData"]),
+    sizeGiB: item["sizeGiB"],
+    storageTarget: !item["storageTarget"]
+      ? item["storageTarget"]
+      : iscsiTargetInfoDeserializer(item["storageTarget"]),
+    managedBy: !item["managedBy"]
+      ? item["managedBy"]
+      : managedByResourcesArrayDeserializer(item["managedBy"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Data source used when creating the volume. */
+export interface SourceCreationData {
+  /** This enumerates the possible sources of a volume creation. */
+  createSource?: VolumeCreateOption;
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  sourceId?: string;
+}
+
+export function sourceCreationDataSerializer(item: SourceCreationData): any {
+  return { createSource: item["createSource"], sourceId: item["sourceId"] };
+}
+
+export function sourceCreationDataDeserializer(item: any): SourceCreationData {
+  return {
+    createSource: item["createSource"],
+    sourceId: item["sourceId"],
+  };
+}
+
+/** This enumerates the possible sources of a volume creation. */
+export enum KnownVolumeCreateOption {
+  /** None */
+  None = "None",
+  /** VolumeSnapshot */
+  VolumeSnapshot = "VolumeSnapshot",
+  /** DiskSnapshot */
+  DiskSnapshot = "DiskSnapshot",
+  /** Disk */
+  Disk = "Disk",
+  /** DiskRestorePoint */
+  DiskRestorePoint = "DiskRestorePoint",
+}
+
+/**
+ * This enumerates the possible sources of a volume creation. \
+ * {@link KnownVolumeCreateOption} can be used interchangeably with VolumeCreateOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **VolumeSnapshot** \
+ * **DiskSnapshot** \
+ * **Disk** \
+ * **DiskRestorePoint**
+ */
+export type VolumeCreateOption = string;
+
+/** Iscsi target information */
+export interface IscsiTargetInfo {
+  /** iSCSI Target IQN (iSCSI Qualified Name); example: "iqn.2005-03.org.iscsi:server". */
+  readonly targetIqn?: string;
+  /** iSCSI Target Portal Host Name */
+  readonly targetPortalHostname?: string;
+  /** iSCSI Target Portal Port */
+  readonly targetPortalPort?: number;
+  /** State of the operation on the resource. */
+  readonly provisioningState?: ProvisioningStates;
+  /** Operational status of the iSCSI Target. */
+  status?: OperationalStatus;
+}
+
+export function iscsiTargetInfoDeserializer(item: any): IscsiTargetInfo {
+  return {
+    targetIqn: item["targetIqn"],
+    targetPortalHostname: item["targetPortalHostname"],
+    targetPortalPort: item["targetPortalPort"],
+    provisioningState: item["provisioningState"],
+    status: item["status"],
+  };
+}
+
+/** Provisioning state of the iSCSI Target. */
+export enum KnownProvisioningStates {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Pending */
+  Pending = "Pending",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Restoring */
+  Restoring = "Restoring",
+  /** SoftDeleting */
+  SoftDeleting = "SoftDeleting",
+}
+
+/**
+ * Provisioning state of the iSCSI Target. \
+ * {@link KnownProvisioningStates} can be used interchangeably with ProvisioningStates,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Pending** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Deleted** \
+ * **Restoring** \
+ * **SoftDeleting**
+ */
+export type ProvisioningStates = string;
+
+/** Operational status of the resource. */
+export enum KnownOperationalStatus {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Healthy */
+  Healthy = "Healthy",
+  /** Unhealthy */
+  Unhealthy = "Unhealthy",
+  /** Updating */
+  Updating = "Updating",
+  /** Running */
+  Running = "Running",
+  /** Stopped */
+  Stopped = "Stopped",
+  /** Stopped (deallocated) */
+  StoppedDeallocated = "Stopped (deallocated)",
+}
+
+/**
+ * Operational status of the resource. \
+ * {@link KnownOperationalStatus} can be used interchangeably with OperationalStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Unknown** \
+ * **Healthy** \
+ * **Unhealthy** \
+ * **Updating** \
+ * **Running** \
+ * **Stopped** \
+ * **Stopped (deallocated)**
+ */
+export type OperationalStatus = string;
+
+export function managedByResourcesArraySerializer(result: Array<ManagedByResources>): any[] {
+  return result.map((item) => {
+    return managedByResourcesSerializer(item);
+  });
+}
+
+export function managedByResourcesArrayDeserializer(result: Array<ManagedByResources>): any[] {
+  return result.map((item) => {
+    return managedByResourcesDeserializer(item);
+  });
+}
+
+/** Information about Azure services owning the ElasticSan volume resource. */
+export interface ManagedByResources {
+  /** ClientId of the application managing the resource */
+  clientId?: string;
+  /** Version number to keep track of resources using the Volume */
+  version?: number;
+  /** ARM Resource IDs of the resources managing the volume */
+  resourceIds?: string[];
+}
+
+export function managedByResourcesSerializer(item: ManagedByResources): any {
+  return {
+    clientId: item["clientId"],
+    version: item["version"],
+    resourceIds: !item["resourceIds"]
+      ? item["resourceIds"]
+      : item["resourceIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function managedByResourcesDeserializer(item: any): ManagedByResources {
+  return {
+    clientId: item["clientId"],
+    version: item["version"],
+    resourceIds: !item["resourceIds"]
+      ? item["resourceIds"]
+      : item["resourceIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(_item: Resource): any {
+  return {};
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -109,71 +537,6 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-export function errorResponseDeserializer(item: any): ErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-  };
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function errorDetailDeserializer(item: any): ErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
-    return errorDetailDeserializer(item);
-  });
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: any;
-}
-
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
-  return {
-    type: item["type"],
-    info: item["info"],
-  };
-}
-
 /** Response for ElasticSan request. */
 export interface ElasticSan extends TrackedResource {
   /** Properties of ElasticSan. */
@@ -213,25 +576,33 @@ export interface ElasticSanProperties {
   /** State of the operation on the resource. */
   readonly provisioningState?: ProvisioningStates;
   /** Base size of the Elastic San appliance in TiB. */
-  baseSizeTiB: number;
+  baseSizeTiB?: number;
   /** Extended size of the Elastic San appliance in TiB. */
-  extendedCapacitySizeTiB: number;
+  extendedCapacitySizeTiB?: number;
   /** Total size of the provisioned Volumes in GiB. */
   readonly totalVolumeSizeGiB?: number;
   /** Total number of volume groups in this Elastic San appliance. */
   readonly volumeGroupCount?: number;
-  /** Total Provisioned IOPS of the Elastic San appliance. */
-  readonly totalIops?: number;
-  /** Total Provisioned MBps Elastic San appliance. */
-  readonly totalMBps?: number;
-  /** Total size of the Elastic San appliance in TB. */
-  readonly totalSizeTiB?: number;
+  /** Total Provisioned IOPS of the Elastic San appliance. Settable only for ElasticSanVersion V2, where it is required; read-only for V1. */
+  totalIops?: number;
+  /** Total Provisioned MBps Elastic San appliance. Settable only for ElasticSanVersion V2, where it is required; read-only for V1. */
+  totalMBps?: number;
+  /** Total size of the Elastic San appliance in TB. Settable only for ElasticSanVersion V2, where it is required; read-only for V1. */
+  totalSizeTiB?: number;
   /** The list of Private Endpoint Connections. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Allow or disallow public network access to ElasticSan. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
   publicNetworkAccess?: PublicNetworkAccess;
   /** Auto Scale Properties for Elastic San Appliance. */
   autoScaleProperties?: AutoScaleProperties;
+  /** Elastic San appliance version. Defaults to V1 if not specified. */
+  version?: ElasticSanVersion;
+  /** Used capacity in GiB. */
+  readonly usedCapacityGiB?: number;
+  /** Total IOPS reserved by all the volume groups under an ElasticSan */
+  readonly totalReservedIops?: number;
+  /** Total MBps reserved by all the volume groups under an ElasticSan */
+  readonly totalReservedMBps?: number;
 }
 
 export function elasticSanPropertiesSerializer(item: ElasticSanProperties): any {
@@ -244,10 +615,14 @@ export function elasticSanPropertiesSerializer(item: ElasticSanProperties): any 
         }),
     baseSizeTiB: item["baseSizeTiB"],
     extendedCapacitySizeTiB: item["extendedCapacitySizeTiB"],
+    totalIops: item["totalIops"],
+    totalMBps: item["totalMBps"],
+    totalSizeTiB: item["totalSizeTiB"],
     publicNetworkAccess: item["publicNetworkAccess"],
     autoScaleProperties: !item["autoScaleProperties"]
       ? item["autoScaleProperties"]
       : autoScalePropertiesSerializer(item["autoScaleProperties"]),
+    version: item["version"],
   };
 }
 
@@ -274,6 +649,10 @@ export function elasticSanPropertiesDeserializer(item: any): ElasticSanPropertie
     autoScaleProperties: !item["autoScaleProperties"]
       ? item["autoScaleProperties"]
       : autoScalePropertiesDeserializer(item["autoScaleProperties"]),
+    version: item["version"],
+    usedCapacityGiB: item["usedCapacityGiB"],
+    totalReservedIops: item["totalReservedIops"],
+    totalReservedMBps: item["totalReservedMBps"],
   };
 }
 
@@ -302,6 +681,8 @@ export enum KnownSkuName {
   PremiumLRS = "Premium_LRS",
   /** Premium zone redundant storage */
   PremiumZRS = "Premium_ZRS",
+  /** Locally redundant storage. Supported only for ElasticSanVersion V2. */
+  ElasticSANLRS = "ElasticSAN_LRS",
 }
 
 /**
@@ -310,7 +691,8 @@ export enum KnownSkuName {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Premium_LRS**: Premium locally redundant storage \
- * **Premium_ZRS**: Premium zone redundant storage
+ * **Premium_ZRS**: Premium zone redundant storage \
+ * **ElasticSAN_LRS**: Locally redundant storage. Supported only for ElasticSanVersion V2.
  */
 export type SkuName = string;
 
@@ -328,48 +710,6 @@ export enum KnownSkuTier {
  * **Premium**: Premium Tier
  */
 export type SkuTier = string;
-
-/** Provisioning state of the iSCSI Target. */
-export enum KnownProvisioningStates {
-  /** Invalid */
-  Invalid = "Invalid",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Pending */
-  Pending = "Pending",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** Restoring */
-  Restoring = "Restoring",
-}
-
-/**
- * Provisioning state of the iSCSI Target. \
- * {@link KnownProvisioningStates} can be used interchangeably with ProvisioningStates,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Pending** \
- * **Creating** \
- * **Updating** \
- * **Deleting** \
- * **Deleted** \
- * **Restoring**
- */
-export type ProvisioningStates = string;
 
 export function privateEndpointConnectionArraySerializer(
   result: Array<PrivateEndpointConnection>,
@@ -464,8 +804,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -619,103 +959,23 @@ export enum KnownAutoScalePolicyEnforcement {
  */
 export type AutoScalePolicyEnforcement = string;
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(item: Resource): any {
-  return item;
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
+/** Elastic San appliance version. */
+export enum KnownElasticSanVersion {
+  /** Version 1 of the Elastic San appliance. */
+  V1 = "V1",
+  /** Version 2 of the Elastic San appliance. */
+  V2 = "V2",
 }
 
 /**
- * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ * Elastic San appliance version. \
+ * {@link KnownElasticSanVersion} can be used interchangeably with ElasticSanVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
+ * **V1**: Version 1 of the Elastic San appliance. \
+ * **V2**: Version 2 of the Elastic San appliance.
  */
-export type CreatedByType = string;
+export type ElasticSanVersion = string;
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -771,6 +1031,12 @@ export interface ElasticSanUpdateProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Auto Scale Properties for Elastic San Appliance. */
   autoScaleProperties?: AutoScaleProperties;
+  /** Total Provisioned IOPS of the Elastic San appliance. Supported only for ElasticSanVersion V2. */
+  totalIops?: number;
+  /** Total Provisioned MBps Elastic San appliance. Supported only for ElasticSanVersion V2. */
+  totalMBps?: number;
+  /** Total size of the Elastic San appliance in TB. Supported only for ElasticSanVersion V2. */
+  totalSizeTiB?: number;
 }
 
 export function elasticSanUpdatePropertiesSerializer(item: ElasticSanUpdateProperties): any {
@@ -781,6 +1047,9 @@ export function elasticSanUpdatePropertiesSerializer(item: ElasticSanUpdatePrope
     autoScaleProperties: !item["autoScaleProperties"]
       ? item["autoScaleProperties"]
       : autoScalePropertiesSerializer(item["autoScaleProperties"]),
+    totalIops: item["totalIops"],
+    totalMBps: item["totalMBps"],
+    totalSizeTiB: item["totalSizeTiB"],
   };
 }
 
@@ -829,193 +1098,6 @@ export function _privateEndpointConnectionListResultDeserializer(
 }
 
 /** Response for Volume request. */
-export interface Volume extends ProxyResource {
-  /** Properties of Volume. */
-  properties: VolumeProperties;
-}
-
-export function volumeSerializer(item: Volume): any {
-  return { properties: volumePropertiesSerializer(item["properties"]) };
-}
-
-export function volumeDeserializer(item: any): Volume {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: volumePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Volume response properties. */
-export interface VolumeProperties {
-  /** Unique Id of the volume in GUID format */
-  readonly volumeId?: string;
-  /** State of the operation on the resource. */
-  creationData?: SourceCreationData;
-  /** Volume size. */
-  sizeGiB: number;
-  /** Storage target information */
-  readonly storageTarget?: IscsiTargetInfo;
-  /** Parent resource information. */
-  managedBy?: ManagedByInfo;
-  /** State of the operation on the resource. */
-  readonly provisioningState?: ProvisioningStates;
-}
-
-export function volumePropertiesSerializer(item: VolumeProperties): any {
-  return {
-    creationData: !item["creationData"]
-      ? item["creationData"]
-      : sourceCreationDataSerializer(item["creationData"]),
-    sizeGiB: item["sizeGiB"],
-    managedBy: !item["managedBy"] ? item["managedBy"] : managedByInfoSerializer(item["managedBy"]),
-  };
-}
-
-export function volumePropertiesDeserializer(item: any): VolumeProperties {
-  return {
-    volumeId: item["volumeId"],
-    creationData: !item["creationData"]
-      ? item["creationData"]
-      : sourceCreationDataDeserializer(item["creationData"]),
-    sizeGiB: item["sizeGiB"],
-    storageTarget: !item["storageTarget"]
-      ? item["storageTarget"]
-      : iscsiTargetInfoDeserializer(item["storageTarget"]),
-    managedBy: !item["managedBy"]
-      ? item["managedBy"]
-      : managedByInfoDeserializer(item["managedBy"]),
-    provisioningState: item["provisioningState"],
-  };
-}
-
-/** Data source used when creating the volume. */
-export interface SourceCreationData {
-  /** This enumerates the possible sources of a volume creation. */
-  createSource?: VolumeCreateOption;
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  sourceId?: string;
-}
-
-export function sourceCreationDataSerializer(item: SourceCreationData): any {
-  return { createSource: item["createSource"], sourceId: item["sourceId"] };
-}
-
-export function sourceCreationDataDeserializer(item: any): SourceCreationData {
-  return {
-    createSource: item["createSource"],
-    sourceId: item["sourceId"],
-  };
-}
-
-/** This enumerates the possible sources of a volume creation. */
-export enum KnownVolumeCreateOption {
-  /** None */
-  None = "None",
-  /** VolumeSnapshot */
-  VolumeSnapshot = "VolumeSnapshot",
-  /** DiskSnapshot */
-  DiskSnapshot = "DiskSnapshot",
-  /** Disk */
-  Disk = "Disk",
-  /** DiskRestorePoint */
-  DiskRestorePoint = "DiskRestorePoint",
-}
-
-/**
- * This enumerates the possible sources of a volume creation. \
- * {@link KnownVolumeCreateOption} can be used interchangeably with VolumeCreateOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **VolumeSnapshot** \
- * **DiskSnapshot** \
- * **Disk** \
- * **DiskRestorePoint**
- */
-export type VolumeCreateOption = string;
-
-/** Iscsi target information */
-export interface IscsiTargetInfo {
-  /** iSCSI Target IQN (iSCSI Qualified Name); example: "iqn.2005-03.org.iscsi:server". */
-  readonly targetIqn?: string;
-  /** iSCSI Target Portal Host Name */
-  readonly targetPortalHostname?: string;
-  /** iSCSI Target Portal Port */
-  readonly targetPortalPort?: number;
-  /** State of the operation on the resource. */
-  readonly provisioningState?: ProvisioningStates;
-  /** Operational status of the iSCSI Target. */
-  status?: OperationalStatus;
-}
-
-export function iscsiTargetInfoDeserializer(item: any): IscsiTargetInfo {
-  return {
-    targetIqn: item["targetIqn"],
-    targetPortalHostname: item["targetPortalHostname"],
-    targetPortalPort: item["targetPortalPort"],
-    provisioningState: item["provisioningState"],
-    status: item["status"],
-  };
-}
-
-/** Operational status of the resource. */
-export enum KnownOperationalStatus {
-  /** Invalid */
-  Invalid = "Invalid",
-  /** Unknown */
-  Unknown = "Unknown",
-  /** Healthy */
-  Healthy = "Healthy",
-  /** Unhealthy */
-  Unhealthy = "Unhealthy",
-  /** Updating */
-  Updating = "Updating",
-  /** Running */
-  Running = "Running",
-  /** Stopped */
-  Stopped = "Stopped",
-  /** Stopped (deallocated) */
-  StoppedDeallocated = "Stopped (deallocated)",
-}
-
-/**
- * Operational status of the resource. \
- * {@link KnownOperationalStatus} can be used interchangeably with OperationalStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid** \
- * **Unknown** \
- * **Healthy** \
- * **Unhealthy** \
- * **Updating** \
- * **Running** \
- * **Stopped** \
- * **Stopped (deallocated)**
- */
-export type OperationalStatus = string;
-
-/** Parent resource information. */
-export interface ManagedByInfo {
-  /** Resource ID of the resource managing the volume, this is a restricted field and can only be set for internal use. */
-  resourceId?: string;
-}
-
-export function managedByInfoSerializer(item: ManagedByInfo): any {
-  return { resourceId: item["resourceId"] };
-}
-
-export function managedByInfoDeserializer(item: any): ManagedByInfo {
-  return {
-    resourceId: item["resourceId"],
-  };
-}
-
-/** Response for Volume request. */
 export interface VolumeUpdate {
   /** Properties of Volume. */
   properties?: VolumeUpdateProperties;
@@ -1033,14 +1115,16 @@ export function volumeUpdateSerializer(item: VolumeUpdate): any {
 export interface VolumeUpdateProperties {
   /** Volume size. */
   sizeGiB?: number;
-  /** Parent resource information. */
-  managedBy?: ManagedByInfo;
+  /** Information about Azure services owning the ElasticSan volume resource. */
+  managedBy?: ManagedByResources[];
 }
 
 export function volumeUpdatePropertiesSerializer(item: VolumeUpdateProperties): any {
   return {
     sizeGiB: item["sizeGiB"],
-    managedBy: !item["managedBy"] ? item["managedBy"] : managedByInfoSerializer(item["managedBy"]),
+    managedBy: !item["managedBy"]
+      ? item["managedBy"]
+      : managedByResourcesArraySerializer(item["managedBy"]),
   };
 }
 
@@ -1224,8 +1308,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -1251,6 +1335,16 @@ export interface VolumeGroupProperties {
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** A boolean indicating whether or not Data Integrity Check is enabled */
   enforceDataIntegrityCheckForIscsi?: boolean;
+  /** A boolean indicating whether or not Encryption in Transit is enabled, supported only for ISCSI protocol. */
+  encryptionInTransit?: boolean;
+  /** Reserved IOPS allocated for this volume group, applicable for QualityOfService PerformanceCritical only. */
+  reservedIops?: number;
+  /** Reserved MBps allocated for this volume group, applicable for QualityOfService PerformanceCritical only. */
+  reservedMBps?: number;
+  /** Quality of Service tier for the volume group, applicable for ElasticSanVersion V2 only. */
+  qualityOfService?: QualityOfService;
+  /** The retention policy for the soft deleted volume group and its associated resources. */
+  deleteRetentionPolicy?: DeleteRetentionPolicy;
 }
 
 export function volumeGroupPropertiesSerializer(item: VolumeGroupProperties): any {
@@ -1264,6 +1358,13 @@ export function volumeGroupPropertiesSerializer(item: VolumeGroupProperties): an
       ? item["networkAcls"]
       : networkRuleSetSerializer(item["networkAcls"]),
     enforceDataIntegrityCheckForIscsi: item["enforceDataIntegrityCheckForIscsi"],
+    encryptionInTransit: item["encryptionInTransit"],
+    reservedIops: item["reservedIops"],
+    reservedMBps: item["reservedMBps"],
+    qualityOfService: item["qualityOfService"],
+    deleteRetentionPolicy: !item["deleteRetentionPolicy"]
+      ? item["deleteRetentionPolicy"]
+      : deleteRetentionPolicySerializer(item["deleteRetentionPolicy"]),
   };
 }
 
@@ -1282,6 +1383,13 @@ export function volumeGroupPropertiesDeserializer(item: any): VolumeGroupPropert
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
     enforceDataIntegrityCheckForIscsi: item["enforceDataIntegrityCheckForIscsi"],
+    encryptionInTransit: item["encryptionInTransit"],
+    reservedIops: item["reservedIops"],
+    reservedMBps: item["reservedMBps"],
+    qualityOfService: item["qualityOfService"],
+    deleteRetentionPolicy: !item["deleteRetentionPolicy"]
+      ? item["deleteRetentionPolicy"]
+      : deleteRetentionPolicyDeserializer(item["deleteRetentionPolicy"]),
   };
 }
 
@@ -1289,6 +1397,8 @@ export function volumeGroupPropertiesDeserializer(item: any): VolumeGroupPropert
 export enum KnownStorageTargetType {
   /** Iscsi */
   Iscsi = "Iscsi",
+  /** Direct attach storage target type. */
+  DirectAttach = "DirectAttach",
   /** None */
   None = "None",
 }
@@ -1299,6 +1409,7 @@ export enum KnownStorageTargetType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Iscsi** \
+ * **DirectAttach**: Direct attach storage target type. \
  * **None**
  */
 export type StorageTargetType = string;
@@ -1474,6 +1585,53 @@ export enum KnownAction {
  */
 export type Action = string;
 
+/** Quality of Service tier for the volume group, applicable for ElasticSanVersion V2 only. */
+export enum KnownQualityOfService {
+  /** General purpose tier. */
+  GeneralPurpose = "GeneralPurpose",
+  /** Performance critical tier. */
+  PerformanceCritical = "PerformanceCritical",
+}
+
+/**
+ * Quality of Service tier for the volume group, applicable for ElasticSanVersion V2 only. \
+ * {@link KnownQualityOfService} can be used interchangeably with QualityOfService,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GeneralPurpose**: General purpose tier. \
+ * **PerformanceCritical**: Performance critical tier.
+ */
+export type QualityOfService = string;
+
+/** Response for Delete Retention Policy object */
+export interface DeleteRetentionPolicy {
+  policyState?: PolicyState;
+  /** The number of days to retain the resources after deletion. */
+  retentionPeriodDays?: number;
+}
+
+export function deleteRetentionPolicySerializer(item: DeleteRetentionPolicy): any {
+  return { policyState: item["policyState"], retentionPeriodDays: item["retentionPeriodDays"] };
+}
+
+export function deleteRetentionPolicyDeserializer(item: any): DeleteRetentionPolicy {
+  return {
+    policyState: item["policyState"],
+    retentionPeriodDays: item["retentionPeriodDays"],
+  };
+}
+
+/** Known values of {@link PolicyState} that the service accepts. */
+export enum KnownPolicyState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/** Type of PolicyState */
+export type PolicyState = string;
+
 /** Volume Group request. */
 export interface VolumeGroupUpdate {
   /** The identity of the resource. */
@@ -1503,6 +1661,12 @@ export interface VolumeGroupUpdateProperties {
   networkAcls?: NetworkRuleSet;
   /** A boolean indicating whether or not Data Integrity Check is enabled */
   enforceDataIntegrityCheckForIscsi?: boolean;
+  /** Reserved IOPS allocated for this volume group, applicable for QualityOfService PerformanceCritical only. */
+  reservedIops?: number;
+  /** Reserved MBps allocated for this volume group, applicable for QualityOfService PerformanceCritical only. */
+  reservedMBps?: number;
+  /** The retention policy for the soft deleted volume group and its associated resources */
+  deleteRetentionPolicy?: DeleteRetentionPolicy;
 }
 
 export function volumeGroupUpdatePropertiesSerializer(item: VolumeGroupUpdateProperties): any {
@@ -1516,6 +1680,11 @@ export function volumeGroupUpdatePropertiesSerializer(item: VolumeGroupUpdatePro
       ? item["networkAcls"]
       : networkRuleSetSerializer(item["networkAcls"]),
     enforceDataIntegrityCheckForIscsi: item["enforceDataIntegrityCheckForIscsi"],
+    reservedIops: item["reservedIops"],
+    reservedMBps: item["reservedMBps"],
+    deleteRetentionPolicy: !item["deleteRetentionPolicy"]
+      ? item["deleteRetentionPolicy"]
+      : deleteRetentionPolicySerializer(item["deleteRetentionPolicy"]),
   };
 }
 
@@ -1649,6 +1818,10 @@ export interface SnapshotProperties {
   readonly sourceVolumeSizeGiB?: number;
   /** Source Volume Name of a snapshot */
   readonly volumeName?: string;
+  /** The state of snapshot which determines the access availability of the snapshot. */
+  readonly snapshotAccessState?: SnapshotAccessState;
+  /** Percentage complete for the background copy of the snapshot when a snapshot is in InstantAccess state. */
+  readonly completionPercent?: number;
 }
 
 export function snapshotPropertiesSerializer(item: SnapshotProperties): any {
@@ -1661,6 +1834,8 @@ export function snapshotPropertiesDeserializer(item: any): SnapshotProperties {
     provisioningState: item["provisioningState"],
     sourceVolumeSizeGiB: item["sourceVolumeSizeGiB"],
     volumeName: item["volumeName"],
+    snapshotAccessState: item["snapshotAccessState"],
+    completionPercent: item["completionPercent"],
   };
 }
 
@@ -1679,6 +1854,33 @@ export function snapshotCreationDataDeserializer(item: any): SnapshotCreationDat
     sourceId: item["sourceId"],
   };
 }
+
+/** The state of snapshot which determines the access availability of the snapshot. */
+export enum KnownSnapshotAccessState {
+  /** Default value. */
+  Unknown = "Unknown",
+  /** The snapshot cannot be used for restore, copy or download to offline. */
+  Pending = "Pending",
+  /** The snapshot can be used for restore, copy to different region, and download to offline. */
+  Available = "Available",
+  /** The snapshot can be used for restoring volumes with fast performance but cannot be copied or downloaded. */
+  InstantAccess = "InstantAccess",
+  /** The snapshot can be used for restoring volumes with fast performance, copied and downloaded. */
+  AvailableWithInstantAccess = "AvailableWithInstantAccess",
+}
+
+/**
+ * The state of snapshot which determines the access availability of the snapshot. \
+ * {@link KnownSnapshotAccessState} can be used interchangeably with SnapshotAccessState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Default value. \
+ * **Pending**: The snapshot cannot be used for restore, copy or download to offline. \
+ * **Available**: The snapshot can be used for restore, copy to different region, and download to offline. \
+ * **InstantAccess**: The snapshot can be used for restoring volumes with fast performance but cannot be copied or downloaded. \
+ * **AvailableWithInstantAccess**: The snapshot can be used for restoring volumes with fast performance, copied and downloaded.
+ */
+export type SnapshotAccessState = string;
 
 /** List of Snapshots */
 export interface _SnapshotList {
@@ -1775,6 +1977,8 @@ export interface SkuLocationInfo {
   readonly location?: string;
   /** The zones. */
   readonly zones?: string[];
+  /** Details of capabilities available in each zone. */
+  readonly zoneDetails?: SkuZoneDetails[];
 }
 
 export function skuLocationInfoDeserializer(item: any): SkuLocationInfo {
@@ -1785,6 +1989,36 @@ export function skuLocationInfoDeserializer(item: any): SkuLocationInfo {
       : item["zones"].map((p: any) => {
           return p;
         }),
+    zoneDetails: !item["zoneDetails"]
+      ? item["zoneDetails"]
+      : skuZoneDetailsArrayDeserializer(item["zoneDetails"]),
+  };
+}
+
+export function skuZoneDetailsArrayDeserializer(result: Array<SkuZoneDetails>): any[] {
+  return result.map((item) => {
+    return skuZoneDetailsDeserializer(item);
+  });
+}
+
+/** Details of capabilities available in each zone. */
+export interface SkuZoneDetails {
+  /** The zone(s). */
+  readonly name?: string[];
+  /** The capabilities supported in the zone(s). */
+  readonly capabilities?: SKUCapability[];
+}
+
+export function skuZoneDetailsDeserializer(item: any): SkuZoneDetails {
+  return {
+    name: !item["name"]
+      ? item["name"]
+      : item["name"].map((p: any) => {
+          return p;
+        }),
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : skuCapabilityArrayDeserializer(item["capabilities"]),
   };
 }
 
@@ -1831,8 +2065,30 @@ export enum KnownXMsForceDelete {
 /** Type of XMsForceDelete */
 export type XMsForceDelete = string;
 
+/** Known values of {@link DeleteType} that the service accepts. */
+export enum KnownDeleteType {
+  /** permanent */
+  Permanent = "permanent",
+}
+
+/** Type of DeleteType */
+export type DeleteType = string;
+
+/** Known values of {@link x-ms-access-soft-deleted-resources} that the service accepts. */
+export enum KnownXMsAccessSoftDeletedResources {
+  /** true */
+  True = "true",
+  /** false */
+  False = "false",
+}
+
+/** Type of XMsAccessSoftDeletedResources */
+export type XMsAccessSoftDeletedResources = string;
+
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2025-09-01 stable API version. */
   V20250901 = "2025-09-01",
+  /** The 2026-05-01-preview API version. */
+  V20260501Preview = "2026-05-01-preview",
 }

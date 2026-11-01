@@ -9,6 +9,7 @@ describe("generateChangelogAndBumpVersion beta version test", () => {
   let tempTestDir: string;
   let packageDir: string;
   let mockMakeChangesForReleasingTrack2: any;
+  let mockMakeChangesForMigrateTrack1ToTrack2: any;
   let mockTryReadNpmPackageChangelog: any;
 
   beforeEach(async () => {
@@ -24,9 +25,10 @@ describe("generateChangelogAndBumpVersion beta version test", () => {
 
     // Mock function for changelog generation
     mockMakeChangesForReleasingTrack2 = vi.fn().mockResolvedValue(undefined);
+    mockMakeChangesForMigrateTrack1ToTrack2 = vi.fn().mockResolvedValue(undefined);
     vi.doMock("../../common/changelog/modifyChangelogFileAndBumpVersion.js", () => ({
       makeChangesForFirstRelease: vi.fn().mockResolvedValue(undefined),
-      makeChangesForMigrateTrack1ToTrack2: vi.fn().mockResolvedValue(undefined),
+      makeChangesForMigrateTrack1ToTrack2: mockMakeChangesForMigrateTrack1ToTrack2,
       makeChangesForPatchReleasingTrack2: vi.fn().mockResolvedValue(undefined),
       makeChangesForReleasingTrack2: mockMakeChangesForReleasingTrack2,
     }));
@@ -97,7 +99,9 @@ describe("generateChangelogAndBumpVersion beta version test", () => {
       });
       return {
         ...actual,
-        getNpmPackageName: vi.fn(() => "@azure/arm-testservice"),
+        getNpmPackageName: vi.fn(
+          (packageFolderPath: string) => `@azure/${path.basename(packageFolderPath)}`,
+        ),
         getSDKType: vi.fn(() => "mgmt"),
         fixChangelogFormat: vi.fn((content) => content),
         tryReadNpmPackageChangelog: mockTryReadNpmPackageChangelog,
@@ -157,6 +161,67 @@ describe("generateChangelogAndBumpVersion beta version test", () => {
     fs.mkdirSync = realMkdirSync;
     vi.clearAllMocks();
     vi.resetModules();
+  });
+
+  test("compares APIs for a repeat provisioning release instead of migrating track1", async () => {
+    packageDir = path.join(tempTestDir, "provisioning-testservice");
+    await mkdir(path.join(packageDir, "review"), { recursive: true });
+    await writeFile(
+      path.join(packageDir, "package.json"),
+      JSON.stringify({
+        name: "@azure/provisioning-testservice",
+        version: "1.0.0-beta.2",
+        "sdk-type": "provisioning",
+      }),
+    );
+    await writeFile(
+      path.join(packageDir, "review", "provisioning-testservice-node.api.md"),
+      "current API",
+    );
+
+    vi.doMock("../../common/npmUtils.js", () => ({
+      tryGetNpmView: vi.fn().mockResolvedValue({
+        versions: ["1.0.0-beta.1"],
+        "dist-tags": { latest: "1.0.0-beta.1" },
+      }),
+      tryCreateLastestStableNpmViewFromGithub: vi.fn(),
+    }));
+    vi.doMock("../../changelog/v2/ChangelogGenerator.js", () => ({
+      ChangelogGenerator: vi.fn().mockImplementation(function () {
+        return {
+          generate: vi.fn().mockReturnValue({
+            hasBreakingChange: false,
+            hasFeature: true,
+            content: "### Features Added\n\n- Added resource",
+          }),
+        };
+      }),
+    }));
+
+    const npmPackageRoot = path.join(packageDir, "changelog-temp", "package");
+    await mkdir(path.join(npmPackageRoot, "review"), { recursive: true });
+    await writeFile(
+      path.join(npmPackageRoot, "package.json"),
+      JSON.stringify({
+        name: "@azure/provisioning-testservice",
+        version: "1.0.0-beta.1",
+        "sdk-type": "provisioning",
+      }),
+    );
+    await writeFile(path.join(npmPackageRoot, "review", "package-node.api.md"), "previous API");
+
+    vi.resetModules();
+    const { generateChangelogAndBumpVersion } =
+      await import("../../common/changelog/automaticGenerateChangeLogAndBumpVersion.js");
+
+    const changelog = await generateChangelogAndBumpVersion("provisioning-testservice", {
+      apiVersion: "2026-02-01",
+      sdkReleaseType: "beta",
+    });
+
+    expect(changelog?.hasFeature).toBe(true);
+    expect(mockMakeChangesForReleasingTrack2).toHaveBeenCalledOnce();
+    expect(mockMakeChangesForMigrateTrack1ToTrack2).not.toHaveBeenCalled();
   });
 
   test("should handle case when beta tag is more recent than next tag", async () => {

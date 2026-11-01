@@ -10,10 +10,10 @@ import type {
   RestoreProtectionItemResponse,
   BackupProtectionGroupRequest,
   BackupProtectionGroupResponse,
+  ProtectionGroupCreateOrUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  protectionGroupSerializer,
   protectionGroupDeserializer,
   _protectionGroupListResultDeserializer,
   stopBackupProtectionGroupRequestSerializer,
@@ -21,6 +21,7 @@ import {
   restoreProtectionItemResponseDeserializer,
   backupProtectionGroupRequestSerializer,
   backupProtectionGroupResponseDeserializer,
+  protectionGroupCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -55,7 +56,7 @@ export function _backupSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       protectionGroupName: protectionGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,7 +120,7 @@ export function _resumeBackupSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       protectionGroupName: protectionGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,7 +176,7 @@ export function _restoreSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       protectionGroupName: protectionGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -240,7 +241,7 @@ export function _stopBackupSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       protectionGroupName: protectionGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -289,7 +290,7 @@ export function stopBackup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-03-preview",
+    apiVersion: context.apiVersion ?? "2026-09-30",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -305,7 +306,7 @@ export function _listByCloudAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -345,11 +346,7 @@ export function listByCloudAccount(
     () => _listByCloudAccountSend(context, resourceGroupName, cloudAccountName, options),
     _listByCloudAccountDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-03-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-30" },
   );
 }
 
@@ -367,7 +364,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       protectionGroupName: protectionGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -404,7 +401,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, cloudAccountName, protectionGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-03-preview",
+    apiVersion: context.apiVersion ?? "2026-09-30",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -413,7 +410,7 @@ export function _createOrupdateSend(
   resourceGroupName: string,
   cloudAccountName: string,
   protectionGroupName: string,
-  resource: ProtectionGroup,
+  resource: ProtectionGroupCreateOrUpdate,
   options: ProtectionGroupsCreateOrupdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -423,7 +420,7 @@ export function _createOrupdateSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       protectionGroupName: protectionGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -433,7 +430,7 @@ export function _createOrupdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: protectionGroupSerializer(resource),
+    body: protectionGroupCreateOrUpdateSerializer(resource),
   });
 }
 
@@ -459,7 +456,7 @@ export function createOrupdate(
   resourceGroupName: string,
   cloudAccountName: string,
   protectionGroupName: string,
-  resource: ProtectionGroup,
+  resource: ProtectionGroupCreateOrUpdate,
   options: ProtectionGroupsCreateOrupdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ProtectionGroup>, ProtectionGroup> {
   return getLongRunningPoller(context, _createOrupdateDeserialize, ["200", "201", "202"], {
@@ -475,7 +472,7 @@ export function createOrupdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-03-preview",
+    apiVersion: context.apiVersion ?? "2026-09-30",
   }) as PollerLike<OperationState<ProtectionGroup>, ProtectionGroup>;
 }
 
@@ -493,7 +490,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       protectionGroupName: protectionGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

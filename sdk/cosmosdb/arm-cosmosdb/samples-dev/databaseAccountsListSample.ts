@@ -8,11 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the Azure Cosmos DB database accounts available under the subscription.
  *
  * @summary lists all the Azure Cosmos DB database accounts available under the subscription.
- * x-ms-original-file: 2026-03-15/CosmosDBDatabaseAccountList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBDatabaseAccountList.json
  */
 async function cosmosDBDatabaseAccountList(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.databaseAccounts.list()) {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates the specified Arc deployment associated with the Cognitive Services account.
  *
  * @summary updates the specified Arc deployment associated with the Cognitive Services account.
- * x-ms-original-file: 2026-07-15-preview/UpdateArcDeployment.json
+ * x-ms-original-file: 2026-09-15-preview/UpdateArcDeployment.json
  */
 async function updateArcDeployment() {
   const credential = new DefaultAzureCredential();

@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MonitorContext } from "../../api/monitorContext.js";
+import type { MonitorContext } from "../../api/monitorContext.js";
 import {
   listByAzureMonitorWorkspace,
   createOrUpdate,
   get,
 } from "../../api/metricsContainers/operations.js";
-import {
+import type {
   MetricsContainersListByAzureMonitorWorkspaceOptionalParams,
   MetricsContainersCreateOrUpdateOptionalParams,
   MetricsContainersGetOptionalParams,
 } from "../../api/metricsContainers/options.js";
-import { MetricsContainerResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { MetricsContainerResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MetricsContainers operations. */
 export interface MetricsContainersOperations {

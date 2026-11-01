@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all Tap configurations in a network interface.
  *
  * @summary get all Tap configurations in a network interface.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceTapConfigurationList.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceTapConfigurationList.json
  */
 async function listVirtualNetworkTapConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();

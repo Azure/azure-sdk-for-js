@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the route sets information for the ExpressRoute gateway.
  *
  * @summary retrieves the route sets information for the ExpressRoute gateway.
- * x-ms-original-file: 2026-01-01/ExpressRouteGatewayGetRoutesInformation.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteGatewayGetRoutesInformation.json
  */
 async function expressRouteGatewayGetRoutesInformation(): Promise<void> {
   const credential = new DefaultAzureCredential();

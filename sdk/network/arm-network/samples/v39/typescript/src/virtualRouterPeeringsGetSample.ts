@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified Virtual Router Peering.
  *
  * @summary gets the specified Virtual Router Peering.
- * x-ms-original-file: 2026-01-01/VirtualRouterPeeringGet.json
+ * x-ms-original-file: 2026-03-01/VirtualRouterPeeringGet.json
  */
 async function getVirtualRouterPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();

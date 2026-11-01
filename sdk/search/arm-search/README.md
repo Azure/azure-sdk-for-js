@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/arm-search)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-search)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-search?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-search)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/arm-search/samples)
 
 ## Getting started

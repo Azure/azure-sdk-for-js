@@ -28,6 +28,7 @@ import { _getBetaSchedulesOperations } from "./schedules/index.js";
 import type { BetaVoiceAgentsOperations } from "./voiceAgents/index.js";
 import { _getBetaVoiceAgentsOperations } from "./voiceAgents/index.js";
 import type { VoiceAgentRealtimeClientOptions } from "../../realtime/voiceAgentRealtimeClient.js";
+import type { ResolvedTracingConfig } from "../../tracing/configuration.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
@@ -62,6 +63,7 @@ export function _getBetaOperations(
   credential: TokenCredential,
   endpoint: string,
   realtimeOptions?: VoiceAgentRealtimeClientOptions,
+  tracingConfig?: ResolvedTracingConfig,
 ): BetaOperations {
   return {
     /** Operations for managing skills. */
@@ -83,10 +85,16 @@ export function _getBetaOperations(
     /** Operations for managing evaluation taxonomies. */
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
     /** Operations for managing agents. */
-    agents: _getBetaAgentsOperations(context),
+    agents: _getBetaAgentsOperations(context, tracingConfig),
     /** Operations for managing Agent Insights monitors. */
     agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
     /** Operations for managing voice agent conversations and telephony. */
-    voiceAgents: _getBetaVoiceAgentsOperations(context, credential, endpoint, realtimeOptions),
+    voiceAgents: _getBetaVoiceAgentsOperations(
+      context,
+      credential,
+      endpoint,
+      realtimeOptions,
+      tracingConfig,
+    ),
   };
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a security user rule.
  *
  * @summary creates or updates a security user rule.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityUserRulePut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityUserRulePut.json
  */
 async function createASecurityUserRule() {
   const credential = new DefaultAzureCredential();

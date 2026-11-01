@@ -57,7 +57,7 @@ export function _restoreSecretSend(
   const path = expandUrlTemplate(
     "/secrets/restore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +79,9 @@ export async function _restoreSecretDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -106,7 +108,7 @@ export function _backupSecretSend(
     "/secrets/{secret-name}/backup{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,7 +128,9 @@ export async function _backupSecretDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -153,7 +157,7 @@ export function _recoverDeletedSecretSend(
     "/deletedsecrets/{secret-name}/recover{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,7 +177,9 @@ export async function _recoverDeletedSecretDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -200,7 +206,7 @@ export function _purgeDeletedSecretSend(
     "/deletedsecrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,7 +219,9 @@ export async function _purgeDeletedSecretDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -240,7 +248,7 @@ export function _getDeletedSecretSend(
     "/deletedsecrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -260,7 +268,9 @@ export async function _getDeletedSecretDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -285,7 +295,7 @@ export function _getDeletedSecretsSend(
   const path = expandUrlTemplate(
     "/deletedsecrets{?api%2Dversion,maxresults}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       maxresults: options?.maxresults,
     },
     {
@@ -306,7 +316,9 @@ export async function _getDeletedSecretsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -324,7 +336,7 @@ export function getDeletedSecrets(
     () => _getDeletedSecretsSend(context, options),
     _getDeletedSecretsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -337,7 +349,7 @@ export function _getSecretVersionsSend(
     "/secrets/{secret-name}/versions{?api%2Dversion,maxresults}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       maxresults: options?.maxresults,
     },
     {
@@ -358,7 +370,9 @@ export async function _getSecretVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -377,7 +391,7 @@ export function getSecretVersions(
     () => _getSecretVersionsSend(context, secretName, options),
     _getSecretVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -388,7 +402,7 @@ export function _getSecretsSend(
   const path = expandUrlTemplate(
     "/secrets{?api%2Dversion,maxresults}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       maxresults: options?.maxresults,
     },
     {
@@ -409,7 +423,9 @@ export async function _getSecretsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -427,7 +443,7 @@ export function getSecrets(
     () => _getSecretsSend(context, options),
     _getSecretsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -442,7 +458,7 @@ export function _getSecretSend(
     {
       "secret-name": secretName,
       "secret-version": secretVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       outContentType: options?.outContentType,
     },
     {
@@ -461,7 +477,9 @@ export async function _getSecretDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -492,7 +510,7 @@ export function _updateSecretSend(
     {
       "secret-name": secretName,
       "secret-version": secretVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -514,7 +532,9 @@ export async function _updateSecretDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -543,7 +563,7 @@ export function _deleteSecretSend(
     "/secrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -563,7 +583,9 @@ export async function _deleteSecretDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -591,7 +613,7 @@ export function _setSecretSend(
     "/secrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -611,7 +633,9 @@ export async function _setSecretDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }

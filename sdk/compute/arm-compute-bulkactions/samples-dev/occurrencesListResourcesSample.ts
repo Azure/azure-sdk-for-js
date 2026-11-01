@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary lists resources for the specified occurrence.
  * x-ms-original-file: 2026-10-06-preview/Occurrences_ListResources_BasicSuccess.json
  */
-async function _01ListResourcesInARecurringScheduledActionOccurrence(): Promise<void> {
+async function _01ListResourcesInARecurringBulkActionOccurrence(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -32,7 +32,7 @@ async function _01ListResourcesInARecurringScheduledActionOccurrence(): Promise<
  * @summary lists resources for the specified occurrence.
  * x-ms-original-file: 2026-10-06-preview/Occurrences_ListResources_PagedSuccess.json
  */
-async function _02ListAPageOfResourcesInARecurringScheduledActionOccurrence(): Promise<void> {
+async function _02ListAPageOfResourcesInARecurringBulkActionOccurrence(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -49,8 +49,8 @@ async function _02ListAPageOfResourcesInARecurringScheduledActionOccurrence(): P
 }
 
 async function main(): Promise<void> {
-  await _01ListResourcesInARecurringScheduledActionOccurrence();
-  await _02ListAPageOfResourcesInARecurringScheduledActionOccurrence();
+  await _01ListResourcesInARecurringBulkActionOccurrence();
+  await _02ListAPageOfResourcesInARecurringBulkActionOccurrence();
 }
 
 main().catch(console.error);

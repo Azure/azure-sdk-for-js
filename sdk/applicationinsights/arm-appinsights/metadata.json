@@ -3,7 +3,7 @@
     "AnalyticsItems": "2015-05-01",
     "ComponentAPIs": "2015-05-01",
     "ComponentLinkedStorageAccountApi": "2020-03-01-preview",
-    "Components": "2020-02-02",
+    "Components": "2025-01-23-preview",
     "DeletedWorkbookApi": "2024-02-01-preview",
     "Favorites": "2015-05-01",
     "LiveTokenApi": "2021-10-14",
@@ -13,7 +13,7 @@
     "WorkbooksApi": "2023-06-01",
     "WorkbookTemplatesApi": "2020-11-20"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "AnalyticsItems",
     "CrossLanguageDefinitionId": {
@@ -124,6 +124,7 @@
       "@azure/arm-appinsights!KnownRequestSource:enum": "Components.RequestSource",
       "@azure/arm-appinsights!KnownPublicNetworkAccessType:enum": "Components.PublicNetworkAccessType",
       "@azure/arm-appinsights!KnownIngestionMode:enum": "Components.IngestionMode",
+      "@azure/arm-appinsights!KnownAzureMonitorWorkspaceIngestionMode:enum": "Components.AzureMonitorWorkspaceIngestionMode",
       "@azure/arm-appinsights!KnownPurgeState:enum": "Components.PurgeState",
       "@azure/arm-appinsights!KnownFavoriteType:enum": "Favorites.FavoriteType",
       "@azure/arm-appinsights!KnownFavoriteSourceType:enum": "Favorites.FavoriteSourceType",
@@ -131,6 +132,7 @@
       "@azure/arm-appinsights!WorkbookPropertiesStorageUri:type": "WorkbooksApi.WorkbookProperties.storageUri.anonymous",
       "@azure/arm-appinsights!WorkbookPropertiesDescription:type": "WorkbooksApi.WorkbookProperties.description.anonymous",
       "@azure/arm-appinsights!WorkbookPropertiesRevision:type": "WorkbooksApi.WorkbookProperties.revision.anonymous",
+      "@azure/arm-appinsights!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
       "@azure/arm-appinsights!WorkbookPropertiesUpdateParametersDescription:type": "WorkbooksApi.WorkbookPropertiesUpdateParameters.description.anonymous",
       "@azure/arm-appinsights!WorkbookPropertiesUpdateParametersRevision:type": "WorkbooksApi.WorkbookPropertiesUpdateParameters.revision.anonymous",
       "@azure/arm-appinsights!DeletedWorkbookPropertiesSerializedData:type": "DeletedWorkbookApi.DeletedWorkbookProperties.serializedData.anonymous",

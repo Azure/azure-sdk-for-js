@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all global reach peer connections associated with a private peering in an express route circuit.
  *
  * @summary gets all global reach peer connections associated with a private peering in an express route circuit.
- * x-ms-original-file: 2026-01-01/PeerExpressRouteCircuitConnectionList.json
+ * x-ms-original-file: 2026-03-01/PeerExpressRouteCircuitConnectionList.json
  */
 async function listPeerExpressRouteCircuitConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

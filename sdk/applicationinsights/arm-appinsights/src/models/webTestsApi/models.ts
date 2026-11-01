@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+
 /** An Application Insights WebTest definition. */
 export interface WebTest extends WebtestsResource {
   /** The kind of WebTest that this web test watches. Choices are ping, multistep and standard. */
@@ -47,18 +47,18 @@ export function webTestSerializer(item: WebTest): any {
     tags: item["tags"],
     kind: item["kind"],
     properties: areAllPropsUndefined(item, [
-      "SyntheticMonitorId",
-      "WebTestName",
-      "Description",
-      "Enabled",
-      "Frequency",
-      "Timeout",
-      "WebTestKind",
-      "RetryEnabled",
-      "Locations",
-      "Configuration",
-      "Request",
-      "ValidationRules",
+      "syntheticMonitorId",
+      "webTestName",
+      "description",
+      "enabled",
+      "frequency",
+      "timeout",
+      "webTestKind",
+      "retryEnabled",
+      "locations",
+      "configuration",
+      "request",
+      "validationRules",
     ])
       ? undefined
       : _webTestPropertiesSerializer(item),

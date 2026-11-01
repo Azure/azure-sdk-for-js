@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to add new certificate or update an existing certificate.
  *
  * @summary add new certificate or update an existing certificate.
- * x-ms-original-file: 2026-08-31/DPSCertificateCreateOrUpdate.json
+ * x-ms-original-file: 2026-11-01/DPSCertificateCreateOrUpdate.json
  */
 async function dpsCreateOrUpdateCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();

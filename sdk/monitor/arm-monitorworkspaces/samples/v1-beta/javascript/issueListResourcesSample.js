@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all resources in the issue - this method uses pagination to return all resources
  *
  * @summary list all resources in the issue - this method uses pagination to return all resources
- * x-ms-original-file: 2025-10-03/Issue_ListResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/Issue_ListResources_MaximumSet_Gen.json
  */
 async function issueListResourcesMaximumSet() {
   const credential = new DefaultAzureCredential();

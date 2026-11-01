@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of service association links for a subnet.
  *
  * @summary gets a list of service association links for a subnet.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGetServiceAssociationLinks.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGetServiceAssociationLinks.json
  */
 async function getServiceAssociationLinks(): Promise<void> {
   const credential = new DefaultAzureCredential();

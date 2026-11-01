@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified Virtual Router.
  *
  * @summary deletes the specified Virtual Router.
- * x-ms-original-file: 2026-01-01/VirtualRouterDelete.json
+ * x-ms-original-file: 2026-03-01/VirtualRouterDelete.json
  */
 async function deleteVirtualRouter(): Promise<void> {
   const credential = new DefaultAzureCredential();

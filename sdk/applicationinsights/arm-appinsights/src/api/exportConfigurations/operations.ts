@@ -1,28 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext as Client } from "../index.js";
-import {
+import type { ApplicationInsightsManagementContext as Client } from "../index.js";
+import type {
   ApplicationInsightsComponentExportConfiguration,
-  applicationInsightsComponentExportConfigurationDeserializer,
   ApplicationInsightsComponentExportRequest,
+} from "../../models/componentAPIs/models.js";
+import {
+  applicationInsightsComponentExportConfigurationDeserializer,
   applicationInsightsComponentExportRequestSerializer,
   applicationInsightsComponentExportConfigurationArrayDeserializer,
 } from "../../models/componentAPIs/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ExportConfigurationsUpdateOptionalParams,
   ExportConfigurationsGetOptionalParams,
   ExportConfigurationsDeleteOptionalParams,
   ExportConfigurationsCreateOptionalParams,
   ExportConfigurationsListOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _updateSend(
   context: Client,

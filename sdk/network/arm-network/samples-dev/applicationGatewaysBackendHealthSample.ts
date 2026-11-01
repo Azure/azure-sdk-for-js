@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the backend health of the specified application gateway in a resource group.
  *
  * @summary gets the backend health of the specified application gateway in a resource group.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayBackendHealthGet.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayBackendHealthGet.json
  */
 async function getBackendHealth(): Promise<void> {
   const credential = new DefaultAzureCredential();

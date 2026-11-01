@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
  *
  * @summary deletes an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
- * x-ms-original-file: 2025-12-01/Endpoints_Delete.json
+ * x-ms-original-file: 2026-10-01/Endpoints_Delete.json
  */
 async function endpointsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

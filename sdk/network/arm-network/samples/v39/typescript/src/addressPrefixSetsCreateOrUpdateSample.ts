@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an address prefix set.
  *
  * @summary creates or updates an address prefix set.
- * x-ms-original-file: 2026-01-01/AddressPrefixSetCreate.json
+ * x-ms-original-file: 2026-03-01/AddressPrefixSetCreate.json
  */
 async function createAddressPrefixSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

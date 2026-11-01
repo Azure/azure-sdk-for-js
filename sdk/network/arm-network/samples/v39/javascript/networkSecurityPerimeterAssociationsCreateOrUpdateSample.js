@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a NSP resource association.
  *
  * @summary creates or updates a NSP resource association.
- * x-ms-original-file: 2026-01-01/NspAssociationPut.json
+ * x-ms-original-file: 2026-03-01/NspAssociationPut.json
  */
 async function nspAssociationPut() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Associated Resource in the Pool.
  *
  * @summary list Associated Resource in the Pool.
- * x-ms-original-file: 2026-01-01/IpamPools_ListAssociatedResources.json
+ * x-ms-original-file: 2026-03-01/IpamPools_ListAssociatedResources.json
  */
 async function ipamPoolsListAssociatedResources(): Promise<void> {
   const credential = new DefaultAzureCredential();

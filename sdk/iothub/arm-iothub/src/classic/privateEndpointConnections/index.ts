@@ -79,6 +79,7 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
 }
+
 function _getPrivateEndpointConnections(context: IotHubContext) {
   return {
     list: (
@@ -179,6 +180,7 @@ function _getPrivateEndpointConnections(context: IotHubContext) {
     ) => get(context, resourceGroupName, resourceName, privateEndpointConnectionName, options),
   };
 }
+
 export function _getPrivateEndpointConnectionsOperations(
   context: IotHubContext,
 ): PrivateEndpointConnectionsOperations {

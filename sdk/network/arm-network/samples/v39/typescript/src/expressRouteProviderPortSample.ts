@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves detail of a provider port.
  *
  * @summary retrieves detail of a provider port.
- * x-ms-original-file: 2026-01-01/expressRouteProviderPort.json
+ * x-ms-original-file: 2026-03-01/expressRouteProviderPort.json
  */
 async function expressRouteProviderPort(): Promise<void> {
   const credential = new DefaultAzureCredential();

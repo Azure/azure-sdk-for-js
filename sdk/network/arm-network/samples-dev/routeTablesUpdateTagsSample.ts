@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a route table tags.
  *
  * @summary updates a route table tags.
- * x-ms-original-file: 2026-01-01/RouteTableUpdateTags.json
+ * x-ms-original-file: 2026-03-01/RouteTableUpdateTags.json
  */
 async function updateRouteTableTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

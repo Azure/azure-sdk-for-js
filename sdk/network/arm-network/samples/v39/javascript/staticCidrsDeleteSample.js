@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the Static CIDR resource.
  *
  * @summary delete the Static CIDR resource.
- * x-ms-original-file: 2026-01-01/StaticCidrs_Delete.json
+ * x-ms-original-file: 2026-03-01/StaticCidrs_Delete.json
  */
 async function staticCidrsDelete() {
   const credential = new DefaultAzureCredential();

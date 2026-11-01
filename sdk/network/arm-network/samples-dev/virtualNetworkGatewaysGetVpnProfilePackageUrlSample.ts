@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
  *
  * @summary gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayGetVpnProfilePackageUrl.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayGetVpnProfilePackageUrl.json
  */
 async function getVirtualNetworkGatewayVPNProfilePackageURL(): Promise<void> {
   const credential = new DefaultAzureCredential();

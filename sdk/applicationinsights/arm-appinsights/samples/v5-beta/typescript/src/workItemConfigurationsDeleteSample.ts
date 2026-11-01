@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function workItemConfigurationDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "subid";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   await client.workItemConfigurations.delete(
     "my-resource-group",

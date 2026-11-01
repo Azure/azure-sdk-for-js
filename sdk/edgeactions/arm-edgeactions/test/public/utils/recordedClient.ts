@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
-import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { EdgeActionsManagementClientOptionalParams } from "../../../src/index.js";
 import { EdgeActionsManagementClient } from "../../../src/index.js";
+import { sanitizedSubscription, sanitizers } from "../../utils/sanitizers.js";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id",
-  RESOURCE_GROUP: "myjstest",
+  SUBSCRIPTION_ID: sanitizedSubscription,
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
@@ -17,25 +17,29 @@ const replaceableVariables: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
+  sanitizerOptions: sanitizers,
   removeCentralSanitizers: [
-    "AZSDK3493", // .name in the body is not a secret
-    "AZSDK3430", // .id in the body is not a secret
+    "AZSDK3493", // Preserve test-generated names; package sanitizers redact unrelated resources.
+    "AZSDK3430", // Preserve ARM ID structure; package sanitizers redact identifying segments.
+    "AZSDK2030", // Preserve Operation-Location; signed query values are sanitized separately.
   ],
 };
 
 export const testPollingOptions = {
-  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+  updateIntervalInMs: isPlaybackMode() ? 0 : 1000,
 };
 
 /**
- * creates the recorder and reads the environment variables from the `.env` file.
- * Should be called first in the test suite to make sure environment variables are
- * read before they are being used.
+ * Starts recording or playback before clients read environment variables.
  */
-export async function createRecorder(context: VitestTestContext): Promise<Recorder> {
-  const recorder = new Recorder(context);
-  await recorder.start(recorderEnvSetup);
-  return recorder;
+export async function startRecorder(recorder: Recorder): Promise<void> {
+  await recorder.start({
+    ...recorderEnvSetup,
+    envSetupForPlayback: {
+      ...replaceableVariables,
+      ...(process.env.RESOURCE_GROUP ? { RESOURCE_GROUP: "edgeactions-test-rg" } : {}),
+    },
+  });
 }
 
 export function createClient(
@@ -43,11 +47,14 @@ export function createClient(
   options?: EdgeActionsManagementClientOptionalParams,
 ): EdgeActionsManagementClient {
   const credential = createTestCredential();
-  const subscriptionId = env.SUBSCRIPTION_ID || "";
+  const subscriptionId = assertEnvironmentVariable("SUBSCRIPTION_ID");
   const client = new EdgeActionsManagementClient(
     credential,
     subscriptionId,
-    recorder.configureClientOptions(options || {}),
+    recorder.configureClientOptions({
+      ...options,
+      additionalPolicies: [...(options?.additionalPolicies ?? [])],
+    }),
   );
   return client;
 }

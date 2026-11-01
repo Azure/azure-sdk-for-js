@@ -79,7 +79,7 @@ function getContentType(body: any): string | undefined {
     return undefined;
   }
 
-  if (ArrayBuffer.isView(body)) {
+  if (body instanceof ArrayBuffer || ArrayBuffer.isView(body)) {
     return "application/octet-stream";
   }
 
@@ -206,10 +206,8 @@ export function getRequestBody(body?: unknown, contentType: string = ""): Reques
     return { body: body as RequestBodyType };
   }
 
-  if (ArrayBuffer.isView(body)) {
-    return {
-      body: body instanceof Uint8Array ? body : JSON.stringify(body),
-    };
+  if (body instanceof ArrayBuffer || ArrayBuffer.isView(body)) {
+    return { body };
   }
 
   const firstType = contentType.split(";")[0];

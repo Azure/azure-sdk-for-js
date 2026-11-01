@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+export type { AgentFabricMembershipsOperations } from "./agentFabricMemberships/index.js";
 export type { AgentPoolsOperations } from "./agentPools/index.js";
 export type { AlertConfigurationsOperations } from "./alertConfigurations/index.js";
 export type { ContainerServiceOperations } from "./containerService/index.js";
@@ -22,4 +23,5 @@ export type { ResolvePrivateLinkServiceIdOperations } from "./resolvePrivateLink
 export type { SnapshotsOperations } from "./snapshots/index.js";
 export type { TrustedAccessRoleBindingsOperations } from "./trustedAccessRoleBindings/index.js";
 export type { TrustedAccessRolesOperations } from "./trustedAccessRoles/index.js";
+export type { UpgradeInsightsOperations } from "./upgradeInsights/index.js";
 export type { VmSkusOperations } from "./vmSkus/index.js";

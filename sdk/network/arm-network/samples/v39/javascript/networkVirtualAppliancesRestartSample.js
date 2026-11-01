@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to restarts one or more VMs belonging to the specified Network Virtual Appliance.
  *
  * @summary restarts one or more VMs belonging to the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceEmptyRestart.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceEmptyRestart.json
  */
 async function restartAllNetworkVirtualApplianceVMsInVMScaleSet() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function restartAllNetworkVirtualApplianceVMsInVMScaleSet() {
  * This sample demonstrates how to restarts one or more VMs belonging to the specified Network Virtual Appliance.
  *
  * @summary restarts one or more VMs belonging to the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceSpecificRestart.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceSpecificRestart.json
  */
 async function restartSpecificNetworkVirtualApplianceVMsInVMScaleSet() {
   const credential = new DefaultAzureCredential();

@@ -11,6 +11,7 @@ exports:
   "./api/hcpOpenShiftClusters": "./src/api/hcpOpenShiftClusters/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
+  "./models/typeSpec": "./src/models/typeSpec/index.ts"
 
 targets:
   - name: browser

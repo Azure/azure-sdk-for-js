@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a RouteTable resource if it doesn't exist else updates the existing RouteTable.
  *
  * @summary creates a RouteTable resource if it doesn't exist else updates the existing RouteTable.
- * x-ms-original-file: 2026-01-01/HubRouteTablePut.json
+ * x-ms-original-file: 2026-03-01/HubRouteTablePut.json
  */
 async function routeTablePut(): Promise<void> {
   const credential = new DefaultAzureCredential();

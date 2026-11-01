@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an Azure Cosmos DB Mongo User Definition.
  *
  * @summary creates or updates an Azure Cosmos DB Mongo User Definition.
- * x-ms-original-file: 2026-03-15/CosmosDBMongoDBUserDefinitionCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBMongoDBUserDefinitionCreateUpdate.json
  */
 async function cosmosDBMongoDBUserDefinitionCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,12 +19,12 @@ async function cosmosDBMongoDBUserDefinitionCreateUpdate(): Promise<void> {
     "myAccountName",
     "myMongoUserDefinitionId",
     {
-      userName: "myUserName",
-      password: "myPassword",
-      databaseName: "sales",
       customData: "My custom data",
-      roles: [{ role: "myReadRole", db: "sales" }],
+      databaseName: "sales",
       mechanisms: "SCRAM-SHA-256",
+      password: "myPassword",
+      roles: [{ db: "sales", role: "myReadRole" }],
+      userName: "myUserName",
     },
   );
   console.log(result);

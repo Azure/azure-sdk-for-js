@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all application gateways in a resource group.
  *
  * @summary lists all application gateways in a resource group.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayList.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayList.json
  */
 async function listsAllApplicationGatewaysInAResourceGroup() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves all nat rules for a particular virtual wan vpn gateway.
  *
  * @summary retrieves all nat rules for a particular virtual wan vpn gateway.
- * x-ms-original-file: 2026-01-01/NatRuleList.json
+ * x-ms-original-file: 2026-03-01/NatRuleList.json
  */
 async function natRuleList(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Bastion Hosts in a resource group.
  *
  * @summary lists all Bastion Hosts in a resource group.
- * x-ms-original-file: 2026-01-01/BastionHostListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/BastionHostListByResourceGroup.json
  */
 async function listAllBastionHostsForAGivenResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

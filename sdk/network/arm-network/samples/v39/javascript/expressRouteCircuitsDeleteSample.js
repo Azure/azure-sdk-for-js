@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified express route circuit.
  *
  * @summary deletes the specified express route circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitDelete.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitDelete.json
  */
 async function deleteExpressRouteCircuit() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function deleteExpressRouteCircuit() {
  * This sample demonstrates how to deletes the specified express route circuit.
  *
  * @summary deletes the specified express route circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteMultiCloudCircuitDelete.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteMultiCloudCircuitDelete.json
  */
 async function deleteMultiCloudExpressRouteCircuit() {
   const credential = new DefaultAzureCredential();

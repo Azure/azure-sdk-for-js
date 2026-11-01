@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-azurestackhci",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "A generated SDK for AzureStackHCIClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -54,6 +54,174 @@
       "require": {
         "types": "./dist/commonjs/api/updateSummaries/index.d.ts",
         "default": "./dist/commonjs/api/updateSummaries/index.js"
+      }
+    },
+    "./api/edgeMachineDeploymentSettings": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineDeploymentSettings/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineDeploymentSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineDeploymentSettings/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineDeploymentSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineDeploymentSettings/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineDeploymentSettings/index.js"
+      }
+    },
+    "./api/edgeMachineSecuritySettingsOperations": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineSecuritySettingsOperations/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineSecuritySettingsOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineSecuritySettingsOperations/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineSecuritySettingsOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineSecuritySettingsOperations/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineSecuritySettingsOperations/index.js"
+      }
+    },
+    "./api/edgeMachineDiskPrivilegedJobs": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineDiskPrivilegedJobs/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineDiskPrivilegedJobs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineDiskPrivilegedJobs/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineDiskPrivilegedJobs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineDiskPrivilegedJobs/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineDiskPrivilegedJobs/index.js"
+      }
+    },
+    "./api/edgeMachineDiskJobs": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineDiskJobs/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineDiskJobs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineDiskJobs/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineDiskJobs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineDiskJobs/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineDiskJobs/index.js"
+      }
+    },
+    "./api/edgeMachineVolumes": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineVolumes/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineVolumes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineVolumes/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineVolumes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineVolumes/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineVolumes/index.js"
+      }
+    },
+    "./api/edgeMachineDisks": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineDisks/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineDisks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineDisks/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineDisks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineDisks/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineDisks/index.js"
+      }
+    },
+    "./api/edgeMachineNetworkAdapterJobs": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineNetworkAdapterJobs/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineNetworkAdapterJobs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineNetworkAdapterJobs/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineNetworkAdapterJobs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineNetworkAdapterJobs/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineNetworkAdapterJobs/index.js"
+      }
+    },
+    "./api/edgeMachineNetworkAdapters": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineNetworkAdapters/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineNetworkAdapters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineNetworkAdapters/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineNetworkAdapters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineNetworkAdapters/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineNetworkAdapters/index.js"
+      }
+    },
+    "./api/clusterJobs": {
+      "browser": {
+        "types": "./dist/browser/api/clusterJobs/index.d.ts",
+        "default": "./dist/browser/api/clusterJobs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/clusterJobs/index.d.ts",
+        "default": "./dist/esm/api/clusterJobs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/clusterJobs/index.d.ts",
+        "default": "./dist/commonjs/api/clusterJobs/index.js"
+      }
+    },
+    "./api/ownershipVouchers": {
+      "browser": {
+        "types": "./dist/browser/api/ownershipVouchers/index.d.ts",
+        "default": "./dist/browser/api/ownershipVouchers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ownershipVouchers/index.d.ts",
+        "default": "./dist/esm/api/ownershipVouchers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ownershipVouchers/index.d.ts",
+        "default": "./dist/commonjs/api/ownershipVouchers/index.js"
+      }
+    },
+    "./api/edgeMachineJobs": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineJobs/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineJobs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineJobs/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineJobs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineJobs/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineJobs/index.js"
+      }
+    },
+    "./api/edgeMachines": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachines/index.d.ts",
+        "default": "./dist/browser/api/edgeMachines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachines/index.d.ts",
+        "default": "./dist/esm/api/edgeMachines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachines/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachines/index.js"
       }
     },
     "./api/validatedSolutionRecipes": {
@@ -252,6 +420,20 @@
         "default": "./dist/commonjs/api/operations/index.js"
       }
     },
+    "./api/osImages": {
+      "browser": {
+        "types": "./dist/browser/api/osImages/index.d.ts",
+        "default": "./dist/browser/api/osImages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/osImages/index.d.ts",
+        "default": "./dist/esm/api/osImages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/osImages/index.d.ts",
+        "default": "./dist/commonjs/api/osImages/index.js"
+      }
+    },
     "./models": {
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
@@ -304,11 +486,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -346,7 +528,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-azurestackhci",

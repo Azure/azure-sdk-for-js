@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
  *
  * @summary lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
- * x-ms-original-file: 2026-03-15/CosmosDBSqlClientEncryptionKeysList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlClientEncryptionKeysList.json
  */
 async function cosmosDBClientEncryptionKeysList(): Promise<void> {
   const credential = new DefaultAzureCredential();

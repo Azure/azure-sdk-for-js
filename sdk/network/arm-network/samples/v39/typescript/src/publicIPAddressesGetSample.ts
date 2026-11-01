@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified public IP address in a specified resource group.
  *
  * @summary gets the specified public IP address in a specified resource group.
- * x-ms-original-file: 2026-01-01/PublicIpAddressGet.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressGet.json
  */
 async function getPublicIPAddress(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getPublicIPAddress(): Promise<void> {
  * This sample demonstrates how to gets the specified public IP address in a specified resource group.
  *
  * @summary gets the specified public IP address in a specified resource group.
- * x-ms-original-file: 2026-01-01/PublicIpAddressGetStandardV2Sku.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressGetStandardV2Sku.json
  */
 async function getPublicIPAddressWithStandardV2Sku(): Promise<void> {
   const credential = new DefaultAzureCredential();

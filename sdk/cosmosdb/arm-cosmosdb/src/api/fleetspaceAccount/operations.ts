@@ -40,7 +40,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       fleetspaceName: fleetspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,7 +81,11 @@ export function list(
     () => _listSend(context, resourceGroupName, fleetName, fleetspaceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -101,7 +105,7 @@ export function _$deleteSend(
       fleetName: fleetName,
       fleetspaceName: fleetspaceName,
       fleetspaceAccountName: fleetspaceAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -146,7 +150,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -167,7 +171,7 @@ export function _createSend(
       fleetName: fleetName,
       fleetspaceName: fleetspaceName,
       fleetspaceAccountName: fleetspaceAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -221,7 +225,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<FleetspaceAccountResource>, FleetspaceAccountResource>;
 }
 
@@ -241,7 +245,7 @@ export function _getSend(
       fleetName: fleetName,
       fleetspaceName: fleetspaceName,
       fleetspaceAccountName: fleetspaceAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

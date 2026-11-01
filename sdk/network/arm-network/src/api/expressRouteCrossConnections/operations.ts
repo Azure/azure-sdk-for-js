@@ -69,7 +69,7 @@ export function _rollbackCircuitMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +128,7 @@ export function rollbackCircuitMigration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-01-01",
+      apiVersion: "2026-03-01",
     },
   ) as PollerLike<
     OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
@@ -151,7 +151,7 @@ export function _commitCircuitMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -206,7 +206,7 @@ export function commitCircuitMigration(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<
     OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
     MigrateExpressRouteCircuitHealthCheckResponse
@@ -226,7 +226,7 @@ export function _migrateCircuitSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -273,7 +273,7 @@ export function migrateCircuit(
     getInitialResponse: () =>
       _migrateCircuitSend(context, resourceGroupName, crossConnectionName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<
     OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
     MigrateExpressRouteCircuitHealthCheckResponse
@@ -295,7 +295,7 @@ export function _restoreBgpForCircuitMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -354,7 +354,7 @@ export function restoreBgpForCircuitMigration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-01-01",
+      apiVersion: "2026-03-01",
     },
   ) as PollerLike<
     OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
@@ -377,7 +377,7 @@ export function _shutDownBgpForCircuitMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -436,7 +436,7 @@ export function shutDownBgpForCircuitMigration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-01-01",
+      apiVersion: "2026-03-01",
     },
   ) as PollerLike<
     OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
@@ -459,7 +459,7 @@ export function _prepareCircuitMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -514,7 +514,7 @@ export function prepareCircuitMigration(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<
     OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
     MigrateExpressRouteCircuitHealthCheckResponse
@@ -536,7 +536,7 @@ export function _getCircuitMigrationInfoSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -591,7 +591,7 @@ export function getCircuitMigrationInfo(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<
     OperationState<MigrateExpressRouteCircuitHealthCheckResponse>,
     MigrateExpressRouteCircuitHealthCheckResponse
@@ -613,7 +613,7 @@ export function _validateCircuitMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -672,7 +672,7 @@ export function validateCircuitMigration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-01-01",
+      apiVersion: "2026-03-01",
     },
   ) as PollerLike<
     OperationState<MigrateExpressRouteCircuitValidateResponse>,
@@ -696,7 +696,7 @@ export function _listRoutesTableSend(
       crossConnectionName: crossConnectionName,
       peeringName: peeringName,
       devicePath: devicePath,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -749,7 +749,7 @@ export function listRoutesTable(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<
     OperationState<ExpressRouteCircuitsRoutesTableListResult>,
     ExpressRouteCircuitsRoutesTableListResult
@@ -774,7 +774,7 @@ export function _listRoutesTableSummarySend(
       crossConnectionName: crossConnectionName,
       peeringName: peeringName,
       devicePath: devicePath,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -829,7 +829,7 @@ export function listRoutesTableSummary(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<
     OperationState<ExpressRouteCrossConnectionsRoutesTableSummaryListResult>,
     ExpressRouteCrossConnectionsRoutesTableSummaryListResult
@@ -852,7 +852,7 @@ export function _listArpTableSend(
       crossConnectionName: crossConnectionName,
       peeringName: peeringName,
       devicePath: devicePath,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -905,7 +905,7 @@ export function listArpTable(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<
     OperationState<ExpressRouteCircuitsArpTableListResult>,
     ExpressRouteCircuitsArpTableListResult
@@ -920,7 +920,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCrossConnections{?api%2Dversion,%24filter}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
       "%24filter": options?.filter,
     },
     {
@@ -959,7 +959,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
   );
 }
 
@@ -973,7 +973,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1012,7 +1012,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
   );
 }
 
@@ -1029,7 +1029,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1090,7 +1090,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1134,7 +1134,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, crossConnectionName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<ExpressRouteCrossConnection>, ExpressRouteCrossConnection>;
 }
 
@@ -1150,7 +1150,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

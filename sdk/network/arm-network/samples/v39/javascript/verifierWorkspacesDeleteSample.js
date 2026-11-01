@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes Verifier Workspace.
  *
  * @summary deletes Verifier Workspace.
- * x-ms-original-file: 2026-01-01/VerifierWorkspaceDelete.json
+ * x-ms-original-file: 2026-03-01/VerifierWorkspaceDelete.json
  */
 async function verifierWorkspaceDelete() {
   const credential = new DefaultAzureCredential();

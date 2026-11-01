@@ -3,11 +3,13 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Browser Automation capabilities
- * using the BrowserAutomationPreviewTool and synchronous Azure AI Projects client. The agent can
+ * using the GA BrowserAutomationTool and Azure AI Projects client. The agent can
  * perform automated web browsing tasks and provide responses based on web interactions.
+ * The agent shares a live-view URL so you can watch the browser session.
+ * Treat that URL as sensitive and do not share it.
  *
  * @summary This sample demonstrates how to create an agent with Browser Automation tool,
- * perform web browsing tasks, and process streaming responses with browser automation events.
+ * perform web browsing tasks, and process completed text and remote function call events.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -16,28 +18,40 @@ require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 const browserAutomationProjectConnectionId =
   process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] ||
   "<browser automation project connection id>";
 
+// Foundry remote function items are not part of OpenAI's ResponseOutputItem union.
 const handleBrowserCall = (item) => {
-  // TODO: support browser_automation_preview_call schema
-  const callId = item.call_id;
-  const argumentsStr = item.arguments;
-
-  // Parse the arguments string into a dictionary
-  let query = null;
-  if (argumentsStr && typeof argumentsStr === "string") {
-    try {
-      const argumentsObj = JSON.parse(argumentsStr);
-      query = argumentsObj.query;
-    } catch (e) {
-      console.error("Failed to parse arguments:", e);
-    }
+  if (typeof item !== "object" || item === null || !("type" in item)) {
+    return;
   }
-
-  console.log(`Call ID: ${callId ?? "None"}`);
-  console.log(`Query arguments: ${query ?? "None"}`);
+  if (item.type === "remote_function_call") {
+    if (
+      !("name" in item) ||
+      typeof item.name !== "string" ||
+      !("call_id" in item) ||
+      typeof item.call_id !== "string" ||
+      !("arguments" in item) ||
+      typeof item.arguments !== "string"
+    ) {
+      throw new Error("Invalid Browser Automation remote function call.");
+    }
+    const argumentsObj = JSON.parse(item.arguments);
+    const argumentsStr = JSON.stringify(argumentsObj, (key, value) =>
+      key === "browserSessionId" ? undefined : value,
+    );
+    console.log(
+      `Browser action: ${item.name} (call ID: ${item.call_id}), arguments: ${argumentsStr}`,
+    );
+  } else if (item.type === "remote_function_call_output") {
+    if (!("call_id" in item) || typeof item.call_id !== "string") {
+      throw new Error("Invalid Browser Automation remote function call output.");
+    }
+    console.log(`Browser action output received for call ID: ${item.call_id}`);
+  }
 };
 
 async function main() {
@@ -46,7 +60,7 @@ async function main() {
 
   console.log("Creating agent with Browser Automation tool...");
 
-  const agent = await project.agents.createVersion("MyAgent", {
+  const agent = await project.agents.createVersion(agentName, {
     kind: "prompt",
     model: deploymentName,
     instructions: `You are an Agent helping with browser automation tasks. 
@@ -55,8 +69,8 @@ async function main() {
     // Define Browser Automation tool
     tools: [
       {
-        type: "browser_automation_preview",
-        browser_automation_preview: {
+        type: "browser_automation",
+        browser_automation: {
           connection: {
             project_connection_id: browserAutomationProjectConnectionId,
           },
@@ -66,57 +80,60 @@ async function main() {
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-  console.log("\nSending browser automation request with streaming...");
-  const streamResponse = await openAIClient.responses.create(
-    {
-      input: `Your goal is to report the percent of Microsoft year-to-date stock price change.
-            To do that, go to the website finance.yahoo.com.
-            At the top of the page, you will find a search bar.
-            Enter the value 'MSFT', to get information about the Microsoft stock price.
-            At the top of the resulting page you will see a default chart of Microsoft stock price.
-            Click on 'YTD' at the top of that chart, and report the percent value that shows up just below it.`,
-      stream: true,
-    },
-    {
-      body: {
-        agent_reference: { name: agent.name, type: "agent_reference" },
-        tool_choice: "required",
+  try {
+    console.log("\nSending browser automation request with streaming...");
+    const streamResponse = await openAIClient.responses.create(
+      {
+        input:
+          "Use the Browser Automation tool to visit https://example.com. Read the page and report its title and the visible description paragraph. Base your answer on the browser results, not on prior knowledge.",
+        stream: true,
       },
-    },
-  );
+      {
+        body: {
+          agent_reference: { name: agent.name, version: agent.version, type: "agent_reference" },
+        },
+      },
+    );
 
-  // Process the streaming response
-  for await (const event of streamResponse) {
-    if (event.type === "response.created") {
-      console.log(`Follow-up response created with ID: ${event.response.id}`);
-    } else if (event.type === "response.output_text.delta") {
-      process.stdout.write(event.delta);
-    } else if (event.type === "response.output_text.done") {
-      console.log("\n\nFollow-up response done!");
-    } else if (
-      event.type === "response.output_item.done" ||
-      event.type === "response.output_item.added"
-    ) {
-      const item = event.item;
-      if (item.type === "browser_automation_preview_call") {
-        handleBrowserCall(item);
+    console.log(
+      "The browser live-view URL is sensitive. Do not share it or commit it to source control.",
+    );
+    let responseCompleted = false;
+    for await (const event of streamResponse) {
+      if (event.type === "response.created") {
+        console.log(`Response created with ID: ${event.response.id}`);
+      } else if (event.type === "response.output_text.done") {
+        console.log(`\nAgent message: ${event.text}`);
+      } else if (event.type === "response.output_item.done") {
+        handleBrowserCall(event.item);
+      } else if (event.type === "response.failed") {
+        throw new Error(event.response.error?.message ?? "Browser Automation response failed.");
+      } else if (event.type === "response.incomplete") {
+        throw new Error(
+          `Browser Automation response incomplete: ${event.response.incomplete_details?.reason}`,
+        );
+      } else if (event.type === "error") {
+        throw new Error(event.message);
+      } else if (event.type === "response.completed") {
+        responseCompleted = true;
+        console.log("\nResponse completed!");
       }
-    } else if (event.type === "response.completed") {
-      console.log("\nFollow-up completed!");
     }
+    if (!responseCompleted) {
+      throw new Error("Browser Automation stream ended without a completed response.");
+    }
+  } finally {
+    console.log("\nCleaning up resources...");
+    await project.agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
   }
-
-  // Clean up resources by deleting the agent version
-  // This prevents accumulation of unused resources in your project
-  console.log("\nCleaning up resources...");
-  await project.agents.deleteVersion(agent.name, agent.version);
-  console.log("Agent deleted");
 
   console.log("\nBrowser Automation sample completed!");
 }
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
+  process.exitCode = 1;
 });
 
 module.exports = { main };

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a static or dynamic public IP address.
  *
  * @summary creates or updates a static or dynamic public IP address.
- * x-ms-original-file: 2026-01-01/PublicIpAddressCreateCustomizedValues.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressCreateCustomizedValues.json
  */
 async function createPublicIPAddressAllocationMethod() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function createPublicIPAddressAllocationMethod() {
  * This sample demonstrates how to creates or updates a static or dynamic public IP address.
  *
  * @summary creates or updates a static or dynamic public IP address.
- * x-ms-original-file: 2026-01-01/PublicIpAddressCreateDefaults.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressCreateDefaults.json
  */
 async function createPublicIPAddressDefaults() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function createPublicIPAddressDefaults() {
  * This sample demonstrates how to creates or updates a static or dynamic public IP address.
  *
  * @summary creates or updates a static or dynamic public IP address.
- * x-ms-original-file: 2026-01-01/PublicIpAddressCreateDefaultsStandardV2Sku.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressCreateDefaultsStandardV2Sku.json
  */
 async function createPublicIPAddressDefaultsWithStandardV2Sku() {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function createPublicIPAddressDefaultsWithStandardV2Sku() {
  * This sample demonstrates how to creates or updates a static or dynamic public IP address.
  *
  * @summary creates or updates a static or dynamic public IP address.
- * x-ms-original-file: 2026-01-01/PublicIpAddressCreateDns.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressCreateDns.json
  */
 async function createPublicIPAddressDNS() {
   const credential = new DefaultAzureCredential();
@@ -77,7 +77,7 @@ async function createPublicIPAddressDNS() {
  * This sample demonstrates how to creates or updates a static or dynamic public IP address.
  *
  * @summary creates or updates a static or dynamic public IP address.
- * x-ms-original-file: 2026-01-01/PublicIpAddressCreateDnsWithDomainNameLabelScope.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressCreateDnsWithDomainNameLabelScope.json
  */
 async function createPublicIPAddressDNSWithDomainNameLabelScope() {
   const credential = new DefaultAzureCredential();
@@ -94,7 +94,7 @@ async function createPublicIPAddressDNSWithDomainNameLabelScope() {
  * This sample demonstrates how to creates or updates a static or dynamic public IP address.
  *
  * @summary creates or updates a static or dynamic public IP address.
- * x-ms-original-file: 2026-01-01/PublicIpAddressCreateWithFirstPartyServiceTag.json
+ * x-ms-original-file: 2026-03-01/PublicIpAddressCreateWithFirstPartyServiceTag.json
  */
 async function createPublicIPAddressWithFirstPartyServiceTag() {
   const credential = new DefaultAzureCredential();

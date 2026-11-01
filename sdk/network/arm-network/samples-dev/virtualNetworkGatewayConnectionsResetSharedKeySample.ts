@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
  *
  * @summary the VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayConnectionResetSharedKey.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayConnectionResetSharedKey.json
  */
 async function resetVirtualNetworkGatewayConnectionSharedKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

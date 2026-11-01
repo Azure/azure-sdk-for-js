@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
  *
  * @summary creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
- * x-ms-original-file: 2026-01-01/VirtualWANPut.json
+ * x-ms-original-file: 2026-03-01/VirtualWANPut.json
  */
 async function virtualWANCreate() {
   const credential = new DefaultAzureCredential();

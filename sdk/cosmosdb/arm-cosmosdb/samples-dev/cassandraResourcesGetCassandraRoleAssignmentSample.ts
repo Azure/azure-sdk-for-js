@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB Cassandra Role Assignment with the given Id.
  *
  * @summary retrieves the properties of an existing Azure Cosmos DB Cassandra Role Assignment with the given Id.
- * x-ms-original-file: 2026-03-15/cassandrarbac/CosmosDBCassandraRoleAssignmentGet.json
+ * x-ms-original-file: 2026-04-01-preview/cassandrarbac/CosmosDBCassandraRoleAssignmentGet.json
  */
 async function cosmosDBCassandraRoleAssignmentGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

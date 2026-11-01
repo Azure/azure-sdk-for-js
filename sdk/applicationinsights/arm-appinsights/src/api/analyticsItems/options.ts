@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ItemScope, ItemTypeParameter } from "../../models/analyticsItems/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { ItemScope, ItemTypeParameter } from "../../models/analyticsItems/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AnalyticsItemsDeleteOptionalParams extends OperationOptions {

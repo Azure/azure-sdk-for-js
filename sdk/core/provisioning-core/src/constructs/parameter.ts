@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrimitiveTypeMap } from "../serialization/contract/index.js";
+import type { PrimitiveTypeMap } from "../serialization/ast/index.js";
 import type { Expression, ExpressionOrValue } from "../expression/expressions.js";
 import { wrapExpression } from "../expression/expressions.js";
 import { isExpression } from "../expression/expressions.js";

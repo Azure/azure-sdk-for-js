@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified rule from a route filter.
  *
  * @summary deletes the specified rule from a route filter.
- * x-ms-original-file: 2026-01-01/RouteFilterRuleDelete.json
+ * x-ms-original-file: 2026-03-01/RouteFilterRuleDelete.json
  */
 async function routeFilterRuleDelete() {
   const credential = new DefaultAzureCredential();

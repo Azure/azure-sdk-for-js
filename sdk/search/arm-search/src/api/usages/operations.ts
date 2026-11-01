@@ -21,7 +21,7 @@ export function _listBySubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -54,6 +54,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _quotaUsagesListResultDeserializer(result.body);
 }
+
 /** Get a list of all Azure AI Search quota usages across the subscription. */
 export function listBySubscription(
   context: Client,
@@ -65,10 +66,6 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, location, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a network interface tags.
  *
  * @summary updates a network interface tags.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceUpdateTags.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceUpdateTags.json
  */
 async function updateNetworkInterfaceTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

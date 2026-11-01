@@ -8,7 +8,35 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the non-security related metadata of an IoT hub.
  *
  * @summary get the non-security related metadata of an IoT hub.
- * x-ms-original-file: 2026-05-01-preview/iothub_get.json
+ * x-ms-original-file: 2026-10-01-preview/Get_IotHub_With_DeviceRegistry.json
+ */
+async function getIotHubWithDeviceRegistry() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const client = new IotHubClient(credential, subscriptionId);
+  const result = await client.iotHubResource.get("myResourceGroup", "testHub");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get the non-security related metadata of an IoT hub.
+ *
+ * @summary get the non-security related metadata of an IoT hub.
+ * x-ms-original-file: 2026-10-01-preview/Get_IotHub_With_DeviceRegistry_Linking_Error.json
+ */
+async function getIotHubWithDeviceRegistryLinkingError() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const client = new IotHubClient(credential, subscriptionId);
+  const result = await client.iotHubResource.get("myResourceGroup", "testHub");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get the non-security related metadata of an IoT hub.
+ *
+ * @summary get the non-security related metadata of an IoT hub.
+ * x-ms-original-file: 2026-10-01-preview/iothub_get.json
  */
 async function iotHubResourceGet() {
   const credential = new DefaultAzureCredential();
@@ -19,6 +47,8 @@ async function iotHubResourceGet() {
 }
 
 async function main() {
+  await getIotHubWithDeviceRegistry();
+  await getIotHubWithDeviceRegistryLinkingError();
   await iotHubResourceGet();
 }
 

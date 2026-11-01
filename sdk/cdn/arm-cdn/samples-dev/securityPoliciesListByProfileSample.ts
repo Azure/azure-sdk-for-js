@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists security policies associated with the profile
  *
  * @summary lists security policies associated with the profile
- * x-ms-original-file: 2025-12-01/SecurityPolicies_ListByProfile.json
+ * x-ms-original-file: 2026-10-01/SecurityPolicies_ListByProfile.json
  */
 async function securityPoliciesListByProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

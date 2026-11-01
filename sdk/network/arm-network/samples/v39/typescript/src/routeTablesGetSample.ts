@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified route table.
  *
  * @summary gets the specified route table.
- * x-ms-original-file: 2026-01-01/RouteTableGet.json
+ * x-ms-original-file: 2026-03-01/RouteTableGet.json
  */
 async function getRouteTable(): Promise<void> {
   const credential = new DefaultAzureCredential();

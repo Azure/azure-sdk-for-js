@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified site from a Virtual Appliance.
  *
  * @summary deletes the specified site from a Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceSiteDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceSiteDelete.json
  */
 async function deleteNetworkVirtualApplianceSite(): Promise<void> {
   const credential = new DefaultAzureCredential();

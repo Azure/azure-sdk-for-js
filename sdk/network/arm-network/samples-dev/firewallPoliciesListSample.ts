@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Firewall Policies in a resource group.
  *
  * @summary lists all Firewall Policies in a resource group.
- * x-ms-original-file: 2026-01-01/FirewallPolicyListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyListByResourceGroup.json
  */
 async function listAllFirewallPoliciesForAGivenResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

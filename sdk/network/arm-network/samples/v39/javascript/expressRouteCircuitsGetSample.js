@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about the specified express route circuit.
  *
  * @summary gets information about the specified express route circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitGet.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitGet.json
  */
 async function getExpressRouteCircuit() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getExpressRouteCircuit() {
  * This sample demonstrates how to gets information about the specified express route circuit.
  *
  * @summary gets information about the specified express route circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteMultiCloudCircuitGet.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteMultiCloudCircuitGet.json
  */
 async function getMultiCloudExpressRouteCircuit() {
   const credential = new DefaultAzureCredential();

@@ -4,12 +4,12 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -136,7 +136,7 @@ export interface ConfigurationAssignmentsForResourceGroupGetOptionalParams exten
 // @public
 export interface ConfigurationAssignmentsForResourceGroupOperations {
     createOrUpdate: (resourceGroupName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForResourceGroupCreateOrUpdateOptionalParams) => Promise<ConfigurationAssignment>;
-    delete: (resourceGroupName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsForResourceGroupDeleteOptionalParams) => Promise<ConfigurationAssignment>;
+    delete: (resourceGroupName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsForResourceGroupDeleteOptionalParams) => Promise<ConfigurationAssignment | void>;
     get: (resourceGroupName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsForResourceGroupGetOptionalParams) => Promise<ConfigurationAssignment>;
     update: (resourceGroupName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForResourceGroupUpdateOptionalParams) => Promise<ConfigurationAssignment>;
 }
@@ -160,7 +160,7 @@ export interface ConfigurationAssignmentsForSubscriptionsGetOptionalParams exten
 // @public
 export interface ConfigurationAssignmentsForSubscriptionsOperations {
     createOrUpdate: (configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForSubscriptionsCreateOrUpdateOptionalParams) => Promise<ConfigurationAssignment>;
-    delete: (configurationAssignmentName: string, options?: ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams) => Promise<ConfigurationAssignment>;
+    delete: (configurationAssignmentName: string, options?: ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams) => Promise<ConfigurationAssignment | void>;
     get: (configurationAssignmentName: string, options?: ConfigurationAssignmentsForSubscriptionsGetOptionalParams) => Promise<ConfigurationAssignment>;
     update: (configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams) => Promise<ConfigurationAssignment>;
 }
@@ -189,8 +189,8 @@ export interface ConfigurationAssignmentsListParentOptionalParams extends Operat
 export interface ConfigurationAssignmentsOperations {
     createOrUpdate: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsCreateOrUpdateOptionalParams) => Promise<ConfigurationAssignment>;
     createOrUpdateParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsCreateOrUpdateParentOptionalParams) => Promise<ConfigurationAssignment>;
-    delete: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsDeleteOptionalParams) => Promise<ConfigurationAssignment>;
-    deleteParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsDeleteParentOptionalParams) => Promise<ConfigurationAssignment>;
+    delete: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsDeleteOptionalParams) => Promise<ConfigurationAssignment | void>;
+    deleteParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsDeleteParentOptionalParams) => Promise<ConfigurationAssignment | void>;
     get: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsGetOptionalParams) => Promise<ConfigurationAssignment>;
     getParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsGetParentOptionalParams) => Promise<ConfigurationAssignment>;
     list: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, options?: ConfigurationAssignmentsListOptionalParams) => PagedAsyncIterableIterator<ConfigurationAssignment>;
@@ -307,7 +307,8 @@ export enum KnownUpdateStatus {
 
 // @public
 export enum KnownVersions {
-    V20231001Preview = "2023-10-01-preview"
+    V20231001Preview = "2023-10-01-preview",
+    V20251001Preview = "2025-10-01-preview"
 }
 
 // @public
@@ -370,7 +371,7 @@ export interface MaintenanceConfigurationsListOptionalParams extends OperationOp
 // @public
 export interface MaintenanceConfigurationsOperations {
     createOrUpdate: (resourceGroupName: string, resourceName: string, configuration: MaintenanceConfiguration, options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams) => Promise<MaintenanceConfiguration>;
-    delete: (resourceGroupName: string, resourceName: string, options?: MaintenanceConfigurationsDeleteOptionalParams) => Promise<MaintenanceConfiguration>;
+    delete: (resourceGroupName: string, resourceName: string, options?: MaintenanceConfigurationsDeleteOptionalParams) => Promise<MaintenanceConfiguration | void>;
     get: (resourceGroupName: string, resourceName: string, options?: MaintenanceConfigurationsGetOptionalParams) => Promise<MaintenanceConfiguration>;
     list: (options?: MaintenanceConfigurationsListOptionalParams) => PagedAsyncIterableIterator<MaintenanceConfiguration>;
     update: (resourceGroupName: string, resourceName: string, configuration: MaintenanceConfiguration, options?: MaintenanceConfigurationsUpdateOptionalParams) => Promise<MaintenanceConfiguration>;
@@ -400,7 +401,7 @@ export class MaintenanceManagementClient {
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly publicMaintenanceConfigurations: PublicMaintenanceConfigurationsOperations;
-    readonly scheduledEvent: ScheduledEventOperations;
+    readonly scheduledEvents: ScheduledEventsOperations;
     readonly updates: UpdatesOperations;
 }
 
@@ -495,17 +496,46 @@ export interface Resource {
 export { RestError }
 
 // @public
-export interface ScheduledEventAcknowledgeOptionalParams extends OperationOptions {
+export interface ScheduledEventsAcknowledgeErrorDetails {
+    code?: string;
+    message?: string;
+    target?: string;
 }
 
 // @public
-export interface ScheduledEventApproveResponse {
+export interface ScheduledEventsAcknowledgeListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledEventsAcknowledgeOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledEventsApproveResponse {
     value?: string;
 }
 
 // @public
-export interface ScheduledEventOperations {
-    acknowledge: (resourceGroupName: string, resourceType: string, resourceName: string, scheduledEventId: string, options?: ScheduledEventAcknowledgeOptionalParams) => Promise<ScheduledEventApproveResponse>;
+export interface ScheduledEventsIdList {
+    value: string[];
+}
+
+// @public
+export interface ScheduledEventsListAcknowledgeError {
+    error?: ScheduledEventsListAcknowledgeErrorDetails;
+}
+
+// @public
+export interface ScheduledEventsListAcknowledgeErrorDetails {
+    code?: string;
+    details?: ScheduledEventsAcknowledgeErrorDetails[];
+    message?: string;
+}
+
+// @public
+export interface ScheduledEventsOperations {
+    acknowledge: (resourceGroupName: string, resourceType: string, resourceName: string, scheduledEventId: string, options?: ScheduledEventsAcknowledgeOptionalParams) => Promise<ScheduledEventsApproveResponse>;
+    acknowledgeList: (resourceGroupName: string, resourceType: string, resourceName: string, scheduledEventsIdList: ScheduledEventsIdList, options?: ScheduledEventsAcknowledgeListOptionalParams) => Promise<ScheduledEventsApproveResponse>;
 }
 
 // @public

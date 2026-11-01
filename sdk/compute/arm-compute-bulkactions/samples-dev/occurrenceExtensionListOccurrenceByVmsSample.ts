@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to lists scheduled action occurrences associated with the specified VM.
+ * This sample demonstrates how to lists recurring bulk action occurrences associated with the specified VM.
  *
- * @summary lists scheduled action occurrences associated with the specified VM.
+ * @summary lists recurring bulk action occurrences associated with the specified VM.
  * x-ms-original-file: 2026-10-06-preview/OccurrenceExtension_ListOccurrenceByVms_BasicSuccess.json
  */
-async function listRecurringScheduledActionOccurrencesForAVirtualMachine(): Promise<void> {
+async function listRecurringBulkActionOccurrencesForAVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeClient(credential);
   const resArray = new Array();
@@ -24,7 +24,7 @@ async function listRecurringScheduledActionOccurrencesForAVirtualMachine(): Prom
 }
 
 async function main(): Promise<void> {
-  await listRecurringScheduledActionOccurrencesForAVirtualMachine();
+  await listRecurringBulkActionOccurrencesForAVirtualMachine();
 }
 
 main().catch(console.error);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the load balancer backed address pools.
  *
  * @summary gets all the load balancer backed address pools.
- * x-ms-original-file: 2026-01-01/LBBackendAddressPoolListWithBackendAddressesPoolType.json
+ * x-ms-original-file: 2026-03-01/LBBackendAddressPoolListWithBackendAddressesPoolType.json
  */
 async function loadBalancerWithBackendAddressPoolContainingBackendAddresses(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function loadBalancerWithBackendAddressPoolContainingBackendAddresses(): P
  * This sample demonstrates how to gets all the load balancer backed address pools.
  *
  * @summary gets all the load balancer backed address pools.
- * x-ms-original-file: 2026-01-01/LoadBalancerBackendAddressPoolList.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerBackendAddressPoolList.json
  */
 async function loadBalancerBackendAddressPoolList(): Promise<void> {
   const credential = new DefaultAzureCredential();

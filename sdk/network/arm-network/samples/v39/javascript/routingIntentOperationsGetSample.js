@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the details of a RoutingIntent.
  *
  * @summary retrieves the details of a RoutingIntent.
- * x-ms-original-file: 2026-01-01/RoutingIntentGet.json
+ * x-ms-original-file: 2026-03-01/RoutingIntentGet.json
  */
 async function routeTableGet() {
   const credential = new DefaultAzureCredential();

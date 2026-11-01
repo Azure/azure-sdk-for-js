@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the available Network Rest API operations.
  *
  * @summary lists all of the available Network Rest API operations.
- * x-ms-original-file: 2026-01-01/OperationList.json
+ * x-ms-original-file: 2026-03-01/OperationList.json
  */
 async function getAListOfOperationsForAResourceProvider(): Promise<void> {
   const credential = new DefaultAzureCredential();

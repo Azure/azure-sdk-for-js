@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified authentication policy.
  *
  * @summary deletes the specified authentication policy.
- * x-ms-original-file: 2026-01-01/AuthenticationPolicyDelete.json
+ * x-ms-original-file: 2026-03-01/AuthenticationPolicyDelete.json
  */
 async function deletesAnAuthenticationPolicyWithinAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all the Azure Web Categories in a subscription.
  *
  * @summary gets all the Azure Web Categories in a subscription.
- * x-ms-original-file: 2026-01-01/AzureWebCategoriesListBySubscription.json
+ * x-ms-original-file: 2026-03-01/AzureWebCategoriesListBySubscription.json
  */
 async function listAllAzureWebCategoriesForAGivenSubscription() {
   const credential = new DefaultAzureCredential();

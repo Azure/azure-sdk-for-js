@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specific Static CIDR resource.
  *
  * @summary gets the specific Static CIDR resource.
- * x-ms-original-file: 2026-01-01/StaticCidrs_Get.json
+ * x-ms-original-file: 2026-03-01/StaticCidrs_Get.json
  */
 async function staticCidrsGet() {
   const credential = new DefaultAzureCredential();

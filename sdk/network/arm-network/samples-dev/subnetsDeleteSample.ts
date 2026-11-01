@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified subnet.
  *
  * @summary deletes the specified subnet.
- * x-ms-original-file: 2026-01-01/SubnetDelete.json
+ * x-ms-original-file: 2026-03-01/SubnetDelete.json
  */
 async function deleteSubnet(): Promise<void> {
   const credential = new DefaultAzureCredential();

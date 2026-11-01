@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Volumes in a VolumeGroup.
  *
  * @summary list Volumes in a VolumeGroup.
- * x-ms-original-file: 2025-09-01/Volumes_ListByVolumeGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Volumes_ListByVolumeGroup_MaximumSet_Gen.json
  */
 async function volumesListByVolumeGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,6 +19,7 @@ async function volumesListByVolumeGroupMaximumSetGen(): Promise<void> {
     "resourcegroupname",
     "elasticsanname",
     "volumegroupname",
+    { xMsAccessSoftDeletedResources: "true" },
   )) {
     resArray.push(item);
   }
@@ -30,7 +31,7 @@ async function volumesListByVolumeGroupMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to list Volumes in a VolumeGroup.
  *
  * @summary list Volumes in a VolumeGroup.
- * x-ms-original-file: 2025-09-01/Volumes_ListByVolumeGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Volumes_ListByVolumeGroup_MinimumSet_Gen.json
  */
 async function volumesListByVolumeGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -41,6 +42,7 @@ async function volumesListByVolumeGroupMinimumSetGen(): Promise<void> {
     "resourcegroupname",
     "elasticsanname",
     "volumegroupname",
+    { xMsAccessSoftDeletedResources: "true" },
   )) {
     resArray.push(item);
   }

@@ -8,11 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an Azure Cosmos DB SQL container
  *
  * @summary create or update an Azure Cosmos DB SQL container
- * x-ms-original-file: 2026-03-15/CosmosDBSqlContainerCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlContainerCreateUpdate.json
  */
 async function cosmosDBSqlContainerCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.sqlResources.createUpdateSqlContainer(
     "rg1",
@@ -89,7 +89,96 @@ async function cosmosDBSqlContainerCreateUpdate(): Promise<void> {
           ],
           policyFormatVersion: 2,
         },
+        dataMaskingPolicy: {
+          includedPaths: [
+            { path: "/" },
+            { path: "/contact/phones", strategy: "MaskSubstring", startPosition: 3, length: 10 },
+          ],
+          excludedPaths: [{ path: "/id" }],
+          isPolicyEnabled: true,
+        },
         computedProperties: [{ name: "cp_lowerName", query: "SELECT VALUE LOWER(c.name) FROM c" }],
+      },
+      options: {},
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update an Azure Cosmos DB SQL container
+ *
+ * @summary create or update an Azure Cosmos DB SQL container
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlContainerRestore.json
+ */
+async function cosmosDBSqlContainerRestore(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.sqlResources.createUpdateSqlContainer(
+    "rg1",
+    "ddb1",
+    "databaseName",
+    "containerName",
+    {
+      location: "West US",
+      options: {},
+      resource: {
+        createMode: "Restore",
+        id: "containerName",
+        restoreParameters: {
+          restoreSource:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.DocumentDB/locations/WestUS/restorableDatabaseAccounts/restorableDatabaseAccountId",
+          restoreTimestampInUtc: new Date("2022-07-20T18:28:00Z"),
+          restoreWithTtlDisabled: true,
+        },
+      },
+      tags: {},
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update an Azure Cosmos DB SQL container
+ *
+ * @summary create or update an Azure Cosmos DB SQL container
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlMaterializedViewCreateUpdate.json
+ */
+async function cosmosDBSqlMaterializedViewCreateUpdate(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.sqlResources.createUpdateSqlContainer(
+    "rg1",
+    "ddb1",
+    "databaseName",
+    "mvContainerName",
+    {
+      location: "West US",
+      tags: {},
+      resource: {
+        id: "mvContainerName",
+        indexingPolicy: {
+          indexingMode: "consistent",
+          automatic: true,
+          includedPaths: [
+            {
+              path: "/*",
+              indexes: [
+                { kind: "Range", dataType: "String", precision: -1 },
+                { kind: "Range", dataType: "Number", precision: -1 },
+              ],
+            },
+          ],
+          excludedPaths: [],
+        },
+        partitionKey: { paths: ["/mvpk"], kind: "Hash" },
+        materializedViewDefinition: {
+          sourceCollectionId: "sourceContainerName",
+          definition: "select * from ROOT",
+          throughputBucketForBuild: 1,
+        },
       },
       options: {},
     },
@@ -99,6 +188,8 @@ async function cosmosDBSqlContainerCreateUpdate(): Promise<void> {
 
 async function main(): Promise<void> {
   await cosmosDBSqlContainerCreateUpdate();
+  await cosmosDBSqlContainerRestore();
+  await cosmosDBSqlMaterializedViewCreateUpdate();
 }
 
 main().catch(console.error);

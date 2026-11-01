@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a EdgeActionExecutionFilter
  *
  * @summary create a EdgeActionExecutionFilter
- * x-ms-original-file: 2025-12-01-preview/EdgeActionExecutionFilters_Create.json
+ * x-ms-original-file: 2026-10-01/EdgeActionExecutionFilters_Create.json
  */
 async function createEdgeActionExecutionFilters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function createEdgeActionExecutionFilters(): Promise<void> {
       location: "global",
       properties: {
         versionId:
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/testrg/providers/Microsoft.Cdn/EdgeActions/edgeAction1/versions/version1",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testrg/providers/Microsoft.Cdn/edgeActions/edgeAction1/versions/version1",
         executionFilterIdentifierHeaderName: "header-key",
         executionFilterIdentifierHeaderValue: "header-value",
       },

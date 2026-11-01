@@ -474,88 +474,96 @@ const foo: [
   IsEqual<
     ExpectBlobIndexerDataToExtract,
     BlobIndexerDataToExtract,
-    "BlobIndexerDataToExtract",
-    never
+    { $then: "BlobIndexerDataToExtract"; $else: never }
   >,
-  IsEqual<ExpectBlobIndexerImageAction, BlobIndexerImageAction, "BlobIndexerImageAction", never>,
-  IsEqual<ExpectBlobIndexerParsingMode, BlobIndexerParsingMode, "BlobIndexerParsingMode", never>,
+  IsEqual<
+    ExpectBlobIndexerImageAction,
+    BlobIndexerImageAction,
+    { $then: "BlobIndexerImageAction"; $else: never }
+  >,
+  IsEqual<
+    ExpectBlobIndexerParsingMode,
+    BlobIndexerParsingMode,
+    { $then: "BlobIndexerParsingMode"; $else: never }
+  >,
   IsEqual<
     ExpectBlobIndexerPDFTextRotationAlgorithm,
     BlobIndexerPDFTextRotationAlgorithm,
-    "BlobIndexerPDFTextRotationAlgorithm",
-    never
+    { $then: "BlobIndexerPDFTextRotationAlgorithm"; $else: never }
   >,
   IsEqual<
     ExpectCustomEntityLookupSkillLanguage,
     CustomEntityLookupSkillLanguage,
-    "CustomEntityLookupSkillLanguage",
-    never
+    { $then: "CustomEntityLookupSkillLanguage"; $else: never }
   >,
   IsEqual<
     ExpectImageAnalysisSkillLanguage,
     ImageAnalysisSkillLanguage,
-    "ImageAnalysisSkillLanguage",
-    never
+    { $then: "ImageAnalysisSkillLanguage"; $else: never }
   >,
-  IsEqual<ExpectImageDetail, ImageDetail, "ImageDetail", never>,
+  IsEqual<ExpectImageDetail, ImageDetail, { $then: "ImageDetail"; $else: never }>,
   IsEqual<
     ExpectIndexerExecutionEnvironment,
     IndexerExecutionEnvironment,
-    "IndexerExecutionEnvironment",
-    never
+    { $then: "IndexerExecutionEnvironment"; $else: never }
   >,
   IsEqual<
     ExpectKeyPhraseExtractionSkillLanguage,
     KeyPhraseExtractionSkillLanguage,
-    "KeyPhraseExtractionSkillLanguage",
-    never
+    { $then: "KeyPhraseExtractionSkillLanguage"; $else: never }
   >,
-  IsEqual<ExpectOcrSkillLanguage, OcrSkillLanguage, "OcrSkillLanguage", never>,
+  IsEqual<ExpectOcrSkillLanguage, OcrSkillLanguage, { $then: "OcrSkillLanguage"; $else: never }>,
   IsEqual<
     ExpectPIIDetectionSkillMaskingMode,
     PIIDetectionSkillMaskingMode,
-    "PIIDetectionSkillMaskingMode",
-    never
+    { $then: "PIIDetectionSkillMaskingMode"; $else: never }
   >,
-  IsEqual<ExpectRegexFlags, RegexFlags, "RegexFlags", never>,
-  IsEqual<ExpectSearchFieldDataType, SearchFieldDataType, "SearchFieldDataType", never>,
+  IsEqual<ExpectRegexFlags, RegexFlags, { $then: "RegexFlags"; $else: never }>,
+  IsEqual<
+    ExpectSearchFieldDataType,
+    SearchFieldDataType,
+    { $then: "SearchFieldDataType"; $else: never }
+  >,
   IsEqual<
     ExpectSearchIndexerDataSourceType,
     SearchIndexerDataSourceType,
-    "SearchIndexerDataSourceType",
-    never
+    { $then: "SearchIndexerDataSourceType"; $else: never }
   >,
-  IsEqual<ExpectSemanticErrorMode, SemanticErrorMode, "SemanticErrorMode", never>,
-  IsEqual<ExpectSemanticErrorReason, SemanticErrorReason, "SemanticErrorReason", never>,
+  IsEqual<ExpectSemanticErrorMode, SemanticErrorMode, { $then: "SemanticErrorMode"; $else: never }>,
+  IsEqual<
+    ExpectSemanticErrorReason,
+    SemanticErrorReason,
+    { $then: "SemanticErrorReason"; $else: never }
+  >,
   IsEqual<
     ExpectSemanticSearchResultsType,
     SemanticSearchResultsType,
-    "SemanticSearchResultsType",
-    never
+    { $then: "SemanticSearchResultsType"; $else: never }
   >,
-  IsEqual<ExpectSplitSkillLanguage, SplitSkillLanguage, "SplitSkillLanguage", never>,
-  IsEqual<ExpectTextSplitMode, TextSplitMode, "TextSplitMode", never>,
+  IsEqual<
+    ExpectSplitSkillLanguage,
+    SplitSkillLanguage,
+    { $then: "SplitSkillLanguage"; $else: never }
+  >,
+  IsEqual<ExpectTextSplitMode, TextSplitMode, { $then: "TextSplitMode"; $else: never }>,
   IsEqual<
     ExpectTextTranslationSkillLanguage,
     TextTranslationSkillLanguage,
-    "TextTranslationSkillLanguage",
-    never
+    { $then: "TextTranslationSkillLanguage"; $else: never }
   >,
-  IsEqual<ExpectVectorFilterMode, VectorFilterMode, "VectorFilterMode", never>,
-  IsEqual<ExpectVectorQueryKind, VectorQueryKind, "VectorQueryKind", never>,
+  IsEqual<ExpectVectorFilterMode, VectorFilterMode, { $then: "VectorFilterMode"; $else: never }>,
+  IsEqual<ExpectVectorQueryKind, VectorQueryKind, { $then: "VectorQueryKind"; $else: never }>,
   IsEqual<
     ExpectVectorSearchAlgorithmKind,
     VectorSearchAlgorithmKind,
-    "VectorSearchAlgorithmKind",
-    never
+    { $then: "VectorSearchAlgorithmKind"; $else: never }
   >,
   IsEqual<
     ExpectVectorSearchAlgorithmMetric,
     VectorSearchAlgorithmMetric,
-    "VectorSearchAlgorithmMetric",
-    never
+    { $then: "VectorSearchAlgorithmMetric"; $else: never }
   >,
-  IsEqual<ExpectVisualFeature, VisualFeature, "VisualFeature", never>,
+  IsEqual<ExpectVisualFeature, VisualFeature, { $then: "VisualFeature"; $else: never }>,
 ] = [
   // List of custom string literal unions. Update with any new authored string literal unions.
   "BlobIndexerDataToExtract",

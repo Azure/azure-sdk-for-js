@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stops the specified connection monitor.
  *
  * @summary stops the specified connection monitor.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectionMonitorStop.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectionMonitorStop.json
  */
 async function stopConnectionMonitor(): Promise<void> {
   const credential = new DefaultAzureCredential();

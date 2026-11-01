@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
  *
  * @summary the Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewaySetVpnClientIpsecParameters.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewaySetVpnClientIpsecParameters.json
  */
 async function setVirtualNetworkGatewayVpnClientIpsecParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();

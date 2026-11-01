@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
  *
  * @summary generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
- * x-ms-original-file: 2026-01-01/P2SVpnGatewayGenerateVpnProfile.json
+ * x-ms-original-file: 2026-03-01/P2SVpnGatewayGenerateVpnProfile.json
  */
 async function generateP2SVpnGatewayVPNProfile() {
   const credential = new DefaultAzureCredential();

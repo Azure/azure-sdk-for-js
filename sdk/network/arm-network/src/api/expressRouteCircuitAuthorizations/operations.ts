@@ -43,7 +43,7 @@ export function _listKeysSend(
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -101,7 +101,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,7 +141,7 @@ export function list(
     () => _listSend(context, resourceGroupName, circuitName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
   );
 }
 
@@ -159,7 +159,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -196,7 +196,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, circuitName, authorizationName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -215,7 +215,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,7 +267,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<
     OperationState<ExpressRouteCircuitAuthorization>,
     ExpressRouteCircuitAuthorization
@@ -288,7 +288,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

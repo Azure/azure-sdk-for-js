@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified connection monitor.
  *
  * @summary deletes the specified connection monitor.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectionMonitorDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectionMonitorDelete.json
  */
 async function deleteConnectionMonitor(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -30,7 +30,7 @@
   "dependencies": {
     "@azure/openai": "next",
     "dotenv": "latest",
-    "openai": "^6.16.0",
+    "openai": "^7.28.0",
     "@azure/identity": "^4.13.0",
     "zod": "^4.6.5"
   },

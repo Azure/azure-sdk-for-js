@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list configurationAssignments for resource.
  *
  * @summary list configurationAssignments for resource.
- * x-ms-original-file: 2023-10-01-preview/ConfigurationAssignments_ListParent.json
+ * x-ms-original-file: 2025-10-01-preview/ConfigurationAssignments_ListParent.json
  */
 async function configurationAssignmentsListParent(): Promise<void> {
   const credential = new DefaultAzureCredential();

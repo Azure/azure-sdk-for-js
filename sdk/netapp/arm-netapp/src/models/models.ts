@@ -734,6 +734,8 @@ export interface VolumeProperties {
   smbNonBrowsable?: SmbNonBrowsable;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
   smbContinuouslyAvailable?: boolean;
+  /** Enables or disables SMB opportunistic lock property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbOplocks?: SmbOplocks;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number | null;
   /** Actual throughput in MiB/s for auto qosType volumes calculated based on size and serviceLevel */
@@ -771,6 +773,8 @@ export interface VolumeProperties {
   readonly dataStoreResourceId?: string[];
   /** Specifies if default quota is enabled for the volume. */
   isDefaultQuotaEnabled?: boolean;
+  /** Async Directory Delete configuration for the volume. */
+  asyncDirectoryDelete?: AsyncDirectoryDelete;
   /** Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies . */
   defaultUserQuotaInKiBs?: number;
   /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
@@ -814,6 +818,8 @@ export interface VolumeProperties {
   language?: VolumeLanguage;
   /** Specifies whether the volume operates in Breakthrough Mode. */
   breakthroughMode?: BreakthroughMode;
+  /** Geographic namespace properties for this volume. */
+  geoNamespaceProperties?: VolumeNamespaceProperties;
 }
 
 export function volumePropertiesSerializer(item: VolumeProperties): any {
@@ -847,6 +853,7 @@ export function volumePropertiesSerializer(item: VolumeProperties): any {
     smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
     smbNonBrowsable: item["smbNonBrowsable"],
     smbContinuouslyAvailable: item["smbContinuouslyAvailable"],
+    smbOplocks: item["smbOplocks"],
     throughputMibps: item["throughputMibps"],
     encryptionKeySource: item["encryptionKeySource"],
     keyVaultPrivateEndpointResourceId: item["keyVaultPrivateEndpointResourceId"],
@@ -859,6 +866,9 @@ export function volumePropertiesSerializer(item: VolumeProperties): any {
     unixPermissions: item["unixPermissions"],
     avsDataStore: item["avsDataStore"],
     isDefaultQuotaEnabled: item["isDefaultQuotaEnabled"],
+    asyncDirectoryDelete: !item["asyncDirectoryDelete"]
+      ? item["asyncDirectoryDelete"]
+      : asyncDirectoryDeleteSerializer(item["asyncDirectoryDelete"]),
     defaultUserQuotaInKiBs: item["defaultUserQuotaInKiBs"],
     defaultGroupQuotaInKiBs: item["defaultGroupQuotaInKiBs"],
     capacityPoolResourceId: item["capacityPoolResourceId"],
@@ -872,6 +882,9 @@ export function volumePropertiesSerializer(item: VolumeProperties): any {
     largeVolumeType: item["largeVolumeType"],
     language: item["language"],
     breakthroughMode: item["breakthroughMode"],
+    geoNamespaceProperties: !item["geoNamespaceProperties"]
+      ? item["geoNamespaceProperties"]
+      : volumeNamespacePropertiesSerializer(item["geoNamespaceProperties"]),
   };
 }
 
@@ -916,6 +929,7 @@ export function volumePropertiesDeserializer(item: any): VolumeProperties {
     smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
     smbNonBrowsable: item["smbNonBrowsable"],
     smbContinuouslyAvailable: item["smbContinuouslyAvailable"],
+    smbOplocks: item["smbOplocks"],
     throughputMibps: item["throughputMibps"],
     actualThroughputMibps: item["actualThroughputMibps"],
     encryptionKeySource: item["encryptionKeySource"],
@@ -936,6 +950,9 @@ export function volumePropertiesDeserializer(item: any): VolumeProperties {
           return p;
         }),
     isDefaultQuotaEnabled: item["isDefaultQuotaEnabled"],
+    asyncDirectoryDelete: !item["asyncDirectoryDelete"]
+      ? item["asyncDirectoryDelete"]
+      : asyncDirectoryDeleteDeserializer(item["asyncDirectoryDelete"]),
     defaultUserQuotaInKiBs: item["defaultUserQuotaInKiBs"],
     defaultGroupQuotaInKiBs: item["defaultGroupQuotaInKiBs"],
     maximumNumberOfFiles: item["maximumNumberOfFiles"],
@@ -956,6 +973,9 @@ export function volumePropertiesDeserializer(item: any): VolumeProperties {
     inheritedSizeInBytes: item["inheritedSizeInBytes"],
     language: item["language"],
     breakthroughMode: item["breakthroughMode"],
+    geoNamespaceProperties: !item["geoNamespaceProperties"]
+      ? item["geoNamespaceProperties"]
+      : volumeNamespacePropertiesDeserializer(item["geoNamespaceProperties"]),
   };
 }
 
@@ -1664,6 +1684,24 @@ export enum KnownSmbNonBrowsable {
  */
 export type SmbNonBrowsable = string;
 
+/** SMB opportunistic-lock setting shared by volume and cache resources. Omit the property when unspecified. */
+export enum KnownSmbOplocks {
+  /** SMB opportunistic locks share setting is disabled. */
+  Disabled = "Disabled",
+  /** SMB opportunistic locks share setting is enabled. */
+  Enabled = "Enabled",
+}
+
+/**
+ * SMB opportunistic-lock setting shared by volume and cache resources. Omit the property when unspecified. \
+ * {@link KnownSmbOplocks} can be used interchangeably with SmbOplocks,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: SMB opportunistic locks share setting is disabled. \
+ * **Enabled**: SMB opportunistic locks share setting is enabled.
+ */
+export type SmbOplocks = string;
+
 /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
 export enum KnownEncryptionKeySource {
   /** Microsoft-managed key encryption */
@@ -1782,6 +1820,43 @@ export enum KnownAvsDataStore {
  * **Disabled**: avsDataStore is disabled
  */
 export type AvsDataStore = string;
+
+/** Async Directory Delete configuration for the volume. */
+export interface AsyncDirectoryDelete {
+  /** Specifies whether Async Directory Delete is enabled for the volume. */
+  status?: AsyncDirectoryDeleteStatus;
+  /** The name of the Trash bin folder for deleted files. Max length of 255. Must contain at least one alphanumeric character (A-Z, a-z, 0-9) and may include dots (.), underscores (_), and hyphens (-). */
+  trashBinName?: string;
+}
+
+export function asyncDirectoryDeleteSerializer(item: AsyncDirectoryDelete): any {
+  return { status: item["status"], trashBinName: item["trashBinName"] };
+}
+
+export function asyncDirectoryDeleteDeserializer(item: any): AsyncDirectoryDelete {
+  return {
+    status: item["status"],
+    trashBinName: item["trashBinName"],
+  };
+}
+
+/** Whether Async Directory Delete is enabled for the volume. */
+export enum KnownAsyncDirectoryDeleteStatus {
+  /** Async Directory Delete is enabled */
+  Enabled = "Enabled",
+  /** Async Directory Delete is disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Whether Async Directory Delete is enabled for the volume. \
+ * {@link KnownAsyncDirectoryDeleteStatus} can be used interchangeably with AsyncDirectoryDeleteStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Async Directory Delete is enabled \
+ * **Disabled**: Async Directory Delete is disabled
+ */
+export type AsyncDirectoryDeleteStatus = string;
 
 /**
  * Flag indicating whether subvolume operations are enabled on the volume
@@ -2071,6 +2146,40 @@ export enum KnownBreakthroughMode {
  * **Disabled**: The volume uses configuration that provides basic performance and throughput.
  */
 export type BreakthroughMode = string;
+
+/** Geographic namespace properties for a volume. */
+export interface VolumeNamespaceProperties {
+  /** Indicates whether this volume is designated as an origin for cache volumes. */
+  originVolume?: OriginVolume;
+}
+
+export function volumeNamespacePropertiesSerializer(item: VolumeNamespaceProperties): any {
+  return { originVolume: item["originVolume"] };
+}
+
+export function volumeNamespacePropertiesDeserializer(item: any): VolumeNamespaceProperties {
+  return {
+    originVolume: item["originVolume"],
+  };
+}
+
+/** Indicates whether a volume is designated as an origin for cache volumes. */
+export enum KnownOriginVolume {
+  /** This volume is not designated as an origin for cache volumes. */
+  Disabled = "Disabled",
+  /** This volume is designated as an origin for one or more cache volumes. */
+  Enabled = "Enabled",
+}
+
+/**
+ * Indicates whether a volume is designated as an origin for cache volumes. \
+ * {@link KnownOriginVolume} can be used interchangeably with OriginVolume,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: This volume is not designated as an origin for cache volumes. \
+ * **Enabled**: This volume is designated as an origin for one or more cache volumes.
+ */
+export type OriginVolume = string;
 
 /** List of volume group resources */
 export interface _VolumeGroupList {
@@ -2523,6 +2632,8 @@ export interface VolumePatchProperties {
   dataProtection?: VolumePatchPropertiesDataProtection;
   /** Specifies if default quota is enabled for the volume. */
   isDefaultQuotaEnabled?: boolean;
+  /** Async Directory Delete configuration for the volume. */
+  asyncDirectoryDelete?: AsyncDirectoryDelete;
   /** Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies . */
   defaultUserQuotaInKiBs?: number;
   /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
@@ -2548,6 +2659,10 @@ export interface VolumePatchProperties {
   smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
   smbNonBrowsable?: SmbNonBrowsable;
+  /** Enables or disables SMB opportunistic lock property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbOplocks?: SmbOplocks;
+  /** Geographic namespace properties for this volume. */
+  geoNamespaceProperties?: VolumePatchNamespaceProperties;
 }
 
 export function volumePatchPropertiesSerializer(item: VolumePatchProperties): any {
@@ -2567,6 +2682,9 @@ export function volumePatchPropertiesSerializer(item: VolumePatchProperties): an
       ? item["dataProtection"]
       : volumePatchPropertiesDataProtectionSerializer(item["dataProtection"]),
     isDefaultQuotaEnabled: item["isDefaultQuotaEnabled"],
+    asyncDirectoryDelete: !item["asyncDirectoryDelete"]
+      ? item["asyncDirectoryDelete"]
+      : asyncDirectoryDeleteSerializer(item["asyncDirectoryDelete"]),
     defaultUserQuotaInKiBs: item["defaultUserQuotaInKiBs"],
     defaultGroupQuotaInKiBs: item["defaultGroupQuotaInKiBs"],
     unixPermissions: item["unixPermissions"],
@@ -2577,6 +2695,10 @@ export function volumePatchPropertiesSerializer(item: VolumePatchProperties): an
     snapshotDirectoryVisible: item["snapshotDirectoryVisible"],
     smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
     smbNonBrowsable: item["smbNonBrowsable"],
+    smbOplocks: item["smbOplocks"],
+    geoNamespaceProperties: !item["geoNamespaceProperties"]
+      ? item["geoNamespaceProperties"]
+      : volumePatchNamespacePropertiesSerializer(item["geoNamespaceProperties"]),
   };
 }
 
@@ -2626,6 +2748,18 @@ export function ransomwareProtectionPatchSettingsSerializer(
   item: RansomwareProtectionPatchSettings,
 ): any {
   return { desiredRansomwareProtectionState: item["desiredRansomwareProtectionState"] };
+}
+
+/** Geographic namespace properties for a volume patch operation. */
+export interface VolumePatchNamespaceProperties {
+  /** Indicates whether this volume is designated as an origin for cache volumes. */
+  originVolume?: OriginVolume;
+}
+
+export function volumePatchNamespacePropertiesSerializer(
+  item: VolumePatchNamespaceProperties,
+): any {
+  return { originVolume: item["originVolume"] };
 }
 
 /** List of volume resources */
@@ -3674,6 +3808,12 @@ export function volumeQuotaRulesPropertiesDeserializer(item: any): VolumeQuotaRu
 
 /** Gets the status of the VolumeQuotaRule at the time the operation was called. */
 export enum KnownNetAppProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
   /** Resource has been Accepted */
   Accepted = "Accepted",
   /** Resource is being Created */
@@ -3686,10 +3826,6 @@ export enum KnownNetAppProvisioningState {
   Deleting = "Deleting",
   /** Resource is being Moved */
   Moving = "Moving",
-  /** Resource has Failed */
-  Failed = "Failed",
-  /** Resource has Succeeded */
-  Succeeded = "Succeeded",
 }
 
 /**
@@ -3697,14 +3833,15 @@ export enum KnownNetAppProvisioningState {
  * {@link KnownNetAppProvisioningState} can be used interchangeably with NetAppProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
  * **Accepted**: Resource has been Accepted \
  * **Creating**: Resource is being Created \
  * **Patching**: Resource is being Patched \
  * **Updating**: Resource is updating \
  * **Deleting**: Resource is being Deleted \
- * **Moving**: Resource is being Moved \
- * **Failed**: Resource has Failed \
- * **Succeeded**: Resource has Succeeded
+ * **Moving**: Resource is being Moved
  */
 export type NetAppProvisioningState = string;
 
@@ -4877,10 +5014,12 @@ export type KerberosState = string;
 export interface SmbSettings {
   /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol cache. */
   smbEncryption?: SmbEncryptionState;
-  /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol cache */
   smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
-  /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol cache */
   smbNonBrowsable?: SmbNonBrowsable;
+  /** Enables or disables SMB opportunistic lock property for SMB Shares. Only applicable for SMB/DualProtocol cache */
+  smbOplocks?: SmbOplocks;
 }
 
 export function smbSettingsSerializer(item: SmbSettings): any {
@@ -4888,6 +5027,7 @@ export function smbSettingsSerializer(item: SmbSettings): any {
     smbEncryption: item["smbEncryption"],
     smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
     smbNonBrowsable: item["smbNonBrowsable"],
+    smbOplocks: item["smbOplocks"],
   };
 }
 
@@ -4896,6 +5036,7 @@ export function smbSettingsDeserializer(item: any): SmbSettings {
     smbEncryption: item["smbEncryption"],
     smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
     smbNonBrowsable: item["smbNonBrowsable"],
+    smbOplocks: item["smbOplocks"],
   };
 }
 
@@ -7672,6 +7813,861 @@ export function activeDirectoryConfigArrayDeserializer(
   });
 }
 
+/** External Cluster resource, representing a cluster on an external NetApp ONTAP system */
+export interface ExternalCluster extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ExternalClusterProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+}
+
+export function externalClusterSerializer(item: ExternalCluster): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : externalClusterPropertiesSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
+  };
+}
+
+export function externalClusterDeserializer(item: any): ExternalCluster {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : externalClusterPropertiesDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
+  };
+}
+
+/** External Cluster properties */
+export interface ExternalClusterProperties {
+  /** Azure lifecycle management */
+  readonly provisioningState?: NetAppProvisioningState;
+  /** Intercluster LIFs, external cluster IPs for cluster peer connection */
+  interclusterLifsIpAddresses: string[];
+  /** Key Vault authentication configuration for cluster peering passphrase */
+  clusterPeerPassphraseKeyVault: KeyVaultClusterPeerPassphraseProperties;
+}
+
+export function externalClusterPropertiesSerializer(item: ExternalClusterProperties): any {
+  return {
+    interclusterLifsIpAddresses: item["interclusterLifsIpAddresses"].map((p: any) => {
+      return p;
+    }),
+    clusterPeerPassphraseKeyVault: keyVaultClusterPeerPassphrasePropertiesSerializer(
+      item["clusterPeerPassphraseKeyVault"],
+    ),
+  };
+}
+
+export function externalClusterPropertiesDeserializer(item: any): ExternalClusterProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    interclusterLifsIpAddresses: item["interclusterLifsIpAddresses"].map((p: any) => {
+      return p;
+    }),
+    clusterPeerPassphraseKeyVault: keyVaultClusterPeerPassphrasePropertiesDeserializer(
+      item["clusterPeerPassphraseKeyVault"],
+    ),
+  };
+}
+
+/** Key Vault authentication properties */
+export interface KeyVaultClusterPeerPassphraseProperties {
+  /** The Azure Key Vault URI where the passphrase for cluster peering handshake is stored */
+  keyVaultUri: string;
+  /** The name of the secret in Azure Key Vault. Passphrase for cluster peering handshake is stored in this secret. */
+  secretName: string;
+  /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. If not provided, system-assigned identity will be used. */
+  userAssignedIdentityResourceId?: string;
+}
+
+export function keyVaultClusterPeerPassphrasePropertiesSerializer(
+  item: KeyVaultClusterPeerPassphraseProperties,
+): any {
+  return {
+    keyVaultUri: item["keyVaultUri"],
+    secretName: item["secretName"],
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+  };
+}
+
+export function keyVaultClusterPeerPassphrasePropertiesDeserializer(
+  item: any,
+): KeyVaultClusterPeerPassphraseProperties {
+  return {
+    keyVaultUri: item["keyVaultUri"],
+    secretName: item["secretName"],
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+  };
+}
+
+/** The type used for update operations of the ExternalCluster. */
+export interface ExternalClusterUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: ExternalClusterUpdateProperties;
+}
+
+export function externalClusterUpdateSerializer(item: ExternalClusterUpdate): any {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : externalClusterUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the ExternalCluster. */
+export interface ExternalClusterUpdateProperties {
+  /** Intercluster LIFs, external cluster IPs for cluster peer connection */
+  interclusterLifsIpAddresses?: string[];
+  /** Key Vault authentication configuration for cluster peering passphrase */
+  clusterPeerPassphraseKeyVault?: KeyVaultClusterPeerPassphrasePatchProperties;
+}
+
+export function externalClusterUpdatePropertiesSerializer(
+  item: ExternalClusterUpdateProperties,
+): any {
+  return {
+    interclusterLifsIpAddresses: !item["interclusterLifsIpAddresses"]
+      ? item["interclusterLifsIpAddresses"]
+      : item["interclusterLifsIpAddresses"].map((p: any) => {
+          return p;
+        }),
+    clusterPeerPassphraseKeyVault: !item["clusterPeerPassphraseKeyVault"]
+      ? item["clusterPeerPassphraseKeyVault"]
+      : keyVaultClusterPeerPassphrasePatchPropertiesSerializer(
+          item["clusterPeerPassphraseKeyVault"],
+        ),
+  };
+}
+
+/** Key Vault authentication properties for PATCH operations */
+export interface KeyVaultClusterPeerPassphrasePatchProperties {
+  /** The Azure Key Vault URI where the passphrase for cluster peering handshake is stored */
+  keyVaultUri?: string;
+  /** The name of the secret in Azure Key Vault. Passphrase for cluster peering handshake is stored in this secret. */
+  secretName?: string;
+  /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. If not provided, system-assigned identity will be used. */
+  userAssignedIdentityResourceId?: string;
+}
+
+export function keyVaultClusterPeerPassphrasePatchPropertiesSerializer(
+  item: KeyVaultClusterPeerPassphrasePatchProperties,
+): any {
+  return {
+    keyVaultUri: item["keyVaultUri"],
+    secretName: item["secretName"],
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+  };
+}
+
+/** List of External Cluster resources */
+export interface _ExternalClusterList {
+  /** The ExternalCluster items on this page */
+  value: ExternalCluster[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _externalClusterListDeserializer(item: any): _ExternalClusterList {
+  return {
+    value: externalClusterArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function externalClusterArraySerializer(result: Array<ExternalCluster>): any[] {
+  return result.map((item) => {
+    return externalClusterSerializer(item);
+  });
+}
+
+export function externalClusterArrayDeserializer(result: Array<ExternalCluster>): any[] {
+  return result.map((item) => {
+    return externalClusterDeserializer(item);
+  });
+}
+
+/** Cluster Peer resource, represents a peer relationship between an external cluster and an Azure NetApp Files cluster */
+export interface ClusterPeer extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ClusterPeerProperties;
+}
+
+export function clusterPeerDeserializer(item: any): ClusterPeer {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : clusterPeerPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Cluster Peer properties */
+export interface ClusterPeerProperties {
+  /** Azure lifecycle management */
+  readonly provisioningState?: NetAppProvisioningState;
+  /** Name of the Azure NetApp Files (ANF) cluster */
+  readonly anfClusterName?: string;
+  /** Name of the external ONTAP cluster, discovered during cluster peering */
+  readonly ontapClusterName?: string;
+  /** The ONTAP version of the external cluster. */
+  readonly ontapVersion?: string;
+  /** Status of the peer relationship */
+  readonly status?: ClusterPeerStatus;
+  /** External volume replication resource IDs */
+  readonly hybridReplicationResourceIds?: string[];
+  /** External cache connection resource IDs */
+  readonly externalCacheConnectionResourceIds?: string[];
+  /** Command to execute to create the peer relationship */
+  readonly command?: string;
+  /** Network interfaces created that allow communications between the clusters */
+  readonly networkInterfaces?: ExternalResourceNetworkInterfaces[];
+  /** Cluster Peer Subnet Resource ID */
+  readonly clusterPeerSubnetResourceId?: string;
+}
+
+export function clusterPeerPropertiesDeserializer(item: any): ClusterPeerProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    anfClusterName: item["anfClusterName"],
+    ontapClusterName: item["ontapClusterName"],
+    ontapVersion: item["ontapVersion"],
+    status: item["status"],
+    hybridReplicationResourceIds: !item["hybridReplicationResourceIds"]
+      ? item["hybridReplicationResourceIds"]
+      : item["hybridReplicationResourceIds"].map((p: any) => {
+          return p;
+        }),
+    externalCacheConnectionResourceIds: !item["externalCacheConnectionResourceIds"]
+      ? item["externalCacheConnectionResourceIds"]
+      : item["externalCacheConnectionResourceIds"].map((p: any) => {
+          return p;
+        }),
+    command: item["command"],
+    networkInterfaces: !item["networkInterfaces"]
+      ? item["networkInterfaces"]
+      : externalResourceNetworkInterfacesArrayDeserializer(item["networkInterfaces"]),
+    clusterPeerSubnetResourceId: item["clusterPeerSubnetResourceId"],
+  };
+}
+
+/** Cluster Peer status enum */
+export enum KnownClusterPeerStatus {
+  /** Active peering */
+  Active = "Active",
+  /** Error state, an error occurred during peering, the error details can be seen by running this command on the external ONTAP cluster for more details (command: cluster peer show) */
+  Error = "Error",
+  /** Pending state, the peering needs to be accepted on your cluster */
+  Pending = "Pending",
+}
+
+/**
+ * Cluster Peer status enum \
+ * {@link KnownClusterPeerStatus} can be used interchangeably with ClusterPeerStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: Active peering \
+ * **Error**: Error state, an error occurred during peering, the error details can be seen by running this command on the external ONTAP cluster for more details (command: cluster peer show) \
+ * **Pending**: Pending state, the peering needs to be accepted on your cluster
+ */
+export type ClusterPeerStatus = string;
+
+export function externalResourceNetworkInterfacesArrayDeserializer(
+  result: Array<ExternalResourceNetworkInterfaces>,
+): any[] {
+  return result.map((item) => {
+    return externalResourceNetworkInterfacesDeserializer(item);
+  });
+}
+
+/** External Resource Network Interfaces */
+export interface ExternalResourceNetworkInterfaces {
+  /** Network Interface Resource ID */
+  networkInterfaceResourceId: string;
+  /** Peer IP address used for peering */
+  peerIpAddress: string;
+}
+
+export function externalResourceNetworkInterfacesDeserializer(
+  item: any,
+): ExternalResourceNetworkInterfaces {
+  return {
+    networkInterfaceResourceId: item["networkInterfaceResourceId"],
+    peerIpAddress: item["peerIpAddress"],
+  };
+}
+
+/** The response of a ClusterPeer list operation. */
+export interface _ClusterPeerListResult {
+  /** The ClusterPeer items on this page */
+  value: ClusterPeer[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _clusterPeerListResultDeserializer(item: any): _ClusterPeerListResult {
+  return {
+    value: clusterPeerArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function clusterPeerArrayDeserializer(result: Array<ClusterPeer>): any[] {
+  return result.map((item) => {
+    return clusterPeerDeserializer(item);
+  });
+}
+
+/** External SVM (Storage Virtual Machine, Vserver) resource, representing an SVM on an external NetApp ONTAP system */
+export interface ExternalSvm extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ExternalSvmProperties;
+}
+
+export function externalSvmSerializer(item: ExternalSvm): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : externalSvmPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function externalSvmDeserializer(item: any): ExternalSvm {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : externalSvmPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** External SVM properties */
+export interface ExternalSvmProperties {
+  /** Azure lifecycle management */
+  readonly provisioningState?: NetAppProvisioningState;
+  /** Name of the external ONTAP SVM (different from Azure resource name). Must be unique across the cluster. */
+  ontapSvmName: string;
+  /** Resource IDs of associated SVM Peer relationships */
+  readonly svmPeerResourceIds?: string[];
+}
+
+export function externalSvmPropertiesSerializer(item: ExternalSvmProperties): any {
+  return { ontapSvmName: item["ontapSvmName"] };
+}
+
+export function externalSvmPropertiesDeserializer(item: any): ExternalSvmProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    ontapSvmName: item["ontapSvmName"],
+    svmPeerResourceIds: !item["svmPeerResourceIds"]
+      ? item["svmPeerResourceIds"]
+      : item["svmPeerResourceIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The type used for updating tags in ExternalSvm resources. */
+export interface ExternalSvmTagsUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function externalSvmTagsUpdateSerializer(item: ExternalSvmTagsUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** The response of a ExternalSvm list operation. */
+export interface _ExternalSvmListResult {
+  /** The ExternalSvm items on this page */
+  value: ExternalSvm[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _externalSvmListResultDeserializer(item: any): _ExternalSvmListResult {
+  return {
+    value: externalSvmArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function externalSvmArraySerializer(result: Array<ExternalSvm>): any[] {
+  return result.map((item) => {
+    return externalSvmSerializer(item);
+  });
+}
+
+export function externalSvmArrayDeserializer(result: Array<ExternalSvm>): any[] {
+  return result.map((item) => {
+    return externalSvmDeserializer(item);
+  });
+}
+
+/** SVM Peer resource, represents a peer relationship between an external SVM and an Azure NetApp Files SVM */
+export interface SvmPeer extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SvmPeerProperties;
+}
+
+export function svmPeerDeserializer(item: any): SvmPeer {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : svmPeerPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** SVM Peer properties */
+export interface SvmPeerProperties {
+  /** Azure lifecycle management */
+  readonly provisioningState?: NetAppProvisioningState;
+  /** Command to accept the peer relationship */
+  readonly acceptCommand?: string;
+  /** Name of the Azure Net App Files (ANF) SVM */
+  readonly anfSvmName?: string;
+  /** Resource ID of the external SVM */
+  readonly externalSvmResourceId?: string;
+  /** Status of the peer relationship */
+  readonly status?: SvmPeerStatus;
+  /** Peer types; expected values include "Replication" or "Cache" */
+  readonly peerTypes?: SvmPeerType[];
+  /** Resource IDs of Hybrid Replication resources associated with this SVM peer */
+  readonly hybridReplicationResourceIds?: string[];
+  /** Resource IDs of External Cache Connections associated with this SVM peer */
+  readonly externalCacheConnectionResourceIds?: string[];
+}
+
+export function svmPeerPropertiesDeserializer(item: any): SvmPeerProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    acceptCommand: item["acceptCommand"],
+    anfSvmName: item["anfSvmName"],
+    externalSvmResourceId: item["externalSvmResourceId"],
+    status: item["status"],
+    peerTypes: !item["peerTypes"]
+      ? item["peerTypes"]
+      : item["peerTypes"].map((p: any) => {
+          return p;
+        }),
+    hybridReplicationResourceIds: !item["hybridReplicationResourceIds"]
+      ? item["hybridReplicationResourceIds"]
+      : item["hybridReplicationResourceIds"].map((p: any) => {
+          return p;
+        }),
+    externalCacheConnectionResourceIds: !item["externalCacheConnectionResourceIds"]
+      ? item["externalCacheConnectionResourceIds"]
+      : item["externalCacheConnectionResourceIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** SVM Peer status enum */
+export enum KnownSvmPeerStatus {
+  /** Active peering */
+  Active = "Active",
+  /** Error state, use command on your cluster for more details(command: vserver peer show) */
+  Error = "Error",
+  /** Pending state, the peering needs to be accepted on your SVM (command: vserver peer accept) */
+  Pending = "Pending",
+}
+
+/**
+ * SVM Peer status enum \
+ * {@link KnownSvmPeerStatus} can be used interchangeably with SvmPeerStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: Active peering \
+ * **Error**: Error state, use command on your cluster for more details(command: vserver peer show) \
+ * **Pending**: Pending state, the peering needs to be accepted on your SVM (command: vserver peer accept)
+ */
+export type SvmPeerStatus = string;
+
+/** SVM peer relationship type enum */
+export enum KnownSvmPeerType {
+  /** Replication peer */
+  Replication = "Replication",
+  /** Cache peer */
+  Cache = "Cache",
+}
+
+/**
+ * SVM peer relationship type enum \
+ * {@link KnownSvmPeerType} can be used interchangeably with SvmPeerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Replication**: Replication peer \
+ * **Cache**: Cache peer
+ */
+export type SvmPeerType = string;
+
+/** The response of a SvmPeer list operation. */
+export interface _SvmPeerListResult {
+  /** The SvmPeer items on this page */
+  value: SvmPeer[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _svmPeerListResultDeserializer(item: any): _SvmPeerListResult {
+  return {
+    value: svmPeerArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function svmPeerArrayDeserializer(result: Array<SvmPeer>): any[] {
+  return result.map((item) => {
+    return svmPeerDeserializer(item);
+  });
+}
+
+/** External Cache resource, representing a cache volume on an external ONTAP system */
+export interface ExternalCache extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ExternalCacheProperties;
+}
+
+export function externalCacheDeserializer(item: any): ExternalCache {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : externalCachePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** External Cache properties */
+export interface ExternalCacheProperties {
+  /** Azure lifecycle management */
+  readonly provisioningState?: NetAppProvisioningState;
+  /** Name of the cache volume on the external ONTAP system */
+  readonly externalCacheName?: string;
+  /** Origin volume resource ID, the ANF volume that acts as the origin for this cache */
+  readonly originVolumeResourceId?: string;
+  /** Name of the origin volume associated with this cache */
+  readonly originVolumeName?: string;
+  /** Name of the origin SVM (Storage Virtual Machine) associated with this cache */
+  readonly originSvmName?: string;
+  /** Size of the cache in bytes */
+  readonly sizeInBytes?: number;
+  /** State of the remote cache volume */
+  readonly state?: ExternalCacheState;
+  /** The ONTAP CLI command to create this cache */
+  readonly createCommand?: string;
+  /** Connection status of the external cache */
+  readonly connectionStatus?: ExternalCacheConnectionStatus;
+}
+
+export function externalCachePropertiesDeserializer(item: any): ExternalCacheProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    externalCacheName: item["externalCacheName"],
+    originVolumeResourceId: item["originVolumeResourceId"],
+    originVolumeName: item["originVolumeName"],
+    originSvmName: item["originSvmName"],
+    sizeInBytes: item["sizeInBytes"],
+    state: item["state"],
+    createCommand: item["createCommand"],
+    connectionStatus: item["connectionStatus"],
+  };
+}
+
+/** State of a remote cache volume on an external ONTAP system */
+export enum KnownExternalCacheState {
+  /** The remote cache volume is in an error state */
+  Error = "error",
+  /** The remote cache volume is in a mixed state */
+  Mixed = "mixed",
+  /** The remote cache volume is offline */
+  Offline = "offline",
+  /** The remote cache volume is online */
+  Online = "online",
+  /** The remote cache volume is in a pending state */
+  Pending = "pending",
+  /** The remote cache volume is in an unsupported state */
+  Unsupported = "unsupported",
+}
+
+/**
+ * State of a remote cache volume on an external ONTAP system \
+ * {@link KnownExternalCacheState} can be used interchangeably with ExternalCacheState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **error**: The remote cache volume is in an error state \
+ * **mixed**: The remote cache volume is in a mixed state \
+ * **offline**: The remote cache volume is offline \
+ * **online**: The remote cache volume is online \
+ * **pending**: The remote cache volume is in a pending state \
+ * **unsupported**: The remote cache volume is in an unsupported state
+ */
+export type ExternalCacheState = string;
+
+/** Represents the status of an external cache connection */
+export enum KnownExternalCacheConnectionStatus {
+  /** The cache connection is pending */
+  Pending = "Pending",
+  /** The cache is connected */
+  Connected = "Connected",
+  /** The cache is disconnected */
+  Disconnected = "Disconnected",
+  /** The cache status is unknown. This is a transient state and should change to either connected or disconnected. */
+  Unknown = "Unknown",
+  /** The cache was discovered on-premises but has no corresponding ExternalCacheConnection resource */
+  Unsupported = "Unsupported",
+}
+
+/**
+ * Represents the status of an external cache connection \
+ * {@link KnownExternalCacheConnectionStatus} can be used interchangeably with ExternalCacheConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: The cache connection is pending \
+ * **Connected**: The cache is connected \
+ * **Disconnected**: The cache is disconnected \
+ * **Unknown**: The cache status is unknown. This is a transient state and should change to either connected or disconnected. \
+ * **Unsupported**: The cache was discovered on-premises but has no corresponding ExternalCacheConnection resource
+ */
+export type ExternalCacheConnectionStatus = string;
+
+/** The response of a ExternalCache list operation. */
+export interface _ExternalCacheListResult {
+  /** The ExternalCache items on this page */
+  value: ExternalCache[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _externalCacheListResultDeserializer(item: any): _ExternalCacheListResult {
+  return {
+    value: externalCacheArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function externalCacheArrayDeserializer(result: Array<ExternalCache>): any[] {
+  return result.map((item) => {
+    return externalCacheDeserializer(item);
+  });
+}
+
+/** External Cache Connection resource, representing a cache connection relationship between External and Azure NetApp Files volumes */
+export interface ExternalCacheConnection extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ExternalCacheConnectionProperties;
+}
+
+export function externalCacheConnectionSerializer(item: ExternalCacheConnection): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : externalCacheConnectionPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function externalCacheConnectionDeserializer(item: any): ExternalCacheConnection {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : externalCacheConnectionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** External Cache Connection properties */
+export interface ExternalCacheConnectionProperties {
+  /** Current status of the operation */
+  readonly provisioningState?: NetAppProvisioningState;
+  /** Origin volume resource ID, the ANF volume that acts as the origin for the cache connection */
+  originVolumeResourceId: string;
+  /** Name of the cache associated with this connection */
+  externalCacheName: string;
+  /** External SVM resource ID, the external storage virtual machine associated with this cache connection */
+  externalSvmResourceId: string;
+  /** The Azure Resource URI for a delegated subnet used for cluster peering */
+  clusterPeerSubnetResourceId?: string;
+  /** Resource ID of the cluster peer */
+  readonly clusterPeerResourceId?: string;
+  /** Resource ID of the SVM peer */
+  readonly svmPeerResourceId?: string;
+  /** Setup information for the external cache connection */
+  readonly setupInformation?: SetupInformation;
+}
+
+export function externalCacheConnectionPropertiesSerializer(
+  item: ExternalCacheConnectionProperties,
+): any {
+  return {
+    originVolumeResourceId: item["originVolumeResourceId"],
+    externalCacheName: item["externalCacheName"],
+    externalSvmResourceId: item["externalSvmResourceId"],
+    clusterPeerSubnetResourceId: item["clusterPeerSubnetResourceId"],
+  };
+}
+
+export function externalCacheConnectionPropertiesDeserializer(
+  item: any,
+): ExternalCacheConnectionProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    originVolumeResourceId: item["originVolumeResourceId"],
+    externalCacheName: item["externalCacheName"],
+    externalSvmResourceId: item["externalSvmResourceId"],
+    clusterPeerSubnetResourceId: item["clusterPeerSubnetResourceId"],
+    clusterPeerResourceId: item["clusterPeerResourceId"],
+    svmPeerResourceId: item["svmPeerResourceId"],
+    setupInformation: !item["setupInformation"]
+      ? item["setupInformation"]
+      : setupInformationDeserializer(item["setupInformation"]),
+  };
+}
+
+/** Setup Information for External Connection Setups */
+export interface SetupInformation {
+  /** Setup status indicating the current step in the setup process */
+  readonly setupStatus?: ExternalConnectionSetupState;
+  /** Additional status information */
+  readonly statusInformation?: string;
+  /** Command to execute */
+  readonly command?: string;
+}
+
+export function setupInformationDeserializer(item: any): SetupInformation {
+  return {
+    setupStatus: item["setupStatus"],
+    statusInformation: item["statusInformation"],
+    command: item["command"],
+  };
+}
+
+/** Provides a machine-readable value for the status of the external connection setup. */
+export enum KnownExternalConnectionSetupState {
+  /** The peering needs to be accepted on your cluster before the setup can proceed. see the command in 'SetupInformation.command' property */
+  ClusterPeerPending = "ClusterPeerPending",
+  /** Need to accept the returned 'vserver peer accept' command on your cluster to finish SVM peering. See the command in 'SetupInformation.command' property */
+  VServerPeerRequired = "VServerPeerRequired",
+  /** External cache connection setup is complete. */
+  NoActionRequired = "NoActionRequired",
+}
+
+/**
+ * Provides a machine-readable value for the status of the external connection setup. \
+ * {@link KnownExternalConnectionSetupState} can be used interchangeably with ExternalConnectionSetupState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClusterPeerPending**: The peering needs to be accepted on your cluster before the setup can proceed. see the command in 'SetupInformation.command' property \
+ * **VServerPeerRequired**: Need to accept the returned 'vserver peer accept' command on your cluster to finish SVM peering. See the command in 'SetupInformation.command' property \
+ * **NoActionRequired**: External cache connection setup is complete.
+ */
+export type ExternalConnectionSetupState = string;
+
+/** The type used for updating tags in ExternalCacheConnection resources. */
+export interface ExternalCacheConnectionTagsUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function externalCacheConnectionTagsUpdateSerializer(
+  item: ExternalCacheConnectionTagsUpdate,
+): any {
+  return { tags: item["tags"] };
+}
+
+/** List of External Cache Connection resources */
+export interface _ExternalCacheConnectionList {
+  /** The ExternalCacheConnection items on this page */
+  value: ExternalCacheConnection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _externalCacheConnectionListDeserializer(item: any): _ExternalCacheConnectionList {
+  return {
+    value: externalCacheConnectionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function externalCacheConnectionArraySerializer(
+  result: Array<ExternalCacheConnection>,
+): any[] {
+  return result.map((item) => {
+    return externalCacheConnectionSerializer(item);
+  });
+}
+
+export function externalCacheConnectionArrayDeserializer(
+  result: Array<ExternalCacheConnection>,
+): any[] {
+  return result.map((item) => {
+    return externalCacheConnectionDeserializer(item);
+  });
+}
+
 /** Information regarding regionInfo Item. */
 export interface RegionInfoResource extends ProxyResource {
   /** regionInfo properties */
@@ -8432,9 +9428,9 @@ export function netAppAccountPatchSerializer(item: NetAppAccountPatch): any {
 /** NetApp account patch properties */
 export interface AccountPropertiesPatch {
   /** Active Directories */
-  activeDirectories?: ActiveDirectory[];
+  activeDirectories?: ActiveDirectoryPatch[];
   /** Encryption settings */
-  encryption?: AccountEncryption;
+  encryption?: AccountEncryptionPatch;
   /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
   nfsV4IDDomain?: string | null;
   /** Entra ID configuration for the account. */
@@ -8447,10 +9443,10 @@ export function accountPropertiesPatchSerializer(item: AccountPropertiesPatch): 
   return {
     activeDirectories: !item["activeDirectories"]
       ? item["activeDirectories"]
-      : activeDirectoryArraySerializer(item["activeDirectories"]),
+      : activeDirectoryPatchArraySerializer(item["activeDirectories"]),
     encryption: !item["encryption"]
       ? item["encryption"]
-      : accountEncryptionSerializer(item["encryption"]),
+      : accountEncryptionPatchSerializer(item["encryption"]),
     nfsV4IDDomain: item["nfsV4IDDomain"],
     entraIdConfig: !item["entraIdConfig"]
       ? item["entraIdConfig"]
@@ -8458,6 +9454,153 @@ export function accountPropertiesPatchSerializer(item: AccountPropertiesPatch): 
     ldapConfiguration: !item["ldapConfiguration"]
       ? item["ldapConfiguration"]
       : ldapConfigurationPatchSerializer(item["ldapConfiguration"]),
+  };
+}
+
+export function activeDirectoryPatchArraySerializer(result: Array<ActiveDirectoryPatch>): any[] {
+  return result.map((item) => {
+    return activeDirectoryPatchSerializer(item);
+  });
+}
+
+/** Active Directory settings for PATCH operations (no default values) */
+export interface ActiveDirectoryPatch {
+  /** Id of the Active Directory */
+  activeDirectoryId?: string | null;
+  /** A domain user account with permission to create machine accounts */
+  username?: string;
+  /** Plain text password of Active Directory domain administrator, value is masked in the response */
+  password?: string;
+  /** Name of the Active Directory domain */
+  domain?: string;
+  /** Comma separated list of DNS server IP addresses (IPv4 only) for the Active Directory domain */
+  dns?: string;
+  /** NetBIOS name of the SMB server. This name will be registered as a computer account in the AD and used to mount volumes */
+  smbServerName?: string;
+  /** The Organizational Unit (OU) within the Windows Active Directory */
+  organizationalUnit?: string;
+  /** The Active Directory site the service will limit Domain Controller discovery to */
+  site?: string;
+  /** Users to be added to the Built-in Backup Operator active directory group. A list of unique usernames without domain specifier */
+  backupOperators?: string[];
+  /** Users to be added to the Built-in Administrators active directory group. A list of unique usernames without domain specifier */
+  administrators?: string[];
+  /** kdc server IP address for the active directory machine. This optional parameter is used only while creating kerberos volume. */
+  kdcIP?: string;
+  /** Name of the active directory machine. This optional parameter is used only while creating kerberos volume */
+  adName?: string;
+  /** When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded Active Directory Certificate Service's self-signed root CA certificate, this optional parameter is used only for dual protocol with LDAP user-mapping volumes. */
+  serverRootCACertificate?: string;
+  /** If enabled, AES encryption will be enabled for SMB communication. */
+  aesEncryption?: boolean;
+  /** Specifies whether or not the LDAP traffic needs to be signed. */
+  ldapSigning?: boolean;
+  /** Domain Users in the Active directory to be given SeSecurityPrivilege privilege (Needed for SMB Continuously available shares for SQL). A list of unique usernames without domain specifier */
+  securityOperators?: string[];
+  /** Specifies whether or not the LDAP traffic needs to be secured via TLS. */
+  ldapOverTLS?: boolean;
+  /** If enabled, NFS client local users can also (in addition to LDAP users) access the NFS volumes. */
+  allowLocalNfsUsersWithLdap?: boolean;
+  /** If enabled, Traffic between the SMB server to Domain Controller (DC) will be encrypted. */
+  encryptDCConnections?: boolean;
+  /** LDAP Search scope options */
+  ldapSearchScope?: LdapSearchScopeOpt;
+  /** Comma separated list of IPv4 addresses of preferred servers for LDAP client. At most two comma separated IPv4 addresses can be passed. */
+  preferredServersForLdapClient?: string;
+}
+
+export function activeDirectoryPatchSerializer(item: ActiveDirectoryPatch): any {
+  return {
+    activeDirectoryId: item["activeDirectoryId"],
+    username: item["username"],
+    password: item["password"],
+    domain: item["domain"],
+    dns: item["dns"],
+    smbServerName: item["smbServerName"],
+    organizationalUnit: item["organizationalUnit"],
+    site: item["site"],
+    backupOperators: !item["backupOperators"]
+      ? item["backupOperators"]
+      : item["backupOperators"].map((p: any) => {
+          return p;
+        }),
+    administrators: !item["administrators"]
+      ? item["administrators"]
+      : item["administrators"].map((p: any) => {
+          return p;
+        }),
+    kdcIP: item["kdcIP"],
+    adName: item["adName"],
+    serverRootCACertificate: item["serverRootCACertificate"],
+    aesEncryption: item["aesEncryption"],
+    ldapSigning: item["ldapSigning"],
+    securityOperators: !item["securityOperators"]
+      ? item["securityOperators"]
+      : item["securityOperators"].map((p: any) => {
+          return p;
+        }),
+    ldapOverTLS: item["ldapOverTLS"],
+    allowLocalNfsUsersWithLdap: item["allowLocalNfsUsersWithLdap"],
+    encryptDCConnections: item["encryptDCConnections"],
+    ldapSearchScope: !item["ldapSearchScope"]
+      ? item["ldapSearchScope"]
+      : ldapSearchScopeOptSerializer(item["ldapSearchScope"]),
+    preferredServersForLdapClient: item["preferredServersForLdapClient"],
+  };
+}
+
+/** Encryption settings for PATCH operations (no default values) */
+export interface AccountEncryptionPatch {
+  /** The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.NetApp, Microsoft.KeyVault */
+  keySource?: KeySource;
+  /** Properties provided by KeVault. Applicable if keySource is 'Microsoft.KeyVault'. */
+  keyVaultProperties?: KeyVaultPropertiesPatch;
+  /** Identity used to authenticate to KeyVault. Applicable if keySource is 'Microsoft.KeyVault'. */
+  identity?: EncryptionIdentityPatch;
+}
+
+export function accountEncryptionPatchSerializer(item: AccountEncryptionPatch): any {
+  return {
+    keySource: item["keySource"],
+    keyVaultProperties: !item["keyVaultProperties"]
+      ? item["keyVaultProperties"]
+      : keyVaultPropertiesPatchSerializer(item["keyVaultProperties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : encryptionIdentityPatchSerializer(item["identity"]),
+  };
+}
+
+/** Properties of key vault for PATCH operations (no required properties) */
+export interface KeyVaultPropertiesPatch {
+  /** The Uri of KeyVault. */
+  keyVaultUri?: string;
+  /** The name of KeyVault key. */
+  keyName?: string;
+  /** The resource ID of KeyVault. */
+  keyVaultResourceId?: string;
+}
+
+export function keyVaultPropertiesPatchSerializer(item: KeyVaultPropertiesPatch): any {
+  return {
+    keyVaultUri: item["keyVaultUri"],
+    keyName: item["keyName"],
+    keyVaultResourceId: item["keyVaultResourceId"],
+  };
+}
+
+/** Identity used to authenticate with key vault for PATCH operations */
+export interface EncryptionIdentityPatch {
+  /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. Applicable if identity.type has 'UserAssigned'. It should match key of identity.userAssignedIdentities. */
+  userAssignedIdentity?: string;
+  /** ClientId of the multi-tenant Entra ID Application. Used to access cross-tenant keyvaults. */
+  federatedClientId?: string;
+}
+
+export function encryptionIdentityPatchSerializer(item: EncryptionIdentityPatch): any {
+  return {
+    userAssignedIdentity: item["userAssignedIdentity"],
+    federatedClientId: item["federatedClientId"],
   };
 }
 
@@ -9485,4 +10628,12 @@ export enum KnownVersions {
   V20260601 = "2026-06-01",
   /** The 2026-06-15-preview API version. */
   V20260615Preview = "2026-06-15-preview",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
+  /** The 2026-07-15-preview API version. */
+  V20260715Preview = "2026-07-15-preview",
+  /** The 2026-08-01 API version. */
+  V20260801 = "2026-08-01",
+  /** The 2026-08-15-preview API version. */
+  V20260815Preview = "2026-08-15-preview",
 }

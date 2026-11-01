@@ -5,12 +5,12 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to disables the specified scheduled action so future occurrences do not run.
+ * This sample demonstrates how to disables the specified recurring bulk action so future occurrences do not run.
  *
- * @summary disables the specified scheduled action so future occurrences do not run.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_Disable_BasicSuccess.json
+ * @summary disables the specified recurring bulk action so future occurrences do not run.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_Disable_BasicSuccess.json
  */
-async function disableARecurringScheduledAction() {
+async function disableARecurringBulkAction() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function disableARecurringScheduledAction() {
 }
 
 async function main() {
-  await disableARecurringScheduledAction();
+  await disableARecurringBulkAction();
 }
 
 main().catch(console.error);

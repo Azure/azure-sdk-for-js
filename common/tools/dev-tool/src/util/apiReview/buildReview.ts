@@ -310,7 +310,7 @@ function assertComplete(program: ts.Program, condition: string, packageRoot: str
   for (const file of packageFiles) {
     if (!file.isDeclarationFile) {
       throw new Error(
-        `[${condition}] ${path.relative(packageRoot, file.fileName)}: Implementation file is part of the review program`,
+        `[${condition}] ${path.relative(packageRoot, file.fileName).split(path.sep).join("/")}: Implementation file is part of the review program`,
       );
     }
   }
@@ -320,7 +320,7 @@ function assertComplete(program: ts.Program, condition: string, packageRoot: str
       .find((diagnostic) => resolutionErrorCodes.has(diagnostic.code));
     if (unresolved) {
       throw new Error(
-        `[${condition}] ${path.relative(packageRoot, file.fileName)}: ${ts.flattenDiagnosticMessageText(unresolved.messageText, " ")}`,
+        `[${condition}] ${path.relative(packageRoot, file.fileName).split(path.sep).join("/")}: ${ts.flattenDiagnosticMessageText(unresolved.messageText, " ")}`,
       );
     }
   }

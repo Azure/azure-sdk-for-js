@@ -46,7 +46,7 @@ export function _restoreSend(
       cloudAccountName: cloudAccountName,
       protectionGroupName: protectionGroupName,
       protectedItemName: protectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,7 +114,7 @@ export function _getRestorePointsSend(
       cloudAccountName: cloudAccountName,
       protectionGroupName: protectionGroupName,
       protectedItemName: protectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +176,7 @@ export function _listByProtectionGroupSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       protectionGroupName: protectionGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -224,11 +224,7 @@ export function listByProtectionGroup(
       ),
     _listByProtectionGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-03-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-30" },
   );
 }
 
@@ -248,7 +244,7 @@ export function _getSend(
       cloudAccountName: cloudAccountName,
       protectionGroupName: protectionGroupName,
       protectedItemName: protectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-03-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

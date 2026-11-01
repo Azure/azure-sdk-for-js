@@ -41,7 +41,7 @@ export function _listMetricDefinitionsSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseRid: databaseRid,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -82,7 +82,11 @@ export function listMetricDefinitions(
     () => _listMetricDefinitionsSend(context, resourceGroupName, accountName, databaseRid, options),
     _listMetricDefinitionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -100,7 +104,7 @@ export function _listUsagesSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseRid: databaseRid,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
       "%24filter": options?.filter,
     },
     {
@@ -142,7 +146,11 @@ export function listUsages(
     () => _listUsagesSend(context, resourceGroupName, accountName, databaseRid, options),
     _listUsagesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -161,7 +169,7 @@ export function _listMetricsSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseRid: databaseRid,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
       "%24filter": filter,
     },
     {
@@ -204,6 +212,10 @@ export function listMetrics(
     () => _listMetricsSend(context, resourceGroupName, accountName, databaseRid, filter, options),
     _listMetricsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }

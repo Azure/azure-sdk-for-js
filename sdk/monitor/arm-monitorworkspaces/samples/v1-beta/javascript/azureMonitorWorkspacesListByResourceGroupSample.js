@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all Azure Monitor Workspaces in the specified resource group
  *
  * @summary lists all Azure Monitor Workspaces in the specified resource group
- * x-ms-original-file: 2025-10-03/AzureMonitorWorkspaces_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/AzureMonitorWorkspaces_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function azureMonitorWorkspacesListByResourceGroupGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

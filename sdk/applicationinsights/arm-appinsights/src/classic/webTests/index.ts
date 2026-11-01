@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import {
   listByComponent,
   list,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/webTests/operations.js";
-import {
+import type {
   WebTestsListByComponentOptionalParams,
   WebTestsListOptionalParams,
   WebTestsListByResourceGroupOptionalParams,
@@ -20,9 +20,9 @@ import {
   WebTestsCreateOrUpdateOptionalParams,
   WebTestsGetOptionalParams,
 } from "../../api/webTests/options.js";
-import { TagsResource } from "../../models/applicationInsightsCommonTypes/models.js";
-import { WebTest } from "../../models/webTestsApi/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { TagsResource } from "../../models/applicationInsightsCommonTypes/models.js";
+import type { WebTest } from "../../models/webTestsApi/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WebTests operations. */
 export interface WebTestsOperations {

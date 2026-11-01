@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrimitiveTypeMap, PrimitiveTypeName } from "../serialization/contract/index.js";
+import type { PrimitiveTypeMap, PrimitiveTypeName } from "../serialization/ast/index.js";
 import type { ExpressionOrValue, InputOf } from "../expression/expressions.js";
 import type { Resource } from "./resource/resource.js";
 import { isResource } from "./resource/resource-utils.js";

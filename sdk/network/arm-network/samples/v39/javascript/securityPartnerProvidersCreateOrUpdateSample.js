@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the specified Security Partner Provider.
  *
  * @summary creates or updates the specified Security Partner Provider.
- * x-ms-original-file: 2026-01-01/SecurityPartnerProviderPut.json
+ * x-ms-original-file: 2026-03-01/SecurityPartnerProviderPut.json
  */
 async function createSecurityPartnerProvider() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the NSP access rules in the specified NSP profile.
  *
  * @summary lists the NSP access rules in the specified NSP profile.
- * x-ms-original-file: 2026-01-01/NspAccessRuleList.json
+ * x-ms-original-file: 2026-03-01/NspAccessRuleList.json
  */
 async function nspAccessRulesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

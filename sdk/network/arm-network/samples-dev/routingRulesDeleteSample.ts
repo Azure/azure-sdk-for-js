@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a routing rule.
  *
  * @summary deletes a routing rule.
- * x-ms-original-file: 2026-01-01/NetworkManagerRoutingRuleDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerRoutingRuleDelete.json
  */
 async function deletesARoutingRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

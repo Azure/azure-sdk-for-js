@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all FirewallPolicyKubeSelectorGroups in a FirewallPolicy resource.
  *
  * @summary lists all FirewallPolicyKubeSelectorGroups in a FirewallPolicy resource.
- * x-ms-original-file: 2026-01-01/FirewallPolicyKubeSelectorGroupList.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyKubeSelectorGroupList.json
  */
 async function listAllFirewallPolicyKubeSelectorGroupsForAGivenFirewallPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

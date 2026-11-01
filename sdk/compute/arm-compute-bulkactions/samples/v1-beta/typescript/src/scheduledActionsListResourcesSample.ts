@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to lists resources associated with the specified scheduled action.
+ * This sample demonstrates how to lists resources associated with the specified recurring bulk action.
  *
- * @summary lists resources associated with the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_ListResources_PagedSuccess.json
+ * @summary lists resources associated with the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_ListResources_PagedSuccess.json
  */
-async function listAPageOfResourcesAssociatedWithARecurringScheduledAction(): Promise<void> {
+async function listAPageOfResourcesAssociatedWithARecurringBulkAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listAPageOfResourcesAssociatedWithARecurringScheduledAction(): Pr
 }
 
 async function main(): Promise<void> {
-  await listAPageOfResourcesAssociatedWithARecurringScheduledAction();
+  await listAPageOfResourcesAssociatedWithARecurringBulkAction();
 }
 
 main().catch(console.error);

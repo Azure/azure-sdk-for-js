@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -1033,17 +1033,17 @@
+@@ -1058,17 +1058,17 @@
  // @public
  type NetworkRuleSetView = NetworkRuleSetInput;
  
@@ -38,7 +38,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      keys?: InputArray<ExpressionOrValue<KeyPermissions>, KeyPermissions[]> | undefined;
      secrets?: InputArray<ExpressionOrValue<SecretPermissions>, SecretPermissions[]> | undefined;
      storage?: InputArray<ExpressionOrValue<StoragePermissions>, StoragePermissions[]> | undefined;
-@@ -1422,9 +1422,9 @@
+@@ -1466,9 +1466,9 @@
          NetworkRuleSet,
          NetworkRuleSetInput,
          NetworkRuleSetView,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified connection analyzer by name.
  *
  * @summary gets the specified connection analyzer by name.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectionAnalyzerGet.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectionAnalyzerGet.json
  */
 async function getConnectionAnalyzer() {
   const credential = new DefaultAzureCredential();

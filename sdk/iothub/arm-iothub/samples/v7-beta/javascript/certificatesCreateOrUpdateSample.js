@@ -8,9 +8,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to adds new or replaces existing certificate.
  *
  * @summary adds new or replaces existing certificate.
- * x-ms-original-file: 2026-05-01-preview/CreateOrReplace_Certificates_With_DeviceRegistryPolicy.json
+ * x-ms-original-file: 2026-10-01-preview/CreateOrReplace_Certificates_With_CertificateAuthorityResourceId.json
  */
-async function createOrReplaceCertificatesWithDeviceRegistryPolicy() {
+async function createOrReplaceCertificatesWithCertificateAuthorityResourceId() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const client = new IotHubClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function createOrReplaceCertificatesWithDeviceRegistryPolicy() {
  * This sample demonstrates how to adds new or replaces existing certificate.
  *
  * @summary adds new or replaces existing certificate.
- * x-ms-original-file: 2026-05-01-preview/iothub_certificatescreateorupdate.json
+ * x-ms-original-file: 2026-10-01-preview/iothub_certificatescreateorupdate.json
  */
 async function certificatesCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
@@ -37,7 +37,7 @@ async function certificatesCreateOrUpdate() {
 }
 
 async function main() {
-  await createOrReplaceCertificatesWithDeviceRegistryPolicy();
+  await createOrReplaceCertificatesWithCertificateAuthorityResourceId();
   await certificatesCreateOrUpdate();
 }
 

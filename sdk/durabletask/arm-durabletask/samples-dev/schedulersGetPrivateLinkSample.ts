@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a private link resource for the durable task scheduler
  *
  * @summary get a private link resource for the durable task scheduler
- * x-ms-original-file: 2026-02-01/PrivateLinkResources_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01-preview/PrivateLinkResources_Get_MaximumSet_Gen.json
  */
 async function privateLinkResourcesGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

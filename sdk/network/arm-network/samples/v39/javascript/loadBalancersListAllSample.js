@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all the load balancers in a subscription.
  *
  * @summary gets all the load balancers in a subscription.
- * x-ms-original-file: 2026-01-01/LoadBalancerListAll.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerListAll.json
  */
 async function listAllLoadBalancers() {
   const credential = new DefaultAzureCredential();

@@ -22,7 +22,7 @@
     "update-snippets": "turbo run update-snippets"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.17.4",
+    "@arethetypeswrong/cli": "^0.18.5",
     "cspell": "^10.3.6",
     "prettier-plugin-packagejson": "^3.0.2",
     "rimraf": "^6.1.3",

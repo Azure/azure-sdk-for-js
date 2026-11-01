@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all the certificates tied to the provisioning service.
  *
  * @summary get all the certificates tied to the provisioning service.
- * x-ms-original-file: 2026-08-31/DPSGetCertificates.json
+ * x-ms-original-file: 2026-11-01/DPSGetCertificates.json
  */
 async function dpsGetCertificates(): Promise<void> {
   const credential = new DefaultAzureCredential();

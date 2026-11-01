@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-network",
-  "version": "39.0.0",
+  "version": "39.1.0",
   "description": "A generated SDK for NetworkManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -46,6 +46,2372 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/usages": {
+      "browser": {
+        "types": "./dist/browser/api/usages/index.d.ts",
+        "default": "./dist/browser/api/usages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/usages/index.d.ts",
+        "default": "./dist/esm/api/usages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/usages/index.d.ts",
+        "default": "./dist/commonjs/api/usages/index.js"
+      }
+    },
+    "./api/serviceTagInformationOperations": {
+      "browser": {
+        "types": "./dist/browser/api/serviceTagInformationOperations/index.d.ts",
+        "default": "./dist/browser/api/serviceTagInformationOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serviceTagInformationOperations/index.d.ts",
+        "default": "./dist/esm/api/serviceTagInformationOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serviceTagInformationOperations/index.d.ts",
+        "default": "./dist/commonjs/api/serviceTagInformationOperations/index.js"
+      }
+    },
+    "./api/serviceTags": {
+      "browser": {
+        "types": "./dist/browser/api/serviceTags/index.d.ts",
+        "default": "./dist/browser/api/serviceTags/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serviceTags/index.d.ts",
+        "default": "./dist/esm/api/serviceTags/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serviceTags/index.d.ts",
+        "default": "./dist/commonjs/api/serviceTags/index.js"
+      }
+    },
+    "./api/bgpServiceCommunities": {
+      "browser": {
+        "types": "./dist/browser/api/bgpServiceCommunities/index.d.ts",
+        "default": "./dist/browser/api/bgpServiceCommunities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/bgpServiceCommunities/index.d.ts",
+        "default": "./dist/esm/api/bgpServiceCommunities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/bgpServiceCommunities/index.d.ts",
+        "default": "./dist/commonjs/api/bgpServiceCommunities/index.js"
+      }
+    },
+    "./api/availablePrivateEndpointTypes": {
+      "browser": {
+        "types": "./dist/browser/api/availablePrivateEndpointTypes/index.d.ts",
+        "default": "./dist/browser/api/availablePrivateEndpointTypes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/availablePrivateEndpointTypes/index.d.ts",
+        "default": "./dist/esm/api/availablePrivateEndpointTypes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/availablePrivateEndpointTypes/index.d.ts",
+        "default": "./dist/commonjs/api/availablePrivateEndpointTypes/index.js"
+      }
+    },
+    "./api/networkSecurityPerimeterServiceTags": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeterServiceTags/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterServiceTags/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeterServiceTags/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterServiceTags/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeterServiceTags/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterServiceTags/index.js"
+      }
+    },
+    "./api/networkSecurityPerimeterOperationStatuses": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeterOperationStatuses/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterOperationStatuses/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeterOperationStatuses/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterOperationStatuses/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeterOperationStatuses/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterOperationStatuses/index.js"
+      }
+    },
+    "./api/networkSecurityPerimeterAssociableResourceTypes": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeterAssociableResourceTypes/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterAssociableResourceTypes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeterAssociableResourceTypes/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterAssociableResourceTypes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeterAssociableResourceTypes/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterAssociableResourceTypes/index.js"
+      }
+    },
+    "./api/expressRouteServiceProviders": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteServiceProviders/index.d.ts",
+        "default": "./dist/browser/api/expressRouteServiceProviders/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteServiceProviders/index.d.ts",
+        "default": "./dist/esm/api/expressRouteServiceProviders/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteServiceProviders/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteServiceProviders/index.js"
+      }
+    },
+    "./api/availableEndpointServices": {
+      "browser": {
+        "types": "./dist/browser/api/availableEndpointServices/index.d.ts",
+        "default": "./dist/browser/api/availableEndpointServices/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/availableEndpointServices/index.d.ts",
+        "default": "./dist/esm/api/availableEndpointServices/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/availableEndpointServices/index.d.ts",
+        "default": "./dist/commonjs/api/availableEndpointServices/index.js"
+      }
+    },
+    "./api/azureFirewallFqdnTags": {
+      "browser": {
+        "types": "./dist/browser/api/azureFirewallFqdnTags/index.d.ts",
+        "default": "./dist/browser/api/azureFirewallFqdnTags/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/azureFirewallFqdnTags/index.d.ts",
+        "default": "./dist/esm/api/azureFirewallFqdnTags/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/azureFirewallFqdnTags/index.d.ts",
+        "default": "./dist/commonjs/api/azureFirewallFqdnTags/index.js"
+      }
+    },
+    "./api/availableServiceAliases": {
+      "browser": {
+        "types": "./dist/browser/api/availableServiceAliases/index.d.ts",
+        "default": "./dist/browser/api/availableServiceAliases/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/availableServiceAliases/index.d.ts",
+        "default": "./dist/esm/api/availableServiceAliases/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/availableServiceAliases/index.d.ts",
+        "default": "./dist/commonjs/api/availableServiceAliases/index.js"
+      }
+    },
+    "./api/availableResourceGroupDelegations": {
+      "browser": {
+        "types": "./dist/browser/api/availableResourceGroupDelegations/index.d.ts",
+        "default": "./dist/browser/api/availableResourceGroupDelegations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/availableResourceGroupDelegations/index.d.ts",
+        "default": "./dist/esm/api/availableResourceGroupDelegations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/availableResourceGroupDelegations/index.d.ts",
+        "default": "./dist/commonjs/api/availableResourceGroupDelegations/index.js"
+      }
+    },
+    "./api/availableDelegations": {
+      "browser": {
+        "types": "./dist/browser/api/availableDelegations/index.d.ts",
+        "default": "./dist/browser/api/availableDelegations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/availableDelegations/index.d.ts",
+        "default": "./dist/esm/api/availableDelegations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/availableDelegations/index.d.ts",
+        "default": "./dist/commonjs/api/availableDelegations/index.js"
+      }
+    },
+    "./api/routingIntentOperations": {
+      "browser": {
+        "types": "./dist/browser/api/routingIntentOperations/index.d.ts",
+        "default": "./dist/browser/api/routingIntentOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/routingIntentOperations/index.d.ts",
+        "default": "./dist/esm/api/routingIntentOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/routingIntentOperations/index.d.ts",
+        "default": "./dist/commonjs/api/routingIntentOperations/index.js"
+      }
+    },
+    "./api/virtualHubIpConfiguration": {
+      "browser": {
+        "types": "./dist/browser/api/virtualHubIpConfiguration/index.d.ts",
+        "default": "./dist/browser/api/virtualHubIpConfiguration/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualHubIpConfiguration/index.d.ts",
+        "default": "./dist/esm/api/virtualHubIpConfiguration/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualHubIpConfiguration/index.d.ts",
+        "default": "./dist/commonjs/api/virtualHubIpConfiguration/index.js"
+      }
+    },
+    "./api/virtualHubBgpConnections": {
+      "browser": {
+        "types": "./dist/browser/api/virtualHubBgpConnections/index.d.ts",
+        "default": "./dist/browser/api/virtualHubBgpConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualHubBgpConnections/index.d.ts",
+        "default": "./dist/esm/api/virtualHubBgpConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualHubBgpConnections/index.d.ts",
+        "default": "./dist/commonjs/api/virtualHubBgpConnections/index.js"
+      }
+    },
+    "./api/virtualHubBgpConnection": {
+      "browser": {
+        "types": "./dist/browser/api/virtualHubBgpConnection/index.d.ts",
+        "default": "./dist/browser/api/virtualHubBgpConnection/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualHubBgpConnection/index.d.ts",
+        "default": "./dist/esm/api/virtualHubBgpConnection/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualHubBgpConnection/index.d.ts",
+        "default": "./dist/commonjs/api/virtualHubBgpConnection/index.js"
+      }
+    },
+    "./api/expressRouteConnections": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteConnections/index.d.ts",
+        "default": "./dist/browser/api/expressRouteConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteConnections/index.d.ts",
+        "default": "./dist/esm/api/expressRouteConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteConnections/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteConnections/index.js"
+      }
+    },
+    "./api/p2SVpnGateways": {
+      "browser": {
+        "types": "./dist/browser/api/p2SVpnGateways/index.d.ts",
+        "default": "./dist/browser/api/p2SVpnGateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/p2SVpnGateways/index.d.ts",
+        "default": "./dist/esm/api/p2SVpnGateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/p2SVpnGateways/index.d.ts",
+        "default": "./dist/commonjs/api/p2SVpnGateways/index.js"
+      }
+    },
+    "./api/natRules": {
+      "browser": {
+        "types": "./dist/browser/api/natRules/index.d.ts",
+        "default": "./dist/browser/api/natRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/natRules/index.d.ts",
+        "default": "./dist/esm/api/natRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/natRules/index.d.ts",
+        "default": "./dist/commonjs/api/natRules/index.js"
+      }
+    },
+    "./api/vpnLinkConnections": {
+      "browser": {
+        "types": "./dist/browser/api/vpnLinkConnections/index.d.ts",
+        "default": "./dist/browser/api/vpnLinkConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vpnLinkConnections/index.d.ts",
+        "default": "./dist/esm/api/vpnLinkConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vpnLinkConnections/index.d.ts",
+        "default": "./dist/commonjs/api/vpnLinkConnections/index.js"
+      }
+    },
+    "./api/vpnConnections": {
+      "browser": {
+        "types": "./dist/browser/api/vpnConnections/index.d.ts",
+        "default": "./dist/browser/api/vpnConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vpnConnections/index.d.ts",
+        "default": "./dist/esm/api/vpnConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vpnConnections/index.d.ts",
+        "default": "./dist/commonjs/api/vpnConnections/index.js"
+      }
+    },
+    "./api/virtualHubRouteTableV2S": {
+      "browser": {
+        "types": "./dist/browser/api/virtualHubRouteTableV2S/index.d.ts",
+        "default": "./dist/browser/api/virtualHubRouteTableV2S/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualHubRouteTableV2S/index.d.ts",
+        "default": "./dist/esm/api/virtualHubRouteTableV2S/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualHubRouteTableV2S/index.d.ts",
+        "default": "./dist/commonjs/api/virtualHubRouteTableV2S/index.js"
+      }
+    },
+    "./api/hubVirtualNetworkConnections": {
+      "browser": {
+        "types": "./dist/browser/api/hubVirtualNetworkConnections/index.d.ts",
+        "default": "./dist/browser/api/hubVirtualNetworkConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/hubVirtualNetworkConnections/index.d.ts",
+        "default": "./dist/esm/api/hubVirtualNetworkConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/hubVirtualNetworkConnections/index.d.ts",
+        "default": "./dist/commonjs/api/hubVirtualNetworkConnections/index.js"
+      }
+    },
+    "./api/configurationPolicyGroups": {
+      "browser": {
+        "types": "./dist/browser/api/configurationPolicyGroups/index.d.ts",
+        "default": "./dist/browser/api/configurationPolicyGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/configurationPolicyGroups/index.d.ts",
+        "default": "./dist/esm/api/configurationPolicyGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/configurationPolicyGroups/index.d.ts",
+        "default": "./dist/commonjs/api/configurationPolicyGroups/index.js"
+      }
+    },
+    "./api/vpnServerConfigurationsAssociatedWithVirtualWan": {
+      "browser": {
+        "types": "./dist/browser/api/vpnServerConfigurationsAssociatedWithVirtualWan/index.d.ts",
+        "default": "./dist/browser/api/vpnServerConfigurationsAssociatedWithVirtualWan/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vpnServerConfigurationsAssociatedWithVirtualWan/index.d.ts",
+        "default": "./dist/esm/api/vpnServerConfigurationsAssociatedWithVirtualWan/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vpnServerConfigurationsAssociatedWithVirtualWan/index.d.ts",
+        "default": "./dist/commonjs/api/vpnServerConfigurationsAssociatedWithVirtualWan/index.js"
+      }
+    },
+    "./api/vpnSitesConfiguration": {
+      "browser": {
+        "types": "./dist/browser/api/vpnSitesConfiguration/index.d.ts",
+        "default": "./dist/browser/api/vpnSitesConfiguration/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vpnSitesConfiguration/index.d.ts",
+        "default": "./dist/esm/api/vpnSitesConfiguration/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vpnSitesConfiguration/index.d.ts",
+        "default": "./dist/commonjs/api/vpnSitesConfiguration/index.js"
+      }
+    },
+    "./api/serviceAssociationLinks": {
+      "browser": {
+        "types": "./dist/browser/api/serviceAssociationLinks/index.d.ts",
+        "default": "./dist/browser/api/serviceAssociationLinks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serviceAssociationLinks/index.d.ts",
+        "default": "./dist/esm/api/serviceAssociationLinks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serviceAssociationLinks/index.d.ts",
+        "default": "./dist/commonjs/api/serviceAssociationLinks/index.js"
+      }
+    },
+    "./api/resourceNavigationLinks": {
+      "browser": {
+        "types": "./dist/browser/api/resourceNavigationLinks/index.d.ts",
+        "default": "./dist/browser/api/resourceNavigationLinks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/resourceNavigationLinks/index.d.ts",
+        "default": "./dist/esm/api/resourceNavigationLinks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/resourceNavigationLinks/index.d.ts",
+        "default": "./dist/commonjs/api/resourceNavigationLinks/index.js"
+      }
+    },
+    "./api/routeFilterRules": {
+      "browser": {
+        "types": "./dist/browser/api/routeFilterRules/index.d.ts",
+        "default": "./dist/browser/api/routeFilterRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/routeFilterRules/index.d.ts",
+        "default": "./dist/esm/api/routeFilterRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/routeFilterRules/index.d.ts",
+        "default": "./dist/commonjs/api/routeFilterRules/index.js"
+      }
+    },
+    "./api/privateDnsZoneGroups": {
+      "browser": {
+        "types": "./dist/browser/api/privateDnsZoneGroups/index.d.ts",
+        "default": "./dist/browser/api/privateDnsZoneGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateDnsZoneGroups/index.d.ts",
+        "default": "./dist/esm/api/privateDnsZoneGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateDnsZoneGroups/index.d.ts",
+        "default": "./dist/commonjs/api/privateDnsZoneGroups/index.js"
+      }
+    },
+    "./api/connectionMonitors": {
+      "browser": {
+        "types": "./dist/browser/api/connectionMonitors/index.d.ts",
+        "default": "./dist/browser/api/connectionMonitors/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/connectionMonitors/index.d.ts",
+        "default": "./dist/esm/api/connectionMonitors/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/connectionMonitors/index.d.ts",
+        "default": "./dist/commonjs/api/connectionMonitors/index.js"
+      }
+    },
+    "./api/packetCaptures": {
+      "browser": {
+        "types": "./dist/browser/api/packetCaptures/index.d.ts",
+        "default": "./dist/browser/api/packetCaptures/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/packetCaptures/index.d.ts",
+        "default": "./dist/esm/api/packetCaptures/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/packetCaptures/index.d.ts",
+        "default": "./dist/commonjs/api/packetCaptures/index.js"
+      }
+    },
+    "./api/inboundSecurityRuleOperations": {
+      "browser": {
+        "types": "./dist/browser/api/inboundSecurityRuleOperations/index.d.ts",
+        "default": "./dist/browser/api/inboundSecurityRuleOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/inboundSecurityRuleOperations/index.d.ts",
+        "default": "./dist/esm/api/inboundSecurityRuleOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/inboundSecurityRuleOperations/index.d.ts",
+        "default": "./dist/commonjs/api/inboundSecurityRuleOperations/index.js"
+      }
+    },
+    "./api/virtualApplianceSkus": {
+      "browser": {
+        "types": "./dist/browser/api/virtualApplianceSkus/index.d.ts",
+        "default": "./dist/browser/api/virtualApplianceSkus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualApplianceSkus/index.d.ts",
+        "default": "./dist/esm/api/virtualApplianceSkus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualApplianceSkus/index.d.ts",
+        "default": "./dist/commonjs/api/virtualApplianceSkus/index.js"
+      }
+    },
+    "./api/networkSecurityPerimeterLoggingConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeterLoggingConfigurations/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterLoggingConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeterLoggingConfigurations/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterLoggingConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeterLoggingConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterLoggingConfigurations/index.js"
+      }
+    },
+    "./api/networkSecurityPerimeterLinkReferences": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeterLinkReferences/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterLinkReferences/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeterLinkReferences/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterLinkReferences/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeterLinkReferences/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterLinkReferences/index.js"
+      }
+    },
+    "./api/networkSecurityPerimeterLinks": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeterLinks/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterLinks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeterLinks/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterLinks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeterLinks/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterLinks/index.js"
+      }
+    },
+    "./api/networkSecurityPerimeterAssociations": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeterAssociations/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterAssociations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeterAssociations/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterAssociations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeterAssociations/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterAssociations/index.js"
+      }
+    },
+    "./api/networkSecurityPerimeterAccessRules": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeterAccessRules/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterAccessRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeterAccessRules/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterAccessRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeterAccessRules/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterAccessRules/index.js"
+      }
+    },
+    "./api/networkSecurityPerimeterProfiles": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeterProfiles/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterProfiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeterProfiles/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterProfiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeterProfiles/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterProfiles/index.js"
+      }
+    },
+    "./api/adminRules": {
+      "browser": {
+        "types": "./dist/browser/api/adminRules/index.d.ts",
+        "default": "./dist/browser/api/adminRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/adminRules/index.d.ts",
+        "default": "./dist/esm/api/adminRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/adminRules/index.d.ts",
+        "default": "./dist/commonjs/api/adminRules/index.js"
+      }
+    },
+    "./api/subscriptionNetworkManagerConnections": {
+      "browser": {
+        "types": "./dist/browser/api/subscriptionNetworkManagerConnections/index.d.ts",
+        "default": "./dist/browser/api/subscriptionNetworkManagerConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/subscriptionNetworkManagerConnections/index.d.ts",
+        "default": "./dist/esm/api/subscriptionNetworkManagerConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/subscriptionNetworkManagerConnections/index.d.ts",
+        "default": "./dist/commonjs/api/subscriptionNetworkManagerConnections/index.js"
+      }
+    },
+    "./api/loadBalancerProbes": {
+      "browser": {
+        "types": "./dist/browser/api/loadBalancerProbes/index.d.ts",
+        "default": "./dist/browser/api/loadBalancerProbes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/loadBalancerProbes/index.d.ts",
+        "default": "./dist/esm/api/loadBalancerProbes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/loadBalancerProbes/index.d.ts",
+        "default": "./dist/commonjs/api/loadBalancerProbes/index.js"
+      }
+    },
+    "./api/loadBalancerOutboundRules": {
+      "browser": {
+        "types": "./dist/browser/api/loadBalancerOutboundRules/index.d.ts",
+        "default": "./dist/browser/api/loadBalancerOutboundRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/loadBalancerOutboundRules/index.d.ts",
+        "default": "./dist/esm/api/loadBalancerOutboundRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/loadBalancerOutboundRules/index.d.ts",
+        "default": "./dist/commonjs/api/loadBalancerOutboundRules/index.js"
+      }
+    },
+    "./api/loadBalancerLoadBalancingRules": {
+      "browser": {
+        "types": "./dist/browser/api/loadBalancerLoadBalancingRules/index.d.ts",
+        "default": "./dist/browser/api/loadBalancerLoadBalancingRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/loadBalancerLoadBalancingRules/index.d.ts",
+        "default": "./dist/esm/api/loadBalancerLoadBalancingRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/loadBalancerLoadBalancingRules/index.d.ts",
+        "default": "./dist/commonjs/api/loadBalancerLoadBalancingRules/index.js"
+      }
+    },
+    "./api/loadBalancerFrontendIPConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/loadBalancerFrontendIPConfigurations/index.d.ts",
+        "default": "./dist/browser/api/loadBalancerFrontendIPConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/loadBalancerFrontendIPConfigurations/index.d.ts",
+        "default": "./dist/esm/api/loadBalancerFrontendIPConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/loadBalancerFrontendIPConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/loadBalancerFrontendIPConfigurations/index.js"
+      }
+    },
+    "./api/loadBalancerBackendAddressPools": {
+      "browser": {
+        "types": "./dist/browser/api/loadBalancerBackendAddressPools/index.d.ts",
+        "default": "./dist/browser/api/loadBalancerBackendAddressPools/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/loadBalancerBackendAddressPools/index.d.ts",
+        "default": "./dist/esm/api/loadBalancerBackendAddressPools/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/loadBalancerBackendAddressPools/index.d.ts",
+        "default": "./dist/commonjs/api/loadBalancerBackendAddressPools/index.js"
+      }
+    },
+    "./api/loadBalancerNetworkInterfaces": {
+      "browser": {
+        "types": "./dist/browser/api/loadBalancerNetworkInterfaces/index.d.ts",
+        "default": "./dist/browser/api/loadBalancerNetworkInterfaces/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/loadBalancerNetworkInterfaces/index.d.ts",
+        "default": "./dist/esm/api/loadBalancerNetworkInterfaces/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/loadBalancerNetworkInterfaces/index.d.ts",
+        "default": "./dist/commonjs/api/loadBalancerNetworkInterfaces/index.js"
+      }
+    },
+    "./api/networkManagerDeploymentStatusOperations": {
+      "browser": {
+        "types": "./dist/browser/api/networkManagerDeploymentStatusOperations/index.d.ts",
+        "default": "./dist/browser/api/networkManagerDeploymentStatusOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkManagerDeploymentStatusOperations/index.d.ts",
+        "default": "./dist/esm/api/networkManagerDeploymentStatusOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkManagerDeploymentStatusOperations/index.d.ts",
+        "default": "./dist/commonjs/api/networkManagerDeploymentStatusOperations/index.js"
+      }
+    },
+    "./api/networkManagerCommits": {
+      "browser": {
+        "types": "./dist/browser/api/networkManagerCommits/index.d.ts",
+        "default": "./dist/browser/api/networkManagerCommits/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkManagerCommits/index.d.ts",
+        "default": "./dist/esm/api/networkManagerCommits/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkManagerCommits/index.d.ts",
+        "default": "./dist/commonjs/api/networkManagerCommits/index.js"
+      }
+    },
+    "./api/firewallPolicyDeployments": {
+      "browser": {
+        "types": "./dist/browser/api/firewallPolicyDeployments/index.d.ts",
+        "default": "./dist/browser/api/firewallPolicyDeployments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firewallPolicyDeployments/index.d.ts",
+        "default": "./dist/esm/api/firewallPolicyDeployments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firewallPolicyDeployments/index.d.ts",
+        "default": "./dist/commonjs/api/firewallPolicyDeployments/index.js"
+      }
+    },
+    "./api/firewallPolicyIdpsSignaturesFilterValues": {
+      "browser": {
+        "types": "./dist/browser/api/firewallPolicyIdpsSignaturesFilterValues/index.d.ts",
+        "default": "./dist/browser/api/firewallPolicyIdpsSignaturesFilterValues/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firewallPolicyIdpsSignaturesFilterValues/index.d.ts",
+        "default": "./dist/esm/api/firewallPolicyIdpsSignaturesFilterValues/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firewallPolicyIdpsSignaturesFilterValues/index.d.ts",
+        "default": "./dist/commonjs/api/firewallPolicyIdpsSignaturesFilterValues/index.js"
+      }
+    },
+    "./api/firewallPolicyIdpsSignatures": {
+      "browser": {
+        "types": "./dist/browser/api/firewallPolicyIdpsSignatures/index.d.ts",
+        "default": "./dist/browser/api/firewallPolicyIdpsSignatures/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firewallPolicyIdpsSignatures/index.d.ts",
+        "default": "./dist/esm/api/firewallPolicyIdpsSignatures/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firewallPolicyIdpsSignatures/index.d.ts",
+        "default": "./dist/commonjs/api/firewallPolicyIdpsSignatures/index.js"
+      }
+    },
+    "./api/expressRouteLinks": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteLinks/index.d.ts",
+        "default": "./dist/browser/api/expressRouteLinks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteLinks/index.d.ts",
+        "default": "./dist/esm/api/expressRouteLinks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteLinks/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteLinks/index.js"
+      }
+    },
+    "./api/expressRouteCrossConnectionPeerings": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteCrossConnectionPeerings/index.d.ts",
+        "default": "./dist/browser/api/expressRouteCrossConnectionPeerings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteCrossConnectionPeerings/index.d.ts",
+        "default": "./dist/esm/api/expressRouteCrossConnectionPeerings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteCrossConnectionPeerings/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteCrossConnectionPeerings/index.js"
+      }
+    },
+    "./api/dscpConfigurationOperations": {
+      "browser": {
+        "types": "./dist/browser/api/dscpConfigurationOperations/index.d.ts",
+        "default": "./dist/browser/api/dscpConfigurationOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dscpConfigurationOperations/index.d.ts",
+        "default": "./dist/esm/api/dscpConfigurationOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dscpConfigurationOperations/index.d.ts",
+        "default": "./dist/commonjs/api/dscpConfigurationOperations/index.js"
+      }
+    },
+    "./api/customIPPrefixes": {
+      "browser": {
+        "types": "./dist/browser/api/customIPPrefixes/index.d.ts",
+        "default": "./dist/browser/api/customIPPrefixes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/customIPPrefixes/index.d.ts",
+        "default": "./dist/esm/api/customIPPrefixes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/customIPPrefixes/index.d.ts",
+        "default": "./dist/commonjs/api/customIPPrefixes/index.js"
+      }
+    },
+    "./api/vipSwap": {
+      "browser": {
+        "types": "./dist/browser/api/vipSwap/index.d.ts",
+        "default": "./dist/browser/api/vipSwap/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vipSwap/index.d.ts",
+        "default": "./dist/esm/api/vipSwap/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vipSwap/index.d.ts",
+        "default": "./dist/commonjs/api/vipSwap/index.js"
+      }
+    },
+    "./api/networkInterfaceLoadBalancers": {
+      "browser": {
+        "types": "./dist/browser/api/networkInterfaceLoadBalancers/index.d.ts",
+        "default": "./dist/browser/api/networkInterfaceLoadBalancers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkInterfaceLoadBalancers/index.d.ts",
+        "default": "./dist/esm/api/networkInterfaceLoadBalancers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkInterfaceLoadBalancers/index.d.ts",
+        "default": "./dist/commonjs/api/networkInterfaceLoadBalancers/index.js"
+      }
+    },
+    "./api/expressRouteProviderPortsLocation": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteProviderPortsLocation/index.d.ts",
+        "default": "./dist/browser/api/expressRouteProviderPortsLocation/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteProviderPortsLocation/index.d.ts",
+        "default": "./dist/esm/api/expressRouteProviderPortsLocation/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteProviderPortsLocation/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteProviderPortsLocation/index.js"
+      }
+    },
+    "./api/webCategories": {
+      "browser": {
+        "types": "./dist/browser/api/webCategories/index.d.ts",
+        "default": "./dist/browser/api/webCategories/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/webCategories/index.d.ts",
+        "default": "./dist/esm/api/webCategories/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/webCategories/index.d.ts",
+        "default": "./dist/commonjs/api/webCategories/index.js"
+      }
+    },
+    "./api/applicationGatewayWafDynamicManifests": {
+      "browser": {
+        "types": "./dist/browser/api/applicationGatewayWafDynamicManifests/index.d.ts",
+        "default": "./dist/browser/api/applicationGatewayWafDynamicManifests/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/applicationGatewayWafDynamicManifests/index.d.ts",
+        "default": "./dist/esm/api/applicationGatewayWafDynamicManifests/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/applicationGatewayWafDynamicManifests/index.d.ts",
+        "default": "./dist/commonjs/api/applicationGatewayWafDynamicManifests/index.js"
+      }
+    },
+    "./api/applicationGatewayWafDynamicManifestsDefault": {
+      "browser": {
+        "types": "./dist/browser/api/applicationGatewayWafDynamicManifestsDefault/index.d.ts",
+        "default": "./dist/browser/api/applicationGatewayWafDynamicManifestsDefault/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/applicationGatewayWafDynamicManifestsDefault/index.d.ts",
+        "default": "./dist/esm/api/applicationGatewayWafDynamicManifestsDefault/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/applicationGatewayWafDynamicManifestsDefault/index.d.ts",
+        "default": "./dist/commonjs/api/applicationGatewayWafDynamicManifestsDefault/index.js"
+      }
+    },
+    "./api/applicationGatewayPrivateLinkResources": {
+      "browser": {
+        "types": "./dist/browser/api/applicationGatewayPrivateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/applicationGatewayPrivateLinkResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/applicationGatewayPrivateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/applicationGatewayPrivateLinkResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/applicationGatewayPrivateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/applicationGatewayPrivateLinkResources/index.js"
+      }
+    },
+    "./api/addressPrefixSets": {
+      "browser": {
+        "types": "./dist/browser/api/addressPrefixSets/index.d.ts",
+        "default": "./dist/browser/api/addressPrefixSets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/addressPrefixSets/index.d.ts",
+        "default": "./dist/esm/api/addressPrefixSets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/addressPrefixSets/index.d.ts",
+        "default": "./dist/commonjs/api/addressPrefixSets/index.js"
+      }
+    },
+    "./api/firstPartyServiceTags": {
+      "browser": {
+        "types": "./dist/browser/api/firstPartyServiceTags/index.d.ts",
+        "default": "./dist/browser/api/firstPartyServiceTags/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firstPartyServiceTags/index.d.ts",
+        "default": "./dist/esm/api/firstPartyServiceTags/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firstPartyServiceTags/index.d.ts",
+        "default": "./dist/commonjs/api/firstPartyServiceTags/index.js"
+      }
+    },
+    "./api/subgroups": {
+      "browser": {
+        "types": "./dist/browser/api/subgroups/index.d.ts",
+        "default": "./dist/browser/api/subgroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/subgroups/index.d.ts",
+        "default": "./dist/esm/api/subgroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/subgroups/index.d.ts",
+        "default": "./dist/commonjs/api/subgroups/index.js"
+      }
+    },
+    "./api/interconnectGroups": {
+      "browser": {
+        "types": "./dist/browser/api/interconnectGroups/index.d.ts",
+        "default": "./dist/browser/api/interconnectGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/interconnectGroups/index.d.ts",
+        "default": "./dist/esm/api/interconnectGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/interconnectGroups/index.d.ts",
+        "default": "./dist/commonjs/api/interconnectGroups/index.js"
+      }
+    },
+    "./api/serviceGateways": {
+      "browser": {
+        "types": "./dist/browser/api/serviceGateways/index.d.ts",
+        "default": "./dist/browser/api/serviceGateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serviceGateways/index.d.ts",
+        "default": "./dist/esm/api/serviceGateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serviceGateways/index.d.ts",
+        "default": "./dist/commonjs/api/serviceGateways/index.js"
+      }
+    },
+    "./api/virtualNetworkApplianceCapabilities": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworkApplianceCapabilities/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworkApplianceCapabilities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworkApplianceCapabilities/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworkApplianceCapabilities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworkApplianceCapabilities/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworkApplianceCapabilities/index.js"
+      }
+    },
+    "./api/virtualNetworkAppliances": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworkAppliances/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworkAppliances/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworkAppliances/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworkAppliances/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworkAppliances/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworkAppliances/index.js"
+      }
+    },
+    "./api/webApplicationFirewallPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/webApplicationFirewallPolicies/index.d.ts",
+        "default": "./dist/browser/api/webApplicationFirewallPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/webApplicationFirewallPolicies/index.d.ts",
+        "default": "./dist/esm/api/webApplicationFirewallPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/webApplicationFirewallPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/webApplicationFirewallPolicies/index.js"
+      }
+    },
+    "./api/connectionPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/connectionPolicies/index.d.ts",
+        "default": "./dist/browser/api/connectionPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/connectionPolicies/index.d.ts",
+        "default": "./dist/esm/api/connectionPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/connectionPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/connectionPolicies/index.js"
+      }
+    },
+    "./api/hubRouteTables": {
+      "browser": {
+        "types": "./dist/browser/api/hubRouteTables/index.d.ts",
+        "default": "./dist/browser/api/hubRouteTables/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/hubRouteTables/index.d.ts",
+        "default": "./dist/esm/api/hubRouteTables/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/hubRouteTables/index.d.ts",
+        "default": "./dist/commonjs/api/hubRouteTables/index.js"
+      }
+    },
+    "./api/expressRouteGateways": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteGateways/index.d.ts",
+        "default": "./dist/browser/api/expressRouteGateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteGateways/index.d.ts",
+        "default": "./dist/esm/api/expressRouteGateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteGateways/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteGateways/index.js"
+      }
+    },
+    "./api/vpnSiteLinkConnections": {
+      "browser": {
+        "types": "./dist/browser/api/vpnSiteLinkConnections/index.d.ts",
+        "default": "./dist/browser/api/vpnSiteLinkConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vpnSiteLinkConnections/index.d.ts",
+        "default": "./dist/esm/api/vpnSiteLinkConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vpnSiteLinkConnections/index.d.ts",
+        "default": "./dist/commonjs/api/vpnSiteLinkConnections/index.js"
+      }
+    },
+    "./api/vpnGateways": {
+      "browser": {
+        "types": "./dist/browser/api/vpnGateways/index.d.ts",
+        "default": "./dist/browser/api/vpnGateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vpnGateways/index.d.ts",
+        "default": "./dist/esm/api/vpnGateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vpnGateways/index.d.ts",
+        "default": "./dist/commonjs/api/vpnGateways/index.js"
+      }
+    },
+    "./api/routeMaps": {
+      "browser": {
+        "types": "./dist/browser/api/routeMaps/index.d.ts",
+        "default": "./dist/browser/api/routeMaps/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/routeMaps/index.d.ts",
+        "default": "./dist/esm/api/routeMaps/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/routeMaps/index.d.ts",
+        "default": "./dist/commonjs/api/routeMaps/index.js"
+      }
+    },
+    "./api/virtualHubs": {
+      "browser": {
+        "types": "./dist/browser/api/virtualHubs/index.d.ts",
+        "default": "./dist/browser/api/virtualHubs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualHubs/index.d.ts",
+        "default": "./dist/esm/api/virtualHubs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualHubs/index.d.ts",
+        "default": "./dist/commonjs/api/virtualHubs/index.js"
+      }
+    },
+    "./api/vpnServerConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/vpnServerConfigurations/index.d.ts",
+        "default": "./dist/browser/api/vpnServerConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vpnServerConfigurations/index.d.ts",
+        "default": "./dist/esm/api/vpnServerConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vpnServerConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/vpnServerConfigurations/index.js"
+      }
+    },
+    "./api/vpnSiteLinks": {
+      "browser": {
+        "types": "./dist/browser/api/vpnSiteLinks/index.d.ts",
+        "default": "./dist/browser/api/vpnSiteLinks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vpnSiteLinks/index.d.ts",
+        "default": "./dist/esm/api/vpnSiteLinks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vpnSiteLinks/index.d.ts",
+        "default": "./dist/commonjs/api/vpnSiteLinks/index.js"
+      }
+    },
+    "./api/vpnSites": {
+      "browser": {
+        "types": "./dist/browser/api/vpnSites/index.d.ts",
+        "default": "./dist/browser/api/vpnSites/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vpnSites/index.d.ts",
+        "default": "./dist/esm/api/vpnSites/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vpnSites/index.d.ts",
+        "default": "./dist/commonjs/api/vpnSites/index.js"
+      }
+    },
+    "./api/virtualWans": {
+      "browser": {
+        "types": "./dist/browser/api/virtualWans/index.d.ts",
+        "default": "./dist/browser/api/virtualWans/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualWans/index.d.ts",
+        "default": "./dist/esm/api/virtualWans/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualWans/index.d.ts",
+        "default": "./dist/commonjs/api/virtualWans/index.js"
+      }
+    },
+    "./api/virtualRouterPeerings": {
+      "browser": {
+        "types": "./dist/browser/api/virtualRouterPeerings/index.d.ts",
+        "default": "./dist/browser/api/virtualRouterPeerings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualRouterPeerings/index.d.ts",
+        "default": "./dist/esm/api/virtualRouterPeerings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualRouterPeerings/index.d.ts",
+        "default": "./dist/commonjs/api/virtualRouterPeerings/index.js"
+      }
+    },
+    "./api/virtualRouters": {
+      "browser": {
+        "types": "./dist/browser/api/virtualRouters/index.d.ts",
+        "default": "./dist/browser/api/virtualRouters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualRouters/index.d.ts",
+        "default": "./dist/esm/api/virtualRouters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualRouters/index.d.ts",
+        "default": "./dist/commonjs/api/virtualRouters/index.js"
+      }
+    },
+    "./api/virtualNetworkTaps": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworkTaps/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworkTaps/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworkTaps/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworkTaps/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworkTaps/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworkTaps/index.js"
+      }
+    },
+    "./api/virtualNetworkGatewayNatRules": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworkGatewayNatRules/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworkGatewayNatRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworkGatewayNatRules/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworkGatewayNatRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworkGatewayNatRules/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworkGatewayNatRules/index.js"
+      }
+    },
+    "./api/localNetworkGateways": {
+      "browser": {
+        "types": "./dist/browser/api/localNetworkGateways/index.d.ts",
+        "default": "./dist/browser/api/localNetworkGateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/localNetworkGateways/index.d.ts",
+        "default": "./dist/esm/api/localNetworkGateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/localNetworkGateways/index.d.ts",
+        "default": "./dist/commonjs/api/localNetworkGateways/index.js"
+      }
+    },
+    "./api/virtualNetworkGatewayConnections": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworkGatewayConnections/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworkGatewayConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworkGatewayConnections/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworkGatewayConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworkGatewayConnections/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworkGatewayConnections/index.js"
+      }
+    },
+    "./api/virtualNetworkGateways": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworkGateways/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworkGateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworkGateways/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworkGateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworkGateways/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworkGateways/index.js"
+      }
+    },
+    "./api/virtualNetworkPeerings": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworkPeerings/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworkPeerings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworkPeerings/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworkPeerings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworkPeerings/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworkPeerings/index.js"
+      }
+    },
+    "./api/subnets": {
+      "browser": {
+        "types": "./dist/browser/api/subnets/index.d.ts",
+        "default": "./dist/browser/api/subnets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/subnets/index.d.ts",
+        "default": "./dist/esm/api/subnets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/subnets/index.d.ts",
+        "default": "./dist/commonjs/api/subnets/index.js"
+      }
+    },
+    "./api/virtualNetworks": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworks/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworks/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworks/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworks/index.js"
+      }
+    },
+    "./api/serviceEndpointPolicyDefinitions": {
+      "browser": {
+        "types": "./dist/browser/api/serviceEndpointPolicyDefinitions/index.d.ts",
+        "default": "./dist/browser/api/serviceEndpointPolicyDefinitions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serviceEndpointPolicyDefinitions/index.d.ts",
+        "default": "./dist/esm/api/serviceEndpointPolicyDefinitions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serviceEndpointPolicyDefinitions/index.d.ts",
+        "default": "./dist/commonjs/api/serviceEndpointPolicyDefinitions/index.js"
+      }
+    },
+    "./api/serviceEndpointPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/serviceEndpointPolicies/index.d.ts",
+        "default": "./dist/browser/api/serviceEndpointPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serviceEndpointPolicies/index.d.ts",
+        "default": "./dist/esm/api/serviceEndpointPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serviceEndpointPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/serviceEndpointPolicies/index.js"
+      }
+    },
+    "./api/securityPartnerProviders": {
+      "browser": {
+        "types": "./dist/browser/api/securityPartnerProviders/index.d.ts",
+        "default": "./dist/browser/api/securityPartnerProviders/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityPartnerProviders/index.d.ts",
+        "default": "./dist/esm/api/securityPartnerProviders/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityPartnerProviders/index.d.ts",
+        "default": "./dist/commonjs/api/securityPartnerProviders/index.js"
+      }
+    },
+    "./api/routes": {
+      "browser": {
+        "types": "./dist/browser/api/routes/index.d.ts",
+        "default": "./dist/browser/api/routes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/routes/index.d.ts",
+        "default": "./dist/esm/api/routes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/routes/index.d.ts",
+        "default": "./dist/commonjs/api/routes/index.js"
+      }
+    },
+    "./api/routeTables": {
+      "browser": {
+        "types": "./dist/browser/api/routeTables/index.d.ts",
+        "default": "./dist/browser/api/routeTables/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/routeTables/index.d.ts",
+        "default": "./dist/esm/api/routeTables/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/routeTables/index.d.ts",
+        "default": "./dist/commonjs/api/routeTables/index.js"
+      }
+    },
+    "./api/routeFilters": {
+      "browser": {
+        "types": "./dist/browser/api/routeFilters/index.d.ts",
+        "default": "./dist/browser/api/routeFilters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/routeFilters/index.d.ts",
+        "default": "./dist/esm/api/routeFilters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/routeFilters/index.d.ts",
+        "default": "./dist/commonjs/api/routeFilters/index.js"
+      }
+    },
+    "./api/publicIPPrefixes": {
+      "browser": {
+        "types": "./dist/browser/api/publicIPPrefixes/index.d.ts",
+        "default": "./dist/browser/api/publicIPPrefixes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/publicIPPrefixes/index.d.ts",
+        "default": "./dist/esm/api/publicIPPrefixes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/publicIPPrefixes/index.d.ts",
+        "default": "./dist/commonjs/api/publicIPPrefixes/index.js"
+      }
+    },
+    "./api/privateLinkServices": {
+      "browser": {
+        "types": "./dist/browser/api/privateLinkServices/index.d.ts",
+        "default": "./dist/browser/api/privateLinkServices/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateLinkServices/index.d.ts",
+        "default": "./dist/esm/api/privateLinkServices/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateLinkServices/index.d.ts",
+        "default": "./dist/commonjs/api/privateLinkServices/index.js"
+      }
+    },
+    "./api/privateEndpoints": {
+      "browser": {
+        "types": "./dist/browser/api/privateEndpoints/index.d.ts",
+        "default": "./dist/browser/api/privateEndpoints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateEndpoints/index.d.ts",
+        "default": "./dist/esm/api/privateEndpoints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateEndpoints/index.d.ts",
+        "default": "./dist/commonjs/api/privateEndpoints/index.js"
+      }
+    },
+    "./api/flowLogs": {
+      "browser": {
+        "types": "./dist/browser/api/flowLogs/index.d.ts",
+        "default": "./dist/browser/api/flowLogs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/flowLogs/index.d.ts",
+        "default": "./dist/esm/api/flowLogs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/flowLogs/index.d.ts",
+        "default": "./dist/commonjs/api/flowLogs/index.js"
+      }
+    },
+    "./api/networkWatchers": {
+      "browser": {
+        "types": "./dist/browser/api/networkWatchers/index.d.ts",
+        "default": "./dist/browser/api/networkWatchers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkWatchers/index.d.ts",
+        "default": "./dist/esm/api/networkWatchers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkWatchers/index.d.ts",
+        "default": "./dist/commonjs/api/networkWatchers/index.js"
+      }
+    },
+    "./api/virtualApplianceSites": {
+      "browser": {
+        "types": "./dist/browser/api/virtualApplianceSites/index.d.ts",
+        "default": "./dist/browser/api/virtualApplianceSites/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualApplianceSites/index.d.ts",
+        "default": "./dist/esm/api/virtualApplianceSites/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualApplianceSites/index.d.ts",
+        "default": "./dist/commonjs/api/virtualApplianceSites/index.js"
+      }
+    },
+    "./api/networkVirtualAppliances": {
+      "browser": {
+        "types": "./dist/browser/api/networkVirtualAppliances/index.d.ts",
+        "default": "./dist/browser/api/networkVirtualAppliances/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkVirtualAppliances/index.d.ts",
+        "default": "./dist/esm/api/networkVirtualAppliances/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkVirtualAppliances/index.d.ts",
+        "default": "./dist/commonjs/api/networkVirtualAppliances/index.js"
+      }
+    },
+    "./api/networkVirtualApplianceConnections": {
+      "browser": {
+        "types": "./dist/browser/api/networkVirtualApplianceConnections/index.d.ts",
+        "default": "./dist/browser/api/networkVirtualApplianceConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkVirtualApplianceConnections/index.d.ts",
+        "default": "./dist/esm/api/networkVirtualApplianceConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkVirtualApplianceConnections/index.d.ts",
+        "default": "./dist/commonjs/api/networkVirtualApplianceConnections/index.js"
+      }
+    },
+    "./api/reachabilityAnalysisRuns": {
+      "browser": {
+        "types": "./dist/browser/api/reachabilityAnalysisRuns/index.d.ts",
+        "default": "./dist/browser/api/reachabilityAnalysisRuns/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/reachabilityAnalysisRuns/index.d.ts",
+        "default": "./dist/esm/api/reachabilityAnalysisRuns/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/reachabilityAnalysisRuns/index.d.ts",
+        "default": "./dist/commonjs/api/reachabilityAnalysisRuns/index.js"
+      }
+    },
+    "./api/verifierWorkspaces": {
+      "browser": {
+        "types": "./dist/browser/api/verifierWorkspaces/index.d.ts",
+        "default": "./dist/browser/api/verifierWorkspaces/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/verifierWorkspaces/index.d.ts",
+        "default": "./dist/esm/api/verifierWorkspaces/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/verifierWorkspaces/index.d.ts",
+        "default": "./dist/commonjs/api/verifierWorkspaces/index.js"
+      }
+    },
+    "./api/reachabilityAnalysisIntents": {
+      "browser": {
+        "types": "./dist/browser/api/reachabilityAnalysisIntents/index.d.ts",
+        "default": "./dist/browser/api/reachabilityAnalysisIntents/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/reachabilityAnalysisIntents/index.d.ts",
+        "default": "./dist/esm/api/reachabilityAnalysisIntents/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/reachabilityAnalysisIntents/index.d.ts",
+        "default": "./dist/commonjs/api/reachabilityAnalysisIntents/index.js"
+      }
+    },
+    "./api/networkSecurityPerimeters": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeters/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeters/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeters/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeters/index.js"
+      }
+    },
+    "./api/defaultSecurityRules": {
+      "browser": {
+        "types": "./dist/browser/api/defaultSecurityRules/index.d.ts",
+        "default": "./dist/browser/api/defaultSecurityRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/defaultSecurityRules/index.d.ts",
+        "default": "./dist/esm/api/defaultSecurityRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/defaultSecurityRules/index.d.ts",
+        "default": "./dist/commonjs/api/defaultSecurityRules/index.js"
+      }
+    },
+    "./api/securityRules": {
+      "browser": {
+        "types": "./dist/browser/api/securityRules/index.d.ts",
+        "default": "./dist/browser/api/securityRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityRules/index.d.ts",
+        "default": "./dist/esm/api/securityRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityRules/index.d.ts",
+        "default": "./dist/commonjs/api/securityRules/index.js"
+      }
+    },
+    "./api/networkSecurityGroups": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityGroups/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityGroups/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityGroups/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityGroups/index.js"
+      }
+    },
+    "./api/networkProfiles": {
+      "browser": {
+        "types": "./dist/browser/api/networkProfiles/index.d.ts",
+        "default": "./dist/browser/api/networkProfiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkProfiles/index.d.ts",
+        "default": "./dist/esm/api/networkProfiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkProfiles/index.d.ts",
+        "default": "./dist/commonjs/api/networkProfiles/index.js"
+      }
+    },
+    "./api/securityUserRules": {
+      "browser": {
+        "types": "./dist/browser/api/securityUserRules/index.d.ts",
+        "default": "./dist/browser/api/securityUserRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityUserRules/index.d.ts",
+        "default": "./dist/esm/api/securityUserRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityUserRules/index.d.ts",
+        "default": "./dist/commonjs/api/securityUserRules/index.js"
+      }
+    },
+    "./api/securityUserRuleCollections": {
+      "browser": {
+        "types": "./dist/browser/api/securityUserRuleCollections/index.d.ts",
+        "default": "./dist/browser/api/securityUserRuleCollections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityUserRuleCollections/index.d.ts",
+        "default": "./dist/esm/api/securityUserRuleCollections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityUserRuleCollections/index.d.ts",
+        "default": "./dist/commonjs/api/securityUserRuleCollections/index.js"
+      }
+    },
+    "./api/securityUserConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/securityUserConfigurations/index.d.ts",
+        "default": "./dist/browser/api/securityUserConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityUserConfigurations/index.d.ts",
+        "default": "./dist/esm/api/securityUserConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityUserConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/securityUserConfigurations/index.js"
+      }
+    },
+    "./api/adminRuleCollections": {
+      "browser": {
+        "types": "./dist/browser/api/adminRuleCollections/index.d.ts",
+        "default": "./dist/browser/api/adminRuleCollections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/adminRuleCollections/index.d.ts",
+        "default": "./dist/esm/api/adminRuleCollections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/adminRuleCollections/index.d.ts",
+        "default": "./dist/commonjs/api/adminRuleCollections/index.js"
+      }
+    },
+    "./api/securityAdminConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/securityAdminConfigurations/index.d.ts",
+        "default": "./dist/browser/api/securityAdminConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityAdminConfigurations/index.d.ts",
+        "default": "./dist/esm/api/securityAdminConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityAdminConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/securityAdminConfigurations/index.js"
+      }
+    },
+    "./api/commits": {
+      "browser": {
+        "types": "./dist/browser/api/commits/index.d.ts",
+        "default": "./dist/browser/api/commits/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/commits/index.d.ts",
+        "default": "./dist/esm/api/commits/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/commits/index.d.ts",
+        "default": "./dist/commonjs/api/commits/index.js"
+      }
+    },
+    "./api/scopeConnections": {
+      "browser": {
+        "types": "./dist/browser/api/scopeConnections/index.d.ts",
+        "default": "./dist/browser/api/scopeConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/scopeConnections/index.d.ts",
+        "default": "./dist/esm/api/scopeConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/scopeConnections/index.d.ts",
+        "default": "./dist/commonjs/api/scopeConnections/index.js"
+      }
+    },
+    "./api/routingRules": {
+      "browser": {
+        "types": "./dist/browser/api/routingRules/index.d.ts",
+        "default": "./dist/browser/api/routingRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/routingRules/index.d.ts",
+        "default": "./dist/esm/api/routingRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/routingRules/index.d.ts",
+        "default": "./dist/commonjs/api/routingRules/index.js"
+      }
+    },
+    "./api/routingRuleCollections": {
+      "browser": {
+        "types": "./dist/browser/api/routingRuleCollections/index.d.ts",
+        "default": "./dist/browser/api/routingRuleCollections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/routingRuleCollections/index.d.ts",
+        "default": "./dist/esm/api/routingRuleCollections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/routingRuleCollections/index.d.ts",
+        "default": "./dist/commonjs/api/routingRuleCollections/index.js"
+      }
+    },
+    "./api/networkManagerRoutingConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/networkManagerRoutingConfigurations/index.d.ts",
+        "default": "./dist/browser/api/networkManagerRoutingConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkManagerRoutingConfigurations/index.d.ts",
+        "default": "./dist/esm/api/networkManagerRoutingConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkManagerRoutingConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/networkManagerRoutingConfigurations/index.js"
+      }
+    },
+    "./api/staticMembers": {
+      "browser": {
+        "types": "./dist/browser/api/staticMembers/index.d.ts",
+        "default": "./dist/browser/api/staticMembers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/staticMembers/index.d.ts",
+        "default": "./dist/esm/api/staticMembers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/staticMembers/index.d.ts",
+        "default": "./dist/commonjs/api/staticMembers/index.js"
+      }
+    },
+    "./api/networkGroups": {
+      "browser": {
+        "types": "./dist/browser/api/networkGroups/index.d.ts",
+        "default": "./dist/browser/api/networkGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkGroups/index.d.ts",
+        "default": "./dist/esm/api/networkGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkGroups/index.d.ts",
+        "default": "./dist/commonjs/api/networkGroups/index.js"
+      }
+    },
+    "./api/connectivityConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/connectivityConfigurations/index.d.ts",
+        "default": "./dist/browser/api/connectivityConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/connectivityConfigurations/index.d.ts",
+        "default": "./dist/esm/api/connectivityConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/connectivityConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/connectivityConfigurations/index.js"
+      }
+    },
+    "./api/managementGroupNetworkManagerConnections": {
+      "browser": {
+        "types": "./dist/browser/api/managementGroupNetworkManagerConnections/index.d.ts",
+        "default": "./dist/browser/api/managementGroupNetworkManagerConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managementGroupNetworkManagerConnections/index.d.ts",
+        "default": "./dist/esm/api/managementGroupNetworkManagerConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managementGroupNetworkManagerConnections/index.d.ts",
+        "default": "./dist/commonjs/api/managementGroupNetworkManagerConnections/index.js"
+      }
+    },
+    "./api/networkInterfaceTapConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/networkInterfaceTapConfigurations/index.d.ts",
+        "default": "./dist/browser/api/networkInterfaceTapConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkInterfaceTapConfigurations/index.d.ts",
+        "default": "./dist/esm/api/networkInterfaceTapConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkInterfaceTapConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/networkInterfaceTapConfigurations/index.js"
+      }
+    },
+    "./api/networkInterfaceIPConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/networkInterfaceIPConfigurations/index.d.ts",
+        "default": "./dist/browser/api/networkInterfaceIPConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkInterfaceIPConfigurations/index.d.ts",
+        "default": "./dist/esm/api/networkInterfaceIPConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkInterfaceIPConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/networkInterfaceIPConfigurations/index.js"
+      }
+    },
+    "./api/natGateways": {
+      "browser": {
+        "types": "./dist/browser/api/natGateways/index.d.ts",
+        "default": "./dist/browser/api/natGateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/natGateways/index.d.ts",
+        "default": "./dist/esm/api/natGateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/natGateways/index.d.ts",
+        "default": "./dist/commonjs/api/natGateways/index.js"
+      }
+    },
+    "./api/inboundNatRules": {
+      "browser": {
+        "types": "./dist/browser/api/inboundNatRules/index.d.ts",
+        "default": "./dist/browser/api/inboundNatRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/inboundNatRules/index.d.ts",
+        "default": "./dist/esm/api/inboundNatRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/inboundNatRules/index.d.ts",
+        "default": "./dist/commonjs/api/inboundNatRules/index.js"
+      }
+    },
+    "./api/loadBalancers": {
+      "browser": {
+        "types": "./dist/browser/api/loadBalancers/index.d.ts",
+        "default": "./dist/browser/api/loadBalancers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/loadBalancers/index.d.ts",
+        "default": "./dist/esm/api/loadBalancers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/loadBalancers/index.d.ts",
+        "default": "./dist/commonjs/api/loadBalancers/index.js"
+      }
+    },
+    "./api/ipGroups": {
+      "browser": {
+        "types": "./dist/browser/api/ipGroups/index.d.ts",
+        "default": "./dist/browser/api/ipGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ipGroups/index.d.ts",
+        "default": "./dist/esm/api/ipGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ipGroups/index.d.ts",
+        "default": "./dist/commonjs/api/ipGroups/index.js"
+      }
+    },
+    "./api/ipAllocations": {
+      "browser": {
+        "types": "./dist/browser/api/ipAllocations/index.d.ts",
+        "default": "./dist/browser/api/ipAllocations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ipAllocations/index.d.ts",
+        "default": "./dist/esm/api/ipAllocations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ipAllocations/index.d.ts",
+        "default": "./dist/commonjs/api/ipAllocations/index.js"
+      }
+    },
+    "./api/staticCidrs": {
+      "browser": {
+        "types": "./dist/browser/api/staticCidrs/index.d.ts",
+        "default": "./dist/browser/api/staticCidrs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/staticCidrs/index.d.ts",
+        "default": "./dist/esm/api/staticCidrs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/staticCidrs/index.d.ts",
+        "default": "./dist/commonjs/api/staticCidrs/index.js"
+      }
+    },
+    "./api/networkManagers": {
+      "browser": {
+        "types": "./dist/browser/api/networkManagers/index.d.ts",
+        "default": "./dist/browser/api/networkManagers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkManagers/index.d.ts",
+        "default": "./dist/esm/api/networkManagers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkManagers/index.d.ts",
+        "default": "./dist/commonjs/api/networkManagers/index.js"
+      }
+    },
+    "./api/ipamPools": {
+      "browser": {
+        "types": "./dist/browser/api/ipamPools/index.d.ts",
+        "default": "./dist/browser/api/ipamPools/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ipamPools/index.d.ts",
+        "default": "./dist/esm/api/ipamPools/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ipamPools/index.d.ts",
+        "default": "./dist/commonjs/api/ipamPools/index.js"
+      }
+    },
+    "./api/firewallPolicyRuleCollectionGroupDrafts": {
+      "browser": {
+        "types": "./dist/browser/api/firewallPolicyRuleCollectionGroupDrafts/index.d.ts",
+        "default": "./dist/browser/api/firewallPolicyRuleCollectionGroupDrafts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firewallPolicyRuleCollectionGroupDrafts/index.d.ts",
+        "default": "./dist/esm/api/firewallPolicyRuleCollectionGroupDrafts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firewallPolicyRuleCollectionGroupDrafts/index.d.ts",
+        "default": "./dist/commonjs/api/firewallPolicyRuleCollectionGroupDrafts/index.js"
+      }
+    },
+    "./api/firewallPolicyDrafts": {
+      "browser": {
+        "types": "./dist/browser/api/firewallPolicyDrafts/index.d.ts",
+        "default": "./dist/browser/api/firewallPolicyDrafts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firewallPolicyDrafts/index.d.ts",
+        "default": "./dist/esm/api/firewallPolicyDrafts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firewallPolicyDrafts/index.d.ts",
+        "default": "./dist/commonjs/api/firewallPolicyDrafts/index.js"
+      }
+    },
+    "./api/firewallPolicyIdpsSignaturesOverrides": {
+      "browser": {
+        "types": "./dist/browser/api/firewallPolicyIdpsSignaturesOverrides/index.d.ts",
+        "default": "./dist/browser/api/firewallPolicyIdpsSignaturesOverrides/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firewallPolicyIdpsSignaturesOverrides/index.d.ts",
+        "default": "./dist/esm/api/firewallPolicyIdpsSignaturesOverrides/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firewallPolicyIdpsSignaturesOverrides/index.d.ts",
+        "default": "./dist/commonjs/api/firewallPolicyIdpsSignaturesOverrides/index.js"
+      }
+    },
+    "./api/firewallPolicyKubeSelectorGroups": {
+      "browser": {
+        "types": "./dist/browser/api/firewallPolicyKubeSelectorGroups/index.d.ts",
+        "default": "./dist/browser/api/firewallPolicyKubeSelectorGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firewallPolicyKubeSelectorGroups/index.d.ts",
+        "default": "./dist/esm/api/firewallPolicyKubeSelectorGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firewallPolicyKubeSelectorGroups/index.d.ts",
+        "default": "./dist/commonjs/api/firewallPolicyKubeSelectorGroups/index.js"
+      }
+    },
+    "./api/firewallPolicyRuleCollectionGroups": {
+      "browser": {
+        "types": "./dist/browser/api/firewallPolicyRuleCollectionGroups/index.d.ts",
+        "default": "./dist/browser/api/firewallPolicyRuleCollectionGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firewallPolicyRuleCollectionGroups/index.d.ts",
+        "default": "./dist/esm/api/firewallPolicyRuleCollectionGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firewallPolicyRuleCollectionGroups/index.d.ts",
+        "default": "./dist/commonjs/api/firewallPolicyRuleCollectionGroups/index.js"
+      }
+    },
+    "./api/firewallPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/firewallPolicies/index.d.ts",
+        "default": "./dist/browser/api/firewallPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firewallPolicies/index.d.ts",
+        "default": "./dist/esm/api/firewallPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firewallPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/firewallPolicies/index.js"
+      }
+    },
+    "./api/expressRouteLagAuthorizations": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteLagAuthorizations/index.d.ts",
+        "default": "./dist/browser/api/expressRouteLagAuthorizations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteLagAuthorizations/index.d.ts",
+        "default": "./dist/esm/api/expressRouteLagAuthorizations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteLagAuthorizations/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteLagAuthorizations/index.js"
+      }
+    },
+    "./api/expressRouteLags": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteLags/index.d.ts",
+        "default": "./dist/browser/api/expressRouteLags/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteLags/index.d.ts",
+        "default": "./dist/esm/api/expressRouteLags/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteLags/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteLags/index.js"
+      }
+    },
+    "./api/expressRoutePortAuthorizations": {
+      "browser": {
+        "types": "./dist/browser/api/expressRoutePortAuthorizations/index.d.ts",
+        "default": "./dist/browser/api/expressRoutePortAuthorizations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRoutePortAuthorizations/index.d.ts",
+        "default": "./dist/esm/api/expressRoutePortAuthorizations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRoutePortAuthorizations/index.d.ts",
+        "default": "./dist/commonjs/api/expressRoutePortAuthorizations/index.js"
+      }
+    },
+    "./api/expressRoutePorts": {
+      "browser": {
+        "types": "./dist/browser/api/expressRoutePorts/index.d.ts",
+        "default": "./dist/browser/api/expressRoutePorts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRoutePorts/index.d.ts",
+        "default": "./dist/esm/api/expressRoutePorts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRoutePorts/index.d.ts",
+        "default": "./dist/commonjs/api/expressRoutePorts/index.js"
+      }
+    },
+    "./api/expressRoutePortsLocations": {
+      "browser": {
+        "types": "./dist/browser/api/expressRoutePortsLocations/index.d.ts",
+        "default": "./dist/browser/api/expressRoutePortsLocations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRoutePortsLocations/index.d.ts",
+        "default": "./dist/esm/api/expressRoutePortsLocations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRoutePortsLocations/index.d.ts",
+        "default": "./dist/commonjs/api/expressRoutePortsLocations/index.js"
+      }
+    },
+    "./api/expressRouteCrossConnections": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteCrossConnections/index.d.ts",
+        "default": "./dist/browser/api/expressRouteCrossConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteCrossConnections/index.d.ts",
+        "default": "./dist/esm/api/expressRouteCrossConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteCrossConnections/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteCrossConnections/index.js"
+      }
+    },
+    "./api/peerExpressRouteCircuitConnections": {
+      "browser": {
+        "types": "./dist/browser/api/peerExpressRouteCircuitConnections/index.d.ts",
+        "default": "./dist/browser/api/peerExpressRouteCircuitConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/peerExpressRouteCircuitConnections/index.d.ts",
+        "default": "./dist/esm/api/peerExpressRouteCircuitConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/peerExpressRouteCircuitConnections/index.d.ts",
+        "default": "./dist/commonjs/api/peerExpressRouteCircuitConnections/index.js"
+      }
+    },
+    "./api/expressRouteCircuitConnections": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteCircuitConnections/index.d.ts",
+        "default": "./dist/browser/api/expressRouteCircuitConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteCircuitConnections/index.d.ts",
+        "default": "./dist/esm/api/expressRouteCircuitConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteCircuitConnections/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteCircuitConnections/index.js"
+      }
+    },
+    "./api/expressRouteCircuitPeerings": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteCircuitPeerings/index.d.ts",
+        "default": "./dist/browser/api/expressRouteCircuitPeerings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteCircuitPeerings/index.d.ts",
+        "default": "./dist/esm/api/expressRouteCircuitPeerings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteCircuitPeerings/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteCircuitPeerings/index.js"
+      }
+    },
+    "./api/expressRouteCircuits": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteCircuits/index.d.ts",
+        "default": "./dist/browser/api/expressRouteCircuits/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteCircuits/index.d.ts",
+        "default": "./dist/esm/api/expressRouteCircuits/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteCircuits/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteCircuits/index.js"
+      }
+    },
+    "./api/expressRouteCircuitAuthorizations": {
+      "browser": {
+        "types": "./dist/browser/api/expressRouteCircuitAuthorizations/index.d.ts",
+        "default": "./dist/browser/api/expressRouteCircuitAuthorizations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/expressRouteCircuitAuthorizations/index.d.ts",
+        "default": "./dist/esm/api/expressRouteCircuitAuthorizations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/expressRouteCircuitAuthorizations/index.d.ts",
+        "default": "./dist/commonjs/api/expressRouteCircuitAuthorizations/index.js"
+      }
+    },
+    "./api/ddosProtectionPlans": {
+      "browser": {
+        "types": "./dist/browser/api/ddosProtectionPlans/index.d.ts",
+        "default": "./dist/browser/api/ddosProtectionPlans/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ddosProtectionPlans/index.d.ts",
+        "default": "./dist/esm/api/ddosProtectionPlans/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ddosProtectionPlans/index.d.ts",
+        "default": "./dist/commonjs/api/ddosProtectionPlans/index.js"
+      }
+    },
+    "./api/ddosCustomPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/ddosCustomPolicies/index.d.ts",
+        "default": "./dist/browser/api/ddosCustomPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ddosCustomPolicies/index.d.ts",
+        "default": "./dist/esm/api/ddosCustomPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ddosCustomPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/ddosCustomPolicies/index.js"
+      }
+    },
+    "./api/publicIPAddresses": {
+      "browser": {
+        "types": "./dist/browser/api/publicIPAddresses/index.d.ts",
+        "default": "./dist/browser/api/publicIPAddresses/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/publicIPAddresses/index.d.ts",
+        "default": "./dist/esm/api/publicIPAddresses/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/publicIPAddresses/index.d.ts",
+        "default": "./dist/commonjs/api/publicIPAddresses/index.js"
+      }
+    },
+    "./api/networkInterfaces": {
+      "browser": {
+        "types": "./dist/browser/api/networkInterfaces/index.d.ts",
+        "default": "./dist/browser/api/networkInterfaces/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkInterfaces/index.d.ts",
+        "default": "./dist/esm/api/networkInterfaces/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkInterfaces/index.d.ts",
+        "default": "./dist/commonjs/api/networkInterfaces/index.js"
+      }
+    },
+    "./api/bastionHosts": {
+      "browser": {
+        "types": "./dist/browser/api/bastionHosts/index.d.ts",
+        "default": "./dist/browser/api/bastionHosts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/bastionHosts/index.d.ts",
+        "default": "./dist/esm/api/bastionHosts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/bastionHosts/index.d.ts",
+        "default": "./dist/commonjs/api/bastionHosts/index.js"
+      }
+    },
+    "./api/azureFirewalls": {
+      "browser": {
+        "types": "./dist/browser/api/azureFirewalls/index.d.ts",
+        "default": "./dist/browser/api/azureFirewalls/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/azureFirewalls/index.d.ts",
+        "default": "./dist/esm/api/azureFirewalls/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/azureFirewalls/index.d.ts",
+        "default": "./dist/commonjs/api/azureFirewalls/index.js"
+      }
+    },
+    "./api/authenticationPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/authenticationPolicies/index.d.ts",
+        "default": "./dist/browser/api/authenticationPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/authenticationPolicies/index.d.ts",
+        "default": "./dist/esm/api/authenticationPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/authenticationPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/authenticationPolicies/index.js"
+      }
+    },
+    "./api/applicationSecurityGroups": {
+      "browser": {
+        "types": "./dist/browser/api/applicationSecurityGroups/index.d.ts",
+        "default": "./dist/browser/api/applicationSecurityGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/applicationSecurityGroups/index.d.ts",
+        "default": "./dist/esm/api/applicationSecurityGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/applicationSecurityGroups/index.d.ts",
+        "default": "./dist/commonjs/api/applicationSecurityGroups/index.js"
+      }
+    },
+    "./api/applicationGatewayPrivateEndpointConnections": {
+      "browser": {
+        "types": "./dist/browser/api/applicationGatewayPrivateEndpointConnections/index.d.ts",
+        "default": "./dist/browser/api/applicationGatewayPrivateEndpointConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/applicationGatewayPrivateEndpointConnections/index.d.ts",
+        "default": "./dist/esm/api/applicationGatewayPrivateEndpointConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/applicationGatewayPrivateEndpointConnections/index.d.ts",
+        "default": "./dist/commonjs/api/applicationGatewayPrivateEndpointConnections/index.js"
+      }
+    },
+    "./api/applicationGateways": {
+      "browser": {
+        "types": "./dist/browser/api/applicationGateways/index.d.ts",
+        "default": "./dist/browser/api/applicationGateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/applicationGateways/index.d.ts",
+        "default": "./dist/esm/api/applicationGateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/applicationGateways/index.d.ts",
+        "default": "./dist/commonjs/api/applicationGateways/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
       }
     },
     "./models": {

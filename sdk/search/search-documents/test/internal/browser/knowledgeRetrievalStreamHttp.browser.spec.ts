@@ -6,10 +6,8 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { KnowledgeBaseRetrievalClient as ProtocolKnowledgeBaseRetrievalClient } from "../../../src/knowledgeBaseRetrieval/knowledgeBaseRetrievalClient.js";
 import { getSseStream } from "#platform/sseHelper";
-import {
-  deserializeRetrievalStream,
-  type KnowledgeBaseRetrievalStreamEvent,
-} from "../../../src/knowledgeRetrievalClient.js";
+import { deserializeRetrievalStream } from "../../../src/knowledgeRetrievalClient.js";
+import type { KnowledgeBaseRetrievalStreamEvent } from "../../../src/knowledgeBaseModels.js";
 
 function createResponse(status: number, body: string): Response {
   const stream = new ReadableStream<Uint8Array>({

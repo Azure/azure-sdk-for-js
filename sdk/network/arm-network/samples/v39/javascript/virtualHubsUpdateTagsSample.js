@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates VirtualHub tags.
  *
  * @summary updates VirtualHub tags.
- * x-ms-original-file: 2026-01-01/VirtualHubUpdateTags.json
+ * x-ms-original-file: 2026-03-01/VirtualHubUpdateTags.json
  */
 async function virtualHubUpdate() {
   const credential = new DefaultAzureCredential();

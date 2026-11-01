@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified service Endpoint Policies in a specified resource group.
  *
  * @summary gets the specified service Endpoint Policies in a specified resource group.
- * x-ms-original-file: 2026-01-01/ServiceEndpointPolicyGet.json
+ * x-ms-original-file: 2026-03-01/ServiceEndpointPolicyGet.json
  */
 async function getServiceEndPointPolicy() {
   const credential = new DefaultAzureCredential();

@@ -45,7 +45,7 @@ export function _listInstantItemRecoveryOperationResultSend(
       containerName: containerName,
       protectedItemName: protectedItemName,
       recoveryPointId: recoveryPointId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -123,7 +123,7 @@ export function _revokeSend(
       containerName: containerName,
       protectedItemName: protectedItemName,
       recoveryPointId: recoveryPointId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,7 +194,7 @@ export function _provisionSend(
       containerName: containerName,
       protectedItemName: protectedItemName,
       recoveryPointId: recoveryPointId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

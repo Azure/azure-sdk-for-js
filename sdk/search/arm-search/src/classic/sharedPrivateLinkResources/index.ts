@@ -87,6 +87,7 @@ export interface SharedPrivateLinkResourcesOperations {
     options?: SharedPrivateLinkResourcesGetOptionalParams,
   ) => Promise<SharedPrivateLinkResource>;
 }
+
 function _getSharedPrivateLinkResources(context: SearchManagementContext) {
   return {
     listByService: (
@@ -194,6 +195,7 @@ function _getSharedPrivateLinkResources(context: SearchManagementContext) {
     ) => get(context, resourceGroupName, searchServiceName, sharedPrivateLinkResourceName, options),
   };
 }
+
 export function _getSharedPrivateLinkResourcesOperations(
   context: SearchManagementContext,
 ): SharedPrivateLinkResourcesOperations {

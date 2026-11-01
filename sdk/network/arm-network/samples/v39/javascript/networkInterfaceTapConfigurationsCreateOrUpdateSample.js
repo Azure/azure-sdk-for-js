@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a Tap configuration in the specified NetworkInterface.
  *
  * @summary creates or updates a Tap configuration in the specified NetworkInterface.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceTapConfigurationCreate.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceTapConfigurationCreate.json
  */
 async function createNetworkInterfaceTapConfigurations() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified service gateway.
  *
  * @summary deletes the specified service gateway.
- * x-ms-original-file: 2026-01-01/ServiceGatewayDelete.json
+ * x-ms-original-file: 2026-03-01/ServiceGatewayDelete.json
  */
 async function deleteServiceGateway() {
   const credential = new DefaultAzureCredential();

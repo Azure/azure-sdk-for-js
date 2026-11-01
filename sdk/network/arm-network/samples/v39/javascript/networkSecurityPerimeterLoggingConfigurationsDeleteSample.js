@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an NSP Logging configuration.
  *
  * @summary deletes an NSP Logging configuration.
- * x-ms-original-file: 2026-01-01/NspLoggingConfigurationDelete.json
+ * x-ms-original-file: 2026-03-01/NspLoggingConfigurationDelete.json
  */
 async function nspLoggingConfigurationDelete() {
   const credential = new DefaultAzureCredential();

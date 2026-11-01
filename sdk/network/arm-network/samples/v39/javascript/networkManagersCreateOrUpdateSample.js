@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a Network Manager.
  *
  * @summary creates or updates a Network Manager.
- * x-ms-original-file: 2026-01-01/NetworkManagerPut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerPut.json
  */
 async function putNetworkManager() {
   const credential = new DefaultAzureCredential();

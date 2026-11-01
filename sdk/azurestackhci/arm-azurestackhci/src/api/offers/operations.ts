@@ -31,7 +31,7 @@ export function _listByClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       "%24expand": options?.expand,
     },
     {
@@ -50,7 +50,9 @@ export async function _listByClusterDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -70,7 +72,7 @@ export function listByCluster(
     () => _listByClusterSend(context, resourceGroupName, clusterName, options),
     _listByClusterDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-30" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -88,7 +90,7 @@ export function _listByPublisherSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       publisherName: publisherName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       "%24expand": options?.expand,
     },
     {
@@ -107,7 +109,9 @@ export async function _listByPublisherDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -128,7 +132,7 @@ export function listByPublisher(
     () => _listByPublisherSend(context, resourceGroupName, clusterName, publisherName, options),
     _listByPublisherDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-30" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -148,7 +152,7 @@ export function _getSend(
       clusterName: clusterName,
       publisherName: publisherName,
       offerName: offerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-30",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       "%24expand": options?.expand,
     },
     {
@@ -165,7 +169,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Of
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

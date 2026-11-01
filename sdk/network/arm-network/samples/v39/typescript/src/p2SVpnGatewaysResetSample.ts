@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to resets the primary of the p2s vpn gateway in the specified resource group.
  *
  * @summary resets the primary of the p2s vpn gateway in the specified resource group.
- * x-ms-original-file: 2026-01-01/P2SVpnGatewayReset.json
+ * x-ms-original-file: 2026-03-01/P2SVpnGatewayReset.json
  */
 async function resetP2SVpnGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

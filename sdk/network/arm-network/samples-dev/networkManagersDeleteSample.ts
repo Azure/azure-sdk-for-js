@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a network manager.
  *
  * @summary deletes a network manager.
- * x-ms-original-file: 2026-01-01/NetworkManagerDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerDelete.json
  */
 async function networkManagersDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

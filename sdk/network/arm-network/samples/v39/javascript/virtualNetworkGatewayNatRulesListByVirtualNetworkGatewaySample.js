@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves all nat rules for a particular virtual network gateway.
  *
  * @summary retrieves all nat rules for a particular virtual network gateway.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayNatRuleList.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayNatRuleList.json
  */
 async function virtualNetworkGatewayNatRuleList() {
   const credential = new DefaultAzureCredential();

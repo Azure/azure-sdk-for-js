@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the VirtualNetworkTaps in a subscription.
  *
  * @summary gets all the VirtualNetworkTaps in a subscription.
- * x-ms-original-file: 2026-01-01/VirtualNetworkTapList.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkTapList.json
  */
 async function listVirtualNetworkTapsInResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gives the sas-url to download the configurations for vpn-sites in a resource group.
  *
  * @summary gives the sas-url to download the configurations for vpn-sites in a resource group.
- * x-ms-original-file: 2026-01-01/VpnSitesConfigurationDownload.json
+ * x-ms-original-file: 2026-03-01/VpnSitesConfigurationDownload.json
  */
 async function vpnSitesConfigurationDownload(): Promise<void> {
   const credential = new DefaultAzureCredential();

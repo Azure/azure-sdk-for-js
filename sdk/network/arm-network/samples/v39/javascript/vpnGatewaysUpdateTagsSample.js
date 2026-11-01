@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates virtual wan vpn gateway tags.
  *
  * @summary updates virtual wan vpn gateway tags.
- * x-ms-original-file: 2026-01-01/VpnGatewayUpdateTags.json
+ * x-ms-original-file: 2026-03-01/VpnGatewayUpdateTags.json
  */
 async function vpnGatewayUpdate() {
   const credential = new DefaultAzureCredential();

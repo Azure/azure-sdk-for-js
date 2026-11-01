@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generate verification code for Proof of Possession.
  *
  * @summary generate verification code for Proof of Possession.
- * x-ms-original-file: 2026-08-31/DPSGenerateVerificationCode.json
+ * x-ms-original-file: 2026-11-01/DPSGenerateVerificationCode.json
  */
 async function dpsGenerateVerificationCode() {
   const credential = new DefaultAzureCredential();

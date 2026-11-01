@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists metrics containers for a monitoring account.
  *
  * @summary lists metrics containers for a monitoring account.
- * x-ms-original-file: 2025-10-03/MetricsContainers_ListByAzureMonitorWorkspace_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/MetricsContainers_ListByAzureMonitorWorkspace_MaximumSet_Gen.json
  */
 async function metricsContainersListByAzureMonitorWorkspaceMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a private endpoint connection for the durable task scheduler
  *
  * @summary get a private endpoint connection for the durable task scheduler
- * x-ms-original-file: 2026-02-01/PrivateEndpointConnections_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01-preview/PrivateEndpointConnections_Get_MaximumSet_Gen.json
  */
 async function privateEndpointConnectionsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

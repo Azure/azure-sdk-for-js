@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an Azure Cosmos DB Table
  *
  * @summary create or update an Azure Cosmos DB Table
- * x-ms-original-file: 2026-03-15/CosmosDBTableCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBTableCreateUpdate.json
  */
 async function cosmosDBTableReplace(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,9 +16,9 @@ async function cosmosDBTableReplace(): Promise<void> {
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.tableResources.createUpdateTable("rg1", "ddb1", "tableName", {
     location: "West US",
-    tags: {},
-    resource: { id: "tableName" },
     options: {},
+    resource: { id: "tableName" },
+    tags: {},
   });
   console.log(result);
 }

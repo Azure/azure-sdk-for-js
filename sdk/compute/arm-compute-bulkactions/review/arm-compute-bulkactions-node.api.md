@@ -71,6 +71,11 @@ export enum AzureClouds {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
+export interface BillingProfile {
+    maxPrice?: number;
+}
+
+// @public
 export interface BootDiagnostics {
     enabled?: boolean;
     storageUri?: string;
@@ -101,13 +106,16 @@ export interface BulkActionVmExtensionProperties {
 export interface BulkactionVMProperties {
     additionalCapabilities?: AdditionalCapabilities;
     applicationProfile?: ApplicationProfile;
+    billingProfile?: BillingProfile;
     capacityReservation?: CapacityReservationProfile;
     diagnosticsProfile?: DiagnosticsProfile;
+    evictionPolicy?: EvictionPolicy;
     extensionsTimeBudget?: string;
     hardwareProfile?: HardwareProfile;
     licenseType?: string;
     networkProfile?: NetworkProfile;
     osProfile?: OSProfile;
+    priority?: PriorityType;
     scheduledEventsPolicy?: ScheduledEventsPolicy;
     scheduledEventsProfile?: ScheduledEventsProfile;
     securityProfile?: SecurityProfile;
@@ -172,12 +180,15 @@ export interface BulkCreateCustomOperations {
 
 // @public
 export interface BulkCreateCustomOverride {
+    extendedLocation?: ExtendedLocation;
     extensions?: BulkactionVMExtension[];
     identity?: VirtualMachineIdentity;
+    placement?: Placement;
     plan?: Plan;
     tags?: Record<string, string>;
     virtualMachineName?: string;
     virtualMachineProfile?: BulkactionVMProperties;
+    zone?: string;
 }
 
 // @public
@@ -187,23 +198,13 @@ export interface BulkCreateCustomOverridesProfile {
 }
 
 // @public
-export interface BulkCreateCustomPriorityProfile {
-    evictionPolicy?: EvictionPolicy;
-    maxPricePerVM?: number;
-    type?: PriorityType;
-}
-
-// @public
 export interface BulkCreateCustomProperties {
     capacity: number;
     capacityType?: CapacityType;
     computeProfile: ComputeProfile;
     readonly createdTime?: Date;
     executionParameters?: ExecutionParameters;
-    minCapacity?: number;
     overridesProfile?: BulkCreateCustomOverridesProfile;
-    partialFulfillmentPolicy?: PartialFulfillmentPolicy;
-    priorityProfile: BulkCreateCustomPriorityProfile;
     readonly provisioningState?: ProvisioningState;
     readonly resources?: BulkCreateCustomResource[];
 }
@@ -265,9 +266,6 @@ export interface BulkCreateProperties {
     computeProfile: ComputeProfile;
     readonly createdTime?: Date;
     executionParameters?: ExecutionParameters;
-    minCapacity?: number;
-    partialFulfillmentPolicy?: PartialFulfillmentPolicy;
-    priorityProfile: PriorityProfile;
     readonly provisioningState?: ProvisioningState;
 }
 
@@ -547,6 +545,15 @@ export interface ExecutionParameters {
 }
 
 // @public
+export interface ExtendedLocation {
+    name: string;
+    type: ExtendedLocationType;
+}
+
+// @public
+export type ExtendedLocationType = string;
+
+// @public
 export interface ExtensionResource extends Resource {
 }
 
@@ -713,6 +720,12 @@ export enum KnownEvictionPolicy {
 }
 
 // @public
+export enum KnownExtendedLocationType {
+    CustomLocation = "CustomLocation",
+    EdgeZone = "EdgeZone"
+}
+
+// @public
 export enum KnownIPVersions {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
@@ -852,19 +865,6 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
-}
-
-// @public
-export enum KnownPartialFulfillmentMode {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
-export enum KnownPartialFulfillmentReason {
-    InsufficientCapacity = "InsufficientCapacity",
-    InsufficientQuota = "InsufficientQuota",
-    None = "None"
 }
 
 // @public
@@ -1032,6 +1032,12 @@ export enum KnownWindowsVMGuestPatchMode {
 }
 
 // @public
+export enum KnownZonePlacementPolicyType {
+    Any = "Any",
+    Auto = "Auto"
+}
+
+// @public
 export type Language = string;
 
 // @public
@@ -1067,7 +1073,9 @@ export type LinuxVMGuestPatchMode = string;
 
 // @public
 export interface LocationBasedBulkCreate extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
+    placement?: Placement;
     plan?: Plan;
     properties?: BulkCreateProperties;
     tags?: Record<string, string>;
@@ -1076,7 +1084,9 @@ export interface LocationBasedBulkCreate extends ProxyResource {
 
 // @public
 export interface LocationBasedBulkCreateCustom extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
+    placement?: Placement;
     plan?: Plan;
     properties?: BulkCreateCustomProperties;
     tags?: Record<string, string>;
@@ -1341,24 +1351,18 @@ export interface PageSettings {
 }
 
 // @public
-export type PartialFulfillmentMode = string;
-
-// @public
-export interface PartialFulfillmentPolicy {
-    readonly fulfilledCapacity?: number;
-    mode?: PartialFulfillmentMode;
-    readonly reason?: PartialFulfillmentReason;
-}
-
-// @public
-export type PartialFulfillmentReason = string;
-
-// @public
 export interface PatchSettings {
     assessmentMode?: WindowsPatchAssessmentMode;
     automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
     enableHotpatching?: boolean;
     patchMode?: WindowsVMGuestPatchMode;
+}
+
+// @public
+export interface Placement {
+    excludeZones?: string[];
+    includeZones?: string[];
+    zonePlacementPolicy?: ZonePlacementPolicyType;
 }
 
 // @public
@@ -1368,13 +1372,6 @@ export interface Plan {
     promotionCode?: string;
     publisher: string;
     version?: string;
-}
-
-// @public
-export interface PriorityProfile {
-    evictionPolicy?: EvictionPolicy;
-    maxPricePerVM?: number;
-    type?: PriorityType;
 }
 
 // @public
@@ -2124,6 +2121,9 @@ export interface WinRMListener {
     certificateUrl?: string;
     protocol?: ProtocolTypes;
 }
+
+// @public
+export type ZonePlacementPolicyType = string;
 
 // (No @packageDocumentation comment for this package)
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an Arc deployment associated with the Cognitive Services account.
  *
  * @summary creates or updates an Arc deployment associated with the Cognitive Services account.
- * x-ms-original-file: 2026-07-15-preview/CreateOrUpdateArcDeployment.json
+ * x-ms-original-file: 2026-09-15-preview/CreateOrUpdateArcDeployment.json
  */
 async function createOrUpdateArcDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function createOrUpdateArcDeployment(): Promise<void> {
  * This sample demonstrates how to creates or updates an Arc deployment associated with the Cognitive Services account.
  *
  * @summary creates or updates an Arc deployment associated with the Cognitive Services account.
- * x-ms-original-file: 2026-07-15-preview/CreateOrUpdateArcDeploymentWithTemplate.json
+ * x-ms-original-file: 2026-09-15-preview/CreateOrUpdateArcDeploymentWithTemplate.json
  */
 async function createOrUpdateArcDeploymentWithTemplate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
  *
  * @summary edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
- * x-ms-original-file: 2025-12-01/EdgeNodes_List.json
+ * x-ms-original-file: 2026-10-01/EdgeNodes_List.json
  */
 async function edgeNodesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified parameters. Deleting a profile will result in the deletion of all of the sub-resources including endpoints, origins and custom domains.
  *
  * @summary deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified parameters. Deleting a profile will result in the deletion of all of the sub-resources including endpoints, origins and custom domains.
- * x-ms-original-file: 2025-12-01/Profiles_Delete.json
+ * x-ms-original-file: 2026-10-01/Profiles_Delete.json
  */
 async function profilesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

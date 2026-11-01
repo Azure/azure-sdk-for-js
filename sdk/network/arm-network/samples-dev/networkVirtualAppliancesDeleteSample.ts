@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified Network Virtual Appliance.
  *
  * @summary deletes the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceDelete.json
  */
 async function deleteNetworkVirtualAppliance(): Promise<void> {
   const credential = new DefaultAzureCredential();

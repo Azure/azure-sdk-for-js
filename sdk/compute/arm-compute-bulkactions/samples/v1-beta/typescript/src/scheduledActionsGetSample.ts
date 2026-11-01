@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to gets the specified scheduled action.
+ * This sample demonstrates how to gets the specified recurring bulk action.
  *
- * @summary gets the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_Get_BasicSuccess.json
+ * @summary gets the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_Get_BasicSuccess.json
  */
-async function _01GetARecurringScheduledAction(): Promise<void> {
+async function _01GetARecurringBulkAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -19,12 +19,12 @@ async function _01GetARecurringScheduledAction(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to gets the specified scheduled action.
+ * This sample demonstrates how to gets the specified recurring bulk action.
  *
- * @summary gets the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_Get_ComprehensiveSuccess.json
+ * @summary gets the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_Get_ComprehensiveSuccess.json
  */
-async function _02GetARecurringScheduledActionWithCompleteConfiguration(): Promise<void> {
+async function _02GetARecurringBulkActionWithCompleteConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -33,8 +33,8 @@ async function _02GetARecurringScheduledActionWithCompleteConfiguration(): Promi
 }
 
 async function main(): Promise<void> {
-  await _01GetARecurringScheduledAction();
-  await _02GetARecurringScheduledActionWithCompleteConfiguration();
+  await _01GetARecurringBulkAction();
+  await _02GetARecurringBulkActionWithCompleteConfiguration();
 }
 
 main().catch(console.error);

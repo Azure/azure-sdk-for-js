@@ -9,8 +9,6 @@ import type { AdminKeysOperations } from "./classic/adminKeys/index.js";
 import { _getAdminKeysOperations } from "./classic/adminKeys/index.js";
 import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
 import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import type { OfferingsOperations } from "./classic/offerings/index.js";
-import { _getOfferingsOperations } from "./classic/offerings/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
@@ -68,7 +66,6 @@ export class SearchManagementClient {
     this.sharedPrivateLinkResources = _getSharedPrivateLinkResourcesOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
-    this.offerings = _getOfferingsOperations(this._client);
   }
 
   /** Gets the quota usage for a search SKU in the given subscription. */
@@ -98,6 +95,4 @@ export class SearchManagementClient {
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
-  /** The operation groups for offerings */
-  public readonly offerings: OfferingsOperations;
 }

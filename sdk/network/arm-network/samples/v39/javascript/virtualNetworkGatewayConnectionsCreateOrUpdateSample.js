@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a virtual network gateway connection in the specified resource group.
  *
  * @summary creates or updates a virtual network gateway connection in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayConnectionCreate.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayConnectionCreate.json
  */
 async function createVirtualNetworkGatewayConnectionS2S() {
   const credential = new DefaultAzureCredential();

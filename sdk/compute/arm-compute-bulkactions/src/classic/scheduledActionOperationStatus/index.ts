@@ -8,7 +8,7 @@ import type { OperationStatusResult } from "../../models/models.js";
 
 /** Interface representing a ScheduledActionOperationStatus operations. */
 export interface ScheduledActionOperationStatusOperations {
-  /** Gets the status of the specified scheduled action operation. */
+  /** Gets the status of the specified recurring bulk action operation. */
   get: (
     location: string,
     operationId: string,

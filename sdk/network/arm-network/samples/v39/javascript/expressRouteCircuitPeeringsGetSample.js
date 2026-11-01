@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified peering for the express route circuit.
  *
  * @summary gets the specified peering for the express route circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitPeeringGet.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitPeeringGet.json
  */
 async function getExpressRouteCircuitPeering() {
   const credential = new DefaultAzureCredential();

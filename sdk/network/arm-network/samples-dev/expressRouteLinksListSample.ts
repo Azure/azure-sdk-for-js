@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve the ExpressRouteLink sub-resources of the specified ExpressRoutePort resource.
  *
  * @summary retrieve the ExpressRouteLink sub-resources of the specified ExpressRoutePort resource.
- * x-ms-original-file: 2026-01-01/ExpressRouteLinkList.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteLinkList.json
  */
 async function expressRouteLinkGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a first party service tag.
  *
  * @summary creates or updates a first party service tag.
- * x-ms-original-file: 2026-01-01/FirstPartyServiceTagCreate.json
+ * x-ms-original-file: 2026-03-01/FirstPartyServiceTagCreate.json
  */
 async function createFirstPartyServiceTag() {
   const credential = new DefaultAzureCredential();

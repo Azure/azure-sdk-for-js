@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about all public IP addresses on a cloud service level.
  *
  * @summary gets information about all public IP addresses on a cloud service level.
- * x-ms-original-file: 2026-01-01/CloudServicePublicIpListAll.json
+ * x-ms-original-file: 2026-03-01/CloudServicePublicIpListAll.json
  */
 async function listVmssPublicIP(): Promise<void> {
   const credential = new DefaultAzureCredential();

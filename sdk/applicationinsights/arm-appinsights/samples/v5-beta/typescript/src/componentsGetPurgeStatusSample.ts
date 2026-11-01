@@ -8,11 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get status for an ongoing purge operation.
  *
  * @summary get status for an ongoing purge operation.
- * x-ms-original-file: 2020-02-02/ComponentsPurgeStatus.json
+ * x-ms-original-file: 2025-01-23-preview/ComponentsPurgeStatus.json
  */
 async function componentPurge(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const result = await client.components.getPurgeStatus(
     "OIAutoRest5123",

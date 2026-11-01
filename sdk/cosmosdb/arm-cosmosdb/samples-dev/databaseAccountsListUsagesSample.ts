@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the usages (most recent data) for the given database account.
  *
  * @summary retrieves the usages (most recent data) for the given database account.
- * x-ms-original-file: 2026-03-15/CosmosDBDatabaseAccountGetUsages.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBDatabaseAccountGetUsages.json
  */
 async function cosmosDBDatabaseAccountGetUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();

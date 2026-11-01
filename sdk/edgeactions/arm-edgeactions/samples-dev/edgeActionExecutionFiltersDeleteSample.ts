@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a EdgeActionExecutionFilter
  *
  * @summary delete a EdgeActionExecutionFilter
- * x-ms-original-file: 2025-12-01-preview/EdgeActionExecutionFilters_Delete.json
+ * x-ms-original-file: 2026-10-01/EdgeActionExecutionFilters_Delete.json
  */
 async function deleteEdgeActionExecutionFilters(): Promise<void> {
   const credential = new DefaultAzureCredential();

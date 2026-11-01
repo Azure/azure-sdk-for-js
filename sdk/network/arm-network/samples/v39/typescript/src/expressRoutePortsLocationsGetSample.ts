@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves a single ExpressRoutePort peering location, including the list of available bandwidths available at said peering location.
  *
  * @summary retrieves a single ExpressRoutePort peering location, including the list of available bandwidths available at said peering location.
- * x-ms-original-file: 2026-01-01/ExpressRoutePortsLocationGet.json
+ * x-ms-original-file: 2026-03-01/ExpressRoutePortsLocationGet.json
  */
 async function expressRoutePortsLocationGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

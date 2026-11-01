@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to starts failover simulation on the ExpressRoute gateway for the specified peering location.
  *
  * @summary starts failover simulation on the ExpressRoute gateway for the specified peering location.
- * x-ms-original-file: 2026-01-01/ExpressRouteGatewayStartSiteFailoverTest.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteGatewayStartSiteFailoverTest.json
  */
 async function expressRouteGatewayStartSiteFailoverTest() {
   const credential = new DefaultAzureCredential();

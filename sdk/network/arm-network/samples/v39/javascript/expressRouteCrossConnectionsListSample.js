@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves all the ExpressRouteCrossConnections in a subscription.
  *
  * @summary retrieves all the ExpressRouteCrossConnections in a subscription.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionList.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionList.json
  */
 async function expressRouteCrossConnectionList() {
   const credential = new DefaultAzureCredential();

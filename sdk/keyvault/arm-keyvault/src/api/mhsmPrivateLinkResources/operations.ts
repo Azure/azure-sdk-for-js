@@ -24,7 +24,7 @@ export function _listByMhsmResourceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -42,7 +42,9 @@ export async function _listByMhsmResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

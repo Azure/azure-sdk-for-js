@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a network security perimeter.
  *
  * @summary deletes a network security perimeter.
- * x-ms-original-file: 2026-01-01/NetworkSecurityPerimeterDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkSecurityPerimeterDelete.json
  */
 async function networkSecurityPerimeterDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

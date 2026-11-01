@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified authorization from the specified express route port.
  *
  * @summary deletes the specified authorization from the specified express route port.
- * x-ms-original-file: 2026-01-01/ExpressRoutePortAuthorizationDelete.json
+ * x-ms-original-file: 2026-03-01/ExpressRoutePortAuthorizationDelete.json
  */
 async function deleteExpressRoutePortAuthorization(): Promise<void> {
   const credential = new DefaultAzureCredential();

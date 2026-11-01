@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets load balancer frontend IP configuration.
  *
  * @summary gets load balancer frontend IP configuration.
- * x-ms-original-file: 2026-01-01/LoadBalancerFrontendIPConfigurationGet.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerFrontendIPConfigurationGet.json
  */
 async function loadBalancerFrontendIPConfigurationGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

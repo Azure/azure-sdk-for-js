@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CategoryType } from "../../models/applicationInsightsCommonTypes/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { CategoryType } from "../../models/applicationInsightsCommonTypes/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface DeletedWorkbooksListBySubscriptionOptionalParams extends OperationOptions {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a flow log for the specified network security group.
  *
  * @summary create or update a flow log for the specified network security group.
- * x-ms-original-file: 2026-01-01/NetworkWatcherFlowLogCreate.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherFlowLogCreate.json
  */
 async function createOrUpdateFlowLog(): Promise<void> {
   const credential = new DefaultAzureCredential();

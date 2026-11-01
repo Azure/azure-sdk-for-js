@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to will update the status of policy's signature overrides for IDPS
  *
  * @summary will update the status of policy's signature overrides for IDPS
- * x-ms-original-file: 2026-01-01/FirewallPolicySignatureOverridesPatch.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicySignatureOverridesPatch.json
  */
 async function patchSignatureOverrides() {
   const credential = new DefaultAzureCredential();

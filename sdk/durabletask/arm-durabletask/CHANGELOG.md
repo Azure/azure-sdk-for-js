@@ -1,14 +1,71 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.2.0-beta.1 (2026-10-20)
+Compared with version 1.1.0
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Added operation group DetectorsOperations
+  - Added operation group FailoverInstancesOperations
+  - Added operation group TaskQueuesOperations
+  - Added operation group TransparentDataEncryptionsOperations
+  - Added operation SchedulersOperations.restart
+  - Added Interface Detector
+  - Added Interface DetectorDataset
+  - Added Interface DetectorMetadata
+  - Added Interface DetectorProperties
+  - Added Interface DetectorRenderingProperties
+  - Added Interface DetectorsGetOptionalParams
+  - Added Interface DetectorsListBySchedulerOptionalParams
+  - Added Interface DetectorStatus
+  - Added Interface DetectorTable
+  - Added Interface DetectorTableColumn
+  - Added Interface FailoverInstance
+  - Added Interface FailoverInstanceProperties
+  - Added Interface FailoverInstancesCreateOrReplaceOptionalParams
+  - Added Interface FailoverInstancesDeleteOptionalParams
+  - Added Interface FailoverInstancesFailoverOptionalParams
+  - Added Interface FailoverInstancesForceFailoverAllowDataLossOptionalParams
+  - Added Interface FailoverInstancesGetOptionalParams
+  - Added Interface FailoverInstancesListBySchedulerOptionalParams
+  - Added Interface ManagedServiceIdentity
+  - Added Interface SchedulersRestartOptionalParams
+  - Added Interface TaskQueue
+  - Added Interface TaskQueueProperties
+  - Added Interface TaskQueuesCreateOrUpdateOptionalParams
+  - Added Interface TaskQueuesDeleteOptionalParams
+  - Added Interface TaskQueuesGetOptionalParams
+  - Added Interface TaskQueuesListByTaskHubOptionalParams
+  - Added Interface TaskQueuesUpdateOptionalParams
+  - Added Interface TaskQueueThroughput
+  - Added Interface TaskQueueUpdate
+  - Added Interface TransparentDataEncryption
+  - Added Interface TransparentDataEncryptionProperties
+  - Added Interface TransparentDataEncryptionsCreateOrReplaceOptionalParams
+  - Added Interface TransparentDataEncryptionsDeleteOptionalParams
+  - Added Interface TransparentDataEncryptionsGetOptionalParams
+  - Added Interface TransparentDataEncryptionsListBySchedulerOptionalParams
+  - Added Interface UserAssignedIdentity
+  - Interface Scheduler has a new optional parameter identity
+  - Interface SchedulerUpdate has a new optional parameter identity
+  - Interface TaskHubProperties has a new optional parameter capabilities
+  - Added Type Alias DetectorRenderingType
+  - Added Type Alias DetectorStatusId
+  - Added Type Alias DetectorType
+  - Added Type Alias FailoverState
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias ReplicationRole
+  - Added Type Alias TransparentDataEncryptionKeySource
+  - Added Enum KnownDetectorRenderingType
+  - Added Enum KnownDetectorStatusId
+  - Added Enum KnownDetectorType
+  - Added Enum KnownFailoverState
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownReplicationRole
+  - Added Enum KnownTransparentDataEncryptionKeySource
+  - Enum KnownVersions has a new value V20241001Preview
+  - Enum KnownVersions has a new value V20250401Preview
+  - Enum KnownVersions has a new value V20260501Preview
+  - Enum KnownVersions has a new value V20260701Preview
 
 ## 1.1.0 (2026-03-09)
 

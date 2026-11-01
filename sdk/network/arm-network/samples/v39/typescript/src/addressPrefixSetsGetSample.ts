@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified address prefix set.
  *
  * @summary gets the specified address prefix set.
- * x-ms-original-file: 2026-01-01/AddressPrefixSetGet.json
+ * x-ms-original-file: 2026-03-01/AddressPrefixSetGet.json
  */
 async function getAddressPrefixSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

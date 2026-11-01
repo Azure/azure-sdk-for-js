@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to updates the specified scheduled action.
+ * This sample demonstrates how to updates the specified recurring bulk action.
  *
- * @summary updates the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_Update_BasicSuccess.json
+ * @summary updates the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_Update_BasicSuccess.json
  */
-async function _01UpdateTheActionTypeOfARecurringScheduledAction(): Promise<void> {
+async function _01UpdateTheActionTypeOfARecurringBulkAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -20,12 +20,12 @@ async function _01UpdateTheActionTypeOfARecurringScheduledAction(): Promise<void
 }
 
 /**
- * This sample demonstrates how to updates the specified scheduled action.
+ * This sample demonstrates how to updates the specified recurring bulk action.
  *
- * @summary updates the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_Update_ComprehensiveSuccess.json
+ * @summary updates the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_Update_ComprehensiveSuccess.json
  */
-async function _02UpdateARecurringScheduledActionSchedule(): Promise<void> {
+async function _02UpdateARecurringBulkActionSchedule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -43,8 +43,8 @@ async function _02UpdateARecurringScheduledActionSchedule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await _01UpdateTheActionTypeOfARecurringScheduledAction();
-  await _02UpdateARecurringScheduledActionSchedule();
+  await _01UpdateTheActionTypeOfARecurringBulkAction();
+  await _02UpdateARecurringBulkActionSchedule();
 }
 
 main().catch(console.error);

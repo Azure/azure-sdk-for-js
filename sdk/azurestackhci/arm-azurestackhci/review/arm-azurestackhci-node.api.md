@@ -23,6 +23,20 @@ export type AccessLevel = string;
 export type ActionType = string;
 
 // @public
+export interface AddServerJobServerDetails {
+    hostIpv4Address: string;
+    localAvailabilityZoneName?: string;
+    serverName: string;
+    serverResourceId: string;
+}
+
+// @public
+export interface ApplyConfigurationNetworkAdapterJobProperties extends EdgeMachineNetworkAdapterJobProperties {
+    jobType: "ApplyConfiguration";
+    targetConfiguration: NetworkAdapterConfiguration;
+}
+
+// @public
 export interface ArcConnectivityProperties {
     enabled?: boolean;
     serviceConfigurations?: ServiceConfiguration[];
@@ -30,6 +44,9 @@ export interface ArcConnectivityProperties {
 
 // @public
 export type ArcExtensionState = string;
+
+// @public
+export type Architecture = string;
 
 // @public
 export interface ArcIdentityResponse {
@@ -186,6 +203,9 @@ export interface AssemblyInfoPayload {
 }
 
 // @public
+export type AuthenticationType = string;
+
+// @public
 export type AvailabilityType = string;
 
 // @public
@@ -200,13 +220,26 @@ export class AzureStackHCIClient {
     constructor(credential: TokenCredential, options?: AzureStackHCIClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: AzureStackHCIClientOptionalParams);
     readonly arcSettings: ArcSettingsOperations;
+    readonly clusterJobs: ClusterJobsOperations;
     readonly clusters: ClustersOperations;
     readonly deploymentSettings: DeploymentSettingsOperations;
     readonly edgeDeviceJobs: EdgeDeviceJobsOperations;
     readonly edgeDevices: EdgeDevicesOperations;
+    readonly edgeMachineDeploymentSettings: EdgeMachineDeploymentSettingsOperations;
+    readonly edgeMachineDiskJobs: EdgeMachineDiskJobsOperations;
+    readonly edgeMachineDiskPrivilegedJobs: EdgeMachineDiskPrivilegedJobsOperations;
+    readonly edgeMachineDisks: EdgeMachineDisksOperations;
+    readonly edgeMachineJobs: EdgeMachineJobsOperations;
+    readonly edgeMachineNetworkAdapterJobs: EdgeMachineNetworkAdapterJobsOperations;
+    readonly edgeMachineNetworkAdapters: EdgeMachineNetworkAdaptersOperations;
+    readonly edgeMachines: EdgeMachinesOperations;
+    readonly edgeMachineSecuritySettingsOperations: EdgeMachineSecuritySettingsOperationsOperations;
+    readonly edgeMachineVolumes: EdgeMachineVolumesOperations;
     readonly extensions: ExtensionsOperations;
     readonly offers: OffersOperations;
     readonly operations: OperationsOperations;
+    readonly osImages: OsImagesOperations;
+    readonly ownershipVouchers: OwnershipVouchersOperations;
     readonly pipeline: Pipeline;
     readonly securitySettings: SecuritySettingsOperations;
     readonly skus: SkusOperations;
@@ -258,6 +291,7 @@ export interface Cluster extends TrackedResource {
     remoteSupportProperties?: RemoteSupportProperties;
     readonly reportedProperties?: ClusterReportedProperties;
     readonly resourceProviderObjectId?: string;
+    readonly sdnProperties?: ClusterSdnProperties;
     secretsLocations?: SecretsLocationDetails[];
     readonly serviceEndpoint?: string;
     softwareAssuranceProperties?: SoftwareAssuranceProperties;
@@ -302,6 +336,60 @@ export interface ClusterIdentityResponseProperties {
     aadServicePrincipalObjectId?: string;
     // (undocumented)
     aadTenantId?: string;
+}
+
+// @public
+export interface ClusterJob extends ProxyResource {
+    properties?: ClusterJobPropertiesUnion;
+}
+
+// @public
+export interface ClusterJobProperties {
+    deploymentMode?: DeploymentMode;
+    readonly endTimeUtc?: Date;
+    readonly jobId?: string;
+    jobType: HciJobType;
+    readonly provisioningState?: ProvisioningState;
+    readonly reportedProperties?: JobReportedProperties;
+    readonly startTimeUtc?: Date;
+    readonly status?: JobStatus;
+}
+
+// @public
+export type ClusterJobPropertiesUnion = HciConfigureSdnIntegrationJobProperties | HciAddServerJobProperties | HciRepairServerJobProperties | ClusterJobProperties;
+
+// @public
+export interface ClusterJobsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClusterJobsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClusterJobsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClusterJobsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClusterJobsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, jobsName: string, resource: ClusterJob, options?: ClusterJobsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ClusterJob>, ClusterJob>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, jobsName: string, resource: ClusterJob, options?: ClusterJobsCreateOrUpdateOptionalParams) => Promise<ClusterJob>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, jobsName: string, options?: ClusterJobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, jobsName: string, options?: ClusterJobsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, clusterName: string, jobsName: string, resource: ClusterJob, options?: ClusterJobsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ClusterJob>, ClusterJob>;
+    delete: (resourceGroupName: string, clusterName: string, jobsName: string, options?: ClusterJobsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, jobsName: string, options?: ClusterJobsGetOptionalParams) => Promise<ClusterJob>;
+    list: (resourceGroupName: string, clusterName: string, options?: ClusterJobsListOptionalParams) => PagedAsyncIterableIterator<ClusterJob>;
 }
 
 // @public
@@ -375,6 +463,7 @@ export interface ClusterProperties {
     remoteSupportProperties?: RemoteSupportProperties;
     readonly reportedProperties?: ClusterReportedProperties;
     readonly resourceProviderObjectId?: string;
+    readonly sdnProperties?: ClusterSdnProperties;
     secretsLocations?: SecretsLocationDetails[];
     readonly serviceEndpoint?: string;
     softwareAssuranceProperties?: SoftwareAssuranceProperties;
@@ -417,6 +506,14 @@ export interface ClustersCreateOptionalParams extends OperationOptions {
 // @public
 export interface ClustersDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClusterSdnProperties {
+    readonly sdnApiAddress?: string;
+    readonly sdnDomainName?: string;
+    readonly sdnIntegrationIntent?: SdnIntegrationIntent;
+    readonly sdnStatus?: SdnStatus;
 }
 
 // @public
@@ -506,6 +603,9 @@ export type ComplianceAssignmentType = string;
 export type ComplianceStatus = string;
 
 // @public
+export type ConnectionState = string;
+
+// @public
 export type ConnectivityStatus = string;
 
 // @public
@@ -517,9 +617,25 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface CreateVolumeJobProperties extends EdgeMachineDiskJobProperties {
+    readonly createdVolumeId?: string;
+    fileSystem?: DiskFileSystemType;
+    jobType: "CreateVolume";
+    path: string;
+    sizeInBytes: string;
+}
+
+// @public
 export interface DefaultExtensionDetails {
     readonly category?: string;
     readonly consentTime?: Date;
+}
+
+// @public
+export interface DeleteVolumeJobProperties extends EdgeMachineDiskPrivilegedJobProperties {
+    confirmDeletion?: boolean;
+    jobType: "DeleteVolume";
+    volumePath: string;
 }
 
 // @public
@@ -684,11 +800,15 @@ export interface DeploymentSettingVirtualSwitchConfigurationOverrides {
 
 // @public
 export interface DeploymentStep {
+    readonly additionalData?: Metadata[];
     readonly description?: string;
     readonly endTimeUtc?: string;
+    readonly error?: ErrorDetail;
     readonly exception?: string[];
     readonly fullStepIndex?: string;
     readonly name?: string;
+    readonly percentComplete?: number;
+    readonly recommendedSteps?: string[];
     readonly startTimeUtc?: string;
     readonly status?: string;
     readonly steps?: DeploymentStep[];
@@ -713,6 +833,89 @@ export type DeviceState = string;
 export type DiagnosticLevel = string;
 
 // @public
+export interface DiskActionStatus {
+    readonly status?: string;
+    readonly steps?: DiskDeploymentStep[];
+}
+
+// @public
+export interface DiskConfiguration {
+    volumes?: DiskVolumeConfiguration[];
+}
+
+// @public
+export interface DiskDeploymentStep {
+    readonly description?: string;
+    readonly endTimeUtc?: string;
+    readonly exception?: string[];
+    readonly fullStepIndex?: string;
+    readonly name?: string;
+    readonly startTimeUtc?: string;
+    readonly status?: string;
+    readonly steps?: DiskDeploymentStep[];
+}
+
+// @public
+export type DiskFileSystemType = string;
+
+// @public
+export interface DiskJobReportedProperties {
+    readonly deploymentStatus?: DiskActionStatus;
+    readonly percentComplete?: number;
+    readonly validationStatus?: DiskActionStatus;
+}
+
+// @public
+export type DiskJobType = string;
+
+// @public
+export interface DiskReportedProperties {
+    readonly busLocation?: string;
+    readonly diskName?: string;
+    readonly diskType?: DiskType;
+    readonly firmwareVersion?: string;
+    readonly isSupported?: boolean;
+    readonly manufacturer?: string;
+    readonly model?: string;
+    readonly serialNumber?: string;
+    readonly sizeInBytes?: string;
+    readonly state?: DiskState;
+    readonly storageType?: DiskStorageType;
+    readonly unallocatedSizeInBytes?: string;
+    readonly volumes?: DiskVolumeReportedProperties[];
+}
+
+// @public
+export type DiskState = string;
+
+// @public
+export type DiskStorageType = string;
+
+// @public
+export type DiskType = string;
+
+// @public
+export interface DiskVolumeConfiguration {
+    fileSystem?: DiskFileSystemType;
+    path: string;
+    sizeInBytes: string;
+}
+
+// @public
+export interface DiskVolumeReportedProperties {
+    readonly fileSystem?: string;
+    readonly isBoot?: boolean;
+    readonly name?: string;
+    readonly offsetInBytes?: number;
+    readonly partitionId?: string;
+    readonly partitionNumber?: number;
+    readonly path?: string;
+    readonly resourceName?: string;
+    readonly sizeInBytes?: string;
+    readonly sizeRemainingInBytes?: string;
+}
+
+// @public
 export type DnsServerConfig = string;
 
 // @public
@@ -720,6 +923,33 @@ export interface DnsZones {
     dnsForwarder?: string[];
     dnsZoneName?: string;
 }
+
+// @public
+export interface DownloadOsJobProperties extends EdgeMachineJobProperties {
+    downloadRequest: DownloadRequest;
+    jobType: "DownloadOs";
+    reportedProperties?: ProvisionOsReportedProperties;
+}
+
+// @public
+export interface DownloadOsProfile {
+    gpgPubKey?: string;
+    imageHash?: string;
+    osImageLocation?: string;
+    osName?: string;
+    osType?: string;
+    osVersion?: string;
+    vsrVersion?: string;
+}
+
+// @public
+export interface DownloadRequest {
+    osProfile: DownloadOsProfile;
+    target: ProvisioningOsType;
+}
+
+// @public
+export type EAPMethod = string;
 
 // @public
 export interface EceActionStatus {
@@ -855,6 +1085,755 @@ export interface EdgeDevicesValidateOptionalParams extends OperationOptions {
 
 // @public
 export type EdgeDeviceUnion = HciEdgeDevice | EdgeDevice;
+
+// @public
+export interface EdgeMachine extends TrackedResource {
+    identity?: ManagedServiceIdentity;
+    properties?: EdgeMachineProperties;
+}
+
+// @public
+export interface EdgeMachineAdapterPropertyOverrides {
+    readonly jumboPacket?: string;
+    readonly networkDirect?: string;
+    readonly networkDirectTechnology?: string;
+}
+
+// @public
+export interface EdgeMachineCollectLogJobProperties extends EdgeMachineJobProperties {
+    fromDate: Date;
+    jobType: "CollectLog";
+    readonly lastLogGenerated?: Date;
+    readonly reportedProperties?: EdgeMachineCollectLogJobReportedProperties;
+    toDate: Date;
+}
+
+// @public
+export interface EdgeMachineCollectLogJobReportedProperties {
+    readonly deploymentStatus?: EceActionStatus;
+    readonly logCollectionSessionDetails?: LogCollectionJobSession[];
+    readonly percentComplete?: number;
+    readonly validationStatus?: EceActionStatus;
+}
+
+// @public
+export type EdgeMachineConnectivityStatus = string;
+
+// @public
+export interface EdgeMachineDeploymentConfiguration {
+    scaleUnits: EdgeMachineScaleUnits[];
+    version?: string;
+}
+
+// @public
+export interface EdgeMachineDeploymentData {
+    iScsiConfig?: IscsiConfig;
+    secrets?: EceDeploymentSecrets[];
+    storageType: NodeStorageType;
+}
+
+// @public
+export interface EdgeMachineDeploymentSetting extends ProxyResource {
+    properties?: EdgeMachineDeploymentSettingProperties;
+}
+
+// @public
+export interface EdgeMachineDeploymentSettingProperties {
+    deploymentConfiguration: EdgeMachineDeploymentConfiguration;
+    readonly provisioningState?: ProvisioningState;
+    readonly reportedProperties?: EceReportedProperties;
+}
+
+// @public
+export interface EdgeMachineDeploymentSettingsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineDeploymentSettingsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineDeploymentSettingsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineDeploymentSettingsListByEdgeMachineOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineDeploymentSettingsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, edgeMachineName: string, deploymentSettingName: string, resource: EdgeMachineDeploymentSetting, options?: EdgeMachineDeploymentSettingsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeMachineDeploymentSetting>, EdgeMachineDeploymentSetting>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, edgeMachineName: string, deploymentSettingName: string, resource: EdgeMachineDeploymentSetting, options?: EdgeMachineDeploymentSettingsCreateOrUpdateOptionalParams) => Promise<EdgeMachineDeploymentSetting>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, edgeMachineName: string, deploymentSettingName: string, options?: EdgeMachineDeploymentSettingsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, edgeMachineName: string, deploymentSettingName: string, options?: EdgeMachineDeploymentSettingsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, edgeMachineName: string, deploymentSettingName: string, resource: EdgeMachineDeploymentSetting, options?: EdgeMachineDeploymentSettingsCreateOrUpdateOptionalParams) => PollerLike<OperationState<EdgeMachineDeploymentSetting>, EdgeMachineDeploymentSetting>;
+    delete: (resourceGroupName: string, edgeMachineName: string, deploymentSettingName: string, options?: EdgeMachineDeploymentSettingsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, edgeMachineName: string, deploymentSettingName: string, options?: EdgeMachineDeploymentSettingsGetOptionalParams) => Promise<EdgeMachineDeploymentSetting>;
+    listByEdgeMachine: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachineDeploymentSettingsListByEdgeMachineOptionalParams) => PagedAsyncIterableIterator<EdgeMachineDeploymentSetting>;
+}
+
+// @public
+export interface EdgeMachineDisk extends ProxyResource {
+    properties?: EdgeMachineDiskProperties;
+}
+
+// @public
+export interface EdgeMachineDiskJob extends ProxyResource {
+    properties?: EdgeMachineDiskJobPropertiesUnion;
+}
+
+// @public
+export interface EdgeMachineDiskJobProperties {
+    deploymentMode?: DeploymentMode;
+    readonly endTimeUtc?: Date;
+    readonly error?: ErrorDetail;
+    readonly jobId?: string;
+    jobType: DiskJobType;
+    readonly provisioningState?: ProvisioningState;
+    readonly reportedProperties?: DiskJobReportedProperties;
+    readonly startTimeUtc?: Date;
+    readonly status?: JobStatus;
+}
+
+// @public
+export type EdgeMachineDiskJobPropertiesUnion = CreateVolumeJobProperties | SyncConfigurationJobProperties | EdgeMachineDiskJobProperties;
+
+// @public
+export interface EdgeMachineDiskJobsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineDiskJobsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineDiskJobsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineDiskJobsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineDiskJobsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, edgeMachineName: string, diskName: string, jobName: string, resource: EdgeMachineDiskJob, options?: EdgeMachineDiskJobsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeMachineDiskJob>, EdgeMachineDiskJob>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, edgeMachineName: string, diskName: string, jobName: string, resource: EdgeMachineDiskJob, options?: EdgeMachineDiskJobsCreateOrUpdateOptionalParams) => Promise<EdgeMachineDiskJob>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, edgeMachineName: string, diskName: string, jobName: string, options?: EdgeMachineDiskJobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, edgeMachineName: string, diskName: string, jobName: string, options?: EdgeMachineDiskJobsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, edgeMachineName: string, diskName: string, jobName: string, resource: EdgeMachineDiskJob, options?: EdgeMachineDiskJobsCreateOrUpdateOptionalParams) => PollerLike<OperationState<EdgeMachineDiskJob>, EdgeMachineDiskJob>;
+    delete: (resourceGroupName: string, edgeMachineName: string, diskName: string, jobName: string, options?: EdgeMachineDiskJobsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, edgeMachineName: string, diskName: string, jobName: string, options?: EdgeMachineDiskJobsGetOptionalParams) => Promise<EdgeMachineDiskJob>;
+    list: (resourceGroupName: string, edgeMachineName: string, diskName: string, options?: EdgeMachineDiskJobsListOptionalParams) => PagedAsyncIterableIterator<EdgeMachineDiskJob>;
+}
+
+// @public
+export interface EdgeMachineDiskPrivilegedJob extends ProxyResource {
+    properties?: EdgeMachineDiskPrivilegedJobPropertiesUnion;
+}
+
+// @public
+export interface EdgeMachineDiskPrivilegedJobProperties {
+    deploymentMode?: DeploymentMode;
+    readonly endTimeUtc?: Date;
+    readonly error?: ErrorDetail;
+    readonly jobId?: string;
+    jobType: PrivilegedJobType;
+    readonly provisioningState?: ProvisioningState;
+    readonly reportedProperties?: DiskJobReportedProperties;
+    readonly startTimeUtc?: Date;
+    readonly status?: JobStatus;
+}
+
+// @public
+export type EdgeMachineDiskPrivilegedJobPropertiesUnion = DeleteVolumeJobProperties | EdgeMachineDiskPrivilegedJobProperties;
+
+// @public
+export interface EdgeMachineDiskPrivilegedJobsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineDiskPrivilegedJobsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineDiskPrivilegedJobsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineDiskPrivilegedJobsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineDiskPrivilegedJobsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, edgeMachineName: string, diskName: string, privilegedJobName: string, resource: EdgeMachineDiskPrivilegedJob, options?: EdgeMachineDiskPrivilegedJobsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeMachineDiskPrivilegedJob>, EdgeMachineDiskPrivilegedJob>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, edgeMachineName: string, diskName: string, privilegedJobName: string, resource: EdgeMachineDiskPrivilegedJob, options?: EdgeMachineDiskPrivilegedJobsCreateOrUpdateOptionalParams) => Promise<EdgeMachineDiskPrivilegedJob>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, edgeMachineName: string, diskName: string, privilegedJobName: string, options?: EdgeMachineDiskPrivilegedJobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, edgeMachineName: string, diskName: string, privilegedJobName: string, options?: EdgeMachineDiskPrivilegedJobsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, edgeMachineName: string, diskName: string, privilegedJobName: string, resource: EdgeMachineDiskPrivilegedJob, options?: EdgeMachineDiskPrivilegedJobsCreateOrUpdateOptionalParams) => PollerLike<OperationState<EdgeMachineDiskPrivilegedJob>, EdgeMachineDiskPrivilegedJob>;
+    delete: (resourceGroupName: string, edgeMachineName: string, diskName: string, privilegedJobName: string, options?: EdgeMachineDiskPrivilegedJobsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, edgeMachineName: string, diskName: string, privilegedJobName: string, options?: EdgeMachineDiskPrivilegedJobsGetOptionalParams) => Promise<EdgeMachineDiskPrivilegedJob>;
+    list: (resourceGroupName: string, edgeMachineName: string, diskName: string, options?: EdgeMachineDiskPrivilegedJobsListOptionalParams) => PagedAsyncIterableIterator<EdgeMachineDiskPrivilegedJob>;
+}
+
+// @public
+export interface EdgeMachineDiskProperties {
+    diskConfiguration?: DiskConfiguration;
+    readonly provisioningState?: ProvisioningState;
+    readonly reportedProperties?: DiskReportedProperties;
+}
+
+// @public
+export interface EdgeMachineDisksCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineDisksDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineDisksGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineDisksListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineDisksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, edgeMachineName: string, diskName: string, resource: EdgeMachineDisk, options?: EdgeMachineDisksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeMachineDisk>, EdgeMachineDisk>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, edgeMachineName: string, diskName: string, resource: EdgeMachineDisk, options?: EdgeMachineDisksCreateOrUpdateOptionalParams) => Promise<EdgeMachineDisk>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, edgeMachineName: string, diskName: string, options?: EdgeMachineDisksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, edgeMachineName: string, diskName: string, options?: EdgeMachineDisksDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, edgeMachineName: string, diskName: string, resource: EdgeMachineDisk, options?: EdgeMachineDisksCreateOrUpdateOptionalParams) => PollerLike<OperationState<EdgeMachineDisk>, EdgeMachineDisk>;
+    delete: (resourceGroupName: string, edgeMachineName: string, diskName: string, options?: EdgeMachineDisksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, edgeMachineName: string, diskName: string, options?: EdgeMachineDisksGetOptionalParams) => Promise<EdgeMachineDisk>;
+    list: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachineDisksListOptionalParams) => PagedAsyncIterableIterator<EdgeMachineDisk>;
+}
+
+// @public
+export interface EdgeMachineHostNetwork {
+    readonly enableStorageAutoIp?: boolean;
+    readonly intents?: EdgeMachineHostNetworkIntent[];
+    readonly storageConnectivitySwitchless?: boolean;
+    readonly storageNetworks?: EdgeMachineStorageNetwork[];
+}
+
+// @public
+export interface EdgeMachineHostNetworkIntent {
+    readonly adapterPropertyOverrides?: EdgeMachineAdapterPropertyOverrides;
+    readonly intentAdapters?: string[];
+    readonly intentName?: string;
+    readonly intentType?: number;
+    readonly isComputeIntentSet?: boolean;
+    readonly isManagementIntentSet?: boolean;
+    readonly isNetworkIntentType?: boolean;
+    readonly isOnlyStorage?: boolean;
+    readonly isOnlyStretch?: boolean;
+    readonly isStorageIntentSet?: boolean;
+    readonly isStretchIntentSet?: boolean;
+    readonly overrideAdapterProperty?: boolean;
+    readonly overrideQosPolicy?: boolean;
+    readonly overrideVirtualSwitchConfiguration?: boolean;
+    readonly qosPolicyOverrides?: QosPolicyOverrides;
+    readonly scope?: number;
+    readonly virtualSwitchConfigurationOverrides?: EdgeMachineVirtualSwitchConfigurationOverrides;
+}
+
+// @public
+export interface EdgeMachineJob extends ProxyResource {
+    properties?: EdgeMachineJobPropertiesUnion;
+}
+
+// @public
+export interface EdgeMachineJobProperties {
+    deploymentMode?: DeploymentMode;
+    readonly endTimeUtc?: Date;
+    readonly error?: ErrorDetail;
+    readonly jobId?: string;
+    jobType: EdgeMachineJobType;
+    readonly provisioningState?: ProvisioningState;
+    readonly startTimeUtc?: Date;
+    readonly status?: JobStatus;
+}
+
+// @public
+export type EdgeMachineJobPropertiesUnion = EdgeMachineRemoteSupportJobProperties | ProvisionOsJobProperties | DownloadOsJobProperties | EdgeMachineCollectLogJobProperties | EdgeMachineJobProperties;
+
+// @public
+export interface EdgeMachineJobsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineJobsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineJobsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineJobsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineJobsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, edgeMachineName: string, jobsName: string, resource: EdgeMachineJob, options?: EdgeMachineJobsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeMachineJob>, EdgeMachineJob>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, edgeMachineName: string, jobsName: string, resource: EdgeMachineJob, options?: EdgeMachineJobsCreateOrUpdateOptionalParams) => Promise<EdgeMachineJob>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, edgeMachineName: string, jobsName: string, options?: EdgeMachineJobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, edgeMachineName: string, jobsName: string, options?: EdgeMachineJobsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, edgeMachineName: string, jobsName: string, resource: EdgeMachineJob, options?: EdgeMachineJobsCreateOrUpdateOptionalParams) => PollerLike<OperationState<EdgeMachineJob>, EdgeMachineJob>;
+    delete: (resourceGroupName: string, edgeMachineName: string, jobsName: string, options?: EdgeMachineJobsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, edgeMachineName: string, jobsName: string, options?: EdgeMachineJobsGetOptionalParams) => Promise<EdgeMachineJob>;
+    list: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachineJobsListOptionalParams) => PagedAsyncIterableIterator<EdgeMachineJob>;
+}
+
+// @public
+export type EdgeMachineJobType = string;
+
+// @public
+export type EdgeMachineKind = string;
+
+// @public
+export type EdgeMachineLifecycleStatus = string;
+
+// @public
+export interface EdgeMachineNetworkAdapter extends ProxyResource {
+    properties?: EdgeMachineNetworkAdapterProperties;
+}
+
+// @public
+export interface EdgeMachineNetworkAdapterJob extends ProxyResource {
+    properties?: EdgeMachineNetworkAdapterJobPropertiesUnion;
+}
+
+// @public
+export interface EdgeMachineNetworkAdapterJobProperties {
+    deploymentMode?: DeploymentMode;
+    readonly endTimeUtc?: Date;
+    readonly error?: ErrorDetail;
+    readonly jobId?: string;
+    jobType: NetworkAdapterJobType;
+    readonly provisioningState?: ProvisioningState;
+    readonly reportedProperties?: NetworkAdapterJobReportedProperties;
+    readonly startTimeUtc?: Date;
+    readonly status?: JobStatus;
+}
+
+// @public
+export type EdgeMachineNetworkAdapterJobPropertiesUnion = ApplyConfigurationNetworkAdapterJobProperties | ForcePushNetworkAdapterJobProperties | SyncConfigurationNetworkAdapterJobProperties | EdgeMachineNetworkAdapterJobProperties;
+
+// @public
+export interface EdgeMachineNetworkAdapterJobsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineNetworkAdapterJobsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineNetworkAdapterJobsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineNetworkAdapterJobsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineNetworkAdapterJobsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, edgeMachineName: string, networkAdapterName: string, jobName: string, resource: EdgeMachineNetworkAdapterJob, options?: EdgeMachineNetworkAdapterJobsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeMachineNetworkAdapterJob>, EdgeMachineNetworkAdapterJob>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, edgeMachineName: string, networkAdapterName: string, jobName: string, resource: EdgeMachineNetworkAdapterJob, options?: EdgeMachineNetworkAdapterJobsCreateOrUpdateOptionalParams) => Promise<EdgeMachineNetworkAdapterJob>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, edgeMachineName: string, networkAdapterName: string, jobName: string, options?: EdgeMachineNetworkAdapterJobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, edgeMachineName: string, networkAdapterName: string, jobName: string, options?: EdgeMachineNetworkAdapterJobsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, edgeMachineName: string, networkAdapterName: string, jobName: string, resource: EdgeMachineNetworkAdapterJob, options?: EdgeMachineNetworkAdapterJobsCreateOrUpdateOptionalParams) => PollerLike<OperationState<EdgeMachineNetworkAdapterJob>, EdgeMachineNetworkAdapterJob>;
+    delete: (resourceGroupName: string, edgeMachineName: string, networkAdapterName: string, jobName: string, options?: EdgeMachineNetworkAdapterJobsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, edgeMachineName: string, networkAdapterName: string, jobName: string, options?: EdgeMachineNetworkAdapterJobsGetOptionalParams) => Promise<EdgeMachineNetworkAdapterJob>;
+    list: (resourceGroupName: string, edgeMachineName: string, networkAdapterName: string, options?: EdgeMachineNetworkAdapterJobsListOptionalParams) => PagedAsyncIterableIterator<EdgeMachineNetworkAdapterJob>;
+}
+
+// @public
+export interface EdgeMachineNetworkAdapterProperties {
+    networkConfiguration?: NetworkAdapterConfiguration;
+    readonly provisioningState?: ProvisioningState;
+    readonly reportedProperties?: NetworkAdapterReportedProperties;
+}
+
+// @public
+export interface EdgeMachineNetworkAdaptersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineNetworkAdaptersListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineNetworkAdaptersOperations {
+    get: (resourceGroupName: string, edgeMachineName: string, networkAdapterName: string, options?: EdgeMachineNetworkAdaptersGetOptionalParams) => Promise<EdgeMachineNetworkAdapter>;
+    list: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachineNetworkAdaptersListOptionalParams) => PagedAsyncIterableIterator<EdgeMachineNetworkAdapter>;
+}
+
+// @public
+export interface EdgeMachineNetworkProfile {
+    readonly hostNetwork?: EdgeMachineHostNetwork;
+    readonly nicDetails?: EdgeMachineNicDetail[];
+    readonly sdnProperties?: SdnProperties;
+    readonly switchDetails?: SwitchDetail[];
+}
+
+// @public
+export interface EdgeMachineNicDetail {
+    readonly adapterName?: string;
+    readonly componentId?: string;
+    readonly defaultGateway?: string;
+    readonly defaultIsolationId?: string;
+    readonly dnsServers?: string[];
+    readonly driverVersion?: string;
+    readonly interfaceDescription?: string;
+    readonly ip4Address?: string;
+    readonly macAddress?: string;
+    readonly nicStatus?: string;
+    readonly nicType?: string;
+    readonly rdmaCapability?: RdmaCapability;
+    readonly slot?: string;
+    readonly subnetMask?: string;
+    readonly switchName?: string;
+    readonly vlanId?: string;
+}
+
+// @public
+export interface EdgeMachinePatch {
+    identity?: ManagedServiceIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface EdgeMachineProperties {
+    arcGatewayResourceId?: string;
+    arcMachineResourceGroupId?: string;
+    arcMachineResourceId?: string;
+    readonly claimedBy?: string;
+    readonly cloudId?: string;
+    readonly connectivityStatus?: EdgeMachineConnectivityStatus;
+    readonly devicePoolResourceId?: string;
+    edgeMachineKind?: EdgeMachineKind;
+    readonly lastSyncTimestamp?: Date;
+    readonly lifecycleDetails?: LifecycleDetails;
+    readonly machineState?: EdgeMachineState;
+    readonly operationDetails?: OperationDetail[];
+    ownershipVoucherDetails?: OwnershipVoucherDetails;
+    provisioningDetails?: ProvisioningDetails;
+    readonly provisioningState?: ProvisioningState;
+    readonly reportedProperties?: EdgeMachineReportedProperties;
+    siteDetails?: SiteDetails;
+}
+
+// @public
+export interface EdgeMachineRemoteSupportJobProperties extends EdgeMachineJobProperties {
+    accessLevel: RemoteSupportAccessLevel;
+    expirationTimestamp: Date;
+    jobType: "RemoteSupport";
+    readonly reportedProperties?: EdgeMachineRemoteSupportJobReportedProperties;
+    type: RemoteSupportType;
+}
+
+// @public
+export interface EdgeMachineRemoteSupportJobReportedProperties {
+    readonly deploymentStatus?: EceActionStatus;
+    readonly nodeSettings?: EdgeMachineRemoteSupportNodeSettings;
+    readonly percentComplete?: number;
+    readonly sessionDetails?: RemoteSupportSession[];
+    readonly validationStatus?: EceActionStatus;
+}
+
+// @public
+export interface EdgeMachineRemoteSupportNodeSettings {
+    readonly connectionErrorMessage?: string;
+    readonly connectionStatus?: string;
+    readonly createdAt?: Date;
+    readonly state?: string;
+    readonly updatedAt?: Date;
+}
+
+// @public
+export interface EdgeMachineReportedProperties {
+    readonly extensionProfile?: ExtensionProfile;
+    readonly hardwareProfile?: HardwareProfile;
+    readonly lastUpdated?: Date;
+    readonly networkProfile?: EdgeMachineNetworkProfile;
+    readonly osProfile?: OsProfile;
+    readonly sbeDeploymentPackageInfo?: SbeDeploymentPackageInfo;
+    readonly storageInitiators?: StorageInitiator[];
+    readonly storageProfile?: StorageProfile;
+    readonly workloadInventory?: EdgeMachineWorkloadInventoryItem[];
+    readonly workloadInventoryLastUpdated?: Date;
+}
+
+// @public
+export interface EdgeMachineScaleUnits {
+    deploymentData: EdgeMachineDeploymentData;
+}
+
+// @public
+export interface EdgeMachinesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachinesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineSecurityComplianceStatus {
+    readonly encryptionAtRestStatus?: ComplianceStatus;
+    readonly fipsStatus?: ComplianceStatus;
+    readonly secureBootStatus?: ComplianceStatus;
+    readonly securityBaselineStatus?: ComplianceStatus;
+    readonly seLinuxPolicyStatus?: ComplianceStatus;
+}
+
+// @public
+export interface EdgeMachineSecurityProperties {
+    readonly lastSyncTimestamp?: Date;
+    readonly provisioningState?: ProvisioningState;
+    readonly registrationTimestamp?: Date;
+    readonly securityComplianceStatus?: EdgeMachineSecurityComplianceStatus;
+}
+
+// @public
+export interface EdgeMachineSecuritySettings extends ProxyResource {
+    properties?: EdgeMachineSecurityProperties;
+}
+
+// @public
+export interface EdgeMachineSecuritySettingsOperationsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineSecuritySettingsOperationsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineSecuritySettingsOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineSecuritySettingsOperationsListByEdgeMachineOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineSecuritySettingsOperationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, edgeMachineName: string, securitySettingsName: string, resource: EdgeMachineSecuritySettings, options?: EdgeMachineSecuritySettingsOperationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeMachineSecuritySettings>, EdgeMachineSecuritySettings>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, edgeMachineName: string, securitySettingsName: string, resource: EdgeMachineSecuritySettings, options?: EdgeMachineSecuritySettingsOperationsCreateOrUpdateOptionalParams) => Promise<EdgeMachineSecuritySettings>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, edgeMachineName: string, securitySettingsName: string, options?: EdgeMachineSecuritySettingsOperationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, edgeMachineName: string, securitySettingsName: string, options?: EdgeMachineSecuritySettingsOperationsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, edgeMachineName: string, securitySettingsName: string, resource: EdgeMachineSecuritySettings, options?: EdgeMachineSecuritySettingsOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<EdgeMachineSecuritySettings>, EdgeMachineSecuritySettings>;
+    delete: (resourceGroupName: string, edgeMachineName: string, securitySettingsName: string, options?: EdgeMachineSecuritySettingsOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, edgeMachineName: string, securitySettingsName: string, options?: EdgeMachineSecuritySettingsOperationsGetOptionalParams) => Promise<EdgeMachineSecuritySettings>;
+    listByEdgeMachine: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachineSecuritySettingsOperationsListByEdgeMachineOptionalParams) => PagedAsyncIterableIterator<EdgeMachineSecuritySettings>;
+}
+
+// @public
+export interface EdgeMachinesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachinesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachinesListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachinesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, edgeMachineName: string, resource: EdgeMachine, options?: EdgeMachinesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeMachine>, EdgeMachine>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, edgeMachineName: string, resource: EdgeMachine, options?: EdgeMachinesCreateOrUpdateOptionalParams) => Promise<EdgeMachine>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachinesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachinesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRefreshApplicableUpdates: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachinesRefreshApplicableUpdatesOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRefreshApplicableUpdatesAndWait: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachinesRefreshApplicableUpdatesOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRefreshSecuritySettings: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachinesRefreshSecuritySettingsOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRefreshSecuritySettingsAndWait: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachinesRefreshSecuritySettingsOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, edgeMachineName: string, properties: EdgeMachinePatch, options?: EdgeMachinesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeMachine>, EdgeMachine>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, edgeMachineName: string, properties: EdgeMachinePatch, options?: EdgeMachinesUpdateOptionalParams) => Promise<EdgeMachine>;
+    // @deprecated (undocumented)
+    beginValidate: (resourceGroupName: string, edgeMachineName: string, body: EdgeMachineValidateRequest, options?: EdgeMachinesValidateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeMachineValidateResponse>, EdgeMachineValidateResponse>>;
+    // @deprecated (undocumented)
+    beginValidateAndWait: (resourceGroupName: string, edgeMachineName: string, body: EdgeMachineValidateRequest, options?: EdgeMachinesValidateOptionalParams) => Promise<EdgeMachineValidateResponse>;
+    createOrUpdate: (resourceGroupName: string, edgeMachineName: string, resource: EdgeMachine, options?: EdgeMachinesCreateOrUpdateOptionalParams) => PollerLike<OperationState<EdgeMachine>, EdgeMachine>;
+    delete: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachinesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachinesGetOptionalParams) => Promise<EdgeMachine>;
+    listByResourceGroup: (resourceGroupName: string, options?: EdgeMachinesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<EdgeMachine>;
+    listBySubscription: (options?: EdgeMachinesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<EdgeMachine>;
+    refreshApplicableUpdates: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachinesRefreshApplicableUpdatesOptionalParams) => PollerLike<OperationState<void>, void>;
+    refreshSecuritySettings: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachinesRefreshSecuritySettingsOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, edgeMachineName: string, properties: EdgeMachinePatch, options?: EdgeMachinesUpdateOptionalParams) => PollerLike<OperationState<EdgeMachine>, EdgeMachine>;
+    validate: (resourceGroupName: string, edgeMachineName: string, body: EdgeMachineValidateRequest, options?: EdgeMachinesValidateOptionalParams) => PollerLike<OperationState<EdgeMachineValidateResponse>, EdgeMachineValidateResponse>;
+}
+
+// @public
+export interface EdgeMachinesRefreshApplicableUpdatesOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachinesRefreshSecuritySettingsOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EdgeMachineState = string;
+
+// @public
+export interface EdgeMachineStorageAdapterIpInfo {
+    readonly ipv4Address?: string;
+    readonly physicalNode?: string;
+    readonly subnetMask?: string;
+}
+
+// @public
+export interface EdgeMachineStorageNetwork {
+    readonly name?: string;
+    readonly networkAdapterName?: string;
+    readonly storageAdapterIPInfo?: EdgeMachineStorageAdapterIpInfo[];
+    readonly storageVlanId?: string;
+}
+
+// @public
+export interface EdgeMachinesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachinesValidateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineValidateRequest {
+    additionalInfo?: string;
+    edgeMachineIds: string[];
+}
+
+// @public
+export interface EdgeMachineValidateResponse {
+    readonly status?: string;
+}
+
+// @public
+export interface EdgeMachineVirtualSwitchConfigurationOverrides {
+    readonly enableIov?: string;
+    readonly loadBalancingAlgorithm?: string;
+}
+
+// @public
+export interface EdgeMachineVolume extends ProxyResource {
+    properties?: EdgeMachineVolumeProperties;
+}
+
+// @public
+export interface EdgeMachineVolumeProperties {
+    readonly provisioningState?: ProvisioningState;
+    readonly reportedProperties?: VolumeReportedProperties;
+    volumeConfiguration?: VolumeConfiguration;
+}
+
+// @public
+export interface EdgeMachineVolumesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineVolumesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeMachineVolumesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineVolumesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeMachineVolumesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, edgeMachineName: string, volumeName: string, resource: EdgeMachineVolume, options?: EdgeMachineVolumesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeMachineVolume>, EdgeMachineVolume>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, edgeMachineName: string, volumeName: string, resource: EdgeMachineVolume, options?: EdgeMachineVolumesCreateOrUpdateOptionalParams) => Promise<EdgeMachineVolume>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, edgeMachineName: string, volumeName: string, options?: EdgeMachineVolumesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, edgeMachineName: string, volumeName: string, options?: EdgeMachineVolumesDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, edgeMachineName: string, volumeName: string, resource: EdgeMachineVolume, options?: EdgeMachineVolumesCreateOrUpdateOptionalParams) => PollerLike<OperationState<EdgeMachineVolume>, EdgeMachineVolume>;
+    delete: (resourceGroupName: string, edgeMachineName: string, volumeName: string, options?: EdgeMachineVolumesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, edgeMachineName: string, volumeName: string, options?: EdgeMachineVolumesGetOptionalParams) => Promise<EdgeMachineVolume>;
+    list: (resourceGroupName: string, edgeMachineName: string, options?: EdgeMachineVolumesListOptionalParams) => PagedAsyncIterableIterator<EdgeMachineVolume>;
+}
+
+// @public
+export interface EdgeMachineWorkloadInventoryItem {
+    readonly memoryInBytes?: string;
+    readonly name?: string;
+    readonly resourceId?: string;
+    readonly state?: string;
+    readonly virtualProcessorCount?: string;
+    readonly workloadId?: string;
+    readonly workloadType?: string;
+}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -1023,7 +2002,31 @@ export interface ExtensionUpgradeParameters {
 }
 
 // @public
+export interface ForcePushNetworkAdapterJobProperties extends EdgeMachineNetworkAdapterJobProperties {
+    jobType: "ForcePush";
+}
+
+// @public
 export type HardwareClass = string;
+
+// @public
+export interface HardwareProfile {
+    readonly architecture?: Architecture;
+    readonly cpuCores?: number;
+    readonly cpuSockets?: number;
+    readonly manufacturer?: string;
+    readonly memoryCapacityInGb?: number;
+    readonly model?: string;
+    readonly processorType?: string;
+    readonly serialNumber?: string;
+}
+
+// @public
+export interface HciAddServerJobProperties extends ClusterJobProperties {
+    addServerJobServerDetails: AddServerJobServerDetails[];
+    jobType: "AddServer";
+    secrets?: EceDeploymentSecrets[];
+}
 
 // @public
 export interface HciCollectLogJobProperties extends HciEdgeDeviceJobProperties {
@@ -1032,6 +2035,13 @@ export interface HciCollectLogJobProperties extends HciEdgeDeviceJobProperties {
     readonly lastLogGenerated?: Date;
     readonly reportedProperties?: LogCollectionReportedProperties;
     toDate: Date;
+}
+
+// @public
+export interface HciConfigureSdnIntegrationJobProperties extends ClusterJobProperties {
+    jobType: "ConfigureSdnIntegration";
+    sdnIntegrationIntent: SdnIntegrationIntent;
+    sdnPrefix?: string;
 }
 
 // @public
@@ -1141,9 +2151,13 @@ export interface HciHardwareProfile {
 }
 
 // @public
+export type HciJobType = string;
+
+// @public
 export interface HciNetworkProfile {
     readonly hostNetwork?: HciEdgeDeviceHostNetwork;
     readonly nicDetails?: HciNicDetail[];
+    readonly sdnProperties?: SdnProperties;
     readonly switchDetails?: SwitchDetail[];
 }
 
@@ -1180,6 +2194,13 @@ export interface HciRemoteSupportJobProperties extends HciEdgeDeviceJobPropertie
     jobType: "RemoteSupport";
     readonly reportedProperties?: RemoteSupportJobReportedProperties;
     type: RemoteSupportType;
+}
+
+// @public
+export interface HciRepairServerJobProperties extends ClusterJobProperties {
+    jobType: "RepairServer";
+    repairServerJobServerDetails: RepairServerJobServerDetails[];
+    secrets?: EceDeploymentSecrets[];
 }
 
 // @public
@@ -1223,9 +2244,66 @@ export interface InfrastructureNetwork {
 }
 
 // @public
+export type InterfaceState = string;
+
+// @public
+export interface IpAddressRange {
+    endIp: string;
+    startIp: string;
+}
+
+// @public
+export type IpAssignmentType = string;
+
+// @public
+export type IpInterfaceType = string;
+
+// @public
 export interface IpPools {
     endingAddress?: string;
     startingAddress?: string;
+}
+
+// @public
+export interface IscsiAdapterIPConfig {
+    addressPrefix?: string;
+    networkAdapterName?: string;
+    targetPortalAddresses?: IscsiTargetPortalAddress[];
+    vlanId?: number;
+}
+
+// @public
+export interface IscsiAdapterProperties {
+    bandwidthPercentageIscsi?: number;
+    jumboPacket?: number;
+    priorityValue8021ActionIscsi?: number;
+}
+
+// @public
+export interface IscsiChapSettings {
+    chapType?: IscsiChapType;
+}
+
+// @public
+export type IscsiChapType = string;
+
+// @public
+export interface IscsiConfig {
+    chapSettings?: IscsiChapSettings;
+    initiatorIqn?: string;
+    iScsiNetworkConfig?: IscsiNetworkConfig;
+}
+
+// @public
+export interface IscsiNetworkConfig {
+    adapterIPConfig?: IscsiAdapterIPConfig[];
+    adapterProperties?: IscsiAdapterProperties;
+}
+
+// @public
+export interface IscsiTargetPortalAddress {
+    ipAddress?: string;
+    nextHop?: string;
 }
 
 // @public
@@ -1236,6 +2314,13 @@ export interface IsolatedVmAttestationConfiguration {
 }
 
 export { isRestError }
+
+// @public
+export interface JobReportedProperties {
+    readonly deploymentStatus?: EceActionStatus;
+    readonly percentComplete?: number;
+    readonly validationStatus?: EceActionStatus;
+}
 
 // @public
 export type JobStatus = string;
@@ -1266,6 +2351,12 @@ export enum KnownArcExtensionState {
 }
 
 // @public
+export enum KnownArchitecture {
+    Amd64 = "amd64",
+    Arm64 = "arm64"
+}
+
+// @public
 export enum KnownArcSettingAggregateState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -1285,6 +2376,15 @@ export enum KnownArcSettingAggregateState {
     Provisioning = "Provisioning",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownAuthenticationType {
+    Open = "Open",
+    WPA2Enterprise = "WPA2-Enterprise",
+    WPA2Personal = "WPA2-Personal",
+    WPA3Enterprise = "WPA3-Enterprise",
+    WPA3Personal = "WPA3-Personal"
 }
 
 // @public
@@ -1317,6 +2417,16 @@ export enum KnownComplianceStatus {
     Compliant = "Compliant",
     NonCompliant = "NonCompliant",
     Pending = "Pending"
+}
+
+// @public
+export enum KnownConnectionState {
+    AuthenticationFailed = "AuthenticationFailed",
+    Connected = "Connected",
+    Connecting = "Connecting",
+    Disconnected = "Disconnected",
+    Disconnecting = "Disconnecting",
+    NotConfigured = "NotConfigured"
 }
 
 // @public
@@ -1377,22 +2487,124 @@ export enum KnownDiagnosticLevel {
 }
 
 // @public
+export enum KnownDiskFileSystemType {
+    Ext4 = "ext4",
+    Fat = "fat",
+    Fat32 = "fat32",
+    Ntfs = "NTFS",
+    ReFS = "ReFS",
+    Vfat = "vfat",
+    Xfs = "xfs"
+}
+
+// @public
+export enum KnownDiskJobType {
+    CreateVolume = "CreateVolume",
+    SyncConfiguration = "SyncConfiguration"
+}
+
+// @public
+export enum KnownDiskState {
+    Failed = "Failed",
+    Missing = "Missing",
+    Offline = "Offline",
+    Online = "Online",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownDiskStorageType {
+    S2D = "S2D",
+    SAN = "SAN"
+}
+
+// @public
+export enum KnownDiskType {
+    HDD = "HDD",
+    NVMe = "NVMe",
+    Other = "Other",
+    Sata = "SATA",
+    SCM = "SCM",
+    SSD = "SSD",
+    Unknown = "Unknown",
+    Virtual = "Virtual"
+}
+
+// @public
 export enum KnownDnsServerConfig {
     UseDnsServer = "UseDnsServer",
     UseForwarder = "UseForwarder"
 }
 
 // @public
+export enum KnownEAPMethod {
+    EAPFast = "EAP-FAST",
+    EAPTLS = "EAP-TLS",
+    EAPTtls = "EAP-TTLS",
+    Peap = "PEAP"
+}
+
+// @public
 export enum KnownEceSecrets {
     AzureStackLCMUserCredential = "AzureStackLCMUserCredential",
+    ChapCredential = "chapCredential",
     DefaultARBApplication = "DefaultARBApplication",
     LocalAdminCredential = "LocalAdminCredential",
+    MutualChapCredential = "mutualChapCredential",
     WitnessStorageKey = "WitnessStorageKey"
 }
 
 // @public
 export enum KnownEdgeDeviceKind {
     HCI = "HCI"
+}
+
+// @public
+export enum KnownEdgeMachineConnectivityStatus {
+    Connected = "Connected",
+    Disconnected = "Disconnected",
+    NotSpecified = "NotSpecified"
+}
+
+// @public
+export enum KnownEdgeMachineJobType {
+    CollectLog = "CollectLog",
+    DownloadOs = "DownloadOs",
+    ProvisionOs = "ProvisionOs",
+    RemoteSupport = "RemoteSupport"
+}
+
+// @public
+export enum KnownEdgeMachineKind {
+    Dedicated = "Dedicated",
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownEdgeMachineLifecycleStatus {
+    AwaitingConnection = "AwaitingConnection",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InstallingOs = "InstallingOs",
+    Provisioned = "Provisioned",
+    Provisioning = "Provisioning",
+    ReadyForOs = "ReadyForOs",
+    ResettingOs = "ResettingOs",
+    UpdatingOs = "UpdatingOs"
+}
+
+// @public
+export enum KnownEdgeMachineState {
+    Created = "Created",
+    Failed = "Failed",
+    Preparing = "Preparing",
+    Purposed = "Purposed",
+    Registering = "Registering",
+    Resetting = "Resetting",
+    Transitioning = "Transitioning",
+    Unpurposed = "Unpurposed",
+    Updating = "Updating"
 }
 
 // @public
@@ -1437,6 +2649,13 @@ export enum KnownHciEdgeDeviceJobType {
 }
 
 // @public
+export enum KnownHciJobType {
+    AddServer = "AddServer",
+    ConfigureSdnIntegration = "ConfigureSdnIntegration",
+    RepairServer = "RepairServer"
+}
+
+// @public
 export enum KnownHealthState {
     Error = "Error",
     Failure = "Failure",
@@ -1459,6 +2678,31 @@ export enum KnownImdsAttestation {
 }
 
 // @public
+export enum KnownInterfaceState {
+    Down = "down",
+    Up = "up"
+}
+
+// @public
+export enum KnownIpAssignmentType {
+    Automatic = "Automatic",
+    Manual = "Manual"
+}
+
+// @public
+export enum KnownIpInterfaceType {
+    Dhcp = "Dhcp",
+    Static = "Static"
+}
+
+// @public
+export enum KnownIscsiChapType {
+    Bidirectional = "Bidirectional",
+    NoChap = "NoChap",
+    OneWay = "OneWay"
+}
+
+// @public
 export enum KnownJobStatus {
     Canceled = "Canceled",
     DeploymentFailed = "DeploymentFailed",
@@ -1472,6 +2716,14 @@ export enum KnownJobStatus {
     ValidationFailed = "ValidationFailed",
     ValidationInProgress = "ValidationInProgress",
     ValidationSuccess = "ValidationSuccess"
+}
+
+// @public
+export enum KnownLifecycleOperationStatus {
+    Completed = "Completed",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotStarted = "NotStarted"
 }
 
 // @public
@@ -1494,6 +2746,26 @@ export enum KnownManagedServiceIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownNetworkAdapterJobType {
+    ApplyConfiguration = "ApplyConfiguration",
+    ForcePush = "ForcePush",
+    SyncConfiguration = "SyncConfiguration"
+}
+
+// @public
+export enum KnownNetworkAdapterOperationStatus {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownNetworkInterfaceType {
+    Eth = "Eth",
+    Wifi = "wifi"
 }
 
 // @public
@@ -1540,9 +2812,21 @@ export enum KnownNodeExtensionState {
 }
 
 // @public
+export enum KnownNodeStorageType {
+    S2D = "S2D",
+    SanFc = "SANFC",
+    SanIscsi = "SANISCSI"
+}
+
+// @public
 export enum KnownOemActivation {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownOnboardingResourceType {
+    HybridComputeMachine = "HybridComputeMachine"
 }
 
 // @public
@@ -1559,10 +2843,40 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownOSOperationType {
+    Provision = "Provision",
+    ReImage = "ReImage",
+    Reset = "Reset",
+    Update = "Update"
+}
+
+// @public
 export enum KnownOverprovisioningRatio {
     One = "1",
     Two = "2",
     Zero = "0"
+}
+
+// @public
+export enum KnownOwnerKeyType {
+    MicrosoftManaged = "MicrosoftManaged"
+}
+
+// @public
+export enum KnownOwnershipVoucherValidationStatus {
+    Invalid = "Invalid",
+    Valid = "Valid"
+}
+
+// @public
+export enum KnownPrivilegedJobType {
+    DeleteVolume = "DeleteVolume"
+}
+
+// @public
+export enum KnownProvisioningOsType {
+    AzureLinux = "AzureLinux",
+    HCI = "HCI"
 }
 
 // @public
@@ -1623,8 +2937,33 @@ export enum KnownRemoteSupportType {
 }
 
 // @public
+export enum KnownResolutionStrategy {
+    AcceptReported = "AcceptReported",
+    ApplyDesired = "ApplyDesired"
+}
+
+// @public
+export enum KnownSdnIntegrationIntent {
+    Disable = "Disable",
+    Enable = "Enable"
+}
+
+// @public
+export enum KnownSdnStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownSecretsType {
     BackupSecrets = "BackupSecrets"
+}
+
+// @public
+export enum KnownSecretType {
+    KeyVault = "KeyVault",
+    SshPubKey = "SshPubKey"
 }
 
 // @public
@@ -1650,6 +2989,12 @@ export enum KnownSoftwareAssuranceIntent {
 export enum KnownSoftwareAssuranceStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownSolutionType {
+    AzureLinux = "AzureLinux",
+    HCI = "HCI"
 }
 
 // @public
@@ -1701,6 +3046,13 @@ export enum KnownStatusLevelTypes {
 }
 
 // @public
+export enum KnownStorageInitiatorType {
+    FibreChannel = "FibreChannel",
+    IScsi = "iSCSI",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownStorageType {
     S2D = "S2D",
     SAN = "SAN",
@@ -1730,7 +3082,8 @@ export enum KnownUpdateSummariesPropertiesState {
 // @public
 export enum KnownVersions {
     V20260201 = "2026-02-01",
-    V20260430 = "2026-04-30"
+    V20260430 = "2026-04-30",
+    V20261001 = "2026-10-01"
 }
 
 // @public
@@ -1740,9 +3093,46 @@ export enum KnownVolumeType {
 }
 
 // @public
+export enum KnownWifiSecretType {
+    WiFiCACertificate = "WiFiCACertificate",
+    WiFiCertificate = "WiFiCertificate",
+    WiFiPassword = "WiFiPassword"
+}
+
+// @public
 export enum KnownWindowsServerSubscription {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export interface LifecycleDetails {
+    readonly lifecycleStages: LifecycleStage[];
+    readonly lifecycleStatus?: LifecycleStatus;
+}
+
+// @public
+export type LifecycleOperationStatus = string;
+
+// @public
+export interface LifecycleStage {
+    readonly description: string;
+    readonly endTimeUtc?: Date;
+    readonly error?: ErrorDetail;
+    readonly lastUpdatedUtc?: Date;
+    readonly name: string;
+    readonly startTimeUtc?: Date;
+    readonly status: LifecycleOperationStatus;
+    readonly subStages?: LifecycleStage[];
+}
+
+// @public
+export interface LifecycleStatus {
+    readonly lastUpdatedUtc: Date;
+    readonly message?: string;
+    readonly recommendedSteps?: string[];
+    readonly stage?: string;
+    readonly status: EdgeMachineLifecycleStatus;
 }
 
 // @public
@@ -1826,11 +3216,122 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
+export interface Metadata {
+    key: string;
+    value: string;
+}
+
+// @public
+export interface NetworkAdapter {
+    adapterName?: string;
+    dnsAddressArray?: string[];
+    gateway?: string;
+    ipAddress?: string;
+    ipAddressRange?: IpAddressRange;
+    ipAssignmentType: IpAssignmentType;
+    macAddress?: string;
+    subnetMask?: string;
+    vlanId?: string;
+}
+
+// @public
+export interface NetworkAdapterActionStatus {
+    readonly status?: string;
+    readonly steps?: NetworkAdapterDeploymentStep[];
+}
+
+// @public
+export interface NetworkAdapterConfiguration {
+    adapterName?: string;
+    defaultGateway?: string;
+    dnsServers?: string[];
+    interfaceState?: InterfaceState;
+    ip4Address?: string;
+    ipInterfaceType?: IpInterfaceType;
+    subnetMask?: string;
+    vlanId?: number;
+    wifiConfiguration?: WifiConfigurationDesiredProperties;
+}
+
+// @public
+export interface NetworkAdapterDeploymentStep {
+    readonly description?: string;
+    readonly endTimeUtc?: string;
+    readonly exception?: string[];
+    readonly fullStepIndex?: string;
+    readonly name?: string;
+    readonly startTimeUtc?: string;
+    readonly status?: string;
+    readonly steps?: NetworkAdapterDeploymentStep[];
+}
+
+// @public
+export interface NetworkAdapterJobReportedProperties {
+    readonly deploymentStatus?: NetworkAdapterActionStatus;
+    readonly percentComplete?: number;
+    readonly validationStatus?: NetworkAdapterActionStatus;
+}
+
+// @public
+export type NetworkAdapterJobType = string;
+
+// @public
+export type NetworkAdapterOperationStatus = string;
+
+// @public
+export interface NetworkAdapterProvisioningStatus {
+    readonly operationId?: string;
+    readonly status?: NetworkAdapterOperationStatus;
+}
+
+// @public
+export interface NetworkAdapterReportedProperties {
+    adapterName?: string;
+    readonly componentId?: string;
+    defaultGateway?: string;
+    readonly defaultIsolationId?: string;
+    dnsServers?: string[];
+    readonly driverVersion?: string;
+    readonly interfaceDescription?: string;
+    readonly interfaceSpeed?: number;
+    readonly interfaceState?: InterfaceState;
+    readonly interfaceType?: NetworkInterfaceType;
+    ip4Address?: string;
+    readonly ipInterfaceType?: IpInterfaceType;
+    readonly macAddress?: string;
+    readonly managementInterface?: boolean;
+    readonly networkAdapterStatus?: NetworkAdapterStatus;
+    readonly nicStatus?: string;
+    readonly nicType?: string;
+    readonly rdmaCapability?: RdmaCapability;
+    readonly slot?: string;
+    subnetMask?: string;
+    readonly switchName?: string;
+    readonly vlanId?: number;
+    readonly wifiConfiguration?: WifiConfigurationReportedProperties;
+}
+
+// @public
+export interface NetworkAdapterStatus {
+    readonly errorCode?: string;
+    readonly errorMessage?: string;
+    readonly provisioningStatus?: NetworkAdapterProvisioningStatus;
+}
+
+// @public
+export interface NetworkConfiguration {
+    networkAdapters?: NetworkAdapter[];
+}
+
+// @public
 export interface NetworkController {
     macAddressPoolStart?: string;
     macAddressPoolStop?: string;
     networkVirtualizationEnabled?: boolean;
 }
+
+// @public
+export type NetworkInterfaceType = string;
 
 // @public
 export interface NextBillingModel {
@@ -1857,6 +3358,9 @@ export type NodeArcState = string;
 
 // @public
 export type NodeExtensionState = string;
+
+// @public
+export type NodeStorageType = string;
 
 // @public
 export interface Observability {
@@ -1909,12 +3413,35 @@ export interface OffersOperations {
 }
 
 // @public
+export interface OnboardingConfiguration {
+    arcVirtualMachineId?: string;
+    location?: string;
+    resourceId?: string;
+    tenantId?: string;
+    type?: OnboardingResourceType;
+}
+
+// @public
+export type OnboardingResourceType = string;
+
+// @public
 export interface Operation {
     readonly actionType?: ActionType;
     display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
+}
+
+// @public
+export interface OperationDetail {
+    readonly description?: string;
+    readonly error?: ErrorDetail;
+    readonly id?: string;
+    readonly name?: string;
+    readonly resourceId?: string;
+    readonly status?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1946,7 +3473,98 @@ export interface OptionalServices {
 export type Origin = string;
 
 // @public
+export interface OsImage extends ProxyResource {
+    properties?: OsImageProperties;
+}
+
+// @public
+export interface OsImageProperties {
+    architecture?: Architecture;
+    composedImageIsoHash?: string;
+    composedImageIsoUrl?: string;
+    composedImageVersion?: string;
+    solutionType?: SolutionType;
+    validatedSolutionRecipeVersion?: string;
+}
+
+// @public
+export interface OsImagesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OsImagesListBySubscriptionLocationResourceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OsImagesOperations {
+    get: (location: string, osImageName: string, options?: OsImagesGetOptionalParams) => Promise<OsImage>;
+    listBySubscriptionLocationResource: (location: string, options?: OsImagesListBySubscriptionLocationResourceOptionalParams) => PagedAsyncIterableIterator<OsImage>;
+}
+
+// @public
+export type OSOperationType = string;
+
+// @public
+export interface OsProfile {
+    readonly assemblyVersion?: string;
+    readonly baseImageVersion?: string;
+    readonly bootType?: string;
+    readonly buildNumber?: string;
+    readonly imageVersion?: string;
+    readonly osSku?: string;
+    readonly osType?: string;
+    readonly osVersion?: string;
+}
+
+// @public
+export interface OsProvisionProfile {
+    gpgPubKey?: string;
+    imageHash?: string;
+    operationType?: OSOperationType;
+    osImageLocation?: string;
+    osName?: string;
+    osType?: string;
+    osVersion?: string;
+    vsrVersion?: string;
+}
+
+// @public
 export type OverprovisioningRatio = string;
+
+// @public
+export type OwnerKeyType = string;
+
+// @public
+export interface OwnershipVoucherDetails {
+    ownerKeyType: OwnerKeyType;
+    ownershipVoucher: string;
+    readonly validationDetails?: OwnershipVoucherValidationDetails;
+}
+
+// @public
+export interface OwnershipVouchersOperations {
+    validate: (resourceGroupName: string, location: string, validationRequest: ValidateOwnershipVouchersRequest, options?: OwnershipVouchersValidateOptionalParams) => Promise<ValidateOwnershipVouchersResponse>;
+}
+
+// @public
+export interface OwnershipVouchersValidateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OwnershipVoucherValidationDetails {
+    architecture?: Architecture;
+    azureMachineId?: string;
+    error?: ErrorDetail;
+    id?: string;
+    manufacturer?: string;
+    modelName?: string;
+    serialNumber?: string;
+    validationStatus?: OwnershipVoucherValidationStatus;
+    version?: string;
+}
+
+// @public
+export type OwnershipVoucherValidationStatus = string;
 
 // @public
 export interface PackageVersionInfo {
@@ -2038,7 +3656,43 @@ export interface PrecheckResultTags {
 }
 
 // @public
+export type PrivilegedJobType = string;
+
+// @public
+export interface ProvisioningDetails {
+    osProfile: OsProvisionProfile;
+    userDetails?: UserDetails[];
+}
+
+// @public
+export type ProvisioningOsType = string;
+
+// @public
+export interface ProvisioningRequest {
+    customConfiguration?: string;
+    deviceConfiguration?: TargetDeviceConfiguration;
+    onboardingConfiguration?: OnboardingConfiguration;
+    osProfile: OsProvisionProfile;
+    target: ProvisioningOsType;
+    userDetails?: UserDetails[];
+}
+
+// @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProvisionOsJobProperties extends EdgeMachineJobProperties {
+    jobType: "ProvisionOs";
+    provisioningRequest: ProvisioningRequest;
+    reportedProperties?: ProvisionOsReportedProperties;
+}
+
+// @public
+export interface ProvisionOsReportedProperties {
+    readonly deploymentStatus?: EceActionStatus;
+    readonly percentComplete?: number;
+    readonly validationStatus?: EceActionStatus;
+}
 
 // @public
 export interface ProxyResource extends Resource {
@@ -2146,11 +3800,20 @@ export interface RemoteSupportSession {
 export type RemoteSupportType = string;
 
 // @public
+export interface RepairServerJobServerDetails {
+    serverName: string;
+    serverResourceId: string;
+}
+
+// @public
 export interface ReportedProperties {
     readonly deviceState?: DeviceState;
     readonly extensionProfile?: ExtensionProfile;
     readonly lastSyncTimestamp?: Date;
 }
+
+// @public
+export type ResolutionStrategy = string;
 
 // @public
 export interface Resource {
@@ -2247,6 +3910,19 @@ export interface SdnIntegration {
 }
 
 // @public
+export type SdnIntegrationIntent = string;
+
+// @public
+export interface SdnProperties {
+    readonly sdnApiAddress?: string;
+    readonly sdnDomainName?: string;
+    readonly sdnStatus?: SdnStatus;
+}
+
+// @public
+export type SdnStatus = string;
+
+// @public
 export interface SecretsLocationDetails {
     secretsLocation: string;
     secretsType: SecretsType;
@@ -2259,6 +3935,9 @@ export interface SecretsLocationsChangeRequest {
 
 // @public
 export type SecretsType = string;
+
+// @public
+export type SecretType = string;
 
 // @public
 export interface SecurityComplianceStatus {
@@ -2356,6 +4035,12 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
 }
 
 // @public
+export interface SiteDetails {
+    deviceConfiguration?: TargetDeviceConfiguration;
+    siteResourceId: string;
+}
+
+// @public
 export interface Sku extends ProxyResource {
     content?: string;
     contentVersion?: string;
@@ -2423,6 +4108,9 @@ export interface SoftwareAssuranceProperties {
 export type SoftwareAssuranceStatus = string;
 
 // @public
+export type SolutionType = string;
+
+// @public
 export type State = string;
 
 // @public
@@ -2454,6 +4142,29 @@ interface Storage_2 {
 export { Storage_2 as Storage }
 
 // @public
+export interface StorageConfiguration {
+    partitionSize?: string;
+}
+
+// @public
+export interface StorageInitiator {
+    readonly ethernetAdapterMacAddress?: string;
+    readonly ethernetAdapterName?: string;
+    readonly initiatorIdentifier: string;
+    readonly initiatorType: StorageInitiatorType;
+    readonly operationalStatus?: string;
+    readonly portWorldWideName?: string;
+}
+
+// @public
+export type StorageInitiatorType = string;
+
+// @public
+export interface StorageProfile {
+    readonly poolableDisksCount?: number;
+}
+
+// @public
 export interface StorageS2DConfig {
     overprovisioningRatio?: OverprovisioningRatio;
     volumeType?: VolumeType;
@@ -2483,6 +4194,18 @@ export interface SwitchExtension {
 }
 
 // @public
+export interface SyncConfigurationJobProperties extends EdgeMachineDiskJobProperties {
+    jobType: "SyncConfiguration";
+    resolutionStrategy: ResolutionStrategy;
+}
+
+// @public
+export interface SyncConfigurationNetworkAdapterJobProperties extends EdgeMachineNetworkAdapterJobProperties {
+    jobType: "SyncConfiguration";
+    resolutionStrategy: ResolutionStrategy;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -2490,6 +4213,22 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TargetDeviceConfiguration {
+    hostName?: string;
+    network?: NetworkConfiguration;
+    storage?: StorageConfiguration;
+    time?: TimeConfiguration;
+    webProxy?: WebProxyConfiguration;
+}
+
+// @public
+export interface TimeConfiguration {
+    primaryTimeServer?: string;
+    secondaryTimeServer?: string;
+    timeZone?: string;
 }
 
 // @public
@@ -2777,6 +4516,14 @@ export interface UserAssignedIdentity {
 }
 
 // @public
+export interface UserDetails {
+    secretLocation?: string;
+    secretType: SecretType;
+    sshPubKey?: string[];
+    userName: string;
+}
+
+// @public
 export interface ValidatedSolutionRecipe extends ProxyResource {
     properties?: ValidatedSolutionRecipeProperties;
 }
@@ -2860,6 +4607,16 @@ export interface ValidatedSolutionRecipesOperations {
 }
 
 // @public
+export interface ValidateOwnershipVouchersRequest {
+    ownershipVoucherDetails: OwnershipVoucherDetails[];
+}
+
+// @public
+export interface ValidateOwnershipVouchersResponse {
+    ownershipVoucherValidationDetails: OwnershipVoucherValidationDetails[];
+}
+
+// @public
 export interface ValidateRequest {
     additionalInfo?: string;
     edgeDeviceIds: string[];
@@ -2871,7 +4628,62 @@ export interface ValidateResponse {
 }
 
 // @public
+export interface VolumeConfiguration {
+    reserved?: string;
+}
+
+// @public
+export interface VolumeReportedProperties {
+    readonly fileSystem?: string;
+    readonly isBoot?: boolean;
+    readonly name?: string;
+    readonly offsetInBytes?: number;
+    readonly parentDiskId?: string;
+    readonly partitionId?: string;
+    readonly path?: string;
+    readonly sizeInBytes?: string;
+    readonly sizeRemainingInBytes?: string;
+}
+
+// @public
 export type VolumeType = string;
+
+// @public
+export interface WebProxyConfiguration {
+    bypassList?: string[];
+    connectionUri?: string;
+    port?: string;
+}
+
+// @public
+export interface WifiConfigurationDesiredProperties {
+    authenticationType?: AuthenticationType;
+    eapMethod?: EAPMethod;
+    ssid?: string;
+    username?: string;
+    wifiSecret?: WifiSecret;
+}
+
+// @public
+export interface WifiConfigurationReportedProperties {
+    authenticationType?: AuthenticationType;
+    readonly connectionState?: ConnectionState;
+    eapMethod?: EAPMethod;
+    readonly lastSuccessfulConnectionTimestamp?: string;
+    readonly signalStrength?: number;
+    ssid?: string;
+    username?: string;
+}
+
+// @public
+export interface WifiSecret {
+    secretLocation?: string;
+    secretName?: string;
+    secretType?: WifiSecretType;
+}
+
+// @public
+export type WifiSecretType = string;
 
 // @public
 export type WindowsServerSubscription = string;

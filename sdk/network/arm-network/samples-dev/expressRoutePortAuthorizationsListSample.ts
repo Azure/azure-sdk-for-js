@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all authorizations in an express route port.
  *
  * @summary gets all authorizations in an express route port.
- * x-ms-original-file: 2026-01-01/ExpressRoutePortAuthorizationList.json
+ * x-ms-original-file: 2026-03-01/ExpressRoutePortAuthorizationList.json
  */
 async function listExpressRoutePortAuthorization(): Promise<void> {
   const credential = new DefaultAzureCredential();

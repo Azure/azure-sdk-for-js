@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to pre-loads a content to CDN. Available for Verizon Profiles.
  *
  * @summary pre-loads a content to CDN. Available for Verizon Profiles.
- * x-ms-original-file: 2025-12-01/Endpoints_LoadContent.json
+ * x-ms-original-file: 2026-10-01/Endpoints_LoadContent.json
  */
 async function endpointsLoadContent(): Promise<void> {
   const credential = new DefaultAzureCredential();

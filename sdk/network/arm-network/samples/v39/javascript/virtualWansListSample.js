@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the VirtualWANs in a subscription.
  *
  * @summary lists all the VirtualWANs in a subscription.
- * x-ms-original-file: 2026-01-01/VirtualWANList.json
+ * x-ms-original-file: 2026-03-01/VirtualWANList.json
  */
 async function virtualWANList() {
   const credential = new DefaultAzureCredential();

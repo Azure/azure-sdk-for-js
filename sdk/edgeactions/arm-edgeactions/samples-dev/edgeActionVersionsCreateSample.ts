@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a EdgeActionVersion
  *
  * @summary create a EdgeActionVersion
- * x-ms-original-file: 2025-12-01-preview/EdgeActionVersions_Create.json
+ * x-ms-original-file: 2026-10-01/EdgeActionVersions_Create.json
  */
 async function createEdgeActionVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

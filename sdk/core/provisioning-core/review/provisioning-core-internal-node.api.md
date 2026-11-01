@@ -19,9 +19,6 @@ export interface ArrayShape {
 }
 
 // @public
-export type BinaryOperator = "%" | "*" | "+" | "-" | "/" | "<" | "<=" | "==" | "!=" | "=~" | "!~" | ">" | ">=" | "&&" | "||" | "??";
-
-// @public
 export interface BooleanLiteralShape {
     readonly encoding?: BooleanValueEncodingDescriptor;
     // (undocumented)
@@ -83,9 +80,6 @@ export interface BytesShape {
 export type BytesValueEncodingDescriptor = BytesEncodingDescriptor & {
     readonly clientMode: "client";
 };
-
-// @public (undocumented)
-export function collectDependenciesForDeclaration(node: ResourceDeclarationNode | VariableDeclarationNode | OutputDeclarationNode | ModuleDeclarationNode): Set<string>;
 
 // @public
 export type ContainerShape = ArrayShape | RecordShape | TupleShape;
@@ -179,37 +173,6 @@ export type DateValueEncodingDescriptor = (DateTimeTextEncodingDescriptor & {
 });
 
 // @public
-export type DeclarableBodyNode = ObjectValue | IfConditionExpression | ForExpression;
-
-// @public
-export interface DecoratorsNode {
-    // (undocumented)
-    readonly allowed?: readonly ExpressionNode[];
-    // (undocumented)
-    readonly batchSize?: number;
-    // (undocumented)
-    readonly description?: string;
-    // (undocumented)
-    readonly discriminator?: string;
-    // (undocumented)
-    readonly export?: true;
-    // (undocumented)
-    readonly maxLength?: number;
-    // (undocumented)
-    readonly maxValue?: number;
-    // (undocumented)
-    readonly metadata?: Record<string, ExpressionNode>;
-    // (undocumented)
-    readonly minLength?: number;
-    // (undocumented)
-    readonly minValue?: number;
-    // (undocumented)
-    readonly sealed?: true;
-    // (undocumented)
-    readonly secure?: true;
-}
-
-// @public
 export interface DeferredShape<T> {
     // (undocumented)
     readonly kind: "deferred";
@@ -271,9 +234,6 @@ export interface EnumShape {
 }
 
 // @public
-export type ExpressionNode = NullValue | BooleanValue | IntegerValue | StringValue | ArrayValue | ObjectValue | IdentifierExpression | FunctionCallExpression | InstanceFunctionCallExpression | PropertyAccessExpression | ArrayAccessExpression | BinaryOperationExpression | UnaryOperationExpression | TernaryOperationExpression | IfConditionExpression | ForExpression | InterpolatedStringExpression;
-
-// @public
 export interface FlatModelShape {
     readonly byJsName: {
         readonly [jsName: string]: PropertyShape;
@@ -293,25 +253,6 @@ export interface FlatVariantSelection<T> {
 export type FlatVariantSelector = readonly FlatVariantPin[];
 
 // @public
-export interface IdentifierExpression {
-    // (undocumented)
-    readonly id: string;
-    // (undocumented)
-    readonly kind: "identifier";
-}
-
-// @public
-export interface InfraNode {
-    readonly fileName: string;
-    readonly modules?: Record<string, ModuleDeclarationNode>;
-    readonly outputs?: Record<string, OutputDeclarationNode>;
-    readonly parameters?: Record<string, ParameterDeclarationNode>;
-    readonly resources?: Record<string, ResourceDeclarationNode>;
-    readonly targetScope?: TargetScope;
-    readonly variables?: Record<string, VariableDeclarationNode>;
-}
-
-// @public
 export interface InputArray<T, Raw = readonly T[]> extends InputOf<Raw> {
     // (undocumented)
     [index: number]: T;
@@ -322,7 +263,7 @@ export interface InputArray<T, Raw = readonly T[]> extends InputOf<Raw> {
 // @public
 export interface InputOf<out Raw> {
     // (undocumented)
-    readonly [__expressionBrand]?: ExpressionNode_2<Raw>;
+    readonly [__expressionBrand]?: ExpressionNode<Raw>;
 }
 
 // @public
@@ -353,16 +294,6 @@ export function isNumericScalarName(name: string): name is NumericScalarName;
 
 // @public
 export type ModelShape = FlatModelShape | DiscriminatedModelShape;
-
-// @public
-export interface ModuleDeclarationNode {
-    // (undocumented)
-    readonly bicepIdentifier: string;
-    // (undocumented)
-    readonly decorators?: DecoratorsNode;
-    readonly path: string;
-    readonly value: DeclarableBodyNode;
-}
 
 // @public
 export interface NullShape {
@@ -412,38 +343,6 @@ export interface NumericStringEncodingDescriptor {
     };
 }
 
-// @public
-export interface ObjectValue {
-    // (undocumented)
-    readonly kind: "object";
-    // (undocumented)
-    readonly value: Record<string, ExpressionNode>;
-}
-
-// @public
-export interface OutputDeclarationNode {
-    // (undocumented)
-    readonly bicepIdentifier: string;
-    // (undocumented)
-    readonly decorators?: DecoratorsNode;
-    // (undocumented)
-    readonly value: ExpressionNode;
-    // (undocumented)
-    readonly valueType: TypeNode;
-}
-
-// @public
-export interface ParameterDeclarationNode {
-    // (undocumented)
-    readonly bicepIdentifier: string;
-    // (undocumented)
-    readonly decorators?: DecoratorsNode;
-    // (undocumented)
-    readonly defaultValue?: ExpressionNode;
-    // (undocumented)
-    readonly valueType: TypeNode;
-}
-
 // @public (undocumented)
 export interface PlainDateEncodingDescriptor {
     // (undocumented)
@@ -456,22 +355,6 @@ export interface PlainDateEncodingDescriptor {
     readonly wire: {
         readonly kind: "string";
     };
-}
-
-// @public
-export interface PrimitiveTypeMap {
-    // (undocumented)
-    readonly any: unknown;
-    // (undocumented)
-    readonly array: readonly unknown[];
-    // (undocumented)
-    readonly bool: boolean;
-    // (undocumented)
-    readonly int: number;
-    // (undocumented)
-    readonly object: Record<string, unknown>;
-    // (undocumented)
-    readonly string: string;
 }
 
 // @public
@@ -490,15 +373,14 @@ export interface RecordShape {
 }
 
 // @public
-export interface ResourceDeclarationNode {
-    readonly apiVersion: string;
+export function renderBicepFiles(input: Stack | readonly Stack[]): readonly RenderedBicepFile[];
+
+// @public
+export interface RenderedBicepFile {
     // (undocumented)
-    readonly bicepIdentifier: string;
+    readonly contents: string;
     // (undocumented)
-    readonly decorators?: DecoratorsNode;
-    readonly existing: boolean;
-    readonly type: string;
-    readonly value: DeclarableBodyNode;
+    readonly path: string;
 }
 
 // @public (undocumented)
@@ -506,25 +388,18 @@ export interface ResourceNamingRules {
     // (undocumented)
     readonly abbreviation: string;
     // (undocumented)
-    readonly maxLength: number;
+    readonly maxLength?: number;
     // (undocumented)
-    readonly minLength: number;
+    readonly minLength?: number;
+    readonly nameSegments?: number;
     // (undocumented)
-    readonly scope: "global" | "resourceGroup" | "subscription";
+    readonly pattern?: {
+        readonly regex: string;
+        readonly message?: string;
+    };
+    readonly scope: "global" | "resourceGroup" | "subscription" | "parent";
     // (undocumented)
-    readonly validCharacters: ResourceNamingValidCharacters;
-}
-
-// @public (undocumented)
-export interface ResourceNamingValidCharacters {
-    // (undocumented)
-    readonly hyphens: boolean;
-    // (undocumented)
-    readonly periods: boolean;
-    // (undocumented)
-    readonly underscores: boolean;
-    // (undocumented)
-    readonly uppercase: boolean;
+    readonly separator?: string;
 }
 
 // @public
@@ -539,17 +414,6 @@ export interface ResourceProps<TType extends string> {
     // (undocumented)
     readonly type: TType;
 }
-
-// @public (undocumented)
-export function sanitizeIdentifier(value: string, fallback?: string): string;
-
-// @public (undocumented)
-export type SerializableValue = ExpressionNode_2 | Expression<unknown> | string | number | boolean | null | readonly SerializableValue[] | {
-    readonly [key: string]: SerializableValue | undefined;
-};
-
-// @public (undocumented)
-export function serializeExpression(value: SerializableValue, symbolMap?: SerializationSymbolMap): ExpressionNode;
 
 // @public
 export type SingletonExistingResourceProps = Omit<ExistingResourceProps, "name">;
@@ -580,9 +444,6 @@ export type StringValueEncodingDescriptor = (DateTimeTextEncodingDescriptor & {
 });
 
 // @public
-export type TargetScope = "resourceGroup" | "subscription" | "managementGroup" | "tenant";
-
-// @public
 export type TerminalValueShape = AnyShape | StringShape | BooleanShape | NumberShape | BytesShape | DateShape | StringLiteralShape | NumberLiteralShape | BooleanLiteralShape | EnumShape | UnionShape | NullShape;
 
 // @public
@@ -592,12 +453,6 @@ export interface TupleShape {
     // (undocumented)
     readonly values: readonly ValueShape[];
 }
-
-// @public
-export type TypeNode = PrimitiveTypeNode | TypeReferenceNode | StringTypeLiteralNode | IntegerTypeLiteralNode | BooleanTypeLiteralNode | NullTypeLiteralNode | ArrayTypeNode | ObjectTypePropertyNode | ObjectTypeAdditionalPropertiesNode | ObjectTypeNode | UnionTypeMemberNode | UnionTypeNode | NullableTypeNode | ParameterizedTypeArgumentNode | ParameterizedTypeInstantiationNode;
-
-// @public
-export type UnaryOperator = "!" | "-";
 
 // @public
 export interface UnionShape {
@@ -623,7 +478,7 @@ export interface UnixTimestampEncodingDescriptor {
 }
 
 // @public
-export function unwrapExpression<T>(expr: Expression<T>): ExpressionNode_2<T>;
+export function unwrapExpression<T>(expr: Expression<T>): ExpressionNode<T>;
 
 // @public (undocumented)
 export function unwrapResourceHandle<T extends ResourceDeclaration>(resource: T): T;
@@ -634,18 +489,8 @@ export type ValueEncodingDescriptor = DateTimeTextEncodingDescriptor | UnixTimes
 // @public (undocumented)
 export type ValueShape = TerminalValueShape | DeferredShape<ModelShape> | ContainerShape;
 
-// @public
-export interface VariableDeclarationNode {
-    // (undocumented)
-    readonly bicepIdentifier: string;
-    // (undocumented)
-    readonly decorators?: DecoratorsNode;
-    // (undocumented)
-    readonly value: ExpressionNode;
-}
-
 // @public (undocumented)
-export function wrapExpression<T = unknown>(expression: ExpressionNode_2, nav?: NavShape): Expression<T>;
+export function wrapExpression<T = unknown>(expression: ExpressionNode, nav?: NavShape): Expression<T>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified virtual network peering.
  *
  * @summary gets the specified virtual network peering.
- * x-ms-original-file: 2026-01-01/VirtualNetworkPeeringGet.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkPeeringGet.json
  */
 async function getPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getPeering(): Promise<void> {
  * This sample demonstrates how to gets the specified virtual network peering.
  *
  * @summary gets the specified virtual network peering.
- * x-ms-original-file: 2026-01-01/VirtualNetworkPeeringGetWithRemoteVirtualNetworkEncryption.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkPeeringGetWithRemoteVirtualNetworkEncryption.json
  */
 async function getPeeringWithRemoteVirtualNetworkEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getPeeringWithRemoteVirtualNetworkEncryption(): Promise<void> {
  * This sample demonstrates how to gets the specified virtual network peering.
  *
  * @summary gets the specified virtual network peering.
- * x-ms-original-file: 2026-01-01/VirtualNetworkSubnetPeeringGet.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkSubnetPeeringGet.json
  */
 async function getSubnetPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getSubnetPeering(): Promise<void> {
  * This sample demonstrates how to gets the specified virtual network peering.
  *
  * @summary gets the specified virtual network peering.
- * x-ms-original-file: 2026-01-01/VirtualNetworkV6SubnetPeeringGet.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkV6SubnetPeeringGet.json
  */
 async function getV6SubnetPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();

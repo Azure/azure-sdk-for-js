@@ -1,6 +1,7 @@
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./_configuration": "./src/_configuration/index.ts"
 
 targets:
   - name: esm

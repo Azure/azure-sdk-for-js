@@ -110,6 +110,7 @@ export interface ServicesOperations {
     options?: ServicesCheckNameAvailabilityOptionalParams,
   ) => Promise<CheckNameAvailabilityOutput>;
 }
+
 function _getServices(context: SearchManagementContext) {
   return {
     upgrade: (
@@ -189,6 +190,7 @@ function _getServices(context: SearchManagementContext) {
       checkNameAvailability(context, name, options),
   };
 }
+
 export function _getServicesOperations(context: SearchManagementContext): ServicesOperations {
   return {
     ..._getServices(context),

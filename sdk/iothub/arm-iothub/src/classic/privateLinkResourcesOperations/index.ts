@@ -25,6 +25,7 @@ export interface PrivateLinkResourcesOperationsOperations {
     options?: PrivateLinkResourcesOperationsGetOptionalParams,
   ) => Promise<GroupIdInformation>;
 }
+
 function _getPrivateLinkResourcesOperations(context: IotHubContext) {
   return {
     list: (
@@ -40,6 +41,7 @@ function _getPrivateLinkResourcesOperations(context: IotHubContext) {
     ) => get(context, resourceGroupName, resourceName, groupId, options),
   };
 }
+
 export function _getPrivateLinkResourcesOperationsOperations(
   context: IotHubContext,
 ): PrivateLinkResourcesOperationsOperations {

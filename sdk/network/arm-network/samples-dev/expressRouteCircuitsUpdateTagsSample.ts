@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an express route circuit tags.
  *
  * @summary updates an express route circuit tags.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitUpdateTags.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitUpdateTags.json
  */
 async function updateExpressRouteCircuitTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the NSP Link resources in the specified network security perimeter.
  *
  * @summary lists the NSP Link resources in the specified network security perimeter.
- * x-ms-original-file: 2026-01-01/NspLinkList.json
+ * x-ms-original-file: 2026-03-01/NspLinkList.json
  */
 async function nspLinkList(): Promise<void> {
   const credential = new DefaultAzureCredential();

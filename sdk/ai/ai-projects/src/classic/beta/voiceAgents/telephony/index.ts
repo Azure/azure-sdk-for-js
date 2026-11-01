@@ -48,6 +48,8 @@ import type {
 } from "../../../../models/models.js";
 
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { ResolvedTracingConfig } from "../../../../tracing/configuration.js";
+import { traceVoiceAgentOperation } from "../../../../tracing/voiceAgentTracing.js";
 
 /** Operations for managing voice agent telephony. */
 export interface BetaVoiceAgentsTelephonyOperations {
@@ -143,14 +145,23 @@ export interface BetaVoiceAgentsTelephonyOperations {
 
 function _getBetaVoiceAgentsTelephony(
   context: AIProjectContext,
+  tracingConfig?: ResolvedTracingConfig,
 ): BetaVoiceAgentsTelephonyOperations {
+  const run = <T>(name: string, operation: () => Promise<T>): Promise<T> =>
+    traceVoiceAgentOperation(
+      `voice_agents.telephony.${name}`,
+      context.endpoint,
+      tracingConfig,
+      operation,
+    );
   return {
     cancelCallJob: (
       agentName: string,
       callJobId: string,
       ifMatch: string,
       options?: BetaVoiceAgentsTelephonyCancelCallJobOptionalParams,
-    ) => cancelCallJob(context, agentName, callJobId, ifMatch, options),
+    ) =>
+      run("cancel_call_job", () => cancelCallJob(context, agentName, callJobId, ifMatch, options)),
     getCallJob: (
       agentName: string,
       callJobId: string,
@@ -161,13 +172,26 @@ function _getBetaVoiceAgentsTelephony(
       idempotencyKey: string,
       body: CreateTelephonyCallJobRequest,
       options?: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams,
-    ) => createCallJob(context, agentName, idempotencyKey, body, options),
+    ) =>
+      traceVoiceAgentOperation(
+        "voice_agents.telephony.create_call_job",
+        context.endpoint,
+        tracingConfig,
+        () => createCallJob(context, agentName, idempotencyKey, body, options),
+        (job) => ({
+          "az.ai.voice_agents.telephony.call_job.id": job.id,
+          "az.ai.voice_agents.call_job.status": job.status,
+        }),
+      ),
     replaceTransferTargets: (
       agentName: string,
       ifMatch: string,
       transferTargets: TelephonyTransferTarget[],
       options?: BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams,
-    ) => replaceTransferTargets(context, agentName, ifMatch, transferTargets, options),
+    ) =>
+      run("replace_transfer_targets", () =>
+        replaceTransferTargets(context, agentName, ifMatch, transferTargets, options),
+      ),
     getTransferTargets: (
       agentName: string,
       options?: BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams,
@@ -176,13 +200,13 @@ function _getBetaVoiceAgentsTelephony(
       agentName: string,
       callId: string,
       options?: BetaVoiceAgentsTelephonyEndCallOptionalParams,
-    ) => endCall(context, agentName, callId, options),
+    ) => run("end_call", () => endCall(context, agentName, callId, options)),
     transferCall: (
       agentName: string,
       callId: string,
       target: string,
       options?: BetaVoiceAgentsTelephonyTransferCallOptionalParams,
-    ) => transferCall(context, agentName, callId, target, options),
+    ) => run("transfer_call", () => transferCall(context, agentName, callId, target, options)),
     getCall: (
       agentName: string,
       callId: string,
@@ -195,14 +219,18 @@ function _getBetaVoiceAgentsTelephony(
       bindingId: string,
       ifMatch: string,
       options?: BetaVoiceAgentsTelephonyDeleteBindingOptionalParams,
-    ) => deleteBinding(context, agentName, bindingId, ifMatch, options),
+    ) =>
+      run("delete_binding", () => deleteBinding(context, agentName, bindingId, ifMatch, options)),
     updateBinding: (
       agentName: string,
       bindingId: string,
       ifMatch: string,
       body: UpdateTelephonyBindingRequest,
       options?: BetaVoiceAgentsTelephonyUpdateBindingOptionalParams,
-    ) => updateBinding(context, agentName, bindingId, ifMatch, body, options),
+    ) =>
+      run("update_binding", () =>
+        updateBinding(context, agentName, bindingId, ifMatch, body, options),
+      ),
     getBinding: (
       agentName: string,
       bindingId: string,
@@ -216,12 +244,13 @@ function _getBetaVoiceAgentsTelephony(
       agentName: string,
       telephonyBinding: CreateTelephonyBindingRequestUnion,
       options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
-    ) => createBinding(context, agentName, telephonyBinding, options),
+    ) => run("create_binding", () => createBinding(context, agentName, telephonyBinding, options)),
   };
 }
 
 export function _getBetaVoiceAgentsTelephonyOperations(
   context: AIProjectContext,
+  tracingConfig?: ResolvedTracingConfig,
 ): BetaVoiceAgentsTelephonyOperations {
-  return { ..._getBetaVoiceAgentsTelephony(context) };
+  return { ..._getBetaVoiceAgentsTelephony(context, tracingConfig) };
 }

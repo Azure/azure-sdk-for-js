@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to approve or reject private end point connection for a private link service in a subscription.
  *
  * @summary approve or reject private end point connection for a private link service in a subscription.
- * x-ms-original-file: 2026-01-01/PrivateLinkServiceUpdatePrivateEndpointConnection.json
+ * x-ms-original-file: 2026-03-01/PrivateLinkServiceUpdatePrivateEndpointConnection.json
  */
 async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService(): Promise<void> {
   const credential = new DefaultAzureCredential();

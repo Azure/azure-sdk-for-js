@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves a network manager security admin configuration.
  *
  * @summary retrieves a network manager security admin configuration.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityAdminConfigurationGet.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityAdminConfigurationGet.json
  */
 async function getSecurityAdminConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();

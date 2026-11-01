@@ -6,8 +6,8 @@
  *
  * A `ModelShape` is generated once per emitted Model and describes how
  * to map JS-ergonomic property names + structure to the underlying ARM
- * wire shape. The shapes are consumed by the serialization `lowerState`
- * pass (and its inverse `raiseState`) which rewrites state keys and
+ * wire shape. The shapes are consumed by the serialization `convertToArmObject`
+ * pass (and its inverse `convertFromArmObject`) which rewrites state keys and
  * re-nests `@flattenProperty` paths just before serialization /
  * after deserialization.
  *
@@ -523,10 +523,10 @@ export type NavShape = ModelShape | ContainerShape | undefined;
  *   - `"js"` — client-facing names, as authored in TypeScript and held
  *     in a resource's state. These are
  *     {@link FlatModelShape.byJsName}'s own keys. Passed by
- *     `lowerState`, on state about to be serialized.
+ *     `convertToArmObject`, on state about to be serialized.
  *   - `"arm"` — wire names, as they appear in an ARM template or a
  *     service response. These are the first segment of each
- *     {@link PropertyShape.armPath}. Passed by `raiseState`, on JSON
+ *     {@link PropertyShape.armPath}. Passed by `convertFromArmObject`, on JSON
  *     just parsed off the wire.
  *
  *   Has no effect when the discriminator resolves normally, and no

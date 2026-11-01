@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve the authentication policy with specified name within a resource group.
  *
  * @summary retrieve the authentication policy with specified name within a resource group.
- * x-ms-original-file: 2026-01-01/AuthenticationPolicyGet.json
+ * x-ms-original-file: 2026-03-01/AuthenticationPolicyGet.json
  */
 async function getsAJWTValidationAuthenticationPolicyWithinAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

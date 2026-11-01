@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Resource } from "../constructs/resource/resource.js";
-import type { BinaryOperator, UnaryOperator } from "../serialization/contract/index.js";
+import type { BinaryOperator, UnaryOperator } from "../serialization/ast/index.js";
 import type { PropertySegment } from "../types.js";
 
 export type { BinaryOperator, UnaryOperator };

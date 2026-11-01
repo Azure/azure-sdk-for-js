@@ -33,6 +33,33 @@ describe("detect class", () => {
     });
   });
 
+  test("compares unchanged getter and setter properties", async () => {
+    const apiView = `export class KeyVault {
+      get name(): string;
+      set name(value: string);
+    }`;
+    const astContext = await createTestAstContext(apiView, apiView);
+
+    expect(patchClass("KeyVault", astContext, AssignDirection.CurrentToBaseline)).toEqual([]);
+  });
+
+  test("detects a changed accessor type", async () => {
+    const baseline = `export class KeyVault {
+      get name(): string;
+      set name(value: string);
+    }`;
+    const current = `export class KeyVault {
+      get name(): number;
+      set name(value: number);
+    }`;
+    const astContext = await createTestAstContext(baseline, current);
+
+    const differences = patchClass("KeyVault", astContext, AssignDirection.CurrentToBaseline);
+    expect(differences).toEqual(
+      expect.arrayContaining([expect.objectContaining({ reasons: DiffReasons.TypeChanged })]),
+    );
+  });
+
   describe("detect constructor", () => {
     test("add constructors", async () => {
       const baselineApiView = `

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Azure Monitor Workspaces in the specified subscription
  *
  * @summary lists all Azure Monitor Workspaces in the specified subscription
- * x-ms-original-file: 2025-10-03/AzureMonitorWorkspaces_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/AzureMonitorWorkspaces_ListBySubscription_MaximumSet_Gen.json
  */
 async function azureMonitorWorkspacesListBySubscriptionGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all subnets in a virtual network.
  *
  * @summary gets all subnets in a virtual network.
- * x-ms-original-file: 2026-01-01/SubnetList.json
+ * x-ms-original-file: 2026-03-01/SubnetList.json
  */
 async function listSubnets() {
   const credential = new DefaultAzureCredential();

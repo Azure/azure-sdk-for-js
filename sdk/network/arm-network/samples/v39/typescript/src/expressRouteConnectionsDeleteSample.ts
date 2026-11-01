@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a connection to a ExpressRoute circuit.
  *
  * @summary deletes a connection to a ExpressRoute circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteConnectionDelete.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteConnectionDelete.json
  */
 async function expressRouteConnectionDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

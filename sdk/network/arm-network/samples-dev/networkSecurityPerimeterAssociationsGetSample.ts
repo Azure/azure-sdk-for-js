@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified NSP association by name.
  *
  * @summary gets the specified NSP association by name.
- * x-ms-original-file: 2026-01-01/NspAssociationGet.json
+ * x-ms-original-file: 2026-03-01/NspAssociationGet.json
  */
 async function nspAssociationGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a RouteMap.
  *
  * @summary deletes a RouteMap.
- * x-ms-original-file: 2026-01-01/RouteMapDelete.json
+ * x-ms-original-file: 2026-03-01/RouteMapDelete.json
  */
 async function routeMapDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

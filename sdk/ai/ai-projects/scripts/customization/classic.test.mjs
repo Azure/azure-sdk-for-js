@@ -3,9 +3,15 @@
 
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { mergeCustomizedClassic, relocatedMemberDiagnostics } from "./classic.mjs";
+import { retainCustomizedOnConflict } from "./ast-merge.mjs";
+import {
+  ClassicRenderError,
+  mergeCustomizedClassic,
+  relocatedMemberDiagnostics,
+} from "./classic.mjs";
 import { validateCustomization } from "./guards.mjs";
 import { parse } from "./modules.mjs";
+import { classicFromOperations } from "./operations.mjs";
 import { planCustomization } from "./planner.mjs";
 
 function models() {
@@ -269,6 +275,82 @@ export async function getItemWithRetry(context: Client, id: string, options: Ite
   }
 });
 
+test("reports the unresolved operation merge instead of failing to render its classic member", () => {
+  // The customization and the emitter retype the same parameter differently, so
+  // the operation has no resolved declaration for its classic module to render from.
+  const retype = (text, type) => text.replace(/id: string/g, `id: ${type}`);
+  const baseGenerated = new Map(
+    Object.entries({
+      ...models(),
+      "api/items/options.ts": options([getItem[3]]),
+      "api/items/operations.ts": operations(1, [getItem]),
+      "classic/items/index.ts": classic(2, "Items", "items", [getItem]),
+    }),
+  );
+  const baseSource = new Map(baseGenerated).set(
+    "api/items/operations.ts",
+    retype(operations(1, [getItem]), "number"),
+  );
+  const generated = new Map(baseGenerated)
+    .set("api/items/operations.ts", retype(operations(1, [getItem]), "boolean"))
+    .set("classic/items/index.ts", retype(classic(2, "Items", "items", [getItem]), "boolean"));
+  const plan = planCustomization({ baseGenerated, baseSource, generated });
+  const operationConflicts = plan.diagnostics.filter(
+    (item) => item.file === "api/items/operations.ts",
+  );
+  assert.deepEqual([...new Set(operationConflicts.map((item) => item.declaration))].sort(), [
+    "_getItemSend",
+    "getItem",
+  ]);
+  // The conflict is the only report: nothing is rendered from the missing declaration.
+  assert.deepEqual(
+    plan.diagnostics.filter((item) => item.file !== "api/items/operations.ts"),
+    [],
+  );
+});
+
+test("reports a classic member the emitter does not declare instead of throwing", () => {
+  const baseGenerated = new Map(
+    Object.entries({
+      ...models(),
+      "api/items/options.ts": options([getItem[3]]),
+      "api/items/operations.ts": operations(1, [getItem]),
+      "classic/items/index.ts": classic(2, "Items", "items", [getItem]),
+    }),
+  );
+  const generated = new Map(baseGenerated)
+    .set("api/items/options.ts", options([getItem[3], archive[3]]))
+    .set("api/items/operations.ts", operations(1, [getItem, archive]));
+  // The emitted operations include archiveItem, but its classic interface omits it.
+  generated.set("classic/items/index.ts", classic(2, "Items", "items", [getItem]) + "\n");
+  const plan = planCustomization({ baseGenerated, baseSource: baseGenerated, generated });
+  assert.deepEqual(
+    plan.diagnostics.map(({ file, declaration }) => ({ file, declaration })),
+    [{ file: "classic/items/index.ts", declaration: "archiveItem" }],
+  );
+  assert.match(plan.diagnostics[0].message, /missing emitted interface member for archiveItem/);
+});
+
+test("classic rendering names an operation that has no resolved declaration", () => {
+  const match = {
+    incoming: { file: "api/items/operations.ts", name: "getItem" },
+    names: { publicNode: "getItem" },
+  };
+  assert.throws(
+    () =>
+      classicFromOperations(
+        "classic/items/index.ts",
+        classic(2, "Items", "items", [getItem]),
+        [match],
+        operations(1, [archive]),
+      ),
+    (error) =>
+      error instanceof ClassicRenderError &&
+      /missing resolved operation getItem in api\/items\/operations\.ts/.test(error.message) &&
+      error.diagnostic.declaration === "getItem",
+  );
+});
+
 test("reports a customized classic member instead of dropping it with its operation", () => {
   const deleteItem = ["deleteItem", "/items/{id}", "delete", "ItemsDeleteItemOptionalParams"];
   const baseText = classic(2, "Items", "items", [getItem, deleteItem]);
@@ -348,6 +430,210 @@ export async function deleteItemSoftly(context: Client, id: string, options: Ite
   );
   assert.equal(rerouted.text, undefined);
   assert.ok(rerouted.diagnostics.some((item) => item.declaration === "deleteItem"));
+});
+
+test("recovery keeps a customized classic member the emitter removed and records it", () => {
+  const deleteItem = ["deleteItem", "/items/{id}", "delete", "ItemsDeleteItemOptionalParams"];
+  const baseText = classic(2, "Items", "items", [getItem, deleteItem]);
+  const customText = baseText
+    .replace(
+      "  /** getItem operation. */",
+      "  /** Custom-only member. */\n  ping(): string;\n  /** getItem operation. */",
+    )
+    .replace("  return {\n    getItem:", '  return {\n    ping: () => "pong",\n    getItem:')
+    .replace(
+      "deleteItem(context, id, options)",
+      "deleteItem(context, id, { ...options, requestOptions: {} })",
+    );
+  const merge = (optionNames) =>
+    mergeCustomizedClassic({
+      file: "classic/items/index.ts",
+      baseText,
+      customText,
+      incomingText: classic(2, "Items", "items", [getItem]),
+      matches: [],
+      resolvedText: operations(1, [getItem, deleteItem]),
+      resolvedOptionsText: options(optionNames),
+    });
+  const strict = merge([getItem[3], deleteItem[3]]);
+  assert.equal(strict.text, undefined);
+  assert.ok(strict.diagnostics.some((item) => item.declaration === "deleteItem"));
+  const sink = [];
+  retainCustomizedOnConflict(sink);
+  try {
+    const result = merge([getItem[3], deleteItem[3]]);
+    assert.deepEqual(result.diagnostics, []);
+    assert.match(
+      result.text,
+      /deleteItem\(context, id, \{ \.\.\.options, requestOptions: \{\} \}\)/,
+    );
+    assert.deepEqual(
+      sink.map((item) => `${item.file}::${item.declaration}`),
+      ["classic/items/index.ts::deleteItem"],
+    );
+    assert.match(sink[0].baseText, /deleteItem: \(id: string/);
+    assert.match(sink[0].customText, /requestOptions: \{\}/);
+    assert.equal(sink[0].incomingText, null);
+    // Keeping the member never hides an import the resolved module no longer declares.
+    const missing = merge([getItem[3]]);
+    assert.equal(missing.text, undefined);
+    assert.ok(
+      missing.diagnostics.some((item) =>
+        /imports 'ItemsDeleteItemOptionalParams'/.test(item.message),
+      ),
+    );
+  } finally {
+    retainCustomizedOnConflict(null);
+  }
+});
+
+test("recovery keeps a customized classic module it cannot recognize without claiming a removal", () => {
+  const baseText = classic(2, "Items", "items", [getItem]);
+  const merge = () =>
+    mergeCustomizedClassic({
+      file: "classic/items/index.ts",
+      baseText,
+      customText: "export const items = 1;\n",
+      incomingText: baseText,
+      matches: [],
+      resolvedText: operations(1, [getItem]),
+      resolvedOptionsText: options([getItem[3]]),
+    });
+  const strict = merge();
+  assert.equal(strict.text, undefined);
+  assert.deepEqual(
+    strict.diagnostics.map((item) => item.declaration),
+    ["<file>"],
+  );
+  const sink = [];
+  retainCustomizedOnConflict(sink);
+  try {
+    const result = merge();
+    assert.deepEqual(result, { text: undefined, diagnostics: [] });
+    assert.equal(sink.length, 1);
+    assert.equal(sink[0].declaration, "<file>");
+    assert.equal(sink[0].baseText, undefined);
+    assert.equal(sink[0].customText, undefined);
+    assert.equal(sink[0].incomingText, undefined);
+  } finally {
+    retainCustomizedOnConflict(null);
+  }
+});
+
+test("keeps a customized classic member whose resolved operation still matches it", () => {
+  const baseText = classic(2, "Items", "items", [getItem]);
+  const customText = `import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import { getItem } from "../../api/items/operations.js";
+import type { ItemsGetItemOptionalParams } from "../../api/items/options.js";
+
+/** Operations for items. */
+export interface ItemsOperations {
+  /** Custom-only member. */
+  ping(): string;
+  /** getItem operation. */
+  getItem: (
+    id: string,
+    options?: ItemsGetItemOptionalParams,
+  ) => Promise<string>;
+}
+
+function _getItems(context: AIProjectContext) {
+  return {
+    ping: () => "pong",
+    getItem: (id: string, options?: ItemsGetItemOptionalParams) =>
+      getItem(context, id, options),
+  };
+}
+
+export function _getItemsOperations(context: AIProjectContext): ItemsOperations {
+  return { ..._getItems(context) };
+}`;
+  // The emitter retyped getItem, but the resolved operation (the customized one)
+  // still returns what the member declares, so re-rendering would only churn layout.
+  const result = mergeCustomizedClassic({
+    file: "classic/items/index.ts",
+    baseText,
+    customText,
+    incomingText: baseText.replace("Promise<string>", "Promise<number>"),
+    matches: [
+      {
+        incoming: { file: "api/items/operations.ts", name: "getItem" },
+        names: { publicNode: "getItem" },
+      },
+    ],
+    resolvedText: operations(1, [getItem]),
+    resolvedOptionsText: options([getItem[3]]),
+    customApiText: operations(1, [getItem]),
+  });
+  assert.deepEqual(result.diagnostics, []);
+  assert.match(
+    result.text,
+    /getItem: \(\n {4}id: string,\n {4}options\?: ItemsGetItemOptionalParams,\n {2}\) => Promise<string>;/,
+  );
+  assert.match(
+    result.text,
+    /getItem: \(id: string, options\?: ItemsGetItemOptionalParams\) =>\n {6}getItem\(context, id, options\)/,
+  );
+  assert.doesNotMatch(result.text, /Promise<number>/);
+});
+
+test("updates a classic member when its resolved return literal changes", () => {
+  const baseText = classic(2, "Items", "items", [getItem]).replace(
+    "Promise<string>",
+    'Promise<"a b">',
+  );
+  const customText = `import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import { getItem } from "../../api/items/operations.js";
+import type { ItemsGetItemOptionalParams } from "../../api/items/options.js";
+
+/** Operations for items. */
+export interface ItemsOperations {
+  /** Custom-only member. */
+  ping(): string;
+  /** getItem operation. */
+  getItem: (
+    id: string,
+    options?: ItemsGetItemOptionalParams,
+  ) => Promise<"a b">;
+}
+
+function _getItems(context: AIProjectContext) {
+  return {
+    ping: () => "pong",
+    getItem: (id: string, options?: ItemsGetItemOptionalParams) =>
+      getItem(context, id, options),
+  };
+}
+
+export function _getItemsOperations(context: AIProjectContext): ItemsOperations {
+  return { ..._getItems(context) };
+}`;
+  const incomingText = baseText.replace('Promise<"a b">', 'Promise<"ab">');
+  const resolvedText = operations(1, [getItem]).replace(
+    "options: ItemsGetItemOptionalParams = { requestOptions: {} }): Promise<string> {\n  const result",
+    'options: ItemsGetItemOptionalParams = { requestOptions: {} }): Promise<"ab"> {\n  const result',
+  );
+  const result = mergeCustomizedClassic({
+    file: "classic/items/index.ts",
+    baseText,
+    customText,
+    incomingText,
+    matches: [
+      {
+        incoming: { file: "api/items/operations.ts", name: "getItem" },
+        names: { publicNode: "getItem" },
+      },
+    ],
+    resolvedText,
+    resolvedOptionsText: options([getItem[3]]),
+    customApiText: operations(1, [getItem]),
+  });
+  assert.deepEqual(result.diagnostics, []);
+  assert.match(
+    result.text,
+    /getItem: \(\s*id: string,\s*options\?: ItemsGetItemOptionalParams,\s*\) => Promise<"ab">;/,
+  );
+  assert.doesNotMatch(result.text, /Promise<"a b">/);
 });
 
 test("reports a customized classic member whose operation moves to another group", () => {

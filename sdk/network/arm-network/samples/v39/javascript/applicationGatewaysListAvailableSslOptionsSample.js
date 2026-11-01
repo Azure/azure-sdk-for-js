@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists available Ssl options for configuring Ssl policy.
  *
  * @summary lists available Ssl options for configuring Ssl policy.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayAvailableSslOptionsGet.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayAvailableSslOptionsGet.json
  */
 async function getAvailableSslOptions() {
   const credential = new DefaultAzureCredential();

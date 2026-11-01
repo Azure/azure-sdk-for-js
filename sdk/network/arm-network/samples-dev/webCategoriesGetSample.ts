@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified Azure Web Category.
  *
  * @summary gets the specified Azure Web Category.
- * x-ms-original-file: 2026-01-01/AzureWebCategoryGet.json
+ * x-ms-original-file: 2026-03-01/AzureWebCategoryGet.json
  */
 async function getAzureWebCategoryByName(): Promise<void> {
   const credential = new DefaultAzureCredential();

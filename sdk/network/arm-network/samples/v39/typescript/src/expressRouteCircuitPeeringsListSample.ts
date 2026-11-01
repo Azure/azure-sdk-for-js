@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all peerings in a specified express route circuit.
  *
  * @summary gets all peerings in a specified express route circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitPeeringList.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitPeeringList.json
  */
 async function listExpressRouteCircuitPeerings(): Promise<void> {
   const credential = new DefaultAzureCredential();
