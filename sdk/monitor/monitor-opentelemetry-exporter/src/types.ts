@@ -98,12 +98,19 @@ export type SenderResult = {
  * @internal
  */
 export interface PersistentStorage {
+  readonly isEnabled: boolean;
   shift(): Promise<unknown>;
   push(value: unknown[]): Promise<boolean>;
   /** Restore an already-dequeued batch even if remote storage is paused. */
   restore(value: unknown[]): Promise<boolean>;
   cleanExpiredFiles(): Promise<void>;
   shutdown(): void;
+}
+
+/** @internal */
+export interface StoragePartition {
+  root: string;
+  name: string;
 }
 
 /**

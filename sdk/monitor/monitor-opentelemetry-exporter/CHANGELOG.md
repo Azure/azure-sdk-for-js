@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-beta.47 (Unreleased)
+
+### Features Added
+
+- Added opt-in multi-endpoint routing for logs, traces, and metrics.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.46 (2026-10-05)
 
 ### Features Added

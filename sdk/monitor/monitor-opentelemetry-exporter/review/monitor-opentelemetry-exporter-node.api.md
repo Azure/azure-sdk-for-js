@@ -45,6 +45,7 @@ export abstract class AzureMonitorBaseExporter {
     protected aadAudience: string | undefined;
     protected endpointUrl: string;
     protected instrumentationKey: string;
+    protected readonly multiEndpointRouting: boolean;
     protected trackStatsbeat: boolean;
 }
 
