@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { gunzipSync } from "node:zlib";
 import type { Attributes } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode, TraceFlags, ValueType } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
@@ -148,7 +149,12 @@ describe("multi-endpoint exporters", () => {
   }
 
   function body(index = 0): WireEnvelope[] {
-    return JSON.parse(String(requests[index].body));
+    const request = requests[index];
+    return JSON.parse(
+      request.headers.get("content-encoding") === "gzip" && Buffer.isBuffer(request.body)
+        ? gunzipSync(request.body).toString("utf8")
+        : String(request.body),
+    );
   }
 
   it("routes logs without host configuration and strips routing properties", async () => {
@@ -175,6 +181,28 @@ describe("multi-endpoint exporters", () => {
     expect(first.attributes).toHaveProperty("microsoft.instrumentation_key", "first");
     expect(stats).not.toHaveBeenCalled();
     expect(customerStats).not.toHaveBeenCalled();
+  });
+
+  it("preserves destination-specific envelopes when regional requests are compressed", async () => {
+    const exporter = create(new AzureMonitorLogExporter(options));
+    const callback = vi.fn();
+    await exporter.export(
+      [
+        log(route("east-first", "https://eastus-8.in.applicationinsights.azure.com")),
+        log(route("east-second", "https://eastus-8.in.applicationinsights.azure.com")),
+        log(route("west", "https://westus2-2.in.applicationinsights.azure.com")),
+      ],
+      callback,
+    );
+    expect(callback).toHaveBeenCalledExactlyOnceWith({ code: ExportResultCode.SUCCESS });
+    expect(requests).toHaveLength(2);
+    for (const [index, request] of requests.entries()) {
+      expect(request.headers.get("content-encoding")).toBe("gzip");
+      expect(Buffer.isBuffer(request.body)).toBe(true);
+      expect(body(index).map((envelope) => envelope.iKey)).toEqual(
+        request.url.includes("eastus-8") ? ["east-first", "east-second"] : ["west"],
+      );
+    }
   });
 
   it.each([AzureMonitorLogExporter, AzureMonitorTraceExporter, AzureMonitorMetricExporter])(
