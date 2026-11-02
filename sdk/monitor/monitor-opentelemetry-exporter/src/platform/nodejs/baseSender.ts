@@ -310,7 +310,7 @@ export abstract class BaseSender {
             }
             // calls resultCallback(ExportResult) based on result of persister.push
             this.scheduleRetryTimer(retryAfterMs, true);
-            return await this.persist(filteredEnvelopes, isReplay);
+            return await this.persist(filteredEnvelopes, isReplay, envelopes);
           }
           // Failed -- not retriable
           if (this.collectStats) {
@@ -481,7 +481,11 @@ export abstract class BaseSender {
   /**
    * Persist envelopes to disk
    */
-  private async persist(envelopes: unknown[], isReplay = false): Promise<ExportResult> {
+  private async persist(
+    envelopes: unknown[],
+    isReplay = false,
+    originalEnvelopes = envelopes,
+  ): Promise<ExportResult> {
     if (this.isRouted && !this.isStorageEnabled && !isReplay) {
       const error = new Error(
         "Cannot persist routed telemetry because offline storage is unavailable.",
@@ -491,7 +495,7 @@ export abstract class BaseSender {
     }
     try {
       const success = isReplay
-        ? await this.persister.restore(envelopes)
+        ? await this.persister.restore(envelopes, originalEnvelopes)
         : await this.persister.push(envelopes);
       return success
         ? { code: ExportResultCode.SUCCESS }
@@ -570,6 +574,10 @@ export abstract class BaseSender {
         this.statsbeatManager.countReadFailure();
       }
       diag.warn(`Failed to fetch persisted file`, err);
+    } finally {
+      if (envelopes) {
+        this.persister.release(envelopes);
+      }
     }
   }
 
@@ -582,6 +590,7 @@ export abstract class BaseSender {
       return;
     }
     const generation = this.storageGeneration;
+    let envelopes: Envelope[] | null = null;
     try {
       // Clean outdated telemetry from disk before attempting to send
       await this.persister.cleanExpiredFiles();
@@ -589,7 +598,7 @@ export abstract class BaseSender {
         return;
       }
 
-      let envelopes = (await this.persister.shift()) as Envelope[] | null;
+      envelopes = (await this.persister.shift()) as Envelope[] | null;
       let isFirstBatch = true;
       let replayedBatchCount = 0;
       while (envelopes && replayedBatchCount < MAX_STARTUP_REPLAY_BATCHES) {
@@ -617,6 +626,7 @@ export abstract class BaseSender {
           await this.restoreShiftedEnvelopes(envelopes);
           return;
         }
+        this.persister.release(envelopes);
         if (this.isShutdown || !this.storageEnabled || generation !== this.storageGeneration) {
           return;
         }
@@ -636,6 +646,10 @@ export abstract class BaseSender {
       }
     } catch (err: any) {
       diag.warn(`Failed to read persisted files during startup`, err);
+    } finally {
+      if (envelopes) {
+        this.persister.release(envelopes);
+      }
     }
   }
 

@@ -319,7 +319,12 @@ describe("routed senders and persistence", () => {
     const batch: Envelope[] = [{ name: "payload", time: new Date(0) }];
     first.maxBytesOnDisk = second.maxBytesOnDisk = Buffer.byteLength(JSON.stringify(batch));
     expect(await Promise.all([first.push(batch), second.push(batch)])).toEqual([true, false]);
-    expect(await first.shift()).toEqual(batch);
+    const shifted = await first.shift();
+    expect(shifted).toEqual(batch);
+    expect(await second.push(batch)).toBe(false);
+    if (Array.isArray(shifted)) {
+      first.release(shifted);
+    }
     expect(await second.push(batch)).toBe(true);
   });
 
@@ -328,11 +333,98 @@ describe("routed senders and persistence", () => {
     const second = storage("b");
     const batch: Envelope[] = [{ name: "payload", time: new Date(0) }];
     await first.push(batch);
-    await first.shift();
+    const shifted = await first.shift();
+    if (Array.isArray(shifted)) {
+      first.release(shifted);
+    }
     await writeFile(join(first["_tempDirectory"], "0.ai.json"), "expired");
     second.maxBytesOnDisk = Buffer.byteLength(JSON.stringify(batch));
     expect(await second.push(batch)).toBe(true);
     expect(await readdir(first["_tempDirectory"])).toEqual([]);
+  });
+
+  it("serializes new writes with dequeuing before the replay reservation is recorded", async () => {
+    const first = storage("a");
+    const second = storage("b");
+    const batch: Envelope[] = [{ name: "payload", time: new Date(0) }];
+    first.maxBytesOnDisk = second.maxBytesOnDisk = Buffer.byteLength(JSON.stringify(batch));
+    expect(await first.push(batch)).toBe(true);
+
+    let dequeued!: () => void;
+    let resume!: () => void;
+    const ready = new Promise<void>((resolve) => {
+      dequeued = resolve;
+    });
+    const waiting = new Promise<void>((resolve) => {
+      resume = resolve;
+    });
+    const read = first["_getFirstFileOnDisk"].bind(first);
+    first["_getFirstFileOnDisk"] = async () => {
+      const buffer = await read();
+      dequeued();
+      await waiting;
+      return buffer;
+    };
+    const shifting = first.shift();
+    await ready;
+    const competingWrite = second.push(batch);
+    resume();
+    const shifted = await shifting;
+    expect(await competingWrite).toBe(false);
+    expect(shifted).toEqual(batch);
+    if (Array.isArray(shifted)) {
+      expect(await first.restore(shifted)).toBe(true);
+    }
+  });
+
+  it("charges other in-flight batches while restoring a partial replay", async () => {
+    const first = storage("a");
+    const second = storage("b");
+    const batch: Envelope[] = [
+      { name: "first", time: new Date(0) },
+      { name: "second", time: new Date(0) },
+    ];
+    const batchSize = Buffer.byteLength(JSON.stringify(batch));
+    first.maxBytesOnDisk = second.maxBytesOnDisk = 2 * batchSize;
+    expect(await first.push(batch)).toBe(true);
+    expect(await second.push(batch)).toBe(true);
+    const original = await first.shift();
+    const other = await second.shift();
+    expect(original).toEqual(batch);
+    expect(other).toEqual(batch);
+    if (!Array.isArray(original) || !Array.isArray(other)) {
+      throw new Error("Expected both persisted batches");
+    }
+    expect(await first.restore([original[1]], original)).toBe(true);
+    // Releasing an already-restored batch must not consume another batch's reservation.
+    first.release(original);
+    first.release(original);
+    expect(await first.push(batch)).toBe(false);
+    expect(await second.restore(other)).toBe(true);
+    expect(await first.push(batch)).toBe(false);
+    const remaining = await first.shift();
+    expect(remaining).toEqual([batch[1]]);
+    if (Array.isArray(remaining)) {
+      first.release(remaining);
+    }
+    expect(await first.push(batch)).toBe(true);
+  });
+
+  it("does not allow a restore without a reservation to bypass the shared quota", async () => {
+    const first = storage("a");
+    const second = storage("b");
+    const batch: Envelope[] = [{ name: "payload", time: new Date(0) }];
+    first.maxBytesOnDisk = second.maxBytesOnDisk = Buffer.byteLength(JSON.stringify(batch));
+    expect(await first.push(batch)).toBe(true);
+    expect(await second.restore(batch)).toBe(false);
+    const original = await first.shift();
+    expect(original).toEqual(batch);
+    if (!Array.isArray(original)) {
+      throw new Error("Expected the persisted batch");
+    }
+    expect(await first.restore([...original, ...original], original)).toBe(false);
+    expect(await second.push(batch)).toBe(false);
+    expect(await first.restore(original)).toBe(true);
   });
 
   it("waits for active exports and rejects new work during shutdown", async () => {

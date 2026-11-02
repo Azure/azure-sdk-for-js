@@ -24,6 +24,8 @@ export class FileSystemPersist implements PersistentStorage {
   static TEMPDIR_PREFIX = "opentelemetry-nodejs-";
   static FILENAME_SUFFIX = ".ai.json";
   private static readonly capacityOperations = new Map<string, Promise<void>>();
+  private static readonly reservedCapacity = new Map<string, number>();
+  private readonly replayReservations = new Map<unknown[], number>();
 
   fileRetemptionPeriod = 2 * 24 * 60 * 60 * 1000; // 2 days
   cleanupTimeOut = 60 * 60 * 1000; // 1 hour
@@ -101,12 +103,27 @@ export class FileSystemPersist implements PersistentStorage {
     });
   }
 
-  public restore(value: unknown[]): Promise<boolean> {
+  public restore(value: unknown[], originalValue = value): Promise<boolean> {
     if (!this._enabled) {
       return Promise.resolve(false);
     }
     // This batch was already removed from disk. Preserve it without enabling new writes.
-    return this._storeToDisk(JSON.stringify(value), value as Envelope[], true);
+    return this._storeToDisk(JSON.stringify(value), value as Envelope[], true, originalValue);
+  }
+
+  public release(value: unknown[]): void {
+    const root = this._storagePartition?.root;
+    const reservation = this.replayReservations.get(value);
+    if (!root || reservation === undefined) {
+      return;
+    }
+    this.replayReservations.delete(value);
+    const remaining = (FileSystemPersist.reservedCapacity.get(root) ?? 0) - reservation;
+    if (remaining > 0) {
+      FileSystemPersist.reservedCapacity.set(root, remaining);
+    } else {
+      FileSystemPersist.reservedCapacity.delete(root);
+    }
   }
 
   public shutdown(): void {
@@ -117,6 +134,10 @@ export class FileSystemPersist implements PersistentStorage {
   }
 
   async shift(): Promise<unknown> {
+    return this.withCapacityLock(() => this.shiftCore());
+  }
+
+  private async shiftCore(): Promise<unknown> {
     if (this._enabled && this._isStorageActive()) {
       diag.debug("Searching for filesystem persisted files");
       try {
@@ -130,6 +151,15 @@ export class FileSystemPersist implements PersistentStorage {
               if (isObjectWithProperties(envelope, ["time"]) && typeof envelope.time === "string") {
                 envelope.time = new Date(envelope.time);
               }
+            }
+            const root = this._storagePartition?.root;
+            if (root) {
+              // Keep the dequeued bytes charged to the shared quota until replay completes.
+              this.replayReservations.set(envelopes, buffer.byteLength);
+              FileSystemPersist.reservedCapacity.set(
+                root,
+                (FileSystemPersist.reservedCapacity.get(root) ?? 0) + buffer.byteLength,
+              );
             }
           }
           return value;
@@ -191,14 +221,21 @@ export class FileSystemPersist implements PersistentStorage {
     payload: string,
     envelopes: Envelope[],
     restoring = false,
+    originalValue?: unknown[],
   ): Promise<boolean> {
+    return this.withCapacityLock(() =>
+      this._storeToDiskCore(payload, envelopes, restoring, originalValue),
+    );
+  }
+
+  private async withCapacityLock<T>(action: () => Promise<T>): Promise<T> {
     const root = this._storagePartition?.root;
     if (!root) {
-      return this._storeToDiskCore(payload, envelopes, restoring);
+      return action();
     }
-    // Serialize capacity checks and writes across partitions sharing the same quota.
+    // Reserve dequeued bytes under the same lock used for capacity checks and writes.
     const previous = FileSystemPersist.capacityOperations.get(root) ?? Promise.resolve();
-    const operation = previous.then(() => this._storeToDiskCore(payload, envelopes, restoring));
+    const operation = previous.then(action);
     const completion = operation.then(
       () => undefined,
       () => undefined,
@@ -217,6 +254,7 @@ export class FileSystemPersist implements PersistentStorage {
     payload: string,
     envelopes: Envelope[],
     restoring = false,
+    originalValue?: unknown[],
   ): Promise<boolean> {
     try {
       if (this._storagePartition) {
@@ -241,10 +279,18 @@ export class FileSystemPersist implements PersistentStorage {
     }
 
     try {
-      const size = this._storagePartition
-        ? await this.getRoutingStorageSize(this._storagePartition.root)
+      const root = this._storagePartition?.root;
+      const size = root
+        ? await this.getRoutingStorageSize(root)
         : await getShallowDirectorySize(this._tempDirectory);
-      if (size + (this._storagePartition ? Buffer.byteLength(payload) : 0) > this.maxBytesOnDisk) {
+      const reserved = root ? (FileSystemPersist.reservedCapacity.get(root) ?? 0) : 0;
+      const restoringCapacity = originalValue
+        ? (this.replayReservations.get(originalValue) ?? 0)
+        : 0;
+      if (
+        size + reserved - restoringCapacity + (root ? Buffer.byteLength(payload) : 0) >
+        this.maxBytesOnDisk
+      ) {
         // If the directory size exceeds the max limit, we send customer SDK Stats and warn the user
         this._customerSDKStatsMetricsProvider?.()?.countDroppedItems(
           envelopes,
@@ -289,6 +335,9 @@ export class FileSystemPersist implements PersistentStorage {
       );
       diag.warn(`Error writing file to persistent file storage`, writeError);
       return false;
+    }
+    if (originalValue) {
+      this.release(originalValue);
     }
     return true;
   }

@@ -348,6 +348,99 @@ describe("OneSettings local storage", () => {
     expect(sender.send).toHaveBeenCalledTimes(2);
   });
 
+  it.each(
+    (["sendFirstPersistedFile", "sendAllPersistedFiles"] as const).flatMap((replayMethod) =>
+      (["success", "permanent-failure", "retry", "partial", "pause", "shutdown"] as const).map(
+        (outcome) => ({ replayMethod, outcome }),
+      ),
+    ),
+  )(
+    "reserves routed replay capacity for $replayMethod on $outcome",
+    async ({ replayMethod, outcome }) => {
+      const root = join(directory, "routes");
+      const sender = new StorageSender({
+        instrumentationKey: "",
+        endpointUrl: "https://example.test",
+        trackStatsbeat: false,
+        isRouted: true,
+        storagePartition: { root, name: "a".repeat(64) },
+        exporterOptions: {},
+      });
+      senders.push(sender);
+      const competing = new FileSystemPersist("", {}, undefined, undefined, {
+        root,
+        name: "b".repeat(64),
+      });
+      persisters.push(competing);
+      const persister = sender["persister"];
+      expect(persister).toBeInstanceOf(FileSystemPersist);
+      if (!(persister instanceof FileSystemPersist)) {
+        throw new Error("Expected real filesystem persistence");
+      }
+      const original: Envelope[] = [
+        { name: "first", time: new Date(0), instrumentationKey: "first-key" },
+        { name: "second", time: new Date(0), instrumentationKey: "second-key" },
+      ];
+      persister.maxBytesOnDisk = competing.maxBytesOnDisk = Buffer.byteLength(
+        JSON.stringify(original),
+      );
+      expect(await persister.push(original)).toBe(true);
+
+      const sending = deferred<void>();
+      const result = deferred<SenderResult>();
+      sender.send.mockImplementationOnce(() => {
+        sending.resolve();
+        return result.promise;
+      });
+      const replay = sender[replayMethod]();
+      await sending.promise;
+      let stopping: Promise<void> | undefined;
+      try {
+        expect(await competing.push(original)).toBe(false);
+      } finally {
+        if (outcome === "pause") {
+          await sender["storageCallback"](disabled);
+        } else if (outcome === "shutdown") {
+          stopping = sender.shutdown();
+        }
+        if (outcome === "shutdown") {
+          result.reject(new RestError("Connection reset", { code: "ECONNRESET" }));
+        } else if (outcome === "partial") {
+          result.resolve({
+            statusCode: 206,
+            result: JSON.stringify({
+              itemsReceived: 2,
+              itemsAccepted: 1,
+              errors: [{ index: 1, statusCode: 503, message: "retry" }],
+            }),
+            retryAfterMs: 60_000,
+          });
+        } else {
+          result.resolve({
+            statusCode: outcome === "success" ? 200 : outcome === "permanent-failure" ? 400 : 503,
+            result: "",
+            retryAfterMs: 60_000,
+          });
+        }
+        await replay;
+        await stopping;
+      }
+      if (outcome === "pause") {
+        await sender["storageCallback"](enabled);
+      }
+      const restored = await persister.shift();
+      if (outcome === "success" || outcome === "permanent-failure") {
+        expect(restored).toBeNull();
+      } else {
+        expect(restored).toEqual(outcome === "partial" ? [original[1]] : original);
+        if (Array.isArray(restored)) {
+          persister.release(restored);
+        }
+      }
+      expect(await competing.push(original)).toBe(true);
+    },
+  );
+
   it("restores replay without following a redirect received while paused", async () => {
     const sender = createSender();
     await sender["persister"].push(batch);

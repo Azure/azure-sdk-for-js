@@ -67,6 +67,7 @@ vi.mock("../../src/platform/nodejs/persist/index.js", () => ({
     return {
       push: vi.fn().mockResolvedValue(true),
       restore: vi.fn().mockResolvedValue(true),
+      release: vi.fn(),
       shutdown: vi.fn(),
       shift: vi.fn().mockResolvedValue(null),
     };
