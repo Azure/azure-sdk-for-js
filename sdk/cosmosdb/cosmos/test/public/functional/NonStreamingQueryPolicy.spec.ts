@@ -725,4 +725,95 @@ describe("Full text search feature", async () => {
     assert(result.resources.length === 2);
     await database.container(containerName).delete();
   });
+
+  /**
+   * Tests for FullTextPolicy multi-language support.
+   * GA Languages: en-US, fr-FR, de-DE, es-ES
+   * Preview Languages: it-IT, pt-BR, pt-PT
+   *
+   * Skipped until emulator supports it.
+   */
+  describe.skip("FullTextPolicy multi-language support", () => {
+    // All supported languages for FullTextPolicy
+    const supportedLanguages = [
+      { code: "en-US", name: "English (United States)" },
+      { code: "fr-FR", name: "French (France)" },
+      { code: "de-DE", name: "German (Germany)" },
+      { code: "es-ES", name: "Spanish (Spain)" },
+      { code: "it-IT", name: "Italian (Italy)" },
+      { code: "pt-BR", name: "Portuguese (Brazil)" },
+      { code: "pt-PT", name: "Portuguese (Portugal)" },
+    ];
+
+    // Helper function to generate a safe container name from language code
+    const getContainerName = (languageCode: string): string => {
+      return `fts-lang-${languageCode.replace(/[^a-z0-9]/gi, "").toLowerCase()}`;
+    };
+
+    supportedLanguages.forEach(({ code, name }) => {
+      it(`should create container with FullTextPolicy using ${name} (${code})`, async () => {
+        const containerName = getContainerName(code);
+        const fullTextPath = "/searchableText";
+
+        const languageSpecificFullTextPolicy = {
+          defaultLanguage: code,
+          fullTextPaths: [{ path: fullTextPath, language: code }],
+        };
+
+        const languageSpecificIndexingPolicy: IndexingPolicy = {
+          includedPaths: [{ path: "/*" }],
+          excludedPaths: [{ path: '/"_etag"/?' }],
+          fullTextIndexes: [{ path: fullTextPath }],
+        };
+
+        const { resource: containerdef } = await database.containers.createIfNotExists({
+          id: containerName,
+          fullTextPolicy: languageSpecificFullTextPolicy,
+          indexingPolicy: languageSpecificIndexingPolicy,
+          throughput: 1000,
+        });
+
+        // Verify container was created successfully
+        assert(containerdef !== undefined, `Container creation failed for ${code}`);
+        assert(
+          containerdef.indexingPolicy !== undefined,
+          `IndexingPolicy is undefined for ${code}`,
+        );
+        assert(
+          containerdef.fullTextPolicy !== undefined,
+          `FullTextPolicy is undefined for ${code}`,
+        );
+
+        // Verify FullTextPolicy properties
+        assert.strictEqual(
+          containerdef.fullTextPolicy.defaultLanguage,
+          code,
+          `DefaultLanguage mismatch for ${code}`,
+        );
+        assert.strictEqual(
+          containerdef.fullTextPolicy.fullTextPaths.length,
+          1,
+          `FullTextPaths length mismatch for ${code}`,
+        );
+        assert.strictEqual(
+          containerdef.fullTextPolicy.fullTextPaths[0].path,
+          fullTextPath,
+          `FullTextPath path mismatch for ${code}`,
+        );
+        assert.strictEqual(
+          containerdef.fullTextPolicy.fullTextPaths[0].language,
+          code,
+          `FullTextPath language mismatch for ${code}`,
+        );
+
+        // Verify FullTextIndexes
+        assert(containerdef.indexingPolicy.fullTextIndexes !== undefined);
+        assert.strictEqual(containerdef.indexingPolicy.fullTextIndexes.length, 1);
+        assert.strictEqual(containerdef.indexingPolicy.fullTextIndexes[0].path, fullTextPath);
+
+        // Clean up
+        await database.container(containerName).delete();
+      });
+    });
+  });
 });
