@@ -988,6 +988,123 @@ describe("partition split recovery", () => {
     );
   });
 
+  it("preserves unread equal-key rows across a mixed-topology merge page cutoff", async () => {
+    const clientContext = createClientContext();
+    const lowerRange = createPartitionKeyRange("L", "", "40");
+    const middleRange = createPartitionKeyRange("P1", "40", "80");
+    const rightRange = createPartitionKeyRange("P2", "80", "FF");
+    let routingRequestCount = 0;
+    vi.spyOn(clientContext, "queryPartitionKeyRanges").mockImplementation(
+      () =>
+        ({
+          fetchAllInternal: vi.fn(async () => {
+            routingRequestCount++;
+            return {
+              resources:
+                routingRequestCount === 1 ? [lowerRange, middleRange, rightRange] : [mergedRange],
+              headers: { "x-ms-request-charge": "1" },
+              code: StatusCodes.Ok,
+            };
+          }),
+        }) as unknown as QueryIterator<PartitionKeyRange>,
+    );
+    const middleResult = createOrderByDocument("middle-equal", 5, "AAAAAAAAAAAAAAAAAAAAAQ==");
+    const rightResult = createOrderByDocument("right-equal", 5, "AAAAAAAAAAAAAAAAAAAAAg==");
+    const mergedRequests: { endEpk?: string; query: string; startEpk?: string }[] = [];
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(
+      async ({ endEpk, partitionKeyRangeId, query: requestQuery, startEpk }) => {
+        const rangeId = partitionKeyRangeId ?? "none";
+        const queryText =
+          typeof requestQuery === "string" ? requestQuery : (requestQuery?.query ?? "");
+        if (rangeId === "L") {
+          return {
+            result: [] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (rangeId === "P1") {
+          return {
+            result: [middleResult] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        if (rangeId === "P2") {
+          throw createSplitError();
+        }
+        assert.equal(rangeId, "M");
+        mergedRequests.push({ endEpk, query: queryText, startEpk });
+        if (endEpk !== "FF") {
+          assert.include(queryText, "c.value > 5");
+          return {
+            result: [] as unknown as Resource,
+            headers: { "x-ms-request-charge": "1" },
+            code: StatusCodes.Ok,
+          };
+        }
+        assert.equal(startEpk, "80");
+        assert.equal(endEpk, "FF");
+        return {
+          result: [rightResult] as unknown as Resource,
+          headers: { "x-ms-request-charge": "1" },
+          code: StatusCodes.Ok,
+        };
+      },
+    );
+
+    const firstContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 3,
+        maxItemCount: 1,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const firstPage = await withTimeout(firstContext.fetchMore(createDummyDiagnosticNode()), 1000);
+    const continuationToken = firstPage.headers["x-ms-continuation"];
+    assert.isString(continuationToken);
+
+    const resumedContext = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        continuationToken,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+        maxItemCount: 1,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+    const finalPage = await withTimeout(
+      resumedContext.fetchMore(createDummyDiagnosticNode()),
+      1000,
+    );
+
+    assert.deepEqual(
+      [...firstPage.result, ...finalPage.result].map((resource: { id: string }) => resource.id),
+      ["middle-equal", "right-equal"],
+    );
+    assert.isUndefined(finalPage.headers["x-ms-continuation"]);
+    assert.deepEqual(
+      mergedRequests.map(({ endEpk, startEpk }) => [startEpk, endEpk]),
+      [
+        ["80", "FF"],
+        ["", "40"],
+        ["80", "FF"],
+      ],
+    );
+    assert.equal(routingRequestCount, 2);
+  });
+
   it("preserves distinct bounded continuations when both merged ranges are empty", async () => {
     const clientContext = createClientContext();
     mockStableTopology(clientContext, [mergedRange]);

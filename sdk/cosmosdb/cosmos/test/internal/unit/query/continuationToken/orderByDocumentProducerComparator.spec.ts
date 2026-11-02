@@ -54,6 +54,30 @@ describe("OrderByDocumentProducerComparator", () => {
     assert.equal(comparator.compare(docProd1, docProd2), -1);
   });
 
+  it("orders equal values by effective logical range start", () => {
+    const mergedReplacement = {
+      ...createMockDocumentProducer(
+        {
+          ...mockPartitionKeyRange1,
+          minInclusive: "",
+          maxExclusive: "FF",
+        },
+        "80",
+      ),
+      peekBufferedItems: () => [{ orderByItems: [{ item: 5 }] }],
+    } as DocumentProducer;
+    const bufferedSibling = {
+      ...createMockDocumentProducer({
+        ...mockPartitionKeyRange2,
+        minInclusive: "40",
+        maxExclusive: "80",
+      }),
+      peekBufferedItems: () => [{ orderByItems: [{ item: 5 }] }],
+    } as DocumentProducer;
+
+    assert.equal(comparator.compare(mergedReplacement, bufferedSibling), 1);
+  });
+
   describe("targetPartitionKeyRangeDocProdComparator", () => {
     it("should return -1 when first producer has smaller minInclusive", () => {
       const docProd1 = createMockDocumentProducer({
@@ -182,7 +206,7 @@ describe("OrderByDocumentProducerComparator", () => {
       assert.equal(result, 0); // "epk1" === "epk1"
     });
 
-    it("should return 0 when one startEpk is undefined", () => {
+    it("should compare startEpk with the other physical range start", () => {
       const docProd1 = createMockDocumentProducer(
         {
           ...mockPartitionKeyRange1,
@@ -203,7 +227,7 @@ describe("OrderByDocumentProducerComparator", () => {
         docProd2 as DocumentProducer,
       );
 
-      assert.equal(result, 0);
+      assert.equal(result, 1);
     });
 
     it("should return 0 when both startEpk values are undefined", () => {
