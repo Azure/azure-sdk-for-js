@@ -452,12 +452,16 @@ Remove-Item -ErrorAction SilentlyContinue `
   src/restorePollerHelpers.ts, `
   metadata.json, `
   agent_version_lines.txt, `
-  review/ai-projects-browser.api.diff.md, `
-  review/ai-projects-react-native.api.diff.md, `
   src/**/*.tmp, src/**/*.tmp2, src/**/*.bak
 ```
 
 `src/restorePollerHelpers.ts` should not exist — there's a single `restorePollerHelpers.ts` under `generated/` only. `.tmp`, `.tmp2`, and `.bak` files are subagent scratch from earlier in the workflow.
+
+Keep tracked files under `review/`, including the browser and React Native
+`*.api.diff.md` reports. They are generated API snapshots checked by CI, not
+disposable scratch files. Commit their final API-extraction changes even when
+only unified-diff line numbers changed. Clean-tree setup before regeneration
+may restore these reports, but never discard their changes after the final build.
 
 The `customize` hook intentionally does not run `scripts/post-emitter.mjs`: that script removes the existing `azsdk-js-client` and `azsdk-js-api` user-agent tokens from protected client/context files. Preserve those tokens and follow the per-rule checks instead. If the script is run manually, immediately repeat Step 1 and restore unintended user-agent changes before building.
 
