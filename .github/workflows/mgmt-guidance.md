@@ -102,6 +102,9 @@ tools:
     toolsets: [context, repos, pull_requests, actions]
   bash: true
 safe-outputs:
+  allowed-domains:
+    - eng.ms
+    - teams.microsoft.com
   threat-detection:
     engine:
       id: copilot
