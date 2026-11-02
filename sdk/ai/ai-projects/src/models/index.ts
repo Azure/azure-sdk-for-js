@@ -954,4 +954,11 @@ export type {
   VoiceAgentSoundscapeSourceConfig,
   VoiceAgentSoundscapeSound,
   VoiceAgentSoundscapeWorkingTrackConfig,
+  VoiceAgentPostCallConfig,
+  VoiceAgentPostCallDestination,
+  VoiceAgentPostCallDestinationUnion,
+  VoiceAgentPostCallDestinationType,
+  VoiceAgentEventGridPostCallDestination,
+  VoiceAgentRoutinePostCallDestination,
+  VoiceAgentPostCallIncludeOption,
 } from "./models.js";
