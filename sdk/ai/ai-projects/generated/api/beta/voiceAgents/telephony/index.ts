@@ -4,6 +4,8 @@
 export {
   cancelCallJob,
   getCallJob,
+  deleteCallJob,
+  listCallJobs,
   createCallJob,
   replaceTransferTargets,
   getTransferTargets,
@@ -20,6 +22,8 @@ export {
 export type {
   BetaVoiceAgentsTelephonyCancelCallJobOptionalParams,
   BetaVoiceAgentsTelephonyGetCallJobOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
+  BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
   BetaVoiceAgentsTelephonyCreateCallJobOptionalParams,
   BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams,
   BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams,

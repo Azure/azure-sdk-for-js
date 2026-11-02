@@ -20,7 +20,6 @@ import {
 
 export function _createFromPromptSend(
   context: Client,
-  foundryFeatures: "VoiceAgents=V1Preview",
   body: GenerateAgentRequest,
   options: BetaAgentsCreateFromPromptOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -39,7 +38,9 @@ export function _createFromPromptSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: {
-        "foundry-features": foundryFeatures,
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -67,10 +68,9 @@ export async function _createFromPromptDeserialize(result: PathUncheckedResponse
  */
 export async function createFromPrompt(
   context: Client,
-  foundryFeatures: "VoiceAgents=V1Preview",
   body: GenerateAgentRequest,
   options: BetaAgentsCreateFromPromptOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _createFromPromptSend(context, foundryFeatures, body, options);
+  const result = await _createFromPromptSend(context, body, options);
   return _createFromPromptDeserialize(result);
 }
