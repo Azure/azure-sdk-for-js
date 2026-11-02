@@ -5,6 +5,7 @@ export default [
     {
       rules: {
         "@typescript-eslint/no-use-before-define": "warn",
+        "tsdoc/syntax": "off",
       },
     },
   ]),

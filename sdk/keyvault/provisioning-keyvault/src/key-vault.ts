@@ -11,6 +11,7 @@ import {
 } from "@azure/provisioning-core";
 import {
   createDeferredShape,
+  createEnumShape,
   createFlatModelShape,
   createRecordShape,
   createStringShape,
@@ -19,6 +20,7 @@ import {
   type ResourceProps,
 } from "@azure/provisioning-core/internal";
 import {
+  type AccessPolicyUpdateKind,
   type KeyProperties,
   type KeyPropertiesInput,
   keyPropertiesShape,
@@ -62,7 +64,7 @@ export interface AccessPolicyProps {
   /**
    * The resource name of the access policy.
    */
-  name?: ExpressionOrValue<string> | undefined;
+  name: ExpressionOrValue<AccessPolicyUpdateKind>;
   /**
    * Properties of the access policy
    */
@@ -77,22 +79,14 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
   static apiVersion = API_VERSION;
   protected static namingRules: ResourceNamingRules = {
     abbreviation: "ap",
-    minLength: 1,
-    maxLength: 24,
-    validCharacters: {
-      uppercase: true,
-      hyphens: true,
-      underscores: false,
-      periods: false,
-    },
-    scope: "global",
+    scope: "parent",
   };
 
   static {
     this.registerShape(
       createFlatModelShape({
         location: { armPath: ["location"], value: createStringShape(), readOnly: true },
-        name: { armPath: ["name"], value: createStringShape() },
+        name: { armPath: ["name"], value: createEnumShape() },
         properties: {
           armPath: ["properties"],
           value: createDeferredShape(() => vaultAccessPolicyPropertiesShape),
@@ -110,7 +104,8 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
    */
   protected static buildResourceProps(
     props?:
-      (AccessPolicyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
+      | (AccessPolicyProps & { existing?: false })
+      | (ExistingResourceProps<AccessPolicyUpdateKind> & { existing: true }),
   ): ResourceProps<"Microsoft.KeyVault/vaults/accessPolicies"> & Record<string, unknown> {
     return {
       ...props,
@@ -122,7 +117,8 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
   constructor(
     context: KeyVault,
     props:
-      (AccessPolicyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
+      | (AccessPolicyProps & { existing?: false })
+      | (ExistingResourceProps<AccessPolicyUpdateKind> & { existing: true }),
     options?: ResourceOptions,
   ) {
     super(context, AccessPolicy.buildResourceProps(props), options);
@@ -138,10 +134,10 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
   /**
    * The resource name of the access policy.
    */
-  get name(): Expression<string> {
+  get name(): Expression<AccessPolicyUpdateKind> {
     return this.expr("name");
   }
-  set name(value: ExpressionOrValue<string>) {
+  set name(value: ExpressionOrValue<AccessPolicyUpdateKind>) {
     this.setProperty("name", value);
   }
 
@@ -179,15 +175,10 @@ export class Version extends Resource<"Microsoft.KeyVault/vaults/keys/versions">
   static apiVersion = API_VERSION;
   protected static namingRules: ResourceNamingRules = {
     abbreviation: "v",
-    minLength: 1,
-    maxLength: 24,
-    validCharacters: {
-      uppercase: true,
-      hyphens: false,
-      underscores: false,
-      periods: false,
+    pattern: {
+      regex: "^[a-fA-F0-9]{32}$",
     },
-    scope: "global",
+    scope: "parent",
   };
 
   static {
@@ -270,15 +261,10 @@ export class VaultKey extends Resource<"Microsoft.KeyVault/vaults/keys"> {
   static apiVersion = API_VERSION;
   protected static namingRules: ResourceNamingRules = {
     abbreviation: "k",
-    minLength: 1,
-    maxLength: 24,
-    validCharacters: {
-      uppercase: true,
-      hyphens: false,
-      underscores: false,
-      periods: false,
+    pattern: {
+      regex: "^[a-zA-Z0-9-]{1,127}$",
     },
-    scope: "global",
+    scope: "parent",
   };
 
   static {
@@ -381,15 +367,10 @@ export class VaultPrivateEndpointConnection extends Resource<"Microsoft.KeyVault
   static apiVersion = API_VERSION;
   protected static namingRules: ResourceNamingRules = {
     abbreviation: "pec",
-    minLength: 1,
-    maxLength: 24,
-    validCharacters: {
-      uppercase: true,
-      hyphens: true,
-      underscores: false,
-      periods: false,
+    pattern: {
+      regex: "",
     },
-    scope: "global",
+    scope: "parent",
   };
 
   static {
@@ -505,15 +486,10 @@ export class Secret extends Resource<"Microsoft.KeyVault/vaults/secrets"> {
   static apiVersion = API_VERSION;
   protected static namingRules: ResourceNamingRules = {
     abbreviation: "s",
-    minLength: 1,
-    maxLength: 24,
-    validCharacters: {
-      uppercase: true,
-      hyphens: true,
-      underscores: false,
-      periods: false,
+    pattern: {
+      regex: "",
     },
-    scope: "global",
+    scope: "parent",
   };
 
   static {
@@ -601,13 +577,8 @@ export class KeyVault extends Resource<"Microsoft.KeyVault/vaults"> {
   static apiVersion = API_VERSION;
   protected static namingRules: ResourceNamingRules = {
     abbreviation: "kv",
-    minLength: 3,
-    maxLength: 24,
-    validCharacters: {
-      uppercase: true,
-      hyphens: true,
-      underscores: false,
-      periods: false,
+    pattern: {
+      regex: "",
     },
     scope: "global",
   };
