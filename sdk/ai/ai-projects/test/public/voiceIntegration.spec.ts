@@ -295,6 +295,45 @@ describe("voice post-emitter integration", () => {
     expect(agentDefinitionUnionDeserializer(wire)).toMatchObject(definition);
   });
 
+  // These are local converter tests; no live calls or recordings are required.
+  it.each([
+    { name: "omitted", include: undefined },
+    { name: "empty", include: [] },
+    { name: "audio", include: ["audio"] as const },
+  ])("round-trips post-call destinations with $name include", ({ include }) => {
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      model: "voice-model",
+      model_type: "managed",
+      post_call: {
+        destinations: [
+          { type: "event_grid", connection_name: "post-call-events" },
+          { type: "routine", name: "archive" },
+        ],
+        include: include ? [...include] : undefined,
+      },
+      store: false,
+    };
+    const wire = agentDefinitionUnionSerializer(definition);
+    expect(wire.post_call).toEqual(definition.post_call);
+    expect(wire.store).toBe(false);
+    expect(agentDefinitionUnionDeserializer(wire)).toMatchObject(definition);
+  });
+
+  it("keeps post-call delivery optional on existing voice definitions", () => {
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      model: "voice-model",
+      model_type: "managed",
+    };
+    const wire = agentDefinitionUnionSerializer(definition);
+    expect(JSON.parse(JSON.stringify(wire))).not.toHaveProperty("post_call");
+    const decoded = agentDefinitionUnionDeserializer(wire);
+    expect(decoded.kind).toBe("voice");
+    expect(decoded).toMatchObject(definition);
+    expect(decoded).toHaveProperty("post_call", undefined);
+  });
+
   it("round-trips base64 audio delta bytes", () => {
     const event: RealtimeServerEventResponseAudioDelta = {
       type: "response.output_audio.delta",
