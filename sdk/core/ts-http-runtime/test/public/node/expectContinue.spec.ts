@@ -15,6 +15,7 @@ import {
 import { sendRequest } from "../../../src/client/sendRequest.js";
 import { getRequestCompletion } from "../../../src/util/responseBody.js";
 import { redirectPolicy } from "../../../src/policies/redirectPolicy.js";
+import { systemErrorRetryPolicy } from "../../../src/policies/systemErrorRetryPolicy.js";
 
 const servers: http.Server[] = [];
 
@@ -40,6 +41,118 @@ afterEach(async () => {
 });
 
 describe("Expect: 100-continue", () => {
+  it.each([
+    { dispatch: "normal", progress: false },
+    { dispatch: "normal", progress: true },
+    { dispatch: "Continue", progress: false },
+    { dispatch: "Continue", progress: true },
+    { dispatch: "fallback", progress: false },
+    { dispatch: "fallback", progress: true },
+  ])(
+    "preserves local factory errors without retrying (dispatch=$dispatch, progress=$progress)",
+    async ({ dispatch, progress }) => {
+      const failure = Object.assign(new Error("local body file not found"), { code: "ENOENT" });
+      const bodyFactory = vi.fn(() => {
+        throw failure;
+      });
+      const onUploadProgress = vi.fn();
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const server = http.createServer();
+      server.on("checkContinue", (request, response) => {
+        request.resume();
+        if (dispatch === "Continue") {
+          response.writeContinue();
+        }
+      });
+      const port = await listen(server);
+      const agent = new http.Agent({ keepAlive: false });
+      const httpRequest = vi.spyOn(http, "request");
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 }));
+
+      try {
+        await expect(
+          pipeline.sendRequest(
+            createDefaultHttpClient(),
+            createPipelineRequest({
+              url: `http://127.0.0.1:${port}`,
+              method: "POST",
+              allowInsecureConnection: true,
+              headers: createHttpHeaders(dispatch === "normal" ? {} : { Expect: "100-continue" }),
+              body: bodyFactory,
+              abortSignal: controller.signal,
+              onUploadProgress: progress ? onUploadProgress : undefined,
+              requestOverrides: { agent },
+            }),
+          ),
+        ).rejects.toBe(failure);
+
+        expect(bodyFactory).toHaveBeenCalledOnce();
+        expect(onUploadProgress).not.toHaveBeenCalled();
+        expect(httpRequest).toHaveBeenCalledTimes(dispatch === "normal" ? 0 : 1);
+        if (dispatch !== "normal") {
+          const result = httpRequest.mock.results[0];
+          if (!result || result.type !== "return") {
+            throw new Error("Expected an outgoing HTTP request");
+          }
+          await expect.poll(() => result.value.closed).toBe(true);
+          expect(result.value.destroyed).toBe(true);
+        }
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        expect(removeEventListener).toHaveBeenCalledExactlyOnceWith("abort", expect.any(Function));
+      } finally {
+        agent.destroy();
+        httpRequest.mockRestore();
+      }
+    },
+  );
+
+  it("still retries transport failures before body preparation", async () => {
+    let attempts = 0;
+    let receivedBody = "";
+    const bodyFactory = vi.fn(() => Readable.from(["payload"]));
+    const server = http.createServer();
+    server.on("checkContinue", (request, response) => {
+      attempts++;
+      if (attempts === 1) {
+        request.socket.destroy();
+        return;
+      }
+      request.setEncoding("utf8");
+      request.on("data", (chunk: string) => {
+        receivedBody += chunk;
+      });
+      request.on("end", () => response.end("accepted"));
+      response.writeContinue();
+    });
+    const port = await listen(server);
+    const agent = new http.Agent({ keepAlive: false });
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 1, retryDelayInMs: 0 }));
+
+    try {
+      const response = await pipeline.sendRequest(
+        createDefaultHttpClient(),
+        createPipelineRequest({
+          url: `http://127.0.0.1:${port}`,
+          method: "POST",
+          allowInsecureConnection: true,
+          headers: createHttpHeaders({ Expect: "100-continue" }),
+          body: bodyFactory,
+          requestOverrides: { agent },
+        }),
+      );
+
+      expect(response.bodyAsText).toBe("accepted");
+      expect(attempts).toBe(2);
+      expect(bodyFactory).toHaveBeenCalledOnce();
+      expect(receivedBody).toBe("payload");
+    } finally {
+      agent.destroy();
+    }
+  });
+
   it.each([
     { kind: "undefined", body: undefined },
     { kind: "null", body: null },
