@@ -13,6 +13,7 @@ trigger:
       - sdk/storage/ci.mgmt.yml
       - sdk/storage/arm-storage-profile-2020-09-01-hybrid
       - sdk/storage/arm-storage
+      - sdk/storage/provisioning-storage
 pr:
   branches:
     include:
@@ -27,6 +28,7 @@ pr:
       - sdk/storage/ci.mgmt.yml
       - sdk/storage/arm-storage-profile-2020-09-01-hybrid
       - sdk/storage/arm-storage
+      - sdk/storage/provisioning-storage
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -36,3 +38,5 @@ extends:
         safeName: azurearmstorage
       - name: azure-arm-storage-profile-2020-09-01-hybrid
         safeName: azurearmstorageprofile20200901hybrid
+      - name: azure-provisioning-storage
+        safeName: azureprovisioningstorage
