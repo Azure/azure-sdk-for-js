@@ -290,6 +290,86 @@ describe("Expect: 100-continue", () => {
     },
   );
 
+  it.each([
+    { format: "pipeline", headers: undefined },
+    {
+      format: "object",
+      headers: { Expect: "100-continue", "Transfer-Encoding": "chunked", tRaIlEr: "Digest" },
+    },
+    {
+      format: "flat",
+      headers: [
+        "Host",
+        "localhost",
+        "Expect",
+        "100-continue",
+        "Transfer-Encoding",
+        "chunked",
+        "tRaIlEr",
+        "Digest",
+      ],
+    },
+    {
+      format: "paired",
+      headers: [
+        ["Host", "localhost"],
+        ["Expect", "100-continue"],
+        ["Transfer-Encoding", "chunked"],
+        ["tRaIlEr", "Digest"],
+      ],
+    },
+  ])(
+    "discards Trailer when a chunked POST becomes a GET on 303 ($format headers)",
+    async ({ headers }) => {
+      const bodyFactory = vi.fn(() => Readable.from(["payload"]));
+      let redirectedHeaders: http.IncomingHttpHeaders | undefined;
+      let redirectedMethod: string | undefined;
+      const server = http.createServer((request, response) => {
+        redirectedHeaders = request.headers;
+        redirectedMethod = request.method;
+        response.end("redirected");
+      });
+      server.on("checkContinue", (_request, response) => {
+        response.writeHead(303, { Location: "/redirected" });
+        response.end();
+      });
+      const port = await listen(server);
+      const agent = new http.Agent({ keepAlive: false });
+      const originalHeaders = JSON.stringify(headers);
+      const request = createPipelineRequest({
+        url: `http://127.0.0.1:${port}/upload`,
+        method: "POST",
+        allowInsecureConnection: true,
+        body: bodyFactory,
+        headers: createHttpHeaders({
+          Expect: "100-continue",
+          "Transfer-Encoding": "chunked",
+          Trailer: "Digest",
+          "X-Test": "preserved",
+        }),
+        requestOverrides: headers ? { agent, headers } : { agent },
+      });
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(redirectPolicy());
+
+      try {
+        const response = await pipeline.sendRequest(createDefaultHttpClient(), request);
+
+        expect(response.status).toBe(200);
+        expect(response.bodyAsText).toBe("redirected");
+        expect(redirectedMethod).toBe("GET");
+        expect(redirectedHeaders?.trailer).toBeUndefined();
+        expect(redirectedHeaders?.["transfer-encoding"]).toBeUndefined();
+        expect(redirectedHeaders?.["content-length"]).toBeUndefined();
+        expect(redirectedHeaders?.expect).toBeUndefined();
+        expect(bodyFactory).not.toHaveBeenCalled();
+        expect(JSON.stringify(headers)).toBe(originalHeaders);
+      } finally {
+        agent.destroy();
+      }
+    },
+  );
+
   describe.each([
     { expectContinue: false, progress: false },
     { expectContinue: false, progress: true },

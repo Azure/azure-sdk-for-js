@@ -27,7 +27,12 @@ function removeContinueToken(value: unknown): unknown {
 function updateRequestHeaders(request: PipelineRequest, removeFraming: boolean): void {
   const updateValue = (name: string, value: unknown): unknown => {
     const lowerName = name.toLowerCase();
-    if (removeFraming && (lowerName === "content-length" || lowerName === "transfer-encoding")) {
+    if (
+      removeFraming &&
+      (lowerName === "content-length" ||
+        lowerName === "transfer-encoding" ||
+        lowerName === "trailer")
+    ) {
       return undefined;
     }
     return lowerName === "expect" ? removeContinueToken(value) : value;
@@ -87,7 +92,8 @@ export function removeExpectContinueHeader(request: PipelineRequest): void {
 }
 
 /**
- * Removes obsolete body framing and the 100-continue expectation after discarding a body.
+ * Removes obsolete body framing, trailer declarations, and the 100-continue expectation
+ * after discarding a body.
  *
  * @param request - The request whose body has been discarded.
  */

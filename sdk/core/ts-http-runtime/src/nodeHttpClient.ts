@@ -692,7 +692,7 @@ export function getBodyLength(body: RequestBodyType): number | null {
   } else if (isArrayBuffer(body)) {
     return body.byteLength;
   } else if (typeof body === "string") {
-    return Buffer.from(body).length;
+    return Buffer.byteLength(body);
   } else {
     return null;
   }

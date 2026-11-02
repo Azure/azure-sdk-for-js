@@ -14,6 +14,7 @@ import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 import { isObject } from "./util/object.js";
+import { isError } from "./util/error.js";
 import { setResponseBodyCompletion } from "./util/responseBody.js";
 import { logger } from "./log.js";
 
@@ -43,10 +44,15 @@ class FetchHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
-    const headers =
-      request.requestOverrides && "headers" in request.requestOverrides
-        ? new Headers(request.requestOverrides.headers as HeadersInit)
-        : buildFetchHeaders(request.headers);
+    let headers: Headers;
+    try {
+      headers =
+        request.requestOverrides && "headers" in request.requestOverrides
+          ? new Headers(request.requestOverrides.headers as HeadersInit)
+          : buildFetchHeaders(request.headers);
+    } catch (error: unknown) {
+      throw getError(isError(error) ? error : new Error(String(error)), request);
+    }
     if (headers.has("expect")) {
       throw new Error("The Expect header is not supported by the Fetch HttpClient.");
     }

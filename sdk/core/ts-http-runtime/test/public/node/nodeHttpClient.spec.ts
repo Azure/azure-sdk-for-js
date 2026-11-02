@@ -259,10 +259,10 @@ describe("NodeHttpClient", function () {
   );
 
   it.each([
-    { explicitLength: false, expectedEncodings: 1 },
+    { explicitLength: false, expectedEncodings: 0 },
     { explicitLength: true, expectedEncodings: 0 },
   ])(
-    "avoids negotiation-only string encoding without Expect (explicitLength=$explicitLength)",
+    "does not allocate a Buffer to size ordinary strings (explicitLength=$explicitLength)",
     async ({ explicitLength, expectedEncodings }) => {
       const body = "ordinary upload with multibyte content: \u00e9";
       const contentLength = String(Buffer.byteLength(body));
@@ -288,6 +288,43 @@ describe("NodeHttpClient", function () {
         expect(response.status).toBe(200);
         expect(payloadEncodings).toBe(expectedEncodings);
         expect(request.headers.get("Content-Length")).toBe(contentLength);
+      } finally {
+        bufferFrom.mockRestore();
+      }
+    },
+  );
+
+  it.each([false, true])(
+    "does not allocate a Buffer to size a negotiated string before rejection (explicitLength=%s)",
+    async (explicitLength) => {
+      const body = "large upload \u00e9".repeat(8192);
+      const contentLength = String(Buffer.byteLength(body));
+      const headers = createHttpHeaders({ Expect: "100-continue" });
+      if (explicitLength) {
+        headers.set("Content-Length", contentLength);
+      }
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        method: "POST",
+        body,
+        headers,
+      });
+      const bufferFrom = vi.spyOn(Buffer, "from");
+
+      try {
+        const promise = createDefaultHttpClient().sendRequest(request);
+        const payloadEncodings = bufferFrom.mock.calls.filter(([value]) => value === body).length;
+        yieldHttpsResponse(createResponse(417, "rejected"));
+        const response = await promise;
+
+        expect(response.status).toBe(417);
+        expect(payloadEncodings).toBe(0);
+        expect(https.request).toHaveBeenCalledWith(
+          expect.objectContaining({
+            headers: expect.objectContaining({ "Content-Length": contentLength }),
+          }),
+          expect.any(Function),
+        );
       } finally {
         bufferFrom.mockRestore();
       }

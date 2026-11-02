@@ -205,6 +205,7 @@ describe("RedirectPolicy", () => {
         eXpEcT: ["foo", "100-CoNtInUe", "bar"],
         "Content-Length": "7",
         "Transfer-Encoding": "chunked",
+        tRaIlEr: "Digest",
         "X-Test": "preserved",
       },
       expected: { eXpEcT: ["foo", "bar"], "X-Test": "preserved" },
@@ -220,6 +221,8 @@ describe("RedirectPolicy", () => {
         "7",
         "Transfer-Encoding",
         "chunked",
+        "tRaIlEr",
+        "Digest",
         "X-Test",
         "preserved",
       ],
@@ -232,6 +235,7 @@ describe("RedirectPolicy", () => {
         ["EXPECT", "100-continue, bar"],
         ["Content-Length", "7"],
         ["Transfer-Encoding", "chunked"],
+        ["tRaIlEr", "Digest"],
         ["X-Test", "preserved"],
       ],
       expected: [
@@ -252,6 +256,7 @@ describe("RedirectPolicy", () => {
           Expect: "foo, 100-CoNtInUe, bar",
           "Content-Length": "7",
           "Transfer-Encoding": "chunked",
+          Trailer: "Digest",
           "X-Test": "preserved",
         }),
         requestOverrides: { headers, method: "POST" },
@@ -272,6 +277,7 @@ describe("RedirectPolicy", () => {
       expect(request.headers.get("Expect")).toBe("foo, bar");
       expect(request.headers.has("Content-Length")).toBe(false);
       expect(request.headers.has("Transfer-Encoding")).toBe(false);
+      expect(request.headers.has("Trailer")).toBe(false);
       expect(request.headers.get("X-Test")).toBe("preserved");
       expect(request.requestOverrides).toEqual({ method: "GET", headers: expected });
       expect(JSON.stringify(headers)).toBe(originalHeaders);
@@ -302,6 +308,37 @@ describe("RedirectPolicy", () => {
     expect(request.body).toBe("payload");
     expect(request.headers.get("Expect")).toBe("100-continue");
     expect(request.headers.get("Content-Length")).toBe("7");
+    expect(request.requestOverrides?.headers).toBe(headers);
+  });
+
+  it("preserves chunked framing and Trailer on a body-preserving 307 redirect", async () => {
+    const headers = {
+      Expect: "100-continue",
+      "Transfer-Encoding": "chunked",
+      Trailer: "Digest",
+    };
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      method: "POST",
+      body: "payload",
+      headers: createHttpHeaders(headers),
+      requestOverrides: { headers },
+    });
+    const next = vi
+      .fn<SendRequest>()
+      .mockResolvedValueOnce({
+        headers: createHttpHeaders({ location: "/redirected" }),
+        request,
+        status: 307,
+      })
+      .mockResolvedValueOnce({ headers: createHttpHeaders(), request, status: 200 });
+
+    await redirectPolicy().sendRequest(request, next);
+
+    expect(request.method).toBe("POST");
+    expect(request.body).toBe("payload");
+    expect(request.headers.get("Trailer")).toBe("Digest");
+    expect(request.headers.get("Transfer-Encoding")).toBe("chunked");
     expect(request.requestOverrides?.headers).toBe(headers);
   });
 
