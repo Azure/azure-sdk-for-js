@@ -635,7 +635,10 @@ export abstract class BaseSender {
           diag.warn(`Failed to send persisted file during startup, will retry later`);
           break;
         }
-        if (this.isRouted && Date.now() < this.routeBackoffUntil) {
+        if (
+          this.isRouted &&
+          Date.now() < Math.max(this.retryTimerDeadlineMs, this.routeBackoffUntil)
+        ) {
           break;
         }
 

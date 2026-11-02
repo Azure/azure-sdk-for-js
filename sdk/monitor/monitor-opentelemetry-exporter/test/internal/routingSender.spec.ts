@@ -130,7 +130,9 @@ describe("routed senders and persistence", () => {
   it("isolates retries and backoff by endpoint and auth, preserving per-item keys", async () => {
     sendRequest.mockImplementation(async (request) => {
       requests.push(request);
-      return response(request, requests.length === 1 ? 429 : 200, { "retry-after": "120" });
+      return requests.length === 1
+        ? response(request, 429, { "retry-after": "120" })
+        : response(request);
     });
     const sender = router({
       credential: {
@@ -156,6 +158,57 @@ describe("routed senders and persistence", () => {
     expect(sender["senders"].size).toBe(3);
     expect(vi.getTimerCount()).toBe(1);
   });
+
+  it.each(["delay-seconds", "http-date"])(
+    "honors a successful replay's Retry-After using %s",
+    async (format) => {
+      vi.setSystemTime(new Date("2026-01-01T00:00:00.000Z"));
+      const sender = router();
+      await sender.export(groups());
+      const [routed] = sender["senders"].values();
+      const persister = routed["persister"];
+      if (!(persister instanceof FileSystemPersist)) {
+        throw new Error("Expected real filesystem persistence");
+      }
+      const first: Envelope[] = [
+        { name: "first", time: new Date(0), instrumentationKey: "first-key" },
+      ];
+      const second: Envelope[] = [
+        { name: "second", time: new Date(0), instrumentationKey: "second-key" },
+      ];
+      expect(await persister.push(first)).toBe(true);
+      expect(await persister.push(second)).toBe(true);
+      sendRequest.mockImplementationOnce(async (request) => {
+        requests.push(request);
+        return response(request, 200, {
+          "retry-after":
+            format === "delay-seconds" ? "120" : new Date(Date.now() + 120_000).toUTCString(),
+        });
+      });
+
+      vi.setSystemTime(Date.now() + 60_000);
+      await routed.retryPersistedEnvelopes();
+      expect(requests).toHaveLength(2);
+      expect(JSON.parse(String(requests[1].body))[0].iKey).toBe("first-key");
+      expect(await readdir(persister["_tempDirectory"])).toHaveLength(1);
+
+      await sender.export(groups("https://second.test", "unaffected-key"));
+      expect(requests).toHaveLength(3);
+      vi.setSystemTime(Date.now() + 60_000);
+      await routed.retryPersistedEnvelopes();
+      expect(requests).toHaveLength(3);
+      expect(await readdir(persister["_tempDirectory"])).toHaveLength(1);
+      vi.setSystemTime(Date.now() + 59_999);
+      await routed.retryPersistedEnvelopes();
+      expect(requests).toHaveLength(3);
+
+      vi.setSystemTime(Date.now() + 1);
+      await routed.retryPersistedEnvelopes();
+      expect(requests).toHaveLength(4);
+      expect(JSON.parse(String(requests[3].body))[0].iKey).toBe("second-key");
+      expect(await readdir(persister["_tempDirectory"])).toHaveLength(0);
+    },
+  );
 
   it("reopens only the matching destination partition after restart", async () => {
     sendRequest.mockImplementation(async (request) => {
