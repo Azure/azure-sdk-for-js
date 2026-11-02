@@ -7,9 +7,11 @@ import {
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
 } from "../../../src/documents/index.js";
-import { getTestDatabase } from "../common/TestHelpers.js";
+import { getDefaultComputeGatewayClient, getTestDatabase } from "../common/TestHelpers.js";
 import type { Database } from "../../../src/client/Database/Database.js";
 import type { Container } from "../../../src/client/index.js";
+import { ConnectionMode, Constants } from "../../../src/index.js";
+import { createDefaultHttpClient } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
 describe("Vector search feature", async () => {
@@ -228,6 +230,155 @@ describe("Vector search feature", async () => {
         }
       });
     }
+    const computeGatewayEndpoint = process.env.COMPUTE_GATEWAY_HOST ?? "";
+    it.skipIf(!computeGatewayEndpoint)(
+      "should fuse all four vector embedding types through Compute Gateway",
+      async () => {
+        const expectedOrigin = new URL(computeGatewayEndpoint).origin;
+        const requestOrigins = new Set<string>();
+        let documentCreates = 0;
+        let queryRequests = 0;
+        const httpClient = createDefaultHttpClient();
+        const client = getDefaultComputeGatewayClient({
+          endpoint: computeGatewayEndpoint,
+          connectionPolicy: {
+            connectionMode: ConnectionMode.Gateway,
+            enableEndpointDiscovery: false,
+          },
+          httpClient: {
+            async sendRequest(request) {
+              const url = new URL(request.url);
+              requestOrigins.add(url.origin);
+              assert.equal(
+                url.origin,
+                expectedOrigin,
+                "Requests must not fall back from Compute Gateway",
+              );
+              const response = await httpClient.sendRequest(request);
+              if (url.pathname.endsWith("/docs")) {
+                if (request.headers.get(Constants.HttpHeaders.IsQuery) === "true") {
+                  queryRequests++;
+                } else if (request.method === "POST" && response.status === 201) {
+                  documentCreates++;
+                }
+              }
+              return response;
+            },
+          },
+        });
+
+        const vectorFields = [
+          { name: "vectorFloat32", dataType: VectorEmbeddingDataType.Float32 },
+          { name: "vectorFloat16", dataType: VectorEmbeddingDataType.Float16 },
+          { name: "vectorInt8", dataType: VectorEmbeddingDataType.Int8 },
+          { name: "vectorUint8", dataType: VectorEmbeddingDataType.UInt8 },
+        ];
+        const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
+          vectorEmbeddings: vectorFields.map(({ name, dataType }) => ({
+            path: `/${name}`,
+            dataType,
+            dimensions: 2,
+            distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
+          })),
+        };
+        const indexingPolicy: IndexingPolicy = {
+          includedPaths: [{ path: "/*" }],
+          excludedPaths: vectorFields.map(({ name }) => ({ path: `/${name}/*` })),
+          vectorIndexes: vectorFields.map(({ name }) => ({
+            path: `/${name}`,
+            type: VectorIndexType.DiskANN,
+          })),
+        };
+
+        // Columns are 1-based Euclidean ranks for Float32, Float16, Int8, UInt8.
+        // RRF (k=60) gives H,A,G,C,B; omitting any column changes top-five membership.
+        const rankedDocuments = [
+          { id: "A", ranks: [6, 5, 1, 1] },
+          { id: "B", ranks: [8, 8, 2, 2] },
+          { id: "C", ranks: [2, 2, 6, 8] },
+          { id: "D", ranks: [7, 1, 8, 6] },
+          { id: "E", ranks: [5, 6, 5, 7] },
+          { id: "F", ranks: [3, 7, 7, 5] },
+          { id: "G", ranks: [4, 4, 4, 3] },
+          { id: "H", ranks: [1, 3, 3, 4] },
+        ].map(({ id, ranks }) => ({
+          id,
+          pk: "vectors",
+          vectorFloat32: [ranks[0], 0],
+          vectorFloat16: [ranks[1], 0],
+          vectorInt8: [ranks[2], 0],
+          vectorUint8: [ranks[3], 0],
+        }));
+        // DiskANN needs >=1,000 vectors. These distinct, distant vectors fit Int8/UInt8
+        // and cannot enter the top five for any component or the fused ranking.
+        const documents = rankedDocuments.concat(
+          Array.from({ length: 1024 }, (_, index) => {
+            const vector = [96 + (index % 32), 96 + Math.floor(index / 32)];
+            return {
+              id: `background-${index}`,
+              pk: "vectors",
+              vectorFloat32: vector,
+              vectorFloat16: vector,
+              vectorInt8: vector,
+              vectorUint8: vector,
+            };
+          }),
+        );
+
+        let setupContainer: Container | undefined;
+        try {
+          const created = await database.containers.create({
+            id: "four-vector-types-compute-gateway",
+            partitionKey: { paths: ["/pk"] },
+            vectorEmbeddingPolicy,
+            indexingPolicy,
+            throughput: 1000,
+          });
+          setupContainer = created.container;
+          assert.deepEqual(created.resource?.vectorEmbeddingPolicy, vectorEmbeddingPolicy);
+          for (const { name } of vectorFields) {
+            const index = created.resource?.indexingPolicy?.vectorIndexes?.find(
+              ({ path }) => path === `/${name}`,
+            );
+            assert.equal(index?.type, VectorIndexType.DiskANN);
+          }
+
+          const container = client.database(database.id).container(setupContainer.id);
+          for (let offset = 0; offset < documents.length; offset += 50) {
+            await Promise.all(
+              documents.slice(offset, offset + 50).map(async (document) => {
+                const response = await container.items.create(document);
+                assert.equal(response.statusCode, 201);
+              }),
+            );
+          }
+
+          const { resources } = await container.items
+            .query<string>({
+              query: `SELECT TOP 5 VALUE c.id
+                FROM c
+                ORDER BY RANK RRF(
+                  VectorDistance(c.vectorFloat32, @queryVector),
+                  VectorDistance(c.vectorFloat16, @queryVector),
+                  VectorDistance(c.vectorInt8, @queryVector),
+                  VectorDistance(c.vectorUint8, @queryVector)
+                )`,
+              parameters: [{ name: "@queryVector", value: [0, 0] }],
+            })
+            .fetchAll();
+
+          assert.deepEqual(resources, ["H", "A", "G", "C", "B"]);
+          assert.equal(documentCreates, documents.length);
+          assert.isAbove(queryRequests, 0);
+          assert.deepEqual([...requestOrigins], [expectedOrigin]);
+        } finally {
+          client.dispose();
+          await setupContainer?.delete();
+        }
+      },
+      180000,
+    );
+
     it("should fail to create vector indexing policy", async () => {
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
         vectorEmbeddings: [
