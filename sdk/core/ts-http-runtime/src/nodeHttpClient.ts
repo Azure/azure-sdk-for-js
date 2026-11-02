@@ -21,10 +21,10 @@ import { isRestError, RestError } from "./restError.js";
 import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
-import { hasExpectContinue } from "./util/expectContinueHeaders.js";
 import {
   addExpectContinueFraming,
   createExpectContinueRequest,
+  hasExpectContinue,
 } from "./util/nodeExpectContinue.js";
 import {
   disposeNodeStream,

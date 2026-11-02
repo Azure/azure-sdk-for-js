@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type http from "node:http";
+import type { PipelineRequest } from "../interfaces.js";
 
 const EXPECT_CONTINUE_TIMEOUT_IN_MS = 1000;
 
@@ -13,6 +14,69 @@ interface ExpectContinueRequestOptions {
   onError: (error: Error & { code?: string }) => void;
   onResponse: (response: http.IncomingMessage) => void;
   sendBody: (request: http.ClientRequest) => void;
+}
+
+/**
+ * Converts a flat `[name, value, ...]` raw header array to `[name, value]` pairs,
+ * or returns an existing pair array unchanged, preserving order and duplicates.
+ *
+ * @param headers - Header names and values in either array format.
+ * @returns The header pairs in their original order.
+ * @see https://nodejs.org/api/http.html#messagerawheaders
+ */
+function getHeaderPairs(headers: unknown[]): unknown[][] {
+  return Array.isArray(headers[0])
+    ? (headers as unknown[][])
+    : Array.from({ length: Math.ceil(headers.length / 2) }, (_, index) => [
+        headers[index * 2],
+        headers[index * 2 + 1],
+      ]);
+}
+
+function getHeaderValuesFromArray(headers: unknown[], name: string): unknown[] {
+  return getHeaderPairs(headers)
+    .filter(([key]) => typeof key === "string" && key.toLowerCase() === name)
+    .map(([, value]) => value);
+}
+
+function getHeaderValues(headers: unknown, name: string): unknown[] {
+  if (Array.isArray(headers)) {
+    return getHeaderValuesFromArray(headers, name);
+  }
+
+  if (headers && typeof headers === "object") {
+    const get = Reflect.get(headers, "get");
+    if (typeof get === "function") {
+      const value = Reflect.apply(get, headers, [name]);
+      return value === undefined || value === null ? [] : [value];
+    }
+
+    let value: unknown;
+    for (const [key, entry] of Object.entries(headers)) {
+      if (key.toLowerCase() === name) {
+        value = entry;
+      }
+    }
+    return value === undefined ? [] : Array.isArray(value) ? value : [value];
+  }
+
+  return [];
+}
+
+export function getEffectiveHeaderValues(request: PipelineRequest, name: string): unknown[] {
+  const headers =
+    request.requestOverrides && "headers" in request.requestOverrides
+      ? request.requestOverrides.headers
+      : request.headers;
+  return getHeaderValues(headers, name.toLowerCase());
+}
+
+export function hasExpectContinue(request: PipelineRequest): boolean {
+  return getEffectiveHeaderValues(request, "expect").some(
+    (value) =>
+      typeof value === "string" &&
+      value.split(",").some((token) => token.trim().toLowerCase() === "100-continue"),
+  );
 }
 
 function addHeader(
@@ -29,13 +93,9 @@ function addHeader(
 
 function hasHeader(headers: http.RequestOptions["headers"], name: string): boolean {
   if (Array.isArray(headers)) {
-    const pairs = Array.isArray(headers[0])
-      ? headers
-      : Array.from({ length: Math.ceil(headers.length / 2) }, (_, index) => [
-          headers[index * 2],
-          headers[index * 2 + 1],
-        ]);
-    return pairs.some(([key]) => typeof key === "string" && key.toLowerCase() === name);
+    return getHeaderPairs(headers).some(
+      ([key]) => typeof key === "string" && key.toLowerCase() === name,
+    );
   }
 
   return Object.keys(headers ?? {}).some((key) => key.toLowerCase() === name);
