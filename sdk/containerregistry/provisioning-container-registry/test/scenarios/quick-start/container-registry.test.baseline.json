@@ -1,0 +1,59 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "registry": {
+          "bicepIdentifier": "registry",
+          "type": "Microsoft.ContainerRegistry/registries",
+          "apiVersion": "2025-11-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "crtest09"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "adminUserEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Basic"
+                  }
+                }
+              },
+              "tags": {
+                "kind": "object",
+                "value": {
+                  "displayName": {
+                    "kind": "string",
+                    "value": "Container Registry"
+                  },
+                  "container.registry": {
+                    "kind": "string",
+                    "value": "crtest09"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
