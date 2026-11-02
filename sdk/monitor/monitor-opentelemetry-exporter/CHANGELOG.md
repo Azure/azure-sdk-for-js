@@ -10,8 +10,6 @@
 
 ### Bugs Fixed
 
-- Fixed a build error with OpenTelemetry API 1.10.0 by accepting unknown attribute values during serialization. [#40605](https://github.com/Azure/azure-sdk-for-js/pull/40605)
-
 ### Other Changes
 
 - Added an internal `_configuration` subscription entry point so the Azure Monitor distro can reuse the existing OneSettings polling worker and boolean feature evaluation. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
