@@ -47,6 +47,103 @@ afterEach(async () => {
 
 describe("Expect: 100-continue", () => {
   it.each([false, true])(
+    "observes both missing multipart files until their independent opens settle (progress=%s)",
+    async (progress) => {
+      const server = http.createServer();
+      server.on("checkContinue", () => {
+        // Keep upload permission pending while both file opens fail.
+      });
+      const port = await listen(server);
+      const sources = [
+        createReadStream(join(tmpdir(), `azsdk-missing-first-${randomUUID()}`)),
+        createReadStream(join(tmpdir(), `azsdk-missing-second-${randomUUID()}`)),
+      ];
+      const closed = Promise.all(
+        sources.map((source) => new Promise<void>((resolve) => source.once("close", resolve))),
+      );
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(multipartPolicy());
+      pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 }));
+      const agent = new http.Agent({ keepAlive: false });
+      const factory = vi.fn(() => Readable.from(["deferred part"]));
+      const onUploadProgress = vi.fn();
+
+      try {
+        await expect(
+          pipeline.sendRequest(
+            createDefaultHttpClient(),
+            createPipelineRequest({
+              url: `http://127.0.0.1:${port}`,
+              method: "POST",
+              allowInsecureConnection: true,
+              headers: createHttpHeaders({ Expect: "100-continue" }),
+              multipartBody: {
+                parts: [
+                  ...sources.map((body) => ({ headers: createHttpHeaders(), body })),
+                  { headers: createHttpHeaders(), body: factory },
+                ],
+              },
+              onUploadProgress: progress ? onUploadProgress : undefined,
+              requestOverrides: { agent },
+            }),
+          ),
+        ).rejects.toMatchObject({ name: "Error", code: "ENOENT", syscall: "open" });
+        await closed;
+
+        expect(factory).not.toHaveBeenCalled();
+        expect(onUploadProgress).not.toHaveBeenCalled();
+        for (const source of sources) {
+          expect(source.bytesRead).toBe(0);
+          expect(source.listenerCount("error")).toBe(0);
+          expect(source.listenerCount("end")).toBe(0);
+          expect(source.listenerCount("close")).toBe(0);
+        }
+      } finally {
+        for (const source of sources) {
+          source.destroy();
+        }
+        agent.destroy();
+      }
+    },
+  );
+
+  it("observes a queued direct-source failure after abort without a caller error listener", async () => {
+    const body = new Readable({ read: vi.fn() });
+    const controller = new AbortController();
+    const failure = new Error("queued failure before abort");
+    const server = http.createServer();
+    server.on("checkContinue", () => {
+      body.destroy(failure);
+      controller.abort();
+    });
+    const port = await listen(server);
+    const agent = new http.Agent({ keepAlive: false });
+
+    try {
+      await expect(
+        createDefaultHttpClient().sendRequest(
+          createPipelineRequest({
+            url: `http://127.0.0.1:${port}`,
+            method: "POST",
+            allowInsecureConnection: true,
+            headers: createHttpHeaders({ Expect: "100-continue" }),
+            body,
+            abortSignal: controller.signal,
+            requestOverrides: { agent },
+          }),
+        ),
+      ).rejects.toMatchObject({ name: "AbortError" });
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      expect(body.listenerCount("error")).toBe(0);
+      expect(body.listenerCount("end")).toBe(0);
+      expect(body.listenerCount("close")).toBe(0);
+    } finally {
+      body.destroy();
+      agent.destroy();
+    }
+  });
+
+  it.each([false, true])(
     "rejects a pending direct-source error without consuming or destroying the source (progress=%s)",
     async (progress) => {
       const read = vi.fn();
@@ -93,8 +190,11 @@ describe("Expect: 100-continue", () => {
         expect(onUploadProgress).not.toHaveBeenCalled();
         expect(body.destroyed).toBe(false);
         expect(body.readableFlowing).toBe(null);
-        expect(body.listenerCount("error")).toBe(0);
+        expect(body.listenerCount("error")).toBe(1);
         expect(body.listenerCount("data")).toBe(0);
+        body.destroy();
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        expect(body.listenerCount("error")).toBe(0);
         expect(body.listenerCount("end")).toBe(0);
         expect(body.listenerCount("close")).toBe(0);
         expect(removeEventListener).toHaveBeenCalledExactlyOnceWith("abort", expect.any(Function));
@@ -293,8 +393,14 @@ describe("Expect: 100-continue", () => {
         for (const source of sources) {
           expect(source.destroyed).toBe(false);
           expect(source.readableFlowing).toBe(null);
-          expect(source.listeners("error")).toEqual([callerError]);
+          expect(source.listeners("error")).toContain(callerError);
+          expect(source.listenerCount("error")).toBe(2);
           expect(source.listenerCount("data")).toBe(0);
+          source.destroy();
+        }
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        for (const source of sources) {
+          expect(source.listeners("error")).toEqual([callerError]);
           expect(source.listenerCount("close")).toBe(0);
           expect(source.listenerCount("end")).toBe(0);
         }
@@ -469,10 +575,12 @@ describe("Expect: 100-continue", () => {
         expect(factory).not.toHaveBeenCalled();
         expect(source.destroyed).toBe(false);
         expect(source.readableFlowing).toBe(null);
-        expect(source.listeners("error")).toEqual([callerError]);
+        expect(source.listeners("error")).toContain(callerError);
+        expect(source.listenerCount("error")).toBe(2);
         const laterError = new Error("caller-owned source failed after the attempt");
         source.emit("error", laterError);
         expect(callerError).toHaveBeenCalledExactlyOnceWith(laterError);
+        expect(source.listeners("error")).toEqual([callerError]);
       } finally {
         source.destroy();
         agent.destroy();
@@ -1070,6 +1178,9 @@ describe("Expect: 100-continue", () => {
         expect(body.destroyed).toBe(false);
         expect(body.readableEnded).toBe(false);
         expect(body.listenerCount("data")).toBe(0);
+        expect(body.listenerCount("error")).toBe(1);
+        body.destroy();
+        await new Promise<void>((resolve) => setImmediate(resolve));
         expect(body.listenerCount("end")).toBe(0);
         expect(body.listenerCount("close")).toBe(0);
         expect(body.listenerCount("error")).toBe(0);

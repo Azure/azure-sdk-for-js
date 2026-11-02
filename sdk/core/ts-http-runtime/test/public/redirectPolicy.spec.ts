@@ -311,6 +311,60 @@ describe("RedirectPolicy", () => {
     expect(request.requestOverrides?.headers).toBe(headers);
   });
 
+  it.each(["Map", "Headers", "generator"])(
+    "preserves unrelated %s header overrides when discarding a body on 303",
+    async (kind) => {
+      const entries: [string, string][] = [
+        ["X-Api-Key", "test-key"],
+        ["Expect", "foo, 100-continue"],
+        ["Content-Length", "7"],
+        ["Transfer-Encoding", "chunked"],
+        ["Trailer", "Digest"],
+      ];
+      const headers =
+        kind === "Map"
+          ? new Map(entries)
+          : kind === "Headers"
+            ? new Headers(entries)
+            : (function* () {
+                yield* entries;
+              })();
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        method: "POST",
+        body: "payload",
+        requestOverrides: { headers },
+      });
+      const next = vi
+        .fn<SendRequest>()
+        .mockResolvedValueOnce({
+          headers: createHttpHeaders({ location: "/redirected" }),
+          request,
+          status: 303,
+        })
+        .mockResolvedValueOnce({ headers: createHttpHeaders(), request, status: 200 });
+
+      await redirectPolicy().sendRequest(request, next);
+
+      const redirectedPairs = request.requestOverrides?.headers;
+      if (!Array.isArray(redirectedPairs)) {
+        throw new Error("Expected reusable redirected header pairs");
+      }
+      const redirectedHeaders = new Headers(redirectedPairs);
+      expect(request.method).toBe("GET");
+      expect(request.body).toBeUndefined();
+      expect(redirectedHeaders.get("X-Api-Key")).toBe("test-key");
+      expect(redirectedHeaders.get("Expect")).toBe("foo");
+      expect(redirectedHeaders.has("Content-Length")).toBe(false);
+      expect(redirectedHeaders.has("Transfer-Encoding")).toBe(false);
+      expect(redirectedHeaders.has("Trailer")).toBe(false);
+      if (headers instanceof Headers || headers instanceof Map) {
+        expect(headers.get("Expect") ?? headers.get("expect")).toBe("foo, 100-continue");
+        expect(headers.get("Content-Length") ?? headers.get("content-length")).toBe("7");
+      }
+    },
+  );
+
   it("preserves chunked framing and Trailer on a body-preserving 307 redirect", async () => {
     const headers = {
       Expect: "100-continue",

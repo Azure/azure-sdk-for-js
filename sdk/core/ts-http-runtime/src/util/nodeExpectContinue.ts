@@ -2,9 +2,31 @@
 // Licensed under the MIT License.
 
 import type http from "node:http";
+import { finished } from "node:stream";
 import type { PipelineRequest } from "../interfaces.js";
+import { logger } from "../log.js";
 
 const EXPECT_CONTINUE_TIMEOUT_IN_MS = 1000;
+const unusedSourceObservers = new WeakMap<NodeJS.ReadableStream, () => void>();
+
+function observeUnusedSource(stream: NodeJS.ReadableStream): void {
+  if (unusedSourceObservers.has(stream)) {
+    return;
+  }
+  // Pending opens and destroy(error) calls can settle after the request has stopped.
+  // This callback retains only the source, not the retired request or its callbacks.
+  const cleanup = finished(stream, { writable: false }, (error) => {
+    stopObserving();
+    if (error) {
+      logger.warning("Error in unused upload source", error);
+    }
+  });
+  function stopObserving(): void {
+    cleanup();
+    unusedSourceObservers.delete(stream);
+  }
+  unusedSourceObservers.set(stream, stopObserving);
+}
 
 interface ExpectContinueRequestOptions {
   abortSignal: AbortSignal;
@@ -134,6 +156,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   // Error observation must not consume a caller-owned source before upload permission.
   for (const stream of bodyStreams) {
     stream.on("error", onBodyError);
+    unusedSourceObservers.get(stream)?.();
   }
   for (const stream of bodyStreams) {
     if ("errored" in stream && stream.errored instanceof Error) {
@@ -171,21 +194,24 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
     return requestError;
   }
 
-  function stopObservingBody(): void {
+  function stopObservingBody(handedOff = false): void {
     for (const stream of bodyStreams) {
+      if (!handedOff) {
+        observeUnusedSource(stream);
+      }
       stream.removeListener("error", onBodyError);
     }
+    bodyStreams.clear();
   }
 
   function onBodyError(error: Error): void {
-    if (errorReported) {
+    if (errorReported || (!waiting && !bodyStarted)) {
       return;
     }
     errorReported = true;
     bodyError = error;
     stopWaiting();
-    // Other multipart sources may already have error events queued in this turn.
-    process.nextTick(stopObservingBody);
+    stopObservingBody();
     options.onBodyError(error);
     request?.destroy(error);
   }
@@ -202,7 +228,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
       request.destroy(onError(error));
     } finally {
       // The upload path now observes the source, including synchronous failures while piping.
-      stopObservingBody();
+      stopObservingBody(true);
     }
   }
 

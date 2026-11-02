@@ -91,8 +91,12 @@ describe("Expect: 100-continue negotiation", () => {
         expect(options.sendBody).not.toHaveBeenCalled();
         expect(read).not.toHaveBeenCalled();
         expect(source.destroyed).toBe(false);
-        expect(source.listeners("error")).toEqual([callerError]);
+        expect(source.listeners("error")).toContain(callerError);
+        expect(source.listenerCount("error")).toBe(2);
         expect(source.listenerCount("data")).toBe(0);
+        source.destroy();
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        expect(source.listeners("error")).toEqual([callerError]);
         expect(source.listenerCount("close")).toBe(0);
         expect(source.listenerCount("end")).toBe(0);
         expect(request.destroyed).toBe(true);
@@ -125,6 +129,9 @@ describe("Expect: 100-continue negotiation", () => {
       expect(options.sendBody).not.toHaveBeenCalled();
       expect(request.flushHeaders).not.toHaveBeenCalled();
       expect(request.destroyed).toBe(true);
+      expect(source.listeners("error")).toContain(callerError);
+      source.destroy();
+      await new Promise<void>((resolve) => setImmediate(resolve));
       expect(source.listeners("error")).toEqual([callerError]);
       expect(vi.getTimerCount()).toBe(0);
     } finally {
@@ -157,6 +164,9 @@ describe("Expect: 100-continue negotiation", () => {
       expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
       expect(options.onError).not.toHaveBeenCalled();
       expect(options.sendBody).not.toHaveBeenCalled();
+      expect(source.listeners("error")).toContain(callerError);
+      source.destroy();
+      await new Promise<void>((resolve) => setImmediate(resolve));
       expect(source.listeners("error")).toEqual([callerError]);
       expect(request.destroyed).toBe(true);
       expect(vi.getTimerCount()).toBe(0);
@@ -196,7 +206,7 @@ describe("Expect: 100-continue negotiation", () => {
   );
 
   it.each(["response", "abort", "close", "error", "construction error"])(
-    "removes only its pending-source observer after %s",
+    "retires request callbacks but observes the unused source after %s",
     (event) => {
       const { request, controller, options } = createOptions();
       const read = vi.fn();
@@ -222,10 +232,9 @@ describe("Expect: 100-continue negotiation", () => {
           request.emit("close");
         }
 
-        expect(source.listeners("error")).toEqual([callerError]);
+        expect(source.listeners("error")).toContain(callerError);
+        expect(source.listenerCount("error")).toBe(2);
         expect(source.listenerCount("data")).toBe(0);
-        expect(source.listenerCount("end")).toBe(0);
-        expect(source.listenerCount("close")).toBe(0);
         expect(read).not.toHaveBeenCalled();
         expect(source.destroyed).toBe(false);
         expect(vi.getTimerCount()).toBe(0);
@@ -234,6 +243,9 @@ describe("Expect: 100-continue negotiation", () => {
         source.emit("error", laterError);
         expect(callerError).toHaveBeenCalledExactlyOnceWith(laterError);
         expect(options.onBodyError).not.toHaveBeenCalled();
+        expect(source.listeners("error")).toEqual([callerError]);
+        expect(source.listenerCount("end")).toBe(0);
+        expect(source.listenerCount("close")).toBe(0);
       } finally {
         request.destroy();
         source.destroy();
@@ -303,6 +315,148 @@ describe("Expect: 100-continue negotiation", () => {
     }
   });
 
+  it.each(["response", "abort", "close", "error", "construction error"])(
+    "keeps queued source failures observed after %s without notifying the stopped request",
+    async (event) => {
+      const { request, controller, options } = createOptions();
+      const source = new Readable({ read() {} });
+      const callerError = vi.fn();
+      source.on("error", callerError);
+      const failure = new Error("source destruction was already pending");
+      const response = new PassThrough();
+      if (event === "construction error") {
+        options.createRequest.mockImplementation(() => {
+          source.destroy(failure);
+          throw new Error("request construction failed");
+        });
+      }
+
+      try {
+        createExpectContinueRequest({ ...options, bodyStreams: [source] });
+        if (event !== "construction error") {
+          source.destroy(failure);
+        }
+        if (event === "response") {
+          options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
+        } else if (event === "abort") {
+          controller.abort();
+        } else if (event === "error") {
+          request.emit("error", new Error("connection failed"));
+        } else if (event === "close") {
+          request.emit("close");
+        }
+        expect(source.listenerCount("error")).toBeGreaterThan(1);
+        await new Promise<void>((resolve) => setImmediate(resolve));
+
+        expect(callerError).toHaveBeenCalledExactlyOnceWith(failure);
+        expect(options.onBodyError).not.toHaveBeenCalled();
+        expect(options.sendBody).not.toHaveBeenCalled();
+        expect(source.listeners("error")).toEqual([callerError]);
+        expect(source.listenerCount("end")).toBe(0);
+        expect(source.listenerCount("close")).toBe(0);
+        expect(vi.getTimerCount()).toBe(0);
+      } finally {
+        source.destroy();
+        request.destroy();
+        response.destroy();
+      }
+    },
+  );
+
+  it("observes independent multipart failures until each source settles", async () => {
+    const { request, options } = createOptions(null, false);
+    const first = new Readable({ read() {} });
+    const later = new Readable({ read() {} });
+    const callerError = vi.fn();
+    later.on("error", callerError);
+    const failure = new Error("first source failed");
+
+    try {
+      createExpectContinueRequest({ ...options, bodyStreams: [first, later] });
+      first.destroy(failure);
+      await new Promise<void>((resolve) => setImmediate(resolve));
+
+      expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
+      expect(first.listenerCount("error")).toBe(0);
+      expect(later.destroyed).toBe(false);
+      expect(later.readableFlowing).toBe(null);
+      expect(later.listenerCount("error")).toBeGreaterThan(1);
+
+      const laterFailure = new Error("independently delayed multipart failure");
+      later.destroy(laterFailure);
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      expect(callerError).toHaveBeenCalledExactlyOnceWith(laterFailure);
+      expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
+      expect(options.onError).not.toHaveBeenCalled();
+      expect(later.listeners("error")).toEqual([callerError]);
+      expect(later.listenerCount("end")).toBe(0);
+      expect(later.listenerCount("close")).toBe(0);
+    } finally {
+      first.destroy();
+      later.destroy();
+      request.destroy();
+    }
+  });
+
+  it("allows the caller to consume an unused source and removes protection when it ends", async () => {
+    const { request, controller, options } = createOptions();
+    const read = vi.fn();
+    const source = new Readable({ read });
+
+    try {
+      createExpectContinueRequest({ ...options, bodyStreams: [source] });
+      controller.abort();
+      expect(read).not.toHaveBeenCalled();
+      expect(source.destroyed).toBe(false);
+      expect(source.readableFlowing).toBe(null);
+      const ended = new Promise<void>((resolve) => source.once("end", resolve));
+      source.push("still caller-owned");
+      source.push(null);
+      source.resume();
+      await ended;
+      await new Promise<void>((resolve) => setImmediate(resolve));
+
+      expect(options.onBodyError).not.toHaveBeenCalled();
+      expect(options.sendBody).not.toHaveBeenCalled();
+      expect(source.listenerCount("error")).toBe(0);
+      expect(source.listenerCount("end")).toBe(0);
+      expect(source.listenerCount("close")).toBe(0);
+    } finally {
+      source.destroy();
+      request.destroy();
+    }
+  });
+
+  it("does not accumulate unused-source observers across attempts or upload handoff", async () => {
+    const source = new Readable({ read() {} });
+    const activeError = vi.fn();
+    const { request, options } = createOptions();
+    options.sendBody.mockImplementation(() => source.on("error", activeError));
+
+    try {
+      for (let attempt = 0; attempt < 12; attempt++) {
+        const pending = createOptions();
+        createExpectContinueRequest({ ...pending.options, bodyStreams: [source] });
+        expect(source.listenerCount("error")).toBe(1);
+        pending.controller.abort();
+        expect(source.listenerCount("error")).toBe(1);
+        pending.request.destroy();
+      }
+      createExpectContinueRequest({ ...options, bodyStreams: [source] });
+      request.emit("continue");
+
+      expect(source.listeners("error")).toEqual([activeError]);
+      expect(source.listenerCount("end")).toBe(0);
+      expect(source.listenerCount("close")).toBe(0);
+      expect(options.onBodyError).not.toHaveBeenCalled();
+      source.destroy();
+      await new Promise<void>((resolve) => setImmediate(resolve));
+    } finally {
+      source.destroy();
+      request.destroy();
+    }
+  });
+
   it("checks all sources for an existing failure before constructing a request", async () => {
     const { request, options } = createOptions();
     const first = new Readable({ read() {} });
@@ -318,9 +472,12 @@ describe("Expect: 100-continue negotiation", () => {
       expect(options.createRequest).not.toHaveBeenCalled();
       expect(options.sendBody).not.toHaveBeenCalled();
       expect(first.destroyed).toBe(false);
-      expect(first.listenerCount("error")).toBe(0);
+      expect(first.listenerCount("error")).toBe(1);
       expect(second.listenerCount("error")).toBe(0);
       expect(vi.getTimerCount()).toBe(0);
+      first.destroy();
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      expect(first.listenerCount("error")).toBe(0);
     } finally {
       request.destroy();
       first.destroy();

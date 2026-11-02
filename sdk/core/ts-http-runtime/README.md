@@ -66,10 +66,13 @@ that the server has received the headers.
 The Node transport removes the `100-continue` token for known-empty bodies and when a redirect
 discards the body, preserving any other expectations in the header.
 Body-discarding redirects also remove obsolete framing headers and `Trailer` declarations.
+Unrelated override headers are preserved, including entries in `Map` and `Headers` collections.
 Direct upload streams, including already-created multipart part streams, are observed for errors
 without being consumed while negotiation is pending; an early source failure rejects the request
 without being classified as a retryable network error. Body and multipart part factories remain
 deferred until upload permission.
+If negotiation stops before upload starts, stream-local error observation remains until each
+unused source settles; this does not consume or destroy the source or retain the stopped request.
 
 ```ts snippet:ReadmeSampleExpectContinue
 import {

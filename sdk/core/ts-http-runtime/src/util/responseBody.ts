@@ -143,30 +143,34 @@ function disposeNodeResponseBody(
   const sources = responseBodySources.get(readableStream);
   responseBodySources.delete(readableStream);
 
-  if (readableStream.closed !== true) {
-    if (readableStream.destroy) {
-      if (isNodeEventEmitterBody(readableStream)) {
-        const onError = (error: unknown): void => {
-          logger.warning("Error disposing Node stream", error);
-        };
-        const onClose = (): void => {
-          readableStream.removeListener("error", onError);
-        };
-        readableStream.on("error", onError);
-        readableStream.once("close", onClose);
-        try {
+  try {
+    if (readableStream.closed !== true) {
+      if (readableStream.destroy) {
+        if (isNodeEventEmitterBody(readableStream)) {
+          const onError = (error: unknown): void => {
+            logger.warning("Error disposing Node stream", error);
+          };
+          const onClose = (): void => {
+            readableStream.removeListener("error", onError);
+          };
+          readableStream.on("error", onError);
+          readableStream.once("close", onClose);
+          try {
+            readableStream.destroy();
+          } catch (error) {
+            readableStream.removeListener("error", onError);
+            readableStream.removeListener("close", onClose);
+            throw error;
+          }
+        } else {
           readableStream.destroy();
-        } catch (error) {
-          readableStream.removeListener("error", onError);
-          readableStream.removeListener("close", onClose);
-          throw error;
         }
       } else {
-        readableStream.destroy();
+        readableStream.resume();
       }
-    } else {
-      readableStream.resume();
     }
+  } catch (error) {
+    logger.warning("Error disposing Node stream", error);
   }
 
   for (const source of sources ?? []) {

@@ -3,6 +3,10 @@
 
 import type { PipelineRequest } from "../interfaces.js";
 
+function isIterable(value: object): value is Iterable<unknown> {
+  return Symbol.iterator in value && typeof value[Symbol.iterator] === "function";
+}
+
 function removeContinueToken(value: unknown): unknown {
   if (typeof value === "string") {
     const tokens = value.split(",");
@@ -37,6 +41,11 @@ function updateRequestHeaders(request: PipelineRequest, removeFraming: boolean):
     }
     return lowerName === "expect" ? removeContinueToken(value) : value;
   };
+  const updatePairs = (pairs: unknown[][]): unknown[][] =>
+    pairs.flatMap(([name, value]) => {
+      const updated = typeof name === "string" ? updateValue(name, value) : value;
+      return updated === undefined ? [] : [[name, updated]];
+    });
   for (const [name, value] of request.headers) {
     const updated = updateValue(name, value);
     if (updated === undefined) {
@@ -59,14 +68,19 @@ function updateRequestHeaders(request: PipelineRequest, removeFraming: boolean):
           headers[index * 2],
           headers[index * 2 + 1],
         ]);
-    const updatedPairs = pairs.flatMap(([name, value]) => {
-      const updated = typeof name === "string" ? updateValue(name, value) : value;
-      return updated === undefined ? [] : [[name, updated]];
-    });
+    const updatedPairs = updatePairs(pairs);
     request.requestOverrides = {
       ...overrides,
       headers: paired ? updatedPairs : updatedPairs.flat(),
     };
+  } else if (headers && typeof headers === "object" && isIterable(headers)) {
+    const pairs = Array.from(headers, (entry) => {
+      if (!Array.isArray(entry) || entry.length !== 2) {
+        throw new TypeError("Header entry must be a name/value pair");
+      }
+      return entry;
+    });
+    request.requestOverrides = { ...overrides, headers: updatePairs(pairs) };
   } else if (headers && typeof headers === "object") {
     const updatedHeaders: Record<string, unknown> = { ...headers };
     for (const [name, value] of Object.entries(headers)) {
@@ -84,6 +98,7 @@ function updateRequestHeaders(request: PipelineRequest, removeFraming: boolean):
 /**
  * Removes only the 100-continue expectation from pipeline and replacement headers.
  * Raw header arrays retain their shape, and caller-supplied override headers are not mutated.
+ * Iterable override collections are materialized as reusable name/value pairs.
  *
  * @param request - The request whose body is known to be empty.
  */
