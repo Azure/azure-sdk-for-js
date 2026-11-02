@@ -113,9 +113,10 @@ describe("commonUtils.ts", () => {
         assert.strictEqual(attr, "false");
         attr = serializeAttribute("123");
         assert.strictEqual(attr, "123");
-        attr = serializeAttribute({ test: "value" });
+        const value: unknown = { test: "value" };
+        attr = serializeAttribute(value);
         assert.strictEqual(attr, '{"test":"value"}');
-        attr = serializeAttribute(new Error("testError") as any);
+        attr = serializeAttribute(new Error("testError"));
         assert.isTrue(attr.includes('"stack":"Error: testError'));
         assert.isTrue(attr.includes('"message":"testError"'));
       });

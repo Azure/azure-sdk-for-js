@@ -44,7 +44,6 @@ import { type Resource } from "@opentelemetry/resources";
 import { diag } from "@opentelemetry/api";
 import type { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
-import type { AnyValue } from "@opentelemetry/api-logs";
 import {
   APPLICATION_ID_RESOURCE_KEY,
   CUSTOM_DIMENSIONS_GENAI_KEYS,
@@ -279,7 +278,7 @@ export function createResourceMetricEnvelope(
   return;
 }
 
-export function serializeAttribute(value: AnyValue): string {
+export function serializeAttribute(value: unknown): string {
   if (typeof value === "object") {
     if (value instanceof Error) {
       try {
@@ -375,7 +374,7 @@ export function truncateCustomDimensions(properties: Record<string, unknown>): {
     let value =
       typeof properties[key] === "string"
         ? (properties[key] as string)
-        : serializeAttribute(properties[key] as AnyValue);
+        : serializeAttribute(properties[key]);
 
     const maxSize = CUSTOM_DIMENSIONS_GENAI_KEYS.has(key) ? genaiMaxSize : defaultMaxSize;
     const valueBytes = stringToUint8Array(value, "utf-8");
