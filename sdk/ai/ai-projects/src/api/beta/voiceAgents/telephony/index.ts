@@ -16,6 +16,8 @@ export {
   getBinding,
   listBindings,
   createBinding,
+  deleteCallJob,
+  listCallJobs,
 } from "./operations.js";
 export type {
   BetaVoiceAgentsTelephonyCancelCallJobOptionalParams,
@@ -32,4 +34,6 @@ export type {
   BetaVoiceAgentsTelephonyGetBindingOptionalParams,
   BetaVoiceAgentsTelephonyListBindingsOptionalParams,
   BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
+  BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
 } from "./options.js";

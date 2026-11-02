@@ -23,7 +23,7 @@ interface NativeCloseEvent {
  * Browsers cannot set an `Authorization` header on a WebSocket upgrade request. This transport sends
  * the Microsoft Entra bearer token as the `authorization.bearer.<token>` WebSocket subprotocol,
  * which the service converts back into an `Authorization` header before forwarding the request.
- * Only preview features, client request IDs, and structured inputs are mapped to query parameters.
+ * Only Live preview features, client request IDs, and structured inputs are mapped to query parameters.
  */
 export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
   private webSocket?: WebSocket;
@@ -48,7 +48,7 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
       throw new Error("WebSocket connection was cancelled.");
     }
     const protocols = addCredentialSubprotocol(options.protocols, options.headers);
-    const url = addHeadersToUrl(options.url, options.headers);
+    const url = addHeadersToUrl(options.url, options.headers, options.protocols.includes("live"));
 
     let notifyClosed: () => void = () => {};
     this.closeNotified = new Promise<void>((resolve) => {
@@ -211,12 +211,25 @@ async function waitForClose(
 }
 
 /** @internal */
-export function addHeadersToUrl(url: string, headers: Record<string, string>): string {
+export function addHeadersToUrl(
+  url: string,
+  headers: Record<string, string>,
+  includePreview = false,
+): string {
   const target = new URL(url);
+  if (!includePreview) {
+    for (const name of [...target.searchParams.keys()]) {
+      if (name.toLowerCase() === "foundry_features" || name.toLowerCase() === "foundry-features") {
+        target.searchParams.delete(name);
+      }
+    }
+  }
   for (const [name, value] of Object.entries(headers)) {
     switch (name.toLowerCase()) {
       case "foundry-features":
-        target.searchParams.set("foundry_features", value);
+        if (includePreview) {
+          target.searchParams.set("foundry_features", value);
+        }
         break;
       case "x-ms-client-request-id":
         target.searchParams.set("client-request-id", value);

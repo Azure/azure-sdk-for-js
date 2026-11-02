@@ -18,8 +18,6 @@ export function _createFromPromptSend(
   body: GenerateAgentRequest,
   options: BetaAgentsCreateFromPromptOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
     "/agents:generate{?api-version}",
     {
@@ -33,7 +31,9 @@ export function _createFromPromptSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": foundryFeatures,
+      ...(options.foundryFeatures !== undefined
+        ? { "foundry-features": options.foundryFeatures }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

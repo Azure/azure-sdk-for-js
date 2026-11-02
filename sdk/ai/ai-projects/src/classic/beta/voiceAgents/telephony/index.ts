@@ -17,6 +17,8 @@ import {
   replaceTransferTargets,
   transferCall,
   updateBinding,
+  deleteCallJob,
+  listCallJobs,
 } from "../../../../api/beta/voiceAgents/telephony/operations.js";
 import type {
   BetaVoiceAgentsTelephonyCancelCallJobOptionalParams,
@@ -33,6 +35,8 @@ import type {
   BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams,
   BetaVoiceAgentsTelephonyTransferCallOptionalParams,
   BetaVoiceAgentsTelephonyUpdateBindingOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
+  BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
 } from "../../../../api/beta/voiceAgents/telephony/options.js";
 import type {
   CreateTelephonyCallJobRequest,
@@ -46,7 +50,6 @@ import type {
   TelephonyTransferTargets,
   UpdateTelephonyBindingRequest,
 } from "../../../../models/models.js";
-
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { ResolvedTracingConfig } from "../../../../tracing/configuration.js";
 import { traceVoiceAgentOperation } from "../../../../tracing/voiceAgentTracing.js";
@@ -66,11 +69,22 @@ export interface BetaVoiceAgentsTelephonyOperations {
     callJobId: string,
     options?: BetaVoiceAgentsTelephonyGetCallJobOptionalParams,
   ) => Promise<TelephonyCallJob>;
-  /** Creates one durable direct outbound call job. The latest agent definition is resolved when each attempt executes. */
+  /** Deletes a terminal, fully reconciled CallJob; otherwise returns 409. It does not cancel calls or remove Campaign outcomes, conversations, recordings or replay safeguards. Subsequent GET returns 404 and repeated DELETE returns 204. A retained creation key returns 409 call_job_deleted, never a new call. */
+  deleteCallJob: (
+    agentName: string,
+    callJobId: string,
+    options?: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
+  ) => Promise<void>;
+  /** Lists the Agent's direct and Campaign call jobs, excluding deleted or superseded-round jobs. Status-filtered pages are live, not snapshots. A campaign_name cursor binds the first page's Campaign instance/round; boundary-job deletion and cancellation preserve it. Replacement, deletion/name reuse, or unknown/expired/mismatched boundaries return 400 invalid_cursor; restart from page one. Deleting Campaigns return an empty page. */
+  listCallJobs: (
+    agentName: string,
+    options?: BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
+  ) => PagedAsyncIterableIterator<TelephonyCallJob>;
+  /** Creates one durable direct outbound call job. Each attempt resolves the owning Agent's endpoint execution version before validation and uses that concrete version for its voice session. */
   createCallJob: (
     agentName: string,
     idempotencyKey: string,
-    body: CreateTelephonyCallJobRequest,
+    job: CreateTelephonyCallJobRequest,
     options?: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams,
   ) => Promise<TelephonyCallJob>;
   /** Replaces all transfer targets configured for the voice agent named in the path. */
@@ -138,7 +152,7 @@ export interface BetaVoiceAgentsTelephonyOperations {
   /** Creates a telephony binding for the voice agent named in the path. */
   createBinding: (
     agentName: string,
-    telephonyBinding: CreateTelephonyBindingRequestUnion,
+    binding: CreateTelephonyBindingRequestUnion,
     options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
   ) => Promise<TelephonyBindingUnion>;
 }
@@ -167,6 +181,15 @@ function _getBetaVoiceAgentsTelephony(
       callJobId: string,
       options?: BetaVoiceAgentsTelephonyGetCallJobOptionalParams,
     ) => getCallJob(context, agentName, callJobId, options),
+    deleteCallJob: (
+      agentName: string,
+      callJobId: string,
+      options?: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
+    ) => deleteCallJob(context, agentName, callJobId, options),
+    listCallJobs: (
+      agentName: string,
+      options?: BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
+    ) => listCallJobs(context, agentName, options),
     createCallJob: (
       agentName: string,
       idempotencyKey: string,

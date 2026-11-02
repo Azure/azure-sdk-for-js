@@ -89,6 +89,68 @@ const restore = [
   "BetaItemsRestoreItemOptionalParams",
 ];
 
+function namespacedClassicFixture() {
+  const file = "classic/items/index.ts";
+  const baseGenerated = new Map(Object.entries(models()));
+  baseGenerated.set("api/items/options.ts", options([getItem[3]]));
+  baseGenerated.set(
+    "api/items/operations.ts",
+    'import type { Model } from "../../models/models.js";\n' +
+      operations(1, [getItem]).replaceAll("Promise<string>", "Promise<Model>"),
+  );
+  baseGenerated.set(
+    file,
+    'import type { Model } from "../../models/models.js";\n' +
+      classic(2, "Items", "items", [getItem]).replaceAll("Promise<string>", "Promise<Model>"),
+  );
+  const baseSource = new Map(baseGenerated);
+  baseSource.set(
+    file,
+    baseSource
+      .get(file)
+      .replace(
+        "export interface ItemsOperations {",
+        "export interface ItemsOperations {\ncustomMarker(): boolean;",
+      )
+      .replace("return {", "return { customMarker: () => true,"),
+  );
+  const generated = new Map(baseGenerated);
+  generated.set("models/models.ts", "");
+  generated.set("models/index.ts", 'export type { Model } from "./openAI/models.js";');
+  generated.set(
+    "models/openAI/models.ts",
+    "export interface Model { value?: string; added?: number; }",
+  );
+  for (const module of [file, "api/items/operations.ts"]) {
+    generated.set(
+      module,
+      generated.get(module).replace("../../models/models.js", "../../models/openAI/models.js"),
+    );
+  }
+  return { file, baseGenerated, baseSource, generated };
+}
+
+test("customized classic factories normalize emitted model namespaces before merging imports", () => {
+  const { file, ...inputs } = namespacedClassicFixture();
+  const plan = planCustomization(inputs);
+  assert.deepEqual(plan.diagnostics, []);
+  const text = plan.source.get(file);
+  assert.match(text, /import type \{ Model \} from "\.\.\/\.\.\/models\/models\.js"/);
+  assert.doesNotMatch(text, /models\/openAI/);
+  assert.match(text, /customMarker: \(\) => true/);
+  assert.match(plan.source.get("models/models.ts"), /added\?: number/);
+  assert.equal(plan.source.has("models/openAI/models.ts"), false);
+});
+
+test("classic import normalization does not hide a conflicting non-model customization", () => {
+  const { file, ...inputs } = namespacedClassicFixture();
+  inputs.baseSource.set(
+    file,
+    inputs.baseSource.get(file).replace("../../models/models.js", "../../custom/models.js"),
+  );
+  assert.throws(() => planCustomization(inputs), /conflicting imports for Model/);
+});
+
 // A customized classic module with custom-only overloads and factory behavior.
 const customizedItems = `import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import { getItem } from "../../api/items/operations.js";

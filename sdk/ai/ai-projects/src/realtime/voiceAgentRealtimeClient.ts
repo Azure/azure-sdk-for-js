@@ -756,17 +756,20 @@ function buildHeaders(
   token: string,
   clientOptions: VoiceAgentRealtimeClientOptions,
   serializedStructuredInputs: string | undefined,
+  requiresPreview = false,
 ): Record<string, string> {
   const sdkUserAgent = `azsdk-js-ai-projects/${SDK_VERSION}`;
   const headers: Record<string, string> = {
     authorization: `Bearer ${token}`,
-    "foundry-features": voiceAgentsPreview,
     "x-ms-client-request-id": createRequestId(),
     "x-ms-client-sdk": sdkUserAgent,
     "user-agent": clientOptions.userAgentPrefix
       ? `${clientOptions.userAgentPrefix} ${sdkUserAgent}`
       : sdkUserAgent,
   };
+  if (requiresPreview) {
+    headers["foundry-features"] = voiceAgentsPreview;
+  }
   if (serializedStructuredInputs !== undefined) {
     headers["x-ms-voice-structured-inputs"] = serializedStructuredInputs;
   }

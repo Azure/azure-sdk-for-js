@@ -129,6 +129,12 @@ export function retainedModelBases(
     const source = parse(entry.text);
     const node = source.statements[0];
     if (!ts.isTypeAliasDeclaration(node)) continue;
+    const incomingNode = incoming.get(name).node;
+    const incomingLiterals = new Set(
+      (ts.isTypeAliasDeclaration(incomingNode) ? alternatives(incomingNode.type) : [])
+        .filter((type) => ts.isLiteralTypeNode(type) && ts.isStringLiteral(type.literal))
+        .map((type) => type.literal.text),
+    );
     const types = alternatives(node.type);
     const kept = types.filter((type) => {
       if (ts.isTypeReferenceNode(type) && typeMembers.get(name)?.has(nameOf(type.typeName)))
@@ -136,7 +142,8 @@ export function retainedModelBases(
       return !(
         ts.isLiteralTypeNode(type) &&
         ts.isStringLiteral(type.literal) &&
-        literalMembers.get(name)?.has(type.literal.text)
+        literalMembers.get(name)?.has(type.literal.text) &&
+        !incomingLiterals.has(type.literal.text)
       );
     });
     if (kept.length === types.length) continue;

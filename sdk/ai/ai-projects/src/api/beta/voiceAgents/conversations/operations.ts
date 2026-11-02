@@ -2,12 +2,23 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../../../index.js";
+import {
+  apiErrorResponseDeserializer,
+  _agentsPagedResultVoiceConversationDeserializer,
+  voiceConversationDeserializer,
+  _agentsPagedResultVoiceResponseDeserializer,
+  voiceResponseDeserializer,
+  _agentsPagedResultRealtimeConversationItemDeserializer,
+  voiceAudioItemDeserializer,
+  voiceGeneratedAudioItemDeserializer,
+  voiceRecordingDeserializer,
+  realtimeConversationItemUnionDeserializer,
+} from "../../../../models/models.js";
 import type {
   _AgentsPagedResultVoiceConversation,
   VoiceConversation,
   _AgentsPagedResultVoiceResponse,
   VoiceResponse,
-  RealtimeConversationItemUnion,
   _AgentsPagedResultRealtimeConversationItem,
   VoiceAudioItem,
   VoiceGeneratedAudioItem,
@@ -15,22 +26,10 @@ import type {
   BetaVoiceAgentsConversationsDownloadAudioResponse,
   BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
   BetaVoiceAgentsConversationsDownloadAudioItemResponse,
-} from "../../../../models/models.js";
-import {
-  apiErrorResponseDeserializer,
-  _agentsPagedResultVoiceConversationDeserializer,
-  voiceConversationDeserializer,
-  _agentsPagedResultVoiceResponseDeserializer,
-  voiceResponseDeserializer,
-  realtimeConversationItemUnionDeserializer,
-  _agentsPagedResultRealtimeConversationItemDeserializer,
-  voiceAudioItemDeserializer,
-  voiceGeneratedAudioItemDeserializer,
-  voiceRecordingDeserializer,
+  RealtimeConversationItemUnion,
 } from "../../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../../static-helpers/pagingHelpers.js";
-import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
 import { expandUrlTemplate } from "../../../../static-helpers/urlTemplate.js";
 import type {
   BetaVoiceAgentsConversationsDownloadAudioOptionalParams,
@@ -50,6 +49,7 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
 
 export function _downloadAudioSend(
   context: Client,
@@ -57,14 +57,12 @@ export function _downloadAudioSend(
   conversationId: string,
   options: BetaVoiceAgentsConversationsDownloadAudioOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/audio/content{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/audio/content{?api-version}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,11 +70,7 @@ export function _downloadAudioSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "audio/wav",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "audio/wav", ...options.requestOptions?.headers },
   });
 }
 
@@ -124,14 +118,12 @@ export function _getAudioSend(
   conversationId: string,
   options: BetaVoiceAgentsConversationsGetAudioOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/audio{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/audio{?api-version}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,11 +131,7 @@ export function _getAudioSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -192,15 +180,13 @@ export function _downloadGeneratedAudioItemSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/generated/content{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/generated/content{?api-version}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,11 +194,7 @@ export function _downloadGeneratedAudioItemSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "audio/wav",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "audio/wav", ...options.requestOptions?.headers },
   });
 }
 
@@ -269,15 +251,13 @@ export function _getGeneratedAudioItemSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/generated{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/generated{?api-version}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -285,11 +265,7 @@ export function _getGeneratedAudioItemSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -341,15 +317,13 @@ export function _downloadAudioItemSend(
   itemId: string,
   options: BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/content{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/content{?api-version}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -357,11 +331,7 @@ export function _downloadAudioItemSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "audio/wav",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "audio/wav", ...options.requestOptions?.headers },
   });
 }
 
@@ -413,15 +383,13 @@ export function _getAudioItemSend(
   itemId: string,
   options: BetaVoiceAgentsConversationsGetAudioItemOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio{?api-version}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -429,11 +397,7 @@ export function _getAudioItemSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -479,15 +443,13 @@ export function _getItemSend(
   itemId: string,
   options: BetaVoiceAgentsConversationsGetItemOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}{?api-version}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -495,11 +457,7 @@ export function _getItemSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -543,10 +501,8 @@ export function _listItemsSend(
   conversationId: string,
   options: BetaVoiceAgentsConversationsListItemsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items{?limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items{?after,api-version,before,limit,order}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
@@ -554,7 +510,7 @@ export function _listItemsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -562,11 +518,7 @@ export function _listItemsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -609,10 +561,7 @@ export function listItems(
       hasMoreFieldName: "has_more",
       nextPageRequestOptions: {
         ...operationOptionsToRequestParameters(options),
-        headers: {
-          "foundry-features": "VoiceAgents=V1Preview",
-          ...options.requestOptions?.headers,
-        },
+        headers: { ...options.requestOptions?.headers },
       },
     },
   );
@@ -625,10 +574,8 @@ export function _listResponseItemsSend(
   responseId: string,
   options: BetaVoiceAgentsConversationsListResponseItemsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses/{response_id}/items{?limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses/{response_id}/items{?after,api-version,before,limit,order}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
@@ -637,7 +584,7 @@ export function _listResponseItemsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -645,11 +592,7 @@ export function _listResponseItemsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -694,10 +637,7 @@ export function listResponseItems(
       hasMoreFieldName: "has_more",
       nextPageRequestOptions: {
         ...operationOptionsToRequestParameters(options),
-        headers: {
-          "foundry-features": "VoiceAgents=V1Preview",
-          ...options.requestOptions?.headers,
-        },
+        headers: { ...options.requestOptions?.headers },
       },
     },
   );
@@ -710,15 +650,13 @@ export function _getResponseSend(
   responseId: string,
   options: BetaVoiceAgentsConversationsGetResponseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses/{response_id}{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses/{response_id}{?api-version}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       response_id: responseId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -726,11 +664,7 @@ export function _getResponseSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -771,10 +705,8 @@ export function _listResponsesSend(
   conversationId: string,
   options: BetaVoiceAgentsConversationsListResponsesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses{?limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses{?after,api-version,before,limit,order}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
@@ -782,7 +714,7 @@ export function _listResponsesSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -790,11 +722,7 @@ export function _listResponsesSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -837,10 +765,7 @@ export function listResponses(
       hasMoreFieldName: "has_more",
       nextPageRequestOptions: {
         ...operationOptionsToRequestParameters(options),
-        headers: {
-          "foundry-features": "VoiceAgents=V1Preview",
-          ...options.requestOptions?.headers,
-        },
+        headers: { ...options.requestOptions?.headers },
       },
     },
   );
@@ -852,23 +777,18 @@ export function _$deleteSend(
   conversationId: string,
   options: BetaVoiceAgentsConversationsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}{?api-version}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -905,14 +825,12 @@ export function _getSend(
   conversationId: string,
   options: BetaVoiceAgentsConversationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}{?api-version}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -920,11 +838,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -961,17 +875,15 @@ export function _listSend(
   agentName: string,
   options: BetaVoiceAgentsConversationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations{?limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations{?after,api-version,before,limit,order}",
     {
       agent_name: agentName,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -979,11 +891,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -1025,10 +933,7 @@ export function list(
       hasMoreFieldName: "has_more",
       nextPageRequestOptions: {
         ...operationOptionsToRequestParameters(options),
-        headers: {
-          "foundry-features": "VoiceAgents=V1Preview",
-          ...options.requestOptions?.headers,
-        },
+        headers: { ...options.requestOptions?.headers },
       },
     },
   );

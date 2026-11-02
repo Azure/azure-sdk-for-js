@@ -6,9 +6,38 @@ import test from "node:test";
 import {
   collectModelExports,
   filterModelReexports,
+  getReviewedGeneratedModelRenames,
   planModelRemovals,
   removeModelDeclarations,
 } from "./sync-generated-model-removals.mjs";
+
+test("preserves reviewed writable telephony aliases but retires unsupported binding status", () => {
+  const previousGenerated = `
+export interface CreateTelephonyBindingRequest { connection_name: string; }
+export function createTelephonyBindingRequestSerializer(item: CreateTelephonyBindingRequest): any { return item; }
+export type TelephonyBindingStatus = "active" | "suspended";
+`;
+  const currentGenerated = `
+export interface TelephonyBinding { readonly id: string; connection_name: string; }
+export function telephonyBindingSerializer(item: TelephonyBinding): any { return { connection_name: item.connection_name }; }
+`;
+  const currentSource = `
+${currentGenerated}
+export type CreateTelephonyBindingRequest = Omit<TelephonyBinding, "id">;
+export const createTelephonyBindingRequestSerializer = telephonyBindingSerializer;
+export type TelephonyBindingStatus = "active" | "suspended";
+`;
+  const plan = planModelRemovals({
+    previousGenerated,
+    currentGenerated,
+    previousSource: previousGenerated,
+    currentSource,
+    generatedRenames: getReviewedGeneratedModelRenames(),
+  });
+  assert.deepEqual([...plan.generatedRemovedNames], ["TelephonyBindingStatus"]);
+  assert.deepEqual(plan.sourceNames, ["TelephonyBindingStatus"]);
+  assert.deepEqual(plan.retainedReferenceConflicts, []);
+});
 
 test("plans generated removals and downstream custom dependents", () => {
   const previousGenerated = `
