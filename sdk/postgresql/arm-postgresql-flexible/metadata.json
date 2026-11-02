@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.DBforPostgreSQL": "2026-07-01-preview"
+    "Microsoft.DBforPostgreSQL": "2026-10-01"
   },
-  "emitterVersion": "0.57.0",
+  "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.DBforPostgreSQL",
     "CrossLanguageDefinitionId": {
@@ -100,11 +100,6 @@
       "@azure/arm-postgresql-flexible!PrecheckErrorInfo:interface": "Microsoft.DBforPostgreSQL.PrecheckErrorInfo",
       "@azure/arm-postgresql-flexible!PolicyDetail:interface": "Microsoft.DBforPostgreSQL.PolicyDetail",
       "@azure/arm-postgresql-flexible!MajorVersionUpgradePrecheckResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
-      "@azure/arm-postgresql-flexible!DbAgentListResult:interface": "Azure.ResourceManager.ResourceListResult",
-      "@azure/arm-postgresql-flexible!DbAgent:interface": "Microsoft.DBforPostgreSQL.DbAgent",
-      "@azure/arm-postgresql-flexible!DbAgentProperties:interface": "Microsoft.DBforPostgreSQL.DbAgentProperties",
-      "@azure/arm-postgresql-flexible!DbAgentForUpdate:interface": "Microsoft.DBforPostgreSQL.DbAgentForUpdate",
-      "@azure/arm-postgresql-flexible!DbAgentForUpdateProperties:interface": "Microsoft.DBforPostgreSQL.DbAgentForUpdateProperties",
       "@azure/arm-postgresql-flexible!AdministratorMicrosoftEntra:interface": "Microsoft.DBforPostgreSQL.AdministratorMicrosoftEntra",
       "@azure/arm-postgresql-flexible!AdministratorMicrosoftEntraProperties:interface": "Microsoft.DBforPostgreSQL.AdministratorMicrosoftEntraProperties",
       "@azure/arm-postgresql-flexible!AdministratorMicrosoftEntraAdd:interface": "Microsoft.DBforPostgreSQL.AdministratorMicrosoftEntraAdd",
@@ -179,7 +174,6 @@
       "@azure/arm-postgresql-flexible!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-postgresql-flexible!KnownMigrationListFilter:enum": "Microsoft.DBforPostgreSQL.MigrationListFilter",
       "@azure/arm-postgresql-flexible!KnownMigrationNameAvailabilityReason:enum": "Microsoft.DBforPostgreSQL.MigrationNameAvailabilityReason",
-      "@azure/arm-postgresql-flexible!KnownPostgresMajorVersion:enum": "Microsoft.DBforPostgreSQL.PostgresMajorVersion",
       "@azure/arm-postgresql-flexible!KnownServerState:enum": "Microsoft.DBforPostgreSQL.ServerState",
       "@azure/arm-postgresql-flexible!KnownStorageAutoGrow:enum": "Microsoft.DBforPostgreSQL.StorageAutoGrow",
       "@azure/arm-postgresql-flexible!KnownAzureManagedDiskPerformanceTier:enum": "Microsoft.DBforPostgreSQL.AzureManagedDiskPerformanceTier",
@@ -212,9 +206,6 @@
       "@azure/arm-postgresql-flexible!KnownMaintenanceType:enum": "Microsoft.DBforPostgreSQL.MaintenanceType",
       "@azure/arm-postgresql-flexible!KnownMaintenanceEventStatus:enum": "Microsoft.DBforPostgreSQL.MaintenanceEventStatus",
       "@azure/arm-postgresql-flexible!KnownMaintenanceEventStatusFilter:enum": "Microsoft.DBforPostgreSQL.MaintenanceEventStatusFilter",
-      "@azure/arm-postgresql-flexible!KnownDbAgentState:enum": "Microsoft.DBforPostgreSQL.DbAgentState",
-      "@azure/arm-postgresql-flexible!KnownDbAgentProvisioningState:enum": "Microsoft.DBforPostgreSQL.DbAgentProvisioningState",
-      "@azure/arm-postgresql-flexible!KnownDbAgentForUpdateState:enum": "Microsoft.DBforPostgreSQL.DbAgentForUpdateState",
       "@azure/arm-postgresql-flexible!KnownPrincipalType:enum": "Microsoft.DBforPostgreSQL.PrincipalType",
       "@azure/arm-postgresql-flexible!KnownCapabilityStatus:enum": "Microsoft.DBforPostgreSQL.CapabilityStatus",
       "@azure/arm-postgresql-flexible!KnownHighAvailabilityMode:enum": "Microsoft.DBforPostgreSQL.HighAvailabilityMode",
@@ -262,9 +253,6 @@
       "@azure/arm-postgresql-flexible!AdministratorsMicrosoftEntraOperations#delete:member": "Microsoft.DBforPostgreSQL.AdministratorMicrosoftEntras.delete",
       "@azure/arm-postgresql-flexible!AdministratorsMicrosoftEntraOperations#createOrUpdate:member": "Microsoft.DBforPostgreSQL.AdministratorMicrosoftEntras.createOrUpdate",
       "@azure/arm-postgresql-flexible!AdministratorsMicrosoftEntraOperations#get:member": "Microsoft.DBforPostgreSQL.AdministratorMicrosoftEntras.get",
-      "@azure/arm-postgresql-flexible!DbAgentsOperations#createOrUpdate:member": "Microsoft.DBforPostgreSQL.DbAgents.createOrUpdate",
-      "@azure/arm-postgresql-flexible!DbAgentsOperations#get:member": "Microsoft.DBforPostgreSQL.DbAgents.get",
-      "@azure/arm-postgresql-flexible!DbAgentsOperations#list:member": "Microsoft.DBforPostgreSQL.DbAgents.list",
       "@azure/arm-postgresql-flexible!MajorVersionUpgradePrecheckOperations#list:member": "Microsoft.DBforPostgreSQL.MajorVersionUpgradePrecheck.list",
       "@azure/arm-postgresql-flexible!MajorVersionUpgradePrecheckOperations#get:member": "Microsoft.DBforPostgreSQL.MajorVersionUpgradePrecheck.get",
       "@azure/arm-postgresql-flexible!MaintenanceEventsOperations#applyNow:member": "Microsoft.DBforPostgreSQL.MaintenanceEvents.applyNow",

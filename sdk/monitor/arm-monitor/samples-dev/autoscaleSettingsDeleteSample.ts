@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes and autoscale setting
  *
  * @summary deletes and autoscale setting
- * x-ms-original-file: 2022-10-01/deleteAutoscaleSetting.json
+ * x-ms-original-file: 2025-09-01-preview/deleteAutoscaleSetting.json
  */
 async function deleteAnAutoscaleSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();
