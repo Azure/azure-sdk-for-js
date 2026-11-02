@@ -169,13 +169,10 @@ function sendRequestBody(
 }
 
 function initializeBody(body: RequestBodyType | undefined): RequestBodyType | undefined {
-  if (typeof body === "function") {
-    return body();
-  } else if (body && isArrayBuffer(body)) {
-    return arrayBufferToBuffer(body);
-  } else {
-    return body;
-  }
+  const resolvedBody = typeof body === "function" ? body() : body;
+  return resolvedBody && isArrayBuffer(resolvedBody)
+    ? arrayBufferToBuffer(resolvedBody)
+    : resolvedBody;
 }
 
 /**

@@ -8,9 +8,11 @@ import { finished } from "node:stream/promises";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   createDefaultHttpClient,
+  createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
 } from "../../../src/index.js";
+import { sendRequest } from "../../../src/client/sendRequest.js";
 import { getRequestCompletion } from "../../../src/util/responseBody.js";
 
 const servers: http.Server[] = [];
@@ -37,6 +39,97 @@ afterEach(async () => {
 });
 
 describe("Expect: 100-continue", () => {
+  describe.each([
+    { expectContinue: false, progress: false },
+    { expectContinue: false, progress: true },
+    { expectContinue: true, progress: false },
+    { expectContinue: true, progress: true },
+  ])(
+    "binary body factories (expectContinue=$expectContinue, progress=$progress)",
+    ({ expectContinue, progress }) => {
+      it.each([
+        {
+          kind: "Uint8Array window",
+          body: Uint8Array.from([0, 1, 2, 3, 4]).subarray(1, 4),
+          expected: Buffer.from([1, 2, 3]),
+        },
+        {
+          kind: "DataView window",
+          body: new DataView(Uint8Array.from([0, 1, 2, 3, 4]).buffer, 1, 3),
+          expected: Buffer.from([1, 2, 3]),
+        },
+        {
+          kind: "ArrayBuffer",
+          body: Uint8Array.from([1, 2, 3]).buffer,
+          expected: Buffer.from([1, 2, 3]),
+        },
+        {
+          kind: "Buffer",
+          body: Buffer.from([1, 2, 3]),
+          expected: Buffer.from([1, 2, 3]),
+        },
+      ])("normalizes a $kind returned by the client body factory", async ({ body, expected }) => {
+        const bodyFactory = vi.fn(() => body);
+        const onUploadProgress = vi.fn();
+        const chunks: Buffer[] = [];
+        let receivedHeaders: http.IncomingHttpHeaders | undefined;
+        const receiveBody: http.RequestListener = (request, response) => {
+          receivedHeaders = request.headers;
+          request.on("data", (chunk: Buffer) => chunks.push(chunk));
+          request.on("end", () => response.end("accepted"));
+        };
+        const server = http.createServer(receiveBody);
+        server.on("checkContinue", (request, response) => {
+          expect(bodyFactory).not.toHaveBeenCalled();
+          expect(onUploadProgress).not.toHaveBeenCalled();
+          receiveBody(request, response);
+          response.writeContinue();
+          response.writeContinue();
+        });
+        const port = await listen(server);
+        const agent = new http.Agent({ keepAlive: false });
+        const requestOptions = {
+          body: bodyFactory,
+          contentType: "application/octet-stream",
+          allowInsecureConnection: true,
+          headers: expectContinue ? { Expect: "100-continue" } : undefined,
+          onUploadProgress: progress ? onUploadProgress : undefined,
+          requestOverrides: { agent },
+        };
+
+        try {
+          const response = await sendRequest(
+            "POST",
+            `http://127.0.0.1:${port}`,
+            createEmptyPipeline(),
+            requestOptions,
+            createDefaultHttpClient(),
+          );
+
+          expect(response.status).toBe("200");
+          expect(bodyFactory).toHaveBeenCalledOnce();
+          expect(Buffer.concat(chunks)).toEqual(expected);
+          if (progress) {
+            expect(onUploadProgress).toHaveBeenCalledExactlyOnceWith({
+              loadedBytes: expected.byteLength,
+            });
+          } else {
+            expect(onUploadProgress).not.toHaveBeenCalled();
+          }
+          if (expectContinue) {
+            expect(receivedHeaders?.["content-length"]).toBeUndefined();
+            expect(receivedHeaders?.["transfer-encoding"]).toBe("chunked");
+          } else {
+            expect(receivedHeaders?.["content-length"]).toBe(String(expected.byteLength));
+            expect(receivedHeaders?.["transfer-encoding"]).toBeUndefined();
+          }
+        } finally {
+          agent.destroy();
+        }
+      });
+    },
+  );
+
   it.each([
     { expectContinue: false, factory: false },
     { expectContinue: false, factory: true },
