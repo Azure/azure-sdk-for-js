@@ -1,0 +1,95 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.EventHub/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learnprivateendpointns"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "tier": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.EventHub/namespaces/privateEndpointConnections",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-pec"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "privateEndpoint": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-cdk-package-test/providers/Microsoft.Network/privateEndpoints/learn-pe"
+                      }
+                    }
+                  },
+                  "privateLinkServiceConnectionState": {
+                    "kind": "object",
+                    "value": {
+                      "description": {
+                        "kind": "string",
+                        "value": "Approved for package coverage"
+                      },
+                      "status": {
+                        "kind": "string",
+                        "value": "Approved"
+                      }
+                    }
+                  },
+                  "provisioningState": {
+                    "kind": "string",
+                    "value": "Succeeded"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

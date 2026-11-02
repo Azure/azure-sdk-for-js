@@ -1,0 +1,131 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "cluster": {
+          "bicepIdentifier": "cluster",
+          "type": "Microsoft.EventHub/clusters",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "quickclusterhub"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Dedicated"
+                  },
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.EventHub/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "quickclusterhubns"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "isAutoInflateEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "maximumThroughputUnits": {
+                    "kind": "integer",
+                    "value": "0"
+                  },
+                  "clusterArmId": {
+                    "kind": "property-access",
+                    "base": {
+                      "kind": "identifier",
+                      "id": "cluster"
+                    },
+                    "property": "id",
+                    "nullish": false
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "tier": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "eventhub": {
+          "bicepIdentifier": "eventhub",
+          "type": "Microsoft.EventHub/namespaces/eventhubs",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "quick-cluster-hub"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "messageRetentionInDays": {
+                    "kind": "integer",
+                    "value": "7"
+                  },
+                  "partitionCount": {
+                    "kind": "integer",
+                    "value": "1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

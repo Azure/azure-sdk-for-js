@@ -1,0 +1,135 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.EventHub/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001"
+              },
+              "location": {
+                "kind": "string",
+                "value": "westeurope"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "disableLocalAuth": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "isAutoInflateEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  },
+                  "zoneRedundant": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "name": {
+                    "kind": "string",
+                    "value": "Basic"
+                  },
+                  "tier": {
+                    "kind": "string",
+                    "value": "Basic"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "eventhub": {
+          "bicepIdentifier": "eventhub",
+          "type": "Microsoft.EventHub/namespaces/eventhubs",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "messageRetentionInDays": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "partitionCount": {
+                    "kind": "integer",
+                    "value": "2"
+                  },
+                  "status": {
+                    "kind": "string",
+                    "value": "Active"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "authorizationRule": {
+          "bicepIdentifier": "authorizationRule",
+          "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "eventhub"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "rights": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "Send"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

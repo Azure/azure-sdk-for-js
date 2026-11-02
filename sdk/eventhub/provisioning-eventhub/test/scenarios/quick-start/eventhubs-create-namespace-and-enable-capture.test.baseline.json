@@ -1,0 +1,154 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.EventHub/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "quickcapturens"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "isAutoInflateEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "maximumThroughputUnits": {
+                    "kind": "integer",
+                    "value": "10"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "tier": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "1"
+                  }
+                }
+              },
+              "tags": {
+                "kind": "object",
+                "value": {
+                  "tag1": {
+                    "kind": "string",
+                    "value": "value1"
+                  },
+                  "tag2": {
+                    "kind": "string",
+                    "value": "value2"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "eventhub": {
+          "bicepIdentifier": "eventhub",
+          "type": "Microsoft.EventHub/namespaces/eventhubs",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "quick-capture-hub"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "messageRetentionInDays": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "partitionCount": {
+                    "kind": "integer",
+                    "value": "4"
+                  },
+                  "captureDescription": {
+                    "kind": "object",
+                    "value": {
+                      "enabled": {
+                        "kind": "boolean",
+                        "value": true
+                      },
+                      "skipEmptyArchives": {
+                        "kind": "boolean",
+                        "value": false
+                      },
+                      "encoding": {
+                        "kind": "string",
+                        "value": "Avro"
+                      },
+                      "intervalInSeconds": {
+                        "kind": "integer",
+                        "value": "300"
+                      },
+                      "sizeLimitInBytes": {
+                        "kind": "integer",
+                        "value": "314572800"
+                      },
+                      "destination": {
+                        "kind": "object",
+                        "value": {
+                          "name": {
+                            "kind": "string",
+                            "value": "EventHubArchive.AzureBlockBlob"
+                          },
+                          "properties": {
+                            "kind": "object",
+                            "value": {
+                              "storageAccountResourceId": {
+                                "kind": "string",
+                                "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-cdk-package-test/providers/Microsoft.Storage/storageAccounts/capturestore"
+                              },
+                              "blobContainer": {
+                                "kind": "string",
+                                "value": "captures"
+                              },
+                              "archiveNameFormat": {
+                                "kind": "string",
+                                "value": "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

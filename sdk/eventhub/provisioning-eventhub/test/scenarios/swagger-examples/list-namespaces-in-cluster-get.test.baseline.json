@@ -1,0 +1,45 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.EventHub/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "rrama-int7-ns1"
+              },
+              "location": {
+                "kind": "string",
+                "value": "southcentralus"
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "tier": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.EventHub/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learnappgroupns"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "tier": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "applicationGroup": {
+          "bicepIdentifier": "applicationGroup",
+          "type": "Microsoft.EventHub/namespaces/applicationGroups",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-app-group"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "clientAppGroupIdentifier": {
+                    "kind": "string",
+                    "value": "AADAppID=44444444-4444-4444-4444-444444444444"
+                  },
+                  "isEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
