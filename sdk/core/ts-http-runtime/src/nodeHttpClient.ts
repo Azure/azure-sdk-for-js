@@ -226,12 +226,15 @@ class NodeHttpClient implements HttpClient {
     let responseStream: NodeJS.ReadableStream | undefined;
     let requestComplete = Promise.resolve();
     try {
+      let useExpectContinue = hasExpectContinue(request);
       const knownBodyLength =
-        typeof requestBody === "function" ? null : getBodyLength(requestBody ?? null);
+        useExpectContinue && typeof requestBody !== "function"
+          ? getBodyLength(requestBody ?? null)
+          : null;
       if (knownBodyLength === 0) {
         removeExpectContinueHeader(request);
+        useExpectContinue = false;
       }
-      const useExpectContinue = hasExpectContinue(request);
 
       const prepareBody = (): RequestBodyType | undefined => {
         body = initializeBody(requestBody);

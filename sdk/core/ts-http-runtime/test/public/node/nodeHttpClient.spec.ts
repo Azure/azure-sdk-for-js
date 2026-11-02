@@ -258,6 +258,42 @@ describe("NodeHttpClient", function () {
     },
   );
 
+  it.each([
+    { explicitLength: false, expectedEncodings: 1 },
+    { explicitLength: true, expectedEncodings: 0 },
+  ])(
+    "avoids negotiation-only string encoding without Expect (explicitLength=$explicitLength)",
+    async ({ explicitLength, expectedEncodings }) => {
+      const body = "ordinary upload with multibyte content: \u00e9";
+      const contentLength = String(Buffer.byteLength(body));
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        body,
+        headers: createHttpHeaders(explicitLength ? { "Content-Length": contentLength } : {}),
+      });
+      const clientRequest = createRequest();
+      const bufferFrom = vi.spyOn(Buffer, "from");
+      let payloadEncodings: number | undefined;
+
+      try {
+        vi.mocked(https.request).mockImplementationOnce(() => {
+          // Exclude the mock transport's own encoding of the string for writing.
+          payloadEncodings = bufferFrom.mock.calls.filter(([value]) => value === body).length;
+          return clientRequest;
+        });
+        const promise = createDefaultHttpClient().sendRequest(request);
+        yieldHttpsResponse(createResponse(200));
+        const response = await promise;
+
+        expect(response.status).toBe(200);
+        expect(payloadEncodings).toBe(expectedEncodings);
+        expect(request.headers.get("Content-Length")).toBe(contentLength);
+      } finally {
+        bufferFrom.mockRestore();
+      }
+    },
+  );
+
   it("should honor timeout", async function () {
     const client = createDefaultHttpClient();
 
