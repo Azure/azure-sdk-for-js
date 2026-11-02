@@ -178,7 +178,8 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
 
   function onClose(): void {
     stopWaiting();
-    options.abortSignal.removeEventListener("abort", onAbort);
+    // Request close can precede consumption of buffered response data.
+    // Keep private abort forwarding until sendRequest's outer lifecycle disconnects the caller.
   }
 
   function onSocket(): void {

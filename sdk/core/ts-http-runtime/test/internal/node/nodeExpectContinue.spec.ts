@@ -621,6 +621,23 @@ describe("Expect: 100-continue negotiation", () => {
     request.destroy();
   });
 
+  it("preserves abort forwarding after the outgoing request closes", async () => {
+    const { request, controller, options } = createOptions();
+
+    createExpectContinueRequest(options);
+    request.destroy();
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    expect(request.closed).toBe(true);
+    controller.abort();
+    request.emit("continue");
+    vi.advanceTimersByTime(1000);
+
+    expect(options.onAbort).toHaveBeenCalledExactlyOnceWith(request);
+    expect(options.onError).not.toHaveBeenCalled();
+    expect(options.sendBody).not.toHaveBeenCalled();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
   it("preserves the separate abort callback", () => {
     const { request, controller, options } = createOptions();
 

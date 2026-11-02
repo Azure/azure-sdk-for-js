@@ -216,6 +216,93 @@ describe("Expect: 100-continue", () => {
     },
   );
 
+  it.each([
+    { statusCode: 417, cancel: true },
+    { statusCode: 417, cancel: false },
+    { statusCode: 200, cancel: true },
+    { statusCode: 200, cancel: false },
+  ])(
+    "preserves response cancellation after Connection: close (status=$statusCode, cancel=$cancel)",
+    async ({ statusCode, cancel }) => {
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const bodyFactory = vi.fn(() => Readable.from(["payload"]));
+      const server = http.createServer();
+      server.on("checkContinue", (request, response) => {
+        const sendResponse = (): void => {
+          response.writeHead(statusCode, { Connection: "close", "Content-Length": "8" });
+          response.end("response");
+        };
+        if (statusCode === 417) {
+          sendResponse();
+        } else {
+          request.resume();
+          request.once("end", sendResponse);
+          response.writeContinue();
+        }
+      });
+      const port = await listen(server);
+      const agent = new http.Agent({ keepAlive: false });
+      const httpRequest = vi.spyOn(http, "request");
+      let responseStream: http.IncomingMessage | undefined;
+
+      try {
+        const responsePromise = createDefaultHttpClient().sendRequest(
+          createPipelineRequest({
+            url: `http://127.0.0.1:${port}`,
+            method: "POST",
+            allowInsecureConnection: true,
+            headers: createHttpHeaders({ Expect: "100-continue" }),
+            body: bodyFactory,
+            abortSignal: controller.signal,
+            streamResponseStatusCodes: new Set([statusCode]),
+            requestOverrides: { agent },
+          }),
+        );
+        const requestResult = httpRequest.mock.results[0];
+        if (!requestResult || requestResult.type !== "return") {
+          throw new Error("Expected an outgoing HTTP request");
+        }
+        const clientRequest = requestResult.value;
+        const response = await responsePromise;
+        if (!(response.readableStreamBody instanceof http.IncomingMessage)) {
+          throw new Error("Expected a raw HTTP response stream");
+        }
+        responseStream = response.readableStreamBody;
+        await expect.poll(() => clientRequest.closed).toBe(true);
+
+        expect(response.status).toBe(statusCode);
+        expect(responseStream.readableLength).toBe(8);
+        expect(responseStream.readableEnded).toBe(false);
+        expect(removeEventListener).not.toHaveBeenCalled();
+        expect(bodyFactory).toHaveBeenCalledTimes(statusCode === 417 ? 0 : 1);
+        const responseComplete = finished(responseStream, { writable: false, cleanup: true });
+
+        if (cancel) {
+          const rejection = expect(responseComplete).rejects.toMatchObject({
+            name: "AbortError",
+          });
+          controller.abort();
+          await rejection;
+          expect(responseStream.destroyed).toBe(true);
+        } else {
+          responseStream.resume();
+          await responseComplete;
+          await new Promise<void>((resolve) => setImmediate(resolve));
+          const destroy = vi.spyOn(responseStream, "destroy");
+          controller.abort();
+          expect(destroy).not.toHaveBeenCalled();
+        }
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        expect(removeEventListener).toHaveBeenCalledExactlyOnceWith("abort", expect.any(Function));
+      } finally {
+        responseStream?.destroy();
+        agent.destroy();
+        httpRequest.mockRestore();
+      }
+    },
+  );
+
   it("sends the body after the fixed fallback when no Continue response arrives", async () => {
     const bodyFactory = vi.fn(() => Readable.from(["payload"]));
     let headersReceivedAt = 0;
