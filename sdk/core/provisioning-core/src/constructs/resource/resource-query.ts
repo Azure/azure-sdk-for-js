@@ -4,7 +4,7 @@
 import { isResourceDeclaration, isLoopedResource, isLoopedResourceOf } from "./resource-utils.js";
 import { deref } from "./resource-proxy.js";
 import type { ProvisioningComponent } from "../provisioning-component.js";
-import type { LoopedResource, Resource } from "./resource.js";
+import type { LoopedResource, Resource, ResourceDeclaration } from "./resource.js";
 import type { ResourceCtor } from "./resource-registry.js";
 
 // ---------------------------------------------------------------------------
@@ -55,6 +55,17 @@ function collectResourcesUnder(
 // Engine entry points — thin, loosely-typed; `Stack` supplies the public
 // typed overloads and delegates here.
 // ---------------------------------------------------------------------------
+
+/** All scalar and looped declarations in tree order, including a resource root. */
+export function collectResourceDeclarations(root: ProvisioningComponent): ResourceDeclaration[] {
+  const result: ResourceDeclaration[] = [];
+  root.visit((node) => {
+    if (isResourceDeclaration(node)) {
+      result.push(node.self);
+    }
+  });
+  return result;
+}
 
 /** Scalar (un-looped) resource declarations. */
 export function getResources(

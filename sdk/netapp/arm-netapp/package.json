@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-netapp",
-  "version": "25.0.0",
+  "version": "25.1.0-beta.1",
   "description": "A generated SDK for NetAppManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -97,7 +97,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-netapp"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-netapp?view=azure-node-preview"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -267,6 +267,216 @@
       "require": {
         "types": "./dist/commonjs/api/netAppResourceQuotaLimits/index.d.ts",
         "default": "./dist/commonjs/api/netAppResourceQuotaLimits/index.js"
+      }
+    },
+    "./api/externalCacheConnections": {
+      "browser": {
+        "types": "./dist/browser/api/externalCacheConnections/index.d.ts",
+        "default": "./dist/browser/api/externalCacheConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/externalCacheConnections/index.d.ts",
+        "default": "./dist/esm/api/externalCacheConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/externalCacheConnections/index.d.ts",
+        "default": "./dist/commonjs/api/externalCacheConnections/index.js"
+      }
+    },
+    "./api/externalCaches": {
+      "browser": {
+        "types": "./dist/browser/api/externalCaches/index.d.ts",
+        "default": "./dist/browser/api/externalCaches/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/externalCaches/index.d.ts",
+        "default": "./dist/esm/api/externalCaches/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/externalCaches/index.d.ts",
+        "default": "./dist/commonjs/api/externalCaches/index.js"
+      }
+    },
+    "./api/svmPeers": {
+      "browser": {
+        "types": "./dist/browser/api/svmPeers/index.d.ts",
+        "default": "./dist/browser/api/svmPeers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/svmPeers/index.d.ts",
+        "default": "./dist/esm/api/svmPeers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/svmPeers/index.d.ts",
+        "default": "./dist/commonjs/api/svmPeers/index.js"
+      }
+    },
+    "./api/externalSvms": {
+      "browser": {
+        "types": "./dist/browser/api/externalSvms/index.d.ts",
+        "default": "./dist/browser/api/externalSvms/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/externalSvms/index.d.ts",
+        "default": "./dist/esm/api/externalSvms/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/externalSvms/index.d.ts",
+        "default": "./dist/commonjs/api/externalSvms/index.js"
+      }
+    },
+    "./api/clusterPeers": {
+      "browser": {
+        "types": "./dist/browser/api/clusterPeers/index.d.ts",
+        "default": "./dist/browser/api/clusterPeers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/clusterPeers/index.d.ts",
+        "default": "./dist/esm/api/clusterPeers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/clusterPeers/index.d.ts",
+        "default": "./dist/commonjs/api/clusterPeers/index.js"
+      }
+    },
+    "./api/externalClusters": {
+      "browser": {
+        "types": "./dist/browser/api/externalClusters/index.d.ts",
+        "default": "./dist/browser/api/externalClusters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/externalClusters/index.d.ts",
+        "default": "./dist/esm/api/externalClusters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/externalClusters/index.d.ts",
+        "default": "./dist/commonjs/api/externalClusters/index.js"
+      }
+    },
+    "./api/activeDirectoryConfigs": {
+      "browser": {
+        "types": "./dist/browser/api/activeDirectoryConfigs/index.d.ts",
+        "default": "./dist/browser/api/activeDirectoryConfigs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/activeDirectoryConfigs/index.d.ts",
+        "default": "./dist/esm/api/activeDirectoryConfigs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/activeDirectoryConfigs/index.d.ts",
+        "default": "./dist/commonjs/api/activeDirectoryConfigs/index.js"
+      }
+    },
+    "./api/elasticBackups": {
+      "browser": {
+        "types": "./dist/browser/api/elasticBackups/index.d.ts",
+        "default": "./dist/browser/api/elasticBackups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticBackups/index.d.ts",
+        "default": "./dist/esm/api/elasticBackups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticBackups/index.d.ts",
+        "default": "./dist/commonjs/api/elasticBackups/index.js"
+      }
+    },
+    "./api/elasticBackupPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/elasticBackupPolicies/index.d.ts",
+        "default": "./dist/browser/api/elasticBackupPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticBackupPolicies/index.d.ts",
+        "default": "./dist/esm/api/elasticBackupPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticBackupPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/elasticBackupPolicies/index.js"
+      }
+    },
+    "./api/elasticBackupVaults": {
+      "browser": {
+        "types": "./dist/browser/api/elasticBackupVaults/index.d.ts",
+        "default": "./dist/browser/api/elasticBackupVaults/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticBackupVaults/index.d.ts",
+        "default": "./dist/esm/api/elasticBackupVaults/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticBackupVaults/index.d.ts",
+        "default": "./dist/commonjs/api/elasticBackupVaults/index.js"
+      }
+    },
+    "./api/elasticSnapshotPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/elasticSnapshotPolicies/index.d.ts",
+        "default": "./dist/browser/api/elasticSnapshotPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticSnapshotPolicies/index.d.ts",
+        "default": "./dist/esm/api/elasticSnapshotPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticSnapshotPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/elasticSnapshotPolicies/index.js"
+      }
+    },
+    "./api/elasticSnapshots": {
+      "browser": {
+        "types": "./dist/browser/api/elasticSnapshots/index.d.ts",
+        "default": "./dist/browser/api/elasticSnapshots/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticSnapshots/index.d.ts",
+        "default": "./dist/esm/api/elasticSnapshots/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticSnapshots/index.d.ts",
+        "default": "./dist/commonjs/api/elasticSnapshots/index.js"
+      }
+    },
+    "./api/elasticVolumes": {
+      "browser": {
+        "types": "./dist/browser/api/elasticVolumes/index.d.ts",
+        "default": "./dist/browser/api/elasticVolumes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticVolumes/index.d.ts",
+        "default": "./dist/esm/api/elasticVolumes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticVolumes/index.d.ts",
+        "default": "./dist/commonjs/api/elasticVolumes/index.js"
+      }
+    },
+    "./api/elasticCapacityPools": {
+      "browser": {
+        "types": "./dist/browser/api/elasticCapacityPools/index.d.ts",
+        "default": "./dist/browser/api/elasticCapacityPools/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticCapacityPools/index.d.ts",
+        "default": "./dist/esm/api/elasticCapacityPools/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticCapacityPools/index.d.ts",
+        "default": "./dist/commonjs/api/elasticCapacityPools/index.js"
+      }
+    },
+    "./api/elasticAccounts": {
+      "browser": {
+        "types": "./dist/browser/api/elasticAccounts/index.d.ts",
+        "default": "./dist/browser/api/elasticAccounts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticAccounts/index.d.ts",
+        "default": "./dist/esm/api/elasticAccounts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticAccounts/index.d.ts",
+        "default": "./dist/commonjs/api/elasticAccounts/index.js"
       }
     },
     "./api/caches": {

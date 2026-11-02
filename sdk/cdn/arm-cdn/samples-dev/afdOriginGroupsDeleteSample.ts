@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing origin group within a profile.
  *
  * @summary deletes an existing origin group within a profile.
- * x-ms-original-file: 2025-12-01/AFDOriginGroups_Delete.json
+ * x-ms-original-file: 2026-10-01/AFDOriginGroups_Delete.json
  */
 async function afdOriginGroupsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

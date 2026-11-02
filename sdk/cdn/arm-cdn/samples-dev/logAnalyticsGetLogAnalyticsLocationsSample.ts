@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all available location names for AFD log analytics report.
  *
  * @summary get all available location names for AFD log analytics report.
- * x-ms-original-file: 2025-12-01/LogAnalytics_GetLogAnalyticsLocations.json
+ * x-ms-original-file: 2026-10-01/LogAnalytics_GetLogAnalyticsLocations.json
  */
 async function logAnalyticsGetLogAnalyticsLocations(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified certificate associated with the Provisioning Service
  *
  * @summary deletes the specified certificate associated with the Provisioning Service
- * x-ms-original-file: 2026-08-31/DPSDeleteCertificate.json
+ * x-ms-original-file: 2026-11-01/DPSDeleteCertificate.json
  */
 async function dpsDeleteCertificate() {
   const credential = new DefaultAzureCredential();

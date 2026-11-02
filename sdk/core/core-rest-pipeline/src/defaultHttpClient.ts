@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HttpClient } from "./interfaces.js";
+import type { HttpClient, PipelineResponse } from "./interfaces.js";
 import { createDefaultHttpClient as tspCreateDefaultHttpClient } from "@typespec/ts-http-runtime";
 import { wrapAbortSignalLike } from "#platform/wrapAbortSignal";
 import { type PipelineRequest as TspPipelineRequest } from "@typespec/ts-http-runtime";
+import { cleanupOnRequestResponseCompletion } from "./util/cleanupOnCompletion.js";
 
 /**
  * Create the correct HttpClient for the current environment.
@@ -15,14 +16,20 @@ export function createDefaultHttpClient(): HttpClient {
     async sendRequest(request) {
       // we wrap any AbortSignalLike here since the TypeSpec runtime expects a native AbortSignal.
       // 99% of the time, this should be a no-op since a native AbortSignal is passed in.
-      const { abortSignal, cleanup } = request.abortSignal
-        ? wrapAbortSignalLike(request.abortSignal)
+      const originalAbortSignal = request.abortSignal;
+      const { abortSignal, cleanup } = originalAbortSignal
+        ? wrapAbortSignalLike(originalAbortSignal)
         : {};
+      let response: PipelineResponse | undefined;
       try {
         request.abortSignal = abortSignal;
-        return await client.sendRequest(request as TspPipelineRequest);
+        response = await client.sendRequest(request as TspPipelineRequest);
+        return response;
       } finally {
-        cleanup?.();
+        request.abortSignal = originalAbortSignal;
+        if (cleanup) {
+          cleanupOnRequestResponseCompletion(response, cleanup);
+        }
       }
     },
   };

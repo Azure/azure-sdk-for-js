@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists existing CDN endpoints.
  *
  * @summary lists existing CDN endpoints.
- * x-ms-original-file: 2025-12-01/Endpoints_ListByProfile.json
+ * x-ms-original-file: 2026-10-01/Endpoints_ListByProfile.json
  */
 async function endpointsListByProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing origin group within an endpoint.
  *
  * @summary updates an existing origin group within an endpoint.
- * x-ms-original-file: 2025-12-01/OriginGroups_Update.json
+ * x-ms-original-file: 2026-10-01/OriginGroups_Update.json
  */
 async function originGroupsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

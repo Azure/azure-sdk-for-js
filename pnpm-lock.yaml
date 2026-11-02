@@ -20,8 +20,8 @@ catalogs:
       version: 1.2.0
   default:
     '@azure/provisioning-core':
-      specifier: 1.0.0-beta.1
-      version: 1.0.0-beta.1
+      specifier: 1.0.0-beta.2
+      version: 1.0.0-beta.2
     '@eslint/js':
       specifier: ^10.0.1
       version: 10.0.1
@@ -742,6 +742,46 @@ importers:
         specifier: catalog:testing
         version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  eng/tools/repo-health-status-report:
+    dependencies:
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0(supports-color@10.2.2)
+      dotenv:
+        specifier: catalog:testing
+        version: 18.0.8
+      octokit:
+        specifier: ^5.0.5
+        version: 5.0.5
+    devDependencies:
+      '@eslint/js':
+        specifier: 'catalog:'
+        version: 10.0.1(eslint@10.13.0(supports-color@10.2.2))
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      tsx:
+        specifier: 'catalog:'
+        version: 4.23.15
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      typescript-eslint:
+        specifier: 'catalog:'
+        version: 8.71.2(eslint@10.13.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
   eng/tools/versioning:
     dependencies:
       '@azure-tools/eng-package-utils':
@@ -1430,6 +1470,79 @@ importers:
       zod:
         specifier: ^4.2.1
         version: 4.6.7
+
+  sdk/aiinfraoptimization/arm-aiinfraoptimization:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.7.0
+        version: link:../../core/core-client-rest
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-rest-pipeline':
+        specifier: link:../../core/core-rest-pipeline
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0(supports-color@10.2.2)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 18.0.8
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
   sdk/alertprocessingrules/arm-alertprocessingrules:
     dependencies:
@@ -3508,7 +3621,7 @@ importers:
   sdk/azurestackhcivm/arm-azurestackhcivm:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -4231,7 +4344,7 @@ importers:
   sdk/cdn/arm-cdn:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -9369,7 +9482,7 @@ importers:
         specifier: ^1.3.0
         version: link:../logger
       '@typespec/ts-http-runtime':
-        specifier: ^0.3.4
+        specifier: ^0.3.10
         version: link:../ts-http-runtime
       tslib:
         specifier: ^2.6.2
@@ -9780,6 +9893,9 @@ importers:
 
   sdk/core/provisioning-core:
     dependencies:
+      '@eslint-community/regexpp':
+        specifier: ^4.12.2
+        version: 4.12.2
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -17207,8 +17323,8 @@ importers:
         specifier: ^5.5.0
         version: 5.26.0
       '@azure/msal-node':
-        specifier: ^6.0.0
-        version: 6.0.1
+        specifier: ^7.1.0
+        version: 7.1.0
       open:
         specifier: ^11.0.0
         version: 11.0.4
@@ -17289,8 +17405,8 @@ importers:
         specifier: ^4.7.0
         version: 4.14.0(supports-color@10.2.2)
       '@azure/msal-node':
-        specifier: ^6.0.0
-        version: 6.0.1
+        specifier: ^7.1.0
+        version: 7.1.0
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
         version: 5.5.3
@@ -17362,8 +17478,8 @@ importers:
         specifier: ^4.7.0
         version: 4.14.0(supports-color@10.2.2)
       '@azure/msal-node':
-        specifier: ^6.0.0
-        version: 6.0.1
+        specifier: ^7.1.0
+        version: 7.1.0
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
         version: 5.5.3
@@ -17475,8 +17591,8 @@ importers:
         specifier: ^4.11.0
         version: 4.14.0(supports-color@10.2.2)
       '@azure/msal-node':
-        specifier: ^6.0.0
-        version: 6.0.1
+        specifier: ^7.1.0
+        version: 7.1.0
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
         version: 5.5.3
@@ -36650,6 +36766,10 @@ packages:
     resolution: {integrity: sha512-Or6xhPNyi4zHW25158yxBoyxuCqNSPa5YBVqfF1J5Ks4MJWBo/USXdp05DQIPu1Zli00YZu6t0+h6KvHJealxQ==}
     engines: {node: '>=0.8.0'}
 
+  '@azure/msal-common@16.14.2':
+    resolution: {integrity: sha512-HOBR0Gfo39TMrkxNG8k6cfjRkrRjXZc3JQs3ebMWQc9S4cihuknMYra3sgmzbZB752oQBqBN9+WF7c826p2vIQ==}
+    engines: {node: '>=0.8.0'}
+
   '@azure/msal-common@16.14.3':
     resolution: {integrity: sha512-tz3GvMrR9V/plb2lDdW8qaO8CPpfZevdExBKjltzzbAtyhK0eB2UIvji1aU+gkyHj3fxQ2ie+LNHyMXdmo8wOg==}
     engines: {node: '>=0.8.0'}
@@ -36675,6 +36795,10 @@ packages:
 
   '@azure/msal-node@6.0.1':
     resolution: {integrity: sha512-ixSO1Y/kCVRthRs+hSx/5qkwaunX1/RAePhlMN0wIpIQ4WEZ6AREGGnGd1AP0qspHVsAwzWQKGubpjh50JyJIQ==}
+    engines: {node: '>=20'}
+
+  '@azure/msal-node@7.1.0':
+    resolution: {integrity: sha512-s1O6hSY/C/dmqykTmmeHY6GhSkDuY8N1gxyhuLyaCwbY7N+UBvU2Wu4flas7+NxZiAPcXNPVpgt3n/HP/5yL+w==}
     engines: {node: '>=20'}
 
   '@azure/msal-node@7.1.2':
@@ -37723,6 +37847,131 @@ packages:
     resolution: {integrity: sha1-U0s5/KEVji6HuynTwlX6Dlb0Wtw=}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
+  '@octokit/app@16.1.4':
+    resolution: {integrity: sha1-JgmYHzLf+1AlFTh6FSaAk552hXA=}
+    engines: {node: '>= 20'}
+
+  '@octokit/auth-app@8.3.1':
+    resolution: {integrity: sha1-wLrEFnCRi+VDC2bdRw/0h24H1MY=}
+    engines: {node: '>= 20'}
+
+  '@octokit/auth-oauth-app@9.0.5':
+    resolution: {integrity: sha1-Q+Hyn9/eOxO2hoLo0DP1TV+y2Ic=}
+    engines: {node: '>= 20'}
+
+  '@octokit/auth-oauth-device@8.0.5':
+    resolution: {integrity: sha1-qA382/S987719Rd+4c1SK02CXH0=}
+    engines: {node: '>= 20'}
+
+  '@octokit/auth-oauth-user@6.0.4':
+    resolution: {integrity: sha1-zXH7cpAa48cDyKdsawt81lD4/Ws=}
+    engines: {node: '>= 20'}
+
+  '@octokit/auth-token@6.0.0':
+    resolution: {integrity: sha1-sC6cCKLYk33wmiqYHyJq0hkXTFM=}
+    engines: {node: '>= 20'}
+
+  '@octokit/auth-unauthenticated@7.0.5':
+    resolution: {integrity: sha1-KzaYiY4PKDswBcWmIWi7UtMyHA8=}
+    engines: {node: '>= 20'}
+
+  '@octokit/core@7.0.8':
+    resolution: {integrity: sha1-vIwFvDoCANH0U9T+WckFOnRGyfM=}
+    engines: {node: '>= 20'}
+
+  '@octokit/endpoint@11.0.5':
+    resolution: {integrity: sha1-1+yIhDv+7qaS/ul7UufCzcA5PbQ=}
+    engines: {node: '>= 20'}
+
+  '@octokit/graphql@9.0.5':
+    resolution: {integrity: sha1-2gvDWE15+VjlNzte0emEJcpe/cA=}
+    engines: {node: '>= 20'}
+
+  '@octokit/oauth-app@8.0.4':
+    resolution: {integrity: sha1-w5fRAA9C3w8gO+lqnZ1abTI5yB0=}
+    engines: {node: '>= 20'}
+
+  '@octokit/oauth-authorization-url@8.0.0':
+    resolution: {integrity: sha1-/bqzmgfTj6qthiGl/fBLwMNtY+c=}
+    engines: {node: '>= 20'}
+
+  '@octokit/oauth-methods@6.0.5':
+    resolution: {integrity: sha1-/69+Bul1m5LQsAcKoYZ91ltwbX0=}
+    engines: {node: '>= 20'}
+
+  '@octokit/openapi-types@27.0.0':
+    resolution: {integrity: sha1-N06lN4GWX9AqnTbKy5fhUs7/8S0=}
+
+  '@octokit/openapi-types@28.0.0':
+    resolution: {integrity: sha1-qOR2kcFgL0d2Tn8V0WXW9mc2sAU=}
+
+  '@octokit/openapi-types@29.0.1':
+    resolution: {integrity: sha1-BYlcyK4ygFjnr3W2CMTJfwvBvAA=}
+
+  '@octokit/openapi-webhooks-types@12.1.0':
+    resolution: {integrity: sha1-bxsoOaDQDJUk6B8W2HNexBC84Yc=}
+
+  '@octokit/plugin-paginate-graphql@6.0.0':
+    resolution: {integrity: sha1-rN79foXOJHFuetc1Ly300p0OJzs=}
+    engines: {node: '>= 20'}
+    peerDependencies:
+      '@octokit/core': '>=6'
+
+  '@octokit/plugin-paginate-rest@14.0.0':
+    resolution: {integrity: sha1-RNyf/y2ssUjUxceItXPdwERQMCY=}
+    engines: {node: '>= 20'}
+    peerDependencies:
+      '@octokit/core': '>=6'
+
+  '@octokit/plugin-paginate-rest@15.0.0':
+    resolution: {integrity: sha1-F7Da5vM0WYiPeQtAxarwh4A9Y6g=}
+    engines: {node: '>= 20'}
+    peerDependencies:
+      '@octokit/core': '>=6'
+
+  '@octokit/plugin-rest-endpoint-methods@17.0.0':
+    resolution: {integrity: sha1-jFQ5fTpAYDVqHIqXQZHr+UWSQQU=}
+    engines: {node: '>= 20'}
+    peerDependencies:
+      '@octokit/core': '>=6'
+
+  '@octokit/plugin-retry@8.1.1':
+    resolution: {integrity: sha1-66jGcMMSilR06NH2K9GxX/8JxYM=}
+    engines: {node: '>= 20'}
+    peerDependencies:
+      '@octokit/core': '>=7'
+
+  '@octokit/plugin-throttling@11.0.5':
+    resolution: {integrity: sha1-Rpswbw8WLniwOshI95x4q0dxhmU=}
+    engines: {node: '>= 20'}
+    peerDependencies:
+      '@octokit/core': ^7.0.0
+
+  '@octokit/request-error@7.1.2':
+    resolution: {integrity: sha1-BHfz7BA0hpIF+L2AVg8rxVtlmXM=}
+    engines: {node: '>= 20'}
+
+  '@octokit/request@10.0.16':
+    resolution: {integrity: sha1-tUj4+Ej/5Mz1CCFC+sCW/nuCIrI=}
+    engines: {node: '>= 20'}
+
+  '@octokit/types@16.0.0':
+    resolution: {integrity: sha1-+9f6WQwu8ir4gbHXl1i/qiNNu3w=}
+
+  '@octokit/types@17.0.0':
+    resolution: {integrity: sha1-wPpAkLjZV92bZaUR9x+H7hQDdpQ=}
+
+  '@octokit/types@18.0.0':
+    resolution: {integrity: sha1-dj7uuvtIjY6oqDIur7LZsYhdKEQ=}
+
+  '@octokit/webhooks-methods@6.0.0':
+    resolution: {integrity: sha1-NKv3iuxvgm/lYc/nnS67GVDR0l8=}
+    engines: {node: '>= 20'}
+
+  '@octokit/webhooks@14.2.0':
+    resolution: {integrity: sha1-215zD7OihB9N7GoTlNmFiedDcdI=}
+    engines: {node: '>= 20'}
+
   '@open-draft/until@3.0.1':
     resolution: {integrity: sha512-s7/9ELP4aP9YZtW7RJaa0Xf3RISaRH9+EFN18FtykJYRHGNrl8f9ymvoNXzjhrjmftFvkQudtuDU9RYhk0xs3A==}
 
@@ -38698,6 +38947,9 @@ packages:
   '@types/async-retry@1.4.9':
     resolution: {integrity: sha1-R9EY6DWGTWM7UginimkHsbROULw=}
 
+  '@types/aws-lambda@8.10.164':
+    resolution: {integrity: sha512-XOnrazWcOd6yWPnR7DxqCBPPYciDjHq+NN8LPwwqBCJNXLyPJgKo47fZpJ113+oyAn9Zti0Cf6H4k6yPcE3WFg==}
+
   '@types/body-parser@1.19.6':
     resolution: {integrity: sha1-GFm+u4/X2smRikXVTBlxq4ta9HQ=}
 
@@ -39284,6 +39536,9 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  before-after-hook@4.0.0:
+    resolution: {integrity: sha1-zxRHq5Fg32pA82Idpk1v/DYFDLk=}
+
   bent@7.3.12:
     resolution: {integrity: sha1-4KJ3XUQl52dMZLeLJCr09J2msDU=}
 
@@ -39303,6 +39558,9 @@ packages:
 
   bole@5.0.29:
     resolution: {integrity: sha1-W+filLqotowCf0h0qqEEpyD68Aw=}
+
+  bottleneck@2.19.5:
+    resolution: {integrity: sha1-XfC5D1n9R2VuvmPHiphBkgXK3ZE=}
 
   brace-expansion@1.1.21:
     resolution: {integrity: sha512-9zeA+KLZNNzglF2TPKRQEDyx6Yby7daAkuy8MiPzpXPsYDWi/DRM8jmwUDxokQjYqBpv5DgPiwD4h4ZZSy1Ujw==}
@@ -39591,6 +39849,10 @@ packages:
   content-type@2.1.0:
     resolution: {integrity: sha1-2TicQ8Coz2o1XbRk0h4HCSpASTo=}
     engines: {node: '>=18'}
+
+  content-type@3.1.1:
+    resolution: {integrity: sha512-GW4qUsfFo59d0HbUibDlWv5wPz+vAAcaTWbKIuKCf0JkC7wWkSyf8f13IpXn5JkeMlB2P8iTSSIjwXljorg2vA==}
+    engines: {node: '>=22'}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha1-S1YPZJ/E6RjdCrdc9JYei8iC2Co=}
@@ -41663,6 +41925,10 @@ packages:
     resolution: {integrity: sha512-5vvB5+W7ePv+p3uqxi+RcW1XAzLW0/hxt3/4X4Lc4qHudzOhmBiBwOY6DRob4WnanAEGvNcLjF+KNOufrUoEQw==}
     engines: {node: '>=12.20.0'}
 
+  octokit@5.0.5:
+    resolution: {integrity: sha1-gSLI21yBg4GDnMwZgClavZkJVI8=}
+    engines: {node: '>= 20'}
+
   on-exit-leak-free@2.1.2:
     resolution: {integrity: sha1-/tGVyevdt9nkw4Qvk/KBrI2t07g=}
     engines: {node: '>=14.0.0'}
@@ -42949,6 +43215,12 @@ packages:
     resolution: {integrity: sha1-OcZFH4GvsnSd4rIz4/fF6IQ72J0=}
     engines: {node: '>=8'}
 
+  universal-github-app-jwt@2.2.2:
+    resolution: {integrity: sha1-OFN+Wn0VQIWjX5dgGl4w6eF3F98=}
+
+  universal-user-agent@7.0.3:
+    resolution: {integrity: sha1-wFhwpYElotwAQx8t+BWnf+aXNr4=}
+
   universalify@0.1.2:
     resolution: {integrity: sha1-tkb2m+OULavOzJ1mOcgNwQXvqmY=}
     engines: {node: '>= 4.0.0'}
@@ -43841,6 +44113,8 @@ snapshots:
 
   '@azure/msal-common@16.14.1': {}
 
+  '@azure/msal-common@16.14.2': {}
+
   '@azure/msal-common@16.14.3': {}
 
   '@azure/msal-common@16.15.0': {}
@@ -43868,6 +44142,11 @@ snapshots:
   '@azure/msal-node@6.0.1':
     dependencies:
       '@azure/msal-common': 16.14.1
+      jsonwebtoken: 9.0.3
+
+  '@azure/msal-node@7.1.0':
+    dependencies:
+      '@azure/msal-common': 16.14.2
       jsonwebtoken: 9.0.3
 
   '@azure/msal-node@7.1.2':
@@ -45058,6 +45337,171 @@ snapshots:
 
   '@npmcli/redact@5.0.0': {}
 
+  '@octokit/app@16.1.4':
+    dependencies:
+      '@octokit/auth-app': 8.3.1
+      '@octokit/auth-unauthenticated': 7.0.5
+      '@octokit/core': 7.0.8
+      '@octokit/oauth-app': 8.0.4
+      '@octokit/plugin-paginate-rest': 15.0.0(@octokit/core@7.0.8)
+      '@octokit/types': 17.0.0
+      '@octokit/webhooks': 14.2.0
+
+  '@octokit/auth-app@8.3.1':
+    dependencies:
+      '@octokit/auth-oauth-app': 9.0.5
+      '@octokit/auth-oauth-user': 6.0.4
+      '@octokit/request': 10.0.16
+      '@octokit/request-error': 7.1.2
+      '@octokit/types': 18.0.0
+      toad-cache: 3.7.4
+      universal-github-app-jwt: 2.2.2
+      universal-user-agent: 7.0.3
+
+  '@octokit/auth-oauth-app@9.0.5':
+    dependencies:
+      '@octokit/auth-oauth-device': 8.0.5
+      '@octokit/auth-oauth-user': 6.0.4
+      '@octokit/request': 10.0.16
+      '@octokit/types': 18.0.0
+      universal-user-agent: 7.0.3
+
+  '@octokit/auth-oauth-device@8.0.5':
+    dependencies:
+      '@octokit/oauth-methods': 6.0.5
+      '@octokit/request': 10.0.16
+      '@octokit/types': 18.0.0
+      universal-user-agent: 7.0.3
+
+  '@octokit/auth-oauth-user@6.0.4':
+    dependencies:
+      '@octokit/auth-oauth-device': 8.0.5
+      '@octokit/oauth-methods': 6.0.5
+      '@octokit/request': 10.0.16
+      '@octokit/types': 18.0.0
+      universal-user-agent: 7.0.3
+
+  '@octokit/auth-token@6.0.0': {}
+
+  '@octokit/auth-unauthenticated@7.0.5':
+    dependencies:
+      '@octokit/request-error': 7.1.2
+      '@octokit/types': 18.0.0
+
+  '@octokit/core@7.0.8':
+    dependencies:
+      '@octokit/auth-token': 6.0.0
+      '@octokit/graphql': 9.0.5
+      '@octokit/request': 10.0.16
+      '@octokit/request-error': 7.1.2
+      '@octokit/types': 18.0.0
+      before-after-hook: 4.0.0
+      universal-user-agent: 7.0.3
+
+  '@octokit/endpoint@11.0.5':
+    dependencies:
+      '@octokit/types': 18.0.0
+      universal-user-agent: 7.0.3
+
+  '@octokit/graphql@9.0.5':
+    dependencies:
+      '@octokit/request': 10.0.16
+      '@octokit/types': 18.0.0
+      universal-user-agent: 7.0.3
+
+  '@octokit/oauth-app@8.0.4':
+    dependencies:
+      '@octokit/auth-oauth-app': 9.0.5
+      '@octokit/auth-oauth-user': 6.0.4
+      '@octokit/auth-unauthenticated': 7.0.5
+      '@octokit/core': 7.0.8
+      '@octokit/oauth-authorization-url': 8.0.0
+      '@octokit/oauth-methods': 6.0.5
+      '@types/aws-lambda': 8.10.164
+      universal-user-agent: 7.0.3
+
+  '@octokit/oauth-authorization-url@8.0.0': {}
+
+  '@octokit/oauth-methods@6.0.5':
+    dependencies:
+      '@octokit/oauth-authorization-url': 8.0.0
+      '@octokit/request': 10.0.16
+      '@octokit/request-error': 7.1.2
+      '@octokit/types': 18.0.0
+
+  '@octokit/openapi-types@27.0.0': {}
+
+  '@octokit/openapi-types@28.0.0': {}
+
+  '@octokit/openapi-types@29.0.1': {}
+
+  '@octokit/openapi-webhooks-types@12.1.0': {}
+
+  '@octokit/plugin-paginate-graphql@6.0.0(@octokit/core@7.0.8)':
+    dependencies:
+      '@octokit/core': 7.0.8
+
+  '@octokit/plugin-paginate-rest@14.0.0(@octokit/core@7.0.8)':
+    dependencies:
+      '@octokit/core': 7.0.8
+      '@octokit/types': 16.0.0
+
+  '@octokit/plugin-paginate-rest@15.0.0(@octokit/core@7.0.8)':
+    dependencies:
+      '@octokit/core': 7.0.8
+      '@octokit/types': 17.0.0
+
+  '@octokit/plugin-rest-endpoint-methods@17.0.0(@octokit/core@7.0.8)':
+    dependencies:
+      '@octokit/core': 7.0.8
+      '@octokit/types': 16.0.0
+
+  '@octokit/plugin-retry@8.1.1(@octokit/core@7.0.8)':
+    dependencies:
+      '@octokit/core': 7.0.8
+      '@octokit/request-error': 7.1.2
+      '@octokit/types': 17.0.0
+      bottleneck: 2.19.5
+
+  '@octokit/plugin-throttling@11.0.5(@octokit/core@7.0.8)':
+    dependencies:
+      '@octokit/core': 7.0.8
+      '@octokit/types': 17.0.0
+      bottleneck: 2.19.5
+
+  '@octokit/request-error@7.1.2':
+    dependencies:
+      '@octokit/types': 18.0.0
+
+  '@octokit/request@10.0.16':
+    dependencies:
+      '@octokit/endpoint': 11.0.5
+      '@octokit/request-error': 7.1.2
+      '@octokit/types': 18.0.0
+      content-type: 3.1.1
+      json-with-bigint: 3.5.12
+      universal-user-agent: 7.0.3
+
+  '@octokit/types@16.0.0':
+    dependencies:
+      '@octokit/openapi-types': 27.0.0
+
+  '@octokit/types@17.0.0':
+    dependencies:
+      '@octokit/openapi-types': 28.0.0
+
+  '@octokit/types@18.0.0':
+    dependencies:
+      '@octokit/openapi-types': 29.0.1
+
+  '@octokit/webhooks-methods@6.0.0': {}
+
+  '@octokit/webhooks@14.2.0':
+    dependencies:
+      '@octokit/openapi-webhooks-types': 12.1.0
+      '@octokit/request-error': 7.1.2
+      '@octokit/webhooks-methods': 6.0.0
+
   '@open-draft/until@3.0.1': {}
 
   '@opentelemetry/api-logs@0.211.0':
@@ -46047,6 +46491,8 @@ snapshots:
     dependencies:
       '@types/retry': 0.12.5
 
+  '@types/aws-lambda@8.10.164': {}
+
   '@types/body-parser@1.19.6':
     dependencies:
       '@types/connect': 3.4.38
@@ -46765,6 +47211,8 @@ snapshots:
 
   baseline-browser-mapping@2.11.29: {}
 
+  before-after-hook@4.0.0: {}
+
   bent@7.3.12:
     dependencies:
       bytesish: 0.4.4
@@ -46801,6 +47249,8 @@ snapshots:
     dependencies:
       fast-safe-stringify: 2.1.1
       individual: 3.0.0
+
+  bottleneck@2.19.5: {}
 
   brace-expansion@1.1.21:
     dependencies:
@@ -47097,6 +47547,8 @@ snapshots:
   content-type@1.0.5: {}
 
   content-type@2.1.0: {}
+
+  content-type@3.1.1: {}
 
   convert-source-map@2.0.0: {}
 
@@ -49449,6 +49901,20 @@ snapshots:
 
   obug@3.0.0: {}
 
+  octokit@5.0.5:
+    dependencies:
+      '@octokit/app': 16.1.4
+      '@octokit/core': 7.0.8
+      '@octokit/oauth-app': 8.0.4
+      '@octokit/plugin-paginate-graphql': 6.0.0(@octokit/core@7.0.8)
+      '@octokit/plugin-paginate-rest': 14.0.0(@octokit/core@7.0.8)
+      '@octokit/plugin-rest-endpoint-methods': 17.0.0(@octokit/core@7.0.8)
+      '@octokit/plugin-retry': 8.1.1(@octokit/core@7.0.8)
+      '@octokit/plugin-throttling': 11.0.5(@octokit/core@7.0.8)
+      '@octokit/request-error': 7.1.2
+      '@octokit/types': 16.0.0
+      '@octokit/webhooks': 14.2.0
+
   on-exit-leak-free@2.1.2: {}
 
   on-finished@2.3.0:
@@ -50840,6 +51306,10 @@ snapshots:
   unique-string@2.0.0:
     dependencies:
       crypto-random-string: 2.0.0
+
+  universal-github-app-jwt@2.2.2: {}
+
+  universal-user-agent@7.0.3: {}
 
   universalify@0.1.2: {}
 

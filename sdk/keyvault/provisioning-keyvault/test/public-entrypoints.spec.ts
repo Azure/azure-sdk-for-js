@@ -49,7 +49,7 @@ describe("public entrypoints", () => {
       name: "sample-key",
       properties: { kty: "RSA" },
     });
-    new Version(key, { name: "v1", existing: true });
+    new Version(key, { name: "0123456789abcdef0123456789abcdef", existing: true });
     new DeletedVault(stack, { name: "deleted-vault", existing: true });
 
     expect(stack.getResources(KeyVault)).toEqual([vault]);

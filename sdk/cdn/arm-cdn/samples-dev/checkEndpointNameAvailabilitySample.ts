@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check the availability of a resource name. This is needed for resources where name is globally unique, such as a afdx endpoint.
  *
  * @summary check the availability of a resource name. This is needed for resources where name is globally unique, such as a afdx endpoint.
- * x-ms-original-file: 2025-12-01/CheckEndpointNameAvailability.json
+ * x-ms-original-file: 2026-10-01/CheckEndpointNameAvailability.json
  */
 async function checkEndpointNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();

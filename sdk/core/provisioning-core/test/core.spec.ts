@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ProvisioningComponent,
-  ResourceGroup,
-  Stack,
-  fn,
-  isExpression,
-} from "@azure/provisioning-core";
+import { ProvisioningComponent, ResourceGroup, Stack, fn, isExpression } from "../src/index.js";
 import { describe, expect, it } from "vitest";
 
 describe("provisioning core", () => {

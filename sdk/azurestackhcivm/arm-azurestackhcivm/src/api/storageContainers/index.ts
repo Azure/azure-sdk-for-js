@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type StorageContainersListAllOptionalParams,
-  type StorageContainersListByResourceGroupOptionalParams,
-  type StorageContainersDeleteOptionalParams,
-  type StorageContainersUpdateOptionalParams,
-  type StorageContainersCreateOrUpdateOptionalParams,
-  type StorageContainersGetOptionalParams,
+export type {
+  StorageContainersListAllOptionalParams,
+  StorageContainersListByResourceGroupOptionalParams,
+  StorageContainersDeleteOptionalParams,
+  StorageContainersUpdateOptionalParams,
+  StorageContainersCreateOrUpdateOptionalParams,
+  StorageContainersGetOptionalParams,
 } from "./options.js";

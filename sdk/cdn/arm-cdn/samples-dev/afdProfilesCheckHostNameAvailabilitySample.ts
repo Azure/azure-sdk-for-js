@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validates the custom domain mapping to ensure it maps to the correct Azure Front Door endpoint in DNS.
  *
  * @summary validates the custom domain mapping to ensure it maps to the correct Azure Front Door endpoint in DNS.
- * x-ms-original-file: 2025-12-01/AFDProfiles_CheckHostNameAvailability.json
+ * x-ms-original-file: 2026-10-01/AFDProfiles_CheckHostNameAvailability.json
  */
 async function afdProfilesCheckHostNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();

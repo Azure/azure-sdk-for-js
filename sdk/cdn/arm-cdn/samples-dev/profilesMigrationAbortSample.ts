@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to abort the migration to Azure Frontdoor Premium/Standard.
  *
  * @summary abort the migration to Azure Frontdoor Premium/Standard.
- * x-ms-original-file: 2025-12-01/Profiles_MigrationAbort.json
+ * x-ms-original-file: 2026-10-01/Profiles_MigrationAbort.json
  */
 async function profilesCdnMigrationCommit(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -28,15 +28,11 @@ export class DeletedVault extends Resource<"Microsoft.KeyVault/locations/deleted
   static apiVersion = API_VERSION;
   protected static namingRules: ResourceNamingRules = {
     abbreviation: "dv",
-    minLength: 1,
-    maxLength: 24,
-    validCharacters: {
-      uppercase: true,
-      hyphens: true,
-      underscores: false,
-      periods: false,
+    pattern: {
+      regex: "",
     },
-    scope: "global",
+    nameSegments: 2,
+    scope: "parent",
   };
 
   static {

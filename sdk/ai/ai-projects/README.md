@@ -96,6 +96,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - An [Azure subscription][azure_sub].
 - A [project in Microsoft Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects).
+- An [Application Insights resource connected to your Foundry project](https://learn.microsoft.com/azure/foundry/observability/how-to/trace-agent-setup) for agent tracing.
 - The project endpoint URL of the form `https://your-ai-services-account-name.services.ai.azure.com/api/projects/your-project-name`. It can be found in your Microsoft Foundry Project overview page. Below we will assume the environment variable `FOUNDRY_PROJECT_ENDPOINT` was defined to hold this value.
 
 ### Authorization
@@ -184,6 +185,8 @@ console.log("detailed response = ", JSON.stringify(detailResponse, null, 2));
 
 The `.agents` property on the `AIProjectsClient` gives you access to all Agent operations. Agents use an extension of the
 OpenAI Responses protocol, so you will likely need to get an `OpenAI` client to do Agent operations, as shown in the example below.
+
+For setup, see [Quickstart: Set up Microsoft Foundry resources](https://learn.microsoft.com/azure/foundry/tutorials/quickstart-create-foundry-resources).
 
 ```ts snippet:agents
 const openAIClient = project.getOpenAIClient();

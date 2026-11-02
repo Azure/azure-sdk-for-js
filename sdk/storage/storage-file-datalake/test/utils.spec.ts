@@ -133,4 +133,21 @@ describe("Utility Helpers", () => {
     assert.strictEqual(parameters.transactionalContentHash, transactionalContentMD5);
     assert.strictEqual(parameters.transactionalContentCrc64, transactionalContentCrc64);
   });
+
+  it("setUploadChecksumParameters passes ArrayBuffer and typed array bodies on as Uint8Array", async () => {
+    const bytes = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
+    const bodies: [ArrayBuffer | ArrayBufferView, number[]][] = [
+      [bytes.buffer, [1, 2, 3, 4, 5, 6, 7, 8]],
+      [new DataView(bytes.buffer, 2, 3), [3, 4, 5]],
+      [new Float32Array(bytes.buffer, 4, 1), [5, 6, 7, 8]],
+    ];
+    for (const [body, expected] of bodies) {
+      const result = await setUploadChecksumParameters(body, expected.length, {}, {});
+      assert.instanceOf(result.body, Uint8Array);
+      assert.strictEqual((result.body as Uint8Array).buffer, bytes.buffer);
+      assert.deepEqual(Array.from(result.body as Uint8Array), expected);
+    }
+    const unchanged = await setUploadChecksumParameters(bytes, bytes.length, {}, {});
+    assert.strictEqual(unchanged.body, bytes);
+  });
 });
