@@ -1,5 +1,15 @@
 # Release History
 
+## 2.11.0 (Unreleased)
+
+### Features Added
+
+- Add voice-agent `post_call` configuration for delivering transcripts to Event Grid connections and routines after a session ends. Preserve the preview restriction that `audio` delivery is not supported. [#40606](https://github.com/Azure/azure-sdk-for-js/issues/40606)
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `f5ead4e289e118a0037dabc893316670e5435850`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f5ead4e289e118a0037dabc893316670e5435850). [#40606](https://github.com/Azure/azure-sdk-for-js/issues/40606)
+
 ## 2.10.0 (2026-10-30)
 
 ### Breaking Changes
