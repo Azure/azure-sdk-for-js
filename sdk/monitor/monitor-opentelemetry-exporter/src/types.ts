@@ -147,6 +147,7 @@ export enum MaxPropertyLengths {
   FIFTEEN_BIT = 32768,
   SIXTEEN_BIT = 65536,
   EIGHTEEN_BIT = 262144,
+  TWENTY_TWO_BIT = 4194304,
 }
 
 /**
