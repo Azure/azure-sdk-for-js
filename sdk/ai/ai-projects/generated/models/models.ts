@@ -2914,6 +2914,8 @@ export interface VoiceAgentDefinition extends AgentDefinition {
   structured_inputs?: Record<string, StructuredInputDefinition>;
   /** Optional configuration for sibling Foundry text agents that this voice agent may consult as background specialists. */
   subagent_config?: VoiceAgentSubagentConfig;
+  /** Optional post-call delivery configuration. After each session ends, the service notifies the configured destinations. */
+  post_call?: VoiceAgentPostCallConfig;
   /**
    * Whether conversations with this agent are persisted. A single, all-or-nothing persistence switch that defaults to
    * `false` (privacy-safe: off by default). When `true`, Foundry persists the full conversation — the transcript/event
@@ -2970,6 +2972,9 @@ export function voiceAgentDefinitionSerializer(item: VoiceAgentDefinition): any 
     subagent_config: !item["subagent_config"]
       ? item["subagent_config"]
       : voiceAgentSubagentConfigSerializer(item["subagent_config"]),
+    post_call: !item["post_call"]
+      ? item["post_call"]
+      : voiceAgentPostCallConfigSerializer(item["post_call"]),
     store: item["store"],
   };
 }
@@ -3021,6 +3026,9 @@ export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinitio
     subagent_config: !item["subagent_config"]
       ? item["subagent_config"]
       : voiceAgentSubagentConfigDeserializer(item["subagent_config"]),
+    post_call: !item["post_call"]
+      ? item["post_call"]
+      : voiceAgentPostCallConfigDeserializer(item["post_call"]),
     store: item["store"],
   };
 }
@@ -5024,6 +5032,165 @@ export function voiceAgentSubagentResponsePolicyDeserializer(
     progress_update_interval: item["progress_update_interval"],
   };
 }
+
+/** Post-call delivery configuration. */
+export interface VoiceAgentPostCallConfig {
+  /** The destinations to notify. */
+  destinations: VoiceAgentPostCallDestinationUnion[];
+  /** Additional content to include in each delivery. The transcript is always delivered. `audio` is not supported in this preview; the service rejects it when the agent version is saved. */
+  include?: VoiceAgentPostCallIncludeOption[];
+}
+
+export function voiceAgentPostCallConfigSerializer(item: VoiceAgentPostCallConfig): any {
+  return {
+    destinations: voiceAgentPostCallDestinationUnionArraySerializer(item["destinations"]),
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function voiceAgentPostCallConfigDeserializer(item: any): VoiceAgentPostCallConfig {
+  return {
+    destinations: voiceAgentPostCallDestinationUnionArrayDeserializer(item["destinations"]),
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function voiceAgentPostCallDestinationUnionArraySerializer(
+  result: Array<VoiceAgentPostCallDestinationUnion>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentPostCallDestinationUnionSerializer(item);
+  });
+}
+
+export function voiceAgentPostCallDestinationUnionArrayDeserializer(
+  result: Array<VoiceAgentPostCallDestinationUnion>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentPostCallDestinationUnionDeserializer(item);
+  });
+}
+
+/** A post-call destination. */
+export interface VoiceAgentPostCallDestination {
+  /** The destination type. */
+  /** The discriminator possible values: event_grid, routine */
+  type: VoiceAgentPostCallDestinationType;
+}
+
+export function voiceAgentPostCallDestinationSerializer(item: VoiceAgentPostCallDestination): any {
+  return { type: item["type"] };
+}
+
+export function voiceAgentPostCallDestinationDeserializer(
+  item: any,
+): VoiceAgentPostCallDestination {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for VoiceAgentPostCallDestinationUnion */
+export type VoiceAgentPostCallDestinationUnion =
+  | VoiceAgentEventGridPostCallDestination
+  | VoiceAgentRoutinePostCallDestination
+  | VoiceAgentPostCallDestination;
+
+export function voiceAgentPostCallDestinationUnionSerializer(
+  item: VoiceAgentPostCallDestinationUnion,
+): any {
+  switch (item.type) {
+    case "event_grid":
+      return voiceAgentEventGridPostCallDestinationSerializer(
+        item as VoiceAgentEventGridPostCallDestination,
+      );
+
+    case "routine":
+      return voiceAgentRoutinePostCallDestinationSerializer(
+        item as VoiceAgentRoutinePostCallDestination,
+      );
+
+    default:
+      return voiceAgentPostCallDestinationSerializer(item);
+  }
+}
+
+export function voiceAgentPostCallDestinationUnionDeserializer(
+  item: any,
+): VoiceAgentPostCallDestinationUnion {
+  switch (item["type"]) {
+    case "event_grid":
+      return voiceAgentEventGridPostCallDestinationDeserializer(
+        item as VoiceAgentEventGridPostCallDestination,
+      );
+
+    case "routine":
+      return voiceAgentRoutinePostCallDestinationDeserializer(
+        item as VoiceAgentRoutinePostCallDestination,
+      );
+
+    default:
+      return voiceAgentPostCallDestinationDeserializer(item);
+  }
+}
+
+/** The type of a post-call destination. */
+export type VoiceAgentPostCallDestinationType = "event_grid" | "routine";
+
+/** An Event Grid connection that receives post-call events. */
+export interface VoiceAgentEventGridPostCallDestination extends VoiceAgentPostCallDestination {
+  type: "event_grid";
+  /** The name of the Event Grid connection. */
+  connection_name: string;
+}
+
+export function voiceAgentEventGridPostCallDestinationSerializer(
+  item: VoiceAgentEventGridPostCallDestination,
+): any {
+  return { type: item["type"], connection_name: item["connection_name"] };
+}
+
+export function voiceAgentEventGridPostCallDestinationDeserializer(
+  item: any,
+): VoiceAgentEventGridPostCallDestination {
+  return {
+    type: item["type"],
+    connection_name: item["connection_name"],
+  };
+}
+
+/** A routine that is dispatched with the post-call event. */
+export interface VoiceAgentRoutinePostCallDestination extends VoiceAgentPostCallDestination {
+  type: "routine";
+  /** The name of the routine. */
+  name: string;
+}
+
+export function voiceAgentRoutinePostCallDestinationSerializer(
+  item: VoiceAgentRoutinePostCallDestination,
+): any {
+  return { type: item["type"], name: item["name"] };
+}
+
+export function voiceAgentRoutinePostCallDestinationDeserializer(
+  item: any,
+): VoiceAgentRoutinePostCallDestination {
+  return {
+    type: item["type"],
+    name: item["name"],
+  };
+}
+
+/** Content that can be included in a post-call delivery. */
+export type VoiceAgentPostCallIncludeOption = "audio";
 
 /** The provisioning status of an agent version. */
 export type AgentVersionStatus = "creating" | "active" | "failed" | "deleting" | "deleted";
