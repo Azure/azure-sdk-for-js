@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an autoscale setting.
  *
  * @summary creates or updates an autoscale setting.
- * x-ms-original-file: 2022-10-01/createOrUpdateAutoscaleSetting.json
+ * x-ms-original-file: 2025-09-01-preview/createOrUpdateAutoscaleSetting.json
  */
 async function createOrUpdateAnAutoscaleSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,6 +19,13 @@ async function createOrUpdateAnAutoscaleSetting(): Promise<void> {
     "MySetting",
     {
       location: "West US",
+      identity: {
+        type: "UserAssigned",
+        userAssignedIdentities: {
+          "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myIdentity":
+            {},
+        },
+      },
       enabled: true,
       notifications: [
         {

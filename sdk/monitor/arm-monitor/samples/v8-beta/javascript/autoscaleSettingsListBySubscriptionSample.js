@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MonitorClient } from "@azure/arm-monitor";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MonitorClient } = require("@azure/arm-monitor");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to lists the autoscale settings for a subscription
  *
  * @summary lists the autoscale settings for a subscription
- * x-ms-original-file: 2022-10-01/listAutoscaleSettingBySubscription.json
+ * x-ms-original-file: 2025-09-01-preview/listAutoscaleSettingBySubscription.json
  */
-async function listAutoscaleSettingsBySubs(): Promise<void> {
+async function listAutoscaleSettingsBySubs() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
   const client = new MonitorClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function listAutoscaleSettingsBySubs(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listAutoscaleSettingsBySubs();
 }
 

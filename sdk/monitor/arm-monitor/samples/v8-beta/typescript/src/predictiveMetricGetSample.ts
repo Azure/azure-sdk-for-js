@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { MonitorClient } = require("@azure/arm-monitor");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { MonitorClient } from "@azure/arm-monitor";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to get predictive autoscale metric future data
  *
  * @summary get predictive autoscale metric future data
- * x-ms-original-file: 2022-10-01/GetPredictiveMetric.json
+ * x-ms-original-file: 2025-09-01-preview/GetPredictiveMetric.json
  */
-async function getMetricForData() {
+async function getMetricForData(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MonitorClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function getMetricForData() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getMetricForData();
 }
 

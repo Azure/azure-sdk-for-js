@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an autoscale setting
  *
  * @summary gets an autoscale setting
- * x-ms-original-file: 2022-10-01/getAutoscaleSetting.json
+ * x-ms-original-file: 2025-09-01-preview/getAutoscaleSetting.json
  */
 async function getAnAutoscaleSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();

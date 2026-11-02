@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MonitorClient } from "@azure/arm-monitor";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MonitorClient } = require("@azure/arm-monitor");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to gets an autoscale setting
  *
  * @summary gets an autoscale setting
- * x-ms-original-file: 2022-10-01/getAutoscaleSetting.json
+ * x-ms-original-file: 2025-09-01-preview/getAutoscaleSetting.json
  */
-async function getAnAutoscaleSetting(): Promise<void> {
+async function getAnAutoscaleSetting() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
   const client = new MonitorClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function getAnAutoscaleSetting(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await getAnAutoscaleSetting();
 }
 
