@@ -69,6 +69,10 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     this.clearTokenState();
   }
 
+  protected preserveInactiveRangeCoverage(): boolean {
+    return true;
+  }
+
   private sliceOrderByItemsArray(endIndex: number): void {
     if (endIndex === 0 || endIndex >= this.orderByItemsArray.length) {
       // Clear the array without reassigning
@@ -82,13 +86,14 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   protected processRangesForPagination(
     pageSize: number,
     isResponseEmpty: boolean = false,
-    _workRemains: boolean = true,
+    workRemains: boolean = true,
   ): { endIndex: number; processedRanges: string[] } {
     // Handle empty response case - preserve previous token state with updated range
     if (isResponseEmpty && this.tokenRangeMappings) {
       const processedRanges = [...this.partitionManager.getPartitionKeyRangeMap().keys()];
       const activeMappings = this.rangeList.filter(
         (mapping) =>
+          workRemains ||
           mapping.isOrderByCheckpoint === true ||
           isPartitionRangeActive(mapping.continuationToken, mapping.isActive),
       );
@@ -165,6 +170,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
       rangeProcessingResult.processedRanges,
     ).filter(
       (mapping) =>
+        workRemains ||
         this.rangeKey(mapping) === checkpointKey ||
         isPartitionRangeActive(mapping.continuationToken, mapping.isActive),
     );
@@ -234,12 +240,12 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
         const isCheckpoint =
           mapping.isOrderByCheckpoint === true ||
           (existingIndex >= 0 && this.rangeList[existingIndex].isOrderByCheckpoint === true);
-        if (existingIndex >= 0 && isCheckpoint) {
-          range.isActive = false;
-          range.isOrderByCheckpoint = true;
+        range.isActive = false;
+        range.isOrderByCheckpoint = isCheckpoint;
+        if (existingIndex >= 0) {
           this.rangeList[existingIndex] = range;
-        } else if (existingIndex >= 0) {
-          this.rangeList.splice(existingIndex, 1);
+        } else {
+          this.rangeList.push(range);
         }
       } else if (existingIndex >= 0) {
         range.isOrderByCheckpoint =

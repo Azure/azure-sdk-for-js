@@ -14,6 +14,7 @@ import { ErrorResponse } from "../../../../src/request/ErrorResponse.js";
 import { OrderByQueryExecutionContext } from "../../../../src/queryExecutionContext/orderByQueryExecutionContext.js";
 import { ParallelQueryExecutionContext } from "../../../../src/queryExecutionContext/parallelQueryExecutionContext.js";
 import { PipelinedQueryExecutionContext } from "../../../../src/queryExecutionContext/pipelinedQueryExecutionContext.js";
+import { RidSkipCountFilter } from "../../../../src/queryExecutionContext/queryFilteringStrategy/RidSkipCountFilter.js";
 import {
   createDummyDiagnosticNode,
   createTestClientContext,
@@ -3258,6 +3259,43 @@ describe("partition split recovery", () => {
     );
     assert.isUndefined(finalPage.headers["x-ms-continuation"]);
     assert.deepEqual(requests, ["C1", "C2", "C2"]);
+  });
+
+  it("snapshots ORDER BY filter state once per producer page", async () => {
+    const clientContext = createClientContext();
+    mockStableTopology(clientContext, [parentRange]);
+    const documents = Array.from({ length: 1000 }, (_, index) =>
+      createOrderByDocument(
+        `item-${index}`,
+        index + 6,
+        `AAAAAAAAAAAAAAAA${index.toString(16).padStart(4, "0")}`,
+      ),
+    );
+    vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
+      result: documents as unknown as Resource,
+      headers: { "x-ms-request-charge": "1" },
+      code: StatusCodes.Ok,
+    });
+    const getFilterContextSpy = vi.spyOn(RidSkipCountFilter.prototype, "getFilterContext");
+    const context = new PipelinedQueryExecutionContext(
+      clientContext,
+      collectionLink,
+      "SELECT * FROM c ORDER BY c.value",
+      {
+        ...options,
+        ...createOrderByOptions("backend-token", "AAAAAAAAAAAAAAAAAAAAAQ==", 1),
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 1,
+        maxItemCount: 1000,
+      },
+      createOrderByQueryInfo(),
+      correlatedActivityId,
+    );
+
+    const response = await withTimeout(context.fetchMore(createDummyDiagnosticNode()), 1000);
+
+    assert.lengthOf(response.result, 1000);
+    expect(getFilterContextSpy).toHaveBeenCalledTimes(2);
   });
 
   it("removes a retired empty patch before a nested split token is serialized", async () => {

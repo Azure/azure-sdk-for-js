@@ -58,6 +58,12 @@ interface BufferCycle {
   splitError?: any;
 }
 
+interface OrderByFilterSnapshots {
+  current?: OrderByContinuationFilter;
+  generation: number;
+  previous?: OrderByContinuationFilter;
+}
+
 /** @hidden */
 export abstract class ParallelQueryExecutionContextBase implements ExecutionContext {
   private err: any;
@@ -74,6 +80,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private patchCounter: number = 0;
   private readonly updatedContinuationRanges: Map<string, PartitionRangeUpdate> = new Map();
   private readonly splitRepairProducers: Map<DocumentProducer, Error> = new Map();
+  private readonly orderByFilterSnapshots = new WeakMap<DocumentProducer, OrderByFilterSnapshots>();
   private completeDrainError: Error | undefined;
   private readonly topologyTransitions: Set<string> = new Set();
   private readonly requiresCompleteDrainAfterSplit: boolean;
@@ -300,6 +307,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       producer.startEpk,
       producer.endEpk,
     );
+    const filterSnapshots = this._getOrderByFilterSnapshots(producer);
     return {
       itemCount,
       partitionKeyRange: toEffectivePartitionKeyRange(logicalRange),
@@ -307,12 +315,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       previousContinuationToken: producer.previousContinuationToken,
       isActive: producer.hasMoreResults(),
       isOrderByCheckpoint: producer.isOrderByCheckpoint,
-      orderByFilter: ParallelQueryExecutionContextBase._toOrderByFilter(
-        producer.getFilterContext(),
-      ),
-      previousOrderByFilter: ParallelQueryExecutionContextBase._toOrderByFilter(
-        producer.getPreviousFilterContext(),
-      ),
+      orderByFilter: filterSnapshots.current,
+      previousOrderByFilter: filterSnapshots.previous,
     };
   }
 
@@ -820,15 +824,32 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       min: documentProducer.startEpk ?? partitionRange.minInclusive,
       max: documentProducer.endEpk ?? partitionRange.maxExclusive,
     };
+    const filterSnapshots = this._getOrderByFilterSnapshots(documentProducer);
     return {
       queryRange,
       continuationToken: documentProducer.continuationToken,
       isActive: documentProducer.hasMoreResults(),
       isOrderByCheckpoint: documentProducer.isOrderByCheckpoint,
-      orderByFilter: ParallelQueryExecutionContextBase._toOrderByFilter(
+      orderByFilter: filterSnapshots.current,
+    };
+  }
+
+  private _getOrderByFilterSnapshots(documentProducer: DocumentProducer): OrderByFilterSnapshots {
+    const existing = this.orderByFilterSnapshots.get(documentProducer);
+    if (existing?.generation === documentProducer.generation) {
+      return existing;
+    }
+    const snapshots = {
+      current: ParallelQueryExecutionContextBase._toOrderByFilter(
         documentProducer.getFilterContext(),
       ),
+      generation: documentProducer.generation,
+      previous: ParallelQueryExecutionContextBase._toOrderByFilter(
+        documentProducer.getPreviousFilterContext(),
+      ),
     };
+    this.orderByFilterSnapshots.set(documentProducer, snapshots);
+    return snapshots;
   }
 
   private _removeRetiredEmptyPatch(effectiveRange: QueryRange): void {

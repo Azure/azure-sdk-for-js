@@ -312,6 +312,14 @@ function createBackendResult(
   ) as Resource;
 }
 
+function createOrderByBackendResult(id: string, value: number, rid: string): Resource {
+  return {
+    _rid: rid,
+    orderByItems: [{ item: value }],
+    payload: { id, value },
+  } as Resource;
+}
+
 function spyOnReplacement(context: QueryContext): ReturnType<typeof vi.spyOn> {
   return vi.spyOn(
     context as unknown as {
@@ -667,6 +675,129 @@ describe("partition split recovery", () => {
     assert.isFalse(response.hasMoreResults);
     assert.equal(topology.getForceRefreshCount(), 1);
   });
+
+  it.each(["current", "legacy"] as const)(
+    "preserves completed ORDER BY coverage across %s stateless split resumes",
+    async (tokenFormat) => {
+      const clientContext = createClientContext();
+      let routingRequestCount = 0;
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockImplementation(
+        () =>
+          ({
+            fetchAllInternal: vi.fn(async () => {
+              routingRequestCount++;
+              return {
+                resources: routingRequestCount === 1 ? [parentRange] : [childRange1, childRange2],
+                headers: { "x-ms-request-charge": "1" },
+                code: StatusCodes.Ok,
+              };
+            }),
+          }) as unknown as QueryIterator<PartitionKeyRange>,
+      );
+      const consumedRid = "AAAAAAAAAAAAAAAAAAAAAQ==";
+      const unreadRid = "AAAAAAAAAAAAAAAAAAAAAg==";
+      const laterRid = "AAAAAAAAAAAAAAAAAAAAAw==";
+      const requests: { rangeId: string; token?: string }[] = [];
+      vi.spyOn(clientContext, "queryFeed").mockImplementation(
+        async ({ options: requestOptions, partitionKeyRangeId }) => {
+          const rangeId = partitionKeyRangeId ?? "none";
+          const token = requestOptions.continuationToken;
+          requests.push({ rangeId, token });
+          if (rangeId === "P") {
+            if (token === "parent-next") {
+              throw createSplitError();
+            }
+            assert.isUndefined(token);
+            return {
+              result: [createOrderByBackendResult("B0", 5, consumedRid)] as unknown as Resource,
+              headers: {
+                "x-ms-continuation": "parent-next",
+                "x-ms-request-charge": "1",
+              },
+              code: StatusCodes.Ok,
+            };
+          }
+          if (rangeId === "C1") {
+            assert.include(["parent-next", "a-next"], token);
+            return token === "parent-next"
+              ? {
+                  result: [createOrderByBackendResult("A0", 5, unreadRid)] as unknown as Resource,
+                  headers: {
+                    "x-ms-continuation": "a-next",
+                    "x-ms-request-charge": "1",
+                  },
+                  code: StatusCodes.Ok,
+                }
+              : {
+                  result: [
+                    createOrderByBackendResult("later-A", 6, laterRid),
+                  ] as unknown as Resource,
+                  headers: { "x-ms-request-charge": "1" },
+                  code: StatusCodes.Ok,
+                };
+          }
+          assert.equal(rangeId, "C2");
+          return token === "parent-next"
+            ? {
+                result: [] as unknown as Resource,
+                headers: { "x-ms-request-charge": "1" },
+                code: StatusCodes.Ok,
+              }
+            : {
+                result: [createOrderByBackendResult("B0", 5, consumedRid)] as unknown as Resource,
+                headers: { "x-ms-request-charge": "1" },
+                code: StatusCodes.Ok,
+              };
+        },
+      );
+
+      const createIterator = (continuationToken?: string) =>
+        createPublicIterator<{ id: string; value: number }>(
+          clientContext,
+          "ORDER BY",
+          createPartitionedQueryInfo("ORDER BY"),
+          {
+            ...options,
+            continuationToken,
+            enableQueryControl: true,
+            forceQueryPlan: true,
+            maxDegreeOfParallelism: 2,
+            maxItemCount: 1,
+          },
+        );
+      const firstPage = await withTimeout(createIterator().fetchNext());
+      let continuationToken = firstPage.continuationToken;
+      if (tokenFormat === "legacy") {
+        const parsed = JSON.parse(continuationToken);
+        for (const mapping of parsed.rangeMappings) {
+          delete mapping.isActive;
+          delete mapping.isOrderByCheckpoint;
+          delete mapping.orderByFilter;
+        }
+        continuationToken = JSON.stringify(parsed);
+      }
+
+      const resourceIds = firstPage.resources.map((resource) => resource.id);
+      for (let page = 0; continuationToken; page++) {
+        if (page > 3) {
+          throw new Error(`${tokenFormat} ORDER BY stateless page guard exceeded`);
+        }
+        const response = await withTimeout(createIterator(continuationToken).fetchNext());
+        resourceIds.push(...response.resources.map((resource) => resource.id));
+        continuationToken = response.continuationToken;
+      }
+
+      assert.deepEqual(resourceIds, ["B0", "A0", "later-A"]);
+      assert.deepEqual(requests, [
+        { rangeId: "P", token: undefined },
+        { rangeId: "P", token: "parent-next" },
+        { rangeId: "C1", token: "parent-next" },
+        { rangeId: "C2", token: "parent-next" },
+        { rangeId: "C1", token: "a-next" },
+      ]);
+      assert.equal(routingRequestCount, 2);
+    },
+  );
 
   it.each([
     {
