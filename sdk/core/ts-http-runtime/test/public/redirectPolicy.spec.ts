@@ -198,6 +198,41 @@ describe("RedirectPolicy", () => {
     assert.strictEqual(result.status, expectedStatusCode);
   });
 
+  it("should change an overridden POST method to GET on 303 redirect", async function () {
+    const cancel = vi.fn().mockRejectedValue(new Error("response failed"));
+    const browserStreamBody = {
+      cancel,
+    } as unknown as NonNullable<PipelineResponse["browserStreamBody"]>;
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      method: "POST",
+      requestOverrides: { method: "POST" },
+    });
+    const redirectResponse: PipelineResponse = {
+      headers: createHttpHeaders({ location: "https://example.com/redirect" }),
+      request,
+      status: 303,
+      browserStreamBody,
+    };
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const policy = redirectPolicy();
+    const next = vi
+      .fn<SendRequest>()
+      .mockResolvedValueOnce(redirectResponse)
+      .mockResolvedValueOnce(successResponse);
+
+    const result = await policy.sendRequest(request, next);
+
+    assert.strictEqual(next.mock.lastCall?.[0].method, "GET");
+    assert.strictEqual(next.mock.lastCall?.[0].requestOverrides?.method, "GET");
+    assert.strictEqual(result.status, 200);
+    expect(cancel).toHaveBeenCalledOnce();
+  });
+
   it("should not follow GET 303 redirect", async function () {
     const expectedStatusCode = 303;
     const request = createPipelineRequest({ url: "https://example.com", method: "GET" });

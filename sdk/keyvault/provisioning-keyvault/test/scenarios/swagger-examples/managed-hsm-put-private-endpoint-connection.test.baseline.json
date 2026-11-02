@@ -1,0 +1,61 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "managedHSM": {
+          "bicepIdentifier": "managedHSM",
+          "type": "Microsoft.KeyVault/managedHSMs",
+          "apiVersion": "2026-02-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sample-mhsm"
+              }
+            }
+          }
+        },
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.KeyVault/managedHSMs/privateEndpointConnections",
+          "apiVersion": "2026-02-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sample-pec"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedHSM"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "privateLinkServiceConnectionState": {
+                    "kind": "object",
+                    "value": {
+                      "status": {
+                        "kind": "string",
+                        "value": "Approved"
+                      },
+                      "description": {
+                        "kind": "string",
+                        "value": "Approved by cdk test."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

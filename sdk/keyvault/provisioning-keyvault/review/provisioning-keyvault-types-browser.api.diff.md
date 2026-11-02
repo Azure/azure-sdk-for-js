@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -782,17 +782,18 @@
+@@ -807,17 +807,18 @@
  // @public
  export type NetworkRuleSetView = NetworkRuleSetInput;
  

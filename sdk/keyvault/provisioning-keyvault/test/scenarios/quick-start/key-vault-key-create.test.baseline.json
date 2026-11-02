@@ -1,0 +1,305 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "parameters": {
+        "vaultName": {
+          "bicepIdentifier": "vaultName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The name of the key vault to be created."
+          }
+        },
+        "keyName": {
+          "bicepIdentifier": "keyName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The name of the key to be created."
+          }
+        },
+        "location": {
+          "bicepIdentifier": "location",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "string",
+            "value": "eastus"
+          },
+          "decorators": {
+            "description": "The location of the resources."
+          }
+        },
+        "skuName": {
+          "bicepIdentifier": "skuName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "string",
+            "value": "standard"
+          },
+          "decorators": {
+            "description": "The SKU of the vault to be created.",
+            "allowed": [
+              {
+                "kind": "string",
+                "value": "standard"
+              },
+              {
+                "kind": "string",
+                "value": "premium"
+              }
+            ]
+          }
+        },
+        "keyType": {
+          "bicepIdentifier": "keyType",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "string",
+            "value": "RSA"
+          },
+          "decorators": {
+            "description": "The JsonWebKeyType of the key to be created.",
+            "allowed": [
+              {
+                "kind": "string",
+                "value": "EC"
+              },
+              {
+                "kind": "string",
+                "value": "EC-HSM"
+              },
+              {
+                "kind": "string",
+                "value": "RSA"
+              },
+              {
+                "kind": "string",
+                "value": "RSA-HSM"
+              }
+            ]
+          }
+        },
+        "keySize": {
+          "bicepIdentifier": "keySize",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "int"
+          },
+          "defaultValue": {
+            "kind": "integer",
+            "value": "2048"
+          },
+          "decorators": {
+            "description": "The size in bits of the key to be created."
+          }
+        }
+      },
+      "resources": {
+        "vault": {
+          "bicepIdentifier": "vault",
+          "type": "Microsoft.KeyVault/vaults",
+          "apiVersion": "2026-02-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "vaultName"
+              },
+              "location": {
+                "kind": "identifier",
+                "id": "location"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "tenantId": {
+                    "kind": "string",
+                    "value": "11111111-1111-1111-1111-111111111111"
+                  },
+                  "sku": {
+                    "kind": "object",
+                    "value": {
+                      "family": {
+                        "kind": "string",
+                        "value": "A"
+                      },
+                      "name": {
+                        "kind": "identifier",
+                        "id": "skuName"
+                      }
+                    }
+                  },
+                  "enableRbacAuthorization": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "enableSoftDelete": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "softDeleteRetentionInDays": {
+                    "kind": "integer",
+                    "value": "90"
+                  },
+                  "enablePurgeProtection": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "enabledForDeployment": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enabledForDiskEncryption": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enabledForTemplateDeployment": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "networkAcls": {
+                    "kind": "object",
+                    "value": {
+                      "defaultAction": {
+                        "kind": "string",
+                        "value": "Allow"
+                      },
+                      "bypass": {
+                        "kind": "string",
+                        "value": "AzureServices"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "key": {
+          "bicepIdentifier": "key",
+          "type": "Microsoft.KeyVault/vaults/keys",
+          "apiVersion": "2026-02-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "keyName"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "vault"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "kty": {
+                    "kind": "identifier",
+                    "id": "keyType"
+                  },
+                  "keySize": {
+                    "kind": "identifier",
+                    "id": "keySize"
+                  },
+                  "keyOps": {
+                    "kind": "array",
+                    "items": []
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "proxyKey": {
+          "bicepIdentifier": "proxyKey",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "object"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "key"
+            },
+            "property": "properties",
+            "nullish": false
+          }
+        },
+        "location": {
+          "bicepIdentifier": "location",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "identifier",
+            "id": "location"
+          }
+        },
+        "name": {
+          "bicepIdentifier": "name",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "vault"
+            },
+            "property": "name",
+            "nullish": false
+          }
+        },
+        "resourceId": {
+          "bicepIdentifier": "resourceId",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "vault"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resourceGroupName": {
+          "bicepIdentifier": "resourceGroupName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "string",
+            "value": "rg-cdk-package-test"
+          }
+        }
+      }
+    }
+  ]
+}
