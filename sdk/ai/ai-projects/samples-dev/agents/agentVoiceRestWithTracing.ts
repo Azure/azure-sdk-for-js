@@ -37,22 +37,23 @@ export async function main(): Promise<void> {
       try {
         console.log("Voice Agent generation completed. Inspect the create_agent span.");
       } finally {
-        await project.agents.delete(agent.name, {
-          requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-        });
+        await project.agents.delete(agent.name);
       }
 
       // This places a real telephone call and may incur charges. It is disabled by default.
       if (process.env["FOUNDRY_ENABLE_OUTBOUND_CALL"] === "true") {
+        const sourceType = process.env["FOUNDRY_TELEPHONY_SOURCE_TYPE"] ?? "phone_number";
+        if (sourceType !== "phone_number" && sourceType !== "teams") {
+          throw new Error("Set FOUNDRY_TELEPHONY_SOURCE_TYPE to phone_number or teams.");
+        }
         const job = await project.beta.voiceAgents.telephony.createCallJob(
           required("FOUNDRY_VOICE_AGENT_NAME"),
           randomUUID(),
           {
             connection_name: required("FOUNDRY_TELEPHONY_CONNECTION"),
-            source: required("FOUNDRY_TELEPHONY_SOURCE"),
+            source: { type: sourceType, value: required("FOUNDRY_TELEPHONY_SOURCE") },
             destination: { type: "phone_number", value: required("FOUNDRY_TELEPHONY_DESTINATION") },
           },
-          { foundryFeatures: "VoiceAgents=V1Preview" },
         );
         console.log(
           `Call job accepted; current status: ${job.status}. Acceptance is not call completion.`,

@@ -9,6 +9,8 @@ import { describe, expect, it, vi } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
 import type {
   BetaVoiceAgentsConversationsListOptionalParams,
+  CreateTelephonyBindingRequestUnion,
+  CreateTelephonyCallJobRequest,
   VoiceAgentDefinition,
   RealtimeServerEventResponseAudioDelta,
 } from "../../src/index.js";
@@ -69,6 +71,81 @@ function createClient(...responses: MockResponse[]): {
 }
 
 describe("voice post-emitter integration", () => {
+  it("does not opt GA voice generation into drafts unless requested", async () => {
+    const response = {
+      id: "generated-agent",
+      name: "voice",
+      object: "agent",
+      versions: {
+        latest: {
+          id: "version-1",
+          name: "voice",
+          version: "1",
+          created_at: 1,
+          definition: { kind: "voice", model_type: "managed", model: "voice-model" },
+        },
+      },
+    };
+    const { client, requests } = createClient({ body: response }, { body: response });
+    await client.beta.agents.createFromPrompt({ kind: "voice", name: "voice" });
+    expect(requests[0].headers.get("foundry-features")).toBeUndefined();
+    await client.beta.agents.createFromPrompt(
+      { kind: "voice", name: "voice", draft: true },
+      { foundryFeatures: "DraftAgents=V1Preview" },
+    );
+    expect(requests[1].headers.get("foundry-features")).toBe("DraftAgents=V1Preview");
+  });
+
+  it("creates a GA binding without response-only fields or a forced preview opt-in", async () => {
+    const binding: CreateTelephonyBindingRequestUnion = {
+      provider: "twilio",
+      connection_name: "telephony-connection",
+      phone_number: "+15555550100",
+    };
+    const { client, requests } = createClient({
+      status: 201,
+      body: {
+        ...binding,
+        id: "created-binding",
+        incoming_call_url: "https://example.com/incoming",
+      },
+    });
+    const result = await client.beta.voiceAgents.telephony.createBinding("voice", binding);
+    expect(JSON.parse(requests[0].body as string)).toEqual(binding);
+    expect(requests[0].headers.get("foundry-features")).toBeUndefined();
+    expect(result.id).toBe("created-binding");
+  });
+
+  it("submits typed call-job addresses without fabricating a response identity", async () => {
+    const input: CreateTelephonyCallJobRequest = {
+      connection_name: "telephony-connection",
+      source: { type: "teams", value: "00000000-0000-0000-0000-000000000001" },
+      destination: { type: "phone_number", value: "+15555550100" },
+    };
+    const { client, requests } = createClient({
+      status: 202,
+      body: {
+        ...input,
+        id: "created-job",
+        agent_name: "voice",
+        status: "queued",
+        attempt_count: 0,
+        revision: 1,
+        created_at: 1,
+        updated_at: 1,
+      },
+    });
+    const result = await client.beta.voiceAgents.telephony.createCallJob(
+      "voice",
+      "creation-key",
+      input,
+    );
+    expect(JSON.parse(requests[0].body as string)).toEqual(input);
+    expect(requests[0].headers.get("foundry-features")).toBeUndefined();
+    expect(result.id).toBe("created-job");
+    expect(result.source).toEqual(input.source);
+  });
+
   it("wires voice operations without exposing the internal WebSocket handshake", async () => {
     const { client, requests, getToken } = createClient({
       body: {
@@ -170,7 +247,7 @@ describe("voice post-emitter integration", () => {
       expect(new URL(requests[0].url).pathname).toBe(
         `/api/projects/test-project/agents/voice%20agent/endpoint/protocols/voice/conversations/conversation%2Fid/items/item%2Fid/audio${suffix}`,
       );
-      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(requests[0].headers.get("foundry-features")).toBeUndefined();
     },
   );
 
@@ -248,7 +325,7 @@ describe("voice post-emitter integration", () => {
     expect(onResponse).toHaveBeenCalledTimes(2);
   });
 
-  it("omits removed campaign operations while retaining call jobs and realtime connections", () => {
+  it("wires campaigns separately from call jobs and realtime connections", () => {
     const { client, requests } = createClient();
     for (const name of [
       "createCampaign",
@@ -268,6 +345,17 @@ describe("voice post-emitter integration", () => {
     expect(client.beta.voiceAgents.telephony.getCallJob).toBeTypeOf("function");
     expect(client.beta.voiceAgents.telephony.cancelCallJob).toBeTypeOf("function");
     expect(client.beta.voiceAgents.realtime.connect).toBeTypeOf("function");
+    for (const operation of [
+      "create",
+      "get",
+      "list",
+      "cancel",
+      "deleteCampaign",
+      "getOperation",
+      "listValidationErrors",
+    ]) {
+      expect(client.beta.voiceAgents.campaigns).toHaveProperty(operation);
+    }
     expect(requests).toHaveLength(0);
   });
 

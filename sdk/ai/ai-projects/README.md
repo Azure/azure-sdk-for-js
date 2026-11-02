@@ -244,6 +244,11 @@ Voice Agents use the unified `project.agents` management surface and a bidirecti
 session exposed by `project.beta.voiceAgents.realtime`. The example below generates a Voice Agent, sends text, and
 streams its response:
 
+The core Realtime, conversation-read, and TPE/Twilio telephony service APIs are GA on `v1`.
+The SDK keeps its existing `.beta.voiceAgents` grouping. GPT Live, inline handoff, and SIP
+remain in preview and require `VoiceAgents=V1Preview`; draft agent generation uses
+`DraftAgents=V1Preview` in the operation options.
+
 ```ts snippet:voiceAgent
 const voiceAgentName = `voice-agent-${Date.now()}`;
 const voiceAgent = await project.beta.agents.createFromPrompt({
@@ -273,9 +278,7 @@ try {
     await connection.dispose();
   }
 } finally {
-  await project.agents.delete(voiceAgent.name, {
-    requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-  });
+  await project.agents.delete(voiceAgent.name);
 }
 ```
 

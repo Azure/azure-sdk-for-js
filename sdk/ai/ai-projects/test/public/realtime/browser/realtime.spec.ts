@@ -98,8 +98,7 @@ describe("AIProjectClient browser realtime", () => {
     expect(url.searchParams.getAll("x-ms-client-sdk")).toEqual([
       `azsdk-js-ai-projects/${SDK_VERSION}`,
     ]);
-    expect(url.searchParams.get("foundry_features")).toBe("VoiceAgents=V1Preview");
-    expect(socket.url).toContain("foundry_features=VoiceAgents%3DV1Preview");
+    expect(url.searchParams.has("foundry_features")).toBe(false);
     expect(url.searchParams.get("client-request-id")).toBeTruthy();
     expect(url.searchParams.getAll("structured_input")).toEqual([
       JSON.stringify({ customer: "Ada" }),
@@ -132,7 +131,6 @@ describe("AIProjectClient browser realtime", () => {
     expect(Object.fromEntries(url.searchParams)).toEqual({
       "api-version": "v1",
       "x-ms-client-sdk": "sdk-version",
-      foundry_features: "VoiceAgents=V1Preview",
       "client-request-id": "request-1",
       structured_input: structuredInputs,
     });
@@ -154,7 +152,7 @@ describe("AIProjectClient browser realtime", () => {
       expect(url.searchParams.get("store")).toBe("false");
       expect(url.searchParams.getAll("structured_input")).toEqual(['{"customer":"Ada"}']);
       expect(url.searchParams.has("structured_inputs")).toBe(false);
-      expect(url.searchParams.getAll("foundry_features")).toEqual(["VoiceAgents=V1Preview"]);
+      expect(url.searchParams.has("foundry_features")).toBe(false);
       expect(url.searchParams.has("authorization")).toBe(false);
       expect(socket.protocols).toEqual(["realtime", "authorization.bearer.browser-test-token"]);
     } finally {
@@ -195,10 +193,11 @@ describe("AIProjectClient browser realtime", () => {
     },
   );
 
-  it("replaces existing preview parameters using standard URL encoding", () => {
+  it("replaces Live preview parameters using standard URL encoding", () => {
     const urlWithHeaders = addHeadersToUrl(
       "wss://example.test/voice?foundry_features=old&foundry_features=duplicate",
       { "foundry-features": "VoiceAgents=V1Preview" },
+      true,
     );
 
     expect(urlWithHeaders).toBe(
@@ -207,6 +206,16 @@ describe("AIProjectClient browser realtime", () => {
     expect(new URL(urlWithHeaders).searchParams.getAll("foundry_features")).toEqual([
       "VoiceAgents=V1Preview",
     ]);
+  });
+
+  it("removes retired Realtime preview aliases without changing other query values", () => {
+    const url = new URL(
+      addHeadersToUrl(
+        "wss://example.test/voice?foundry_features=old&Foundry-Features=old&custom=retained",
+        {},
+      ),
+    );
+    expect(Object.fromEntries(url.searchParams)).toEqual({ custom: "retained" });
   });
 
   it("keeps only the SDK query parameter when a custom userAgentPrefix is configured", async () => {

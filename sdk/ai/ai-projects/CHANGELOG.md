@@ -2,19 +2,28 @@
 
 ## 2.11.0 (Unreleased)
 
+### Breaking Changes
+
+- Use shared `type`/`value` telephony addresses for call-job sources and transfer destinations. Remove binding lifecycle `status` and its list/update options. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47806)
+- Make shared `DatasetReference.version` optional and use `VersionedDatasetReference` where evaluator artifacts require an exact version. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47806)
+
 ### Features Added
 
 - Add GPT Live agent definitions, lifecycle/delegation events with effective Foundry ownership, and `project.beta.voiceAgents.liveConversations` for persisted Live conversations and audio. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 - Expand native GPT Live models for additional delegation tools, decisions, and prerecorded audio playback. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 - Add `post_call` voice-agent configuration for Event Grid and routine destinations. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Add `project.beta.voiceAgents.campaigns` for campaign scheduling, validation, cancellation, and deletion, plus call-job listing and deletion. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47806)
+- Add inline handoff, SIP bindings, phone system tools, and their typed configuration and protocol events. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47806)
 
 ### Bugs Fixed
 
 - Keep Voice Agent instructions optional and non-nullable, and support nullable names in native Live MCP tool choices. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
+- Remove forced preview opt-ins from GA voice generation, Realtime connections, and conversation operations, while retaining Live and SIP preview support. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47806)
 
 ### Other Changes
 
 - Deprecate `BrowserAutomationPreviewTool` and `BrowserAutomationPreviewToolboxTool` in favor of their non-preview replacements. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Regenerate the consolidated voice contracts from TypeSpec commit `94c78273b7207a159a3eb3699be150bed59e4868`, preserving writable SDK input aliases without requiring service-generated response fields. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47806)
 
 ## 2.10.0 (2026-10-30)
 

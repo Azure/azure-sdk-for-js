@@ -28,7 +28,6 @@ const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-text
 const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
 const audioOutputPath =
   process.env["FOUNDRY_VOICE_AGENT_AUDIO_OUTPUT_FILE"]?.trim() || "voice-agent-output.pcm";
-const preview = "VoiceAgents=V1Preview" as const;
 const pcmSampleRate = 24_000;
 
 export async function main(): Promise<void> {
@@ -121,9 +120,7 @@ export async function main(): Promise<void> {
     }
   } finally {
     if (created) {
-      await project.agents.delete(agentName, {
-        requestOptions: { headers: { "foundry-features": preview } },
-      });
+      await project.agents.delete(agentName);
     }
   }
 }
@@ -197,9 +194,7 @@ async function writeAudio(output: WriteStream, audio: Uint8Array): Promise<void>
 
 async function getOrCreateVoiceAgent(project: AIProjectClient): Promise<{ created: boolean }> {
   try {
-    await project.agents.get(agentName, {
-      requestOptions: { headers: { "foundry-features": preview } },
-    });
+    await project.agents.get(agentName);
     return { created: false };
   } catch (error) {
     if (!isRestError(error) || error.statusCode !== 404) {
@@ -214,7 +209,7 @@ async function getOrCreateVoiceAgent(project: AIProjectClient): Promise<{ create
     instructions: "You are a helpful voice assistant. Use tools when appropriate.",
     output_modalities: ["text", "audio"],
   };
-  await project.agents.create(agentName, definition, { foundryFeatures: preview });
+  await project.agents.create(agentName, definition);
   return { created: true };
 }
 

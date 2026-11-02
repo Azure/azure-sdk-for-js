@@ -1580,13 +1580,13 @@ describe("Voice Agents tracing", () => {
               : {
                   id: "job-1",
                   object: "telephony.call_job",
-                  status: "accepted",
+                  status: "queued",
                   destination: { type: "phone_number", value: "+15555550100" },
-                  source: "+15555550200",
+                  source: { type: "phone_number", value: "+15555550200" },
                   agent_name: "voice",
                   created_at: 1,
                   updated_at: 1,
-                  retry_policy: { type: "none" },
+                  retry_policy: { type: "fixed_interval", max_attempts: 1, interval: 0 },
                 },
           ),
         };
@@ -1604,12 +1604,12 @@ describe("Voice Agents tracing", () => {
     });
     await project.beta.voiceAgents.telephony.createCallJob("voice", "PRIVATE_IDEMPOTENCY", {
       connection_name: "PRIVATE_CONNECTION",
-      source: "+15555550200",
+      source: { type: "phone_number", value: "+15555550200" },
       destination: { type: "phone_number", value: "+15555550100" },
     });
     expect(span("create_agent").attributes["gen_ai.operation.name"]).toBe("create_agent");
     expect(span("voice_agents.telephony.create_call_job").attributes).toMatchObject({
-      "az.ai.voice_agents.call_job.status": "accepted",
+      "az.ai.voice_agents.call_job.status": "queued",
       "az.ai.voice_agents.telephony.call_job.id": "job-1",
     });
     expect(spans.every((value) => value.endCount === 1)).toBe(true);

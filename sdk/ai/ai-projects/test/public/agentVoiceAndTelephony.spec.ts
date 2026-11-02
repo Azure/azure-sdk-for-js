@@ -69,7 +69,6 @@ const binding = {
   provider: "twilio",
   connection_name: "telephony-connection",
   phone_number: "+15555550100",
-  status: "active",
   incoming_call_url: "https://example.com/incoming",
   etag: '"binding-etag"',
 };
@@ -106,13 +105,15 @@ describe("beta agent voice authoring", () => {
       goal: "Help callers find public transport.",
       draft: true,
     };
-    const agent = await client.beta.agents.createFromPrompt(body);
+    const agent = await client.beta.agents.createFromPrompt(body, {
+      foundryFeatures: "DraftAgents=V1Preview",
+    });
     expect(agent.versions.latest.definition).toMatchObject(voiceDefinition);
     expect(agent.versions.latest.created_at).toEqual(new Date(1_700_000_000_000));
     expect(requests).toHaveLength(1);
     expect(requests[0].method).toBe("POST");
     expect(new URL(requests[0].url).pathname).toBe("/api/projects/test-project/agents:generate");
-    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(requests[0].headers.get("foundry-features")).toBe("DraftAgents=V1Preview");
     expect(JSON.parse(requests[0].body as string)).toEqual(body);
   });
 
@@ -242,18 +243,18 @@ describe("beta agent telephony operations", () => {
   });
 
   it("updates only supplied fields and sends the binding ETag", async () => {
-    const { client, requests } = createClient({ body: { ...binding, status: "suspended" } });
+    const { client, requests } = createClient({ body: { ...binding, label: "Updated binding" } });
     const result = await client.beta.voiceAgents.telephony.updateBinding(
       "voice-agent",
       binding.id,
       binding.etag,
-      { status: "suspended" },
+      { label: "Updated binding" },
       options,
     );
-    expect(result.status).toBe("suspended");
+    expect(result.label).toBe("Updated binding");
     expect(requests[0].method).toBe("PATCH");
     expect(requests[0].headers.get("if-match")).toBe(binding.etag);
-    expect(JSON.parse(requests[0].body as string)).toEqual({ status: "suspended" });
+    expect(JSON.parse(requests[0].body as string)).toEqual({ label: "Updated binding" });
   });
 
   it("deletes a binding with its ETag and accepts an empty 204 response", async () => {
@@ -288,17 +289,17 @@ describe("beta agent telephony operations", () => {
         {
           name: "support",
           description: "Support line",
-          destination: { kind: "pstn", value: "+15555550101" },
+          destination: { type: "phone_number", value: "+15555550101" },
         },
         {
           name: "sip",
           description: "SIP desk",
-          destination: { kind: "sip", value: "sip:support@example.com" },
+          destination: { type: "sip", value: "sip:support@example.com" },
         },
         {
           name: "teams",
           description: "Teams desk",
-          destination: { kind: "teams", value: "00000000-0000-0000-0000-000000000001" },
+          destination: { type: "teams", value: "00000000-0000-0000-0000-000000000001" },
         },
       ] satisfies TelephonyTransferTarget[],
     },

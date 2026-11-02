@@ -71,9 +71,7 @@ export async function main(): Promise<void> {
           await connection.close();
         }
       } finally {
-        await project.agents.delete(agent.name, {
-          requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-        });
+        await project.agents.delete(agent.name);
       }
     });
   } finally {
