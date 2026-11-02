@@ -3,6 +3,10 @@
 
 import http from "node:http";
 import { lookup } from "node:dns";
+import { createReadStream } from "node:fs";
+import { randomUUID } from "node:crypto";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { Readable } from "node:stream";
 import { finished } from "node:stream/promises";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -41,6 +45,115 @@ afterEach(async () => {
 });
 
 describe("Expect: 100-continue", () => {
+  it.each([false, true])(
+    "rejects a pending direct-source error without consuming or destroying the source (progress=%s)",
+    async (progress) => {
+      const read = vi.fn();
+      const body = new Readable({ read });
+      const failure = Object.assign(new Error("pending direct-source failure"), { code: "ENOENT" });
+      const onUploadProgress = vi.fn();
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const server = http.createServer();
+      server.on("checkContinue", () => {
+        body.emit("error", failure);
+      });
+      const port = await listen(server);
+      const agent = new http.Agent({ keepAlive: false });
+      const httpRequest = vi.spyOn(http, "request");
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 }));
+
+      try {
+        await expect(
+          pipeline.sendRequest(
+            createDefaultHttpClient(),
+            createPipelineRequest({
+              url: `http://127.0.0.1:${port}`,
+              method: "POST",
+              allowInsecureConnection: true,
+              headers: createHttpHeaders({ Expect: "100-continue" }),
+              body,
+              abortSignal: controller.signal,
+              onUploadProgress: progress ? onUploadProgress : undefined,
+              requestOverrides: { agent },
+            }),
+          ),
+        ).rejects.toBe(failure);
+
+        expect(httpRequest).toHaveBeenCalledOnce();
+        const requestResult = httpRequest.mock.results[0];
+        if (!requestResult || requestResult.type !== "return") {
+          throw new Error("Expected an outgoing HTTP request");
+        }
+        await expect.poll(() => requestResult.value.closed).toBe(true);
+        expect(requestResult.value.destroyed).toBe(true);
+        expect(read).not.toHaveBeenCalled();
+        expect(onUploadProgress).not.toHaveBeenCalled();
+        expect(body.destroyed).toBe(false);
+        expect(body.readableFlowing).toBe(null);
+        expect(body.listenerCount("error")).toBe(0);
+        expect(body.listenerCount("data")).toBe(0);
+        expect(body.listenerCount("end")).toBe(0);
+        expect(body.listenerCount("close")).toBe(0);
+        expect(removeEventListener).toHaveBeenCalledExactlyOnceWith("abort", expect.any(Function));
+      } finally {
+        body.destroy();
+        agent.destroy();
+        httpRequest.mockRestore();
+      }
+    },
+  );
+
+  it.each([false, true])(
+    "handles fs.createReadStream ENOENT before Continue without a caller error listener (progress=%s)",
+    async (progress) => {
+      const server = http.createServer();
+      server.on("checkContinue", () => {
+        // Leave negotiation pending while the file-open operation fails.
+      });
+      const port = await listen(server);
+      const filePath = join(tmpdir(), `azsdk-missing-upload-${randomUUID()}`);
+      const body = createReadStream(filePath);
+      const onUploadProgress = vi.fn();
+      const agent = new http.Agent({ keepAlive: false });
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 }));
+      const httpRequest = vi.spyOn(http, "request");
+
+      try {
+        await expect(
+          pipeline.sendRequest(
+            createDefaultHttpClient(),
+            createPipelineRequest({
+              url: `http://127.0.0.1:${port}`,
+              method: "POST",
+              allowInsecureConnection: true,
+              headers: createHttpHeaders({ Expect: "100-continue" }),
+              body,
+              onUploadProgress: progress ? onUploadProgress : undefined,
+              requestOverrides: { agent },
+            }),
+          ),
+        ).rejects.toMatchObject({ name: "Error", code: "ENOENT", syscall: "open", path: filePath });
+
+        expect(httpRequest).toHaveBeenCalledOnce();
+        const requestResult = httpRequest.mock.results[0];
+        if (!requestResult || requestResult.type !== "return") {
+          throw new Error("Expected an outgoing HTTP request");
+        }
+        await expect.poll(() => requestResult.value.closed).toBe(true);
+        expect(body.bytesRead).toBe(0);
+        expect(onUploadProgress).not.toHaveBeenCalled();
+        expect(body.listenerCount("error")).toBe(0);
+      } finally {
+        body.destroy();
+        agent.destroy();
+        httpRequest.mockRestore();
+      }
+    },
+  );
+
   it.each([
     { dispatch: "normal", progress: false },
     { dispatch: "normal", progress: true },

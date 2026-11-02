@@ -9,9 +9,11 @@ const EXPECT_CONTINUE_TIMEOUT_IN_MS = 1000;
 interface ExpectContinueRequestOptions {
   abortSignal: AbortSignal;
   knownBodyLength: number | null;
+  bodyStream?: NodeJS.ReadableStream;
   createRequest: (onResponse: (response: http.IncomingMessage) => void) => http.ClientRequest;
   onAbort: (request: http.ClientRequest) => void;
   onError: (error: Error & { code?: string }) => void;
+  onBodyError: (error: Error) => void;
   onResponse: (response: http.IncomingMessage) => void;
   sendBody: (request: http.ClientRequest) => void;
 }
@@ -127,6 +129,15 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   let abortHandled = false;
   let responseBeforeRequest: http.IncomingMessage | undefined;
   let request: http.ClientRequest;
+  let bodyError: Error | undefined;
+  const bodyStream = options.bodyStream;
+  // Error observation must not consume a caller-owned source before upload permission.
+  bodyStream?.on("error", onBodyError);
+  if (bodyStream && "errored" in bodyStream && bodyStream.errored instanceof Error) {
+    // destroy(error) may still have its error event queued on the next tick.
+    process.nextTick(onBodyError, bodyStream.errored);
+    return;
+  }
   try {
     request = options.createRequest(onResponse);
   } catch (error: unknown) {
@@ -150,9 +161,26 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
     if (!errorReported) {
       errorReported = true;
       stopWaiting();
+      stopObservingBody();
       options.onError(requestError);
     }
     return requestError;
+  }
+
+  function stopObservingBody(): void {
+    bodyStream?.removeListener("error", onBodyError);
+  }
+
+  function onBodyError(error: Error): void {
+    if (errorReported) {
+      return;
+    }
+    errorReported = true;
+    bodyError = error;
+    stopWaiting();
+    stopObservingBody();
+    options.onBodyError(error);
+    request?.destroy(error);
   }
 
   function sendBody(): void {
@@ -165,11 +193,15 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
       options.sendBody(request);
     } catch (error: unknown) {
       request.destroy(onError(error));
+    } finally {
+      // The upload path now observes the source, including synchronous failures while piping.
+      stopObservingBody();
     }
   }
 
   function onAbort(): void {
     stopWaiting();
+    stopObservingBody();
     if (!abortHandled) {
       abortHandled = true;
       options.onAbort(request);
@@ -178,6 +210,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
 
   function onClose(): void {
     stopWaiting();
+    stopObservingBody();
     // Request close can precede consumption of buffered response data.
     // Keep private abort forwarding until sendRequest's outer lifecycle disconnects the caller.
   }
@@ -206,6 +239,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
 
   function onResponse(response: http.IncomingMessage): void {
     stopWaiting();
+    stopObservingBody();
     if (!request) {
       // A custom request factory may deliver a response before returning its request.
       responseBeforeRequest = response;
@@ -230,6 +264,11 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   request.once("error", onError);
   options.abortSignal.addEventListener("abort", onAbort, { once: true });
   request.once("close", onClose);
+
+  if (bodyError) {
+    request.destroy(bodyError);
+    return;
+  }
 
   if (responseBeforeRequest) {
     onResponse(responseBeforeRequest);

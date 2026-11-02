@@ -473,9 +473,11 @@ class NodeHttpClient implements HttpClient {
       createExpectContinueRequest({
         abortSignal: abortController.signal,
         knownBodyLength,
+        bodyStream: isReadableStream(request.body) ? request.body : undefined,
         createRequest,
         onAbort: abortRequest,
         onError: rejectRequest,
+        onBodyError: reject,
         onResponse,
         sendBody: (clientRequest) => {
           let body: RequestBodyType | undefined;

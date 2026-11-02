@@ -3,7 +3,7 @@
 
 import type { ClientRequest, IncomingMessage } from "node:http";
 import { Socket } from "node:net";
-import { PassThrough, Writable } from "node:stream";
+import { PassThrough, Readable, Writable } from "node:stream";
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock, type Mocked } from "vitest";
 import { createExpectContinueRequest } from "../../../src/util/nodeExpectContinue.js";
 
@@ -49,6 +49,7 @@ function createOptions(
       createRequest: vi.fn(() => request as unknown as ClientRequest),
       onAbort: vi.fn(),
       onError: vi.fn(),
+      onBodyError: vi.fn(),
       onResponse: vi.fn(),
       sendBody: vi.fn(),
     },
@@ -63,6 +64,216 @@ describe("Expect: 100-continue negotiation", () => {
   afterEach(() => {
     vi.useRealTimers();
   });
+
+  it.each([false, true])(
+    "observes direct-source failures without reading before Continue (socketAssigned=%s)",
+    async (socketAssigned) => {
+      const { request, options } = createOptions(null, false);
+      if (!socketAssigned) {
+        request.socket = null;
+      }
+      const read = vi.fn();
+      const source = new Readable({ read });
+      const callerError = vi.fn();
+      source.on("error", callerError);
+      const failure = Object.assign(new Error("pending source failed"), { code: "ENOENT" });
+
+      try {
+        createExpectContinueRequest({ ...options, bodyStream: source });
+        source.emit("error", failure);
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        request.emit("continue");
+        vi.advanceTimersByTime(2000);
+
+        expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
+        expect(options.onError).not.toHaveBeenCalled();
+        expect(callerError).toHaveBeenCalledExactlyOnceWith(failure);
+        expect(options.sendBody).not.toHaveBeenCalled();
+        expect(read).not.toHaveBeenCalled();
+        expect(source.destroyed).toBe(false);
+        expect(source.listeners("error")).toEqual([callerError]);
+        expect(source.listenerCount("data")).toBe(0);
+        expect(source.listenerCount("close")).toBe(0);
+        expect(source.listenerCount("end")).toBe(0);
+        expect(request.destroyed).toBe(true);
+        expect(request.listenerCount("socket")).toBe(0);
+        expect(vi.getTimerCount()).toBe(0);
+      } finally {
+        request.destroy();
+        source.destroy();
+      }
+    },
+  );
+
+  it("observes direct-source failures raised during request construction", async () => {
+    const { request, options } = createOptions(null, false);
+    const source = new Readable({ read() {} });
+    const callerError = vi.fn();
+    source.on("error", callerError);
+    const failure = new Error("source failed during setup");
+    options.createRequest.mockImplementation(() => {
+      source.emit("error", failure);
+      return request as unknown as ClientRequest;
+    });
+
+    try {
+      createExpectContinueRequest({ ...options, bodyStream: source });
+      await new Promise<void>((resolve) => setImmediate(resolve));
+
+      expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
+      expect(options.onError).not.toHaveBeenCalled();
+      expect(options.sendBody).not.toHaveBeenCalled();
+      expect(request.flushHeaders).not.toHaveBeenCalled();
+      expect(request.destroyed).toBe(true);
+      expect(source.listeners("error")).toEqual([callerError]);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      request.destroy();
+      source.destroy();
+    }
+  });
+
+  it("observes direct-source failures while the header write callback is pending", async () => {
+    const { request, options } = createOptions(null, false);
+    const source = new Readable({ read() {} });
+    const callerError = vi.fn();
+    source.on("error", callerError);
+    let writeCallback: ((error?: Error | null) => void) | undefined;
+    request.write.mockImplementation((_chunk, callback) => {
+      writeCallback = callback;
+      return true;
+    });
+    const failure = new Error("source failed during header write");
+
+    try {
+      createExpectContinueRequest({ ...options, bodyStream: source });
+      expect(writeCallback).toEqual(expect.any(Function));
+      source.emit("error", failure);
+      writeCallback?.();
+      request.emit("continue");
+      vi.advanceTimersByTime(2000);
+      await new Promise<void>((resolve) => setImmediate(resolve));
+
+      expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
+      expect(options.onError).not.toHaveBeenCalled();
+      expect(options.sendBody).not.toHaveBeenCalled();
+      expect(source.listeners("error")).toEqual([callerError]);
+      expect(request.destroyed).toBe(true);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      request.destroy();
+      source.destroy();
+    }
+  });
+
+  it.each(["pending", "emitted"])(
+    "rejects an already-errored direct source without constructing a request (errorEvent=%s)",
+    async (errorEvent) => {
+      const { request, options } = createOptions();
+      const source = new Readable({ read() {} });
+      const failure = new Error("source already failed");
+      const callerError = vi.fn();
+      source.on("error", callerError);
+      source.destroy(failure);
+      if (errorEvent === "emitted") {
+        await new Promise<void>((resolve) => setImmediate(resolve));
+      }
+
+      try {
+        createExpectContinueRequest({ ...options, bodyStream: source });
+        await new Promise<void>((resolve) => setImmediate(resolve));
+
+        expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
+        expect(options.createRequest).not.toHaveBeenCalled();
+        expect(options.sendBody).not.toHaveBeenCalled();
+        expect(source.listeners("error")).toEqual([callerError]);
+        expect(callerError).toHaveBeenCalledExactlyOnceWith(failure);
+        expect(vi.getTimerCount()).toBe(0);
+      } finally {
+        request.destroy();
+      }
+    },
+  );
+
+  it.each(["response", "abort", "close", "error", "construction error"])(
+    "removes only its pending-source observer after %s",
+    (event) => {
+      const { request, controller, options } = createOptions();
+      const read = vi.fn();
+      const source = new Readable({ read });
+      const callerError = vi.fn();
+      const response = new PassThrough();
+      source.on("error", callerError);
+      if (event === "construction error") {
+        options.createRequest.mockImplementation(() => {
+          throw new Error("construction failed");
+        });
+      }
+
+      try {
+        createExpectContinueRequest({ ...options, bodyStream: source });
+        if (event === "response") {
+          options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
+        } else if (event === "abort") {
+          controller.abort();
+        } else if (event === "error") {
+          request.emit("error", new Error("connection failed"));
+        } else if (event === "close") {
+          request.emit("close");
+        }
+
+        expect(source.listeners("error")).toEqual([callerError]);
+        expect(source.listenerCount("data")).toBe(0);
+        expect(source.listenerCount("end")).toBe(0);
+        expect(source.listenerCount("close")).toBe(0);
+        expect(read).not.toHaveBeenCalled();
+        expect(source.destroyed).toBe(false);
+        expect(vi.getTimerCount()).toBe(0);
+
+        const laterError = new Error("caller-owned source failed later");
+        source.emit("error", laterError);
+        expect(callerError).toHaveBeenCalledExactlyOnceWith(laterError);
+        expect(options.onBodyError).not.toHaveBeenCalled();
+      } finally {
+        request.destroy();
+        source.destroy();
+        response.destroy();
+      }
+    },
+  );
+
+  it.each(["Continue", "fallback"])(
+    "hands off source errors only after the %s upload handler is installed",
+    (dispatch) => {
+      const { request, options } = createOptions();
+      const source = new Readable({ read() {} });
+      const activeError = vi.fn();
+      options.sendBody.mockImplementation(() => {
+        expect(source.listenerCount("error")).toBe(1);
+        source.on("error", activeError);
+      });
+
+      try {
+        createExpectContinueRequest({ ...options, bodyStream: source });
+        if (dispatch === "Continue") {
+          request.emit("continue");
+        } else {
+          vi.advanceTimersByTime(1000);
+        }
+
+        expect(source.listeners("error")).toEqual([activeError]);
+        const failure = new Error("active upload failed");
+        source.emit("error", failure);
+        expect(activeError).toHaveBeenCalledExactlyOnceWith(failure);
+        expect(options.onBodyError).not.toHaveBeenCalled();
+        expect(options.sendBody).toHaveBeenCalledOnce();
+        expect(vi.getTimerCount()).toBe(0);
+      } finally {
+        request.destroy();
+        source.destroy();
+      }
+    },
+  );
 
   it("dispatches a known-empty body without waiting for a socket or fallback", () => {
     const { request, options } = createOptions(0);
