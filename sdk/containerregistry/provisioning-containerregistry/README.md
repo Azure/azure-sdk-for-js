@@ -11,6 +11,23 @@ Install the service library and the core authoring library with npm:
 npm install @azure/provisioning-containerregistry @azure/provisioning-core
 ```
 
+```ts snippet:ReadmeSampleCreateRegistry
+import { Stack } from "@azure/provisioning-core";
+import { Registry } from "@azure/provisioning-containerregistry";
+
+const stack = new Stack("container-registry", {
+  targetScope: "resourceGroup",
+  location: "eastus",
+});
+new Registry(stack, {
+  name: "exampleregistry",
+  sku: { name: "Basic" },
+  properties: {
+    adminUserEnabled: false,
+  },
+});
+```
+
 1. Create a `Stack` using `@azure/provisioning-core` and define the resource's parent context.
 2. Import resource classes from `@azure/provisioning-containerregistry` and add them to your definition with their required properties.
 3. Serialize the definition using `@azure/provisioning-core/serialization`.
