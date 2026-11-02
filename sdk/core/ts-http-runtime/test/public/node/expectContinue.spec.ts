@@ -14,6 +14,7 @@ import {
 } from "../../../src/index.js";
 import { sendRequest } from "../../../src/client/sendRequest.js";
 import { getRequestCompletion } from "../../../src/util/responseBody.js";
+import { redirectPolicy } from "../../../src/policies/redirectPolicy.js";
 
 const servers: http.Server[] = [];
 
@@ -39,6 +40,143 @@ afterEach(async () => {
 });
 
 describe("Expect: 100-continue", () => {
+  it.each([
+    { kind: "undefined", body: undefined },
+    { kind: "null", body: null },
+    { kind: "empty string", body: "" },
+    { kind: "empty Buffer", body: Buffer.alloc(0) },
+    { kind: "empty typed array", body: new Uint8Array(0) },
+  ])("omits 100-continue for a known-empty $kind body", async ({ body }) => {
+    let receivedHeaders: http.IncomingHttpHeaders | undefined;
+    const server = http.createServer((request, response) => {
+      receivedHeaders = request.headers;
+      response.end("accepted");
+    });
+    server.on("checkContinue", (_request, response) => {
+      response.writeHead(417);
+      response.end("unexpected expectation");
+    });
+    const port = await listen(server);
+
+    const response = await createDefaultHttpClient().sendRequest(
+      createPipelineRequest({
+        url: `http://127.0.0.1:${port}`,
+        method: "POST",
+        allowInsecureConnection: true,
+        body,
+        headers: createHttpHeaders({ Expect: "100-continue", "X-Test": "preserved" }),
+      }),
+    );
+
+    expect(response.status).toBe(200);
+    expect(receivedHeaders?.expect).toBeUndefined();
+    expect(receivedHeaders?.["x-test"]).toBe("preserved");
+  });
+
+  it.each([
+    { format: "object", headers: { Expect: "foo, 100-CoNtInUe, bar", "X-Test": "preserved" } },
+    {
+      format: "flat",
+      headers: ["Host", "localhost", "Expect", "foo, 100-CoNtInUe, bar", "X-Test", "preserved"],
+    },
+    {
+      format: "paired",
+      headers: [
+        ["Host", "localhost"],
+        ["Expect", "foo, 100-CoNtInUe, bar"],
+        ["X-Test", "preserved"],
+      ],
+    },
+  ])(
+    "preserves unrelated expectations in known-empty $format header overrides",
+    async ({ headers }) => {
+      let receivedHeaders: http.IncomingHttpHeaders | undefined;
+      const server = http.createServer();
+      server.on("checkExpectation", (request, response) => {
+        receivedHeaders = request.headers;
+        response.end("accepted");
+      });
+      server.on("checkContinue", (_request, response) => {
+        response.writeHead(417);
+        response.end("unexpected expectation");
+      });
+      const port = await listen(server);
+      const originalHeaders = structuredClone(headers);
+      const request = createPipelineRequest({
+        url: `http://127.0.0.1:${port}`,
+        method: "POST",
+        allowInsecureConnection: true,
+        headers: createHttpHeaders({ Expect: "100-continue" }),
+        requestOverrides: { headers },
+      });
+
+      const response = await createDefaultHttpClient().sendRequest(request);
+
+      expect(response.status).toBe(200);
+      expect(receivedHeaders?.expect).toBe("foo, bar");
+      expect(receivedHeaders?.["x-test"]).toBe("preserved");
+      expect(headers).toEqual(originalHeaders);
+    },
+  );
+
+  it.each([
+    { format: "pipeline", headers: undefined },
+    { format: "object", headers: { Expect: "100-continue", "Content-Length": "7" } },
+    {
+      format: "flat",
+      headers: ["Host", "localhost", "Expect", "100-continue", "Content-Length", "7"],
+    },
+    {
+      format: "paired",
+      headers: [
+        ["Host", "localhost"],
+        ["Expect", "100-continue"],
+        ["Content-Length", "7"],
+      ],
+    },
+  ])(
+    "removes body expectations and framing after POST 303 with $format headers",
+    async ({ headers }) => {
+      let redirectedHeaders: http.IncomingHttpHeaders | undefined;
+      let redirectedMethod: string | undefined;
+      const bodyFactory = vi.fn(() => Readable.from(["payload"]));
+      const server = http.createServer((request, response) => {
+        redirectedHeaders = request.headers;
+        redirectedMethod = request.method;
+        response.end("redirected");
+      });
+      server.on("checkContinue", (request, response) => {
+        if (request.url === "/upload") {
+          response.writeHead(303, { Location: "/redirected" });
+          response.end();
+        } else {
+          response.writeHead(417);
+          response.end("unexpected expectation");
+        }
+      });
+      const port = await listen(server);
+      const request = createPipelineRequest({
+        url: `http://127.0.0.1:${port}/upload`,
+        method: "POST",
+        allowInsecureConnection: true,
+        body: bodyFactory,
+        headers: createHttpHeaders({ Expect: "100-continue", "Content-Length": "7" }),
+        requestOverrides: headers ? { headers } : undefined,
+      });
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(redirectPolicy());
+
+      const response = await pipeline.sendRequest(createDefaultHttpClient(), request);
+
+      expect(response.bodyAsText).toBe("redirected");
+      expect(redirectedMethod).toBe("GET");
+      expect(redirectedHeaders?.expect).toBeUndefined();
+      expect(redirectedHeaders?.["content-length"]).toBeUndefined();
+      expect(redirectedHeaders?.["transfer-encoding"]).toBeUndefined();
+      expect(bodyFactory).not.toHaveBeenCalled();
+    },
+  );
+
   describe.each([
     { expectContinue: false, progress: false },
     { expectContinue: false, progress: true },

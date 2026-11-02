@@ -198,6 +198,113 @@ describe("RedirectPolicy", () => {
     assert.strictEqual(result.status, expectedStatusCode);
   });
 
+  it.each([
+    {
+      format: "object",
+      headers: {
+        eXpEcT: ["foo", "100-CoNtInUe", "bar"],
+        "Content-Length": "7",
+        "Transfer-Encoding": "chunked",
+        "X-Test": "preserved",
+      },
+      expected: { eXpEcT: ["foo", "bar"], "X-Test": "preserved" },
+    },
+    {
+      format: "flat",
+      headers: [
+        "Expect",
+        "foo, 100-continue",
+        "EXPECT",
+        "100-continue, bar",
+        "Content-Length",
+        "7",
+        "Transfer-Encoding",
+        "chunked",
+        "X-Test",
+        "preserved",
+      ],
+      expected: ["Expect", "foo", "EXPECT", "bar", "X-Test", "preserved"],
+    },
+    {
+      format: "paired",
+      headers: [
+        ["Expect", "foo, 100-continue"],
+        ["EXPECT", "100-continue, bar"],
+        ["Content-Length", "7"],
+        ["Transfer-Encoding", "chunked"],
+        ["X-Test", "preserved"],
+      ],
+      expected: [
+        ["Expect", "foo"],
+        ["EXPECT", "bar"],
+        ["X-Test", "preserved"],
+      ],
+    },
+  ])(
+    "removes obsolete body headers on 303 while preserving $format overrides",
+    async ({ headers, expected }) => {
+      const originalHeaders = JSON.stringify(headers);
+      const request = createPipelineRequest({
+        url: "https://example.com",
+        method: "POST",
+        body: "payload",
+        headers: createHttpHeaders({
+          Expect: "foo, 100-CoNtInUe, bar",
+          "Content-Length": "7",
+          "Transfer-Encoding": "chunked",
+          "X-Test": "preserved",
+        }),
+        requestOverrides: { headers, method: "POST" },
+      });
+      const next = vi
+        .fn<SendRequest>()
+        .mockResolvedValueOnce({
+          headers: createHttpHeaders({ location: "/redirected" }),
+          request,
+          status: 303,
+        })
+        .mockResolvedValueOnce({ headers: createHttpHeaders(), request, status: 200 });
+
+      await redirectPolicy().sendRequest(request, next);
+
+      expect(request.method).toBe("GET");
+      expect(request.body).toBeUndefined();
+      expect(request.headers.get("Expect")).toBe("foo, bar");
+      expect(request.headers.has("Content-Length")).toBe(false);
+      expect(request.headers.has("Transfer-Encoding")).toBe(false);
+      expect(request.headers.get("X-Test")).toBe("preserved");
+      expect(request.requestOverrides).toEqual({ method: "GET", headers: expected });
+      expect(JSON.stringify(headers)).toBe(originalHeaders);
+    },
+  );
+
+  it("preserves body expectations and framing on 307 redirects", async () => {
+    const headers = { Expect: "100-continue", "Content-Length": "7" };
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      method: "POST",
+      body: "payload",
+      headers: createHttpHeaders(headers),
+      requestOverrides: { headers },
+    });
+    const next = vi
+      .fn<SendRequest>()
+      .mockResolvedValueOnce({
+        headers: createHttpHeaders({ location: "/redirected" }),
+        request,
+        status: 307,
+      })
+      .mockResolvedValueOnce({ headers: createHttpHeaders(), request, status: 200 });
+
+    await redirectPolicy().sendRequest(request, next);
+
+    expect(request.method).toBe("POST");
+    expect(request.body).toBe("payload");
+    expect(request.headers.get("Expect")).toBe("100-continue");
+    expect(request.headers.get("Content-Length")).toBe("7");
+    expect(request.requestOverrides?.headers).toBe(headers);
+  });
+
   it("should change an overridden POST method to GET on 303 redirect", async function () {
     const cancel = vi.fn().mockRejectedValue(new Error("response failed"));
     const browserStreamBody = {

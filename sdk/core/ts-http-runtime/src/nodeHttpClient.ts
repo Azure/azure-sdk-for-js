@@ -21,6 +21,7 @@ import { isRestError, RestError } from "./restError.js";
 import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
+import { removeExpectContinueHeader } from "./util/requestBodyHeaders.js";
 import {
   addExpectContinueFraming,
   createExpectContinueRequest,
@@ -217,7 +218,6 @@ class NodeHttpClient implements HttpClient {
     const shouldDecompress =
       acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
 
-    const useExpectContinue = hasExpectContinue(request);
     const requestBody = request.body;
     // Keep input separate from the prepared upload. Even a direct stream must leave body
     // undefined until preparation starts, so early rejection does not transfer its ownership.
@@ -228,6 +228,10 @@ class NodeHttpClient implements HttpClient {
     try {
       const knownBodyLength =
         typeof requestBody === "function" ? null : getBodyLength(requestBody ?? null);
+      if (knownBodyLength === 0) {
+        removeExpectContinueHeader(request);
+      }
+      const useExpectContinue = hasExpectContinue(request);
 
       const prepareBody = (): RequestBodyType | undefined => {
         body = initializeBody(requestBody);

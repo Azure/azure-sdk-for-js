@@ -1,0 +1,96 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { PipelineRequest } from "../interfaces.js";
+
+function removeContinueToken(value: unknown): unknown {
+  if (typeof value === "string") {
+    const tokens = value.split(",");
+    const remaining = tokens.filter((token) => token.trim().toLowerCase() !== "100-continue");
+    if (remaining.length === tokens.length) {
+      return value;
+    }
+    return (
+      remaining
+        .map((token) => token.trim())
+        .filter(Boolean)
+        .join(", ") || undefined
+    );
+  }
+  if (Array.isArray(value)) {
+    const remaining = value.map(removeContinueToken).filter((entry) => entry !== undefined);
+    return remaining.length > 0 ? remaining : undefined;
+  }
+  return value;
+}
+
+function updateRequestHeaders(request: PipelineRequest, removeFraming: boolean): void {
+  const updateValue = (name: string, value: unknown): unknown => {
+    const lowerName = name.toLowerCase();
+    if (removeFraming && (lowerName === "content-length" || lowerName === "transfer-encoding")) {
+      return undefined;
+    }
+    return lowerName === "expect" ? removeContinueToken(value) : value;
+  };
+  for (const [name, value] of request.headers) {
+    const updated = updateValue(name, value);
+    if (updated === undefined) {
+      request.headers.delete(name);
+    } else if (typeof updated === "string" && updated !== value) {
+      request.headers.set(name, updated);
+    }
+  }
+
+  const overrides = request.requestOverrides;
+  if (!overrides || !("headers" in overrides)) {
+    return;
+  }
+  const headers = overrides.headers;
+  if (Array.isArray(headers)) {
+    const paired = Array.isArray(headers[0]);
+    const pairs = paired
+      ? (headers as unknown[][])
+      : Array.from({ length: Math.ceil(headers.length / 2) }, (_, index) => [
+          headers[index * 2],
+          headers[index * 2 + 1],
+        ]);
+    const updatedPairs = pairs.flatMap(([name, value]) => {
+      const updated = typeof name === "string" ? updateValue(name, value) : value;
+      return updated === undefined ? [] : [[name, updated]];
+    });
+    request.requestOverrides = {
+      ...overrides,
+      headers: paired ? updatedPairs : updatedPairs.flat(),
+    };
+  } else if (headers && typeof headers === "object") {
+    const updatedHeaders: Record<string, unknown> = { ...headers };
+    for (const [name, value] of Object.entries(headers)) {
+      const updated = updateValue(name, value);
+      if (updated === undefined) {
+        delete updatedHeaders[name];
+      } else {
+        updatedHeaders[name] = updated;
+      }
+    }
+    request.requestOverrides = { ...overrides, headers: updatedHeaders };
+  }
+}
+
+/**
+ * Removes only the 100-continue expectation from pipeline and replacement headers.
+ * Raw header arrays retain their shape, and caller-supplied override headers are not mutated.
+ *
+ * @param request - The request whose body is known to be empty.
+ */
+export function removeExpectContinueHeader(request: PipelineRequest): void {
+  updateRequestHeaders(request, false);
+}
+
+/**
+ * Removes obsolete body framing and the 100-continue expectation after discarding a body.
+ *
+ * @param request - The request whose body has been discarded.
+ */
+export function removeRequestBodyHeaders(request: PipelineRequest): void {
+  updateRequestHeaders(request, true);
+}

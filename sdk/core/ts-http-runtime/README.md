@@ -63,6 +63,9 @@ of an ordered empty write following the request headers, excluding agent queuein
 DNS/TCP/TLS connection setup. This is a client-side write-completion boundary, not confirmation
 that the server has received the headers.
 
+The Node transport removes the `100-continue` token for known-empty bodies and when a redirect
+discards the body, preserving any other expectations in the header.
+
 ```ts snippet:ReadmeSampleExpectContinue
 import {
   HttpClient,
