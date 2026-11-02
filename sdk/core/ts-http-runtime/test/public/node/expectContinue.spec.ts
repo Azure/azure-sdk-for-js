@@ -20,6 +20,7 @@ import { sendRequest } from "../../../src/client/sendRequest.js";
 import { getRequestCompletion } from "../../../src/util/responseBody.js";
 import { redirectPolicy } from "../../../src/policies/redirectPolicy.js";
 import { systemErrorRetryPolicy } from "../../../src/policies/systemErrorRetryPolicy.js";
+import { multipartPolicy } from "../../../src/policies/multipartPolicy.js";
 
 const servers: http.Server[] = [];
 
@@ -105,9 +106,81 @@ describe("Expect: 100-continue", () => {
     },
   );
 
-  it.each([false, true])(
-    "handles fs.createReadStream ENOENT before Continue without a caller error listener (progress=%s)",
-    async (progress) => {
+  it.each([
+    { dispatch: "Continue", progress: false },
+    { dispatch: "Continue", progress: true },
+    { dispatch: "fallback", progress: false },
+    { dispatch: "fallback", progress: true },
+  ])(
+    "observes later multipart parts after upload handoff (dispatch=$dispatch, progress=$progress)",
+    async ({ dispatch, progress }) => {
+      const failure = new Error("later multipart part failed during upload");
+      const laterRead = vi.fn();
+      const laterPart = new Readable({ read: laterRead });
+      const firstPart = new Readable({
+        read() {
+          setImmediate(() => laterPart.destroy(failure));
+        },
+      });
+      const factory = vi.fn(() => laterPart);
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const server = http.createServer();
+      server.on("checkContinue", (request, response) => {
+        request.resume();
+        if (dispatch === "Continue") {
+          response.writeContinue();
+        }
+      });
+      const port = await listen(server);
+      const agent = new http.Agent({ keepAlive: false });
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(multipartPolicy());
+
+      try {
+        await expect(
+          pipeline.sendRequest(
+            createDefaultHttpClient(),
+            createPipelineRequest({
+              url: `http://127.0.0.1:${port}`,
+              method: "POST",
+              allowInsecureConnection: true,
+              headers: createHttpHeaders({ Expect: "100-continue" }),
+              multipartBody: {
+                parts: [
+                  { headers: createHttpHeaders(), body: firstPart },
+                  { headers: createHttpHeaders(), body: factory },
+                ],
+              },
+              timeout: 5000,
+              abortSignal: controller.signal,
+              onUploadProgress: progress ? () => {} : undefined,
+              requestOverrides: { agent },
+            }),
+          ),
+        ).rejects.toMatchObject({ name: "RestError", message: failure.message });
+
+        expect(factory).toHaveBeenCalledOnce();
+        expect(laterRead).not.toHaveBeenCalled();
+        await expect.poll(() => firstPart.closed && laterPart.closed).toBe(true);
+        expect(laterPart.listenerCount("error")).toBe(0);
+        await expect.poll(() => removeEventListener.mock.calls.length).toBe(1);
+      } finally {
+        firstPart.destroy();
+        laterPart.destroy();
+        agent.destroy();
+      }
+    },
+  );
+
+  it.each([
+    { multipart: false, progress: false },
+    { multipart: false, progress: true },
+    { multipart: true, progress: false },
+    { multipart: true, progress: true },
+  ])(
+    "handles fs.createReadStream ENOENT before Continue without a caller error listener (multipart=$multipart, progress=$progress)",
+    async ({ multipart, progress }) => {
       const server = http.createServer();
       server.on("checkContinue", () => {
         // Leave negotiation pending while the file-open operation fails.
@@ -118,6 +191,7 @@ describe("Expect: 100-continue", () => {
       const onUploadProgress = vi.fn();
       const agent = new http.Agent({ keepAlive: false });
       const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(multipartPolicy());
       pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 }));
       const httpRequest = vi.spyOn(http, "request");
 
@@ -130,7 +204,9 @@ describe("Expect: 100-continue", () => {
               method: "POST",
               allowInsecureConnection: true,
               headers: createHttpHeaders({ Expect: "100-continue" }),
-              body,
+              ...(multipart
+                ? { multipartBody: { parts: [{ headers: createHttpHeaders(), body }] } }
+                : { body }),
               onUploadProgress: progress ? onUploadProgress : undefined,
               requestOverrides: { agent },
             }),
@@ -150,6 +226,256 @@ describe("Expect: 100-continue", () => {
         body.destroy();
         agent.destroy();
         httpRequest.mockRestore();
+      }
+    },
+  );
+
+  it.each([false, true])(
+    "rejects a pending multipart source error without consuming any parts (progress=%s)",
+    async (progress) => {
+      const read = vi.fn();
+      const sources = [new Readable({ read }), new Readable({ read })];
+      const callerError = vi.fn();
+      for (const source of sources) {
+        source.on("error", callerError);
+      }
+      const factory = vi.fn(() => Readable.from(["deferred part"]));
+      const failure = Object.assign(new Error("multipart source failed before Continue"), {
+        code: "ENOENT",
+      });
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const server = http.createServer();
+      server.on("checkContinue", () => {
+        sources[1].emit("error", failure);
+      });
+      const port = await listen(server);
+      const agent = new http.Agent({ keepAlive: false });
+      const httpRequest = vi.spyOn(http, "request");
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(multipartPolicy());
+      pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 }));
+      const onUploadProgress = vi.fn();
+
+      try {
+        await expect(
+          pipeline.sendRequest(
+            createDefaultHttpClient(),
+            createPipelineRequest({
+              url: `http://127.0.0.1:${port}`,
+              method: "POST",
+              allowInsecureConnection: true,
+              headers: createHttpHeaders({ Expect: "100-continue" }),
+              multipartBody: {
+                parts: [
+                  ...sources.map((body) => ({ headers: createHttpHeaders(), body })),
+                  { headers: createHttpHeaders(), body: factory },
+                ],
+              },
+              timeout: 5000,
+              abortSignal: controller.signal,
+              onUploadProgress: progress ? onUploadProgress : undefined,
+              requestOverrides: { agent },
+            }),
+          ),
+        ).rejects.toBe(failure);
+
+        expect(httpRequest).toHaveBeenCalledOnce();
+        const requestResult = httpRequest.mock.results[0];
+        if (!requestResult || requestResult.type !== "return") {
+          throw new Error("Expected an outgoing HTTP request");
+        }
+        await expect.poll(() => requestResult.value.closed).toBe(true);
+        expect(read).not.toHaveBeenCalled();
+        expect(factory).not.toHaveBeenCalled();
+        expect(onUploadProgress).not.toHaveBeenCalled();
+        expect(callerError).toHaveBeenCalledExactlyOnceWith(failure);
+        for (const source of sources) {
+          expect(source.destroyed).toBe(false);
+          expect(source.readableFlowing).toBe(null);
+          expect(source.listeners("error")).toEqual([callerError]);
+          expect(source.listenerCount("data")).toBe(0);
+          expect(source.listenerCount("close")).toBe(0);
+          expect(source.listenerCount("end")).toBe(0);
+        }
+        expect(removeEventListener).toHaveBeenCalledExactlyOnceWith("abort", expect.any(Function));
+      } finally {
+        for (const source of sources) {
+          source.destroy();
+        }
+        agent.destroy();
+        httpRequest.mockRestore();
+      }
+    },
+  );
+
+  it.each(["Continue", "fallback"])(
+    "keeps multipart factories lazy and sends all parts after %s",
+    async (dispatch) => {
+      const source = Readable.from(["direct part"]);
+      const factory = vi.fn(() => Readable.from(["factory part"]));
+      const server = http.createServer();
+      const chunks: Buffer[] = [];
+      let factoryCallsBeforePermission: number | undefined;
+      let sourceFlowingBeforePermission: boolean | null | undefined;
+      server.on("checkContinue", (request, response) => {
+        factoryCallsBeforePermission = factory.mock.calls.length;
+        sourceFlowingBeforePermission = source.readableFlowing;
+        request.on("data", (chunk: Buffer) => chunks.push(chunk));
+        request.on("end", () => response.end("accepted"));
+        if (dispatch === "Continue") {
+          response.writeContinue();
+        }
+      });
+      const port = await listen(server);
+      const agent = new http.Agent({ keepAlive: false });
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(multipartPolicy());
+
+      try {
+        const response = await pipeline.sendRequest(
+          createDefaultHttpClient(),
+          createPipelineRequest({
+            url: `http://127.0.0.1:${port}`,
+            method: "POST",
+            allowInsecureConnection: true,
+            headers: createHttpHeaders({ Expect: "100-continue" }),
+            multipartBody: {
+              boundary: "test",
+              parts: [
+                { headers: createHttpHeaders(), body: source },
+                { headers: createHttpHeaders(), body: factory },
+              ],
+            },
+            requestOverrides: { agent },
+          }),
+        );
+
+        expect(response.status).toBe(200);
+        expect(factoryCallsBeforePermission).toBe(0);
+        expect(sourceFlowingBeforePermission).toBe(null);
+        expect(factory).toHaveBeenCalledOnce();
+        expect(Buffer.concat(chunks).toString()).toBe(
+          "--test\r\n\r\ndirect part\r\n--test\r\n\r\nfactory part\r\n--test--\r\n\r\n",
+        );
+      } finally {
+        source.destroy();
+        agent.destroy();
+      }
+    },
+  );
+
+  it("releases all prepared multipart sources when an active upload is aborted", async () => {
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const first = new Readable({
+      read() {
+        setImmediate(() => controller.abort());
+      },
+    });
+    const later = new Readable({ read() {} });
+    const sourcesClosed = Promise.all(
+      [first, later].map((source) => new Promise<void>((resolve) => source.once("close", resolve))),
+    );
+    const server = http.createServer();
+    server.on("checkContinue", (request, response) => {
+      request.resume();
+      response.writeContinue();
+    });
+    const port = await listen(server);
+    const agent = new http.Agent({ keepAlive: false });
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(multipartPolicy());
+
+    try {
+      await expect(
+        pipeline.sendRequest(
+          createDefaultHttpClient(),
+          createPipelineRequest({
+            url: `http://127.0.0.1:${port}`,
+            method: "POST",
+            allowInsecureConnection: true,
+            headers: createHttpHeaders({ Expect: "100-continue" }),
+            multipartBody: {
+              parts: [
+                { headers: createHttpHeaders(), body: first },
+                { headers: createHttpHeaders(), body: later },
+              ],
+            },
+            abortSignal: controller.signal,
+            requestOverrides: { agent },
+          }),
+        ),
+      ).rejects.toMatchObject({ name: "AbortError" });
+      await sourcesClosed;
+      expect(later.listenerCount("error")).toBe(0);
+      expect(later.listenerCount("end")).toBe(0);
+      expect(later.listenerCount("close")).toBe(0);
+      await expect.poll(() => removeEventListener.mock.calls.length).toBe(1);
+    } finally {
+      first.destroy();
+      later.destroy();
+      agent.destroy();
+    }
+  });
+
+  it.each(["response", "abort"])(
+    "leaves pending multipart sources and factories untouched after %s",
+    async (event) => {
+      const read = vi.fn();
+      const source = new Readable({ read });
+      const callerError = vi.fn();
+      source.on("error", callerError);
+      const factory = vi.fn(() => Readable.from(["deferred part"]));
+      const controller = new AbortController();
+      const server = http.createServer();
+      server.on("checkContinue", (_request, response) => {
+        if (event === "abort") {
+          controller.abort();
+        } else {
+          response.writeHead(417);
+          response.end("rejected");
+        }
+      });
+      const port = await listen(server);
+      const agent = new http.Agent({ keepAlive: false });
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(multipartPolicy());
+
+      try {
+        const result = pipeline.sendRequest(
+          createDefaultHttpClient(),
+          createPipelineRequest({
+            url: `http://127.0.0.1:${port}`,
+            method: "POST",
+            allowInsecureConnection: true,
+            headers: createHttpHeaders({ Expect: "100-continue" }),
+            multipartBody: {
+              parts: [
+                { headers: createHttpHeaders(), body: source },
+                { headers: createHttpHeaders(), body: factory },
+              ],
+            },
+            abortSignal: controller.signal,
+            requestOverrides: { agent },
+          }),
+        );
+        if (event === "abort") {
+          await expect(result).rejects.toMatchObject({ name: "AbortError" });
+        } else {
+          expect((await result).status).toBe(417);
+        }
+        expect(read).not.toHaveBeenCalled();
+        expect(factory).not.toHaveBeenCalled();
+        expect(source.destroyed).toBe(false);
+        expect(source.readableFlowing).toBe(null);
+        expect(source.listeners("error")).toEqual([callerError]);
+        const laterError = new Error("caller-owned source failed after the attempt");
+        source.emit("error", laterError);
+        expect(callerError).toHaveBeenCalledExactlyOnceWith(laterError);
+      } finally {
+        source.destroy();
+        agent.destroy();
       }
     },
   );

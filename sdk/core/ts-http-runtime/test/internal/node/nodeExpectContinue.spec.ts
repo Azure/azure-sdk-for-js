@@ -79,7 +79,7 @@ describe("Expect: 100-continue negotiation", () => {
       const failure = Object.assign(new Error("pending source failed"), { code: "ENOENT" });
 
       try {
-        createExpectContinueRequest({ ...options, bodyStream: source });
+        createExpectContinueRequest({ ...options, bodyStreams: [source] });
         source.emit("error", failure);
         await new Promise<void>((resolve) => setImmediate(resolve));
         request.emit("continue");
@@ -117,7 +117,7 @@ describe("Expect: 100-continue negotiation", () => {
     });
 
     try {
-      createExpectContinueRequest({ ...options, bodyStream: source });
+      createExpectContinueRequest({ ...options, bodyStreams: [source] });
       await new Promise<void>((resolve) => setImmediate(resolve));
 
       expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
@@ -146,7 +146,7 @@ describe("Expect: 100-continue negotiation", () => {
     const failure = new Error("source failed during header write");
 
     try {
-      createExpectContinueRequest({ ...options, bodyStream: source });
+      createExpectContinueRequest({ ...options, bodyStreams: [source] });
       expect(writeCallback).toEqual(expect.any(Function));
       source.emit("error", failure);
       writeCallback?.();
@@ -180,7 +180,7 @@ describe("Expect: 100-continue negotiation", () => {
       }
 
       try {
-        createExpectContinueRequest({ ...options, bodyStream: source });
+        createExpectContinueRequest({ ...options, bodyStreams: [source] });
         await new Promise<void>((resolve) => setImmediate(resolve));
 
         expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
@@ -211,7 +211,7 @@ describe("Expect: 100-continue negotiation", () => {
       }
 
       try {
-        createExpectContinueRequest({ ...options, bodyStream: source });
+        createExpectContinueRequest({ ...options, bodyStreams: [source] });
         if (event === "response") {
           options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
         } else if (event === "abort") {
@@ -254,7 +254,7 @@ describe("Expect: 100-continue negotiation", () => {
       });
 
       try {
-        createExpectContinueRequest({ ...options, bodyStream: source });
+        createExpectContinueRequest({ ...options, bodyStreams: [source] });
         if (dispatch === "Continue") {
           request.emit("continue");
         } else {
@@ -274,6 +274,58 @@ describe("Expect: 100-continue negotiation", () => {
       }
     },
   );
+
+  it("observes each distinct source once and handles multiple queued source errors", async () => {
+    const { request, options } = createOptions(null, false);
+    const first = new Readable({ read() {} });
+    const second = new Readable({ read() {} });
+    const failure = new Error("first source failed");
+
+    try {
+      createExpectContinueRequest({ ...options, bodyStreams: [first, second, first] });
+      expect(first.listenerCount("error")).toBe(1);
+      expect(second.listenerCount("error")).toBe(1);
+      first.destroy(failure);
+      second.destroy(new Error("second source failed in the same turn"));
+      await new Promise<void>((resolve) => setImmediate(resolve));
+
+      expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
+      expect(options.onError).not.toHaveBeenCalled();
+      expect(options.sendBody).not.toHaveBeenCalled();
+      expect(request.destroyed).toBe(true);
+      expect(first.listenerCount("error")).toBe(0);
+      expect(second.listenerCount("error")).toBe(0);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      request.destroy();
+      first.destroy();
+      second.destroy();
+    }
+  });
+
+  it("checks all sources for an existing failure before constructing a request", async () => {
+    const { request, options } = createOptions();
+    const first = new Readable({ read() {} });
+    const second = new Readable({ read() {} });
+    const failure = new Error("later source already failed");
+    second.destroy(failure);
+
+    try {
+      createExpectContinueRequest({ ...options, bodyStreams: [first, second] });
+      await new Promise<void>((resolve) => setImmediate(resolve));
+
+      expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
+      expect(options.createRequest).not.toHaveBeenCalled();
+      expect(options.sendBody).not.toHaveBeenCalled();
+      expect(first.destroyed).toBe(false);
+      expect(first.listenerCount("error")).toBe(0);
+      expect(second.listenerCount("error")).toBe(0);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      request.destroy();
+      first.destroy();
+    }
+  });
 
   it("dispatches a known-empty body without waiting for a socket or fallback", () => {
     const { request, options } = createOptions(0);

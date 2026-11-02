@@ -9,7 +9,7 @@ const EXPECT_CONTINUE_TIMEOUT_IN_MS = 1000;
 interface ExpectContinueRequestOptions {
   abortSignal: AbortSignal;
   knownBodyLength: number | null;
-  bodyStream?: NodeJS.ReadableStream;
+  bodyStreams?: readonly NodeJS.ReadableStream[];
   createRequest: (onResponse: (response: http.IncomingMessage) => void) => http.ClientRequest;
   onAbort: (request: http.ClientRequest) => void;
   onError: (error: Error & { code?: string }) => void;
@@ -130,13 +130,17 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   let responseBeforeRequest: http.IncomingMessage | undefined;
   let request: http.ClientRequest;
   let bodyError: Error | undefined;
-  const bodyStream = options.bodyStream;
+  const bodyStreams = new Set(options.bodyStreams);
   // Error observation must not consume a caller-owned source before upload permission.
-  bodyStream?.on("error", onBodyError);
-  if (bodyStream && "errored" in bodyStream && bodyStream.errored instanceof Error) {
-    // destroy(error) may still have its error event queued on the next tick.
-    process.nextTick(onBodyError, bodyStream.errored);
-    return;
+  for (const stream of bodyStreams) {
+    stream.on("error", onBodyError);
+  }
+  for (const stream of bodyStreams) {
+    if ("errored" in stream && stream.errored instanceof Error) {
+      // destroy(error) may still have its error event queued on the next tick.
+      process.nextTick(onBodyError, stream.errored);
+      return;
+    }
   }
   try {
     request = options.createRequest(onResponse);
@@ -168,7 +172,9 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   }
 
   function stopObservingBody(): void {
-    bodyStream?.removeListener("error", onBodyError);
+    for (const stream of bodyStreams) {
+      stream.removeListener("error", onBodyError);
+    }
   }
 
   function onBodyError(error: Error): void {
@@ -178,7 +184,8 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
     errorReported = true;
     bodyError = error;
     stopWaiting();
-    stopObservingBody();
+    // Other multipart sources may already have error events queued in this turn.
+    process.nextTick(stopObservingBody);
     options.onBodyError(error);
     request?.destroy(error);
   }

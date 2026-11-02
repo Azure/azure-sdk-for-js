@@ -20,7 +20,7 @@ interface BrowserResponseBody {
   cancel: () => Promise<void>;
 }
 
-const responseBodySources = new WeakMap<NodeResponseBody, NodeResponseBody>();
+const responseBodySources = new WeakMap<NodeResponseBody, readonly NodeResponseBody[]>();
 const responseBodyDisposers = new WeakMap<object, () => void>();
 const requestCompletions = new WeakMap<object, Promise<void>>();
 const responseBodyCompletions = new WeakMap<object, Promise<void>>();
@@ -102,7 +102,18 @@ function isBrowserResponseBody(value: unknown): value is BrowserResponseBody {
 
 export function setResponseBodySource(body: unknown, source: unknown): void {
   if (isNodeResponseBody(body) && isNodeResponseBody(source)) {
-    responseBodySources.set(body, source);
+    responseBodySources.set(body, [source]);
+  }
+}
+
+/**
+ * Tracks all sources of a composite Node body so disposal can release each one.
+ *
+ * @internal
+ */
+export function setResponseBodySources(body: unknown, sources: readonly unknown[]): void {
+  if (isNodeResponseBody(body)) {
+    responseBodySources.set(body, sources.filter(isNodeResponseBody));
   }
 }
 
@@ -129,7 +140,7 @@ function disposeNodeResponseBody(
   }
   disposed.add(readableStream);
 
-  const source = responseBodySources.get(readableStream);
+  const sources = responseBodySources.get(readableStream);
   responseBodySources.delete(readableStream);
 
   if (readableStream.closed !== true) {
@@ -158,7 +169,7 @@ function disposeNodeResponseBody(
     }
   }
 
-  if (source) {
+  for (const source of sources ?? []) {
     disposeNodeResponseBody(source, disposed);
   }
 }

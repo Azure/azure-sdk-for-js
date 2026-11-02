@@ -22,6 +22,7 @@ import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
 import { removeExpectContinueHeader } from "./util/requestBodyHeaders.js";
+import { getConcatSources } from "./util/concat.js";
 import {
   addExpectContinueFraming,
   createExpectContinueRequest,
@@ -473,7 +474,12 @@ class NodeHttpClient implements HttpClient {
       createExpectContinueRequest({
         abortSignal: abortController.signal,
         knownBodyLength,
-        bodyStream: isReadableStream(request.body) ? request.body : undefined,
+        bodyStreams:
+          typeof request.body === "function"
+            ? getConcatSources(request.body)
+            : isReadableStream(request.body)
+              ? [request.body]
+              : undefined,
         createRequest,
         onAbort: abortRequest,
         onError: rejectRequest,

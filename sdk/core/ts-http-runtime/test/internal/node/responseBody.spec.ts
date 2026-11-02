@@ -12,6 +12,7 @@ import {
   disposeResponseBody,
   setResponseBodyDisposer,
   setResponseBodySource,
+  setResponseBodySources,
 } from "../../../src/util/responseBody.js";
 import { createNodeHttpClient } from "../../../src/nodeHttpClient.js";
 import { createPipelineRequest } from "../../../src/pipelineRequest.js";
@@ -88,6 +89,21 @@ describe("disposeResponseBody in Node", () => {
       disposeNodeStream(stream);
 
       expect(stream.resume).toHaveBeenCalledOnce();
+    });
+
+    it("disposes all composite sources once, including shared sources and cycles", () => {
+      const body = { resume: vi.fn(), destroy: vi.fn() };
+      const first = { resume: vi.fn(), destroy: vi.fn() };
+      const second = { resume: vi.fn(), destroy: vi.fn() };
+      setResponseBodySources(body, [first, second, first]);
+      setResponseBodySource(first, body);
+      setResponseBodySource(second, first);
+
+      disposeNodeStream(body);
+
+      expect(body.destroy).toHaveBeenCalledOnce();
+      expect(first.destroy).toHaveBeenCalledOnce();
+      expect(second.destroy).toHaveBeenCalledOnce();
     });
 
     it("logs synchronous destruction errors without throwing", () => {
