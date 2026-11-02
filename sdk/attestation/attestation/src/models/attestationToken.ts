@@ -15,6 +15,19 @@ import * as Mappers from "../generated/models/mappers.js";
 import { TypeDeserializer } from "../utils/typeDeserializer.js";
 import { hexToBase64, verifyAttestationSigningKey } from "../utils/helpers.js";
 
+// Asymmetric JWS algorithms only: excludes "none" and the HMAC (HS*) family.
+const ASYMMETRIC_SIGNATURE_ALGORITHMS = [
+  "RS256",
+  "RS384",
+  "RS512",
+  "PS256",
+  "PS384",
+  "PS512",
+  "ES256",
+  "ES384",
+  "ES512",
+];
+
 /**
  * Options used to validate attestation tokens.
  *
@@ -26,15 +39,21 @@ import { hexToBase64, verifyAttestationSigningKey } from "../utils/helpers.js";
  *
  * @remarks
  *
- *  If validateToken, validateNotBeforeTime, or validateExpirationTime are not
- *  provided, they are all assumed to be 'true'.
+ *  Token validation is enabled unless validateToken is explicitly set to false.
+ *  The token signature must be verifiable with one of the trusted signers supplied to
+ *  the validation; unsigned tokens are rejected unless allowUnsignedToken is set.
  *
  */
 export interface AttestationTokenValidationOptions {
   /**
-   * If true, validate the attestation token, if false, skip validation.
+   * If false, skip validation of the attestation token. Validation is enabled by default.
    */
   validateToken?: boolean;
+  /**
+   * If true, tokens whose algorithm is "none" (unsigned tokens) are not reported as a problem.
+   * Defaults to false: unsigned tokens fail validation.
+   */
+  allowUnsignedToken?: boolean;
   /**
    * If true, validate the expiration time for the token.
    */
@@ -299,24 +318,23 @@ export class AttestationTokenImpl implements AttestationToken {
     },
   ): string[] {
     let problems = new Array<string>();
-    if (!options.validateToken) {
+    if (options.validateToken === false) {
       return problems;
     }
 
     let foundSigner: AttestationSigner | undefined = undefined;
-    if (this.algorithm !== "none") {
-      const signers = this.getCandidateSigners(possibleSigners);
-
-      signers.some((signer) => {
-        const cert = this.certFromSigner(signer);
-        //          const pubKeyObj = cert.getPublicKey();
-
-        const isValid = jsrsasign.KJUR.jws.JWS.verify(this._token, cert);
-
-        if (isValid) {
-          foundSigner = signer;
-        }
-      });
+    if (this.algorithm === "none") {
+      if (!options.allowUnsignedToken) {
+        problems.push("Attestation Token is not signed.");
+      }
+    } else if (!ASYMMETRIC_SIGNATURE_ALGORITHMS.includes(this.algorithm)) {
+      problems.push(`Unsupported attestation token algorithm: ${this.algorithm}`);
+    } else {
+      // Only the caller-supplied trusted signers are considered. Key material embedded in the
+      // token itself (x5c) must never be used to verify the token's own signature.
+      foundSigner = this.getCandidateSigners(possibleSigners).find((signer) =>
+        this.verifySignature(signer),
+      );
 
       if (foundSigner === undefined) {
         problems.push("Attestation Token is not properly signed.");
@@ -391,35 +409,30 @@ export class AttestationTokenImpl implements AttestationToken {
     return signer.certificates[0];
   }
 
-  private getCandidateSigners(
-    possibleSigningCertificates?: AttestationSigner[],
-  ): AttestationSigner[] {
-    const candidateSigners = new Array<AttestationSigner>();
-
-    const desiredKeyId = this.keyId;
-
-    if (desiredKeyId !== undefined && possibleSigningCertificates !== undefined) {
-      possibleSigningCertificates.forEach((possibleSigner) => {
-        if (possibleSigner.keyId === desiredKeyId) {
-          candidateSigners.push(possibleSigner);
-        }
-      });
-
-      // If we didn't find any candidate signers looking through the provided
-      // signing certificates, then maybe there's a certificate chain in the
-      // token itself that might be used to sign the token.
-      if (candidateSigners.length === 0) {
-        if (this.certificateChain !== undefined && this.certificateChain !== null) {
-          candidateSigners.push(this.certificateChain);
-        }
-      }
-    } else {
-      possibleSigningCertificates?.map((value) => candidateSigners.push(value));
-      if (this.certificateChain !== undefined) {
-        candidateSigners.push(this.certificateChain);
-      }
+  private verifySignature(signer: AttestationSigner): boolean {
+    try {
+      return jsrsasign.KJUR.jws.JWS.verify(
+        this._token,
+        this.certFromSigner(signer),
+        ASYMMETRIC_SIGNATURE_ALGORITHMS,
+      );
+    } catch {
+      return false;
     }
-    return candidateSigners;
+  }
+
+  /**
+   * Returns the trusted signers which may have signed this token. Candidates come only from the
+   * caller-supplied signers: those matching the token's key id, or all of them if the token has no key id.
+   */
+  private getCandidateSigners(trustedSigners?: AttestationSigner[]): AttestationSigner[] {
+    if (!trustedSigners) {
+      return [];
+    }
+    const desiredKeyId = this.keyId;
+    return desiredKeyId !== undefined
+      ? trustedSigners.filter((signer) => signer.keyId === desiredKeyId)
+      : trustedSigners;
   }
 
   /** ********* JSON WEB SIGNATURE (RFC 7515) PROPERTIES */

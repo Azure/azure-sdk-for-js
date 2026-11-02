@@ -118,8 +118,12 @@ describe("AttestationTokenTests", () => {
       assert.equal(expectedCert.hex, actualCert.hex);
     }
 
-    // The token of course should validate.
-    assert.deepEqual(token.getTokenProblems(), []);
+    // The token validates only against a trusted signer; it cannot vouch for itself.
+    assert.deepEqual(
+      token.getTokenProblems(token.certificateChain && [token.certificateChain]),
+      [],
+    );
+    assert.deepEqual(token.getTokenProblems(), ["Attestation Token is not properly signed."]);
   });
 
   /**
@@ -169,7 +173,7 @@ describe("AttestationTokenTests", () => {
     assert.deepEqual(
       [],
       token.getTokenProblems(undefined, {
-        validateToken: true,
+        allowUnsignedToken: true,
         validateAttestationToken: (tokenToCheck) => {
           console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
           return undefined;
@@ -180,7 +184,7 @@ describe("AttestationTokenTests", () => {
     assert.isTrue(
       token
         .getTokenProblems(undefined, {
-          validateToken: true,
+          allowUnsignedToken: true,
           validateAttestationToken: (tokenToCheck) => {
             console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
             return ["There was a validation failure"];
@@ -208,7 +212,7 @@ describe("AttestationTokenTests", () => {
       assert.deepEqual(
         [],
         token.getTokenProblems(undefined, {
-          validateToken: true,
+          allowUnsignedToken: true,
           validateIssuer: true,
           expectedIssuer: "this is an issuer",
         }),
@@ -217,7 +221,7 @@ describe("AttestationTokenTests", () => {
       assert.isTrue(
         token
           .getTokenProblems(undefined, {
-            validateToken: true,
+            allowUnsignedToken: true,
             validateIssuer: true,
             expectedIssuer: "this is a different issuer",
           })
@@ -243,7 +247,7 @@ describe("AttestationTokenTests", () => {
       assert.deepEqual(
         [],
         token.getTokenProblems(undefined, {
-          validateToken: true,
+          allowUnsignedToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,
         }),
@@ -265,7 +269,7 @@ describe("AttestationTokenTests", () => {
       assert.isTrue(
         token
           .getTokenProblems(undefined, {
-            validateToken: true,
+            allowUnsignedToken: true,
             validateExpirationTime: true,
             validateNotBeforeTime: true,
           })
@@ -277,7 +281,7 @@ describe("AttestationTokenTests", () => {
       assert.deepEqual(
         [],
         token.getTokenProblems(undefined, {
-          validateToken: true,
+          allowUnsignedToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,
           timeValidationSlack: 10,
@@ -298,7 +302,7 @@ describe("AttestationTokenTests", () => {
       assert.isTrue(
         token
           .getTokenProblems(undefined, {
-            validateToken: true,
+            allowUnsignedToken: true,
             validateExpirationTime: true,
             validateNotBeforeTime: true,
           })
@@ -310,7 +314,7 @@ describe("AttestationTokenTests", () => {
       assert.deepEqual(
         [],
         token.getTokenProblems(undefined, {
-          validateToken: true,
+          allowUnsignedToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,
           timeValidationSlack: 10,
