@@ -12,6 +12,7 @@ trigger:
     include:
       - sdk/web-pubsub/ci.mgmt.yml
       - sdk/web-pubsub/arm-webpubsub
+      - sdk/web-pubsub/provisioning-webpubsub
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
     include:
       - sdk/web-pubsub/ci.mgmt.yml
       - sdk/web-pubsub/arm-webpubsub
+      - sdk/web-pubsub/provisioning-webpubsub
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -32,3 +34,5 @@ extends:
     Artifacts:
       - name: azure-arm-webpubsub
         safeName: azurearmwebpubsub
+      - name: azure-provisioning-webpubsub
+        safeName: azureprovisioningwebpubsub
