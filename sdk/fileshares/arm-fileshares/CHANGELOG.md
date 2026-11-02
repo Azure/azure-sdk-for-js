@@ -1,9 +1,10 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0 (Unreleased)
 
 ### Features Added
 
+- First stable release of the package.
 - Updated to API version `2026-09-01`.
 - Added operations `FileSharesOperations.startRedundancyConversion` and `FileSharesOperations.getRedundancyConversionStatus`.
 - Added managed identity support: `FileShare.identity` and `FileShareUpdate.identity`.
