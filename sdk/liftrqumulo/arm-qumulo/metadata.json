@@ -2,7 +2,7 @@
   "apiVersions": {
     "Qumulo.Storage": "2026-04-16"
   },
-  "emitterVersion": "0.54.2",
+  "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Qumulo.Storage",
     "CrossLanguageDefinitionId": {

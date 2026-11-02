@@ -22,14 +22,7 @@ export class QumuloStorage {
     subscriptionId: string,
     options: QumuloStorageOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createQumuloStorage(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createQumuloStorage(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.fileSystems = _getFileSystemsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);

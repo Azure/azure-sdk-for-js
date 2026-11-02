@@ -1,4 +1,15 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/fileSystems/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts",
+    "../src/models/liftrBase/index.ts",
+    "../src/models/liftrBase/storage/index.ts"
+  ]
 }

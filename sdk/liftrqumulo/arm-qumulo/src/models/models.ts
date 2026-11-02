@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type { FileSystemResource } from "./liftrBase/storage/models.js";
+import { fileSystemResourceArrayDeserializer } from "./liftrBase/storage/models.js";
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -173,250 +174,6 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   return {
     type: item["type"],
     info: item["info"],
-  };
-}
-
-/** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
-export interface FileSystemResource extends TrackedResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
-  /** Marketplace details */
-  marketplaceDetails?: MarketplaceDetails;
-  /** Provisioning State of the resource */
-  readonly provisioningState?: ProvisioningState;
-  /** Storage Sku */
-  storageSku?: string;
-  /** User Details */
-  userDetails?: UserDetails;
-  /** Delegated subnet id for Vnet injection */
-  delegatedSubnetId?: string;
-  /** Pre-Provisioned Performance of the Resource */
-  performanceTier?: string;
-  /** File system Id of the resource */
-  clusterLoginUrl?: string;
-  /** Private IPs of the resource */
-  privateIPs?: string[];
-  /** Initial administrator password of the resource */
-  adminPassword?: string;
-  /** Availability zone */
-  availabilityZone?: string;
-}
-
-export function fileSystemResourceSerializer(item: FileSystemResource): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: areAllPropsUndefined(item, [
-      "marketplaceDetails",
-      "storageSku",
-      "userDetails",
-      "delegatedSubnetId",
-      "performanceTier",
-      "clusterLoginUrl",
-      "privateIPs",
-      "adminPassword",
-      "availabilityZone",
-    ])
-      ? undefined
-      : _fileSystemResourcePropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-  };
-}
-
-export function fileSystemResourceDeserializer(item: any): FileSystemResource {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _fileSystemResourcePropertiesDeserializer(item["properties"])),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
-  };
-}
-
-/** Properties specific to the Qumulo File System resource */
-export interface FileSystemResourceProperties {
-  /** Marketplace details */
-  marketplaceDetails: MarketplaceDetails;
-  /** Provisioning State of the resource */
-  readonly provisioningState?: ProvisioningState;
-  /** Storage Sku */
-  storageSku: string;
-  /** User Details */
-  userDetails: UserDetails;
-  /** Delegated subnet id for Vnet injection */
-  delegatedSubnetId: string;
-  /** Pre-Provisioned Performance of the Resource */
-  performanceTier?: string;
-  /** File system Id of the resource */
-  clusterLoginUrl?: string;
-  /** Private IPs of the resource */
-  privateIPs?: string[];
-  /** Initial administrator password of the resource */
-  adminPassword: string;
-  /** Availability zone */
-  availabilityZone?: string;
-}
-
-export function fileSystemResourcePropertiesSerializer(item: FileSystemResourceProperties): any {
-  return {
-    marketplaceDetails: marketplaceDetailsSerializer(item["marketplaceDetails"]),
-    storageSku: item["storageSku"],
-    userDetails: userDetailsSerializer(item["userDetails"]),
-    delegatedSubnetId: item["delegatedSubnetId"],
-    performanceTier: item["performanceTier"],
-    clusterLoginUrl: item["clusterLoginUrl"],
-    privateIPs: !item["privateIPs"]
-      ? item["privateIPs"]
-      : item["privateIPs"].map((p: any) => {
-          return p;
-        }),
-    adminPassword: item["adminPassword"],
-    availabilityZone: item["availabilityZone"],
-  };
-}
-
-export function fileSystemResourcePropertiesDeserializer(item: any): FileSystemResourceProperties {
-  return {
-    marketplaceDetails: marketplaceDetailsDeserializer(item["marketplaceDetails"]),
-    provisioningState: item["provisioningState"],
-    storageSku: item["storageSku"],
-    userDetails: userDetailsDeserializer(item["userDetails"]),
-    delegatedSubnetId: item["delegatedSubnetId"],
-    performanceTier: item["performanceTier"],
-    clusterLoginUrl: item["clusterLoginUrl"],
-    privateIPs: !item["privateIPs"]
-      ? item["privateIPs"]
-      : item["privateIPs"].map((p: any) => {
-          return p;
-        }),
-    adminPassword: item["adminPassword"],
-    availabilityZone: item["availabilityZone"],
-  };
-}
-
-/** MarketplaceDetails of Qumulo FileSystem resource */
-export interface MarketplaceDetails {
-  /** Marketplace Subscription Id */
-  marketplaceSubscriptionId?: string;
-  /** Plan Id */
-  planId: string;
-  /** Offer Id */
-  offerId: string;
-  /** Publisher Id */
-  publisherId?: string;
-  /** Term Unit */
-  termUnit?: string;
-  /** Marketplace subscription status */
-  readonly marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
-}
-
-export function marketplaceDetailsSerializer(item: MarketplaceDetails): any {
-  return {
-    marketplaceSubscriptionId: item["marketplaceSubscriptionId"],
-    planId: item["planId"],
-    offerId: item["offerId"],
-    publisherId: item["publisherId"],
-    termUnit: item["termUnit"],
-  };
-}
-
-export function marketplaceDetailsDeserializer(item: any): MarketplaceDetails {
-  return {
-    marketplaceSubscriptionId: item["marketplaceSubscriptionId"],
-    planId: item["planId"],
-    offerId: item["offerId"],
-    publisherId: item["publisherId"],
-    termUnit: item["termUnit"],
-    marketplaceSubscriptionStatus: item["marketplaceSubscriptionStatus"],
-  };
-}
-
-/** Marketplace subscription status of the file system resource */
-export enum KnownMarketplaceSubscriptionStatus {
-  /** Fulfillment has not started */
-  PendingFulfillmentStart = "PendingFulfillmentStart",
-  /** Marketplace offer is subscribed */
-  Subscribed = "Subscribed",
-  /** Marketplace offer is suspended because of non payment */
-  Suspended = "Suspended",
-  /** Marketplace offer is unsubscribed */
-  Unsubscribed = "Unsubscribed",
-}
-
-/**
- * Marketplace subscription status of the file system resource \
- * {@link KnownMarketplaceSubscriptionStatus} can be used interchangeably with MarketplaceSubscriptionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PendingFulfillmentStart**: Fulfillment has not started \
- * **Subscribed**: Marketplace offer is subscribed \
- * **Suspended**: Marketplace offer is suspended because of non payment \
- * **Unsubscribed**: Marketplace offer is unsubscribed
- */
-export type MarketplaceSubscriptionStatus = string;
-
-/** Provisioning State of the File system resource */
-export enum KnownProvisioningState {
-  /** File system resource creation request accepted */
-  Accepted = "Accepted",
-  /** File system resource creation started */
-  Creating = "Creating",
-  /** File system resource is being updated */
-  Updating = "Updating",
-  /** File system resource deletion started */
-  Deleting = "Deleting",
-  /** File system resource creation successful */
-  Succeeded = "Succeeded",
-  /** File system resource creation failed */
-  Failed = "Failed",
-  /** File system resource creation canceled */
-  Canceled = "Canceled",
-  /** File system resource is deleted */
-  Deleted = "Deleted",
-}
-
-/**
- * Provisioning State of the File system resource \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Accepted**: File system resource creation request accepted \
- * **Creating**: File system resource creation started \
- * **Updating**: File system resource is being updated \
- * **Deleting**: File system resource deletion started \
- * **Succeeded**: File system resource creation successful \
- * **Failed**: File system resource creation failed \
- * **Canceled**: File system resource creation canceled \
- * **Deleted**: File system resource is deleted
- */
-export type ProvisioningState = string;
-
-/** User Details of Qumulo FileSystem resource */
-export interface UserDetails {
-  /** User Email */
-  email: string;
-}
-
-export function userDetailsSerializer(item: UserDetails): any {
-  return { email: item["email"] };
-}
-
-export function userDetailsDeserializer(item: any): UserDetails {
-  return {
-    email: item["email"],
   };
 }
 
@@ -622,55 +379,6 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** The type used for update operations of the FileSystemResource. */
-export interface FileSystemResourceUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The updatable properties of the FileSystemResource. */
-  properties?: FileSystemResourceUpdateProperties;
-}
-
-export function fileSystemResourceUpdateSerializer(item: FileSystemResourceUpdate): any {
-  return {
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : fileSystemResourceUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** The updatable properties of the FileSystemResource. */
-export interface FileSystemResourceUpdateProperties {
-  /** Marketplace details */
-  marketplaceDetails?: MarketplaceDetails;
-  /** User Details */
-  userDetails?: UserDetails;
-  /** Delegated subnet id for Vnet injection */
-  delegatedSubnetId?: string;
-  /** Pre-Provisioned Performance of the Resource */
-  performanceTier?: string;
-}
-
-export function fileSystemResourceUpdatePropertiesSerializer(
-  item: FileSystemResourceUpdateProperties,
-): any {
-  return {
-    marketplaceDetails: !item["marketplaceDetails"]
-      ? item["marketplaceDetails"]
-      : marketplaceDetailsSerializer(item["marketplaceDetails"]),
-    userDetails: !item["userDetails"]
-      ? item["userDetails"]
-      : userDetailsSerializer(item["userDetails"]),
-    delegatedSubnetId: item["delegatedSubnetId"],
-    performanceTier: item["performanceTier"],
-  };
-}
-
 /** The response of a FileSystemResource list operation. */
 export interface _FileSystemResourceListResult {
   /** The FileSystemResource items on this page */
@@ -688,67 +396,10 @@ export function _fileSystemResourceListResultDeserializer(
   };
 }
 
-export function fileSystemResourceArraySerializer(result: Array<FileSystemResource>): any[] {
-  return result.map((item) => {
-    return fileSystemResourceSerializer(item);
-  });
-}
-
-export function fileSystemResourceArrayDeserializer(result: Array<FileSystemResource>): any[] {
-  return result.map((item) => {
-    return fileSystemResourceDeserializer(item);
-  });
-}
-
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2024-02-01 Stable API version. */
   V20240619 = "2024-06-19",
   /** The 2026-04-16 Stable API version. */
   V20260416 = "2026-04-16",
-}
-
-export function _fileSystemResourcePropertiesSerializer(item: FileSystemResource): any {
-  return {
-    marketplaceDetails: !item["marketplaceDetails"]
-      ? item["marketplaceDetails"]
-      : marketplaceDetailsSerializer(item["marketplaceDetails"]),
-    storageSku: item["storageSku"],
-    userDetails: !item["userDetails"]
-      ? item["userDetails"]
-      : userDetailsSerializer(item["userDetails"]),
-    delegatedSubnetId: item["delegatedSubnetId"],
-    performanceTier: item["performanceTier"],
-    clusterLoginUrl: item["clusterLoginUrl"],
-    privateIPs: !item["privateIPs"]
-      ? item["privateIPs"]
-      : item["privateIPs"].map((p: any) => {
-          return p;
-        }),
-    adminPassword: item["adminPassword"],
-    availabilityZone: item["availabilityZone"],
-  };
-}
-
-export function _fileSystemResourcePropertiesDeserializer(item: any) {
-  return {
-    marketplaceDetails: !item["marketplaceDetails"]
-      ? item["marketplaceDetails"]
-      : marketplaceDetailsDeserializer(item["marketplaceDetails"]),
-    provisioningState: item["provisioningState"],
-    storageSku: item["storageSku"],
-    userDetails: !item["userDetails"]
-      ? item["userDetails"]
-      : userDetailsDeserializer(item["userDetails"]),
-    delegatedSubnetId: item["delegatedSubnetId"],
-    performanceTier: item["performanceTier"],
-    clusterLoginUrl: item["clusterLoginUrl"],
-    privateIPs: !item["privateIPs"]
-      ? item["privateIPs"]
-      : item["privateIPs"].map((p: any) => {
-          return p;
-        }),
-    adminPassword: item["adminPassword"],
-    availabilityZone: item["availabilityZone"],
-  };
 }

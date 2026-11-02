@@ -21,12 +21,6 @@ export type {
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
-  FileSystemResource,
-  FileSystemResourceProperties,
-  MarketplaceDetails,
-  MarketplaceSubscriptionStatus,
-  ProvisioningState,
-  UserDetails,
   ManagedServiceIdentity,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
@@ -34,18 +28,30 @@ export type {
   Resource,
   SystemData,
   CreatedByType,
-  FileSystemResourceUpdate,
-  FileSystemResourceUpdateProperties,
 } from "./models/index.js";
 export {
   KnownOrigin,
   KnownActionType,
-  KnownMarketplaceSubscriptionStatus,
-  KnownProvisioningState,
   KnownManagedServiceIdentityType,
   KnownCreatedByType,
   KnownVersions,
 } from "./models/index.js";
+export type {
+  MarketplaceDetails,
+  MarketplaceSubscriptionStatus,
+  ProvisioningState,
+  UserDetails,
+} from "./models/liftrBase/index.js";
+export {
+  KnownMarketplaceSubscriptionStatus,
+  KnownProvisioningState,
+} from "./models/liftrBase/index.js";
+export type {
+  FileSystemResource,
+  FileSystemResourceProperties,
+  FileSystemResourceUpdate,
+  FileSystemResourceUpdateProperties,
+} from "./models/liftrBase/storage/index.js";
 export type { QumuloStorageOptionalParams } from "./api/index.js";
 export type {
   FileSystemsListBySubscriptionOptionalParams,

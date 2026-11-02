@@ -5,13 +5,15 @@ import type { QumuloStorageContext as Client } from "../index.js";
 import type {
   FileSystemResource,
   FileSystemResourceUpdate,
-  _FileSystemResourceListResult,
-} from "../../models/models.js";
+} from "../../models/liftrBase/storage/models.js";
 import {
-  errorResponseDeserializer,
   fileSystemResourceSerializer,
   fileSystemResourceDeserializer,
   fileSystemResourceUpdateSerializer,
+} from "../../models/liftrBase/storage/models.js";
+import type { _FileSystemResourceListResult } from "../../models/models.js";
+import {
+  errorResponseDeserializer,
   _fileSystemResourceListResultDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";

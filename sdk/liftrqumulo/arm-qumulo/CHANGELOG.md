@@ -1,14 +1,8 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 3.0.1 (2026-11-02)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 3.0.0 (2026-06-24)
 
