@@ -74,7 +74,7 @@ network:
     - "dev.azure.com"
 tools:
   github:
-    allowed-repos: public
+    allowed-repos: "${{ github.repository }}"
     min-integrity: none
     toolsets: [context, repos, pull_requests, actions]
   bash: ["cat", "date", "echo", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
