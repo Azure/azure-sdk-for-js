@@ -10,7 +10,7 @@
 
 ### Bugs Fixed
 
-- Fixed a build error with OpenTelemetry API 1.10.0 by accepting unknown attribute values during serialization.
+- Fixed a build error with OpenTelemetry API 1.10.0 by accepting unknown attribute values during serialization. [#40605](https://github.com/Azure/azure-sdk-for-js/pull/40605)
 
 ### Other Changes
 
