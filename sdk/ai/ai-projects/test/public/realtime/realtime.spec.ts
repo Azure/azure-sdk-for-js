@@ -828,7 +828,7 @@ describe("AIProjectClient realtime", () => {
     assert.equal(url.searchParams.get("x-agent-version-override"), "2");
     assert.deepEqual(connectOptions.protocols, ["realtime"]);
     assert.equal(connectOptions.headers.authorization, "Bearer test-token");
-    assert.equal(connectOptions.headers["foundry-features"], undefined);
+    assert.equal(connectOptions.headers["foundry-features"], "VoiceAgents=V1Preview");
     assert.equal(connectOptions.headers["x-ms-voice-structured-inputs"], '{"customer":"Ada"}');
     assert.equal(url.searchParams.get("x-ms-client-sdk"), `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.equal(connectOptions.headers["x-ms-client-sdk"], `azsdk-js-ai-projects/${SDK_VERSION}`);

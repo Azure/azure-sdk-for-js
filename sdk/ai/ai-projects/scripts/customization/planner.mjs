@@ -139,7 +139,7 @@ function normalizeGroupOrder(text, customized, file) {
   return edit(text, changes);
 }
 
-function knownImport(item, file) {
+function knownImport(item) {
   if (item.imported === "PagedAsyncIterableIterator" || item.imported === "PageSettings")
     return { ...item, module: "@azure/core-paging" };
   if (item.imported === "getBinaryStreamResponse")
@@ -147,8 +147,6 @@ function knownImport(item, file) {
       ...item,
       module: "#platform/static-helpers/serialization/get-binary-stream-response",
     };
-  if (item.module.startsWith(".") && resolveImport(file, item.module).startsWith("models/"))
-    return { ...item, module: relativeImport(file, "models/models.js") };
   return item;
 }
 
@@ -289,7 +287,7 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
           customApiText: baseSource.get(apiFile),
           baseRenames,
           incomingRenames,
-          mapImport: (item) => knownImport(item, file),
+          mapImport: knownImport,
         });
         diagnostics.push(...merged.diagnostics);
         if (merged.text) source.set(file, merged.text);

@@ -29,10 +29,10 @@ const callJob = {
   object: "telephony.call_job",
   agent_name: "PRIVATE_AGENT",
   connection_name: "PRIVATE_CONNECTION",
-  status: "queued",
-  source: { type: "phone_number", value: "+15555550200" },
+  status: "accepted",
+  source: "+15555550200",
   destination: { type: "phone_number", value: "+15555550100" },
-  retry_policy: { type: "fixed_interval", max_attempts: 1, interval: 0 },
+  retry_policy: { type: "none" },
   attempt_count: 0,
   revision: 1,
   created_at: 1,
@@ -103,7 +103,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
         "PRIVATE_IDEMPOTENCY",
         {
           connection_name: "PRIVATE_CONNECTION",
-          source: { type: "phone_number", value: "+15555550200" },
+          source: "+15555550200",
           destination: { type: "phone_number", value: "+15555550100" },
         },
         options,
@@ -269,12 +269,9 @@ describe("Voice Agents exported traces", () => {
         contentRecording: testCase.contentRecording,
       });
       const controller = new AbortController();
-      const preview = testCase.name.startsWith("voice_agents.telephony.")
-        ? "VoiceAgents=V1Preview"
-        : undefined;
       const options = {
         abortSignal: controller.signal,
-        foundryFeatures: preview,
+        foundryFeatures: "VoiceAgents=V1Preview" as const,
         requestOptions: { headers: { "x-test-correlation": "PRIVATE_HEADER" } },
       };
       const parent = trace.getTracer("application").startSpan("workflow");
@@ -287,7 +284,7 @@ describe("Voice Agents exported traces", () => {
       expect(requests[0].method).toBe(testCase.method);
       expect(requests[0].abortSignal).toBe(controller.signal);
       expect(requests[0].headers.get("x-test-correlation")).toBe("PRIVATE_HEADER");
-      expect(requests[0].headers.get("foundry-features")).toBe(preview);
+      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
       if (testCase.body?.id) expect(result).toHaveProperty("id", testCase.body.id);
       else if (testCase.body) expect(result).toEqual(testCase.body);
       else expect(result).toBeUndefined();
@@ -321,7 +318,7 @@ describe("Voice Agents exported traces", () => {
       } else if (testCase.name === "voice_agents.telephony.create_call_job") {
         expect(exported.attributes).toMatchObject({
           "az.ai.voice_agents.telephony.call_job.id": "job-1",
-          "az.ai.voice_agents.call_job.status": "queued",
+          "az.ai.voice_agents.call_job.status": "accepted",
         });
       }
       const telemetry = JSON.stringify({

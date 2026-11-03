@@ -100,9 +100,6 @@ regeneration script falls back to it when the strict run fails.
   discriminator values, and terminal serializer/deserializer registrations.
   Unrelated removed values and intentionally customized-away models are not
   resurrected; ambiguous legacy dispatch still requires review.
-  Discriminator values still declared by new shared models remain generated-backed;
-  retaining an older request model must not remove those values from the merge
-  ancestor.
   The explicitly approved exception for the data-generation configuration
   migration (azure-rest-api-specs#46941) adopts the upstream
   `DataGenerationJobType` values: `simple_qna`, `traces`, `tool_use`, and

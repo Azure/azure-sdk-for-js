@@ -51,6 +51,7 @@ const audioInputPath =
   process.env["FOUNDRY_VOICE_AGENT_AUDIO_INPUT_FILE"]?.trim() || defaultAudioInputPath;
 const audioOutputPath =
   process.env["FOUNDRY_VOICE_AGENT_AUDIO_OUTPUT_FILE"]?.trim() || "./output.pcm";
+const preview = "VoiceAgents=V1Preview" as const;
 const pcmSampleRate = 24_000;
 const pcmBytesPerSample = 2;
 const inputChunkDurationInMs = 100;
@@ -250,7 +251,7 @@ async function getOrCreateVoiceAgent(
     instructions: "Listen carefully and answer the user's request.",
     output_modalities: ["text", "audio"],
   };
-  const agent = await project.agents.create(agentName, definition);
+  const agent = await project.agents.create(agentName, definition, { foundryFeatures: preview });
   return { definition: getVoiceDefinition(agent), created: true };
 }
 

@@ -334,17 +334,6 @@ export function getReviewedGeneratedModelRenames() {
     ["LiveTransportRinging", "LiveServerEventLiveTransportRinging"],
     ["LiveTransportAnswered", "LiveServerEventLiveTransportAnswered"],
     ["LiveTransportFailed", "LiveServerEventLiveTransportFailed"],
-    // PR 47806 uses shared read/create models. SDK input names are writable projections,
-    // not restored wire wrappers, and the retry model keeps its compatible SDK alias.
-    ["CreateTelephonyBindingRequest", "TelephonyBinding"],
-    ["CreateTelephonyBindingRequestUnion", "TelephonyBindingUnion"],
-    [
-      "CreateTeamsPhoneExtensibilityTelephonyBindingRequest",
-      "TeamsPhoneExtensibilityTelephonyBinding",
-    ],
-    ["CreateTwilioTelephonyBindingRequest", "TwilioTelephonyBinding"],
-    ["CreateTelephonyCallJobRequest", "TelephonyCallJob"],
-    ["TelephonyOutboundFixedIntervalRetryPolicy", "FixedIntervalRetryPolicy"],
   ];
   const converterPrefix = (name) => name[0].toLowerCase() + name.slice(1);
   return {

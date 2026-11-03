@@ -22,8 +22,7 @@ export async function main(): Promise<void> {
     );
   }
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  // For SIP preview resources, use { foundryFeatures: "VoiceAgents=V1Preview" } instead.
-  const options = {};
+  const options = { foundryFeatures: "VoiceAgents=V1Preview" } as const;
 
   console.log("Listing telephony bindings...");
   for await (const binding of project.beta.voiceAgents.telephony.listBindings(agentName, options)) {
@@ -33,7 +32,7 @@ export async function main(): Promise<void> {
       options,
     );
     // Avoid logging phone numbers, webhook URLs, or caller information.
-    console.log(`Binding provider: ${details.provider}`);
+    console.log(`Binding provider: ${details.provider}, status: ${details.status}`);
   }
 
   console.log("Reading configured transfer targets...");

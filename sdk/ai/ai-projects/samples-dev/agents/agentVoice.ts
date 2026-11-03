@@ -24,18 +24,25 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   console.log("Creating a voice agent version...");
-  const agent = await project.agents.createVersion(`sample-voice-${Date.now()}`, {
-    kind: "voice",
-    model_type: "self_deployed",
-    model: deploymentName,
-    instructions: "Help callers find public transport information. Keep answers short.",
-    greeting: { type: "template", text: "Hello! How can I help with your journey?" },
-    output_modalities: ["audio"],
-    store: false,
-  });
+  const options = {
+    requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
+  };
+  const agent = await project.agents.createVersion(
+    `sample-voice-${Date.now()}`,
+    {
+      kind: "voice",
+      model_type: "self_deployed",
+      model: deploymentName,
+      instructions: "Help callers find public transport information. Keep answers short.",
+      greeting: { type: "template", text: "Hello! How can I help with your journey?" },
+      output_modalities: ["audio"],
+      store: false,
+    },
+    options,
+  );
   try {
     console.log(`Created voice agent: ${agent.name}, version: ${agent.version}`);
-    const version = await project.agents.getVersion(agent.name, agent.version);
+    const version = await project.agents.getVersion(agent.name, agent.version, options);
     if ("greeting" in version.definition) {
       console.log("Voice greeting:", version.definition.greeting);
     }
@@ -45,7 +52,7 @@ export async function main(): Promise<void> {
     // This sample configures the agent; it does not open a microphone or voice session.
   } finally {
     console.log("Deleting the sample agent...");
-    await project.agents.delete(agent.name);
+    await project.agents.delete(agent.name, options);
   }
 }
 

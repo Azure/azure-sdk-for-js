@@ -61,6 +61,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * without persisted audio (`store = false`) returns `404`.
    */
   downloadAudio: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     options?: BetaVoiceAgentsConversationsDownloadAudioOptionalParams,
@@ -78,6 +79,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * conversation to have persisted audio (`store = true`); otherwise returns `404`.
    */
   getAudio: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     options?: BetaVoiceAgentsConversationsGetAudioOptionalParams,
@@ -91,6 +93,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * heard segment.
    */
   downloadGeneratedAudioItem: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     itemId: string,
@@ -103,6 +106,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * item was not persisted, or when no generated audio exists beyond the heard segment.
    */
   getGeneratedAudioItem: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     itemId: string,
@@ -116,6 +120,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * Returns `404` when the conversation, item, or its audio was not persisted (`store = false`).
    */
   downloadAudioItem: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     itemId: string,
@@ -130,6 +135,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * item, or its audio was not persisted.
    */
   getAudioItem: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     itemId: string,
@@ -143,6 +149,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * (`store = false`).
    */
   getItem: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     itemId: string,
@@ -154,6 +161,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * conversation was not persisted (`store = false`).
    */
   listItems: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     options?: BetaVoiceAgentsConversationsListItemsOptionalParams,
@@ -165,6 +173,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * response was not persisted (`store = false`).
    */
   listResponseItems: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     responseId: string,
@@ -175,6 +184,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * `usage`, and status. Returns `404` when the conversation or response was not persisted (`store = false`).
    */
   getResponse: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     responseId: string,
@@ -186,6 +196,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * for the canonical paged output. Returns `404` when the conversation was not persisted (`store = false`).
    */
   listResponses: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     options?: BetaVoiceAgentsConversationsListResponsesOptionalParams,
@@ -195,6 +206,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * the customer's explicit data-deletion control for voice conversations.
    */
   delete: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     options?: BetaVoiceAgentsConversationsDeleteOptionalParams,
@@ -204,6 +216,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * Returns `404` when the conversation was not persisted (`store = false`) or does not exist.
    */
   get: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     options?: BetaVoiceAgentsConversationsGetOptionalParams,
@@ -214,6 +227,7 @@ export interface BetaVoiceAgentsConversationsOperations {
    * agent definition or enabled by the WebSocket session override.
    */
   list: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     options?: BetaVoiceAgentsConversationsListOptionalParams,
   ) => PagedAsyncIterableIterator<VoiceConversation>;
@@ -222,79 +236,105 @@ export interface BetaVoiceAgentsConversationsOperations {
 function _getBetaVoiceAgentsConversations(context: AIProjectContext) {
   return {
     downloadAudio: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       options?: BetaVoiceAgentsConversationsDownloadAudioOptionalParams,
-    ) => downloadAudio(context, agentName, conversationId, options),
+    ) => downloadAudio(context, foundryFeatures, agentName, conversationId, options),
     getAudio: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       options?: BetaVoiceAgentsConversationsGetAudioOptionalParams,
-    ) => getAudio(context, agentName, conversationId, options),
+    ) => getAudio(context, foundryFeatures, agentName, conversationId, options),
     downloadGeneratedAudioItem: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       itemId: string,
       options?: BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,
-    ) => downloadGeneratedAudioItem(context, agentName, conversationId, itemId, options),
+    ) =>
+      downloadGeneratedAudioItem(
+        context,
+        foundryFeatures,
+        agentName,
+        conversationId,
+        itemId,
+        options,
+      ),
     getGeneratedAudioItem: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       itemId: string,
       options?: BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams,
-    ) => getGeneratedAudioItem(context, agentName, conversationId, itemId, options),
+    ) =>
+      getGeneratedAudioItem(context, foundryFeatures, agentName, conversationId, itemId, options),
     downloadAudioItem: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       itemId: string,
       options?: BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams,
-    ) => downloadAudioItem(context, agentName, conversationId, itemId, options),
+    ) => downloadAudioItem(context, foundryFeatures, agentName, conversationId, itemId, options),
     getAudioItem: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       itemId: string,
       options?: BetaVoiceAgentsConversationsGetAudioItemOptionalParams,
-    ) => getAudioItem(context, agentName, conversationId, itemId, options),
+    ) => getAudioItem(context, foundryFeatures, agentName, conversationId, itemId, options),
     getItem: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       itemId: string,
       options?: BetaVoiceAgentsConversationsGetItemOptionalParams,
-    ) => getItem(context, agentName, conversationId, itemId, options),
+    ) => getItem(context, foundryFeatures, agentName, conversationId, itemId, options),
     listItems: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       options?: BetaVoiceAgentsConversationsListItemsOptionalParams,
-    ) => listItems(context, agentName, conversationId, options),
+    ) => listItems(context, foundryFeatures, agentName, conversationId, options),
     listResponseItems: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       responseId: string,
       options?: BetaVoiceAgentsConversationsListResponseItemsOptionalParams,
-    ) => listResponseItems(context, agentName, conversationId, responseId, options),
+    ) =>
+      listResponseItems(context, foundryFeatures, agentName, conversationId, responseId, options),
     getResponse: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       responseId: string,
       options?: BetaVoiceAgentsConversationsGetResponseOptionalParams,
-    ) => getResponse(context, agentName, conversationId, responseId, options),
+    ) => getResponse(context, foundryFeatures, agentName, conversationId, responseId, options),
     listResponses: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       options?: BetaVoiceAgentsConversationsListResponsesOptionalParams,
-    ) => listResponses(context, agentName, conversationId, options),
+    ) => listResponses(context, foundryFeatures, agentName, conversationId, options),
     delete: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       options?: BetaVoiceAgentsConversationsDeleteOptionalParams,
-    ) => $delete(context, agentName, conversationId, options),
+    ) => $delete(context, foundryFeatures, agentName, conversationId, options),
     get: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       options?: BetaVoiceAgentsConversationsGetOptionalParams,
-    ) => get(context, agentName, conversationId, options),
-    list: (agentName: string, options?: BetaVoiceAgentsConversationsListOptionalParams) =>
-      list(context, agentName, options),
+    ) => get(context, foundryFeatures, agentName, conversationId, options),
+    list: (
+      foundryFeatures: "VoiceAgents=V1Preview",
+      agentName: string,
+      options?: BetaVoiceAgentsConversationsListOptionalParams,
+    ) => list(context, foundryFeatures, agentName, options),
   };
 }
 

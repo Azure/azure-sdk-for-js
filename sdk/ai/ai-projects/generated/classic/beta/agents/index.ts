@@ -13,6 +13,7 @@ export interface BetaAgentsOperations {
    * The generated definition remains fully editable through the standard agent versioning operations.
    */
   createFromPrompt: (
+    foundryFeatures: "VoiceAgents=V1Preview",
     body: GenerateAgentRequest,
     options?: BetaAgentsCreateFromPromptOptionalParams,
   ) => Promise<Agent>;
@@ -21,9 +22,10 @@ export interface BetaAgentsOperations {
 function _getBetaAgents(context: AIProjectContext) {
   return {
     createFromPrompt: (
+      foundryFeatures: "VoiceAgents=V1Preview",
       body: GenerateAgentRequest,
       options?: BetaAgentsCreateFromPromptOptionalParams,
-    ) => createFromPrompt(context, body, options),
+    ) => createFromPrompt(context, foundryFeatures, body, options),
   };
 }
 

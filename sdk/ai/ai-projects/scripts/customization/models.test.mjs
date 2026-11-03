@@ -336,45 +336,6 @@ test("legacy registration retention does not resurrect a model removed by custom
   );
 });
 
-function sharedDiscriminatorFixture(values) {
-  const base = tree(`
-export type Provider = "teams" | "twilio";
-export interface LegacyRequest { provider: Provider; requestOnly: string; }
-export interface TeamsRequest extends LegacyRequest { provider: "teams"; }
-export interface TwilioRequest extends LegacyRequest { provider: "twilio"; }
-export type LegacyRequestUnion = TeamsRequest | TwilioRequest;
-`);
-  const incoming = tree(`
-export type Provider = ${values};
-export interface Binding { provider: Provider; connection: string; }
-`);
-  return { base, incoming };
-}
-
-test("retained request models do not remove discriminator literals still emitted for shared models", () => {
-  const { base, incoming } = sharedDiscriminatorFixture('"teams" | "twilio" | "sip"');
-  const result = succeeded(base, base, incoming);
-  const text = result.files.get(modelFile);
-  assert.match(text, /export interface TeamsRequest\b/);
-  assert.match(text, /export interface TwilioRequest\b/);
-  const source = ts.createSourceFile(modelFile, text, ts.ScriptTarget.Latest, true);
-  const provider = source.statements.find((node) => node.name?.text === "Provider");
-  assert.match(provider.type.getText(source), /"teams"/);
-  assert.match(provider.type.getText(source), /"twilio"/);
-  assert.match(provider.type.getText(source), /"sip"/);
-  assertModelTypes(result.files, path.resolve(fileURLToPath(new URL("../..", import.meta.url))));
-});
-
-test("retention still rejects replacement of every emitted discriminator literal", () => {
-  const { base, incoming } = sharedDiscriminatorFixture('"sip"');
-  const result = plan(base, base, incoming);
-  assert.ok(
-    result.diagnostics.some(
-      (item) => item.declaration === "Provider" && /entire generated union/.test(item.message),
-    ),
-  );
-});
-
 test("retaining a legacy dispatch with fallthrough requires explicit reconciliation", () => {
   const original = polymorphicTools({ legacy: true }).replace(
     'case "legacy": return legacySerialize(item);',
