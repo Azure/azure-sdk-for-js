@@ -518,7 +518,22 @@ export type ToolUnion =
   | NamespaceToolParam
   | ToolSearchToolParam
   | Tool
-  | MicrosoftCopilotToolsetPreview;
+  | MicrosoftCopilotToolsetPreview
+  | ToolFunctionTool
+  | ToolFileSearchTool
+  | ToolComputerTool
+  | ToolComputerUsePreviewTool
+  | ToolWebSearchTool
+  | ToolMcpTool
+  | ToolCodeInterpreterTool
+  | ToolProgrammaticToolCallingParam
+  | ToolImageGenTool
+  | ToolLocalShellToolParam
+  | ToolFunctionShellToolParam
+  | ToolCustomToolParam
+  | ToolToolSearchToolParam
+  | ToolWebSearchPreviewTool
+  | ToolApplyPatchToolParam;
 
 export function toolUnionSerializer(item: ToolUnion): any {
   switch (item.type) {
@@ -6113,6 +6128,8 @@ export function apiErrorDeserializer(item: any): ErrorModel {
 
 /** Details of an action blocked because it may not align with the user's intent. */
 export interface MisalignmentErrorDetailsResource {
+  /** The target to review when an action is blocked. */
+  review_target?: string;
   /** An optional classification; clients must accept additional values. */
   error_type?: MisalignmentErrorType;
   /** The public explanation for this block. */
@@ -6125,6 +6142,7 @@ export function misalignmentErrorDetailsResourceDeserializer(
   item: any,
 ): MisalignmentErrorDetailsResource {
   return {
+    review_target: item["review_target"],
     error_type: !item["error_type"]
       ? item["error_type"]
       : misalignmentErrorTypeDeserializer(item["error_type"]),
@@ -15230,6 +15248,8 @@ export interface VoiceAgentDefinition extends AgentDefinition {
   structured_inputs?: Record<string, StructuredInputDefinition>;
   /** Optional configuration for sibling Foundry text agents that this voice agent may consult as background specialists. */
   subagent_config?: VoiceAgentSubagentConfig;
+  /** Optional post-call delivery configuration. After each session ends, the service notifies the configured destinations. */
+  post_call?: VoiceAgentPostCallConfig;
   /**
    * Whether conversations with this agent are persisted. A single, all-or-nothing persistence switch that defaults to
    * `false` (privacy-safe: off by default). When `true`, Foundry persists the full conversation — the transcript/event
@@ -15286,6 +15306,9 @@ export function voiceAgentDefinitionSerializer(item: VoiceAgentDefinition): any 
     subagent_config: !item["subagent_config"]
       ? item["subagent_config"]
       : voiceAgentSubagentConfigSerializer(item["subagent_config"]),
+    post_call: !item["post_call"]
+      ? item["post_call"]
+      : voiceAgentPostCallConfigSerializer(item["post_call"]),
     store: item["store"],
   };
 }
@@ -15337,6 +15360,9 @@ export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinitio
     subagent_config: !item["subagent_config"]
       ? item["subagent_config"]
       : voiceAgentSubagentConfigDeserializer(item["subagent_config"]),
+    post_call: !item["post_call"]
+      ? item["post_call"]
+      : voiceAgentPostCallConfigDeserializer(item["post_call"]),
     store: item["store"],
   };
 }
@@ -19769,12 +19795,14 @@ export interface RealtimeResponseStatusDetailsError {
   type?: string;
   /** A machine-readable code identifying the response failure. */
   code?: string;
+  /** A description of the response failure. */
+  message?: string;
 }
 
 export function realtimeResponseStatusDetailsErrorSerializer(
   item: RealtimeResponseStatusDetailsError,
 ): any {
-  return { type: item["type"], code: item["code"] };
+  return { type: item["type"], code: item["code"], message: item["message"] };
 }
 
 export function realtimeResponseStatusDetailsErrorDeserializer(
@@ -19783,6 +19811,7 @@ export function realtimeResponseStatusDetailsErrorDeserializer(
   return {
     type: item["type"],
     code: item["code"],
+    message: item["message"],
   };
 }
 
@@ -28463,3 +28492,259 @@ export function voiceAgentSoundscapeWorkingTrackConfigDeserializer(
     delay_ms: item["delay_ms"],
   };
 }
+
+/** Post-call delivery configuration. */
+export interface VoiceAgentPostCallConfig {
+  /** The destinations to notify. */
+  destinations: VoiceAgentPostCallDestinationUnion[];
+  /** Additional content to include in each delivery. The transcript is always delivered. `audio` is not supported in this preview; the service rejects it when the agent version is saved. */
+  include?: VoiceAgentPostCallIncludeOption[];
+}
+
+export function voiceAgentPostCallConfigSerializer(item: VoiceAgentPostCallConfig): any {
+  return {
+    destinations: voiceAgentPostCallDestinationUnionArraySerializer(item["destinations"]),
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function voiceAgentPostCallConfigDeserializer(item: any): VoiceAgentPostCallConfig {
+  return {
+    destinations: voiceAgentPostCallDestinationUnionArrayDeserializer(item["destinations"]),
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function voiceAgentPostCallDestinationUnionArraySerializer(
+  result: Array<VoiceAgentPostCallDestinationUnion>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentPostCallDestinationUnionSerializer(item);
+  });
+}
+
+export function voiceAgentPostCallDestinationUnionArrayDeserializer(
+  result: Array<VoiceAgentPostCallDestinationUnion>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentPostCallDestinationUnionDeserializer(item);
+  });
+}
+
+/** A post-call destination. */
+export interface VoiceAgentPostCallDestination {
+  /** The destination type. */
+  /** The discriminator possible values: event_grid, routine */
+  type: VoiceAgentPostCallDestinationType;
+}
+
+export function voiceAgentPostCallDestinationSerializer(item: VoiceAgentPostCallDestination): any {
+  return { type: item["type"] };
+}
+
+export function voiceAgentPostCallDestinationDeserializer(
+  item: any,
+): VoiceAgentPostCallDestination {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for VoiceAgentPostCallDestinationUnion */
+export type VoiceAgentPostCallDestinationUnion =
+  | VoiceAgentEventGridPostCallDestination
+  | VoiceAgentRoutinePostCallDestination
+  | VoiceAgentPostCallDestination;
+
+export function voiceAgentPostCallDestinationUnionSerializer(
+  item: VoiceAgentPostCallDestinationUnion,
+): any {
+  switch (item.type) {
+    case "event_grid":
+      return voiceAgentEventGridPostCallDestinationSerializer(
+        item as VoiceAgentEventGridPostCallDestination,
+      );
+    case "routine":
+      return voiceAgentRoutinePostCallDestinationSerializer(
+        item as VoiceAgentRoutinePostCallDestination,
+      );
+    default:
+      return voiceAgentPostCallDestinationSerializer(item);
+  }
+}
+
+export function voiceAgentPostCallDestinationUnionDeserializer(
+  item: any,
+): VoiceAgentPostCallDestinationUnion {
+  switch (item["type"]) {
+    case "event_grid":
+      return voiceAgentEventGridPostCallDestinationDeserializer(
+        item as VoiceAgentEventGridPostCallDestination,
+      );
+    case "routine":
+      return voiceAgentRoutinePostCallDestinationDeserializer(
+        item as VoiceAgentRoutinePostCallDestination,
+      );
+    default:
+      return voiceAgentPostCallDestinationDeserializer(item);
+  }
+}
+
+/** The type of a post-call destination. */
+export type VoiceAgentPostCallDestinationType = "event_grid" | "routine";
+
+/** An Event Grid connection that receives post-call events. */
+export interface VoiceAgentEventGridPostCallDestination extends VoiceAgentPostCallDestination {
+  type: "event_grid";
+  /** The name of the Event Grid connection. */
+  connection_name: string;
+}
+
+export function voiceAgentEventGridPostCallDestinationSerializer(
+  item: VoiceAgentEventGridPostCallDestination,
+): any {
+  return { type: item["type"], connection_name: item["connection_name"] };
+}
+
+export function voiceAgentEventGridPostCallDestinationDeserializer(
+  item: any,
+): VoiceAgentEventGridPostCallDestination {
+  return {
+    type: item["type"],
+    connection_name: item["connection_name"],
+  };
+}
+
+/** A routine that is dispatched with the post-call event. */
+export interface VoiceAgentRoutinePostCallDestination extends VoiceAgentPostCallDestination {
+  type: "routine";
+  /** The name of the routine. */
+  name: string;
+}
+
+export function voiceAgentRoutinePostCallDestinationSerializer(
+  item: VoiceAgentRoutinePostCallDestination,
+): any {
+  return { type: item["type"], name: item["name"] };
+}
+
+export function voiceAgentRoutinePostCallDestinationDeserializer(
+  item: any,
+): VoiceAgentRoutinePostCallDestination {
+  return {
+    type: item["type"],
+    name: item["name"],
+  };
+}
+
+/** Content that can be included in a post-call delivery. */
+export type VoiceAgentPostCallIncludeOption = "audio";
+
+// The emitter now prefixes OpenAI tool models with Tool. Keep one canonical
+// customized shape and converter per discriminator, including legacy callers.
+
+/** Alias for FunctionTool. */
+export type ToolFunctionTool = FunctionTool;
+export const toolFunctionToolSerializer = functionToolSerializer;
+export const toolFunctionToolDeserializer = functionToolDeserializer;
+/** Alias for FileSearchTool. */
+export type ToolFileSearchTool = FileSearchTool;
+export const toolFileSearchToolSerializer = fileSearchToolSerializer;
+export const toolFileSearchToolDeserializer = fileSearchToolDeserializer;
+/** Alias for ComputerTool. */
+export type ToolComputerTool = ComputerTool;
+export const toolComputerToolSerializer = computerToolSerializer;
+export const toolComputerToolDeserializer = computerToolDeserializer;
+/** Alias for ComputerUsePreviewTool. */
+export type ToolComputerUsePreviewTool = ComputerUsePreviewTool;
+export const toolComputerUsePreviewToolSerializer = computerUsePreviewToolSerializer;
+export const toolComputerUsePreviewToolDeserializer = computerUsePreviewToolDeserializer;
+/** Alias for WebSearchTool. */
+export type ToolWebSearchTool = WebSearchTool;
+export const toolWebSearchToolSerializer = webSearchToolSerializer;
+export const toolWebSearchToolDeserializer = webSearchToolDeserializer;
+/** Alias for MCPTool. */
+export type ToolMcpTool = MCPTool;
+export const toolMcpToolSerializer = mcpToolSerializer;
+export const toolMcpToolDeserializer = mcpToolDeserializer;
+/** Alias for CodeInterpreterTool. */
+export type ToolCodeInterpreterTool = CodeInterpreterTool;
+export const toolCodeInterpreterToolSerializer = codeInterpreterToolSerializer;
+export const toolCodeInterpreterToolDeserializer = codeInterpreterToolDeserializer;
+/** Alias for ProgrammaticToolCallingParam. */
+export type ToolProgrammaticToolCallingParam = ProgrammaticToolCallingParam;
+export const toolProgrammaticToolCallingParamSerializer = programmaticToolCallingParamSerializer;
+export const toolProgrammaticToolCallingParamDeserializer =
+  programmaticToolCallingParamDeserializer;
+/** Alias for ImageGenTool. */
+export type ToolImageGenTool = ImageGenTool;
+export const toolImageGenToolSerializer = imageGenToolSerializer;
+export const toolImageGenToolDeserializer = imageGenToolDeserializer;
+/** Alias for LocalShellToolParam. */
+export type ToolLocalShellToolParam = LocalShellToolParam;
+export const toolLocalShellToolParamSerializer = localShellToolParamSerializer;
+export const toolLocalShellToolParamDeserializer = localShellToolParamDeserializer;
+/** Alias for FunctionShellToolParam. */
+export type ToolFunctionShellToolParam = FunctionShellToolParam;
+export const toolFunctionShellToolParamSerializer = functionShellToolParamSerializer;
+export const toolFunctionShellToolParamDeserializer = functionShellToolParamDeserializer;
+/** Alias for CustomToolParam. */
+export type ToolCustomToolParam = CustomToolParam;
+export const toolCustomToolParamSerializer = customToolParamSerializer;
+export const toolCustomToolParamDeserializer = customToolParamDeserializer;
+/** Alias for ToolSearchToolParam. */
+export type ToolToolSearchToolParam = ToolSearchToolParam;
+export const toolToolSearchToolParamSerializer = toolSearchToolParamSerializer;
+export const toolToolSearchToolParamDeserializer = toolSearchToolParamDeserializer;
+/** Alias for WebSearchPreviewTool. */
+export type ToolWebSearchPreviewTool = WebSearchPreviewTool;
+export const toolWebSearchPreviewToolSerializer = webSearchPreviewToolSerializer;
+export const toolWebSearchPreviewToolDeserializer = webSearchPreviewToolDeserializer;
+/** Alias for ApplyPatchToolParam. */
+export type ToolApplyPatchToolParam = ApplyPatchToolParam;
+export const toolApplyPatchToolParamSerializer = applyPatchToolParamSerializer;
+export const toolApplyPatchToolParamDeserializer = applyPatchToolParamDeserializer;
+
+/** Alias for _CodeInterpreterToolContainer. */
+export type _ToolCodeInterpreterToolContainer = _CodeInterpreterToolContainer;
+export const _toolCodeInterpreterToolContainerSerializer = _codeInterpreterToolContainerSerializer;
+export const _toolCodeInterpreterToolContainerDeserializer =
+  _codeInterpreterToolContainerDeserializer;
+/** Alias for FileSearchToolFiltersValue. */
+export type _ToolFileSearchToolFiltersValue = string | number | boolean | (string | number)[];
+export const _toolFileSearchToolFiltersValueSerializer = _fileSearchToolFiltersValueSerializer;
+export const _toolFileSearchToolFiltersValueDeserializer = _fileSearchToolFiltersValueDeserializer;
+/** Alias for _FileSearchToolFiltersValue. */
+export type _ToolFileSearchToolFiltersValue1 = _FileSearchToolFiltersValue;
+export const _toolFileSearchToolFiltersValue1Serializer = _fileSearchToolFiltersValue1Serializer;
+export const _toolFileSearchToolFiltersValue1Deserializer =
+  _fileSearchToolFiltersValue1Deserializer;
+export const _toolFileSearchToolFiltersValue1ArraySerializer =
+  _fileSearchToolFiltersValue1ArraySerializer;
+export const _toolFileSearchToolFiltersValue1ArrayDeserializer =
+  _fileSearchToolFiltersValue1ArrayDeserializer;
+/** Alias for _FileSearchToolFiltersFilter. */
+export type _ToolFileSearchToolFiltersFilter = _FileSearchToolFiltersFilter;
+export const _toolFileSearchToolFiltersFilterSerializer = _fileSearchToolFiltersFilterSerializer;
+export const _toolFileSearchToolFiltersFilterDeserializer =
+  _fileSearchToolFiltersFilterDeserializer;
+export const _toolFileSearchToolFiltersFilterArraySerializer =
+  _fileSearchToolFiltersFilterArraySerializer;
+export const _toolFileSearchToolFiltersFilterArrayDeserializer =
+  _fileSearchToolFiltersFilterArrayDeserializer;
+/** Alias for _MCPToolAllowedTools. */
+export type _ToolMcpToolAllowedTools = _MCPToolAllowedTools;
+export const _toolMcpToolAllowedToolsSerializer = _mcpToolAllowedToolsSerializer;
+export const _toolMcpToolAllowedToolsDeserializer = _mcpToolAllowedToolsDeserializer;
+/** Alias for _MCPToolRequireApproval. */
+export type _ToolMcpToolRequireApproval = _MCPToolRequireApproval;
+export const _toolMcpToolRequireApprovalSerializer = _mcpToolRequireApprovalSerializer;
+export const _toolMcpToolRequireApprovalDeserializer = _mcpToolRequireApprovalDeserializer;

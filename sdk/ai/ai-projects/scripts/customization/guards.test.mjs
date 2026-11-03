@@ -43,6 +43,34 @@ function has(diagnostics, declaration, member, message) {
   );
 }
 
+test("protected SDK_VERSION may only synchronize its literal to the package version", () => {
+  const baseline = 'export const SDK_VERSION = "2.10.0"; export const PACKAGE_NAME = "example";';
+  const files = {
+    baseSource: tree({ "constants.ts": baseline }),
+    packageVersion: "2.11.0",
+  };
+  const synchronized = baseline.replace("2.10.0", "2.11.0");
+  assert.deepEqual(validate({ ...files, source: tree({ "constants.ts": synchronized }) }), []);
+  for (const [source, packageVersion] of [
+    [synchronized, undefined],
+    [synchronized, "2.12.0"],
+    [synchronized, "not-a-version"],
+    [synchronized.replace('= "2.11.0"', "= process.env.VERSION"), "2.11.0"],
+    [synchronized.replace("SDK_VERSION =", "SDK_VERSION: string ="), "2.11.0"],
+    [synchronized.replace('"example"', '"different-package"'), "2.11.0"],
+  ]) {
+    const diagnostics = validate({
+      ...files,
+      packageVersion,
+      source: tree({ "constants.ts": source }),
+    });
+    assert.ok(
+      diagnostics.some((diagnostic) => diagnostic.message.includes("Protected customization")),
+      JSON.stringify(diagnostics),
+    );
+  }
+});
+
 test("data generation discriminator guards enforce upstream values without relaxing other unions", () => {
   const upstream =
     'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';

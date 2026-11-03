@@ -1441,7 +1441,34 @@ function checkProtectedAdditions(trees, renames, report) {
   }
 }
 
-function checkProtected(trees, renames, report, matches = []) {
+function synchronizedPackageVersion(file, previous, next, packageVersion) {
+  if (
+    file !== "constants.ts" ||
+    previous.name !== "SDK_VERSION" ||
+    !packageVersion ||
+    !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(packageVersion) ||
+    !ts.isVariableDeclaration(previous.node) ||
+    !ts.isVariableDeclaration(next?.node) ||
+    !previous.node.initializer ||
+    !next.node.initializer ||
+    !ts.isStringLiteralLike(previous.node.initializer) ||
+    !ts.isStringLiteralLike(next.node.initializer) ||
+    next.node.initializer.text !== packageVersion
+  ) {
+    return false;
+  }
+  // Only the literal may change. Types, names, and all other protected
+  // declarations still have to pass their existing checks.
+  const withoutVersion = (node) => {
+    const text = node.getText();
+    const start = node.initializer.getStart() - node.getStart();
+    const end = node.initializer.end - node.getStart();
+    return canonicalize(text.slice(0, start) + '"<package-version>"' + text.slice(end));
+  };
+  return withoutVersion(previous.node) === withoutVersion(next.node);
+}
+
+function checkProtected(trees, renames, report, matches = [], packageVersion) {
   checkProtectedAdditions(trees, renames, report);
   const relocations = relocationsInto(matches);
   for (const [file, previous] of trees.custom) {
@@ -1461,7 +1488,8 @@ function checkProtected(trees, renames, report, matches = []) {
         !next ||
         !(
           additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames) ||
-          relocatedAdditive(entry.node, next.node, relocation, renames)
+          relocatedAdditive(entry.node, next.node, relocation, renames) ||
+          synchronizedPackageVersion(file, entry, next, packageVersion)
         )
       ) {
         report(
@@ -1820,6 +1848,7 @@ export function validateCustomization({
   modelRenames = new Map(),
   retained,
   unapplied,
+  packageVersion,
 }) {
   const diagnostics = [];
   const reported = new Set();
@@ -1906,7 +1935,7 @@ export function validateCustomization({
   }
   checkExports(trees, exportRenames, report);
   checkOperations(trees, matches, renames, report);
-  checkProtected(trees, renames, report, matches);
+  checkProtected(trees, renames, report, matches, packageVersion);
   checkKnownPolicies(trees, modelIndexes, renames, report);
   return diagnostics;
 }

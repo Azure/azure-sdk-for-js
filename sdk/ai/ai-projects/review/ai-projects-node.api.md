@@ -4170,6 +4170,7 @@ export interface MicrosoftFabricPreviewTool extends Tool {
 export interface MisalignmentErrorDetailsResource {
     detailed_explanation?: string;
     error_type?: MisalignmentErrorType;
+    review_target?: string;
     steer?: MisalignmentSteer;
 }
 
@@ -4872,6 +4873,7 @@ export interface RealtimeResponseStatusDetails {
 // @public
 export interface RealtimeResponseStatusDetailsError {
     code?: string;
+    message?: string;
     type?: string;
 }
 
@@ -6186,6 +6188,9 @@ export interface Tool {
 }
 
 // @public
+export type ToolApplyPatchToolParam = ApplyPatchToolParam;
+
+// @public
 export interface ToolboxesCreateVersionOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
@@ -6434,16 +6439,49 @@ export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
 }
 
 // @public
+export type ToolCodeInterpreterTool = CodeInterpreterTool;
+
+// @public
+export type ToolComputerTool = ComputerTool;
+
+// @public
+export type ToolComputerUsePreviewTool = ComputerUsePreviewTool;
+
+// @public
 export interface ToolConfig {
     additional_search_text?: string;
     pin?: boolean;
 }
 
 // @public
+export type ToolCustomToolParam = CustomToolParam;
+
+// @public
 export interface ToolDescription {
     description?: string;
     name?: string;
 }
+
+// @public
+export type ToolFileSearchTool = FileSearchTool;
+
+// @public
+export type ToolFunctionShellToolParam = FunctionShellToolParam;
+
+// @public
+export type ToolFunctionTool = FunctionTool;
+
+// @public
+export type ToolImageGenTool = ImageGenTool;
+
+// @public
+export type ToolLocalShellToolParam = LocalShellToolParam;
+
+// @public
+export type ToolMcpTool = MCPTool;
+
+// @public
+export type ToolProgrammaticToolCallingParam = ProgrammaticToolCallingParam;
 
 // @public
 export interface ToolProjectConnection {
@@ -6467,16 +6505,25 @@ export interface ToolSearchToolParam extends Tool {
 }
 
 // @public
+export type ToolToolSearchToolParam = ToolSearchToolParam;
+
+// @public
 export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "web_iq_preview" | "github_copilot_toolset_preview" | "a2a" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi" | "browser_automation" | "microsoft_copilot_toolset_preview";
 
 // @public
-export type ToolUnion = GitHubCopilotToolsetPreview | BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | BrowserAutomationTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool | MicrosoftCopilotToolsetPreview;
+export type ToolUnion = GitHubCopilotToolsetPreview | BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | BrowserAutomationTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool | MicrosoftCopilotToolsetPreview | ToolFunctionTool | ToolFileSearchTool | ToolComputerTool | ToolComputerUsePreviewTool | ToolWebSearchTool | ToolMcpTool | ToolCodeInterpreterTool | ToolProgrammaticToolCallingParam | ToolImageGenTool | ToolLocalShellToolParam | ToolFunctionShellToolParam | ToolCustomToolParam | ToolToolSearchToolParam | ToolWebSearchPreviewTool | ToolApplyPatchToolParam;
 
 // @public
 export interface ToolUseFineTuningDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
     max_samples: number;
     type: "tool_use";
 }
+
+// @public
+export type ToolWebSearchPreviewTool = WebSearchPreviewTool;
+
+// @public
+export type ToolWebSearchTool = WebSearchTool;
 
 // @public
 export interface TracesDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
@@ -6910,6 +6957,7 @@ export interface VoiceAgentDefinition extends AgentDefinition {
     model_type?: VoiceModelType;
     output_modalities?: VoiceOutputModality[];
     parallel_tool_calls?: boolean;
+    post_call?: VoiceAgentPostCallConfig;
     soundscape?: VoiceAgentSoundscapeConfig;
     store?: boolean;
     structured_inputs?: Record<string, StructuredInputDefinition>;
@@ -6945,6 +6993,13 @@ export type VoiceAgentEndOfUtteranceDetectionModel = "semantic_detection_v1" | "
 
 // @public
 export type VoiceAgentEndOfUtteranceThresholdLevel = "low" | "medium" | "high" | "default";
+
+// @public
+export interface VoiceAgentEventGridPostCallDestination extends VoiceAgentPostCallDestination {
+    connection_name: string;
+    // (undocumented)
+    type: "event_grid";
+}
 
 // @public
 export interface VoiceAgentEventOptions extends VoiceAgentSendOptions {
@@ -7040,6 +7095,26 @@ export interface VoiceAgentNoiseReduction {
 export type VoiceAgentNoiseReductionType = "near_field" | "far_field" | "azure_deep_noise_suppression" | "azure_deep_noise_suppression_headset" | "azure_personal_noise_suppression";
 
 // @public
+export interface VoiceAgentPostCallConfig {
+    destinations: VoiceAgentPostCallDestinationUnion[];
+    include?: VoiceAgentPostCallIncludeOption[];
+}
+
+// @public
+export interface VoiceAgentPostCallDestination {
+    type: VoiceAgentPostCallDestinationType;
+}
+
+// @public
+export type VoiceAgentPostCallDestinationType = "event_grid" | "routine";
+
+// @public
+export type VoiceAgentPostCallDestinationUnion = VoiceAgentEventGridPostCallDestination | VoiceAgentRoutinePostCallDestination | VoiceAgentPostCallDestination;
+
+// @public
+export type VoiceAgentPostCallIncludeOption = "audio";
+
+// @public
 export type VoiceAgentProfanityFilterMode = "masked" | "unfiltered" | "removed";
 
 // @public
@@ -7127,6 +7202,13 @@ export interface VoiceAgentResponseCreateParams {
 // @public
 export interface VoiceAgentResponseOptions extends VoiceAgentEventOptions {
     response?: VoiceAgentResponseCreateParams;
+}
+
+// @public
+export interface VoiceAgentRoutinePostCallDestination extends VoiceAgentPostCallDestination {
+    name: string;
+    // (undocumented)
+    type: "routine";
 }
 
 // @public
