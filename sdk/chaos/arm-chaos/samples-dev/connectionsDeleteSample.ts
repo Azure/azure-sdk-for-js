@@ -8,11 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a connection.
  *
  * @summary delete a connection.
- * x-ms-original-file: 2026-08-01-preview/Connections_Delete.json
+ * x-ms-original-file: 2026-11-01/Connections_Delete.json
  */
 async function deleteAConnectionInAWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ChaosManagementClient(credential, subscriptionId);
   await client.connections.delete("exampleRG", "exampleWorkspace", "aksClusterConnection");
 }

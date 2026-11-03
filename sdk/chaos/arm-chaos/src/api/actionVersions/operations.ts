@@ -30,7 +30,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       location: location,
       actionName: actionName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       continuationToken: options?.continuationToken,
     },
     {
@@ -58,6 +58,7 @@ export async function _listDeserialize(
 
   return _actionVersionListResultDeserializer(result.body);
 }
+
 /** Get a list of Action Version resources for a given location and action. */
 export function list(
   context: Client,
@@ -70,11 +71,7 @@ export function list(
     () => _listSend(context, location, actionName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -92,7 +89,7 @@ export function _getSend(
       location: location,
       actionName: actionName,
       versionName: versionName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,6 +114,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ac
 
   return actionVersionDeserializer(result.body);
 }
+
 /** Get an Action Version resource for a given location and action. */
 export async function get(
   context: Client,

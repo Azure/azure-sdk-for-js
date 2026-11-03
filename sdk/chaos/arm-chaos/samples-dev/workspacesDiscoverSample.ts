@@ -5,10 +5,10 @@ import { ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to triggers resource discovery for the workspace.
+ * This sample demonstrates how to starts discovery for the workspace. The initial 202 has no body. Poll the operation-bound Location URL until completion: a successful or partially successful discovery returns the typed result; failed or canceled processing returns an Azure error whose target identifies the discovery resource. Ordinary discovery reads return the current resource, including failed or canceled results, while retained.
  *
- * @summary triggers resource discovery for the workspace.
- * x-ms-original-file: 2026-08-01-preview/Workspaces_Discover.json
+ * @summary starts discovery for the workspace. The initial 202 has no body. Poll the operation-bound Location URL until completion: a successful or partially successful discovery returns the typed result; failed or canceled processing returns an Azure error whose target identifies the discovery resource. Ordinary discovery reads return the current resource, including failed or canceled results, while retained.
+ * x-ms-original-file: 2026-11-01/Workspaces_Discover.json
  */
 async function triggerResourceDiscoveryForTheWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();
