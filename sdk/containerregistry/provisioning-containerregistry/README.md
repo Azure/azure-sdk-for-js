@@ -11,6 +11,10 @@ Install the service library and the core authoring library with npm:
 npm install @azure/provisioning-containerregistry @azure/provisioning-core
 ```
 
+1. Create a `Stack` using `@azure/provisioning-core` and define the resource's parent context.
+2. Import resource classes from `@azure/provisioning-containerregistry` and add them to your definition with their required properties.
+3. Serialize the definition using `@azure/provisioning-core/serialization`.
+
 ```ts snippet:ReadmeSampleCreateRegistry
 import { Stack } from "@azure/provisioning-core";
 import { Registry } from "@azure/provisioning-containerregistry";
@@ -27,10 +31,6 @@ new Registry(stack, {
   },
 });
 ```
-
-1. Create a `Stack` using `@azure/provisioning-core` and define the resource's parent context.
-2. Import resource classes from `@azure/provisioning-containerregistry` and add them to your definition with their required properties.
-3. Serialize the definition using `@azure/provisioning-core/serialization`.
 
 See the [core library documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/provisioning-core/README.md) for the authoring model and serialization APIs.
 
