@@ -35,13 +35,8 @@ export class LegacyFetchImplementation {
           !response.result.buffer ||
           response.result.buffer.length === 0
         ) {
-          if (fetchBuffer.length > 0) {
-            const copiedFetchBuffer = [...fetchBuffer];
-            fetchBuffer.length = 0; // Clear array in place
-            return { result: copiedFetchBuffer, headers: fetchMoreRespHeaders };
-          } else {
-            return { result: undefined, headers: fetchMoreRespHeaders };
-          }
+          // Skip empty backend pages and continue filling the logical page.
+          continue;
         }
         fetchBuffer.push(...response.result.buffer);
       }
