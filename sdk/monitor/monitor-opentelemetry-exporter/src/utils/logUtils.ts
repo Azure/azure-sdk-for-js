@@ -59,7 +59,11 @@ import {
  * Log to Azure envelope parsing.
  * @internal
  */
-export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | undefined {
+export function logToEnvelope(
+  log: ReadableLogRecord,
+  ikey: string,
+  increaseGenAiMessageLimit = false,
+): Envelope | undefined {
   const time = hrTimeToDate(log.hrTime);
   const sampleRate = 100;
   const instrumentationKey = ikey;
@@ -146,7 +150,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   if (baseData && "message" in baseData && baseData.message) {
     baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
   }
-  baseData.properties = truncateCustomDimensions(properties);
+  baseData.properties = truncateCustomDimensions(properties, increaseGenAiMessageLimit);
   baseData.measurements = measurements;
 
   return {

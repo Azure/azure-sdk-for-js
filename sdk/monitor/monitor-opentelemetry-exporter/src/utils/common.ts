@@ -49,7 +49,6 @@ import {
   APPLICATION_ID_RESOURCE_KEY,
   CUSTOM_DIMENSIONS_GENAI_KEYS,
   CUSTOM_DIMENSIONS_GENAI_MESSAGE_KEYS,
-  ENV_APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES,
   ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
   isEnvVarTrue,
 } from "../Declarations/Constants.js";
@@ -234,6 +233,7 @@ export function createResourceMetricEnvelope(
   resource: Resource,
   instrumentationKey: string,
   applicationId?: string,
+  increaseGenAiMessageLimit = false,
 ): Envelope | undefined {
   const attributes = resource.attributes;
   if (attributes) {
@@ -261,7 +261,7 @@ export function createResourceMetricEnvelope(
         kind: "MetricsData",
         version: DEFAULT_BREEZE_DATA_VERSION,
         metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
-        properties: truncateCustomDimensions(resourceAttributes),
+        properties: truncateCustomDimensions(resourceAttributes, increaseGenAiMessageLimit),
       };
       const envelope: Envelope = {
         name: "Microsoft.ApplicationInsights.Metric",
@@ -365,16 +365,14 @@ export function createCustomMeasurements(
  * input/output messages. All other properties use an 8 KiB limit.
  * @internal
  */
-export function truncateCustomDimensions(properties: Record<string, unknown>): {
+export function truncateCustomDimensions(
+  properties: Record<string, unknown>,
+  increaseGenAiMessageLimit = false,
+): {
   [propertyName: string]: string;
 } {
   const defaultMaxSize = MaxPropertyLengths.THIRTEEN_BIT;
   const genaiMaxSize = MaxPropertyLengths.EIGHTEEN_BIT;
-  const increaseGenAiMessageLimit = process.env[
-    ENV_APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES
-  ]?.split(",").some(
-    (feature) => feature.trim().toLowerCase() === "gen_ai_input_output_limit_increase",
-  );
   const result: { [propertyName: string]: string } = {};
   let truncated = false;
 

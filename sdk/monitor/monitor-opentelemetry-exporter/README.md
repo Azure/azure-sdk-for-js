@@ -185,7 +185,7 @@ See [GenAI message size limit](#genai-message-size-limit) for opt-in instruction
 
 ### Experimental features
 
-Use `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES` to opt in to named experimental features before exporting telemetry. Feature names are comma-separated, case-insensitive, and trimmed of surrounding whitespace. An unset or empty value enables no experimental features. Unknown names are ignored. Experimental features may change or be removed in future releases.
+Use `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES` to opt in to named experimental features before constructing exporters. Feature names are comma-separated, case-insensitive, and trimmed of surrounding whitespace. An unset or empty value enables no experimental features. Unknown names are ignored. Experimental features may change or be removed in future releases.
 
 #### GenAI message size limit
 
@@ -195,7 +195,7 @@ Enable `gen_ai_input_output_limit_increase` to raise the custom dimension limit 
 $env:APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES = "gen_ai_input_output_limit_increase"
 ```
 
-The exporter reads this setting when converting telemetry to envelopes.
+Each exporter reads this setting once during construction. Changes to the environment variable do not affect existing exporters.
 
 Multimodal messages containing base64-encoded images or audio can produce large telemetry items. When using `BatchSpanProcessor` or `BatchLogRecordProcessor`, consider reducing `maxExportBatchSize` or increasing `exportTimeoutMillis`. You can also limit captured content at the source. Truncated structured values may no longer be valid JSON.
 
