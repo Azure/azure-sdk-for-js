@@ -68,6 +68,7 @@ export class AzureMonitorMetricExporter
       metrics,
       this.instrumentationKey,
       false,
+      this._increaseGenAiMessageLimit,
       groups,
     );
     // Supress tracing until OpenTelemetry Metrics SDK support it

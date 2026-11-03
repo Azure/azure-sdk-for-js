@@ -45,6 +45,8 @@ import type { PrivateLinkScopesOperations } from "./classic/privateLinkScopes/in
 import { _getPrivateLinkScopesOperations } from "./classic/privateLinkScopes/index.js";
 import type { SettingsOperations } from "./classic/settings/index.js";
 import { _getSettingsOperations } from "./classic/settings/index.js";
+import type { VmApplicationsOperations } from "./classic/vmApplications/index.js";
+import { _getVmApplicationsOperations } from "./classic/vmApplications/index.js";
 import type { MachineExtensionUpgrade, SetupExtensionRequest } from "./models/models.js";
 import type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "./static-helpers/simplePollerHelpers.js";
@@ -94,6 +96,7 @@ export class HybridComputeManagementClient {
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.gateways = _getGatewaysOperations(this._client);
+    this.vmApplications = _getVmApplicationsOperations(this._client);
     this.machineRunCommands = _getMachineRunCommandsOperations(this._client);
     this.machineExtensions = _getMachineExtensionsOperations(this._client);
     this.licenseProfiles = _getLicenseProfilesOperations(this._client);
@@ -212,6 +215,8 @@ export class HybridComputeManagementClient {
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for gateways */
   public readonly gateways: GatewaysOperations;
+  /** The operation groups for vmApplications */
+  public readonly vmApplications: VmApplicationsOperations;
   /** The operation groups for machineRunCommands */
   public readonly machineRunCommands: MachineRunCommandsOperations;
   /** The operation groups for machineExtensions */

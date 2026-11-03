@@ -79,8 +79,12 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
         const route = getTelemetryRoute(span.attributes);
         if (route) {
           addToRoutingGroups(groups, route, [
-            readableSpanToEnvelope(span, route.instrumentationKey),
-            ...spanEventsToEnvelopes(span, route.instrumentationKey),
+            readableSpanToEnvelope(span, route.instrumentationKey, this._increaseGenAiMessageLimit),
+            ...spanEventsToEnvelopes(
+              span,
+              route.instrumentationKey,
+              this._increaseGenAiMessageLimit,
+            ),
           ]);
         }
       }
@@ -94,13 +98,20 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
         spans[0].resource,
         this.instrumentationKey,
         this.applicationId,
+        this._increaseGenAiMessageLimit,
       );
       if (resourceMetricEnvelope && this.shouldCreateResourceMetric) {
         envelopes.push(resourceMetricEnvelope);
       }
       spans.forEach((span) => {
-        envelopes.push(readableSpanToEnvelope(span, this.instrumentationKey));
-        const spanEventEnvelopes = spanEventsToEnvelopes(span, this.instrumentationKey);
+        envelopes.push(
+          readableSpanToEnvelope(span, this.instrumentationKey, this._increaseGenAiMessageLimit),
+        );
+        const spanEventEnvelopes = spanEventsToEnvelopes(
+          span,
+          this.instrumentationKey,
+          this._increaseGenAiMessageLimit,
+        );
         if (spanEventEnvelopes.length > 0) {
           envelopes.push(...spanEventEnvelopes);
         }

@@ -106,7 +106,7 @@ const recorderEnvSetup: RecorderStartOptions = {
         value:
           "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://region.applicationinsights.azure.com/;LiveEndpoint=https://region.livediagnostics.monitor.azure.com/;ApplicationId=00000000-0000-0000-0000-000000000000",
       },
-      { jsonPath: "properties.credentials.key", value: replaceableVariables.API_KEY },
+      { jsonPath: "$..key", value: replaceableVariables.API_KEY },
       { jsonPath: "$.definition.image", value: replaceableVariables.FOUNDRY_AGENT_CONTAINER_IMAGE },
     ],
   },
@@ -123,6 +123,7 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
   await recorder.start(recorderEnvSetup);
   await recorder.addSanitizers(
     {
+      bodyKeySanitizers: [{ jsonPath: "$..key", value: replaceableVariables.API_KEY }],
       generalSanitizers: [
         {
           regex: true,

@@ -133,7 +133,7 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
     To be able to leverage the asset-sync workflow
     - Install [Powershell](https://github.com/PowerShell/PowerShell)
       - Make sure `pwsh` command works at this step (If you follow the above link, `pwsh` is typically added to the system environment variables by default)
-    - Add `dev-tool` to the `devDependencies` in the `package.json`.
+    - Add `@azure/dev-tool` to the `devDependencies` in the `package.json`.
 
     The package needs to use the current version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^4.0.0`).
 
@@ -172,7 +172,7 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
 
     ```shell
     pnpm turbo build --filter=${PACKAGE_NAME}... --token 1
-    export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    export TEST_MODE=playback && pnpm test # this runs the tests in playback mode using existing recordings; no new recordings are generated.
     ```
 
     On Windows, you can use:

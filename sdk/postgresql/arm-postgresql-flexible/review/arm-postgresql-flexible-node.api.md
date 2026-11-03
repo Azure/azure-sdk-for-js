@@ -568,61 +568,6 @@ export interface DataEncryption {
 export type DataEncryptionType = string;
 
 // @public
-export interface DbAgent extends ProxyResource {
-    properties?: DbAgentProperties;
-}
-
-// @public
-export interface DbAgentForUpdate {
-    properties: DbAgentForUpdateProperties;
-}
-
-// @public
-export interface DbAgentForUpdateProperties {
-    state: DbAgentForUpdateState;
-}
-
-// @public
-export type DbAgentForUpdateState = "Enabled" | "Disabled";
-
-// @public
-export interface DbAgentProperties {
-    readonly lastModifiedTime?: Date;
-    readonly provisioningState?: DbAgentProvisioningState;
-    readonly state: DbAgentState;
-}
-
-// @public
-export type DbAgentProvisioningState = string;
-
-// @public
-export interface DbAgentsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DbAgentsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DbAgentsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DbAgentsOperations {
-    // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, serverName: string, resource: DbAgentForUpdate, options?: DbAgentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DbAgent>, DbAgent>>;
-    // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, serverName: string, resource: DbAgentForUpdate, options?: DbAgentsCreateOrUpdateOptionalParams) => Promise<DbAgent>;
-    createOrUpdate: (resourceGroupName: string, serverName: string, resource: DbAgentForUpdate, options?: DbAgentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DbAgent>, DbAgent>;
-    get: (resourceGroupName: string, serverName: string, options?: DbAgentsGetOptionalParams) => Promise<DbAgent>;
-    list: (resourceGroupName: string, serverName: string, options?: DbAgentsListOptionalParams) => PagedAsyncIterableIterator<DbAgent>;
-}
-
-// @public
-export type DbAgentState = string;
-
-// @public
 export interface DbLevelValidationStatus {
     databaseName?: string;
     endedOn?: Date;
@@ -854,23 +799,6 @@ export enum KnownCreateModeForPatch {
 export enum KnownDataEncryptionType {
     AzureKeyVault = "AzureKeyVault",
     SystemManaged = "SystemManaged"
-}
-
-// @public
-export enum KnownDbAgentProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    InProgress = "InProgress",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownDbAgentState {
-    Disabled = "Disabled",
-    Disabling = "Disabling",
-    Enabled = "Enabled",
-    Enabling = "Enabling",
-    Failed = "Failed"
 }
 
 // @public
@@ -1107,19 +1035,6 @@ export enum KnownPasswordBasedAuth {
 }
 
 // @public
-export enum KnownPostgresMajorVersion {
-    Eighteen = "18",
-    Eleven = "11",
-    Fifteen = "15",
-    Fourteen = "14",
-    PostgresMajorVersion19 = "19",
-    Seventeen = "17",
-    Sixteen = "16",
-    Thirteen = "13",
-    Twelve = "12"
-}
-
-// @public
 export enum KnownPostgreSqlFlexibleServerHighAvailabilityMode {
     Disabled = "Disabled",
     SameZone = "SameZone",
@@ -1312,9 +1227,7 @@ export enum KnownValidationState {
 // @public
 export enum KnownVersions {
     V20250801 = "2025-08-01",
-    V20260101 = "2026-01-01-preview",
-    V20260401 = "2026-04-01-preview",
-    V20260701 = "2026-07-01-preview"
+    V20261001 = "2026-10-01"
 }
 
 // @public
@@ -1492,7 +1405,7 @@ export interface MajorVersionUpgradePrecheckResourceProperties {
     policyDetails?: PolicyDetail[];
     precheckResult?: PrecheckResult;
     status?: MajorVersionUpgradePrecheckStatus;
-    targetVersion?: PostgresMajorVersion;
+    targetVersion?: string;
 }
 
 // @public
@@ -1872,9 +1785,6 @@ export interface PolicyDetail {
 }
 
 // @public
-export type PostgresMajorVersion = string;
-
-// @public
 export type PostgreSqlFlexibleServerHighAvailabilityMode = string;
 
 // @public (undocumented)
@@ -1890,7 +1800,6 @@ export class PostgreSQLManagementFlexibleServerClient {
     readonly capturedLogs: CapturedLogsOperations;
     readonly configurations: ConfigurationsOperations;
     readonly databases: DatabasesOperations;
-    readonly dbAgents: DbAgentsOperations;
     readonly firewallRules: FirewallRulesOperations;
     readonly maintenanceEvents: MaintenanceEventsOperations;
     readonly majorVersionUpgradePrecheck: MajorVersionUpgradePrecheckOperations;
@@ -2152,7 +2061,7 @@ export interface Server extends TrackedResource {
     sourceServerResourceId?: string;
     readonly state?: ServerState;
     storage?: Storage_2;
-    version?: PostgresMajorVersion;
+    version?: string;
 }
 
 // @public
@@ -2184,7 +2093,7 @@ export interface ServerForPatch {
     sourceServerResourceId?: string;
     storage?: Storage_2;
     tags?: Record<string, string>;
-    version?: PostgresMajorVersion;
+    version?: string;
 }
 
 // @public
@@ -2211,7 +2120,7 @@ export interface ServerProperties {
     sourceServerResourceId?: string;
     readonly state?: ServerState;
     storage?: Storage_2;
-    version?: PostgresMajorVersion;
+    version?: string;
 }
 
 // @public
@@ -2232,7 +2141,7 @@ export interface ServerPropertiesForPatch {
     replicationRole?: ReplicationRole;
     sourceServerResourceId?: string;
     storage?: Storage_2;
-    version?: PostgresMajorVersion;
+    version?: string;
 }
 
 // @public
@@ -2434,7 +2343,7 @@ export type StartDataMigration = string;
 
 // @public
 export interface StartMajorVersionUpgradePrecheckRequest {
-    targetVersion: PostgresMajorVersion;
+    targetVersion: string;
 }
 
 // @public
@@ -2557,8 +2466,8 @@ export interface TuningOptionsProperties {
 
 // @public
 export interface UpgradeSequence {
-    sourceVersion?: PostgresMajorVersion;
-    targetVersion?: PostgresMajorVersion;
+    sourceVersion?: string;
+    targetVersion?: string;
 }
 
 // @public

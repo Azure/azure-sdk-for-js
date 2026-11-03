@@ -273,6 +273,64 @@ describe("multi-endpoint exporters", () => {
     expect(body()[0].data.baseData.properties).toEqual({ custom: "one" });
   });
 
+  it.each([false, true])(
+    "retains GenAI message limits initialized with opt-in %s across routed telemetry",
+    async (enabled) => {
+      vi.stubEnv(
+        "APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES",
+        enabled
+          ? "multi_endpoint_routing,gen_ai_input_output_limit_increase"
+          : "multi_endpoint_routing",
+      );
+      const logExporter = create(new AzureMonitorLogExporter(options));
+      const traceExporter = create(new AzureMonitorTraceExporter(options));
+      const metricExporter = create(new AzureMonitorMetricExporter(options));
+      vi.stubEnv(
+        "APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES",
+        enabled ? undefined : "gen_ai_input_output_limit_increase",
+      );
+      const attributes = {
+        ...route(),
+        "gen_ai.input.messages": "i".repeat(1024 * 1024),
+        "gen_ai.output.messages": "o".repeat(4 * 1024 * 1024 + 1),
+        "gen_ai.system_instructions": "s".repeat(256 * 1024 + 1),
+        "custom.attribute": "c".repeat(8 * 1024 + 1),
+      };
+      const parent = span(attributes);
+      parent.events.push({ name: "event", time: [1, 0], attributes });
+      const callback = vi.fn();
+      await logExporter.export([log(attributes)], callback);
+      await traceExporter.export([parent], callback);
+      await metricExporter.export(metrics([attributes]), callback);
+
+      expect(callback.mock.calls).toEqual([
+        [{ code: ExportResultCode.SUCCESS }],
+        [{ code: ExportResultCode.SUCCESS }],
+        [{ code: ExportResultCode.SUCCESS }],
+      ]);
+      expect(requests.map((request) => request.url)).toEqual([
+        "https://first.test/v2.1/track",
+        "https://first.test/v2.1/track",
+        "https://first.test/v2.1/track",
+      ]);
+      const envelopes = requests.flatMap((_, index) => body(index));
+      expect(envelopes).toHaveLength(4);
+      for (const envelope of envelopes) {
+        expect(envelope.iKey).toBe("tenant-key");
+        const properties = envelope.data.baseData.properties;
+        expect(Buffer.byteLength(properties["gen_ai.input.messages"])).toBe(
+          enabled ? 1024 * 1024 : 256 * 1024,
+        );
+        expect(Buffer.byteLength(properties["gen_ai.output.messages"])).toBe(
+          enabled ? 4 * 1024 * 1024 : 256 * 1024,
+        );
+        expect(Buffer.byteLength(properties["gen_ai.system_instructions"])).toBe(256 * 1024);
+        expect(Buffer.byteLength(properties["custom.attribute"])).toBe(8 * 1024);
+        expect(properties["microsoft.instrumentation_key"]).toBeUndefined();
+      }
+    },
+  );
+
   it("separates authentication modes without sending host credentials on key-only routes", async () => {
     const getToken = vi
       .fn()
