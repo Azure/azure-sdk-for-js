@@ -35,7 +35,7 @@ export function _listByResourceGroupSend(
     {
       resourceGroupName: resourceGroupName,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,7 +53,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -72,7 +74,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -84,7 +86,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Web/resourceHealthMetadata{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,7 +104,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -120,7 +124,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -138,7 +142,7 @@ export function _listBySiteSlotSend(
       resourceGroupName: resourceGroupName,
       name: name,
       slot: slot,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -156,7 +160,9 @@ export async function _listBySiteSlotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -177,7 +183,7 @@ export function listBySiteSlot(
     () => _listBySiteSlotSend(context, resourceGroupName, name, slot, options),
     _listBySiteSlotDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -195,7 +201,7 @@ export function _getBySiteSlotSend(
       resourceGroupName: resourceGroupName,
       name: name,
       slot: slot,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,7 +219,9 @@ export async function _getBySiteSlotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -245,7 +253,7 @@ export function _listBySiteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -263,7 +271,9 @@ export async function _listBySiteDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -283,7 +293,7 @@ export function listBySite(
     () => _listBySiteSend(context, resourceGroupName, name, options),
     _listBySiteDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -299,7 +309,7 @@ export function _getBySiteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -317,7 +327,9 @@ export async function _getBySiteDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

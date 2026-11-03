@@ -75,7 +75,7 @@ export function _executeSiteDetectorSlotSend(
       slot: slot,
       diagnosticCategory: diagnosticCategory,
       detectorName: detectorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       startTime: !options?.startTime ? options?.startTime : options?.startTime.toISOString(),
       endTime: !options?.endTime ? options?.endTime : options?.endTime.toISOString(),
       timeGrain: options?.timeGrain,
@@ -96,7 +96,9 @@ export async function _executeSiteDetectorSlotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -142,7 +144,7 @@ export function _listSiteDetectorsSlotSend(
       siteName: siteName,
       slot: slot,
       diagnosticCategory: diagnosticCategory,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -160,7 +162,9 @@ export async function _listSiteDetectorsSlotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -190,7 +194,7 @@ export function listSiteDetectorsSlot(
       ),
     _listSiteDetectorsSlotDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -212,7 +216,7 @@ export function _getSiteDetectorSlotSend(
       slot: slot,
       diagnosticCategory: diagnosticCategory,
       detectorName: detectorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,7 +234,9 @@ export async function _getSiteDetectorSlotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -276,7 +282,7 @@ export function _executeSiteDetectorSend(
       siteName: siteName,
       diagnosticCategory: diagnosticCategory,
       detectorName: detectorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       startTime: !options?.startTime ? options?.startTime : options?.startTime.toISOString(),
       endTime: !options?.endTime ? options?.endTime : options?.endTime.toISOString(),
       timeGrain: options?.timeGrain,
@@ -297,7 +303,9 @@ export async function _executeSiteDetectorDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -339,7 +347,7 @@ export function _listSiteDetectorsSend(
       resourceGroupName: resourceGroupName,
       siteName: siteName,
       diagnosticCategory: diagnosticCategory,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -357,7 +365,9 @@ export async function _listSiteDetectorsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -378,7 +388,7 @@ export function listSiteDetectors(
     () => _listSiteDetectorsSend(context, resourceGroupName, siteName, diagnosticCategory, options),
     _listSiteDetectorsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -398,7 +408,7 @@ export function _getSiteDetectorSend(
       siteName: siteName,
       diagnosticCategory: diagnosticCategory,
       detectorName: detectorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -416,7 +426,9 @@ export async function _getSiteDetectorDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -462,7 +474,7 @@ export function _executeSiteAnalysisSlotSend(
       slot: slot,
       diagnosticCategory: diagnosticCategory,
       analysisName: analysisName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       startTime: !options?.startTime ? options?.startTime : options?.startTime.toISOString(),
       endTime: !options?.endTime ? options?.endTime : options?.endTime.toISOString(),
       timeGrain: options?.timeGrain,
@@ -483,7 +495,9 @@ export async function _executeSiteAnalysisSlotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -529,7 +543,7 @@ export function _listSiteAnalysesSlotSend(
       siteName: siteName,
       slot: slot,
       diagnosticCategory: diagnosticCategory,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -547,7 +561,9 @@ export async function _listSiteAnalysesSlotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -577,7 +593,7 @@ export function listSiteAnalysesSlot(
       ),
     _listSiteAnalysesSlotDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -599,7 +615,7 @@ export function _getSiteAnalysisSlotSend(
       slot: slot,
       diagnosticCategory: diagnosticCategory,
       analysisName: analysisName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -617,7 +633,9 @@ export async function _getSiteAnalysisSlotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -663,7 +681,7 @@ export function _executeSiteAnalysisSend(
       siteName: siteName,
       diagnosticCategory: diagnosticCategory,
       analysisName: analysisName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       startTime: !options?.startTime ? options?.startTime : options?.startTime.toISOString(),
       endTime: !options?.endTime ? options?.endTime : options?.endTime.toISOString(),
       timeGrain: options?.timeGrain,
@@ -684,7 +702,9 @@ export async function _executeSiteAnalysisDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -726,7 +746,7 @@ export function _listSiteAnalysesSend(
       resourceGroupName: resourceGroupName,
       siteName: siteName,
       diagnosticCategory: diagnosticCategory,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -744,7 +764,9 @@ export async function _listSiteAnalysesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -765,7 +787,7 @@ export function listSiteAnalyses(
     () => _listSiteAnalysesSend(context, resourceGroupName, siteName, diagnosticCategory, options),
     _listSiteAnalysesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -785,7 +807,7 @@ export function _getSiteAnalysisSend(
       siteName: siteName,
       diagnosticCategory: diagnosticCategory,
       analysisName: analysisName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -803,7 +825,9 @@ export async function _getSiteAnalysisDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -845,7 +869,7 @@ export function _listSiteDiagnosticCategoriesSlotSend(
       resourceGroupName: resourceGroupName,
       siteName: siteName,
       slot: slot,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -863,7 +887,9 @@ export async function _listSiteDiagnosticCategoriesSlotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -885,7 +911,7 @@ export function listSiteDiagnosticCategoriesSlot(
       _listSiteDiagnosticCategoriesSlotSend(context, resourceGroupName, siteName, slot, options),
     _listSiteDiagnosticCategoriesSlotDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -905,7 +931,7 @@ export function _getSiteDiagnosticCategorySlotSend(
       siteName: siteName,
       slot: slot,
       diagnosticCategory: diagnosticCategory,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -923,7 +949,9 @@ export async function _getSiteDiagnosticCategorySlotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -963,7 +991,7 @@ export function _listSiteDiagnosticCategoriesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       siteName: siteName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -981,7 +1009,9 @@ export async function _listSiteDiagnosticCategoriesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1001,7 +1031,7 @@ export function listSiteDiagnosticCategories(
     () => _listSiteDiagnosticCategoriesSend(context, resourceGroupName, siteName, options),
     _listSiteDiagnosticCategoriesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -1019,7 +1049,7 @@ export function _getSiteDiagnosticCategorySend(
       resourceGroupName: resourceGroupName,
       siteName: siteName,
       diagnosticCategory: diagnosticCategory,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1037,7 +1067,9 @@ export async function _getSiteDiagnosticCategoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1077,7 +1109,7 @@ export function _listSiteDetectorResponsesSlotSend(
       resourceGroupName: resourceGroupName,
       siteName: siteName,
       slot: slot,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1095,7 +1127,9 @@ export async function _listSiteDetectorResponsesSlotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1116,7 +1150,7 @@ export function listSiteDetectorResponsesSlot(
     () => _listSiteDetectorResponsesSlotSend(context, resourceGroupName, siteName, slot, options),
     _listSiteDetectorResponsesSlotDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -1136,7 +1170,7 @@ export function _getSiteDetectorResponseSlotSend(
       siteName: siteName,
       slot: slot,
       detectorName: detectorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       startTime: !options?.startTime ? options?.startTime : options?.startTime.toISOString(),
       endTime: !options?.endTime ? options?.endTime : options?.endTime.toISOString(),
       timeGrain: options?.timeGrain,
@@ -1157,7 +1191,9 @@ export async function _getSiteDetectorResponseSlotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1199,7 +1235,7 @@ export function _listHostingEnvironmentDetectorResponsesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1217,7 +1253,9 @@ export async function _listHostingEnvironmentDetectorResponsesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1239,7 +1277,7 @@ export function listHostingEnvironmentDetectorResponses(
     () => _listHostingEnvironmentDetectorResponsesSend(context, resourceGroupName, name, options),
     _listHostingEnvironmentDetectorResponsesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -1257,7 +1295,7 @@ export function _getHostingEnvironmentDetectorResponseSend(
       resourceGroupName: resourceGroupName,
       name: name,
       detectorName: detectorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       startTime: !options?.startTime ? options?.startTime : options?.startTime.toISOString(),
       endTime: !options?.endTime ? options?.endTime : options?.endTime.toISOString(),
       timeGrain: options?.timeGrain,
@@ -1278,7 +1316,9 @@ export async function _getHostingEnvironmentDetectorResponseDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1316,7 +1356,7 @@ export function _listSiteDetectorResponsesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       siteName: siteName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1334,7 +1374,9 @@ export async function _listSiteDetectorResponsesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1354,7 +1396,7 @@ export function listSiteDetectorResponses(
     () => _listSiteDetectorResponsesSend(context, resourceGroupName, siteName, options),
     _listSiteDetectorResponsesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -1372,7 +1414,7 @@ export function _getSiteDetectorResponseSend(
       resourceGroupName: resourceGroupName,
       siteName: siteName,
       detectorName: detectorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       startTime: !options?.startTime ? options?.startTime : options?.startTime.toISOString(),
       endTime: !options?.endTime ? options?.endTime : options?.endTime.toISOString(),
       timeGrain: options?.timeGrain,
@@ -1393,7 +1435,9 @@ export async function _getSiteDetectorResponseDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

@@ -2,8 +2,17 @@
 // Licensed under the MIT License.
 
 import type { WebSiteManagementClient } from "./webSiteManagementClient.js";
+import {
+  _deleteServerFarmSiloDeserialize,
+  _createOrUpdateServerFarmSiloDeserialize,
+} from "./api/serverFarmSiloResources/operations.js";
+import {
+  _deleteSiteSiloDeserialize,
+  _createOrUpdateSiteSiloDeserialize,
+} from "./api/siteSiloResources/operations.js";
 import { _resubmitDeserialize } from "./api/workflowTriggerHistories/operations.js";
 import { _runDeserialize } from "./api/workflowTriggers/operations.js";
+import { _getOperationResultDeserialize } from "./api/staticSitesAsyncOperations/operations.js";
 import {
   _$deleteDeserialize,
   _createOrUpdateDeserialize,
@@ -145,10 +154,23 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/silos/{siloName}":
+    { deserializer: _deleteServerFarmSiloDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/silos/{siloName}":
+    {
+      deserializer: _createOrUpdateServerFarmSiloDeserialize,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/silos/{siloName}":
+    { deserializer: _deleteSiteSiloDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/silos/{siloName}":
+    { deserializer: _createOrUpdateSiteSiloDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/triggers/{triggerName}/histories/{historyName}/resubmit":
     { deserializer: _resubmitDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/triggers/{triggerName}/run":
     { deserializer: _runDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/staticSitesOperationResults/{operationId}":
+    { deserializer: _getOperationResultDeserialize, expectedStatuses: ["200", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}":

@@ -1,6 +1,42 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/getUsagesInLocation/index.ts",
+    "../src/api/workflowRunActionRepetitionsRequestHistories/index.ts",
+    "../src/api/workflowRunActionRepetitions/index.ts",
+    "../src/api/workflows/index.ts",
+    "../src/api/resourceHealthMetadata/index.ts",
+    "../src/api/deletedWebApps/index.ts",
+    "../src/api/provider/index.ts",
+    "../src/api/lastKnownGoodResources/index.ts",
+    "../src/api/managedTrafficConfigResources/index.ts",
+    "../src/api/serverFarmSiloResources/index.ts",
+    "../src/api/siteSiloVirtualNetworkConnections/index.ts",
+    "../src/api/siteSiloResources/index.ts",
+    "../src/api/workflowVersions/index.ts",
+    "../src/api/workflowTriggerHistories/index.ts",
+    "../src/api/workflowTriggers/index.ts",
+    "../src/api/workflowRunActionScopeRepetitions/index.ts",
+    "../src/api/workflowRunActions/index.ts",
+    "../src/api/workflowRuns/index.ts",
+    "../src/api/aiGateways/index.ts",
+    "../src/api/staticSitesAsyncOperations/index.ts",
+    "../src/api/sites/index.ts",
+    "../src/api/kubeEnvironments/index.ts",
+    "../src/api/diagnostics/index.ts",
+    "../src/api/global/index.ts",
+    "../src/api/siteCertificates/index.ts",
+    "../src/api/certificates/index.ts",
+    "../src/api/appServicePlans/index.ts",
+    "../src/api/webApps/index.ts",
+    "../src/api/staticSites/index.ts",
+    "../src/api/recommendations/index.ts",
+    "../src/api/appServiceEnvironments/index.ts",
+    "../src/models/index.ts"
   ]
 }

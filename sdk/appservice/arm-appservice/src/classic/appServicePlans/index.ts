@@ -21,6 +21,8 @@ import {
   listUsages,
   getServerFarmSkus,
   listWebApps,
+  stopWebApps,
+  startWebApps,
   restartWebApps,
   listHybridConnections,
   listCapabilities,
@@ -53,6 +55,8 @@ import type {
   AppServicePlansListUsagesOptionalParams,
   AppServicePlansGetServerFarmSkusOptionalParams,
   AppServicePlansListWebAppsOptionalParams,
+  AppServicePlansStopWebAppsOptionalParams,
+  AppServicePlansStartWebAppsOptionalParams,
   AppServicePlansRestartWebAppsOptionalParams,
   AppServicePlansListHybridConnectionsOptionalParams,
   AppServicePlansListCapabilitiesOptionalParams,
@@ -223,6 +227,18 @@ export interface AppServicePlansOperations {
     name: string,
     options?: AppServicePlansListWebAppsOptionalParams,
   ) => PagedAsyncIterableIterator<Site>;
+  /** Description for Stop all apps in an App Service plan. */
+  stopWebApps: (
+    resourceGroupName: string,
+    name: string,
+    options?: AppServicePlansStopWebAppsOptionalParams,
+  ) => Promise<void>;
+  /** Description for Start all apps in an App Service plan. */
+  startWebApps: (
+    resourceGroupName: string,
+    name: string,
+    options?: AppServicePlansStartWebAppsOptionalParams,
+  ) => Promise<void>;
   /** Description for Restart all apps in an App Service plan. */
   restartWebApps: (
     resourceGroupName: string,
@@ -455,6 +471,16 @@ function _getAppServicePlans(context: WebSiteManagementContext) {
       name: string,
       options?: AppServicePlansListWebAppsOptionalParams,
     ) => listWebApps(context, resourceGroupName, name, options),
+    stopWebApps: (
+      resourceGroupName: string,
+      name: string,
+      options?: AppServicePlansStopWebAppsOptionalParams,
+    ) => stopWebApps(context, resourceGroupName, name, options),
+    startWebApps: (
+      resourceGroupName: string,
+      name: string,
+      options?: AppServicePlansStartWebAppsOptionalParams,
+    ) => startWebApps(context, resourceGroupName, name, options),
     restartWebApps: (
       resourceGroupName: string,
       name: string,
@@ -508,7 +534,7 @@ function _getAppServicePlans(context: WebSiteManagementContext) {
       appServicePlan: AppServicePlan,
       options?: AppServicePlansCreateOrUpdateOptionalParams,
     ) => {
-      return createOrUpdate(context, resourceGroupName, name, appServicePlan, options);
+      return await createOrUpdate(context, resourceGroupName, name, appServicePlan, options);
     },
     get: (resourceGroupName: string, name: string, options?: AppServicePlansGetOptionalParams) =>
       get(context, resourceGroupName, name, options),

@@ -1084,7 +1084,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
       options?: StaticSitesValidateBackendForBuildOptionalParams,
     ) => {
-      return validateBackendForBuild(
+      return await validateBackendForBuild(
         context,
         resourceGroupName,
         name,
@@ -1160,7 +1160,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
       options?: StaticSitesLinkBackendToBuildOptionalParams,
     ) => {
-      return linkBackendToBuild(
+      return await linkBackendToBuild(
         context,
         resourceGroupName,
         name,
@@ -1225,7 +1225,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
       options?: StaticSitesValidateBackendOptionalParams,
     ) => {
-      return validateBackend(
+      return await validateBackend(
         context,
         resourceGroupName,
         name,
@@ -1285,7 +1285,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
       options?: StaticSitesLinkBackendOptionalParams,
     ) => {
-      return linkBackend(
+      return await linkBackend(
         context,
         resourceGroupName,
         name,
@@ -1340,7 +1340,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
       options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams,
     ) => {
-      return validateCustomDomainCanBeAddedToStaticSite(
+      return await validateCustomDomainCanBeAddedToStaticSite(
         context,
         resourceGroupName,
         name,
@@ -1382,7 +1382,13 @@ function _getStaticSites(context: WebSiteManagementContext) {
       domainName: string,
       options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams,
     ) => {
-      return deleteStaticSiteCustomDomain(context, resourceGroupName, name, domainName, options);
+      return await deleteStaticSiteCustomDomain(
+        context,
+        resourceGroupName,
+        name,
+        domainName,
+        options,
+      );
     },
     createOrUpdateStaticSiteCustomDomain: (
       resourceGroupName: string,
@@ -1424,7 +1430,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
       options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams,
     ) => {
-      return createOrUpdateStaticSiteCustomDomain(
+      return await createOrUpdateStaticSiteCustomDomain(
         context,
         resourceGroupName,
         name,
@@ -1523,7 +1529,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
       options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
     ) => {
-      return registerUserProvidedFunctionAppWithStaticSite(
+      return await registerUserProvidedFunctionAppWithStaticSite(
         context,
         resourceGroupName,
         name,
@@ -1618,7 +1624,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
       options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams,
     ) => {
-      return registerUserProvidedFunctionAppWithStaticSiteBuild(
+      return await registerUserProvidedFunctionAppWithStaticSiteBuild(
         context,
         resourceGroupName,
         name,
@@ -1829,7 +1835,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
       options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams,
     ) => {
-      return createZipDeploymentForStaticSiteBuild(
+      return await createZipDeploymentForStaticSiteBuild(
         context,
         resourceGroupName,
         name,
@@ -1939,7 +1945,13 @@ function _getStaticSites(context: WebSiteManagementContext) {
       environmentName: string,
       options?: StaticSitesDeleteStaticSiteBuildOptionalParams,
     ) => {
-      return deleteStaticSiteBuild(context, resourceGroupName, name, environmentName, options);
+      return await deleteStaticSiteBuild(
+        context,
+        resourceGroupName,
+        name,
+        environmentName,
+        options,
+      );
     },
     getStaticSiteBuild: (
       resourceGroupName: string,
@@ -1982,7 +1994,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
       options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams,
     ) => {
-      return createZipDeploymentForStaticSite(
+      return await createZipDeploymentForStaticSite(
         context,
         resourceGroupName,
         name,
@@ -2050,7 +2062,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       name: string,
       options?: StaticSitesDetachStaticSiteOptionalParams,
     ) => {
-      return detachStaticSite(context, resourceGroupName, name, options);
+      return await detachStaticSite(context, resourceGroupName, name, options);
     },
     createUserRolesInvitationLink: (
       resourceGroupName: string,
@@ -2139,7 +2151,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       name: string,
       options?: StaticSitesDeleteStaticSiteOptionalParams,
     ) => {
-      return deleteStaticSite(context, resourceGroupName, name, options);
+      return await deleteStaticSite(context, resourceGroupName, name, options);
     },
     updateStaticSite: (
       resourceGroupName: string,
@@ -2175,7 +2187,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       staticSiteEnvelope: StaticSiteARMResource,
       options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams,
     ) => {
-      return createOrUpdateStaticSite(
+      return await createOrUpdateStaticSite(
         context,
         resourceGroupName,
         name,
@@ -2228,7 +2240,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       privateEndpointConnectionName: string,
       options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams,
     ) => {
-      return deletePrivateEndpointConnection(
+      return await deletePrivateEndpointConnection(
         context,
         resourceGroupName,
         name,
@@ -2276,7 +2288,7 @@ function _getStaticSites(context: WebSiteManagementContext) {
       privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
       options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams,
     ) => {
-      return approveOrRejectPrivateEndpointConnection(
+      return await approveOrRejectPrivateEndpointConnection(
         context,
         resourceGroupName,
         name,

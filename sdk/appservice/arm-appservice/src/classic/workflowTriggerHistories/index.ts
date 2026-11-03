@@ -101,7 +101,7 @@ function _getWorkflowTriggerHistories(context: WebSiteManagementContext) {
       historyName: string,
       options?: WorkflowTriggerHistoriesResubmitOptionalParams,
     ) => {
-      return resubmit(
+      return await resubmit(
         context,
         resourceGroupName,
         name,
