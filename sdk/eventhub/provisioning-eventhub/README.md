@@ -15,6 +15,35 @@ npm install @azure/provisioning-eventhub @azure/provisioning-core
 2. Import resource classes from `@azure/provisioning-eventhub` and add them to your definition with their required properties.
 3. Serialize the definition using `@azure/provisioning-core/serialization`.
 
+The following example defines an Event Hubs namespace and an event hub in a resource-group-scoped stack, then serializes the definition to JSON. The namespace name must be globally unique.
+
+```ts snippet:ReadmeSampleCreateEventHub
+import { Stack } from "@azure/provisioning-core";
+import { Namespace, Eventhub } from "@azure/provisioning-eventhub";
+import { serialize } from "@azure/provisioning-core/serialization";
+
+const stack = new Stack("eventhub-deployment", {
+  targetScope: "resourceGroup",
+  location: "eastus",
+});
+const namespace = new Namespace(stack, {
+  name: "my-unique-eventhub-namespace",
+  location: "eastus",
+  sku: { name: "Standard", tier: "Standard", capacity: 1 },
+});
+const eventHub = new Eventhub(namespace, {
+  name: "my-event-hub",
+  properties: {
+    partitionCount: 2,
+    messageRetentionInDays: 7,
+  },
+});
+stack.outputs.add("eventHubId", "string", eventHub.id);
+console.log(JSON.stringify(serialize(stack), null, 2));
+```
+
+This only produces an infrastructure definition; it does not deploy resources to Azure.
+
 See the [core library documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/provisioning-core/README.md) for the authoring model and serialization APIs.
 
 ## Resource types

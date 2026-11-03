@@ -2735,12 +2735,6 @@ export interface ThrottlingPolicy {
    * Application Group Policy types
    *
    * Selects this variant. Must be "ThrottlingPolicy".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ThrottlingPolicy";
 }
@@ -2765,12 +2759,6 @@ export interface ThrottlingPolicyInput extends InputOf<ThrottlingPolicy> {
    * Application Group Policy types
    *
    * Selects this variant. Must be "ThrottlingPolicy".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ThrottlingPolicy";
 }

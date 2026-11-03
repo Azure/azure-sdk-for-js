@@ -13,7 +13,7 @@
  * Gap/reduction: Source API versions are rendered with the package API version 2026-01-01., The source output-only namespace authorization-rule resource ID is not emitted as a deployable authorization rule.
  */
 
-import { Eventhub, Namespace, NamespaceAuthorizationRule } from "@azure/provisioning-eventhub";
+import { Eventhub, Namespace } from "@azure/provisioning-eventhub";
 import { describe, it } from "vitest";
 
 import {

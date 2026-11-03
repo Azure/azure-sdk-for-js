@@ -13,7 +13,7 @@
  * Gap/reduction: Source API version 2017-04-01 is rendered with the package API version 2026-01-01., The source output-only namespace authorization-rule key lookups are not emitted.
  */
 
-import { Eventhub, Namespace, NamespaceAuthorizationRule } from "@azure/provisioning-eventhub";
+import { Eventhub, Namespace } from "@azure/provisioning-eventhub";
 import { describe, it } from "vitest";
 
 import {
