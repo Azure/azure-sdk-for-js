@@ -1,0 +1,6 @@
+directory: specification/search/resource-manager/Microsoft.Search/Search
+commit: 1e54bd80237f790a9d14388a9b2cd0156695f17e
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
+
+emitterPackageJsonPath: eng/provisioning-emitter-package.json
