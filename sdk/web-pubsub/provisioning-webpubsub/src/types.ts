@@ -407,12 +407,6 @@ export interface EventHubEndpoint {
   fullyQualifiedNamespace: string;
   /**
    * Selects this variant. Must be "EventHub".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "EventHub";
 }
@@ -432,12 +426,6 @@ export interface EventHubEndpointInput extends InputOf<EventHubEndpoint> {
   fullyQualifiedNamespace: ExpressionOrValue<string>;
   /**
    * Selects this variant. Must be "EventHub".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "EventHub";
 }
@@ -546,12 +534,6 @@ export interface EventNameFilter {
   systemEvents?: string[];
   /**
    * Selects this variant. Must be "EventName".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "EventName";
   /**
@@ -574,12 +556,6 @@ export interface EventNameFilterInput extends InputOf<EventNameFilter> {
   systemEvents?: InputArray<ExpressionOrValue<string>, string[]> | undefined;
   /**
    * Selects this variant. Must be "EventName".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "EventName";
   /**
@@ -1790,12 +1766,6 @@ export interface ThrottleByJwtCustomClaimRule {
   maxCount?: number;
   /**
    * Selects this variant. Must be "ThrottleByJwtCustomClaimRule".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ThrottleByJwtCustomClaimRule";
 }
@@ -1814,12 +1784,6 @@ export interface ThrottleByJwtCustomClaimRuleInput extends InputOf<ThrottleByJwt
   maxCount?: ExpressionOrValue<number> | undefined;
   /**
    * Selects this variant. Must be "ThrottleByJwtCustomClaimRule".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ThrottleByJwtCustomClaimRule";
 }
@@ -1845,12 +1809,6 @@ export interface ThrottleByJwtSignatureRule {
   maxCount?: number;
   /**
    * Selects this variant. Must be "ThrottleByJwtSignatureRule".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ThrottleByJwtSignatureRule";
 }
@@ -1865,12 +1823,6 @@ export interface ThrottleByJwtSignatureRuleInput extends InputOf<ThrottleByJwtSi
   maxCount?: ExpressionOrValue<number> | undefined;
   /**
    * Selects this variant. Must be "ThrottleByJwtSignatureRule".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ThrottleByJwtSignatureRule";
 }
@@ -1895,12 +1847,6 @@ export interface ThrottleByUserIdRule {
   maxCount?: number;
   /**
    * Selects this variant. Must be "ThrottleByUserIdRule".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ThrottleByUserIdRule";
 }
@@ -1915,12 +1861,6 @@ export interface ThrottleByUserIdRuleInput extends InputOf<ThrottleByUserIdRule>
   maxCount?: ExpressionOrValue<number> | undefined;
   /**
    * Selects this variant. Must be "ThrottleByUserIdRule".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ThrottleByUserIdRule";
 }
@@ -1953,12 +1893,6 @@ export interface TrafficThrottleByJwtCustomClaimRule {
   maxInboundMessageBytes?: number;
   /**
    * Selects this variant. Must be "TrafficThrottleByJwtCustomClaimRule".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "TrafficThrottleByJwtCustomClaimRule";
 }
@@ -1981,12 +1915,6 @@ export interface TrafficThrottleByJwtCustomClaimRuleInput extends InputOf<Traffi
   maxInboundMessageBytes?: ExpressionOrValue<number> | undefined;
   /**
    * Selects this variant. Must be "TrafficThrottleByJwtCustomClaimRule".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "TrafficThrottleByJwtCustomClaimRule";
 }
@@ -2020,12 +1948,6 @@ export interface TrafficThrottleByJwtSignatureRule {
   maxInboundMessageBytes?: number;
   /**
    * Selects this variant. Must be "TrafficThrottleByJwtSignatureRule".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "TrafficThrottleByJwtSignatureRule";
 }
@@ -2044,12 +1966,6 @@ export interface TrafficThrottleByJwtSignatureRuleInput extends InputOf<TrafficT
   maxInboundMessageBytes?: ExpressionOrValue<number> | undefined;
   /**
    * Selects this variant. Must be "TrafficThrottleByJwtSignatureRule".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "TrafficThrottleByJwtSignatureRule";
 }
@@ -2082,12 +1998,6 @@ export interface TrafficThrottleByUserIdRule {
   maxInboundMessageBytes?: number;
   /**
    * Selects this variant. Must be "TrafficThrottleByUserIdRule".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "TrafficThrottleByUserIdRule";
 }
@@ -2106,12 +2016,6 @@ export interface TrafficThrottleByUserIdRuleInput extends InputOf<TrafficThrottl
   maxInboundMessageBytes?: ExpressionOrValue<number> | undefined;
   /**
    * Selects this variant. Must be "TrafficThrottleByUserIdRule".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "TrafficThrottleByUserIdRule";
 }
