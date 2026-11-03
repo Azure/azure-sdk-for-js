@@ -26,6 +26,7 @@ export interface DiscoveredResourcesOperations {
     options?: DiscoveredResourcesGetOptionalParams,
   ) => Promise<DiscoveredResource>;
 }
+
 function _getDiscoveredResources(context: ChaosManagementContext) {
   return {
     listByWorkspace: (
@@ -41,6 +42,7 @@ function _getDiscoveredResources(context: ChaosManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, discoveredResourceName, options),
   };
 }
+
 export function _getDiscoveredResourcesOperations(
   context: ChaosManagementContext,
 ): DiscoveredResourcesOperations {

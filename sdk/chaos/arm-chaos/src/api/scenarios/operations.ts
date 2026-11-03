@@ -33,7 +33,7 @@ export function _listAllSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,6 +60,7 @@ export async function _listAllDeserialize(
 
   return _scenarioListResultDeserializer(result.body);
 }
+
 /** Get a list of scenarios. */
 export function listAll(
   context: Client,
@@ -72,11 +73,7 @@ export function listAll(
     () => _listAllSend(context, resourceGroupName, workspaceName, options),
     _listAllDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -94,7 +91,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       scenarioName: scenarioName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,6 +113,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a scenario. */
 export async function $delete(
   context: Client,
@@ -149,7 +147,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       scenarioName: scenarioName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -158,7 +156,12 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: scenarioSerializer(resource),
   });
 }
@@ -176,6 +179,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return scenarioDeserializer(result.body);
 }
+
 /** Create or update a scenario. */
 export async function createOrUpdate(
   context: Client,
@@ -210,7 +214,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       scenarioName: scenarioName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -235,6 +239,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
 
   return scenarioDeserializer(result.body);
 }
+
 /** Get a scenario. */
 export async function get(
   context: Client,

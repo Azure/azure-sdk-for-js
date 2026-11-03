@@ -39,7 +39,7 @@ export function _listSend(
       parentResourceType: parentResourceType,
       parentResourceName: parentResourceName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       continuationToken: options?.continuationToken,
     },
     {
@@ -67,6 +67,7 @@ export async function _listDeserialize(
 
   return _capabilityListResultDeserializer(result.body);
 }
+
 /** Get a list of Capability resources that extend a Target resource. */
 export function list(
   context: Client,
@@ -91,11 +92,7 @@ export function list(
       ),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -119,7 +116,7 @@ export function _$deleteSend(
       parentResourceName: parentResourceName,
       targetName: targetName,
       capabilityName: capabilityName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,6 +138,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a Capability that extends a Target resource. */
 export async function $delete(
   context: Client,
@@ -186,7 +184,7 @@ export function _createOrUpdateSend(
       parentResourceName: parentResourceName,
       targetName: targetName,
       capabilityName: capabilityName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,6 +213,7 @@ export async function _createOrUpdateDeserialize(
 
   return capabilityDeserializer(result.body);
 }
+
 /** Create or update a Capability resource that extends a Target resource. */
 export async function createOrUpdate(
   context: Client,
@@ -261,7 +260,7 @@ export function _getSend(
       parentResourceName: parentResourceName,
       targetName: targetName,
       capabilityName: capabilityName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -286,6 +285,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ca
 
   return capabilityDeserializer(result.body);
 }
+
 /** Get a Capability resource that extends a Target resource. */
 export async function get(
   context: Client,

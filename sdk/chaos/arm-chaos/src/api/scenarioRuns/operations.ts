@@ -37,7 +37,7 @@ export function _cancelSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       runId: runId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,6 +59,7 @@ export async function _cancelDeserialize(result: PathUncheckedResponse): Promise
 
   return scenarioRunDeserializer(result.body);
 }
+
 /** Cancel the currently running scenario execution. */
 export function cancel(
   context: Client,
@@ -74,7 +75,7 @@ export function cancel(
     getInitialResponse: () =>
       _cancelSend(context, resourceGroupName, workspaceName, scenarioName, runId, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ScenarioRun>, ScenarioRun>;
 }
 
@@ -92,7 +93,7 @@ export function _listAllSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       scenarioName: scenarioName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,6 +120,7 @@ export async function _listAllDeserialize(
 
   return _scenarioRunListResultDeserializer(result.body);
 }
+
 /** Get a list of scenario runs. */
 export function listAll(
   context: Client,
@@ -132,11 +134,7 @@ export function listAll(
     () => _listAllSend(context, resourceGroupName, workspaceName, scenarioName, options),
     _listAllDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -156,7 +154,7 @@ export function _getSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       runId: runId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -181,6 +179,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
 
   return scenarioRunDeserializer(result.body);
 }
+
 /**
  * Get a scenario run.
  *

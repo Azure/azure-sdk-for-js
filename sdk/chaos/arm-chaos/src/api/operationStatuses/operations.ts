@@ -24,7 +24,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,6 +51,7 @@ export async function _getDeserialize(
 
   return operationStatusResultDeserializer(result.body);
 }
+
 /** Returns the current status of an async operation. */
 export async function get(
   context: Client,

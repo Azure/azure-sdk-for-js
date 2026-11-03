@@ -105,6 +105,7 @@ export interface ExperimentsOperations {
     options?: ExperimentsGetOptionalParams,
   ) => Promise<Experiment>;
 }
+
 function _getExperiments(context: ChaosManagementContext) {
   return {
     executionDetails: (
@@ -161,6 +162,7 @@ function _getExperiments(context: ChaosManagementContext) {
     ) => get(context, resourceGroupName, experimentName, options),
   };
 }
+
 export function _getExperimentsOperations(context: ChaosManagementContext): ExperimentsOperations {
   return {
     ..._getExperiments(context),
