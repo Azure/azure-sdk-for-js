@@ -1,6 +1,10 @@
 # Release History
 
-## 4.15.0-beta.2 (Unreleased)
+## 4.15.0-beta.2 (2026-11-03)
+
+### Features Added
+
+- Includes Azure Arc user-assigned managed identity support introduced in 4.13.3. [#39927](https://github.com/Azure/azure-sdk-for-js/pull/39927)
 
 ### Bugs Fixed
 
