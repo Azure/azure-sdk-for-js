@@ -4,7 +4,6 @@
 
 ### Features Added
 
-- Includes Azure Arc user-assigned managed identity support introduced in 4.13.3. [#39927](https://github.com/Azure/azure-sdk-for-js/pull/39927)
 
 ### Bugs Fixed
 
