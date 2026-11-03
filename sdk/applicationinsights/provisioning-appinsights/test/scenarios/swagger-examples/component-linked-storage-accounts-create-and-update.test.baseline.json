@@ -1,0 +1,69 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "component": {
+          "bicepIdentifier": "component",
+          "type": "Microsoft.Insights/components",
+          "apiVersion": "2020-02-02",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "myComponent"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "web"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "Application_Type": {
+                    "kind": "string",
+                    "value": "web"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "linkedStorageAccount": {
+          "bicepIdentifier": "linkedStorageAccount",
+          "type": "Microsoft.Insights/components/linkedStorageAccounts",
+          "apiVersion": "2020-03-01-preview",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "ServiceProfiler"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "component"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "linkedStorageAccount": {
+                    "kind": "string",
+                    "value": "/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/someResourceGroupName/providers/Microsoft.Storage/storageAccounts/storageaccountname"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

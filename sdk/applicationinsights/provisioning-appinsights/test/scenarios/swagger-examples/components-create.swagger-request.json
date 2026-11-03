@@ -1,0 +1,10 @@
+{
+  "kind": "web",
+  "location": "South Central US",
+  "properties": {
+    "Application_Type": "web",
+    "Flow_Type": "Bluefield",
+    "Request_Source": "rest",
+    "WorkspaceResourceId": "/subscriptions/subid/resourcegroups/my-resource-group/providers/microsoft.operationalinsights/workspaces/my-workspace"
+  }
+}

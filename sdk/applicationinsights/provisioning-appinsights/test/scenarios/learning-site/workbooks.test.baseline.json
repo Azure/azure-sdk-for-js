@@ -1,0 +1,49 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "workbook": {
+          "bicepIdentifier": "workbook",
+          "type": "Microsoft.Insights/workbooks",
+          "apiVersion": "2023-06-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "shared"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "displayName": {
+                    "kind": "string",
+                    "value": "Sample workbook"
+                  },
+                  "category": {
+                    "kind": "string",
+                    "value": "workbook"
+                  },
+                  "serializedData": {
+                    "kind": "null",
+                    "value": null
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "component": {
+          "bicepIdentifier": "component",
+          "type": "Microsoft.Insights/components",
+          "apiVersion": "2020-02-02",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "appi01"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "web"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "Application_Type": {
+                    "kind": "string",
+                    "value": "web"
+                  },
+                  "Flow_Type": {
+                    "kind": "string",
+                    "value": "Bluefield"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
