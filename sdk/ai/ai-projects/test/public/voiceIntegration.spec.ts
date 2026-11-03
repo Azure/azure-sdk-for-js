@@ -69,6 +69,42 @@ function createClient(...responses: MockResponse[]): {
 }
 
 describe("voice post-emitter integration", () => {
+  it("sends post-call configuration and preserves preview audio rejection errors", async () => {
+    const { client, requests } = createClient({
+      status: 400,
+      body: {
+        error: {
+          code: "invalid_request",
+          message: "Post-call audio is not supported in this preview.",
+          param: "post_call.include",
+        },
+      },
+    });
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      model: "voice-model",
+      store: false,
+      post_call: {
+        destinations: [
+          { type: "event_grid", connection_name: "post-call-events" },
+          { type: "routine", name: "archive" },
+        ],
+        include: ["audio"],
+      },
+    };
+    await expect(
+      client.agents.createVersion("voice-agent", definition, {
+        requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
+      }),
+    ).rejects.toMatchObject({
+      statusCode: 400,
+      details: { error: { code: "invalid_request", param: "post_call.include" } },
+    });
+    expect(requests).toHaveLength(1);
+    expect(JSON.parse(String(requests[0].body)).definition).toMatchObject(definition);
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+  });
+
   it("wires voice operations without exposing the internal WebSocket handshake", async () => {
     const { client, requests, getToken } = createClient({
       body: {
