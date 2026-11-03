@@ -37,26 +37,21 @@ export class DeclarationDifferenceDetector {
   constructor(private options: DeclarationDifferenceDetectorOptions) {}
 
   private findBreakingReasons(source: Node, target: Node): DiffReasons {
-    // Note: if return type node defined,
-    // it's a funtion/method/signature's return type node,
-    // return it, it will be used to compare later
-    // Otherwise, it's a non-funtion/method/signature node, return its type node
-    const getTypeNode = (node: Node): TypeNode => {
+    const getTypeNode = (node: Node): TypeNode | undefined => {
       const symbol = node.getSymbol();
       const isTyped = Node.isTyped(node);
-      if (symbol && isPropertyArrowFunction(symbol)) {
-        if (isTyped)
-          return node
-            .getTypeNodeOrThrow()
-            .asKindOrThrow(SyntaxKind.FunctionType)
-            .getReturnTypeNodeOrThrow();
-        else throw new Error(`Should not reach here: "${node.getText()}"`);
+
+      if (symbol && isPropertyArrowFunction(symbol) && isTyped) {
+        return node.getTypeNode()?.asKind(SyntaxKind.FunctionType)?.getReturnTypeNode();
       }
+
       // Note: if the node is a constructor, the return type is the instance type
-      if (Node.isReturnTyped(node)) return node.getReturnTypeNodeOrThrow();
-      if (isTyped) return node.getTypeNodeOrThrow();
-      throw new Error(`Unsupported ${node.getKindName()} node: "${node.getText()}"`);
+      if (Node.isReturnTyped(node)) return node.getReturnTypeNode();
+      if (isTyped) return node.getTypeNode();
+
+      return undefined;
     };
+
     let breakingReasons = DiffReasons.None;
 
     const targetTypeNode = getTypeNode(target);
@@ -85,8 +80,11 @@ export class DeclarationDifferenceDetector {
     }
 
     // check type
-    const assignable = sourceTypeNode.getType().isAssignableTo(targetTypeNode.getType());
-    if (!assignable) breakingReasons |= DiffReasons.TypeChanged;
+    const sourceType = sourceTypeNode?.getType() ?? source.getType();
+    const targetType = targetTypeNode?.getType() ?? target.getType();
+    if (!sourceType.isAssignableTo(targetType)) {
+      breakingReasons |= DiffReasons.TypeChanged;
+    }
 
     // check required -> optional (from source to target)
     const isOptional = (node: Node) => node.getSymbolOrThrow().isOptional();
