@@ -17552,7 +17552,7 @@ importers:
         version: 4.14.0(supports-color@10.2.2)
       '@azure/identity-cache-persistence':
         specifier: ^1.2.0
-        version: 1.3.3(supports-color@10.2.2)
+        version: link:../identity-cache-persistence
       dotenv:
         specifier: catalog:testing
         version: 18.0.8
@@ -36710,10 +36710,6 @@ packages:
     resolution: {integrity: sha512-BC+eWRqwL3LYvkfKO0UqVSig4IrEbgbaUvxGC6MhpUJRsZqVlEYHyE0EZcn7MtOc2py1ArJdXkqwuOzdvlbBSA==}
     engines: {node: '>=20.0'}
 
-  '@azure/identity-cache-persistence@1.3.3':
-    resolution: {integrity: sha512-hKMiDtNQl1g8JPgeww2TR+CoyYbQPQ5VzwYE3eWL5CqgqBGAqFDbaA/kTCeRmt8unqmx2E9yyETzgSCK98pwEA==}
-    engines: {node: '>=22.0.0'}
-
   '@azure/identity@4.13.0':
     resolution: {integrity: sha1-sr5jZGlkq1ng3A6tyo5PVi/DH5Y=}
     engines: {node: '>=20.0.0'}
@@ -36774,10 +36770,6 @@ packages:
     resolution: {integrity: sha512-tz3GvMrR9V/plb2lDdW8qaO8CPpfZevdExBKjltzzbAtyhK0eB2UIvji1aU+gkyHj3fxQ2ie+LNHyMXdmo8wOg==}
     engines: {node: '>=0.8.0'}
 
-  '@azure/msal-common@16.15.0':
-    resolution: {integrity: sha512-lwdLb1B9Q5nEhPLVIKe78XH5wFMN15fCiDkY7ylPDSWZuWcD93G3jpJajrKhO3CQld8SLKz0sHiOi24mxdvtsg==}
-    engines: {node: '>=0.8.0'}
-
   '@azure/msal-node-extensions@5.5.3':
     resolution: {integrity: sha512-rV3IqCWtczu7TAFpFIbdLecFuIzVsqdhAecTims//Vl12AZYl7IyZL2kUNhWuY3oG/8fCq1OVPJddvPDnYhGlw==}
     engines: {node: '>=20'}
@@ -36799,10 +36791,6 @@ packages:
 
   '@azure/msal-node@7.1.0':
     resolution: {integrity: sha512-s1O6hSY/C/dmqykTmmeHY6GhSkDuY8N1gxyhuLyaCwbY7N+UBvU2Wu4flas7+NxZiAPcXNPVpgt3n/HP/5yL+w==}
-    engines: {node: '>=20'}
-
-  '@azure/msal-node@7.1.2':
-    resolution: {integrity: sha512-52hKQLGpEQzwNufIXG1SPVU+wQ3RIe7Rp2+g+VdAmZojCAZ6yCdGEffzQEQ6RnBZGBEs40nl14rWBmfJpCoHsg==}
     engines: {node: '>=20'}
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0':
@@ -43971,17 +43959,6 @@ snapshots:
       '@azure/functions-extensions-base': 0.3.0
       cookie: 0.7.2
 
-  '@azure/identity-cache-persistence@1.3.3(supports-color@10.2.2)':
-    dependencies:
-      '@azure/core-auth': 1.11.0(supports-color@10.2.2)
-      '@azure/identity': 4.14.0(supports-color@10.2.2)
-      '@azure/msal-node': 7.1.2
-      '@azure/msal-node-extensions': 5.5.3
-      keytar: 7.9.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/identity@4.13.0(supports-color@10.2.2)':
     dependencies:
       '@azure/abort-controller': 2.2.0
@@ -44117,8 +44094,6 @@ snapshots:
 
   '@azure/msal-common@16.14.3': {}
 
-  '@azure/msal-common@16.15.0': {}
-
   '@azure/msal-node-extensions@5.5.3':
     dependencies:
       '@azure/msal-common': 16.14.3
@@ -44147,11 +44122,6 @@ snapshots:
   '@azure/msal-node@7.1.0':
     dependencies:
       '@azure/msal-common': 16.14.2
-      jsonwebtoken: 9.0.3
-
-  '@azure/msal-node@7.1.2':
-    dependencies:
-      '@azure/msal-common': 16.15.0
       jsonwebtoken: 9.0.3
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0(supports-color@10.2.2)':
