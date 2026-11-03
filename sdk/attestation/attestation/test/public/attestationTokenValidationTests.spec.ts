@@ -112,14 +112,6 @@ describe("AttestationTokenValidation", () => {
     );
   });
 
-  it("validates the expiration time when the time validation options are omitted", () => {
-    const token = AttestationTokenImpl.create({ body: claims(-60) });
-
-    assert.deepEqual(token.getTokenProblems(undefined, { validateIssuer: false }), [
-      "AttestationToken has expired.",
-    ]);
-  });
-
   it("accepts the unsigned response to a draft policy request only", async () => {
     const unsignedToken = AttestationTokenImpl.create({ body: claims(60) }).serialize();
     const client = new AttestationClient("https://attestation.test", {

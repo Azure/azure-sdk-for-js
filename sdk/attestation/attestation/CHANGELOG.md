@@ -12,7 +12,7 @@ Fixed a bug where the client options are ignored when passed along with an AAD c
 [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175)
 
 - `AttestationClient` and `AttestationAdministrationClient` now validate the tokens returned by the attestation service only against the signing certificates retrieved from the service. A token is no longer accepted on the strength of a certificate embedded in its own header, only the `RS*`, `PS*`, and `ES*` signature algorithms are accepted, and an unsigned (`alg: "none"`) token is accepted only in response to a request that sets `draftPolicyForAttestation`, the only case in which the service returns one. Validating a token directly with `AttestationToken.getTokenProblems` is unchanged.
-- Omitted `validateToken`, `validateExpirationTime`, and `validateNotBeforeTime` validation options now default to `true`, as documented. Previously, setting any validation option without `validateToken` skipped all validation, including the `validateAttestationToken` callback, and omitting `validateExpirationTime` or `validateNotBeforeTime` skipped that check.
+- An omitted `validateToken` validation option now defaults to `true`, as documented. Previously, setting any validation option without `validateToken` skipped all validation, including the `validateAttestationToken` callback.
 - Validation options passed to an individual operation are now combined with the validation options of the client instead of replacing them, so a `validateAttestationToken` callback set on the client also runs when an operation sets other validation options. Options set on the operation take precedence.
 
 ### Other Changes

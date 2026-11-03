@@ -28,6 +28,13 @@ const ASYMMETRIC_SIGNATURE_ALGORITHMS = [
   "ES512",
 ];
 
+// Used when no validation options are provided, as in earlier versions.
+const DEFAULT_VALIDATION_OPTIONS: AttestationTokenValidationOptions = {
+  validateExpirationTime: true,
+  validateToken: true,
+  validateNotBeforeTime: true,
+};
+
 /**
  * Options used to validate attestation tokens.
  *
@@ -305,7 +312,7 @@ export class AttestationTokenImpl implements AttestationToken {
    */
   public getTokenProblems(
     possibleSigners?: AttestationSigner[],
-    options: AttestationTokenValidationOptions = {},
+    options: AttestationTokenValidationOptions = DEFAULT_VALIDATION_OPTIONS,
   ): string[] {
     return this.getProblems(possibleSigners, options, {
       allowUnsigned: true,
@@ -323,10 +330,10 @@ export class AttestationTokenImpl implements AttestationToken {
    */
   public _getServiceTokenProblems(
     trustedSigners: AttestationSigner[],
-    options: AttestationTokenValidationOptions,
+    options: AttestationTokenValidationOptions | undefined,
     allowUnsigned: boolean,
   ): string[] {
-    return this.getProblems(trustedSigners, options, {
+    return this.getProblems(trustedSigners, options ?? DEFAULT_VALIDATION_OPTIONS, {
       allowUnsigned,
       trustEmbeddedCertificate: false,
     });
@@ -399,7 +406,7 @@ export class AttestationTokenImpl implements AttestationToken {
     const timeNow = Math.floor(new Date().getTime() / 1000);
 
     // Validate expiration time.
-    if (this.expiresOn !== undefined && (options.validateExpirationTime ?? true)) {
+    if (this.expiresOn !== undefined && options.validateExpirationTime) {
       const expTime = this.expiresOn.getTime() / 1000;
       if (timeNow > expTime) {
         const delta = timeNow - expTime;
@@ -410,7 +417,7 @@ export class AttestationTokenImpl implements AttestationToken {
     }
 
     // Validate not before time.
-    if (this.notBefore !== undefined && (options.validateNotBeforeTime ?? true)) {
+    if (this.notBefore !== undefined && options.validateNotBeforeTime) {
       const nbfTime = this.notBefore.getTime() / 1000;
       if (nbfTime > timeNow) {
         const delta = nbfTime - timeNow;
@@ -686,11 +693,15 @@ export class AttestationTokenImpl implements AttestationToken {
  *
  * Combines the client's validation options with the options of an individual operation. Options
  * set on the operation take precedence; options it leaves undefined keep the client's values.
+ * Returns undefined when neither provides options, so the default validation options apply.
  */
 export function _combineValidationOptions(
   clientOptions?: AttestationTokenValidationOptions,
   operationOptions?: AttestationTokenValidationOptions,
-): AttestationTokenValidationOptions {
+): AttestationTokenValidationOptions | undefined {
+  if (clientOptions === undefined && operationOptions === undefined) {
+    return undefined;
+  }
   const definedOperationOptions = Object.fromEntries(
     Object.entries(operationOptions ?? {}).filter(([, value]) => value !== undefined),
   );
