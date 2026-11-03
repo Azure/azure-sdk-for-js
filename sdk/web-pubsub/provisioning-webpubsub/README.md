@@ -15,6 +15,26 @@ npm install @azure/provisioning-webpubsub @azure/provisioning-core
 2. Import resource classes from `@azure/provisioning-webpubsub` and add them to your definition with their required properties.
 3. Serialize the definition using `@azure/provisioning-core/serialization`.
 
+```ts snippet:ReadmeSampleCreateWebPubSub
+import { Stack } from "@azure/provisioning-core";
+import { WebPubSub } from "@azure/provisioning-webpubsub";
+
+const stack = new Stack("web-pubsub", {
+  targetScope: "resourceGroup",
+  location: "eastus",
+});
+
+new WebPubSub(stack, {
+  name: "example-web-pubsub",
+  kind: "WebPubSub",
+  sku: {
+    name: "Standard_S1",
+    tier: "Standard",
+    capacity: 1,
+  },
+});
+```
+
 See the [core library documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/provisioning-core/README.md) for the authoring model and serialization APIs.
 
 ## Resource types
