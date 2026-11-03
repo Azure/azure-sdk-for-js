@@ -12,6 +12,7 @@ trigger:
     include:
       - sdk/cosmosdb/ci.mgmt.yml
       - sdk/cosmosdb/arm-cosmosdb
+      - sdk/cosmosdb/provisioning-cosmosdb
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
     include:
       - sdk/cosmosdb/ci.mgmt.yml
       - sdk/cosmosdb/arm-cosmosdb
+      - sdk/cosmosdb/provisioning-cosmosdb
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -32,3 +34,5 @@ extends:
     Artifacts:
       - name: azure-arm-cosmosdb
         safeName: azurearmcosmosdb
+      - name: azure-provisioning-cosmosdb
+        safeName: azureprovisioningcosmosdb
