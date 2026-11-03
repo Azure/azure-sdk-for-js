@@ -2,7 +2,6 @@
 
 ## 4.15.0-beta.2 (2026-11-03)
 
-### Features Added
 
 
 ### Bugs Fixed
