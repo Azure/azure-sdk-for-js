@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
  *
  * @summary updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
- * x-ms-original-file: 2026-07-15/privateLinkScope/PrivateLinkScopes_UpdateTagsOnly.json
+ * x-ms-original-file: 2026-09-01/privateLinkScope/PrivateLinkScopes_UpdateTagsOnly.json
  */
 async function privateLinkScopeUpdateTagsOnly(): Promise<void> {
   const credential = new DefaultAzureCredential();

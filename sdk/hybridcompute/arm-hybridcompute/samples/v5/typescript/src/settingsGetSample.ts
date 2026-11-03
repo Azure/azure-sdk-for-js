@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns the base Settings for the target resource.
  *
  * @summary returns the base Settings for the target resource.
- * x-ms-original-file: 2026-07-15/settings/SettingsGet.json
+ * x-ms-original-file: 2026-09-01/settings/SettingsGet.json
  */
 async function networkConfigurationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

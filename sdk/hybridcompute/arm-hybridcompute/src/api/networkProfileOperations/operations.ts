@@ -21,7 +21,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,6 +46,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ne
 
   return networkProfileDeserializer(result.body);
 }
+
 /** The operation to get network information of hybrid machine */
 export async function get(
   context: Client,

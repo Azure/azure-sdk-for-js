@@ -76,6 +76,7 @@ export interface MachineRunCommandsOperations {
     options?: MachineRunCommandsGetOptionalParams,
   ) => Promise<MachineRunCommand>;
 }
+
 function _getMachineRunCommands(context: HybridComputeManagementContext) {
   return {
     list: (
@@ -164,6 +165,7 @@ function _getMachineRunCommands(context: HybridComputeManagementContext) {
     ) => get(context, resourceGroupName, machineName, runCommandName, options),
   };
 }
+
 export function _getMachineRunCommandsOperations(
   context: HybridComputeManagementContext,
 ): MachineRunCommandsOperations {

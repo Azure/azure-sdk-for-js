@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create or update a license profile.
  *
  * @summary the operation to create or update a license profile.
- * x-ms-original-file: 2026-07-15/licenseProfile/LicenseProfile_CreateOrUpdate.json
+ * x-ms-original-file: 2026-09-01/licenseProfile/LicenseProfile_CreateOrUpdate.json
  */
 async function createOrUpdateALicenseProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

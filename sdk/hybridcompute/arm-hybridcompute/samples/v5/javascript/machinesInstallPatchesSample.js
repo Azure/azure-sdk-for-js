@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to install patches on a hybrid machine identity in Azure.
  *
  * @summary the operation to install patches on a hybrid machine identity in Azure.
- * x-ms-original-file: 2026-07-15/machine/Machine_InstallPatches.json
+ * x-ms-original-file: 2026-09-01/machine/Machine_InstallPatches.json
  */
 async function installPatchStateOfAMachine() {
   const credential = new DefaultAzureCredential();

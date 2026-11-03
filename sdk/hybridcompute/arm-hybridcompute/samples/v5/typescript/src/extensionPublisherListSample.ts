@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all Extension publishers based on the location
  *
  * @summary gets all Extension publishers based on the location
- * x-ms-original-file: 2026-07-15/extension/ExtensionPublisher_List.json
+ * x-ms-original-file: 2026-09-01/extension/ExtensionPublisher_List.json
  */
 async function getAListOfExtensionPublishers(): Promise<void> {
   const credential = new DefaultAzureCredential();

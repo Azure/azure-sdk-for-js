@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  *
  * @summary creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
- * x-ms-original-file: 2026-07-15/privateLinkScope/PrivateLinkScopes_Create.json
+ * x-ms-original-file: 2026-09-01/privateLinkScope/PrivateLinkScopes_Create.json
  */
 async function privateLinkScopeCreate() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function privateLinkScopeCreate() {
  * This sample demonstrates how to creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  *
  * @summary creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
- * x-ms-original-file: 2026-07-15/privateLinkScope/PrivateLinkScopes_Update.json
+ * x-ms-original-file: 2026-09-01/privateLinkScope/PrivateLinkScopes_Update.json
  */
 async function privateLinkScopeUpdate() {
   const credential = new DefaultAzureCredential();

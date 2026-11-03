@@ -36,7 +36,7 @@ export function _validateLicenseSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/validateLicense{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,6 +63,7 @@ export async function _validateLicenseDeserialize(result: PathUncheckedResponse)
 
   return licenseDeserializer(result.body);
 }
+
 /** The operation to validate a license. */
 export function validateLicense(
   context: Client,
@@ -74,7 +75,7 @@ export function validateLicense(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _validateLicenseSend(context, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<License>, License>;
 }
 
@@ -86,7 +87,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/licenses{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,6 +114,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _licensesListResultDeserializer(result.body);
 }
+
 /** The operation to get all licenses of a non-Azure machine */
 export function listBySubscription(
   context: Client,
@@ -123,7 +125,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -137,7 +139,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -164,6 +166,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _licensesListResultDeserializer(result.body);
 }
+
 /** The operation to get all licenses of a non-Azure machine */
 export function listByResourceGroup(
   context: Client,
@@ -175,7 +178,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -191,7 +194,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       licenseName: licenseName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,6 +216,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** The operation to delete a license. */
 export function $delete(
   context: Client,
@@ -225,7 +229,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, licenseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -242,7 +246,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       licenseName: licenseName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -269,6 +273,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return licenseDeserializer(result.body);
 }
+
 /** The operation to update a license. */
 export function update(
   context: Client,
@@ -283,7 +288,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, licenseName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<License>, License>;
 }
 
@@ -300,7 +305,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       licenseName: licenseName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -327,6 +332,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return licenseDeserializer(result.body);
 }
+
 /** The operation to create or update a license. */
 export function createOrUpdate(
   context: Client,
@@ -341,7 +347,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, licenseName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<License>, License>;
 }
 
@@ -357,7 +363,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       licenseName: licenseName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -382,6 +388,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Li
 
   return licenseDeserializer(result.body);
 }
+
 /** Retrieves information about the view of a license. */
 export async function get(
   context: Client,

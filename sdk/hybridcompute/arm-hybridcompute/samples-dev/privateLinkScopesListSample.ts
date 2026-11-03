@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of all Azure Arc PrivateLinkScopes within a subscription.
  *
  * @summary gets a list of all Azure Arc PrivateLinkScopes within a subscription.
- * x-ms-original-file: 2026-07-15/privateLinkScope/PrivateLinkScopes_List.json
+ * x-ms-original-file: 2026-09-01/privateLinkScope/PrivateLinkScopes_List.json
  */
 async function privateLinkScopesListJson(): Promise<void> {
   const credential = new DefaultAzureCredential();
