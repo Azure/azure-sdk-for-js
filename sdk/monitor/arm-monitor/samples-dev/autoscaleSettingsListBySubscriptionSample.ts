@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the autoscale settings for a subscription
  *
  * @summary lists the autoscale settings for a subscription
- * x-ms-original-file: 2022-10-01/listAutoscaleSettingBySubscription.json
+ * x-ms-original-file: 2025-09-01-preview/listAutoscaleSettingBySubscription.json
  */
 async function listAutoscaleSettingsBySubs(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing firewall rule.
  *
  * @summary deletes an existing firewall rule.
- * x-ms-original-file: 2026-07-01-preview/FirewallRulesDelete.json
+ * x-ms-original-file: 2026-10-01/FirewallRulesDelete.json
  */
 async function deleteAnExistingFirewallRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

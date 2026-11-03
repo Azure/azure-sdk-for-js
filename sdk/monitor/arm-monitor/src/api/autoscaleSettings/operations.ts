@@ -36,7 +36,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/autoscalesettings{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2022-10-01",
+      "api%2Dversion": "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -74,7 +74,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2022-10-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01-preview" },
   );
 }
 
@@ -88,7 +88,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2022-10-01",
+      "api%2Dversion": "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,7 +127,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2022-10-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01-preview" },
   );
 }
 
@@ -143,7 +143,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autoscaleSettingName: autoscaleSettingName,
-      "api%2Dversion": "2022-10-01",
+      "api%2Dversion": "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,7 +190,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autoscaleSettingName: autoscaleSettingName,
-      "api%2Dversion": "2022-10-01",
+      "api%2Dversion": "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,7 +251,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autoscaleSettingName: autoscaleSettingName,
-      "api%2Dversion": "2022-10-01",
+      "api%2Dversion": "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -311,7 +311,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autoscaleSettingName: autoscaleSettingName,
-      "api%2Dversion": "2022-10-01",
+      "api%2Dversion": "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

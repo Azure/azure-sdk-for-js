@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stops a server.
  *
  * @summary stops a server.
- * x-ms-original-file: 2026-07-01-preview/ServersStop.json
+ * x-ms-original-file: 2026-10-01/ServersStop.json
  */
 async function stopAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

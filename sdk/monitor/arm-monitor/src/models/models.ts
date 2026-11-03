@@ -946,23 +946,6 @@ export function networkSecurityPerimeterConfigurationArrayDeserializer(
   });
 }
 
-/** The response of a DataCollectionRuleAssociationProxyOnlyResource list operation. */
-export interface _DataCollectionRuleAssociationProxyOnlyResourceListResult {
-  /** The DataCollectionRuleAssociationProxyOnlyResource items on this page */
-  value: DataCollectionRuleAssociationProxyOnlyResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _dataCollectionRuleAssociationProxyOnlyResourceListResultDeserializer(
-  item: any,
-): _DataCollectionRuleAssociationProxyOnlyResourceListResult {
-  return {
-    value: dataCollectionRuleAssociationProxyOnlyResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
@@ -978,6 +961,23 @@ export function extensionResourceDeserializer(item: any): ExtensionResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a DataCollectionRuleAssociationProxyOnlyResource list operation. */
+export interface _DataCollectionRuleAssociationProxyOnlyResourceListResult {
+  /** The DataCollectionRuleAssociationProxyOnlyResource items on this page */
+  value: DataCollectionRuleAssociationProxyOnlyResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _dataCollectionRuleAssociationProxyOnlyResourceListResultDeserializer(
+  item: any,
+): _DataCollectionRuleAssociationProxyOnlyResourceListResult {
+  return {
+    value: dataCollectionRuleAssociationProxyOnlyResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
   };
 }
 

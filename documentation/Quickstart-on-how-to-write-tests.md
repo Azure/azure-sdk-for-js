@@ -48,7 +48,7 @@ To be able to leverage the asset-sync workflow
 
 - Install [Powershell](https://github.com/PowerShell/PowerShell)
   - Make sure "pwsh" command works at this step (If you follow the above link, "pwsh" is typically added to the system environment variables by default)
-- Add `dev-tool` to the `devDependencies` in the `package.json`.
+- Add `@azure/dev-tool` to the `devDependencies` in the `package.json`.
 
 # How to run test
 

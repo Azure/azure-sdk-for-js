@@ -432,6 +432,7 @@ export interface AutoscaleSetting {
 // @public
 export interface AutoscaleSettingResource extends TrackedResource {
     enabled?: boolean;
+    identity?: ManagedServiceIdentity;
     namePropertiesName?: string;
     notifications?: AutoscaleNotification[];
     predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
@@ -443,6 +444,7 @@ export interface AutoscaleSettingResource extends TrackedResource {
 // @public
 export interface AutoscaleSettingResourcePatch {
     enabled?: boolean;
+    identity?: ManagedServiceIdentity;
     name?: string;
     notifications?: AutoscaleNotification[];
     predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;

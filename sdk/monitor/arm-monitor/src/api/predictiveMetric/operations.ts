@@ -29,7 +29,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autoscaleSettingName: autoscaleSettingName,
-      "api%2Dversion": "2022-10-01",
+      "api%2Dversion": "2025-09-01-preview",
       timespan: timespan,
       interval: interval,
       metricNamespace: metricNamespace,
