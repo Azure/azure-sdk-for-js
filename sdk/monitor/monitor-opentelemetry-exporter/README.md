@@ -173,7 +173,31 @@ For more information on the OpenTelemetry project, please review the [**OpenTele
 
 ### Custom Dimensions Size Limit
 
-By default, custom dimension values are truncated to 64KB. This protects against unexpectedly large payloads.
+Attributes exported as custom dimensions are limited individually by their UTF-8 byte length. This includes custom dimensions from spans, span events, logs, metrics, and resources. Attributes mapped to other telemetry fields are not governed by these limits. Non-string values are serialized before truncation, and truncation preserves complete UTF-8 characters.
+
+| Attributes | Default limit | With GenAI message limit opt-in |
+| --- | --- | --- |
+| `gen_ai.input.messages`, `gen_ai.output.messages` | 256 KiB | 4 MiB |
+| `gen_ai.system_instructions`, `gen_ai.tool.definitions`, `gen_ai.tool.call.arguments`, `gen_ai.tool.call.result`, `gen_ai.evaluation.explanation` | 256 KiB | 256 KiB |
+| All other custom dimensions | 8 KiB | 8 KiB |
+
+See [GenAI message size limit](#genai-message-size-limit) for opt-in instructions.
+
+### Experimental features
+
+Use `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES` to opt in to named experimental features before constructing exporters. Feature names are comma-separated, case-insensitive, and trimmed of surrounding whitespace. An unset or empty value enables no experimental features. Unknown names are ignored. Experimental features may change or be removed in future releases.
+
+#### GenAI message size limit
+
+Enable `gen_ai_input_output_limit_increase` to raise the custom dimension limit for `gen_ai.input.messages` and `gen_ai.output.messages` from 256 KiB to 4 MiB. All other limits remain unchanged.
+
+```powershell
+$env:APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES = "gen_ai_input_output_limit_increase"
+```
+
+Each exporter reads this setting once during construction. Changes to the environment variable do not affect existing exporters.
+
+Multimodal messages containing base64-encoded images or audio can produce large telemetry items. When using `BatchSpanProcessor` or `BatchLogRecordProcessor`, consider reducing `maxExportBatchSize` or increasing `exportTimeoutMillis`. You can also limit captured content at the source. Truncated structured values may no longer be valid JSON.
 
 ### Request compression
 

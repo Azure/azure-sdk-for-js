@@ -134,6 +134,7 @@ export class AzureMonitorStatsbeatExporter
         metrics,
         this.instrumentationKey,
         true, // isStatsbeat flag passed to create a Statsbeat envelope.
+        this._increaseGenAiMessageLimit,
       );
 
       // Filter out zero-value metrics before export

@@ -21,9 +21,13 @@ class TestExporter extends AzureMonitorBaseExporter {
   public constructor(options: AzureMonitorExporterOptions, isStatsbeatExporter = false) {
     super(options, isStatsbeatExporter);
   }
+
+  public isGenAiMessageLimitIncreased(): boolean {
+    return this._increaseGenAiMessageLimit;
+  }
 }
 
-describe("OneSettings exporter initialization", () => {
+describe("Exporter initialization", () => {
   const instrumentationKey = "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
 
   beforeEach(() => {
@@ -33,10 +37,53 @@ describe("OneSettings exporter initialization", () => {
     vi.stubEnv("AKS_ARM_NAMESPACE_ID", "");
     vi.stubEnv("KUBERNETES_SERVICE_HOST", "");
     vi.stubEnv("AZURE_MONITOR_AUTO_ATTACH", "true");
+    vi.stubEnv("APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES", undefined);
   });
 
   afterEach(() => {
     vi.unstubAllEnvs();
+  });
+
+  describe("Experimental feature initialization", () => {
+    const options = {
+      connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+    };
+    const featureName = "gen_ai_input_output_limit_increase";
+
+    it.each([undefined, "", " ", ",,,", "unknown_feature", "*", "true"])(
+      "keeps the increased limit disabled without an explicit opt-in (%s)",
+      (features) => {
+        vi.stubEnv("APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES", features);
+        const exporter = new TestExporter(options);
+
+        expect(exporter.isGenAiMessageLimitIncreased()).toBe(false);
+      },
+    );
+
+    it.each([
+      featureName,
+      " GEN_AI_INPUT_OUTPUT_LIMIT_INCREASE ",
+      "unknown_feature, gen_ai_input_output_limit_increase,,",
+    ])("reads the feature during construction (%s)", (features) => {
+      vi.stubEnv("APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES", features);
+      const exporter = new TestExporter(options);
+
+      expect(exporter.isGenAiMessageLimitIncreased()).toBe(true);
+    });
+
+    it.each([false, true])(
+      "preserves the initial setting %s independently for each exporter",
+      (enabled) => {
+        vi.stubEnv("APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES", enabled ? featureName : undefined);
+        const firstExporter = new TestExporter(options);
+
+        vi.stubEnv("APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES", enabled ? undefined : featureName);
+        const secondExporter = new TestExporter(options);
+
+        expect(firstExporter.isGenAiMessageLimitIncreased()).toBe(enabled);
+        expect(secondExporter.isGenAiMessageLimitIncreased()).toBe(!enabled);
+      },
+    );
   });
 
   it("initializes OneSettings with the standalone exporter profile", () => {
