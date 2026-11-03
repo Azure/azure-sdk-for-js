@@ -88,6 +88,7 @@ export interface ScenarioConfigurationsOperations {
     options?: ScenarioConfigurationsGetOptionalParams,
   ) => Promise<ScenarioConfiguration>;
 }
+
 function _getScenarioConfigurations(context: ChaosManagementContext) {
   return {
     fixResourcePermissions: (
@@ -190,6 +191,7 @@ function _getScenarioConfigurations(context: ChaosManagementContext) {
       ),
   };
 }
+
 export function _getScenarioConfigurationsOperations(
   context: ChaosManagementContext,
 ): ScenarioConfigurationsOperations {

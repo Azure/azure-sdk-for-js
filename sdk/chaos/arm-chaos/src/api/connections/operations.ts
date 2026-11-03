@@ -33,7 +33,7 @@ export function _listAllSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,6 +60,7 @@ export async function _listAllDeserialize(
 
   return _connectionListResultDeserializer(result.body);
 }
+
 /** Get a list of connections. */
 export function listAll(
   context: Client,
@@ -72,11 +73,7 @@ export function listAll(
     () => _listAllSend(context, resourceGroupName, workspaceName, options),
     _listAllDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -94,7 +91,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,6 +113,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a connection. */
 export async function $delete(
   context: Client,
@@ -149,7 +147,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,6 +176,7 @@ export async function _createOrUpdateDeserialize(
 
   return connectionDeserializer(result.body);
 }
+
 /** Create or update a connection. */
 export async function createOrUpdate(
   context: Client,
@@ -212,7 +211,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -237,6 +236,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 
   return connectionDeserializer(result.body);
 }
+
 /** Get a connection. */
 export async function get(
   context: Client,
