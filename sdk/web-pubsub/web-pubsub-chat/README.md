@@ -60,6 +60,7 @@ Create the client with a connection string, a Microsoft Entra credential such as
 import { WebPubSubChatServiceClient, AzureKeyCredential } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// <ChatJavaScript_CreateClient>
 const connectionStringClient = new WebPubSubChatServiceClient("<connectionString>", "<hubName>");
 const tokenCredentialClient = new WebPubSubChatServiceClient(
   "<endpoint>",
@@ -105,6 +106,7 @@ Create user and room roles, create a human user and a room, and then add the use
 import { WebPubSubChatServiceClient, KnownChatPermission } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// <ChatJavaScript_SetUpChatResources>
 const client = new WebPubSubChatServiceClient(
   "<endpoint>",
   new DefaultAzureCredential(),
@@ -142,6 +144,7 @@ import {
 } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// <ChatJavaScript_UseBuiltInRolesAndKnownPermissions>
 const client = new WebPubSubChatServiceClient(
   "<endpoint>",
   new DefaultAzureCredential(),
@@ -169,6 +172,7 @@ Create a custom role, retrieve it, list the roles in the hub, and delete the cus
 import { WebPubSubChatServiceClient, KnownChatPermission } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// <ChatJavaScript_ManageRoles>
 const client = new WebPubSubChatServiceClient(
   "<endpoint>",
   new DefaultAzureCredential(),
@@ -198,6 +202,7 @@ Create a room, retrieve its current state, and delete it.
 import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// <ChatJavaScript_ManageRoom>
 const client = new WebPubSubChatServiceClient(
   "<endpoint>",
   new DefaultAzureCredential(),
@@ -219,6 +224,7 @@ Create a user with a built-in role, retrieve the profile, and delete it.
 import { WebPubSubChatServiceClient, BuiltInChatRoles } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// <ChatJavaScript_ManageUser>
 const client = new WebPubSubChatServiceClient(
   "<endpoint>",
   new DefaultAzureCredential(),
@@ -244,6 +250,7 @@ Use asynchronous iteration to read messages from a conversation across all resul
 import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// <ChatJavaScript_ListMessages>
 const client = new WebPubSubChatServiceClient(
   "<endpoint>",
   new DefaultAzureCredential(),
@@ -262,6 +269,7 @@ Generate a URL that a chat client can use to connect to the Web PubSub service a
 import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// <ChatJavaScript_GetClientAccessToken>
 const client = new WebPubSubChatServiceClient(
   "<endpoint>",
   new DefaultAzureCredential(),
@@ -279,6 +287,7 @@ Enabling logging may help uncover useful information about failures. In order to
 ```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
+// <ChatJavaScript_SetLogLevel>
 setLogLevel("info");
 ```
 
