@@ -246,6 +246,7 @@ async function getOrCreateVoiceAgent(
 
   const definition: VoiceAgentDefinition = {
     kind: "voice",
+    sub_protocol: "realtime",
     model_type: "managed",
     model: modelName,
     instructions: "Listen carefully and answer the user's request.",
