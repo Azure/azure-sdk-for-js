@@ -431,7 +431,16 @@ export class ChangelogGenerator {
       }
       if (
         p.location === DiffLocation.Property &&
-        this.hasReasons(p.reasons, DiffReasons.TypeChanged)
+        this.hasReasons(p.reasons, DiffReasons.TypeChanged) &&
+        ([p.source?.node, p.target?.node].some(
+          (node) =>
+            node !== undefined &&
+            (Node.isGetAccessorDeclaration(node) || Node.isSetAccessorDeclaration(node)),
+        ) ||
+          (Node.isPropertyDeclaration(p.source!.node) &&
+            Node.isPropertyDeclaration(p.target!.node) &&
+            p.source!.node.getTypeNodeOrThrow().getText() !==
+              p.target!.node.getTypeNodeOrThrow().getText()))
       ) {
         const message = template(this.classPropertyTypeChangedTemplate, {
           className,
