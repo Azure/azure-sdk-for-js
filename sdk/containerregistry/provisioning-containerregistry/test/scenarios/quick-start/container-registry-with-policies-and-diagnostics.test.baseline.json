@@ -1,0 +1,143 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "registry": {
+          "bicepIdentifier": "registry",
+          "type": "Microsoft.ContainerRegistry/registries",
+          "apiVersion": "2025-11-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "crtest11"
+              },
+              "identity": {
+                "kind": "object",
+                "value": {
+                  "type": {
+                    "kind": "string",
+                    "value": "SystemAssigned"
+                  }
+                }
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "adminUserEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  },
+                  "zoneRedundancy": {
+                    "kind": "string",
+                    "value": "Disabled"
+                  },
+                  "networkRuleBypassOptions": {
+                    "kind": "string",
+                    "value": "None"
+                  },
+                  "networkRuleSet": {
+                    "kind": "object",
+                    "value": {
+                      "defaultAction": {
+                        "kind": "string",
+                        "value": "Allow"
+                      },
+                      "ipRules": {
+                        "kind": "array",
+                        "items": [
+                          {
+                            "kind": "object",
+                            "value": {
+                              "action": {
+                                "kind": "string",
+                                "value": "Allow"
+                              },
+                              "value": {
+                                "kind": "string",
+                                "value": "10.0.0.0/24"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "policies": {
+                    "kind": "object",
+                    "value": {
+                      "exportPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "status": {
+                            "kind": "string",
+                            "value": "enabled"
+                          }
+                        }
+                      },
+                      "quarantinePolicy": {
+                        "kind": "object",
+                        "value": {
+                          "status": {
+                            "kind": "string",
+                            "value": "disabled"
+                          }
+                        }
+                      },
+                      "retentionPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "days": {
+                            "kind": "integer",
+                            "value": "7"
+                          },
+                          "status": {
+                            "kind": "string",
+                            "value": "enabled"
+                          }
+                        }
+                      },
+                      "trustPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "type": {
+                            "kind": "string",
+                            "value": "Notary"
+                          },
+                          "status": {
+                            "kind": "string",
+                            "value": "disabled"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Basic"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
