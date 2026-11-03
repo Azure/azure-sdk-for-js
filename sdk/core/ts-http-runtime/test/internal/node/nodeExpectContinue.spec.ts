@@ -7,10 +7,7 @@ import { PassThrough, Readable, Writable } from "node:stream";
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock, type Mocked } from "vitest";
 import { createExpectContinueRequest } from "../../../src/util/nodeExpectContinue.js";
 
-function createOptions(
-  knownBodyLength: number | null = null,
-  suppressDestroyError = true,
-): {
+function createOptions(suppressDestroyError = true): {
   request: Writable & {
     flushHeaders: Mock<() => void>;
     write: Mock<(chunk: string, callback?: (error?: Error | null) => void) => boolean>;
@@ -45,7 +42,6 @@ function createOptions(
     controller,
     options: {
       abortSignal: controller.signal,
-      knownBodyLength,
       createRequest: vi.fn(() => request as unknown as ClientRequest),
       onAbort: vi.fn(),
       onError: vi.fn(),
@@ -68,7 +64,7 @@ describe("Expect: 100-continue negotiation", () => {
   it.each([false, true])(
     "observes direct-source failures without reading before Continue (socketAssigned=%s)",
     async (socketAssigned) => {
-      const { request, options } = createOptions(null, false);
+      const { request, options } = createOptions(false);
       if (!socketAssigned) {
         request.socket = null;
       }
@@ -110,7 +106,7 @@ describe("Expect: 100-continue negotiation", () => {
   );
 
   it("observes direct-source failures raised during request construction", async () => {
-    const { request, options } = createOptions(null, false);
+    const { request, options } = createOptions(false);
     const source = new Readable({ read() {} });
     const callerError = vi.fn();
     source.on("error", callerError);
@@ -141,7 +137,7 @@ describe("Expect: 100-continue negotiation", () => {
   });
 
   it("observes direct-source failures while the header write callback is pending", async () => {
-    const { request, options } = createOptions(null, false);
+    const { request, options } = createOptions(false);
     const source = new Readable({ read() {} });
     const callerError = vi.fn();
     source.on("error", callerError);
@@ -288,7 +284,7 @@ describe("Expect: 100-continue negotiation", () => {
   );
 
   it("observes each distinct source once and handles multiple queued source errors", async () => {
-    const { request, options } = createOptions(null, false);
+    const { request, options } = createOptions(false);
     const first = new Readable({ read() {} });
     const second = new Readable({ read() {} });
     const failure = new Error("first source failed");
@@ -364,7 +360,7 @@ describe("Expect: 100-continue negotiation", () => {
   );
 
   it("observes independent multipart failures until each source settles", async () => {
-    const { request, options } = createOptions(null, false);
+    const { request, options } = createOptions(false);
     const first = new Readable({ read() {} });
     const later = new Readable({ read() {} });
     const callerError = vi.fn();
@@ -481,22 +477,6 @@ describe("Expect: 100-continue negotiation", () => {
     } finally {
       request.destroy();
       first.destroy();
-    }
-  });
-
-  it("dispatches a known-empty body without waiting for a socket or fallback", () => {
-    const { request, options } = createOptions(0);
-    request.socket = null;
-    try {
-      createExpectContinueRequest(options);
-
-      expect(options.sendBody).toHaveBeenCalledExactlyOnceWith(request);
-      expect(request.flushHeaders).not.toHaveBeenCalled();
-      expect(request.write).not.toHaveBeenCalled();
-      expect(request.listenerCount("socket")).toBe(0);
-      expect(vi.getTimerCount()).toBe(0);
-    } finally {
-      request.destroy();
     }
   });
 
@@ -624,7 +604,7 @@ describe("Expect: 100-continue negotiation", () => {
   it.each(["throw", "callback"])(
     "reports an ordered write %s failure exactly once",
     async (failureType) => {
-      const { request, options } = createOptions(null, false);
+      const { request, options } = createOptions(false);
       const failure = new Error("header write failed");
       request.write.mockImplementation((_chunk, callback) => {
         if (failureType === "throw") {
@@ -705,51 +685,41 @@ describe("Expect: 100-continue negotiation", () => {
     },
   );
 
-  it.each([null, 0])(
-    "handles a final response during request construction without dispatching a body (length=%s)",
-    async (bodyLength) => {
-      const { request, options } = createOptions(bodyLength);
-      const response = new PassThrough();
-      const destroy = vi.spyOn(request, "destroy");
-      options.createRequest.mockImplementation((onResponse) => {
-        onResponse(response as unknown as IncomingMessage);
-        return request as unknown as ClientRequest;
-      });
-
-      try {
-        createExpectContinueRequest(options);
-
-        expect(options.onResponse).toHaveBeenCalledExactlyOnceWith(response);
-        expect(options.onError).not.toHaveBeenCalled();
-        expect(options.sendBody).not.toHaveBeenCalled();
-        expect(request.flushHeaders).not.toHaveBeenCalled();
-        expect(request.shouldKeepAlive).toBe(false);
-        expect(destroy).not.toHaveBeenCalled();
-        expect(vi.getTimerCount()).toBe(0);
-
-        response.resume();
-        response.end("rejected");
-        await new Promise<void>((resolve) => setImmediate(resolve));
-
-        expect(destroy).toHaveBeenCalledOnce();
-      } finally {
-        request.destroy();
-        response.destroy();
-      }
-    },
-  );
-
-  it("retires the request if a response was already destroyed during construction", () => {
+  it("handles a final response before upload permission without dispatching a body", async () => {
     const { request, options } = createOptions();
     const response = new PassThrough();
-    options.createRequest.mockImplementation((onResponse) => {
-      onResponse(response as unknown as IncomingMessage);
-      response.destroy();
-      return request as unknown as ClientRequest;
-    });
+    const destroy = vi.spyOn(request, "destroy");
 
     try {
       createExpectContinueRequest(options);
+      options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
+
+      expect(options.onResponse).toHaveBeenCalledExactlyOnceWith(response);
+      expect(options.onError).not.toHaveBeenCalled();
+      expect(options.sendBody).not.toHaveBeenCalled();
+      expect(request.shouldKeepAlive).toBe(false);
+      expect(destroy).not.toHaveBeenCalled();
+      expect(vi.getTimerCount()).toBe(0);
+
+      response.resume();
+      response.end("rejected");
+      await new Promise<void>((resolve) => setImmediate(resolve));
+
+      expect(destroy).toHaveBeenCalledOnce();
+    } finally {
+      request.destroy();
+      response.destroy();
+    }
+  });
+
+  it("retires the request immediately if an early response is already destroyed", () => {
+    const { request, options } = createOptions();
+    const response = new PassThrough();
+    response.destroy();
+
+    try {
+      createExpectContinueRequest(options);
+      options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
 
       expect(options.onResponse).toHaveBeenCalledExactlyOnceWith(response);
       expect(options.onError).not.toHaveBeenCalled();
@@ -777,17 +747,14 @@ describe("Expect: 100-continue negotiation", () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
-  it("aborts once when a synchronous construction response aborts the signal", () => {
+  it("aborts once when an early response handler aborts the signal", () => {
     const { request, controller, options } = createOptions();
     const response = new PassThrough();
-    options.createRequest.mockImplementation((onResponse) => {
-      onResponse(response as unknown as IncomingMessage);
-      return request as unknown as ClientRequest;
-    });
     options.onResponse.mockImplementation(() => controller.abort());
 
     try {
       createExpectContinueRequest(options);
+      options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
 
       expect(options.onResponse).toHaveBeenCalledExactlyOnceWith(response);
       expect(options.onAbort).toHaveBeenCalledExactlyOnceWith(request);
@@ -932,10 +899,10 @@ describe("Expect: 100-continue negotiation", () => {
     }
   });
 
-  it.each(["empty body", "Continue", "fallback"])(
+  it.each(["Continue", "fallback"])(
     "reports a %s dispatch failure even when destroy does not emit an error",
     async (dispatch) => {
-      const { request, options } = createOptions(dispatch === "empty body" ? 0 : null);
+      const { request, options } = createOptions();
       const failure = new Error("body factory failed");
       const destroy = vi.spyOn(request, "destroy");
       options.sendBody.mockImplementation(() => {
@@ -946,7 +913,7 @@ describe("Expect: 100-continue negotiation", () => {
       createExpectContinueRequest(options);
       if (dispatch === "Continue") {
         request.emit("continue");
-      } else if (dispatch === "fallback") {
+      } else {
         vi.advanceTimersByTime(1000);
       }
 
@@ -995,13 +962,14 @@ describe("Expect: 100-continue negotiation", () => {
   });
 
   it("reports a caught failure only once when destroy also emits an error", async () => {
-    const { request, options } = createOptions(0, false);
+    const { request, options } = createOptions(false);
     const failure = new Error("upload failed");
     options.sendBody.mockImplementation(() => {
       throw failure;
     });
 
     createExpectContinueRequest(options);
+    request.emit("continue");
     expect(options.onError).toHaveBeenCalledExactlyOnceWith(failure);
     await new Promise<void>((resolve) => setImmediate(resolve));
 

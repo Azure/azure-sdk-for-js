@@ -378,6 +378,50 @@ class NodeHttpClient implements HttpClient {
     }
   }
 
+  private createRequestLifecycle(
+    request: PipelineRequest,
+    options: http.RequestOptions,
+    isInsecure: boolean,
+    resolve: (result: NodeRequestResult) => void,
+    reject: (error: unknown) => void,
+  ): {
+    createRequest: (onResponse?: (incomingResponse: IncomingMessage) => void) => http.ClientRequest;
+    onResponse: (incomingResponse: IncomingMessage) => void;
+    rejectRequest: (error: Error & { code?: string }) => void;
+    abortRequest: (clientRequest: http.ClientRequest) => void;
+  } {
+    let response: IncomingMessage | undefined;
+    const { track, ...completion } = createRequestCompletion();
+    const onResponse = (incomingResponse: IncomingMessage): void => {
+      response = incomingResponse;
+      resolve({
+        response: incomingResponse,
+        ...completion,
+      });
+    };
+    return {
+      createRequest: (onResponseCallback = onResponse) => {
+        const req = isInsecure
+          ? http.request(options, onResponseCallback)
+          : https.request(options, onResponseCallback);
+        track(req);
+        return req;
+      },
+      onResponse,
+      rejectRequest: (error) => {
+        reject(toRequestSendError(error, request));
+      },
+      abortRequest: (clientRequest) => {
+        const abortError = new AbortError(
+          "The operation was aborted. Rejecting from abort signal callback while making request.",
+        );
+        response?.destroy(abortError);
+        clientRequest.destroy(abortError);
+        reject(abortError);
+      },
+    };
+  }
+
   private makeRequest(
     request: PipelineRequest,
     abortController: AbortController,
@@ -385,46 +429,18 @@ class NodeHttpClient implements HttpClient {
   ): Promise<NodeRequestResult> {
     const { options, isInsecure } = this.getRequestOptions(request);
 
-    return new Promise<NodeRequestResult>((_resolve, reject) => {
-      let response: IncomingMessage | undefined;
-      const { track, ...completion } = createRequestCompletion();
-      const req = isInsecure
-        ? http.request(options, onResponse)
-        : https.request(options, onResponse);
-      track(req);
-      function onResponse(incomingResponse: IncomingMessage): void {
-        response = incomingResponse;
-        _resolve({
-          response: incomingResponse,
-          ...completion,
-        });
-      }
-
-      req.once("error", (err: Error & { code?: string }) => {
-        reject(toRequestSendError(err, request));
-      });
-
-      abortController.signal.addEventListener("abort", () => {
-        const abortError = new AbortError(
-          "The operation was aborted. Rejecting from abort signal callback while making request.",
-        );
-        response?.destroy(abortError);
-        req.destroy(abortError);
-        reject(abortError);
-      });
-      if (body && isReadableStream(body)) {
-        pipeUploadStream(body, req, request, reject);
-      } else if (body) {
-        if (typeof body === "string" || Buffer.isBuffer(body)) {
-          req.end(body);
-        } else {
-          logger.error("Unrecognized body type", body);
-          reject(new RestError("Unrecognized body type"));
-        }
-      } else {
-        // streams don't like "undefined" being passed as data
-        req.end();
-      }
+    return new Promise<NodeRequestResult>((resolve, reject) => {
+      const { createRequest, rejectRequest, abortRequest } = this.createRequestLifecycle(
+        request,
+        options,
+        isInsecure,
+        resolve,
+        reject,
+      );
+      const req = createRequest();
+      req.once("error", rejectRequest);
+      abortController.signal.addEventListener("abort", () => abortRequest(req));
+      sendRequestBody(req, body, request, rejectRequest);
     });
   }
 
@@ -438,42 +454,12 @@ class NodeHttpClient implements HttpClient {
 
     addExpectContinueFraming(options, knownBodyLength);
 
-    return new Promise<NodeRequestResult>((_resolve, reject) => {
-      let response: IncomingMessage | undefined;
-      const { track, ...completion } = createRequestCompletion();
-      const createRequest = (
-        onResponseCallback: (incomingResponse: IncomingMessage) => void,
-      ): http.ClientRequest => {
-        const req = isInsecure
-          ? http.request(options, onResponseCallback)
-          : https.request(options, onResponseCallback);
-        track(req);
-        return req;
-      };
-      function onResponse(incomingResponse: IncomingMessage): void {
-        response = incomingResponse;
-        _resolve({
-          response: incomingResponse,
-          ...completion,
-        });
-      }
-
-      const rejectRequest = (error: Error & { code?: string }): void => {
-        reject(toRequestSendError(error, request));
-      };
-
-      const abortRequest = (clientRequest: http.ClientRequest): void => {
-        const abortError = new AbortError(
-          "The operation was aborted. Rejecting from abort signal callback while making request.",
-        );
-        response?.destroy(abortError);
-        clientRequest.destroy(abortError);
-        reject(abortError);
-      };
+    return new Promise<NodeRequestResult>((resolve, reject) => {
+      const { createRequest, onResponse, rejectRequest, abortRequest } =
+        this.createRequestLifecycle(request, options, isInsecure, resolve, reject);
 
       createExpectContinueRequest({
         abortSignal: abortController.signal,
-        knownBodyLength,
         bodyStreams:
           typeof request.body === "function"
             ? getConcatSources(request.body)
