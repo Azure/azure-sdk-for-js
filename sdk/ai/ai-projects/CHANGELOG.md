@@ -2,19 +2,28 @@
 
 ## 2.11.0 (Unreleased)
 
+### Breaking Changes
+
+- Require `sub_protocol` on typed voice agent definitions and adopt the native voice and delegation discriminator hierarchies. Existing JavaScript definitions and stored Realtime definitions without a selector retain their legacy behavior. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Replace superseded native Live model aliases with the reviewed discriminator-based models. Use `transport.dtmf.sent` for a server DTMF acknowledgement; `transport.dtmf.send` remains a client command. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+
 ### Features Added
 
 - Add GPT Live agent definitions, lifecycle/delegation events with effective Foundry ownership, and `project.beta.voiceAgents.liveConversations` for persisted Live conversations and audio. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 - Expand native GPT Live models for additional delegation tools, decisions, and prerecorded audio playback. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
-- Add `post_call` voice-agent configuration for Event Grid and routine destinations. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Add `post_call` voice-agent configuration for Event Grid and routine destinations. Post-call audio delivery is not supported in this preview. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Add `review_target` to misalignment error details and `message` to Realtime response failure details. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
 
 ### Bugs Fixed
 
 - Keep Voice Agent instructions optional and non-nullable, and support nullable names in native Live MCP tool choices. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
+- Use `agent_version_override` for voice WebSocket version selection and `structured_inputs` for browser prompt inputs, retaining the existing typed options. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Preserve native Decision message fields and protocol-specific voice fields when converting the reviewed Live models. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
 
 ### Other Changes
 
 - Deprecate `BrowserAutomationPreviewTool` and `BrowserAutomationPreviewToolboxTool` in favor of their non-preview replacements. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Regenerate from TypeSpec commit `a8ba157506e523c4274cd5f5d3288a2ae45235ab` with OpenAI TypeSpec 1.34.0, retaining existing tool contracts and OpenAI-compatible function inputs. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 
 ## 2.10.0 (2026-10-30)
 
