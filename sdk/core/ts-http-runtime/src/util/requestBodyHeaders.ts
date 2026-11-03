@@ -3,6 +3,23 @@
 
 import type { PipelineRequest } from "../interfaces.js";
 
+/**
+ * Converts a flat `[name, value, ...]` raw header array to `[name, value]` pairs,
+ * or returns an existing pair array unchanged, preserving order and duplicates.
+ *
+ * @param headers - Header names and values in either array format.
+ * @returns The header pairs in their original order.
+ * @see https://nodejs.org/api/http.html#messagerawheaders
+ */
+export function getHeaderPairs(headers: unknown[]): unknown[][] {
+  return Array.isArray(headers[0])
+    ? (headers as unknown[][])
+    : Array.from({ length: Math.ceil(headers.length / 2) }, (_, index) => [
+        headers[index * 2],
+        headers[index * 2 + 1],
+      ]);
+}
+
 function isIterable(value: object): value is Iterable<unknown> {
   return Symbol.iterator in value && typeof value[Symbol.iterator] === "function";
 }
@@ -61,17 +78,10 @@ function updateRequestHeaders(request: PipelineRequest, removeFraming: boolean):
   }
   const headers = overrides.headers;
   if (Array.isArray(headers)) {
-    const paired = Array.isArray(headers[0]);
-    const pairs = paired
-      ? (headers as unknown[][])
-      : Array.from({ length: Math.ceil(headers.length / 2) }, (_, index) => [
-          headers[index * 2],
-          headers[index * 2 + 1],
-        ]);
-    const updatedPairs = updatePairs(pairs);
+    const updatedPairs = updatePairs(getHeaderPairs(headers));
     request.requestOverrides = {
       ...overrides,
-      headers: paired ? updatedPairs : updatedPairs.flat(),
+      headers: Array.isArray(headers[0]) ? updatedPairs : updatedPairs.flat(),
     };
   } else if (headers && typeof headers === "object" && isIterable(headers)) {
     const pairs = Array.from(headers, (entry) => {

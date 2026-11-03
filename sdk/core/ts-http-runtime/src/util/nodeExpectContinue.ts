@@ -5,6 +5,7 @@ import type http from "node:http";
 import { finished } from "node:stream";
 import type { PipelineRequest } from "../interfaces.js";
 import { logger } from "../log.js";
+import { getHeaderPairs } from "./requestBodyHeaders.js";
 
 const EXPECT_CONTINUE_TIMEOUT_IN_MS = 1000;
 const unusedSourceObservers = new WeakMap<NodeJS.ReadableStream, () => void>();
@@ -40,38 +41,16 @@ interface ExpectContinueRequestOptions {
   sendBody: (request: http.ClientRequest) => void;
 }
 
-/**
- * Converts a flat `[name, value, ...]` raw header array to `[name, value]` pairs,
- * or returns an existing pair array unchanged, preserving order and duplicates.
- *
- * @param headers - Header names and values in either array format.
- * @returns The header pairs in their original order.
- * @see https://nodejs.org/api/http.html#messagerawheaders
- */
-function getHeaderPairs(headers: unknown[]): unknown[][] {
-  return Array.isArray(headers[0])
-    ? (headers as unknown[][])
-    : Array.from({ length: Math.ceil(headers.length / 2) }, (_, index) => [
-        headers[index * 2],
-        headers[index * 2 + 1],
-      ]);
-}
-
-function getHeaderValuesFromArray(headers: unknown[], name: string): unknown[] {
-  return getHeaderPairs(headers)
-    .filter(([key]) => typeof key === "string" && key.toLowerCase() === name)
-    .map(([, value]) => value);
-}
-
 function getHeaderValues(headers: unknown, name: string): unknown[] {
   if (Array.isArray(headers)) {
-    return getHeaderValuesFromArray(headers, name);
+    return getHeaderPairs(headers)
+      .filter(([key]) => typeof key === "string" && key.toLowerCase() === name)
+      .map(([, value]) => value);
   }
 
   if (headers && typeof headers === "object") {
-    const get = Reflect.get(headers, "get");
-    if (typeof get === "function") {
-      const value = Reflect.apply(get, headers, [name]);
+    if ("get" in headers && typeof headers.get === "function") {
+      const value = headers.get(name);
       return value === undefined || value === null ? [] : [value];
     }
 
