@@ -181,13 +181,21 @@ Attributes exported as custom dimensions are limited individually by their UTF-8
 | `gen_ai.system_instructions`, `gen_ai.tool.definitions`, `gen_ai.tool.call.arguments`, `gen_ai.tool.call.result`, `gen_ai.evaluation.explanation` | 256 KiB | 256 KiB |
 | All other custom dimensions | 8 KiB | 8 KiB |
 
-To opt in to the increased message limit, set `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES` to include `gen_ai_input_output_limit_increase` before exporting telemetry:
+See [GenAI message size limit](#genai-message-size-limit) for opt-in instructions.
+
+### Experimental features
+
+Use `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES` to opt in to named experimental features before exporting telemetry. Feature names are comma-separated, case-insensitive, and trimmed of surrounding whitespace. An unset or empty value enables no experimental features. Unknown names are ignored. Experimental features may change or be removed in future releases.
+
+#### GenAI message size limit
+
+Enable `gen_ai_input_output_limit_increase` to raise the custom dimension limit for `gen_ai.input.messages` and `gen_ai.output.messages` from 256 KiB to 4 MiB. All other limits remain unchanged.
 
 ```powershell
 $env:APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES = "gen_ai_input_output_limit_increase"
 ```
 
-Feature names are comma-separated, case-insensitive, and trimmed of surrounding whitespace. An unset or empty value keeps the default limits. Other names do not enable the increased limit. The exporter reads this variable when converting telemetry to envelopes. Experimental features may change or be removed in future releases.
+The exporter reads this setting when converting telemetry to envelopes.
 
 Multimodal messages containing base64-encoded images or audio can produce large telemetry items. When using `BatchSpanProcessor` or `BatchLogRecordProcessor`, consider reducing `maxExportBatchSize` or increasing `exportTimeoutMillis`. You can also limit captured content at the source. Truncated structured values may no longer be valid JSON.
 
