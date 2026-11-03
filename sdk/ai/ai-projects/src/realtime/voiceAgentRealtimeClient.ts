@@ -39,6 +39,7 @@ const reservedQueryParameters = new Set([
   "agent_session_id",
   "store",
   "transport",
+  "agent_version_override",
   "x-agent-version-override",
   "x-ms-client-sdk",
   "authorization",
@@ -94,7 +95,7 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
   agentSessionId?: string;
   /** Overrides whether the conversation created by this session is persisted. */
   store?: boolean;
-  /** Selects a specific immutable agent version. */
+  /** Selects a specific immutable agent version using the agent_version_override query parameter. */
   agentVersionOverride?: string;
   /**
    * Selects the transport used for the realtime connection. Defaults to `"websocket"`. Set to
@@ -744,7 +745,8 @@ function buildWebSocketUrl(
     url.searchParams.set("store", String(options.store));
   }
   if (options.agentVersionOverride) {
-    url.searchParams.set("x-agent-version-override", options.agentVersionOverride);
+    url.searchParams.delete("x-agent-version-override");
+    url.searchParams.set("agent_version_override", options.agentVersionOverride);
   }
   if (options.transport) {
     url.searchParams.set("transport", options.transport);

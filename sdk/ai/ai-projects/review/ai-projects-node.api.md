@@ -148,7 +148,7 @@ export interface AgentDefinition {
 export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview" | "DigitalWorker=V1Preview" | "GitHubCopilot=V1Preview" | "Skills=V1Preview" | "MicrosoftCopilot=V1Preview";
 
 // @public
-export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | ExternalAgentDefinition | VoiceAgentDefinition | VoiceAgentLiveDefinition | VoiceAgentBaseDefinition | AgentDefinition;
+export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | ExternalAgentDefinition | VoiceAgentDefinition | VoiceAgentLiveDefinition | VoiceAgentBaseDefinitionUnion | AgentDefinition;
 
 // @public @deprecated
 export type AgentEndpoint = AgentEndpointConfig;
@@ -2326,23 +2326,12 @@ export interface ChatSummaryMemoryItem extends MemoryItem {
 }
 
 // @public
-export interface ChoiceOptionParam {
-    // (undocumented)
-    description?: string;
-    // (undocumented)
-    value: ChoiceValueParam;
-}
-
-// @public
 export interface ChoiceProbabilityResource {
     // (undocumented)
     probability: number;
     // (undocumented)
     value: ChoiceValueResource;
 }
-
-// @public
-export type ChoiceValueParam = string | boolean;
 
 // @public
 export type ChoiceValueResource = string | boolean;
@@ -4070,6 +4059,7 @@ export interface LiveClientConfigParam {
 
 // @public
 export interface LiveClientDelegationParam extends Delegation {
+    acknowledgement_delay_ms?: number;
     type: "client";
 }
 
@@ -4102,7 +4092,7 @@ export interface LiveClientEventLiveDecisionItemCreateParam extends LiveClientEv
     // (undocumented)
     event_id?: string;
     // (undocumented)
-    item: LiveDecisionInputItemParam;
+    item: LiveDecisionInputItemParamUnion;
     // (undocumented)
     type: "decision.item.create";
 }
@@ -4254,10 +4244,84 @@ export interface LiveDataChannelConfigParam {
 }
 
 // @public
+export interface LiveDecisionChoiceParam {
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    value: string | boolean;
+}
+
+// @public
+export interface LiveDecisionChoiceQuestionParam extends LiveDecisionQuestion {
+    // (undocumented)
+    choices: LiveDecisionChoiceParam[];
+    // (undocumented)
+    instructions: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam | LiveDecisionInputJsonParam)[];
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    type: "choice";
+}
+
+// @public
 export interface LiveDecisionCompleted {
     decision: DecisionResponse;
     // (undocumented)
     type: "decision.completed";
+}
+
+// @public
+export interface LiveDecisionCustomToolCallOutputParam extends LiveDecisionInputItemParam {
+    call_id: string;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    output: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
+    // (undocumented)
+    status?: LiveFunctionCallItemStatus;
+    // (undocumented)
+    type: "custom_tool_call_output";
+}
+
+// @public
+export interface LiveDecisionCustomToolCallParam extends LiveDecisionInputItemParam {
+    call_id: string;
+    // (undocumented)
+    id?: string;
+    input: string;
+    name: string;
+    // (undocumented)
+    namespace?: string;
+    // (undocumented)
+    status?: LiveFunctionCallItemStatus;
+    type: "custom_tool_call";
+}
+
+// @public
+export interface LiveDecisionFunctionCallOutputParam extends LiveDecisionInputItemParam {
+    call_id: string;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    output: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
+    // (undocumented)
+    status?: LiveFunctionCallItemStatus;
+    type: "function_call_output";
+}
+
+// @public
+export interface LiveDecisionFunctionCallParam extends LiveDecisionInputItemParam {
+    arguments: string;
+    call_id: string;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    namespace?: string;
+    // (undocumented)
+    status?: LiveFunctionCallItemStatus;
+    type: "function_call";
 }
 
 // @public
@@ -4271,12 +4335,27 @@ export interface LiveDecisionInputImageParam {
 // @public
 export interface LiveDecisionInputItemParam {
     // (undocumented)
-    content: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
+    type: LiveDecisionInputItemParamType;
+}
+
+// @public
+export interface LiveDecisionInputItemParamMessage extends LiveDecisionInputItemParam, Record<string, unknown> {
     // (undocumented)
-    id?: string;
-    role: "user";
+    type: "message";
+}
+
+// @public
+export type LiveDecisionInputItemParamType = "message" | "function_call" | "function_call_output" | "custom_tool_call" | "custom_tool_call_output";
+
+// @public
+export type LiveDecisionInputItemParamUnion = LiveDecisionInputItemParamMessage | LiveDecisionFunctionCallParam | LiveDecisionFunctionCallOutputParam | LiveDecisionCustomToolCallParam | LiveDecisionCustomToolCallOutputParam | LiveDecisionInputItemParam;
+
+// @public
+export interface LiveDecisionInputJsonParam {
     // (undocumented)
-    type?: "message";
+    data: LiveDecisionJsonObject | LiveDecisionJsonObject[];
+    // (undocumented)
+    type: "input_json";
 }
 
 // @public
@@ -4286,20 +4365,69 @@ export interface LiveDecisionInputTextParam {
 }
 
 // @public
-export interface LiveDecisionQuestionsInputParam2 {
-    questions: QuestionParamUnion[];
+export interface LiveDecisionJsonObject {
+    additionalProperties?: Record<string, any>;
 }
 
 // @public
-export interface LiveDecisionsDelegationParam2 {
+export interface LiveDecisionPredicateQuestionParam extends LiveDecisionQuestion {
     // (undocumented)
-    decisions: LiveDecisionsSettingsInputParam2;
+    instructions: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam | LiveDecisionInputJsonParam)[];
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    type: "predicate";
+}
+
+// @public
+export interface LiveDecisionQuestion {
+    // (undocumented)
+    type: LiveDecisionQuestionType;
+}
+
+// @public
+export interface LiveDecisionQuestionsInputParam {
+    questions: LiveDecisionQuestionUnion[];
+}
+
+// @public
+export type LiveDecisionQuestionType = "choice" | "predicate" | "score";
+
+// @public
+export type LiveDecisionQuestionUnion = LiveDecisionChoiceQuestionParam | LiveDecisionPredicateQuestionParam | LiveDecisionScoreQuestionParam | LiveDecisionQuestion;
+
+// @public
+export interface LiveDecisionScoreLevelParam {
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    label: string;
+}
+
+// @public
+export interface LiveDecisionScoreQuestionParam extends LiveDecisionQuestion {
+    // (undocumented)
+    instructions: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam | LiveDecisionInputJsonParam)[];
+    // (undocumented)
+    levels: LiveDecisionScoreLevelParam[];
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    type: "score";
+}
+
+// @public
+export interface LiveDecisionsDelegationParam {
+    acknowledgement_delay_ms?: number;
+    // (undocumented)
+    decisions: LiveDecisionsSettingsInputParam;
     // (undocumented)
     type: "decisions";
 }
 
 // @public
 export interface LiveDecisionsDelegationUpdateParam {
+    acknowledgement_delay_ms?: number;
     // (undocumented)
     decisions?: LiveDecisionsSettingsUpdateParam;
     // (undocumented)
@@ -4307,32 +4435,94 @@ export interface LiveDecisionsDelegationUpdateParam {
 }
 
 // @public
-export interface LiveDecisionsSettingsInputParam2 {
+export interface LiveDecisionsSettingsInputParam {
     // (undocumented)
     model: string;
-    questions: QuestionParamUnion[];
+    questions: LiveDecisionQuestionUnion[];
 }
 
 // @public
 export interface LiveDecisionsSettingsUpdateParam {
     // (undocumented)
     model?: string;
-    questions?: QuestionParamUnion[];
+    questions?: LiveDecisionQuestionUnion[];
+}
+
+// @public
+export interface LiveDecisionStoredCustomToolCallOutputParam extends LiveDecisionStoredInputItemParam {
+    call_id: string;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    output: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
+    // (undocumented)
+    status?: LiveFunctionCallItemStatus;
+    // (undocumented)
+    type: "custom_tool_call_output";
+}
+
+// @public
+export interface LiveDecisionStoredCustomToolCallParam extends LiveDecisionStoredInputItemParam {
+    call_id: string;
+    // (undocumented)
+    id: string;
+    input: string;
+    name: string;
+    // (undocumented)
+    namespace?: string;
+    // (undocumented)
+    status?: LiveFunctionCallItemStatus;
+    type: "custom_tool_call";
+}
+
+// @public
+export interface LiveDecisionStoredFunctionCallOutputParam extends LiveDecisionStoredInputItemParam {
+    call_id: string;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    output: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
+    // (undocumented)
+    status?: LiveFunctionCallItemStatus;
+    type: "function_call_output";
+}
+
+// @public
+export interface LiveDecisionStoredFunctionCallParam extends LiveDecisionStoredInputItemParam {
+    arguments: string;
+    call_id: string;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    namespace?: string;
+    // (undocumented)
+    status?: LiveFunctionCallItemStatus;
+    type: "function_call";
 }
 
 // @public
 export interface LiveDecisionStoredInputItemParam {
     // (undocumented)
-    content: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
-    id: string;
-    role: "user";
-    // (undocumented)
-    type?: "message";
+    type: LiveDecisionStoredInputItemParamType;
 }
 
 // @public
-export interface LiveDecisionTriggerInputParam2 {
-    decisions: LiveDecisionQuestionsInputParam2;
+export interface LiveDecisionStoredInputItemParamMessage extends LiveDecisionStoredInputItemParam, Record<string, unknown> {
+    // (undocumented)
+    type: "message";
+}
+
+// @public
+export type LiveDecisionStoredInputItemParamType = "message" | "function_call" | "function_call_output" | "custom_tool_call" | "custom_tool_call_output";
+
+// @public
+export type LiveDecisionStoredInputItemParamUnion = LiveDecisionStoredInputItemParamMessage | LiveDecisionStoredFunctionCallParam | LiveDecisionStoredFunctionCallOutputParam | LiveDecisionStoredCustomToolCallParam | LiveDecisionStoredCustomToolCallOutputParam | LiveDecisionStoredInputItemParam;
+
+// @public
+export interface LiveDecisionTriggerInputParam {
+    decisions: LiveDecisionQuestionsInputParam;
     // (undocumented)
     event_type: "session.input_transcript.delta" | "session.output_transcript.delta";
     // (undocumented)
@@ -4369,6 +4559,9 @@ export interface LiveFileSearchToolInputParam {
     // (undocumented)
     type: "file_search";
 }
+
+// @public
+export type LiveFunctionCallItemStatus = "in_progress" | "completed" | "incomplete";
 
 // @public
 export interface LiveFunctionToolChoiceParam {
@@ -4586,6 +4779,7 @@ export type LiveReasoningSummary = "concise" | "detailed" | "auto";
 
 // @public
 export interface LiveResponsesDelegationParam extends Delegation {
+    acknowledgement_delay_ms?: number;
     responses: LiveResponsesDelegationSettingsInputParam;
     type: "responses";
 }
@@ -4630,6 +4824,7 @@ export interface LiveResponsesDelegationSettingsUpdateInputParam {
 
 // @public
 export interface LiveResponsesDelegationUpdateParam {
+    acknowledgement_delay_ms?: number;
     responses?: LiveResponsesDelegationSettingsUpdateInputParam;
     type: "responses";
 }
@@ -4674,7 +4869,7 @@ export interface LiveServerEventLiveDecisionItemCreated extends LiveServerEvent 
     client_event_id?: string;
     event_id: string;
     // (undocumented)
-    item: LiveDecisionStoredInputItemParam;
+    item: LiveDecisionStoredInputItemParamUnion;
     // (undocumented)
     type: "decision.item.created";
 }
@@ -4842,6 +5037,27 @@ export interface LiveServerEventLiveTransportAnswered extends LiveServerEvent {
 }
 
 // @public
+export interface LiveServerEventLiveTransportDtmfReceived extends LiveServerEvent {
+    // (undocumented)
+    event: string;
+    // (undocumented)
+    event_id: string;
+    // (undocumented)
+    type: "transport.dtmf.received";
+}
+
+// @public
+export interface LiveServerEventLiveTransportDtmfSent extends LiveServerEvent {
+    client_event_id?: string;
+    // (undocumented)
+    event: string;
+    // (undocumented)
+    event_id: string;
+    // (undocumented)
+    type: "transport.dtmf.sent";
+}
+
+// @public
 export interface LiveServerEventLiveTransportFailed extends LiveServerEvent {
     // (undocumented)
     error: LiveTransportCallError;
@@ -4862,10 +5078,10 @@ export interface LiveServerEventLiveTransportRinging extends LiveServerEvent {
 }
 
 // @public
-export type LiveServerEventType = "session.started" | "session.updated" | "session.input_audio.muted" | "session.input_audio.unmuted" | "session.output_audio.fixture.playing" | "session.output_audio.fixture.played" | "session.instructions.appended" | "session.thinking.appended" | "session.commentary.appended" | "session.input_audio.append" | "session.output_audio.delta" | "session.input_transcript.delta" | "session.output_transcript.delta" | "session.delegation.created" | "decision.event" | "decision.item.created" | "decision.item.deleted" | "response.event" | "session.usage.updated" | "session.closed" | "error" | "info" | "transport.dtmf.received" | "transport.dtmf.send" | "transport.ringing" | "transport.answered" | "transport.failed";
+export type LiveServerEventType = "session.started" | "session.updated" | "session.input_audio.muted" | "session.input_audio.unmuted" | "session.output_audio.fixture.playing" | "session.output_audio.fixture.played" | "session.instructions.appended" | "session.thinking.appended" | "session.commentary.appended" | "session.input_audio.append" | "session.output_audio.delta" | "session.input_transcript.delta" | "session.output_transcript.delta" | "session.delegation.created" | "decision.event" | "decision.item.created" | "decision.item.deleted" | "response.event" | "session.usage.updated" | "session.closed" | "error" | "info" | "transport.dtmf.received" | "transport.dtmf.sent" | "transport.ringing" | "transport.answered" | "transport.failed";
 
 // @public
-export type LiveServerEventUnion = LiveInputAudioAppend | LiveOutputAudioDelta | LiveTransportDtmfReceived | LiveTransportDtmfSend | LiveTransportRinging | LiveTransportAnswered | LiveTransportFailed | LiveServerEventLiveSessionStarted | LiveServerEventLiveSessionUpdated | LiveServerEventLiveInputAudioMuted | LiveServerEventLiveInputAudioUnmuted | LiveServerEventLiveOutputAudioFixturePlaying | LiveServerEventLiveOutputAudioFixturePlayed | LiveServerEventLiveInstructionsAppended | LiveServerEventLiveThinkingAppended | LiveServerEventLiveCommentaryAppended | LiveServerEventLiveInputTranscriptDelta | LiveServerEventLiveOutputTranscriptDelta | LiveServerEventLiveDelegationCreated | LiveServerEventLiveDecisionEvent | LiveServerEventLiveDecisionItemCreated | LiveServerEventLiveDecisionItemDeleted | LiveServerEventLiveResponseEvent | LiveServerEventLiveSessionUsageUpdated | LiveServerEventLiveSessionClosed | LiveServerEventLiveErrorEvent | LiveServerEventLiveInfoEvent | LiveServerEventLiveTransportRinging | LiveServerEventLiveTransportAnswered | LiveServerEventLiveTransportFailed | LiveServerEvent;
+export type LiveServerEventUnion = LiveInputAudioAppend | LiveOutputAudioDelta | LiveTransportRinging | LiveTransportAnswered | LiveTransportFailed | LiveServerEventLiveSessionStarted | LiveServerEventLiveSessionUpdated | LiveServerEventLiveInputAudioMuted | LiveServerEventLiveInputAudioUnmuted | LiveServerEventLiveOutputAudioFixturePlaying | LiveServerEventLiveOutputAudioFixturePlayed | LiveServerEventLiveInstructionsAppended | LiveServerEventLiveThinkingAppended | LiveServerEventLiveCommentaryAppended | LiveServerEventLiveInputTranscriptDelta | LiveServerEventLiveOutputTranscriptDelta | LiveServerEventLiveDelegationCreated | LiveServerEventLiveDecisionEvent | LiveServerEventLiveDecisionItemCreated | LiveServerEventLiveDecisionItemDeleted | LiveServerEventLiveResponseEvent | LiveServerEventLiveSessionUsageUpdated | LiveServerEventLiveSessionClosed | LiveServerEventLiveErrorEvent | LiveServerEventLiveInfoEvent | LiveServerEventLiveTransportDtmfReceived | LiveServerEventLiveTransportDtmfSent | LiveServerEventLiveTransportRinging | LiveServerEventLiveTransportAnswered | LiveServerEventLiveTransportFailed | LiveServerEvent;
 
 // @public
 export interface LiveSessionAudioFormatPcmaParam extends LiveAudioFormat {
@@ -4890,14 +5106,14 @@ export interface LiveSessionCreateParams {
     audio?: LiveInitialSessionAudioParam;
     client?: LiveClientConfigParam;
     // (undocumented)
-    delegation?: LiveClientDelegationParam | LiveResponsesDelegationParam | LiveDecisionsDelegationParam2;
+    delegation?: LiveClientDelegationParam | LiveResponsesDelegationParam | LiveDecisionsDelegationParam;
     input?: LiveInitialItemUnion[];
     // (undocumented)
     instructions?: string;
     // (undocumented)
     model: ModelIdsLive;
     store?: boolean;
-    triggers?: LiveDecisionTriggerInputParam2[];
+    triggers?: LiveDecisionTriggerInputParam[];
 }
 
 // @public
@@ -4929,7 +5145,7 @@ export interface LiveSessionStartEvent extends LiveClientEvent {
 export interface LiveSessionUpdateParams {
     // (undocumented)
     delegation?: LiveClientDelegationParam | LiveResponsesDelegationUpdateParam | LiveDecisionsDelegationUpdateParam;
-    triggers?: LiveDecisionTriggerInputParam2[];
+    triggers?: LiveDecisionTriggerInputParam[];
 }
 
 // @public
@@ -5028,27 +5244,6 @@ export interface LiveTransportCallError {
     param?: string;
     // (undocumented)
     type: "call_error";
-}
-
-// @public
-export interface LiveTransportDtmfReceived extends LiveServerEvent {
-    // (undocumented)
-    event: string;
-    // (undocumented)
-    event_id: string;
-    // (undocumented)
-    type: "transport.dtmf.received";
-}
-
-// @public
-export interface LiveTransportDtmfSend extends LiveServerEvent {
-    client_event_id?: string;
-    // (undocumented)
-    event: string;
-    // (undocumented)
-    event_id: string;
-    // (undocumented)
-    type: "transport.dtmf.send";
 }
 
 // @public
@@ -5742,48 +5937,6 @@ export interface PublishToMicrosoft365OptionalParams extends OperationOptions {
 }
 
 // @public
-export interface QuestionParam {
-    // (undocumented)
-    type: QuestionParamType;
-}
-
-// @public
-export interface QuestionParamChoice extends QuestionParam {
-    choices: ChoiceOptionParam[];
-    // (undocumented)
-    instructions: string;
-    // (undocumented)
-    name?: string;
-    type: "choice";
-}
-
-// @public
-export interface QuestionParamPredicate extends QuestionParam {
-    // (undocumented)
-    instructions: string;
-    // (undocumented)
-    name?: string;
-    type: "predicate";
-}
-
-// @public
-export interface QuestionParamScore extends QuestionParam {
-    // (undocumented)
-    instructions: string;
-    // (undocumented)
-    levels: ScoreLevelParam[];
-    // (undocumented)
-    name?: string;
-    type: "score";
-}
-
-// @public
-export type QuestionParamType = "predicate" | "choice" | "score";
-
-// @public
-export type QuestionParamUnion = QuestionParamPredicate | QuestionParamChoice | QuestionParamScore | QuestionParam;
-
-// @public
 export interface RaiConfig {
     invocations_moderation?: RaiInvocationModeration;
     rai_policy_name: string;
@@ -6133,6 +6286,138 @@ export interface RealtimeReasoning {
 
 // @public
 export type RealtimeReasoningEffort = "minimal" | "low" | "medium" | "high" | "xhigh";
+
+// @public
+export interface RealtimeResponseInputAudio {
+    audio: string;
+    transcript?: string;
+    // (undocumented)
+    type: "input_audio";
+}
+
+// @public
+export interface RealtimeResponseInputFunctionCall {
+    // (undocumented)
+    arguments: string;
+    // (undocumented)
+    call_id: string;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    status?: "completed" | "incomplete";
+    // (undocumented)
+    type: "function_call";
+}
+
+// @public
+export interface RealtimeResponseInputFunctionCallOutput {
+    // (undocumented)
+    call_id: string;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    output: string;
+    // (undocumented)
+    status?: "completed" | "incomplete";
+    // (undocumented)
+    type: "function_call_output";
+}
+
+// @public
+export interface RealtimeResponseInputImage {
+    // (undocumented)
+    detail?: "low" | "high" | "auto";
+    image_url: string;
+    // (undocumented)
+    type: "input_image";
+}
+
+// @public
+export type RealtimeResponseInputItem = RealtimeResponseInputMessageUnion | RealtimeResponseInputFunctionCall | RealtimeResponseInputFunctionCallOutput | RealtimeResponseItemReference;
+
+// @public
+export interface RealtimeResponseInputMessage {
+    // (undocumented)
+    role: RealtimeResponseInputMessageType;
+}
+
+// @public
+export interface RealtimeResponseInputMessageAssistant extends RealtimeResponseInputMessage {
+    // (undocumented)
+    content: RealtimeResponseInputMessageAssistantContent[];
+    id?: string;
+    // (undocumented)
+    role: "assistant";
+    status?: "completed" | "incomplete";
+    // (undocumented)
+    type: "message";
+}
+
+// @public
+export interface RealtimeResponseInputMessageAssistantContent {
+    // (undocumented)
+    text: string;
+    // (undocumented)
+    type: "output_text";
+}
+
+// @public
+export interface RealtimeResponseInputMessageDeveloper extends RealtimeResponseInputMessage {
+    // (undocumented)
+    content: RealtimeResponseInputText[];
+    id?: string;
+    // (undocumented)
+    role: "developer";
+    status?: "completed" | "incomplete";
+    // (undocumented)
+    type: "message";
+}
+
+// @public
+export interface RealtimeResponseInputMessageSystem extends RealtimeResponseInputMessage {
+    // (undocumented)
+    content: RealtimeResponseInputText[];
+    id?: string;
+    // (undocumented)
+    role: "system";
+    status?: "completed" | "incomplete";
+    // (undocumented)
+    type: "message";
+}
+
+// @public
+export type RealtimeResponseInputMessageType = "system" | "developer" | "user" | "assistant";
+
+// @public
+export type RealtimeResponseInputMessageUnion = RealtimeResponseInputMessageSystem | RealtimeResponseInputMessageDeveloper | RealtimeResponseInputMessageUser | RealtimeResponseInputMessageAssistant | RealtimeResponseInputMessage;
+
+// @public
+export interface RealtimeResponseInputMessageUser extends RealtimeResponseInputMessage {
+    // (undocumented)
+    content: (RealtimeResponseInputText | RealtimeResponseInputAudio | RealtimeResponseInputImage)[];
+    id?: string;
+    // (undocumented)
+    role: "user";
+    status?: "completed" | "incomplete";
+    // (undocumented)
+    type: "message";
+}
+
+// @public
+export interface RealtimeResponseInputText {
+    // (undocumented)
+    text: string;
+    // (undocumented)
+    type: "input_text";
+}
+
+// @public
+export interface RealtimeResponseItemReference {
+    id: string;
+    type: "item_reference";
+}
 
 // @public
 export interface RealtimeResponseStatusDetails {
@@ -6909,14 +7194,6 @@ export type ScheduleTaskType = "Evaluation" | "Insight";
 export type ScheduleTaskUnion = EvaluationScheduleTask | InsightScheduleTask | ScheduleTask;
 
 // @public
-export interface ScoreLevelParam {
-    // (undocumented)
-    description?: string;
-    // (undocumented)
-    label: string;
-}
-
-// @public
 export interface ScoreProbabilityResource {
     // (undocumented)
     label: string;
@@ -7492,11 +7769,7 @@ export interface Tool {
 }
 
 // @public
-export interface ToolApplyPatchToolParam extends Tool {
-    // (undocumented)
-    allowed_callers?: CallableToolAllowedCaller[];
-    type: "apply_patch";
-}
+export type ToolApplyPatchToolParam = ApplyPatchToolParam;
 
 // @public
 export interface ToolboxesCreateVersionOptionalParams extends OperationOptions {
@@ -7747,28 +8020,13 @@ export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
 }
 
 // @public
-export interface ToolCodeInterpreterTool extends Tool {
-    // (undocumented)
-    allowed_callers?: CallableToolAllowedCaller[];
-    container?: string | AutoCodeInterpreterToolParam;
-    description?: string;
-    name?: string;
-    tool_configs?: Record<string, ToolConfig>;
-    type: "code_interpreter";
-}
+export type ToolCodeInterpreterTool = CodeInterpreterTool;
 
 // @public
-export interface ToolComputerTool extends Tool {
-    type: "computer";
-}
+export type ToolComputerTool = ComputerTool;
 
 // @public
-export interface ToolComputerUsePreviewTool extends Tool {
-    display_height: number;
-    display_width: number;
-    environment: ComputerEnvironment;
-    type: "computer_use_preview";
-}
+export type ToolComputerUsePreviewTool = ComputerUsePreviewTool;
 
 // @public
 export interface ToolConfig {
@@ -7777,16 +8035,7 @@ export interface ToolConfig {
 }
 
 // @public
-export interface ToolCustomToolParam extends Tool {
-    // (undocumented)
-    allowed_callers?: CallableToolAllowedCaller[];
-    async?: boolean;
-    defer_loading?: boolean;
-    description?: string;
-    format?: CustomToolParamFormatUnion;
-    name: string;
-    type: "custom";
-}
+export type ToolCustomToolParam = CustomToolParam;
 
 // @public
 export interface ToolDescription {
@@ -7795,104 +8044,28 @@ export interface ToolDescription {
 }
 
 // @public
-export interface ToolFileSearchTool extends Tool {
-    description?: string;
-    // (undocumented)
-    filters?: Filters;
-    max_num_results?: number;
-    name?: string;
-    ranking_options?: RankingOptions;
-    tool_configs?: Record<string, ToolConfig>;
-    type: "file_search";
-    vector_store_ids: string[];
+export type ToolFileSearchTool = FileSearchTool;
+
+// @public
+export type ToolFunctionShellToolParam = FunctionShellToolParam;
+
+// @public
+export interface ToolFunctionTool extends Omit<FunctionTool, "parameters" | "strict"> {
+    parameters?: Record<string, unknown> | null;
+    strict?: boolean | null;
 }
 
 // @public
-export interface ToolFunctionShellToolParam extends Tool {
-    // (undocumented)
-    allowed_callers?: CallableToolAllowedCaller[];
-    description?: string;
-    // (undocumented)
-    environment?: FunctionShellToolParamEnvironmentUnion;
-    name?: string;
-    tool_configs?: Record<string, ToolConfig>;
-    type: "shell";
-}
+export type ToolImageGenTool = ImageGenTool;
 
 // @public
-export interface ToolFunctionTool extends Tool {
-    // (undocumented)
-    allowed_callers?: CallableToolAllowedCaller[];
-    // (undocumented)
-    async?: boolean;
-    defer_loading?: boolean;
-    // (undocumented)
-    description?: string;
-    name: string;
-    // (undocumented)
-    output_schema?: Record<string, any>;
-    // (undocumented)
-    parameters: Record<string, any> | null;
-    // (undocumented)
-    strict: boolean | null;
-    type: "function";
-}
+export type ToolLocalShellToolParam = LocalShellToolParam;
 
 // @public
-export interface ToolImageGenTool extends Tool {
-    action?: ImageGenAction;
-    background?: "transparent" | "opaque" | "auto";
-    description?: string;
-    // (undocumented)
-    input_fidelity?: InputFidelity;
-    input_image_mask?: ImageGenToolInputImageMask;
-    // (undocumented)
-    model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5" | "gpt-image-2" | "gpt-image-2-2026-04-21" | "gpt-image-2.5-sunburst" | "gpt-image-2.5-sunburst-2026-09-08" | "gpt-image-2.5-flare" | "gpt-image-2.5-flare-2026-09-08";
-    moderation?: "auto" | "low";
-    name?: string;
-    output_compression?: number;
-    output_format?: "png" | "webp" | "jpeg";
-    partial_images?: number;
-    quality?: "low" | "medium" | "high" | "xhigh" | "max" | "auto";
-    size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
-    tool_configs?: Record<string, ToolConfig>;
-    type: "image_generation";
-}
+export type ToolMcpTool = MCPTool;
 
 // @public
-export interface ToolLocalShellToolParam extends Tool {
-    description?: string;
-    name?: string;
-    tool_configs?: Record<string, ToolConfig>;
-    type: "local_shell";
-}
-
-// @public
-export interface ToolMcpTool extends Tool {
-    // (undocumented)
-    allowed_callers?: CallableToolAllowedCaller[];
-    // (undocumented)
-    allowed_tools?: string[] | MCPToolFilter;
-    authorization?: string;
-    connector_id?: "connector_dropbox" | "connector_gmail" | "connector_googlecalendar" | "connector_googledrive" | "connector_microsoftteams" | "connector_outlookcalendar" | "connector_outlookemail" | "connector_sharepoint";
-    defer_loading?: boolean;
-    // (undocumented)
-    headers?: Record<string, string>;
-    project_connection_id?: string;
-    // (undocumented)
-    require_approval?: MCPToolRequireApproval | "always" | "never";
-    server_description?: string;
-    server_label: string;
-    server_url?: string;
-    tool_configs?: Record<string, ToolConfig>;
-    tunnel_id?: string;
-    type: "mcp";
-}
-
-// @public
-export interface ToolProgrammaticToolCallingParam extends Tool {
-    type: "programmatic_tool_calling";
-}
+export type ToolProgrammaticToolCallingParam = ProgrammaticToolCallingParam;
 
 // @public
 export interface ToolProjectConnection {
@@ -7916,14 +8089,7 @@ export interface ToolSearchToolParam extends Tool {
 }
 
 // @public
-export interface ToolToolSearchToolParam extends Tool {
-    // (undocumented)
-    description?: string;
-    execution?: ToolSearchExecutionType;
-    // (undocumented)
-    parameters?: EmptyModelParam;
-    type: "tool_search";
-}
+export type ToolToolSearchToolParam = ToolSearchToolParam;
 
 // @public
 export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "web_iq_preview" | "github_copilot_toolset_preview" | "a2a" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi" | "browser_automation" | "microsoft_copilot_toolset_preview";
@@ -7938,28 +8104,10 @@ export interface ToolUseFineTuningDataGenerationJobConfiguration extends DataGen
 }
 
 // @public
-export interface ToolWebSearchPreviewTool extends Tool {
-    // (undocumented)
-    search_content_types?: SearchContentType[];
-    search_context_size?: SearchContextSize;
-    type: "web_search_preview";
-    // (undocumented)
-    user_location?: ApproximateLocation;
-}
+export type ToolWebSearchPreviewTool = WebSearchPreviewTool;
 
 // @public
-export interface ToolWebSearchTool extends Tool {
-    custom_search_configuration?: WebSearchConfiguration;
-    description?: string;
-    external_web_access?: boolean;
-    // (undocumented)
-    filters?: WebSearchToolFilters;
-    name?: string;
-    search_context_size?: "low" | "medium" | "high";
-    tool_configs?: Record<string, ToolConfig>;
-    type: "web_search";
-    user_location?: WebSearchApproximateLocation;
-}
+export type ToolWebSearchTool = WebSearchTool;
 
 // @public
 export interface TracesDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
@@ -8313,8 +8461,11 @@ export interface VoiceAgentBaseDefinition extends AgentDefinition {
     kind: "voice";
     store?: boolean;
     structured_inputs?: Record<string, StructuredInputDefinition>;
-    sub_protocol?: VoiceAgentSubProtocol;
+    sub_protocol: VoiceAgentSubProtocol;
 }
+
+// @public
+export type VoiceAgentBaseDefinitionUnion = VoiceAgentDefinition | VoiceAgentLiveDefinition | VoiceAgentBaseDefinition;
 
 // @public
 export interface VoiceAgentCancelResponseOptions extends VoiceAgentEventOptions {
@@ -8403,7 +8554,7 @@ export interface VoiceAgentDefinition extends VoiceAgentBaseDefinition {
     parallel_tool_calls?: boolean;
     post_call?: VoiceAgentPostCallConfig;
     soundscape?: VoiceAgentSoundscapeConfig;
-    sub_protocol?: "realtime";
+    sub_protocol: "realtime";
     subagent_config?: VoiceAgentSubagentConfig;
     tool_choice?: VoiceAgentToolChoice;
     tools?: VoiceAgentToolUnion[];
@@ -8495,16 +8646,18 @@ export type VoiceAgentInterimResponseConfigUnion = VoiceAgentStaticInterimRespon
 export type VoiceAgentInterimResponseTrigger = "latency" | "tool";
 
 // @public
+export interface VoiceAgentLiveClientDelegation extends VoiceAgentLiveDelegation {
+    acknowledgement_delay_ms?: number;
+    // (undocumented)
+    type: "client";
+}
+
+// @public
 export interface VoiceAgentLiveClientDelegationConversationItem extends VoiceAgentLiveDelegationConversationItem {
     commentary?: string;
     // (undocumented)
     target: "client";
     thinking?: string;
-}
-
-// @public
-export interface VoiceAgentLiveClientDelegationOptions extends VoiceAgentLiveDelegationOptions {
-    type: "client";
 }
 
 // @public
@@ -8534,7 +8687,7 @@ export type VoiceAgentLiveConversationItemUnion = VoiceAgentLiveInputConversatio
 // @public
 export interface VoiceAgentLiveDefinition extends VoiceAgentBaseDefinition {
     audio?: LiveInitialSessionAudioParam;
-    delegation?: VoiceAgentLiveDelegationOptionsUnion;
+    delegation?: VoiceAgentLiveDelegationUnion;
     greeting?: VoiceAgentTemplateGreetingConfig;
     model: string;
     model_type: "self_deployed";
@@ -8542,10 +8695,16 @@ export interface VoiceAgentLiveDefinition extends VoiceAgentBaseDefinition {
 }
 
 // @public
+export interface VoiceAgentLiveDelegation {
+    type: VoiceAgentLiveDelegationType;
+}
+
+// @public
 export interface VoiceAgentLiveDelegationConversationItem extends VoiceAgentLiveConversationItem {
     created_at: Date;
     response_id?: string;
     target: VoiceAgentLiveDelegationTarget;
+    // (undocumented)
     type: "delegation";
 }
 
@@ -8561,28 +8720,22 @@ export interface VoiceAgentLiveDelegationItem {
 }
 
 // @public
-export interface VoiceAgentLiveDelegationOptions {
-    // (undocumented)
-    type: DelegationType | "foundry_managed_agent";
-}
-
-// @public
-export type VoiceAgentLiveDelegationOptionsUnion = VoiceAgentLiveClientDelegationOptions | VoiceAgentLiveResponsesDelegationOptions | VoiceAgentLiveManagedAgentDelegationOptions | VoiceAgentLiveDelegationOptions;
-
-// @public
-export type VoiceAgentLiveDelegationResultItem = {
-    commentary: string;
-    thinking?: string;
-} | {
+export interface VoiceAgentLiveDelegationResultItem {
     commentary?: string;
-    thinking: string;
-};
+    thinking?: string;
+}
 
 // @public
 export type VoiceAgentLiveDelegationStatus = string | "in_progress" | "completed" | "failed" | "incomplete" | "cancelled";
 
 // @public
 export type VoiceAgentLiveDelegationTarget = string | "responses" | "client" | "foundry_managed_agent";
+
+// @public
+export type VoiceAgentLiveDelegationType = "client" | "responses" | "foundry_managed_agent";
+
+// @public
+export type VoiceAgentLiveDelegationUnion = VoiceAgentLiveClientDelegation | VoiceAgentLiveResponsesDelegation | VoiceAgentLiveManagedAgentDelegation | VoiceAgentLiveDelegation;
 
 // @public
 export interface VoiceAgentLiveFoundryManagedAgentDelegationItem extends VoiceAgentLiveDelegationConversationItem {
@@ -8606,7 +8759,7 @@ export interface VoiceAgentLiveInputConversationItem extends VoiceAgentLiveConve
 }
 
 // @public
-export interface VoiceAgentLiveManagedAgentDelegationOptions extends VoiceAgentLiveDelegationOptions {
+export interface VoiceAgentLiveManagedAgentDelegation extends VoiceAgentLiveDelegation {
     agent_name: string;
     agent_version?: string;
     type: "foundry_managed_agent";
@@ -8621,6 +8774,14 @@ export interface VoiceAgentLiveOutputConversationItem extends VoiceAgentLiveConv
 }
 
 // @public
+export interface VoiceAgentLiveResponsesDelegation extends VoiceAgentLiveDelegation {
+    acknowledgement_delay_ms?: number;
+    responses: LiveResponsesDelegationSettingsInputParam;
+    // (undocumented)
+    type: "responses";
+}
+
+// @public
 export interface VoiceAgentLiveResponsesDelegationConversationItem extends VoiceAgentLiveDelegationConversationItem {
     output?: string;
     // (undocumented)
@@ -8628,16 +8789,10 @@ export interface VoiceAgentLiveResponsesDelegationConversationItem extends Voice
 }
 
 // @public
-export interface VoiceAgentLiveResponsesDelegationOptions extends VoiceAgentLiveDelegationOptions {
-    responses: LiveResponsesDelegationSettingsInputParam;
-    type: "responses";
-}
-
-// @public
 export interface VoiceAgentLiveSessionResource {
     audio?: LiveInitialSessionAudioParam;
     client?: LiveClientConfigParam;
-    delegation?: VoiceAgentLiveDelegationOptionsUnion;
+    delegation?: VoiceAgentLiveDelegationUnion;
     expires_at: number;
     id: string;
     input?: LiveInitialItemUnion[];
@@ -8647,7 +8802,7 @@ export interface VoiceAgentLiveSessionResource {
     model: ModelIdsLive;
     status: "active";
     store?: boolean;
-    triggers?: LiveDecisionTriggerInputParam2[];
+    triggers?: LiveDecisionTriggerInputParam[];
 }
 
 // @public
@@ -8785,7 +8940,7 @@ export interface VoiceAgentRealtimeResponse {
 export interface VoiceAgentResponseCreateParams {
     audio?: PickPropertiesVoiceAgentAudioConfig;
     conversation?: "auto" | "none";
-    input?: RealtimeConversationItemUnion[];
+    input?: RealtimeResponseInputItem[];
     instructions?: string;
     interim_response?: VoiceAgentInterimResponseConfigUnion;
     max_output_tokens?: number | "inf";

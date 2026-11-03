@@ -43,6 +43,89 @@ function has(diagnostics, declaration, member, message) {
   );
 }
 
+test("protected SDK_VERSION may only synchronize its literal to the package version", () => {
+  const baseline = 'export const SDK_VERSION = "2.10.0"; export const PACKAGE_NAME = "example";';
+  const files = {
+    baseSource: tree({ "constants.ts": baseline }),
+    packageVersion: "2.11.0",
+  };
+  const synchronized = baseline.replace("2.10.0", "2.11.0");
+  assert.deepEqual(validate({ ...files, source: tree({ "constants.ts": synchronized }) }), []);
+  for (const [source, packageVersion] of [
+    [synchronized, undefined],
+    [synchronized, "2.12.0"],
+    [synchronized, "not-a-version"],
+    [synchronized.replace('= "2.11.0"', "= process.env.VERSION"), "2.11.0"],
+    [synchronized.replace("SDK_VERSION =", "SDK_VERSION: string ="), "2.11.0"],
+    [synchronized.replace('"example"', '"different-package"'), "2.11.0"],
+  ]) {
+    const diagnostics = validate({
+      ...files,
+      packageVersion,
+      source: tree({ "constants.ts": source }),
+    });
+    assert.ok(
+      diagnostics.some((diagnostic) => diagnostic.message.includes("Protected customization")),
+      JSON.stringify(diagnostics),
+    );
+  }
+});
+
+test("OpenAI tool aliases retain maintained function-input compatibility", () => {
+  const generated = `export interface ToolFunctionTool {
+    parameters: Record<string, any> | null; strict: boolean | null;
+  }`;
+  const maintained = `export interface FunctionTool {
+    parameters?: Record<string, unknown>; strict?: boolean;
+  }
+  export type ToolFunctionTool = FunctionTool;`;
+  assert.deepEqual(validate(modelFixture(generated, maintained, generated, maintained)), []);
+  const nullable = maintained
+    .replace("Record<string, unknown>", "Record<string, unknown> | null")
+    .replace("strict?: boolean", "strict?: boolean | null");
+  for (const member of ["parameters", "strict"]) {
+    has(
+      validate(modelFixture(generated, maintained, generated, nullable)),
+      "FunctionTool",
+      member,
+      "Changed custom-only",
+    );
+  }
+});
+
+test("rejects invalid nullable tool alias changes and unrelated member changes", () => {
+  const generated = `export interface ToolFunctionTool {
+    parameters: Record<string, any> | null; strict: boolean | null;
+  }`;
+  const maintained = `export interface FunctionTool {
+    parameters?: Record<string, unknown>; strict?: boolean;
+  }
+  export type ToolFunctionTool = FunctionTool;`;
+  const nullable = maintained.replace("Record<string, unknown>", "Record<string, unknown> | null");
+  for (const [incoming, output, member] of [
+    [generated.replace(" | null", ""), nullable, "parameters"],
+    [generated.replace("Record<string, any>", "number"), nullable, "parameters"],
+    [generated, nullable.replace("parameters?:", "parameters:"), "parameters"],
+    [generated, nullable.replace("parameters?:", "readonly parameters?:"), "parameters"],
+    [generated, nullable.replace("Record<string, unknown> | null", "unknown | null"), "parameters"],
+    [generated, nullable.replace("strict?: boolean", "strict?: string | null"), "strict"],
+  ]) {
+    has(
+      validate(modelFixture(generated, maintained, incoming, output)),
+      "FunctionTool",
+      member,
+      "Changed custom-only",
+    );
+  }
+  const other = (text) => text.replaceAll("FunctionTool", "OtherTool");
+  has(
+    validate(modelFixture(other(generated), other(maintained), other(generated), other(nullable))),
+    "OtherTool",
+    "parameters",
+    "Changed custom-only",
+  );
+});
+
 test("data generation discriminator guards enforce upstream values without relaxing other unions", () => {
   const upstream =
     'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';
