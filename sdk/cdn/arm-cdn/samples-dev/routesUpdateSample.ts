@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
  *
  * @summary updates an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
- * x-ms-original-file: 2026-10-01/Routes_Update.json
+ * x-ms-original-file: 2026-09-01-preview/Routes_Update.json
  */
 async function routesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,6 +29,7 @@ async function routesUpdate(): Promise<void> {
     ],
     enabledState: "Enabled",
     forwardingProtocol: "MatchRequest",
+    grpcState: "Enabled",
     httpsRedirect: "Enabled",
     linkToDefaultDomain: "Enabled",
     originGroup: {

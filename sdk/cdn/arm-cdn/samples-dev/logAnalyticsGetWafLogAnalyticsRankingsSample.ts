@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get WAF log analytics charts for AFD profile
  *
  * @summary get WAF log analytics charts for AFD profile
- * x-ms-original-file: 2026-10-01/LogAnalytics_GetWafLogAnalyticsRankings.json
+ * x-ms-original-file: 2026-09-01-preview/LogAnalytics_GetWafLogAnalyticsRankings.json
  */
 async function logAnalyticsGetWafLogAnalyticsRankings(): Promise<void> {
   const credential = new DefaultAzureCredential();

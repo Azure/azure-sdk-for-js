@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stops an existing running CDN endpoint.
  *
  * @summary stops an existing running CDN endpoint.
- * x-ms-original-file: 2026-10-01/Endpoints_Stop.json
+ * x-ms-original-file: 2026-09-01-preview/Endpoints_Stop.json
  */
 async function endpointsStop(): Promise<void> {
   const credential = new DefaultAzureCredential();

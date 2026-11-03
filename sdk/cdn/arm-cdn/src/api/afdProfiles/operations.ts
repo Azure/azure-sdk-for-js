@@ -54,7 +54,7 @@ export function _upgradeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,7 +96,7 @@ export function upgrade(
     getInitialResponse: () =>
       _upgradeSend(context, resourceGroupName, profileName, profileUpgradeParameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-10-01",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<Profile>, Profile>;
 }
 
@@ -113,7 +113,7 @@ export function _validateSecretSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -174,7 +174,7 @@ export function _checkHostNameAvailabilitySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -234,7 +234,7 @@ export function _listResourceUsageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -274,7 +274,11 @@ export function listResourceUsage(
     () => _listResourceUsageSend(context, resourceGroupName, profileName, options),
     _listResourceUsageDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    },
   );
 }
 
@@ -291,7 +295,7 @@ export function _checkEndpointNameAvailabilitySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

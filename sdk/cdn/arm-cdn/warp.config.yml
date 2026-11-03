@@ -16,6 +16,7 @@ exports:
   "./api/origins": "./src/api/origins/index.ts"
   "./api/endpoints": "./src/api/endpoints/index.ts"
   "./api/secrets": "./src/api/secrets/index.ts"
+  "./api/authPolicies": "./src/api/authPolicies/index.ts"
   "./api/securityPolicies": "./src/api/securityPolicies/index.ts"
   "./api/rules": "./src/api/rules/index.ts"
   "./api/ruleSets": "./src/api/ruleSets/index.ts"

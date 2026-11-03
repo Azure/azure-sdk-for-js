@@ -35,7 +35,7 @@ export function _listByProfileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +75,11 @@ export function listByProfile(
     () => _listByProfileSend(context, resourceGroupName, profileName, options),
     _listByProfileDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    },
   );
 }
 
@@ -93,7 +97,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       profileName: profileName,
       secretName: secretName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,7 +134,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, profileName, secretName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-10-01",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -149,7 +153,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       profileName: profileName,
       secretName: secretName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,7 +196,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, profileName, secretName, secret, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-10-01",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<Secret>, Secret>;
 }
 
@@ -210,7 +214,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       profileName: profileName,
       secretName: secretName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

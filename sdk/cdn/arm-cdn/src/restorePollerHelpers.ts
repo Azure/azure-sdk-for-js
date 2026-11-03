@@ -40,6 +40,11 @@ import {
   _createDeserialize as _createDeserializeSecrets,
 } from "./api/secrets/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeAuthPolicies,
+  _updateDeserialize as _updateDeserializeAuthPolicies,
+  _createDeserialize as _createDeserializeAuthPolicies,
+} from "./api/authPolicies/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeSecurityPolicies,
   _patchDeserialize,
   _createDeserialize as _createDeserializeSecurityPolicies,
@@ -207,6 +212,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _$deleteDeserializeSecrets, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets/{secretName}":
     { deserializer: _createDeserializeSecrets, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/authPolicies/{authPolicyName}":
+    { deserializer: _$deleteDeserializeAuthPolicies, expectedStatuses: ["200", "202", "204"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/authPolicies/{authPolicyName}":
+    { deserializer: _updateDeserializeAuthPolicies, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/authPolicies/{authPolicyName}":
+    { deserializer: _createDeserializeAuthPolicies, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/securityPolicies/{securityPolicyName}":
     { deserializer: _$deleteDeserializeSecurityPolicies, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/securityPolicies/{securityPolicyName}":

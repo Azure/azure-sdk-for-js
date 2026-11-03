@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing origin within an origin group.
  *
  * @summary updates an existing origin within an origin group.
- * x-ms-original-file: 2026-10-01/AFDOrigins_Update.json
+ * x-ms-original-file: 2026-09-01-preview/AFDOrigins_Update.json
  */
 async function afdOriginsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function afdOriginsUpdate(): Promise<void> {
  * This sample demonstrates how to updates an existing origin within an origin group.
  *
  * @summary updates an existing origin within an origin group.
- * x-ms-original-file: 2026-10-01/AFDOrigins_Update_CustomCertificateSubject.json
+ * x-ms-original-file: 2026-09-01-preview/AFDOrigins_Update_CustomCertificateSubject.json
  */
 async function afdOriginsUpdateCustomCertificateSubject(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function afdOriginsUpdateCustomCertificateSubject(): Promise<void> {
  * This sample demonstrates how to updates an existing origin within an origin group.
  *
  * @summary updates an existing origin within an origin group.
- * x-ms-original-file: 2026-10-01/AFDOrigins_Update_OriginHostname.json
+ * x-ms-original-file: 2026-09-01-preview/AFDOrigins_Update_OriginHostname.json
  */
 async function afdOriginsUpdateOriginHostname(): Promise<void> {
   const credential = new DefaultAzureCredential();

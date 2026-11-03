@@ -25,6 +25,8 @@ import type { AFDOriginsOperations } from "./classic/afdOrigins/index.js";
 import { _getAFDOriginsOperations } from "./classic/afdOrigins/index.js";
 import type { AFDProfilesOperations } from "./classic/afdProfiles/index.js";
 import { _getAFDProfilesOperations } from "./classic/afdProfiles/index.js";
+import type { AuthPoliciesOperations } from "./classic/authPolicies/index.js";
+import { _getAuthPoliciesOperations } from "./classic/authPolicies/index.js";
 import type { CustomDomainsOperations } from "./classic/customDomains/index.js";
 import { _getCustomDomainsOperations } from "./classic/customDomains/index.js";
 import type { EdgeNodesOperations } from "./classic/edgeNodes/index.js";
@@ -110,6 +112,7 @@ export class CdnManagementClient {
     this.origins = _getOriginsOperations(this._client);
     this.endpoints = _getEndpointsOperations(this._client);
     this.secrets = _getSecretsOperations(this._client);
+    this.authPolicies = _getAuthPoliciesOperations(this._client);
     this.securityPolicies = _getSecurityPoliciesOperations(this._client);
     this.rules = _getRulesOperations(this._client);
     this.ruleSets = _getRuleSetsOperations(this._client);
@@ -183,6 +186,8 @@ export class CdnManagementClient {
   public readonly endpoints: EndpointsOperations;
   /** The operation groups for secrets */
   public readonly secrets: SecretsOperations;
+  /** The operation groups for authPolicies */
+  public readonly authPolicies: AuthPoliciesOperations;
   /** The operation groups for securityPolicies */
   public readonly securityPolicies: SecurityPoliciesOperations;
   /** The operation groups for rules */

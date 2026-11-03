@@ -542,6 +542,9 @@ export interface AfdRouteCacheConfiguration {
 }
 
 // @public
+export type AFDRouteGrpcState = string;
+
+// @public
 export interface AfdSecretMtlsCertificateChain extends SecretParameters {
     readonly expirationDate?: Date;
     secretSource: ResourceReference;
@@ -563,7 +566,139 @@ export interface AFDStateProperties {
 }
 
 // @public
+export interface AfdUrlSigningAction extends DeliveryRuleAction {
+    name: "AfdUrlSigning";
+    parameters: AfdUrlSigningActionParameters;
+}
+
+// @public
+export interface AfdUrlSigningActionParameters {
+    algorithm?: Algorithm;
+    keyGroupReference: ResourceReference;
+    parameterNameOverride?: UrlSigningParamIdentifier[];
+    // (undocumented)
+    typeName: TypeName;
+}
+
+// @public
 export type Algorithm = string;
+
+// @public
+export type AuthLocation = "Header";
+
+// @public
+export interface AuthPoliciesCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AuthPoliciesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AuthPoliciesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AuthPoliciesListByProfileOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AuthPoliciesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, profileName: string, authPolicyName: string, resource: AuthPolicy, options?: AuthPoliciesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<AuthPolicy>, AuthPolicy>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, profileName: string, authPolicyName: string, resource: AuthPolicy, options?: AuthPoliciesCreateOptionalParams) => Promise<AuthPolicy>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, profileName: string, authPolicyName: string, options?: AuthPoliciesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, profileName: string, authPolicyName: string, options?: AuthPoliciesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, profileName: string, authPolicyName: string, properties: AuthPolicyUpdateParameters, options?: AuthPoliciesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AuthPolicy>, AuthPolicy>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, profileName: string, authPolicyName: string, properties: AuthPolicyUpdateParameters, options?: AuthPoliciesUpdateOptionalParams) => Promise<AuthPolicy>;
+    create: (resourceGroupName: string, profileName: string, authPolicyName: string, resource: AuthPolicy, options?: AuthPoliciesCreateOptionalParams) => PollerLike<OperationState<AuthPolicy>, AuthPolicy>;
+    delete: (resourceGroupName: string, profileName: string, authPolicyName: string, options?: AuthPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, profileName: string, authPolicyName: string, options?: AuthPoliciesGetOptionalParams) => Promise<AuthPolicy>;
+    listByProfile: (resourceGroupName: string, profileName: string, options?: AuthPoliciesListByProfileOptionalParams) => PagedAsyncIterableIterator<AuthPolicy>;
+    update: (resourceGroupName: string, profileName: string, authPolicyName: string, properties: AuthPolicyUpdateParameters, options?: AuthPoliciesUpdateOptionalParams) => PollerLike<OperationState<AuthPolicy>, AuthPolicy>;
+}
+
+// @public
+export interface AuthPoliciesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AuthPolicy extends ProxyResource {
+    properties?: AuthPolicyProperties;
+}
+
+// @public
+export type AuthPolicyAction = string;
+
+// @public
+export interface AuthPolicyAssociation {
+    domains?: AuthPolicyDomainReference[];
+    isProfileLevel?: boolean;
+    routes?: AuthPolicyRouteReference[];
+}
+
+// @public
+export interface AuthPolicyConfig {
+    identityProvider: AuthPolicyConfigIdentityProvider;
+}
+
+// @public
+export type AuthPolicyConfigIdentityProvider = string;
+
+// @public
+export type AuthPolicyConfigUnion = AuthPolicyEntraIDConfig | AuthPolicyConfig;
+
+// @public
+export interface AuthPolicyDomainReference {
+    id: string;
+    readonly isActive?: boolean;
+}
+
+// @public
+export interface AuthPolicyEntraIDConfig extends AuthPolicyConfig {
+    audiences: string[];
+    authLocation?: AuthLocation;
+    authLocationSelector?: string;
+    identityProvider: "EntraID";
+    issuer: string;
+}
+
+// @public
+export interface AuthPolicyProperties extends AFDStateProperties {
+    action?: AuthPolicyAction;
+    associations: AuthPolicyAssociation;
+    authConfigs: AuthPolicyConfigUnion[];
+    forwardTokenToOrigin?: boolean;
+}
+
+// @public
+export interface AuthPolicyRouteReference {
+    id: string;
+}
+
+// @public
+export interface AuthPolicyUpdateParameters {
+    action?: AuthPolicyAction;
+    associations?: AuthPolicyAssociation;
+    authConfigs?: AuthPolicyConfigUnion[];
+    forwardTokenToOrigin?: boolean;
+}
+
+// @public
+export interface AuthPolicyUpdatePropertiesParameters {
+    action?: AuthPolicyAction;
+    associations?: AuthPolicyAssociation;
+    authConfigs?: AuthPolicyConfigUnion[];
+    forwardTokenToOrigin?: boolean;
+}
 
 // @public
 export type AutoGeneratedDomainNameLabelScope = string;
@@ -658,6 +793,12 @@ export interface CanMigrateResult {
 }
 
 // @public
+export interface CapacityDistributionSettingsParameters {
+    capacityConsciousThreshold?: number;
+    distributionType?: DistributionType;
+}
+
+// @public
 export interface CdnCertificateSourceParameters extends CertificateSourceParameters {
     certificateType: CertificateType;
     // (undocumented)
@@ -684,6 +825,7 @@ export class CdnManagementClient {
     readonly afdOriginGroups: AFDOriginGroupsOperations;
     readonly afdOrigins: AFDOriginsOperations;
     readonly afdProfiles: AFDProfilesOperations;
+    readonly authPolicies: AuthPoliciesOperations;
     checkEndpointNameAvailability(resourceGroupName: string, checkEndpointNameAvailabilityInput: CheckEndpointNameAvailabilityInput, options?: CheckEndpointNameAvailabilityOptionalParams): Promise<CheckEndpointNameAvailabilityOutput>;
     checkNameAvailability(checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: CheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityOutput>;
     checkNameAvailabilityWithSubscription(checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: CheckNameAvailabilityWithSubscriptionOptionalParams): Promise<CheckNameAvailabilityOutput>;
@@ -1171,7 +1313,7 @@ export type DeliveryRuleActionParametersType = string;
 export type DeliveryRuleActionParametersUnion = UrlRedirectActionParameters | UrlSigningActionParameters | OriginGroupOverrideActionParameters | DeliveryRuleEdgeActionParameters | UrlRewriteActionParameters | HeaderActionParameters | CacheExpirationActionParameters | CacheKeyQueryStringActionParameters | RouteConfigurationOverrideActionParameters | DeliveryRuleActionParameters;
 
 // @public
-export type DeliveryRuleActionUnion = UrlRedirectAction | UrlSigningAction | OriginGroupOverrideAction | EdgeAction | UrlRewriteAction | DeliveryRuleRequestHeaderAction | DeliveryRuleResponseHeaderAction | DeliveryRuleCacheExpirationAction | DeliveryRuleCacheKeyQueryStringAction | DeliveryRuleRouteConfigurationOverrideAction | DeliveryRuleAction;
+export type DeliveryRuleActionUnion = AfdUrlSigningAction | UrlRedirectAction | UrlSigningAction | OriginGroupOverrideAction | EdgeAction | UrlRewriteAction | DeliveryRuleRequestHeaderAction | DeliveryRuleResponseHeaderAction | DeliveryRuleCacheExpirationAction | DeliveryRuleCacheKeyQueryStringAction | DeliveryRuleRouteConfigurationOverrideAction | DeliveryRuleAction;
 
 // @public
 export interface DeliveryRuleCacheExpirationAction extends DeliveryRuleAction {
@@ -1357,6 +1499,9 @@ export interface DimensionProperties {
     internalName?: string;
     name?: string;
 }
+
+// @public
+export type DistributionType = string;
 
 // @public
 export interface DomainValidationProperties {
@@ -1789,6 +1934,12 @@ export enum KnownAfdQueryStringCachingBehavior {
 }
 
 // @public
+export enum KnownAFDRouteGrpcState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownAfdServerTlsGroup {
     Prime256V1 = "prime256v1",
     SecP256R1Mlkem768 = "SecP256r1MLKEM768",
@@ -1809,6 +1960,17 @@ export enum KnownAfdServerTlsGroupPolicy {
 // @public
 export enum KnownAlgorithm {
     SHA256 = "SHA256"
+}
+
+// @public
+export enum KnownAuthPolicyAction {
+    Block = "Block",
+    Log = "Log"
+}
+
+// @public
+export enum KnownAuthPolicyConfigIdentityProvider {
+    EntraID = "EntraID"
 }
 
 // @public
@@ -1947,6 +2109,7 @@ export enum KnownDeleteRule {
 
 // @public
 export enum KnownDeliveryRuleActionName {
+    AfdUrlSigning = "AfdUrlSigning",
     CacheExpiration = "CacheExpiration",
     CacheKeyQueryString = "CacheKeyQueryString",
     EdgeAction = "EdgeAction",
@@ -2008,6 +2171,12 @@ export enum KnownDestinationProtocol {
     Http = "Http",
     Https = "Https",
     MatchRequest = "MatchRequest"
+}
+
+// @public
+export enum KnownDistributionType {
+    DynamicWeights = "DynamicWeights",
+    StaticWeights = "StaticWeights"
 }
 
 // @public
@@ -2652,6 +2821,11 @@ export enum KnownTransformType {
 }
 
 // @public
+export enum KnownTypeName {
+    DeliveryRuleAfdUrlSigningActionParameters = "DeliveryRuleAfdUrlSigningActionParameters"
+}
+
+// @public
 export enum KnownUpdateRule {
     NoAction = "NoAction"
 }
@@ -2707,9 +2881,12 @@ export enum KnownUsageUnit {
 // @public
 export enum KnownVersions {
     V20250601 = "2025-06-01",
+    V20250901Preview = "2025-09-01-preview",
     V20251201 = "2025-12-01",
+    V20260401Preview = "2026-04-01-preview",
     V20260701 = "2026-07-01",
-    V20261001 = "2026-10-01"
+    V20260801Preview = "2026-08-01-preview",
+    V20260901Preview = "2026-09-01-preview"
 }
 
 // @public
@@ -2788,6 +2965,7 @@ export type LinkToDefaultDomain = string;
 // @public
 export interface LoadBalancingSettingsParameters {
     additionalLatencyInMilliseconds?: number;
+    capacityDistributionSettings?: CapacityDistributionSettingsParameters;
     sampleSize?: number;
     successfulSamplesRequired?: number;
 }
@@ -3432,7 +3610,7 @@ export type PostArgsOperator = string;
 export type PrivateEndpointStatus = string;
 
 // @public
-export type ProbeProtocol = "NotSet" | "Http" | "Https";
+export type ProbeProtocol = "NotSet" | "Http" | "Https" | "Grpc";
 
 // @public
 export interface Profile extends TrackedResource {
@@ -3909,6 +4087,7 @@ export interface Route extends ProxyResource {
     enabledState?: EnabledState;
     readonly endpointName?: string;
     forwardingProtocol?: ForwardingProtocol;
+    grpcState?: AFDRouteGrpcState;
     httpsRedirect?: HttpsRedirect;
     linkToDefaultDomain?: LinkToDefaultDomain;
     originGroup?: ResourceReference;
@@ -3936,6 +4115,7 @@ export interface RouteProperties {
     enabledState?: EnabledState;
     readonly endpointName?: string;
     forwardingProtocol?: ForwardingProtocol;
+    grpcState?: AFDRouteGrpcState;
     httpsRedirect?: HttpsRedirect;
     linkToDefaultDomain?: LinkToDefaultDomain;
     originGroup?: ResourceReference;
@@ -3997,6 +4177,7 @@ export interface RouteUpdateParameters {
     enabledState?: EnabledState;
     readonly endpointName?: string;
     forwardingProtocol?: ForwardingProtocol;
+    grpcState?: AFDRouteGrpcState;
     httpsRedirect?: HttpsRedirect;
     linkToDefaultDomain?: LinkToDefaultDomain;
     originGroup?: ResourceReference;
@@ -4013,6 +4194,7 @@ export interface RouteUpdatePropertiesParameters {
     enabledState?: EnabledState;
     readonly endpointName?: string;
     forwardingProtocol?: ForwardingProtocol;
+    grpcState?: AFDRouteGrpcState;
     httpsRedirect?: HttpsRedirect;
     linkToDefaultDomain?: LinkToDefaultDomain;
     originGroup?: ResourceReference;
@@ -4462,6 +4644,9 @@ export type Transform = string;
 
 // @public
 export type TransformType = string;
+
+// @public
+export type TypeName = string;
 
 // @public
 export type UpdateRule = string;

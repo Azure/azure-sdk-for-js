@@ -1,5 +1,87 @@
 # Release History
 
+## 11.0.0-beta.1 (2026-11-03)
+Compared with version 10.1.0
+
+### Features Added
+  - Added operation group AuthPoliciesOperations
+  - Added Interface AfdUrlSigningAction
+  - Added Interface AfdUrlSigningActionParameters
+  - Added Interface AuthPoliciesCreateOptionalParams
+  - Added Interface AuthPoliciesDeleteOptionalParams
+  - Added Interface AuthPoliciesGetOptionalParams
+  - Added Interface AuthPoliciesListByProfileOptionalParams
+  - Added Interface AuthPoliciesUpdateOptionalParams
+  - Added Interface AuthPolicy
+  - Added Interface AuthPolicyAssociation
+  - Added Interface AuthPolicyConfig
+  - Added Interface AuthPolicyDomainReference
+  - Added Interface AuthPolicyEntraIDConfig
+  - Added Interface AuthPolicyProperties
+  - Added Interface AuthPolicyRouteReference
+  - Added Interface AuthPolicyUpdateParameters
+  - Added Interface AuthPolicyUpdatePropertiesParameters
+  - Added Interface CapacityDistributionSettingsParameters
+  - Interface LoadBalancingSettingsParameters has a new optional parameter capacityDistributionSettings
+  - Interface Route has a new optional parameter grpcState
+  - Interface RouteProperties has a new optional parameter grpcState
+  - Interface RouteUpdateParameters has a new optional parameter grpcState
+  - Interface RouteUpdatePropertiesParameters has a new optional parameter grpcState
+  - Added Type Alias AFDRouteGrpcState
+  - Added Type Alias AuthLocation
+  - Added Type Alias AuthPolicyAction
+  - Added Type Alias AuthPolicyConfigIdentityProvider
+  - Added Type Alias AuthPolicyConfigUnion
+  - Added Type Alias DistributionType
+  - Added Type Alias TypeName
+  - Added Enum KnownAFDRouteGrpcState
+  - Added Enum KnownAuthPolicyAction
+  - Added Enum KnownAuthPolicyConfigIdentityProvider
+  - Added Enum KnownDistributionType
+  - Added Enum KnownTypeName
+  - Enum KnownDeliveryRuleActionName has a new value AfdUrlSigning
+  - Enum KnownVersions has a new value V20250901Preview
+  - Enum KnownVersions has a new value V20260401Preview
+  - Enum KnownVersions has a new value V20260801Preview
+  - Enum KnownVersions has a new value V20260901Preview
+
+### Breaking Changes
+  - Operation AFDOriginGroupsOperations.beginCreate has a new signature
+  - Operation AFDOriginGroupsOperations.beginCreateAndWait has a new signature
+  - Operation AFDOriginGroupsOperations.beginUpdate has a new signature
+  - Operation AFDOriginGroupsOperations.beginUpdateAndWait has a new signature
+  - Operation AFDOriginGroupsOperations.create has a new signature
+  - Operation AFDOriginGroupsOperations.get has a new signature
+  - Operation AFDOriginGroupsOperations.listByProfile has a new signature
+  - Operation AFDOriginGroupsOperations.update has a new signature
+  - Operation EndpointsOperations.beginCreate has a new signature
+  - Operation EndpointsOperations.beginCreateAndWait has a new signature
+  - Operation EndpointsOperations.beginStart has a new signature
+  - Operation EndpointsOperations.beginStartAndWait has a new signature
+  - Operation EndpointsOperations.beginStop has a new signature
+  - Operation EndpointsOperations.beginStopAndWait has a new signature
+  - Operation EndpointsOperations.beginUpdate has a new signature
+  - Operation EndpointsOperations.beginUpdateAndWait has a new signature
+  - Operation EndpointsOperations.create has a new signature
+  - Operation EndpointsOperations.get has a new signature
+  - Operation EndpointsOperations.listByProfile has a new signature
+  - Operation EndpointsOperations.start has a new signature
+  - Operation EndpointsOperations.stop has a new signature
+  - Operation EndpointsOperations.update has a new signature
+  - Operation OriginGroupsOperations.beginCreate has a new signature
+  - Operation OriginGroupsOperations.beginCreateAndWait has a new signature
+  - Operation OriginGroupsOperations.beginUpdate has a new signature
+  - Operation OriginGroupsOperations.beginUpdateAndWait has a new signature
+  - Operation OriginGroupsOperations.create has a new signature
+  - Operation OriginGroupsOperations.get has a new signature
+  - Operation OriginGroupsOperations.listByEndpoint has a new signature
+  - Operation OriginGroupsOperations.update has a new signature
+  - Type of property afdOriginGroups of class CdnManagementClient has changed
+  - Type of property endpoints of class CdnManagementClient has changed
+  - Type of property originGroups of class CdnManagementClient has changed
+  - Type alias "ProbeProtocol" has been changed
+  - Enum KnownVersions no longer has value V20261001
+
 ## 10.1.0 (2026-10-27)
 
 ### Features Added

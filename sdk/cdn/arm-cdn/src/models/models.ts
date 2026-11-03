@@ -1901,6 +1901,8 @@ export interface LoadBalancingSettingsParameters {
   successfulSamplesRequired?: number;
   /** The additional latency in milliseconds for probes to fall into the lowest latency bucket */
   additionalLatencyInMilliseconds?: number;
+  /** Capacity based round-robin load balancing settings */
+  capacityDistributionSettings?: CapacityDistributionSettingsParameters;
 }
 
 export function loadBalancingSettingsParametersSerializer(
@@ -1910,6 +1912,9 @@ export function loadBalancingSettingsParametersSerializer(
     sampleSize: item["sampleSize"],
     successfulSamplesRequired: item["successfulSamplesRequired"],
     additionalLatencyInMilliseconds: item["additionalLatencyInMilliseconds"],
+    capacityDistributionSettings: !item["capacityDistributionSettings"]
+      ? item["capacityDistributionSettings"]
+      : capacityDistributionSettingsParametersSerializer(item["capacityDistributionSettings"]),
   };
 }
 
@@ -1920,8 +1925,55 @@ export function loadBalancingSettingsParametersDeserializer(
     sampleSize: item["sampleSize"],
     successfulSamplesRequired: item["successfulSamplesRequired"],
     additionalLatencyInMilliseconds: item["additionalLatencyInMilliseconds"],
+    capacityDistributionSettings: !item["capacityDistributionSettings"]
+      ? item["capacityDistributionSettings"]
+      : capacityDistributionSettingsParametersDeserializer(item["capacityDistributionSettings"]),
   };
 }
+
+/** Capacity based round-robin load balancing settings for a backend pool */
+export interface CapacityDistributionSettingsParameters {
+  /** Threshold at which additional backends are added for capacity based load balancing. Default is 80 percent. */
+  capacityConsciousThreshold?: number;
+  /** Type of distribution used in capacity based load balancing. */
+  distributionType?: DistributionType;
+}
+
+export function capacityDistributionSettingsParametersSerializer(
+  item: CapacityDistributionSettingsParameters,
+): any {
+  return {
+    capacityConsciousThreshold: item["capacityConsciousThreshold"],
+    distributionType: item["distributionType"],
+  };
+}
+
+export function capacityDistributionSettingsParametersDeserializer(
+  item: any,
+): CapacityDistributionSettingsParameters {
+  return {
+    capacityConsciousThreshold: item["capacityConsciousThreshold"],
+    distributionType: item["distributionType"],
+  };
+}
+
+/** Type of distribution used in capacity based load balancing. */
+export enum KnownDistributionType {
+  /** Uses static backend weights for load balancing. */
+  StaticWeights = "StaticWeights",
+  /** Dynamically adjusts weights based on backend capacity. */
+  DynamicWeights = "DynamicWeights",
+}
+
+/**
+ * Type of distribution used in capacity based load balancing. \
+ * {@link KnownDistributionType} can be used interchangeably with DistributionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **StaticWeights**: Uses static backend weights for load balancing. \
+ * **DynamicWeights**: Dynamically adjusts weights based on backend capacity.
+ */
+export type DistributionType = string;
 
 /** The JSON object that contains the properties to send health probes to origin. */
 export interface HealthProbeParameters {
@@ -1957,7 +2009,7 @@ export function healthProbeParametersDeserializer(item: any): HealthProbeParamet
 export type HealthProbeRequestType = "NotSet" | "GET" | "HEAD";
 
 /** Protocol to use for health probe. */
-export type ProbeProtocol = "NotSet" | "Http" | "Https";
+export type ProbeProtocol = "NotSet" | "Http" | "Https" | "Grpc";
 
 /** The JSON object that contains the properties of the origin authentication settings. */
 export interface OriginAuthenticationProperties {
@@ -2527,6 +2579,8 @@ export interface Route extends ProxyResource {
   httpsRedirect?: HttpsRedirect;
   /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
   enabledState?: EnabledState;
+  /** Whether or not gRPC is enabled on this route. Permitted values are 'Enabled' or 'Disabled' */
+  grpcState?: AFDRouteGrpcState;
   /** Provisioning status */
   readonly provisioningState?: AfdProvisioningState;
   readonly deploymentStatus?: DeploymentStatus;
@@ -2546,6 +2600,7 @@ export function routeSerializer(item: Route): any {
       "linkToDefaultDomain",
       "httpsRedirect",
       "enabledState",
+      "grpcState",
     ])
       ? undefined
       : _routePropertiesSerializer(item),
@@ -2592,6 +2647,8 @@ export interface RouteProperties {
   httpsRedirect?: HttpsRedirect;
   /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
   enabledState?: EnabledState;
+  /** Whether or not gRPC is enabled on this route. Permitted values are 'Enabled' or 'Disabled' */
+  grpcState?: AFDRouteGrpcState;
   /** Provisioning status */
   readonly provisioningState?: AfdProvisioningState;
   readonly deploymentStatus?: DeploymentStatus;
@@ -2626,6 +2683,7 @@ export function routePropertiesSerializer(item: RouteProperties): any {
     linkToDefaultDomain: item["linkToDefaultDomain"],
     httpsRedirect: item["httpsRedirect"],
     enabledState: item["enabledState"],
+    grpcState: item["grpcState"],
   };
 }
 
@@ -2659,6 +2717,7 @@ export function routePropertiesDeserializer(item: any): RouteProperties {
     linkToDefaultDomain: item["linkToDefaultDomain"],
     httpsRedirect: item["httpsRedirect"],
     enabledState: item["enabledState"],
+    grpcState: item["grpcState"],
     provisioningState: item["provisioningState"],
     deploymentStatus: item["deploymentStatus"],
   };
@@ -2870,6 +2929,24 @@ export enum KnownHttpsRedirect {
  */
 export type HttpsRedirect = string;
 
+/** Whether or not gRPC is enabled on this route. Permitted values are 'Enabled' or 'Disabled' */
+export enum KnownAFDRouteGrpcState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Whether or not gRPC is enabled on this route. Permitted values are 'Enabled' or 'Disabled' \
+ * {@link KnownAFDRouteGrpcState} can be used interchangeably with AFDRouteGrpcState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type AFDRouteGrpcState = string;
+
 /** The domain JSON object required for domain creation or update. */
 export interface RouteUpdateParameters {
   /** The name of the endpoint which holds the route. */
@@ -2896,6 +2973,8 @@ export interface RouteUpdateParameters {
   httpsRedirect?: HttpsRedirect;
   /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
   enabledState?: EnabledState;
+  /** Whether or not gRPC is enabled on this route. Permitted values are 'Enabled' or 'Disabled' */
+  grpcState?: AFDRouteGrpcState;
 }
 
 export function routeUpdateParametersSerializer(item: RouteUpdateParameters): any {
@@ -2912,6 +2991,7 @@ export function routeUpdateParametersSerializer(item: RouteUpdateParameters): an
       "linkToDefaultDomain",
       "httpsRedirect",
       "enabledState",
+      "grpcState",
     ])
       ? undefined
       : _routeUpdateParametersPropertiesSerializer(item),
@@ -2944,6 +3024,8 @@ export interface RouteUpdatePropertiesParameters {
   httpsRedirect?: HttpsRedirect;
   /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
   enabledState?: EnabledState;
+  /** Whether or not gRPC is enabled on this route. Permitted values are 'Enabled' or 'Disabled' */
+  grpcState?: AFDRouteGrpcState;
 }
 
 export function routeUpdatePropertiesParametersSerializer(
@@ -2977,6 +3059,7 @@ export function routeUpdatePropertiesParametersSerializer(
     linkToDefaultDomain: item["linkToDefaultDomain"],
     httpsRedirect: item["httpsRedirect"],
     enabledState: item["enabledState"],
+    grpcState: item["grpcState"],
   };
 }
 
@@ -5648,7 +5731,7 @@ export function deliveryRuleActionUnionArrayDeserializer(
 /** An action for the delivery rule. */
 export interface DeliveryRuleAction {
   /** The name of the action for the delivery rule. */
-  /** The discriminator possible values: UrlRedirect, UrlSigning, OriginGroupOverride, EdgeAction, UrlRewrite, ModifyRequestHeader, ModifyResponseHeader, CacheExpiration, CacheKeyQueryString, RouteConfigurationOverride */
+  /** The discriminator possible values: AfdUrlSigning, UrlRedirect, UrlSigning, OriginGroupOverride, EdgeAction, UrlRewrite, ModifyRequestHeader, ModifyResponseHeader, CacheExpiration, CacheKeyQueryString, RouteConfigurationOverride */
   name: DeliveryRuleActionName;
 }
 
@@ -5664,6 +5747,7 @@ export function deliveryRuleActionDeserializer(item: any): DeliveryRuleAction {
 
 /** Alias for DeliveryRuleActionUnion */
 export type DeliveryRuleActionUnion =
+  | AfdUrlSigningAction
   | UrlRedirectAction
   | UrlSigningAction
   | OriginGroupOverrideAction
@@ -5678,6 +5762,9 @@ export type DeliveryRuleActionUnion =
 
 export function deliveryRuleActionUnionSerializer(item: DeliveryRuleActionUnion): any {
   switch (item.name) {
+    case "AfdUrlSigning":
+      return afdUrlSigningActionSerializer(item as AfdUrlSigningAction);
+
     case "UrlRedirect":
       return urlRedirectActionSerializer(item as UrlRedirectAction);
 
@@ -5719,6 +5806,9 @@ export function deliveryRuleActionUnionSerializer(item: DeliveryRuleActionUnion)
 
 export function deliveryRuleActionUnionDeserializer(item: any): DeliveryRuleActionUnion {
   switch (item["name"]) {
+    case "AfdUrlSigning":
+      return afdUrlSigningActionDeserializer(item as AfdUrlSigningAction);
+
     case "UrlRedirect":
       return urlRedirectActionDeserializer(item as UrlRedirectAction);
 
@@ -5782,6 +5872,8 @@ export enum KnownDeliveryRuleActionName {
   RouteConfigurationOverride = "RouteConfigurationOverride",
   /** EdgeAction */
   EdgeAction = "EdgeAction",
+  /** AfdUrlSigning */
+  AfdUrlSigning = "AfdUrlSigning",
 }
 
 /**
@@ -5798,9 +5890,147 @@ export enum KnownDeliveryRuleActionName {
  * **UrlSigning** \
  * **OriginGroupOverride** \
  * **RouteConfigurationOverride** \
- * **EdgeAction**
+ * **EdgeAction** \
+ * **AfdUrlSigning**
  */
 export type DeliveryRuleActionName = string;
+
+/** Defines the url signing action for the delivery rule. */
+export interface AfdUrlSigningAction extends DeliveryRuleAction {
+  /** Defines the parameters for the action. */
+  parameters: AfdUrlSigningActionParameters;
+  /** The name of the action for the delivery rule. */
+  name: "AfdUrlSigning";
+}
+
+export function afdUrlSigningActionSerializer(item: AfdUrlSigningAction): any {
+  return {
+    name: item["name"],
+    parameters: afdUrlSigningActionParametersSerializer(item["parameters"]),
+  };
+}
+
+export function afdUrlSigningActionDeserializer(item: any): AfdUrlSigningAction {
+  return {
+    name: item["name"],
+    parameters: afdUrlSigningActionParametersDeserializer(item["parameters"]),
+  };
+}
+
+/** Defines the parameters for the Url Signing action. */
+export interface AfdUrlSigningActionParameters {
+  typeName: TypeName;
+  /** Resource reference to the Azure Key Vault secret. Expected to be in format of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/keyGroups/{keyGroupName} */
+  keyGroupReference: ResourceReference;
+  /** Algorithm to use for URL signing */
+  algorithm?: Algorithm;
+  /** Defines which query string parameters in the url to be considered for expires, key id etc. */
+  parameterNameOverride?: UrlSigningParamIdentifier[];
+}
+
+export function afdUrlSigningActionParametersSerializer(item: AfdUrlSigningActionParameters): any {
+  return {
+    typeName: item["typeName"],
+    keyGroupReference: resourceReferenceSerializer(item["keyGroupReference"]),
+    algorithm: item["algorithm"],
+    parameterNameOverride: !item["parameterNameOverride"]
+      ? item["parameterNameOverride"]
+      : urlSigningParamIdentifierArraySerializer(item["parameterNameOverride"]),
+  };
+}
+
+export function afdUrlSigningActionParametersDeserializer(
+  item: any,
+): AfdUrlSigningActionParameters {
+  return {
+    typeName: item["typeName"],
+    keyGroupReference: resourceReferenceDeserializer(item["keyGroupReference"]),
+    algorithm: item["algorithm"],
+    parameterNameOverride: !item["parameterNameOverride"]
+      ? item["parameterNameOverride"]
+      : urlSigningParamIdentifierArrayDeserializer(item["parameterNameOverride"]),
+  };
+}
+
+/** Known values of {@link TypeName} that the service accepts. */
+export enum KnownTypeName {
+  /** DeliveryRuleAfdUrlSigningActionParameters */
+  DeliveryRuleAfdUrlSigningActionParameters = "DeliveryRuleAfdUrlSigningActionParameters",
+}
+
+/** Type of TypeName */
+export type TypeName = string;
+
+/** Algorithm to use for URL signing */
+export enum KnownAlgorithm {
+  /** SHA256 */
+  SHA256 = "SHA256",
+}
+
+/**
+ * Algorithm to use for URL signing \
+ * {@link KnownAlgorithm} can be used interchangeably with Algorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SHA256**
+ */
+export type Algorithm = string;
+
+export function urlSigningParamIdentifierArraySerializer(
+  result: Array<UrlSigningParamIdentifier>,
+): any[] {
+  return result.map((item) => {
+    return urlSigningParamIdentifierSerializer(item);
+  });
+}
+
+export function urlSigningParamIdentifierArrayDeserializer(
+  result: Array<UrlSigningParamIdentifier>,
+): any[] {
+  return result.map((item) => {
+    return urlSigningParamIdentifierDeserializer(item);
+  });
+}
+
+/** Defines how to identify a parameter for a specific purpose e.g. expires */
+export interface UrlSigningParamIdentifier {
+  /** Indicates the purpose of the parameter */
+  paramIndicator: ParamIndicator;
+  /** Parameter name */
+  paramName: string;
+}
+
+export function urlSigningParamIdentifierSerializer(item: UrlSigningParamIdentifier): any {
+  return { paramIndicator: item["paramIndicator"], paramName: item["paramName"] };
+}
+
+export function urlSigningParamIdentifierDeserializer(item: any): UrlSigningParamIdentifier {
+  return {
+    paramIndicator: item["paramIndicator"],
+    paramName: item["paramName"],
+  };
+}
+
+/** Indicates the purpose of the parameter */
+export enum KnownParamIndicator {
+  /** Expires */
+  Expires = "Expires",
+  /** KeyId */
+  KeyId = "KeyId",
+  /** Signature */
+  Signature = "Signature",
+}
+
+/**
+ * Indicates the purpose of the parameter \
+ * {@link KnownParamIndicator} can be used interchangeably with ParamIndicator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Expires** \
+ * **KeyId** \
+ * **Signature**
+ */
+export type ParamIndicator = string;
 
 /** Defines the url redirect action for the delivery rule. */
 export interface UrlRedirectAction extends DeliveryRuleAction {
@@ -5960,77 +6190,6 @@ export function urlSigningActionParametersDeserializer(item: any): UrlSigningAct
       : urlSigningParamIdentifierArrayDeserializer(item["parameterNameOverride"]),
   };
 }
-
-/** Algorithm to use for URL signing */
-export enum KnownAlgorithm {
-  /** SHA256 */
-  SHA256 = "SHA256",
-}
-
-/**
- * Algorithm to use for URL signing \
- * {@link KnownAlgorithm} can be used interchangeably with Algorithm,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SHA256**
- */
-export type Algorithm = string;
-
-export function urlSigningParamIdentifierArraySerializer(
-  result: Array<UrlSigningParamIdentifier>,
-): any[] {
-  return result.map((item) => {
-    return urlSigningParamIdentifierSerializer(item);
-  });
-}
-
-export function urlSigningParamIdentifierArrayDeserializer(
-  result: Array<UrlSigningParamIdentifier>,
-): any[] {
-  return result.map((item) => {
-    return urlSigningParamIdentifierDeserializer(item);
-  });
-}
-
-/** Defines how to identify a parameter for a specific purpose e.g. expires */
-export interface UrlSigningParamIdentifier {
-  /** Indicates the purpose of the parameter */
-  paramIndicator: ParamIndicator;
-  /** Parameter name */
-  paramName: string;
-}
-
-export function urlSigningParamIdentifierSerializer(item: UrlSigningParamIdentifier): any {
-  return { paramIndicator: item["paramIndicator"], paramName: item["paramName"] };
-}
-
-export function urlSigningParamIdentifierDeserializer(item: any): UrlSigningParamIdentifier {
-  return {
-    paramIndicator: item["paramIndicator"],
-    paramName: item["paramName"],
-  };
-}
-
-/** Indicates the purpose of the parameter */
-export enum KnownParamIndicator {
-  /** Expires */
-  Expires = "Expires",
-  /** KeyId */
-  KeyId = "KeyId",
-  /** Signature */
-  Signature = "Signature",
-}
-
-/**
- * Indicates the purpose of the parameter \
- * {@link KnownParamIndicator} can be used interchangeably with ParamIndicator,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Expires** \
- * **KeyId** \
- * **Signature**
- */
-export type ParamIndicator = string;
 
 /** Defines the origin group override action for the delivery rule. */
 export interface OriginGroupOverrideAction extends DeliveryRuleAction {
@@ -7588,6 +7747,374 @@ export function securityPolicyArraySerializer(result: Array<SecurityPolicy>): an
 export function securityPolicyArrayDeserializer(result: Array<SecurityPolicy>): any[] {
   return result.map((item) => {
     return securityPolicyDeserializer(item);
+  });
+}
+
+/** An authorization policy that maps authorization configurations to profile, domain, or route associations. */
+export interface AuthPolicy extends ProxyResource {
+  /** Properties required to create an authorization policy. */
+  properties?: AuthPolicyProperties;
+}
+
+export function authPolicySerializer(item: AuthPolicy): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : authPolicyPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function authPolicyDeserializer(item: any): AuthPolicy {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : authPolicyPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the authorization policy. */
+export interface AuthPolicyProperties extends AFDStateProperties {
+  /** Authorization configurations for the policy. */
+  authConfigs: AuthPolicyConfigUnion[];
+  /** Resource associations for the authorization policy. */
+  associations: AuthPolicyAssociation;
+  /** Action to apply when authorization fails. */
+  action?: AuthPolicyAction;
+  /** Whether to forward the authentication token to the origin. Defaults to true. */
+  forwardTokenToOrigin?: boolean;
+}
+
+export function authPolicyPropertiesSerializer(item: AuthPolicyProperties): any {
+  return {
+    authConfigs: authPolicyConfigUnionArraySerializer(item["authConfigs"]),
+    associations: authPolicyAssociationSerializer(item["associations"]),
+    action: item["action"],
+    forwardTokenToOrigin: item["forwardTokenToOrigin"],
+  };
+}
+
+export function authPolicyPropertiesDeserializer(item: any): AuthPolicyProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    deploymentStatus: item["deploymentStatus"],
+    authConfigs: authPolicyConfigUnionArrayDeserializer(item["authConfigs"]),
+    associations: authPolicyAssociationDeserializer(item["associations"]),
+    action: item["action"],
+    forwardTokenToOrigin: item["forwardTokenToOrigin"],
+  };
+}
+
+export function authPolicyConfigUnionArraySerializer(result: Array<AuthPolicyConfigUnion>): any[] {
+  return result.map((item) => {
+    return authPolicyConfigUnionSerializer(item);
+  });
+}
+
+export function authPolicyConfigUnionArrayDeserializer(
+  result: Array<AuthPolicyConfigUnion>,
+): any[] {
+  return result.map((item) => {
+    return authPolicyConfigUnionDeserializer(item);
+  });
+}
+
+/** Authorization configuration parameters. */
+export interface AuthPolicyConfig {
+  /** Identity provider used by the authorization configuration. */
+  /** The discriminator possible values: EntraID */
+  identityProvider: AuthPolicyConfigIdentityProvider;
+}
+
+export function authPolicyConfigSerializer(item: AuthPolicyConfig): any {
+  return { identityProvider: item["identityProvider"] };
+}
+
+export function authPolicyConfigDeserializer(item: any): AuthPolicyConfig {
+  return {
+    identityProvider: item["identityProvider"],
+  };
+}
+
+/** Alias for AuthPolicyConfigUnion */
+export type AuthPolicyConfigUnion = AuthPolicyEntraIDConfig | AuthPolicyConfig;
+
+export function authPolicyConfigUnionSerializer(item: AuthPolicyConfigUnion): any {
+  switch (item.identityProvider) {
+    case "EntraID":
+      return authPolicyEntraIDConfigSerializer(item as AuthPolicyEntraIDConfig);
+
+    default:
+      return authPolicyConfigSerializer(item);
+  }
+}
+
+export function authPolicyConfigUnionDeserializer(item: any): AuthPolicyConfigUnion {
+  switch (item["identityProvider"]) {
+    case "EntraID":
+      return authPolicyEntraIDConfigDeserializer(item as AuthPolicyEntraIDConfig);
+
+    default:
+      return authPolicyConfigDeserializer(item);
+  }
+}
+
+/** Identity provider used by an authorization configuration. */
+export enum KnownAuthPolicyConfigIdentityProvider {
+  /** Microsoft Entra ID. */
+  EntraID = "EntraID",
+}
+
+/**
+ * Identity provider used by an authorization configuration. \
+ * {@link KnownAuthPolicyConfigIdentityProvider} can be used interchangeably with AuthPolicyConfigIdentityProvider,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EntraID**: Microsoft Entra ID.
+ */
+export type AuthPolicyConfigIdentityProvider = string;
+
+/** Microsoft Entra ID authorization policy configuration. */
+export interface AuthPolicyEntraIDConfig extends AuthPolicyConfig {
+  /** Identity provider used by the authorization configuration. */
+  identityProvider: "EntraID";
+  /** Issuer or authority for the identity provider to validate. */
+  issuer: string;
+  /** Audiences to validate. */
+  audiences: string[];
+  /** Location of the authorization value in the HTTP request. Only Header is supported. */
+  authLocation?: AuthLocation;
+  /** Selector within the authorization location used to find the identity. */
+  authLocationSelector?: string;
+}
+
+export function authPolicyEntraIDConfigSerializer(item: AuthPolicyEntraIDConfig): any {
+  return {
+    identityProvider: item["identityProvider"],
+    issuer: item["issuer"],
+    audiences: item["audiences"].map((p: any) => {
+      return p;
+    }),
+    authLocation: item["authLocation"],
+    authLocationSelector: item["authLocationSelector"],
+  };
+}
+
+export function authPolicyEntraIDConfigDeserializer(item: any): AuthPolicyEntraIDConfig {
+  return {
+    identityProvider: item["identityProvider"],
+    issuer: item["issuer"],
+    audiences: item["audiences"].map((p: any) => {
+      return p;
+    }),
+    authLocation: item["authLocation"],
+    authLocationSelector: item["authLocationSelector"],
+  };
+}
+
+/** Supported location of the authorization value in an HTTP request. */
+export type AuthLocation = "Header";
+
+/** Resource associations for an authorization policy. */
+export interface AuthPolicyAssociation {
+  /** Indicates whether the policy is associated at the profile level. When omitted during creation, the service defaults this value to false. */
+  isProfileLevel?: boolean;
+  /** Domains associated with the authorization policy. */
+  domains?: AuthPolicyDomainReference[];
+  /** Routes associated with the authorization policy. */
+  routes?: AuthPolicyRouteReference[];
+}
+
+export function authPolicyAssociationSerializer(item: AuthPolicyAssociation): any {
+  return {
+    isProfileLevel: item["isProfileLevel"],
+    domains: !item["domains"]
+      ? item["domains"]
+      : authPolicyDomainReferenceArraySerializer(item["domains"]),
+    routes: !item["routes"]
+      ? item["routes"]
+      : authPolicyRouteReferenceArraySerializer(item["routes"]),
+  };
+}
+
+export function authPolicyAssociationDeserializer(item: any): AuthPolicyAssociation {
+  return {
+    isProfileLevel: item["isProfileLevel"],
+    domains: !item["domains"]
+      ? item["domains"]
+      : authPolicyDomainReferenceArrayDeserializer(item["domains"]),
+    routes: !item["routes"]
+      ? item["routes"]
+      : authPolicyRouteReferenceArrayDeserializer(item["routes"]),
+  };
+}
+
+export function authPolicyDomainReferenceArraySerializer(
+  result: Array<AuthPolicyDomainReference>,
+): any[] {
+  return result.map((item) => {
+    return authPolicyDomainReferenceSerializer(item);
+  });
+}
+
+export function authPolicyDomainReferenceArrayDeserializer(
+  result: Array<AuthPolicyDomainReference>,
+): any[] {
+  return result.map((item) => {
+    return authPolicyDomainReferenceDeserializer(item);
+  });
+}
+
+/** Reference to a domain associated with an authorization policy. */
+export interface AuthPolicyDomainReference {
+  /** Resource ID of the custom domain or Azure Front Door endpoint. */
+  id: string;
+  /** Whether the resource is active or inactive. */
+  readonly isActive?: boolean;
+}
+
+export function authPolicyDomainReferenceSerializer(item: AuthPolicyDomainReference): any {
+  return { id: item["id"] };
+}
+
+export function authPolicyDomainReferenceDeserializer(item: any): AuthPolicyDomainReference {
+  return {
+    id: item["id"],
+    isActive: item["isActive"],
+  };
+}
+
+export function authPolicyRouteReferenceArraySerializer(
+  result: Array<AuthPolicyRouteReference>,
+): any[] {
+  return result.map((item) => {
+    return authPolicyRouteReferenceSerializer(item);
+  });
+}
+
+export function authPolicyRouteReferenceArrayDeserializer(
+  result: Array<AuthPolicyRouteReference>,
+): any[] {
+  return result.map((item) => {
+    return authPolicyRouteReferenceDeserializer(item);
+  });
+}
+
+/** Reference to a route associated with an authorization policy. */
+export interface AuthPolicyRouteReference {
+  /** Resource ID of the Azure Front Door route. */
+  id: string;
+}
+
+export function authPolicyRouteReferenceSerializer(item: AuthPolicyRouteReference): any {
+  return { id: item["id"] };
+}
+
+export function authPolicyRouteReferenceDeserializer(item: any): AuthPolicyRouteReference {
+  return {
+    id: item["id"],
+  };
+}
+
+/** Action applied when authorization fails. */
+export enum KnownAuthPolicyAction {
+  /** Block the request. */
+  Block = "Block",
+  /** Log the authorization failure and allow the request to continue. */
+  Log = "Log",
+}
+
+/**
+ * Action applied when authorization fails. \
+ * {@link KnownAuthPolicyAction} can be used interchangeably with AuthPolicyAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Block**: Block the request. \
+ * **Log**: Log the authorization failure and allow the request to continue.
+ */
+export type AuthPolicyAction = string;
+
+/** Parameters for updating an authorization policy. */
+export interface AuthPolicyUpdateParameters {
+  /** Authorization configurations for the policy. */
+  authConfigs?: AuthPolicyConfigUnion[];
+  /** Resource associations for the authorization policy. */
+  associations?: AuthPolicyAssociation;
+  /** Action to apply when authorization fails. */
+  action?: AuthPolicyAction;
+  /** Whether to forward the authentication token to the origin. When omitted, the existing value is unchanged. */
+  forwardTokenToOrigin?: boolean;
+}
+
+export function authPolicyUpdateParametersSerializer(item: AuthPolicyUpdateParameters): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "authConfigs",
+      "associations",
+      "action",
+      "forwardTokenToOrigin",
+    ])
+      ? undefined
+      : _authPolicyUpdateParametersPropertiesSerializer(item),
+  };
+}
+
+/** Writable properties of an authorization policy. */
+export interface AuthPolicyUpdatePropertiesParameters {
+  /** Authorization configurations for the policy. */
+  authConfigs?: AuthPolicyConfigUnion[];
+  /** Resource associations for the authorization policy. */
+  associations?: AuthPolicyAssociation;
+  /** Action to apply when authorization fails. */
+  action?: AuthPolicyAction;
+  /** Whether to forward the authentication token to the origin. When omitted, the existing value is unchanged. */
+  forwardTokenToOrigin?: boolean;
+}
+
+export function authPolicyUpdatePropertiesParametersSerializer(
+  item: AuthPolicyUpdatePropertiesParameters,
+): any {
+  return {
+    authConfigs: !item["authConfigs"]
+      ? item["authConfigs"]
+      : authPolicyConfigUnionArraySerializer(item["authConfigs"]),
+    associations: !item["associations"]
+      ? item["associations"]
+      : authPolicyAssociationSerializer(item["associations"]),
+    action: item["action"],
+    forwardTokenToOrigin: item["forwardTokenToOrigin"],
+  };
+}
+
+/** The response of a AuthPolicy list operation. */
+export interface _AuthPolicyListResult {
+  /** The AuthPolicy items on this page */
+  value: AuthPolicy[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _authPolicyListResultDeserializer(item: any): _AuthPolicyListResult {
+  return {
+    value: authPolicyArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function authPolicyArraySerializer(result: Array<AuthPolicy>): any[] {
+  return result.map((item) => {
+    return authPolicySerializer(item);
+  });
+}
+
+export function authPolicyArrayDeserializer(result: Array<AuthPolicy>): any[] {
+  return result.map((item) => {
+    return authPolicyDeserializer(item);
   });
 }
 
@@ -12773,12 +13300,18 @@ export type WafRankingType = string;
 export enum KnownVersions {
   /** The 2025-06-01 API version. */
   V20250601 = "2025-06-01",
+  /** The 2025-09-01-preview API version. */
+  V20250901Preview = "2025-09-01-preview",
   /** The 2025-12-01 API version. */
   V20251201 = "2025-12-01",
+  /** The 2026-04-01-preview API version. */
+  V20260401Preview = "2026-04-01-preview",
   /** The 2026-07-01 API version. */
   V20260701 = "2026-07-01",
-  /** The 2026-10-01 API version. */
-  V20261001 = "2026-10-01",
+  /** The 2026-08-01-preview API version. */
+  V20260801Preview = "2026-08-01-preview",
+  /** The 2026-09-01-preview API version. */
+  V20260901Preview = "2026-09-01-preview",
 }
 
 export function _operationOperationPropertiesDeserializer(item: any) {
@@ -13031,6 +13564,7 @@ export function _routePropertiesSerializer(item: Route): any {
     linkToDefaultDomain: item["linkToDefaultDomain"],
     httpsRedirect: item["httpsRedirect"],
     enabledState: item["enabledState"],
+    grpcState: item["grpcState"],
   };
 }
 
@@ -13064,6 +13598,7 @@ export function _routePropertiesDeserializer(item: any) {
     linkToDefaultDomain: item["linkToDefaultDomain"],
     httpsRedirect: item["httpsRedirect"],
     enabledState: item["enabledState"],
+    grpcState: item["grpcState"],
     provisioningState: item["provisioningState"],
     deploymentStatus: item["deploymentStatus"],
   };
@@ -13098,6 +13633,7 @@ export function _routeUpdateParametersPropertiesSerializer(item: RouteUpdatePara
     linkToDefaultDomain: item["linkToDefaultDomain"],
     httpsRedirect: item["httpsRedirect"],
     enabledState: item["enabledState"],
+    grpcState: item["grpcState"],
   };
 }
 
@@ -13186,6 +13722,21 @@ export function _securityPolicyUpdateParametersPropertiesSerializer(
     parameters: !item["parameters"]
       ? item["parameters"]
       : securityPolicyPropertiesParametersUnionSerializer(item["parameters"]),
+  };
+}
+
+export function _authPolicyUpdateParametersPropertiesSerializer(
+  item: AuthPolicyUpdateParameters,
+): any {
+  return {
+    authConfigs: !item["authConfigs"]
+      ? item["authConfigs"]
+      : authPolicyConfigUnionArraySerializer(item["authConfigs"]),
+    associations: !item["associations"]
+      ? item["associations"]
+      : authPolicyAssociationSerializer(item["associations"]),
+    action: item["action"],
+    forwardTokenToOrigin: item["forwardTokenToOrigin"],
   };
 }
 

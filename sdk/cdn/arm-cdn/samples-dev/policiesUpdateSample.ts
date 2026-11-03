@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update an existing CdnWebApplicationFirewallPolicy with the specified policy name under the specified subscription and resource group
  *
  * @summary update an existing CdnWebApplicationFirewallPolicy with the specified policy name under the specified subscription and resource group
- * x-ms-original-file: 2026-10-01/WafPatchPolicy.json
+ * x-ms-original-file: 2026-09-01-preview/WafPatchPolicy.json
  */
-async function createsSpecificPolicy(): Promise<void> {
+async function wafPatchPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function createsSpecificPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createsSpecificPolicy();
+  await wafPatchPolicy();
 }
 
 main().catch(console.error);

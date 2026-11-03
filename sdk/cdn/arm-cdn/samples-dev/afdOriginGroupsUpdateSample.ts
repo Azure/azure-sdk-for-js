@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing origin group within a profile.
  *
  * @summary updates an existing origin group within a profile.
- * x-ms-original-file: 2026-10-01/AFDOriginGroups_Update.json
+ * x-ms-original-file: 2026-09-01-preview/AFDOriginGroups_Update.json
  */
 async function afdOriginGroupsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,6 +30,10 @@ async function afdOriginGroupsUpdate(): Promise<void> {
     },
     loadBalancingSettings: {
       additionalLatencyInMilliseconds: 1000,
+      capacityDistributionSettings: {
+        capacityConsciousThreshold: 80,
+        distributionType: "StaticWeights",
+      },
       sampleSize: 3,
       successfulSamplesRequired: 3,
     },

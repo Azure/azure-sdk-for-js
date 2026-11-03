@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cdn/arm-cdn)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-cdn)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-cdn)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-cdn?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cdn/arm-cdn/samples)
 
 ## Getting started

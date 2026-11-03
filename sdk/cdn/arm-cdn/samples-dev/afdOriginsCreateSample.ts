@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new origin within the specified origin group.
  *
  * @summary creates a new origin within the specified origin group.
- * x-ms-original-file: 2026-10-01/AFDOrigins_Create.json
+ * x-ms-original-file: 2026-09-01-preview/AFDOrigins_Create.json
  */
 async function afdOriginsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function afdOriginsCreate(): Promise<void> {
  * This sample demonstrates how to creates a new origin within the specified origin group.
  *
  * @summary creates a new origin within the specified origin group.
- * x-ms-original-file: 2026-10-01/AFDOrigins_CreateWithIncomingHostHeaderValidation.json
+ * x-ms-original-file: 2026-09-01-preview/AFDOrigins_CreateWithIncomingHostHeaderValidation.json
  */
 async function afdOriginsCreateIncomingHostHeaderValidation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function afdOriginsCreateIncomingHostHeaderValidation(): Promise<void> {
  * This sample demonstrates how to creates a new origin within the specified origin group.
  *
  * @summary creates a new origin within the specified origin group.
- * x-ms-original-file: 2026-10-01/AFDOrigins_Create_CustomCertificateSubject.json
+ * x-ms-original-file: 2026-09-01-preview/AFDOrigins_Create_CustomCertificateSubject.json
  */
 async function afdOriginsCreateCustomCertificateSubject(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -73,7 +73,7 @@ async function afdOriginsCreateCustomCertificateSubject(): Promise<void> {
  * This sample demonstrates how to creates a new origin within the specified origin group.
  *
  * @summary creates a new origin within the specified origin group.
- * x-ms-original-file: 2026-10-01/AFDOrigins_Create_OriginHostname.json
+ * x-ms-original-file: 2026-09-01-preview/AFDOrigins_Create_OriginHostname.json
  */
 async function afdOriginsCreateOriginHostname(): Promise<void> {
   const credential = new DefaultAzureCredential();

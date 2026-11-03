@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all available managed rule sets.
  *
  * @summary lists all available managed rule sets.
- * x-ms-original-file: 2026-10-01/WafListManagedRuleSets.json
+ * x-ms-original-file: 2026-09-01-preview/WafListManagedRuleSets.json
  */
-async function listPoliciesInAResourceGroup(): Promise<void> {
+async function wafListManagedRuleSets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listPoliciesInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listPoliciesInAResourceGroup();
+  await wafListManagedRuleSets();
 }
 
 main().catch(console.error);

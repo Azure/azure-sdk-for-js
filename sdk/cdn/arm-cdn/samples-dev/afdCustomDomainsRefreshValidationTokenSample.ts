@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the domain validation token.
  *
  * @summary updates the domain validation token.
- * x-ms-original-file: 2026-10-01/AFDCustomDomains_RefreshValidationToken.json
+ * x-ms-original-file: 2026-09-01-preview/AFDCustomDomains_RefreshValidationToken.json
  */
-async function afdCustomDomainsDelete(): Promise<void> {
+async function afdCustomDomainsRefreshValidationToken(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function afdCustomDomainsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await afdCustomDomainsDelete();
+  await afdCustomDomainsRefreshValidationToken();
 }
 
 main().catch(console.error);

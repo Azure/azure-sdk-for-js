@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get log analytics ranking report for AFD profile
  *
  * @summary get log analytics ranking report for AFD profile
- * x-ms-original-file: 2026-10-01/LogAnalytics_GetLogAnalyticsRankings.json
+ * x-ms-original-file: 2026-09-01-preview/LogAnalytics_GetLogAnalyticsRankings.json
  */
 async function logAnalyticsGetLogAnalyticsRankings(): Promise<void> {
   const credential = new DefaultAzureCredential();

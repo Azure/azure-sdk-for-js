@@ -6,6 +6,7 @@ export type { AFDEndpointsOperations } from "./afdEndpoints/index.js";
 export type { AFDOriginGroupsOperations } from "./afdOriginGroups/index.js";
 export type { AFDOriginsOperations } from "./afdOrigins/index.js";
 export type { AFDProfilesOperations } from "./afdProfiles/index.js";
+export type { AuthPoliciesOperations } from "./authPolicies/index.js";
 export type { CustomDomainsOperations } from "./customDomains/index.js";
 export type { EdgeNodesOperations } from "./edgeNodes/index.js";
 export type { EndpointsOperations } from "./endpoints/index.js";

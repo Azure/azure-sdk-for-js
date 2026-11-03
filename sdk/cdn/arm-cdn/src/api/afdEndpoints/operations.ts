@@ -56,7 +56,7 @@ export function _validateCustomDomainSend(
       resourceGroupName: resourceGroupName,
       profileName: profileName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +120,7 @@ export function _listResourceUsageSend(
       resourceGroupName: resourceGroupName,
       profileName: profileName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -161,7 +161,11 @@ export function listResourceUsage(
     () => _listResourceUsageSend(context, resourceGroupName, profileName, endpointName, options),
     _listResourceUsageDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    },
   );
 }
 
@@ -180,7 +184,7 @@ export function _purgeContentSend(
       resourceGroupName: resourceGroupName,
       profileName: profileName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -222,7 +226,7 @@ export function purgeContent(
     getInitialResponse: () =>
       _purgeContentSend(context, resourceGroupName, profileName, endpointName, contents, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-10-01",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -238,7 +242,7 @@ export function _listByProfileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -278,7 +282,11 @@ export function listByProfile(
     () => _listByProfileSend(context, resourceGroupName, profileName, options),
     _listByProfileDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    },
   );
 }
 
@@ -296,7 +304,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       profileName: profileName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -333,7 +341,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, profileName, endpointName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-10-01",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -352,7 +360,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       profileName: profileName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -402,7 +410,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-10-01",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<AFDEndpoint>, AFDEndpoint>;
 }
 
@@ -421,7 +429,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       profileName: profileName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -464,7 +472,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, profileName, endpointName, endpointParam, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-10-01",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<AFDEndpoint>, AFDEndpoint>;
 }
 
@@ -482,7 +490,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       profileName: profileName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

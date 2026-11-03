@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an existing origin within an origin group.
  *
  * @summary gets an existing origin within an origin group.
- * x-ms-original-file: 2026-10-01/AFDOrigins_Get.json
+ * x-ms-original-file: 2026-09-01-preview/AFDOrigins_Get.json
  */
 async function afdOriginsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

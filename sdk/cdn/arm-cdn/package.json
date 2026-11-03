@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-cdn",
-  "version": "10.1.0",
+  "version": "11.0.0-beta.1",
   "description": "A generated SDK for CdnManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -214,6 +214,20 @@
       "require": {
         "types": "./dist/commonjs/api/secrets/index.d.ts",
         "default": "./dist/commonjs/api/secrets/index.js"
+      }
+    },
+    "./api/authPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/authPolicies/index.d.ts",
+        "default": "./dist/browser/api/authPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/authPolicies/index.d.ts",
+        "default": "./dist/esm/api/authPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/authPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/authPolicies/index.js"
       }
     },
     "./api/securityPolicies": {
@@ -445,6 +459,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-cdn"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-cdn?view=azure-node-preview"
   }
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing security policy within a profile.
  *
  * @summary updates an existing security policy within a profile.
- * x-ms-original-file: 2026-10-01/SecurityPolicies_Patch.json
+ * x-ms-original-file: 2026-09-01-preview/SecurityPolicies_Patch.json
  */
 async function securityPoliciesPatch(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,11 +28,17 @@ async function securityPoliciesPatch(): Promise<void> {
             },
           ],
           patternsToMatch: ["/*"],
+          routes: [
+            {
+              id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/afdendpoints/endpoint1/routes/route1",
+            },
+          ],
         },
       ],
       wafPolicy: {
         id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Network/frontdoorwebapplicationfirewallpolicies/wafTest",
       },
+      isProfileLevel: false,
     },
   });
   console.log(result);

@@ -8,13 +8,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new origin group within the specified endpoint.
  *
  * @summary creates a new origin group within the specified endpoint.
- * x-ms-original-file: 2026-10-01/OriginGroups_Create.json
+ * x-ms-original-file: 2026-09-01-preview/OriginGroups_Create.json
  */
 async function originGroupsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.originGroups.create("RG", "profile1", "endpoint1", "origingroup1", {
+  const result = await client.originGroups.create("RG", "profile1", "endpoint1", "originGroup1", {
     healthProbeSettings: {
       probeIntervalInSeconds: 120,
       probePath: "/health.aspx",
