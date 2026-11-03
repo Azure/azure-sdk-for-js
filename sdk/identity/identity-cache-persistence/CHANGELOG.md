@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.3 (Unreleased)
+## 1.3.3 (2026-10-29)
 
 ### Other Changes
 
