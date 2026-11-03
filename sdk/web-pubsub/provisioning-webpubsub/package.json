@@ -87,6 +87,7 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "echo Skipped.",
     "test:node": "dev-tool run test:vitest --no-test-proxy",
+    "typecheck": "tsc -p config/tsconfig.test.node.json --noEmit",
     "update-snippets": "dev-tool run update-snippets"
   },
   "devDependencies": {
