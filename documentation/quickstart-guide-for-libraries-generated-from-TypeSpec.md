@@ -109,7 +109,7 @@ async function privateCloudsCreateOrUpdate(resourceGroupName: string, privateClo
       managementCluster: { clusterSize: 4 },
     },
     tags: {},
-  }).pollUntilDone();
+  });
   console.log(result);
 }
 ```
@@ -148,7 +148,7 @@ async function privateCloudsUpdate(resourceGroupName: string, privateCloudName: 
         },
       },
     },
-  }).pollUntilDone();
+  });
   console.log(result);
 }
 ```
@@ -178,7 +178,7 @@ async function privateCloudsGet(resourceGroupName: string, privateCloudName: str
 
 ```typescript
 async function privateCloudsDelete(resourceGroupName: string, privateCloudName: string): Promise<void> {
-  await client.privateClouds.delete(resourceGroupName, privateCloudName).pollUntilDone();
+  await client.privateClouds.delete(resourceGroupName, privateCloudName);
 }
 ```
 
