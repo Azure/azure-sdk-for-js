@@ -17,7 +17,8 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "../../../src/index.js";
-import { sendRequest } from "../../../src/client/sendRequest.js";
+import { getRequestBody, sendRequest } from "../../../src/client/sendRequest.js";
+import { buildBodyPart } from "../../../src/client/multipart.js";
 import { getRequestCompletion } from "../../../src/util/responseBody.js";
 import { redirectPolicy } from "../../../src/policies/redirectPolicy.js";
 import { systemErrorRetryPolicy } from "../../../src/policies/systemErrorRetryPolicy.js";
@@ -28,6 +29,7 @@ import {
   getEffectiveHeaderValues,
   hasExpectContinue,
 } from "../../../src/util/nodeExpectContinue.js";
+import { isNodeReadableStream } from "../../../src/util/typeGuards-node.js";
 
 class StructuralReadable extends Stream implements NodeJS.ReadableStream {
   public readable = true;
@@ -102,6 +104,24 @@ function createOptions(suppressDestroyError = true): {
 }
 
 describe("Expect header detection and framing", () => {
+  it("recognizes native and structural readable streams through body normalization", () => {
+    for (const source of [new Readable({ read() {} }), new StructuralReadable()]) {
+      expect(isNodeReadableStream(source)).toBe(true);
+      expect(getRequestBody(source, "application/json").body).toBe(source);
+      expect(buildBodyPart({ body: source }).body).toBe(source);
+    }
+  });
+
+  it.each(["readable", "pipe", "unpipe", "on", "once", "removeListener"])(
+    "does not recognize an incomplete stream without %s",
+    (property) => {
+      const source = new StructuralReadable();
+      Object.defineProperty(source, property, { value: undefined });
+
+      expect(isNodeReadableStream(source)).toBe(false);
+    },
+  );
+
   it("detects 100-continue case-insensitively and honors replacement overrides", () => {
     expect(
       hasExpectContinue(
@@ -896,6 +916,58 @@ describe("Expect: 100-continue end-to-end transport", () => {
         expect(source.listeners("error")).toEqual([callerError]);
       } finally {
         source.destroy();
+      }
+    },
+  );
+
+  it.each([
+    { withOn: false, multipart: false },
+    { withOn: true, multipart: false },
+    { withOn: false, multipart: true },
+    { withOn: true, multipart: true },
+  ])(
+    "sends pipe-shaped objects as JSON without Expect (withOn=$withOn, multipart=$multipart)",
+    async ({ withOn, multipart }) => {
+      const pipe = vi.fn();
+      const on = vi.fn();
+      const body = withOn ? { value: 1, pipe, on } : { value: 1, pipe };
+      const chunks: Buffer[] = [];
+      const server = http.createServer((request, response) => {
+        request.on("data", (chunk: Buffer) => chunks.push(chunk));
+        request.once("end", () => response.end("accepted"));
+      });
+      const port = await listen(server);
+      const agent = new http.Agent({ keepAlive: false });
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(multipartPolicy());
+      const requestOptions = {
+        body: multipart ? [{ name: "payload", body }] : body,
+        contentType: multipart ? "multipart/form-data" : "application/json",
+        allowInsecureConnection: true,
+        requestOverrides: { agent },
+      };
+
+      try {
+        const response = await sendRequest(
+          "POST",
+          `http://127.0.0.1:${port}`,
+          pipeline,
+          requestOptions,
+          createDefaultHttpClient(),
+        );
+        const receivedBody = Buffer.concat(chunks).toString();
+
+        expect(response.status).toBe("200");
+        if (multipart) {
+          expect(receivedBody).toContain("content-type: application/json\r\n");
+          expect(receivedBody).toContain('\r\n\r\n{"value":1}\r\n');
+        } else {
+          expect(receivedBody).toBe('{"value":1}');
+        }
+        expect(pipe).not.toHaveBeenCalled();
+        expect(on).not.toHaveBeenCalled();
+      } finally {
+        agent.destroy();
       }
     },
   );
