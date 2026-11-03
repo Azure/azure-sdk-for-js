@@ -35,7 +35,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       usagePlanName: usagePlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +75,11 @@ export function list(
     () => _listSend(context, resourceGroupName, usagePlanName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-11-30-preview",
+    },
   );
 }
 
@@ -93,7 +97,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       usagePlanName: usagePlanName,
       enrollmentName: enrollmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,7 +134,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, usagePlanName, enrollmentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-10-01",
+    apiVersion: context.apiVersion ?? "2026-11-30-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -149,7 +153,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       usagePlanName: usagePlanName,
       enrollmentName: enrollmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -201,7 +205,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-10-01",
+    apiVersion: context.apiVersion ?? "2026-11-30-preview",
   }) as PollerLike<OperationState<Enrollment>, Enrollment>;
 }
 
@@ -219,7 +223,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       usagePlanName: usagePlanName,
       enrollmentName: enrollmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

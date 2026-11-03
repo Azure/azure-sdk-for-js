@@ -8,19 +8,15 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Drill
  *
  * @summary create a Drill
- * x-ms-original-file: 2026-10-01/Drills_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-30-preview/Drills_Create_MaximumSet_Gen.json
  */
 async function drillsCreateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
   const result = await client.drills.create("sampleServiceGroupName", "drill1", {
     properties: {
-      executionState: "NotRunning",
       rbacSetupMode: "AutomatedCustomRole",
-      systemMetadata: { initialConfig: "Pending" },
-      drillType: "Zonal",
-      lastRunProperties: {},
-      executionReadinessState: "Ready",
+      drillType: "DrillProperties",
       recoveryPlanProperties: {
         identity: {
           type: "UserAssigned",

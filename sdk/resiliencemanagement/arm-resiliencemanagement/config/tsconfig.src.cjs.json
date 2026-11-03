@@ -17,6 +17,7 @@
     "../src/api/recoveryJobs/index.ts",
     "../src/api/recoveryResources/index.ts",
     "../src/api/recoveryPlanActions/index.ts",
+    "../src/api/recoveryConfigProfiles/index.ts",
     "../src/api/recoveryPlans/index.ts",
     "../src/api/goalResources/index.ts",
     "../src/api/goalAssignments/index.ts",
