@@ -1205,6 +1205,49 @@ export class DataProductClient {
       expect(items[0]).toBe("Class DataProductClient no longer has parameter analytics");
     });
 
+    test.each([
+      ["null removed", "UserAssignedIdentity | null", false],
+      ["undefined removed", "UserAssignedIdentity | undefined", false],
+      ["incompatible value type", "number", true],
+    ])("operation group dictionary: %s", async (_description, baselineValueType, breaking) => {
+      const createApiView = (valueType: string) => `
+\`\`\`ts
+export interface UserAssignedIdentity {
+    clientId?: string;
+}
+export interface ManagedServiceIdentity {
+    userAssignedIdentities?: Record<string, ${valueType}>;
+}
+export interface Experiment {
+    identity?: ManagedServiceIdentity;
+}
+export interface ExperimentsOperations {
+    createOrUpdate: (resource: Experiment) => void;
+}
+export class ChaosManagementClient {
+    readonly experiments: ExperimentsOperations;
+}
+\`\`\`
+`;
+      const detector = new DifferenceDetector(
+        { apiView: createApiView(baselineValueType), sdkType: SDKType.ModularClient },
+        { apiView: createApiView("UserAssignedIdentity"), sdkType: SDKType.ModularClient },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(breaking);
+      expect(
+        changelog.changelogItems.breakingChanges.get(
+          ChangelogItemCategory.ClassPropertyTypeChanged,
+        ),
+      ).toEqual(
+        breaking
+          ? ["Type of property experiments of class ChaosManagementClient has changed"]
+          : undefined,
+      );
+    });
+
     test("accessor type change is a breaking class property change", async () => {
       const baselineApiView = `
 \`\`\`ts

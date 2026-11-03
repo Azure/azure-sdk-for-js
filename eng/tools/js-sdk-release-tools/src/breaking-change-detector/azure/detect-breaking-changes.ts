@@ -184,7 +184,7 @@ export async function createAstContext(
   try {
     const projectContext = await prepareProject(currentOptions, baselineOptions, tempFolder);
     const project = new Project({
-      compilerOptions: { target: ScriptTarget.ES2022 },
+      compilerOptions: { target: ScriptTarget.ES2022, strictNullChecks: false },
     });
     const baseline = project.createSourceFile(
       "review/baseline/index.ts",
