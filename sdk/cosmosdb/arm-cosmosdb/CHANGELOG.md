@@ -1,5 +1,22 @@
 # Release History
 
+## 17.1.0 (2026-11-03)
+
+### Features Added
+  - Added Interface ThroughputBucketResource
+  - Interface BackupPolicy has a new optional parameter backupRetentionLockExpirationTimestamp
+  - Interface ContinuousModeBackupPolicy has a new optional parameter backupRetentionLockExpirationTimestamp
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter perPartitionAutomaticFailoverEnabled
+  - Interface DatabaseAccountCreateUpdateProperties has a new optional parameter perPartitionAutomaticFailoverEnabled
+  - Interface DatabaseAccountGetProperties has a new optional parameter perPartitionAutomaticFailoverEnabled
+  - Interface DatabaseAccountGetResults has a new optional parameter perPartitionAutomaticFailoverEnabled
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter perPartitionAutomaticFailoverEnabled
+  - Interface DatabaseAccountUpdateProperties has a new optional parameter perPartitionAutomaticFailoverEnabled
+  - Interface PeriodicModeBackupPolicy has a new optional parameter backupRetentionLockExpirationTimestamp
+  - Interface ThroughputSettingsGetPropertiesResource has a new optional parameter throughputBuckets
+  - Interface ThroughputSettingsResource has a new optional parameter throughputBuckets
+  - Enum KnownVersions has a new value V20260715
+
 ## 17.1.0-beta.1 (2026-09-22)
 Compared with version 17.0.0
 

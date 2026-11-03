@@ -26,7 +26,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       location: location,
       instanceId: instanceId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
       startTime: options?.startTime,
       endTime: options?.endTime,
     },
@@ -68,10 +68,6 @@ export function list(
     () => _listSend(context, location, instanceId, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
