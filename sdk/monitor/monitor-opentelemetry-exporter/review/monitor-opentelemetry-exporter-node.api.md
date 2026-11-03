@@ -14,12 +14,12 @@ import type { Link } from '@opentelemetry/api';
 import type { LogRecordExporter } from '@opentelemetry/sdk-logs';
 import type { PushMetricExporter } from '@opentelemetry/sdk-metrics';
 import type { ReadableLogRecord } from '@opentelemetry/sdk-logs';
-import type { ReadableSpan } from '@opentelemetry/sdk-trace-base';
+import type { ReadableSpan } from '@opentelemetry/sdk-trace';
 import type { ResourceMetrics } from '@opentelemetry/sdk-metrics';
-import type { Sampler } from '@opentelemetry/sdk-trace-base';
-import type { SamplingResult } from '@opentelemetry/sdk-trace-base';
+import type { Sampler } from '@opentelemetry/sdk-trace';
+import type { SamplingResult } from '@opentelemetry/sdk-trace';
 import type { ServiceClientOptions } from '@azure/core-client';
-import type { SpanExporter } from '@opentelemetry/sdk-trace-base';
+import type { SpanExporter } from '@opentelemetry/sdk-trace';
 import type { SpanKind } from '@opentelemetry/api';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -35,7 +35,9 @@ export interface ApplicationInsightsClientOptionalParams extends ServiceClientOp
 // @public
 export class ApplicationInsightsSampler implements Sampler {
     constructor(samplingRatio?: number);
-    shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult;
+    shouldSample<T extends Attributes>(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: T, links: Link[]): SamplingResult & {
+        attributes: T;
+    };
     toString(): string;
 }
 
@@ -85,7 +87,9 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
 export class RateLimitedSampler implements Sampler {
     constructor(tracesPerSecond: number);
     getSampleRate(): number;
-    shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult;
+    shouldSample<T extends Attributes>(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: T, links: Link[]): SamplingResult & {
+        attributes: T;
+    };
     toString(): string;
 }
 

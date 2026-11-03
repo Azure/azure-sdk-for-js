@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
-import type { Sampler, SamplingResult } from "@opentelemetry/sdk-trace-base";
-import { SamplingDecision } from "@opentelemetry/sdk-trace-base";
+import type { Sampler, SamplingResult } from "@opentelemetry/sdk-trace";
+import { SamplingDecision } from "@opentelemetry/sdk-trace";
 import { roundDownToNearest, shouldSample } from "./samplingUtils.js";
 
 type RateLimitedSamplerState = {
@@ -111,19 +111,19 @@ export class RateLimitedSampler implements Sampler {
    * @param attributes - Initial set of SpanAttributes for the Span being constructed.
    * @param links - Collection of links that will be associated with the Span to
    *     be created. Typically useful for batch operations.
-   * @returns a {@link SamplingResult}.
+   * @returns a {@link SamplingResult} retaining the supplied attribute type.
    */
-  public shouldSample(
+  public shouldSample<T extends Attributes>(
     context: Context,
     traceId: string,
     // @ts-expect-error unused argument
     spanName: string,
     // @ts-expect-error unused argument
     spanKind: SpanKind,
-    attributes: Attributes,
+    attributes: T,
     // @ts-expect-error unused argument
     links: Link[],
-  ): SamplingResult {
+  ): SamplingResult & { attributes: T } {
     const sampleRate = this.getSampleRate();
     return shouldSample(sampleRate, context, traceId, attributes)
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
