@@ -49,6 +49,8 @@ import {
   liveServerEventUnionDeserializer,
   toolUnionDeserializer,
   toolUnionSerializer,
+  voiceAgentBaseDefinitionUnionDeserializer,
+  voiceAgentBaseDefinitionUnionSerializer,
   voiceAgentLiveConversationItemUnionDeserializer,
 } from "../../../src/models/models.js";
 
@@ -102,6 +104,7 @@ const parameters = {
 
 const realtime: VoiceAgentDefinition = {
   kind: "voice",
+  sub_protocol: "realtime",
   model_type: "managed",
   model: "realtime-deployment",
   instructions: "Help {{customer}}.",
@@ -145,8 +148,10 @@ const live: VoiceAgentLiveDefinition = {
   },
 };
 
+const legacyRealtime = { ...realtime, sub_protocol: undefined };
+
 const definitions: { name: string; definition: AgentDefinitionUnion }[] = [
-  { name: "legacy Realtime", definition: realtime },
+  { name: "legacy Realtime", definition: legacyRealtime },
   { name: "explicit Realtime", definition: { ...realtime, sub_protocol: "realtime" } },
   {
     name: "Live default client delegation",
@@ -194,6 +199,29 @@ function agent(
 }
 
 describe("Live generated-contract integration", () => {
+  it.each([
+    { name: "Realtime", definition: realtime },
+    { name: "Live", definition: live },
+  ])("preserves protocol-specific fields in native $name converters", ({ definition }) => {
+    expect(toWire(voiceAgentBaseDefinitionUnionSerializer(definition))).toEqual(toWire(definition));
+    expect(toWire(voiceAgentBaseDefinitionUnionDeserializer(definition))).toEqual(
+      toWire(definition),
+    );
+  });
+
+  it("preserves opaque native Decision message fields on creation", () => {
+    const event: LiveClientEventUnion = {
+      type: "decision.item.create",
+      event_id: "message-command",
+      item: {
+        type: "message",
+        role: "user",
+        content: [{ type: "input_text", text: "Remember this." }],
+      },
+    };
+    expect(toWire(liveClientEventUnionSerializer(event))).toEqual(event);
+  });
+
   it("keeps both voice protocols' management instructions optional and non-nullable", () => {
     expectTypeOf<VoiceAgentLiveDefinition["instructions"]>().toEqualTypeOf<string | undefined>();
     expectTypeOf<VoiceAgentDefinition["instructions"]>().toEqualTypeOf<string | undefined>();
@@ -232,6 +260,17 @@ describe("Live generated-contract integration", () => {
   });
 
   const nativeEvents = [
+    {
+      type: "transport.dtmf.received",
+      event_id: "event-dtmf-received",
+      event: "1",
+    },
+    {
+      type: "transport.dtmf.sent",
+      event_id: "event-dtmf-sent",
+      client_event_id: "command-dtmf",
+      event: "2",
+    },
     {
       type: "session.output_audio.fixture.playing",
       event_id: "event-playing",
@@ -347,7 +386,7 @@ describe("Live generated-contract integration", () => {
   });
 
   it("preserves legacy hosted-engine Realtime configuration with an omitted sub_protocol", () => {
-    const definition: VoiceAgentDefinition = {
+    const definition: Omit<VoiceAgentDefinition, "sub_protocol"> = {
       kind: "voice",
       conversation_engine: { type: "hosted_agent", name: "hosted-agent", version: "2" },
       greeting: { type: "template", text: "Welcome." },

@@ -50,6 +50,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
     const agentName = `voice-agent-streaming-${Date.now()}`;
     const definition: VoiceAgentDefinition = {
       kind: "voice",
+      sub_protocol: "realtime",
       model_type: "managed",
       model: modelName,
       instructions: "You are a helpful voice assistant. Use tools when appropriate.",
@@ -119,6 +120,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
     const agentName = `voice-agent-multi-tools-${Date.now()}`;
     const definition: VoiceAgentDefinition = {
       kind: "voice",
+      sub_protocol: "realtime",
       model_type: "managed",
       model: modelName,
       instructions: "Use tools to get information when asked. Always use the appropriate tool.",
@@ -209,6 +211,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
     const agentName = `voice-agent-text-only-${Date.now()}`;
     const definition: VoiceAgentDefinition = {
       kind: "voice",
+      sub_protocol: "realtime",
       model_type: "managed",
       model: modelName,
       instructions: "Respond conversationally without using tools.",
@@ -253,6 +256,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
     const agentName = `voice-agent-close-${Date.now()}`;
     const definition: VoiceAgentDefinition = {
       kind: "voice",
+      sub_protocol: "realtime",
       model_type: "managed",
       model: modelName,
       instructions: "Simple assistant",
@@ -289,6 +293,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
     const agentName = `voice-agent-reconfig-${Date.now()}`;
     const definition: VoiceAgentDefinition = {
       kind: "voice",
+      sub_protocol: "realtime",
       model_type: "managed",
       model: modelName,
       instructions: "Flexible assistant",

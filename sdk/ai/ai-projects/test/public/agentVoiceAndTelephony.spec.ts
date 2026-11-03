@@ -50,6 +50,7 @@ function createClient(...responses: MockResponse[]): {
 
 const voiceDefinition: VoiceAgentDefinition = {
   kind: "voice",
+  sub_protocol: "realtime",
   model_type: "self_deployed",
   model: "voice-deployment",
   greeting: { type: "template", text: "Hello!" },
