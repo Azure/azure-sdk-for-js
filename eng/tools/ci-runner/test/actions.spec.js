@@ -3,9 +3,10 @@
 
 // @ts-check
 
-import { afterEach, assert, describe, it, vi } from "vitest";
+import { afterEach, assert, beforeEach, describe, it, vi } from "vitest";
 import { executeActions } from "../src/actions.js";
 import { spawnPnpmRun, spawnPnpm } from "../src/spawn.js";
+import { verifyPackages } from "../src/verifyPackages.js";
 import { getBaseDir } from "../src/env.js";
 import { join as pathJoin } from "node:path";
 
@@ -18,9 +19,20 @@ vi.mock("../src/spawn.js", async () => {
   };
 });
 
+vi.mock("../src/verifyPackages.js", async () => {
+  return {
+    verifyPackages: vi.fn(),
+  };
+});
+
 describe("executeActions", () => {
+  beforeEach(() => {
+    vi.stubEnv("TF_BUILD", "");
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
+    vi.unstubAllEnvs();
   });
 
   it("should pass global actions directly to", () => {
@@ -31,7 +43,7 @@ describe("executeActions", () => {
   it("should run build commands for affected packages", () => {
     executeActions("build", ["appconfiguration"], [], "azure-app-configuration");
     assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
-      [baseDir, "build", "--filter", "...@azure/app-configuration..."],
+      [baseDir, "build", "-F", "...@azure/app-configuration..."],
     ]);
   });
 
@@ -47,18 +59,19 @@ describe("executeActions", () => {
       [
         baseDir,
         "test:node",
-        "--filter",
+        "-F",
         "@azure/communication-identity",
-        "--filter",
+        "-F",
         "@azure-rest/synapse-access-control",
-        "--filter",
+        "-F",
         "@azure/arm-resources",
-        "--filter",
+        "-F",
         "@azure/identity",
-        "--filter",
+        "-F",
         "@azure/service-bus",
-        "--filter",
+        "-F",
         "@azure/template",
+        "--continue",
       ],
     ]);
   });
@@ -66,7 +79,7 @@ describe("executeActions", () => {
   it("should handle arbitrary run commands", () => {
     executeActions("foo", ["appconfiguration"], [], "azure-app-configuration");
     assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
-      [baseDir, "foo", "--filter", "@azure/app-configuration..."],
+      [baseDir, "foo", "-F", "@azure/app-configuration..."],
     ]);
   });
 
@@ -74,7 +87,7 @@ describe("executeActions", () => {
     const runArgs = ["--logLevel", "info"];
     executeActions("build", ["appconfiguration"], runArgs, "azure-app-configuration");
     assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
-      [baseDir, "build", "--filter", "...@azure/app-configuration...", ...runArgs],
+      [baseDir, "build", "-F", "...@azure/app-configuration...", ...runArgs],
     ]);
   });
 
@@ -93,5 +106,42 @@ describe("executeActions", () => {
       "azure-app-configuration,azure-storage-blob,azure-keyvault-keys",
     );
     assert.strictEqual(resultCode, 1);
+  });
+
+  it("should report actionable remediation when formatting fails", () => {
+    vi.mocked(spawnPnpmRun).mockReturnValueOnce(1);
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const resultCode = executeActions(
+      "check-format",
+      ["storage"],
+      [],
+      "azure-storage-file-datalake",
+    );
+
+    assert.strictEqual(resultCode, 1);
+    assert.ok(
+      errorSpy.mock.calls.some((call) =>
+        String(call[0])
+          .replaceAll("\\", "/")
+          .includes(
+            'Formatting check failed in sdk/storage/storage-file-datalake. Run "pnpm format"',
+          ),
+      ),
+    );
+    errorSpy.mockRestore();
+  });
+
+  it("should route check-package-version to verifyPackages function", () => {
+    vi.mocked(verifyPackages).mockReturnValueOnce(0);
+    const resultCode = executeActions(
+      "check-package-version",
+      ["appconfiguration"],
+      [],
+      "azure-app-configuration",
+    );
+    assert.strictEqual(resultCode, 0);
+    assert.strictEqual(vi.mocked(verifyPackages).mock.calls.length, 1);
+    assert.deepEqual(vi.mocked(verifyPackages).mock.calls[0][0], ["@azure/app-configuration"]);
   });
 });

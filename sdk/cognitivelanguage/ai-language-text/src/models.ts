@@ -254,8 +254,7 @@ export type EntityRecognitionErrorResult = TextAnalysisErrorResult;
  * The result of an entity recognition action on a single document.
  */
 export type PiiEntityRecognitionResult =
-  | PiiEntityRecognitionSuccessResult
-  | PiiEntityRecognitionErrorResult;
+  PiiEntityRecognitionSuccessResult | PiiEntityRecognitionErrorResult;
 
 /**
  * The result of a pii entity recognition action on a single document,
@@ -324,8 +323,7 @@ export type LanguageDetectionErrorResult = TextAnalysisErrorResult;
  * The result of a sentiment analysis action on a single document.
  */
 export type KeyPhraseExtractionResult =
-  | KeyPhraseExtractionSuccessResult
-  | KeyPhraseExtractionErrorResult;
+  KeyPhraseExtractionSuccessResult | KeyPhraseExtractionErrorResult;
 
 /**
  * The result of a key phrase extraction action on a single document,
@@ -572,8 +570,7 @@ export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
  * The result of the extractive summarization action on a single document.
  */
 export type ExtractiveSummarizationResult =
-  | ExtractiveSummarizationSuccessResult
-  | ExtractiveSummarizationErrorResult;
+  ExtractiveSummarizationSuccessResult | ExtractiveSummarizationErrorResult;
 
 /**
  * The result of the extractive summarization action on a single document,
@@ -595,8 +592,7 @@ export type ExtractiveSummarizationErrorResult = TextAnalysisErrorResult;
  * The result of the abstractive summarization action on a single document.
  */
 export type AbstractiveSummarizationResult =
-  | AbstractiveSummarizationSuccessResult
-  | AbstractiveSummarizationErrorResult;
+  AbstractiveSummarizationSuccessResult | AbstractiveSummarizationErrorResult;
 
 /**
  * The result of the abstractive summarization action on a single document,
@@ -618,8 +614,7 @@ export type AbstractiveSummarizationErrorResult = TextAnalysisErrorResult;
  * The result of the custom entity recognition action on a single document.
  */
 export type CustomEntityRecognitionResult =
-  | CustomEntityRecognitionSuccessResult
-  | CustomEntityRecognitionErrorResult;
+  CustomEntityRecognitionSuccessResult | CustomEntityRecognitionErrorResult;
 
 /**
  * The result of the custom entity recognition action on a single document,
@@ -641,8 +636,7 @@ export type CustomEntityRecognitionErrorResult = TextAnalysisErrorResult;
  * The result of the single-label classification action on a single document.
  */
 export type CustomSingleLabelClassificationResult =
-  | CustomSingleLabelClassificationSuccessResult
-  | CustomSingleLabelClassificationErrorResult;
+  CustomSingleLabelClassificationSuccessResult | CustomSingleLabelClassificationErrorResult;
 
 /**
  * The result of a successful single-label classification action on a single document,
@@ -664,8 +658,7 @@ export type CustomSingleLabelClassificationErrorResult = TextAnalysisErrorResult
  * The result of the multi-label classification action on a multi document.
  */
 export type CustomMultiLabelClassificationResult =
-  | CustomMultiLabelClassificationSuccessResult
-  | CustomMultiLabelClassificationErrorResult;
+  CustomMultiLabelClassificationSuccessResult | CustomMultiLabelClassificationErrorResult;
 
 /**
  * The result of a successful multi-label classification action on a multi document,
@@ -892,8 +885,7 @@ export interface BatchActionErrorResult<
  * The result of a batched action.
  */
 export type BatchActionResult<T, Kind extends AnalyzeBatchActionName> =
-  | BatchActionSuccessResult<T, Kind>
-  | BatchActionErrorResult<Kind>;
+  BatchActionSuccessResult<T, Kind> | BatchActionErrorResult<Kind>;
 
 /**
  * The result of an entity linking batch action.

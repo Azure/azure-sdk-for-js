@@ -6,6 +6,7 @@
 
 import { AbortError } from '@azure/abort-controller';
 import type { HttpClient } from '@azure/core-rest-pipeline';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
@@ -190,7 +191,7 @@ export class ClientContext {
     // Warning: (ae-forgotten-export) The symbol "GlobalPartitionEndpointManager" needs to be exported by the entry point index.d.ts
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel, globalPartitionEndpointManager?: GlobalPartitionEndpointManager);
     // (undocumented)
-    batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, partitionKeyRangeId, }: {
+    batch<T>(input: {
         body: T;
         path: string;
         partitionKey: PartitionKey;
@@ -200,7 +201,7 @@ export class ClientContext {
         partitionKeyRangeId?: string;
     }): Promise<Response_2<any>>;
     // (undocumented)
-    bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options, diagnosticNode, }: {
+    bulk<T>(input: {
         body: T;
         path: string;
         partitionKeyRangeId: string;
@@ -212,7 +213,7 @@ export class ClientContext {
     // (undocumented)
     clearSessionToken(path: string): void;
     // (undocumented)
-    create<T, U = T>({ body, path, resourceType, resourceId, diagnosticNode, options, partitionKey, partitionKeyRangeId, }: {
+    create<T, U = T>(input: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -223,7 +224,7 @@ export class ClientContext {
         partitionKeyRangeId?: string;
     }): Promise<Response_2<T & U & Resource>>;
     // (undocumented)
-    delete<T>({ path, resourceType, resourceId, options, partitionKey, method, diagnosticNode, partitionKeyRangeId, }: {
+    delete<T>(input: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -237,7 +238,7 @@ export class ClientContext {
     diagnosticLevel: CosmosDbDiagnosticLevel;
     enableEncryption: boolean;
     // (undocumented)
-    execute<T>({ sprocLink, params, options, partitionKey, diagnosticNode, partitionKeyRangeId, }: {
+    execute<T>(input: {
         sprocLink: string;
         params?: any[];
         options?: RequestOptions;
@@ -265,7 +266,7 @@ export class ClientContext {
         [containerUrl: string]: any;
     };
     // (undocumented)
-    patch<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, partitionKeyRangeId, }: {
+    patch<T>(input: {
         body: any;
         path: string;
         resourceType: ResourceType;
@@ -276,7 +277,7 @@ export class ClientContext {
         partitionKeyRangeId?: string;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, diagnosticNode, partitionKeyRangeId, partitionKey, startEpk, endEpk, correlatedActivityId, }: {
+    queryFeed<T>(input: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -295,7 +296,7 @@ export class ClientContext {
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
     // (undocumented)
-    read<T>({ path, resourceType, resourceId, options, partitionKey, diagnosticNode, partitionKeyRangeId, }: {
+    read<T>(input: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -307,7 +308,7 @@ export class ClientContext {
     // (undocumented)
     recordDiagnostics(diagnostic: CosmosDiagnostics): void;
     // (undocumented)
-    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, partitionKeyRangeId, }: {
+    replace<T>(input: {
         body: any;
         path: string;
         resourceType: ResourceType;
@@ -318,7 +319,7 @@ export class ClientContext {
         partitionKeyRangeId?: string;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, partitionKeyRangeId, }: {
+    upsert<T, U = T>(input: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -700,6 +701,12 @@ export const Constants: {
     DefaultEncryptionCacheTimeToLiveInSeconds: number;
     EncryptionCacheRefreshIntervalInMs: number;
     RequestTimeoutForReadsInMs: number;
+    Inference: {
+        BasePath: string;
+        UserAgent: string;
+        DefaultScope: string;
+        DefaultRequestTimeoutMs: number;
+    };
 };
 
 // @public
@@ -731,6 +738,8 @@ export class Container {
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
+    // @beta
+    semanticRerank(rerankContext: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
     get url(): string;
 }
 
@@ -822,6 +831,7 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
+    enablePreviewFeatures?: Record<string, unknown>;
     endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
@@ -1409,6 +1419,8 @@ export enum IndexKind {
     Range = "Range",
     Spatial = "Spatial"
 }
+
+export { isRestError }
 
 // @public
 export class Item {
@@ -2133,6 +2145,13 @@ export interface RequestOptions extends SharedOptions {
     urlConnection?: string;
 }
 
+// @beta
+export interface RerankScore {
+    document: string;
+    index: number;
+    score: number;
+}
+
 // @public (undocumented)
 export interface Resource {
     _etag: string;
@@ -2377,6 +2396,18 @@ export class Scripts {
     get userDefinedFunctions(): UserDefinedFunctions;
 }
 
+// @beta
+export type SemanticRerankOptions = Record<string, unknown>;
+
+// @beta
+export interface SemanticRerankResult {
+    diagnostics: CosmosDiagnostics;
+    headers: Record<string, string>;
+    latency: Record<string, unknown> | undefined;
+    rerankScores: RerankScore[];
+    tokenUsage: Record<string, unknown> | undefined;
+}
+
 // @public
 export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, resourceId: string, resourceType: ResourceType, headers: CosmosHeaders, masterKey: string): Promise<void>;
 
@@ -2397,7 +2428,7 @@ export interface SharedOptions {
 // @public (undocumented)
 export interface SpatialIndex {
     // (undocumented)
-    boundingBox: {
+    boundingBox?: {
         xmin: number;
         ymin: number;
         xmax: number;

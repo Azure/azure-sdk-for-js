@@ -1,24 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a workspace with the specified parameters.
- *
- * @summary Creates or updates a workspace with the specified parameters.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/create.json
- */
-
-import type { Workspace } from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a workspace with the specified parameters.
+ *
+ * @summary creates or updates a workspace with the specified parameters.
+ * x-ms-original-file: 2026-03-15-preview/Workspace/create.json
+ */
 async function createWorkspace(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "workspace-1234";
-  const workspaceName = "testworkspace";
-  const parameters: Workspace = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
+  const result = await client.workspaces.createOrUpdate("workspace-1234", "testworkspace", {
+    identity: {
+      type: "SystemAssigned,UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workspace-1234/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testuai":
+          {},
+      },
+    },
+    location: "eastus2euap",
     description: "test description",
     applicationInsights:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workspace-1234/providers/microsoft.insights/components/testinsights",
@@ -40,16 +44,8 @@ async function createWorkspace(): Promise<void> {
     },
     friendlyName: "HelloName",
     hbiWorkspace: false,
-    identity: {
-      type: "SystemAssigned,UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/00000000111122223333444444444444/resourceGroups/workspace1234/providers/MicrosoftManagedIdentity/userAssignedIdentities/testuai":
-          {},
-      },
-    },
     keyVault:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workspace-1234/providers/Microsoft.KeyVault/vaults/testkv",
-    location: "eastus2euap",
     sharedPrivateLinkResources: [
       {
         name: "testdbresource",
@@ -62,14 +58,7 @@ async function createWorkspace(): Promise<void> {
     ],
     storageAccount:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/accountcrud-1234/providers/Microsoft.Storage/storageAccounts/testStorageAccount",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    workspaceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

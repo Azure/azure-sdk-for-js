@@ -1,26 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VirtualMachine} from "@azure/arm-compute";
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingAssessmentModeOfImageDefault.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_CustomImageVmFromAnUnmanagedGeneralizedOsImage.json
  */
-async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D2s_v3" },
+async function createACustomImageVmFromAnUnmanagedGeneralizedOsImage(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "{vm-name}", {
     location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      osDisk: {
+        name: "myVMosdisk",
+        image: {
+          uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd",
+        },
+        osType: "Windows",
+        createOption: "FromImage",
+        caching: "ReadWrite",
+        vhd: {
+          uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
+        },
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -29,287 +44,40 @@ async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault(): Pr
         },
       ],
     },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-      linuxConfiguration: {
-        patchSettings: { assessmentMode: "ImageDefault" },
-        provisionVMAgent: true,
-      },
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "UbuntuServer",
-        publisher: "Canonical",
-        sku: "16.04-LTS",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithAutomaticByPlatformSettings.json
- */
-async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D2s_v3" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-      linuxConfiguration: {
-        patchSettings: {
-          assessmentMode: "AutomaticByPlatform",
-          automaticByPlatformSettings: {
-            bypassPlatformSafetyChecksOnUserSchedule: true,
-            rebootSetting: "Never",
-          },
-          patchMode: "AutomaticByPlatform",
-        },
-        provisionVMAgent: true,
-      },
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "UbuntuServer",
-        publisher: "Canonical",
-        sku: "16.04-LTS",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModeOfImageDefault.json
- */
-async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D2s_v3" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-      linuxConfiguration: {
-        patchSettings: { patchMode: "ImageDefault" },
-        provisionVMAgent: true,
-      },
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "UbuntuServer",
-        publisher: "Canonical",
-        sku: "16.04-LTS",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModesOfAutomaticByPlatform.json
- */
-async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D2s_v3" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-      linuxConfiguration: {
-        patchSettings: {
-          assessmentMode: "AutomaticByPlatform",
-          patchMode: "AutomaticByPlatform",
-        },
-        provisionVMAgent: true,
-      },
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "UbuntuServer",
-        publisher: "Canonical",
-        sku: "16.04-LTS",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACommunityGalleryImage.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_FromACommunityGalleryImage.json
  */
 async function createAVMFromACommunityGalleryImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
     storageProfile: {
       imageReference: {
         communityGalleryImageId:
           "/CommunityGalleries/galleryPublicName/Images/communityGalleryImageName/Versions/communityGalleryImageVersionName",
       },
       osDisk: {
-        name: "myVMosdisk",
         caching: "ReadWrite",
-        createOption: "FromImage",
         managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASharedGalleryImage.json
- */
-async function createAVMFromASharedGalleryImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -318,130 +86,122 @@ async function createAVMFromASharedGalleryImage(): Promise<void> {
         },
       ],
     },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_FromACustomImage.json
+ */
+async function createAVmFromACustomImage(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
+      adminPassword: "{your-password}",
     },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_FromAGeneralizedSharedImage.json
+ */
+async function createAVmFromAGeneralizedSharedImage(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_FromASharedGalleryImage.json
+ */
+async function createAVMFromASharedGalleryImage(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
     storageProfile: {
       imageReference: {
         sharedGalleryImageId:
           "/SharedGalleries/sharedGalleryName/Images/sharedGalleryImageName/Versions/sharedGalleryImageVersionName",
       },
       osDisk: {
-        name: "myVMosdisk",
         caching: "ReadWrite",
-        createOption: "FromImage",
         managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
       },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskControllerType.json
- */
-async function createAVMWithDiskControllerType(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    diagnosticsProfile: {
-      bootDiagnostics: {
-        enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
-      },
-    },
-    hardwareProfile: { vmSize: "Standard_D4_v3" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
     },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
+      adminPassword: "{your-password}",
     },
-    scheduledEventsPolicy: {
-      allInstancesDown: { automaticallyApprove: true },
-      scheduledEventsAdditionalPublishingTargets: {
-        eventGridAndResourceGraph: {
-          enable: true,
-          scheduledEventsApiVersion: "2020-07-01",
-        },
-      },
-      userInitiatedReboot: { automaticallyApprove: true },
-      userInitiatedRedeploy: { automaticallyApprove: true },
-    },
-    storageProfile: {
-      diskControllerType: "NVMe",
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-    userData: "U29tZSBDdXN0b20gRGF0YQ==",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithFips1403Enabled.json
- */
-async function createAVMWithFips1403Enabled(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "{vm-name}";
-  const parameters: VirtualMachine = {
-    additionalCapabilities: { enableFips1403Encryption: true },
-    diagnosticsProfile: {
-      bootDiagnostics: {
-        enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
-      },
-    },
-    hardwareProfile: { vmSize: "Standard_D2s_v3" },
-    location: "eastus2euap",
     networkProfile: {
       networkInterfaces: [
         {
@@ -450,236 +210,34 @@ async function createAVMWithFips1403Enabled(): Promise<void> {
         },
       ],
     },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "{vm-name}",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2019-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "vmOSdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithHibernationEnabled.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_FromASpecializedSharedImage.json
  */
-async function createAVMWithHibernationEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "{vm-name}";
-  const parameters: VirtualMachine = {
-    additionalCapabilities: { hibernationEnabled: true },
-    diagnosticsProfile: {
-      bootDiagnostics: {
-        enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
-      },
-    },
-    hardwareProfile: { vmSize: "Standard_D2s_v3" },
-    location: "eastus2euap",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "{vm-name}",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2019-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "vmOSdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
+async function createAVmFromASpecializedSharedImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithProxyAgentSettings.json
- */
-async function createAVMWithProxyAgentSettingsOfEnabledAndMode(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D2s_v3" },
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    securityProfile: {
-      proxyAgentSettings: {
-        enabled: true,
-        imds: { mode: "Audit" },
-        wireServer: { mode: "Audit" },
-      },
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2019-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadOnly",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "StandardSSD_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUefiSettings.json
- */
-async function createAVMWithUefiSettingsOfSecureBootAndVTpm(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D2s_v3" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    securityProfile: {
-      securityType: "TrustedLaunch",
-      uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "windowsserver-gen2preview-preview",
-        publisher: "MicrosoftWindowsServer",
-        sku: "windows10-tvm",
-        version: "18363.592.2001092016",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadOnly",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "StandardSSD_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUserData.json
- */
-async function createAVMWithUserData(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "{vm-name}";
-  const parameters: VirtualMachine = {
-    diagnosticsProfile: {
-      bootDiagnostics: {
-        enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
-      },
-    },
     hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
+    storageProfile: {
+      imageReference: {
+        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -688,62 +246,37 @@ async function createAVMWithUserData(): Promise<void> {
         },
       ],
     },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "{vm-name}",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "vmOSdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-    userData: "RXhhbXBsZSBVc2VyRGF0YQ==",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithVMSizeProperties.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_InAVmssWithCustomerAssignedPlatformFaultDomain.json
  */
-async function createAVMWithVMSizeProperties(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    diagnosticsProfile: {
-      bootDiagnostics: {
-        enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
+async function createAVmInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
       },
     },
-    hardwareProfile: {
-      vmSize: "Standard_D4_v3",
-      vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 },
-    },
-    location: "westus",
     networkProfile: {
       networkInterfaces: [
         {
@@ -753,51 +286,45 @@ async function createAVMWithVMSizeProperties(): Promise<void> {
       ],
     },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
+      adminPassword: "{your-password}",
     },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
+    virtualMachineScaleSet: {
+      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{existing-flex-vmss-name-with-platformFaultDomainCount-greater-than-1}",
     },
-    userData: "U29tZSBDdXN0b20gRGF0YQ==",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+    platformFaultDomain: 1,
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPlacement.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_InAnAvailabilitySet.json
  */
-async function createAVMWithAutomaticZonePlacement(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_DS1_v2" },
-    location: "westus2",
+async function createAVmInAnAvailabilitySet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -807,327 +334,60 @@ async function createAVMWithAutomaticZonePlacement(): Promise<void> {
       ],
     },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
+      adminPassword: "{your-password}",
     },
-    placement: { includeZones: ["1", "3"], zonePlacementPolicy: "Any" },
-    plan: {
-      name: "windows2016",
-      product: "windows-data-science-vm",
-      publisher: "microsoft-ads",
+    availabilitySet: {
+      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/{existing-availability-set-name}",
     },
-    storageProfile: {
-      imageReference: {
-        offer: "windows-data-science-vm",
-        publisher: "microsoft-ads",
-        sku: "windows2016",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadOnly",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEncryptionIdentity.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithAutomaticByPlatformSettings.json
  */
-async function createAVMWithEncryptionIdentity(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
+async function createALinuxVmWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
     hardwareProfile: { vmSize: "Standard_D2s_v3" },
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/myIdentity":
-          {},
-      },
-    },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    securityProfile: {
-      encryptionIdentity: {
-        userAssignedIdentityResourceId:
-          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myIdentity",
-      },
-    },
     storageProfile: {
       imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2019-Datacenter",
+        sku: "16.04-LTS",
+        publisher: "Canonical",
         version: "latest",
+        offer: "UbuntuServer",
       },
       osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadOnly",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "StandardSSD_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfiguration.json
- */
-async function createAVMWithNetworkInterfaceConfiguration(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkApiVersion: "2020-11-01",
-      networkInterfaceConfigurations: [
-        {
-          name: "{nic-config-name}",
-          deleteOption: "Delete",
-          ipConfigurations: [
-            {
-              name: "{ip-config-name}",
-              primary: true,
-              publicIPAddressConfiguration: {
-                name: "{publicIP-config-name}",
-                deleteOption: "Detach",
-                publicIPAllocationMethod: "Static",
-                sku: { name: "Basic", tier: "Global" },
-                tags: { pipTag: "tag" },
-              },
-            },
-          ],
-          primary: true,
-          tags: { nicTag: "tag" },
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
         caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
       },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfigurationDnsSettings.json
- */
-async function createAVMWithNetworkInterfaceConfigurationWithPublicIPAddressDnsSettings(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkApiVersion: "2020-11-01",
-      networkInterfaceConfigurations: [
-        {
-          name: "{nic-config-name}",
-          deleteOption: "Delete",
-          ipConfigurations: [
-            {
-              name: "{ip-config-name}",
-              primary: true,
-              publicIPAddressConfiguration: {
-                name: "{publicIP-config-name}",
-                deleteOption: "Detach",
-                dnsSettings: {
-                  domainNameLabel: "aaaaa",
-                  domainNameLabelScope: "TenantReuse",
-                },
-                publicIPAllocationMethod: "Static",
-                sku: { name: "Basic", tier: "Global" },
-              },
-            },
-          ],
-          primary: true,
-        },
-      ],
     },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithCustomerManagedKeys.json
- */
-async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_DC2as_v5" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
       adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    securityProfile: {
-      securityType: "ConfidentialVM",
-      uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "2019-datacenter-cvm",
-        publisher: "MicrosoftWindowsServer",
-        sku: "windows-cvm",
-        version: "17763.2183.2109130127",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadOnly",
-        createOption: "FromImage",
-        managedDisk: {
-          securityProfile: {
-            diskEncryptionSet: {
-              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
-            },
-            securityEncryptionType: "DiskWithVMGuestState",
+      linuxConfiguration: {
+        provisionVMAgent: true,
+        patchSettings: {
+          patchMode: "AutomaticByPlatform",
+          assessmentMode: "AutomaticByPlatform",
+          automaticByPlatformSettings: {
+            rebootSetting: "Never",
+            bypassPlatformSafetyChecksOnUserSchedule: true,
           },
-          storageAccountType: "StandardSSD_LRS",
         },
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithNonPersistedTPM.json
- */
-async function createAVMWithSecurityTypeConfidentialVMWithNonPersistedTpmSecurityEncryptionType(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_DC2es_v5" },
-    location: "westus",
     networkProfile: {
       networkInterfaces: [
         {
@@ -1136,58 +396,46 @@ async function createAVMWithSecurityTypeConfidentialVMWithNonPersistedTpmSecurit
         },
       ],
     },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    securityProfile: {
-      securityType: "ConfidentialVM",
-      uefiSettings: { secureBootEnabled: false, vTpmEnabled: true },
-    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingAssessmentModeOfImageDefault.json
+ */
+async function createALinuxVmWithAPatchSettingAssessmentModeOfImageDefault(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D2s_v3" },
     storageProfile: {
       imageReference: {
-        offer: "2022-datacenter-cvm",
-        publisher: "UbuntuServer",
-        sku: "linux-cvm",
-        version: "17763.2183.2109130127",
+        sku: "16.04-LTS",
+        publisher: "Canonical",
+        version: "latest",
+        offer: "UbuntuServer",
       },
       osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Premium_LRS" },
         name: "myVMosdisk",
-        caching: "ReadOnly",
         createOption: "FromImage",
-        managedDisk: {
-          securityProfile: { securityEncryptionType: "NonPersistedTPM" },
-          storageAccountType: "StandardSSD_LRS",
-        },
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVM.json
- */
-async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_DC2as_v5" },
-    location: "westus",
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+      linuxConfiguration: {
+        provisionVMAgent: true,
+        patchSettings: { assessmentMode: "ImageDefault" },
+      },
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -1196,58 +444,155 @@ async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys():
         },
       ],
     },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    securityProfile: {
-      securityType: "ConfidentialVM",
-      uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
-    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModeOfImageDefault.json
+ */
+async function createALinuxVmWithAPatchSettingPatchModeOfImageDefault(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D2s_v3" },
     storageProfile: {
       imageReference: {
-        offer: "2019-datacenter-cvm",
+        sku: "16.04-LTS",
+        publisher: "Canonical",
+        version: "latest",
+        offer: "UbuntuServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+      linuxConfiguration: { provisionVMAgent: true, patchSettings: { patchMode: "ImageDefault" } },
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModesOfAutomaticByPlatform.json
+ */
+async function createALinuxVmWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D2s_v3" },
+    storageProfile: {
+      imageReference: {
+        sku: "16.04-LTS",
+        publisher: "Canonical",
+        version: "latest",
+        offer: "UbuntuServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+      linuxConfiguration: {
+        provisionVMAgent: true,
+        patchSettings: { patchMode: "AutomaticByPlatform", assessmentMode: "AutomaticByPlatform" },
+      },
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_PlatformImageVmWithUnmanagedOsAndDataDisks.json
+ */
+async function createAPlatformImageVmWithUnmanagedOsAndDataDisks(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "{vm-name}", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D2_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
         publisher: "MicrosoftWindowsServer",
-        sku: "windows-cvm",
-        version: "17763.2183.2109130127",
+        version: "latest",
+        offer: "WindowsServer",
       },
       osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadOnly",
-        createOption: "FromImage",
-        managedDisk: {
-          securityProfile: { securityEncryptionType: "DiskWithVMGuestState" },
-          storageAccountType: "StandardSSD_LRS",
+        caching: "ReadWrite",
+        vhd: {
+          uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
         },
+        createOption: "FromImage",
+        name: "myVMosdisk",
       },
+      dataDisks: [
+        {
+          diskSizeGB: 1023,
+          createOption: "Empty",
+          lun: 0,
+          vhd: {
+            uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk0.vhd",
+          },
+        },
+        {
+          diskSizeGB: 1023,
+          createOption: "Empty",
+          lun: 1,
+          vhd: {
+            uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk1.vhd",
+          },
+        },
+      ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingAssessmentModeOfImageDefault.json
- */
-async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -1256,56 +601,152 @@ async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault(): 
         },
       ],
     },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithAutomaticByPlatformSettings.json
+ */
+async function createAWindowsVmWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
+      adminPassword: "{your-password}",
       windowsConfiguration: {
+        provisionVMAgent: true,
+        enableAutomaticUpdates: true,
+        patchSettings: {
+          patchMode: "AutomaticByPlatform",
+          assessmentMode: "AutomaticByPlatform",
+          automaticByPlatformSettings: {
+            rebootSetting: "Never",
+            bypassPlatformSafetyChecksOnUserSchedule: false,
+          },
+        },
+      },
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingAssessmentModeOfImageDefault.json
+ */
+async function createAWindowsVmWithAPatchSettingAssessmentModeOfImageDefault(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+      windowsConfiguration: {
+        provisionVMAgent: true,
         enableAutomaticUpdates: true,
         patchSettings: { assessmentMode: "ImageDefault" },
-        provisionVMAgent: true,
       },
     },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" },
-      },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByOS.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByOS.json
  */
-async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
+async function createAWindowsVmWithAPatchSettingPatchModeOfAutomaticByOS(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+      windowsConfiguration: {
+        provisionVMAgent: true,
+        enableAutomaticUpdates: true,
+        patchSettings: { patchMode: "AutomaticByOS" },
+      },
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -1314,56 +755,47 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS(): Prom
         },
       ],
     },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-      windowsConfiguration: {
-        enableAutomaticUpdates: true,
-        patchSettings: { patchMode: "AutomaticByOS" },
-        provisionVMAgent: true,
-      },
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithAutomaticByPlatformSettings.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByPlatformAndEnableHotPatchingTrue.json
  */
-async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
+async function createAWindowsVmWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+      windowsConfiguration: {
+        provisionVMAgent: true,
+        enableAutomaticUpdates: true,
+        patchSettings: { patchMode: "AutomaticByPlatform", enableHotpatching: true },
+      },
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -1372,182 +804,47 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
         },
       ],
     },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-      windowsConfiguration: {
-        enableAutomaticUpdates: true,
-        patchSettings: {
-          assessmentMode: "AutomaticByPlatform",
-          automaticByPlatformSettings: {
-            bypassPlatformSafetyChecksOnUserSchedule: false,
-            rebootSetting: "Never",
-          },
-          patchMode: "AutomaticByPlatform",
-        },
-        provisionVMAgent: true,
-      },
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByPlatformAndEnableHotPatchingTrue.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfManual.json
  */
-async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
+async function createAWindowsVmWithAPatchSettingPatchModeOfManual(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-      windowsConfiguration: {
-        enableAutomaticUpdates: true,
-        patchSettings: {
-          enableHotpatching: true,
-          patchMode: "AutomaticByPlatform",
-        },
-        provisionVMAgent: true,
-      },
-    },
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
     storageProfile: {
       imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
         version: "latest",
+        offer: "WindowsServer",
       },
       osDisk: {
-        name: "myVMosdisk",
         caching: "ReadWrite",
-        createOption: "FromImage",
         managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfManual.json
- */
-async function createAWindowsVMWithAPatchSettingPatchModeOfManual(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
+      adminPassword: "{your-password}",
       windowsConfiguration: {
+        provisionVMAgent: true,
         enableAutomaticUpdates: true,
         patchSettings: { patchMode: "Manual" },
-        provisionVMAgent: true,
       },
     },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModesOfAutomaticByPlatform.json
- */
-async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
     networkProfile: {
       networkInterfaces: [
         {
@@ -1556,59 +853,276 @@ async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToA
         },
       ],
     },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModesOfAutomaticByPlatform.json
+ */
+async function createAWindowsVmWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
+      adminPassword: "{your-password}",
       windowsConfiguration: {
-        enableAutomaticUpdates: true,
-        patchSettings: {
-          assessmentMode: "AutomaticByPlatform",
-          patchMode: "AutomaticByPlatform",
-        },
         provisionVMAgent: true,
+        enableAutomaticUpdates: true,
+        patchSettings: { patchMode: "AutomaticByPlatform", assessmentMode: "AutomaticByPlatform" },
       },
     },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDisk.json
+ */
+async function createAVmWithEphemeralOsDisk(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    plan: { publisher: "microsoft-ads", product: "windows-data-science-vm", name: "windows2016" },
+    hardwareProfile: { vmSize: "Standard_DS1_v2" },
     storageProfile: {
       imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
+        sku: "windows2016",
+        publisher: "microsoft-ads",
         version: "latest",
+        offer: "windows-data-science-vm",
       },
       osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
+        caching: "ReadOnly",
+        diffDiskSettings: { option: "Local" },
+        managedDisk: { storageAccountType: "Standard_LRS" },
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_CustomImageVmFromAnUnmanagedGeneralizedOsImage.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsCacheDisk.json
  */
-async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "{vm-name}";
-  const parameters: VirtualMachine = {
+async function createAVmWithEphemeralOsDiskProvisioningInCacheDiskUsingPlacementProperty(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    plan: { publisher: "microsoft-ads", product: "windows-data-science-vm", name: "windows2016" },
+    hardwareProfile: { vmSize: "Standard_DS1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "windows2016",
+        publisher: "microsoft-ads",
+        version: "latest",
+        offer: "windows-data-science-vm",
+      },
+      osDisk: {
+        caching: "ReadOnly",
+        diffDiskSettings: { option: "Local", placement: "CacheDisk" },
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        createOption: "FromImage",
+        name: "myVMosdisk",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsNvmeDisk.json
+ */
+async function createAVmWithEphemeralOsDiskProvisioningInNvmeDiskUsingPlacementProperty(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    plan: { publisher: "microsoft-ads", product: "windows-data-science-vm", name: "windows2016" },
+    hardwareProfile: { vmSize: "Standard_DS1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "windows2016",
+        publisher: "microsoft-ads",
+        version: "latest",
+        offer: "windows-data-science-vm",
+      },
+      osDisk: {
+        caching: "ReadOnly",
+        diffDiskSettings: { option: "Local", placement: "NvmeDisk" },
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        createOption: "FromImage",
+        name: "myVMosdisk",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsResourceDisk.json
+ */
+async function createAVmWithEphemeralOsDiskProvisioningInResourceDiskUsingPlacementProperty(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    plan: { publisher: "microsoft-ads", product: "windows-data-science-vm", name: "windows2016" },
+    hardwareProfile: { vmSize: "Standard_DS1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "windows2016",
+        publisher: "microsoft-ads",
+        version: "latest",
+        offer: "windows-data-science-vm",
+      },
+      osDisk: {
+        caching: "ReadOnly",
+        diffDiskSettings: { option: "Local", placement: "ResourceDisk" },
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        createOption: "FromImage",
+        name: "myVMosdisk",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithAMarketplaceImagePlan.json
+ */
+async function createAVmWithAMarketplaceImagePlan(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    plan: { publisher: "microsoft-ads", product: "windows-data-science-vm", name: "windows2016" },
     hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
+    storageProfile: {
+      imageReference: {
+        sku: "windows2016",
+        publisher: "microsoft-ads",
+        version: "latest",
+        offer: "windows-data-science-vm",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -1617,391 +1131,121 @@ async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage(): Promise<
         },
       ],
     },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    storageProfile: {
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        image: {
-          uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd",
-        },
-        osType: "Windows",
-        vhd: {
-          uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
-        },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_PlatformImageVmWithUnmanagedOsAndDataDisks.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithAdditionalDiskProperties.json
  */
-async function createAPlatformImageVMWithUnmanagedOSAndDataDisks(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "{vm-name}";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D2_v2" },
+async function createAVmWithAdditionalDiskPropertiesNetworkAccessPolicyAndTier(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
+    hardwareProfile: { vmSize: "Standard_D4s_v3" },
     storageProfile: {
+      imageReference: {
+        sku: "2022-datacenter-azure-edition",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      diskApiVersion: "2026-03-02",
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: {
+          storageAccountType: "Premium_LRS",
+          additionalDiskProperties: {
+            managedDiskProperties: {
+              networkAccessPolicy: "AllowPrivate",
+              diskAccessId:
+                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess",
+            },
+          },
+        },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
       dataDisks: [
         {
-          createOption: "Empty",
-          diskSizeGB: 1023,
           lun: 0,
-          vhd: {
-            uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk0.vhd",
-          },
-        },
-        {
+          name: "myDataDisk",
           createOption: "Empty",
-          diskSizeGB: 1023,
-          lun: 1,
-          vhd: {
-            uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk1.vhd",
+          diskSizeGB: 1024,
+          managedDisk: {
+            storageAccountType: "Premium_LRS",
+            additionalDiskProperties: {
+              managedDiskProperties: {
+                networkAccessPolicy: "AllowPrivate",
+                diskAccessId:
+                  "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess",
+                tier: "P30",
+              },
+            },
           },
         },
       ],
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithApplicationProfile.json
+ */
+async function createAVmWithApplicationProfile(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
       imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
+        sku: "{image_sku}",
+        publisher: "{image_publisher}",
         version: "latest",
+        offer: "{image_offer}",
       },
       osDisk: {
-        name: "myVMosdisk",
         caching: "ReadWrite",
-        createOption: "FromImage",
-        vhd: {
-          uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
-        },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACustomImage.json
- */
-async function createAVMFromACustomImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    storageProfile: {
-      imageReference: {
-        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
         managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_FromAGeneralizedSharedImage.json
- */
-async function createAVMFromAGeneralizedSharedImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    storageProfile: {
-      imageReference: {
-        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
-      },
-      osDisk: {
         name: "myVMosdisk",
-        caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASpecializedSharedImage.json
- */
-async function createAVMFromASpecializedSharedImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    storageProfile: {
-      imageReference: {
-        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_InAVmssWithCustomerAssignedPlatformFaultDomain.json
- */
-async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    platformFaultDomain: 1,
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-    virtualMachineScaleSet: {
-      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{existing-flex-vmss-name-with-platformFaultDomainCount-greater-than-1}",
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_InAnAvailabilitySet.json
- */
-async function createAVMInAnAvailabilitySet(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    availabilitySet: {
-      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/{existing-availability-set-name}",
-    },
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithApplicationProfile.json
- */
-async function createAVMWithApplicationProfile(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
     applicationProfile: {
       galleryApplications: [
         {
-          configurationReference:
-            "https://mystorageaccount.blob.core.windows.net/configurations/settings.config",
-          enableAutomaticUpgrade: false,
+          tags: "myTag1",
           order: 1,
           packageReferenceId:
             "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdb/resourceGroups/myresourceGroupName2/providers/Microsoft.Compute/galleries/myGallery1/applications/MyApplication1/versions/1.0",
-          tags: "myTag1",
+          configurationReference:
+            "https://mystorageaccount.blob.core.windows.net/configurations/settings.config",
           treatFailureAsDeploymentFailure: false,
+          enableAutomaticUpgrade: false,
         },
         {
           packageReferenceId:
@@ -2009,8 +1253,11 @@ async function createAVMWithApplicationProfile(): Promise<void> {
         },
       ],
     },
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -2019,51 +1266,37 @@ async function createAVMWithApplicationProfile(): Promise<void> {
         },
       ],
     },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "{image_offer}",
-        publisher: "{image_publisher}",
-        sku: "{image_sku}",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskEncryptionSetResource.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithBootDiagnostics.json
  */
-async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
+async function createAVmWithBootDiagnostics(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -2073,79 +1306,350 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk():
       ],
     },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
+      adminPassword: "{your-password}",
     },
+    diagnosticsProfile: {
+      bootDiagnostics: {
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+        enabled: true,
+      },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithCapacityReservation.json
+ */
+async function createOrUpdateAVMWithCapacityReservation(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    plan: { publisher: "microsoft-ads", product: "windows-data-science-vm", name: "windows2016" },
+    hardwareProfile: { vmSize: "Standard_DS1_v2" },
     storageProfile: {
-      dataDisks: [
+      imageReference: {
+        sku: "windows2016",
+        publisher: "microsoft-ads",
+        version: "latest",
+        offer: "windows-data-science-vm",
+      },
+      osDisk: {
+        caching: "ReadOnly",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        createOption: "FromImage",
+        name: "myVMosdisk",
+      },
+    },
+    capacityReservation: {
+      capacityReservationGroup: {
+        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
         {
-          caching: "ReadWrite",
-          createOption: "Empty",
-          diskSizeGB: 1023,
-          lun: 0,
-          managedDisk: {
-            diskEncryptionSet: {
-              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
-            },
-            storageAccountType: "Standard_LRS",
-          },
-        },
-        {
-          caching: "ReadWrite",
-          createOption: "Attach",
-          diskSizeGB: 1023,
-          lun: 1,
-          managedDisk: {
-            diskEncryptionSet: {
-              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
-            },
-            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/{existing-managed-disk-name}",
-            storageAccountType: "Standard_LRS",
-          },
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
         },
       ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithCapacityReservationAssignmentDisabled.json
+ */
+async function createAVMWithCapacityReservationAssignmentDisabled(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_DS1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        createOption: "FromImage",
+        name: "myVMosdisk",
+      },
+    },
+    capacityReservation: { disableCapacityReservationAssignment: true },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithDataDisksFromSourceResource.json
+ */
+async function createAVmWithDataDisksUsingCopyAndRestoreOptions(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D2_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+      dataDisks: [
+        {
+          diskSizeGB: 1023,
+          createOption: "Copy",
+          sourceResource: {
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/{existing-snapshot-name}",
+          },
+          lun: 0,
+        },
+        {
+          diskSizeGB: 1023,
+          createOption: "Copy",
+          sourceResource: {
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/{existing-disk-name}",
+          },
+          lun: 1,
+        },
+        {
+          diskSizeGB: 1023,
+          createOption: "Restore",
+          sourceResource: {
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/{existing-rpc-name}/restorePoints/{existing-rp-name}/diskRestorePoints/{existing-disk-restore-point-name}",
+          },
+          lun: 2,
+        },
+      ],
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithDeterministicProcessorMode.json
+ */
+async function createAVMWithDeterministicProcessorMode(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_E2pds_v8", processorMode: "Deterministic" },
+    storageProfile: {
+      imageReference: {
+        sku: "2019-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithDiskControllerType.json
+ */
+async function createAVMWithDiskControllerType(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D4_v3" },
+    scheduledEventsPolicy: {
+      scheduledEventsAdditionalPublishingTargets: {
+        eventGridAndResourceGraph: { enable: true, scheduledEventsApiVersion: "2020-07-01" },
+      },
+      userInitiatedRedeploy: { automaticallyApprove: true },
+      userInitiatedReboot: { automaticallyApprove: true },
+      allInstancesDown: { automaticallyApprove: true },
+    },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+      diskControllerType: "NVMe",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    diagnosticsProfile: {
+      bootDiagnostics: {
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+        enabled: true,
+      },
+    },
+    userData: "U29tZSBDdXN0b20gRGF0YQ==",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithDiskEncryptionSetResource.json
+ */
+async function createAVmWithDiskEncryptionSetResourceIdInTheOsDiskAndDataDisk(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
       imageReference: {
         id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
       },
       osDisk: {
-        name: "myVMosdisk",
         caching: "ReadWrite",
-        createOption: "FromImage",
         managedDisk: {
+          storageAccountType: "Standard_LRS",
           diskEncryptionSet: {
             id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
           },
-          storageAccountType: "Standard_LRS",
         },
+        name: "myVMosdisk",
+        createOption: "FromImage",
       },
+      dataDisks: [
+        {
+          caching: "ReadWrite",
+          managedDisk: {
+            storageAccountType: "Standard_LRS",
+            diskEncryptionSet: {
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+            },
+          },
+          diskSizeGB: 1023,
+          createOption: "Empty",
+          lun: 0,
+        },
+        {
+          caching: "ReadWrite",
+          managedDisk: {
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/{existing-managed-disk-name}",
+            storageAccountType: "Standard_LRS",
+            diskEncryptionSet: {
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+            },
+          },
+          diskSizeGB: 1023,
+          createOption: "Attach",
+          lun: 1,
+        },
+      ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEncryptionAtHost.json
- */
-async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_DS1_v2" },
-    location: "westus",
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -2154,64 +1658,92 @@ async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty(): Promi
         },
       ],
     },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithEmptyDataDisks.json
+ */
+async function createAVmWithEmptyDataDisks(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D2_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+      dataDisks: [
+        { diskSizeGB: 1023, createOption: "Empty", lun: 0 },
+        { diskSizeGB: 1023, createOption: "Empty", lun: 1 },
+      ],
+    },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
+      adminPassword: "{your-password}",
     },
-    plan: {
-      name: "windows2016",
-      product: "windows-data-science-vm",
-      publisher: "microsoft-ads",
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithEncryptionAtHost.json
+ */
+async function createAVmWithHostEncryptionUsingEncryptionAtHostProperty(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    plan: { publisher: "microsoft-ads", product: "windows-data-science-vm", name: "windows2016" },
+    hardwareProfile: { vmSize: "Standard_DS1_v2" },
     securityProfile: { encryptionAtHost: true },
     storageProfile: {
       imageReference: {
-        offer: "windows-data-science-vm",
-        publisher: "microsoft-ads",
         sku: "windows2016",
+        publisher: "microsoft-ads",
         version: "latest",
+        offer: "windows-data-science-vm",
       },
       osDisk: {
-        name: "myVMosdisk",
         caching: "ReadOnly",
-        createOption: "FromImage",
         managedDisk: { storageAccountType: "Standard_LRS" },
+        createOption: "FromImage",
+        name: "myVMosdisk",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithScheduledEventsProfile.json
- */
-async function createAVMWithScheduledEventsProfile(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    diagnosticsProfile: {
-      bootDiagnostics: {
-        enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
-      },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
     },
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
     networkProfile: {
       networkInterfaces: [
         {
@@ -2220,66 +1752,94 @@ async function createAVMWithScheduledEventsProfile(): Promise<void> {
         },
       ],
     },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    scheduledEventsPolicy: {
-      allInstancesDown: { automaticallyApprove: true },
-      scheduledEventsAdditionalPublishingTargets: {
-        eventGridAndResourceGraph: {
-          enable: true,
-          scheduledEventsApiVersion: "2020-07-01",
-        },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithEncryptionIdentity.json
+ */
+async function createAVMWithEncryptionIdentity(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myIdentity":
+          {},
       },
-      userInitiatedReboot: { automaticallyApprove: true },
-      userInitiatedRedeploy: { automaticallyApprove: true },
     },
-    scheduledEventsProfile: {
-      osImageNotificationProfile: { enable: true, notBeforeTimeout: "PT15M" },
-      terminateNotificationProfile: { enable: true, notBeforeTimeout: "PT10M" },
+    hardwareProfile: { vmSize: "Standard_D2s_v3" },
+    securityProfile: {
+      encryptionIdentity: {
+        userAssignedIdentityResourceId:
+          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myIdentity",
+      },
     },
     storageProfile: {
       imageReference: {
-        offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
+        offer: "WindowsServer",
+        sku: "2019-Datacenter",
         version: "latest",
       },
       osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
+        caching: "ReadOnly",
+        managedDisk: { storageAccountType: "StandardSSD_LRS" },
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithAMarketplaceImagePlan.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithExtensionsTimeBudget.json
  */
-async function createAVMWithAMarketplaceImagePlan(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
+async function createAVmWithAnExtensionsTimeBudget(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -2289,63 +1849,49 @@ async function createAVMWithAMarketplaceImagePlan(): Promise<void> {
       ],
     },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
+      adminPassword: "{your-password}",
     },
-    plan: {
-      name: "windows2016",
-      product: "windows-data-science-vm",
-      publisher: "microsoft-ads",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "windows-data-science-vm",
-        publisher: "microsoft-ads",
-        sku: "windows2016",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithExtensionsTimeBudget.json
- */
-async function createAVMWithAnExtensionsTimeBudget(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
     diagnosticsProfile: {
       bootDiagnostics: {
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
         enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
       },
     },
     extensionsTimeBudget: "PT30M",
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithFips1403Enabled.json
+ */
+async function createAVMWithFips1403Enabled(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "{vm-name}", {
+    location: "eastus2euap",
+    hardwareProfile: { vmSize: "Standard_D2s_v3" },
+    additionalCapabilities: { enableFips1403Encryption: true },
+    storageProfile: {
+      imageReference: {
+        publisher: "MicrosoftWindowsServer",
+        offer: "WindowsServer",
+        sku: "2019-Datacenter",
+        version: "latest",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "vmOSdisk",
+        createOption: "FromImage",
+      },
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -2355,246 +1901,145 @@ async function createAVMWithAnExtensionsTimeBudget(): Promise<void> {
       ],
     },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM",
+      computerName: "{vm-name}",
+      adminPassword: "{your-password}",
     },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithBootDiagnostics.json
- */
-async function createAVMWithBootDiagnostics(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
     diagnosticsProfile: {
       bootDiagnostics: {
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
         enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
       },
     },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithFlexProfile.json
+ */
+async function createAVMWithAFlexProfile(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    flexProfile: { preferredVMSize: "Standard_D4s_v5" },
+    storageProfile: {
+      imageReference: {
+        publisher: "Canonical",
+        offer: "0001-com-ubuntu-server-focal",
+        sku: "20_04-lts-gen2",
+        version: "latest",
+      },
+      osDisk: { createOption: "FromImage", managedDisk: { storageAccountType: "Premium_LRS" } },
+    },
+    osProfile: {
+      computerName: "myVM",
+      adminUsername: "azureuser",
+      linuxConfiguration: {
+        disablePasswordAuthentication: true,
+        ssh: {
+          publicKeys: [
+            { path: "/home/azureuser/.ssh/authorized_keys", keyData: "ssh-rsa AAAA...{example}" },
+          ],
+        },
+      },
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNic",
+          primary: true,
+        },
+      ],
+    },
+    tags: { department: "engineering", project: "alpha" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithHibernationEnabled.json
+ */
+async function createAVMWithHibernationEnabled(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "{vm-name}", {
+    location: "eastus2euap",
+    hardwareProfile: { vmSize: "Standard_D2s_v3" },
+    additionalCapabilities: { hibernationEnabled: true },
+    storageProfile: {
+      imageReference: {
+        publisher: "MicrosoftWindowsServer",
+        offer: "WindowsServer",
+        sku: "2019-Datacenter",
+        version: "latest",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "vmOSdisk",
+        createOption: "FromImage",
+      },
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "{vm-name}",
+      adminPassword: "{your-password}",
+    },
+    diagnosticsProfile: {
+      bootDiagnostics: {
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+        enabled: true,
+      },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithManagedBootDiagnostics.json
+ */
+async function createAVmWithManagedBootDiagnostics(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
     hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
     storageProfile: {
       imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDataDisksFromSourceResource.json
- */
-async function createAVMWithDataDisksUsingCopyAndRestoreOptions(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D2_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    storageProfile: {
-      dataDisks: [
-        {
-          createOption: "Copy",
-          diskSizeGB: 1023,
-          lun: 0,
-          sourceResource: {
-            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/{existing-snapshot-name}",
-          },
-        },
-        {
-          createOption: "Copy",
-          diskSizeGB: 1023,
-          lun: 1,
-          sourceResource: {
-            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/{existing-disk-name}",
-          },
-        },
-        {
-          createOption: "Restore",
-          diskSizeGB: 1023,
-          lun: 2,
-          sourceResource: {
-            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/{existing-rpc-name}/restorePoints/{existing-rp-name}/diskRestorePoints/{existing-disk-restore-point-name}",
-          },
-        },
-      ],
-      imageReference: {
-        offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
         version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEmptyDataDisks.json
- */
-async function createAVMWithEmptyDataDisks(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D2_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    storageProfile: {
-      dataDisks: [
-        { createOption: "Empty", diskSizeGB: 1023, lun: 0 },
-        { createOption: "Empty", diskSizeGB: 1023, lun: 1 },
-      ],
-      imageReference: {
         offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
       },
       osDisk: {
-        name: "myVMosdisk",
         caching: "ReadWrite",
-        createOption: "FromImage",
         managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsCacheDisk.json
- */
-async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_DS1_v2" },
-    location: "westus",
     networkProfile: {
       networkInterfaces: [
         {
@@ -2604,393 +2049,161 @@ async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacement
       ],
     },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
-    },
-    plan: {
-      name: "windows2016",
-      product: "windows-data-science-vm",
-      publisher: "microsoft-ads",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "windows-data-science-vm",
-        publisher: "microsoft-ads",
-        sku: "windows2016",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadOnly",
-        createOption: "FromImage",
-        diffDiskSettings: { option: "Local", placement: "CacheDisk" },
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsNvmeDisk.json
- */
-async function createAVMWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_DS1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
       adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
     },
-    plan: {
-      name: "windows2016",
-      product: "windows-data-science-vm",
-      publisher: "microsoft-ads",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "windows-data-science-vm",
-        publisher: "microsoft-ads",
-        sku: "windows2016",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadOnly",
-        createOption: "FromImage",
-        diffDiskSettings: { option: "Local", placement: "NvmeDisk" },
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsResourceDisk.json
- */
-async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_DS1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    plan: {
-      name: "windows2016",
-      product: "windows-data-science-vm",
-      publisher: "microsoft-ads",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "windows-data-science-vm",
-        publisher: "microsoft-ads",
-        sku: "windows2016",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadOnly",
-        createOption: "FromImage",
-        diffDiskSettings: { option: "Local", placement: "ResourceDisk" },
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDisk.json
- */
-async function createAVMWithEphemeralOSDisk(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_DS1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    plan: {
-      name: "windows2016",
-      product: "windows-data-science-vm",
-      publisher: "microsoft-ads",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "windows-data-science-vm",
-        publisher: "microsoft-ads",
-        sku: "windows2016",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadOnly",
-        createOption: "FromImage",
-        diffDiskSettings: { option: "Local" },
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithManagedBootDiagnostics.json
- */
-async function createAVMWithManagedBootDiagnostics(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
     diagnosticsProfile: { bootDiagnostics: { enabled: true } },
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true,
-        },
-      ],
-    },
-    osProfile: {
-      adminPassword: "{your-password}",
-      adminUsername: "{your-username}",
-      computerName: "myVM",
-    },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPasswordAuthentication.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfiguration.json
  */
-async function createAVMWithPasswordAuthentication(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
+async function createAVMWithNetworkInterfaceConfiguration(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
     networkProfile: {
-      networkInterfaces: [
+      networkApiVersion: "2020-11-01",
+      networkInterfaceConfigurations: [
         {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          name: "{nic-config-name}",
+          tags: { nicTag: "tag" },
           primary: true,
+          deleteOption: "Delete",
+          ipConfigurations: [
+            {
+              name: "{ip-config-name}",
+              primary: true,
+              publicIPAddressConfiguration: {
+                name: "{publicIP-config-name}",
+                tags: { pipTag: "tag" },
+                sku: { name: "Basic", tier: "Global" },
+                deleteOption: "Detach",
+                publicIPAllocationMethod: "Static",
+              },
+            },
+          ],
         },
       ],
     },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
+      adminPassword: "{your-password}",
     },
-    storageProfile: {
-      imageReference: {
-        offer: "WindowsServer",
-        publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPremiumStorage.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfigurationDnsSettings.json
  */
-async function createAVMWithPremiumStorage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
+async function createAVMWithNetworkInterfaceConfigurationWithPublicIpAddressDnsSettings(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
     networkProfile: {
-      networkInterfaces: [
+      networkApiVersion: "2020-11-01",
+      networkInterfaceConfigurations: [
         {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          name: "{nic-config-name}",
           primary: true,
+          deleteOption: "Delete",
+          ipConfigurations: [
+            {
+              name: "{ip-config-name}",
+              primary: true,
+              publicIPAddressConfiguration: {
+                name: "{publicIP-config-name}",
+                sku: { name: "Basic", tier: "Global" },
+                deleteOption: "Detach",
+                publicIPAllocationMethod: "Static",
+                dnsSettings: { domainNameLabel: "aaaaa", domainNameLabelScope: "TenantReuse" },
+              },
+            },
+          ],
         },
       ],
     },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
       computerName: "myVM",
+      adminPassword: "{your-password}",
     },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithOpportunisticProcessorMode.json
+ */
+async function createAVMWithOpportunisticProcessorMode(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D2s_v5", processorMode: "Opportunistic" },
     storageProfile: {
       imageReference: {
-        offer: "WindowsServer",
+        sku: "2019-Datacenter",
         publisher: "MicrosoftWindowsServer",
-        sku: "2016-Datacenter",
         version: "latest",
+        offer: "WindowsServer",
       },
       osDisk: {
-        name: "myVMosdisk",
         caching: "ReadWrite",
-        createOption: "FromImage",
         managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSshAuthentication.json
- */
-async function createAVMWithSshAuthentication(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    hardwareProfile: { vmSize: "Standard_D1_v2" },
-    location: "westus",
     networkProfile: {
       networkInterfaces: [
         {
@@ -2998,12 +2211,495 @@ async function createAVMWithSshAuthentication(): Promise<void> {
           primary: true,
         },
       ],
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithPasswordAuthentication.json
+ */
+async function createAVmWithPasswordAuthentication(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithPlacement.json
+ */
+async function createAVMWithAutomaticZonePlacement(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus2",
+    plan: { publisher: "microsoft-ads", product: "windows-data-science-vm", name: "windows2016" },
+    hardwareProfile: { vmSize: "Standard_DS1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "windows2016",
+        publisher: "microsoft-ads",
+        version: "latest",
+        offer: "windows-data-science-vm",
+      },
+      osDisk: {
+        caching: "ReadOnly",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        createOption: "FromImage",
+        name: "myVMosdisk",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+    placement: { zonePlacementPolicy: "Any", includeZones: ["1", "3"] },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithPremiumStorage.json
+ */
+async function createAVmWithPremiumStorage(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Premium_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithProxyAgentSettings.json
+ */
+async function createAVMWithProxyAgentSettingsOfEnabledAndMode(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D2s_v3" },
+    securityProfile: {
+      proxyAgentSettings: { enabled: true, wireServer: { mode: "Audit" }, imds: { mode: "Audit" } },
+    },
+    storageProfile: {
+      imageReference: {
+        publisher: "MicrosoftWindowsServer",
+        offer: "WindowsServer",
+        sku: "2019-Datacenter",
+        version: "latest",
+      },
+      osDisk: {
+        caching: "ReadOnly",
+        managedDisk: { storageAccountType: "StandardSSD_LRS" },
+        createOption: "FromImage",
+        name: "myVMosdisk",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithScheduledEventsProfile.json
+ */
+async function createAVmWithScheduledEventsProfile(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    scheduledEventsPolicy: {
+      scheduledEventsAdditionalPublishingTargets: {
+        eventGridAndResourceGraph: { enable: true, scheduledEventsApiVersion: "2020-07-01" },
+      },
+      userInitiatedRedeploy: { automaticallyApprove: true },
+      userInitiatedReboot: { automaticallyApprove: true },
+      allInstancesDown: { automaticallyApprove: true },
+    },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    diagnosticsProfile: {
+      bootDiagnostics: {
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+        enabled: true,
+      },
+    },
+    scheduledEventsProfile: {
+      terminateNotificationProfile: { notBeforeTimeout: "PT10M", enable: true },
+      osImageNotificationProfile: { notBeforeTimeout: "PT15M", enable: true },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVM.json
+ */
+async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_DC2as_v5" },
+    securityProfile: {
+      uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
+      securityType: "ConfidentialVM",
+    },
+    storageProfile: {
+      imageReference: {
+        sku: "windows-cvm",
+        publisher: "MicrosoftWindowsServer",
+        version: "17763.2183.2109130127",
+        offer: "2019-datacenter-cvm",
+      },
+      osDisk: {
+        caching: "ReadOnly",
+        managedDisk: {
+          storageAccountType: "StandardSSD_LRS",
+          securityProfile: { securityEncryptionType: "DiskWithVMGuestState" },
+        },
+        createOption: "FromImage",
+        name: "myVMosdisk",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithCustomerManagedKeys.json
+ */
+async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_DC2as_v5" },
+    securityProfile: {
+      uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
+      securityType: "ConfidentialVM",
+    },
+    storageProfile: {
+      imageReference: {
+        sku: "windows-cvm",
+        publisher: "MicrosoftWindowsServer",
+        version: "17763.2183.2109130127",
+        offer: "2019-datacenter-cvm",
+      },
+      osDisk: {
+        caching: "ReadOnly",
+        managedDisk: {
+          storageAccountType: "StandardSSD_LRS",
+          securityProfile: {
+            securityEncryptionType: "DiskWithVMGuestState",
+            diskEncryptionSet: {
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+            },
+          },
+        },
+        createOption: "FromImage",
+        name: "myVMosdisk",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithNonPersistedTPM.json
+ */
+async function createAVMWithSecurityTypeConfidentialVMWithNonPersistedTPMSecurityEncryptionType(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_DC2es_v5" },
+    securityProfile: {
+      uefiSettings: { secureBootEnabled: false, vTpmEnabled: true },
+      securityType: "ConfidentialVM",
+    },
+    storageProfile: {
+      imageReference: {
+        sku: "linux-cvm",
+        publisher: "UbuntuServer",
+        version: "17763.2183.2109130127",
+        offer: "2022-datacenter-cvm",
+      },
+      osDisk: {
+        caching: "ReadOnly",
+        managedDisk: {
+          storageAccountType: "StandardSSD_LRS",
+          securityProfile: { securityEncryptionType: "NonPersistedTPM" },
+        },
+        createOption: "FromImage",
+        name: "myVMosdisk",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithSpotPlusPriority.json
+ */
+async function createAVmWithSpotPlusPriority(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D2s_v5" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+    priority: "SpotPlus",
+    evictionPolicy: "Deallocate",
+    billingProfile: { maxPrice: -1 },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithSshAuthentication.json
+ */
+async function createAVmWithSshAuthentication(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "{image_sku}",
+        publisher: "{image_publisher}",
+        version: "latest",
+        offer: "{image_offer}",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
+      },
     },
     osProfile: {
       adminUsername: "{your-username}",
       computerName: "myVM",
       linuxConfiguration: {
-        disablePasswordAuthentication: true,
         ssh: {
           publicKeys: [
             {
@@ -3013,53 +2709,96 @@ async function createAVMWithSshAuthentication(): Promise<void> {
             },
           ],
         },
+        disablePasswordAuthentication: true,
       },
     },
-    storageProfile: {
-      imageReference: {
-        offer: "{image_offer}",
-        publisher: "{image_publisher}",
-        sku: "{image_sku}",
-        version: "latest",
-      },
-      osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadWrite",
-        createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" },
-      },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  *
- * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithCapacityReservation.json
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithUefiSettings.json
  */
-async function createOrUpdateAVMWithCapacityReservation(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const parameters: VirtualMachine = {
-    capacityReservation: {
-      capacityReservationGroup: {
-        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}",
+async function createAVMWithUefiSettingsOfSecureBootAndVTPM(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: { vmSize: "Standard_D2s_v3" },
+    securityProfile: {
+      uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
+      securityType: "TrustedLaunch",
+    },
+    storageProfile: {
+      imageReference: {
+        sku: "windows10-tvm",
+        publisher: "MicrosoftWindowsServer",
+        version: "18363.592.2001092016",
+        offer: "windowsserver-gen2preview-preview",
+      },
+      osDisk: {
+        caching: "ReadOnly",
+        managedDisk: { storageAccountType: "StandardSSD_LRS" },
+        createOption: "FromImage",
+        name: "myVMosdisk",
       },
     },
-    hardwareProfile: { vmSize: "Standard_DS1_v2" },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithUserData.json
+ */
+async function createAVMWithUserData(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "{vm-name}", {
     location: "westus",
+    hardwareProfile: { vmSize: "Standard_D1_v2" },
+    storageProfile: {
+      imageReference: {
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
+        version: "latest",
+        offer: "WindowsServer",
+      },
+      osDisk: {
+        caching: "ReadWrite",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "vmOSdisk",
+        createOption: "FromImage",
+      },
+    },
     networkProfile: {
       networkInterfaces: [
         {
@@ -3069,92 +2808,133 @@ async function createOrUpdateAVMWithCapacityReservation(): Promise<void> {
       ],
     },
     osProfile: {
-      adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM",
+      computerName: "{vm-name}",
+      adminPassword: "{your-password}",
     },
-    plan: {
-      name: "windows2016",
-      product: "windows-data-science-vm",
-      publisher: "microsoft-ads",
+    diagnosticsProfile: {
+      bootDiagnostics: {
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+        enabled: true,
+      },
+    },
+    userData: "RXhhbXBsZSBVc2VyRGF0YQ==",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary the operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Create_WithVMSizeProperties.json
+ */
+async function createAVMWithVMSizeProperties(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
+    location: "westus",
+    hardwareProfile: {
+      vmSize: "Standard_D4_v3",
+      vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 },
     },
     storageProfile: {
       imageReference: {
-        offer: "windows-data-science-vm",
-        publisher: "microsoft-ads",
-        sku: "windows2016",
+        sku: "2016-Datacenter",
+        publisher: "MicrosoftWindowsServer",
         version: "latest",
+        offer: "WindowsServer",
       },
       osDisk: {
-        name: "myVMosdisk",
-        caching: "ReadOnly",
-        createOption: "FromImage",
+        caching: "ReadWrite",
         managedDisk: { storageAccountType: "Standard_LRS" },
+        name: "myVMosdisk",
+        createOption: "FromImage",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    parameters,
-  );
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+    osProfile: {
+      adminUsername: "{your-username}",
+      computerName: "myVM",
+      adminPassword: "{your-password}",
+    },
+    diagnosticsProfile: {
+      bootDiagnostics: {
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+        enabled: true,
+      },
+    },
+    userData: "U29tZSBDdXN0b20gRGF0YQ==",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault();
-  await createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings();
-  await createALinuxVMWithAPatchSettingPatchModeOfImageDefault();
-  await createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform();
+  await createACustomImageVmFromAnUnmanagedGeneralizedOsImage();
   await createAVMFromACommunityGalleryImage();
+  await createAVmFromACustomImage();
+  await createAVmFromAGeneralizedSharedImage();
   await createAVMFromASharedGalleryImage();
+  await createAVmFromASpecializedSharedImage();
+  await createAVmInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain();
+  await createAVmInAnAvailabilitySet();
+  await createALinuxVmWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings();
+  await createALinuxVmWithAPatchSettingAssessmentModeOfImageDefault();
+  await createALinuxVmWithAPatchSettingPatchModeOfImageDefault();
+  await createALinuxVmWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform();
+  await createAPlatformImageVmWithUnmanagedOsAndDataDisks();
+  await createAWindowsVmWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings();
+  await createAWindowsVmWithAPatchSettingAssessmentModeOfImageDefault();
+  await createAWindowsVmWithAPatchSettingPatchModeOfAutomaticByOS();
+  await createAWindowsVmWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue();
+  await createAWindowsVmWithAPatchSettingPatchModeOfManual();
+  await createAWindowsVmWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform();
+  await createAVmWithEphemeralOsDisk();
+  await createAVmWithEphemeralOsDiskProvisioningInCacheDiskUsingPlacementProperty();
+  await createAVmWithEphemeralOsDiskProvisioningInNvmeDiskUsingPlacementProperty();
+  await createAVmWithEphemeralOsDiskProvisioningInResourceDiskUsingPlacementProperty();
+  await createAVmWithAMarketplaceImagePlan();
+  await createAVmWithAdditionalDiskPropertiesNetworkAccessPolicyAndTier();
+  await createAVmWithApplicationProfile();
+  await createAVmWithBootDiagnostics();
+  await createOrUpdateAVMWithCapacityReservation();
+  await createAVMWithCapacityReservationAssignmentDisabled();
+  await createAVmWithDataDisksUsingCopyAndRestoreOptions();
+  await createAVMWithDeterministicProcessorMode();
   await createAVMWithDiskControllerType();
+  await createAVmWithDiskEncryptionSetResourceIdInTheOsDiskAndDataDisk();
+  await createAVmWithEmptyDataDisks();
+  await createAVmWithHostEncryptionUsingEncryptionAtHostProperty();
+  await createAVMWithEncryptionIdentity();
+  await createAVmWithAnExtensionsTimeBudget();
   await createAVMWithFips1403Enabled();
+  await createAVMWithAFlexProfile();
   await createAVMWithHibernationEnabled();
+  await createAVmWithManagedBootDiagnostics();
+  await createAVMWithNetworkInterfaceConfiguration();
+  await createAVMWithNetworkInterfaceConfigurationWithPublicIpAddressDnsSettings();
+  await createAVMWithOpportunisticProcessorMode();
+  await createAVmWithPasswordAuthentication();
+  await createAVMWithAutomaticZonePlacement();
+  await createAVmWithPremiumStorage();
   await createAVMWithProxyAgentSettingsOfEnabledAndMode();
-  await createAVMWithUefiSettingsOfSecureBootAndVTpm();
+  await createAVmWithScheduledEventsProfile();
+  await createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys();
+  await createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys();
+  await createAVMWithSecurityTypeConfidentialVMWithNonPersistedTPMSecurityEncryptionType();
+  await createAVmWithSpotPlusPriority();
+  await createAVmWithSshAuthentication();
+  await createAVMWithUefiSettingsOfSecureBootAndVTPM();
   await createAVMWithUserData();
   await createAVMWithVMSizeProperties();
-  await createAVMWithAutomaticZonePlacement();
-  await createAVMWithEncryptionIdentity();
-  await createAVMWithNetworkInterfaceConfiguration();
-  await createAVMWithNetworkInterfaceConfigurationWithPublicIPAddressDnsSettings();
-  await createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys();
-  await createAVMWithSecurityTypeConfidentialVMWithNonPersistedTpmSecurityEncryptionType();
-  await createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys();
-  await createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault();
-  await createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS();
-  await createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings();
-  await createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue();
-  await createAWindowsVMWithAPatchSettingPatchModeOfManual();
-  await createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform();
-  await createACustomImageVMFromAnUnmanagedGeneralizedOSImage();
-  await createAPlatformImageVMWithUnmanagedOSAndDataDisks();
-  await createAVMFromACustomImage();
-  await createAVMFromAGeneralizedSharedImage();
-  await createAVMFromASpecializedSharedImage();
-  await createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain();
-  await createAVMInAnAvailabilitySet();
-  await createAVMWithApplicationProfile();
-  await createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk();
-  await createAVMWithHostEncryptionUsingEncryptionAtHostProperty();
-  await createAVMWithScheduledEventsProfile();
-  await createAVMWithAMarketplaceImagePlan();
-  await createAVMWithAnExtensionsTimeBudget();
-  await createAVMWithBootDiagnostics();
-  await createAVMWithDataDisksUsingCopyAndRestoreOptions();
-  await createAVMWithEmptyDataDisks();
-  await createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty();
-  await createAVMWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty();
-  await createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty();
-  await createAVMWithEphemeralOSDisk();
-  await createAVMWithManagedBootDiagnostics();
-  await createAVMWithPasswordAuthentication();
-  await createAVMWithPremiumStorage();
-  await createAVMWithSshAuthentication();
-  await createOrUpdateAVMWithCapacityReservation();
 }
 
 main().catch(console.error);

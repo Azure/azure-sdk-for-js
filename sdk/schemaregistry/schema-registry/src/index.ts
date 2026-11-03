@@ -3,13 +3,14 @@
 
 export { SchemaRegistryClient } from "./schemaRegistryClient.js";
 export {
-  GetSchemaOptions,
-  GetSchemaPropertiesOptions,
+  type GetSchemaOptions,
+  type GetSchemaPropertiesOptions,
   KnownSchemaFormats,
-  RegisterSchemaOptions,
-  Schema,
-  SchemaDescription,
-  SchemaRegistry,
-  SchemaRegistryClientOptions,
-  SchemaProperties,
+  type RegisterSchemaOptions,
+  type Schema,
+  type SchemaDescription,
+  type SchemaRegistry,
+  type SchemaRegistryClientOptions,
+  type SchemaProperties,
 } from "./models.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

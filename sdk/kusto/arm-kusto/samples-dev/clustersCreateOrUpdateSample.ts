@@ -1,55 +1,122 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update a Kusto cluster.
- *
- * @summary Create or update a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersCreateOrUpdate.json
- */
-
-import type { Cluster } from "@azure/arm-kusto";
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update a Kusto cluster.
+ *
+ * @summary create or update a Kusto cluster.
+ * x-ms-original-file: 2025-02-14/KustoClusterCreateWithCMKFederatedIdentity.json
+ */
+async function kustoClusterCreateWithCMKFederatedIdentity(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const client = new KustoManagementClient(credential, subscriptionId);
+  const result = await client.clusters.createOrUpdate("kustoRgTest", "kustoClusterCMK", {
+    location: "westus",
+    sku: { name: "Standard_L16as_v3", capacity: 2, tier: "Standard" },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustoRgTest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/kustoClusterIdentity":
+          {},
+      },
+    },
+    enableStreamingIngest: true,
+    enablePurge: true,
+    enableDoubleEncryption: false,
+    enableAutoStop: true,
+    publicIPType: "IPv4",
+    publicNetworkAccess: "Enabled",
+    restrictOutboundNetworkAccess: "Disabled",
+    keyVaultProperties: {
+      keyVaultUri: "https://myvault.vault.azure.net",
+      keyName: "myClusterCMKKey",
+      keyVersion: "12345678-1234-1234-1234-123456789098",
+      userIdentity:
+        "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustoRgTest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/kustoClusterIdentity",
+      federatedIdentityClientId: "11111111-2222-3333-4444-555555555555",
+    },
+    engineType: "V3",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a Kusto cluster.
+ *
+ * @summary create or update a Kusto cluster.
+ * x-ms-original-file: 2025-02-14/KustoClusterCreateWithCMKUserAssignedIdentity.json
+ */
+async function kustoClusterCreateWithCMKUserAssignedIdentity(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const client = new KustoManagementClient(credential, subscriptionId);
+  const result = await client.clusters.createOrUpdate("kustoRgTest", "kustoClusterCMK", {
+    location: "westus",
+    sku: { name: "Standard_L16as_v3", capacity: 2, tier: "Standard" },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustoRgTest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/kustoClusterIdentity":
+          {},
+      },
+    },
+    enableStreamingIngest: true,
+    enablePurge: true,
+    enableDoubleEncryption: false,
+    enableAutoStop: true,
+    publicIPType: "IPv4",
+    publicNetworkAccess: "Enabled",
+    restrictOutboundNetworkAccess: "Disabled",
+    keyVaultProperties: {
+      keyVaultUri: "https://myvault.vault.azure.net",
+      keyName: "myClusterCMKKey",
+      keyVersion: "12345678-1234-1234-1234-123456789098",
+      userIdentity:
+        "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustoRgTest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/kustoClusterIdentity",
+    },
+    engineType: "V3",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a Kusto cluster.
+ *
+ * @summary create or update a Kusto cluster.
+ * x-ms-original-file: 2025-02-14/KustoClustersCreateOrUpdate.json
+ */
 async function kustoClustersCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster";
-  const parameters: Cluster = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const client = new KustoManagementClient(credential, subscriptionId);
+  const result = await client.clusters.createOrUpdate("kustorptest", "kustoCluster", {
+    identity: { type: "SystemAssigned" },
+    location: "westus",
     allowedIpRangeList: ["0.0.0.0/0"],
     enableAutoStop: true,
     enableDoubleEncryption: false,
     enablePurge: true,
     enableStreamingIngest: true,
-    identity: { type: "SystemAssigned" },
     languageExtensions: {
       value: [
-        {
-          languageExtensionImageName: "Python3_10_8",
-          languageExtensionName: "PYTHON",
-        },
+        { languageExtensionImageName: "Python3_10_8", languageExtensionName: "PYTHON" },
         { languageExtensionImageName: "R", languageExtensionName: "R" },
       ],
     },
-    location: "westus",
     publicIPType: "DualStack",
     publicNetworkAccess: "Enabled",
     sku: { name: "Standard_L16as_v3", capacity: 2, tier: "Standard" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.clusters.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
+  await kustoClusterCreateWithCMKFederatedIdentity();
+  await kustoClusterCreateWithCMKUserAssignedIdentity();
   await kustoClustersCreateOrUpdate();
 }
 

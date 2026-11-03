@@ -3,26 +3,18 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Checks if resource name is available.
+ * This sample demonstrates how to checks if resource name is available.
  *
- * @summary Checks if resource name is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironments_GetAuthToken.json
+ * @summary checks if resource name is available.
+ * x-ms-original-file: 2026-07-01/ManagedEnvironments_GetAuthToken.json
  */
 async function getManagedEnvironmentAuthToken(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
-  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const environmentName = "testenv";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.managedEnvironments.getAuthToken(
-    resourceGroupName,
-    environmentName,
-  );
+  const result = await client.managedEnvironments.getAuthToken("rg", "testenv");
   console.log(result);
 }
 

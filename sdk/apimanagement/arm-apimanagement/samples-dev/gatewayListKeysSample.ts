@@ -1,32 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieves gateway keys.
- *
- * @summary Retrieves gateway keys.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGatewayListKeys.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieves gateway keys.
+ *
+ * @summary retrieves gateway keys.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGatewayListKeys.json
+ */
 async function apiManagementGatewayListKeys(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const gatewayId = "gw1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.gateway.listKeys(
-    resourceGroupName,
-    serviceName,
-    gatewayId,
-  );
+  const result = await client.gateway.listKeys("rg1", "apimService1", "gw1");
   console.log(result);
 }
 

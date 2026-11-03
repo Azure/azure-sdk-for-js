@@ -3,33 +3,53 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates the specific Pool resource.
+ * This sample demonstrates how to updates the specific Pool resource.
  *
- * @summary Updates the specific Pool resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-03-01/examples/IpamPools_Update.json
+ * @summary updates the specific Pool resource.
+ * x-ms-original-file: 2026-03-01/IpamPools_Update.json
  */
 async function ipamPoolsUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "11111111-1111-1111-1111-111111111111";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkManagerName = "TestNetworkManager";
-  const poolName = "TestPool";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.ipamPools.update(
-    resourceGroupName,
-    networkManagerName,
-    poolName,
-  );
+  const result = await client.ipamPools.update("rg1", "TestNetworkManager", "TestPool");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates the specific Pool resource.
+ *
+ * @summary updates the specific Pool resource.
+ * x-ms-original-file: 2026-03-01/IpamPools_UpdateAllocationBounds.json
+ */
+async function updateTheAllocationSizeBoundsOnAPoolResource(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.ipamPools.update("rg1", "TestNetworkManager", "TestPool");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates the specific Pool resource.
+ *
+ * @summary updates the specific Pool resource.
+ * x-ms-original-file: 2026-03-01/IpamPools_UpdateClearAllocationBounds.json
+ */
+async function clearTheAllocationSizeBoundsOnAPoolResource(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.ipamPools.update("rg1", "TestNetworkManager", "TestPool");
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await ipamPoolsUpdate();
+  await updateTheAllocationSizeBoundsOnAPoolResource();
+  await clearTheAllocationSizeBoundsOnAPoolResource();
 }
 
 main().catch(console.error);

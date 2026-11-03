@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get an Activity Log Alert rule.
- *
- * @summary Get an Activity Log Alert rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_Get.json
- */
-
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get an Activity Log Alert rule.
+ *
+ * @summary get an Activity Log Alert rule.
+ * x-ms-original-file: 2023-01-01-preview/ActivityLogAlertRule_Get.json
+ */
 async function getAnActivityLogAlertRule(): Promise<void> {
-  const subscriptionId =
-    process.env["MONITOR_SUBSCRIPTION_ID"] || "187f412d-1758-44d9-b052-169e2564721d";
-  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "MyResourceGroup";
-  const activityLogAlertName = "SampleActivityLogAlertRule";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "187f412d-1758-44d9-b052-169e2564721d";
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.activityLogAlerts.get(resourceGroupName, activityLogAlertName);
+  const result = await client.activityLogAlerts.get(
+    "MyResourceGroup",
+    "SampleActivityLogAlertRule",
+  );
   console.log(result);
 }
 

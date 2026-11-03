@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve protection policy with specified name within a resource group.
- *
- * @summary Retrieve protection policy with specified name within a resource group.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2024-02-01/examples/WafPolicyGet.json
- */
-
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve protection policy with specified name within a resource group.
+ *
+ * @summary retrieve protection policy with specified name within a resource group.
+ * x-ms-original-file: 2025-11-01/WafPolicyGet.json
+ */
 async function getPolicy(): Promise<void> {
-  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
-  const policyName = "Policy1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new FrontDoorManagementClient(credential, subscriptionId);
-  const result = await client.policies.get(resourceGroupName, policyName);
+  const result = await client.policies.get("rg1", "Policy1");
   console.log(result);
 }
 

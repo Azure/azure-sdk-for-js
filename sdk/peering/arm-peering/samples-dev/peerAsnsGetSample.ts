@@ -1,23 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the peer ASN with the specified name under the given subscription.
- *
- * @summary Gets the peer ASN with the specified name under the given subscription.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/GetPeerAsn.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function getAPeerAsn(): Promise<void> {
-  const subscriptionId = "subId";
-  const peerAsnName = "peerAsnName";
+/**
+ * This sample demonstrates how to gets the peer ASN with the specified name under the given subscription.
+ *
+ * @summary gets the peer ASN with the specified name under the given subscription.
+ * x-ms-original-file: 2025-05-01/GetPeerAsn.json
+ */
+async function getAPeerASN(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
-  const result = await client.peerAsns.get(peerAsnName);
+  const result = await client.peerAsns.get("peerAsnName");
   console.log(result);
 }
 
-getAPeerAsn().catch(console.error);
+async function main(): Promise<void> {
+  await getAPeerASN();
+}
+
+main().catch(console.error);

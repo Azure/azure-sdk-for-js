@@ -3,30 +3,22 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete a Container App SourceControl.
+ * This sample demonstrates how to delete a Container App SourceControl.
  *
- * @summary Delete a Container App SourceControl.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/SourceControls_Delete.json
+ * @summary delete a Container App SourceControl.
+ * x-ms-original-file: 2026-07-01/SourceControls_Delete.json
  */
 async function deleteContainerAppSourceControl(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "workerapps-rg-xj";
-  const containerAppName = "testcanadacentral";
-  const sourceControlName = "current";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.containerAppsSourceControls.beginDeleteAndWait(
-    resourceGroupName,
-    containerAppName,
-    sourceControlName,
+  await client.containerAppsSourceControls.delete(
+    "workerapps-rg-xj",
+    "testcanadacentral",
+    "current",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

@@ -1,35 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update a Log Analytics cluster.
- *
- * @summary Create or update a Log Analytics cluster.
- * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/examples/ClustersCreate.json
- */
-
-import type { Cluster } from "@azure/arm-operationalinsights";
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update a Log Analytics cluster.
+ *
+ * @summary create or update a Log Analytics cluster.
+ * x-ms-original-file: 2025-07-01/ClustersCreate.json
+ */
 async function clustersCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "oiautorest6685";
-  const clusterName = "oiautorest6685";
-  const parameters: Cluster = {
-    location: "australiasoutheast",
-    sku: { name: "CapacityReservation", capacity: 1000 },
-    tags: { tag1: "val1" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "53bc36c5-91e1-4d09-92c9-63b89e571926";
   const client = new OperationalInsightsManagementClient(credential, subscriptionId);
-  const result = await client.clusters.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
+  const result = await client.clusters.createOrUpdate("oiautorest6685", "oiautorest6685", {
+    location: "eastus",
+    sku: { name: "CapacityReservation", capacity: 100 },
+    tags: { tag1: "val1" },
+  });
   console.log(result);
 }
 

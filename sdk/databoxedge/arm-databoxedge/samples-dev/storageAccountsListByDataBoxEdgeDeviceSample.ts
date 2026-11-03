@@ -1,30 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all the StorageAccounts in a Data Box Edge/Data Box Gateway device.
- *
- * @summary Lists all the StorageAccounts in a Data Box Edge/Data Box Gateway device.
- * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/StorageAccountGetAllInDevice.json
- */
-
 import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to lists all the StorageAccounts in a Data Box Edge/Data Box Gateway device.
+ *
+ * @summary lists all the StorageAccounts in a Data Box Edge/Data Box Gateway device.
+ * x-ms-original-file: 2023-12-01/StorageAccountGetAllInDevice.json
+ */
 async function storageAccountGetAllInDevice(): Promise<void> {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const deviceName = "testedgedevice";
-  const resourceGroupName = "GroupForEdgeAutomation";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.storageAccounts.listByDataBoxEdgeDevice(
-    deviceName,
-    resourceGroupName,
+    "testedgedevice",
+    "GroupForEdgeAutomation",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-storageAccountGetAllInDevice().catch(console.error);
+async function main(): Promise<void> {
+  await storageAccountGetAllInDevice();
+}
+
+main().catch(console.error);

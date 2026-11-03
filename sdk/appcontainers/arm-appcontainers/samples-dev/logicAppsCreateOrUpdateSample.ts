@@ -3,28 +3,22 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update a Logic App extension resource
+ * This sample demonstrates how to create or update a Logic App extension resource
  *
- * @summary Create or update a Logic App extension resource
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/LogicApps_Create.json
+ * @summary create or update a Logic App extension resource
+ * x-ms-original-file: 2026-07-01/LogicApps_Create.json
  */
 async function createLogicAppExtension(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const containerAppName = "testcontainerApp0";
-  const logicAppName = "testcontainerApp0";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.logicApps.createOrUpdate(
-    resourceGroupName,
-    containerAppName,
-    logicAppName,
+    "examplerg",
+    "testcontainerApp0",
+    "testcontainerApp0",
+    { resource: {} },
   );
   console.log(result);
 }

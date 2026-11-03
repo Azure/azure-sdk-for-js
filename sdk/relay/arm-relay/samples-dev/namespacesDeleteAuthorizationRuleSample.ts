@@ -1,35 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a namespace authorization rule.
- *
- * @summary Deletes a namespace authorization rule.
- * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceAutorizationRuleDelete.json
- */
-
 import { RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function relayNameSpaceAutorizationRuleDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
-  const namespaceName = "example-RelayNamespace-01";
-  const authorizationRuleName = "example-RelayAuthRules-01";
+/**
+ * This sample demonstrates how to deletes a namespace authorization rule.
+ *
+ * @summary deletes a namespace authorization rule.
+ * x-ms-original-file: 2026-01-01/NameSpaces/RelayNameSpaceAuthorizationRuleDelete.json
+ */
+async function relayNameSpaceAuthorizationRuleDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new RelayAPI(credential, subscriptionId);
-  const result = await client.namespaces.deleteAuthorizationRule(
-    resourceGroupName,
-    namespaceName,
-    authorizationRuleName,
+  await client.namespaces.deleteAuthorizationRule(
+    "resourcegroup",
+    "example-RelayNamespace-01",
+    "example-RelayAuthRules-01",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await relayNameSpaceAutorizationRuleDelete();
+  await relayNameSpaceAuthorizationRuleDelete();
 }
 
 main().catch(console.error);

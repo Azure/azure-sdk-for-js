@@ -1,81 +1,62 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a linked service.
- *
- * @summary Creates or updates a linked service.
- * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/LinkedServices_Create.json
- */
-
-import {
-  LinkedServiceResource,
-  DataFactoryManagementClient,
-} from "@azure/arm-datafactory";
+import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a linked service.
+ *
+ * @summary creates or updates a linked service.
+ * x-ms-original-file: 2018-06-01/LinkedServices_Create.json
+ */
 async function linkedServicesCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
-    "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName =
-    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const factoryName = "exampleFactoryName";
-  const linkedServiceName = "exampleLinkedService";
-  const linkedService: LinkedServiceResource = {
-    properties: {
-      type: "AzureStorage",
-      connectionString: {
-        type: "SecureString",
-        value:
-          "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;AccountKey=<storage key>",
-      },
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const result = await client.linkedServices.createOrUpdate(
-    resourceGroupName,
-    factoryName,
-    linkedServiceName,
-    linkedService,
+    "exampleResourceGroup",
+    "exampleFactoryName",
+    "exampleLinkedService",
+    {
+      properties: {
+        type: "AzureStorage",
+        connectionString: {
+          type: "SecureString",
+          value:
+            "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;AccountKey=<storage key>",
+        },
+      },
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a linked service.
+ * This sample demonstrates how to creates or updates a linked service.
  *
- * @summary Creates or updates a linked service.
- * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/LinkedServices_Update.json
+ * @summary creates or updates a linked service.
+ * x-ms-original-file: 2018-06-01/LinkedServices_Update.json
  */
 async function linkedServicesUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
-    "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName =
-    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const factoryName = "exampleFactoryName";
-  const linkedServiceName = "exampleLinkedService";
-  const linkedService: LinkedServiceResource = {
-    properties: {
-      type: "AzureStorage",
-      description: "Example description",
-      connectionString: {
-        type: "SecureString",
-        value:
-          "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;AccountKey=<storage key>",
-      },
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const result = await client.linkedServices.createOrUpdate(
-    resourceGroupName,
-    factoryName,
-    linkedServiceName,
-    linkedService,
+    "exampleResourceGroup",
+    "exampleFactoryName",
+    "exampleLinkedService",
+    {
+      properties: {
+        type: "AzureStorage",
+        description: "Example description",
+        connectionString: {
+          type: "SecureString",
+          value:
+            "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;AccountKey=<storage key>",
+        },
+      },
+    },
   );
   console.log(result);
 }

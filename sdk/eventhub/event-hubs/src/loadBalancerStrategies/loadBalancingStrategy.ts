@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { getRandomIntegerInclusive } from "@azure/core-util";
 import type { PartitionOwnership } from "../eventProcessor.js";
 import { logger } from "../logger.js";
 
@@ -260,7 +261,7 @@ function findPartitionsToSteal(
       currentPartitionOwnershipList.length - ownersExpectedPartitionCount;
     // Claim as many random partitions as possible.
     while (Math.min(numberOfPartitionsToClaim, numberAvailableToSteal)) {
-      const indexToClaim = Math.floor(Math.random() * currentPartitionOwnershipList.length);
+      const indexToClaim = getRandomIntegerInclusive(0, currentPartitionOwnershipList.length - 1);
       partitionsToSteal.push(currentPartitionOwnershipList.splice(indexToClaim, 1)[0].partitionId);
       numberOfPartitionsToClaim--;
       numberAvailableToSteal--;
@@ -363,7 +364,7 @@ export function listAvailablePartitions(
 
   // Prioritize getting unclaimed partitions first.
   while (Math.min(numberOfPartitionsToClaim, unclaimedPartitionIds.length)) {
-    const indexToClaim = Math.floor(Math.random() * unclaimedPartitionIds.length);
+    const indexToClaim = getRandomIntegerInclusive(0, unclaimedPartitionIds.length - 1);
     partitionsToClaim.push(unclaimedPartitionIds.splice(indexToClaim, 1)[0]);
     numberOfPartitionsToClaim--;
   }

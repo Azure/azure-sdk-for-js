@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to This operation reverts Migration
- *
- * @summary This operation reverts Migration
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Migrationconfigurations/SBMigrationconfigurationRevert.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to this operation reverts Migration
+ *
+ * @summary this operation reverts Migration
+ * x-ms-original-file: 2026-01-01/Migrationconfigurations/SBMigrationconfigurationRevert.json
+ */
 async function migrationConfigurationsRevert(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "SubscriptionId";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
-  const namespaceName = "sdk-Namespace-41";
-  const configName = "$default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
-  const result = await client.migrationConfigs.revert(resourceGroupName, namespaceName, configName);
-  console.log(result);
+  await client.migrationConfigs.revert("ResourceGroup", "sdk-Namespace-41", "$default");
 }
 
 async function main(): Promise<void> {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { ChatMessageType } from "../generated/src/models/index.js";
-import {
+import type {
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
   ChatThreadListChatMessagesOptionalParams as RestListMessagesOptions,
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
@@ -10,7 +10,7 @@ import {
 } from "../generated/src/models/index.js";
 import type { ChatParticipant, ChatRetentionPolicy } from "./models.js";
 
-export {
+export type {
   RestListMessagesOptions,
   RestListChatThreadsOptions,
   RestListParticipantsOptions,

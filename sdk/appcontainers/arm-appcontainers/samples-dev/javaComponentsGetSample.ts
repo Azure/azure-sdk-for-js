@@ -3,53 +3,32 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a Java Component.
+ * This sample demonstrates how to get a Java Component.
  *
- * @summary Get a Java Component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/JavaComponents_Get.json
+ * @summary get a Java Component.
+ * x-ms-original-file: 2026-07-01/JavaComponents_Get.json
  */
 async function getJavaComponent(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "myenvironment";
-  const name = "myjavacomponent";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.javaComponents.get(
-    resourceGroupName,
-    environmentName,
-    name,
-  );
+  const result = await client.javaComponents.get("examplerg", "myenvironment", "myjavacomponent");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get a Java Component.
+ * This sample demonstrates how to get a Java Component.
  *
- * @summary Get a Java Component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/JavaComponents_Get_ServiceBind.json
+ * @summary get a Java Component.
+ * x-ms-original-file: 2026-07-01/JavaComponents_Get_ServiceBind.json
  */
 async function getJavaComponentWithServiceBinds(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "myenvironment";
-  const name = "myjavacomponent";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.javaComponents.get(
-    resourceGroupName,
-    environmentName,
-    name,
-  );
+  const result = await client.javaComponents.get("examplerg", "myenvironment", "myjavacomponent");
   console.log(result);
 }
 

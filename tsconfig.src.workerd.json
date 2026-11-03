@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.src.build.json",
+  "compilerOptions": {
+    "outDir": "${configDir}/dist/workerd",
+    "rootDir": "${configDir}/src",
+    "lib": ["ES2023", "WebWorker"],
+    "skipLibCheck": true
+  },
+  "include": ["${configDir}/src/**/*.ts"]
+}

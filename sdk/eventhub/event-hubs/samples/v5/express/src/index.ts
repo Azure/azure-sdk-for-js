@@ -15,7 +15,6 @@
  Once any of these conditions are met, a new batch is created and the cycle continues.
 */
 
-import { v4 as uuid } from "uuid";
 import { AsyncBatchingProducer } from "./asyncBatchingProducer";
 import express from "express";
 import { EventHubProducerClient } from "@azure/event-hubs";
@@ -40,7 +39,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 // respond with requestId
 app.post("/ingest", async (req, res) => {
-  const requestId = uuid();
+  const requestId = crypto.randomUUID();
   eventProducer.send({
     properties: {
       request_id: requestId

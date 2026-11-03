@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to moves volume to another pool
  *
  * @summary moves volume to another pool
- * x-ms-original-file: 2025-09-01-preview/Volumes_PoolChange.json
+ * x-ms-original-file: 2026-08-15-preview/Volumes_PoolChange.json
  */
-async function volumesAuthorizeReplication(): Promise<void> {
+async function volumesPoolChange(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetAppManagementClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function volumesAuthorizeReplication(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await volumesAuthorizeReplication();
+  await volumesPoolChange();
 }
 
 main().catch(console.error);

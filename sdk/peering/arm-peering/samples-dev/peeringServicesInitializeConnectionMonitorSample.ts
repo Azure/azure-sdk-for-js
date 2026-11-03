@@ -1,22 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Initialize Peering Service for Connection Monitor functionality
- *
- * @summary Initialize Peering Service for Connection Monitor functionality
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/InitializeConnectionMonitor.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to initialize Peering Service for Connection Monitor functionality
+ *
+ * @summary initialize Peering Service for Connection Monitor functionality
+ * x-ms-original-file: 2025-05-01/InitializeConnectionMonitor.json
+ */
 async function initializePeeringServiceForConnectionMonitorFunctionality(): Promise<void> {
-  const subscriptionId = "subId";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
-  const result = await client.peeringServices.initializeConnectionMonitor();
-  console.log(result);
+  await client.peeringServices.initializeConnectionMonitor();
 }
 
-initializePeeringServiceForConnectionMonitorFunctionality().catch(console.error);
+async function main(): Promise<void> {
+  await initializePeeringServiceForConnectionMonitorFunctionality();
+}
+
+main().catch(console.error);

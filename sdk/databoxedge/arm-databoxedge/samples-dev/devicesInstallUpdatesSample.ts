@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Installs the updates on the Data Box Edge/Data Box Gateway device.
- *
- * @summary Installs the updates on the Data Box Edge/Data Box Gateway device.
- * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/InstallUpdatesPost.json
- */
-
 import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to installs the updates on the Data Box Edge/Data Box Gateway device.
+ *
+ * @summary installs the updates on the Data Box Edge/Data Box Gateway device.
+ * x-ms-original-file: 2023-12-01/InstallUpdatesPost.json
+ */
 async function installUpdatesPost(): Promise<void> {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const deviceName = "testedgedevice";
-  const resourceGroupName = "GroupForEdgeAutomation";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
-  const result = await client.devices.beginInstallUpdatesAndWait(deviceName, resourceGroupName);
-  console.log(result);
+  await client.devices.installUpdates("testedgedevice", "GroupForEdgeAutomation");
 }
 
-installUpdatesPost().catch(console.error);
+async function main(): Promise<void> {
+  await installUpdatesPost();
+}
+
+main().catch(console.error);

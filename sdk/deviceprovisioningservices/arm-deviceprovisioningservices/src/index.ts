@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { IotDpsClient } from "./iotDpsClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   ErrorDetails,
   CertificateResponse,
@@ -18,8 +20,8 @@ export {
   ProxyResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
+  CertificateListDescription,
   VerificationCodeResponse,
   VerificationCodeResponseProperties,
   VerificationCodeRequest,
@@ -27,9 +29,7 @@ export {
   ErrorMessage,
   ProvisioningServiceDescription,
   IotDpsPropertiesDescription,
-  KnownState,
   State,
-  KnownPublicNetworkAccess,
   PublicNetworkAccess,
   IpFilterRule,
   IpFilterActionType,
@@ -38,22 +38,18 @@ export {
   PrivateEndpointConnectionProperties,
   PrivateEndpoint,
   PrivateLinkServiceConnectionState,
-  KnownPrivateLinkServiceConnectionStatus,
   PrivateLinkServiceConnectionStatus,
   IotHubDefinitionDescription,
+  IotHubAuthenticationType,
   DeviceRegistryNamespaceDescription,
-  KnownDeviceRegistryNamespaceAuthenticationType,
   DeviceRegistryNamespaceAuthenticationType,
-  KnownAllocationPolicy,
+  LinkingState,
   AllocationPolicy,
   SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
-  KnownAccessRightsDescription,
   AccessRightsDescription,
   IotDpsSkuInfo,
-  KnownIotDpsSku,
   IotDpsSku,
   ManagedServiceIdentity,
-  KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   TrackedResource,
@@ -64,16 +60,30 @@ export {
   IotDpsSkuDefinition,
   GroupIdInformation,
   GroupIdInformationProperties,
+  PrivateLinkResources,
   OperationInputs,
   NameAvailabilityInfo,
-  KnownNameUnavailabilityReason,
   NameUnavailabilityReason,
-  KnownCertificatePurpose,
   CertificatePurpose,
+} from "./models/index.js";
+export {
+  KnownCreatedByType,
+  KnownState,
+  KnownPublicNetworkAccess,
+  KnownPrivateLinkServiceConnectionStatus,
+  KnownIotHubAuthenticationType,
+  KnownDeviceRegistryNamespaceAuthenticationType,
+  KnownLinkingState,
+  KnownAllocationPolicy,
+  KnownAccessRightsDescription,
+  KnownIotDpsSku,
+  KnownManagedServiceIdentityType,
+  KnownNameUnavailabilityReason,
+  KnownCertificatePurpose,
   KnownVersions,
 } from "./models/index.js";
-export { IotDpsClientOptionalParams } from "./api/index.js";
-export {
+export type { IotDpsClientOptionalParams } from "./api/index.js";
+export type {
   DpsCertificateVerifyCertificateOptionalParams,
   DpsCertificateGenerateVerificationCodeOptionalParams,
   DpsCertificateListOptionalParams,
@@ -81,7 +91,7 @@ export {
   DpsCertificateCreateOrUpdateOptionalParams,
   DpsCertificateGetOptionalParams,
 } from "./api/dpsCertificate/index.js";
-export {
+export type {
   IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
   IotDpsResourceListPrivateEndpointConnectionsOptionalParams,
   IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
@@ -100,11 +110,13 @@ export {
   IotDpsResourceGetOptionalParams,
   IotDpsResourceGetOperationResultOptionalParams,
 } from "./api/iotDpsResource/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   DpsCertificateOperations,
   IotDpsResourceOperations,
   OperationsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

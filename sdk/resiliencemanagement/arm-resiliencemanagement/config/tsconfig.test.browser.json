@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-resiliencemanagement": ["../src/index.ts"],
+      "@azure/arm-resiliencemanagement/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

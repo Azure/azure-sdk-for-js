@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates properties for a Storage Mover resource. Properties not specified in the request body will be unchanged.
  *
  * @summary updates properties for a Storage Mover resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: 2025-07-01/StorageMovers_Update.json
+ * x-ms-original-file: 2025-12-01/StorageMovers_Update.json
  */
 async function storageMoversUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

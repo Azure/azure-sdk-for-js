@@ -1,38 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SecretCreateOrUpdateParameters} from "@azure/arm-keyvault";
-import {
-  KeyVaultManagementClient,
-} from "@azure/arm-keyvault";
+import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update a secret in a key vault in the specified subscription.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.
+ * This sample demonstrates how to create or update a secret in a key vault in the specified subscription.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.
  *
- * @summary Create or update a secret in a key vault in the specified subscription.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/createSecret.json
+ * @summary create or update a secret in a key vault in the specified subscription.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.
+ * x-ms-original-file: 2026-05-15/createSecret.json
  */
 async function createASecret(): Promise<void> {
-  const subscriptionId =
-    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-group";
-  const vaultName = "sample-vault";
-  const secretName = "secret-name";
-  const parameters: SecretCreateOrUpdateParameters = {
-    properties: { value: "secret-value" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.secrets.createOrUpdate(
-    resourceGroupName,
-    vaultName,
-    secretName,
-    parameters,
+    "sample-group",
+    "sample-vault",
+    "secret-name",
+    { properties: { value: "secret-value" } },
   );
   console.log(result);
 }

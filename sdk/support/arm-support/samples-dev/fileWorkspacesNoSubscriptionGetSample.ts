@@ -1,22 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets details for a specific file workspace.
- *
- * @summary Gets details for a specific file workspace.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/GetFileWorkspaceDetails.json
- */
-
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets details for a specific file workspace.
+ *
+ * @summary gets details for a specific file workspace.
+ * x-ms-original-file: 2025-06-01-preview/GetFileWorkspaceDetails.json
+ */
 async function getDetailsOfAFileWorkspace(): Promise<void> {
-  const fileWorkspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
-  const result = await client.fileWorkspacesNoSubscription.get(fileWorkspaceName);
+  const result = await client.fileWorkspacesNoSubscription.get("testworkspace");
   console.log(result);
 }
 

@@ -3,28 +3,21 @@
 
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the current version of the specified key from the specified managed HSM.
+ * This sample demonstrates how to gets the current version of the specified key from the specified managed HSM.
  *
- * @summary Gets the current version of the specified key from the specified managed HSM.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/managedHsmGetKey.json
+ * @summary gets the current version of the specified key from the specified managed HSM.
+ * x-ms-original-file: 2026-05-15/managedHsmGetKey.json
  */
 async function getAKey(): Promise<void> {
-  const subscriptionId =
-    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-group";
-  const name = "sample-managedhsm-name";
-  const keyName = "sample-key-name";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.managedHsmKeys.get(
-    resourceGroupName,
-    name,
-    keyName,
+    "sample-group",
+    "sample-managedhsm-name",
+    "sample-key-name",
   );
   console.log(result);
 }

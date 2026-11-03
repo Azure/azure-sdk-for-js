@@ -23,6 +23,8 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  BucketsRefreshCertificateOptionalParams,
+  BucketsGenerateAkvCredentialsOptionalParams,
   BucketsGenerateCredentialsOptionalParams,
   BucketsListOptionalParams,
   BucketsDeleteOptionalParams,
@@ -33,6 +35,153 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _refreshCertificateSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  poolName: string,
+  volumeName: string,
+  bucketName: string,
+  options: BucketsRefreshCertificateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}/refreshCertificate{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      poolName: poolName,
+      volumeName: volumeName,
+      bucketName: bucketName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _refreshCertificateDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** This operation will fetch the certificate from Azure Key Vault and install it on the bucket server. */
+export function refreshCertificate(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  poolName: string,
+  volumeName: string,
+  bucketName: string,
+  options: BucketsRefreshCertificateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _refreshCertificateDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _refreshCertificateSend(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        bucketName,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _generateAkvCredentialsSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  poolName: string,
+  volumeName: string,
+  bucketName: string,
+  body: BucketCredentialsExpiry,
+  options: BucketsGenerateAkvCredentialsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}/generateAkvCredentials{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      poolName: poolName,
+      volumeName: volumeName,
+      bucketName: bucketName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: bucketCredentialsExpirySerializer(body),
+  });
+}
+
+export async function _generateAkvCredentialsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Generate the access key and secret key used for accessing the specified volume bucket and store in Azure Key Vault. */
+export function generateAkvCredentials(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  poolName: string,
+  volumeName: string,
+  bucketName: string,
+  body: BucketCredentialsExpiry,
+  options: BucketsGenerateAkvCredentialsOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _generateAkvCredentialsDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _generateAkvCredentialsSend(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        bucketName,
+        body,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
+  }) as PollerLike<OperationState<void>, void>;
+}
 
 export function _generateCredentialsSend(
   context: Client,
@@ -53,7 +202,7 @@ export function _generateCredentialsSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,10 +211,7 @@ export function _generateCredentialsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: bucketCredentialsExpirySerializer(body),
   });
 }
@@ -76,7 +222,10 @@ export async function _generateCredentialsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -123,7 +272,7 @@ export function _listSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,10 +280,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -142,7 +288,10 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -163,7 +312,11 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-15-preview",
+    },
   );
 }
 
@@ -185,7 +338,7 @@ export function _$deleteSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,10 +348,13 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -206,11 +362,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a volume's bucket. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -220,7 +371,7 @@ export function $delete(
   bucketName: string,
   options: BucketsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -234,6 +385,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -256,7 +408,7 @@ export function _updateSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -265,10 +417,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: bucketPatchSerializer(body),
   });
 }
@@ -277,7 +426,10 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -310,6 +462,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
   }) as PollerLike<OperationState<Bucket>, Bucket>;
 }
 
@@ -332,7 +485,7 @@ export function _createOrUpdateSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -341,10 +494,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: bucketSerializer(body),
   });
 }
@@ -353,7 +503,10 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -386,6 +539,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
   }) as PollerLike<OperationState<Bucket>, Bucket>;
 }
 
@@ -407,7 +561,7 @@ export function _getSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -415,10 +569,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -426,7 +577,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Bu
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

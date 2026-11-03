@@ -9,7 +9,7 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
+export type {
   DpsCertificateVerifyCertificateOptionalParams,
   DpsCertificateGenerateVerificationCodeOptionalParams,
   DpsCertificateListOptionalParams,

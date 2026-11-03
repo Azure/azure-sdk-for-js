@@ -1,38 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to
- *
- * @summary
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/WorkspaceConnection/create.json
- */
-
-import type { WorkspaceConnectionPropertiesV2BasicResource } from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update machine learning workspaces connections under the specified workspace.
+ *
+ * @summary create or update machine learning workspaces connections under the specified workspace.
+ * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/create.json
+ */
 async function createWorkspaceConnection(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "resourceGroup-1";
-  const workspaceName = "workspace-1";
-  const connectionName = "connection-1";
-  const parameters: WorkspaceConnectionPropertiesV2BasicResource = {
-    properties: {
-      authType: "None",
-      category: "ContainerRegistry",
-      target: "www.facebook.com",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
   const result = await client.workspaceConnections.create(
-    resourceGroupName,
-    workspaceName,
-    connectionName,
-    parameters,
+    "resourceGroup-1",
+    "workspace-1",
+    "connection-1",
+    {
+      body: {
+        properties: {
+          authType: "None",
+          category: "ContainerRegistry",
+          expiryTime: new Date("2024-03-15T14:30:00Z"),
+          target: "www.facebook.com",
+        },
+      },
+    },
   );
   console.log(result);
 }

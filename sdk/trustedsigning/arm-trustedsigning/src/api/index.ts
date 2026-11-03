@@ -3,6 +3,6 @@
 
 export {
   createCodeSigning,
-  CodeSigningContext,
-  CodeSigningClientOptionalParams,
+  type CodeSigningContext,
+  type CodeSigningClientOptionalParams,
 } from "./codeSigningContext.js";

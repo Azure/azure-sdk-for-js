@@ -1,34 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create Azure Relay namespace.
- *
- * @summary Create Azure Relay namespace.
- * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceCreate.json
- */
-
-import type { RelayNamespace } from "@azure/arm-relay";
 import { RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create Azure Relay namespace.
+ *
+ * @summary create Azure Relay namespace.
+ * x-ms-original-file: 2026-01-01/NameSpaces/RelayNameSpaceCreate.json
+ */
 async function relayNamespaceCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
-  const namespaceName = "example-RelayNamespace-01";
-  const parameters: RelayNamespace = {
-    location: "West US",
-    sku: { name: "Standard", tier: "Standard" },
-    tags: { tag1: "value1", tag2: "value2" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new RelayAPI(credential, subscriptionId);
-  const result = await client.namespaces.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    namespaceName,
-    parameters,
+  const result = await client.namespaces.createOrUpdate(
+    "resourcegroup",
+    "example-RelayNamespace-5849",
+    {
+      location: "South Central US",
+      sku: { name: "Standard", tier: "Standard" },
+      tags: { tag1: "value1", tag2: "value2" },
+      minimumTlsVersion: "1.2",
+    },
   );
   console.log(result);
 }

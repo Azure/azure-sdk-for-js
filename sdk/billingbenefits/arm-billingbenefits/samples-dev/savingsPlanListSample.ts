@@ -1,25 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List savings plans in an order.
- *
- * @summary List savings plans in an order.
- * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/SavingsPlansInOrderList.json
- */
-
 import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to list savings plans in an order.
+ *
+ * @summary list savings plans in an order.
+ * x-ms-original-file: 2025-12-01-preview/SavingsPlansInOrderList.json
+ */
 async function savingsPlansInOrderList(): Promise<void> {
-  const savingsPlanOrderId = "20000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new BillingBenefitsRP(credential);
   const resArray = new Array();
-  for await (const item of client.savingsPlan.list(savingsPlanOrderId)) {
+  for await (const item of client.savingsPlan.list("20000000-0000-0000-0000-000000000000")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-savingsPlansInOrderList().catch(console.error);
+async function main(): Promise<void> {
+  await savingsPlansInOrderList();
+}
+
+main().catch(console.error);

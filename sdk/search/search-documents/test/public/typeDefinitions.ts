@@ -7,15 +7,13 @@ import type {
   KnownSemanticSearchResultsType,
   KnownVectorFilterMode,
   KnownVectorQueryKind,
-} from "../../src/generated/data/index.js";
+} from "../../src/index.js";
 import type {
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
   KnownBlobIndexerParsingMode,
   KnownBlobIndexerPDFTextRotationAlgorithm,
   KnownCustomEntityLookupSkillLanguage,
-  KnownEntityCategory,
-  KnownEntityRecognitionSkillLanguage,
   KnownImageAnalysisSkillLanguage,
   KnownImageDetail,
   KnownIndexerExecutionEnvironment,
@@ -25,14 +23,13 @@ import type {
   KnownRegexFlags,
   KnownSearchFieldDataType,
   KnownSearchIndexerDataSourceType,
-  KnownSentimentSkillLanguage,
   KnownSplitSkillLanguage,
   KnownTextSplitMode,
   KnownTextTranslationSkillLanguage,
   KnownVectorSearchAlgorithmKind,
   KnownVectorSearchAlgorithmMetric,
   KnownVisualFeature,
-} from "../../src/generated/service/index.js";
+} from "../../src/index.js";
 
 import type { IsEqual } from "type-plus";
 
@@ -41,8 +38,6 @@ type ExpectBlobIndexerImageAction = `${KnownBlobIndexerImageAction}`;
 type ExpectBlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 type ExpectBlobIndexerPDFTextRotationAlgorithm = `${KnownBlobIndexerPDFTextRotationAlgorithm}`;
 type ExpectCustomEntityLookupSkillLanguage = `${KnownCustomEntityLookupSkillLanguage}`;
-type ExpectEntityCategory = `${KnownEntityCategory}`;
-type ExpectEntityRecognitionSkillLanguage = `${KnownEntityRecognitionSkillLanguage}`;
 type ExpectImageAnalysisSkillLanguage = `${KnownImageAnalysisSkillLanguage}`;
 type ExpectImageDetail = `${KnownImageDetail}`;
 type ExpectIndexerExecutionEnvironment = `${KnownIndexerExecutionEnvironment}`;
@@ -58,7 +53,6 @@ type ExpectSearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
 type ExpectSemanticErrorMode = `${KnownSemanticErrorMode}`;
 type ExpectSemanticErrorReason = `${KnownSemanticErrorReason}`;
 type ExpectSemanticSearchResultsType = `${KnownSemanticSearchResultsType}`;
-type ExpectSentimentSkillLanguage = `${KnownSentimentSkillLanguage}`;
 type ExpectSplitSkillLanguage = `${KnownSplitSkillLanguage}`;
 type ExpectTextSplitMode = `${KnownTextSplitMode}`;
 type ExpectTextTranslationSkillLanguage = `${KnownTextTranslationSkillLanguage}`;
@@ -70,51 +64,11 @@ type ExpectVisualFeature = `${KnownVisualFeature}`;
 
 type BlobIndexerDataToExtract = "allMetadata" | "contentAndMetadata" | "storageMetadata";
 type BlobIndexerImageAction =
-  | "generateNormalizedImagePerPage"
-  | "generateNormalizedImages"
-  | "none";
+  "generateNormalizedImagePerPage" | "generateNormalizedImages" | "none";
 type BlobIndexerParsingMode =
-  | "default"
-  | "delimitedText"
-  | "json"
-  | "jsonArray"
-  | "jsonLines"
-  | "markdown"
-  | "text";
+  "default" | "delimitedText" | "json" | "jsonArray" | "jsonLines" | "markdown" | "text";
 type BlobIndexerPDFTextRotationAlgorithm = "detectAngles" | "none";
 type CustomEntityLookupSkillLanguage = "da" | "de" | "en" | "es" | "fi" | "fr" | "it" | "ko" | "pt";
-type EntityCategory =
-  | "datetime"
-  | "email"
-  | "location"
-  | "organization"
-  | "person"
-  | "quantity"
-  | "url";
-type EntityRecognitionSkillLanguage =
-  | "ar"
-  | "cs"
-  | "da"
-  | "de"
-  | "el"
-  | "en"
-  | "es"
-  | "fi"
-  | "fr"
-  | "hu"
-  | "it"
-  | "ja"
-  | "ko"
-  | "nl"
-  | "no"
-  | "pl"
-  | "pt-BR"
-  | "pt-PT"
-  | "ru"
-  | "sv"
-  | "tr"
-  | "zh-Hans"
-  | "zh-Hant";
 type ImageAnalysisSkillLanguage =
   | "ar"
   | "az"
@@ -401,22 +355,6 @@ type SearchIndexerDataSourceType =
 type SemanticErrorMode = "fail" | "partial";
 type SemanticErrorReason = "capacityOverloaded" | "maxWaitExceeded" | "transient";
 type SemanticSearchResultsType = "baseResults" | "rerankedResults";
-type SentimentSkillLanguage =
-  | "da"
-  | "de"
-  | "el"
-  | "en"
-  | "es"
-  | "fi"
-  | "fr"
-  | "it"
-  | "nl"
-  | "no"
-  | "pl"
-  | "pt-PT"
-  | "ru"
-  | "sv"
-  | "tr";
 type SplitSkillLanguage =
   | "am"
   | "bs"
@@ -530,108 +468,102 @@ type VectorQueryKind = "imageBinary" | "imageUrl" | "text" | "vector";
 type VectorSearchAlgorithmKind = "exhaustiveKnn" | "hnsw";
 type VectorSearchAlgorithmMetric = "cosine" | "dotProduct" | "euclidean" | "hamming";
 type VisualFeature =
-  | "adult"
-  | "brands"
-  | "categories"
-  | "description"
-  | "faces"
-  | "objects"
-  | "tags";
+  "adult" | "brands" | "categories" | "description" | "faces" | "objects" | "tags";
 
 const foo: [
   IsEqual<
     ExpectBlobIndexerDataToExtract,
     BlobIndexerDataToExtract,
-    "BlobIndexerDataToExtract",
-    never
+    { $then: "BlobIndexerDataToExtract"; $else: never }
   >,
-  IsEqual<ExpectBlobIndexerImageAction, BlobIndexerImageAction, "BlobIndexerImageAction", never>,
-  IsEqual<ExpectBlobIndexerParsingMode, BlobIndexerParsingMode, "BlobIndexerParsingMode", never>,
+  IsEqual<
+    ExpectBlobIndexerImageAction,
+    BlobIndexerImageAction,
+    { $then: "BlobIndexerImageAction"; $else: never }
+  >,
+  IsEqual<
+    ExpectBlobIndexerParsingMode,
+    BlobIndexerParsingMode,
+    { $then: "BlobIndexerParsingMode"; $else: never }
+  >,
   IsEqual<
     ExpectBlobIndexerPDFTextRotationAlgorithm,
     BlobIndexerPDFTextRotationAlgorithm,
-    "BlobIndexerPDFTextRotationAlgorithm",
-    never
+    { $then: "BlobIndexerPDFTextRotationAlgorithm"; $else: never }
   >,
   IsEqual<
     ExpectCustomEntityLookupSkillLanguage,
     CustomEntityLookupSkillLanguage,
-    "CustomEntityLookupSkillLanguage",
-    never
-  >,
-  IsEqual<ExpectEntityCategory, EntityCategory, "EntityCategory", never>,
-  IsEqual<
-    ExpectEntityRecognitionSkillLanguage,
-    EntityRecognitionSkillLanguage,
-    "EntityRecognitionSkillLanguage",
-    never
+    { $then: "CustomEntityLookupSkillLanguage"; $else: never }
   >,
   IsEqual<
     ExpectImageAnalysisSkillLanguage,
     ImageAnalysisSkillLanguage,
-    "ImageAnalysisSkillLanguage",
-    never
+    { $then: "ImageAnalysisSkillLanguage"; $else: never }
   >,
-  IsEqual<ExpectImageDetail, ImageDetail, "ImageDetail", never>,
+  IsEqual<ExpectImageDetail, ImageDetail, { $then: "ImageDetail"; $else: never }>,
   IsEqual<
     ExpectIndexerExecutionEnvironment,
     IndexerExecutionEnvironment,
-    "IndexerExecutionEnvironment",
-    never
+    { $then: "IndexerExecutionEnvironment"; $else: never }
   >,
   IsEqual<
     ExpectKeyPhraseExtractionSkillLanguage,
     KeyPhraseExtractionSkillLanguage,
-    "KeyPhraseExtractionSkillLanguage",
-    never
+    { $then: "KeyPhraseExtractionSkillLanguage"; $else: never }
   >,
-  IsEqual<ExpectOcrSkillLanguage, OcrSkillLanguage, "OcrSkillLanguage", never>,
+  IsEqual<ExpectOcrSkillLanguage, OcrSkillLanguage, { $then: "OcrSkillLanguage"; $else: never }>,
   IsEqual<
     ExpectPIIDetectionSkillMaskingMode,
     PIIDetectionSkillMaskingMode,
-    "PIIDetectionSkillMaskingMode",
-    never
+    { $then: "PIIDetectionSkillMaskingMode"; $else: never }
   >,
-  IsEqual<ExpectRegexFlags, RegexFlags, "RegexFlags", never>,
-  IsEqual<ExpectSearchFieldDataType, SearchFieldDataType, "SearchFieldDataType", never>,
+  IsEqual<ExpectRegexFlags, RegexFlags, { $then: "RegexFlags"; $else: never }>,
+  IsEqual<
+    ExpectSearchFieldDataType,
+    SearchFieldDataType,
+    { $then: "SearchFieldDataType"; $else: never }
+  >,
   IsEqual<
     ExpectSearchIndexerDataSourceType,
     SearchIndexerDataSourceType,
-    "SearchIndexerDataSourceType",
-    never
+    { $then: "SearchIndexerDataSourceType"; $else: never }
   >,
-  IsEqual<ExpectSemanticErrorMode, SemanticErrorMode, "SemanticErrorMode", never>,
-  IsEqual<ExpectSemanticErrorReason, SemanticErrorReason, "SemanticErrorReason", never>,
+  IsEqual<ExpectSemanticErrorMode, SemanticErrorMode, { $then: "SemanticErrorMode"; $else: never }>,
+  IsEqual<
+    ExpectSemanticErrorReason,
+    SemanticErrorReason,
+    { $then: "SemanticErrorReason"; $else: never }
+  >,
   IsEqual<
     ExpectSemanticSearchResultsType,
     SemanticSearchResultsType,
-    "SemanticSearchResultsType",
-    never
+    { $then: "SemanticSearchResultsType"; $else: never }
   >,
-  IsEqual<ExpectSentimentSkillLanguage, SentimentSkillLanguage, "SentimentSkillLanguage", never>,
-  IsEqual<ExpectSplitSkillLanguage, SplitSkillLanguage, "SplitSkillLanguage", never>,
-  IsEqual<ExpectTextSplitMode, TextSplitMode, "TextSplitMode", never>,
+  IsEqual<
+    ExpectSplitSkillLanguage,
+    SplitSkillLanguage,
+    { $then: "SplitSkillLanguage"; $else: never }
+  >,
+  IsEqual<ExpectTextSplitMode, TextSplitMode, { $then: "TextSplitMode"; $else: never }>,
   IsEqual<
     ExpectTextTranslationSkillLanguage,
     TextTranslationSkillLanguage,
-    "TextTranslationSkillLanguage",
-    never
+    { $then: "TextTranslationSkillLanguage"; $else: never }
   >,
-  IsEqual<ExpectVectorFilterMode, VectorFilterMode, "VectorFilterMode", never>,
-  IsEqual<ExpectVectorQueryKind, VectorQueryKind, "VectorQueryKind", never>,
+  IsEqual<ExpectVectorFilterMode, VectorFilterMode, { $then: "VectorFilterMode"; $else: never }>,
+  IsEqual<ExpectVectorQueryKind, VectorQueryKind, { $then: "VectorQueryKind"; $else: never }>,
   IsEqual<
     ExpectVectorSearchAlgorithmKind,
     VectorSearchAlgorithmKind,
-    "VectorSearchAlgorithmKind",
-    never
+    { $then: "VectorSearchAlgorithmKind"; $else: never }
   >,
   IsEqual<
     ExpectVectorSearchAlgorithmMetric,
     VectorSearchAlgorithmMetric,
-    "VectorSearchAlgorithmMetric",
-    never
+    { $then: "VectorSearchAlgorithmMetric"; $else: never }
   >,
-  IsEqual<ExpectVisualFeature, VisualFeature, "VisualFeature", never>,
+  IsEqual<ExpectVisualFeature, VisualFeature, { $then: "VisualFeature"; $else: never }>,
 ] = [
   // List of custom string literal unions. Update with any new authored string literal unions.
   "BlobIndexerDataToExtract",
@@ -639,8 +571,6 @@ const foo: [
   "BlobIndexerParsingMode",
   "BlobIndexerPDFTextRotationAlgorithm",
   "CustomEntityLookupSkillLanguage",
-  "EntityCategory",
-  "EntityRecognitionSkillLanguage",
   "ImageAnalysisSkillLanguage",
   "ImageDetail",
   "IndexerExecutionEnvironment",
@@ -653,7 +583,6 @@ const foo: [
   "SemanticErrorMode",
   "SemanticErrorReason",
   "SemanticSearchResultsType",
-  "SentimentSkillLanguage",
   "SplitSkillLanguage",
   "TextSplitMode",
   "TextTranslationSkillLanguage",

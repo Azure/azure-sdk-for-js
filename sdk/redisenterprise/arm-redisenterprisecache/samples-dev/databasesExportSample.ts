@@ -1,44 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ExportClusterParameters} from "@azure/arm-redisenterprisecache";
-import {
-  RedisEnterpriseManagementClient,
-} from "@azure/arm-redisenterprisecache";
+import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Exports a database file from target database.
+ * This sample demonstrates how to exports a database file from target database.
  *
- * @summary Exports a database file from target database.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseDatabasesExport.json
+ * @summary exports a database file from target database.
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesExport.json
  */
 async function redisEnterpriseDatabasesExport(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
-  const databaseName = "default";
-  const parameters: ExportClusterParameters = {
-    sasUri:
-      "https://contosostorage.blob.core.window.net/urlToBlobContainer?sasKeyParameters",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.databases.beginExportAndWait(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    parameters,
-  );
-  console.log(result);
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  await client.databases.export("rg1", "cache1", "default", {
+    sasUri: "https://contosostorage.blob.core.window.net/urlToBlobContainer?sasKeyParameters",
+  });
 }
 
 async function main(): Promise<void> {

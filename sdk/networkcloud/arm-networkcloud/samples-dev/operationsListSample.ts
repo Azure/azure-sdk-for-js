@@ -3,24 +3,22 @@
 
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a list of all available resource provider operations. It contains a URL link to get the next set of results.
+ * This sample demonstrates how to list the operations for the provider
  *
- * @summary Get a list of all available resource provider operations. It contains a URL link to get the next set of results.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/Operations_List.json
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2026-07-01/Operations_List.json
  */
 async function listResourceProviderOperations(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

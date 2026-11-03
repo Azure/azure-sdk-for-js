@@ -1,63 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  RestorePointCollectionUpdate} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to update the restore point collection.
+ * This sample demonstrates how to the operation to update the restore point collection.
  *
- * @summary The operation to update the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePointCollection_Update_MaximumSet_Gen.json
+ * @summary the operation to update the restore point collection.
+ * x-ms-original-file: 2026-04-01/restorePointExamples/RestorePointCollection_Update_MaximumSet_Gen.json
  */
 async function restorePointCollectionUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaa";
-  const parameters: RestorePointCollectionUpdate = {
-    instantAccess: true,
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.restorePointCollections.update("rgcompute", "aaaaaaaaaaaaaaaaaaaa", {
     source: {
       id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
     },
+    instantAccess: true,
     tags: { key8536: "aaaaaaaaaaaaaaaaaaa" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.restorePointCollections.update(
-    resourceGroupName,
-    restorePointCollectionName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to update the restore point collection.
+ * This sample demonstrates how to the operation to update the restore point collection.
  *
- * @summary The operation to update the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePointCollection_Update_MinimumSet_Gen.json
+ * @summary the operation to update the restore point collection.
+ * x-ms-original-file: 2026-04-01/restorePointExamples/RestorePointCollection_Update_MinimumSet_Gen.json
  */
 async function restorePointCollectionUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const restorePointCollectionName = "aaaaaaaaaaaaaaaaaa";
-  const parameters: RestorePointCollectionUpdate = {};
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.restorePointCollections.update(
-    resourceGroupName,
-    restorePointCollectionName,
-    parameters,
-  );
+  const result = await client.restorePointCollections.update("rgcompute", "aaaaaaaaaaaaaaaaaa", {});
   console.log(result);
 }
 

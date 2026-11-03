@@ -3,6 +3,6 @@
 
 export { list, get } from "./operations.js";
 export {
-  GroupQuotaSubscriptionRequestsListOptionalParams,
-  GroupQuotaSubscriptionRequestsGetOptionalParams,
+  type GroupQuotaSubscriptionRequestsListOptionalParams,
+  type GroupQuotaSubscriptionRequestsGetOptionalParams,
 } from "./options.js";

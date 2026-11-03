@@ -494,9 +494,7 @@ export function infrastructureConfigurationDeserializer(item: any): Infrastructu
 
 /** Alias for InfrastructureConfigurationUnion */
 export type InfrastructureConfigurationUnion =
-  | SingleServerConfiguration
-  | ThreeTierConfiguration
-  | InfrastructureConfiguration;
+  SingleServerConfiguration | ThreeTierConfiguration | InfrastructureConfiguration;
 
 export function infrastructureConfigurationUnionSerializer(
   item: InfrastructureConfigurationUnion,
@@ -1051,8 +1049,7 @@ export function singleServerCustomResourceNamesDeserializer(
 
 /** Alias for SingleServerCustomResourceNamesUnion */
 export type SingleServerCustomResourceNamesUnion =
-  | SingleServerFullResourceNames
-  | SingleServerCustomResourceNames;
+  SingleServerFullResourceNames | SingleServerCustomResourceNames;
 
 export function singleServerCustomResourceNamesUnionSerializer(
   item: SingleServerCustomResourceNamesUnion,
@@ -1593,8 +1590,7 @@ export function threeTierCustomResourceNamesDeserializer(item: any): ThreeTierCu
 
 /** Alias for ThreeTierCustomResourceNamesUnion */
 export type ThreeTierCustomResourceNamesUnion =
-  | ThreeTierFullResourceNames
-  | ThreeTierCustomResourceNames;
+  ThreeTierFullResourceNames | ThreeTierCustomResourceNames;
 
 export function threeTierCustomResourceNamesUnionSerializer(
   item: ThreeTierCustomResourceNamesUnion,
@@ -2766,9 +2762,7 @@ export function sapSizingRecommendationResultDeserializer(
 
 /** Alias for SAPSizingRecommendationResultUnion */
 export type SAPSizingRecommendationResultUnion =
-  | SingleServerRecommendationResult
-  | ThreeTierRecommendationResult
-  | SAPSizingRecommendationResult;
+  SingleServerRecommendationResult | ThreeTierRecommendationResult | SAPSizingRecommendationResult;
 
 export function sapSizingRecommendationResultUnionDeserializer(
   item: any,

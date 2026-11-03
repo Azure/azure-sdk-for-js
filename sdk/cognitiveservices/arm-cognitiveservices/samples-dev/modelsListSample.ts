@@ -3,28 +3,22 @@
 
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List Models.
+ * This sample demonstrates how to list Models.
  *
- * @summary List Models.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListLocationModels.json
+ * @summary list Models.
+ * x-ms-original-file: 2026-09-15-preview/ListLocationModels.json
  */
 async function listLocationModels(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const location = "WestUS";
   const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.models.list(location)) {
+  for await (const item of client.models.list("WestUS")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

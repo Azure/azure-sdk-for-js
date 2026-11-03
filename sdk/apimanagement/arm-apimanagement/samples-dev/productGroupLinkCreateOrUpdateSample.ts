@@ -1,41 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Adds a group to the specified product via link.
- *
- * @summary Adds a group to the specified product via link.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateProductGroupLink.json
- */
-
-import {
-  ProductGroupLinkContract,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to adds a group to the specified product via link.
+ *
+ * @summary adds a group to the specified product via link.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateProductGroupLink.json
+ */
 async function apiManagementCreateProductGroupLink(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const productId = "testproduct";
-  const groupLinkId = "link1";
-  const parameters: ProductGroupLinkContract = {
-    groupId:
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/group1",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
   const result = await client.productGroupLink.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    productId,
-    groupLinkId,
-    parameters,
+    "rg1",
+    "apimService1",
+    "testproduct",
+    "link1",
+    {
+      groupId:
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/group1",
+    },
   );
   console.log(result);
 }

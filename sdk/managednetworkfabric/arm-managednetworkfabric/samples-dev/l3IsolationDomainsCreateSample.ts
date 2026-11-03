@@ -1,29 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create isolation domain resources for layer 3 connectivity between compute nodes and for communication with external services .This configuration is applied on the devices only after the creation of networks is completed and isolation domain is enabled.
- *
- * @summary Create isolation domain resources for layer 3 connectivity between compute nodes and for communication with external services .This configuration is applied on the devices only after the creation of networks is completed and isolation domain is enabled.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/L3IsolationDomains_Create_MaximumSet_Gen.json
- */
-
-import type { L3IsolationDomain } from "@azure/arm-managednetworkfabric";
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create isolation domain resources for layer 3 connectivity between compute nodes and for communication with external services .This configuration is applied on the devices only after the creation of networks is completed and isolation domain is enabled.
+ *
+ * @summary create isolation domain resources for layer 3 connectivity between compute nodes and for communication with external services .This configuration is applied on the devices only after the creation of networks is completed and isolation domain is enabled.
+ * x-ms-original-file: 2025-07-15/L3IsolationDomains_Create.json
+ */
 async function l3IsolationDomainsCreateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const l3IsolationDomainName = "example-l3domain";
-  const body: L3IsolationDomain = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
+  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
+  const result = await client.l3IsolationDomains.create("example-rg", "example-l3domain", {
+    annotation: "annotation",
+    redistributeConnectedSubnets: "True",
+    redistributeStaticRoutes: "True",
     aggregateRouteConfiguration: {
       ipv4Routes: [{ prefix: "10.0.0.0/24" }],
       ipv6Routes: [{ prefix: "3FFE:FFFF:0:CD30::a0/29" }],
     },
-    annotation: "annotation",
     connectedSubnetRoutePolicy: {
       exportRoutePolicy: {
         exportIpv4RoutePolicyId:
@@ -31,23 +29,24 @@ async function l3IsolationDomainsCreateMaximumSetGen(): Promise<void> {
         exportIpv6RoutePolicyId:
           "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourceGroups/example-rg/providers/Microsoft.ManagedNetworkFabric/routePolicies/example-routePolicy",
       },
-      exportRoutePolicyId:
-        "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourceGroups/example-rg/providers/Microsoft.ManagedNetworkFabric/routePolicies/routePolicyName",
     },
-    location: "eastus",
+    staticRouteRoutePolicy: {
+      exportRoutePolicy: {
+        exportIpv4RoutePolicyId:
+          "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourceGroups/example-rg/providers/Microsoft.ManagedNetworkFabric/routePolicies/example-routePolicy",
+        exportIpv6RoutePolicyId:
+          "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourceGroups/example-rg/providers/Microsoft.ManagedNetworkFabric/routePolicies/example-routePolicy",
+      },
+    },
     networkFabricId:
       "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourceGroups/example-rg/providers/Microsoft.ManagedNetworkFabric/networkFabrics/example-fabric",
-    redistributeConnectedSubnets: "True",
-    redistributeStaticRoutes: "False",
-    tags: { keyID: "KeyValue" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.l3IsolationDomains.beginCreateAndWait(
-    resourceGroupName,
-    l3IsolationDomainName,
-    body,
-  );
+    uniqueRdConfiguration: {},
+    v4RoutePrefixLimit: { hardLimit: 1000, threshold: 90 },
+    v6RoutePrefixLimit: { hardLimit: 1000, threshold: 90 },
+    identity: { type: "None", userAssignedIdentities: { key3673: {} } },
+    tags: { KeyId: "KeyValue" },
+    location: "eastus",
+  });
   console.log(result);
 }
 

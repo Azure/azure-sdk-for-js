@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   DocumentPhoneNumberField,
   DocumentDateField,
   DocumentNumberField,
@@ -20,7 +20,7 @@ export {
   DocumentAddressField,
   DocumentField,
 } from "./fields.js";
-export {
+export type {
   BoundingRegion,
   DocumentKeyValueElement,
   DocumentKeyValuePair,
@@ -39,7 +39,7 @@ export {
   DocumentFormula,
 } from "./documentElements.js";
 
-export {
+export type {
   DocumentModelSource,
   DocumentClassifierSource,
   DocumentClassifierDocumentTypeSources,

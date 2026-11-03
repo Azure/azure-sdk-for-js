@@ -1,33 +1,336 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
+import type { AIProjectContext as Client } from "../index.js";
 import {
-  _PagedEvaluatorVersion,
+  apiErrorResponseDeserializer,
   _pagedEvaluatorVersionDeserializer,
-  EvaluatorVersion,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
+  evaluatorGenerationJobDeserializer,
+  _agentsPagedResultEvaluatorGenerationJobDeserializer,
+  evaluatorGenerationInputsSerializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type {
+  _PagedEvaluatorVersion,
+  EvaluatorVersion,
+  EvaluatorGenerationJob,
+  _AgentsPagedResultEvaluatorGenerationJob,
+  EvaluatorGenerationInputs,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
+  EvaluatorsDeleteGenerationJobOptionalParams,
+  EvaluatorsCancelGenerationJobOptionalParams,
+  EvaluatorsListGenerationJobsOptionalParams,
+  EvaluatorsGetGenerationJobOptionalParams,
+  EvaluatorsCreateGenerationJobOptionalParams,
   EvaluatorsUpdateVersionOptionalParams,
   EvaluatorsCreateVersionOptionalParams,
   EvaluatorsDeleteVersionOptionalParams,
   EvaluatorsGetVersionOptionalParams,
-  EvaluatorsListLatestVersionsOptionalParams,
+  EvaluatorsListOptionalParams,
   EvaluatorsListVersionsOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { JobPoller } from "../../static-helpers/pollingHelpers.js";
+import { getJobPoller } from "../../static-helpers/pollingHelpers.js";
+
+export function _deleteGenerationJobSend(
+  context: Client,
+  jobId: string,
+  options: EvaluatorsDeleteGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs/{jobId}{?api-version}",
+    {
+      jobId: jobId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _deleteGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/**
+ * Deletes an evaluator generation job by its ID. Deletes the job record only;
+ * the generated evaluator (if any) is preserved.
+ */
+export async function deleteGenerationJob(
+  context: Client,
+  jobId: string,
+  options: EvaluatorsDeleteGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteGenerationJobSend(context, jobId, options);
+  return _deleteGenerationJobDeserialize(result);
+}
+
+export function _cancelGenerationJobSend(
+  context: Client,
+  jobId: string,
+  options: EvaluatorsCancelGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs/{jobId}:cancel{?api-version}",
+    {
+      jobId: jobId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _cancelGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluatorGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return evaluatorGenerationJobDeserializer(result.body);
+}
+
+/** Cancels an evaluator generation job by its ID. */
+export async function cancelGenerationJob(
+  context: Client,
+  jobId: string,
+  options: EvaluatorsCancelGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<EvaluatorGenerationJob> {
+  const result = await _cancelGenerationJobSend(context, jobId, options);
+  return _cancelGenerationJobDeserialize(result);
+}
+
+export function _listGenerationJobsSend(
+  context: Client,
+  options: EvaluatorsListGenerationJobsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs{?after,api-version,before,limit,order}",
+    {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listGenerationJobsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultEvaluatorGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultEvaluatorGenerationJobDeserializer(result.body);
+}
+
+/**
+ * Returns a list of evaluator generation jobs. The List API has up to a few
+ * seconds of propagation delay, so a recently created job may not appear
+ * immediately; use the Get evaluator generation job API with the job ID to
+ * retrieve a specific job without delay.
+ */
+export function listGenerationJobs(
+  context: Client,
+  options: EvaluatorsListGenerationJobsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<EvaluatorGenerationJob> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listGenerationJobsSend(context, options),
+    _listGenerationJobsDeserialize,
+    ["200"],
+    {
+      itemName: "data",
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: operationOptionsToRequestParameters(options),
+    },
+  );
+}
+
+export function _getGenerationJobSend(
+  context: Client,
+  jobId: string,
+  options: EvaluatorsGetGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs/{jobId}{?api-version}",
+    {
+      jobId: jobId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluatorGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return evaluatorGenerationJobDeserializer(result.body);
+}
+
+/** Gets the details of an evaluator generation job by its ID. */
+export async function getGenerationJob(
+  context: Client,
+  jobId: string,
+  options: EvaluatorsGetGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<EvaluatorGenerationJob> {
+  const result = await _getGenerationJobSend(context, jobId, options);
+  return _getGenerationJobDeserialize(result);
+}
+
+export function _createGenerationJobSend(
+  context: Client,
+  job: EvaluatorGenerationInputs,
+  options: EvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs{?api-version}",
+    {
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: evaluatorGenerationInputsSerializer(job),
+  });
+}
+
+export async function _createGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluatorVersion> {
+  const expectedStatuses = ["201", "200", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return evaluatorVersionDeserializer(result.body.result);
+}
+
+/**
+ * Creates an evaluator generation job. The service generates rubric-based evaluator
+ * definitions from the provided source materials asynchronously.
+ */
+export function createGenerationJob(
+  context: Client,
+  job: EvaluatorGenerationInputs,
+  options: EvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
+): JobPoller<EvaluatorVersion> {
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
+  return getJobPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createGenerationJobSend(context, job, options),
+    resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "v1",
+    pollHeaders: Object.fromEntries(
+      Object.entries(options?.requestOptions?.headers ?? {}).map(([name, value]) => [
+        name,
+        String(value),
+      ]),
+    ),
+  });
+}
 
 export function _updateVersionSend(
   context: Client,
@@ -69,7 +372,7 @@ export async function _updateVersionDeserialize(
   return evaluatorVersionDeserializer(result.body);
 }
 
-/** Update an existing EvaluatorVersion with the given version id */
+/** Updates the specified evaluator version in place. */
 export async function updateVersion(
   context: Client,
   name: string,
@@ -119,7 +422,7 @@ export async function _createVersionDeserialize(
   return evaluatorVersionDeserializer(result.body);
 }
 
-/** Create a new EvaluatorVersion with auto incremented version id */
+/** Creates a new evaluator version with an auto-incremented version identifier. */
 export async function createVersion(
   context: Client,
   name: string,
@@ -147,7 +450,10 @@ export function _deleteVersionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: { ...options.requestOptions?.headers },
+  });
 }
 
 export async function _deleteVersionDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -159,7 +465,7 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
   return;
 }
 
-/** Delete the specific version of the EvaluatorVersion. The service returns 204 No Content if the EvaluatorVersion was deleted successfully or if the EvaluatorVersion does not exist. */
+/** Removes the specified evaluator version. Returns 204 whether the version existed or not. */
 export async function deleteVersion(
   context: Client,
   name: string,
@@ -207,7 +513,7 @@ export async function _getVersionDeserialize(
   return evaluatorVersionDeserializer(result.body);
 }
 
-/** Get the specific version of the EvaluatorVersion. The service returns 404 Not Found error if the EvaluatorVersion does not exist. */
+/** Retrieves the specified evaluator version, returning 404 if it does not exist. */
 export async function getVersion(
   context: Client,
   name: string,
@@ -218,15 +524,15 @@ export async function getVersion(
   return _getVersionDeserialize(result);
 }
 
-export function _listLatestVersionsSend(
+export function _listSend(
   context: Client,
-  options: EvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
+  options: EvaluatorsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluators{?api-version,type,limit}",
+    "/evaluators{?api-version,limit,type}",
     {
       "api-version": context.apiVersion,
-      type: options?.typeParam as any,
+      type: options?.evaluatorType as any,
       limit: options?.limit,
     },
     {
@@ -242,7 +548,7 @@ export function _listLatestVersionsSend(
   });
 }
 
-export async function _listLatestVersionsDeserialize(
+export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PagedEvaluatorVersion> {
   const expectedStatuses = ["200"];
@@ -253,17 +559,22 @@ export async function _listLatestVersionsDeserialize(
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
 
-/** List the latest version of each evaluator */
-export function listLatestVersions(
+/** Lists the latest version of each evaluator. */
+export function list(
   context: Client,
-  options: EvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
+  options: EvaluatorsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listLatestVersionsSend(context, options),
-    _listLatestVersionsDeserialize,
+    () => _listSend(context, options),
+    _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: operationOptionsToRequestParameters(options),
+    },
   );
 }
 
@@ -273,11 +584,11 @@ export function _listVersionsSend(
   options: EvaluatorsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluators/{name}/versions{?api-version,type,limit}",
+    "/evaluators/{name}/versions{?api-version,limit,type}",
     {
       name: name,
       "api-version": context.apiVersion,
-      type: options?.typeParam as any,
+      type: options?.evaluatorType as any,
       limit: options?.limit,
     },
     {
@@ -304,7 +615,7 @@ export async function _listVersionsDeserialize(
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
 
-/** List all versions of the given evaluator */
+/** Returns the available versions for the specified evaluator. */
 export function listVersions(
   context: Client,
   name: string,
@@ -315,6 +626,11 @@ export function listVersions(
     () => _listVersionsSend(context, name, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: operationOptionsToRequestParameters(options),
+    },
   );
 }

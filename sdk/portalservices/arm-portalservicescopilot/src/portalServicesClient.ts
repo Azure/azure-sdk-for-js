@@ -14,7 +14,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { PortalServicesClientOptionalParams } from "./api/portalServicesContext.js";
+export { type PortalServicesClientOptionalParams } from "./api/portalServicesContext.js";
 
 export class PortalServicesClient {
   private _client: PortalServicesContext;

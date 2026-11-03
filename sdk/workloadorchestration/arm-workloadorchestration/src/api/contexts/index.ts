@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  ContextsDeleteOptionalParams,
-  ContextsListBySubscriptionOptionalParams,
-  ContextsListByResourceGroupOptionalParams,
-  ContextsUpdateOptionalParams,
-  ContextsCreateOrUpdateOptionalParams,
-  ContextsGetOptionalParams,
+  type ContextsDeleteOptionalParams,
+  type ContextsListBySubscriptionOptionalParams,
+  type ContextsListByResourceGroupOptionalParams,
+  type ContextsUpdateOptionalParams,
+  type ContextsCreateOrUpdateOptionalParams,
+  type ContextsGetOptionalParams,
 } from "./options.js";

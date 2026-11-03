@@ -1,46 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update the quota (service limits) of this resource to the requested value.
-  • To get the quota information for specific resource, send a GET request.
-  • To increase the quota, update the limit field from the GET response to a new value.
-  • To update the quota value, submit the JSON response to the quota request API to update the quota.
-  • To update the quota. use the PATCH operation.
- *
- * @summary Update the quota (service limits) of this resource to the requested value.
-  • To get the quota information for specific resource, send a GET request.
-  • To increase the quota, update the limit field from the GET response to a new value.
-  • To update the quota value, submit the JSON response to the quota request API to update the quota.
-  • To update the quota. use the PATCH operation.
- * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/patchComputeQuotaRequest.json
- */
-
-import type { CurrentQuotaLimitBase } from "@azure/arm-reservations";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update the quota (service limits) of this resource to the requested value.
+ * • To get the quota information for specific resource, send a GET request.
+ * • To increase the quota, update the limit field from the GET response to a new value.
+ * • To update the quota value, submit the JSON response to the quota request API to update the quota.
+ * • To update the quota. use the PATCH operation.
+ *
+ * @summary update the quota (service limits) of this resource to the requested value.
+ * • To get the quota information for specific resource, send a GET request.
+ * • To increase the quota, update the limit field from the GET response to a new value.
+ * • To update the quota value, submit the JSON response to the quota request API to update the quota.
+ * • To update the quota. use the PATCH operation.
+ * x-ms-original-file: 2020-10-25/patchComputeQuotaRequest.json
+ */
 async function quotasRequestPatchForCompute(): Promise<void> {
-  const subscriptionId = "D7EC67B3-7657-4966-BFFC-41EFD36BAAB3";
-  const providerId = "Microsoft.Compute";
-  const location = "eastus";
-  const resourceName = "standardFSv2Family";
-  const createQuotaRequest: CurrentQuotaLimitBase = {
-    properties: {
-      name: { value: "standardFSv2Family" },
-      limit: 200,
-      unit: "Count",
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new AzureReservationAPI(credential);
-  const result = await client.quota.beginUpdateAndWait(
-    subscriptionId,
-    providerId,
-    location,
-    resourceName,
-    createQuotaRequest,
+  const result = await client.quota.update(
+    "D7EC67B3-7657-4966-BFFC-41EFD36BAAB3",
+    "Microsoft.Compute",
+    "eastus",
+    "standardFSv2Family",
+    { properties: { name: { value: "standardFSv2Family" }, limit: 200, unit: "Count" } },
   );
   console.log(result);
 }

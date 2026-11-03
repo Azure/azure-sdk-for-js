@@ -1,38 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates an AuthorizationRule for the specified Event Hub. Creation/update of the AuthorizationRule will take a few seconds to take effect.
- *
- * @summary Creates or updates an AuthorizationRule for the specified Event Hub. Creation/update of the AuthorizationRule will take a few seconds to take effect.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/EventHubs/EHEventHubAuthorizationRuleCreate.json
- */
-
-import {
-  AuthorizationRule,
-  EventHubManagementClient,
-} from "@azure/arm-eventhub";
+import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates an AuthorizationRule for the specified Event Hub. Creation/update of the AuthorizationRule will take a few seconds to take effect.
+ *
+ * @summary creates or updates an AuthorizationRule for the specified Event Hub. Creation/update of the AuthorizationRule will take a few seconds to take effect.
+ * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubAuthorizationRuleCreate.json
+ */
 async function eventHubAuthorizationRuleCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
-    "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
-  const resourceGroupName =
-    process.env["EVENTHUB_RESOURCE_GROUP"] || "ArunMonocle";
-  const namespaceName = "sdk-Namespace-960";
-  const eventHubName = "sdk-EventHub-532";
-  const authorizationRuleName = "sdk-Authrules-2513";
-  const parameters: AuthorizationRule = { rights: ["Listen", "Send"] };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.eventHubs.createOrUpdateAuthorizationRule(
-    resourceGroupName,
-    namespaceName,
-    eventHubName,
-    authorizationRuleName,
-    parameters,
+    "ArunMonocle",
+    "sdk-Namespace-960",
+    "sdk-EventHub-532",
+    "sdk-Authrules-2513",
+    { rights: ["Listen", "Send"] },
   );
   console.log(result);
 }

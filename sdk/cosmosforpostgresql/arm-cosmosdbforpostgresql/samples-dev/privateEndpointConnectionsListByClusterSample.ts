@@ -1,32 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets list of private endpoint connections on a cluster.
- *
- * @summary Gets list of private endpoint connections on a cluster.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/PrivateEndpointConnectionsListByCluster.json
- */
-
 import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets list of private endpoint connections on a cluster.
+ *
+ * @summary gets list of private endpoint connections on a cluster.
+ * x-ms-original-file: 2023-03-02-preview/PrivateEndpointConnectionsListByCluster.json
+ */
 async function getsListOfPrivateEndpointConnectionsOnACluster(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestResourceGroup";
-  const clusterName = "testcluster";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.privateEndpointConnections.listByCluster(
-    resourceGroupName,
-    clusterName,
+    "TestResourceGroup",
+    "testcluster",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

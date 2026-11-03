@@ -1,40 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Implements IP Prefix PUT method.
- *
- * @summary Implements IP Prefix PUT method.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/IpPrefixes_Create_MaximumSet_Gen.json
- */
-
-import type { IpPrefix } from "@azure/arm-managednetworkfabric";
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to implements IP Prefix PUT method.
+ *
+ * @summary implements IP Prefix PUT method.
+ * x-ms-original-file: 2025-07-15/IpPrefixes_Create.json
+ */
 async function ipPrefixesCreateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const ipPrefixName = "example-ipPrefix";
-  const body: IpPrefix = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
+  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
+  const result = await client.ipPrefixes.create("example-rg", "example-ipPrefix", {
     annotation: "annotation",
     ipPrefixRules: [
       {
         action: "Permit",
-        condition: "GreaterThanOrEqualTo",
-        networkPrefix: "10.10.10.10/30",
         sequenceNumber: 4155123341,
+        networkPrefix: "10.10.10.10/30",
+        condition: "GreaterThanOrEqualTo",
         subnetMaskLength: "10",
       },
     ],
+    tags: { KeyId: "KeyValue" },
     location: "eastus",
-    tags: { keyID: "KeyValue" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.ipPrefixes.beginCreateAndWait(resourceGroupName, ipPrefixName, body);
+  });
   console.log(result);
 }
 

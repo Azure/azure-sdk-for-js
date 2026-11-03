@@ -16,28 +16,27 @@
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
- * 2) MODEL_DEPLOYMENT_NAME - The deployment name of the AI model, as found under the "Name" column in
+ * 2) FOUNDRY_MODEL_NAME - The deployment name of the AI model, as found under the "Name" column in
  *    the "Models + endpoints" tab in your Microsoft Foundry project.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
-import { writeFileSync, unlinkSync } from "fs";
+import { writeFile, unlink } from "node:fs/promises";
 import { tmpdir } from "os";
 import { join } from "path";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
-  // [START evaluation_cluster_insight]
   // Create an evaluation
   const dataSourceConfig = {
     type: "custom" as const,
@@ -91,7 +90,7 @@ export async function main(): Promise<void> {
   // Write data to a temporary JSONL file
   const tempFilePath = join(tmpdir(), `sentiment-eval-data-${Date.now()}.jsonl`);
   const jsonlContent = evalData.map((item) => JSON.stringify(item)).join("\n");
-  writeFileSync(tempFilePath, jsonlContent);
+  await writeFile(tempFilePath, jsonlContent);
 
   console.log("\nUploading dataset...");
   const dataset = await project.datasets.uploadFile(
@@ -99,7 +98,7 @@ export async function main(): Promise<void> {
     Date.now().toString(),
     tempFilePath,
   );
-  unlinkSync(tempFilePath);
+  await unlink(tempFilePath);
   console.log(
     `Dataset created (id: ${dataset.id}, name: ${dataset.name}, version: ${dataset.version})`,
   );
@@ -138,7 +137,7 @@ export async function main(): Promise<void> {
     console.log(`Evaluation run result counts: ${JSON.stringify(evalRun.result_counts)}`);
 
     console.log("\nGenerating cluster insights...");
-    let clusterInsight = await project.insights.generate({
+    let clusterInsight = await project.beta.insights.generate({
       displayName: "Cluster analysis",
       request: {
         type: "EvaluationRunClusterInsight",
@@ -154,7 +153,7 @@ export async function main(): Promise<void> {
     // Poll for insight completion
     while (!["Succeeded", "Failed"].includes(clusterInsight.state ?? "")) {
       console.log("Waiting for insight to be generated...");
-      clusterInsight = await project.insights.get(clusterInsight.id ?? "");
+      clusterInsight = await project.beta.insights.get(clusterInsight.id ?? "");
       console.log(`Insight status: ${clusterInsight.state}`);
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }
@@ -176,7 +175,6 @@ export async function main(): Promise<void> {
 
   await openAIClient.evals.delete(evalObject.id);
   console.log("Evaluation deleted");
-  // [END evaluation_cluster_insight]
 }
 
 main().catch((err) => {

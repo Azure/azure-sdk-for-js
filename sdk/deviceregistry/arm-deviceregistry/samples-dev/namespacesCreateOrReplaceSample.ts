@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Namespace
  *
  * @summary create a Namespace
- * x-ms-original-file: 2025-10-01/CreateOrReplace_Namespace_With_Endpoints.json
+ * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_Namespace_With_Endpoints.json
  */
 async function createOrReplaceNamespaceWithEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,18 +22,17 @@ async function createOrReplaceNamespaceWithEndpoints(): Promise<void> {
       properties: {
         messaging: {
           endpoints: {
-            eventGridEndpoint: {
-              endpointType: "Microsoft.Devices/IoTHubs",
-              address: "https://myeventgridtopic.westeurope-1.eventgrid.azure.net/api/events",
+            iothubEndpoint: {
+              endpointType: "Microsoft.Devices/IotHubs",
+              address: "https://iothub-for-dps.azure-devices.net",
             },
-            anotherEventGridEndpoint: {
-              endpointType: "Microsoft.Devices/IoTHubs",
-              address: "https://myeventgridtopic2.westeurope-1.eventgrid.azure.net/api/events",
+            anotherIothubEndpoint: {
+              endpointType: "Microsoft.Devices/IotHubs",
+              address: "https://iothub-for-dps-2.azure-devices.net",
             },
           },
         },
       },
-      identity: { type: "SystemAssigned" },
     },
   );
   console.log(result);

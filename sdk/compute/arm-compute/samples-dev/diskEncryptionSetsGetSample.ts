@@ -3,53 +3,38 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets information about a disk encryption set.
+ * This sample demonstrates how to gets information about a disk encryption set.
  *
- * @summary Gets information about a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get_WithAutoKeyRotationError.json
+ * @summary gets information about a disk encryption set.
+ * x-ms-original-file: 2026-03-02/diskEncryptionSetExamples/DiskEncryptionSet_Get.json
  */
-async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const diskEncryptionSetName = "myDiskEncryptionSet";
+async function getInformationAboutADiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.diskEncryptionSets.get(
-    resourceGroupName,
-    diskEncryptionSetName,
-  );
+  const result = await client.diskEncryptionSets.get("myResourceGroup", "myDiskEncryptionSet");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets information about a disk encryption set.
+ * This sample demonstrates how to gets information about a disk encryption set.
  *
- * @summary Gets information about a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get.json
+ * @summary gets information about a disk encryption set.
+ * x-ms-original-file: 2026-03-02/diskEncryptionSetExamples/DiskEncryptionSet_Get_WithAutoKeyRotationError.json
  */
-async function getInformationAboutADiskEncryptionSet(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const diskEncryptionSetName = "myDiskEncryptionSet";
+async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.diskEncryptionSets.get(
-    resourceGroupName,
-    diskEncryptionSetName,
-  );
+  const result = await client.diskEncryptionSets.get("myResourceGroup", "myDiskEncryptionSet");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed();
   await getInformationAboutADiskEncryptionSet();
+  await getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed();
 }
 
 main().catch(console.error);

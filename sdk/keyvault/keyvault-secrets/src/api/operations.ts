@@ -1,29 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultContext as Client } from "./index.js";
-import {
+import type { KeyVaultContext as Client } from "./index.js";
+import type {
   SecretSetParameters,
-  secretSetParametersSerializer,
   SecretBundle,
-  secretBundleDeserializer,
-  keyVaultErrorDeserializer,
   DeletedSecretBundle,
-  deletedSecretBundleDeserializer,
   SecretUpdateParameters,
-  secretUpdateParametersSerializer,
   _SecretListResult,
-  _secretListResultDeserializer,
   SecretItem,
   _DeletedSecretListResult,
-  _deletedSecretListResultDeserializer,
   DeletedSecretItem,
   BackupSecretResult,
-  backupSecretResultDeserializer,
   SecretRestoreParameters,
-  secretRestoreParametersSerializer,
 } from "../models/models.js";
 import {
+  secretSetParametersSerializer,
+  secretBundleDeserializer,
+  keyVaultErrorDeserializer,
+  deletedSecretBundleDeserializer,
+  secretUpdateParametersSerializer,
+  _secretListResultDeserializer,
+  _deletedSecretListResultDeserializer,
+  backupSecretResultDeserializer,
+  secretRestoreParametersSerializer,
+} from "../models/models.js";
+import type {
   RestoreSecretOptionalParams,
   BackupSecretOptionalParams,
   RecoverDeletedSecretOptionalParams,
@@ -37,17 +39,11 @@ import {
   DeleteSecretOptionalParams,
   SetSecretOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _restoreSecretSend(
   context: Client,
@@ -443,11 +439,12 @@ export function _getSecretSend(
   options: GetSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/secrets/{secret-name}/{secret-version}{?api%2Dversion}",
+    "/secrets/{secret-name}/{secret-version}{?api%2Dversion,outContentType}",
     {
       "secret-name": secretName,
       "secret-version": secretVersion,
       "api%2Dversion": context.apiVersion,
+      outContentType: options?.outContentType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

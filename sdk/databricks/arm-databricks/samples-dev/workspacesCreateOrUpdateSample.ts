@@ -1,143 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new workspace.
- *
- * @summary Creates a new workspace.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/PrepareEncryption.json
- */
-
-import type { Workspace } from "@azure/arm-databricks";
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function createAWorkspaceWhichIsReadyForCustomerManagedKeyCmkEncryption(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const workspaceName = "myWorkspace";
-  const parameters: Workspace = {
-    location: "westus",
-    managedResourceGroupId: "/subscriptions/subid/resourceGroups/myManagedRG",
-    parameters: { prepareEncryption: { value: true } },
-  };
+/**
+ * This sample demonstrates how to creates a new workspace.
+ *
+ * @summary creates a new workspace.
+ * x-ms-original-file: 2026-01-01/DisableEncryption.json
+ */
+async function revertCustomerManagedKeyCMKEncryptionToMicrosoftManagedKeysEncryptionOnAWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    workspaceName,
-    parameters,
-  );
+  const result = await client.workspaces.createOrUpdate("rg", "myWorkspace", {
+    location: "westus",
+    computeMode: "Hybrid",
+    managedResourceGroupId:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/myManagedRG",
+    parameters: { encryption: { value: { keySource: "Default" } } },
+    sku: { name: "premium" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a new workspace.
+ * This sample demonstrates how to creates a new workspace.
  *
- * @summary Creates a new workspace.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceManagedDiskEncryptionCreate.json
+ * @summary creates a new workspace.
+ * x-ms-original-file: 2026-01-01/EnableEncryption.json
  */
-async function createAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const workspaceName = "myWorkspace";
-  const parameters: Workspace = {
-    encryption: {
-      entities: {
-        managedDisk: {
-          keySource: "Microsoft.Keyvault",
-          keyVaultProperties: {
-            keyName: "test-cmk-key",
-            keyVaultUri: "https://test-vault-name.vault.azure.net/",
-            keyVersion: "00000000000000000000000000000000",
-          },
-          rotationToLatestKeyVersionEnabled: true,
-        },
-      },
-    },
-    location: "westus",
-    managedResourceGroupId: "/subscriptions/subid/resourceGroups/myManagedRG",
-  };
+async function enableCustomerManagedKeyCMKEncryptionOnAWorkspaceWhichIsPreparedForEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    workspaceName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates a new workspace.
- *
- * @summary Creates a new workspace.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceCreate.json
- */
-async function createOrUpdateWorkspace(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const workspaceName = "myWorkspace";
-  const parameters: Workspace = {
+  const result = await client.workspaces.createOrUpdate("rg", "myWorkspace", {
     location: "westus",
-    managedResourceGroupId: "/subscriptions/subid/resourceGroups/myManagedRG",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    workspaceName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates a new workspace.
- *
- * @summary Creates a new workspace.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceCreateWithParameters.json
- */
-async function createOrUpdateWorkspaceWithCustomParameters(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const workspaceName = "myWorkspace";
-  const parameters: Workspace = {
-    location: "westus",
-    managedResourceGroupId: "/subscriptions/subid/resourceGroups/myManagedRG",
-    parameters: {
-      customPrivateSubnetName: { value: "myPrivateSubnet" },
-      customPublicSubnetName: { value: "myPublicSubnet" },
-      customVirtualNetworkId: {
-        value:
-          "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/myNetwork",
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    workspaceName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates a new workspace.
- *
- * @summary Creates a new workspace.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/EnableEncryption.json
- */
-async function enableCustomerManagedKeyCmkEncryptionOnAWorkspaceWhichIsPreparedForEncryption(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const workspaceName = "myWorkspace";
-  const parameters: Workspace = {
-    location: "westus",
-    managedResourceGroupId: "/subscriptions/subid/resourceGroups/myManagedRG",
+    computeMode: "Hybrid",
+    managedResourceGroupId:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/myManagedRG",
     parameters: {
       encryption: {
         value: {
@@ -149,53 +51,150 @@ async function enableCustomerManagedKeyCmkEncryptionOnAWorkspaceWhichIsPreparedF
       },
       prepareEncryption: { value: true },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    workspaceName,
-    parameters,
-  );
+    sku: { name: "premium" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a new workspace.
+ * This sample demonstrates how to creates a new workspace.
  *
- * @summary Creates a new workspace.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/DisableEncryption.json
+ * @summary creates a new workspace.
+ * x-ms-original-file: 2026-01-01/PrepareEncryption.json
  */
-async function revertCustomerManagedKeyCmkEncryptionToMicrosoftManagedKeysEncryptionOnAWorkspace(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const workspaceName = "myWorkspace";
-  const parameters: Workspace = {
+async function createAWorkspaceWhichIsReadyForCustomerManagedKeyCMKEncryption(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
+  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
+  const result = await client.workspaces.createOrUpdate("rg", "myWorkspace", {
     location: "westus",
-    managedResourceGroupId: "/subscriptions/subid/resourceGroups/myManagedRG",
-    parameters: { encryption: { value: { keySource: "Default" } } },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    workspaceName,
-    parameters,
-  );
+    computeMode: "Hybrid",
+    managedResourceGroupId:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/myManagedRG",
+    parameters: { prepareEncryption: { value: true } },
+    sku: { name: "premium" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a new workspace.
+ * This sample demonstrates how to creates a new workspace.
  *
- * @summary Creates a new workspace.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceManagedDiskEncryptionUpdate.json
+ * @summary creates a new workspace.
+ * x-ms-original-file: 2026-01-01/WorkspaceCreate.json
  */
-async function updateAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const workspaceName = "myWorkspace";
-  const parameters: Workspace = {
+async function createOrUpdateWorkspace(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
+  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
+  const result = await client.workspaces.createOrUpdate("rg", "myWorkspace", {
+    location: "westus",
+    accessConnector: {
+      id: "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/adbrg/providers/Microsoft.Databricks/accessConnectors/myAccessConnector",
+      identityType: "SystemAssigned",
+    },
+    computeMode: "Hybrid",
+    defaultCatalog: { initialName: "", initialType: "UnityCatalog" },
+    defaultStorageFirewall: "Enabled",
+    managedResourceGroupId:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/myManagedRG",
+    sku: { name: "premium" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new workspace.
+ *
+ * @summary creates a new workspace.
+ * x-ms-original-file: 2026-01-01/WorkspaceCreateServerless.json
+ */
+async function createOrUpdateServerlessWorkspace(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
+  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
+  const result = await client.workspaces.createOrUpdate("rg", "myWorkspace", {
+    location: "westus",
+    computeMode: "Serverless",
+    sku: { name: "premium" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new workspace.
+ *
+ * @summary creates a new workspace.
+ * x-ms-original-file: 2026-01-01/WorkspaceCreateWithParameters.json
+ */
+async function createOrUpdateWorkspaceWithCustomParameters(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
+  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
+  const result = await client.workspaces.createOrUpdate("rg", "myWorkspace", {
+    location: "westus",
+    accessConnector: {
+      id: "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/adbrg/providers/Microsoft.Databricks/accessConnectors/myAccessConnector",
+      identityType: "UserAssigned",
+      userAssignedIdentityId:
+        "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myIdentity",
+    },
+    computeMode: "Hybrid",
+    defaultCatalog: { initialName: "", initialType: "HiveMetastore" },
+    defaultStorageFirewall: "Enabled",
+    managedResourceGroupId:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/myManagedRG",
+    parameters: {
+      customPrivateSubnetName: { value: "myPrivateSubnet" },
+      customPublicSubnetName: { value: "myPublicSubnet" },
+      customVirtualNetworkId: {
+        value:
+          "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/myNetwork",
+      },
+    },
+    sku: { name: "premium" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new workspace.
+ *
+ * @summary creates a new workspace.
+ * x-ms-original-file: 2026-01-01/WorkspaceEnhancedSecurityComplianceCreateOrUpdate.json
+ */
+async function createOrUpdateAWorkspaceWithEnhancedSecurityComplianceAddOn(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
+  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
+  const result = await client.workspaces.createOrUpdate("rg", "myWorkspace", {
+    location: "eastus2",
+    computeMode: "Hybrid",
+    enhancedSecurityCompliance: {
+      automaticClusterUpdate: { value: "Enabled" },
+      complianceSecurityProfile: { complianceStandards: ["PCI_DSS", "HIPAA"], value: "Enabled" },
+      enhancedSecurityMonitoring: { value: "Enabled" },
+    },
+    managedResourceGroupId:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/myManagedRG",
+    sku: { name: "premium" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new workspace.
+ *
+ * @summary creates a new workspace.
+ * x-ms-original-file: 2026-01-01/WorkspaceManagedDiskEncryptionCreate.json
+ */
+async function createAWorkspaceWithCustomerManagedKeyCMKEncryptionForManagedDisks(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
+  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
+  const result = await client.workspaces.createOrUpdate("rg", "myWorkspace", {
+    location: "westus",
+    computeMode: "Hybrid",
     encryption: {
       entities: {
         managedDisk: {
@@ -209,28 +208,57 @@ async function updateAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisk
         },
       },
     },
-    location: "westus",
-    managedResourceGroupId: "/subscriptions/subid/resourceGroups/myManagedRG",
-    tags: { mytag1: "myvalue1" },
-  };
+    managedResourceGroupId:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/myManagedRG",
+    sku: { name: "premium" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new workspace.
+ *
+ * @summary creates a new workspace.
+ * x-ms-original-file: 2026-01-01/WorkspaceManagedDiskEncryptionUpdate.json
+ */
+async function updateAWorkspaceWithCustomerManagedKeyCMKEncryptionForManagedDisks(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    workspaceName,
-    parameters,
-  );
+  const result = await client.workspaces.createOrUpdate("rg", "myWorkspace", {
+    location: "westus",
+    computeMode: "Hybrid",
+    encryption: {
+      entities: {
+        managedDisk: {
+          keySource: "Microsoft.Keyvault",
+          keyVaultProperties: {
+            keyName: "test-cmk-key",
+            keyVaultUri: "https://test-vault-name.vault.azure.net/",
+            keyVersion: "00000000000000000000000000000000",
+          },
+          rotationToLatestKeyVersionEnabled: true,
+        },
+      },
+    },
+    managedResourceGroupId:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/myManagedRG",
+    sku: { name: "premium" },
+    tags: { mytag1: "myvalue1" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await createAWorkspaceWhichIsReadyForCustomerManagedKeyCmkEncryption();
-  await createAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks();
+  await revertCustomerManagedKeyCMKEncryptionToMicrosoftManagedKeysEncryptionOnAWorkspace();
+  await enableCustomerManagedKeyCMKEncryptionOnAWorkspaceWhichIsPreparedForEncryption();
+  await createAWorkspaceWhichIsReadyForCustomerManagedKeyCMKEncryption();
   await createOrUpdateWorkspace();
+  await createOrUpdateServerlessWorkspace();
   await createOrUpdateWorkspaceWithCustomParameters();
-  await enableCustomerManagedKeyCmkEncryptionOnAWorkspaceWhichIsPreparedForEncryption();
-  await revertCustomerManagedKeyCmkEncryptionToMicrosoftManagedKeysEncryptionOnAWorkspace();
-  await updateAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks();
+  await createOrUpdateAWorkspaceWithEnhancedSecurityComplianceAddOn();
+  await createAWorkspaceWithCustomerManagedKeyCMKEncryptionForManagedDisks();
+  await updateAWorkspaceWithCustomerManagedKeyCMKEncryptionForManagedDisks();
 }
 
 main().catch(console.error);

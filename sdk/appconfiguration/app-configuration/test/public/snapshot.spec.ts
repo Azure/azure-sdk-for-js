@@ -57,6 +57,7 @@ describe("AppConfigurationClient snapshot", () => {
       name: recorder.variable("snapshot1", `snapshot-${new Date().getTime()}`),
       retentionPeriodInSeconds: 2592000,
       filters: [filter1],
+      description: "a snapshot description",
     };
 
     await client.addConfigurationSetting({
@@ -90,20 +91,14 @@ describe("AppConfigurationClient snapshot", () => {
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
       assertEqualSnapshot(newSnapshot, snapshot1);
 
-      const errorExpected = {
-        type: "https://azconfig.io/errors/already-exists",
-        title: "The resource already exists.",
-        status: 409,
-        detail: "",
-      };
-
       // attempt to add the same snapshot
       try {
         await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
         throw new Error("Test failure");
       } catch (err: any) {
-        assert.equal(err.message, JSON.stringify(errorExpected));
         assert.notEqual((err as { message: string }).message, "Test failure");
+        assert.equal(err.statusCode, 409);
+        assert.match(err.message, /Unexpected status code: 409/);
       }
 
       await client.archiveSnapshot(newSnapshot.name);

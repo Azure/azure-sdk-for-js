@@ -1,29 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a private endpoint connection.
- *
- * @summary Gets a private endpoint connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoPrivateEndpointConnectionsGet.json
- */
-
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets a private endpoint connection.
+ *
+ * @summary gets a private endpoint connection.
+ * x-ms-original-file: 2025-02-14/KustoPrivateEndpointConnectionsGet.json
+ */
 async function getsPrivateEndpointConnection(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster";
-  const privateEndpointConnectionName = "privateEndpointTest";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.get(
-    resourceGroupName,
-    clusterName,
-    privateEndpointConnectionName,
+    "kustorptest",
+    "kustoCluster",
+    "privateEndpointTest",
   );
   console.log(result);
 }

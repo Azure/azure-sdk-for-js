@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Check the give Namespace name availability.
- *
- * @summary Check the give Namespace name availability.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceCheckNameAvailability.json
- */
-
-import {
-  CheckNameAvailabilityParameter,
-  EventHubManagementClient,
-} from "@azure/arm-eventhub";
+import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to check the give Namespace name availability.
+ *
+ * @summary check the give Namespace name availability.
+ * x-ms-original-file: 2026-01-01/NameSpaces/EHNameSpaceCheckNameAvailability.json
+ */
 async function namespacesCheckNameAvailability(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
-    "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
-  const parameters: CheckNameAvailabilityParameter = {
-    name: "sdk-Namespace-8458",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new EventHubManagementClient(credential, subscriptionId);
-  const result = await client.namespaces.checkNameAvailability(parameters);
+  const result = await client.namespaces.checkNameAvailability({ name: "sdk-Namespace-8458" });
   console.log(result);
 }
 

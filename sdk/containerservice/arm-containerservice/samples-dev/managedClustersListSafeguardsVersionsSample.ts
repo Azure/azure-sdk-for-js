@@ -3,27 +3,22 @@
 
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Contains list of Safeguards version along with its support info and whether it is a default version.
+ * This sample demonstrates how to contains list of Safeguards version along with its support info and whether it is a default version.
  *
- * @summary Contains list of Safeguards version along with its support info and whether it is a default version.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/ListSafeguardsVersions.json
+ * @summary contains list of Safeguards version along with its support info and whether it is a default version.
+ * x-ms-original-file: 2026-08-02-preview/ListSafeguardsVersions.json
  */
 async function listSafeguardsVersions(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const location = "location1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.managedClusters.listSafeguardsVersions(
-    location,
-  )) {
+  for await (const item of client.managedClusters.listSafeguardsVersions("location1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

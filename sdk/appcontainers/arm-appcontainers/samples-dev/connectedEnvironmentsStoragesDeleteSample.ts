@@ -3,30 +3,18 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete storage for a connectedEnvironment.
+ * This sample demonstrates how to delete storage for a connectedEnvironment.
  *
- * @summary Delete storage for a connectedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ConnectedEnvironmentsStorages_Delete.json
+ * @summary delete storage for a connectedEnvironment.
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironmentsStorages_Delete.json
  */
 async function listEnvironmentsStoragesBySubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const connectedEnvironmentName = "env";
-  const storageName = "jlaw-demo1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.connectedEnvironmentsStorages.beginDeleteAndWait(
-    resourceGroupName,
-    connectedEnvironmentName,
-    storageName,
-  );
-  console.log(result);
+  await client.connectedEnvironmentsStorages.delete("examplerg", "env", "jlaw-demo1");
 }
 
 async function main(): Promise<void> {

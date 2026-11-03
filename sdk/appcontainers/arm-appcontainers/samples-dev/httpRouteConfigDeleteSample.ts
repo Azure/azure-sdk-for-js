@@ -3,34 +3,22 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified Http Route Config.
+ * This sample demonstrates how to deletes the specified Managed Http Route.
  *
- * @summary Deletes the specified Http Route Config.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/HttpRouteConfig_Delete.json
+ * @summary deletes the specified Managed Http Route.
+ * x-ms-original-file: 2026-07-01/HttpRouteConfig_Delete.json
  */
-async function deleteAHttpRouteConfig(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "testcontainerenv";
-  const httpRouteName = "httproutefriendlyname";
+async function deleteCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.httpRouteConfigOperations.beginDeleteAndWait(
-    resourceGroupName,
-    environmentName,
-    httpRouteName,
-  );
-  console.log(result);
+  await client.httpRouteConfig.delete("examplerg", "testcontainerenv", "httproutefriendlyname");
 }
 
 async function main(): Promise<void> {
-  await deleteAHttpRouteConfig();
+  await deleteCertificate();
 }
 
 main().catch(console.error);

@@ -3,31 +3,22 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Gets the list of users of a static site.
+ * This sample demonstrates how to description for Gets the list of users of a static site.
  *
- * @summary Description for Gets the list of users of a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/ListStaticSiteUsers.json
+ * @summary description for Gets the list of users of a static site.
+ * x-ms-original-file: 2025-05-01/ListStaticSiteUsers.json
  */
 async function listUsersForAStaticSite(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
-  const name = "testStaticSite0";
-  const authprovider = "all";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.staticSites.listStaticSiteUsers(
-    resourceGroupName,
-    name,
-    authprovider,
-  )) {
+  for await (const item of client.staticSites.listStaticSiteUsers("rg", "testStaticSite0", "all")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

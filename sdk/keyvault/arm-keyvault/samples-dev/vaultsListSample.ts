@@ -1,32 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VaultsListOptionalParams} from "@azure/arm-keyvault";
-import {
-  KeyVaultManagementClient,
-} from "@azure/arm-keyvault";
+import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The List operation gets information about the vaults associated with the subscription.
+ * This sample demonstrates how to the List operation gets information about the vaults associated with the subscription.
  *
- * @summary The List operation gets information about the vaults associated with the subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/listVault.json
+ * @summary the List operation gets information about the vaults associated with the subscription.
+ * x-ms-original-file: 2026-05-15/listVault.json
  */
 async function listVaultsInTheSpecifiedSubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const top = 1;
-  const options: VaultsListOptionalParams = { top };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.vaults.list(options)) {
+  for await (const item of client.vaults.list({ top: 1 })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

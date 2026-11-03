@@ -1,23 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Calculate price for returning `Reservations` if there are no policy errors.
-
- *
- * @summary Calculate price for returning `Reservations` if there are no policy errors.
-
- * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/CalculateRefund.json
- */
-
-import type { CalculateRefundRequest } from "@azure/arm-reservations";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to calculate price for returning `Reservations` if there are no policy errors.
+ *
+ * @summary calculate price for returning `Reservations` if there are no policy errors.
+ * x-ms-original-file: 2022-11-01/CalculateRefund.json
+ */
 async function calculateRefund(): Promise<void> {
-  const reservationOrderId = "276e7ae4-84d0-4da6-ab4b-d6b94f3557da";
-  const body: CalculateRefundRequest = {
+  const credential = new DefaultAzureCredential();
+  const client = new AzureReservationAPI(credential);
+  const result = await client.calculateRefund.post("276e7ae4-84d0-4da6-ab4b-d6b94f3557da", {
     id: "/providers/microsoft.capacity/reservationOrders/50000000-aaaa-bbbb-cccc-100000000004",
     properties: {
       reservationToReturn: {
@@ -27,10 +23,7 @@ async function calculateRefund(): Promise<void> {
       },
       scope: "Reservation",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureReservationAPI(credential);
-  const result = await client.calculateRefund.post(reservationOrderId, body);
+  });
   console.log(result);
 }
 

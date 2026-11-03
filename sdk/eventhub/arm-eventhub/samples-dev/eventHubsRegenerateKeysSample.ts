@@ -1,38 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Regenerates the ACS and SAS connection strings for the Event Hub.
- *
- * @summary Regenerates the ACS and SAS connection strings for the Event Hub.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/EventHubs/EHEventHubAuthorizationRuleRegenerateKey.json
- */
-
-import {
-  RegenerateAccessKeyParameters,
-  EventHubManagementClient,
-} from "@azure/arm-eventhub";
+import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to regenerates the ACS and SAS connection strings for the Event Hub.
+ *
+ * @summary regenerates the ACS and SAS connection strings for the Event Hub.
+ * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubAuthorizationRuleRegenerateKey.json
+ */
 async function eventHubAuthorizationRuleRegenerateKey(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
-    "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
-  const resourceGroupName =
-    process.env["EVENTHUB_RESOURCE_GROUP"] || "ArunMonocle";
-  const namespaceName = "sdk-namespace-960";
-  const eventHubName = "sdk-EventHub-532";
-  const authorizationRuleName = "sdk-Authrules-1534";
-  const parameters: RegenerateAccessKeyParameters = { keyType: "PrimaryKey" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.eventHubs.regenerateKeys(
-    resourceGroupName,
-    namespaceName,
-    eventHubName,
-    authorizationRuleName,
-    parameters,
+    "ArunMonocle",
+    "sdk-namespace-960",
+    "sdk-EventHub-532",
+    "sdk-Authrules-1534",
+    { keyType: "PrimaryKey" },
   );
   console.log(result);
 }

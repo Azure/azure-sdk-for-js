@@ -1,35 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all user groups.
- *
- * @summary Lists all user groups.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementListUserGroups.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all user groups.
+ *
+ * @summary lists all user groups.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementListUserGroups.json
+ */
 async function apiManagementListUserGroups(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const userId = "57681833a40f7eb6c49f6acf";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.userGroup.list(
-    resourceGroupName,
-    serviceName,
-    userId,
+    "rg1",
+    "apimService1",
+    "57681833a40f7eb6c49f6acf",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

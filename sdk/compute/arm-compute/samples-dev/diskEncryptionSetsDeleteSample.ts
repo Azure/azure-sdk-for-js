@@ -3,27 +3,18 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a disk encryption set.
+ * This sample demonstrates how to deletes a disk encryption set.
  *
- * @summary Deletes a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Delete.json
+ * @summary deletes a disk encryption set.
+ * x-ms-original-file: 2026-03-02/diskEncryptionSetExamples/DiskEncryptionSet_Delete.json
  */
 async function deleteADiskEncryptionSet(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const diskEncryptionSetName = "myDiskEncryptionSet";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.diskEncryptionSets.beginDeleteAndWait(
-    resourceGroupName,
-    diskEncryptionSetName,
-  );
-  console.log(result);
+  await client.diskEncryptionSets.delete("myResourceGroup", "myDiskEncryptionSet");
 }
 
 async function main(): Promise<void> {

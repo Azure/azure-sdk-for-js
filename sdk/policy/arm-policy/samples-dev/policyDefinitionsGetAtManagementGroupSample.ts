@@ -1,25 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to This operation retrieves the policy definition in the given management group with the given name.
- *
- * @summary This operation retrieves the policy definition in the given management group with the given name.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/getPolicyDefinitionAtManagementGroup.json
- */
-
 import { PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to this operation retrieves the policy definition in the given management group with the given name.
+ *
+ * @summary this operation retrieves the policy definition in the given management group with the given name.
+ * x-ms-original-file: 2026-06-01/getPolicyDefinitionAtManagementGroup.json
+ */
 async function retrieveAPolicyDefinitionAtManagementGroupLevel(): Promise<void> {
-  const managementGroupId = "MyManagementGroup";
-  const policyDefinitionName = "ResourceNaming";
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential);
   const result = await client.policyDefinitions.getAtManagementGroup(
-    managementGroupId,
-    policyDefinitionName,
+    "MyManagementGroup",
+    "ResourceNaming",
   );
   console.log(result);
 }

@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a SecurityPolicy
  *
  * @summary create a SecurityPolicy
- * x-ms-original-file: 2025-03-01-preview/IpAccessRulesSecurityPolicyPut.json
+ * x-ms-original-file: 2026-03-01/IpAccessRulesSecurityPolicyPut.json
  */
-
-import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function putIpAccessRulesSecurityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
@@ -26,7 +25,7 @@ async function putIpAccessRulesSecurityPolicy(): Promise<void> {
  * This sample demonstrates how to create a SecurityPolicy
  *
  * @summary create a SecurityPolicy
- * x-ms-original-file: 2025-03-01-preview/WafSecurityPolicyPut.json
+ * x-ms-original-file: 2026-03-01/WafSecurityPolicyPut.json
  */
 async function putWAFSecurityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +35,7 @@ async function putWAFSecurityPolicy(): Promise<void> {
     location: "NorthCentralUS",
     properties: {
       wafPolicy: {
-        id: "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.Networking/applicationGatewayWebApplicationFirewallPolicies/wp-0",
+        id: "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.Network/applicationGatewayWebApplicationFirewallPolicies/wp-0",
       },
     },
   });

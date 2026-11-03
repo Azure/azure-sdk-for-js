@@ -4,6 +4,7 @@
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
+import type { TokenCredential, KeyCredential } from "@azure/core-auth";
 import type { TextTranslationClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
@@ -16,11 +17,13 @@ export interface TextTranslationClientOptions extends ClientOptions {
  * Initialize a new instance of `TextTranslationClient`
  * @param endpointParam - Supported Text Translation endpoints (protocol and hostname, for example:
  *     https://api.cognitive.microsofttranslator.com).
+ * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
   endpointParam: string,
-  { apiVersion = "2025-10-01-preview", ...options }: TextTranslationClientOptions = {},
+  credentials: TokenCredential | KeyCredential,
+  { apiVersion = "2026-06-06", ...options }: TextTranslationClientOptions = {},
 ): TextTranslationClient {
   const endpointUrl = options.endpoint ?? `${endpointParam}`;
   const userAgentInfo = `azsdk-js-ai-translation-text-rest/1.0.0-beta.1`;
@@ -36,8 +39,12 @@ export default function createClient(
     loggingOptions: {
       logger: options.loggingOptions?.logger ?? logger.info,
     },
+    credentials: {
+      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+    },
   };
-  const client = getClient(endpointUrl, options) as TextTranslationClient;
+  const client = getClient(endpointUrl, credentials, options) as TextTranslationClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

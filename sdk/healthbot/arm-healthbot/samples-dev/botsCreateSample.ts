@@ -1,38 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create a new Azure Health Bot.
- *
- * @summary Create a new Azure Health Bot.
- * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2021-06-10/examples/ResourceCreationPut.json
- */
-
-import type { HealthBot } from "@azure/arm-healthbot";
 import { HealthbotClient } from "@azure/arm-healthbot";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to create a new Azure Health Bot.
+ *
+ * @summary create a new Azure Health Bot.
+ * x-ms-original-file: 2025-11-01/ResourceCreationPut.json
+ */
 async function botCreate(): Promise<void> {
+  const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
-  const resourceGroupName = "healthbotClient";
-  const botName = "samplebotname";
-  const parameters: HealthBot = {
+  const client = new HealthbotClient(credential, subscriptionId);
+  const result = await client.bots.create("healthbotClient", "samplebotname", {
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/subscriptionId/resourcegroups/myrg/providers/microsoftManagedidentity/userassignedidentities/myMi":
+        "/subscriptions/subscription-id/resourcegroups/myrg/providers/microsoft.managedidentity/userassignedidentities/my-mi":
           {},
-        "/subscriptions/subscriptionId/resourcegroups/myrg/providers/microsoftManagedidentity/userassignedidentities/myMi2":
+        "/subscriptions/subscription-id/resourcegroups/myrg/providers/microsoft.managedidentity/userassignedidentities/my-mi2":
           {},
       },
     },
     location: "East US",
     sku: { name: "F0" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new HealthbotClient(credential, subscriptionId);
-  const result = await client.bots.beginCreateAndWait(resourceGroupName, botName, parameters);
+  });
   console.log(result);
 }
 
-botCreate().catch(console.error);
+async function main(): Promise<void> {
+  await botCreate();
+}
+
+main().catch(console.error);

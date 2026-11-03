@@ -1,33 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieves the description for the specified rule.
- *
- * @summary Retrieves the description for the specified rule.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Rules/RuleGet.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieves the description for the specified rule.
+ *
+ * @summary retrieves the description for the specified rule.
+ * x-ms-original-file: 2026-01-01/Rules/RuleGet.json
+ */
 async function rulesGet(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ArunMonocle";
-  const namespaceName = "sdk-Namespace-1319";
-  const topicName = "sdk-Topics-2081";
-  const subscriptionName = "sdk-Subscriptions-8691";
-  const ruleName = "sdk-Rules-6571";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const result = await client.rules.get(
-    resourceGroupName,
-    namespaceName,
-    topicName,
-    subscriptionName,
-    ruleName,
+    "ArunMonocle",
+    "sdk-Namespace-1319",
+    "sdk-Topics-2081",
+    "sdk-Subscriptions-8691",
+    "sdk-Rules-6571",
   );
   console.log(result);
 }

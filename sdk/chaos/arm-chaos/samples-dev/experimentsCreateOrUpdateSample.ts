@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ChaosManagementClient } from "@azure/arm-chaos";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create or update a Experiment resource.
  *
  * @summary create or update a Experiment resource.
- * x-ms-original-file: 2025-01-01/Experiments_CreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/Experiments_CreateOrUpdate.json
  */
-
-import { ChaosManagementClient } from "@azure/arm-chaos";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function createOrUpdateAExperimentInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
@@ -20,6 +19,11 @@ async function createOrUpdateAExperimentInAResourceGroup(): Promise<void> {
     tags: { key7131: "ryohwcoiccwsnewjigfmijz", key2138: "fjaeecgnvqd" },
     location: "eastus2euap",
     properties: {
+      customerDataStorage: {
+        blobContainerName: "azurechaosstudioexperiments",
+        storageAccountResourceId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/exampleRG/providers/Microsoft.Storage/storageAccounts/exampleStorage",
+      },
       selectors: [
         {
           type: "List",

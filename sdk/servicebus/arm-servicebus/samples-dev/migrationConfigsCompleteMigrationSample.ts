@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to This operation Completes Migration of entities by pointing the connection strings to Premium namespace and any entities created after the operation will be under Premium Namespace. CompleteMigration operation will fail when entity migration is in-progress.
- *
- * @summary This operation Completes Migration of entities by pointing the connection strings to Premium namespace and any entities created after the operation will be under Premium Namespace. CompleteMigration operation will fail when entity migration is in-progress.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Migrationconfigurations/SBMigrationconfigurationCompleteMigration.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to this operation Completes Migration of entities by pointing the connection strings to Premium namespace and any entities created after the operation will be under Premium Namespace. CompleteMigration operation will fail when entity migration is in-progress.
+ *
+ * @summary this operation Completes Migration of entities by pointing the connection strings to Premium namespace and any entities created after the operation will be under Premium Namespace. CompleteMigration operation will fail when entity migration is in-progress.
+ * x-ms-original-file: 2026-01-01/Migrationconfigurations/SBMigrationconfigurationCompleteMigration.json
+ */
 async function migrationConfigurationsCompleteMigration(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "SubscriptionId";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
-  const namespaceName = "sdk-Namespace-41";
-  const configName = "$default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
-  const result = await client.migrationConfigs.completeMigration(
-    resourceGroupName,
-    namespaceName,
-    configName,
-  );
-  console.log(result);
+  await client.migrationConfigs.completeMigration("ResourceGroup", "sdk-Namespace-41", "$default");
 }
 
 async function main(): Promise<void> {

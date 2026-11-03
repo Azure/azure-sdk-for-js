@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a datasource instance.
- *
- * @summary Gets a datasource instance.
- * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/DataSourcesGet.json
- */
-
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets a datasource instance.
+ *
+ * @summary gets a datasource instance.
+ * x-ms-original-file: 2025-07-01/DataSourcesGet.json
+ */
 async function dataSourcesGet(): Promise<void> {
-  const subscriptionId =
-    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "OIAutoRest5123";
-  const workspaceName = "AzTest9724";
-  const dataSourceName = "AzTestDS774";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OperationalInsightsManagementClient(credential, subscriptionId);
-  const result = await client.dataSources.get(resourceGroupName, workspaceName, dataSourceName);
+  const result = await client.dataSources.get("OIAutoRest5123", "AzTest9724", "AzTestDS774");
   console.log(result);
 }
 

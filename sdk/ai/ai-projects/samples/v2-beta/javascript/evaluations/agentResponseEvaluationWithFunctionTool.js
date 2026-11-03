@@ -17,9 +17,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const agentName = process.env["AZURE_AI_AGENT_NAME"] || "my-agent-function-tool";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "my-agent-function-tool";
+const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 // Define a function tool for the model to use
 const funcTool = {
@@ -47,9 +47,8 @@ function getHoroscope(sign) {
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
-  // [START agent_response_evaluation_with_function_tool]
   // Create agent with function tools
   console.log("Creating agent...");
   const agent = await project.agents.createVersion(agentName, {
@@ -144,7 +143,6 @@ async function main() {
     },
   });
   console.log(`Evaluation run created (id: ${responseEvalRun.id})`);
-  // [END agent_response_evaluation_with_function_tool]
 
   // Poll for completion
   while (!["completed", "failed"].includes(responseEvalRun.status)) {

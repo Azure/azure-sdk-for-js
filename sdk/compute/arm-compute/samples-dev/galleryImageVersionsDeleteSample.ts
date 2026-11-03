@@ -3,35 +3,47 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete a gallery image version.
+ * This sample demonstrates how to delete a gallery image version.
  *
- * @summary Delete a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Delete.json
+ * @summary delete a gallery image version.
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryImageVersion_Delete.json
  */
 async function deleteAGalleryImageVersion(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const galleryName = "myGalleryName";
-  const galleryImageName = "myGalleryImageName";
-  const galleryImageVersionName = "1.0.0";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.galleryImageVersions.beginDeleteAndWait(
-    resourceGroupName,
-    galleryName,
-    galleryImageName,
-    galleryImageVersionName,
+  await client.galleryImageVersions.delete(
+    "myResourceGroup",
+    "myGalleryName",
+    "myGalleryImageName",
+    "1.0.0",
   );
-  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to delete a gallery image version.
+ *
+ * @summary delete a gallery image version.
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryImageVersion_Delete_BypassSoftDelete.json
+ */
+async function permanentlyDeleteAGalleryImageVersionByBypassingSoftDelete(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  await client.galleryImageVersions.delete(
+    "myResourceGroup",
+    "myGalleryName",
+    "myGalleryImageName",
+    "1.0.0",
+    { bypassSoftDelete: true },
+  );
 }
 
 async function main(): Promise<void> {
   await deleteAGalleryImageVersion();
+  await permanentlyDeleteAGalleryImageVersionByBypassingSoftDelete();
 }
 
 main().catch(console.error);

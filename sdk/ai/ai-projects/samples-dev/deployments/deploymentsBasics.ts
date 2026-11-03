@@ -13,7 +13,7 @@ import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
 const modelPublisher = process.env["MODEL_PUBLISHER"] || "<model publisher>";
 
 export async function main(): Promise<void> {

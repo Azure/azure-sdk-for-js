@@ -1,29 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Checks if the peering service provider is present within 1000 miles of customer's location
- *
- * @summary Checks if the peering service provider is present within 1000 miles of customer's location
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CheckServiceProviderAvailability.json
- */
-
-import type { CheckServiceProviderAvailabilityInput } from "@azure/arm-peering";
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to checks if the peering service provider is present within 1000 miles of customer's location
+ *
+ * @summary checks if the peering service provider is present within 1000 miles of customer's location
+ * x-ms-original-file: 2025-05-01/CheckServiceProviderAvailability.json
+ */
 async function checkIfPeeringServiceProviderIsAvailableInCustomerLocation(): Promise<void> {
+  const credential = new DefaultAzureCredential();
   const subscriptionId = "subId";
-  const checkServiceProviderAvailabilityInput: CheckServiceProviderAvailabilityInput = {
+  const client = new PeeringManagementClient(credential, subscriptionId);
+  const result = await client.checkServiceProviderAvailability({
     peeringServiceLocation: "peeringServiceLocation1",
     peeringServiceProvider: "peeringServiceProvider1",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PeeringManagementClient(credential, subscriptionId);
-  const result = await client.checkServiceProviderAvailability(
-    checkServiceProviderAvailabilityInput,
-  );
+  });
   console.log(result);
 }
 
-checkIfPeeringServiceProviderIsAvailableInCustomerLocation().catch(console.error);
+async function main(): Promise<void> {
+  await checkIfPeeringServiceProviderIsAvailableInCustomerLocation();
+}
+
+main().catch(console.error);

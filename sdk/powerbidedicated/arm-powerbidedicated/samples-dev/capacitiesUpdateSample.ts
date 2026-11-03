@@ -1,63 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates the current state of the specified Dedicated capacity.
- *
- * @summary Updates the current state of the specified Dedicated capacity.
- * x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/updateCapacity.json
- */
-
-import type { DedicatedCapacityUpdateParameters } from "@azure/arm-powerbidedicated";
 import { PowerBIDedicated } from "@azure/arm-powerbidedicated";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates the current state of the specified Dedicated capacity.
+ *
+ * @summary updates the current state of the specified Dedicated capacity.
+ * x-ms-original-file: 2021-01-01/updateCapacity.json
+ */
 async function updateCapacityParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["POWERBIDEDICATED_SUBSCRIPTION_ID"] || "613192d7-503f-477a-9cfe-4efc3ee2bd60";
-  const resourceGroupName = process.env["POWERBIDEDICATED_RESOURCE_GROUP"] || "TestRG";
-  const dedicatedCapacityName = "azsdktest";
-  const capacityUpdateParameters: DedicatedCapacityUpdateParameters = {
-    administration: {
-      members: ["azsdktest@microsoft.com", "azsdktest2@microsoft.com"],
-    },
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
+  const client = new PowerBIDedicated(credential, subscriptionId);
+  const result = await client.capacities.update("TestRG", "azsdktest", {
+    administration: { members: ["azsdktest@microsoft.com", "azsdktest2@microsoft.com"] },
     sku: { name: "A1", tier: "PBIE_Azure" },
     tags: { testKey: "testValue" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PowerBIDedicated(credential, subscriptionId);
-  const result = await client.capacities.beginUpdateAndWait(
-    resourceGroupName,
-    dedicatedCapacityName,
-    capacityUpdateParameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates the current state of the specified Dedicated capacity.
+ * This sample demonstrates how to updates the current state of the specified Dedicated capacity.
  *
- * @summary Updates the current state of the specified Dedicated capacity.
- * x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/updateToGen2.json
+ * @summary updates the current state of the specified Dedicated capacity.
+ * x-ms-original-file: 2021-01-01/updateToGen2.json
  */
 async function updateCapacityToGeneration2(): Promise<void> {
-  const subscriptionId =
-    process.env["POWERBIDEDICATED_SUBSCRIPTION_ID"] || "613192d7-503f-477a-9cfe-4efc3ee2bd60";
-  const resourceGroupName = process.env["POWERBIDEDICATED_RESOURCE_GROUP"] || "TestRG";
-  const dedicatedCapacityName = "azsdktest";
-  const capacityUpdateParameters: DedicatedCapacityUpdateParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
+  const client = new PowerBIDedicated(credential, subscriptionId);
+  const result = await client.capacities.update("TestRG", "azsdktest", {
     mode: "Gen2",
     sku: { name: "A1", tier: "PBIE_Azure" },
     tags: { testKey: "testValue" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PowerBIDedicated(credential, subscriptionId);
-  const result = await client.capacities.beginUpdateAndWait(
-    resourceGroupName,
-    dedicatedCapacityName,
-    capacityUpdateParameters,
-  );
+  });
   console.log(result);
 }
 

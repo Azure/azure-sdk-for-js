@@ -3,59 +3,46 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get storage for a managedEnvironment.
+ * This sample demonstrates how to get storage for a managedEnvironment.
  *
- * @summary Get storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironmentsStorages_Get.json
+ * @summary get storage for a managedEnvironment.
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentsStorages_Get.json
  */
 async function getAEnvironmentsStorage(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "managedEnv";
-  const storageName = "jlaw-demo1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.managedEnvironmentsStorages.get(
-    resourceGroupName,
-    environmentName,
-    storageName,
+    "examplerg",
+    "managedEnv",
+    "jlaw-demo1",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get storage for a managedEnvironment.
+ * This sample demonstrates how to get storage for a managedEnvironment.
  *
- * @summary Get storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironmentsStorages_Get_NfsAzureFile.json
+ * @summary get storage for a managedEnvironment.
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentsStorages_Get_NfsAzureFile.json
  */
-async function getAEnvironmentsStorageForNfsAzureFile(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "managedEnv";
-  const storageName = "jlaw-demo1";
+async function getAEnvironmentsStorageForNFSAzureFile(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.managedEnvironmentsStorages.get(
-    resourceGroupName,
-    environmentName,
-    storageName,
+    "examplerg",
+    "managedEnv",
+    "jlaw-demo1",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await getAEnvironmentsStorage();
-  await getAEnvironmentsStorageForNfsAzureFile();
+  await getAEnvironmentsStorageForNFSAzureFile();
 }
 
 main().catch(console.error);

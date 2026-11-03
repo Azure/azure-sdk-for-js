@@ -1,29 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List management groups for the authenticated user.
-
- *
- * @summary List management groups for the authenticated user.
-
- * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/ListManagementGroups.json
- */
-
-import type { ManagementGroupsListOptionalParams } from "@azure/arm-managementgroups";
 import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to list management groups for the authenticated user.
+ *
+ * @summary list management groups for the authenticated user.
+ * x-ms-original-file: 2023-04-01/ListManagementGroups.json
+ */
 async function listManagementGroups(): Promise<void> {
-  const cacheControl = "no-cache";
-  const options: ManagementGroupsListOptionalParams = { cacheControl };
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);
   const resArray = new Array();
-  for await (const item of client.managementGroups.list(options)) {
+  for await (const item of client.managementGroups.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-listManagementGroups().catch(console.error);
+async function main(): Promise<void> {
+  await listManagementGroups();
+}
+
+main().catch(console.error);

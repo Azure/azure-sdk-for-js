@@ -8,7 +8,7 @@ export {
   createVectorStore,
   listVectorStores,
 } from "./operations.js";
-export {
+export type {
   VectorStoresDeleteVectorStoreOptionalParams,
   VectorStoresModifyVectorStoreOptionalParams,
   VectorStoresGetVectorStoreOptionalParams,

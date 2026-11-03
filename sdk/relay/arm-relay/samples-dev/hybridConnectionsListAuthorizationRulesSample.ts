@@ -1,38 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Authorization rules for a hybrid connection.
- *
- * @summary Authorization rules for a hybrid connection.
- * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/HybridConnection/RelayHybridConnectionAutorizationRuleListAll.json
- */
-
 import { RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function relayHybridConnectionAutorizationRuleListAll(): Promise<void> {
-  const subscriptionId =
-    process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
-  const namespaceName = "example-RelayNamespace-01";
-  const hybridConnectionName = "example-Relay-Hybrid-01";
+/**
+ * This sample demonstrates how to authorization rules for a hybrid connection.
+ *
+ * @summary authorization rules for a hybrid connection.
+ * x-ms-original-file: 2026-01-01/HybridConnection/RelayHybridConnectionAuthorizationRuleListAll.json
+ */
+async function relayHybridConnectionAuthorizationRuleListAll(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new RelayAPI(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.hybridConnections.listAuthorizationRules(
-    resourceGroupName,
-    namespaceName,
-    hybridConnectionName,
+    "resourcegroup",
+    "example-RelayNamespace-01",
+    "example-Relay-Hybrid-01",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await relayHybridConnectionAutorizationRuleListAll();
+  await relayHybridConnectionAuthorizationRuleListAll();
 }
 
 main().catch(console.error);

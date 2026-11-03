@@ -1,35 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists managed private endpoints.
- *
- * @summary Lists managed private endpoints.
- * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ManagedPrivateEndpoints_ListByFactory.json
- */
-
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists managed private endpoints.
+ *
+ * @summary lists managed private endpoints.
+ * x-ms-original-file: 2018-06-01/ManagedPrivateEndpoints_ListByFactory.json
+ */
 async function managedPrivateEndpointsListByFactory(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
-    "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName =
-    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const factoryName = "exampleFactoryName";
-  const managedVirtualNetworkName = "exampleManagedVirtualNetworkName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedPrivateEndpoints.listByFactory(
-    resourceGroupName,
-    factoryName,
-    managedVirtualNetworkName,
+    "exampleResourceGroup",
+    "exampleFactoryName",
+    "exampleManagedVirtualNetworkName",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

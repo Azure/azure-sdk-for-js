@@ -1,30 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a PrivateEndpointConnection List.
- *
- * @summary Get a PrivateEndpointConnection List.
- * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/PrivateEndpointConnections_ListByStorageSyncService.json
- */
-
 import { MicrosoftStorageSync } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to get a PrivateEndpointConnection List.
+ *
+ * @summary get a PrivateEndpointConnection List.
+ * x-ms-original-file: 2025-12-01/PrivateEndpointConnections_ListByStorageSyncService.json
+ */
 async function privateEndpointConnectionsListByStorageSyncService(): Promise<void> {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res6977";
-  const storageSyncServiceName = "sss2527";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
   const client = new MicrosoftStorageSync(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.privateEndpointConnections.listByStorageSyncService(
-    resourceGroupName,
-    storageSyncServiceName,
+    "res6977",
+    "sss2527",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-privateEndpointConnectionsListByStorageSyncService().catch(console.error);
+async function main(): Promise<void> {
+  await privateEndpointConnectionsListByStorageSyncService();
+}
+
+main().catch(console.error);

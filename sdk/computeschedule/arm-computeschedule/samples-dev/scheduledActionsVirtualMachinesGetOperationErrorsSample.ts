@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ComputeScheduleClient } from "@azure/arm-computeschedule";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to virtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist.
  *
  * @summary virtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist.
- * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesGetOperationErrors_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-04-15-preview/ScheduledActions_VirtualMachinesGetOperationErrors_MaximumSet_Gen.json
  */
-
-import { ComputeScheduleClient } from "@azure/arm-computeschedule";
-import { DefaultAzureCredential } from "@azure/identity";
-
-async function scheduledActionsVirtualMachinesGetOperationErrorsMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesGetOperationErrorsMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
+  const subscriptionId = "732116BD-AF31-4E74-9283-B387C44B4A44";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.virtualMachinesGetOperationErrors(
-    "ennweqswbghorrgzbet",
-    { operationIds: ["ksufjznokhsbowdupyt"] },
-  );
+  const result = await client.scheduledActions.virtualMachinesGetOperationErrors("eastus2", {
+    operationIds: ["01234567-89ab-cdef-0123-456789abcdef"],
+  });
   console.log(result);
 }
 
@@ -26,21 +24,21 @@ async function scheduledActionsVirtualMachinesGetOperationErrorsMaximumSetGenGen
  * This sample demonstrates how to virtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist.
  *
  * @summary virtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist.
- * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesGetOperationErrors_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-04-15-preview/ScheduledActions_VirtualMachinesGetOperationErrors_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesGetOperationErrorsMinimumSetGenGeneratedByMinimumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesGetOperationErrorsMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
+  const subscriptionId = "732116BD-AF31-4E74-9283-B387C44B4A44";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.virtualMachinesGetOperationErrors("gcdqwzmxtcn", {
-    operationIds: ["ksufjznokhsbowdupyt"],
+  const result = await client.scheduledActions.virtualMachinesGetOperationErrors("eastus2", {
+    operationIds: ["01234567-89ab-cdef-0123-456789abcdef"],
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await scheduledActionsVirtualMachinesGetOperationErrorsMaximumSetGenGeneratedByMaximumSetRule();
-  await scheduledActionsVirtualMachinesGetOperationErrorsMinimumSetGenGeneratedByMinimumSetRule();
+  await scheduledActionsVirtualMachinesGetOperationErrorsMaximumSet();
+  await scheduledActionsVirtualMachinesGetOperationErrorsMinimumSet();
 }
 
 main().catch(console.error);

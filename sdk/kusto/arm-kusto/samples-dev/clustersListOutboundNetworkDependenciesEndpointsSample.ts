@@ -1,31 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the network endpoints of all outbound dependencies of a Kusto cluster
- *
- * @summary Gets the network endpoints of all outbound dependencies of a Kusto cluster
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoOutboundNetworkDependenciesList.json
- */
-
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the network endpoints of all outbound dependencies of a Kusto cluster
+ *
+ * @summary gets the network endpoints of all outbound dependencies of a Kusto cluster
+ * x-ms-original-file: 2025-02-14/KustoOutboundNetworkDependenciesList.json
+ */
 async function getKustoClusterOutboundNetworkDependencies(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new KustoManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.clusters.listOutboundNetworkDependenciesEndpoints(
-    resourceGroupName,
-    clusterName,
+    "kustorptest",
+    "kustoCluster",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -12,12 +12,12 @@ export {
   get,
 } from "./operations.js";
 export {
-  ConfigTemplatesListBySubscriptionOptionalParams,
-  ConfigTemplatesListByResourceGroupOptionalParams,
-  ConfigTemplatesDeleteOptionalParams,
-  ConfigTemplatesRemoveVersionOptionalParams,
-  ConfigTemplatesCreateVersionOptionalParams,
-  ConfigTemplatesUpdateOptionalParams,
-  ConfigTemplatesCreateOrUpdateOptionalParams,
-  ConfigTemplatesGetOptionalParams,
+  type ConfigTemplatesListBySubscriptionOptionalParams,
+  type ConfigTemplatesListByResourceGroupOptionalParams,
+  type ConfigTemplatesDeleteOptionalParams,
+  type ConfigTemplatesRemoveVersionOptionalParams,
+  type ConfigTemplatesCreateVersionOptionalParams,
+  type ConfigTemplatesUpdateOptionalParams,
+  type ConfigTemplatesCreateOrUpdateOptionalParams,
+  type ConfigTemplatesGetOptionalParams,
 } from "./options.js";

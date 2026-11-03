@@ -1,98 +1,79 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualMachineExtension} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to create or update the extension.
+ * This sample demonstrates how to the operation to create or update the extension.
  *
- * @summary The operation to create or update the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachineExtension_CreateOrUpdate_MaximumSet_Gen.json
+ * @summary the operation to create or update the extension.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachineExtension_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionCreateOrUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const vmName = "aaaaaaaaaaaaaaaaaaaaaaaa";
-  const vmExtensionName = "aaaaaaaaaaaaa";
-  const extensionParameters: VirtualMachineExtension = {
-    typePropertiesType: "extType",
-    autoUpgradeMinorVersion: true,
-    enableAutomaticUpgrade: true,
-    forceUpdateTag: "a",
-    instanceView: {
-      name: "aaaaaaaaaaaaaaaaa",
-      type: "aaaaaaaaa",
-      statuses: [
-        {
-          code: "aaaaaaaaaaaaaaaaaaaaaaa",
-          displayStatus: "aaaaaa",
-          level: "Info",
-          message: "a",
-          time: new Date("2021-11-30T12:58:26.522Z"),
-        },
-      ],
-      substatuses: [
-        {
-          code: "aaaaaaaaaaaaaaaaaaaaaaa",
-          displayStatus: "aaaaaa",
-          level: "Info",
-          message: "a",
-          time: new Date("2021-11-30T12:58:26.522Z"),
-        },
-      ],
-      typeHandlerVersion: "aaaaaaaaaaaaaaaaaaaaaaaaaa",
-    },
-    location: "westus",
-    protectedSettings: {},
-    publisher: "extPublisher",
-    settings: {},
-    suppressFailures: true,
-    tags: { key9183: "aa" },
-    typeHandlerVersion: "1.2",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineExtensions.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmName,
-      vmExtensionName,
-      extensionParameters,
-    );
+  const result = await client.virtualMachineExtensions.createOrUpdate(
+    "rgcompute",
+    "aaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaa",
+    {
+      location: "westus",
+      autoUpgradeMinorVersion: true,
+      publisher: "extPublisher",
+      typePropertiesType: "extType",
+      typeHandlerVersion: "1.2",
+      suppressFailures: true,
+      settings: {},
+      forceUpdateTag: "a",
+      enableAutomaticUpgrade: true,
+      protectedSettings: {},
+      instanceView: {
+        name: "aaaaaaaaaaaaaaaaa",
+        type: "aaaaaaaaa",
+        typeHandlerVersion: "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+        substatuses: [
+          {
+            code: "aaaaaaaaaaaaaaaaaaaaaaa",
+            level: "Info",
+            displayStatus: "aaaaaa",
+            message: "a",
+            time: new Date("2021-11-30T12:58:26.522Z"),
+          },
+        ],
+        statuses: [
+          {
+            code: "aaaaaaaaaaaaaaaaaaaaaaa",
+            level: "Info",
+            displayStatus: "aaaaaa",
+            message: "a",
+            time: new Date("2021-11-30T12:58:26.522Z"),
+          },
+        ],
+      },
+      tags: { key9183: "aa" },
+    },
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update the extension.
+ * This sample demonstrates how to the operation to create or update the extension.
  *
- * @summary The operation to create or update the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachineExtension_CreateOrUpdate_MinimumSet_Gen.json
+ * @summary the operation to create or update the extension.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachineExtension_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionCreateOrUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const vmName = "myVM";
-  const vmExtensionName = "myVMExtension";
-  const extensionParameters: VirtualMachineExtension = { location: "westus" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineExtensions.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmName,
-      vmExtensionName,
-      extensionParameters,
-    );
+  const result = await client.virtualMachineExtensions.createOrUpdate(
+    "rgcompute",
+    "myVM",
+    "myVMExtension",
+    { location: "westus" },
+  );
   console.log(result);
 }
 

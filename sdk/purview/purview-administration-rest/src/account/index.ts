@@ -9,5 +9,5 @@ import * as OutputModels from "./outputModels.js";
 import * as PaginateHelper from "./paginateHelper.js";
 import * as UnexpectedHelper from "./isUnexpected.js";
 
-export { createClient, PurviewAccountClientOptions } from "./purviewAccount.js";
+export { createClient, type PurviewAccountClientOptions } from "./purviewAccount.js";
 export { Parameters, Responses, Client, Models, OutputModels, PaginateHelper, UnexpectedHelper };

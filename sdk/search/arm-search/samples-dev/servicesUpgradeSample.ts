@@ -1,27 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Upgrades the Azure AI Search service to the latest version available.
- *
- * @summary Upgrades the Azure AI Search service to the latest version available.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/UpgradeSearchServiceToLatestVersion.json
- */
-
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to upgrades the Azure AI Search service to the latest version available.
+ *
+ * @summary upgrades the Azure AI Search service to the latest version available.
+ * x-ms-original-file: 2026-11-01/UpgradeSearchServiceToLatestVersion.json
+ */
 async function upgradeSearchServiceToLatestVersion(): Promise<void> {
-  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
-  const searchServiceName = "mysearchservice";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
-  const result = await client.services.beginUpgradeAndWait(
-    resourceGroupName,
-    searchServiceName,
-  );
+  const result = await client.services.upgrade("rg1", "mysearchservice");
   console.log(result);
 }
 

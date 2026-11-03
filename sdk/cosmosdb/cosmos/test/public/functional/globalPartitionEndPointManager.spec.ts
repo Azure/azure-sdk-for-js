@@ -5,7 +5,8 @@ import { describe, it, assert, beforeEach, afterEach, vi, expect, beforeAll } fr
 import { GlobalPartitionEndpointManager } from "../../../src/globalPartitionEndpointManager.js";
 import type { GlobalEndpointManager } from "../../../src/globalEndpointManager.js";
 import { OperationType, ResourceType } from "../../../src/common/index.js";
-import { Constants, HTTPMethod, RequestContext } from "../../../src/index.js";
+import type { RequestContext } from "../../../src/index.js";
+import { Constants, HTTPMethod } from "../../../src/index.js";
 
 const mockReadEndpoints = [
   "https://region1.documents.azure.com:443/",

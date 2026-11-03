@@ -3,43 +3,40 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
+ * This sample demonstrates how to gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
  *
- * @summary Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/computeRPCommonExamples/Usage_List_MaximumSet_Gen.json
+ * @summary gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
+ * x-ms-original-file: 2026-04-01/computeRPCommonExamples/Usage_List_MaximumSet_Gen.json
  */
 async function usageListMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const location = "4_.";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.usageOperations.list(location)) {
+  for await (const item of client.usage.list("4_.")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
+ * This sample demonstrates how to gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
  *
- * @summary Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/computeRPCommonExamples/Usage_List_MinimumSet_Gen.json
+ * @summary gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
+ * x-ms-original-file: 2026-04-01/computeRPCommonExamples/Usage_List_MinimumSet_Gen.json
  */
 async function usageListMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const location = "_--";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.usageOperations.list(location)) {
+  for await (const item of client.usage.list("_--")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

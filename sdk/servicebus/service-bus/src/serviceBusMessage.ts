@@ -681,8 +681,7 @@ export function fromRheaMessage(
     ...props,
     deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason as string | undefined,
     deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as
-      | string
-      | undefined,
+      string | undefined,
   };
 
   logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);

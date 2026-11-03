@@ -1,0 +1,48 @@
+{
+  "apiVersions": {
+    "Microsoft.ApiManagement": "2026-09-01-preview"
+  },
+  "emitterVersion": "0.57.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.ApiManagement",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-aigateway!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-aigateway!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-aigateway!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-aigateway!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-aigateway!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-aigateway!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-aigateway!AiGatewayResource:interface": "Microsoft.ApiManagement.AiGatewayResource",
+      "@azure/arm-aigateway!AiGatewayProperties:interface": "Microsoft.ApiManagement.AiGatewayProperties",
+      "@azure/arm-aigateway!AiGatewayFrontend:interface": "Microsoft.ApiManagement.AiGatewayFrontend",
+      "@azure/arm-aigateway!AiGatewayBackend:interface": "Microsoft.ApiManagement.AiGatewayBackend",
+      "@azure/arm-aigateway!AiGatewaySubnet:interface": "Microsoft.ApiManagement.AiGatewaySubnet",
+      "@azure/arm-aigateway!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
+      "@azure/arm-aigateway!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
+      "@azure/arm-aigateway!Sku:interface": "Azure.ResourceManager.CommonTypes.Sku",
+      "@azure/arm-aigateway!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-aigateway!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-aigateway!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-aigateway!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-aigateway!AiGatewayUpdateParameters:interface": "Microsoft.ApiManagement.AiGatewayUpdateParameters",
+      "@azure/arm-aigateway!AiGatewaySkuUpdate:interface": "Microsoft.ApiManagement.AiGatewaySkuUpdate",
+      "@azure/arm-aigateway!AiGatewayResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-aigateway!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-aigateway!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-aigateway!KnownAiGatewayProvisioningState:enum": "Microsoft.ApiManagement.AiGatewayProvisioningState",
+      "@azure/arm-aigateway!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
+      "@azure/arm-aigateway!KnownSkuTier:enum": "Azure.ResourceManager.CommonTypes.SkuTier",
+      "@azure/arm-aigateway!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-aigateway!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-aigateway!KnownVersions:enum": "Microsoft.ApiManagement.Versions",
+      "@azure/arm-aigateway!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
+      "@azure/arm-aigateway!AiGatewayResourcesOperations#listBySubscription:member": "Microsoft.ApiManagement.AiGatewayResources.listBySubscription",
+      "@azure/arm-aigateway!AiGatewayResourcesOperations#listByResourceGroup:member": "Microsoft.ApiManagement.AiGatewayResources.listByResourceGroup",
+      "@azure/arm-aigateway!AiGatewayResourcesOperations#delete:member": "Microsoft.ApiManagement.AiGatewayResources.delete",
+      "@azure/arm-aigateway!AiGatewayResourcesOperations#update:member": "Microsoft.ApiManagement.AiGatewayResources.update",
+      "@azure/arm-aigateway!AiGatewayResourcesOperations#createOrUpdate:member": "Microsoft.ApiManagement.AiGatewayResources.createOrUpdate",
+      "@azure/arm-aigateway!AiGatewayResourcesOperations#get:member": "Microsoft.ApiManagement.AiGatewayResources.get",
+      "@azure/arm-aigateway!OperationsOperations#list:member": "Azure.ResourceManager.Legacy.Operations.list"
+    }
+  }
+}

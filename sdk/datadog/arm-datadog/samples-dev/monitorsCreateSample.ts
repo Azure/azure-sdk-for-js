@@ -1,49 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create a monitor resource.
- *
- * @summary Create a monitor resource.
- * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/Monitors_Create.json
- */
-
-import type { DatadogMonitorResource, MonitorsCreateOptionalParams } from "@azure/arm-datadog";
 import { MicrosoftDatadogClient } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create a monitor resource.
+ *
+ * @summary create a monitor resource.
+ * x-ms-original-file: 2025-12-26-preview/Monitors_Create.json
+ */
 async function monitorsCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
-  const body: DatadogMonitorResource = {
-    name: "myMonitor",
-    location: "West US",
-    properties: {
-      datadogOrganizationProperties: {
-        name: "myOrg",
-        cspm: false,
-        enterpriseAppId: "00000000-0000-0000-0000-000000000000",
-        id: "myOrg123",
-        linkingAuthCode: "someAuthCode",
-        linkingClientId: "00000000-0000-0000-0000-000000000000",
-      },
-      monitoringStatus: "Enabled",
-      userInfo: {
-        name: "Alice",
-        emailAddress: "alice@microsoft.com",
-        phoneNumber: "123-456-7890",
-      },
-    },
-    sku: { name: "free_Monthly" },
-    tags: { environment: "Dev" },
-  };
-  const options: MonitorsCreateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
-  const result = await client.monitors.beginCreateAndWait(resourceGroupName, monitorName, options);
+  const result = await client.monitors.create("myResourceGroup", "myMonitor", {
+    body: {
+      location: "West US",
+      properties: {
+        datadogOrganizationProperties: {
+          name: "myOrg",
+          cspm: false,
+          enterpriseAppId: "00000000-0000-0000-0000-000000000000",
+          id: "myOrg123",
+          linkingAuthCode: "someAuthCode",
+          linkingClientId: "00000000-0000-0000-0000-000000000000",
+          resourceCollection: false,
+        },
+        marketplaceOfferDetails: {
+          publisherId: "datadog1591740804488",
+          offerId: "dd_liftr_v3_decoupled",
+        },
+        monitoringStatus: "Enabled",
+        userInfo: {
+          name: "Alice",
+          emailAddress: "alice@microsoft.com",
+          phoneNumber: "123-456-7890",
+        },
+      },
+      sku: { name: "free_Monthly" },
+      tags: { Environment: "Dev" },
+    },
+  });
   console.log(result);
 }
 

@@ -8,8 +8,8 @@ export {
   get,
 } from "./operations.js";
 export {
-  SolutionTemplateVersionsBulkPublishSolutionOptionalParams,
-  SolutionTemplateVersionsBulkDeploySolutionOptionalParams,
-  SolutionTemplateVersionsListBySolutionTemplateOptionalParams,
-  SolutionTemplateVersionsGetOptionalParams,
+  type SolutionTemplateVersionsBulkPublishSolutionOptionalParams,
+  type SolutionTemplateVersionsBulkDeploySolutionOptionalParams,
+  type SolutionTemplateVersionsListBySolutionTemplateOptionalParams,
+  type SolutionTemplateVersionsGetOptionalParams,
 } from "./options.js";

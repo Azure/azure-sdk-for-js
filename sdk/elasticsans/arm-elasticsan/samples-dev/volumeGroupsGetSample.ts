@@ -1,60 +1,86 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get an VolumeGroups.
- *
- * @summary Get an VolumeGroups.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Get_MaximumSet_Gen.json
- */
-
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function volumeGroupsGetMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
-  const elasticSanName = "elasticsanname";
-  const volumeGroupName = "volumegroupname";
+/**
+ * This sample demonstrates how to get an VolumeGroups.
+ *
+ * @summary get an VolumeGroups.
+ * x-ms-original-file: 2026-05-01-preview/VolumeGroups_GeneralPurpose_Get_MaximumSet_Gen.json
+ */
+async function volumeGroupsGeneralPurposeGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.volumeGroups.get(
-    resourceGroupName,
-    elasticSanName,
-    volumeGroupName,
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get an VolumeGroups.
+ * This sample demonstrates how to get an VolumeGroups.
  *
- * @summary Get an VolumeGroups.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Get_MinimumSet_Gen.json
+ * @summary get an VolumeGroups.
+ * x-ms-original-file: 2026-05-01-preview/VolumeGroups_Get_MaximumSet_Gen.json
  */
-async function volumeGroupsGetMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
-  const elasticSanName = "elasticsanname";
-  const volumeGroupName = "volumegroupname";
+async function volumeGroupsGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.volumeGroups.get(
-    resourceGroupName,
-    elasticSanName,
-    volumeGroupName,
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get an VolumeGroups.
+ *
+ * @summary get an VolumeGroups.
+ * x-ms-original-file: 2026-05-01-preview/VolumeGroups_Get_MinimumSet_Gen.json
+ */
+async function volumeGroupsGetMinimumSetGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanManagement(credential, subscriptionId);
+  const result = await client.volumeGroups.get(
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get an VolumeGroups.
+ *
+ * @summary get an VolumeGroups.
+ * x-ms-original-file: 2026-05-01-preview/VolumeGroups_PerformanceCritical_Get_MaximumSet_Gen.json
+ */
+async function volumeGroupsPerformanceCriticalGetMaximumSetGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanManagement(credential, subscriptionId);
+  const result = await client.volumeGroups.get(
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
+  await volumeGroupsGeneralPurposeGetMaximumSetGen();
   await volumeGroupsGetMaximumSetGen();
   await volumeGroupsGetMinimumSetGen();
+  await volumeGroupsPerformanceCriticalGetMaximumSetGen();
 }
 
 main().catch(console.error);

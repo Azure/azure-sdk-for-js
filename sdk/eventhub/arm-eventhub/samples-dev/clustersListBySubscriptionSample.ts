@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the available Event Hubs Clusters within an ARM resource group
- *
- * @summary Lists the available Event Hubs Clusters within an ARM resource group
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/Clusters/ClustersListBySubscription.json
- */
-
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the available Event Hubs Clusters within an ARM resource group
+ *
+ * @summary lists the available Event Hubs Clusters within an ARM resource group
+ * x-ms-original-file: 2026-01-01/Clusters/ClustersListBySubscription.json
+ */
 async function clustersListBySubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
-    "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clusters.listBySubscription()) {
+  for await (const item of client.clusters.listBySubscription()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

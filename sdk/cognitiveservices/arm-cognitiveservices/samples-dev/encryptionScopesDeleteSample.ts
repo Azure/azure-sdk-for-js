@@ -3,33 +3,18 @@
 
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified encryptionScope associated with the Cognitive Services account.
+ * This sample demonstrates how to deletes the specified encryptionScope associated with the Cognitive Services account.
  *
- * @summary Deletes the specified encryptionScope associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/DeleteEncryptionScope.json
+ * @summary deletes the specified encryptionScope associated with the Cognitive Services account.
+ * x-ms-original-file: 2026-09-15-preview/DeleteEncryptionScope.json
  */
 async function deleteEncryptionScope(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
-  const accountName = "accountName";
-  const encryptionScopeName = "encryptionScopeName";
   const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.encryptionScopes.beginDeleteAndWait(
-    resourceGroupName,
-    accountName,
-    encryptionScopeName,
-  );
-  console.log(result);
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  await client.encryptionScopes.delete("resourceGroupName", "accountName", "encryptionScopeName");
 }
 
 async function main(): Promise<void> {

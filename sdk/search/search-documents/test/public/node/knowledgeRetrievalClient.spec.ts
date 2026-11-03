@@ -2,34 +2,48 @@
 // Licensed under the MIT License.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
-import type { OpenAIClient } from "@azure/openai";
-import { afterEach, assert, beforeEach, describe, it } from "vitest";
-import type {
-  AzureOpenAIParameters,
-  RemoteSharePointKnowledgeSource,
-  SearchClient,
-  SearchIndexClient,
-  WebKnowledgeSource,
-} from "../../../src/index.js";
-import { KnowledgeRetrievalClient, KnownKnowledgeRetrievalOutputMode } from "../../../src/index.js";
+import type { SearchClient, SearchIndexClient } from "../../../src/index.js";
+import { KnowledgeRetrievalClient } from "../../../src/index.js";
 import { defaultServiceVersion } from "../../../src/serviceUtils.js";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
-import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup.js";
+import { createRandomIndexName, createIndex, WAIT_TIME, populateIndex } from "../utils/setup.js";
 
-// TODO: Remove skip and fix recording issues before enabling these tests in PRs
-// To run these tests locally in 'live' mode, remove the skip modifier
-describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
+interface PreviewClients {
+  baseName: string;
+  knowledgeRetrievalClient: KnowledgeRetrievalClient;
+}
+
+function createPreviewClients(recorder: Recorder, baseName: string): PreviewClients {
+  const recordedBaseName = recorder.variable("TEST_BASE_NAME", baseName);
+
+  const credential = createTestCredential();
+  const endPoint: string = assertEnvironmentVariable("ENDPOINT");
+
+  const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
+    endPoint,
+    recordedBaseName,
+    credential,
+    recorder.configureClientOptions({}),
+  );
+
+  return {
+    knowledgeRetrievalClient,
+    baseName: recordedBaseName,
+  };
+}
+
+describe("Knowledge", { timeout: 20_000 }, () => {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
   let indexClient: SearchIndexClient;
-  let openAIClient: OpenAIClient;
   let TEST_INDEX_NAME: string;
   let TEST_BASE_NAME: string;
+  let TEST_KS_NAME: string;
   let knowledgeRetrievalClient: KnowledgeRetrievalClient;
-  let chatAzureOpenAIParameters: AzureOpenAIParameters;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -38,22 +52,18 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
     ({
       searchClient,
       indexClient,
-      openAIClient,
-      knowledgeRetrievalClient,
       indexName: TEST_INDEX_NAME,
-      baseName: TEST_BASE_NAME,
-      chatAzureOpenAIParameters,
-    } = await createClients<Hotel>(
-      defaultServiceVersion,
+    } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
+    ({ knowledgeRetrievalClient, baseName: TEST_BASE_NAME } = createPreviewClients(
       recorder,
-      TEST_INDEX_NAME,
       TEST_BASE_NAME,
     ));
+    TEST_KS_NAME = `searchindex-ks-${TEST_INDEX_NAME}`;
     await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
 
     await indexClient.createKnowledgeSource({
       kind: "searchIndex",
-      name: "searchindex-ks",
+      name: TEST_KS_NAME,
       searchIndexParameters: {
         searchIndexName: TEST_INDEX_NAME,
         searchFields: [{ name: "hotelName" }, { name: "description" }],
@@ -63,119 +73,42 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
 
     await indexClient.createKnowledgeBase({
       name: TEST_BASE_NAME,
-      models: [
-        {
-          kind: "azureOpenAI",
-          azureOpenAIParameters: chatAzureOpenAIParameters,
-        },
-      ],
-      knowledgeSources: [{ name: "searchindex-ks" }],
-    });
+      knowledgeSources: [{ name: TEST_KS_NAME }],
+    } as any);
 
     await delay(WAIT_TIME);
-    await populateIndex(searchClient, openAIClient);
+    await populateIndex(searchClient);
   });
 
   afterEach(async () => {
-    await indexClient.deleteKnowledgeBase(TEST_BASE_NAME);
-    await indexClient.deleteKnowledgeSource("searchindex-ks");
-    await indexClient.deleteIndex(TEST_INDEX_NAME);
-    await delay(WAIT_TIME);
-    await recorder?.stop();
+    try {
+      await indexClient.deleteKnowledgeBase(TEST_BASE_NAME).catch(() => {});
+      await indexClient.deleteKnowledgeSource(TEST_KS_NAME).catch(() => {});
+      await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
+      await delay(WAIT_TIME);
+    } finally {
+      await recorder?.stop();
+    }
   });
 
   describe("KnowledgeRetrievalClient", () => {
     it("executes queries", { timeout: 60000 }, async () => {
-      const result = await knowledgeRetrievalClient.retrieveKnowledge({
-        messages: [
+      const result = await knowledgeRetrievalClient.retrieve({
+        intents: [
           {
-            role: "user",
-            content: [{ type: "text", text: "What is the most luxurious hotel?" }],
+            type: "semantic",
+            search: "What is the most luxurious hotel?",
           },
         ],
+        retrievalReasoningEffort: {
+          kind: "minimal",
+        },
       });
 
       assert.exists(result.activity);
       assert.exists(result.references);
       assert.exists(result.response);
       assert.isTrue(result.response.length > 0);
-    });
-
-    it("create webKnowledgeSource and query knowledge base", { timeout: 60000 }, async () => {
-      const webKnowledgeSource: WebKnowledgeSource = {
-        kind: "web",
-        name: "web-ks",
-      };
-
-      await indexClient.createOrUpdateKnowledgeSource(webKnowledgeSource.name, webKnowledgeSource);
-
-      await indexClient.createKnowledgeBase({
-        name: `${TEST_BASE_NAME}-web`,
-        models: [
-          {
-            kind: "azureOpenAI",
-            azureOpenAIParameters: chatAzureOpenAIParameters,
-          },
-        ],
-        knowledgeSources: [{ name: "web-ks" }],
-        outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
-      });
-
-      await delay(WAIT_TIME);
-
-      const webKnowledgeRetrievalClient = new KnowledgeRetrievalClient(
-        knowledgeRetrievalClient.endpoint,
-        `${TEST_BASE_NAME}-web`,
-        createTestCredential(),
-      );
-
-      const result = await webKnowledgeRetrievalClient.retrieveKnowledge({
-        messages: [
-          {
-            role: "user",
-            content: [{ type: "text", text: "What is the weather in redmond today?" }],
-          },
-        ],
-        outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
-        retrievalReasoningEffort: { kind: "low" },
-      });
-
-      assert.exists(result.activity);
-      assert.exists(result.references);
-      assert.exists(result.response);
-      assert.isTrue(result.response.length > 0);
-
-      await indexClient.deleteKnowledgeBase(`${TEST_BASE_NAME}-web`);
-      await indexClient.deleteKnowledgeSource("web-ks");
-    });
-
-    it("CRUD  remote sharepoint knowledge source", { timeout: 60000 }, async () => {
-      const remoteSharePointKnowledgeSource: RemoteSharePointKnowledgeSource = {
-        kind: "remoteSharePoint",
-        name: "remotesharepoint-ks",
-        remoteSharePointParameters: {},
-      };
-
-      await indexClient.createOrUpdateKnowledgeSource(
-        remoteSharePointKnowledgeSource.name,
-        remoteSharePointKnowledgeSource,
-      );
-
-      await indexClient.createKnowledgeBase({
-        name: `${TEST_BASE_NAME}-remotesharepoint`,
-        models: [
-          {
-            kind: "azureOpenAI",
-            azureOpenAIParameters: chatAzureOpenAIParameters,
-          },
-        ],
-        knowledgeSources: [{ name: "remotesharepoint-ks" }],
-        outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
-      });
-
-      await delay(WAIT_TIME);
-      await indexClient.deleteKnowledgeBase(`${TEST_BASE_NAME}-remotesharepoint`);
-      await indexClient.deleteKnowledgeSource("remotesharepoint-ks");
     });
   });
 });

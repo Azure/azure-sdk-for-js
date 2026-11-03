@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all FHIR Services for the given workspace
- *
- * @summary Lists all FHIR Services for the given workspace
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/fhirservices/FhirServices_List.json
- */
-
 import { HealthcareApisManagementClient } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all FHIR Services for the given workspace
+ *
+ * @summary lists all FHIR Services for the given workspace
+ * x-ms-original-file: 2025-04-01-preview/fhirservices/FhirServices_List.json
+ */
 async function listFhirservices(): Promise<void> {
-  const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["HEALTHCAREAPIS_RESOURCE_GROUP"] || "testRG";
-  const workspaceName = "workspace1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.fhirServices.listByWorkspace(resourceGroupName, workspaceName)) {
+  for await (const item of client.fhirServices.listByWorkspace("testRG", "workspace1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

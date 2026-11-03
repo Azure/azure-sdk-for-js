@@ -1,23 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a Bot Service. Bot Service is a resource group wide resource type.
- *
- * @summary Creates a Bot Service. Bot Service is a resource group wide resource type.
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/CreateBot.json
- */
-
-import type { Bot } from "@azure/arm-botservice";
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a Bot Service. Bot Service is a resource group wide resource type.
+ *
+ * @summary creates a Bot Service. Bot Service is a resource group wide resource type.
+ * x-ms-original-file: 2023-09-15-preview/CreateBot.json
+ */
 async function createBot(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const parameters: Bot = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
+  const client = new AzureBotService(credential, subscriptionId);
+  const result = await client.bots.create("OneResourceGroupName", "samplebotname", {
     etag: "etag1",
     kind: "sdk",
     location: "West US",
@@ -44,10 +41,7 @@ async function createBot(): Promise<void> {
     },
     sku: { name: "S1" },
     tags: { tag1: "value1", tag2: "value2" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureBotService(credential, subscriptionId);
-  const result = await client.bots.create(resourceGroupName, resourceName, parameters);
+  });
   console.log(result);
 }
 

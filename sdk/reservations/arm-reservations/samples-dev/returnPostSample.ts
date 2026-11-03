@@ -1,21 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Return a reservation and get refund information.
- *
- * @summary Return a reservation and get refund information.
- * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/Return.json
- */
-
-import type { RefundRequest } from "@azure/arm-reservations";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to return a reservation and get refund information.
+ *
+ * @summary return a reservation and get refund information.
+ * x-ms-original-file: 2022-11-01/Return.json
+ */
 async function returnAReservation(): Promise<void> {
-  const reservationOrderId = "50000000-aaaa-bbbb-cccc-100000000004";
-  const body: RefundRequest = {
+  const credential = new DefaultAzureCredential();
+  const client = new AzureReservationAPI(credential);
+  const result = await client.return.post("50000000-aaaa-bbbb-cccc-100000000004", {
     properties: {
       reservationToReturn: {
         quantity: 1,
@@ -26,10 +24,7 @@ async function returnAReservation(): Promise<void> {
       scope: "Reservation",
       sessionId: "10000000-aaaa-bbbb-cccc-200000000000",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureReservationAPI(credential);
-  const result = await client.return.beginPostAndWait(reservationOrderId, body);
+  });
   console.log(result);
 }
 

@@ -1,35 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates part of a data collection rule.
- *
- * @summary Updates part of a data collection rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRulesUpdate.json
- */
-
-import type {
-  ResourceForUpdate,
-  DataCollectionRulesUpdateOptionalParams,
-} from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates part of a data collection rule.
+ *
+ * @summary updates part of a data collection rule.
+ * x-ms-original-file: 2024-03-11/DataCollectionRulesUpdate.json
+ */
 async function updateDataCollectionRule(): Promise<void> {
-  const subscriptionId =
-    process.env["MONITOR_SUBSCRIPTION_ID"] || "703362b3-f278-4e4b-9179-c76eaf41ffc2";
-  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "myResourceGroup";
-  const dataCollectionRuleName = "myCollectionRule";
-  const body: ResourceForUpdate = { tags: { tag1: "A", tag2: "B", tag3: "C" } };
-  const options: DataCollectionRulesUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "703362b3-f278-4e4b-9179-c76eaf41ffc2";
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.dataCollectionRules.update(
-    resourceGroupName,
-    dataCollectionRuleName,
-    options,
-  );
+  const result = await client.dataCollectionRules.update("myResourceGroup", "myCollectionRule", {
+    body: { tags: { tag1: "A", tag2: "B", tag3: "C" } },
+  });
   console.log(result);
 }
 

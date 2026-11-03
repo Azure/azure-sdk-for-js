@@ -1,10 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { AvsStorageContainersOperations } from "./avsStorageContainers/index.js";
-export { AvsStorageContainerVolumesOperations } from "./avsStorageContainerVolumes/index.js";
-export { AvsVmsOperations } from "./avsVms/index.js";
-export { AvsVmVolumesOperations } from "./avsVmVolumes/index.js";
-export { OperationsOperations } from "./operations/index.js";
-export { ReservationsOperations } from "./reservations/index.js";
-export { StoragePoolsOperations } from "./storagePools/index.js";
+export type { AvsStorageContainersOperations } from "./avsStorageContainers/index.js";
+export type { AvsStorageContainerVolumesOperations } from "./avsStorageContainerVolumes/index.js";
+export type { AvsVmsOperations } from "./avsVms/index.js";
+export type { AvsVmVolumesOperations } from "./avsVmVolumes/index.js";
+export type { OperationsOperations } from "./operations/index.js";
+export type { RecoverableVolumeGroupsOperations } from "./recoverableVolumeGroups/index.js";
+export type { ReservationsOperations } from "./reservations/index.js";
+export type { SaaSOperationGroupOperations } from "./saaSOperationGroup/index.js";
+export type { StoragePoolsOperations } from "./storagePools/index.js";
+export type { VolumeGroupsOperations } from "./volumeGroups/index.js";
+export type { VolumeGroupSnapshotsOperations } from "./volumeGroupSnapshots/index.js";
+export type { VolumesOperations } from "./volumes/index.js";

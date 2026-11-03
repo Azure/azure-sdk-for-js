@@ -3,19 +3,20 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type * as coreClient from "@azure-rest/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import type { ExtendedCommonClientOptions } from "@azure/keyvault-common";
 import type { CancelOnProgress, PollOperationState } from "@azure/core-lro";
 import type {
   DeletionRecoveryLevel,
   KeyUsageType,
   JsonWebKeyType as CertificateKeyType,
   JsonWebKeyCurveName as CertificateKeyCurveName,
+  PlatformManaged,
 } from "./models/models.js";
 
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.6";
+export const LATEST_API_VERSION = "2026-04-01";
 
 /**
  * The optional parameters accepted by the KeyVault's CertificateClient
@@ -24,7 +25,8 @@ export interface CertificateClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6";
+  serviceVersion?:
+    "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-04-01";
 
   /**
    * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.
@@ -227,6 +229,14 @@ export interface SubjectAlternativeNamesAll {
    * User principal names.
    */
   userPrincipalNames: ArrayOneOrMore<string>;
+  /**
+   * Uniform Resource Identifiers (URIs).
+   */
+  uniformResourceIdentifiers: ArrayOneOrMore<string>;
+  /**
+   * IP addresses; supports IPv4 and IPv6.
+   */
+  ipAddresses: ArrayOneOrMore<string>;
 }
 
 /**
@@ -362,6 +372,14 @@ export interface CertificatePolicyProperties {
    * The duration that the certificate is valid in months.
    */
   validityInMonths?: number;
+  /**
+   * Configuration that enables the platform to manage the certificate on behalf of the user.
+   *
+   * @remarks This feature is currently intended for internal Azure Key Vault usage only.
+   * Any calls using this property will fail and it is not recommended to be used at this point.
+   * Requires service version `"2026-04-01"` on the {@link CertificateClient}.
+   */
+  platformManaged?: PlatformManaged;
 }
 
 /**

@@ -413,7 +413,7 @@ export interface ContainerServiceSshPublicKeyOutput {
 }
 
 // @public
-function createClient(credentials: TokenCredential, { apiVersion, ...options }?: ContainerServiceClientOptions): ContainerServiceClient;
+function createClient(credentials: TokenCredential, input?: ContainerServiceClientOptions): ContainerServiceClient;
 export default createClient;
 
 // @public

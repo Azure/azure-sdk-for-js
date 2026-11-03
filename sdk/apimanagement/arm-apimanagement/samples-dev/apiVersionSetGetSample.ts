@@ -1,32 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the details of the Api Version Set specified by its identifier.
- *
- * @summary Gets the details of the Api Version Set specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGetApiVersionSet.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the details of the Api Version Set specified by its identifier.
+ *
+ * @summary gets the details of the Api Version Set specified by its identifier.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGetApiVersionSet.json
+ */
 async function apiManagementGetApiVersionSet(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const versionSetId = "vs1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiVersionSet.get(
-    resourceGroupName,
-    serviceName,
-    versionSetId,
-  );
+  const result = await client.apiVersionSet.get("rg1", "apimService1", "vs1");
   console.log(result);
 }
 

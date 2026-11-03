@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes Policy
- *
- * @summary Deletes Policy
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2024-02-01/examples/WafPolicyDelete.json
- */
-
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes Policy
+ *
+ * @summary deletes Policy
+ * x-ms-original-file: 2025-11-01/WafPolicyDelete.json
+ */
 async function deleteProtectionPolicy(): Promise<void> {
-  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
-  const policyName = "Policy1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new FrontDoorManagementClient(credential, subscriptionId);
-  const result = await client.policies.beginDeleteAndWait(resourceGroupName, policyName);
-  console.log(result);
+  await client.policies.delete("rg1", "Policy1");
 }
 
 async function main(): Promise<void> {

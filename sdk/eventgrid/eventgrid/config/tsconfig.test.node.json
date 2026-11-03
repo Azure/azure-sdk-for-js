@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/eventgrid": ["../src/index.ts"],
+      "@azure/eventgrid/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

@@ -1,38 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ProximityPlacementGroup} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update a proximity placement group.
+ * This sample demonstrates how to create or update a proximity placement group.
  *
- * @summary Create or update a proximity placement group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_CreateOrUpdate.json
+ * @summary create or update a proximity placement group.
+ * x-ms-original-file: 2026-04-01/proximityPlacementGroupExamples/ProximityPlacementGroup_CreateOrUpdate.json
  */
 async function createOrUpdateAProximityPlacementGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const proximityPlacementGroupName = "myProximityPlacementGroup";
-  const parameters: ProximityPlacementGroup = {
-    intent: { vmSizes: ["Basic_A0", "Basic_A2"] },
-    location: "westus",
-    proximityPlacementGroupType: "Standard",
-    zones: ["1"],
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.proximityPlacementGroups.createOrUpdate(
-    resourceGroupName,
-    proximityPlacementGroupName,
-    parameters,
+    "myResourceGroup",
+    "myProximityPlacementGroup",
+    {
+      location: "westus",
+      zones: ["1"],
+      proximityPlacementGroupType: "Standard",
+      intent: { vmSizes: ["Basic_A0", "Basic_A2"] },
+    },
   );
   console.log(result);
 }

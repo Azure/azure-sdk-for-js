@@ -3,30 +3,22 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified Managed Certificate.
+ * This sample demonstrates how to deletes the specified Managed Certificate.
  *
- * @summary Deletes the specified Managed Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedCertificate_Delete.json
+ * @summary deletes the specified Managed Certificate.
+ * x-ms-original-file: 2026-07-01/ManagedCertificate_Delete.json
  */
 async function deleteCertificate(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "testcontainerenv";
-  const managedCertificateName = "certificate-firendly-name";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.managedCertificates.delete(
-    resourceGroupName,
-    environmentName,
-    managedCertificateName,
+  await client.managedCertificates.delete(
+    "examplerg",
+    "testcontainerenv",
+    "certificate-firendly-name",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

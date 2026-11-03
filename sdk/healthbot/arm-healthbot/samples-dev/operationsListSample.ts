@@ -1,25 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all the available Azure Health Bot operations.
- *
- * @summary Lists all the available Azure Health Bot operations.
- * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2021-06-10/examples/GetOperations.json
- */
-
 import { HealthbotClient } from "@azure/arm-healthbot";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to lists all the available Azure Health Bot operations.
+ *
+ * @summary lists all the available Azure Health Bot operations.
+ * x-ms-original-file: 2025-11-01/GetOperations.json
+ */
 async function getOperations(): Promise<void> {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new HealthbotClient(credential, subscriptionId);
+  const client = new HealthbotClient(credential);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-getOperations().catch(console.error);
+async function main(): Promise<void> {
+  await getOperations();
+}
+
+main().catch(console.error);

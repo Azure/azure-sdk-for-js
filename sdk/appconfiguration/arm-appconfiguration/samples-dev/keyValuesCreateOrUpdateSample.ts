@@ -1,42 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
- *
- * @summary Creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-06-01/examples/ConfigurationStoresCreateKeyValue.json
- */
-
-import {
-  KeyValue,
-  AppConfigurationManagementClient,
-} from "@azure/arm-appconfiguration";
+import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
+ *
+ * @summary creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateKeyValue.json
+ */
 async function keyValuesCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
-    "c80fb759-c965-4c6a-9110-9b2b2d038882";
-  const resourceGroupName =
-    process.env["APPCONFIGURATION_RESOURCE_GROUP"] || "myResourceGroup";
-  const configStoreName = "contoso";
-  const keyValueName = "myKey$myLabel";
-  const keyValueParameters: KeyValue = {
-    tags: { tag1: "tagValue1", tag2: "tagValue2" },
-    value: "myValue",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const result = await client.keyValues.createOrUpdate(
-    resourceGroupName,
-    configStoreName,
-    keyValueName,
-    keyValueParameters,
+    "myResourceGroup",
+    "contoso",
+    "myKey$myLabel",
+    { tags: { tag1: "tagValue1", tag2: "tagValue2" }, value: "myValue" },
   );
   console.log(result);
 }

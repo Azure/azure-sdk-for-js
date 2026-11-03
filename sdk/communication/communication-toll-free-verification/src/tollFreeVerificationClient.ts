@@ -188,8 +188,7 @@ export class TollFreeVerificationClient {
       options,
       async (
         updatedOptions:
-          | TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams
-          | undefined,
+          TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams | undefined,
       ) => {
         return this.client.tollFreeVerification.createOrReplaceCampaignBriefAttachment(
           countryCode,

@@ -1,22 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a savings plan.
- *
- * @summary Get a savings plan.
- * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/SavingsPlanOrderAliasGet.json
- */
-
 import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to get a savings plan.
+ *
+ * @summary get a savings plan.
+ * x-ms-original-file: 2025-12-01-preview/SavingsPlanOrderAliasGet.json
+ */
 async function savingsPlanOrderAliasGet(): Promise<void> {
-  const savingsPlanOrderAliasName = "spAlias123";
   const credential = new DefaultAzureCredential();
   const client = new BillingBenefitsRP(credential);
-  const result = await client.savingsPlanOrderAlias.get(savingsPlanOrderAliasName);
+  const result = await client.savingsPlanOrderAlias.get("spAlias123");
   console.log(result);
 }
 
-savingsPlanOrderAliasGet().catch(console.error);
+async function main(): Promise<void> {
+  await savingsPlanOrderAliasGet();
+}
+
+main().catch(console.error);

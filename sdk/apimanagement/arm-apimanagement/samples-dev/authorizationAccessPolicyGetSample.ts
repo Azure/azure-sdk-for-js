@@ -1,35 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the details of the authorization access policy specified by its identifier.
- *
- * @summary Gets the details of the authorization access policy specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGetAuthorizationAccessPolicy.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the details of the authorization access policy specified by its identifier.
+ *
+ * @summary gets the details of the authorization access policy specified by its identifier.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGetAuthorizationAccessPolicy.json
+ */
 async function apiManagementGetAuthorizationAccessPolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const authorizationProviderId = "aadwithauthcode";
-  const authorizationId = "authz1";
-  const authorizationAccessPolicyId = "fe0bed83-631f-4149-bd0b-0464b1bc7cab";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
   const result = await client.authorizationAccessPolicy.get(
-    resourceGroupName,
-    serviceName,
-    authorizationProviderId,
-    authorizationId,
-    authorizationAccessPolicyId,
+    "rg1",
+    "apimService1",
+    "aadwithauthcode",
+    "authz1",
+    "fe0bed83-631f-4149-bd0b-0464b1bc7cab",
   );
   console.log(result);
 }

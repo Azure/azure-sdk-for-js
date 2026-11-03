@@ -1,65 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  LocalRulestacksListCountriesOptionalParams} from "@azure/arm-paloaltonetworksngfw";
-import {
-  PaloAltoNetworksCloudngfw,
-} from "@azure/arm-paloaltonetworksngfw";
+import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List of countries for Rulestack
+ * This sample demonstrates how to list of countries for Rulestack
  *
- * @summary List of countries for Rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/LocalRulestacks_listCountries_MaximumSet_Gen.json
+ * @summary list of countries for Rulestack
+ * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_listCountries_MaximumSet_Gen.json
  */
 async function localRulestacksListCountriesMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
-    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const resourceGroupName =
-    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
-  const localRulestackName = "lrs1";
-  const skip = "a6a321";
-  const top = 20;
-  const options: LocalRulestacksListCountriesOptionalParams = { skip, top };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.localRulestacks.listCountries(
-    resourceGroupName,
-    localRulestackName,
-    options,
-  )) {
+  for await (const item of client.localRulestacks.listCountries("rgopenapi", "lrs1", {
+    skip: "a6a321",
+    top: 20,
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to List of countries for Rulestack
+ * This sample demonstrates how to list of countries for Rulestack
  *
- * @summary List of countries for Rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/LocalRulestacks_listCountries_MinimumSet_Gen.json
+ * @summary list of countries for Rulestack
+ * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_listCountries_MinimumSet_Gen.json
  */
 async function localRulestacksListCountriesMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
-    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const resourceGroupName =
-    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
-  const localRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.localRulestacks.listCountries(
-    resourceGroupName,
-    localRulestackName,
-  )) {
+  for await (const item of client.localRulestacks.listCountries("rgopenapi", "lrs1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

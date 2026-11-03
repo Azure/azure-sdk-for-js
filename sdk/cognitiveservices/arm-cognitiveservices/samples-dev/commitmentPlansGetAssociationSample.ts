@@ -3,31 +3,21 @@
 
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the association of the Cognitive Services commitment plan.
+ * This sample demonstrates how to gets the association of the Cognitive Services commitment plan.
  *
- * @summary Gets the association of the Cognitive Services commitment plan.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/GetSharedCommitmentPlanAssociation.json
+ * @summary gets the association of the Cognitive Services commitment plan.
+ * x-ms-original-file: 2026-09-15-preview/GetSharedCommitmentPlanAssociation.json
  */
 async function getCommitmentPlan(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
-  const commitmentPlanName = "commitmentPlanName";
-  const commitmentPlanAssociationName = "commitmentPlanAssociationName";
   const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const result = await client.commitmentPlans.getAssociation(
-    resourceGroupName,
-    commitmentPlanName,
-    commitmentPlanAssociationName,
+    "resourceGroupName",
+    "commitmentPlanName",
+    "commitmentPlanAssociationName",
   );
   console.log(result);
 }

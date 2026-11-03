@@ -3,31 +3,22 @@
 
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Permanently deletes the specified managed HSM.
+ * This sample demonstrates how to permanently deletes the specified managed HSM.
  *
- * @summary Permanently deletes the specified managed HSM.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/DeletedManagedHsm_Purge.json
+ * @summary permanently deletes the specified managed HSM.
+ * x-ms-original-file: 2026-05-15/DeletedManagedHsm_Purge.json
  */
-async function purgeAManagedHsmPool(): Promise<void> {
-  const subscriptionId =
-    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const name = "hsm1";
-  const location = "westus";
+async function purgeAManagedHSMPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new KeyVaultManagementClient(credential, subscriptionId);
-  const result = await client.managedHsms.beginPurgeDeletedAndWait(
-    name,
-    location,
-  );
-  console.log(result);
+  await client.managedHsms.purgeDeleted("hsm1", "westus");
 }
 
 async function main(): Promise<void> {
-  await purgeAManagedHsmPool();
+  await purgeAManagedHSMPool();
 }
 
 main().catch(console.error);

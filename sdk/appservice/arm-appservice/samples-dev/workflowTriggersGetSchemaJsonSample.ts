@@ -3,30 +3,22 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get the trigger schema as JSON.
+ * This sample demonstrates how to get the trigger schema as JSON.
  *
- * @summary Get the trigger schema as JSON.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/WorkflowTriggers_GetSchemaJson.json
+ * @summary get the trigger schema as JSON.
+ * x-ms-original-file: 2025-05-01/WorkflowTriggers_GetSchemaJson.json
  */
 async function getTriggerSchema(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testResourceGroup";
-  const name = "test-name";
-  const workflowName = "testWorkflow";
-  const triggerName = "testTrigger";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.workflowTriggers.getSchemaJson(
-    resourceGroupName,
-    name,
-    workflowName,
-    triggerName,
+    "testResourceGroup",
+    "test-name",
+    "testWorkflow",
+    "testTrigger",
   );
   console.log(result);
 }

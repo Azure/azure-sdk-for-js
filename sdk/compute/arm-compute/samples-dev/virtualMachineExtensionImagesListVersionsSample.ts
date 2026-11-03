@@ -1,63 +1,61 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualMachineExtensionImagesListVersionsOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of virtual machine extension image versions.
+ * This sample demonstrates how to gets a list of virtual machine extension image versions.
  *
- * @summary Gets a list of virtual machine extension image versions.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MaximumSet_Gen.json
+ * @summary gets a list of virtual machine extension image versions.
+ * x-ms-original-file: 2026-04-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImageListVersionsMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const location = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
-  const publisherName = "aaaaaaaaaaaaaaaaaaaa";
-  const typeParam = "aaaaaaaaaaaaaaaaaa";
-  const filter = "aaaaaaaaaaaaaaaaaaaaaaaaa";
-  const top = 22;
-  const orderby = "a";
-  const options: VirtualMachineExtensionImagesListVersionsOptionalParams = {
-    filter,
-    top,
-    orderby,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineExtensionImages.listVersions(
-    location,
-    publisherName,
-    typeParam,
-    options,
+    "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaa",
+    { filter: "aaaaaaaaaaaaaaaaaaaaaaaaa", top: 22, orderby: "a" },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets a list of virtual machine extension image versions.
+ * This sample demonstrates how to gets a list of virtual machine extension image versions.
  *
- * @summary Gets a list of virtual machine extension image versions.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MinimumSet_Gen.json
+ * @summary gets a list of virtual machine extension image versions.
+ * x-ms-original-file: 2026-04-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImageListVersionsMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const location = "aaaaaaaaa";
-  const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-  const typeParam = "aaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineExtensionImages.listVersions(
-    location,
-    publisherName,
-    typeParam,
+    "aaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaa",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a list of virtual machine extension image versions.
+ *
+ * @summary gets a list of virtual machine extension image versions.
+ * x-ms-original-file: 2026-04-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_WithExpandProperties_Gen.json
+ */
+async function virtualMachineExtensionImageListVersionsWithExpandPropertiesGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachineExtensionImages.listVersions(
+    "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaa",
+    { filter: "aaaaaaaaaaaaaaaaaaaaaaaaa", top: 22, orderby: "a", expand: "properties" },
   );
   console.log(result);
 }
@@ -65,6 +63,7 @@ async function virtualMachineExtensionImageListVersionsMinimumSetGen(): Promise<
 async function main(): Promise<void> {
   await virtualMachineExtensionImageListVersionsMaximumSetGen();
   await virtualMachineExtensionImageListVersionsMinimumSetGen();
+  await virtualMachineExtensionImageListVersionsWithExpandPropertiesGen();
 }
 
 main().catch(console.error);

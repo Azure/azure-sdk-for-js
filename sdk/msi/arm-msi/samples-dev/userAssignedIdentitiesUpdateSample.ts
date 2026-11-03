@@ -1,33 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update an identity in the specified subscription and resource group.
- *
- * @summary Update an identity in the specified subscription and resource group.
- * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2024-11-30/examples/IdentityUpdate.json
- */
-
-import { IdentityUpdate, ManagedServiceIdentityClient } from "@azure/arm-msi";
+import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update an identity in the specified subscription and resource group.
+ *
+ * @summary update an identity in the specified subscription and resource group.
+ * x-ms-original-file: 2025-05-31-preview/IdentityUpdate.json
+ */
 async function identityUpdate(): Promise<void> {
-  const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";
-  const resourceName = "resourceName";
-  const parameters: IdentityUpdate = {
-    isolationScope: "Regional",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-5678-9012-123456789012";
+  const client = new ManagedServiceIdentityClient(credential, subscriptionId);
+  const result = await client.userAssignedIdentities.update("rgName", "resourceName", {
     location: "eastus",
     tags: { key1: "value1", key2: "value2" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ManagedServiceIdentityClient(credential, subscriptionId);
-  const result = await client.userAssignedIdentities.update(
-    resourceGroupName,
-    resourceName,
-    parameters,
-  );
+    isolationScope: "Regional",
+    assignmentRestrictions: { providers: ["Microsoft.Compute", "Microsoft.Storage/Accounts"] },
+  });
   console.log(result);
 }
 

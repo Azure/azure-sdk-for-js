@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByLocation, get } from "./operations.js";
-export {
+export type {
   DnsPrivateZonesListByLocationOptionalParams,
   DnsPrivateZonesGetOptionalParams,
 } from "./options.js";

@@ -1,50 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List the operations for the provider
- *
- * @summary List the operations for the provider
- * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/Operations_List_MaximumSet_Gen.json
- */
-
 import { QumuloStorage } from "@azure/arm-qumulo";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function operationsList(): Promise<void> {
-  const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+/**
+ * This sample demonstrates how to list the operations for the provider
+ *
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2026-04-16/Operations_List_MaximumSet_Gen.json
+ */
+async function operationsListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new QumuloStorage(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to List the operations for the provider
+ * This sample demonstrates how to list the operations for the provider
  *
- * @summary List the operations for the provider
- * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/Operations_List_MinimumSet_Gen.json
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2026-04-16/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+async function operationsListMaximumSetGenGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new QumuloStorage(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await operationsList();
-  await operationsListMinimumSetGen();
+  await operationsListMaximumSet();
+  await operationsListMaximumSetGenGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

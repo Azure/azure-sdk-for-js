@@ -1,31 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all guest configuration assignments for VMSS.
- *
- * @summary List all guest configuration assignments for VMSS.
- * x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listVMSSGuestConfigurationAssignments.json
- */
-
 import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list all guest configuration assignments for VMSS.
+ *
+ * @summary list all guest configuration assignments for VMSS.
+ * x-ms-original-file: 2024-04-05/listVMSSGuestConfigurationAssignments.json
+ */
 async function listAllGuestConfigurationAssignmentsForVmss(): Promise<void> {
-  const subscriptionId = process.env["GUESTCONFIGURATION_SUBSCRIPTION_ID"] || "mySubscriptionId";
-  const resourceGroupName =
-    process.env["GUESTCONFIGURATION_RESOURCE_GROUP"] || "myResourceGroupName";
-  const vmssName = "myVMSSName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "mySubscriptionId";
   const client = new GuestConfigurationClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.guestConfigurationAssignmentsVmss.list(
-    resourceGroupName,
-    vmssName,
+    "myResourceGroupName",
+    "myVMSSName",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

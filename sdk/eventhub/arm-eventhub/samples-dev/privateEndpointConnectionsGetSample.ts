@@ -1,29 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a description for the specified Private Endpoint Connection name.
- *
- * @summary Gets a description for the specified Private Endpoint Connection name.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/PrivateEndPointConnectionGet.json
- */
-
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets a description for the specified Private Endpoint Connection name.
+ *
+ * @summary gets a description for the specified Private Endpoint Connection name.
+ * x-ms-original-file: 2026-01-01/NameSpaces/PrivateEndPointConnectionGet.json
+ */
 async function nameSpacePrivateEndPointConnectionGet(): Promise<void> {
-  const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subID";
-  const resourceGroupName =
-    process.env["EVENTHUB_RESOURCE_GROUP"] || "SDK-EventHub-4794";
-  const namespaceName = "sdk-Namespace-5828";
-  const privateEndpointConnectionName = "privateEndpointConnectionName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subID";
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.get(
-    resourceGroupName,
-    namespaceName,
-    privateEndpointConnectionName,
+    "SDK-EventHub-4794",
+    "sdk-Namespace-5828",
+    "privateEndpointConnectionName",
   );
   console.log(result);
 }

@@ -1,43 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { L2Network} from "@azure/arm-networkcloud";
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create a new layer 2 (L2) network or update the properties of the existing network.
+ * This sample demonstrates how to create a new layer 2 (L2) network or update the properties of the existing network.
  *
- * @summary Create a new layer 2 (L2) network or update the properties of the existing network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/L2Networks_Create.json
+ * @summary create a new layer 2 (L2) network or update the properties of the existing network.
+ * x-ms-original-file: 2026-07-01/L2Networks_Create.json
  */
 async function createOrUpdateL2Network(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const l2NetworkName = "l2NetworkName";
-  const l2NetworkParameters: L2Network = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
+  const client = new NetworkCloud(credential, subscriptionId);
+  const result = await client.l2Networks.createOrUpdate("resourceGroupName", "l2NetworkName", {
     extendedLocation: {
       name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
       type: "CustomLocation",
     },
+    location: "location",
     hybridAksPluginType: "DPDK",
     interfaceName: "eth0",
     l2IsolationDomainId:
       "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/l2IsolationDomainName",
-    location: "location",
     tags: { key1: "myvalue1", key2: "myvalue2" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.l2Networks.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    l2NetworkName,
-    l2NetworkParameters,
-  );
+  });
   console.log(result);
 }
 

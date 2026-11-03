@@ -20,7 +20,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -33,7 +33,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<vo
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

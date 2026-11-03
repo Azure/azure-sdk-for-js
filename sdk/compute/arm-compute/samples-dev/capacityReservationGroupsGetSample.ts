@@ -1,82 +1,77 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  CapacityReservationGroupsGetOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation that retrieves information about a capacity reservation group.
+ * This sample demonstrates how to the operation that retrieves information about a capacity reservation group.
  *
- * @summary The operation that retrieves information about a capacity reservation group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/capacityReservationExamples/BlockCapacityReservationGroup_Get.json
+ * @summary the operation that retrieves information about a capacity reservation group.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/BlockCapacityReservationGroup_Get.json
  */
 async function getABlockCapacityReservationGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const capacityReservationGroupName = "blockCapacityReservationGroup";
-  const expand = "instanceView";
-  const options: CapacityReservationGroupsGetOptionalParams = { expand };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscriptionId}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.capacityReservationGroups.get(
-    resourceGroupName,
-    capacityReservationGroupName,
-    options,
+    "myResourceGroup",
+    "blockCapacityReservationGroup",
+    { expand: "instanceView" },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation that retrieves information about a capacity reservation group.
+ * This sample demonstrates how to the operation that retrieves information about a capacity reservation group.
  *
- * @summary The operation that retrieves information about a capacity reservation group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/capacityReservationExamples/CapacityReservationGroup_Get.json
+ * @summary the operation that retrieves information about a capacity reservation group.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/CapacityReservationGroup_Get.json
  */
 async function getACapacityReservationGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const capacityReservationGroupName = "myCapacityReservationGroup";
-  const expand = "instanceView";
-  const options: CapacityReservationGroupsGetOptionalParams = { expand };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscriptionId}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.capacityReservationGroups.get(
-    resourceGroupName,
-    capacityReservationGroupName,
-    options,
+    "myResourceGroup",
+    "myCapacityReservationGroup",
+    { expand: "instanceView" },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation that retrieves information about a capacity reservation group.
+ * This sample demonstrates how to the operation that retrieves information about a capacity reservation group.
  *
- * @summary The operation that retrieves information about a capacity reservation group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/capacityReservationExamples/TargetedCapacityReservationGroup_Get.json
+ * @summary the operation that retrieves information about a capacity reservation group.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/OpenCapacityReservationGroup_Get.json
  */
-async function getATargetedCapacityReservationGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const capacityReservationGroupName = "targetedCapacityReservationGroup";
-  const expand = "instanceView";
-  const options: CapacityReservationGroupsGetOptionalParams = { expand };
+async function getAnOpenCapacityReservationGroupWithInstanceView(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscriptionId}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.capacityReservationGroups.get(
-    resourceGroupName,
-    capacityReservationGroupName,
-    options,
+    "myResourceGroup",
+    "openCapacityReservationGroup",
+    { expand: "instanceView" },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation that retrieves information about a capacity reservation group.
+ *
+ * @summary the operation that retrieves information about a capacity reservation group.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/TargetedCapacityReservationGroup_Get.json
+ */
+async function getATargetedCapacityReservationGroup(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscriptionId}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.capacityReservationGroups.get(
+    "myResourceGroup",
+    "targetedCapacityReservationGroup",
+    { expand: "instanceView" },
   );
   console.log(result);
 }
@@ -84,6 +79,7 @@ async function getATargetedCapacityReservationGroup(): Promise<void> {
 async function main(): Promise<void> {
   await getABlockCapacityReservationGroup();
   await getACapacityReservationGroup();
+  await getAnOpenCapacityReservationGroupWithInstanceView();
   await getATargetedCapacityReservationGroup();
 }
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a backup under the Backup Vault
  *
  * @summary create a backup under the Backup Vault
- * x-ms-original-file: 2025-09-01-preview/BackupsUnderBackupVault_Create.json
+ * x-ms-original-file: 2026-08-15-preview/BackupsUnderBackupVault_Create.json
  */
 async function backupsUnderBackupVaultCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function backupsUnderBackupVaultCreate(): Promise<void> {
     properties: {
       label: "myLabel",
       volumeResourceId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPool/pool1/volumes/volume1",
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1",
     },
   });
   console.log(result);

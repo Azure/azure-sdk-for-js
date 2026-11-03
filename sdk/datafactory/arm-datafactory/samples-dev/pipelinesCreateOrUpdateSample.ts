@@ -1,156 +1,126 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a pipeline.
- *
- * @summary Creates or updates a pipeline.
- * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_Create.json
- */
-
-import {
-  PipelineResource,
-  DataFactoryManagementClient,
-} from "@azure/arm-datafactory";
+import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a pipeline.
+ *
+ * @summary creates or updates a pipeline.
+ * x-ms-original-file: 2018-06-01/Pipelines_Create.json
+ */
 async function pipelinesCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
-    "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName =
-    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const factoryName = "exampleFactoryName";
-  const pipelineName = "examplePipeline";
-  const pipeline: PipelineResource = {
-    activities: [
-      {
-        name: "ExampleForeachActivity",
-        type: "ForEach",
-        activities: [
-          {
-            name: "ExampleCopyActivity",
-            type: "Copy",
-            dataIntegrationUnits: 32,
-            inputs: [
-              {
-                type: "DatasetReference",
-                parameters: {
-                  myFileName: "examplecontainer.csv",
-                  myFolderPath: "examplecontainer",
-                },
-                referenceName: "exampleDataset",
-              },
-            ],
-            outputs: [
-              {
-                type: "DatasetReference",
-                parameters: {
-                  myFileName: { type: "Expression", value: "@item()" },
-                  myFolderPath: "examplecontainer",
-                },
-                referenceName: "exampleDataset",
-              },
-            ],
-            sink: { type: "BlobSink" },
-            source: { type: "BlobSource" },
-          },
-        ],
-        isSequential: true,
-        items: {
-          type: "Expression",
-          value: "@pipeline().parameters.OutputBlobNameList",
-        },
-      },
-    ],
-    parameters: {
-      jobId: { type: "String" },
-      outputBlobNameList: { type: "Array" },
-    },
-    policy: { elapsedTimeMetric: { duration: "0.00:10:00" } },
-    runDimensions: {
-      jobId: { type: "Expression", value: "@pipeline().parameters.JobId" },
-    },
-    variables: { testVariableArray: { type: "Array" } },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const result = await client.pipelines.createOrUpdate(
-    resourceGroupName,
-    factoryName,
-    pipelineName,
-    pipeline,
+    "exampleResourceGroup",
+    "exampleFactoryName",
+    "examplePipeline",
+    {
+      activities: [
+        {
+          name: "ExampleForeachActivity",
+          type: "ForEach",
+          activities: [
+            {
+              name: "ExampleCopyActivity",
+              type: "Copy",
+              inputs: [
+                {
+                  type: "DatasetReference",
+                  parameters: {
+                    MyFileName: "examplecontainer.csv",
+                    MyFolderPath: "examplecontainer",
+                  },
+                  referenceName: "exampleDataset",
+                },
+              ],
+              outputs: [
+                {
+                  type: "DatasetReference",
+                  parameters: {
+                    MyFileName: { type: "Expression", value: "@item()" },
+                    MyFolderPath: "examplecontainer",
+                  },
+                  referenceName: "exampleDataset",
+                },
+              ],
+              dataIntegrationUnits: 32,
+              sink: { type: "BlobSink" },
+              source: { type: "BlobSource" },
+            },
+          ],
+          isSequential: true,
+          items: { type: "Expression", value: "@pipeline().parameters.OutputBlobNameList" },
+        },
+      ],
+      parameters: { JobId: { type: "String" }, OutputBlobNameList: { type: "Array" } },
+      policy: { elapsedTimeMetric: { duration: "0.00:10:00" } },
+      runDimensions: { JobId: { type: "Expression", value: "@pipeline().parameters.JobId" } },
+      variables: { TestVariableArray: { type: "Array" } },
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a pipeline.
+ * This sample demonstrates how to creates or updates a pipeline.
  *
- * @summary Creates or updates a pipeline.
- * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_Update.json
+ * @summary creates or updates a pipeline.
+ * x-ms-original-file: 2018-06-01/Pipelines_Update.json
  */
 async function pipelinesUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
-    "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName =
-    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const factoryName = "exampleFactoryName";
-  const pipelineName = "examplePipeline";
-  const pipeline: PipelineResource = {
-    description: "Example description",
-    activities: [
-      {
-        name: "ExampleForeachActivity",
-        type: "ForEach",
-        activities: [
-          {
-            name: "ExampleCopyActivity",
-            type: "Copy",
-            dataIntegrationUnits: 32,
-            inputs: [
-              {
-                type: "DatasetReference",
-                parameters: {
-                  myFileName: "examplecontainer.csv",
-                  myFolderPath: "examplecontainer",
-                },
-                referenceName: "exampleDataset",
-              },
-            ],
-            outputs: [
-              {
-                type: "DatasetReference",
-                parameters: {
-                  myFileName: { type: "Expression", value: "@item()" },
-                  myFolderPath: "examplecontainer",
-                },
-                referenceName: "exampleDataset",
-              },
-            ],
-            sink: { type: "BlobSink" },
-            source: { type: "BlobSource" },
-          },
-        ],
-        isSequential: true,
-        items: {
-          type: "Expression",
-          value: "@pipeline().parameters.OutputBlobNameList",
-        },
-      },
-    ],
-    parameters: { outputBlobNameList: { type: "Array" } },
-    policy: { elapsedTimeMetric: { duration: "0.00:10:00" } },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const result = await client.pipelines.createOrUpdate(
-    resourceGroupName,
-    factoryName,
-    pipelineName,
-    pipeline,
+    "exampleResourceGroup",
+    "exampleFactoryName",
+    "examplePipeline",
+    {
+      description: "Example description",
+      activities: [
+        {
+          name: "ExampleForeachActivity",
+          type: "ForEach",
+          activities: [
+            {
+              name: "ExampleCopyActivity",
+              type: "Copy",
+              inputs: [
+                {
+                  type: "DatasetReference",
+                  parameters: {
+                    MyFileName: "examplecontainer.csv",
+                    MyFolderPath: "examplecontainer",
+                  },
+                  referenceName: "exampleDataset",
+                },
+              ],
+              outputs: [
+                {
+                  type: "DatasetReference",
+                  parameters: {
+                    MyFileName: { type: "Expression", value: "@item()" },
+                    MyFolderPath: "examplecontainer",
+                  },
+                  referenceName: "exampleDataset",
+                },
+              ],
+              dataIntegrationUnits: 32,
+              sink: { type: "BlobSink" },
+              source: { type: "BlobSource" },
+            },
+          ],
+          isSequential: true,
+          items: { type: "Expression", value: "@pipeline().parameters.OutputBlobNameList" },
+        },
+      ],
+      parameters: { OutputBlobNameList: { type: "Array" } },
+      policy: { elapsedTimeMetric: { duration: "0.00:10:00" } },
+    },
   );
   console.log(result);
 }

@@ -4,23 +4,50 @@ The AI Projects client library (in preview) is part of the Microsoft Foundry SDK
 resources in your Microsoft Foundry Project. Use it to:
 
 - **Create and run Agents** using the `.agents` property on the client.
+
+* **Enhance Agents with specialized tools**:
+  - Agent Memory Search (Preview)
+  - Agent-to-Agent (A2A) (Preview)
+  - Azure AI Search
+  - Bing Custom Search (Preview)
+  - Bing Grounding
+  - Browser Automation
+  - Code Interpreter
+  - Computer Use (Preview)
+  - File Search
+  - Function Tool
+  - Image Generation
+  - Microsoft Fabric (Preview)
+  - Model Context Protocol (MCP)
+  - OpenAPI
+  - Microsoft SharePoint (Preview)
+  - Web Search (Preview)
+  - Tool Search
+
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
-* **Manage memory stores** for Agent conversations, using the `.memoryStores` operations.
-* **Explore additional evaluation tools** to assess the performance of your generative AI application, using the `.evaluationRules`,
-`.evaluationTaxonomies`, `.evaluators`, `.insights`, and `.schedules` operations.
-* **Run Red Team scans** to identify risks associated with your generative AI application, using the ".redTeams" operations.
+
+* **Manage beta agent sessions and files (preview)** using the `.beta.agents` operations.
+* **Manage skills (preview)** for reusable agent capabilities, using the `.beta.skills` operations.
+* **Manage toolboxes** for grouping tools into reusable collections, using the `.toolboxes` operations.
+* **Manage memory stores (preview)** for Agent conversations, using the `.beta.memoryStores` operations.
+* **Manage routines (preview)** for scheduling and dispatching automated workflows, using the `.beta.routines` operations.
+* **Manage model versions (preview)** for creating, updating, and managing custom model versions, using the `.beta.models` operations.
+* **Explore additional evaluation tools (some in preview)** to assess the performance of your generative AI application, using the `.evaluationRules`,
+  `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, and `.beta.schedules` operations.
+* **Run Red Team scans (preview)** to identify risks associated with your generative AI application, using the `.beta.redTeams` operations.
 * **Fine tune** AI Models on your data.
+
 - **Enumerate AI Models** deployed to your Foundry Project using the `.deployments` operations.
 - **Enumerate connected Azure resources** in your Foundry project using the `.connections` operations.
 - **Upload documents and create Datasets** to reference them using the `.datasets` operations.
 - **Create and enumerate Search Indexes** using the `.indexes` operations.
 
-The client library uses version `2025-11-15-preview` of the Microsoft Foundry [data plane REST APIs](https://aka.ms/azsdk/azure-ai-projects-v2/api-reference-2025-11-15-preview).
+The client library uses version `v1` of the Microsoft Foundry [data plane REST APIs](https://aka.ms/azsdk/azure-ai-projects-v2/api-reference-v1).
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects-v2/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-v1)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-latest)
 | [SDK source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects)
 
 ## Table of contents
@@ -31,18 +58,31 @@ The client library uses version `2025-11-15-preview` of the Microsoft Foundry [d
   - [Install the package](#install-the-package)
 - [Key concepts](#key-concepts)
   - [Create and authenticate the client](#create-and-authenticate-the-client)
+  - [Preview operation groups and opt-in feature flags](#preview-operation-groups-and-opt-in-feature-flags)
 - [Examples](#examples)
   - [Performing Responses operations using OpenAI client](#performing-responses-operations-using-openai-client)
   - [Performing Agent operations](#performing-agent-operations)
+  - [Voice Agent operations (preview)](#voice-agent-operations-preview)
   - [Using Agent tools](#using-agent-tools)
     - [Built-in Tools](#built-in-tools)
     - [Connection-Based Tools](#connection-based-tools)
+  - [Evaluation operations](#evaluation)
   - [Deployments operations](#deployments-operations)
   - [Connections operations](#connections-operations)
   - [Dataset operations](#dataset-operations)
   - [Files operations](#files-operations)
   - [Indexes operations](#indexes-operations)
+  - [fine-tuning operations](#fine-tuning-operations)
+  - [Beta agent sessions operations (preview)](#beta-agent-sessions-operations-preview)
+  - [Skills operations (preview)](#skills-operations-preview)
+  - [Toolboxes operations (preview)](#toolboxes-operations-preview)
 - [Tracing](#tracing)
+  - [Experimental feature gate](#experimental-feature-gate)
+  - [Getting started with tracing](#getting-started-with-tracing)
+  - [Installation](#installation)
+  - [How to enable tracing](#how-to-enable-tracing)
+  - [Enabling content recording](#enabling-content-recording)
+  - [Enabling trace context propagation](#enabling-trace-context-propagation)
 - [Troubleshooting](#troubleshooting)
   - [Exceptions](#exceptions)
   - [Reporting issues](#reporting-issues)
@@ -55,12 +95,14 @@ The client library uses version `2025-11-15-preview` of the Microsoft Foundry [d
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - An [Azure subscription][azure_sub].
-- A [project in Microsoft Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
+- A [project in Microsoft Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects).
+- An [Application Insights resource connected to your Foundry project](https://learn.microsoft.com/azure/foundry/observability/how-to/trace-agent-setup) for agent tracing.
+- The project endpoint URL of the form `https://your-ai-services-account-name.services.ai.azure.com/api/projects/your-project-name`. It can be found in your Microsoft Foundry Project overview page. Below we will assume the environment variable `FOUNDRY_PROJECT_ENDPOINT` was defined to hold this value.
 
 ### Authorization
 
-- [Entra ID][entra_id] is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential][default_azure_credential]. To get that working, you will need:
-  - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal. Learn more about role assignments [here](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal).
+- An Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential][default_azure_credential]. To get that working, you will need:
+  - An appropriate role assignment. see [Role-based access control in Microsoft Foundry portal](https://learn.microsoft.com/azure/ai-foundry/concepts/rbac-foundry?view=foundry). Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal.
   - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed.
   - You are logged into your Azure account by running `az login`.
   - Note that if you have multiple Azure subscriptions, the subscription that contains your Azure AI Project resource must be your default subscription. Run `az account list --output table` to list all your subscription and see which one is the default. Run `az account set --subscription "Your Subscription ID or Name"` to change your default subscription.
@@ -68,38 +110,64 @@ The client library uses version `2025-11-15-preview` of the Microsoft Foundry [d
 ### Install the package
 
 ```bash
-npm install @azure/ai-projects @azure/identity
+npm install @azure/ai-projects dotenv
 ```
 
 ## Key concepts
 
-### Create and authenticate the client
+### Create and authenticate the client with Entra ID
 
-To construct an `AIProjectsClient`, the `projectEndpoint` can be fetched from [projectEndpoint][ai_project_client_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT` was defined to hold this value:
+Entra ID is the only authentication method supported at the moment by the client.
+
+To construct an `AIProjectsClient`, the `projectEndpoint` can be fetched from [projectEndpoint][ai_project_client_endpoint]. Below we will assume the environment variable `FOUNDRY_PROJECT_ENDPOINT` was defined to hold this value:
 
 ```ts snippet:setup
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
-const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
+project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 ```
 
-The client uses API version `2025-11-15-preview`, refer to the [API documentation][ai_foundry_data_plane_rest_apis] to learn more about the supported features.
+### Preview operation groups and opt-in feature flags
+
+Some preview operations require an explicit `foundryFeatures` opt-in flag. For example:
+
+```ts snippet:previewflag
+await project.agents.createVersion(
+  "preview-agent",
+  {
+    kind: "workflow",
+  },
+  { foundryFeatures: "WorkflowAgents=V1Preview" },
+);
+for await (const rule of project.evaluationRules.list()) {
+  console.log(rule.id);
+}
+```
+
+Preview operation groups include `.beta.agents`, `.beta.agentInsightMonitors`, `.beta.voiceAgents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+
+Use `.beta.agentInsightMonitors` to list the monitors that analyze your agents:
+
+```ts snippet:agent-insight-monitors
+for await (const monitor of project.beta.agentInsightMonitors.list()) {
+  console.log(`${monitor.id}: ${monitor.agent_name}`);
+}
+```
 
 ## Examples
 
 ### Performing Responses operations using OpenAI client
 
-Your Microsoft Foundry project may have one or more OpenAI models deployed that support chat completions. Use the code below to get an authenticated [OpenAI](https://github.com/openai/openai-node?tab=readme-ov-file#microsoft-azure-openai) from the [openai](https://www.npmjs.com/package/openai) package, and execute a chat completions call.
+Your Microsoft Foundry project may have one or more AI models deployed. These could be OpenAI models, Microsoft models, or models from other providers. Use the code below to get an authenticated [OpenAI](https://github.com/openai/openai-node?tab=readme-ov-file#microsoft-azure-openai) from the [openai](https://www.npmjs.com/package/openai) package, and execute a chat completions call.
 
 Run the code below. Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
 
-For openai logging, please refer [OpenAI Logging](https://github.com/openai/openai-node/tree/master?tab=readme-ov-file#logging).
-
+See the "responses" folder in the [package samples][samples] for additional samples, including streaming responses.
 
 ```ts snippet:openAI
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const response = await openAIClient.responses.create({
   model: deploymentName,
   input: "What is the size of France in square miles?",
@@ -118,8 +186,10 @@ console.log("detailed response = ", JSON.stringify(detailResponse, null, 2));
 The `.agents` property on the `AIProjectsClient` gives you access to all Agent operations. Agents use an extension of the
 OpenAI Responses protocol, so you will likely need to get an `OpenAI` client to do Agent operations, as shown in the example below.
 
+For setup, see [Quickstart: Set up Microsoft Foundry resources](https://learn.microsoft.com/azure/foundry/tutorials/quickstart-create-foundry-resources).
+
 ```ts snippet:agents
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const agent = await project.agents.createVersion("my-agent-basic", {
   kind: "prompt",
   model: deploymentName,
@@ -168,6 +238,94 @@ await project.agents.deleteVersion(agent.name, agent.version);
 console.log("Agent deleted");
 ```
 
+### Voice Agent operations (preview)
+
+Voice Agents use the unified `project.agents` management surface and a bidirectional WebSocket
+session exposed by `project.beta.voiceAgents.realtime`. The example below generates a Voice Agent, sends text, and
+streams its response:
+
+```ts snippet:voiceAgent
+const voiceAgentName = `voice-agent-${Date.now()}`;
+const voiceAgent = await project.beta.agents.createFromPrompt({
+  kind: "voice",
+  name: voiceAgentName,
+});
+try {
+  const connection = await project.beta.voiceAgents.realtime.connect(voiceAgent.name);
+  try {
+    await connection.sendText("Hello. Please introduce yourself briefly.");
+    for await (const event of connection) {
+      // Voice agents speak their reply, so the text form of it streams as an audio transcript
+      // rather than as `response.output_text.delta`.
+      if (
+        event.type === "response.output_text.delta" ||
+        event.type === "response.output_audio_transcript.delta"
+      ) {
+        process.stdout.write(event.delta);
+      } else if (event.type === "unknown") {
+        // event.rawEvent preserves all wire fields; validate them before using them.
+        console.log(`Unrecognized server event: ${event.eventType}`);
+      } else if (event.type === "response.done") {
+        await connection.close();
+      }
+    }
+  } finally {
+    await connection.dispose();
+  }
+} finally {
+  await project.agents.delete(voiceAgent.name, {
+    requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
+  });
+}
+```
+
+The connection yields `VoiceAgentRealtimeEvent`: a known `VoiceAgentServerEvent` or a
+`VoiceAgentUnknownEvent` with `type: "unknown"`. For unknown events, `eventType` retains the
+original wire discriminator and `rawEvent` retains the complete parsed JSON payload, including
+its original `type`. No known-event field validation or normalization is applied to that payload;
+validate raw fields before using them and avoid logging sensitive payloads. Unknown events do not
+disconnect the session, so subsequent events and sends continue normally. Known `event.type`
+branches still narrow to their existing generated types. A handler accepting only
+`VoiceAgentServerEvent` can be called after excluding `event.type === "unknown"`.
+
+Malformed JSON, missing or invalid discriminators, and malformed known events still fail the
+iteration with `VoiceAgentProtocolError`. Service `error` events remain typed events for the
+caller to handle; this fallback does not change which outbound events `sendEvent()` supports.
+
+Use `project.beta.voiceAgents.conversations` to inspect conversations for Voice Agents configured
+with `store: true`. Pass `store` on `connect()` to override the persisted agent's setting for a
+single session. If the target agent is disabled, the WebSocket handshake fails with `409 Conflict`
+and `error.code = agent_disabled`. See the package samples for generated-agent lifecycle, local
+function tools, and PCM audio streaming.
+
+Pass `query` to `connect()` to add query parameters to that connection's WebSocket upgrade URL.
+The following parameter names are illustrative; use names supported by your service or gateway:
+
+```ts snippet:ReadmeSampleVoiceAgentQuery
+const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
+  agentSessionId: "session-123",
+  store: false,
+  query: {
+    custom_key: "custom value",
+    custom_flag: true,
+  },
+});
+await connection.close();
+```
+
+Values can be strings, finite numbers, or booleans and are URL-encoded automatically. A value
+overrides matching endpoint query parameters; `undefined` removes a matching parameter. The SDK
+snapshots these values when `connect()` is called and does not reuse them for later connections.
+Do not put secrets in query parameters, because URLs can appear in server or proxy logs.
+
+SDK-managed query names are reserved, case-insensitively: `api-version`, `agent_session_id`,
+`store`, `transport`, `x-agent-version-override`, `x-ms-client-sdk`, `authorization`, `api-key`,
+`foundry_features`, `foundry-features`, `client-request-id`, `x-ms-client-request-id`,
+`structured_input`, `structured_inputs`, `x-ms-voice-structured-inputs`, and names starting with `h-`. Supplying
+these names or unsupported values rejects `connect()` with `TypeError` before authentication.
+Use the existing typed options instead. In particular, use `structuredInputs` for agent prompt
+variables; custom query parameters do not automatically become prompt inputs.
+
 ### Using Agent tools
 
 Agents can be enhanced with specialized tools for various capabilities. Tools are organized by their connection requirements:
@@ -181,7 +339,7 @@ These tools work immediately without requiring external connections.
 Write and run Javascript code in a sandboxed environment, process files and work with diverse data formats. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-code-interpreter)
 
 ```ts snippet:agent-code-interpreter
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const response = await openAIClient.responses.create({
   model: deploymentName,
   input: "I need to solve the equation 3x + 11 = 14. Can you help me?",
@@ -194,10 +352,10 @@ See the full sample code in [agentCodeInterpreter.ts](https://github.com/Azure/a
 
 **File Search**
 
-Built-in RAG (Retrieval-Augmented Generation) tool to process and search through documents using vector stores for knowledge retrieval. [OpenAI Documentation](https://platform.openai.com/docs/assistants/tools/file-search)
+Built-in RAG (Retrieval-Augmented Generation) tool to process and search through documents using vector stores for knowledge retrieval. [OpenAI Documentation](https://developers.openai.com/api/docs/guides/tools-file-search)
 
 ```ts snippet:agent-file-search
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const assetFilePath = path.join(
   __dirname,
   "..",
@@ -233,7 +391,7 @@ const agent = await project.agents.createVersion("StreamingFileSearchAgent", {
 console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 ```
 
-See the full sample code in [agentFileSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentFileSearch.ts).
+See the full sample code in [agentFileSearchStream.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentFileSearchStream.ts).
 
 **Image Generation**
 
@@ -260,7 +418,7 @@ After calling `responses.create()`, you can download file using the returned res
 ```ts snippet:agent-image-generation-download
 import { fileURLToPath } from "url";
 
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const agent = await project.agents.createVersion("agent-image-generation", {
   kind: "prompt",
   model: deploymentName,
@@ -299,12 +457,12 @@ if (imageData && imageData.length > 0 && imageData[0].result) {
 }
 ```
 
-**Web Search**
+**Web Search (Preview)**
 
 Perform general web searches to retrieve current information from the internet. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-web-search)
 
 ```ts snippet:agent-web-search
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 // Create Agent with web search tool
 const agent = await project.agents.createVersion("agent-web-search", {
   kind: "prompt",
@@ -342,13 +500,41 @@ console.log(`Response: ${response.output_text}`);
 
 See the full sample code in [agentWebSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentWebSearch.ts).
 
+**Computer Use (Preview)**
+
+Enable agents to interact directly with computer systems for task automation and system operations:
+
+```ts snippet:agent-computer-use
+const agent = await project.agents.createVersion("ComputerUseAgent", {
+  kind: "prompt" as const,
+  model: deploymentName,
+  instructions: `
+You are a computer automation assistant.
+
+Be direct and efficient. When you reach the search results page, read and describe the actual search result titles and descriptions you can see.
+    `.trim(),
+  tools: [
+    {
+      type: "computer_use_preview",
+      display_width: 1026,
+      display_height: 769,
+      environment: "windows" as const,
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+_After calling `responses.create()`, process the response in an interaction loop. Handle `computer_call` output items and provide screenshots as `computer_call_output` with `computer_screenshot` type to continue the interaction._
+
+See the full sample code in [agentComputerUse.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentComputerUse.ts).
 
 **Model Context Protocol (MCP)**
 
 Integrate MCP servers to extend agent capabilities with standardized tools and resources. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-connectors-mcp)
 
 ```ts snippet:agent-mcp
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const agent = await project.agents.createVersion("agent-mcp", {
   kind: "prompt",
   model: deploymentName,
@@ -382,13 +568,13 @@ const response = await openAIClient.responses.create(
 );
 ```
 
-*After calling `responses.create()`, check for `mcp_approval_request` items in the response output. Send back `McpApprovalResponse` with your approval decision to allow the agent to continue its work.*
+_After calling `responses.create()`, check for `mcp_approval_request` items in the response output. Send back `McpApprovalResponse` with your approval decision to allow the agent to continue its work._
 
 See the full sample code in [agentMcp.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentMcp.ts).
 
 **OpenAPI**
 
-Call external APIs defined by OpenAPI specifications without additional client-side code. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-openapi)
+Call external APIs defined by OpenAPI specifications without additional client-side code. [OpenAI Documentation](https://developers.openai.com/api/docs/guides/tools)
 
 ```ts snippet:agent-openapi
 const weatherSpecPath = path.resolve(__dirname, "../assets", "weather_openapi.json");
@@ -396,7 +582,7 @@ const agent = await project.agents.createVersion("MyOpenApiAgent", {
   kind: "prompt",
   model: deploymentName,
   instructions:
-    "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions.",
+    "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions. When calling the weather tool, always include the query parameter format=j1.",
   tools: [
     {
       type: "openapi",
@@ -450,9 +636,57 @@ const agent = await project.agents.createVersion("function-tool-agent", {
 console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 ```
 
-*After calling `responses.create()`, process `function_call` items from response output, execute your function logic with the provided arguments, and send back `FunctionCallOutput` with the results.*
+_After calling `responses.create()`, process `function_call` items from response output, execute your function logic with the provided arguments, and send back `FunctionCallOutput` with the results._
 
 See the full sample code in [agentFunctionTool.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentFunctionTool.ts).
+
+- **Memory Search Tool (Preview)**
+
+The Memory Store Tool adds Memory to an Agent, allowing the Agent's AI model to search for past information related to the current user prompt.
+
+The `embeddingModelDeployment` is the name of the model used to create vector embeddings for storing and searching memories.
+
+```ts snippet:agent-memory-search
+const memoryStoreName = "AgentMemoryStore";
+const embeddingModelDeployment =
+  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
+const scope = "user_123";
+const memoryStore = await project.beta.memoryStores.create(
+  memoryStoreName,
+  {
+    kind: "default",
+    chat_model: deploymentName,
+    embedding_model: embeddingModelDeployment,
+    options: {
+      user_profile_enabled: true,
+      chat_summary_enabled: true,
+    },
+  },
+  {
+    description: "Memory store for agent conversations",
+  },
+);
+console.log(
+  `Created memory store: ${memoryStore.name} (${memoryStore.id}) using chat model '${deploymentName}'`,
+);
+// Create an agent that will use the Memory Search tool
+const agent = await project.agents.createVersion("MemorySearchAgent", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions:
+    "You are a helpful assistant that remembers user preferences using the memory search tool.",
+  tools: [
+    {
+      type: "memory_search_preview",
+      memory_store_name: memoryStore.name,
+      scope,
+      update_delay: 1, // wait briefly after conversation inactivity before updating memories
+    },
+  ],
+});
+```
+
+See the full sample code in [agentMemorySearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentMemorySearch.ts).
 
 #### Connection-Based Tools
 
@@ -518,9 +752,10 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentBingGrounding.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentBingGrounding.ts).
 
-**Bing Custom Search**
+**Bing Custom Search (Preview)**
 
 Use custom-configured Bing search instances for domain-specific or filtered web search results:
+
 ```ts snippet:agent-bing-custom-search
 const bingCustomSearchProjectConnectionId = process.env["BING_CUSTOM_SEARCH_CONNECTION_ID"] || "";
 const bingCustomSearchInstanceName = process.env["BING_CUSTOM_SEARCH_INSTANCE_NAME"] || "";
@@ -548,7 +783,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentBingCustomSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentBingCustomSearch.ts).
 
-**Microsoft Fabric**
+**Microsoft Fabric (Preview)**
 
 Connect to and query Microsoft Fabric:
 
@@ -576,7 +811,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentFabric.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentFabric.ts).
 
-**SharePoint**
+**Microsoft SharePoint (Preview)**
 
 Access and search SharePoint documents, lists, and sites for enterprise knowledge integration:
 
@@ -611,7 +846,8 @@ See the full sample code in [agentSharepoint.ts](https://github.com/Azure/azure-
 Automate browser interactions for web scraping, testing, and interaction with web applications:
 
 ```ts snippet:agent-browser-automation
-const browserAutomationProjectConnectionId = process.env["BROWSER_AUTOMATION_CONNECTION_ID"] || "";
+const browserAutomationProjectConnectionId =
+  process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] || "";
 const agent = await project.agents.createVersion("MyAgent", {
   kind: "prompt",
   model: deploymentName,
@@ -621,8 +857,8 @@ const agent = await project.agents.createVersion("MyAgent", {
   // Define Browser Automation tool
   tools: [
     {
-      type: "browser_automation_preview",
-      browser_automation_preview: {
+      type: "browser_automation",
+      browser_automation: {
         connection: {
           project_connection_id: browserAutomationProjectConnectionId,
         },
@@ -634,6 +870,20 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 ```
 
 See the full sample code in [agentBrowserAutomation.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentBrowserAutomation.ts).
+
+Set `FOUNDRY_PROJECT_ENDPOINT`, `FOUNDRY_MODEL_NAME`, and
+`BROWSER_AUTOMATION_PROJECT_CONNECTION_ID` (the project connection resource ID for
+your Azure Playwright resource) before running the sample. It uses the GA
+`browser_automation` tool to visit `https://example.com` and report the page title
+and visible description based on browser results. Optionally set `FOUNDRY_AGENT_NAME`
+to choose the agent name; it defaults to `MyAgent`.
+
+The streaming sample prints each completed text message once, including the
+browser live-view URL, and logs remote function action names, call IDs, and
+arguments without `browserSessionId`. Treat the live-view URL as sensitive: do not
+share it or commit it to source control. Failed or incomplete responses exit with
+a nonzero status instead of reporting success. The sample deletes the agent version
+it created in a `finally` block, whether response processing succeeds or fails.
 
 **MCP with Project Connection**
 
@@ -660,7 +910,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentMcpConnectionAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentMcpConnectionAuth.ts).
 
-**Agent-to-Agent (A2A)**
+**Agent-to-Agent (A2A) (Preview)**
 
 Enable multi-agent collaboration where agents can communicate and delegate tasks to other specialized agents:
 
@@ -731,6 +981,40 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 See the full sample code in [agentOpenApiConnectionAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentOpenApiConnectionAuth.ts).
 
 For complete working examples of all tools, see the [samples-dev directory](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples-dev).
+
+### Evaluation
+
+Evaluation in Azure AI Project client library provides quantitative, AI-assisted quality and safety metrics to asses performance and Evaluate LLM Models, GenAI Application and Agents. Metrics are defined as evaluators. Built-in or custom evaluators can provide comprehensive evaluation insights.
+
+The code below shows some evaluation operations. Full list of sample can be found under "evaluations" folder in the [package samples][samples]
+
+```ts snippet:evaluations
+const openAIClient = project.getOpenAIClient();
+const dataSourceConfig = {
+  type: "custom" as const,
+  item_schema: {
+    type: "object",
+    properties: { query: { type: "string" } },
+    required: ["query"],
+  },
+  include_sample_schema: true,
+};
+const evalObject = await openAIClient.evals.create({
+  name: "Agent Evaluation",
+  data_source_config: dataSourceConfig,
+  testing_criteria: [
+    {
+      type: "azure_ai_evaluator",
+      name: "violence_detection",
+      evaluator_name: "builtin.violence",
+      data_mapping: { query: "{{item.query}}", response: "{{item.response}}" },
+    } as any,
+  ],
+});
+console.log(`Evaluation created (id: ${evalObject.id}, name: ${evalObject.name})`);
+```
+
+See the full sample code in [agentEvaluation.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/evaluations/agentEvaluation.ts).
 
 ### Deployments operations
 
@@ -828,7 +1112,9 @@ for await (const azureOpenAIConnection of project.connections.list({
 console.log(`Retrieved ${azureAIConnections.length} Azure OpenAI connections`);
 
 // Get the details of a default connection
-const defaultConnection = await project.connections.getDefault("AzureOpenAI", true);
+const defaultConnection = await project.connections.getDefault("AzureOpenAI", {
+  includeCredentials: true,
+});
 console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, null, 2)}`);
 ```
 
@@ -836,6 +1122,11 @@ console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, nu
 
 The code below shows some Dataset operations. Full samples can be found under the "datasets"
 folder in the [package samples][samples].
+
+Local filesystem uploads (`project.datasets.uploadFile`, `project.datasets.uploadFolder`, and
+`project.beta.models.create`) are only supported in Node.js. Browser applications
+can import `AIProjectClient` and `VoiceAgentRealtimeClient` from `@azure/ai-projects` and use the
+dataset and model REST operations without Node.js filesystem polyfills.
 
 ```ts snippet:datasets
 import { DatasetVersionUnion } from "@azure/ai-projects";
@@ -884,7 +1175,7 @@ console.log("Get an existing Dataset version `1`:");
 const datasetVersion1 = await project.datasets.get(datasetName, VERSION1);
 console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
 console.log(`Listing all versions of the Dataset named '${datasetName}':`);
-const datasetVersions = await project.datasets.listVersions(datasetName);
+const datasetVersions = project.datasets.listVersions(datasetName);
 for await (const version of datasetVersions) {
   console.log("List versions:", version);
 }
@@ -912,7 +1203,7 @@ console.log("All specified Datasets have been deleted.");
 The code below shows some Files operations using the OpenAI client, which allow you to upload, retrieve, list, and delete files. These operations are useful for working with files that can be used for fine-tuning and other AI model operations. Full samples can be found under the "files" folder in the [package samples][samples].
 
 ```ts snippet:files
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 console.log("Uploading file");
 const created = await openAIClient.files.create({
   file: fs.createReadStream(filePath),
@@ -977,11 +1268,350 @@ console.log("Delete the Index versions created above:");
 await project.indexes.delete(indexName, version);
 ```
 
+### Fine-tuning operations
+
+The code below shows how to create fine-tuning jobs using the OpenAI client. These operations support various fine-tuning techniques like Supervised Fine-Tuning (SFT), Reinforcement Fine-Tuning (RFT), and Direct Performance Optimization (DPO). Full samples can be found under the "finetuning" folder in the [package samples][samples].
+
+```ts snippet:finetuning
+import { JobCreateParams } from "openai/resources/fine-tuning/jobs";
+
+const trainingFilePath = "training_data_path.jsonl";
+const validationFilePath = "validation_data_path.jsonl";
+const openAIClient = project.getOpenAIClient();
+// 1) Create the training and validation files
+const trainingFile = await openAIClient.files.create({
+  file: fs.createReadStream(trainingFilePath),
+  purpose: "fine-tune",
+});
+console.log(`Uploaded file with ID: ${trainingFile.id}`);
+const validationFile = await openAIClient.files.create({
+  file: fs.createReadStream(validationFilePath),
+  purpose: "fine-tune",
+});
+console.log(`Uploaded file with ID: ${validationFile.id}`);
+// 2) Wait for the files to be processed
+await openAIClient.files.waitForProcessing(trainingFile.id);
+await openAIClient.files.waitForProcessing(validationFile.id);
+console.log("Files processed.");
+// 3) Create a supervised fine-tuning job
+const fineTuningJob = await openAIClient.fineTuning.jobs.create({} as JobCreateParams, {
+  body: {
+    trainingType: "Standard",
+    training_file: trainingFile.id,
+    validation_file: validationFile.id,
+    model: deploymentName,
+    method: {
+      type: "supervised",
+      supervised: {
+        hyperparameters: {
+          n_epochs: 3,
+          batch_size: 1,
+          learning_rate_multiplier: 1.0,
+        },
+      },
+    },
+  },
+});
+console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
+```
+
+### Beta agent sessions operations (preview)
+
+The `.beta.agents` operations let you manage agent sessions and session files for hosted agents. Sessions provide isolated sandbox environments for agent interactions.
+
+```ts snippet:beta-agents
+import { VersionRefIndicator } from "@azure/ai-projects";
+
+const agentName = "MyBetaAgent";
+// Create a session for the agent
+const versionIndicator: VersionRefIndicator = {
+  type: "version_ref",
+  agent_version: "1.0",
+};
+const session = await project.beta.agents.createSession(agentName, versionIndicator);
+console.log(`Session created: ${session.agent_session_id}`);
+// Upload a file to the session sandbox
+const filePath = "/sandbox/hello.txt";
+const fileContent = new TextEncoder().encode("Hello from the beta agents sample!");
+const uploadResult = await project.beta.agents.uploadSessionFile(
+  agentName,
+  session.agent_session_id,
+  filePath,
+  fileContent,
+);
+console.log(`Uploaded file: ${uploadResult.path} (${uploadResult.bytes_written} bytes)`);
+```
+
+See the full sample code in [betaAgents.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/betaAgents.ts).
+
+### Skills operations (preview)
+
+The `.beta.skills` operations let you create and manage reusable skills that define agent capabilities.
+
+```ts snippet:skills
+const skillName = "sample-skill";
+// Create a new skill
+const created = await project.beta.skills.create(skillName, {
+  description: "Example skill created by the @azure/ai-projects sample.",
+  instructions: "You are a helpful assistant that answers questions concisely.",
+  metadata: { owner: "sample" },
+});
+console.log(`Skill created: ${created.name} (id: ${created.skill_id})`);
+// Retrieve the skill
+const fetched = await project.beta.skills.get(skillName);
+console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.skill_id})`);
+```
+
+See the full sample code in [skillBasic.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/skills/skillBasic.ts).
+
+### Toolboxes operations (preview)
+
+The `.toolboxes` operations let you create and manage toolboxes — reusable collections of tools that can be shared across agents.
+
+```ts snippet:toolboxes
+import { ToolUnion, MCPTool } from "@azure/ai-projects";
+
+const toolboxName = "mcp";
+// Define tools for the toolbox
+const tools: ToolUnion[] = [
+  {
+    type: "mcp",
+    server_label: "api_specs",
+    server_url: "https://github.com/Azure/azure-rest-api-specs",
+    require_approval: "never",
+  } satisfies MCPTool,
+];
+// Create a new toolbox version
+const created = await project.toolboxes.createVersion(toolboxName, tools, {
+  description: "Example toolbox created by the @azure/ai-projects sample.",
+  metadata: { status: "created" },
+});
+console.log(`Toolbox: ${created.name} (tools: ${created.tools.length})`);
+// Retrieve the toolbox
+const fetched = await project.toolboxes.get(toolboxName);
+console.log(`Retrieved toolbox: ${fetched.name} (${fetched.id})`);
+```
+
+See the full sample code in [toolboxesCrud.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/toolboxes/toolboxesCrud.ts).
+
 ## Tracing
 
-**Note:** Tracing functionality is in preliminary preview and is subject to change. Spans, attributes, and events may be modified in future versions.
+### Experimental feature gate
 
-You can add an Application Insights Azure resource to your Microsoft Foundry project. See the Tracing tab in your Microsoft Foundry project. If one was enabled, you can get the Application Insights connection string, configure your AI Projects client, and observe the full execution path through Azure Monitor. Typically, you might want to start tracing before you create a client or Agent.
+**Important:** GenAI tracing instrumentation is an experimental preview feature. Spans, attributes, and events may be modified in future versions. To use it, you must explicitly opt in by passing `tracingOptions` with `experimental: true` when constructing the `AIProjectClient`, or by setting the environment variable:
+
+```bash
+AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING=true
+```
+
+Only enable this feature after reviewing your requirements and understanding that the tracing behavior may change in future versions.
+
+### Getting started with tracing
+
+You can add an Application Insights Azure resource to your Microsoft Foundry project. If one was enabled, you can get the Application Insights connection string, configure your AI Projects client, and observe traces in Azure Monitor. Typically, you might want to start tracing before you create a client or Agent.
+
+### Installation
+
+To send traces to Azure Monitor:
+
+```bash
+npm install @azure/monitor-opentelemetry @opentelemetry/api
+```
+
+To print traces to the console (useful for local development):
+
+```bash
+npm install @opentelemetry/sdk-trace-node @opentelemetry/api
+```
+
+### How to enable tracing
+
+Tracing is enabled by passing `tracingOptions` to the `AIProjectClient` constructor. If `tracingOptions` is not provided, GenAI tracing is completely disabled and no GenAI spans or metrics are emitted. This setting controls only GenAI-specific tracing (semantic convention spans for model calls, agent operations, token usage, etc.). The tracing configuration applies to all operations performed through that specific client instance, including agent operations and any OpenAI client obtained via `project.getOpenAIClient()`. Different client instances can have independent tracing configurations.
+
+```ts snippet:tracing_enable_disable
+import { DefaultAzureCredential } from "@azure/identity";
+import { AIProjectClient } from "@azure/ai-projects";
+
+const endpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const credential = new DefaultAzureCredential();
+
+// Tracing enabled
+const project = new AIProjectClient(endpoint, credential, {
+  tracingOptions: { experimental: true },
+});
+
+// Tracing disabled (default — no tracingOptions passed)
+const projectNoTrace = new AIProjectClient(endpoint, credential);
+
+console.log(project, projectNoTrace);
+```
+
+Passing `tracingOptions: {}` (an empty object) also enables tracing — in that case, all individual settings are resolved from their corresponding environment variables.
+
+The `tracingOptions` object accepts the following properties:
+
+| Option                    | Environment Variable                                    | Default | Description                                                                  |
+| ------------------------- | ------------------------------------------------------- | ------- | ---------------------------------------------------------------------------- |
+| `experimental`            | `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING`               | `false` | Acknowledge the experimental nature of this feature (required to emit spans) |
+| `contentRecording`        | `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT`    | `false` | Capture prompt and completion content in traces                              |
+| `traceContextPropagation` | `AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION` | `true`  | Inject W3C trace context headers into requests                               |
+
+Each option is resolved using the following precedence order:
+
+1. **Explicit value** in `tracingOptions` (highest priority)
+2. **Environment variable** (checked when the option is omitted/undefined)
+3. **Default value** (used when neither is set or the environment variable cannot be read)
+
+> **Note:** Because all tracing features are currently experimental, `experimental: true` must also be set (either explicitly or via the environment variable) for any spans to be emitted.
+
+#### Voice Agents tracing
+
+After configuring an OpenTelemetry provider/exporter as shown below, the existing
+`tracingOptions: { experimental: true }` setting also traces voice-agent generation,
+telephony mutations, conversation deletion, and realtime connections/responses.
+No separate feature flag is required. Users who do not call Voice Agents APIs
+receive no additional Voice Agents spans.
+
+```ts snippet:ReadmeSampleVoiceAgentTracing
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential(), {
+  tracingOptions: {
+    experimental: true,
+    contentRecording: false,
+  },
+});
+const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
+try {
+  await connection.sendText("Hello.");
+  for await (const event of connection) {
+    if (event.type === "response.done") break;
+  }
+} finally {
+  await connection.close();
+}
+```
+
+Realtime creates a session span, a short connection child, and an `invoke_agent`
+child for each observed `response.created`/`response.done` pair. It records status,
+service IDs, token usage, aggregated audio bytes, and received-first-audio latency
+(from `response.created`, not user speech or playback). It does not create a span
+per audio chunk. Service IDs appear only in traces, not metric dimensions.
+REST and `project.beta.voiceAgents.realtime` use the same existing project-level
+`tracingOptions`; no additional options or per-realtime override are required.
+The independently constructed `VoiceAgentRealtimeClient` keeps its existing API
+and does not receive the project's tracing configuration.
+
+The session's input message summary represents the latest observed input, not
+the full conversation history. New audio replaces an older transcript with audio
+metadata while its item ID is pending. A completed transcript replaces that
+metadata only when its item ID is correlated to the current input.
+
+Message summaries omit content by default. Explicit `contentRecording: true` allows
+bounded text/transcripts and tool arguments/results; it may expose sensitive user
+information. Raw media, credentials, query values, telephone numbers, SDP, and raw
+error/close messages are never intentionally recorded by this instrumentation.
+Read/list calls continue using the existing HTTP pipeline tracing.
+
+See [realtime tracing sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeWithTracing.ts)
+and [REST tracing sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRestWithTracing.ts).
+
+#### Azure Monitor tracing
+
+Here is a code sample that shows how to enable Azure Monitor tracing:
+
+```ts snippet:tracing_azure_monitor
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+// Configure Azure Monitor tracing (must be done before creating the client)
+const connectionString =
+  process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<connection string>";
+useAzureMonitor({
+  azureMonitorExporterOptions: { connectionString },
+  samplingRatio: 1,
+  tracesPerSecond: 0,
+});
+// Create client with tracing enabled (experimental)
+const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+  tracingOptions: {
+    experimental: true,
+    contentRecording: false,
+    traceContextPropagation: true,
+  },
+});
+```
+
+You may also want to create a span for your scenario:
+
+```ts snippet:tracing_create_span
+import { trace, context } from "@opentelemetry/api";
+
+const tracer = trace.getTracer("MyScenario");
+const span = tracer.startSpan("myOperation");
+const ctx = trace.setSpan(context.active(), span);
+await context.with(ctx, async () => {
+  // Your agent operations here
+});
+span.end();
+```
+
+See the full sample code in [agentBasicWithAzureMonitorTracing.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/agentBasicWithAzureMonitorTracing.ts).
+
+#### Console tracing
+
+For local development, you can print traces to the console:
+
+```ts snippet:tracing_console
+import {
+  NodeTracerProvider,
+  SimpleSpanProcessor,
+  ConsoleSpanExporter,
+} from "@opentelemetry/sdk-trace-node";
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+// Set up OpenTelemetry with a console exporter (must be done before creating the client)
+const provider = new NodeTracerProvider({
+  spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
+});
+provider.register();
+// Create client with tracing enabled (experimental)
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+  tracingOptions: {
+    experimental: true,
+    contentRecording: false,
+    traceContextPropagation: true,
+  },
+});
+```
+
+See the full sample code in [agentBasicWithConsoleTracing.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/agentBasicWithConsoleTracing.ts).
+
+### Enabling content recording
+
+Content recording controls whether message contents and tool call details (such as parameters and return values) are captured in traces. This data may include sensitive user information.
+
+To enable content recording, pass `contentRecording: true` in `tracingOptions` when constructing the client, or set the environment variable `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT` to `true`. Content recording defaults to `false`.
+
+### Enabling trace context propagation
+
+Trace context propagation allows client-side spans to be correlated with server-side spans from Azure OpenAI and other Azure services. When enabled, the SDK automatically injects W3C Trace Context headers (`traceparent` and `tracestate`) into HTTP requests made by OpenAI clients obtained via `project.getOpenAIClient()`.
+
+This ensures that all operations within a distributed trace share the same trace ID, providing end-to-end visibility across your application and Azure services in your observability backend.
+
+Trace context propagation is enabled by default. To disable it, pass `traceContextPropagation: false` in `tracingOptions` when constructing the client, or set the environment variable `AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION` to `false`.
+
+**Important security and privacy considerations:**
+
+- **Trace IDs**: When trace context propagation is enabled, trace IDs are sent to Azure OpenAI and other external services.
+- **Request correlation**: Trace IDs allow Azure services to correlate requests from the same session or user across multiple API calls, which may have privacy implications depending on your use case.
+
+Only enable trace context propagation after carefully reviewing your observability, privacy, and security requirements.
 
 ## Troubleshooting
 
@@ -1019,6 +1649,40 @@ To report issues with the client library, or request additional features, please
 
 Have a look at the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) folder, containing fully runnable code.
 
+## Regenerating from TypeSpec (maintainers)
+
+This package is regenerated from the TypeSpec spec in `Azure/azure-rest-api-specs`. The six regeneration stages and their issue-assigned orchestrator are encoded as skills under [.github/skills/](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills) and can be driven end-to-end by a GitHub Copilot coding-agent task.
+
+The repository-level `ai-projects-regen` custom agent is only a GitHub discovery entry point. The issue-assigned workflow is owned by the package-local [`run-issue-regeneration` skill](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills/run-issue-regeneration).
+
+To start the workflow from an issue, include exactly one value for each required label in the issue description:
+
+```text
+TypeSpec commit: <40-character-lowercase-SHA>
+Base branch: <branch>
+```
+
+Assign the issue to Copilot, select the `ai-projects-regen` custom agent, and select the same starting branch named in the description. The agent stops before making changes when either value is missing or invalid.
+
+To dispatch a regen as a cloud agent task, run from this directory:
+
+```powershell
+pwsh -NoProfile -File ./scripts/start-cloud-regen.ps1                     # latest commit on feature/foundry-release
+pwsh -NoProfile -File ./scripts/start-cloud-regen.ps1 -TspCommit <sha>    # pin a specific commit
+pwsh -NoProfile -File ./scripts/start-cloud-regen.ps1 -DryRun             # render the prompt locally, do not dispatch
+pwsh -NoProfile -File ./scripts/start-cloud-regen.ps1 -Repo myuser/azure-sdk-for-js -Follow   # smoke-test on a fork
+```
+
+> On Windows, invoking the script directly (e.g. `./scripts/start-cloud-regen.ps1`) may be blocked by the default `Restricted` execution policy. The `pwsh -NoProfile -File ...` form above sidesteps that. Alternatively, run `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned` once to allow local scripts.
+
+Prerequisites:
+
+- `gh` CLI installed and authenticated (`gh auth login`) against the target repo. The `agent-task` subcommand is in preview and requires a recent `gh`.
+- Membership in an organization with the GitHub Copilot coding agent enabled for the target repo.
+- Push access to the target repo (the cloud agent uses its own GitHub App identity to push and open the draft PR).
+
+Caveat: the dispatched prompt runs `pnpm install --filter "@azure/ai-projects..."` and `pnpm turbo build --filter="@azure/ai-projects..." --token 1` inline at the start of the task. If the cloud agent's sandbox blocks those network calls, the task will fail at setup; in that case run the skills locally, or coordinate with the SDK build team to add a centrally-managed `copilot-setup-steps.yml` workflow at the repo root.
+
 ## Contributing
 
 This project welcomes contributions and suggestions. Most contributions require
@@ -1039,7 +1703,6 @@ additional questions or comments.
 <!-- LINKS -->
 
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
-[entra_id]: https://learn.microsoft.com/azure/ai-foundry/foundry-models/how-to/configure-entra-id?tabs=javascript&pivots=ai-foundry-portal
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk

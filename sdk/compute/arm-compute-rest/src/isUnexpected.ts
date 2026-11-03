@@ -1371,13 +1371,11 @@ export function isUnexpected(
 ): response is VirtualMachineScaleSetsListDefaultResponse;
 export function isUnexpected(
   response:
-    | VirtualMachineScaleSetsListAll200Response
-    | VirtualMachineScaleSetsListAllDefaultResponse,
+    VirtualMachineScaleSetsListAll200Response | VirtualMachineScaleSetsListAllDefaultResponse,
 ): response is VirtualMachineScaleSetsListAllDefaultResponse;
 export function isUnexpected(
   response:
-    | VirtualMachineScaleSetsListSkus200Response
-    | VirtualMachineScaleSetsListSkusDefaultResponse,
+    VirtualMachineScaleSetsListSkus200Response | VirtualMachineScaleSetsListSkusDefaultResponse,
 ): response is VirtualMachineScaleSetsListSkusDefaultResponse;
 export function isUnexpected(
   response:
@@ -1618,8 +1616,7 @@ export function isUnexpected(
 ): response is VirtualMachineExtensionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
-    | VirtualMachineExtensionsUpdate200Response
-    | VirtualMachineExtensionsUpdateDefaultResponse,
+    VirtualMachineExtensionsUpdate200Response | VirtualMachineExtensionsUpdateDefaultResponse,
 ): response is VirtualMachineExtensionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
@@ -1688,8 +1685,7 @@ export function isUnexpected(
 ): response is VirtualMachinesListAllDefaultResponse;
 export function isUnexpected(
   response:
-    | VirtualMachinesListAvailableSizes200Response
-    | VirtualMachinesListAvailableSizesDefaultResponse,
+    VirtualMachinesListAvailableSizes200Response | VirtualMachinesListAvailableSizesDefaultResponse,
 ): response is VirtualMachinesListAvailableSizesDefaultResponse;
 export function isUnexpected(
   response:
@@ -1740,8 +1736,7 @@ export function isUnexpected(
 ): response is VirtualMachinesPerformMaintenanceDefaultResponse;
 export function isUnexpected(
   response:
-    | VirtualMachinesSimulateEviction204Response
-    | VirtualMachinesSimulateEvictionDefaultResponse,
+    VirtualMachinesSimulateEviction204Response | VirtualMachinesSimulateEvictionDefaultResponse,
 ): response is VirtualMachinesSimulateEvictionDefaultResponse;
 export function isUnexpected(
   response:
@@ -1763,8 +1758,7 @@ export function isUnexpected(
 ): response is VirtualMachineImagesListDefaultResponse;
 export function isUnexpected(
   response:
-    | VirtualMachineImagesListOffers200Response
-    | VirtualMachineImagesListOffersDefaultResponse,
+    VirtualMachineImagesListOffers200Response | VirtualMachineImagesListOffersDefaultResponse,
 ): response is VirtualMachineImagesListOffersDefaultResponse;
 export function isUnexpected(
   response:
@@ -1781,13 +1775,11 @@ export function isUnexpected(
 ): response is VirtualMachineImagesListByEdgeZoneDefaultResponse;
 export function isUnexpected(
   response:
-    | VirtualMachineImagesEdgeZoneGet200Response
-    | VirtualMachineImagesEdgeZoneGetDefaultResponse,
+    VirtualMachineImagesEdgeZoneGet200Response | VirtualMachineImagesEdgeZoneGetDefaultResponse,
 ): response is VirtualMachineImagesEdgeZoneGetDefaultResponse;
 export function isUnexpected(
   response:
-    | VirtualMachineImagesEdgeZoneList200Response
-    | VirtualMachineImagesEdgeZoneListDefaultResponse,
+    VirtualMachineImagesEdgeZoneList200Response | VirtualMachineImagesEdgeZoneListDefaultResponse,
 ): response is VirtualMachineImagesEdgeZoneListDefaultResponse;
 export function isUnexpected(
   response:
@@ -1806,8 +1798,7 @@ export function isUnexpected(
 ): response is VirtualMachineImagesEdgeZoneListSkusDefaultResponse;
 export function isUnexpected(
   response:
-    | VirtualMachineExtensionImagesGet200Response
-    | VirtualMachineExtensionImagesGetDefaultResponse,
+    VirtualMachineExtensionImagesGet200Response | VirtualMachineExtensionImagesGetDefaultResponse,
 ): response is VirtualMachineExtensionImagesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -1821,8 +1812,7 @@ export function isUnexpected(
 ): response is VirtualMachineExtensionImagesListVersionsDefaultResponse;
 export function isUnexpected(
   response:
-    | AvailabilitySetsCreateOrUpdate200Response
-    | AvailabilitySetsCreateOrUpdateDefaultResponse,
+    AvailabilitySetsCreateOrUpdate200Response | AvailabilitySetsCreateOrUpdateDefaultResponse,
 ): response is AvailabilitySetsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response: AvailabilitySetsUpdate200Response | AvailabilitySetsUpdateDefaultResponse,
@@ -1857,13 +1847,11 @@ export function isUnexpected(
 ): response is ProximityPlacementGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
-    | ProximityPlacementGroupsUpdate200Response
-    | ProximityPlacementGroupsUpdateDefaultResponse,
+    ProximityPlacementGroupsUpdate200Response | ProximityPlacementGroupsUpdateDefaultResponse,
 ): response is ProximityPlacementGroupsUpdateDefaultResponse;
 export function isUnexpected(
   response:
-    | ProximityPlacementGroupsDelete200Response
-    | ProximityPlacementGroupsDeleteDefaultResponse,
+    ProximityPlacementGroupsDelete200Response | ProximityPlacementGroupsDeleteDefaultResponse,
 ): response is ProximityPlacementGroupsDeleteDefaultResponse;
 export function isUnexpected(
   response: ProximityPlacementGroupsGet200Response | ProximityPlacementGroupsGetDefaultResponse,
@@ -1933,13 +1921,11 @@ export function isUnexpected(
 ): response is DedicatedHostsRestartDefaultResponse;
 export function isUnexpected(
   response:
-    | SshPublicKeysListBySubscription200Response
-    | SshPublicKeysListBySubscriptionDefaultResponse,
+    SshPublicKeysListBySubscription200Response | SshPublicKeysListBySubscriptionDefaultResponse,
 ): response is SshPublicKeysListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
-    | SshPublicKeysListByResourceGroup200Response
-    | SshPublicKeysListByResourceGroupDefaultResponse,
+    SshPublicKeysListByResourceGroup200Response | SshPublicKeysListByResourceGroupDefaultResponse,
 ): response is SshPublicKeysListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
@@ -2011,8 +1997,7 @@ export function isUnexpected(
 ): response is RestorePointCollectionsListDefaultResponse;
 export function isUnexpected(
   response:
-    | RestorePointCollectionsListAll200Response
-    | RestorePointCollectionsListAllDefaultResponse,
+    RestorePointCollectionsListAll200Response | RestorePointCollectionsListAllDefaultResponse,
 ): response is RestorePointCollectionsListAllDefaultResponse;
 export function isUnexpected(
   response: RestorePointsCreate201Response | RestorePointsCreateDefaultResponse,
@@ -2035,8 +2020,7 @@ export function isUnexpected(
 ): response is CapacityReservationGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
-    | CapacityReservationGroupsUpdate200Response
-    | CapacityReservationGroupsUpdateDefaultResponse,
+    CapacityReservationGroupsUpdate200Response | CapacityReservationGroupsUpdateDefaultResponse,
 ): response is CapacityReservationGroupsUpdateDefaultResponse;
 export function isUnexpected(
   response:
@@ -2104,8 +2088,7 @@ export function isUnexpected(
 ): response is VirtualMachineRunCommandsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
-    | VirtualMachineRunCommandsUpdate200Response
-    | VirtualMachineRunCommandsUpdateDefaultResponse,
+    VirtualMachineRunCommandsUpdate200Response | VirtualMachineRunCommandsUpdateDefaultResponse,
 ): response is VirtualMachineRunCommandsUpdateDefaultResponse;
 export function isUnexpected(
   response:
@@ -2176,8 +2159,7 @@ export function isUnexpected(
 ): response is DiskAccessesDeleteDefaultResponse;
 export function isUnexpected(
   response:
-    | DiskAccessesListByResourceGroup200Response
-    | DiskAccessesListByResourceGroupDefaultResponse,
+    DiskAccessesListByResourceGroup200Response | DiskAccessesListByResourceGroupDefaultResponse,
 ): response is DiskAccessesListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response: DiskAccessesList200Response | DiskAccessesListDefaultResponse,
@@ -2356,8 +2338,7 @@ export function isUnexpected(
 ): response is GalleryApplicationsDeleteDefaultResponse;
 export function isUnexpected(
   response:
-    | GalleryApplicationsListByGallery200Response
-    | GalleryApplicationsListByGalleryDefaultResponse,
+    GalleryApplicationsListByGallery200Response | GalleryApplicationsListByGalleryDefaultResponse,
 ): response is GalleryApplicationsListByGalleryDefaultResponse;
 export function isUnexpected(
   response:
@@ -2368,8 +2349,7 @@ export function isUnexpected(
 ): response is GalleryApplicationVersionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
-    | GalleryApplicationVersionsUpdate200Response
-    | GalleryApplicationVersionsUpdateDefaultResponse,
+    GalleryApplicationVersionsUpdate200Response | GalleryApplicationVersionsUpdateDefaultResponse,
 ): response is GalleryApplicationVersionsUpdateDefaultResponse;
 export function isUnexpected(
   response: GalleryApplicationVersionsGet200Response | GalleryApplicationVersionsGetDefaultResponse,
@@ -2406,8 +2386,7 @@ export function isUnexpected(
 ): response is SharedGalleryImagesGetDefaultResponse;
 export function isUnexpected(
   response:
-    | SharedGalleryImageVersionsList200Response
-    | SharedGalleryImageVersionsListDefaultResponse,
+    SharedGalleryImageVersionsList200Response | SharedGalleryImageVersionsListDefaultResponse,
 ): response is SharedGalleryImageVersionsListDefaultResponse;
 export function isUnexpected(
   response: SharedGalleryImageVersionsGet200Response | SharedGalleryImageVersionsGetDefaultResponse,
@@ -2423,13 +2402,11 @@ export function isUnexpected(
 ): response is CommunityGalleryImagesListDefaultResponse;
 export function isUnexpected(
   response:
-    | CommunityGalleryImageVersionsGet200Response
-    | CommunityGalleryImageVersionsGetDefaultResponse,
+    CommunityGalleryImageVersionsGet200Response | CommunityGalleryImageVersionsGetDefaultResponse,
 ): response is CommunityGalleryImageVersionsGetDefaultResponse;
 export function isUnexpected(
   response:
-    | CommunityGalleryImageVersionsList200Response
-    | CommunityGalleryImageVersionsListDefaultResponse,
+    CommunityGalleryImageVersionsList200Response | CommunityGalleryImageVersionsListDefaultResponse,
 ): response is CommunityGalleryImageVersionsListDefaultResponse;
 export function isUnexpected(
   response:

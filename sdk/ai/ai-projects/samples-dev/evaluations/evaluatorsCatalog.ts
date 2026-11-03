@@ -8,12 +8,15 @@
  * @summary This sample demonstrates how to create prompt-based and code-based custom evaluators,
  * retrieve them, update them, list them, and clean up resources.
  *
+ * Custom code and prompt definitions still require the Evaluations=V1Preview header,
+ * even though their version-management operations use project.evaluators.
+ *
  * Before running the sample:
  *
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
  */
 
@@ -21,13 +24,15 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const previewOptions = {
+    requestOptions: { headers: { "foundry-features": "Evaluations=V1Preview" } },
+  };
 
-  // [START evaluators_catalog]
   // Create a prompt-based custom evaluator
   console.log("Creating Prompt based custom evaluator version (object style)");
   const promptEvaluator = await project.evaluators.createVersion(
@@ -84,6 +89,7 @@ export async function main(): Promise<void> {
         },
       },
     },
+    previewOptions,
   );
   console.log(
     `Prompt evaluator created (name: ${promptEvaluator.name}, version: ${promptEvaluator.version})`,
@@ -92,40 +98,44 @@ export async function main(): Promise<void> {
 
   // Create a code-based custom evaluator
   console.log("\nCreating Code based custom evaluator version (object style)");
-  const codeEvaluator = await project.evaluators.createVersion("my_custom_evaluator_code_based", {
-    name: "my_custom_evaluator_code_based",
-    evaluator_type: "custom",
-    categories: ["quality"],
-    display_name: "my_custom_evaluator",
-    description: "Custom evaluator to detect violent content",
-    definition: {
-      type: "code",
-      code_text: "def grade(sample, item):\n    return 1.0",
-      init_parameters: {
-        type: "object",
-        properties: {
-          deployment_name: { type: "string" },
+  const codeEvaluator = await project.evaluators.createVersion(
+    "my_custom_evaluator_code_based",
+    {
+      name: "my_custom_evaluator_code_based",
+      evaluator_type: "custom",
+      categories: ["quality"],
+      display_name: "my_custom_evaluator",
+      description: "Custom evaluator to detect violent content",
+      definition: {
+        type: "code",
+        code_text: "def grade(sample, item):\n    return 1.0",
+        init_parameters: {
+          type: "object",
+          properties: {
+            deployment_name: { type: "string" },
+          },
+          required: ["deployment_name"],
         },
-        required: ["deployment_name"],
-      },
-      data_schema: {
-        type: "object",
-        properties: {
-          item: { type: "string" },
-          response: { type: "string" },
+        data_schema: {
+          type: "object",
+          properties: {
+            item: { type: "string" },
+            response: { type: "string" },
+          },
+          required: ["query", "response"],
         },
-        required: ["query", "response"],
-      },
-      metrics: {
-        tool_selection: {
-          type: "ordinal",
-          desirable_direction: "increase",
-          min_value: 0,
-          max_value: 5,
+        metrics: {
+          tool_selection: {
+            type: "ordinal",
+            desirable_direction: "increase",
+            min_value: 0,
+            max_value: 5,
+          },
         },
       },
     },
-  });
+    previewOptions,
+  );
   console.log(
     `Code evaluator created (name: ${codeEvaluator.name}, version: ${codeEvaluator.version})`,
   );
@@ -136,6 +146,7 @@ export async function main(): Promise<void> {
   const codeEvaluatorLatest = await project.evaluators.getVersion(
     codeEvaluator.name,
     codeEvaluator.version ?? "",
+    previewOptions,
   );
   console.log(JSON.stringify(codeEvaluatorLatest, null, 2));
 
@@ -144,6 +155,7 @@ export async function main(): Promise<void> {
   const promptEvaluatorLatest = await project.evaluators.getVersion(
     promptEvaluator.name,
     promptEvaluator.version ?? "",
+    previewOptions,
   );
   console.log(JSON.stringify(promptEvaluatorLatest, null, 2));
 
@@ -152,6 +164,7 @@ export async function main(): Promise<void> {
   await project.evaluators.deleteVersion(
     codeEvaluatorLatest.name,
     codeEvaluatorLatest.version ?? "",
+    previewOptions,
   );
   console.log("Code evaluator version deleted");
 
@@ -159,13 +172,14 @@ export async function main(): Promise<void> {
   await project.evaluators.deleteVersion(
     promptEvaluatorLatest.name,
     promptEvaluatorLatest.version ?? "",
+    previewOptions,
   );
   console.log("Prompt evaluator version deleted");
 
   // List builtin evaluator versions
   console.log("\nGetting list of builtin evaluator versions");
-  const builtinEvaluators = project.evaluators.listVersions({
-    typeParam: "builtin",
+  const builtinEvaluators = project.evaluators.list({
+    evaluatorType: "builtin",
   });
   console.log("List of builtin evaluator versions:");
   for await (const evaluator of builtinEvaluators) {
@@ -174,8 +188,9 @@ export async function main(): Promise<void> {
 
   // List custom evaluator versions
   console.log("\nGetting list of custom evaluator versions");
-  const customEvaluators = project.evaluators.listVersions({
-    typeParam: "custom",
+  const customEvaluators = project.evaluators.list({
+    evaluatorType: "custom",
+    ...previewOptions,
   });
   console.log("List of custom evaluator versions:");
   for await (const evaluator of customEvaluators) {
@@ -183,7 +198,6 @@ export async function main(): Promise<void> {
   }
 
   console.log("\nSample completed successfully");
-  // [END evaluators_catalog]
 }
 
 main().catch((err) => {

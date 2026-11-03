@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-imagebuilder": ["../src/index.ts"],
+      "@azure/arm-imagebuilder/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

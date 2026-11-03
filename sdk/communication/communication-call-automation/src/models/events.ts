@@ -3,7 +3,8 @@
 
 import type { CommunicationIdentifier } from "@azure/communication-common";
 
-import {
+import type { Tone } from "../generated/src/models/index.js";
+import type {
   AddParticipantSucceeded as RestAddParticipantSucceeded,
   AddParticipantFailed as RestAddParticipantFailed,
   RemoveParticipantSucceeded as RestRemoveParticipantSucceeded,
@@ -22,12 +23,12 @@ import {
   RecognizeFailed as RestRecognizeFailed,
   RecognizeCanceled as RestRecognizeCanceled,
   ResultInformation as RestResultInformation,
+  SipDiagnosticInfo,
   ContinuousDtmfRecognitionToneReceived as RestContinuousDtmfRecognitionToneReceived,
   ContinuousDtmfRecognitionToneFailed as RestContinuousDtmfRecognitionToneFailed,
   ContinuousDtmfRecognitionStopped as RestContinuousDtmfRecognitionStopped,
   SendDtmfTonesCompleted as RestSendDtmfTonesCompleted,
   SendDtmfTonesFailed as RestSendDtmfTonesFailed,
-  Tone,
   CancelAddParticipantSucceeded as RestCancelAddParticipantSucceeded,
   CancelAddParticipantFailed as RestCancelAddParticipantFailed,
   ConnectFailed as RestConnectFailed,
@@ -51,6 +52,8 @@ export type CallAutomationEvent =
   | AddParticipantFailed
   | RemoveParticipantSucceeded
   | RemoveParticipantFailed
+  | MoveParticipantSucceeded
+  | MoveParticipantFailed
   | CallConnected
   | CallDisconnected
   | CallTransferAccepted
@@ -83,7 +86,7 @@ export type CallAutomationEvent =
   | MediaStreamingFailed
   | PlayStarted
   | StartRecordingFailed;
-export {
+export type {
   RestAddParticipantSucceeded,
   RestAddParticipantFailed,
   RestRemoveParticipantSucceeded,
@@ -102,6 +105,7 @@ export {
   RestRecognizeFailed,
   RestRecognizeCanceled,
   RestResultInformation,
+  SipDiagnosticInfo,
   RestContinuousDtmfRecognitionToneReceived,
   RestContinuousDtmfRecognitionToneFailed,
   RestContinuousDtmfRecognitionStopped,
@@ -229,6 +233,46 @@ export interface RemoveParticipantFailed
   participant?: CommunicationIdentifier;
   /** kind of this event. */
   kind: "RemoveParticipantFailed";
+}
+
+/** The participant successfully moved event. */
+export interface MoveParticipantSucceeded {
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Used this to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** The participant in the call. */
+  participant?: CommunicationIdentifier;
+  /** kind of this event. */
+  kind: "MoveParticipantSucceeded";
+}
+
+/** The failed to move participant event. */
+export interface MoveParticipantFailed {
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Used this to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** The participant in the call. */
+  participant?: CommunicationIdentifier;
+  /** kind of this event. */
+  kind: "MoveParticipantFailed";
 }
 
 /** Event when call was established. */
@@ -386,6 +430,8 @@ export interface StartRecordingFailed {
   resultInformation?: ResultInformation;
   /** The call recording id */
   recordingId?: string;
+  /** Used this to correlate the request to the response event. */
+  operationContext?: string;
   /** kind of this event. */
   kind: "StartRecordingFailed";
 }

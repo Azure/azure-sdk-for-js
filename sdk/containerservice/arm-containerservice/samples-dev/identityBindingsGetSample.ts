@@ -3,29 +3,18 @@
 
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified Identity Binding.
+ * This sample demonstrates how to gets the specified Identity Binding.
  *
- * @summary Gets the specified Identity Binding.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/IdentityBindings_Get.json
+ * @summary gets the specified Identity Binding.
+ * x-ms-original-file: 2026-08-02-preview/IdentityBindings_Get.json
  */
 async function getIdentityBinding(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const identityBindingName = "identitybinding1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.identityBindings.get(
-    resourceGroupName,
-    resourceName,
-    identityBindingName,
-  );
+  const result = await client.identityBindings.get("rg1", "clustername1", "identitybinding1");
   console.log(result);
 }
 

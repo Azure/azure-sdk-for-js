@@ -78,12 +78,18 @@ export interface TranslationTarget {
    * specifies that the service is allowed to fall back to a general system when a custom system doesn't exist.
    */
   allowFallback?: boolean;
-  /** Defines complexity of LLM prompts to provide high accuracy translation. */
-  grade?: string;
-  /** Desired tone of target translation. */
-  tone?: string;
-  /** Desired gender of target translation. */
-  gender?: string;
+  /**
+   * Desired tone of target translation. Accepted values are formal, informal, or neutral.
+   *
+   * Possible values: "neutral", "formal", "informal"
+   */
+  tone?: TranslationTone;
+  /**
+   * Desired gender of target translation. Accepted values are female, male, or neutral.
+   *
+   * Possible values: "neutral", "male", "female"
+   */
+  gender?: TranslationGender;
   /** Reference dataset ID having sentence pair to generate adaptive customized translation. */
   adaptiveDatasetId?: string;
   /** Reference text pairs to generate adaptive customized translation. */
@@ -116,3 +122,7 @@ export type TextType = string;
 export type ProfanityAction = "NoAction" | "Marked" | "Deleted";
 /** Translator profanity markers */
 export type ProfanityMarker = "Asterisk" | "Tag";
+/** Alias for TranslationTone */
+export type TranslationTone = string;
+/** Alias for TranslationGender */
+export type TranslationGender = string;

@@ -1,38 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ConfluentManagementClient } from "@azure/arm-confluent";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to cloud provider regions available for creating Schema Registry clusters.
  *
  * @summary cloud provider regions available for creating Schema Registry clusters.
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_ListRegions.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_ListRegions_MaximumSet_Gen.json
  */
-
-import type { ListAccessRequestModel } from "@azure/arm-confluent";
-import { ConfluentManagementClient } from "@azure/arm-confluent";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
-async function organizationListRegions(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const body: ListAccessRequestModel = {
-    searchFilters: {
-      cloud: "azure",
-      packages: "ADVANCED,ESSENTIALS",
-      region: "eastus",
-    },
-  };
+async function organizationListRegionsMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
-  const result = await client.organization.listRegions(resourceGroupName, organizationName, body);
+  const result = await client.organization.listRegions("rgconfluent", "bnu", {
+    searchFilters: { key8083: "ft" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to cloud provider regions available for creating Schema Registry clusters.
+ *
+ * @summary cloud provider regions available for creating Schema Registry clusters.
+ * x-ms-original-file: 2026-06-02-preview/Organization_ListRegions_MinimumSet_Gen.json
+ */
+async function organizationListRegionsMinimumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
+  const client = new ConfluentManagementClient(credential, subscriptionId);
+  const result = await client.organization.listRegions(
+    "rgconfluent",
+    "dvfvoveezvifybaptbuvprerr",
+    {},
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await organizationListRegions();
+  await organizationListRegionsMaximumSet();
+  await organizationListRegionsMinimumSet();
 }
 
 main().catch(console.error);

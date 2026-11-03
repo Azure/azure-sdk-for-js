@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a Log Analytics workspace table.
- *
- * @summary Gets a Log Analytics workspace table.
- * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/TablesGet.json
- */
-
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets a Log Analytics workspace table.
+ *
+ * @summary gets a Log Analytics workspace table.
+ * x-ms-original-file: 2025-07-01/TablesGet.json
+ */
 async function tablesGet(): Promise<void> {
-  const subscriptionId =
-    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "oiautorest6685";
-  const workspaceName = "oiautorest6685";
-  const tableName = "table1_SRCH";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OperationalInsightsManagementClient(credential, subscriptionId);
-  const result = await client.tables.get(resourceGroupName, workspaceName, tableName);
+  const result = await client.tables.get("oiautorest6685", "oiautorest6685", "table1_SRCH");
   console.log(result);
 }
 

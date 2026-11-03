@@ -7,7 +7,11 @@ import {
   getRemainingWaitTimeInMsFn,
   BatchingReceiverLite,
 } from "../../../src/core/batchingReceiver.js";
-import { defer, createConnectionContextForTests } from "./unittestUtils.js";
+import {
+  defer,
+  createConnectionContextForTests,
+  createRheaReceiverForTests,
+} from "./unittestUtils.js";
 import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils.js";
 import type { ServiceBusMessageImpl } from "../../../src/serviceBusMessage.js";
 import type {
@@ -15,7 +19,7 @@ import type {
   EventContext,
   Message as RheaMessage,
 } from "rhea-promise";
-import { ReceiverEvents, SessionEvents } from "rhea-promise";
+import { OperationTimeoutError, ReceiverEvents, SessionEvents } from "rhea-promise";
 import type { ConnectionContext } from "../../../src/connectionContext.js";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
 import type { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs.js";
@@ -510,22 +514,22 @@ describe("BatchingReceiver unit tests", () => {
       let fn = getRemainingWaitTimeInMsFn(10, 2);
       // 1ms has elapsed so we're comparing 9ms vs 2ms
       vi.advanceTimersByTime(1);
-      assert.equal(2, fn());
+      assert.equal(fn(), 2);
 
       fn = getRemainingWaitTimeInMsFn(10, 2);
       // 9ms has elapsed so we're comparing 1ms vs 2ms
       vi.advanceTimersByTime(9);
-      assert.equal(1, fn());
+      assert.equal(fn(), 1);
 
       fn = getRemainingWaitTimeInMsFn(10, 2);
       // 8ms has elapsed so we're comparing 2ms vs 2ms
       vi.advanceTimersByTime(8);
-      assert.equal(2, fn());
+      assert.equal(fn(), 2);
 
       fn = getRemainingWaitTimeInMsFn(10, 2);
       // 11ms has elapsed so we're comparing -1ms vs 2ms (we'll just treat that as "don't wait, just return what you have")
       vi.advanceTimersByTime(11);
-      assert.equal(0, fn());
+      assert.equal(fn(), 0);
     });
   });
 
@@ -849,7 +853,61 @@ describe("BatchingReceiver unit tests", () => {
 
     const results = await receiveMessagesPromise;
 
-    assert.equal(1, results.length);
+    assert.equal(results.length, 1);
+  });
+
+  it("BatchingReceiverLite swallows a close() rejection after the drain times out (#39348)", async () => {
+    const receiver = createRheaReceiverForTests();
+    receiver.addCredit(1);
+
+    // Force the drain-timeout path: drainCredit never emits `receiverDrained`.
+    (receiver as any).drainCredit = (): void => {
+      /* intentionally does not emit receiverDrained so the drain times out */
+    };
+
+    // Simulate a real AMQP session-close timeout.
+    const closeError = new OperationTimeoutError(
+      "Unable to close the amqp session local-1_remote-1_connection-2 due to operation timeout.",
+    );
+    let closeCalled = false;
+    receiver.close = async (): Promise<void> => {
+      closeCalled = true;
+      throw closeError;
+    };
+
+    const lite = new BatchingReceiverLite(
+      createConnectionContextForTests(),
+      "fakeEntityPath",
+      async () => receiver,
+      "peekLock",
+      false,
+      false,
+    );
+    (lite as any)["_drainTimeoutInMs"] = 200;
+
+    // Drive the private drain helper directly (the EP the issue reports for batchingReceiver).
+    // It is reached via _finalAction, which is invoked without being awaited - so pre-fix a
+    // close() rejection here becomes an unhandled rejection. Post-fix it must be swallowed and
+    // tryDrainReceiver must resolve rather than reject.
+    const drainDone = (lite as any)["tryDrainReceiver"](receiver, "[test|r:receiver]", 0);
+
+    // Fire the drain timer (this suite uses fake timers); awaiting then flushes the
+    // rejecting close() microtask chain.
+    vi.advanceTimersByTime(201);
+
+    let caught: unknown;
+    try {
+      await drainDone;
+    } catch (err: any) {
+      caught = err;
+    }
+
+    assert.isTrue(closeCalled, "close() should be attempted after the drain timeout");
+    assert.isUndefined(
+      caught,
+      "tryDrainReceiver must swallow the close() rejection, not reject (#39348)",
+    );
+    assert.isFalse(receiver.drain, "drain flag should be cleared");
   });
 });
 

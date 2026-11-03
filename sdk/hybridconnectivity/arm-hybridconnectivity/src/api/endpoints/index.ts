@@ -11,7 +11,7 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
+export type {
   EndpointsListManagedProxyDetailsOptionalParams,
   EndpointsListIngressGatewayCredentialsOptionalParams,
   EndpointsListCredentialsOptionalParams,

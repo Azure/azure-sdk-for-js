@@ -1,28 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  Account} from "@azure/arm-cognitiveservices";
-import {
-  CognitiveServicesManagementClient,
-} from "@azure/arm-cognitiveservices";
+import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
+ * This sample demonstrates how to create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
  *
- * @summary Create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/CreateAccount.json
+ * @summary create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
+ * x-ms-original-file: 2026-09-15-preview/CreateAccount.json
  */
 async function createAccount(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "testCreate1";
-  const account: Account = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.accounts.create("myResourceGroup", "testCreate1", {
     identity: { type: "SystemAssigned" },
     kind: "Emotion",
     location: "West US",
@@ -41,58 +33,85 @@ async function createAccount(): Promise<void> {
             "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
         },
       ],
+      capabilitySettings: {
+        documentStore:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/myCosmosAccount",
+        vectorStore:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.Search/searchServices/mySearchService",
+        blobStore:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+      },
     },
     sku: { name: "S0" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.accounts.beginCreateAndWait(
-    resourceGroupName,
-    accountName,
-    account,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
+ * This sample demonstrates how to create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
  *
- * @summary Create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/CreateAccountMin.json
+ * @summary create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
+ * x-ms-original-file: 2026-09-15-preview/CreateAccountMin.json
  */
 async function createAccountMin(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "testCreate1";
-  const account: Account = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.accounts.create("myResourceGroup", "testCreate1", {
     identity: { type: "SystemAssigned" },
     kind: "CognitiveServices",
     location: "West US",
     properties: {},
     sku: { name: "S0" },
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
+ *
+ * @summary create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
+ * x-ms-original-file: 2026-09-15-preview/CreateAccountWithAgentHostingConfiguration.json
+ */
+async function createAFoundryAccountWithCustomerOwnedAKSHosting(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.accounts.beginCreateAndWait(
-    resourceGroupName,
-    accountName,
-    account,
-  );
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.accounts.create("myResourceGroup", "foundryByocAccount", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/account-control-plane":
+          {},
+      },
+    },
+    kind: "AIServices",
+    location: "West US",
+    properties: {
+      agentHostingConfigurations: [
+        {
+          name: "default",
+          hostingType: "ManagedCluster",
+          hostingManagementIdentityResourceId:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/account-control-plane",
+          workloadIdentityResourceId:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aks-workload",
+          clusterResourceId:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.ContainerService/managedClusters/cluster1",
+          storageAccountResourceId:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/storage1",
+        },
+      ],
+    },
+    sku: { name: "S0" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createAccount();
   await createAccountMin();
+  await createAFoundryAccountWithCustomerOwnedAKSHosting();
 }
 
 main().catch(console.error);

@@ -39,7 +39,6 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
-import { v4 } from "uuid";
 import { inspect } from "node:util";
 
 import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json";
@@ -134,7 +133,7 @@ async function main(): Promise<void> {
   }
 
   // Create event route
-  const eventRouteId = `eventRoute-${v4()}`;
+  const eventRouteId = `eventRoute-${crypto.randomUUID()}`;
   const eventFilter =
     "$eventType = 'DigitalTwinTelemetryMessages' or $eventType = 'DigitalTwinLifecycleNotification'";
   const response = await serviceClient.upsertEventRoute(

@@ -3,25 +3,22 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Get all deleted apps for a subscription at location
+ * This sample demonstrates how to description for Get all deleted apps for a subscription at location
  *
- * @summary Description for Get all deleted apps for a subscription at location
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/ListDeletedWebAppsByLocation.json
+ * @summary description for Get all deleted apps for a subscription at location
+ * x-ms-original-file: 2025-05-01/ListDeletedWebAppsByLocation.json
  */
 async function listDeletedWebAppByLocation(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const location = "West US 2";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.deletedWebApps.listByLocation(location)) {
+  for await (const item of client.deletedWebApps.listByLocation("West US 2")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

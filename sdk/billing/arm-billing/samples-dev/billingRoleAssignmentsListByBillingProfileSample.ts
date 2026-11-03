@@ -1,30 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the role assignments for the caller on a billing profile. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
- *
- * @summary Lists the role assignments for the caller on a billing profile. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRoleAssignmentListByBillingProfile.json
- */
-
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the role assignments for the caller on a billing profile. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+ *
+ * @summary lists the role assignments for the caller on a billing profile. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+ * x-ms-original-file: 2024-04-01/billingRoleAssignmentListByBillingProfile.json
+ */
 async function billingRoleAssignmentListByBillingProfile(): Promise<void> {
-  const billingAccountName =
-    "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2018-09-30";
-  const billingProfileName = "xxxx-xxxx-xxx-xxx";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.billingRoleAssignments.listByBillingProfile(
-    billingAccountName,
-    billingProfileName,
+    "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2018-09-30",
+    "xxxx-xxxx-xxx-xxx",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

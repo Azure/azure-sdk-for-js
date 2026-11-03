@@ -1,49 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Validates if the invoice section can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
- *
- * @summary Validates if the invoice section can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoiceSectionsValidateDeleteEligibilityFailure.json
- */
-
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to validates if the invoice section can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+ *
+ * @summary validates if the invoice section can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+ * x-ms-original-file: 2024-04-01/invoiceSectionsValidateDeleteEligibilityFailure.json
+ */
 async function invoiceSectionsValidateDeleteEligibilityFailure(): Promise<void> {
-  const billingAccountName =
-    "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
-  const billingProfileName = "xxxx-xxxx-xxx-xxx";
-  const invoiceSectionName = "yyyy-yyyy-yyy-yyy";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const result = await client.invoiceSections.validateDeleteEligibility(
-    billingAccountName,
-    billingProfileName,
-    invoiceSectionName,
+    "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31",
+    "xxxx-xxxx-xxx-xxx",
+    "yyyy-yyyy-yyy-yyy",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Validates if the invoice section can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+ * This sample demonstrates how to validates if the invoice section can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
  *
- * @summary Validates if the invoice section can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoiceSectionsValidateDeleteEligibilitySuccess.json
+ * @summary validates if the invoice section can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+ * x-ms-original-file: 2024-04-01/invoiceSectionsValidateDeleteEligibilitySuccess.json
  */
 async function invoiceSectionsValidateDeleteEligibilitySuccess(): Promise<void> {
-  const billingAccountName =
-    "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
-  const billingProfileName = "xxxx-xxxx-xxx-xxx";
-  const invoiceSectionName = "yyyy-yyyy-yyy-yyy";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const result = await client.invoiceSections.validateDeleteEligibility(
-    billingAccountName,
-    billingProfileName,
-    invoiceSectionName,
+    "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31",
+    "xxxx-xxxx-xxx-xxx",
+    "yyyy-yyyy-yyy-yyy",
   );
   console.log(result);
 }

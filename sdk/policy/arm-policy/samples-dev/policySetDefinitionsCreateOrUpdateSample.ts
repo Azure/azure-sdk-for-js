@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to This operation creates or updates a policy set definition in the given subscription with the given name.
- *
- * @summary This operation creates or updates a policy set definition in the given subscription with the given name.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/createOrUpdatePolicySetDefinition.json
- */
-
-import type { PolicySetDefinition } from "@azure/arm-policy";
 import { PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to this operation creates or updates a policy set definition in the given subscription with the given name.
+ *
+ * @summary this operation creates or updates a policy set definition in the given subscription with the given name.
+ * x-ms-original-file: 2026-06-01/createOrUpdatePolicySetDefinition.json
+ */
 async function createOrUpdateAPolicySetDefinition(): Promise<void> {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] ||
-    "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
-  const policySetDefinitionName = "CostManagement";
-  const parameters: PolicySetDefinition = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+  const client = new PolicyClient(credential, subscriptionId);
+  const result = await client.policySetDefinitions.createOrUpdate("CostManagement", {
     description: "Policies to enforce low cost storage SKUs",
     displayName: "Cost Management",
     metadata: { category: "Cost Management" },
@@ -31,53 +27,40 @@ async function createOrUpdateAPolicySetDefinition(): Promise<void> {
     },
     policyDefinitions: [
       {
-        parameters: {
-          listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] },
-        },
+        parameters: { listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] } },
         policyDefinitionId:
           "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
         policyDefinitionReferenceId: "Limit_Skus",
       },
       {
-        parameters: {
-          prefix: { value: "[parameters('namePrefix')]" },
-          suffix: { value: "-LC" },
-        },
+        parameters: { prefix: { value: "[parameters('namePrefix')]" }, suffix: { value: "-LC" } },
         policyDefinitionId:
           "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
         policyDefinitionReferenceId: "Resource_Naming",
       },
     ],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PolicyClient(credential, subscriptionId);
-  const result = await client.policySetDefinitions.createOrUpdate(
-    policySetDefinitionName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to This operation creates or updates a policy set definition in the given subscription with the given name.
+ * This sample demonstrates how to this operation creates or updates a policy set definition in the given subscription with the given name.
  *
- * @summary This operation creates or updates a policy set definition in the given subscription with the given name.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/createOrUpdatePolicySetDefinitionWithGroups.json
+ * @summary this operation creates or updates a policy set definition in the given subscription with the given name.
+ * x-ms-original-file: 2026-06-01/createOrUpdatePolicySetDefinitionWithGroups.json
  */
 async function createOrUpdateAPolicySetDefinitionWithGroups(): Promise<void> {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] ||
-    "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
-  const policySetDefinitionName = "CostManagement";
-  const parameters: PolicySetDefinition = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+  const client = new PolicyClient(credential, subscriptionId);
+  const result = await client.policySetDefinitions.createOrUpdate("CostManagement", {
     description: "Policies to enforce low cost storage SKUs",
     displayName: "Cost Management",
     metadata: { category: "Cost Management" },
     policyDefinitionGroups: [
       {
         name: "CostSaving",
-        description:
-          "Policies designed to control spend within a subscription.",
+        description: "Policies designed to control spend within a subscription.",
         displayName: "Cost Management Policies",
       },
       {
@@ -91,9 +74,7 @@ async function createOrUpdateAPolicySetDefinitionWithGroups(): Promise<void> {
       {
         definitionVersion: "1.*.*",
         groupNames: ["CostSaving"],
-        parameters: {
-          listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] },
-        },
+        parameters: { listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] } },
         policyDefinitionId:
           "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
         policyDefinitionReferenceId: "Limit_Skus",
@@ -107,13 +88,7 @@ async function createOrUpdateAPolicySetDefinitionWithGroups(): Promise<void> {
         policyDefinitionReferenceId: "Resource_Naming",
       },
     ],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PolicyClient(credential, subscriptionId);
-  const result = await client.policySetDefinitions.createOrUpdate(
-    policySetDefinitionName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

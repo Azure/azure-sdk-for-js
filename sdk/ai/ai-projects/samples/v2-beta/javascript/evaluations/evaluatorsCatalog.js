@@ -13,7 +13,7 @@
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
  */
 
@@ -21,16 +21,15 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  // [START evaluators_catalog]
   // Create a prompt-based custom evaluator
   console.log("Creating Prompt based custom evaluator version (object style)");
-  const promptEvaluator = await project.evaluators.createVersion(
+  const promptEvaluator = await project.beta.evaluators.createVersion(
     "my_custom_evaluator_code_prompt_based",
     {
       name: "my_custom_evaluator_code_prompt_based",
@@ -104,40 +103,43 @@ async function main() {
 
   // Create a code-based custom evaluator
   console.log("\nCreating Code based custom evaluator version (object style)");
-  const codeEvaluator = await project.evaluators.createVersion("my_custom_evaluator_code_based", {
-    name: "my_custom_evaluator_code_based",
-    evaluator_type: "custom",
-    categories: ["quality"],
-    display_name: "my_custom_evaluator",
-    description: "Custom evaluator to detect violent content",
-    definition: {
-      type: "code",
-      code_text: "def grade(sample, item):\n    return 1.0",
-      init_parameters: {
-        type: "object",
-        properties: {
-          deployment_name: { type: "string" },
+  const codeEvaluator = await project.beta.evaluators.createVersion(
+    "my_custom_evaluator_code_based",
+    {
+      name: "my_custom_evaluator_code_based",
+      evaluator_type: "custom",
+      categories: ["quality"],
+      display_name: "my_custom_evaluator",
+      description: "Custom evaluator to detect violent content",
+      definition: {
+        type: "code",
+        code_text: "def grade(sample, item):\n    return 1.0",
+        init_parameters: {
+          type: "object",
+          properties: {
+            deployment_name: { type: "string" },
+          },
+          required: ["deployment_name"],
         },
-        required: ["deployment_name"],
-      },
-      data_schema: {
-        type: "object",
-        properties: {
-          item: { type: "string" },
-          response: { type: "string" },
+        data_schema: {
+          type: "object",
+          properties: {
+            item: { type: "string" },
+            response: { type: "string" },
+          },
+          required: ["query", "response"],
         },
-        required: ["query", "response"],
-      },
-      metrics: {
-        tool_selection: {
-          type: "ordinal",
-          desirable_direction: "increase",
-          min_value: 0,
-          max_value: 5,
+        metrics: {
+          tool_selection: {
+            type: "ordinal",
+            desirable_direction: "increase",
+            min_value: 0,
+            max_value: 5,
+          },
         },
       },
     },
-  });
+  );
   console.log(
     `Code evaluator created (name: ${codeEvaluator.name}, version: ${codeEvaluator.version})`,
   );
@@ -145,7 +147,7 @@ async function main() {
 
   // Get code based evaluator version
   console.log("\nGet code based evaluator version");
-  const codeEvaluatorLatest = await project.evaluators.getVersion(
+  const codeEvaluatorLatest = await project.beta.evaluators.getVersion(
     codeEvaluator.name,
     codeEvaluator.version ?? "",
   );
@@ -153,7 +155,7 @@ async function main() {
 
   // Get prompt based evaluator version
   console.log("\nGet prompt based evaluator version");
-  const promptEvaluatorLatest = await project.evaluators.getVersion(
+  const promptEvaluatorLatest = await project.beta.evaluators.getVersion(
     promptEvaluator.name,
     promptEvaluator.version ?? "",
   );
@@ -161,14 +163,14 @@ async function main() {
 
   // Delete code based evaluator version
   console.log("\nDeleting code based evaluator version");
-  await project.evaluators.deleteVersion(
+  await project.beta.evaluators.deleteVersion(
     codeEvaluatorLatest.name,
     codeEvaluatorLatest.version ?? "",
   );
   console.log("Code evaluator version deleted");
 
   // Delete prompt based evaluator version
-  await project.evaluators.deleteVersion(
+  await project.beta.evaluators.deleteVersion(
     promptEvaluatorLatest.name,
     promptEvaluatorLatest.version ?? "",
   );
@@ -176,8 +178,8 @@ async function main() {
 
   // List builtin evaluator versions
   console.log("\nGetting list of builtin evaluator versions");
-  const builtinEvaluators = project.evaluators.listVersions({
-    typeParam: "builtin",
+  const builtinEvaluators = project.beta.evaluators.list({
+    evaluatorType: "builtin",
   });
   console.log("List of builtin evaluator versions:");
   for await (const evaluator of builtinEvaluators) {
@@ -186,8 +188,8 @@ async function main() {
 
   // List custom evaluator versions
   console.log("\nGetting list of custom evaluator versions");
-  const customEvaluators = project.evaluators.listVersions({
-    typeParam: "custom",
+  const customEvaluators = project.beta.evaluators.list({
+    evaluatorType: "custom",
   });
   console.log("List of custom evaluator versions:");
   for await (const evaluator of customEvaluators) {
@@ -195,7 +197,6 @@ async function main() {
   }
 
   console.log("\nSample completed successfully");
-  // [END evaluators_catalog]
 }
 
 main().catch((err) => {

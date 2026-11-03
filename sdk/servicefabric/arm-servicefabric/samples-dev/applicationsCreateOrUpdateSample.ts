@@ -1,38 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update a Service Fabric application resource with the specified name.
- *
- * @summary Create or update a Service Fabric application resource with the specified name.
- * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationPutOperation_example_max.json
- */
-
-import type { ApplicationResource } from "@azure/arm-servicefabric";
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update a Service Fabric application resource with the specified name.
+ *
+ * @summary create or update a Service Fabric application resource with the specified name.
+ * x-ms-original-file: 2026-03-01-preview/ApplicationPutOperation_example_max.json
+ */
 async function putAnApplicationWithMaximumParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
-  const clusterName = "myCluster";
-  const applicationName = "myApp";
-  const parameters: ApplicationResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ServiceFabricManagementClient(credential, subscriptionId);
+  const result = await client.applications.createOrUpdate("resRg", "myCluster", "myApp", {
     maximumNodes: 3,
     metrics: [
-      {
-        name: "metric1",
-        maximumCapacity: 3,
-        reservationCapacity: 1,
-        totalApplicationCapacity: 5,
-      },
+      { name: "metric1", maximumCapacity: 3, reservationCapacity: 1, totalApplicationCapacity: 5 },
     ],
     minimumNodes: 1,
     parameters: { param1: "value1" },
     removeApplicationCapacity: false,
-    tags: {},
     typeName: "myAppType",
     typeVersion: "1.0",
     upgradePolicy: {
@@ -57,75 +46,48 @@ async function putAnApplicationWithMaximumParameters(): Promise<void> {
       upgradeMode: "Monitored",
       upgradeReplicaSetCheckTimeout: "01:00:00",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ServiceFabricManagementClient(credential, subscriptionId);
-  const result = await client.applications.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    applicationName,
-    parameters,
-  );
+    tags: {},
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update a Service Fabric application resource with the specified name.
+ * This sample demonstrates how to create or update a Service Fabric application resource with the specified name.
  *
- * @summary Create or update a Service Fabric application resource with the specified name.
- * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationPutOperation_example_min.json
+ * @summary create or update a Service Fabric application resource with the specified name.
+ * x-ms-original-file: 2026-03-01-preview/ApplicationPutOperation_example_min.json
  */
 async function putAnApplicationWithMinimumParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
-  const clusterName = "myCluster";
-  const applicationName = "myApp";
-  const parameters: ApplicationResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ServiceFabricManagementClient(credential, subscriptionId);
+  const result = await client.applications.createOrUpdate("resRg", "myCluster", "myApp", {
     location: "eastus",
     removeApplicationCapacity: false,
-    tags: {},
     typeName: "myAppType",
     typeVersion: "1.0",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ServiceFabricManagementClient(credential, subscriptionId);
-  const result = await client.applications.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    applicationName,
-    parameters,
-  );
+    tags: {},
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update a Service Fabric application resource with the specified name.
+ * This sample demonstrates how to create or update a Service Fabric application resource with the specified name.
  *
- * @summary Create or update a Service Fabric application resource with the specified name.
- * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationPutOperation_recreate_example.json
+ * @summary create or update a Service Fabric application resource with the specified name.
+ * x-ms-original-file: 2026-03-01-preview/ApplicationPutOperation_recreate_example.json
  */
 async function putAnApplicationWithRecreateOption(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
-  const clusterName = "myCluster";
-  const applicationName = "myApp";
-  const parameters: ApplicationResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ServiceFabricManagementClient(credential, subscriptionId);
+  const result = await client.applications.createOrUpdate("resRg", "myCluster", "myApp", {
     parameters: { param1: "value1" },
-    tags: {},
     typeName: "myAppType",
     typeVersion: "1.0",
     upgradePolicy: { recreateApplication: true },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ServiceFabricManagementClient(credential, subscriptionId);
-  const result = await client.applications.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    applicationName,
-    parameters,
-  );
+    tags: {},
+  });
   console.log(result);
 }
 

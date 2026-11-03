@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns the allowed callout policies for the specified service.
- *
- * @summary Returns the allowed callout policies for the specified service.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersListCalloutPolicies.json
- */
-
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns the allowed callout policies for the specified service.
+ *
+ * @summary returns the allowed callout policies for the specified service.
+ * x-ms-original-file: 2025-02-14/KustoClustersListCalloutPolicies.json
+ */
 async function kustoClusterListCalloutPolicies(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new KustoManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.clusters.listCalloutPolicies(resourceGroupName, clusterName)) {
+  for await (const item of client.clusters.listCalloutPolicies("kustorptest", "kustoCluster")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Invokes GEO DR failover and reconfigure the alias to point to the secondary namespace
- *
- * @summary Invokes GEO DR failover and reconfigure the alias to point to the secondary namespace
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/SBAliasFailOver.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to invokes GEO DR failover and reconfigure the alias to point to the secondary namespace
+ *
+ * @summary invokes GEO DR failover and reconfigure the alias to point to the secondary namespace
+ * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/SBAliasFailOver.json
+ */
 async function sbAliasFailOver(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ardsouzatestRG";
-  const namespaceName = "sdk-Namespace-8860";
-  const alias = "sdk-DisasterRecovery-3814";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
-  const result = await client.disasterRecoveryConfigs.failOver(
-    resourceGroupName,
-    namespaceName,
-    alias,
+  await client.disasterRecoveryConfigs.failOver(
+    "ardsouzatestRG",
+    "sdk-Namespace-8860",
+    "sdk-DisasterRecovery-3814",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ForceLinkParameters} from "@azure/arm-redisenterprisecache";
-import {
-  RedisEnterpriseManagementClient,
-} from "@azure/arm-redisenterprisecache";
+import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Forcibly recreates an existing database on the specified cluster, and rejoins it to an existing replication group. **IMPORTANT NOTE:** All data in this database will be discarded, and the database will temporarily be unavailable while rejoining the replication group.
+ * This sample demonstrates how to forcibly recreates an existing database on the specified cluster, and rejoins it to an existing replication group. **IMPORTANT NOTE:** All data in this database will be discarded, and the database will temporarily be unavailable while rejoining the replication group.
  *
- * @summary Forcibly recreates an existing database on the specified cluster, and rejoins it to an existing replication group. **IMPORTANT NOTE:** All data in this database will be discarded, and the database will temporarily be unavailable while rejoining the replication group.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseDatabasesForceLink.json
+ * @summary forcibly recreates an existing database on the specified cluster, and rejoins it to an existing replication group. **IMPORTANT NOTE:** All data in this database will be discarded, and the database will temporarily be unavailable while rejoining the replication group.
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesForceLink.json
  */
 async function howToRelinkADatabaseAfterARegionalOutage(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
-  const databaseName = "default";
-  const parameters: ForceLinkParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  await client.databases.forceLinkToReplicationGroup("rg1", "cache1", "default", {
     geoReplication: {
       groupNickname: "groupName",
       linkedDatabases: [
@@ -35,19 +26,7 @@ async function howToRelinkADatabaseAfterARegionalOutage(): Promise<void> {
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.databases.beginForceLinkToReplicationGroupAndWait(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    parameters,
-  );
-  console.log(result);
+  });
 }
 
 async function main(): Promise<void> {

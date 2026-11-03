@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  powerOff,
   save,
   pause,
   restart,
@@ -13,7 +14,8 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
+export type {
+  VirtualMachineInstancesPowerOffOptionalParams,
   VirtualMachineInstancesSaveOptionalParams,
   VirtualMachineInstancesPauseOptionalParams,
   VirtualMachineInstancesRestartOptionalParams,

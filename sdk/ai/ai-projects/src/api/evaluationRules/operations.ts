@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
+import type { AIProjectContext as Client } from "../index.js";
+import type { EvaluationRule, _PagedEvaluationRule } from "../../models/models.js";
 import {
-  EvaluationRule,
   evaluationRuleSerializer,
   evaluationRuleDeserializer,
-  _PagedEvaluationRule,
   _pagedEvaluationRuleDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   EvaluationRulesListOptionalParams,
   EvaluationRulesCreateOrUpdateOptionalParams,
   EvaluationRulesDeleteOptionalParams,
   EvaluationRulesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -46,9 +39,6 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -66,7 +56,7 @@ export async function _listDeserialize(
   return _pagedEvaluationRuleDeserializer(result.body);
 }
 
-/** List all evaluation rules. */
+/** Returns the evaluation rules configured for the project, optionally filtered by action type, agent name, or enabled state. */
 export function list(
   context: Client,
   options: EvaluationRulesListOptionalParams = { requestOptions: {} },
@@ -76,7 +66,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion,
+    },
   );
 }
 
@@ -100,6 +94,9 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -118,7 +115,7 @@ export async function _createOrUpdateDeserialize(
   return evaluationRuleDeserializer(result.body);
 }
 
-/** Create or update an evaluation rule. */
+/** Creates a new evaluation rule, or replaces the existing rule when the identifier matches. */
 export async function createOrUpdate(
   context: Client,
   id: string,
@@ -147,9 +144,6 @@ export function _$deleteSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -164,7 +158,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete an evaluation rule. */
+/** Removes the specified evaluation rule from the project. */
 export async function $delete(
   context: Client,
   id: string,
@@ -192,9 +186,6 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -210,7 +201,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ev
   return evaluationRuleDeserializer(result.body);
 }
 
-/** Get an evaluation rule. */
+/** Retrieves the specified evaluation rule and its configuration. */
 export async function get(
   context: Client,
   id: string,

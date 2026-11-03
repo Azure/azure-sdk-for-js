@@ -1,23 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update the metadata of a service instance.
- *
- * @summary Create or update the metadata of a service instance.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceCreate.json
- */
-
-import type { ServicesDescription } from "@azure/arm-healthcareapis";
 import { HealthcareApisManagementClient } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update the metadata of a service instance.
+ *
+ * @summary create or update the metadata of a service instance.
+ * x-ms-original-file: 2025-04-01-preview/legacy/ServiceCreate.json
+ */
 async function createOrUpdateAServiceWithAllParameters(): Promise<void> {
-  const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["HEALTHCAREAPIS_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "service1";
-  const serviceDescription: ServicesDescription = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new HealthcareApisManagementClient(credential, subscriptionId);
+  const result = await client.services.createOrUpdate("rg1", "service1", {
     identity: { type: "SystemAssigned" },
     kind: "fhir-R4",
     location: "westus2",
@@ -47,28 +44,21 @@ async function createOrUpdateAServiceWithAllParameters(): Promise<void> {
       publicNetworkAccess: "Disabled",
     },
     tags: {},
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new HealthcareApisManagementClient(credential, subscriptionId);
-  const result = await client.services.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    serviceDescription,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update the metadata of a service instance.
+ * This sample demonstrates how to create or update the metadata of a service instance.
  *
- * @summary Create or update the metadata of a service instance.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceCreateInDataSovereignRegionWithCmkEnabled.json
+ * @summary create or update the metadata of a service instance.
+ * x-ms-original-file: 2025-04-01-preview/legacy/ServiceCreateInDataSovereignRegionWithCmkEnabled.json
  */
-async function createOrUpdateAServiceWithAllParametersAndCmkEnabledInADataSovereignRegion(): Promise<void> {
-  const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["HEALTHCAREAPIS_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "service1";
-  const serviceDescription: ServicesDescription = {
+async function createOrUpdateAServiceWithAllParametersAndCMKEnabledInADataSovereignRegion(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new HealthcareApisManagementClient(credential, subscriptionId);
+  const result = await client.services.createOrUpdate("rg1", "service1", {
     identity: { type: "SystemAssigned" },
     kind: "fhir-R4",
     location: "Southeast Asia",
@@ -99,48 +89,32 @@ async function createOrUpdateAServiceWithAllParametersAndCmkEnabledInADataSovere
       publicNetworkAccess: "Disabled",
     },
     tags: {},
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new HealthcareApisManagementClient(credential, subscriptionId);
-  const result = await client.services.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    serviceDescription,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update the metadata of a service instance.
+ * This sample demonstrates how to create or update the metadata of a service instance.
  *
- * @summary Create or update the metadata of a service instance.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceCreateMinimum.json
+ * @summary create or update the metadata of a service instance.
+ * x-ms-original-file: 2025-04-01-preview/legacy/ServiceCreateMinimum.json
  */
 async function createOrUpdateAServiceWithMinimumParameters(): Promise<void> {
-  const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["HEALTHCAREAPIS_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "service2";
-  const serviceDescription: ServicesDescription = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new HealthcareApisManagementClient(credential, subscriptionId);
+  const result = await client.services.createOrUpdate("rg1", "service2", {
     kind: "fhir-R4",
     location: "westus2",
-    properties: {
-      accessPolicies: [{ objectId: "c487e7d1-3210-41a3-8ccc-e9372b78da47" }],
-    },
+    properties: { accessPolicies: [{ objectId: "c487e7d1-3210-41a3-8ccc-e9372b78da47" }] },
     tags: {},
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new HealthcareApisManagementClient(credential, subscriptionId);
-  const result = await client.services.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    serviceDescription,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createOrUpdateAServiceWithAllParameters();
-  await createOrUpdateAServiceWithAllParametersAndCmkEnabledInADataSovereignRegion();
+  await createOrUpdateAServiceWithAllParametersAndCMKEnabledInADataSovereignRegion();
   await createOrUpdateAServiceWithMinimumParameters();
 }
 

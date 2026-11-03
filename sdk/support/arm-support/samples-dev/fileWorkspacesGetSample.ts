@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets details for a specific file workspace in an Azure subscription.
- *
- * @summary Gets details for a specific file workspace in an Azure subscription.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/GetFileWorkspaceDetailsForSubscription.json
- */
-
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets details for a specific file workspace in an Azure subscription.
+ *
+ * @summary gets details for a specific file workspace in an Azure subscription.
+ * x-ms-original-file: 2025-06-01-preview/GetFileWorkspaceDetailsForSubscription.json
+ */
 async function getDetailsOfASubscriptionFileWorkspace(): Promise<void> {
-  const subscriptionId =
-    process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
-  const fileWorkspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "132d901f-189d-4381-9214-fe68e27e05a1";
   const client = new MicrosoftSupport(credential, subscriptionId);
-  const result = await client.fileWorkspaces.get(fileWorkspaceName);
+  const result = await client.fileWorkspaces.get("testworkspace");
   console.log(result);
 }
 

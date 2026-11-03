@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all the available machine learning workspaces under the specified resource group.
- *
- * @summary Lists all the available machine learning workspaces under the specified resource group.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/listByResourceGroup.json
- */
-
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all the available machine learning workspaces under the specified resource group.
+ *
+ * @summary lists all the available machine learning workspaces under the specified resource group.
+ * x-ms-original-file: 2026-03-15-preview/Workspace/listByResourceGroup.json
+ */
 async function getWorkspacesByResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "workspace-1234";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.workspaces.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.workspaces.listByResourceGroup("workspace-1234")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

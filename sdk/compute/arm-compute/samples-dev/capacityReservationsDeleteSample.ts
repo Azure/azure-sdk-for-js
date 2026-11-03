@@ -3,52 +3,35 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after it has been successfully allocated until the schedule end time.
+ * This sample demonstrates how to the operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after they have been successfully allocated until the schedule end time. Future capacity reservations (Minimum API version: 2026-04-01) can be deleted if their reservation state is one of: Pending, Declined, FulfillmentFailed, or Approved. Otherwise, Future capacity reservations in the Committed, Live, or PartiallyFulfilled state cannot be deleted until minimumCommitmentDays have elapsed since their scheduled start date.
  *
- * @summary The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after it has been successfully allocated until the schedule end time.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/capacityReservationExamples/CapacityReservation_Delete_MaximumSet_Gen.json
+ * @summary the operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after they have been successfully allocated until the schedule end time. Future capacity reservations (Minimum API version: 2026-04-01) can be deleted if their reservation state is one of: Pending, Declined, FulfillmentFailed, or Approved. Otherwise, Future capacity reservations in the Committed, Live, or PartiallyFulfilled state cannot be deleted until minimumCommitmentDays have elapsed since their scheduled start date.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/CapacityReservation_Delete_MaximumSet_Gen.json
  */
 async function capacityReservationDeleteMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const capacityReservationGroupName = "aaaaaaaaaaa";
-  const capacityReservationName = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.capacityReservations.beginDeleteAndWait(
-    resourceGroupName,
-    capacityReservationGroupName,
-    capacityReservationName,
+  await client.capacityReservations.delete(
+    "rgcompute",
+    "aaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
   );
-  console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after it has been successfully allocated until the schedule end time.
+ * This sample demonstrates how to the operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after they have been successfully allocated until the schedule end time. Future capacity reservations (Minimum API version: 2026-04-01) can be deleted if their reservation state is one of: Pending, Declined, FulfillmentFailed, or Approved. Otherwise, Future capacity reservations in the Committed, Live, or PartiallyFulfilled state cannot be deleted until minimumCommitmentDays have elapsed since their scheduled start date.
  *
- * @summary The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after it has been successfully allocated until the schedule end time.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/capacityReservationExamples/CapacityReservation_Delete_MinimumSet_Gen.json
+ * @summary the operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after they have been successfully allocated until the schedule end time. Future capacity reservations (Minimum API version: 2026-04-01) can be deleted if their reservation state is one of: Pending, Declined, FulfillmentFailed, or Approved. Otherwise, Future capacity reservations in the Committed, Live, or PartiallyFulfilled state cannot be deleted until minimumCommitmentDays have elapsed since their scheduled start date.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/CapacityReservation_Delete_MinimumSet_Gen.json
  */
 async function capacityReservationDeleteMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const capacityReservationGroupName = "aaa";
-  const capacityReservationName = "aaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.capacityReservations.beginDeleteAndWait(
-    resourceGroupName,
-    capacityReservationGroupName,
-    capacityReservationName,
-  );
-  console.log(result);
+  await client.capacityReservations.delete("rgcompute", "aaa", "aaaaaa");
 }
 
 async function main(): Promise<void> {

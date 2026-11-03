@@ -1,32 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets an API Management WorkspaceLink resource description.
- *
- * @summary Gets an API Management WorkspaceLink resource description.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGetWorkspaceLink.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets an API Management WorkspaceLink resource description.
+ *
+ * @summary gets an API Management WorkspaceLink resource description.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGetWorkspaceLink.json
+ */
 async function apiManagementGetWorkspaceLinks(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "service1";
-  const workspaceId = "wk-1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementWorkspaceLink.get(
-    resourceGroupName,
-    serviceName,
-    workspaceId,
-  );
+  const result = await client.apiManagementWorkspaceLink.get("rg1", "service1", "wk-1");
   console.log(result);
 }
 

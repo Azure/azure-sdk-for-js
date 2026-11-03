@@ -1,65 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualMachineRunCommand} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to create or update the VMSS VM run command.
+ * This sample demonstrates how to the operation to create or update the VMSS VM run command.
  *
- * @summary The operation to create or update the VMSS VM run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_CreateOrUpdate.json
+ * @summary the operation to create or update the VMSS VM run command.
+ * x-ms-original-file: 2026-04-01/runCommandExamples/VirtualMachineScaleSetVMRunCommand_CreateOrUpdate.json
  */
 async function createVirtualMachineScaleSetVMRunCommand(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmScaleSetName = "myvmScaleSet";
-  const instanceId = "0";
-  const runCommandName = "myRunCommand";
-  const runCommand: VirtualMachineRunCommand = {
-    asyncExecution: false,
-    errorBlobManagedIdentity: {},
-    errorBlobUri:
-      "https://mystorageaccount.blob.core.windows.net/mycontainer/MyScriptError.txt",
-    location: "West US",
-    outputBlobManagedIdentity: {
-      clientId: "22d35efb-0c99-4041-8c5b-6d24db33a69a",
-    },
-    outputBlobUri:
-      "https://mystorageaccount.blob.core.windows.net/myscriptoutputcontainer/MyScriptoutput.txt",
-    parameters: [
-      { name: "param1", value: "value1" },
-      { name: "param2", value: "value2" },
-    ],
-    runAsPassword: "<runAsPassword>",
-    runAsUser: "user1",
-    source: {
-      scriptUri:
-        "https://mystorageaccount.blob.core.windows.net/scriptcontainer/MyScript.ps1",
-      scriptUriManagedIdentity: {
-        objectId: "4231e4d2-33e4-4e23-96b2-17888afa6072",
-      },
-    },
-    timeoutInSeconds: 3600,
-    treatFailureAsDeploymentFailure: true,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSetVMRunCommands.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      instanceId,
-      runCommandName,
-      runCommand,
-    );
+  const result = await client.virtualMachineScaleSetVMRunCommands.createOrUpdate(
+    "myResourceGroup",
+    "myvmScaleSet",
+    "0",
+    "myRunCommand",
+    {
+      location: "West US",
+      source: {
+        scriptUri: "https://mystorageaccount.blob.core.windows.net/scriptcontainer/MyScript.ps1",
+        scriptUriManagedIdentity: { objectId: "4231e4d2-33e4-4e23-96b2-17888afa6072" },
+      },
+      parameters: [
+        { name: "param1", value: "value1" },
+        { name: "param2", value: "value2" },
+      ],
+      asyncExecution: false,
+      treatFailureAsDeploymentFailure: true,
+      runAsUser: "user1",
+      runAsPassword: "<runAsPassword>",
+      timeoutInSeconds: 3600,
+      outputBlobUri:
+        "https://mystorageaccount.blob.core.windows.net/myscriptoutputcontainer/MyScriptoutput.txt",
+      errorBlobUri: "https://mystorageaccount.blob.core.windows.net/mycontainer/MyScriptError.txt",
+      outputBlobManagedIdentity: { clientId: "22d35efb-0c99-4041-8c5b-6d24db33a69a" },
+      errorBlobManagedIdentity: {},
+    },
+  );
   console.log(result);
 }
 

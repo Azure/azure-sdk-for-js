@@ -1,63 +1,70 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the workspace.
- *
- * @summary Gets the workspace.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceGet.json
- */
-
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
-async function getAWorkspace(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const workspaceName = "myWorkspace";
-  const credential = new DefaultAzureCredential();
-  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.get(resourceGroupName, workspaceName);
-  console.log(result);
-}
 
 /**
- * This sample demonstrates how to Gets the workspace.
+ * This sample demonstrates how to gets the workspace.
  *
- * @summary Gets the workspace.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceManagedDiskEncryptionGet.json
+ * @summary gets the workspace.
+ * x-ms-original-file: 2026-01-01/WorkspaceEnhancedSecurityComplianceGet.json
  */
-async function getAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const workspaceName = "myWorkspace";
+async function getAWorkspaceWithEnhancedSecurityComplianceAddOn(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.get(resourceGroupName, workspaceName);
+  const result = await client.workspaces.get("rg", "myWorkspace");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the workspace.
+ * This sample demonstrates how to gets the workspace.
  *
- * @summary Gets the workspace.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceGetParameters.json
+ * @summary gets the workspace.
+ * x-ms-original-file: 2026-01-01/WorkspaceGet.json
+ */
+async function getAWorkspace(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
+  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
+  const result = await client.workspaces.get("rg", "myWorkspace");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets the workspace.
+ *
+ * @summary gets the workspace.
+ * x-ms-original-file: 2026-01-01/WorkspaceGetParameters.json
  */
 async function getAWorkspaceWithCustomParameters(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.get(resourceGroupName, workspaceName);
+  const result = await client.workspaces.get("rg", "myWorkspace");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets the workspace.
+ *
+ * @summary gets the workspace.
+ * x-ms-original-file: 2026-01-01/WorkspaceManagedDiskEncryptionGet.json
+ */
+async function getAWorkspaceWithCustomerManagedKeyCMKEncryptionForManagedDisks(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
+  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
+  const result = await client.workspaces.get("rg", "myWorkspace");
   console.log(result);
 }
 
 async function main(): Promise<void> {
+  await getAWorkspaceWithEnhancedSecurityComplianceAddOn();
   await getAWorkspace();
-  await getAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks();
   await getAWorkspaceWithCustomParameters();
+  await getAWorkspaceWithCustomerManagedKeyCMKEncryptionForManagedDisks();
 }
 
 main().catch(console.error);

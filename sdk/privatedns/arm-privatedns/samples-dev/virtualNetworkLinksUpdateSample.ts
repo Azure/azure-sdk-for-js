@@ -1,41 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates a virtual network link to the specified Private DNS zone.
- *
- * @summary Updates a virtual network link to the specified Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/VirtualNetworkLinkPatch.json
- */
-
-import type { VirtualNetworkLink } from "@azure/arm-privatedns";
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function patchPrivateDnsZoneVirtualNetworkLink(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatelink.contoso.com";
-  const virtualNetworkLinkName = "virtualNetworkLink1";
-  const parameters: VirtualNetworkLink = {
-    registrationEnabled: true,
-    resolutionPolicy: "NxDomainRedirect",
-    tags: { key2: "value2" },
-  };
+/**
+ * This sample demonstrates how to updates a virtual network link to the specified Private DNS zone.
+ *
+ * @summary updates a virtual network link to the specified Private DNS zone.
+ * x-ms-original-file: 2024-06-01/VirtualNetworkLinkPatch.json
+ */
+async function patchPrivateDNSZoneVirtualNetworkLink(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
-  const result = await client.virtualNetworkLinks.beginUpdateAndWait(
-    resourceGroupName,
-    privateZoneName,
-    virtualNetworkLinkName,
-    parameters,
+  const result = await client.virtualNetworkLinks.update(
+    "resourceGroup1",
+    "privatelink.contoso.com",
+    "virtualNetworkLink1",
+    { registrationEnabled: true, resolutionPolicy: "NxDomainRedirect", tags: { key2: "value2" } },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await patchPrivateDnsZoneVirtualNetworkLink();
+  await patchPrivateDNSZoneVirtualNetworkLink();
 }
 
 main().catch(console.error);

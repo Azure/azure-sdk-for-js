@@ -15,7 +15,7 @@ import type { BatchQueryRequest } from "./models/index.js";
 import { convertTimespanToInterval } from "./static-helpers/timespanConversion.js";
 import type { LogsQueryResult } from "./models/public.js";
 
-export { LogsQueryClientOptions } from "./api/monitorQueryLogsContext.js";
+export type { LogsQueryClientOptions } from "./api/monitorQueryLogsContext.js";
 
 /**
  * Converts LogsQueryOptions to internal option format

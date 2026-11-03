@@ -3,24 +3,22 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get all Managed Environments for a subscription.
+ * This sample demonstrates how to get all Managed Environments for a subscription.
  *
- * @summary Get all Managed Environments for a subscription.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironments_ListBySubscription.json
+ * @summary get all Managed Environments for a subscription.
+ * x-ms-original-file: 2026-07-01/ManagedEnvironments_ListBySubscription.json
  */
 async function listEnvironmentsBySubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedEnvironments.listBySubscription()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

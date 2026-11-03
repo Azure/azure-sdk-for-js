@@ -1,50 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription.
- *
- * @summary Asynchronously creates a new event subscription or updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/DomainTopicEventSubscriptions_CreateOrUpdate.json
- */
-
-import {
-  EventSubscription,
-  EventGridManagementClient,
-} from "@azure/arm-eventgrid";
+import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to asynchronously creates a new event subscription or updates an existing event subscription.
+ *
+ * @summary asynchronously creates a new event subscription or updates an existing event subscription.
+ * x-ms-original-file: 2025-07-15-preview/DomainTopicEventSubscriptions_CreateOrUpdate.json
+ */
 async function domainTopicEventSubscriptionsCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "8f6b6269-84f2-4d09-9e31-1127efcd1e40";
-  const resourceGroupName =
-    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
-  const domainName = "exampleDomain1";
-  const topicName = "exampleDomainTopic1";
-  const eventSubscriptionName = "exampleEventSubscriptionName1";
-  const eventSubscriptionInfo: EventSubscription = {
-    destination: {
-      endpointType: "WebHook",
-      endpointUrl: "https://requestb.in/15ksip71",
-    },
-    filter: {
-      isSubjectCaseSensitive: false,
-      subjectBeginsWith: "ExamplePrefix",
-      subjectEndsWith: "ExampleSuffix",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8f6b6269-84f2-4d09-9e31-1127efcd1e40";
   const client = new EventGridManagementClient(credential, subscriptionId);
-  const result =
-    await client.domainTopicEventSubscriptions.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      domainName,
-      topicName,
-      eventSubscriptionName,
-      eventSubscriptionInfo,
-    );
+  const result = await client.domainTopicEventSubscriptions.createOrUpdate(
+    "examplerg",
+    "exampleDomain1",
+    "exampleDomainTopic1",
+    "exampleEventSubscriptionName1",
+    {
+      destination: { endpointType: "WebHook", endpointUrl: "https://requestb.in/15ksip71" },
+      filter: {
+        isSubjectCaseSensitive: false,
+        subjectBeginsWith: "ExamplePrefix",
+        subjectEndsWith: "ExampleSuffix",
+      },
+    },
+  );
   console.log(result);
 }
 

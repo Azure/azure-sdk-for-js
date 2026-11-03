@@ -1,32 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Validate whether a disk snapshot backup can be taken for list of volumes.
- *
- * @summary Validate whether a disk snapshot backup can be taken for list of volumes.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_PreBackup_MaximumSet_Gen.json
- */
-
-import { VolumeNameList, ElasticSanManagement } from "@azure/arm-elasticsan";
+import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to validate whether a disk snapshot backup can be taken for list of volumes.
+ *
+ * @summary validate whether a disk snapshot backup can be taken for list of volumes.
+ * x-ms-original-file: 2026-05-01-preview/Volumes_PreBackup_MaximumSet_Gen.json
+ */
 async function volumeGroupsPreBackupMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
-  const elasticSanName = "elasticsanname";
-  const volumeGroupName = "volumegroupname";
-  const parameters: VolumeNameList = { volumeNames: ["volumename"] };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
-  const result = await client.volumes.beginPreBackupAndWait(
-    resourceGroupName,
-    elasticSanName,
-    volumeGroupName,
-    parameters,
+  const result = await client.volumes.preBackup(
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+    { volumeNames: ["volumename"] },
   );
   console.log(result);
 }

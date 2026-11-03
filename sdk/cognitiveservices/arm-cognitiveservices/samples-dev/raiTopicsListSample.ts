@@ -3,33 +3,22 @@
 
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the custom topics associated with the Azure OpenAI account.
+ * This sample demonstrates how to gets the custom topics associated with the Azure OpenAI account.
  *
- * @summary Gets the custom topics associated with the Azure OpenAI account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListRaiTopics.json
+ * @summary gets the custom topics associated with the Azure OpenAI account.
+ * x-ms-original-file: 2026-09-15-preview/ListRaiTopics.json
  */
 async function listRaiTopics(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
-  const accountName = "accountName";
   const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.raiTopics.list(
-    resourceGroupName,
-    accountName,
-  )) {
+  for await (const item of client.raiTopics.list("resourceGroupName", "accountName")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

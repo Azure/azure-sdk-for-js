@@ -3,28 +3,22 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a community gallery image version.
+ * This sample demonstrates how to get a community gallery image version.
  *
- * @summary Get a community gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/communityGalleryExamples/CommunityGalleryImageVersion_Get.json
+ * @summary get a community gallery image version.
+ * x-ms-original-file: 2026-03-03/communityGalleryExamples/CommunityGalleryImageVersion_Get.json
  */
 async function getACommunityGalleryImageVersion(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const location = "myLocation";
-  const publicGalleryName = "publicGalleryName";
-  const galleryImageName = "myGalleryImageName";
-  const galleryImageVersionName = "myGalleryImageVersionName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.communityGalleryImageVersions.get(
-    location,
-    publicGalleryName,
-    galleryImageName,
-    galleryImageVersionName,
+    "myLocation",
+    "publicGalleryName",
+    "myGalleryImageName",
+    "myGalleryImageVersionName",
   );
   console.log(result);
 }

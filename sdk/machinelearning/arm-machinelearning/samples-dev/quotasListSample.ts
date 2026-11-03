@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the currently assigned Workspace Quotas based on VMFamily.
- *
- * @summary Gets the currently assigned Workspace Quotas based on VMFamily.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Quota/list.json
- */
-
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the currently assigned Workspace Quotas based on VMFamily.
+ *
+ * @summary gets the currently assigned Workspace Quotas based on VMFamily.
+ * x-ms-original-file: 2026-03-15-preview/Quota/list.json
+ */
 async function listWorkspaceQuotasByVMFamily(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const location = "eastus";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.quotas.list(location)) {
+  for await (const item of client.quotas.list("eastus")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

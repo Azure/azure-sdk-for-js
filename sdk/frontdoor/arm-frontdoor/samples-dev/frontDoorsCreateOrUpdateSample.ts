@@ -1,34 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new Front Door with a Front Door name under the specified subscription and resource group.
- *
- * @summary Creates a new Front Door with a Front Door name under the specified subscription and resource group.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorCreate.json
- */
-
-import type { FrontDoor } from "@azure/arm-frontdoor";
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a new Front Door with a Front Door name under the specified subscription and resource group.
+ *
+ * @summary creates a new Front Door with a Front Door name under the specified subscription and resource group.
+ * x-ms-original-file: 2025-11-01/FrontdoorCreate.json
+ */
 async function createOrUpdateSpecificFrontDoor(): Promise<void> {
-  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
-  const frontDoorName = "frontDoor1";
-  const frontDoorParameters: FrontDoor = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new FrontDoorManagementClient(credential, subscriptionId);
+  const result = await client.frontDoors.createOrUpdate("rg1", "frontDoor1", {
+    location: "westus",
     backendPools: [
       {
         name: "backendPool1",
         backends: [
-          {
-            address: "w3.contoso.com",
-            httpPort: 80,
-            httpsPort: 443,
-            priority: 2,
-            weight: 1,
-          },
+          { address: "w3.contoso.com", httpPort: 80, httpsPort: 443, priority: 2, weight: 1 },
           {
             address: "contoso.com.website-us-west-2.othercloud.net",
             httpPort: 80,
@@ -61,14 +53,10 @@ async function createOrUpdateSpecificFrontDoor(): Promise<void> {
         },
       },
     ],
-    backendPoolsSettings: {
-      enforceCertificateNameCheck: "Enabled",
-      sendRecvTimeoutSeconds: 60,
-    },
+    backendPoolsSettings: { enforceCertificateNameCheck: "Enabled", sendRecvTimeoutSeconds: 60 },
     enabledState: "Enabled",
     frontendEndpoints: [
       {
-        name: "frontendEndpoint1",
         hostName: "www.contoso.com",
         sessionAffinityEnabledState: "Enabled",
         sessionAffinityTtlSeconds: 60,
@@ -76,7 +64,7 @@ async function createOrUpdateSpecificFrontDoor(): Promise<void> {
           id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoorWebApplicationFirewallPolicies/policy1",
         },
       },
-      { name: "default", hostName: "frontDoor1.azurefd.net" },
+      { hostName: "frontDoor1.azurefd.net" },
     ],
     healthProbeSettings: [
       {
@@ -89,13 +77,8 @@ async function createOrUpdateSpecificFrontDoor(): Promise<void> {
       },
     ],
     loadBalancingSettings: [
-      {
-        name: "loadBalancingSettings1",
-        sampleSize: 4,
-        successfulSamplesRequired: 2,
-      },
+      { name: "loadBalancingSettings1", sampleSize: 4, successfulSamplesRequired: 2 },
     ],
-    location: "westus",
     routingRules: [
       {
         name: "routingRule1",
@@ -125,14 +108,7 @@ async function createOrUpdateSpecificFrontDoor(): Promise<void> {
       },
     ],
     tags: { tag1: "value1", tag2: "value2" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new FrontDoorManagementClient(credential, subscriptionId);
-  const result = await client.frontDoors.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    frontDoorName,
-    frontDoorParameters,
-  );
+  });
   console.log(result);
 }
 

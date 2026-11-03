@@ -3,32 +3,26 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List the workflows for a logic app.
+ * This sample demonstrates how to list the workflows for a logic app.
  *
- * @summary List the workflows for a logic app.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/LogicApps_ListWorkflows.json
+ * @summary list the workflows for a logic app.
+ * x-ms-original-file: 2026-07-01/LogicApps_ListWorkflows.json
  */
 async function listTheWorkflows(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const containerAppName = "testcontainerApp0";
-  const logicAppName = "testcontainerApp0";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.logicApps.listWorkflows(
-    resourceGroupName,
-    containerAppName,
-    logicAppName,
+    "examplerg",
+    "testcontainerApp0",
+    "testcontainerApp0",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

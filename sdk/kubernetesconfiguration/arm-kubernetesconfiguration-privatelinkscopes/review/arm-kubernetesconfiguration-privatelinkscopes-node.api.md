@@ -4,18 +4,37 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -32,9 +51,6 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export enum KnownCreatedByType {
@@ -76,14 +92,13 @@ export enum KnownPublicNetworkAccessType {
 }
 
 // @public
-export interface KubernetesConfigurationPrivateLinkScope extends TrackedResource {
-    properties?: KubernetesConfigurationPrivateLinkScopeProperties;
+export enum KnownVersions {
+    V20241101Preview = "2024-11-01-preview"
 }
 
 // @public
-export interface KubernetesConfigurationPrivateLinkScopeListResult {
-    nextLink?: string;
-    value: KubernetesConfigurationPrivateLinkScope[];
+export interface KubernetesConfigurationPrivateLinkScope extends TrackedResource {
+    properties?: KubernetesConfigurationPrivateLinkScopeProperties;
 }
 
 // @public
@@ -93,6 +108,18 @@ export interface KubernetesConfigurationPrivateLinkScopeProperties {
     readonly privateLinkScopeId?: string;
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccessType;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -109,53 +136,54 @@ export interface PrivateEndpointConnection extends Resource {
 
 // @public
 export interface PrivateEndpointConnectionListResult {
-    value?: PrivateEndpointConnection[];
+    nextLink?: string;
+    value: PrivateEndpointConnection[];
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
 export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
-export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    listByPrivateLinkScope(resourceGroupName: string, scopeName: string, options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams): Promise<PrivateEndpointConnectionsListByPrivateLinkScopeResponse>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsListByPrivateLinkScopeResponse = PrivateEndpointConnectionListResult;
+export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    createOrUpdate: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    listByPrivateLinkScope: (resourceGroupName: string, scopeName: string, options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams) => Promise<PrivateEndpointConnectionListResult>;
+}
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export interface PrivateLinkResource extends Resource {
+export interface PrivateLinkResource extends ProxyResource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
@@ -163,115 +191,79 @@ export interface PrivateLinkResource extends Resource {
 
 // @public
 export interface PrivateLinkResourceListResult {
-    value?: PrivateLinkResource[];
+    nextLink?: string;
+    value: PrivateLinkResource[];
 }
 
 // @public
-export interface PrivateLinkResources {
-    get(resourceGroupName: string, scopeName: string, groupName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
-    listByPrivateLinkScope(resourceGroupName: string, scopeName: string, options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams): Promise<PrivateLinkResourcesListByPrivateLinkScopeResponse>;
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
-export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
-
-// @public
-export interface PrivateLinkResourcesListByPrivateLinkScopeOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesListByPrivateLinkScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourcesListByPrivateLinkScopeResponse = PrivateLinkResourceListResult;
-
-// @public
-export interface PrivateLinkScopes {
-    createOrUpdate(resourceGroupName: string, scopeName: string, parameters: KubernetesConfigurationPrivateLinkScope, options?: PrivateLinkScopesCreateOrUpdateOptionalParams): Promise<PrivateLinkScopesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesGetOptionalParams): Promise<PrivateLinkScopesGetResponse>;
-    list(options?: PrivateLinkScopesListOptionalParams): PagedAsyncIterableIterator<KubernetesConfigurationPrivateLinkScope>;
-    listByResourceGroup(resourceGroupName: string, options?: PrivateLinkScopesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<KubernetesConfigurationPrivateLinkScope>;
-    updateTags(resourceGroupName: string, scopeName: string, privateLinkScopeTags: TagsResource, options?: PrivateLinkScopesUpdateTagsOptionalParams): Promise<PrivateLinkScopesUpdateTagsResponse>;
+export interface PrivateLinkResourcesOperations {
+    get: (resourceGroupName: string, scopeName: string, groupName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResource>;
+    listByPrivateLinkScope: (resourceGroupName: string, scopeName: string, options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams) => Promise<PrivateLinkResourceListResult>;
 }
 
 // @public (undocumented)
-export class PrivateLinkScopesClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PrivateLinkScopesClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    privateLinkScopes: PrivateLinkScopes;
-    // (undocumented)
-    subscriptionId: string;
+export class PrivateLinkScopesClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: PrivateLinkScopesClientOptionalParams);
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly privateLinkScopes: PrivateLinkScopesOperations;
 }
 
 // @public
-export interface PrivateLinkScopesClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface PrivateLinkScopesClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface PrivateLinkScopesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkScopesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkScopesCreateOrUpdateResponse = KubernetesConfigurationPrivateLinkScope;
-
-// @public
-export interface PrivateLinkScopesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkScopesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateLinkScopesGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkScopesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkScopesGetResponse = KubernetesConfigurationPrivateLinkScope;
-
-// @public
-export interface PrivateLinkScopesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkScopesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkScopesListByResourceGroupNextResponse = KubernetesConfigurationPrivateLinkScopeListResult;
-
-// @public
-export interface PrivateLinkScopesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkScopesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkScopesListByResourceGroupResponse = KubernetesConfigurationPrivateLinkScopeListResult;
-
-// @public
-export interface PrivateLinkScopesListNextOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkScopesOperations {
+    createOrUpdate: (resourceGroupName: string, scopeName: string, parameters: KubernetesConfigurationPrivateLinkScope, options?: PrivateLinkScopesCreateOrUpdateOptionalParams) => Promise<KubernetesConfigurationPrivateLinkScope>;
+    delete: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesGetOptionalParams) => Promise<KubernetesConfigurationPrivateLinkScope>;
+    list: (options?: PrivateLinkScopesListOptionalParams) => PagedAsyncIterableIterator<KubernetesConfigurationPrivateLinkScope>;
+    listByResourceGroup: (resourceGroupName: string, options?: PrivateLinkScopesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<KubernetesConfigurationPrivateLinkScope>;
+    updateTags: (resourceGroupName: string, scopeName: string, privateLinkScopeTags: TagsResource, options?: PrivateLinkScopesUpdateTagsOptionalParams) => Promise<KubernetesConfigurationPrivateLinkScope>;
 }
 
 // @public
-export type PrivateLinkScopesListNextResponse = KubernetesConfigurationPrivateLinkScopeListResult;
-
-// @public
-export interface PrivateLinkScopesListOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkScopesUpdateTagsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type PrivateLinkScopesListResponse = KubernetesConfigurationPrivateLinkScopeListResult;
-
-// @public
-export interface PrivateLinkScopesUpdateTagsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkScopesUpdateTagsResponse = KubernetesConfigurationPrivateLinkScope;
 
 // @public
 export interface PrivateLinkServiceConnectionState {
@@ -284,6 +276,10 @@ export interface PrivateLinkServiceConnectionState {
 export type ProvisioningState = string;
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export type PublicNetworkAccessType = string;
 
 // @public
@@ -292,6 +288,38 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: PrivateLinkScopesClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -306,17 +334,13 @@ export interface SystemData {
 
 // @public
 export interface TagsResource {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // (No @packageDocumentation comment for this package)

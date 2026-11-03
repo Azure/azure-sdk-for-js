@@ -378,11 +378,40 @@ for await (const blob of blobs) {
 
 For a complete sample on iterating blobs please see [samples/v12/typescript/src/listBlobsFlat.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/v12/typescript/src/listBlobsFlat.ts).
 
+### List blobs using the Apache Arrow response format
+
+Request the listing as Apache Arrow with `responseFormat`. The service falls back to XML for accounts that don't support Apache Arrow, and the parsed blob items are identical either way.
+
+```ts snippet:ReadmeSampleListBlobs_ApacheArrow
+import { BlobServiceClient, StorageResponseFormat } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const account = "<account>";
+const blobServiceClient = new BlobServiceClient(
+  `https://${account}.blob.core.windows.net`,
+  new DefaultAzureCredential(),
+);
+
+const containerName = "<container name>";
+const containerClient = blobServiceClient.getContainerClient(containerName);
+
+// Request the listing as Apache Arrow. The service falls back to XML for accounts
+// that don't support Apache Arrow; the parsed blob items are identical either way.
+let i = 1;
+const blobs = containerClient.listBlobsFlat({
+  responseFormat: StorageResponseFormat.Arrow,
+});
+for await (const blob of blobs) {
+  console.log(`Blob ${i++}: ${blob.name}`);
+}
+```
+
 ### Download a blob and convert it to a string (Node.js)
 
 ```ts snippet:ReadmeSampleDownloadBlob_Node
 import { BlobServiceClient } from "@azure/storage-blob";
 import { DefaultAzureCredential } from "@azure/identity";
+import { buffer } from "node:stream/consumers";
 
 const account = "<account>";
 const blobServiceClient = new BlobServiceClient(
@@ -399,22 +428,10 @@ const blobClient = containerClient.getBlobClient(blobName);
 // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
 const downloadBlockBlobResponse = await blobClient.download();
 if (downloadBlockBlobResponse.readableStreamBody) {
-  const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
-  console.log(`Downloaded blob content: ${downloaded}`);
-}
-
-async function streamToString(stream: NodeJS.ReadableStream): Promise<string> {
-  const result = await new Promise<Buffer<ArrayBuffer>>((resolve, reject) => {
-    const chunks: Buffer[] = [];
-    stream.on("data", (data) => {
-      chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
-    });
-    stream.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    stream.on("error", reject);
-  });
-  return result.toString();
+  // Download the raw bytes of the blob. Use `text` from "node:stream/consumers"
+  // instead if you want to read the content as a string directly.
+  const downloaded = await buffer(downloadBlockBlobResponse.readableStreamBody);
+  console.log(`Downloaded blob content: ${downloaded.toString()}`);
 }
 ```
 

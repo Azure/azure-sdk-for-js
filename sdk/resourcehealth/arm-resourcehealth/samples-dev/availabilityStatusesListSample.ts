@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all historical availability transitions and impacting events for a single resource.
- *
- * @summary Lists all historical availability transitions and impacting events for a single resource.
- * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/AvailabilityStatuses_List.json
- */
-
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all historical availability transitions and impacting events for a single resource.
+ *
+ * @summary lists all historical availability transitions and impacting events for a single resource.
+ * x-ms-original-file: 2025-05-01/AvailabilityStatuses_List.json
+ */
 async function getHealthHistoryByResource(): Promise<void> {
-  const resourceUri = "resourceUri";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential);
   const resArray = new Array();
-  for await (const item of client.availabilityStatuses.list(resourceUri)) {
+  for await (const item of client.availabilityStatuses.list("resourceUri")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

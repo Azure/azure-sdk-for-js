@@ -1,73 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List Volumes in a VolumeGroup.
- *
- * @summary List Volumes in a VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_ListByVolumeGroup_MaximumSet_Gen.json
- */
-
-import {
-  VolumesListByVolumeGroupOptionalParams,
-  ElasticSanManagement,
-} from "@azure/arm-elasticsan";
+import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list Volumes in a VolumeGroup.
+ *
+ * @summary list Volumes in a VolumeGroup.
+ * x-ms-original-file: 2026-05-01-preview/Volumes_ListByVolumeGroup_MaximumSet_Gen.json
+ */
 async function volumesListByVolumeGroupMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
-  const elasticSanName = "elasticsanname";
-  const volumeGroupName = "volumegroupname";
-  const xMsAccessSoftDeletedResources = "true";
-  const options: VolumesListByVolumeGroupOptionalParams = {
-    xMsAccessSoftDeletedResources,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.volumes.listByVolumeGroup(
-    resourceGroupName,
-    elasticSanName,
-    volumeGroupName,
-    options,
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+    { xMsAccessSoftDeletedResources: "true" },
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to List Volumes in a VolumeGroup.
+ * This sample demonstrates how to list Volumes in a VolumeGroup.
  *
- * @summary List Volumes in a VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_ListByVolumeGroup_MinimumSet_Gen.json
+ * @summary list Volumes in a VolumeGroup.
+ * x-ms-original-file: 2026-05-01-preview/Volumes_ListByVolumeGroup_MinimumSet_Gen.json
  */
 async function volumesListByVolumeGroupMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
-  const elasticSanName = "elasticsanname";
-  const volumeGroupName = "volumegroupname";
-  const xMsAccessSoftDeletedResources = "true";
-  const options: VolumesListByVolumeGroupOptionalParams = {
-    xMsAccessSoftDeletedResources,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.volumes.listByVolumeGroup(
-    resourceGroupName,
-    elasticSanName,
-    volumeGroupName,
-    options,
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+    { xMsAccessSoftDeletedResources: "true" },
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

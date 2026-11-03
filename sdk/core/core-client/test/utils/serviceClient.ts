@@ -2,12 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "vitest";
-import type {
-  FullOperationResponse,
-  OperationRequest,
-  OperationResponseMap,
-  Serializer,
-} from "../../src/index.js";
+import type { FullOperationResponse, OperationResponseMap, Serializer } from "../../src/index.js";
 import { ServiceClient, createSerializer, deserializationPolicy } from "../../src/index.js";
 import type { HttpClient, HttpHeaders, HttpMethods } from "@azure/core-rest-pipeline";
 import { createEmptyPipeline, createHttpHeaders } from "@azure/core-rest-pipeline";
@@ -34,12 +29,10 @@ export async function assertServiceClientResponse(
   testSpec: ServiceClientTestSpec,
   expectedResponse: unknown,
 ): Promise<void> {
-  let request: OperationRequest;
   const httpClient: HttpClient = {
     sendRequest: (req) => {
-      request = req;
       return Promise.resolve({
-        request,
+        request: req,
         status: 200,
         headers: testSpec.responseHeaders ?? createHttpHeaders(),
         bodyAsText: testSpec.responseBodyAsText,

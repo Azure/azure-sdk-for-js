@@ -1,29 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Disconnects the private endpoint connection and deletes it from the search service.
- *
- * @summary Disconnects the private endpoint connection and deletes it from the search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/DeletePrivateEndpointConnection.json
- */
-
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to disconnects the private endpoint connection and deletes it from the search service.
+ * Returns 200 (OK) with the deleted connection details on successful deletion, or 404 (Not Found) if the connection does not exist.
+ * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
+ *
+ * @summary disconnects the private endpoint connection and deletes it from the search service.
+ * Returns 200 (OK) with the deleted connection details on successful deletion, or 404 (Not Found) if the connection does not exist.
+ * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
+ * x-ms-original-file: 2026-11-01/DeletePrivateEndpointConnection.json
+ */
 async function privateEndpointConnectionDelete(): Promise<void> {
-  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
-  const searchServiceName = "mysearchservice";
-  const privateEndpointConnectionName =
-    "testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.delete(
-    resourceGroupName,
-    searchServiceName,
-    privateEndpointConnectionName,
+    "rg1",
+    "mysearchservice",
+    "testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546",
   );
   console.log(result);
 }

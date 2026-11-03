@@ -4,21 +4,47 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AutoRunState = "Enabled" | "Disabled";
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
+export interface DataDisk {
+    sizeGB?: number;
+}
+
+// @public
 export interface DistributeVersioner {
-    scheme: "Latest" | "Source";
+    scheme: string;
 }
 
 // @public
@@ -32,12 +58,12 @@ export interface DistributeVersionerSource extends DistributeVersioner {
     scheme: "Source";
 }
 
-// @public (undocumented)
-export type DistributeVersionerUnion = DistributeVersioner | DistributeVersionerLatest | DistributeVersionerSource;
+// @public
+export type DistributeVersionerUnion = DistributeVersionerLatest | DistributeVersionerSource | DistributeVersioner;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -55,35 +81,25 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
-
 // @public (undocumented)
-export class ImageBuilderClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ImageBuilderClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    triggers: Triggers;
-    // (undocumented)
-    virtualMachineImageTemplates: VirtualMachineImageTemplates;
+export class ImageBuilderClient {
+    constructor(credential: TokenCredential, options?: ImageBuilderClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ImageBuilderClientOptionalParams);
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly triggers: TriggersOperations;
+    readonly virtualMachineImageTemplates: VirtualMachineImageTemplatesOperations;
 }
 
 // @public
-export interface ImageBuilderClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ImageBuilderClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface ImageTemplate extends TrackedResource {
+    additionalDataDisks?: DataDisk[];
     autoRun?: ImageTemplateAutoRun;
     buildTimeoutInMinutes?: number;
     customize?: ImageTemplateCustomizerUnion[];
@@ -92,9 +108,7 @@ export interface ImageTemplate extends TrackedResource {
     readonly exactStagingResourceGroup?: string;
     identity: ImageTemplateIdentity;
     readonly lastRunStatus?: ImageTemplateLastRunStatus;
-    managedResourceTags?: {
-        [propertyName: string]: string;
-    };
+    managedResourceTags?: Record<string, string>;
     optimize?: ImageTemplatePropertiesOptimize;
     readonly provisioningError?: ProvisioningError;
     readonly provisioningState?: ProvisioningState;
@@ -112,23 +126,21 @@ export interface ImageTemplateAutoRun {
 // @public
 export interface ImageTemplateCustomizer {
     name?: string;
-    type: "Shell" | "WindowsRestart" | "WindowsUpdate" | "PowerShell" | "File";
+    type: string;
 }
 
-// @public (undocumented)
-export type ImageTemplateCustomizerUnion = ImageTemplateCustomizer | ImageTemplateShellCustomizer | ImageTemplateRestartCustomizer | ImageTemplateWindowsUpdateCustomizer | ImageTemplatePowerShellCustomizer | ImageTemplateFileCustomizer;
+// @public
+export type ImageTemplateCustomizerUnion = ImageTemplateShellCustomizer | ImageTemplateRestartCustomizer | ImageTemplateWindowsUpdateCustomizer | ImageTemplatePowerShellCustomizer | ImageTemplateFileCustomizer | ImageTemplateCustomizer;
 
 // @public
 export interface ImageTemplateDistributor {
-    artifactTags?: {
-        [propertyName: string]: string;
-    };
+    artifactTags?: Record<string, string>;
     runOutputName: string;
-    type: "ManagedImage" | "SharedImage" | "VHD";
+    type: string;
 }
 
-// @public (undocumented)
-export type ImageTemplateDistributorUnion = ImageTemplateDistributor | ImageTemplateManagedImageDistributor | ImageTemplateSharedImageDistributor | ImageTemplateVhdDistributor;
+// @public
+export type ImageTemplateDistributorUnion = ImageTemplateManagedImageDistributor | ImageTemplateSharedImageDistributor | ImageTemplateVhdDistributor | ImageTemplateDistributor;
 
 // @public
 export interface ImageTemplateFileCustomizer extends ImageTemplateCustomizer {
@@ -149,19 +161,17 @@ export interface ImageTemplateFileValidator extends ImageTemplateInVMValidator {
 // @public
 export interface ImageTemplateIdentity {
     type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
 export interface ImageTemplateInVMValidator {
     name?: string;
-    type: "Shell" | "PowerShell" | "File";
+    type: string;
 }
 
-// @public (undocumented)
-export type ImageTemplateInVMValidatorUnion = ImageTemplateInVMValidator | ImageTemplateShellValidator | ImageTemplatePowerShellValidator | ImageTemplateFileValidator;
+// @public
+export type ImageTemplateInVMValidatorUnion = ImageTemplateShellValidator | ImageTemplatePowerShellValidator | ImageTemplateFileValidator | ImageTemplateInVMValidator;
 
 // @public
 export interface ImageTemplateLastRunStatus {
@@ -170,12 +180,6 @@ export interface ImageTemplateLastRunStatus {
     runState?: RunState;
     runSubState?: RunSubState;
     startTime?: Date;
-}
-
-// @public
-export interface ImageTemplateListResult {
-    nextLink?: string;
-    value?: ImageTemplate[];
 }
 
 // @public
@@ -225,6 +229,26 @@ export interface ImageTemplatePowerShellValidator extends ImageTemplateInVMValid
 }
 
 // @public
+export interface ImageTemplateProperties {
+    additionalDataDisks?: DataDisk[];
+    autoRun?: ImageTemplateAutoRun;
+    buildTimeoutInMinutes?: number;
+    customize?: ImageTemplateCustomizerUnion[];
+    distribute: ImageTemplateDistributorUnion[];
+    errorHandling?: ImageTemplatePropertiesErrorHandling;
+    readonly exactStagingResourceGroup?: string;
+    readonly lastRunStatus?: ImageTemplateLastRunStatus;
+    managedResourceTags?: Record<string, string>;
+    optimize?: ImageTemplatePropertiesOptimize;
+    readonly provisioningError?: ProvisioningError;
+    readonly provisioningState?: ProvisioningState;
+    source: ImageTemplateSourceUnion;
+    stagingResourceGroup?: string;
+    validate?: ImageTemplatePropertiesValidate;
+    vmProfile?: ImageTemplateVmProfile;
+}
+
+// @public
 export interface ImageTemplatePropertiesErrorHandling {
     onCustomizerError?: OnBuildError;
     onValidationError?: OnBuildError;
@@ -233,11 +257,19 @@ export interface ImageTemplatePropertiesErrorHandling {
 // @public
 export interface ImageTemplatePropertiesOptimize {
     vmBoot?: ImageTemplatePropertiesOptimizeVmBoot;
+    workload?: ImageTemplatePropertiesOptimizeWorkload;
 }
 
 // @public
 export interface ImageTemplatePropertiesOptimizeVmBoot {
     state?: VMBootOptimizationState;
+}
+
+// @public
+export interface ImageTemplatePropertiesOptimizeWorkload {
+    scriptUri?: string;
+    sha256Checksum?: string;
+    state?: WorkloadOptimizationState;
 }
 
 // @public
@@ -259,6 +291,7 @@ export interface ImageTemplateRestartCustomizer extends ImageTemplateCustomizer 
 export interface ImageTemplateSharedImageDistributor extends ImageTemplateDistributor {
     excludeFromLatest?: boolean;
     galleryImageId: string;
+    replicationMode?: ReplicationMode;
     replicationRegions?: string[];
     storageAccountType?: SharedImageStorageAccountType;
     targetRegions?: TargetRegion[];
@@ -291,19 +324,17 @@ export interface ImageTemplateShellValidator extends ImageTemplateInVMValidator 
 
 // @public
 export interface ImageTemplateSource {
-    type: "PlatformImage" | "ManagedImage" | "SharedImageVersion";
+    type: string;
 }
 
-// @public (undocumented)
-export type ImageTemplateSourceUnion = ImageTemplateSource | ImageTemplatePlatformImageSource | ImageTemplateManagedImageSource | ImageTemplateSharedImageVersionSource;
+// @public
+export type ImageTemplateSourceUnion = ImageTemplatePlatformImageSource | ImageTemplateManagedImageSource | ImageTemplateSharedImageVersionSource | ImageTemplateSource;
 
 // @public
 export interface ImageTemplateUpdateParameters {
     identity?: ImageTemplateIdentity;
     properties?: ImageTemplateUpdateParametersProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -333,6 +364,8 @@ export interface ImageTemplateWindowsUpdateCustomizer extends ImageTemplateCusto
     type: "WindowsUpdate";
     updateLimit?: number;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownCreatedByType {
@@ -368,10 +401,21 @@ export enum KnownProvisioningErrorCode {
 }
 
 // @public
+export enum KnownReplicationMode {
+    Full = "Full",
+    Shallow = "Shallow"
+}
+
+// @public
 export enum KnownSharedImageStorageAccountType {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
     StandardZRS = "Standard_ZRS"
+}
+
+// @public
+export enum KnownVersions {
+    V20251001 = "2025-10-01"
 }
 
 // @public
@@ -383,7 +427,7 @@ export interface Operation {
     isDataAction?: boolean;
     name?: string;
     origin?: string;
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
@@ -395,29 +439,25 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface PlatformImagePurchasePlan {
@@ -443,6 +483,9 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export type ReplicationMode = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -453,6 +496,18 @@ export interface Resource {
 // @public
 export type ResourceIdentityType = "UserAssigned" | "None";
 
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ImageBuilderClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
 // @public
 export interface RunOutput extends ProxyResource {
     artifactId?: string;
@@ -461,9 +516,10 @@ export interface RunOutput extends ProxyResource {
 }
 
 // @public
-export interface RunOutputCollection {
-    nextLink?: string;
-    value?: RunOutput[];
+export interface RunOutputProperties {
+    artifactId?: string;
+    artifactUri?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -474,6 +530,28 @@ export type RunSubState = "Queued" | "Building" | "Customizing" | "Optimizing" |
 
 // @public
 export type SharedImageStorageAccountType = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface SourceImageTriggerProperties extends TriggerProperties {
@@ -500,87 +578,57 @@ export interface TargetRegion {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface Trigger extends ProxyResource {
-    kind?: string;
-    readonly provisioningState?: ProvisioningState;
-    readonly status?: TriggerStatus;
-}
-
-// @public
-export interface TriggerCollection {
-    nextLink?: string;
-    value: Trigger[];
+    properties?: TriggerPropertiesUnion;
 }
 
 // @public
 export interface TriggerProperties {
-    kind: "SourceImage";
+    kind: string;
     readonly provisioningState?: ProvisioningState;
     readonly status?: TriggerStatus;
 }
 
-// @public (undocumented)
-export type TriggerPropertiesUnion = TriggerProperties | SourceImageTriggerProperties;
+// @public
+export type TriggerPropertiesUnion = SourceImageTriggerProperties | TriggerProperties;
 
 // @public
-export interface Triggers {
-    beginCreateOrUpdate(resourceGroupName: string, imageTemplateName: string, triggerName: string, parameters: Trigger, options?: TriggersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TriggersCreateOrUpdateResponse>, TriggersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, imageTemplateName: string, triggerName: string, parameters: Trigger, options?: TriggersCreateOrUpdateOptionalParams): Promise<TriggersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TriggersDeleteResponse>, TriggersDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersDeleteOptionalParams): Promise<TriggersDeleteResponse>;
-    get(resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersGetOptionalParams): Promise<TriggersGetResponse>;
-    listByImageTemplate(resourceGroupName: string, imageTemplateName: string, options?: TriggersListByImageTemplateOptionalParams): PagedAsyncIterableIterator<Trigger>;
-}
-
-// @public
-export interface TriggersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TriggersCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type TriggersCreateOrUpdateResponse = Trigger;
-
-// @public
-export interface TriggersDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface TriggersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TriggersDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type TriggersDeleteResponse = TriggersDeleteHeaders;
-
-// @public
-export interface TriggersGetOptionalParams extends coreClient.OperationOptions {
+export interface TriggersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TriggersGetResponse = Trigger;
-
-// @public
-export interface TriggersListByImageTemplateNextOptionalParams extends coreClient.OperationOptions {
+export interface TriggersListByImageTemplateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TriggersListByImageTemplateNextResponse = TriggerCollection;
-
-// @public
-export interface TriggersListByImageTemplateOptionalParams extends coreClient.OperationOptions {
+export interface TriggersOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, imageTemplateName: string, triggerName: string, parameters: Trigger, options?: TriggersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Trigger>, Trigger>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, imageTemplateName: string, triggerName: string, parameters: Trigger, options?: TriggersCreateOrUpdateOptionalParams) => Promise<Trigger>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, imageTemplateName: string, triggerName: string, parameters: Trigger, options?: TriggersCreateOrUpdateOptionalParams) => PollerLike<OperationState<Trigger>, Trigger>;
+    delete: (resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersGetOptionalParams) => Promise<Trigger>;
+    listByImageTemplate: (resourceGroupName: string, imageTemplateName: string, options?: TriggersListByImageTemplateOptionalParams) => PagedAsyncIterableIterator<Trigger>;
 }
-
-// @public
-export type TriggersListByImageTemplateResponse = TriggerCollection;
 
 // @public
 export interface TriggerStatus {
@@ -596,123 +644,83 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export interface VirtualMachineImageTemplates {
-    beginCancel(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCancelAndWait(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesCancelOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplate, options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineImageTemplatesCreateOrUpdateResponse>, VirtualMachineImageTemplatesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplate, options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams): Promise<VirtualMachineImageTemplatesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineImageTemplatesDeleteResponse>, VirtualMachineImageTemplatesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesDeleteOptionalParams): Promise<VirtualMachineImageTemplatesDeleteResponse>;
-    beginRun(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesRunOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRunAndWait(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesRunOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplateUpdateParameters, options?: VirtualMachineImageTemplatesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineImageTemplatesUpdateResponse>, VirtualMachineImageTemplatesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplateUpdateParameters, options?: VirtualMachineImageTemplatesUpdateOptionalParams): Promise<VirtualMachineImageTemplatesUpdateResponse>;
-    get(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesGetOptionalParams): Promise<VirtualMachineImageTemplatesGetResponse>;
-    getRunOutput(resourceGroupName: string, imageTemplateName: string, runOutputName: string, options?: VirtualMachineImageTemplatesGetRunOutputOptionalParams): Promise<VirtualMachineImageTemplatesGetRunOutputResponse>;
-    list(options?: VirtualMachineImageTemplatesListOptionalParams): PagedAsyncIterableIterator<ImageTemplate>;
-    listByResourceGroup(resourceGroupName: string, options?: VirtualMachineImageTemplatesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ImageTemplate>;
-    listRunOutputs(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesListRunOutputsOptionalParams): PagedAsyncIterableIterator<RunOutput>;
-}
-
-// @public
-export interface VirtualMachineImageTemplatesCancelOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineImageTemplatesCancelOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineImageTemplatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineImageTemplatesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineImageTemplatesCreateOrUpdateResponse = ImageTemplate;
-
-// @public
-export interface VirtualMachineImageTemplatesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface VirtualMachineImageTemplatesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineImageTemplatesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineImageTemplatesDeleteResponse = VirtualMachineImageTemplatesDeleteHeaders;
-
-// @public
-export interface VirtualMachineImageTemplatesGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineImageTemplatesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineImageTemplatesGetResponse = ImageTemplate;
-
-// @public
-export interface VirtualMachineImageTemplatesGetRunOutputOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineImageTemplatesGetRunOutputOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineImageTemplatesGetRunOutputResponse = RunOutput;
-
-// @public
-export interface VirtualMachineImageTemplatesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineImageTemplatesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineImageTemplatesListByResourceGroupNextResponse = ImageTemplateListResult;
-
-// @public
-export interface VirtualMachineImageTemplatesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineImageTemplatesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineImageTemplatesListByResourceGroupResponse = ImageTemplateListResult;
-
-// @public
-export interface VirtualMachineImageTemplatesListNextOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineImageTemplatesListRunOutputsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachineImageTemplatesListNextResponse = ImageTemplateListResult;
-
-// @public
-export interface VirtualMachineImageTemplatesListOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachineImageTemplatesOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesCancelOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesCancelOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplate, options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ImageTemplate>, ImageTemplate>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplate, options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams) => Promise<ImageTemplate>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRun: (resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesRunOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRunAndWait: (resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesRunOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplateUpdateParameters, options?: VirtualMachineImageTemplatesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ImageTemplate>, ImageTemplate>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplateUpdateParameters, options?: VirtualMachineImageTemplatesUpdateOptionalParams) => Promise<ImageTemplate>;
+    cancel: (resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesCancelOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrUpdate: (resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplate, options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ImageTemplate>, ImageTemplate>;
+    delete: (resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesGetOptionalParams) => Promise<ImageTemplate>;
+    getRunOutput: (resourceGroupName: string, imageTemplateName: string, runOutputName: string, options?: VirtualMachineImageTemplatesGetRunOutputOptionalParams) => Promise<RunOutput>;
+    list: (options?: VirtualMachineImageTemplatesListOptionalParams) => PagedAsyncIterableIterator<ImageTemplate>;
+    listByResourceGroup: (resourceGroupName: string, options?: VirtualMachineImageTemplatesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ImageTemplate>;
+    listRunOutputs: (resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesListRunOutputsOptionalParams) => PagedAsyncIterableIterator<RunOutput>;
+    run: (resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesRunOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplateUpdateParameters, options?: VirtualMachineImageTemplatesUpdateOptionalParams) => PollerLike<OperationState<ImageTemplate>, ImageTemplate>;
 }
 
 // @public
-export type VirtualMachineImageTemplatesListResponse = ImageTemplateListResult;
-
-// @public
-export interface VirtualMachineImageTemplatesListRunOutputsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineImageTemplatesListRunOutputsNextResponse = RunOutputCollection;
-
-// @public
-export interface VirtualMachineImageTemplatesListRunOutputsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineImageTemplatesListRunOutputsResponse = RunOutputCollection;
-
-// @public
-export interface VirtualMachineImageTemplatesRunOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineImageTemplatesRunOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualMachineImageTemplatesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachineImageTemplatesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VirtualMachineImageTemplatesUpdateResponse = ImageTemplate;
 
 // @public
 export interface VirtualNetworkConfig {
@@ -723,6 +731,9 @@ export interface VirtualNetworkConfig {
 
 // @public
 export type VMBootOptimizationState = "Enabled" | "Disabled";
+
+// @public
+export type WorkloadOptimizationState = "Enabled" | "Disabled";
 
 // (No @packageDocumentation comment for this package)
 

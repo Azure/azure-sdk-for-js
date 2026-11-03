@@ -1,76 +1,67 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ResourceSkusListOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
+ * This sample demonstrates how to gets the list of Microsoft.Compute SKUs available for your Subscription.
  *
- * @summary Gets the list of Microsoft.Compute SKUs available for your Subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkus.json
+ * @summary gets the list of Microsoft.Compute SKUs available for your Subscription.
+ * x-ms-original-file: 2021-07-01/skus/ListAvailableResourceSkus.json
  */
-async function listsAllAvailableResourceSkUs(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+async function listsAllAvailableResourceSKUs(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.resourceSkus.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
+ * This sample demonstrates how to gets the list of Microsoft.Compute SKUs available for your Subscription.
  *
- * @summary Gets the list of Microsoft.Compute SKUs available for your Subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkusForARegion.json
+ * @summary gets the list of Microsoft.Compute SKUs available for your Subscription.
+ * x-ms-original-file: 2021-07-01/skus/ListAvailableResourceSkusForARegion.json
  */
-async function listsAllAvailableResourceSkUsForTheSpecifiedRegion(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const filter = "location eq 'westus'";
-  const options: ResourceSkusListOptionalParams = { filter };
+async function listsAllAvailableResourceSKUsForTheSpecifiedRegion(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.resourceSkus.list(options)) {
+  for await (const item of client.resourceSkus.list({ filter: "location eq 'westus'" })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
+ * This sample demonstrates how to gets the list of Microsoft.Compute SKUs available for your Subscription.
  *
- * @summary Gets the list of Microsoft.Compute SKUs available for your Subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkusWithExtendedLocations.json
+ * @summary gets the list of Microsoft.Compute SKUs available for your Subscription.
+ * x-ms-original-file: 2021-07-01/skus/ListAvailableResourceSkusWithExtendedLocations.json
  */
-async function listsAllAvailableResourceSkUsWithExtendedLocationInformation(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const includeExtendedLocations = "true";
-  const options: ResourceSkusListOptionalParams = { includeExtendedLocations };
+async function listsAllAvailableResourceSKUsWithExtendedLocationInformation(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.resourceSkus.list(options)) {
+  for await (const item of client.resourceSkus.list({ includeExtendedLocations: "true" })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listsAllAvailableResourceSkUs();
-  await listsAllAvailableResourceSkUsForTheSpecifiedRegion();
-  await listsAllAvailableResourceSkUsWithExtendedLocationInformation();
+  await listsAllAvailableResourceSKUs();
+  await listsAllAvailableResourceSKUsForTheSpecifiedRegion();
+  await listsAllAvailableResourceSKUsWithExtendedLocationInformation();
 }
 
 main().catch(console.error);

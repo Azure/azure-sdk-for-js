@@ -1,66 +1,126 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
-import {
-  updateVersion,
-  createVersion,
-  deleteVersion,
-  getVersion,
-  listLatestVersions,
-  listVersions,
-} from "../../api/evaluators/operations.js";
-import {
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import type {
+  EvaluatorVersion,
+  EvaluatorGenerationJob,
+  EvaluatorGenerationInputs,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
+  EvaluatorsDeleteGenerationJobOptionalParams,
+  EvaluatorsCancelGenerationJobOptionalParams,
+  EvaluatorsListGenerationJobsOptionalParams,
+  EvaluatorsGetGenerationJobOptionalParams,
+  EvaluatorsCreateGenerationJobOptionalParams,
   EvaluatorsUpdateVersionOptionalParams,
   EvaluatorsCreateVersionOptionalParams,
   EvaluatorsDeleteVersionOptionalParams,
   EvaluatorsGetVersionOptionalParams,
-  EvaluatorsListLatestVersionsOptionalParams,
+  EvaluatorsListOptionalParams,
   EvaluatorsListVersionsOptionalParams,
 } from "../../api/evaluators/options.js";
-import { EvaluatorVersion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { JobPoller } from "../../static-helpers/pollingHelpers.js";
+import {
+  deleteGenerationJob,
+  cancelGenerationJob,
+  listGenerationJobs,
+  getGenerationJob,
+  createGenerationJob,
+  updateVersion,
+  createVersion,
+  deleteVersion,
+  getVersion,
+  list,
+  listVersions,
+} from "../../api/evaluators/operations.js";
 
-/** Interface representing a Evaluators operations. */
+/** Operations for EvaluatorsOperations. */
 export interface EvaluatorsOperations {
-  /** Update an existing EvaluatorVersion with the given version id */
+  /**
+   * Deletes an evaluator generation job by its ID. Deletes the job record only;
+   * the generated evaluator (if any) is preserved.
+   */
+  deleteGenerationJob: (
+    jobId: string,
+    options?: EvaluatorsDeleteGenerationJobOptionalParams,
+  ) => Promise<void>;
+  /** Cancels an evaluator generation job by its ID. */
+  cancelGenerationJob: (
+    jobId: string,
+    options?: EvaluatorsCancelGenerationJobOptionalParams,
+  ) => Promise<EvaluatorGenerationJob>;
+  /**
+   * Returns a list of evaluator generation jobs. The List API has up to a few
+   * seconds of propagation delay, so a recently created job may not appear
+   * immediately; use the Get evaluator generation job API with the job ID to
+   * retrieve a specific job without delay.
+   */
+  listGenerationJobs: (
+    options?: EvaluatorsListGenerationJobsOptionalParams,
+  ) => PagedAsyncIterableIterator<EvaluatorGenerationJob>;
+  /** Gets the details of an evaluator generation job by its ID. */
+  getGenerationJob: (
+    jobId: string,
+    options?: EvaluatorsGetGenerationJobOptionalParams,
+  ) => Promise<EvaluatorGenerationJob>;
+  /**
+   * Creates an evaluator generation job. The service generates rubric-based evaluator
+   * definitions from the provided source materials asynchronously.
+   */
+  createGenerationJob: (
+    job: EvaluatorGenerationInputs,
+    options?: EvaluatorsCreateGenerationJobOptionalParams,
+  ) => JobPoller<EvaluatorVersion>;
+  /** Updates the specified evaluator version in place. */
   updateVersion: (
     name: string,
     version: string,
     evaluatorVersion: EvaluatorVersion,
     options?: EvaluatorsUpdateVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
-  /** Create a new EvaluatorVersion with auto incremented version id */
+  /** Creates a new evaluator version with an auto-incremented version identifier. */
   createVersion: (
     name: string,
     evaluatorVersion: EvaluatorVersion,
     options?: EvaluatorsCreateVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
-  /** Delete the specific version of the EvaluatorVersion. The service returns 204 No Content if the EvaluatorVersion was deleted successfully or if the EvaluatorVersion does not exist. */
+  /** Removes the specified evaluator version. Returns 204 whether the version existed or not. */
   deleteVersion: (
     name: string,
     version: string,
     options?: EvaluatorsDeleteVersionOptionalParams,
   ) => Promise<void>;
-  /** Get the specific version of the EvaluatorVersion. The service returns 404 Not Found error if the EvaluatorVersion does not exist. */
+  /** Retrieves the specified evaluator version, returning 404 if it does not exist. */
   getVersion: (
     name: string,
     version: string,
     options?: EvaluatorsGetVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
-  /** List all versions of the given evaluator */
-  listVersions(
+  /** Lists the latest version of each evaluator. */
+  list: (options?: EvaluatorsListOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+  /** Returns the available versions for the specified evaluator. */
+  listVersions: (
     name: string,
     options?: EvaluatorsListVersionsOptionalParams,
-  ): PagedAsyncIterableIterator<EvaluatorVersion>;
-  /** List the latest version of each evaluator */
-  listVersions(
-    options?: EvaluatorsListLatestVersionsOptionalParams,
-  ): PagedAsyncIterableIterator<EvaluatorVersion>;
+  ) => PagedAsyncIterableIterator<EvaluatorVersion>;
 }
 
-function _getEvaluators(context: AIProjectContext) {
+export function _getEvaluatorsOperations(context: AIProjectContext): EvaluatorsOperations {
   return {
+    deleteGenerationJob: (jobId: string, options?: EvaluatorsDeleteGenerationJobOptionalParams) =>
+      deleteGenerationJob(context, jobId, options),
+    cancelGenerationJob: (jobId: string, options?: EvaluatorsCancelGenerationJobOptionalParams) =>
+      cancelGenerationJob(context, jobId, options),
+    listGenerationJobs: (options?: EvaluatorsListGenerationJobsOptionalParams) =>
+      listGenerationJobs(context, options),
+    getGenerationJob: (jobId: string, options?: EvaluatorsGetGenerationJobOptionalParams) =>
+      getGenerationJob(context, jobId, options),
+    createGenerationJob: (
+      job: EvaluatorGenerationInputs,
+      options?: EvaluatorsCreateGenerationJobOptionalParams,
+    ) => createGenerationJob(context, job, options),
     updateVersion: (
       name: string,
       version: string,
@@ -79,22 +139,8 @@ function _getEvaluators(context: AIProjectContext) {
     ) => deleteVersion(context, name, version, options),
     getVersion: (name: string, version: string, options?: EvaluatorsGetVersionOptionalParams) =>
       getVersion(context, name, version, options),
-    listVersions(
-      nameOrOptions?: string | EvaluatorsListLatestVersionsOptionalParams,
-      options?: EvaluatorsListVersionsOptionalParams,
-    ): PagedAsyncIterableIterator<EvaluatorVersion> {
-      // If first param is a string, it's listVersions(name, options)
-      if (typeof nameOrOptions === "string") {
-        return listVersions(context, nameOrOptions, options);
-      }
-      // Otherwise, it's listLatestVersions(options)
-      return listLatestVersions(context, nameOrOptions);
-    },
-  };
-}
-
-export function _getEvaluatorsOperations(context: AIProjectContext): EvaluatorsOperations {
-  return {
-    ..._getEvaluators(context),
+    list: (options?: EvaluatorsListOptionalParams) => list(context, options),
+    listVersions: (name: string, options?: EvaluatorsListVersionsOptionalParams) =>
+      listVersions(context, name, options),
   };
 }

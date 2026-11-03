@@ -10,7 +10,7 @@ trigger:
   paths:
     include:
       - sdk/batch/ci.yml
-      - sdk/batch/batch-rest
+      - sdk/batch/batch
 
 pr:
   branches:
@@ -23,12 +23,12 @@ pr:
   paths:
     include:
       - sdk/batch/ci.yml
-      - sdk/batch/batch-rest
+      - sdk/batch/batch
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: batch
     Artifacts:
-      - name: azure-rest-batch
-        safeName: azurerestbatch
+      - name: azure-batch
+        safeName: azurebatch

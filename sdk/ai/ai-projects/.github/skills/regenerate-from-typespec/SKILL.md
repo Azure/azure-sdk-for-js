@@ -1,0 +1,110 @@
+---
+name: regenerate-from-typespec
+description: 'Regenerate the @azure/ai-projects client from the latest TypeSpec commit on Azure/azure-rest-api-specs. Use when refreshing emitted code, bumping the pinned tsp-location commit, running tsp-client update, or pulling in upstream Foundry spec changes. Handles the rename dance between tsp-location.saved.yaml and tsp-location.yaml, and captures upstream commit descriptions for post-merge validation.'
+---
+
+# Regenerate ai-projects from TypeSpec
+
+## When to Use
+
+- You need to pull the newest TypeSpec changes from `Azure/azure-rest-api-specs` into this package.
+- The pinned commit in `tsp-location.saved.yaml` is stale and you want to re-emit the generated client.
+- Someone asks to "regen from TypeSpec", "bump the spec commit", "run tsp-client update", or similar.
+
+## Inputs
+
+| Name | Default | Description |
+|------|---------|-------------|
+| `branch` | `feature/foundry-release` | Branch on `Azure/azure-rest-api-specs` to read the latest commit from. |
+| `commit` | _(none)_ | Optional explicit commit SHA. If provided, skip the `git ls-remote` lookup. |
+| `commitDescriptionsPath` | `temp/typespec-commit-descriptions.md` | File to write upstream commit subjects and bodies for the old-exclusive/new-inclusive TypeSpec range. |
+
+## Prerequisites
+
+- `git` on PATH.
+- `npm` on PATH.
+- The pinned `@azure-tools/typespec-client-generator-cli` (provides `tsp-client`) must be installed from its separate npm project. From the repository root, run `npm --prefix eng/common/tsp-client ci` if it is not already installed. The generation script invokes it with `npm --prefix ... exec`, so it does not need to be on `PATH`.
+- **Clean working tree under `sdk/ai/ai-projects/`.** `dev-tool customization apply` does a 3-way merge against the committed `generated/` baseline; running it on a tree with uncommitted changes from a prior failed regen produces silently-incorrect output (e.g. new model types from upstream do not get propagated into `src/`). Verify with `git status -- sdk/ai/ai-projects/` and revert any leftover changes before proceeding. After a package build, run `scripts/assert-clean-tree.ps1` from `sdk/ai/ai-projects/` instead: it removes the browser and react-native API diff reports that API extraction writes under `review/`, which are build output rather than leftover changes, and fails on anything else.
+
+## Procedure
+
+Run from the package root: `sdk/ai/ai-projects/`.
+
+### Step 1: Capture the current and target commits
+
+Before mutating `tsp-location.saved.yaml`, capture the currently pinned commit and resolve the target commit. Then fetch enough `Azure/azure-rest-api-specs` history to write the commit subjects and bodies from the commit after the current hash through the target hash, inclusive. Use this artifact later to verify that the SDK code after emitter merge adheres to the upstream change descriptions.
+
+```powershell
+$currentCommit = (Select-String -Path tsp-location.saved.yaml -Pattern '^commit:\s*(\S+)' | ForEach-Object { $_.Matches[0].Groups[1].Value })
+$targetCommit = ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -ResolveOnly -Branch feature/foundry-release
+$commitDescriptionsPath = 'temp/typespec-commit-descriptions.md'
+
+$specRepo = Join-Path $env:TEMP 'azure-rest-api-specs-foundry'
+if (-not (Test-Path $specRepo)) {
+	git clone --filter=blob:none --no-checkout https://github.com/Azure/azure-rest-api-specs.git $specRepo
+}
+git -C $specRepo fetch --filter=blob:none --no-tags origin feature/foundry-release
+
+New-Item -ItemType Directory -Force (Split-Path $commitDescriptionsPath) | Out-Null
+git -C $specRepo log --reverse --format='commit %H%nsubject: %s%n%n%b%n---' "$currentCommit..$targetCommit" > $commitDescriptionsPath
+if (-not (Get-Content $commitDescriptionsPath -Raw).Trim()) {
+	throw "No upstream commit descriptions found for range $currentCommit..$targetCommit"
+}
+```
+
+With an explicit commit, set `$targetCommit = '<40-char-sha>'` instead of using `-ResolveOnly`. If `git log` returns no commits, stop and verify that `$currentCommit` is an ancestor of `$targetCommit` on the selected TypeSpec branch; do not proceed with an empty commit-description artifact unless the user explicitly confirms the hashes are intentionally identical.
+
+### Step 2: Apply the target commit
+
+Invoke the bundled script. It (a) resolves the latest commit hash for `branch` (or accepts an explicit `-Commit`), (b) renames `tsp-location.saved.yaml` → `tsp-location.yaml`, and (c) rewrites the `commit:` field in place.
+
+```powershell
+./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -Branch feature/foundry-release
+# or, with an explicit commit:
+./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -Commit <40-char-sha>
+```
+
+See [scripts/update-tsp-commit.ps1](./scripts/update-tsp-commit.ps1).
+
+### Step 3: Run the emitter
+
+```powershell
+./.github/skills/regenerate-from-typespec/scripts/generate-client.ps1
+```
+
+See [scripts/generate-client.ps1](./scripts/generate-client.ps1). It is equivalent to `npm run generate:client` (`tsp-client update -d && npm run customize`), but invokes the separately pinned CLI with `npm --prefix eng/common/tsp-client exec` and runs `tsp-client sync` and `tsp-client generate` separately. Between them, it rewrites Azure Artifacts tarball URLs (`https://<host>/.../_packaging/<feed>/npm/registry/`) in the temporary `TempTypeSpecFiles/package-lock.json` to `https://registry.npmjs.org/`. The committed `eng/emitter-package-lock.json` can pin internal feeds such as `ms-feed-25.pkgs.visualstudio.com`, which the Copilot cloud agent firewall cannot resolve (`npm ci` fails with `ENOTFOUND`). Integrity hashes are unchanged, so npm still verifies every tarball, and the repository lockfile is never modified. Always use this script rather than `npm run generate:client` in the cloud agent. If it reports a remaining non-public host, stop and report it.
+
+The `customize` hook applies the generic customization merge, runs the guarded package resolver before formatting, and validates the formatted result. It does not run `npm run post-emitter`. The next skill (`apply-post-emitter-edits`) audits the resulting working-tree diff and handles unresolved per-rule fixes. There is no `incoming/` snapshot.
+
+**A customization rejection is not a stop condition.** The resolver is strict by default: it exits nonzero and writes nothing when it cannot merge an emitted change with a customization. `generate-client.ps1` handles that itself. After the strict run fails, it reruns customization in recovery mode, formats, validates the result, prints a `RECOVERY MODE` banner, and exits 0. Recovery keeps the customized code for every change it could not merge and records each one in `temp/customization-worklist.md`. The earlier `Customization rejected N unresolved or unsafe change(s)` output, the banner, and the worklist are the expected path, not a failure. Continue with Step 4, then hand off to `apply-post-emitter-edits` and follow its "Step 0a" worklist procedure. Verify later with `node scripts/customize.mjs --recover --check` (strict without `--recover`, because it re-plans from the committed baseline), and never rerun `npm run customize` or a non-check `customize.mjs` over edited `src/`.
+
+The script does not attempt recovery when `src/` already had uncommitted changes (recovery rewrites `src/` from the committed baseline), and `-Strict` disables recovery for a maintainer who wants the hard stop. Both exit nonzero. For dirty `src/`, restore it as the message says and rerun. If recovery itself fails, the diagnostics name a plan or guard failure rather than a merge conflict. The script then restores `src/` to the committed state, so the unresolved output of the generic merge that ran first is not left behind (a managed session publishes whatever remains in its working tree). Follow the guidance in `apply-post-emitter-edits` Step 0a and stop only as that skill and the calling workflow allow. See the [resolver workflow](../../../scripts/customization/README.md#recovery-mode) for what recovery does and does not hold.
+
+### Step 4: Restore the saved-yaml filename
+
+This MUST run whether Step 3 succeeded or failed.
+
+```powershell
+./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -RestoreOnly
+```
+
+The script wraps Step 2's edits in a `try/finally` when invoked normally, but if you ran the emitter in a separate shell, call it again with `-RestoreOnly` to put `tsp-location.yaml` back to `tsp-location.saved.yaml`.
+
+### Step 5: Verify
+
+- `tsp-location.saved.yaml` exists, `tsp-location.yaml` does not.
+- The `commit:` line in `tsp-location.saved.yaml` matches the resolved hash.
+- `temp/typespec-commit-descriptions.md` exists and contains the upstream commit descriptions for `$currentCommit..$targetCommit`.
+- `git status` shows changes under `generated/` and/or `src/` from the regen.
+- If the script printed `RECOVERY MODE`, `temp/customization-worklist.md` exists and lists every change whose customized code was kept. Carry it into the hand-off.
+- Review the commit descriptions against the emitted diff before and after post-emitter merging; any SDK behavior, API shape, samples, or tests added during follow-up work should trace back to those upstream descriptions or be called out as an intentional local workaround.
+
+## Hand-off
+
+Once this skill completes, hand off to the `apply-post-emitter-edits` skill to merge the emitted output into `src/`. Include `temp/typespec-commit-descriptions.md` in that hand-off so the post-merge SDK diff can be checked against the upstream TypeSpec commit descriptions, and `temp/customization-worklist.md` when it exists so every kept change gets a disposition.
+
+## Notes
+
+- This skill never commits. It only edits `tsp-location.saved.yaml`, writes `temp/typespec-commit-descriptions.md`, and runs the emitter.
+- The branch default is `feature/foundry-release`. Override only when explicitly asked.
+- The emitter writes directly into `generated/` and `src/`. Leave those changes in the working tree (do **not** stash, revert, or stage them) so `apply-post-emitter-edits` can inspect them via `git diff`.

@@ -16,6 +16,7 @@ The client library offers several key functionalities:
 
 Key links:
 
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-translation-text)
 - [API reference documentation](https://learn.microsoft.com/azure/ai-services/translator/text-translation/preview/rest-api-guide)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text-rest/samples)
@@ -25,15 +26,16 @@ Key links:
 ### Currently supported environments
 
 - LTS versions of Node.js
-- Latest versions of Edge, Chrome, Safar and Firefox
+- Latest versions of Edge, Chrome, Safari and Firefox
 
 ### Prerequisites
 
+- You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 - An existing Translator service or Cognitive Services resource.
 
 ### Install the `@azure-rest/ai-translation-text` package
 
-Install the Azure Text Translation REST client library for JavaScript with `npm`:
+Install the Azure TextTranslation REST client REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/ai-translation-text
@@ -41,7 +43,7 @@ npm install @azure-rest/ai-translation-text
 
 #### Create a Translator service resource
 
-You can create Translator resource following [Create a Translator resource][translator_resource_create].
+You can create a Translator resource following [Create a Translator resource][translator_resource_create].
 
 ### Browser support
 
@@ -62,6 +64,18 @@ Alternatively, use the [Azure CLI][azure_cli] snippet below to get the API key f
 ```PowerShell
 az cognitiveservices account keys list --resource-group <your-resource-group-name> --name <your-resource-name>
 ```
+
+#### Create a `TextTranslationClient` using an Azure Active Directory credential
+
+To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
+provide an instance of the desired credential type obtained from the
+[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
+
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
+
+After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
+As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
+can be used to authenticate the client.
 
 ### Create a `TextTranslationClient` using an API key and Region credential
 

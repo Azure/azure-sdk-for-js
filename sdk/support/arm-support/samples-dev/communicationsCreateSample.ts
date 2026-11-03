@@ -1,35 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Adds a new customer communication to an Azure support ticket.
- *
- * @summary Adds a new customer communication to an Azure support ticket.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/CreateSupportTicketCommunication.json
- */
-
-import type { CommunicationDetails } from "@azure/arm-support";
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to adds a new customer communication to an Azure support ticket.
+ *
+ * @summary adds a new customer communication to an Azure support ticket.
+ * x-ms-original-file: 2025-06-01-preview/CreateSupportTicketCommunication.json
+ */
 async function addCommunicationToSubscriptionTicket(): Promise<void> {
-  const subscriptionId =
-    process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
-  const supportTicketName = "testticket";
-  const communicationName = "testcommunication";
-  const createCommunicationParameters: CommunicationDetails = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "132d901f-189d-4381-9214-fe68e27e05a1";
+  const client = new MicrosoftSupport(credential, subscriptionId);
+  const result = await client.communications.create("testticket", "testcommunication", {
     body: "This is a test message from a customer!",
     sender: "user@contoso.com",
     subject: "This is a test message from a customer!",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new MicrosoftSupport(credential, subscriptionId);
-  const result = await client.communications.beginCreateAndWait(
-    supportTicketName,
-    communicationName,
-    createCommunicationParameters,
-  );
+  });
   console.log(result);
 }
 

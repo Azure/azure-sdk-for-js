@@ -3,44 +3,29 @@
 
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete a CertificateObjectGlobalRulestackResource
+ * This sample demonstrates how to delete a CertificateObjectGlobalRulestackResource
  *
- * @summary Delete a CertificateObjectGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/CertificateObjectGlobalRulestack_Delete_MaximumSet_Gen.json
+ * @summary delete a CertificateObjectGlobalRulestackResource
+ * x-ms-original-file: 2026-05-11-preview/CertificateObjectGlobalRulestack_Delete_MaximumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackDeleteMaximumSetGen(): Promise<void> {
-  const globalRulestackName = "praval";
-  const name = "armid1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result =
-    await client.certificateObjectGlobalRulestack.beginDeleteAndWait(
-      globalRulestackName,
-      name,
-    );
-  console.log(result);
+  await client.certificateObjectGlobalRulestack.delete("praval", "armid1");
 }
 
 /**
- * This sample demonstrates how to Delete a CertificateObjectGlobalRulestackResource
+ * This sample demonstrates how to delete a CertificateObjectGlobalRulestackResource
  *
- * @summary Delete a CertificateObjectGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/CertificateObjectGlobalRulestack_Delete_MinimumSet_Gen.json
+ * @summary delete a CertificateObjectGlobalRulestackResource
+ * x-ms-original-file: 2026-05-11-preview/CertificateObjectGlobalRulestack_Delete_MinimumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackDeleteMinimumSetGen(): Promise<void> {
-  const globalRulestackName = "praval";
-  const name = "armid1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result =
-    await client.certificateObjectGlobalRulestack.beginDeleteAndWait(
-      globalRulestackName,
-      name,
-    );
-  console.log(result);
+  await client.certificateObjectGlobalRulestack.delete("praval", "armid1");
 }
 
 async function main(): Promise<void> {

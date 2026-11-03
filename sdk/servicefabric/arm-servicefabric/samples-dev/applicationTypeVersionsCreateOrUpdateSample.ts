@@ -1,37 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update a Service Fabric application type version resource with the specified name.
- *
- * @summary Create or update a Service Fabric application type version resource with the specified name.
- * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationTypeVersionPutOperation_example.json
- */
-
-import type { ApplicationTypeVersionResource } from "@azure/arm-servicefabric";
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update a Service Fabric application type version resource with the specified name.
+ *
+ * @summary create or update a Service Fabric application type version resource with the specified name.
+ * x-ms-original-file: 2026-03-01-preview/ApplicationTypeVersionPutOperation_example.json
+ */
 async function putAnApplicationTypeVersion(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
-  const clusterName = "myCluster";
-  const applicationTypeName = "myAppType";
-  const version = "1.0";
-  const parameters: ApplicationTypeVersionResource = {
-    appPackageUrl: "http://fakelink.test.com/MyAppType",
-    tags: {},
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricManagementClient(credential, subscriptionId);
-  const result = await client.applicationTypeVersions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    applicationTypeName,
-    version,
-    parameters,
+  const result = await client.applicationTypeVersions.createOrUpdate(
+    "resRg",
+    "myCluster",
+    "myAppType",
+    "1.0",
+    { appPackageUrl: "http://fakelink.test.com/MyAppType", tags: {} },
   );
   console.log(result);
 }

@@ -1,45 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates a Connection Setting registration for a Bot Service
- *
- * @summary Updates a Connection Setting registration for a Bot Service
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateConnection.json
- */
-
-import type { ConnectionSetting } from "@azure/arm-botservice";
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates a Connection Setting registration for a Bot Service
+ *
+ * @summary updates a Connection Setting registration for a Bot Service
+ * x-ms-original-file: 2023-09-15-preview/UpdateConnection.json
+ */
 async function updateConnectionSetting(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const connectionName = "sampleConnection";
-  const parameters: ConnectionSetting = {
-    etag: "etag1",
-    location: "global",
-    properties: {
-      clientId: "sampleclientid",
-      clientSecret: "samplesecret",
-      parameters: [
-        { key: "key1", value: "value1" },
-        { key: "key2", value: "value2" },
-      ],
-      scopes: "samplescope",
-      serviceProviderDisplayName: "serviceProviderDisplayName",
-      serviceProviderId: "serviceproviderid",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.botConnection.update(
-    resourceGroupName,
-    resourceName,
-    connectionName,
-    parameters,
+    "OneResourceGroupName",
+    "samplebotname",
+    "sampleConnection",
+    {
+      etag: "etag1",
+      location: "global",
+      properties: {
+        name: "sampleName",
+        clientId: "sampleclientid",
+        clientSecret: "samplesecret",
+        id: "sampleId",
+        parameters: [
+          { key: "key1", value: "value1" },
+          { key: "key2", value: "value2" },
+        ],
+        scopes: "samplescope",
+        serviceProviderDisplayName: "serviceProviderDisplayName",
+        serviceProviderId: "serviceproviderid",
+      },
+    },
   );
   console.log(result);
 }

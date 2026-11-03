@@ -1,31 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Triggers a refresh of the pool status.
- *
- * @summary Triggers a refresh of the pool status.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Pools_RunHealthChecks.json
- */
-
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to triggers a refresh of the pool status.
+ *
+ * @summary triggers a refresh of the pool status.
+ * x-ms-original-file: 2026-01-01-preview/Pools_RunHealthChecks.json
+ */
 async function poolsRefreshStatus(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const projectName = "DevProject";
-  const poolName = "DevPool";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.pools.beginRunHealthChecksAndWait(
-    resourceGroupName,
-    projectName,
-    poolName,
-  );
-  console.log(result);
+  await client.pools.runHealthChecks("rg1", "DevProject", "DevPool");
 }
 
 async function main(): Promise<void> {

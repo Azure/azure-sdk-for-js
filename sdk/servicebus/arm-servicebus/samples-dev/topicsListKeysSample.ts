@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the primary and secondary connection strings for the topic.
- *
- * @summary Gets the primary and secondary connection strings for the topic.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Topics/SBTopicAuthorizationRuleListKey.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the primary and secondary connection strings for the topic.
+ *
+ * @summary gets the primary and secondary connection strings for the topic.
+ * x-ms-original-file: 2026-01-01/Topics/SBTopicAuthorizationRuleListKey.json
+ */
 async function topicAuthorizationRuleListKey(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "e2f361f0-3b27-4503-a9cc-21cfba380093";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "Default-ServiceBus-WestUS";
-  const namespaceName = "sdk-Namespace8408";
-  const topicName = "sdk-Topics2075";
-  const authorizationRuleName = "sdk-Authrules5067";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "e2f361f0-3b27-4503-a9cc-21cfba380093";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const result = await client.topics.listKeys(
-    resourceGroupName,
-    namespaceName,
-    topicName,
-    authorizationRuleName,
+    "Default-ServiceBus-WestUS",
+    "sdk-Namespace8408",
+    "sdk-Topics2075",
+    "sdk-Authrules5067",
   );
   console.log(result);
 }

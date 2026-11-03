@@ -8,17 +8,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list resources attached to Scheduled Actions for the given occurrence
  *
  * @summary list resources attached to Scheduled Actions for the given occurrence
- * x-ms-original-file: 2025-04-15-preview/Occurrences_ListResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-04-15-preview/Occurrences_ListResources_MaximumSet_Gen.json
  */
 async function occurrencesListResourcesMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "732116BD-AF31-4E74-9283-B387C44B4A44";
   const client = new ComputeScheduleClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.occurrences.listResources(
     "rgcomputeschedule",
-    "myScheduledAction",
-    "CB26D7CB-3E27-465F-99C8-EAF7A4118245",
+    "scheduled-action-01",
+    "11111111-1111-1111-1111-111111111111",
   )) {
     resArray.push(item);
   }

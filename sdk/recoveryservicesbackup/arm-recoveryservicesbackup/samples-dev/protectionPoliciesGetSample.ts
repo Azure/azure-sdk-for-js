@@ -1,66 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
-operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- *
- * @summary Provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
-operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/V2Policy/v2-Get-Policy.json
- */
-
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getAzureIaasVMEnhancedProtectionPolicyDetails(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
-  const policyName = "v2-daily-sample";
+/**
+ * This sample demonstrates how to provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
+ * operation. Status of the operation can be fetched using GetPolicyOperationResult API.
+ *
+ * @summary provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
+ * operation. Status of the operation can be fetched using GetPolicyOperationResult API.
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/ProtectionPolicies_Get.json
+ */
+async function getAzureIaasVmProtectionPolicyDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.protectionPolicies.get(
-    vaultName,
-    resourceGroupName,
-    policyName,
+    "NetSDKTestRsVault",
+    "SwaggerTestRg",
+    "testPolicy1",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
-operation. Status of the operation can be fetched using GetPolicyOperationResult API.
+ * This sample demonstrates how to provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
+ * operation. Status of the operation can be fetched using GetPolicyOperationResult API.
  *
- * @summary Provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
-operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ProtectionPolicies_Get.json
+ * @summary provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
+ * operation. Status of the operation can be fetched using GetPolicyOperationResult API.
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/V2Policy/v2-Get-Policy.json
  */
-async function getAzureIaasVMProtectionPolicyDetails(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
-  const policyName = "testPolicy1";
+async function getAzureIaasVmEnhancedProtectionPolicyDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.protectionPolicies.get(
-    vaultName,
-    resourceGroupName,
-    policyName,
+    "NetSDKTestRsVault",
+    "SwaggerTestRg",
+    "v2-daily-sample",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getAzureIaasVMEnhancedProtectionPolicyDetails();
-  await getAzureIaasVMProtectionPolicyDetails();
+  await getAzureIaasVmProtectionPolicyDetails();
+  await getAzureIaasVmEnhancedProtectionPolicyDetails();
 }
 
 main().catch(console.error);

@@ -1,102 +1,75 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new rule and updates an existing rule
- *
- * @summary Creates a new rule and updates an existing rule
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Rules/RuleCreate_CorrelationFilter.json
- */
-
-import type { Rule } from "@azure/arm-servicebus";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
-async function rulesCreateCorrelationFilter(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "resourceGroupName";
-  const namespaceName = "sdk-Namespace-1319";
-  const topicName = "sdk-Topics-2081";
-  const subscriptionName = "sdk-Subscriptions-8691";
-  const ruleName = "sdk-Rules-6571";
-  const parameters: Rule = {
-    correlationFilter: { properties: { topicHint: "Crop" } },
-    filterType: "CorrelationFilter",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ServiceBusManagementClient(credential, subscriptionId);
-  const result = await client.rules.createOrUpdate(
-    resourceGroupName,
-    namespaceName,
-    topicName,
-    subscriptionName,
-    ruleName,
-    parameters,
-  );
-  console.log(result);
-}
 
 /**
- * This sample demonstrates how to Creates a new rule and updates an existing rule
+ * This sample demonstrates how to creates a new rule and updates an existing rule
  *
- * @summary Creates a new rule and updates an existing rule
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Rules/RuleCreate.json
+ * @summary creates a new rule and updates an existing rule
+ * x-ms-original-file: 2026-01-01/Rules/RuleCreate.json
  */
 async function rulesCreateOrUpdate(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "resourceGroupName";
-  const namespaceName = "sdk-Namespace-1319";
-  const topicName = "sdk-Topics-2081";
-  const subscriptionName = "sdk-Subscriptions-8691";
-  const ruleName = "sdk-Rules-6571";
-  const parameters: Rule = {};
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const result = await client.rules.createOrUpdate(
-    resourceGroupName,
-    namespaceName,
-    topicName,
-    subscriptionName,
-    ruleName,
-    parameters,
+    "resourceGroupName",
+    "sdk-Namespace-1319",
+    "sdk-Topics-2081",
+    "sdk-Subscriptions-8691",
+    "sdk-Rules-6571",
+    {},
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a new rule and updates an existing rule
+ * This sample demonstrates how to creates a new rule and updates an existing rule
  *
- * @summary Creates a new rule and updates an existing rule
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Rules/RuleCreate_SqlFilter.json
+ * @summary creates a new rule and updates an existing rule
+ * x-ms-original-file: 2026-01-01/Rules/RuleCreate_CorrelationFilter.json
  */
-async function rulesCreateSqlFilter(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "resourceGroupName";
-  const namespaceName = "sdk-Namespace-1319";
-  const topicName = "sdk-Topics-2081";
-  const subscriptionName = "sdk-Subscriptions-8691";
-  const ruleName = "sdk-Rules-6571";
-  const parameters: Rule = {
-    filterType: "SqlFilter",
-    sqlFilter: { sqlExpression: "myproperty=test" },
-  };
+async function rulesCreateCorrelationFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const result = await client.rules.createOrUpdate(
-    resourceGroupName,
-    namespaceName,
-    topicName,
-    subscriptionName,
-    ruleName,
-    parameters,
+    "resourceGroupName",
+    "sdk-Namespace-1319",
+    "sdk-Topics-2081",
+    "sdk-Subscriptions-8691",
+    "sdk-Rules-6571",
+    { correlationFilter: { properties: { topicHint: "Crop" } }, filterType: "CorrelationFilter" },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new rule and updates an existing rule
+ *
+ * @summary creates a new rule and updates an existing rule
+ * x-ms-original-file: 2026-01-01/Rules/RuleCreate_SqlFilter.json
+ */
+async function rulesCreateSqlFilter(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
+  const client = new ServiceBusManagementClient(credential, subscriptionId);
+  const result = await client.rules.createOrUpdate(
+    "resourceGroupName",
+    "sdk-Namespace-1319",
+    "sdk-Topics-2081",
+    "sdk-Subscriptions-8691",
+    "sdk-Rules-6571",
+    { filterType: "SqlFilter", sqlFilter: { sqlExpression: "myproperty=test" } },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await rulesCreateCorrelationFilter();
   await rulesCreateOrUpdate();
+  await rulesCreateCorrelationFilter();
   await rulesCreateSqlFilter();
 }
 

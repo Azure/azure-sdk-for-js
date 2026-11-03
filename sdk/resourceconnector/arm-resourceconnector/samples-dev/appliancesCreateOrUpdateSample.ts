@@ -1,40 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates an Appliance in the specified Subscription and Resource Group.
- *
- * @summary Creates or updates an Appliance in the specified Subscription and Resource Group.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesCreate_Update.json
- */
-
-import type { Appliance } from "@azure/arm-resourceconnector";
 import { ResourceConnectorManagementClient } from "@azure/arm-resourceconnector";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates an Appliance in the specified Subscription and Resource Group.
+ *
+ * @summary creates or updates an Appliance in the specified Subscription and Resource Group.
+ * x-ms-original-file: 2025-03-01-preview/AppliancesCreate_Update.json
+ */
 async function createOrUpdateAppliance(): Promise<void> {
-  const subscriptionId =
-    process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
-  const resourceGroupName = process.env["RESOURCECONNECTOR_RESOURCE_GROUP"] || "testresourcegroup";
-  const resourceName = "appliance01";
-  const parameters: Appliance = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-2222-3333-4444-555555555555";
+  const client = new ResourceConnectorManagementClient(credential, subscriptionId);
+  const result = await client.appliances.createOrUpdate("testresourcegroup", "appliance01", {
+    location: "West US",
     distro: "AKSEdge",
     infrastructureConfig: { provider: "VMWare" },
-    location: "West US",
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an Appliance in the specified Subscription and Resource Group.
+ *
+ * @summary creates or updates an Appliance in the specified Subscription and Resource Group.
+ * x-ms-original-file: 2025-03-01-preview/AppliancesUpdateProxy.json
+ */
+async function updateApplianceProxyConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-2222-3333-4444-555555555555";
   const client = new ResourceConnectorManagementClient(credential, subscriptionId);
-  const result = await client.appliances.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    parameters,
-  );
+  const result = await client.appliances.createOrUpdate("testresourcegroup", "appliance01", {
+    location: "West US",
+    distro: "AKSEdge",
+    publicKey: "xxxxxxxx",
+    infrastructureConfig: { provider: "VMWare" },
+    networkProfile: { proxyConfiguration: { version: "latest" } },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createOrUpdateAppliance();
+  await updateApplianceProxyConfiguration();
 }
 
 main().catch(console.error);

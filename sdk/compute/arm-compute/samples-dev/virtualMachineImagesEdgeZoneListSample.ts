@@ -1,71 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualMachineImagesEdgeZoneListOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
+ * This sample demonstrates how to gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
  *
- * @summary Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MaximumSet_Gen.json
+ * @summary gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
+ * x-ms-original-file: 2026-04-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const location = "aaaaaaaaaaaaaaa";
-  const edgeZone = "aaaaaaaaaaaaaaaaaaaaaaaaa";
-  const publisherName = "aaaa";
-  const offer = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
-  const skus = "aaaaaaaaaaaaaaaaaaaaaaa";
-  const expand = "aaaaaaaaaaaaaaaaaaaaaaaa";
-  const top = 12;
-  const orderby = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-  const options: VirtualMachineImagesEdgeZoneListOptionalParams = {
-    expand,
-    top,
-    orderby,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImagesEdgeZone.list(
-    location,
-    edgeZone,
-    publisherName,
-    offer,
-    skus,
-    options,
+    "aaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaa",
+    { expand: "aaaaaaaaaaaaaaaaaaaaaaaa", top: 12, orderby: "aaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
+ * This sample demonstrates how to gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
  *
- * @summary Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MinimumSet_Gen.json
+ * @summary gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
+ * x-ms-original-file: 2026-04-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const location = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-  const edgeZone = "aaaaa";
-  const publisherName = "aaaaaaaaaaaaaaaaaaa";
-  const offer = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
-  const skus = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImagesEdgeZone.list(
-    location,
-    edgeZone,
-    publisherName,
-    offer,
-    skus,
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaa",
+    "aaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   );
   console.log(result);
 }

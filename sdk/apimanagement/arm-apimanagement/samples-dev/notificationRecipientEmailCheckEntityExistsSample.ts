@@ -1,35 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Determine if Notification Recipient Email subscribed to the notification.
- *
- * @summary Determine if Notification Recipient Email subscribed to the notification.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementHeadNotificationRecipientEmail.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to determine if Notification Recipient Email subscribed to the notification.
+ *
+ * @summary determine if Notification Recipient Email subscribed to the notification.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementHeadNotificationRecipientEmail.json
+ */
 async function apiManagementHeadNotificationRecipientEmail(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const notificationName = "RequestPublisherNotificationMessage";
-  const email = "contoso@live.com";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.notificationRecipientEmail.checkEntityExists(
-    resourceGroupName,
-    serviceName,
-    notificationName,
-    email,
+  await client.notificationRecipientEmail.checkEntityExists(
+    "rg1",
+    "apimService1",
+    "RequestPublisherNotificationMessage",
+    "contoso@live.com",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

@@ -1,47 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  Certificate,
-  ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams} from "@azure/arm-appcontainers";
-import {
-  ContainerAppsAPIClient,
-} from "@azure/arm-appcontainers";
+import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or Update a Certificate.
+ * This sample demonstrates how to create or Update a Certificate.
  *
- * @summary Create or Update a Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ConnectedEnvironmentsCertificate_CreateOrUpdate.json
+ * @summary create or Update a Certificate.
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironmentsCertificate_CreateOrUpdate.json
  */
 async function createOrUpdateCertificate(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const connectedEnvironmentName = "testcontainerenv";
-  const certificateName = "certificate-firendly-name";
-  const certificateEnvelope: Certificate = {
-    location: "East US",
-    properties: {
-      password: "private key password",
-      value: Buffer.from("Y2VydA=="),
-    },
-  };
-  const options: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams =
-    { certificateEnvelope };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result =
-    await client.connectedEnvironmentsCertificates.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      connectedEnvironmentName,
-      certificateName,
-      options,
-    );
+  const result = await client.connectedEnvironmentsCertificates.createOrUpdate(
+    "examplerg",
+    "testcontainerenv",
+    "certificate-firendly-name",
+    {
+      certificateEnvelope: {
+        location: "East US",
+        properties: { password: "private key password", value: Buffer.from("Y2VydA==", "base64") },
+      },
+    },
+  );
   console.log(result);
 }
 

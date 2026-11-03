@@ -1,32 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createServiceNetworkingManagement,
+import type {
   ServiceNetworkingManagementContext,
   ServiceNetworkingManagementClientOptionalParams,
 } from "./api/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  TrafficControllerInterfaceOperations,
-  _getTrafficControllerInterfaceOperations,
-} from "./classic/trafficControllerInterface/index.js";
-import {
-  SecurityPoliciesInterfaceOperations,
-  _getSecurityPoliciesInterfaceOperations,
-} from "./classic/securityPoliciesInterface/index.js";
-import {
-  FrontendsInterfaceOperations,
-  _getFrontendsInterfaceOperations,
-} from "./classic/frontendsInterface/index.js";
-import {
-  AssociationsInterfaceOperations,
-  _getAssociationsInterfaceOperations,
-} from "./classic/associationsInterface/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import { createServiceNetworkingManagement } from "./api/index.js";
+import type { AssociationsInterfaceOperations } from "./classic/associationsInterface/index.js";
+import { _getAssociationsInterfaceOperations } from "./classic/associationsInterface/index.js";
+import type { FrontendsInterfaceOperations } from "./classic/frontendsInterface/index.js";
+import { _getFrontendsInterfaceOperations } from "./classic/frontendsInterface/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { PrivateEndpointConnectionsInterfaceOperations } from "./classic/privateEndpointConnectionsInterface/index.js";
+import { _getPrivateEndpointConnectionsInterfaceOperations } from "./classic/privateEndpointConnectionsInterface/index.js";
+import type { PrivateLinkResourcesInterfaceOperations } from "./classic/privateLinkResourcesInterface/index.js";
+import { _getPrivateLinkResourcesInterfaceOperations } from "./classic/privateLinkResourcesInterface/index.js";
+import type { SecurityPoliciesInterfaceOperations } from "./classic/securityPoliciesInterface/index.js";
+import { _getSecurityPoliciesInterfaceOperations } from "./classic/securityPoliciesInterface/index.js";
+import type { TrafficControllerInterfaceOperations } from "./classic/trafficControllerInterface/index.js";
+import { _getTrafficControllerInterfaceOperations } from "./classic/trafficControllerInterface/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ServiceNetworkingManagementClientOptionalParams } from "./api/serviceNetworkingManagementContext.js";
+export type { ServiceNetworkingManagementClientOptionalParams } from "./api/serviceNetworkingManagementContext.js";
 
 export class ServiceNetworkingManagementClient {
   private _client: ServiceNetworkingManagementContext;
@@ -39,16 +36,13 @@ export class ServiceNetworkingManagementClient {
     subscriptionId: string,
     options: ServiceNetworkingManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createServiceNetworkingManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createServiceNetworkingManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.operations = _getOperationsOperations(this._client);
+    this.privateLinkResourcesInterface = _getPrivateLinkResourcesInterfaceOperations(this._client);
+    this.privateEndpointConnectionsInterface = _getPrivateEndpointConnectionsInterfaceOperations(
+      this._client,
+    );
     this.trafficControllerInterface = _getTrafficControllerInterfaceOperations(this._client);
     this.securityPoliciesInterface = _getSecurityPoliciesInterfaceOperations(this._client);
     this.frontendsInterface = _getFrontendsInterfaceOperations(this._client);
@@ -57,6 +51,10 @@ export class ServiceNetworkingManagementClient {
 
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
+  /** The operation groups for privateLinkResourcesInterface */
+  public readonly privateLinkResourcesInterface: PrivateLinkResourcesInterfaceOperations;
+  /** The operation groups for privateEndpointConnectionsInterface */
+  public readonly privateEndpointConnectionsInterface: PrivateEndpointConnectionsInterfaceOperations;
   /** The operation groups for trafficControllerInterface */
   public readonly trafficControllerInterface: TrafficControllerInterfaceOperations;
   /** The operation groups for securityPoliciesInterface */

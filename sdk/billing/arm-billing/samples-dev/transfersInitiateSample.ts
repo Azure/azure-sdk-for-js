@@ -1,35 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Sends a request to a user in another billing account to transfer billing ownership of their subscriptions. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
- *
- * @summary Sends a request to a user in another billing account to transfer billing ownership of their subscriptions. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/transfersInitiate.json
- */
-
-import type { InitiateTransferRequest } from "@azure/arm-billing";
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to sends a request to a user in another billing account to transfer billing ownership of their subscriptions. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+ *
+ * @summary sends a request to a user in another billing account to transfer billing ownership of their subscriptions. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+ * x-ms-original-file: 2024-04-01/transfersInitiate.json
+ */
 async function initiateTransfer(): Promise<void> {
-  const billingAccountName =
-    "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
-  const billingProfileName = "xxxx-xxxx-xxx-xxx";
-  const invoiceSectionName = "yyyy-yyyy-yyy-yyy";
-  const transferName = "aabb123";
-  const parameters: InitiateTransferRequest = {
-    recipientEmailId: "user@contoso.com",
-  };
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const result = await client.transfers.initiate(
-    billingAccountName,
-    billingProfileName,
-    invoiceSectionName,
-    transferName,
-    parameters,
+    "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31",
+    "xxxx-xxxx-xxx-xxx",
+    "yyyy-yyyy-yyy-yyy",
+    "aabb123",
+    { recipientEmailId: "user@contoso.com" },
   );
   console.log(result);
 }

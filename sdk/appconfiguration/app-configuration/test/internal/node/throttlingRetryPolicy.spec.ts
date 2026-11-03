@@ -85,10 +85,14 @@ describe("Should not retry forever", () => {
       errorWasThrown = true;
       const err = error as RestError;
       assert.equal(err.name, "RestError", "Unexpected error thrown");
-      assert.equal(JSON.parse(err.message).status, 429, "Unexpected error thrown");
-      assert.equal(
-        JSON.parse(err.message).title,
-        "Resource utilization has surpassed the assigned quota",
+      assert.equal(err.statusCode, 429, "Unexpected error thrown");
+      assert.include(
+        err.details,
+        {
+          type: "https://azconfig.io/errors/too-many-requests",
+          title: "Resource utilization has surpassed the assigned quota",
+          status: 429,
+        },
         "Unexpected error thrown",
       );
     }

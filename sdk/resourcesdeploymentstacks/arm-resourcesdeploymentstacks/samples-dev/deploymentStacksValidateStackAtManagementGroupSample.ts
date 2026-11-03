@@ -1,52 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Runs preflight validation on the Management Group scoped Deployment stack template to verify its acceptance to Azure Resource Manager.
- *
- * @summary Runs preflight validation on the Management Group scoped Deployment stack template to verify its acceptance to Azure Resource Manager.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackManagementGroupValidate.json
- */
-
-import type { DeploymentStack } from "@azure/arm-resourcesdeploymentstacks";
 import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function deploymentStacksManagementGroupValidate(): Promise<void> {
-  const managementGroupId = "myMg";
-  const deploymentStackName = "simpleDeploymentStack";
-  const deploymentStack: DeploymentStack = {
-    location: "eastus",
-    properties: {
-      actionOnUnmanage: {
-        managementGroups: "detach",
-        resourceGroups: "detach",
-        resources: "detach",
-      },
-      denySettings: {
-        applyToChildScopes: false,
-        excludedActions: ["action"],
-        excludedPrincipals: ["principal"],
-        mode: "denyDelete",
-      },
-      parameters: { parameter1: { value: "a string" } },
-      templateLink: { uri: "https://example.com/exampleTemplate.json" },
-    },
-    tags: { tagkey: "tagVal" },
-  };
+/**
+ * This sample demonstrates how to runs preflight validation on the Deployment stack template at the specified scope to verify its acceptance to Azure Resource Manager.
+ *
+ * @summary runs preflight validation on the Deployment stack template at the specified scope to verify its acceptance to Azure Resource Manager.
+ * x-ms-original-file: 2025-07-01/DeploymentStackManagementGroupValidate.json
+ */
+async function validateAManagementGroupDeploymentStack(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DeploymentStacksClient(credential);
-  const result = await client.deploymentStacks.beginValidateStackAtManagementGroupAndWait(
-    managementGroupId,
-    deploymentStackName,
-    deploymentStack,
+  const result = await client.deploymentStacks.validateStackAtManagementGroup(
+    "myMg",
+    "simpleDeploymentStack",
+    {
+      location: "eastus",
+      tags: { tagkey: "tagVal" },
+      properties: {
+        actionOnUnmanage: {
+          resources: "detach",
+          resourceGroups: "detach",
+          managementGroups: "detach",
+        },
+        denySettings: {
+          mode: "denyDelete",
+          excludedPrincipals: ["principal"],
+          excludedActions: ["action"],
+          applyToChildScopes: false,
+        },
+        templateLink: { uri: "https://example.com/exampleTemplate.json" },
+        parameters: { parameter1: { value: "a string" } },
+      },
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await deploymentStacksManagementGroupValidate();
+  await validateAManagementGroupDeploymentStack();
 }
 
 main().catch(console.error);

@@ -295,6 +295,75 @@ await fileClient.uploadRange(content, 0, content.length);
 console.log(`Upload file range "${content}" to ${fileName} successfully`);
 ```
 
+### List ranges of a file
+
+Use `ShareFileClient.listRanges()` to enumerate the valid byte ranges of a file as a paginated
+async iterable. Each item is a `ShareFileRange` with `start`, `end`, and `isClear`. Use
+`ShareFileClient.listRangesDiff()` to list the ranges that changed since a previous share snapshot;
+cleared ranges are returned with `isClear` set to `true`.
+
+```ts snippet:ReadmeSampleListRanges
+import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+
+const account = "<account>";
+const accountKey = "<accountkey>";
+
+const credential = new StorageSharedKeyCredential(account, accountKey);
+const serviceClient = new ShareServiceClient(
+  `https://${account}.file.core.windows.net`,
+  credential,
+);
+
+const shareName = "<share name>";
+const fileName = "<file name>";
+const fileClient = serviceClient
+  .getShareClient(shareName)
+  .rootDirectoryClient.getFileClient(fileName);
+
+// Each item is a ShareFileRange with start, end, and isClear
+for await (const range of fileClient.listRanges()) {
+  console.log(`Range: ${range.start}-${range.end}, isClear: ${range.isClear}`);
+}
+```
+
+Use `.byPage()` to control the page size and resume from a continuation token:
+
+```ts snippet:ReadmeSampleListRanges_ByPage
+import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+
+const account = "<account>";
+const accountKey = "<accountkey>";
+
+const credential = new StorageSharedKeyCredential(account, accountKey);
+const serviceClient = new ShareServiceClient(
+  `https://${account}.file.core.windows.net`,
+  credential,
+);
+
+const shareName = "<share name>";
+const fileName = "<file name>";
+const fileClient = serviceClient
+  .getShareClient(shareName)
+  .rootDirectoryClient.getFileClient(fileName);
+
+// Get the first page of ranges
+let iterator = fileClient.listRanges().byPage({ maxPageSize: 1 });
+let response = (await iterator.next()).value;
+for (const range of response.ranges || []) {
+  console.log(`Range: ${range.start}-${range.end}`);
+}
+
+// Gets next marker
+const marker = response.continuationToken;
+
+// Passing next marker as continuationToken
+iterator = fileClient.listRanges().byPage({ continuationToken: marker, maxPageSize: 2 });
+response = (await iterator.next()).value;
+for (const range of response.ranges || []) {
+  console.log(`Range: ${range.start}-${range.end}`);
+}
+```
+
 ### List files and directories under a directory
 
 Use `DirectoryClient.listFilesAndDirectories()` to iterator over files and directories,
@@ -366,6 +435,7 @@ For a complete sample on iterating please see [samples/v12/typescript/src/listFi
 
 ```ts snippet:ReadmeSampleDownloadFileAndConvertToString_Node
 import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+import { buffer } from "node:stream/consumers";
 
 const account = "<account>";
 const accountKey = "<accountkey>";
@@ -386,22 +456,10 @@ const fileClient = serviceClient
 // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
 const downloadFileResponse = await fileClient.download();
 if (downloadFileResponse.readableStreamBody) {
-  const buffer = await streamToBuffer(downloadFileResponse.readableStreamBody);
-  console.log(`Downloaded file content: ${buffer.toString()}`);
-}
-
-// [Node.js only] A helper method used to read a Node.js readable stream into a Buffer
-async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = [];
-    readableStream.on("data", (data) => {
-      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-    });
-    readableStream.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    readableStream.on("error", reject);
-  });
+  // Download the raw bytes of the file. Use `text` from "node:stream/consumers"
+  // instead if you want to read the content as a string directly.
+  const downloaded = await buffer(downloadFileResponse.readableStreamBody);
+  console.log(`Downloaded file content: ${downloaded.toString()}`);
 }
 ```
 

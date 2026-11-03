@@ -27,7 +27,7 @@ export function calculateOffsetLimitForPartitionRanges(
 
     let offsetAfterThisRange = currentOffset;
     let limitAfterThisRange = currentLimit;
-    let updatedItemCount = itemCount;
+    let updatedItemCount: number;
 
     if (itemCount > 0) {
       if (currentOffset > 0) {

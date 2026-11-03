@@ -3,27 +3,18 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Revokes access to a snapshot.
+ * This sample demonstrates how to revokes access to a snapshot.
  *
- * @summary Revokes access to a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/Snapshot_EndGetAccess.json
+ * @summary revokes access to a snapshot.
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_EndGetAccess.json
  */
 async function revokeAccessToASnapshot(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const snapshotName = "mySnapshot";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.snapshots.beginRevokeAccessAndWait(
-    resourceGroupName,
-    snapshotName,
-  );
-  console.log(result);
+  await client.snapshots.revokeAccess("myResourceGroup", "mySnapshot");
 }
 
 async function main(): Promise<void> {

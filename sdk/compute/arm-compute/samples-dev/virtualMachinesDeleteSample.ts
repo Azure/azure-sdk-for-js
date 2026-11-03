@@ -1,36 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualMachinesDeleteOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to delete a virtual machine.
+ * This sample demonstrates how to the operation to delete a virtual machine.
  *
- * @summary The operation to delete a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Delete_Force.json
+ * @summary the operation to delete a virtual machine.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Delete_Force.json
  */
 async function forceDeleteAVM(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const forceDeletion = true;
-  const options: VirtualMachinesDeleteOptionalParams = { forceDeletion };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginDeleteAndWait(
-    resourceGroupName,
-    vmName,
-    options,
-  );
-  console.log(result);
+  await client.virtualMachines.delete("myResourceGroup", "myVM", { forceDeletion: true });
 }
 
 async function main(): Promise<void> {

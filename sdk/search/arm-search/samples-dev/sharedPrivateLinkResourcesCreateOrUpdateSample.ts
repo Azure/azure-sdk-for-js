@@ -1,43 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
- *
- * @summary Initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/CreateOrUpdateSharedPrivateLinkResource.json
- */
-
-import {
-  SharedPrivateLinkResource,
-  SearchManagementClient,
-} from "@azure/arm-search";
+import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
+ *
+ * @summary initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
+ * x-ms-original-file: 2026-11-01/CreateOrUpdateSharedPrivateLinkResource.json
+ */
 async function sharedPrivateLinkResourceCreateOrUpdate(): Promise<void> {
-  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
-  const searchServiceName = "mysearchservice";
-  const sharedPrivateLinkResourceName = "testResource";
-  const sharedPrivateLinkResource: SharedPrivateLinkResource = {
-    properties: {
-      groupId: "blob",
-      privateLinkResourceId:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storageAccountName",
-      requestMessage: "please approve",
-      resourceRegion: undefined,
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
-  const result =
-    await client.sharedPrivateLinkResources.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      searchServiceName,
-      sharedPrivateLinkResourceName,
-      sharedPrivateLinkResource,
-    );
+  const result = await client.sharedPrivateLinkResources.createOrUpdate(
+    "rg1",
+    "mysearchservice",
+    "testResource",
+    {
+      properties: {
+        groupId: "blob",
+        privateLinkResourceId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storageAccountName",
+        requestMessage: "please approve",
+      },
+    },
+  );
   console.log(result);
 }
 

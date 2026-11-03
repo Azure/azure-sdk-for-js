@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ConnectedCacheClient } from "@azure/arm-connectedcache";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to this api creates an ispCacheNode with the specified create parameters
  *
  * @summary this api creates an ispCacheNode with the specified create parameters
- * x-ms-original-file: 2023-05-01-preview/EnterpriseMccCacheNodesOperations_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/EnterpriseMccCacheNodesOperations_CreateOrUpdate_MaximumSet_Gen.json
  */
-
-import { ConnectedCacheClient } from "@azure/arm-connectedcache";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
@@ -36,6 +35,10 @@ async function createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule(
           cidrCsv: ["nlqlvrthafvvljuupcbcw"],
           shouldMigrate: true,
           cidrSelectionType: 11,
+          openFirewallPort80: true,
+          openFirewallPort443: false,
+          openFirewallPort5000: false,
+          openFirewallPort5001: true,
         },
         statusCode: "1",
         statusText: "Success",
@@ -52,7 +55,6 @@ async function createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule(
           ],
           bgpConfiguration: { asnToIpAddressMapping: "fjbggfvumrn" },
           proxyUrlConfiguration: { proxyUrl: "hplstyg" },
-          proxyUrl: "ihkzxlzvpcywtzrogupqozkdud",
           optionalProperty1: "ph",
           optionalProperty2: "soqqgpgcbhb",
           optionalProperty3: "fpnycrbagptsujiotnjfuhlm",

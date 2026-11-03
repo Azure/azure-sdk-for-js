@@ -3,6 +3,6 @@
 
 export {
   createOnlineExperimentation,
-  OnlineExperimentationContext,
-  OnlineExperimentationClientOptionalParams,
+  type OnlineExperimentationContext,
+  type OnlineExperimentationClientOptionalParams,
 } from "./onlineExperimentationContext.js";

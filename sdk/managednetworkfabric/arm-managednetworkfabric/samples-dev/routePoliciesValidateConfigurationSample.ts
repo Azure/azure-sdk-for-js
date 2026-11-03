@@ -1,27 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Validates the configuration of the resources.
- *
- * @summary Validates the configuration of the resources.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/RoutePolicies_ValidateConfiguration_MaximumSet_Gen.json
- */
-
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to validates the configuration of the resources.
+ *
+ * @summary validates the configuration of the resources.
+ * x-ms-original-file: 2025-07-15/RoutePolicies_ValidateConfiguration.json
+ */
 async function routePoliciesValidateConfigurationMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const routePolicyName = "example-routePolicy";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.routePolicies.beginValidateConfigurationAndWait(
-    resourceGroupName,
-    routePolicyName,
+  const result = await client.routePolicies.validateConfiguration(
+    "example-rg",
+    "example-routePolicy",
   );
   console.log(result);
 }

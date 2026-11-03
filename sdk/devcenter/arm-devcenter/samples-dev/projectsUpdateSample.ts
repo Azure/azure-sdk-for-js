@@ -1,32 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Partially updates a project.
- *
- * @summary Partially updates a project.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_Patch.json
- */
-
-import type { ProjectUpdate } from "@azure/arm-devcenter";
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to partially updates a project.
+ *
+ * @summary partially updates a project.
+ * x-ms-original-file: 2026-01-01-preview/Projects_Patch.json
+ */
 async function projectsUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const projectName = "DevProject";
-  const body: ProjectUpdate = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.projects.update("rg1", "DevProject", {
     description: "This is my first project.",
     catalogSettings: { catalogItemSyncTypes: ["EnvironmentDefinition"] },
     displayName: "Dev",
-    tags: { costCenter: "R&D" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.projects.beginUpdateAndWait(resourceGroupName, projectName, body);
+    assignedGroups: [{ objectId: "33333333-3333-3333-3333-333333333333", scope: "DevBox" }],
+    tags: { CostCenter: "R&D" },
+  });
   console.log(result);
 }
 

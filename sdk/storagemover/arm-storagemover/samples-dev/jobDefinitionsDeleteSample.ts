@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a Job Definition resource.
  *
  * @summary deletes a Job Definition resource.
- * x-ms-original-file: 2025-07-01/JobDefinitions_Delete.json
+ * x-ms-original-file: 2025-12-01/JobDefinitions_Delete.json
  */
 async function projectsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

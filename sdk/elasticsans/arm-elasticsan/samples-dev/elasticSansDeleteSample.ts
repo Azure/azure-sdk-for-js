@@ -1,51 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete a Elastic San.
- *
- * @summary Delete a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_Delete_MaximumSet_Gen.json
- */
-
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete a Elastic San.
+ *
+ * @summary delete a Elastic San.
+ * x-ms-original-file: 2026-05-01-preview/ElasticSans_Delete_MaximumSet_Gen.json
+ */
 async function elasticSansDeleteMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
-  const elasticSanName = "elasticsanname";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
-  const result = await client.elasticSans.beginDeleteAndWait(
-    resourceGroupName,
-    elasticSanName,
-  );
-  console.log(result);
+  await client.elasticSans.delete("resourcegroupname", "elasticsanname");
 }
 
 /**
- * This sample demonstrates how to Delete a Elastic San.
+ * This sample demonstrates how to delete a Elastic San.
  *
- * @summary Delete a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_Delete_MinimumSet_Gen.json
+ * @summary delete a Elastic San.
+ * x-ms-original-file: 2026-05-01-preview/ElasticSans_Delete_MinimumSet_Gen.json
  */
 async function elasticSansDeleteMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
-  const elasticSanName = "elasticsanname";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
-  const result = await client.elasticSans.beginDeleteAndWait(
-    resourceGroupName,
-    elasticSanName,
-  );
-  console.log(result);
+  await client.elasticSans.delete("resourcegroupname", "elasticsanname");
 }
 
 async function main(): Promise<void> {

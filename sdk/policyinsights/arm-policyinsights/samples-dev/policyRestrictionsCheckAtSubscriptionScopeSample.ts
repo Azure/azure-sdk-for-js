@@ -1,28 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Checks what restrictions Azure Policy will place on a resource within a subscription.
- *
- * @summary Checks what restrictions Azure Policy will place on a resource within a subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyRestrictions_CheckAtSubscriptionScope.json
- */
-
-import type { CheckRestrictionsRequest } from "@azure/arm-policyinsights";
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to checks what restrictions Azure Policy will place on a resource within a subscription.
+ *
+ * @summary checks what restrictions Azure Policy will place on a resource within a subscription.
+ * x-ms-original-file: 2024-10-01/PolicyRestrictions_CheckAtSubscriptionScope.json
+ */
 async function checkPolicyRestrictionsAtSubscriptionScope(): Promise<void> {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const parameters: CheckRestrictionsRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const result = await client.policyRestrictions.checkAtSubscriptionScope({
     pendingFields: [
       { field: "name", values: ["myVMName"] },
-      {
-        field: "location",
-        values: ["eastus", "westus", "westus2", "westeurope"],
-      },
+      { field: "location", values: ["eastus", "westus", "westus2", "westeurope"] },
       { field: "tags" },
     ],
     resourceDetails: {
@@ -32,30 +27,25 @@ async function checkPolicyRestrictionsAtSubscriptionScope(): Promise<void> {
         properties: { priority: "Spot" },
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.policyRestrictions.checkAtSubscriptionScope(parameters);
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Checks what restrictions Azure Policy will place on a resource within a subscription.
+ * This sample demonstrates how to checks what restrictions Azure Policy will place on a resource within a subscription.
  *
- * @summary Checks what restrictions Azure Policy will place on a resource within a subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyRestrictions_CheckAtSubscriptionScopeIncludeAuditEffect.json
+ * @summary checks what restrictions Azure Policy will place on a resource within a subscription.
+ * x-ms-original-file: 2024-10-01/PolicyRestrictions_CheckAtSubscriptionScopeIncludeAuditEffect.json
  */
 async function checkPolicyRestrictionsAtSubscriptionScopeIncludingAuditEffect(): Promise<void> {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const parameters: CheckRestrictionsRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const result = await client.policyRestrictions.checkAtSubscriptionScope({
     includeAuditEffect: true,
     pendingFields: [
       { field: "name", values: ["myVMName"] },
-      {
-        field: "location",
-        values: ["eastus", "westus", "westus2", "westeurope"],
-      },
+      { field: "location", values: ["eastus", "westus", "westus2", "westeurope"] },
       { field: "tags" },
     ],
     resourceDetails: {
@@ -65,10 +55,7 @@ async function checkPolicyRestrictionsAtSubscriptionScopeIncludingAuditEffect():
         properties: { priority: "Spot" },
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.policyRestrictions.checkAtSubscriptionScope(parameters);
+  });
   console.log(result);
 }
 

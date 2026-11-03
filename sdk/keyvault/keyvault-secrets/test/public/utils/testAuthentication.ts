@@ -13,7 +13,14 @@ import TestClient from "./testClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 export async function authenticate(ctx: VitestTestContext): Promise<any> {
-  const generalSanitizers: FindReplaceSanitizer[] = [];
+  const generalSanitizers: FindReplaceSanitizer[] = [
+    {
+      regex: true,
+      // Backup blobs are opaque service data, not the secret values exercised by these tests.
+      target: '"value"\\s*:\\s*"(?!A+={0,2}")[A-Za-z0-9+/_-]{200,}={0,2}"',
+      value: `"value": "YmFzZTY0X3BsYWNlaG9sZGVy"`,
+    },
+  ];
 
   const secretSuffix = uniqueString();
   if (isRecordMode()) {
@@ -42,6 +49,10 @@ export async function authenticate(ctx: VitestTestContext): Promise<any> {
     },
     sanitizerOptions: {
       generalSanitizers,
+      headerSanitizers: [
+        { key: "x-ms-keyvault-network-info", value: "Sanitized" },
+        { key: "x-ms-keyvault-rbac-assignment-id", value: "Sanitized" },
+      ],
     },
     removeCentralSanitizers: [
       // The secret ID has a specific format that is parsed by the SDK, cannot be sanitized, and is not a secret

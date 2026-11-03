@@ -5,7 +5,7 @@ import type { BasicCredential } from "../../auth/credentials.js";
 import type { AuthScheme } from "../../auth/schemes.js";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
 import type { PipelinePolicy } from "../../pipeline.js";
-import { stringToUint8Array, uint8ArrayToString } from "../../util/bytesEncoding.js";
+import { stringToUint8Array, uint8ArrayToString } from "#platform/bytesEncoding";
 import { ensureSecureConnection } from "./checkInsecureConnection.js";
 
 /**

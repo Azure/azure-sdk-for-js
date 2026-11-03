@@ -1,58 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update NetworkRuleSet for a Namespace.
- *
- * @summary Create or update NetworkRuleSet for a Namespace.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/VirtualNetworkRule/SBNetworkRuleSetCreate.json
- */
-
-import type { NetworkRuleSet } from "@azure/arm-servicebus";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update NetworkRuleSet for a Namespace.
+ *
+ * @summary create or update NetworkRuleSet for a Namespace.
+ * x-ms-original-file: 2026-01-01/NameSpaces/VirtualNetworkRule/SBNetworkRuleSetCreate.json
+ */
 async function nameSpaceNetworkRuleSetCreate(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "Subscription";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
-  const namespaceName = "sdk-Namespace-6019";
-  const parameters: NetworkRuleSet = {
-    defaultAction: "Deny",
-    ipRules: [
-      { action: "Allow", ipMask: "1.1.1.1" },
-      { action: "Allow", ipMask: "1.1.1.2" },
-      { action: "Allow", ipMask: "1.1.1.3" },
-      { action: "Allow", ipMask: "1.1.1.4" },
-      { action: "Allow", ipMask: "1.1.1.5" },
-    ],
-    virtualNetworkRules: [
-      {
-        ignoreMissingVnetServiceEndpoint: true,
-        subnet: {
-          id: "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet2",
-        },
-      },
-      {
-        ignoreMissingVnetServiceEndpoint: false,
-        subnet: {
-          id: "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet3",
-        },
-      },
-      {
-        ignoreMissingVnetServiceEndpoint: false,
-        subnet: {
-          id: "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet6",
-        },
-      },
-    ],
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const result = await client.namespaces.createOrUpdateNetworkRuleSet(
-    resourceGroupName,
-    namespaceName,
-    parameters,
+    "ResourceGroup",
+    "sdk-Namespace-6019",
+    {
+      defaultAction: "Deny",
+      ipRules: [
+        { action: "Allow", ipMask: "1.1.1.1" },
+        { action: "Allow", ipMask: "1.1.1.2" },
+        { action: "Allow", ipMask: "1.1.1.3" },
+        { action: "Allow", ipMask: "1.1.1.4" },
+        { action: "Allow", ipMask: "1.1.1.5" },
+      ],
+      virtualNetworkRules: [
+        {
+          ignoreMissingVnetServiceEndpoint: true,
+          subnet: {
+            id: "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet2",
+          },
+        },
+        {
+          ignoreMissingVnetServiceEndpoint: false,
+          subnet: {
+            id: "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet3",
+          },
+        },
+        {
+          ignoreMissingVnetServiceEndpoint: false,
+          subnet: {
+            id: "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet6",
+          },
+        },
+      ],
+    },
   );
   console.log(result);
 }

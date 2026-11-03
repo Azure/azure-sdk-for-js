@@ -1,48 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Fetches the status of an operation such as triggering a backup, restore. The status can be in progress, completed
-or failed. You can refer to the OperationStatus enum for all the possible states of the operation. Some operations
-create jobs. This method returns the list of jobs associated with the operation.
- *
- * @summary Fetches the status of an operation such as triggering a backup, restore. The status can be in progress, completed
-or failed. You can refer to the OperationStatus enum for all the possible states of the operation. Some operations
-create jobs. This method returns the list of jobs associated with the operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ProtectedItemOperationStatus.json
- */
-
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getOperationStatusOfProtectedVM(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
-  const fabricName = "Azure";
-  const containerName =
-    "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
-  const protectedItemName = "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
-  const operationId = "00000000-0000-0000-0000-000000000000";
+/**
+ * This sample demonstrates how to fetches the status of an operation such as triggering a backup, restore. The status can be in progress, completed
+ * or failed. You can refer to the OperationStatus enum for all the possible states of the operation. Some operations
+ * create jobs. This method returns the list of jobs associated with the operation.
+ *
+ * @summary fetches the status of an operation such as triggering a backup, restore. The status can be in progress, completed
+ * or failed. You can refer to the OperationStatus enum for all the possible states of the operation. Some operations
+ * create jobs. This method returns the list of jobs associated with the operation.
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/ProtectedItemOperationStatus.json
+ */
+async function getOperationStatusOfProtectedVm(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.protectedItemOperationStatuses.get(
-    vaultName,
-    resourceGroupName,
-    fabricName,
-    containerName,
-    protectedItemName,
-    operationId,
+    "NetSDKTestRsVault",
+    "SwaggerTestRg",
+    "Azure",
+    "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1",
+    "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1",
+    "00000000-0000-0000-0000-000000000000",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getOperationStatusOfProtectedVM();
+  await getOperationStatusOfProtectedVm();
 }
 
 main().catch(console.error);

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByFleet, update, get } from "./operations.js";
-export {
+export type {
   GatesListByFleetOptionalParams,
   GatesUpdateOptionalParams,
   GatesGetOptionalParams,

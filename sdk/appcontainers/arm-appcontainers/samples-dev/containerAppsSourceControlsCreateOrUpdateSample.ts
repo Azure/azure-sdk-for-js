@@ -1,57 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SourceControl} from "@azure/arm-appcontainers";
-import {
-  ContainerAppsAPIClient,
-} from "@azure/arm-appcontainers";
+import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update the SourceControl for a Container App.
+ * This sample demonstrates how to create or update the SourceControl for a Container App.
  *
- * @summary Create or update the SourceControl for a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/SourceControls_CreateOrUpdate.json
+ * @summary create or update the SourceControl for a Container App.
+ * x-ms-original-file: 2026-07-01/SourceControls_CreateOrUpdate.json
  */
 async function createOrUpdateContainerAppSourceControl(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "workerapps-rg-xj";
-  const containerAppName = "testcanadacentral";
-  const sourceControlName = "current";
-  const sourceControlEnvelope: SourceControl = {
-    branch: "master",
-    githubActionConfiguration: {
-      azureCredentials: {
-        clientId: "<clientid>",
-        clientSecret: "<clientsecret>",
-        kind: "feaderated",
-        tenantId: "<tenantid>",
-      },
-      contextPath: "./",
-      githubPersonalAccessToken: "test",
-      image: "image/tag",
-      registryInfo: {
-        registryPassword: "<registrypassword>",
-        registryUrl: "test-registry.azurecr.io",
-        registryUserName: "test-registry",
-      },
-    },
-    repoUrl: "https://github.com/xwang971/ghatest",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result =
-    await client.containerAppsSourceControls.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      containerAppName,
-      sourceControlName,
-      sourceControlEnvelope,
-    );
+  const result = await client.containerAppsSourceControls.createOrUpdate(
+    "workerapps-rg-xj",
+    "testcanadacentral",
+    "current",
+    {
+      branch: "master",
+      githubActionConfiguration: {
+        azureCredentials: {
+          clientId: "<clientid>",
+          clientSecret: "<clientsecret>",
+          kind: "feaderated",
+          tenantId: "<tenantid>",
+        },
+        contextPath: "./",
+        githubPersonalAccessToken: "test",
+        image: "image/tag",
+        registryInfo: {
+          registryPassword: "<registrypassword>",
+          registryUrl: "test-registry.azurecr.io",
+          registryUserName: "test-registry",
+        },
+      },
+      repoUrl: "https://github.com/xwang971/ghatest",
+    },
+  );
   console.log(result);
 }
 

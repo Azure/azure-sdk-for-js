@@ -1,37 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  CheckNameAvailabilityRequest} from "@azure/arm-appcontainers";
-import {
-  ContainerAppsAPIClient,
-} from "@azure/arm-appcontainers";
+import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Checks if resource connectedEnvironmentName is available.
+ * This sample demonstrates how to checks if resource connectedEnvironmentName is available.
  *
- * @summary Checks if resource connectedEnvironmentName is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ConnectedEnvironmentsCertificates_CheckNameAvailability.json
+ * @summary checks if resource connectedEnvironmentName is available.
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironmentsCertificates_CheckNameAvailability.json
  */
 async function certificatesCheckNameAvailability(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const connectedEnvironmentName = "testcontainerenv";
-  const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
-    name: "testcertificatename",
-    type: "Microsoft.App/connectedEnvironments/certificates",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.connectedEnvironments.checkNameAvailability(
-    resourceGroupName,
-    connectedEnvironmentName,
-    checkNameAvailabilityRequest,
+    "examplerg",
+    "testcontainerenv",
+    { name: "testcertificatename", type: "Microsoft.App/connectedEnvironments/certificates" },
   );
   console.log(result);
 }

@@ -6,7 +6,7 @@ import type {
   RequestPolicyOptionsLike as RequestPolicyOptions,
   RequestPolicyFactory,
 } from "@azure/core-http-compat";
-import { StorageBrowserPolicy } from "./policies/StorageBrowserPolicy.js";
+import { StorageBrowserPolicy } from "#platform/policies/StorageBrowserPolicy";
 export { StorageBrowserPolicy };
 
 /**

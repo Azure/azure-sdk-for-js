@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an existing namespace. This operation also removes all associated resources under the namespace.
- *
- * @summary Deletes an existing namespace. This operation also removes all associated resources under the namespace.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/SBNameSpaceDelete.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes an existing namespace. This operation also removes all associated resources under the namespace.
+ *
+ * @summary deletes an existing namespace. This operation also removes all associated resources under the namespace.
+ * x-ms-original-file: 2026-01-01/NameSpaces/SBNameSpaceDelete.json
+ */
 async function nameSpaceDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ArunMonocle";
-  const namespaceName = "sdk-Namespace-3285";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
-  const result = await client.namespaces.beginDeleteAndWait(resourceGroupName, namespaceName);
-  console.log(result);
+  await client.namespaces.delete("ArunMonocle", "sdk-Namespace-3285");
 }
 
 async function main(): Promise<void> {

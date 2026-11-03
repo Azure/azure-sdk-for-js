@@ -1,33 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  FirewallResourceUpdate} from "@azure/arm-paloaltonetworksngfw";
-import {
-  PaloAltoNetworksCloudngfw,
-} from "@azure/arm-paloaltonetworksngfw";
+import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Update a FirewallResource
+ * This sample demonstrates how to update a FirewallResource
  *
- * @summary Update a FirewallResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/Firewalls_Update_MaximumSet_Gen.json
+ * @summary update a FirewallResource
+ * x-ms-original-file: 2026-05-11-preview/Firewalls_Update_MaximumSet_Gen.json
  */
 async function firewallsUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
-    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const resourceGroupName =
-    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "firewall-rg";
-  const firewallName = "firewall1";
-  const properties: FirewallResourceUpdate = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
+  const result = await client.firewalls.update("firewall-rg", "firewall1", {
     identity: {
       type: "None",
-      userAssignedIdentities: {
-        key16: { clientId: "aaaa", principalId: "aaaaaaaaaaaaaaa" },
-      },
+      userAssignedIdentities: { key16: { clientId: "aaaa", principalId: "aaaaaaaaaaaaaaa" } },
     },
     properties: {
       associatedRulestack: {
@@ -148,38 +138,21 @@ async function firewallsUpdateMaximumSetGen(): Promise<void> {
       },
     },
     tags: { tagName: "value" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.firewalls.update(
-    resourceGroupName,
-    firewallName,
-    properties,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Update a FirewallResource
+ * This sample demonstrates how to update a FirewallResource
  *
- * @summary Update a FirewallResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/Firewalls_Update_MinimumSet_Gen.json
+ * @summary update a FirewallResource
+ * x-ms-original-file: 2026-05-11-preview/Firewalls_Update_MinimumSet_Gen.json
  */
 async function firewallsUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
-    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const resourceGroupName =
-    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "firewall-rg";
-  const firewallName = "firewall1";
-  const properties: FirewallResourceUpdate = {};
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.firewalls.update(
-    resourceGroupName,
-    firewallName,
-    properties,
-  );
+  const result = await client.firewalls.update("firewall-rg", "firewall1", {});
   console.log(result);
 }
 

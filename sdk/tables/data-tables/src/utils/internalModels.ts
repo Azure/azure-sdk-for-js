@@ -26,6 +26,15 @@ import type { NamedKeyCredential } from "@azure/core-auth";
 import type { OperationOptions } from "@azure/core-client";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
+/**
+ * The raw OData error shape returned by the Azure Tables service.
+ * @internal
+ */
+export interface TableServiceErrorOdataError {
+  code?: string;
+  message?: { value?: string };
+}
+
 export interface ConnectionString {
   kind: "AccountConnString" | "SASConnString";
   url: string;

@@ -3,55 +3,46 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Get Diagnostics Categories
+ * This sample demonstrates how to description for Get Diagnostics Categories
  *
- * @summary Description for Get Diagnostics Categories
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_ListSiteDiagnosticCategories.json
+ * @summary description for Get Diagnostics Categories
+ * x-ms-original-file: 2025-05-01/Diagnostics_ListSiteDiagnosticCategories.json
  */
 async function listAppDiagnosticCategories(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.diagnostics.listSiteDiagnosticCategories(
-    resourceGroupName,
-    siteName,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Description for Get Diagnostics Categories
+ * This sample demonstrates how to description for Get Diagnostics Categories
  *
- * @summary Description for Get Diagnostics Categories
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_ListSiteDiagnosticCategoriesSlot.json
+ * @summary description for Get Diagnostics Categories
+ * x-ms-original-file: 2025-05-01/Diagnostics_ListSiteDiagnosticCategoriesSlot.json
  */
 async function listAppSlotDiagnosticCategories(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.diagnostics.listSiteDiagnosticCategories(
-    resourceGroupName,
-    siteName,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

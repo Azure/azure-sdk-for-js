@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { WidgetsOperations } from "./widgets/index.js";
+export type { WidgetsOperations } from "./widgets/index.js";

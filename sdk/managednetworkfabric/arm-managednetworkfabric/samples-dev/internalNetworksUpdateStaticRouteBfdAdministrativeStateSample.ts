@@ -1,41 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update Static Route BFD administrative state for internalNetwork.
- *
- * @summary Update Static Route BFD administrative state for internalNetwork.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/InternalNetworks_UpdateStaticRouteBfdAdministrativeState_MaximumSet_Gen.json
- */
-
-import type { UpdateAdministrativeState } from "@azure/arm-managednetworkfabric";
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function internalNetworksUpdateStaticRouteBfdAdministrativeStateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const l3IsolationDomainName = "example-l3domain";
-  const internalNetworkName = "example-internalNetwork";
-  const body: UpdateAdministrativeState = {
-    resourceIds: [""],
-    state: "Enable",
-  };
+/**
+ * This sample demonstrates how to update Static Route BFD administrative state for internalNetwork.
+ *
+ * @summary update Static Route BFD administrative state for internalNetwork.
+ * x-ms-original-file: 2025-07-15/InternalNetworks_UpdateStaticRouteBfdAdministrativeState.json
+ */
+async function internalNetworksUpdateStaticRouteBfdAdministrativeState(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "1234ABCD-0A1B-1234-5678-123456ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.internalNetworks.beginUpdateStaticRouteBfdAdministrativeStateAndWait(
-    resourceGroupName,
-    l3IsolationDomainName,
-    internalNetworkName,
-    body,
+  const result = await client.internalNetworks.updateStaticRouteBfdAdministrativeState(
+    "example-rg",
+    "example-l3domain",
+    "example-internalNetwork",
+    { state: "Enable", resourceIds: [""] },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await internalNetworksUpdateStaticRouteBfdAdministrativeStateMaximumSetGen();
+  await internalNetworksUpdateStaticRouteBfdAdministrativeState();
 }
 
 main().catch(console.error);

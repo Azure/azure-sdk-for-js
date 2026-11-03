@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List Dev Box definitions configured for a project.
- *
- * @summary List Dev Box definitions configured for a project.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevBoxDefinitions_ListByProject.json
- */
-
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list Dev Box definitions configured for a project.
+ *
+ * @summary list Dev Box definitions configured for a project.
+ * x-ms-original-file: 2026-01-01-preview/DevBoxDefinitions_ListByProject.json
+ */
 async function devBoxDefinitionsListByProject(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const projectName = "ContosoProject";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.devBoxDefinitions.listByProject(resourceGroupName, projectName)) {
+  for await (const item of client.devBoxDefinitions.listByProject("rg1", "ContosoProject")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

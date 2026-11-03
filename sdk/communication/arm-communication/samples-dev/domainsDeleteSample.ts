@@ -1,31 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Operation to delete a Domains resource.
- *
- * @summary Operation to delete a Domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/domains/delete.json
- */
-
 import { CommunicationServiceManagementClient } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to operation to delete a Domains resource.
+ *
+ * @summary operation to delete a Domains resource.
+ * x-ms-original-file: 2026-03-18/domains/delete.json
+ */
 async function deleteDomainsResource(): Promise<void> {
-  const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
-  const emailServiceName = "MyEmailServiceResource";
-  const domainName = "mydomain.com";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11112222-3333-4444-5555-666677778888";
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);
-  const result = await client.domains.beginDeleteAndWait(
-    resourceGroupName,
-    emailServiceName,
-    domainName,
-  );
-  console.log(result);
+  await client.domains.delete("MyResourceGroup", "MyEmailServiceResource", "mydomain.com");
 }
 
 async function main(): Promise<void> {

@@ -1,60 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the details of the named value specified by its identifier.
- *
- * @summary Gets the details of the named value specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGetWorkspaceNamedValue.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the details of the named value specified by its identifier.
+ *
+ * @summary gets the details of the named value specified by its identifier.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGetWorkspaceNamedValue.json
+ */
 async function apiManagementGetWorkspaceNamedValue(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const workspaceId = "wks1";
-  const namedValueId = "testarmTemplateproperties2";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
   const result = await client.workspaceNamedValue.get(
-    resourceGroupName,
-    serviceName,
-    workspaceId,
-    namedValueId,
+    "rg1",
+    "apimService1",
+    "wks1",
+    "testarmTemplateproperties2",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the details of the named value specified by its identifier.
+ * This sample demonstrates how to gets the details of the named value specified by its identifier.
  *
- * @summary Gets the details of the named value specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGetWorkspaceNamedValueWithKeyVault.json
+ * @summary gets the details of the named value specified by its identifier.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGetWorkspaceNamedValueWithKeyVault.json
  */
 async function apiManagementGetWorkspaceNamedValueWithKeyVault(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const workspaceId = "wks1";
-  const namedValueId = "testprop6";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.workspaceNamedValue.get(
-    resourceGroupName,
-    serviceName,
-    workspaceId,
-    namedValueId,
-  );
+  const result = await client.workspaceNamedValue.get("rg1", "apimService1", "wks1", "testprop6");
   console.log(result);
 }
 

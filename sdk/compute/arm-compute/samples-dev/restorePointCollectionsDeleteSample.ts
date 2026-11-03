@@ -3,48 +3,31 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to delete the restore point collection. This operation will also delete all the contained restore points.
+ * This sample demonstrates how to the operation to delete the restore point collection. This operation will also delete all the contained restore points.
  *
- * @summary The operation to delete the restore point collection. This operation will also delete all the contained restore points.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePointCollection_Delete_MaximumSet_Gen.json
+ * @summary the operation to delete the restore point collection. This operation will also delete all the contained restore points.
+ * x-ms-original-file: 2026-04-01/restorePointExamples/RestorePointCollection_Delete_MaximumSet_Gen.json
  */
 async function restorePointCollectionDeleteMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const restorePointCollectionName = "aaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.restorePointCollections.beginDeleteAndWait(
-    resourceGroupName,
-    restorePointCollectionName,
-  );
-  console.log(result);
+  await client.restorePointCollections.delete("rgcompute", "aaaaaaaaaaaaaaaaa");
 }
 
 /**
- * This sample demonstrates how to The operation to delete the restore point collection. This operation will also delete all the contained restore points.
+ * This sample demonstrates how to the operation to delete the restore point collection. This operation will also delete all the contained restore points.
  *
- * @summary The operation to delete the restore point collection. This operation will also delete all the contained restore points.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePointCollection_Delete_MinimumSet_Gen.json
+ * @summary the operation to delete the restore point collection. This operation will also delete all the contained restore points.
+ * x-ms-original-file: 2026-04-01/restorePointExamples/RestorePointCollection_Delete_MinimumSet_Gen.json
  */
 async function restorePointCollectionDeleteMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.restorePointCollections.beginDeleteAndWait(
-    resourceGroupName,
-    restorePointCollectionName,
-  );
-  console.log(result);
+  await client.restorePointCollections.delete("rgcompute", "aaaaaaaaaaaaaaaaaaaa");
 }
 
 async function main(): Promise<void> {

@@ -3,10 +3,11 @@
 
 import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
-import { stringToUint8Array } from "../util/bytesEncoding.js";
+import type { NodeReadableStream, WebReadableStream } from "#platform/types";
+import { stringToUint8Array } from "#platform/bytesEncoding";
 import { isBlob } from "../util/typeGuards.js";
-import { randomUUID } from "../util/uuidUtils.js";
-import { concat } from "../util/concat.js";
+import { randomUUID } from "#platform/uuid";
+import { concat } from "#platform/concat";
 
 function generateBoundary(): string {
   return `----AzSDKFormBoundary${randomUUID()}`;
@@ -22,12 +23,12 @@ function encodeHeaders(headers: HttpHeaders): string {
 
 function getLength(
   source:
-    | (() => ReadableStream<Uint8Array>)
-    | (() => NodeJS.ReadableStream)
+    | (() => WebReadableStream<Uint8Array>)
+    | (() => NodeReadableStream)
     | Uint8Array
     | Blob
-    | ReadableStream
-    | NodeJS.ReadableStream,
+    | WebReadableStream
+    | NodeReadableStream,
 ): number | undefined {
   if (source instanceof Uint8Array) {
     return source.byteLength;
@@ -41,12 +42,12 @@ function getLength(
 
 function getTotalLength(
   sources: (
-    | (() => ReadableStream<Uint8Array>)
-    | (() => NodeJS.ReadableStream)
+    | (() => WebReadableStream<Uint8Array>)
+    | (() => NodeReadableStream)
     | Uint8Array
     | Blob
-    | ReadableStream
-    | NodeJS.ReadableStream
+    | WebReadableStream
+    | NodeReadableStream
   )[],
 ): number | undefined {
   let total = 0;
@@ -83,7 +84,11 @@ async function buildRequestBody(
     request.headers.set("Content-Length", contentLength);
   }
 
-  request.body = await concat(sources);
+  // The public BodyPart.body type uses Uint8Array (= Uint8Array<ArrayBufferLike>) for
+  // backward compatibility. Internally, concat requires Uint8Array<ArrayBuffer> to ensure
+  // SharedArrayBuffer-backed arrays don't flow into Blob construction. In practice, HTTP
+  // request bodies are always ArrayBuffer-backed, so this narrowing is safe.
+  request.body = await concat(sources as Parameters<typeof concat>[0]);
 }
 
 /**

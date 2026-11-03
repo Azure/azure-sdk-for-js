@@ -3,26 +3,21 @@
 
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Reimage the provided bare metal machine.
+ * This sample demonstrates how to reimage the provided bare metal machine.
  *
- * @summary Reimage the provided bare metal machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/BareMetalMachines_Reimage.json
+ * @summary reimage the provided bare metal machine.
+ * x-ms-original-file: 2026-07-01/BareMetalMachines_Reimage.json
  */
 async function reimageBareMetalMachine(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const bareMetalMachineName = "bareMetalMachineName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
   const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.bareMetalMachines.beginReimageAndWait(
-    resourceGroupName,
-    bareMetalMachineName,
+  const result = await client.bareMetalMachines.reimage(
+    "resourceGroupName",
+    "bareMetalMachineName",
+    { body: { safeguardMode: "All" } },
   );
   console.log(result);
 }

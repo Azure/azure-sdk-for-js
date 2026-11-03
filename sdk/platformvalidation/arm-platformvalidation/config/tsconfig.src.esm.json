@@ -1,0 +1,20 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/validationTestCategories/index.ts",
+    "../src/api/validationTestVersions/index.ts",
+    "../src/api/validationTests/index.ts",
+    "../src/api/validationTestRuns/index.ts",
+    "../src/api/executionPlanRuns/index.ts",
+    "../src/api/validationExecutionPlans/index.ts",
+    "../src/api/cloudValidations/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/api/operationStatus/index.ts",
+    "../src/models/index.ts"
+  ]
+}

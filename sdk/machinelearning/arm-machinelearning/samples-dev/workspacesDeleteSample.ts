@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a machine learning workspace.
- *
- * @summary Deletes a machine learning workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/delete.json
- */
-
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes a machine learning workspace.
+ *
+ * @summary deletes a machine learning workspace.
+ * x-ms-original-file: 2026-03-15-preview/Workspace/delete.json
+ */
 async function deleteWorkspace(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "workspace-1234";
-  const workspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.beginDeleteAndWait(resourceGroupName, workspaceName);
-  console.log(result);
+  await client.workspaces.delete("workspace-1234", "testworkspace");
 }
 
 async function main(): Promise<void> {

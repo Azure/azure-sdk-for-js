@@ -176,16 +176,27 @@ function toOperationStatus(statusCode: number): OperationStatus {
   }
 }
 
+/**
+ * Converts `Retry-After` seconds or date values to milliseconds.
+ *
+ * An absent header returns `undefined`; an unparseable or non-future date
+ * returns `NaN`. The poller handles unusable values and timer bounds.
+ */
 export function parseRetryAfter<T>({ rawResponse }: OperationResponse<T>): number | undefined {
   const retryAfter: string | undefined = rawResponse.headers["retry-after"];
-  if (retryAfter !== undefined) {
-    // Retry-After header value is either in HTTP date format, or in seconds
-    const retryAfterInSeconds = parseInt(retryAfter);
-    return isNaN(retryAfterInSeconds)
-      ? calculatePollingIntervalFromDate(new Date(retryAfter))
-      : retryAfterInSeconds * 1000;
+  if (retryAfter === undefined) {
+    return undefined;
   }
-  return undefined;
+  if (/^[0-9]+$/.test(retryAfter)) {
+    return Number(retryAfter) * 1000;
+  }
+  // asctime HTTP dates omit the timezone but must be interpreted as GMT.
+  const retryAfterDate = retryAfter.replace(
+    /^(\w{3} \w{3} {1,2}\d{1,2} \d{2}:\d{2}:\d{2} \d{4})$/,
+    "$1 GMT",
+  );
+  const intervalInMs = Date.parse(retryAfterDate) - Date.now();
+  return intervalInMs > 0 ? intervalInMs : Number.NaN;
 }
 
 export function getErrorFromResponse<T>(response: OperationResponse<T>): LroError | undefined {
@@ -203,15 +214,6 @@ export function getErrorFromResponse<T>(response: OperationResponse<T>): LroErro
     return;
   }
   return error as LroError;
-}
-
-function calculatePollingIntervalFromDate(retryAfterDate: Date): number | undefined {
-  const timeNow = Math.floor(new Date().getTime());
-  const retryAfterTime = retryAfterDate.getTime();
-  if (timeNow < retryAfterTime) {
-    return retryAfterTime - timeNow;
-  }
-  return undefined;
 }
 
 export function getStatusFromInitialResponse<
@@ -332,7 +334,7 @@ export async function pollHttpOperation<TState extends OperationState<TResult>, 
      * The expansion here is intentional because `lro` could be an object that
      * references an inner this, so we need to preserve a reference to it.
      */
-    poll: async (location: string, inputOptions?: { abortSignal?: AbortSignalLike }) =>
+    poll: (location: string, inputOptions?: { abortSignal?: AbortSignalLike }) =>
       lro.sendPollRequest(location, inputOptions),
     setErrorAsResult,
   });

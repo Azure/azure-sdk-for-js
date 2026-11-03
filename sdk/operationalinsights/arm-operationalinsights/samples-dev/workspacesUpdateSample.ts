@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates a workspace.
- *
- * @summary Updates a workspace.
- * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/WorkspacesUpdate.json
- */
-
-import type { WorkspacePatch } from "@azure/arm-operationalinsights";
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates a workspace.
+ *
+ * @summary updates a workspace.
+ * x-ms-original-file: 2025-07-01/WorkspacesUpdate.json
+ */
 async function workspacesPatch(): Promise<void> {
-  const subscriptionId =
-    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "oiautorest6685";
-  const workspaceName = "oiautorest6685";
-  const parameters: WorkspacePatch = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new OperationalInsightsManagementClient(credential, subscriptionId);
+  const result = await client.workspaces.update("oiautorest6685", "oiautorest6685", {
     retentionInDays: 30,
     sku: { name: "PerGB2018" },
     workspaceCapping: { dailyQuotaGb: -1 },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new OperationalInsightsManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.update(resourceGroupName, workspaceName, parameters);
+  });
   console.log(result);
 }
 

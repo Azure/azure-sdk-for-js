@@ -1,25 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all of the available API operations for peering resources.
- *
- * @summary Lists all of the available API operations for peering resources.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListPeeringOperations.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to list the operations for the provider
+ *
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2025-05-01/ListPeeringOperations.json
+ */
 async function listPeeringOperations(): Promise<void> {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new PeeringManagementClient(credential, subscriptionId);
+  const client = new PeeringManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-listPeeringOperations().catch(console.error);
+async function main(): Promise<void> {
+  await listPeeringOperations();
+}
+
+main().catch(console.error);

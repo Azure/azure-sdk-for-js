@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the DNSSEC configurations in a DNS zone.
- *
- * @summary Lists the DNSSEC configurations in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListDnssecConfigsByZone.json
- */
-
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the DNSSEC configurations in a DNS zone.
+ *
+ * @summary lists the DNSSEC configurations in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListDnssecConfigsByZone.json
+ */
 async function listDnssecConfigs(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.dnssecConfigs.listByDnsZone(resourceGroupName, zoneName)) {
+  for await (const item of client.dnssecConfigs.listByDnsZone("rg1", "zone1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -1,24 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new origin group within the specified profile.
- *
- * @summary Creates a new origin group within the specified profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDOriginGroups_Create.json
- */
-
-import type { AFDOriginGroup } from "@azure/arm-cdn";
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a new origin group within the specified profile.
+ *
+ * @summary creates a new origin group within the specified profile.
+ * x-ms-original-file: 2026-10-01/AFDOriginGroups_Create.json
+ */
 async function afdOriginGroupsCreate(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
-  const originGroupName = "origingroup1";
-  const originGroup: AFDOriginGroup = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CdnManagementClient(credential, subscriptionId);
+  const result = await client.afdOriginGroups.create("RG", "profile1", "origingroup1", {
+    authentication: {
+      type: "UserAssignedIdentity",
+      scope: "https://www.contoso.com/.default",
+      userAssignedIdentity: {
+        id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/user-assigned-id-1",
+      },
+    },
     healthProbeSettings: {
       probeIntervalInSeconds: 10,
       probePath: "/path2",
@@ -31,15 +34,7 @@ async function afdOriginGroupsCreate(): Promise<void> {
       successfulSamplesRequired: 3,
     },
     trafficRestorationTimeToHealedOrNewEndpointsInMinutes: 5,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.afdOriginGroups.beginCreateAndWait(
-    resourceGroupName,
-    profileName,
-    originGroupName,
-    originGroup,
-  );
+  });
   console.log(result);
 }
 

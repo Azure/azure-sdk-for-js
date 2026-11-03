@@ -1,44 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns a database.
- *
- * @summary Returns a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasesGet.json
- */
-
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns a database.
+ *
+ * @summary returns a database.
+ * x-ms-original-file: 2025-02-14/KustoDatabasesGet.json
+ */
 async function kustoDatabasesGet(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster";
-  const databaseName = "KustoDatabase8";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.databases.get(resourceGroupName, clusterName, databaseName);
+  const result = await client.databases.get("kustorptest", "kustoCluster", "KustoDatabase8");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Returns a database.
+ * This sample demonstrates how to returns a database.
  *
- * @summary Returns a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSuspendedDatabasesGet.json
+ * @summary returns a database.
+ * x-ms-original-file: 2025-02-14/KustoSuspendedDatabasesGet.json
  */
 async function kustoSuspendedDatabasesGet(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster";
-  const databaseName = "KustoDatabase9";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.databases.get(resourceGroupName, clusterName, databaseName);
+  const result = await client.databases.get("kustorptest", "kustoCluster", "KustoDatabase9");
   console.log(result);
 }
 

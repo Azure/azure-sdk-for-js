@@ -1,29 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the record sets within the zone.
- *
- * @summary Gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the record sets within the zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/PrivateZoneGet.json
- */
-
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getPrivateDnsZone(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
+/**
+ * This sample demonstrates how to gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the record sets within the zone.
+ *
+ * @summary gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the record sets within the zone.
+ * x-ms-original-file: 2024-06-01/PrivateZoneGet.json
+ */
+async function getPrivateDNSZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
-  const result = await client.privateZones.get(resourceGroupName, privateZoneName);
+  const result = await client.privateZones.get("resourceGroup1", "privatezone1.com");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getPrivateDnsZone();
+  await getPrivateDNSZone();
 }
 
 main().catch(console.error);

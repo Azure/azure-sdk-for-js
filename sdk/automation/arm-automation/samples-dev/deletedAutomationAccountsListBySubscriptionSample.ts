@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve deleted automation account.
- *
- * @summary Retrieve deleted automation account.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-01-31/examples/getDeletedAutomationAccount.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve deleted automation account.
+ *
+ * @summary retrieve deleted automation account.
+ * x-ms-original-file: 2024-10-23/getDeletedAutomationAccount.json
+ */
 async function getDeletedAutomationAccount(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
   const result = await client.deletedAutomationAccounts.listBySubscription();
   console.log(result);

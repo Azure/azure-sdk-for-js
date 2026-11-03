@@ -3,47 +3,32 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves information about an availability set.
+ * This sample demonstrates how to retrieves information about an availability set.
  *
- * @summary Retrieves information about an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/availabilitySetExamples/AvailabilitySet_Get_MaximumSet_Gen.json
+ * @summary retrieves information about an availability set.
+ * x-ms-original-file: 2026-04-01/availabilitySetExamples/AvailabilitySet_Get_MaximumSet_Gen.json
  */
 async function availabilitySetGetMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const availabilitySetName = "aaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.availabilitySets.get(
-    resourceGroupName,
-    availabilitySetName,
-  );
+  const result = await client.availabilitySets.get("rgcompute", "aaaaaaaaaaaa");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Retrieves information about an availability set.
+ * This sample demonstrates how to retrieves information about an availability set.
  *
- * @summary Retrieves information about an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/availabilitySetExamples/AvailabilitySet_Get_MinimumSet_Gen.json
+ * @summary retrieves information about an availability set.
+ * x-ms-original-file: 2026-04-01/availabilitySetExamples/AvailabilitySet_Get_MinimumSet_Gen.json
  */
 async function availabilitySetGetMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const availabilitySetName = "aaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.availabilitySets.get(
-    resourceGroupName,
-    availabilitySetName,
-  );
+  const result = await client.availabilitySets.get("rgcompute", "aaaaaaaaaaaaaaaaaaaa");
   console.log(result);
 }
 

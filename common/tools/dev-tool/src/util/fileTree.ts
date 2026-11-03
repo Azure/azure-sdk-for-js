@@ -5,8 +5,8 @@ import { cp, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { createPrinter } from "./printer";
-import * as git from "./git";
+import { createPrinter } from "./printer.ts";
+import * as git from "./git.ts";
 
 const { debug, warn } = createPrinter("fileTree");
 
@@ -145,10 +145,7 @@ export function copy(name: string, source: string): FileTreeFactory {
  * - a deferred computation (function/thunk) that yields one of the above.
  */
 export type FileContents =
-  | Buffer
-  | string
-  | (() => Buffer | string)
-  | (() => Promise<Buffer | string>);
+  Buffer | string | (() => Buffer | string) | (() => Promise<Buffer | string>);
 
 /**
  * A file tree factory that creates a file with the given contents.

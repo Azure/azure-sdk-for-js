@@ -3,30 +3,18 @@
 
 import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets information about a Redis Enterprise cluster
+ * This sample demonstrates how to gets information about a Redis Enterprise cluster
  *
- * @summary Gets information about a Redis Enterprise cluster
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseGet.json
+ * @summary gets information about a Redis Enterprise cluster
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseGet.json
  */
 async function redisEnterpriseGet(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
   const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.redisEnterprise.get(
-    resourceGroupName,
-    clusterName,
-  );
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  const result = await client.redisEnterprise.get("rg1", "cache1");
   console.log(result);
 }
 

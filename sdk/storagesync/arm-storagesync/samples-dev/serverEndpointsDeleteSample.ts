@@ -1,31 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete a given ServerEndpoint.
- *
- * @summary Delete a given ServerEndpoint.
- * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/ServerEndpoints_Delete.json
- */
-
 import { MicrosoftStorageSync } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to delete a given ServerEndpoint.
+ *
+ * @summary delete a given ServerEndpoint.
+ * x-ms-original-file: 2025-12-01/ServerEndpoints_Delete.json
+ */
 async function serverEndpointsDelete(): Promise<void> {
-  const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
-  const resourceGroupName = "SampleResourceGroup_1";
-  const storageSyncServiceName = "SampleStorageSyncService_1";
-  const syncGroupName = "SampleSyncGroup_1";
-  const serverEndpointName = "SampleServerEndpoint_1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
   const client = new MicrosoftStorageSync(credential, subscriptionId);
-  const result = await client.serverEndpoints.beginDeleteAndWait(
-    resourceGroupName,
-    storageSyncServiceName,
-    syncGroupName,
-    serverEndpointName,
+  await client.serverEndpoints.delete(
+    "SampleResourceGroup_1",
+    "SampleStorageSyncService_1",
+    "SampleSyncGroup_1",
+    "SampleServerEndpoint_1",
   );
-  console.log(result);
 }
 
-serverEndpointsDelete().catch(console.error);
+async function main(): Promise<void> {
+  await serverEndpointsDelete();
+}
+
+main().catch(console.error);

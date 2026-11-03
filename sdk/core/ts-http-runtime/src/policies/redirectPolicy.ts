@@ -3,6 +3,8 @@
 
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
+import { logger } from "../log.js";
+import { disposeResponseBody } from "../util/responseBody.js";
 
 /**
  * The programmatic identifier of the redirectPolicy.
@@ -23,6 +25,13 @@ export interface RedirectPolicyOptions {
    * failing.  Defaults to 20.
    */
   maxRetries?: number;
+  /**
+   * Whether to follow redirects to a different origin (scheme + host + port).
+   * When false (the default), cross-origin redirects are not followed and the
+   * redirect response is returned directly to the caller.
+   * Defaults to false.
+   */
+  allowCrossOriginRedirects?: boolean;
 }
 
 /**
@@ -32,12 +41,12 @@ export interface RedirectPolicyOptions {
  * @param options - Options to control policy behavior.
  */
 export function redirectPolicy(options: RedirectPolicyOptions = {}): PipelinePolicy {
-  const { maxRetries = 20 } = options;
+  const { maxRetries = 20, allowCrossOriginRedirects = false } = options;
   return {
     name: redirectPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const response = await next(request);
-      return handleRedirect(next, response, maxRetries);
+      return handleRedirect(next, response, maxRetries, allowCrossOriginRedirects);
     },
   };
 }
@@ -46,6 +55,7 @@ async function handleRedirect(
   next: SendRequest,
   response: PipelineResponse,
   maxRetries: number,
+  allowCrossOriginRedirects: boolean,
   currentRetries: number = 0,
 ): Promise<PipelineResponse> {
   const { request, status, headers } = response;
@@ -60,20 +70,36 @@ async function handleRedirect(
     currentRetries < maxRetries
   ) {
     const url = new URL(locationHeader, request.url);
+
+    // Only follow redirects to the same origin by default.
+    if (!allowCrossOriginRedirects) {
+      const originalUrl = new URL(request.url);
+      if (url.origin !== originalUrl.origin) {
+        logger.verbose(
+          `Skipping cross-origin redirect from ${originalUrl.origin} to ${url.origin}.`,
+        );
+        return response;
+      }
+    }
+
     request.url = url.toString();
 
     // POST request with Status code 303 should be converted into a
     // redirected GET request if the redirect url is present in the location header
     if (status === 303) {
       request.method = "GET";
+      if (request.requestOverrides && "method" in request.requestOverrides) {
+        request.requestOverrides = { ...request.requestOverrides, method: "GET" };
+      }
       request.headers.delete("Content-Length");
       delete request.body;
     }
 
     request.headers.delete("Authorization");
 
+    await disposeResponseBody(response);
     const res = await next(request);
-    return handleRedirect(next, res, maxRetries, currentRetries + 1);
+    return handleRedirect(next, res, maxRetries, allowCrossOriginRedirects, currentRetries + 1);
   }
 
   return response;

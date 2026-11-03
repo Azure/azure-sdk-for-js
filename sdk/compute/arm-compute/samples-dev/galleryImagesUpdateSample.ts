@@ -1,93 +1,62 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  GalleryImageUpdate} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Update a gallery image definition.
+ * This sample demonstrates how to update a gallery image definition.
  *
- * @summary Update a gallery image definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImage_UpdateFeatures.json
+ * @summary update a gallery image definition.
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryImage_Update.json
  */
-async function updateAGalleryImageFeature(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const galleryName = "myGalleryName";
-  const galleryImageName = "myGalleryImageName";
-  const galleryImage: GalleryImageUpdate = {
-    allowUpdateImage: true,
-    features: [
-      {
-        name: "SecurityType",
-        startsAtVersion: "2.0.0",
-        value: "TrustedLaunch",
-      },
-    ],
-    hyperVGeneration: "V2",
-    identifier: {
-      offer: "myOfferName",
-      publisher: "myPublisherName",
-      sku: "mySkuName",
-    },
-    osState: "Generalized",
-    osType: "Windows",
-  };
+async function updateASimpleGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.galleryImages.beginUpdateAndWait(
-    resourceGroupName,
-    galleryName,
-    galleryImageName,
-    galleryImage,
+  const result = await client.galleryImages.update(
+    "myResourceGroup",
+    "myGalleryName",
+    "myGalleryImageName",
+    {
+      osType: "Windows",
+      osState: "Generalized",
+      hyperVGeneration: "V1",
+      identifier: { publisher: "myPublisherName", offer: "myOfferName", sku: "mySkuName" },
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Update a gallery image definition.
+ * This sample demonstrates how to update a gallery image definition.
  *
- * @summary Update a gallery image definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImage_Update.json
+ * @summary update a gallery image definition.
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryImage_UpdateFeatures.json
  */
-async function updateASimpleGalleryImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const galleryName = "myGalleryName";
-  const galleryImageName = "myGalleryImageName";
-  const galleryImage: GalleryImageUpdate = {
-    hyperVGeneration: "V1",
-    identifier: {
-      offer: "myOfferName",
-      publisher: "myPublisherName",
-      sku: "mySkuName",
-    },
-    osState: "Generalized",
-    osType: "Windows",
-  };
+async function updateAGalleryImageFeature(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.galleryImages.beginUpdateAndWait(
-    resourceGroupName,
-    galleryName,
-    galleryImageName,
-    galleryImage,
+  const result = await client.galleryImages.update(
+    "myResourceGroup",
+    "myGalleryName",
+    "myGalleryImageName",
+    {
+      osType: "Windows",
+      osState: "Generalized",
+      hyperVGeneration: "V2",
+      allowUpdateImage: true,
+      features: [{ name: "SecurityType", value: "TrustedLaunch", startsAtVersion: "2.0.0" }],
+      identifier: { publisher: "myPublisherName", offer: "myOfferName", sku: "mySkuName" },
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await updateAGalleryImageFeature();
   await updateASimpleGalleryImage();
+  await updateAGalleryImageFeature();
 }
 
 main().catch(console.error);

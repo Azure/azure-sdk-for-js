@@ -1,40 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to This API provides configuration details specific to given region/location at Resource group level.
- *
- * @summary This API provides configuration details specific to given region/location at Resource group level.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/RegionConfigurationByResourceGroup.json
- */
-
-import {
-  RegionConfigurationRequest,
-  DataBoxManagementClient,
-} from "@azure/arm-databox";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to this API provides configuration details specific to given region/location at Resource group level.
+ *
+ * @summary this API provides configuration details specific to given region/location at Resource group level.
+ * x-ms-original-file: 2025-07-01/RegionConfigurationByResourceGroup.json
+ */
 async function regionConfigurationByResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
-  const location = "westus";
-  const regionConfigurationRequest: RegionConfigurationRequest = {
-    deviceCapabilityRequest: { model: "DataBoxDisk", skuName: "DataBoxDisk" },
-    scheduleAvailabilityRequest: {
-      model: "DataBox",
-      skuName: "DataBox",
-      storageLocation: "westus",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "YourSubscriptionId";
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.service.regionConfigurationByResourceGroup(
-    resourceGroupName,
-    location,
-    regionConfigurationRequest,
+    "YourResourceGroupName",
+    "westus",
+    {
+      deviceCapabilityRequest: { model: "DataBoxDisk", skuName: "DataBoxDisk" },
+      scheduleAvailabilityRequest: {
+        model: "DataBox",
+        skuName: "DataBox",
+        storageLocation: "westus",
+      },
+    },
   );
   console.log(result);
 }

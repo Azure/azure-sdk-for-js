@@ -7,18 +7,24 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -12,83 +12,32 @@
- import * as coreClient from '@azure/core-client';
- import * as coreHttpCompat from '@azure/core-http-compat';
+@@ -11,89 +11,36 @@
+ import { BaseRequestPolicy } from '@azure/storage-common';
+ import { ClientOptions } from '@azure-rest/core-client';
  import { Credential as Credential_2 } from '@azure/storage-common';
  import { CredentialPolicy } from '@azure/storage-common';
+-import { CredentialPolicyCreator } from '@azure/storage-common';
+ import type { ExtendedServiceClientOptions } from '@azure/core-http-compat';
+ import type { FullOperationResponse } from '@azure-rest/core-client';
 -import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 -import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
--import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+-import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+-import { isRestError } from '@azure/core-rest-pipeline';
 +import type { HttpHeadersLike } from '@azure/core-http-compat';
  import type { KeepAliveOptions } from '@azure/core-http-compat';
+ import { OperationOptions } from '@azure-rest/core-client';
  import type { OperationTracingOptions } from '@azure/core-tracing';
  import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+ import { Pipeline as Pipeline_2 } from '@azure/core-rest-pipeline';
  import type { ProxySettings } from '@azure/core-rest-pipeline';
  import { RequestPolicy } from '@azure/core-http-compat';
  import { RequestPolicyFactory } from '@azure/core-http-compat';
@@ -32,7 +38,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -import { StorageRetryPolicyType } from '@azure/storage-common';
  import { StorageSharedKeyCredential } from '@azure/storage-common';
 -import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
- import type { TokenCredential } from '@azure/core-auth';
+ import { TokenCredential } from '@azure/core-auth';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
  import { UserDelegationKey } from '@azure/storage-common';
 -import { WebResourceLike as WebResource } from '@azure/core-http-compat';
@@ -94,7 +100,18 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -132,17 +81,8 @@
+@@ -116,10 +63,8 @@
+ export { Credential_2 as Credential }
+ 
+ export { CredentialPolicy }
+ 
+-export { CredentialPolicyCreator }
+-
+ // @public
+ export interface DequeuedMessageItem {
+     dequeueCount: number;
+     expiresOn: Date;
+@@ -139,17 +84,8 @@
      popReceipt: string;
  }
  
@@ -112,7 +129,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      lastSyncOn: Date;
      status: GeoReplicationStatusType;
  }
-@@ -150,30 +90,18 @@
+@@ -157,32 +93,18 @@
  // @public
  export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
  
@@ -137,6 +154,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
  
+-export { isRestError }
+-
  // @public
 -export type ListQueuesIncludeType = "metadata";
 -
@@ -145,7 +164,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      // (undocumented)
      continuationToken: string;
      // (undocumented)
-@@ -433,8 +361,9 @@
+@@ -442,8 +364,9 @@
      expiresOn?: Date;
      identifier?: string;
      ipRange?: SasIPRange;
@@ -155,7 +174,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
-@@ -518,21 +447,8 @@
+@@ -534,21 +457,8 @@
      update: boolean;
  }
  
@@ -177,7 +196,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      abortSignal?: AbortSignalLike;
  }
  
-@@ -551,8 +467,9 @@
+@@ -567,8 +477,9 @@
      constructor(url: string, pipeline: Pipeline);
      createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
      deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
@@ -187,7 +206,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
      getQueueClient(queueName: string): QueueClient;
-@@ -619,15 +536,8 @@
+@@ -636,15 +547,8 @@
  
  // @public
  export type ReceivedMessageItem = DequeuedMessageItem;
@@ -203,7 +222,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface ResponseLike {
      _response: HttpResponse;
  }
-@@ -662,32 +572,8 @@
+@@ -679,32 +583,8 @@
      start: string;
  }
  
@@ -236,7 +255,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      httpClient?: RequestPolicy;
      requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
  }
-@@ -805,11 +691,8 @@
+@@ -819,11 +699,8 @@
  
  export { StorageBrowserPolicyFactory }
  
@@ -248,7 +267,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      audience?: string;
      httpClient?: RequestPolicy;
      keepAliveOptions?: KeepAliveOptions;
-@@ -817,25 +700,10 @@
+@@ -831,25 +708,10 @@
      retryOptions?: StorageRetryOptions;
      userAgentOptions?: UserAgentPolicyOptions;
  }
@@ -274,7 +293,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface UserDelegationKeyModel {
-@@ -847,10 +715,8 @@
+@@ -862,10 +724,8 @@
      signedVersion: string;
      value: string;
  }

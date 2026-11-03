@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Implements the Neighbor Group PUT method.
- *
- * @summary Implements the Neighbor Group PUT method.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NeighborGroups_Create_MaximumSet_Gen.json
- */
-
-import type { NeighborGroup } from "@azure/arm-managednetworkfabric";
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to implements the Neighbor Group PUT method.
+ *
+ * @summary implements the Neighbor Group PUT method.
+ * x-ms-original-file: 2025-07-15/NeighborGroups_Create.json
+ */
 async function neighborGroupsCreateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const neighborGroupName = "example-neighborGroup";
-  const body: NeighborGroup = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
+  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
+  const result = await client.neighborGroups.create("example-rg", "example-neighborGroup", {
     annotation: "annotation",
     destination: {
       ipv4Addresses: [
@@ -34,16 +30,10 @@ async function neighborGroupsCreateMaximumSetGen(): Promise<void> {
       ],
       ipv6Addresses: ["2F::/100"],
     },
+    identity: { type: "None", userAssignedIdentities: { key3673: {} } },
+    tags: { KeyId: "KeyValue" },
     location: "eastus",
-    tags: { key8107: "1234" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.neighborGroups.beginCreateAndWait(
-    resourceGroupName,
-    neighborGroupName,
-    body,
-  );
+  });
   console.log(result);
 }
 

@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes the azure databricks accessConnector.
- *
- * @summary Deletes the azure databricks accessConnector.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorDelete.json
- */
-
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes the Azure Databricks Access Connector.
+ *
+ * @summary deletes the Azure Databricks Access Connector.
+ * x-ms-original-file: 2026-01-01/AccessConnectorDelete.json
+ */
 async function deleteAnAzureDatabricksAccessConnector(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const connectorName = "myAccessConnector";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.accessConnectors.beginDeleteAndWait(resourceGroupName, connectorName);
-  console.log(result);
+  await client.accessConnectors.delete("rg", "myAccessConnector");
 }
 
 async function main(): Promise<void> {

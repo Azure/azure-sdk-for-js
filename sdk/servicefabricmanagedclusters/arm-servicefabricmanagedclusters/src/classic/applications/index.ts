@@ -94,11 +94,6 @@ export interface ApplicationsOperations {
     options?: ApplicationsListOptionalParams,
   ) => PagedAsyncIterableIterator<ApplicationResource>;
   /** Delete a Service Fabric managed application resource with the specified name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,

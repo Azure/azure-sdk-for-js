@@ -1,94 +1,83 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create Network Tap Rule resource.
- *
- * @summary Create Network Tap Rule resource.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NetworkTapRules_Create_MaximumSet_Gen.json
- */
-
-import type { NetworkTapRule } from "@azure/arm-managednetworkfabric";
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create Network Tap Rule resource.
+ *
+ * @summary create Network Tap Rule resource.
+ * x-ms-original-file: 2025-07-15/NetworkTapRules_Create.json
+ */
 async function networkTapRulesCreateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const networkTapRuleName = "example-tapRule";
-  const body: NetworkTapRule = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
+  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
+  const result = await client.networkTapRules.create("example-rg", "example-tapRule", {
     annotation: "annotation",
     configurationType: "File",
-    dynamicMatchConfigurations: [
-      {
-        ipGroups: [
-          {
-            name: "example-ipGroup1",
-            ipAddressType: "IPv4",
-            ipPrefixes: ["10.10.10.10/30"],
-          },
-        ],
-        portGroups: [
-          { name: "example-portGroup1", ports: ["100-200"] },
-          { name: "example-portGroup2", ports: ["900", "1000-2000"] },
-        ],
-        vlanGroups: [{ name: "exmaple-vlanGroup", vlans: ["10", "100-200"] }],
-      },
-    ],
-    location: "eastus",
+    tapRulesUrl: "https://microsoft.com/a",
+    identitySelector: {
+      identityType: "UserAssignedIdentity",
+      userAssignedIdentityResourceId:
+        "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourcegroups/example-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/example-identity",
+    },
     matchConfigurations: [
       {
-        actions: [
-          {
-            type: "Drop",
-            destinationId:
-              "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourcegroups/example-rg/providers/Microsoft.ManagedNetworkFabric/neighborGroups/example-neighborGroup",
-            isTimestampEnabled: "True",
-            matchConfigurationName: "match1",
-            truncate: "100",
-          },
-        ],
+        matchConfigurationName: "config1",
+        sequenceNumber: 10,
         ipAddressType: "IPv4",
         matchConditions: [
           {
-            encapsulationType: "None",
-            ipCondition: {
-              type: "SourceIP",
-              ipGroupNames: ["example-ipGroup"],
-              ipPrefixValues: ["10.10.10.10/20"],
-              prefixType: "Prefix",
-            },
-            portCondition: {
-              layer4Protocol: "TCP",
-              portGroupNames: ["example-portGroup1"],
-              portType: "SourcePort",
-              ports: ["100"],
-            },
             protocolTypes: ["TCP"],
             vlanMatchCondition: {
-              innerVlans: ["11-20"],
-              vlanGroupNames: ["exmaple-vlanGroup"],
-              vlans: ["10"],
+              vlans: ["20-30"],
+              innerVlans: ["30"],
+              vlanGroupNames: ["example-vlanGroup"],
+            },
+            ipCondition: {
+              type: "SourceIP",
+              prefixType: "Prefix",
+              ipPrefixValues: ["10.20.20.20/12"],
+              ipGroupNames: ["example-ipGroup"],
+            },
+            encapsulationType: "None",
+            portCondition: {
+              portType: "SourcePort",
+              layer4Protocol: "TCP",
+              ports: ["100"],
+              portGroupNames: ["example-portGroup1"],
             },
           },
         ],
-        matchConfigurationName: "config1",
-        sequenceNumber: 10,
+        actions: [
+          {
+            type: "Drop",
+            truncate: "100",
+            isTimestampEnabled: "True",
+            destinationId:
+              "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourcegroups/example-rg/providers/Microsoft.ManagedNetworkFabric/neighborGroups/example-neighborGroup",
+            matchConfigurationName: "match1",
+          },
+        ],
+      },
+    ],
+    dynamicMatchConfigurations: [
+      {
+        ipGroups: [
+          { name: "example-ipGroup", ipAddressType: "IPv4", ipPrefixes: ["10.20.3.1/20"] },
+        ],
+        vlanGroups: [{ name: "example-vlanGroup", vlans: ["20-30"] }],
+        portGroups: [{ name: "example-portGroup", ports: ["100-200"] }],
       },
     ],
     pollingIntervalInSeconds: 30,
-    tags: { keyID: "keyValue" },
-    tapRulesUrl: "https://microsoft.com/a",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.networkTapRules.beginCreateAndWait(
-    resourceGroupName,
-    networkTapRuleName,
-    body,
-  );
+    globalNetworkTapRuleActions: { enableCount: "True", truncate: "truncate-name" },
+    identity: { type: "UserAssigned", userAssignedIdentities: { key872: {} } },
+    tags: { keyId: "keyValue" },
+    location: "eastuseuap",
+  });
   console.log(result);
 }
 

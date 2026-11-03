@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByAvsVm, $delete, get, update } from "./operations.js";
-export {
+export type {
   AvsVmVolumesListByAvsVmOptionalParams,
   AvsVmVolumesDeleteOptionalParams,
   AvsVmVolumesGetOptionalParams,

@@ -18,9 +18,7 @@ export function _restoreFilesSend(
   backupVaultName: string,
   backupName: string,
   body: BackupRestoreFiles,
-  options: BackupsUnderBackupVaultRestoreFilesOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupsUnderBackupVaultRestoreFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}/restoreFiles{?api%2Dversion}",
@@ -30,7 +28,7 @@ export function _restoreFilesSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -47,7 +45,10 @@ export async function _restoreFilesDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -62,9 +63,7 @@ export function restoreFiles(
   backupVaultName: string,
   backupName: string,
   body: BackupRestoreFiles,
-  options: BackupsUnderBackupVaultRestoreFilesOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupsUnderBackupVaultRestoreFilesOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _restoreFilesDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -80,5 +79,6 @@ export function restoreFiles(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }

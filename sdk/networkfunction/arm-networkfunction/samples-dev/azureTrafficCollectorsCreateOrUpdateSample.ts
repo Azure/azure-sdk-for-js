@@ -1,33 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a Azure Traffic Collector resource
- *
- * @summary Creates or updates a Azure Traffic Collector resource
- * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/AzureTrafficCollectorCreate.json
- */
-
-import type { AzureTrafficCollectorsCreateOrUpdateOptionalParams } from "@azure/arm-networkfunction";
 import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to creates or updates a Azure Traffic Collector resource
+ *
+ * @summary creates or updates a Azure Traffic Collector resource
+ * x-ms-original-file: 2022-11-01/AzureTrafficCollectorCreate.json
+ */
 async function createATrafficCollector(): Promise<void> {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
-  const azureTrafficCollectorName = "atc";
-  const location = "West US";
-  const tags = { key1: "value1" };
-  const options: AzureTrafficCollectorsCreateOrUpdateOptionalParams = { tags };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
-  const result = await client.azureTrafficCollectors.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    azureTrafficCollectorName,
-    location,
-    options,
-  );
+  const result = await client.azureTrafficCollectors.createOrUpdate("rg1", "atc", {
+    location: "West US",
+    tags: { key1: "value1" },
+  });
   console.log(result);
 }
 
-createATrafficCollector().catch(console.error);
+async function main(): Promise<void> {
+  await createATrafficCollector();
+}
+
+main().catch(console.error);

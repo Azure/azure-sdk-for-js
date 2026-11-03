@@ -61,14 +61,14 @@ export interface EmailSendOptionalParams extends OperationOptions {
 }
 
 export {
-  EmailRecipients,
-  EmailAddress,
-  EmailAttachment,
-  EmailSendResponse,
-  EmailSendHeaders,
-  EmailSendResult,
-  EmailSendStatus,
-  ErrorDetail,
-  ErrorAdditionalInfo,
+  type EmailRecipients,
+  type EmailAddress,
+  type EmailAttachment,
+  type EmailSendResponse,
+  type EmailSendHeaders,
+  type EmailSendResult,
+  type EmailSendStatus,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
   KnownEmailSendStatus,
 } from "./generated/src/models/index.js";

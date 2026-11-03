@@ -1,309 +1,236 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Image} from "@azure/arm-compute";
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update an image.
+ * This sample demonstrates how to create or update an image.
  *
- * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/imageExamples/Image_CreateFromABlobWithDiskEncryptionSet.json
- */
-async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const imageName = "myImage";
-  const parameters: Image = {
-    location: "West US",
-    storageProfile: {
-      osDisk: {
-        blobUri:
-          "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
-        diskEncryptionSet: {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
-        },
-        osState: "Generalized",
-        osType: "Linux",
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.images.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    imageName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Create or update an image.
- *
- * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/imageExamples/Image_CreateFromABlob.json
+ * @summary create or update an image.
+ * x-ms-original-file: 2026-04-01/imageExamples/Image_CreateFromABlob.json
  */
 async function createAVirtualMachineImageFromABlob(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const imageName = "myImage";
-  const parameters: Image = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     storageProfile: {
       osDisk: {
-        blobUri:
-          "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
-        osState: "Generalized",
         osType: "Linux",
+        blobUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+        osState: "Generalized",
       },
       zoneResilient: true,
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.images.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    imageName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update an image.
+ * This sample demonstrates how to create or update an image.
  *
- * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/imageExamples/Image_CreateFromAManagedDiskWithDiskEncryptionSet.json
+ * @summary create or update an image.
+ * x-ms-original-file: 2026-04-01/imageExamples/Image_CreateFromABlobWithDiskEncryptionSet.json
  */
-async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const imageName = "myImage";
-  const parameters: Image = {
+async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     storageProfile: {
       osDisk: {
+        osType: "Linux",
+        blobUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
         diskEncryptionSet: {
           id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
         },
         osState: "Generalized",
-        osType: "Linux",
-        snapshot: {
-          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
-        },
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.images.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    imageName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update an image.
+ * This sample demonstrates how to create or update an image.
  *
- * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/imageExamples/Image_CreateFromAManagedDisk.json
+ * @summary create or update an image.
+ * x-ms-original-file: 2026-04-01/imageExamples/Image_CreateFromAManagedDisk.json
  */
 async function createAVirtualMachineImageFromAManagedDisk(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const imageName = "myImage";
-  const parameters: Image = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     storageProfile: {
       osDisk: {
+        osType: "Linux",
         managedDisk: {
           id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
         },
         osState: "Generalized",
-        osType: "Linux",
       },
       zoneResilient: true,
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.images.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    imageName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update an image.
+ * This sample demonstrates how to create or update an image.
  *
- * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/imageExamples/Image_CreateFromASnapshotWithDiskEncryptionSet.json
+ * @summary create or update an image.
+ * x-ms-original-file: 2026-04-01/imageExamples/Image_CreateFromAManagedDiskWithDiskEncryptionSet.json
  */
-async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const imageName = "myImage";
-  const parameters: Image = {
-    location: "West US",
-    storageProfile: {
-      osDisk: {
-        diskEncryptionSet: {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
-        },
-        managedDisk: {
-          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
-        },
-        osState: "Generalized",
-        osType: "Linux",
-      },
-    },
-  };
+async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.images.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    imageName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Create or update an image.
- *
- * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/imageExamples/Image_CreateFromASnapshot.json
- */
-async function createAVirtualMachineImageFromASnapshot(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const imageName = "myImage";
-  const parameters: Image = {
+  const result = await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     storageProfile: {
       osDisk: {
-        osState: "Generalized",
         osType: "Linux",
         snapshot: {
           id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
         },
+        diskEncryptionSet: {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+        },
+        osState: "Generalized",
+      },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update an image.
+ *
+ * @summary create or update an image.
+ * x-ms-original-file: 2026-04-01/imageExamples/Image_CreateFromASnapshot.json
+ */
+async function createAVirtualMachineImageFromASnapshot(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.images.createOrUpdate("myResourceGroup", "myImage", {
+    location: "West US",
+    storageProfile: {
+      osDisk: {
+        osType: "Linux",
+        snapshot: {
+          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+        },
+        osState: "Generalized",
       },
       zoneResilient: false,
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.images.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    imageName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update an image.
+ * This sample demonstrates how to create or update an image.
  *
- * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/imageExamples/Image_CreateFromAVM.json
+ * @summary create or update an image.
+ * x-ms-original-file: 2026-04-01/imageExamples/Image_CreateFromASnapshotWithDiskEncryptionSet.json
+ */
+async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.images.createOrUpdate("myResourceGroup", "myImage", {
+    location: "West US",
+    storageProfile: {
+      osDisk: {
+        osType: "Linux",
+        managedDisk: {
+          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
+        },
+        diskEncryptionSet: {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+        },
+        osState: "Generalized",
+      },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update an image.
+ *
+ * @summary create or update an image.
+ * x-ms-original-file: 2026-04-01/imageExamples/Image_CreateFromAVM.json
  */
 async function createAVirtualMachineImageFromAnExistingVirtualMachine(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const imageName = "myImage";
-  const parameters: Image = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     sourceVirtualMachine: {
       id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.images.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    imageName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update an image.
+ * This sample demonstrates how to create or update an image.
  *
- * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/imageExamples/Image_Create_DataDiskFromABlobIncluded.json
+ * @summary create or update an image.
+ * x-ms-original-file: 2026-04-01/imageExamples/Image_Create_DataDiskFromABlobIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromABlob(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const imageName = "myImage";
-  const parameters: Image = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     storageProfile: {
+      osDisk: {
+        osType: "Linux",
+        blobUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+        osState: "Generalized",
+      },
       dataDisks: [
         {
-          blobUri:
-            "https://mystorageaccount.blob.core.windows.net/dataimages/dataimage.vhd",
           lun: 1,
+          blobUri: "https://mystorageaccount.blob.core.windows.net/dataimages/dataimage.vhd",
         },
       ],
-      osDisk: {
-        blobUri:
-          "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
-        osState: "Generalized",
-        osType: "Linux",
-      },
       zoneResilient: false,
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.images.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    imageName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update an image.
+ * This sample demonstrates how to create or update an image.
  *
- * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/imageExamples/Image_Create_DataDiskFromAManagedDiskIncluded.json
+ * @summary create or update an image.
+ * x-ms-original-file: 2026-04-01/imageExamples/Image_Create_DataDiskFromAManagedDiskIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const imageName = "myImage";
-  const parameters: Image = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     storageProfile: {
+      osDisk: {
+        osType: "Linux",
+        managedDisk: {
+          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
+        },
+        osState: "Generalized",
+      },
       dataDisks: [
         {
           lun: 1,
@@ -312,41 +239,32 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
           },
         },
       ],
-      osDisk: {
-        managedDisk: {
-          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
-        },
-        osState: "Generalized",
-        osType: "Linux",
-      },
       zoneResilient: false,
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.images.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    imageName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update an image.
+ * This sample demonstrates how to create or update an image.
  *
- * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/imageExamples/Image_Create_DataDiskFromASnapshotIncluded.json
+ * @summary create or update an image.
+ * x-ms-original-file: 2026-04-01/imageExamples/Image_Create_DataDiskFromASnapshotIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const imageName = "myImage";
-  const parameters: Image = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     storageProfile: {
+      osDisk: {
+        osType: "Linux",
+        snapshot: {
+          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+        },
+        osState: "Generalized",
+      },
       dataDisks: [
         {
           lun: 1,
@@ -355,33 +273,19 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot(): P
           },
         },
       ],
-      osDisk: {
-        osState: "Generalized",
-        osType: "Linux",
-        snapshot: {
-          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
-        },
-      },
       zoneResilient: true,
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.images.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    imageName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource();
   await createAVirtualMachineImageFromABlob();
-  await createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource();
+  await createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource();
   await createAVirtualMachineImageFromAManagedDisk();
-  await createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource();
+  await createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource();
   await createAVirtualMachineImageFromASnapshot();
+  await createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource();
   await createAVirtualMachineImageFromAnExistingVirtualMachine();
   await createAVirtualMachineImageThatIncludesADataDiskFromABlob();
   await createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk();

@@ -23,22 +23,23 @@ import type {
   Pipeline as CorePipeline,
   PipelinePolicy,
   HttpClient,
+  RequestBodyType as HttpRequestBody,
 } from "@azure/core-rest-pipeline";
 import {
-  RequestBodyType as HttpRequestBody,
   bearerTokenAuthenticationPolicy,
   decompressResponsePolicyName,
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
-import { parseXML, stringifyXML } from "@azure/core-xml";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log.js";
-import type { StorageRetryOptions } from "@azure/storage-blob";
-import { StorageRetryPolicyFactory } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "@azure/storage-blob";
+import {
+  AnonymousCredential,
+  StorageRetryOptions,
+  StorageRetryPolicyFactory,
+} from "@azure/storage-common";
 import {
   StorageOAuthScopes,
   StorageDataLakeLoggingAllowedHeaderNames,
@@ -66,17 +67,17 @@ import {
 // own RequestPolicy or HTTPClient
 export {
   StorageOAuthScopes,
-  IHttpClient,
-  HttpHeaders,
-  HttpRequestBody,
-  HttpOperationResponse,
-  WebResource,
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  ServiceClientOptions,
-  PipelineOptions,
-  PipelineLike,
+  type IHttpClient,
+  type HttpHeaders,
+  type HttpRequestBody,
+  type HttpOperationResponse,
+  type WebResource,
+  type RequestPolicyFactory,
+  type RequestPolicy,
+  type RequestPolicyOptions,
+  type ServiceClientOptions,
+  type PipelineOptions,
+  type PipelineLike,
   Pipeline,
   isPipelineLike,
 };
@@ -126,7 +127,15 @@ export function newPipeline(
   if (!credential) {
     credential = new AnonymousCredential();
   }
-  const pipeline = new Pipeline([], pipelineOptions);
+  const packageDetails = `azsdk-js-storagedatalake/${SDK_VERSION}`;
+  const userAgentPrefix = pipelineOptions?.userAgentOptions?.userAgentPrefix
+    ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${packageDetails}`
+    : `${packageDetails}`;
+
+  const pipeline = new Pipeline([], {
+    ...pipelineOptions,
+    userAgentOptions: { userAgentPrefix },
+  } as PipelineOptions);
   (pipeline as any)._credential = credential;
   return pipeline;
 }
@@ -170,7 +179,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
 
   let corePipeline: CorePipeline = (pipeline as any)._corePipeline;
   if (!corePipeline) {
-    const packageDetails = `azsdk-js-azure-storage-blob/${SDK_VERSION}`;
+    const packageDetails = `azsdk-js-storagedatalake/${SDK_VERSION}`;
     const userAgentPrefix =
       restOptions.userAgentOptions && restOptions.userAgentOptions.userAgentPrefix
         ? `${restOptions.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -184,26 +193,6 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
       },
       userAgentOptions: {
         userAgentPrefix,
-      },
-      serializationOptions: {
-        stringifyXML,
-        serializerOptions: {
-          xml: {
-            // Use customized XML char key of "#" so we can deserialize metadata
-            // with "_" key
-            xmlCharKey: "#",
-          },
-        },
-      },
-      deserializationOptions: {
-        parseXML,
-        serializerOptions: {
-          xml: {
-            // Use customized XML char key of "#" so we can deserialize metadata
-            // with "_" key
-            xmlCharKey: "#",
-          },
-        },
       },
     });
     corePipeline.removePolicy({ phase: "Retry" });

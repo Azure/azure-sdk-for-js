@@ -1,0 +1,60 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { WebSiteManagementClient } from "@azure/arm-appservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ *
+ * @summary description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * x-ms-original-file: 2025-05-01/CloneWebAppSlot.json
+ */
+async function cloneWebAppSlot(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const result = await client.webApps.createOrUpdateSlot("testrg123", "sitef6141", "staging", {
+    kind: "app",
+    location: "East US",
+    cloningInfo: {
+      appSettingsOverrides: { Setting1: "NewValue1", Setting3: "NewValue5" },
+      cloneCustomHostNames: true,
+      cloneSourceControl: true,
+      configureLoadBalancing: false,
+      hostingEnvironment:
+        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg456/providers/Microsoft.Web/hostingenvironments/aseforsites",
+      overwrite: false,
+      sourceWebAppId:
+        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg456/providers/Microsoft.Web/sites/srcsiteg478/slot/qa",
+      sourceWebAppLocation: "West Europe",
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ *
+ * @summary description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * x-ms-original-file: 2025-05-01/CreateOrUpdateWebAppSlot.json
+ */
+async function createOrUpdateWebAppSlot(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const result = await client.webApps.createOrUpdateSlot("testrg123", "sitef6141", "staging", {
+    kind: "app",
+    location: "East US",
+    serverFarmId:
+      "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/DefaultAsp",
+  });
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await cloneWebAppSlot();
+  await createOrUpdateWebAppSlot();
+}
+
+main().catch(console.error);

@@ -3,6 +3,6 @@
 
 export {
   createWorkloads,
-  WorkloadsContext,
-  WorkloadsClientOptionalParams,
+  type WorkloadsContext,
+  type WorkloadsClientOptionalParams,
 } from "./workloadsContext.js";

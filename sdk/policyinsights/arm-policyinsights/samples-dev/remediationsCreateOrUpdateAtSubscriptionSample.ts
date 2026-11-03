@@ -1,46 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a remediation at subscription scope.
- *
- * @summary Creates or updates a remediation at subscription scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_CreateSubscriptionScope.json
- */
-
-import type { Remediation } from "@azure/arm-policyinsights";
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a remediation at subscription scope.
+ *
+ * @summary creates or updates a remediation at subscription scope.
+ * x-ms-original-file: 2024-10-01/Remediations_CreateSubscriptionScope.json
+ */
 async function createRemediationAtSubscriptionScope(): Promise<void> {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const remediationName = "storageRemediation";
-  const parameters: Remediation = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const result = await client.remediations.createOrUpdateAtSubscription("storageRemediation", {
     policyAssignmentId:
       "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.remediations.createOrUpdateAtSubscription(
-    remediationName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a remediation at subscription scope.
+ * This sample demonstrates how to creates or updates a remediation at subscription scope.
  *
- * @summary Creates or updates a remediation at subscription scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_CreateSubscriptionScope_AllProperties.json
+ * @summary creates or updates a remediation at subscription scope.
+ * x-ms-original-file: 2024-10-01/Remediations_CreateSubscriptionScope_AllProperties.json
  */
 async function createRemediationAtSubscriptionScopeWithAllProperties(): Promise<void> {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const remediationName = "storageRemediation";
-  const parameters: Remediation = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const result = await client.remediations.createOrUpdateAtSubscription("storageRemediation", {
     failureThreshold: { percentage: 0.1 },
     filters: { locations: ["eastus", "westus"] },
     parallelDeployments: 6,
@@ -49,27 +40,21 @@ async function createRemediationAtSubscriptionScopeWithAllProperties(): Promise<
     policyDefinitionReferenceId: "8c8fa9e4",
     resourceCount: 42,
     resourceDiscoveryMode: "ReEvaluateCompliance",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.remediations.createOrUpdateAtSubscription(
-    remediationName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a remediation at subscription scope.
+ * This sample demonstrates how to creates or updates a remediation at subscription scope.
  *
- * @summary Creates or updates a remediation at subscription scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_CreateSubscriptionScope_ResourceIdsFilter.json
+ * @summary creates or updates a remediation at subscription scope.
+ * x-ms-original-file: 2024-10-01/Remediations_CreateSubscriptionScope_ResourceIdsFilter.json
  */
 async function createRemediationAtSubscriptionScopeWithResourceIdsFilter(): Promise<void> {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const remediationName = "storageRemediation";
-  const parameters: Remediation = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const result = await client.remediations.createOrUpdateAtSubscription("storageRemediation", {
     failureThreshold: { percentage: 0.1 },
     filters: {
       locations: ["eastus", "westus"],
@@ -88,13 +73,7 @@ async function createRemediationAtSubscriptionScopeWithResourceIdsFilter(): Prom
     policyDefinitionReferenceId: "8c8fa9e4",
     resourceCount: 42,
     resourceDiscoveryMode: "ExistingNonCompliant",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.remediations.createOrUpdateAtSubscription(
-    remediationName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

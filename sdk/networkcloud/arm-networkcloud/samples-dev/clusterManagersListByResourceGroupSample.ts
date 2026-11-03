@@ -3,28 +3,22 @@
 
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a list of cluster managers in the provided resource group.
+ * This sample demonstrates how to get a list of cluster managers in the provided resource group.
  *
- * @summary Get a list of cluster managers in the provided resource group.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/ClusterManagers_ListByResourceGroup.json
+ * @summary get a list of cluster managers in the provided resource group.
+ * x-ms-original-file: 2026-07-01/ClusterManagers_ListByResourceGroup.json
  */
 async function listClusterManagersForResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.clusterManagers.listByResourceGroup(
-    resourceGroupName,
-  )) {
+  for await (const item of client.clusterManagers.listByResourceGroup("resourceGroupName")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

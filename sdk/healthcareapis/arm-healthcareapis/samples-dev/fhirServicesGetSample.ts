@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the properties of the specified FHIR Service.
- *
- * @summary Gets the properties of the specified FHIR Service.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/fhirservices/FhirServices_Get.json
- */
-
 import { HealthcareApisManagementClient } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the properties of the specified FHIR Service.
+ *
+ * @summary gets the properties of the specified FHIR Service.
+ * x-ms-original-file: 2025-04-01-preview/fhirservices/FhirServices_Get.json
+ */
 async function getAFhirService(): Promise<void> {
-  const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["HEALTHCAREAPIS_RESOURCE_GROUP"] || "testRG";
-  const workspaceName = "workspace1";
-  const fhirServiceName = "fhirservices1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
-  const result = await client.fhirServices.get(resourceGroupName, workspaceName, fhirServiceName);
+  const result = await client.fhirServices.get("testRG", "workspace1", "fhirservices1");
   console.log(result);
 }
 

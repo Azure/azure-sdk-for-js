@@ -1,28 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create Confluent Marketplace agreement in the subscription.
- *
- * @summary Create Confluent Marketplace agreement in the subscription.
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/MarketplaceAgreements_Create.json
- */
-
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function marketplaceAgreementsCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+/**
+ * This sample demonstrates how to create Confluent Marketplace agreement in the subscription.
+ *
+ * @summary create Confluent Marketplace agreement in the subscription.
+ * x-ms-original-file: 2026-06-02-preview/MarketplaceAgreements_Create_MaximumSet_Gen.json
+ */
+async function createConfluentMarketplaceAgreementInTheSubscriptionMaximumset(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
+  const client = new ConfluentManagementClient(credential, subscriptionId);
+  const result = await client.marketplaceAgreements.create({
+    body: {
+      publisher: "cxcrrfggvdmvcchohkyatlvbpyy",
+      product: "ogusipjbwihlwbfivdbjfuvoqwija",
+      plan: "vgphlikczel",
+      licenseTextLink: "ztckliskduxmcluia",
+      privacyPolicyLink: "wwvlrlfhzmvfjgimkhkqcaxn",
+      retrieveDatetime: new Date("2025-08-18T11:10:31.028Z"),
+      signature: "cfdxpybzzsrgcdtebmqzzskxfiool",
+      accepted: true,
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create Confluent Marketplace agreement in the subscription.
+ *
+ * @summary create Confluent Marketplace agreement in the subscription.
+ * x-ms-original-file: 2026-06-02-preview/MarketplaceAgreements_Create_MinimumSet_Gen.json
+ */
+async function createConfluentMarketplaceAgreementInTheSubscriptionMinimumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const result = await client.marketplaceAgreements.create();
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await marketplaceAgreementsCreate();
+  await createConfluentMarketplaceAgreementInTheSubscriptionMaximumset();
+  await createConfluentMarketplaceAgreementInTheSubscriptionMinimumSet();
 }
 
 main().catch(console.error);

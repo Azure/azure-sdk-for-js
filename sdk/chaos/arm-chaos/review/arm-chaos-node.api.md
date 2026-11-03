@@ -4,14 +4,65 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface Action extends ProxyResource {
+    properties: ActionProperties;
+}
+
+// @public
+export interface ActionDependency {
+    name: string;
+    onActionLifecycle?: ActionLifecycle;
+    type: ActionDependencyType;
+}
+
+// @public
+export type ActionDependencyType = string;
+
+// @public
+export type ActionKind = string;
+
+// @public
+export type ActionLifecycle = string;
+
+// @public
+export interface ActionProperties {
+    readonly actionName?: string;
+    readonly actionType?: ActionKind;
+    readonly canonicalId?: string;
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly parametersSchema?: Record<string, any>;
+    readonly recommendedRoles?: string[];
+    readonly supportedTargetTypes?: ActionSupportedTargetType[];
+    readonly version?: string;
+}
+
+// @public
+export interface ActionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ActionsListOptionalParams extends OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface ActionsOperations {
+    get: (location: string, actionName: string, options?: ActionsGetOptionalParams) => Promise<Action>;
+    list: (location: string, options?: ActionsListOptionalParams) => PagedAsyncIterableIterator<Action>;
+}
 
 // @public
 export interface ActionStatus {
@@ -24,7 +75,43 @@ export interface ActionStatus {
 }
 
 // @public
+export interface ActionSupportedTargetType {
+    requiredPermissions?: string[];
+    targetType?: string;
+}
+
+// @public
 export type ActionType = string;
+
+// @public
+export interface ActionVersion extends ProxyResource {
+    properties: ActionProperties;
+}
+
+// @public
+export interface ActionVersionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ActionVersionsListOptionalParams extends OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface ActionVersionsOperations {
+    get: (location: string, actionName: string, versionName: string, options?: ActionVersionsGetOptionalParams) => Promise<ActionVersion>;
+    list: (location: string, actionName: string, options?: ActionVersionsListOptionalParams) => PagedAsyncIterableIterator<ActionVersion>;
+}
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BranchStatus {
@@ -68,6 +155,7 @@ export interface Capability extends ProxyResource {
 export interface CapabilityProperties {
     readonly description?: string;
     readonly parametersSchema?: string;
+    readonly provisioningState?: ProvisioningState;
     readonly publisher?: string;
     readonly targetType?: string;
     readonly urn?: string;
@@ -137,19 +225,29 @@ export interface ChaosExperimentStep {
 // @public (undocumented)
 export class ChaosManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ChaosManagementClientOptionalParams);
+    readonly actions: ActionsOperations;
+    readonly actionVersions: ActionVersionsOperations;
     readonly capabilities: CapabilitiesOperations;
     readonly capabilityTypes: CapabilityTypesOperations;
+    readonly connections: ConnectionsOperations;
+    readonly discoveredResources: DiscoveredResourcesOperations;
     readonly experiments: ExperimentsOperations;
     readonly operations: OperationsOperations;
     readonly operationStatuses: OperationStatusesOperations;
     readonly pipeline: Pipeline;
+    readonly privateAccesses: PrivateAccessesOperations;
+    readonly scenarioConfigurations: ScenarioConfigurationsOperations;
+    readonly scenarioRuns: ScenarioRunsOperations;
+    readonly scenarios: ScenariosOperations;
     readonly targets: TargetsOperations;
     readonly targetTypes: TargetTypesOperations;
+    readonly workspaces: WorkspacesOperations;
 }
 
 // @public
 export interface ChaosManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -195,6 +293,55 @@ export interface ChaosTargetSimpleFilterParameters {
 }
 
 // @public
+export interface Connection extends ProxyResource {
+    properties?: ConnectionProperties;
+}
+
+// @public
+export type ConnectionKind = string;
+
+// @public
+export interface ConnectionProperties {
+    certificateIssuer?: string;
+    certificateSubjectName?: string;
+    readonly dataPlaneEndpoint?: string;
+    dstsPrincipal?: string;
+    kind: ConnectionKind;
+    principalId?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly status?: ConnectionStatus;
+    targetResourceId: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConnectionsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConnectionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConnectionsListAllOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConnectionsOperations {
+    createOrUpdate: (resourceGroupName: string, workspaceName: string, connectionName: string, resource: Connection, options?: ConnectionsCreateOrUpdateOptionalParams) => Promise<Connection>;
+    delete: (resourceGroupName: string, workspaceName: string, connectionName: string, options?: ConnectionsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, workspaceName: string, connectionName: string, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
+    listAll: (resourceGroupName: string, workspaceName: string, options?: ConnectionsListAllOptionalParams) => PagedAsyncIterableIterator<Connection>;
+}
+
+// @public
+export type ConnectionStatus = string;
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -211,9 +358,44 @@ export interface ContinuousAction extends ChaosExperimentAction {
 export type CreatedByType = string;
 
 // @public
+export interface CustomerDataStorageProperties {
+    blobContainerName?: string;
+    storageAccountResourceId?: string;
+}
+
+// @public
 export interface DelayAction extends ChaosExperimentAction {
     duration: string;
     type: "delay";
+}
+
+// @public
+export interface DiscoveredResource extends ProxyResource {
+    properties?: DiscoveredResourceProperties;
+}
+
+// @public
+export interface DiscoveredResourceProperties {
+    readonly discoveredAt: Date;
+    readonly fullyQualifiedIdentifier: string;
+    readonly resourceName: string;
+    readonly resourceNamespace: string;
+    readonly resourceType: string;
+    readonly scope: string;
+}
+
+// @public
+export interface DiscoveredResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiscoveredResourcesListByWorkspaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiscoveredResourcesOperations {
+    get: (resourceGroupName: string, workspaceName: string, discoveredResourceName: string, options?: DiscoveredResourcesGetOptionalParams) => Promise<DiscoveredResource>;
+    listByWorkspace: (resourceGroupName: string, workspaceName: string, options?: DiscoveredResourcesListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<DiscoveredResource>;
 }
 
 // @public
@@ -224,8 +406,14 @@ export interface DiscreteAction extends ChaosExperimentAction {
 }
 
 // @public
+export interface EntraIdentity {
+    readonly objectId: string;
+    readonly tenantId: string;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -284,6 +472,7 @@ export interface ExperimentExecutionDetails {
 export interface ExperimentExecutionDetailsProperties {
     readonly failureReason?: string;
     readonly lastActionAt?: Date;
+    readonly provisioningState?: ProvisioningState;
     readonly runInformation?: ExperimentExecutionDetailsPropertiesRunInformation;
     readonly startedAt?: Date;
     readonly status?: string;
@@ -297,6 +486,7 @@ export interface ExperimentExecutionDetailsPropertiesRunInformation {
 
 // @public
 export interface ExperimentExecutionProperties {
+    readonly provisioningState?: ProvisioningState;
     readonly startedAt?: Date;
     readonly status?: string;
     readonly stoppedAt?: Date;
@@ -304,6 +494,7 @@ export interface ExperimentExecutionProperties {
 
 // @public
 export interface ExperimentProperties {
+    customerDataStorage?: CustomerDataStorageProperties;
     readonly provisioningState?: ProvisioningState;
     selectors: ChaosTargetSelectorUnion[];
     steps: ChaosExperimentStep[];
@@ -384,7 +575,19 @@ export interface ExperimentUpdate {
 }
 
 // @public
+export interface ExternalResource {
+    resourceId?: string;
+}
+
+// @public
 export type FilterType = string;
+
+// @public
+export interface FixResourcePermissionsRequest {
+    whatIf?: boolean;
+}
+
+export { isRestError }
 
 // @public
 export interface KeyValuePair {
@@ -393,8 +596,45 @@ export interface KeyValuePair {
 }
 
 // @public
+export enum KnownActionDependencyType {
+    Action = "Action"
+}
+
+// @public
+export enum KnownActionKind {
+    Cancelable = "Cancelable",
+    Continuous = "Continuous",
+    Discrete = "Discrete"
+}
+
+// @public
+export enum KnownActionLifecycle {
+    AnyTerminal = "AnyTerminal",
+    Failure = "Failure",
+    Running = "Running",
+    Skipped = "Skipped",
+    Start = "Start",
+    Success = "Success"
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownConnectionKind {
+    AksExtension = "AksExtension",
+    ChaosAgent = "ChaosAgent",
+    Csfi = "Csfi"
+}
+
+// @public
+export enum KnownConnectionStatus {
+    Connected = "Connected",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Revoked = "Revoked"
 }
 
 // @public
@@ -407,11 +647,8 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownExperimentActionType {
-    // (undocumented)
     Continuous = "continuous",
-    // (undocumented)
     Delay = "delay",
-    // (undocumented)
     Discrete = "discrete"
 }
 
@@ -436,13 +673,114 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownParameterType {
+    Array = "array",
+    Boolean = "boolean",
+    Number = "number",
+    Object = "object",
+    String = "string"
+}
+
+// @public
+export enum KnownPermissionsFixState {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotStarted = "NotStarted",
+    PartiallySucceeded = "PartiallySucceeded",
+    Succeeded = "Succeeded",
+    WhatIfCompleted = "WhatIfCompleted"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
 export enum KnownProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
     Failed = "Failed",
+    Running = "Running",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownPublicNetworkAccessOption {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownRecommendationStatus {
+    Evaluating = "Evaluating",
+    EvaluationCancelled = "EvaluationCancelled",
+    EvaluationFailed = "EvaluationFailed",
+    NotApplicable = "NotApplicable",
+    NotEvaluated = "NotEvaluated",
+    Recommended = "Recommended"
+}
+
+// @public
+export enum KnownRoleAssignmentStatus {
+    Failed = "Failed",
+    Pending = "Pending",
+    Skipped = "Skipped",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownRunAfterBehavior {
+    All = "All",
+    Any = "Any",
+    AtLeastOne = "AtLeastOne"
+}
+
+// @public
+export enum KnownScenarioRunState {
+    Canceled = "Canceled",
+    Canceling = "Canceling",
+    CleaningUp = "CleaningUp",
+    Failed = "Failed",
+    Generating = "Generating",
+    Preparing = "Preparing",
+    Queued = "Queued",
+    Resolving = "Resolving",
+    Running = "Running",
+    Starting = "Starting",
+    Succeeded = "Succeeded",
+    Validating = "Validating",
+    ValidationSucceeded = "ValidationSucceeded"
+}
+
+// @public
+export enum KnownScenarioSummaryState {
+    Canceled = "Canceled",
+    Canceling = "Canceling",
+    Failed = "Failed",
+    FailingOnError = "FailingOnError",
+    Pending = "Pending",
+    Running = "Running",
+    Skipped = "Skipped",
+    Starting = "Starting",
+    Stopping = "Stopping",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownScenarioValidationState {
+    Accepted = "Accepted",
+    Generating = "Generating",
+    NoResolvedResources = "NoResolvedResources",
+    NotStarted = "NotStarted",
+    RequiresAttention = "RequiresAttention",
+    Resolving = "Resolving",
+    Succeeded = "Succeeded",
+    Validating = "Validating"
 }
 
 // @public
@@ -458,7 +796,36 @@ export enum KnownTargetReferenceType {
 
 // @public
 export enum KnownVersions {
-    V20250101 = "2025-01-01"
+    V20250101 = "2025-01-01",
+    V20260501Preview = "2026-05-01-preview",
+    V20260801Preview = "2026-08-01-preview"
+}
+
+// @public
+export enum KnownWorkspaceDiscoveryStatus {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Pending = "Pending",
+    Queued = "Queued",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownWorkspaceEvaluationStatus {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    PartiallySucceeded = "PartiallySucceeded",
+    Pending = "Pending",
+    Queued = "Queued",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownZoneResolutionMode {
+    Logical = "logical",
+    Physical = "physical"
 }
 
 // @public
@@ -466,7 +833,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -487,6 +854,12 @@ export interface OperationDisplay {
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
+}
+
+// @public
+export interface OperationError {
+    errorCode: string;
+    errorMessage: string;
 }
 
 // @public
@@ -536,11 +909,192 @@ export interface PageSettings {
 }
 
 // @public
+export type ParameterType = string;
+
+// @public
+export interface PermissionError {
+    readonly errorMessage?: string;
+    readonly identity?: EntraIdentity;
+    readonly missingPermissions: string[];
+    readonly recommendedRoles: string[];
+    readonly requiredPermissions: string[];
+    readonly resourceId: string;
+}
+
+// @public
+export interface PermissionsFix extends ProxyResource {
+    properties?: PermissionsFixProperties;
+}
+
+// @public
+export interface PermissionsFixProperties {
+    readonly completedAt?: Date;
+    readonly roleAssignments: RoleAssignmentResult[];
+    readonly startedAt: Date;
+    readonly state: PermissionsFixState;
+    readonly summary: PermissionsFixSummary;
+    readonly whatIfMode: boolean;
+}
+
+// @public
+export type PermissionsFixState = string;
+
+// @public
+export interface PermissionsFixSummary {
+    readonly failed: number;
+    readonly skipped: number;
+    readonly succeeded: number;
+    readonly totalRequired: number;
+}
+
+// @public
+export interface PhysicalToLogicalZoneMapping {
+    readonly logicalZone: string;
+    readonly physicalZone: string;
+}
+
+// @public
+export interface PrivateAccess extends TrackedResource {
+    properties: PrivateAccessProperties;
+}
+
+// @public
+export interface PrivateAccessesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateAccessesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateAccessesGetAPrivateEndpointConnectionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateAccessesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateAccessesGetPrivateLinkResourcesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateAccessesListAllOptionalParams extends OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface PrivateAccessesListOptionalParams extends OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface PrivateAccessesListPrivateEndpointConnectionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateAccessesOperations {
+    createOrUpdate: (resourceGroupName: string, privateAccessName: string, resource: PrivateAccess, options?: PrivateAccessesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateAccess>, PrivateAccess>;
+    delete: (resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteAPrivateEndpointConnection: (resourceGroupName: string, privateAccessName: string, privateEndpointConnectionName: string, options?: PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesGetOptionalParams) => Promise<PrivateAccess>;
+    getAPrivateEndpointConnection: (resourceGroupName: string, privateAccessName: string, privateEndpointConnectionName: string, options?: PrivateAccessesGetAPrivateEndpointConnectionOptionalParams) => Promise<PrivateEndpointConnection>;
+    getPrivateLinkResources: (resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesGetPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResourceListResult>;
+    list: (resourceGroupName: string, options?: PrivateAccessesListOptionalParams) => PagedAsyncIterableIterator<PrivateAccess>;
+    listAll: (options?: PrivateAccessesListAllOptionalParams) => PagedAsyncIterableIterator<PrivateAccess>;
+    listPrivateEndpointConnections: (resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesListPrivateEndpointConnectionsOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    update: (resourceGroupName: string, privateAccessName: string, properties: PrivateAccessPatch, options?: PrivateAccessesUpdateOptionalParams) => PollerLike<OperationState<PrivateAccess>, PrivateAccess>;
+}
+
+// @public
+export interface PrivateAccessesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateAccessPatch {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface PrivateAccessProperties {
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccessOption;
+}
+
+// @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends ProxyResource {
+    properties?: PrivateEndpointConnectionProperties;
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends TrackedResource {
+    properties: PrivateLinkResourceProperties;
+}
+
+// @public
+export interface PrivateLinkResourceListResult {
+    nextLink?: string;
+    value: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
 }
+
+// @public
+export type PublicNetworkAccessOption = string;
+
+// @public
+export interface Recommendation {
+    readonly evaluationRunAt?: Date;
+    readonly recommendationStatus: RecommendationStatus;
+}
+
+// @public
+export type RecommendationStatus = string;
 
 // @public
 export interface Resource {
@@ -551,6 +1105,32 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceStateError {
+    readonly errorCode: number;
+    readonly errorMessage: string;
+    readonly remediationUri: string;
+    readonly resourceId: string;
+}
+
+// @public
+export interface ResourceTargeting {
+    exclude?: ResourceTargetingCriteria;
+    include?: ResourceTargetingCriteria;
+}
+
+// @public
+export interface ResourceTargetingCriteria {
+    locations?: string[];
+    physicalZones?: string[];
+    resources?: string[];
+    tags?: KeyValuePair[];
+    types?: string[];
+    zones?: string[];
+}
+
+export { RestError }
+
+// @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ChaosManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
@@ -559,6 +1139,232 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface RoleAssignmentError {
+    readonly code: string;
+    readonly message: string;
+}
+
+// @public
+export interface RoleAssignmentResult {
+    readonly error?: RoleAssignmentError;
+    readonly principalId: string;
+    readonly roleAssignmentId?: string;
+    readonly roleDefinitionId: string;
+    readonly roleDefinitionName: string;
+    readonly scope: string;
+    readonly status: RoleAssignmentStatus;
+    readonly targetResourceId: string;
+}
+
+// @public
+export type RoleAssignmentStatus = string;
+
+// @public
+export interface RunAfter {
+    behavior?: RunAfterBehavior;
+    items: ActionDependency[];
+}
+
+// @public
+export type RunAfterBehavior = string;
+
+// @public
+export interface Scenario extends ProxyResource {
+    properties?: ScenarioProperties;
+}
+
+// @public
+export interface ScenarioAction {
+    actionId: string;
+    description?: string;
+    duration: string;
+    externalResource?: ExternalResource;
+    name: string;
+    parameters?: KeyValuePair[];
+    runAfter?: RunAfter;
+    timeout?: string;
+    waitBefore?: string;
+}
+
+// @public
+export interface ScenarioConfiguration extends ProxyResource {
+    properties?: ScenarioConfigurationProperties;
+}
+
+// @public
+export interface ScenarioConfigurationProperties {
+    parameters?: KeyValuePair[];
+    readonly provisioningState?: ProvisioningState;
+    resourceTargeting?: ResourceTargeting;
+    scenarioId: string;
+}
+
+// @public
+export interface ScenarioConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScenarioConfigurationsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScenarioConfigurationsExecuteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScenarioConfigurationsFixResourcePermissionsOptionalParams extends OperationOptions {
+    // (undocumented)
+    body?: FixResourcePermissionsRequest;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScenarioConfigurationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScenarioConfigurationsListAllOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScenarioConfigurationsOperations {
+    createOrUpdate: (resourceGroupName: string, workspaceName: string, scenarioName: string, scenarioConfigurationName: string, resource: ScenarioConfiguration, options?: ScenarioConfigurationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ScenarioConfiguration>, ScenarioConfiguration>;
+    delete: (resourceGroupName: string, workspaceName: string, scenarioName: string, scenarioConfigurationName: string, options?: ScenarioConfigurationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    execute: (resourceGroupName: string, workspaceName: string, scenarioName: string, scenarioConfigurationName: string, options?: ScenarioConfigurationsExecuteOptionalParams) => PollerLike<OperationState<ScenarioRun>, ScenarioRun>;
+    fixResourcePermissions: (resourceGroupName: string, workspaceName: string, scenarioName: string, scenarioConfigurationName: string, options?: ScenarioConfigurationsFixResourcePermissionsOptionalParams) => PollerLike<OperationState<PermissionsFix>, PermissionsFix>;
+    get: (resourceGroupName: string, workspaceName: string, scenarioName: string, scenarioConfigurationName: string, options?: ScenarioConfigurationsGetOptionalParams) => Promise<ScenarioConfiguration>;
+    listAll: (resourceGroupName: string, workspaceName: string, scenarioName: string, options?: ScenarioConfigurationsListAllOptionalParams) => PagedAsyncIterableIterator<ScenarioConfiguration>;
+    validate: (resourceGroupName: string, workspaceName: string, scenarioName: string, scenarioConfigurationName: string, options?: ScenarioConfigurationsValidateOptionalParams) => PollerLike<OperationState<Validation>, Validation>;
+}
+
+// @public
+export interface ScenarioConfigurationsValidateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScenarioErrors {
+    errorCode?: string;
+    errorMessage?: string;
+    readonly permission: PermissionError[];
+    readonly resource: ResourceStateError[];
+}
+
+// @public
+export interface ScenarioParameter {
+    default?: string;
+    description?: string;
+    name: string;
+    required?: boolean;
+    type: ParameterType;
+}
+
+// @public
+export interface ScenarioProperties {
+    actions: ScenarioAction[];
+    readonly createdFrom?: string;
+    description?: string;
+    parameters: ScenarioParameter[];
+    readonly provisioningState?: ProvisioningState;
+    readonly recommendation?: Recommendation;
+    readonly version?: string;
+}
+
+// @public
+export interface ScenarioRun extends ProxyResource {
+    properties?: ScenarioRunProperties;
+}
+
+// @public
+export interface ScenarioRunProperties {
+    readonly endTime?: Date;
+    readonly errors?: OperationError[];
+    readonly excludedResources?: ScenarioRunResource[];
+    readonly executionErrors?: ScenarioErrors;
+    readonly managedIdentityPrincipalId: string;
+    readonly resources: ScenarioRunResource[];
+    readonly resourceSnapshotId?: string;
+    readonly scenarioConfigurationName: string;
+    readonly scenarioName: string;
+    readonly scenarioRunJson?: string;
+    readonly scenarioRunSummary?: ScenarioRunSummaryAction[];
+    readonly startTime: Date;
+    readonly status: ScenarioRunState;
+    readonly workspaceName: string;
+    readonly zoneResolution?: ZoneResolutionInfo;
+}
+
+// @public
+export interface ScenarioRunResource {
+    readonly id: string;
+}
+
+// @public
+export interface ScenarioRunsCancelOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScenarioRunsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScenarioRunsListAllOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScenarioRunsOperations {
+    cancel: (resourceGroupName: string, workspaceName: string, scenarioName: string, runId: string, options?: ScenarioRunsCancelOptionalParams) => PollerLike<OperationState<ScenarioRun>, ScenarioRun>;
+    get: (resourceGroupName: string, workspaceName: string, scenarioName: string, runId: string, options?: ScenarioRunsGetOptionalParams) => Promise<ScenarioRun>;
+    listAll: (resourceGroupName: string, workspaceName: string, scenarioName: string, options?: ScenarioRunsListAllOptionalParams) => PagedAsyncIterableIterator<ScenarioRun>;
+}
+
+// @public
+export type ScenarioRunState = string;
+
+// @public
+export interface ScenarioRunSummaryAction {
+    readonly actionUrn: string;
+    readonly completedAt?: Date;
+    readonly resources: ScenarioRunResource[];
+    readonly startedAt?: Date;
+    readonly state: ScenarioSummaryState;
+}
+
+// @public
+export interface ScenariosCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScenariosDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScenariosGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScenariosListAllOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScenariosOperations {
+    createOrUpdate: (resourceGroupName: string, workspaceName: string, scenarioName: string, resource: Scenario, options?: ScenariosCreateOrUpdateOptionalParams) => Promise<Scenario>;
+    delete: (resourceGroupName: string, workspaceName: string, scenarioName: string, options?: ScenariosDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, workspaceName: string, scenarioName: string, options?: ScenariosGetOptionalParams) => Promise<Scenario>;
+    listAll: (resourceGroupName: string, workspaceName: string, options?: ScenariosListAllOptionalParams) => PagedAsyncIterableIterator<Scenario>;
+}
+
+// @public
+export type ScenarioSummaryState = string;
+
+// @public
+export type ScenarioValidationState = string;
 
 // @public
 export type SelectorType = string;
@@ -650,6 +1456,13 @@ export interface TargetTypesOperations {
 }
 
 // @public
+export interface TemplateEvaluationResultItem {
+    evaluationResult: RecommendationStatus;
+    templateId?: string;
+    templateName?: string;
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
@@ -660,6 +1473,151 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
+
+// @public
+export interface Validation extends ProxyResource {
+    properties?: ValidationProperties;
+}
+
+// @public
+export interface ValidationProperties {
+    readonly endTime?: Date;
+    readonly errors?: OperationError[];
+    readonly excludedResources?: ScenarioRunResource[];
+    executionPlanJson?: string;
+    readonly resources?: ScenarioRunResource[];
+    readonly startTime: Date;
+    readonly status: ScenarioValidationState;
+    validationErrors?: ScenarioErrors;
+}
+
+// @public
+export interface Workspace extends TrackedResource {
+    identity?: ManagedServiceIdentity;
+    properties: WorkspaceProperties;
+}
+
+// @public
+export interface WorkspaceDiscovery extends ProxyResource {
+    properties?: WorkspaceDiscoveryProperties;
+}
+
+// @public
+export interface WorkspaceDiscoveryProperties {
+    readonly endTime?: Date;
+    readonly errors?: OperationError[];
+    readonly resourceSnapshotId?: string;
+    readonly startTime?: Date;
+    readonly status: WorkspaceDiscoveryStatus;
+    readonly workspaceId: string;
+}
+
+// @public
+export type WorkspaceDiscoveryStatus = string;
+
+// @public
+export interface WorkspaceEvaluation extends ProxyResource {
+    properties?: WorkspaceEvaluationProperties;
+}
+
+// @public
+export interface WorkspaceEvaluationProperties {
+    readonly endTime?: Date;
+    readonly errors?: OperationError[];
+    readonly evaluationResult?: RecommendationStatus;
+    readonly numTemplatesEvaluatedCancelled?: number;
+    readonly numTemplatesEvaluatedFailed?: number;
+    readonly numTemplatesEvaluatedSucceeded?: number;
+    readonly numTemplatesToEvaluate?: number;
+    readonly resourceSnapshotId?: string;
+    readonly results?: TemplateEvaluationResultItem[];
+    readonly startTime?: Date;
+    readonly status: WorkspaceEvaluationStatus;
+    readonly workspaceId: string;
+}
+
+// @public
+export type WorkspaceEvaluationStatus = string;
+
+// @public
+export interface WorkspaceProperties {
+    readonly communicationEndpoint?: string;
+    readonly provisioningState?: ProvisioningState;
+    scopes: string[];
+}
+
+// @public
+export interface WorkspacesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WorkspacesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WorkspacesDiscoverOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WorkspacesEvaluateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WorkspacesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WorkspacesListAllOptionalParams extends OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface WorkspacesListOptionalParams extends OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface WorkspacesOperations {
+    createOrUpdate: (resourceGroupName: string, workspaceName: string, resource: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Workspace>, Workspace>;
+    delete: (resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    discover: (resourceGroupName: string, workspaceName: string, options?: WorkspacesDiscoverOptionalParams) => PollerLike<OperationState<WorkspaceDiscovery>, WorkspaceDiscovery>;
+    evaluate: (resourceGroupName: string, workspaceName: string, options?: WorkspacesEvaluateOptionalParams) => PollerLike<OperationState<WorkspaceEvaluation>, WorkspaceEvaluation>;
+    get: (resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams) => Promise<Workspace>;
+    list: (resourceGroupName: string, options?: WorkspacesListOptionalParams) => PagedAsyncIterableIterator<Workspace>;
+    listAll: (options?: WorkspacesListAllOptionalParams) => PagedAsyncIterableIterator<Workspace>;
+    update: (resourceGroupName: string, workspaceName: string, properties: WorkspaceUpdate, options?: WorkspacesUpdateOptionalParams) => PollerLike<OperationState<Workspace>, Workspace>;
+}
+
+// @public
+export interface WorkspacesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WorkspaceUpdate {
+    identity?: ManagedServiceIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ZoneResolutionInfo {
+    readonly mode: ZoneResolutionMode;
+    readonly requestedPhysicalZones: string[];
+    readonly subscriptionZoneMappings: ZoneResolutionMapping[];
+}
+
+// @public
+export interface ZoneResolutionMapping {
+    readonly subscriptionId: string;
+    readonly zoneMappings: PhysicalToLogicalZoneMapping[];
+}
+
+// @public
+export type ZoneResolutionMode = string;
 
 // (No @packageDocumentation comment for this package)
 

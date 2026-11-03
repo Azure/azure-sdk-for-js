@@ -1,0 +1,6 @@
+{
+  "apiVersions": {
+    "ConfidentialLedger": "2026-02-23"
+  },
+  "emitterVersion": "0.54.1"
+}

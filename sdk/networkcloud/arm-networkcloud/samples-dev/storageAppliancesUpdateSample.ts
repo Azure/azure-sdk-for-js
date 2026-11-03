@@ -1,41 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  StorageAppliancePatchParameters,
-  StorageAppliancesUpdateOptionalParams} from "@azure/arm-networkcloud";
-import {
-  NetworkCloud,
-} from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Update properties of the provided storage appliance, or update tags associated with the storage appliance Properties and tag updates can be done independently.
+ * This sample demonstrates how to update properties of the provided storage appliance, or update tags associated with the storage appliance Properties and tag updates can be done independently.
  *
- * @summary Update properties of the provided storage appliance, or update tags associated with the storage appliance Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/StorageAppliances_Patch.json
+ * @summary update properties of the provided storage appliance, or update tags associated with the storage appliance Properties and tag updates can be done independently.
+ * x-ms-original-file: 2026-07-01/StorageAppliances_Patch.json
  */
 async function patchStorageAppliance(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const storageApplianceName = "storageApplianceName";
-  const storageApplianceUpdateParameters: StorageAppliancePatchParameters = {
-    serialNumber: "BM1219XXX",
-    tags: { key1: "myvalue1", key2: "myvalue2" },
-  };
-  const options: StorageAppliancesUpdateOptionalParams = {
-    storageApplianceUpdateParameters,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
   const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.storageAppliances.beginUpdateAndWait(
-    resourceGroupName,
-    storageApplianceName,
-    options,
+  const result = await client.storageAppliances.update(
+    "resourceGroupName",
+    "storageApplianceName",
+    {
+      storageApplianceUpdateParameters: {
+        serialNumber: "BM1219XXX",
+        tags: { key1: "myvalue1", key2: "myvalue2" },
+      },
+    },
   );
   console.log(result);
 }

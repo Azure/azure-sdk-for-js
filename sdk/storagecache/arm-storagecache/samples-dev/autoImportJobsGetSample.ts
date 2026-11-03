@@ -3,29 +3,18 @@
 
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Returns an auto import job.
+ * This sample demonstrates how to returns an auto import job.
  *
- * @summary Returns an auto import job.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/autoImportJobs_Get.json
+ * @summary returns an auto import job.
+ * x-ms-original-file: 2026-08-01/autoImportJobs_Get.json
  */
 async function autoImportJobsGet(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
-  const amlFilesystemName = "fs1";
-  const autoImportJobName = "autojob1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageCacheManagementClient(credential, subscriptionId);
-  const result = await client.autoImportJobs.get(
-    resourceGroupName,
-    amlFilesystemName,
-    autoImportJobName,
-  );
+  const result = await client.autoImportJobs.get("scgroup", "fs1", "autojob1");
   console.log(result);
 }
 

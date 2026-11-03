@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { DeviceRegistryManagementClient } from "./deviceRegistryManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
@@ -24,21 +24,17 @@ export {
   Asset,
   AssetProperties,
   Topic,
-  KnownTopicRetainType,
   TopicRetainType,
   Dataset,
   DataPoint,
-  KnownDataPointObservabilityMode,
   DataPointObservabilityMode,
   Event,
-  KnownEventObservabilityMode,
   EventObservabilityMode,
   AssetStatus,
   AssetStatusError,
   AssetStatusDataset,
   MessageSchemaReference,
   AssetStatusEvent,
-  KnownProvisioningState,
   ProvisioningState,
   ExtendedLocation,
   DataPointBase,
@@ -46,14 +42,12 @@ export {
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   AssetUpdate,
   AssetUpdateProperties,
   AssetEndpointProfile,
   AssetEndpointProfileProperties,
   Authentication,
-  KnownAuthenticationMethod,
   AuthenticationMethod,
   UsernamePasswordCredentials,
   X509Credentials,
@@ -69,24 +63,38 @@ export {
   Messaging,
   MessagingEndpoint,
   SystemAssignedServiceIdentity,
-  KnownSystemAssignedServiceIdentityType,
   SystemAssignedServiceIdentityType,
   NamespaceUpdate,
   NamespaceUpdateProperties,
   NamespaceMigrateRequest,
-  KnownScope,
   Scope,
   ErrorDetails,
+  Credential,
+  CredentialProperties,
+  CredentialUpdate,
+  Policy,
+  PolicyProperties,
+  CertificateConfiguration,
+  CertificateAuthorityConfiguration,
+  SupportedKeyType,
+  BringYourOwnRoot,
+  BringYourOwnRootStatus,
+  LeafCertificateConfiguration,
+  PolicyUpdate,
+  PolicyUpdateProperties,
+  CertificateConfigurationUpdate,
+  CertificateAuthorityConfigurationUpdate,
+  BringYourOwnRootUpdate,
+  LeafCertificateConfigurationUpdate,
+  ActivateBringYourOwnRootRequest,
   NamespaceAsset,
   NamespaceAssetProperties,
   DeviceRef,
   DatasetDestination,
   DatasetDestinationUnion,
-  KnownDatasetDestinationTarget,
   DatasetDestinationTarget,
   DatasetMqttDestination,
   MqttDestinationConfiguration,
-  KnownMqttDestinationQos,
   MqttDestinationQos,
   DatasetBrokerStateStoreDestination,
   BrokerStateStoreDestinationConfiguration,
@@ -94,13 +102,11 @@ export {
   StorageDestinationConfiguration,
   EventDestination,
   EventDestinationUnion,
-  KnownEventDestinationTarget,
   EventDestinationTarget,
   EventMqttDestination,
   EventStorageDestination,
   StreamDestination,
   StreamDestinationUnion,
-  KnownStreamDestinationTarget,
   StreamDestinationTarget,
   StreamMqttDestination,
   StreamStorageDestination,
@@ -111,7 +117,6 @@ export {
   NamespaceStream,
   ManagementGroup,
   ManagementAction,
-  KnownManagementActionType,
   ManagementActionType,
   NamespaceAssetStatus,
   StatusConfig,
@@ -137,8 +142,10 @@ export {
   DeviceStatus,
   DeviceStatusEndpoints,
   DeviceStatusEndpoint,
+  DeviceCredentialPolicy,
   NamespaceDeviceUpdate,
   NamespaceDeviceUpdateProperties,
+  DeviceCredentialsRevokeRequest,
   NamespaceDiscoveredAsset,
   NamespaceDiscoveredAssetProperties,
   NamespaceDiscoveredDataset,
@@ -148,7 +155,6 @@ export {
   NamespaceDiscoveredStream,
   NamespaceDiscoveredManagementGroup,
   NamespaceDiscoveredManagementAction,
-  KnownNamespaceDiscoveredManagementActionType,
   NamespaceDiscoveredManagementActionType,
   NamespaceDiscoveredAssetUpdate,
   NamespaceDiscoveredAssetUpdateProperties,
@@ -165,16 +171,36 @@ export {
   SchemaRegistryUpdateProperties,
   Schema,
   SchemaProperties,
-  KnownFormat,
   Format,
-  KnownSchemaType,
   SchemaType,
   SchemaVersion,
   SchemaVersionProperties,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownTopicRetainType,
+  KnownDataPointObservabilityMode,
+  KnownEventObservabilityMode,
+  KnownProvisioningState,
+  KnownCreatedByType,
+  KnownAuthenticationMethod,
+  KnownSystemAssignedServiceIdentityType,
+  KnownScope,
+  KnownSupportedKeyType,
+  KnownBringYourOwnRootStatus,
+  KnownDatasetDestinationTarget,
+  KnownMqttDestinationQos,
+  KnownEventDestinationTarget,
+  KnownStreamDestinationTarget,
+  KnownManagementActionType,
+  KnownNamespaceDiscoveredManagementActionType,
+  KnownFormat,
+  KnownSchemaType,
   KnownVersions,
 } from "./models/index.js";
-export { DeviceRegistryManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { DeviceRegistryManagementClientOptionalParams } from "./api/index.js";
+export type {
   AssetEndpointProfilesListBySubscriptionOptionalParams,
   AssetEndpointProfilesListByResourceGroupOptionalParams,
   AssetEndpointProfilesDeleteOptionalParams,
@@ -182,7 +208,7 @@ export {
   AssetEndpointProfilesCreateOrReplaceOptionalParams,
   AssetEndpointProfilesGetOptionalParams,
 } from "./api/assetEndpointProfiles/index.js";
-export {
+export type {
   AssetsListBySubscriptionOptionalParams,
   AssetsListByResourceGroupOptionalParams,
   AssetsDeleteOptionalParams,
@@ -190,39 +216,48 @@ export {
   AssetsCreateOrReplaceOptionalParams,
   AssetsGetOptionalParams,
 } from "./api/assets/index.js";
-export {
+export type {
   BillingContainersListBySubscriptionOptionalParams,
   BillingContainersGetOptionalParams,
 } from "./api/billingContainers/index.js";
-export {
+export type {
+  CredentialsSynchronizeOptionalParams,
+  CredentialsListByResourceGroupOptionalParams,
+  CredentialsUpdateOptionalParams,
+  CredentialsDeleteOptionalParams,
+  CredentialsCreateOrUpdateOptionalParams,
+  CredentialsGetOptionalParams,
+} from "./api/credentials/index.js";
+export type {
   NamespaceAssetsListByResourceGroupOptionalParams,
   NamespaceAssetsDeleteOptionalParams,
   NamespaceAssetsUpdateOptionalParams,
   NamespaceAssetsCreateOrReplaceOptionalParams,
   NamespaceAssetsGetOptionalParams,
 } from "./api/namespaceAssets/index.js";
-export {
+export type {
+  NamespaceDevicesRevokeOptionalParams,
   NamespaceDevicesListByResourceGroupOptionalParams,
   NamespaceDevicesDeleteOptionalParams,
   NamespaceDevicesUpdateOptionalParams,
   NamespaceDevicesCreateOrReplaceOptionalParams,
   NamespaceDevicesGetOptionalParams,
 } from "./api/namespaceDevices/index.js";
-export {
+export type {
   NamespaceDiscoveredAssetsListByResourceGroupOptionalParams,
   NamespaceDiscoveredAssetsDeleteOptionalParams,
   NamespaceDiscoveredAssetsUpdateOptionalParams,
   NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams,
   NamespaceDiscoveredAssetsGetOptionalParams,
 } from "./api/namespaceDiscoveredAssets/index.js";
-export {
+export type {
   NamespaceDiscoveredDevicesListByResourceGroupOptionalParams,
   NamespaceDiscoveredDevicesDeleteOptionalParams,
   NamespaceDiscoveredDevicesUpdateOptionalParams,
   NamespaceDiscoveredDevicesCreateOrReplaceOptionalParams,
   NamespaceDiscoveredDevicesGetOptionalParams,
 } from "./api/namespaceDiscoveredDevices/index.js";
-export {
+export type {
   NamespacesMigrateOptionalParams,
   NamespacesListBySubscriptionOptionalParams,
   NamespacesListByResourceGroupOptionalParams,
@@ -231,9 +266,18 @@ export {
   NamespacesCreateOrReplaceOptionalParams,
   NamespacesGetOptionalParams,
 } from "./api/namespaces/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export { OperationStatusGetOptionalParams } from "./api/operationStatus/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type { OperationStatusGetOptionalParams } from "./api/operationStatus/index.js";
+export type {
+  PoliciesActivateBringYourOwnRootOptionalParams,
+  PoliciesRevokeIssuerOptionalParams,
+  PoliciesListByResourceGroupOptionalParams,
+  PoliciesUpdateOptionalParams,
+  PoliciesDeleteOptionalParams,
+  PoliciesCreateOrUpdateOptionalParams,
+  PoliciesGetOptionalParams,
+} from "./api/policies/index.js";
+export type {
   SchemaRegistriesListBySubscriptionOptionalParams,
   SchemaRegistriesListByResourceGroupOptionalParams,
   SchemaRegistriesDeleteOptionalParams,
@@ -241,22 +285,23 @@ export {
   SchemaRegistriesCreateOrReplaceOptionalParams,
   SchemaRegistriesGetOptionalParams,
 } from "./api/schemaRegistries/index.js";
-export {
+export type {
   SchemasListBySchemaRegistryOptionalParams,
   SchemasDeleteOptionalParams,
   SchemasCreateOrReplaceOptionalParams,
   SchemasGetOptionalParams,
 } from "./api/schemas/index.js";
-export {
+export type {
   SchemaVersionsListBySchemaOptionalParams,
   SchemaVersionsDeleteOptionalParams,
   SchemaVersionsCreateOrReplaceOptionalParams,
   SchemaVersionsGetOptionalParams,
 } from "./api/schemaVersions/index.js";
-export {
+export type {
   AssetEndpointProfilesOperations,
   AssetsOperations,
   BillingContainersOperations,
+  CredentialsOperations,
   NamespaceAssetsOperations,
   NamespaceDevicesOperations,
   NamespaceDiscoveredAssetsOperations,
@@ -264,9 +309,11 @@ export {
   NamespacesOperations,
   OperationsOperations,
   OperationStatusOperations,
+  PoliciesOperations,
   SchemaRegistriesOperations,
   SchemasOperations,
   SchemaVersionsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

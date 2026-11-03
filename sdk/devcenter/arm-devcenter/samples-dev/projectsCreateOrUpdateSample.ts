@@ -1,72 +1,117 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a project.
- *
- * @summary Creates or updates a project.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_Put.json
- */
-
-import type { Project } from "@azure/arm-devcenter";
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a project.
+ *
+ * @summary creates or updates a project.
+ * x-ms-original-file: 2026-01-01-preview/Projects_Put.json
+ */
 async function projectsCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const projectName = "DevProject";
-  const body: Project = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.projects.createOrUpdate("rg1", "DevProject", {
+    location: "centralus",
     description: "This is my first project.",
     devCenterId:
       "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
     displayName: "Dev",
-    location: "centralus",
-    tags: { costCenter: "R&D" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.projects.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    projectName,
-    body,
-  );
+    assignedGroups: [
+      { objectId: "11111111-1111-1111-1111-111111111111", scope: "DevBox" },
+      { objectId: "22222222-2222-2222-2222-222222222222", scope: "DevBox" },
+    ],
+    tags: { CostCenter: "R&D" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a project.
+ * This sample demonstrates how to creates or updates a project.
  *
- * @summary Creates or updates a project.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_PutWithMaxDevBoxPerUser.json
+ * @summary creates or updates a project.
+ * x-ms-original-file: 2026-01-01-preview/Projects_PutWithCustomizationSettings.json
+ */
+async function projectsCreateOrUpdateWithCustomizationSettings(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.projects.createOrUpdate("rg1", "DevProject", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1":
+          {},
+      },
+    },
+    location: "centralus",
+    description: "This is my first project.",
+    customizationSettings: {
+      identities: [
+        {
+          identityResourceId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1",
+          identityType: "userAssignedIdentity",
+        },
+      ],
+    },
+    devCenterId:
+      "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
+    tags: { CostCenter: "R&D" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a project.
+ *
+ * @summary creates or updates a project.
+ * x-ms-original-file: 2026-01-01-preview/Projects_PutWithCustomizationSettings_SystemIdentity.json
+ */
+async function projectsCreateOrUpdateWithCustomizationSettingsSystemIdentity(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.projects.createOrUpdate("rg1", "DevProject", {
+    identity: { type: "SystemAssigned" },
+    location: "centralus",
+    description: "This is my first project.",
+    customizationSettings: { identities: [{ identityType: "systemAssignedIdentity" }] },
+    devCenterId:
+      "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
+    tags: { CostCenter: "R&D" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a project.
+ *
+ * @summary creates or updates a project.
+ * x-ms-original-file: 2026-01-01-preview/Projects_PutWithMaxDevBoxPerUser.json
  */
 async function projectsCreateOrUpdateWithLimitsPerDev(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const projectName = "DevProject";
-  const body: Project = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.projects.createOrUpdate("rg1", "DevProject", {
+    location: "centralus",
     description: "This is my first project.",
     devCenterId:
       "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
-    location: "centralus",
     maxDevBoxesPerUser: 3,
-    tags: { costCenter: "R&D" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.projects.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    projectName,
-    body,
-  );
+    tags: { CostCenter: "R&D" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await projectsCreateOrUpdate();
+  await projectsCreateOrUpdateWithCustomizationSettings();
+  await projectsCreateOrUpdateWithCustomizationSettingsSystemIdentity();
   await projectsCreateOrUpdateWithLimitsPerDev();
 }
 

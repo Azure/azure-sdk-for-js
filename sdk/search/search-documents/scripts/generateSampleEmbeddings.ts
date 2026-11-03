@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, OpenAIClient } from "@azure/openai";
+import { OpenAI } from "openai";
+import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 import { createWriteStream } from "fs";
 
@@ -26,10 +27,18 @@ const inputs = [
 ];
 
 async function main(): Promise<void> {
-  const client = new OpenAIClient(
-    process.env.AZURE_OPENAI_ENDPOINT!,
-    new AzureKeyCredential(process.env.AZURE_OPENAI_KEY!),
-  );
+  const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
+  if (!endpoint) {
+    throw new Error("Please set the AZURE_OPENAI_ENDPOINT environment variable.");
+  }
+  const model = process.env.AZURE_OPENAI_DEPLOYMENT_NAME;
+  if (!model ) {
+    throw new Error("Please set the AZURE_OPENAI_DEPLOYMENT_NAME environment variable.");
+  }
+  const credential = new DefaultAzureCredential();
+  const scope = "https://cognitiveservices.azure.com/.default";
+  const azureADTokenProvider = getBearerTokenProvider(credential, scope);
+  const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
 
   const writeStream = createWriteStream(outputPath, { mode: 0o755 });
 
@@ -41,7 +50,7 @@ async function main(): Promise<void> {
 
   const expressions = await Promise.all(
     inputs.map(async ({ ident, text, comment }) => {
-      const result = await client.getEmbeddings(process.env.AZURE_OPENAI_DEPLOYMENT_NAME!, [text]);
+      const result = await client.embeddings.create({ input: [text], model });
       const embedding = result.data[0].embedding;
       return `// ${comment}\nexport const ${ident} = [${embedding.toString()}];\n\n`;
     }),

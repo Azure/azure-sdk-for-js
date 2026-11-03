@@ -5,8 +5,10 @@
 ```ts
 
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -20,6 +22,8 @@ export const AggregateLogsUploadErrorName = "AggregateLogsUploadError";
 
 // @public
 export function isAggregateLogsUploadError(e: unknown): e is AggregateLogsUploadError;
+
+export { isRestError }
 
 // @public
 export enum KnownMonitorAudience {
@@ -59,6 +63,8 @@ export interface LogsUploadOptions extends OperationOptions {
     maxConcurrency?: number;
     onError?: (uploadLogsError: LogsUploadFailure) => void;
 }
+
+export { RestError }
 
 // (No @packageDocumentation comment for this package)
 

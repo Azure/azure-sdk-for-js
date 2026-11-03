@@ -1,35 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Rerun single trigger instance by runId.
- *
- * @summary Rerun single trigger instance by runId.
- * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/TriggerRuns_Rerun.json
- */
-
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to rerun single trigger instance by runId.
+ *
+ * @summary rerun single trigger instance by runId.
+ * x-ms-original-file: 2018-06-01/TriggerRuns_Rerun.json
+ */
 async function triggersRerun(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
-    "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName =
-    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const factoryName = "exampleFactoryName";
-  const triggerName = "exampleTrigger";
-  const runId = "2f7fdb90-5df1-4b8e-ac2f-064cfa58202b";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
   const client = new DataFactoryManagementClient(credential, subscriptionId);
-  const result = await client.triggerRuns.rerun(
-    resourceGroupName,
-    factoryName,
-    triggerName,
-    runId,
+  await client.triggerRuns.rerun(
+    "exampleResourceGroup",
+    "exampleFactoryName",
+    "exampleTrigger",
+    "2f7fdb90-5df1-4b8e-ac2f-064cfa58202b",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

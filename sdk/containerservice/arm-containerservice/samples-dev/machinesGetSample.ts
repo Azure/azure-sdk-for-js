@@ -3,30 +3,22 @@
 
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a specific machine in the specified agent pool.
+ * This sample demonstrates how to get a specific machine in the specified agent pool.
  *
- * @summary Get a specific machine in the specified agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/MachineGet.json
+ * @summary get a specific machine in the specified agent pool.
+ * x-ms-original-file: 2026-08-02-preview/MachineGet.json
  */
 async function getAMachineInAnAgentPoolsByManagedCluster(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const machineName = "aks-nodepool1-42263519-vmss00000t";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.machines.get(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    machineName,
+    "rg1",
+    "clustername1",
+    "agentpool1",
+    "aks-nodepool1-42263519-vmss00000t",
   );
   console.log(result);
 }

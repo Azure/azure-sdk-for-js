@@ -3,35 +3,22 @@
 
 import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets all access policy assignments..
+ * This sample demonstrates how to gets all access policy assignments..
  *
- * @summary Gets all access policy assignments..
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseAccessPolicyAssignmentsList.json
+ * @summary gets all access policy assignments..
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseAccessPolicyAssignmentsList.json
  */
 async function redisEnterpriseAccessPolicyAssignmentList(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
-  const databaseName = "default";
   const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.accessPolicyAssignmentOperations.list(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-  )) {
+  for await (const item of client.accessPolicyAssignment.list("rg1", "cache1", "default")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -3,23 +3,18 @@
 
 import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The services resource is the top-level resource that represents the Azure Database Migration Service (classic). This action performs a health check and returns the status of the service and virtual machine size.
+ * This sample demonstrates how to the services resource is the top-level resource that represents the Azure Database Migration Service (classic). This action performs a health check and returns the status of the service and virtual machine size.
  *
- * @summary The services resource is the top-level resource that represents the Azure Database Migration Service (classic). This action performs a health check and returns the status of the service and virtual machine size.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/Services_CheckStatus.json
+ * @summary the services resource is the top-level resource that represents the Azure Database Migration Service (classic). This action performs a health check and returns the status of the service and virtual machine size.
+ * x-ms-original-file: 2025-09-01-preview/Services_CheckStatus.json
  */
 async function servicesCheckStatus(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "fc04246f-04c5-437e-ac5e-206a19e7193f";
-  const groupName = "DmsSdkRg";
-  const serviceName = "DmsSdkService";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "fc04246f-04c5-437e-ac5e-206a19e7193f";
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.services.checkStatus(groupName, serviceName);
+  const result = await client.services.checkStatus("DmsSdkRg", "DmsSdkService");
   console.log(result);
 }
 

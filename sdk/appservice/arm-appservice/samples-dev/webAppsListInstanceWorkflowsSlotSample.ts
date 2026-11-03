@@ -3,32 +3,26 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List the workflows for a web site, or a deployment slot.
+ * This sample demonstrates how to list the workflows for a web site, or a deployment slot.
  *
- * @summary List the workflows for a web site, or a deployment slot.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/ListWorkflows.json
+ * @summary list the workflows for a web site, or a deployment slot.
+ * x-ms-original-file: 2025-05-01/ListWorkflows_Slot.json
  */
 async function listTheWorkflowsSlot(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "testsite2";
-  const slot = "staging";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.webApps.listInstanceWorkflowsSlot(
-    resourceGroupName,
-    name,
-    slot,
+    "testrg123",
+    "testsite2",
+    "staging",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

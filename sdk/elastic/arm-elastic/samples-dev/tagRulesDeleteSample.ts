@@ -3,30 +3,18 @@
 
 import { MicrosoftElastic } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete a tag rule set for a given Elastic monitor resource, removing fine-grained control over observability based on resource tags.
+ * This sample demonstrates how to delete a tag rule set for a given Elastic monitor resource, removing fine-grained control over observability based on resource tags.
  *
- * @summary Delete a tag rule set for a given Elastic monitor resource, removing fine-grained control over observability based on resource tags.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2025-06-01/examples/TagRules_Delete.json
+ * @summary delete a tag rule set for a given Elastic monitor resource, removing fine-grained control over observability based on resource tags.
+ * x-ms-original-file: 2025-06-01/TagRules_Delete.json
  */
 async function tagRulesDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTIC_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
-  const ruleSetName = "default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MicrosoftElastic(credential, subscriptionId);
-  const result = await client.tagRules.beginDeleteAndWait(
-    resourceGroupName,
-    monitorName,
-    ruleSetName,
-  );
-  console.log(result);
+  await client.tagRules.delete("myResourceGroup", "myMonitor", "default");
 }
 
 async function main(): Promise<void> {

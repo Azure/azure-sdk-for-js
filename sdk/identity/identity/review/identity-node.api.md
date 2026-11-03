@@ -327,6 +327,16 @@ export function getDefaultAzureCredential(): TokenCredential;
 export { GetTokenOptions }
 
 // @public
+export class GitHubActionsCredential implements TokenCredential {
+    constructor(options?: GitHubActionsCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export interface GitHubActionsCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
+}
+
+// @public
 export type IdentityPlugin = (context: unknown) => void;
 
 // @public

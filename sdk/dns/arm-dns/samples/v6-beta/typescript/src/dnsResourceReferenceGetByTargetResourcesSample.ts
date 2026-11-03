@@ -1,0 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { DnsManagementClient } from "@azure/arm-dns";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to returns the DNS records specified by the referencing targetResourceIds.
+ *
+ * @summary returns the DNS records specified by the referencing targetResourceIds.
+ * x-ms-original-file: 2023-07-01-preview/GetDnsResourceReference.json
+ */
+async function getDNSResourceReference(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.dnsResourceReference.getByTargetResources({
+    targetResources: [
+      {
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/trafficManagerProfiles/testpp2",
+      },
+    ],
+  });
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await getDNSResourceReference();
+}
+
+main().catch(console.error);

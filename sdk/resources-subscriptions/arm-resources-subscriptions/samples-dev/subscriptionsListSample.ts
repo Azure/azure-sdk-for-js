@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets all subscriptions for a tenant.
- *
- * @summary Gets all subscriptions for a tenant.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-12-01/examples/GetSubscriptions.json
- */
-
 import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets all subscriptions for a tenant.
+ *
+ * @summary gets all subscriptions for a tenant.
+ * x-ms-original-file: 2022-12-01/GetSubscriptions.json
+ */
 async function getAllSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
@@ -19,6 +17,7 @@ async function getAllSubscriptions(): Promise<void> {
   for await (const item of client.subscriptions.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

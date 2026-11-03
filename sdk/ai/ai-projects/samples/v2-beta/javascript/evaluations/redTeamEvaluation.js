@@ -17,21 +17,21 @@
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
- * 2) AZURE_AI_AGENT_NAME - Required. The name of the Agent to perform red teaming evaluation on.
- * 3) MODEL_DEPLOYMENT_NAME - Required. The name of the model deployment to use for the agent.
+ * 2) FOUNDRY_AGENT_NAME - Required. The name of the Agent to perform red teaming evaluation on.
+ * 3) FOUNDRY_MODEL_NAME - Required. The name of the model deployment to use for the agent.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const path = require("path");
-const fs = require("fs");
+const fs = require("node:fs/promises");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const agentName = process.env["AZURE_AI_AGENT_NAME"] || "my-red-team-agent";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "my-red-team-agent";
+const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 // Construct the paths to the data folder
 const dataFolder = "./data_folder";
@@ -113,7 +113,7 @@ function getToolDescriptions(agent) {
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   try {
     // Create agent
@@ -179,15 +179,16 @@ async function main() {
       taxonomyInput: agentTaxonomyInput,
     };
 
-    const taxonomy = await project.evaluationTaxonomies.create(agentName, evaluationTaxonomyInput);
+    const taxonomy = await project.beta.evaluationTaxonomies.create(
+      agentName,
+      evaluationTaxonomyInput,
+    );
 
     // Create the data folder if it doesn't exist
-    if (!fs.existsSync(dataFolder)) {
-      fs.mkdirSync(dataFolder, { recursive: true });
-    }
+    await fs.mkdir(dataFolder, { recursive: true });
 
     const taxonomyPath = path.join(dataFolder, `taxonomy_${agentName}.json`);
-    fs.writeFileSync(taxonomyPath, JSON.stringify(taxonomy, null, 2));
+    await fs.writeFile(taxonomyPath, JSON.stringify(taxonomy, null, 2));
     console.log(
       `Red teaming Taxonomy created for agent: ${agentName}. Taxonomy written to ${taxonomyPath}`,
     );
@@ -237,7 +238,7 @@ async function main() {
     }
 
     const outputItemsPath = path.join(dataFolder, `redteam_eval_output_items_${agentName}.json`);
-    fs.writeFileSync(outputItemsPath, JSON.stringify(outputItems, null, 2));
+    await fs.writeFile(outputItemsPath, JSON.stringify(outputItems, null, 2));
     console.log(
       `\nRedTeam Eval Run completed with status: ${evalRunResponse.status}. Output items written to ${outputItemsPath}`,
     );

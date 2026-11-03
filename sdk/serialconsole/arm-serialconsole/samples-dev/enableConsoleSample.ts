@@ -1,23 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Enables the Serial Console service for all VMs and VM scale sets in the provided subscription
- *
- * @summary Enables the Serial Console service for all VMs and VM scale sets in the provided subscription
- * x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/EnableConsoleExamples.json
- */
-
 import { MicrosoftSerialConsoleClient } from "@azure/arm-serialconsole";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to enables the Serial Console service for all VMs and VM scale sets in the provided subscription
+ *
+ * @summary enables the Serial Console service for all VMs and VM scale sets in the provided subscription
+ * x-ms-original-file: 2024-07-01/EnableConsoleExamples.json
+ */
 async function enableSerialConsoleForASubscription(): Promise<void> {
-  const subscriptionId = "00000000-00000-0000-0000-000000000000";
-  const defaultParam = "default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MicrosoftSerialConsoleClient(credential, subscriptionId);
-  const result = await client.enableConsole(defaultParam);
+  const result = await client.enableConsole("default");
   console.log(result);
 }
 
-enableSerialConsoleForASubscription().catch(console.error);
+async function main(): Promise<void> {
+  await enableSerialConsoleForASubscription();
+}
+
+main().catch(console.error);

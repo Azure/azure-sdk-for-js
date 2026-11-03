@@ -1,33 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List environment definitions in the catalog.
- *
- * @summary List environment definitions in the catalog.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/EnvironmentDefinitions_ListByCatalog.json
- */
-
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list environment definitions in the catalog.
+ *
+ * @summary list environment definitions in the catalog.
+ * x-ms-original-file: 2026-01-01-preview/EnvironmentDefinitions_ListByCatalog.json
+ */
 async function environmentDefinitionsListByCatalog(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const devCenterName = "Contoso";
-  const catalogName = "myCatalog";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.environmentDefinitions.listByCatalog(
-    resourceGroupName,
-    devCenterName,
-    catalogName,
+    "rg1",
+    "Contoso",
+    "myCatalog",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

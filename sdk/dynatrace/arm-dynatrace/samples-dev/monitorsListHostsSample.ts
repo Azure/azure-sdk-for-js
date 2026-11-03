@@ -1,48 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List the VM/VMSS resources currently being monitored by the Dynatrace resource.
- *
- * @summary List the VM/VMSS resources currently being monitored by the Dynatrace resource.
- * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_ListHosts_MaximumSet_Gen.json
- */
-
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list the VM/VMSS resources currently being monitored by the Dynatrace resource.
+ *
+ * @summary list the VM/VMSS resources currently being monitored by the Dynatrace resource.
+ * x-ms-original-file: 2024-04-24/Monitors_ListHosts_MaximumSet_Gen.json
+ */
 async function monitorsListHostsMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.monitors.listHosts(resourceGroupName, monitorName)) {
+  for await (const item of client.monitors.listHosts("myResourceGroup", "myMonitor")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to List the VM/VMSS resources currently being monitored by the Dynatrace resource.
+ * This sample demonstrates how to list the VM/VMSS resources currently being monitored by the Dynatrace resource.
  *
- * @summary List the VM/VMSS resources currently being monitored by the Dynatrace resource.
- * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_ListHosts_MinimumSet_Gen.json
+ * @summary list the VM/VMSS resources currently being monitored by the Dynatrace resource.
+ * x-ms-original-file: 2024-04-24/Monitors_ListHosts_MinimumSet_Gen.json
  */
 async function monitorsListHostsMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.monitors.listHosts(resourceGroupName, monitorName)) {
+  for await (const item of client.monitors.listHosts("myResourceGroup", "myMonitor")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

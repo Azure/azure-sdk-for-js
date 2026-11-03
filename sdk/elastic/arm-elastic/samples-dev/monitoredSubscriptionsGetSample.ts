@@ -3,29 +3,18 @@
 
 import { MicrosoftElastic } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get detailed information about all subscriptions currently being monitored by the Elastic monitor resource.
+ * This sample demonstrates how to get detailed information about all subscriptions currently being monitored by the Elastic monitor resource.
  *
- * @summary Get detailed information about all subscriptions currently being monitored by the Elastic monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2025-06-01/examples/MonitoredSubscriptions_Get.json
+ * @summary get detailed information about all subscriptions currently being monitored by the Elastic monitor resource.
+ * x-ms-original-file: 2025-06-01/MonitoredSubscriptions_Get.json
  */
 async function monitorsGetMonitoredSubscriptions(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTIC_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
-  const configurationName = "default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MicrosoftElastic(credential, subscriptionId);
-  const result = await client.monitoredSubscriptions.get(
-    resourceGroupName,
-    monitorName,
-    configurationName,
-  );
+  const result = await client.monitoredSubscriptions.get("myResourceGroup", "myMonitor", "default");
   console.log(result);
 }
 

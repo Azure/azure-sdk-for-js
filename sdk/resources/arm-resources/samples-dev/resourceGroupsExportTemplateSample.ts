@@ -1,89 +1,60 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Captures the specified resource group as a template.
- *
- * @summary Captures the specified resource group as a template.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-04-01/examples/ExportResourceGroup.json
- */
-
-import {
-  ExportTemplateRequest,
-  ResourceManagementClient,
-} from "@azure/arm-resources";
+import { ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to captures the specified resource group as a template.
+ *
+ * @summary captures the specified resource group as a template.
+ * x-ms-original-file: 2025-04-01/ExportResourceGroup.json
+ */
 async function exportAResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
-  const parameters: ExportTemplateRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ResourceManagementClient(credential, subscriptionId);
+  const result = await client.resourceGroups.exportTemplate("my-resource-group", {
     options: "IncludeParameterDefaultValue,IncludeComments",
     resources: ["*"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ResourceManagementClient(credential, subscriptionId);
-  const result = await client.resourceGroups.beginExportTemplateAndWait(
-    resourceGroupName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Captures the specified resource group as a template.
+ * This sample demonstrates how to captures the specified resource group as a template.
  *
- * @summary Captures the specified resource group as a template.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-04-01/examples/ExportResourceGroupAsBicep.json
+ * @summary captures the specified resource group as a template.
+ * x-ms-original-file: 2025-04-01/ExportResourceGroupAsBicep.json
  */
 async function exportAResourceGroupAsBicep(): Promise<void> {
-  const subscriptionId =
-    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
-  const parameters: ExportTemplateRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ResourceManagementClient(credential, subscriptionId);
+  const result = await client.resourceGroups.exportTemplate("my-resource-group", {
     options: "IncludeParameterDefaultValue,IncludeComments",
     outputFormat: "Bicep",
     resources: ["*"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ResourceManagementClient(credential, subscriptionId);
-  const result = await client.resourceGroups.beginExportTemplateAndWait(
-    resourceGroupName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Captures the specified resource group as a template.
+ * This sample demonstrates how to captures the specified resource group as a template.
  *
- * @summary Captures the specified resource group as a template.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-04-01/examples/ExportResourceGroupWithFiltering.json
+ * @summary captures the specified resource group as a template.
+ * x-ms-original-file: 2025-04-01/ExportResourceGroupWithFiltering.json
  */
 async function exportAResourceGroupWithFiltering(): Promise<void> {
-  const subscriptionId =
-    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
-  const parameters: ExportTemplateRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ResourceManagementClient(credential, subscriptionId);
+  const result = await client.resourceGroups.exportTemplate("my-resource-group", {
     options: "SkipResourceNameParameterization",
     resources: [
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/My.RP/myResourceType/myFirstResource",
     ],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ResourceManagementClient(credential, subscriptionId);
-  const result = await client.resourceGroups.beginExportTemplateAndWait(
-    resourceGroupName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

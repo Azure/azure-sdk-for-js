@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an existing API Management gateway.
- *
- * @summary Deletes an existing API Management gateway.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGatewayDeleteGateway.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes an existing API Management gateway.
+ *
+ * @summary deletes an existing API Management gateway.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGatewayDeleteGateway.json
+ */
 async function apiManagementGatewayDeleteGateway(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const gatewayName = "example-gateway";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiGateway.beginDeleteAndWait(
-    resourceGroupName,
-    gatewayName,
-  );
+  const result = await client.apiGateway.delete("rg1", "example-gateway");
   console.log(result);
 }
 

@@ -3,9 +3,9 @@
 
 export { listByDynamicSchema, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  DynamicSchemaVersionsListByDynamicSchemaOptionalParams,
-  DynamicSchemaVersionsDeleteOptionalParams,
-  DynamicSchemaVersionsUpdateOptionalParams,
-  DynamicSchemaVersionsCreateOrUpdateOptionalParams,
-  DynamicSchemaVersionsGetOptionalParams,
+  type DynamicSchemaVersionsListByDynamicSchemaOptionalParams,
+  type DynamicSchemaVersionsDeleteOptionalParams,
+  type DynamicSchemaVersionsUpdateOptionalParams,
+  type DynamicSchemaVersionsCreateOrUpdateOptionalParams,
+  type DynamicSchemaVersionsGetOptionalParams,
 } from "./options.js";

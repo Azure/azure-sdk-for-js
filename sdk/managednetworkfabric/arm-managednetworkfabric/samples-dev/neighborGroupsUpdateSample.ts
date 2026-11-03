@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates the Neighbor Group.
- *
- * @summary Updates the Neighbor Group.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NeighborGroups_Update_MaximumSet_Gen.json
- */
-
-import type { NeighborGroupPatch } from "@azure/arm-managednetworkfabric";
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates the Neighbor Group.
+ *
+ * @summary updates the Neighbor Group.
+ * x-ms-original-file: 2025-07-15/NeighborGroups_Update.json
+ */
 async function neighborGroupsUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const neighborGroupName = "example-neighborGroup";
-  const body: NeighborGroupPatch = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
+  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
+  const result = await client.neighborGroups.update("example-rg", "example-neighborGroup", {
+    tags: { KeyId: "KeyValue" },
+    identity: { type: "None", userAssignedIdentities: { key8793: {} } },
     annotation: "Updating",
     destination: {
       ipv4Addresses: [
@@ -34,15 +32,7 @@ async function neighborGroupsUpdateMaximumSetGen(): Promise<void> {
       ],
       ipv6Addresses: ["2F::/100"],
     },
-    tags: { key8107: "2345" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.neighborGroups.beginUpdateAndWait(
-    resourceGroupName,
-    neighborGroupName,
-    body,
-  );
+  });
   console.log(result);
 }
 

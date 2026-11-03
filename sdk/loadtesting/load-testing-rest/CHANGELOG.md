@@ -1,5 +1,17 @@
 # Release History
 
+## 1.2.0-beta.1 (2026-03-15)
+
+Updated the client library to use API Version `2025-11-01-preview`. This adds all the capabilities that were introduced until this API version.
+
+### Features Added
+
+- Support for Notification Rules
+- Support for Triggers
+- Support for Actionable Insights
+- Support for Test Plan Recommendations
+- Support for Cloning Load Tests
+
 ## 1.1.0-beta.1 (2025-03-20)
 
 Updated the client library to use API Version 2025-05-01-preview. This adds all the capabilities that were introduced until this API version.

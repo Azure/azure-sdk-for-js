@@ -1,48 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the details of the API specified by its identifier.
- *
- * @summary Gets the details of the API specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGetApiContract.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the details of the API specified by its identifier.
+ *
+ * @summary gets the details of the API specified by its identifier.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGetApiContract.json
+ */
 async function apiManagementGetApiContract(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "57d1f7558aa04f15146d9d8a";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.get(resourceGroupName, serviceName, apiId);
+  const result = await client.api.get("rg1", "apimService1", "57d1f7558aa04f15146d9d8a");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the details of the API specified by its identifier.
+ * This sample demonstrates how to gets the details of the API specified by its identifier.
  *
- * @summary Gets the details of the API specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGetApiRevision.json
+ * @summary gets the details of the API specified by its identifier.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGetApiRevision.json
  */
 async function apiManagementGetApiRevisionContract(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "echo-api;rev=3";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.get(resourceGroupName, serviceName, apiId);
+  const result = await client.api.get("rg1", "apimService1", "echo-api;rev=3");
   console.log(result);
 }
 

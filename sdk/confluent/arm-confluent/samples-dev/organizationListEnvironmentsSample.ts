@@ -1,40 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists of all the environments in a organization
- *
- * @summary Lists of all the environments in a organization
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_EnvironmentList.json
- */
-
-import type { OrganizationListEnvironmentsOptionalParams } from "@azure/arm-confluent";
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function organizationListEnvironments(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const pageSize = 10;
-  const options: OrganizationListEnvironmentsOptionalParams = { pageSize };
+/**
+ * This sample demonstrates how to lists of all the environments in a organization
+ *
+ * @summary lists of all the environments in a organization
+ * x-ms-original-file: 2026-06-02-preview/Organization_ListEnvironments_MaximumSet_Gen.json
+ */
+async function organizationListEnvironmentsMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.organization.listEnvironments(
-    resourceGroupName,
-    organizationName,
-    options,
+    "rgconfluent",
+    "zgvcszgobzkrvomvhkabzamqincp",
+    { pageSize: 21, pageToken: "e" },
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await organizationListEnvironments();
+  await organizationListEnvironmentsMaximumSet();
 }
 
 main().catch(console.error);

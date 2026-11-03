@@ -1,67 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DatabaseMigrationsSqlMiGetOptionalParams,
-  DataMigrationManagementClient,
-} from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieve the specified database migration for a given SQL Managed Instance.
+ * This sample demonstrates how to retrieve the specified database migration for a given SQL Managed Instance.
  *
- * @summary Retrieve the specified database migration for a given SQL Managed Instance.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/SqlMiGetDatabaseMigrationExpanded.json
+ * @summary retrieve the specified database migration for a given SQL Managed Instance.
+ * x-ms-original-file: 2025-09-01-preview/SqlMiGetDatabaseMigration.json
  */
-async function getSqlMiDatabaseMigrationWithTheExpandParameter(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "managedInstance1";
-  const targetDbName = "db1";
-  const expand = "MigrationStatusDetails";
-  const options: DatabaseMigrationsSqlMiGetOptionalParams = { expand };
+async function getSqlMIDatabaseMigrationWithoutTheExpandParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.databaseMigrationsSqlMi.get(
-    resourceGroupName,
-    managedInstanceName,
-    targetDbName,
-    options,
-  );
+  const result = await client.databaseMigrationsSqlMi.get("testrg", "managedInstance1", "db1");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Retrieve the specified database migration for a given SQL Managed Instance.
+ * This sample demonstrates how to retrieve the specified database migration for a given SQL Managed Instance.
  *
- * @summary Retrieve the specified database migration for a given SQL Managed Instance.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/SqlMiGetDatabaseMigration.json
+ * @summary retrieve the specified database migration for a given SQL Managed Instance.
+ * x-ms-original-file: 2025-09-01-preview/SqlMiGetDatabaseMigrationExpanded.json
  */
-async function getSqlMiDatabaseMigrationWithoutTheExpandParameter(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "managedInstance1";
-  const targetDbName = "db1";
+async function getSqlMIDatabaseMigrationWithTheExpandParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.databaseMigrationsSqlMi.get(
-    resourceGroupName,
-    managedInstanceName,
-    targetDbName,
-  );
+  const result = await client.databaseMigrationsSqlMi.get("testrg", "managedInstance1", "db1", {
+    expand: "MigrationStatusDetails",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getSqlMiDatabaseMigrationWithTheExpandParameter();
-  await getSqlMiDatabaseMigrationWithoutTheExpandParameter();
+  await getSqlMIDatabaseMigrationWithoutTheExpandParameter();
+  await getSqlMIDatabaseMigrationWithTheExpandParameter();
 }
 
 main().catch(console.error);

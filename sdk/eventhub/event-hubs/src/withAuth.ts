@@ -65,11 +65,11 @@ export async function openCbsSession(
     () =>
       client.init({
         abortSignal,
-        timeoutInMs: timeoutAfterStartTime - Date.now(),
+        timeoutInMs: Math.max(timeoutAfterStartTime - Date.now(), 0),
       }),
     {
       abortSignal,
-      timeoutInMs: timeoutAfterStartTime - Date.now(),
+      timeoutInMs: Math.max(timeoutAfterStartTime - Date.now(), 0),
     },
   );
 }
@@ -130,11 +130,11 @@ function negotiateClaim(
     () =>
       cbsSession.negotiateClaim(audience, token.token, type, {
         abortSignal,
-        timeoutInMs: timeoutAfterStartTime - Date.now(),
+        timeoutInMs: Math.max(timeoutAfterStartTime - Date.now(), 0),
       }),
     {
       abortSignal,
-      timeoutInMs: timeoutAfterStartTime - Date.now(),
+      timeoutInMs: Math.max(timeoutAfterStartTime - Date.now(), 0),
     },
   );
 }

@@ -1,34 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  Database} from "@azure/arm-redisenterprisecache";
-import {
-  RedisEnterpriseManagementClient,
-} from "@azure/arm-redisenterprisecache";
+import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates a database
+ * This sample demonstrates how to creates a database
  *
- * @summary Creates a database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseDatabasesCreate.json
+ * @summary creates a database
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesCreate.json
  */
 async function redisEnterpriseDatabasesCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
-  const databaseName = "default";
-  const parameters: Database = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  const result = await client.databases.create("rg1", "cache1", "default", {
     accessKeysAuthentication: "Enabled",
     clientProtocol: "Encrypted",
     clusteringPolicy: "EnterpriseCluster",
     deferUpgrade: "NotDeferred",
     evictionPolicy: "AllKeysLRU",
+    notifyKeyspaceEvents: "KEA",
     modules: [
       { name: "RedisBloom", args: "ERROR_RATE 0.00 INITIAL_SIZE 400" },
       { name: "RedisTimeSeries", args: "RETENTION_POLICY 20" },
@@ -36,70 +28,21 @@ async function redisEnterpriseDatabasesCreate(): Promise<void> {
     ],
     persistence: { aofEnabled: true, aofFrequency: "1s" },
     port: 10000,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.databases.beginCreateAndWait(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a database
+ * This sample demonstrates how to creates a database
  *
- * @summary Creates a database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseDatabasesNoClusterCacheCreate.json
- */
-async function redisEnterpriseDatabasesCreateNoClusterCache(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
-  const databaseName = "default";
-  const parameters: Database = {
-    clientProtocol: "Encrypted",
-    clusteringPolicy: "NoCluster",
-    evictionPolicy: "NoEviction",
-    port: 10000,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.databases.beginCreateAndWait(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates a database
- *
- * @summary Creates a database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseDatabasesCreateWithGeoReplication.json
+ * @summary creates a database
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesCreateWithGeoReplication.json
  */
 async function redisEnterpriseDatabasesCreateWithActiveGeoReplication(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
-  const databaseName = "default";
-  const parameters: Database = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  const result = await client.databases.create("rg1", "cache1", "default", {
     accessKeysAuthentication: "Enabled",
     clientProtocol: "Encrypted",
     clusteringPolicy: "EnterpriseCluster",
@@ -115,26 +58,36 @@ async function redisEnterpriseDatabasesCreateWithActiveGeoReplication(): Promise
         },
       ],
     },
+    notifyKeyspaceEvents: "KEA",
     port: 10000,
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a database
+ *
+ * @summary creates a database
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesNoClusterCacheCreate.json
+ */
+async function redisEnterpriseDatabasesCreateNoClusterCache(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.databases.beginCreateAndWait(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    parameters,
-  );
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  const result = await client.databases.create("rg1", "cache1", "default", {
+    clientProtocol: "Encrypted",
+    clusteringPolicy: "NoCluster",
+    evictionPolicy: "NoEviction",
+    notifyKeyspaceEvents: "",
+    port: 10000,
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await redisEnterpriseDatabasesCreate();
-  await redisEnterpriseDatabasesCreateNoClusterCache();
   await redisEnterpriseDatabasesCreateWithActiveGeoReplication();
+  await redisEnterpriseDatabasesCreateNoClusterCache();
 }
 
 main().catch(console.error);

@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { IoTOperationsClient } from "@azure/arm-iotoperations";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_ComplexContextualization.json
+ * x-ms-original-file: 2026-07-01/Dataflow_CreateOrUpdate_ComplexContextualization.json
  */
-
-import { IoTOperationsClient } from "@azure/arm-iotoperations";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function dataflowCreateOrUpdateComplexContextualization(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
@@ -52,15 +51,12 @@ async function dataflowCreateOrUpdateComplexContextualization(): Promise<void> {
           {
             operationType: "Destination",
             name: "destination1",
-            destinationSettings: {
-              endpointRef: "adx-endpoint",
-              dataDestination: "mytable",
-            },
+            destinationSettings: { endpointRef: "adx-endpoint", dataDestination: "mytable" },
           },
         ],
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -72,7 +68,7 @@ async function dataflowCreateOrUpdateComplexContextualization(): Promise<void> {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_ComplexEventHub.json
+ * x-ms-original-file: 2026-07-01/Dataflow_CreateOrUpdate_ComplexEventHub.json
  */
 async function dataflowCreateOrUpdateComplexEventHub(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -111,16 +107,8 @@ async function dataflowCreateOrUpdateComplexEventHub(): Promise<void> {
                   expression: "($1+$2)/2",
                   output: "AvgTemp.Value",
                 },
-                {
-                  inputs: [],
-                  expression: "true",
-                  output: "dataflow-processed",
-                },
-                {
-                  inputs: ["temperature.SourceTimestamp"],
-                  expression: "",
-                  output: "",
-                },
+                { inputs: [], expression: "true", output: "dataflow-processed" },
+                { inputs: ["temperature.SourceTimestamp"], expression: "", output: "" },
                 { inputs: ['"Tag 10"'], expression: "", output: "pressure" },
                 {
                   inputs: ["temperature.Value"],
@@ -146,7 +134,7 @@ async function dataflowCreateOrUpdateComplexEventHub(): Promise<void> {
         ],
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -158,7 +146,7 @@ async function dataflowCreateOrUpdateComplexEventHub(): Promise<void> {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_FilterToTopic.json
+ * x-ms-original-file: 2026-07-01/Dataflow_CreateOrUpdate_FilterToTopic.json
  */
 async function dataflowCreateOrUpdateFilterToTopic(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -207,7 +195,7 @@ async function dataflowCreateOrUpdateFilterToTopic(): Promise<void> {
         ],
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -219,7 +207,7 @@ async function dataflowCreateOrUpdateFilterToTopic(): Promise<void> {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/Dataflow_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function dataflowCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -233,6 +221,7 @@ async function dataflowCreateOrUpdate(): Promise<void> {
     {
       properties: {
         mode: "Enabled",
+        requestDiskPersistence: "Disabled",
         operations: [
           {
             operationType: "Source",
@@ -282,7 +271,7 @@ async function dataflowCreateOrUpdate(): Promise<void> {
         ],
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -294,7 +283,7 @@ async function dataflowCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_SimpleEventGrid.json
+ * x-ms-original-file: 2026-07-01/Dataflow_CreateOrUpdate_SimpleEventGrid.json
  */
 async function dataflowCreateOrUpdateSimpleEventGrid(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -328,7 +317,7 @@ async function dataflowCreateOrUpdateSimpleEventGrid(): Promise<void> {
         ],
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -340,7 +329,7 @@ async function dataflowCreateOrUpdateSimpleEventGrid(): Promise<void> {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_SimpleFabric.json
+ * x-ms-original-file: 2026-07-01/Dataflow_CreateOrUpdate_SimpleFabric.json
  */
 async function dataflowCreateOrUpdateSimpleFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -381,7 +370,7 @@ async function dataflowCreateOrUpdateSimpleFabric(): Promise<void> {
         ],
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },

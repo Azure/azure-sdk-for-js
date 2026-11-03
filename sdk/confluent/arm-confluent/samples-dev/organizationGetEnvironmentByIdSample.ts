@@ -1,35 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get Environment details by environment Id
- *
- * @summary Get Environment details by environment Id
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_GetEnvironmentById.json
- */
-
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function organizationGetEnvironmentById(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const environmentId = "dlz-f3a90de";
+/**
+ * This sample demonstrates how to get Environment details by environment Id
+ *
+ * @summary get Environment details by environment Id
+ * x-ms-original-file: 2026-06-02-preview/Organization_GetEnvironmentById_MaximumSet_Gen.json
+ */
+async function organizationGetEnvironmentByIdMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
-  const result = await client.organization.getEnvironmentById(
-    resourceGroupName,
-    organizationName,
-    environmentId,
-  );
+  const result = await client.organization.getEnvironmentById("rgconfluent", "p", "kvifvjnmbilj");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await organizationGetEnvironmentById();
+  await organizationGetEnvironmentByIdMaximumSet();
 }
 
 main().catch(console.error);

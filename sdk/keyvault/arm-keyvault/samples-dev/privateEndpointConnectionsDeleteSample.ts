@@ -3,28 +3,21 @@
 
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified private endpoint connection associated with the key vault.
+ * This sample demonstrates how to deletes the specified private endpoint connection associated with the key vault.
  *
- * @summary Deletes the specified private endpoint connection associated with the key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/deletePrivateEndpointConnection.json
+ * @summary deletes the specified private endpoint connection associated with the key vault.
+ * x-ms-original-file: 2026-05-15/deletePrivateEndpointConnection.json
  */
 async function keyVaultDeletePrivateEndpointConnection(): Promise<void> {
-  const subscriptionId =
-    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-group";
-  const vaultName = "sample-vault";
-  const privateEndpointConnectionName = "sample-pec";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new KeyVaultManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnections.beginDeleteAndWait(
-    resourceGroupName,
-    vaultName,
-    privateEndpointConnectionName,
+  const result = await client.privateEndpointConnections.delete(
+    "sample-group",
+    "sample-vault",
+    "sample-pec",
   );
   console.log(result);
 }

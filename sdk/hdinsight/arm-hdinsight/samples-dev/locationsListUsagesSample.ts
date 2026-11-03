@@ -1,23 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the usages for the specified location.
- *
- * @summary Lists the usages for the specified location.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetHDInsightUsages.json
- */
-
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the usages for the specified location.
+ *
+ * @summary lists the usages for the specified location.
+ * x-ms-original-file: 2025-01-15-preview/GetHDInsightUsages.json
+ */
 async function getTheSubscriptionUsagesForSpecificLocation(): Promise<void> {
-  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
-  const location = "West US";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new HDInsightManagementClient(credential, subscriptionId);
-  const result = await client.locations.listUsages(location);
+  const result = await client.locations.listUsages("West US");
   console.log(result);
 }
 

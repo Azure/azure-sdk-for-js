@@ -12,7 +12,7 @@ export {
   createOrUpdate,
   listBySubscription,
 } from "./operations.js";
-export {
+export type {
   OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
   OracleSubscriptionsListActivationLinksOptionalParams,
   OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams,

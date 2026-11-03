@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.9.0",
+  "version": "4.11.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -36,7 +36,7 @@
   },
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
@@ -57,7 +57,11 @@
     "update-snippets": "dev-tool run update-snippets",
     "generate-samples": "npm run build && npx dev-tool samples publish"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/cosmosdb/cosmos"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -96,8 +100,8 @@
     "nock": "catalog:testing",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -124,7 +128,8 @@
       "Diagnostics.ts",
       "HierarchicalPartitioning.ts",
       "FullTextSearch.ts",
-      "ClientSideEncryption.ts"
+      "ClientSideEncryption.ts",
+      "SemanticRerank.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [
@@ -141,22 +146,6 @@
     }
   },
   "type": "module",
-  "tshy": {
-    "project": "./tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -176,6 +165,11 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
     }
   }
 }

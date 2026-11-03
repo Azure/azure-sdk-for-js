@@ -1,50 +1,74 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a devcenter resource
- *
- * @summary Creates or updates a devcenter resource
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_Create.json
- */
-
-import type { DevCenter } from "@azure/arm-devcenter";
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a devcenter resource.
+ *
+ * @summary creates or updates a devcenter resource.
+ * x-ms-original-file: 2026-01-01-preview/DevCenters_Create.json
+ */
 async function devCentersCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const devCenterName = "Contoso";
-  const body: DevCenter = {
-    displayName: "ContosoDevCenter",
-    location: "centralus",
-    tags: { costCode: "12345" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.devCenters.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    devCenterName,
-    body,
-  );
+  const result = await client.devCenters.createOrUpdate("rg1", "Contoso", {
+    location: "centralus",
+    devBoxProvisioningSettings: { installAzureMonitorAgentEnableStatus: "Enabled" },
+    displayName: "ContosoDevCenter",
+    projectCatalogSettings: { catalogItemSyncEnableStatus: "Enabled" },
+    tags: { CostCode: "12345" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a devcenter resource
+ * This sample demonstrates how to creates or updates a devcenter resource.
  *
- * @summary Creates or updates a devcenter resource
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_CreateWithEncryption.json
+ * @summary creates or updates a devcenter resource.
+ * x-ms-original-file: 2026-01-01-preview/DevCenters_CreateWithDisabledManagedNetworks.json
+ */
+async function devCentersCreateWithDisabledManagedNetworks(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.devCenters.createOrUpdate("rg1", "Contoso", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1":
+          {},
+      },
+    },
+    location: "centralus",
+    displayName: "ContosoDevCenter",
+    networkSettings: { microsoftHostedNetworkEnableStatus: "Disabled" },
+    tags: { CostCode: "12345" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a devcenter resource.
+ *
+ * @summary creates or updates a devcenter resource.
+ * x-ms-original-file: 2026-01-01-preview/DevCenters_CreateWithEncryption.json
  */
 async function devCentersCreateWithEncryption(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const devCenterName = "Contoso";
-  const body: DevCenter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.devCenters.createOrUpdate("rg1", "Contoso", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1":
+          {},
+      },
+    },
+    location: "centralus",
     displayName: "ContosoDevCenter",
     encryption: {
       customerManagedKeyEncryption: {
@@ -56,61 +80,39 @@ async function devCentersCreateWithEncryption(): Promise<void> {
         keyEncryptionKeyUrl: "https://contosovault.vault.azure.net/keys/contosokek",
       },
     },
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourceGroups/identityGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/testidentity1":
-          {},
-      },
-    },
-    location: "centralus",
-    tags: { costCode: "12345" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.devCenters.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    devCenterName,
-    body,
-  );
+    tags: { CostCode: "12345" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a devcenter resource
+ * This sample demonstrates how to creates or updates a devcenter resource.
  *
- * @summary Creates or updates a devcenter resource
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_CreateWithUserIdentity.json
+ * @summary creates or updates a devcenter resource.
+ * x-ms-original-file: 2026-01-01-preview/DevCenters_CreateWithUserIdentity.json
  */
 async function devCentersCreateWithUserIdentity(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const devCenterName = "Contoso";
-  const body: DevCenter = {
-    displayName: "ContosoDevCenter",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.devCenters.createOrUpdate("rg1", "Contoso", {
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourceGroups/identityGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/testidentity1":
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1":
           {},
       },
     },
     location: "centralus",
-    tags: { costCode: "12345" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.devCenters.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    devCenterName,
-    body,
-  );
+    displayName: "ContosoDevCenter",
+    tags: { CostCode: "12345" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await devCentersCreate();
+  await devCentersCreateWithDisabledManagedNetworks();
   await devCentersCreateWithEncryption();
   await devCentersCreateWithUserIdentity();
 }

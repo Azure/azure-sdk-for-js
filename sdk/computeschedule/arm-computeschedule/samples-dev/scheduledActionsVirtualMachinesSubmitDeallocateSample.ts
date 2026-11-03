@@ -1,36 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ComputeScheduleClient } from "@azure/arm-computeschedule";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to virtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines at datetime in future.
  *
  * @summary virtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines at datetime in future.
- * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesSubmitDeallocate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-04-15-preview/ScheduledActions_VirtualMachinesSubmitDeallocate_MaximumSet_Gen.json
  */
-
-import { ComputeScheduleClient } from "@azure/arm-computeschedule";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function scheduledActionsVirtualMachinesSubmitDeallocateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "732116BD-AF31-4E74-9283-B387C44B4A44";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.virtualMachinesSubmitDeallocate("ycipx", {
+  const result = await client.scheduledActions.virtualMachinesSubmitDeallocate("eastus2", {
     schedule: {
-      userRequestDeadline: "2025-04-17T00:23:56.803Z",
-      userRequestTimezone: "aigbjdnldtzkteqi",
+      deadline: "2026-03-12T02:39:44.444Z",
+      userRequestDeadline: "2026-03-12T02:39:44.444Z",
+      timezone: "America/Los_Angeles",
+      userRequestTimezone: "America/Los_Angeles",
       deadlineType: "Unknown",
     },
     executionParameters: {
       optimizationPreference: "Cost",
-      retryPolicy: { retryCount: 17, retryWindowInMinutes: 29 },
+      retryPolicy: { retryCount: 3, retryWindowInMinutes: 30, onFailureAction: "Unknown" },
     },
     resources: {
       ids: [
-        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource4",
+        "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rgcomputeschedule/providers/Microsoft.Compute/virtualMachines/vm1",
       ],
     },
-    correlationId: "b211f086-4b91-4686-a453-2f5c012e4d80",
+    correlationId: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
   });
   console.log(result);
 }
@@ -39,35 +40,28 @@ async function scheduledActionsVirtualMachinesSubmitDeallocateMaximumSet(): Prom
  * This sample demonstrates how to virtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines at datetime in future.
  *
  * @summary virtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines at datetime in future.
- * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesSubmitDeallocate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-04-15-preview/ScheduledActions_VirtualMachinesSubmitDeallocate_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesSubmitDeallocateMinimumSet(): Promise<void> {
+async function scheduledActionsVirtualMachinesSubmitDeallocateMaximumSetGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "732116BD-AF31-4E74-9283-B387C44B4A44";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.virtualMachinesSubmitDeallocate(
-    "zrcmkxsbuxsxxulky",
-    {
-      schedule: {
-        userRequestDeadline: "2025-04-17T00:23:56.803Z",
-        userRequestTimezone: "aigbjdnldtzkteqi",
-        deadlineType: "Unknown",
-      },
-      executionParameters: {},
-      resources: {
-        ids: [
-          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource4",
-        ],
-      },
-      correlationId: "b211f086-4b91-4686-a453-2f5c012e4d80",
+  const result = await client.scheduledActions.virtualMachinesSubmitDeallocate("eastus2", {
+    schedule: { deadlineType: "Unknown" },
+    executionParameters: {},
+    resources: {
+      ids: [
+        "/subscriptions/732116BD-AF31-4E74-9283-B387C44B4A44/resourceGroups/rgcomputeschedule/providers/Microsoft.Compute/virtualMachines/vm1",
+      ],
     },
-  );
+    correlationId: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await scheduledActionsVirtualMachinesSubmitDeallocateMaximumSet();
-  await scheduledActionsVirtualMachinesSubmitDeallocateMinimumSet();
+  await scheduledActionsVirtualMachinesSubmitDeallocateMaximumSetGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { CopilotSettingsOperations } from "./copilotSettings/index.js";
-export { OperationsOperations } from "./operations/index.js";
+export { type CopilotSettingsOperations } from "./copilotSettings/index.js";
+export { type OperationsOperations } from "./operations/index.js";

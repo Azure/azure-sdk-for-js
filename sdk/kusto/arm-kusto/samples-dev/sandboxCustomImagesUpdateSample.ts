@@ -1,36 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates a sandbox custom image.
- *
- * @summary Updates a sandbox custom image.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSandboxCustomImageUpdate.json
- */
-
-import type { SandboxCustomImage } from "@azure/arm-kusto";
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates a sandbox custom image.
+ *
+ * @summary updates a sandbox custom image.
+ * x-ms-original-file: 2025-02-14/KustoSandboxCustomImageUpdate.json
+ */
 async function kustoSandboxCustomImagesUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster";
-  const sandboxCustomImageName = "customImage8";
-  const parameters: SandboxCustomImage = {
-    languageVersion: "3.10.8",
-    requirementsFileContent: "Requests",
-    language: "Python",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.sandboxCustomImages.beginUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    sandboxCustomImageName,
-    parameters,
+  const result = await client.sandboxCustomImages.update(
+    "kustorptest",
+    "kustoCluster",
+    "customImage8",
+    { languageVersion: "3.10.8", requirementsFileContent: "Requests", language: "Python" },
   );
   console.log(result);
 }

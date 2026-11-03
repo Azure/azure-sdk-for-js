@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all Traffic Manager profiles within a subscription.
- *
- * @summary Lists all Traffic Manager profiles within a subscription.
- * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-GET-BySubscription.json
- */
-
 import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all Traffic Manager profiles within a subscription.
+ *
+ * @summary lists all Traffic Manager profiles within a subscription.
+ * x-ms-original-file: 2026-09-01/Profile-GET-BySubscription.json
+ */
 async function listBySubscription(): Promise<void> {
-  const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.profiles.listBySubscription()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

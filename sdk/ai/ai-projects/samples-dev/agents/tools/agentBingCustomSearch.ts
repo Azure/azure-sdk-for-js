@@ -3,11 +3,14 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Bing Custom Search capabilities
- * using the BingCustomSearchAgentTool and synchronous Azure AI Projects client. The agent can search
+ * using the BingCustomSearchPreviewTool and synchronous Azure AI Projects client. The agent can search
  * custom search instances and provide responses with relevant results.
  *
  * @summary This sample demonstrates how to create an agent with Bing Custom Search tool capabilities,
  * search custom search instances, and process streaming responses with citations.
+ *
+ * @warning Grounding with Bing Custom Search tool uses Grounding with Bing, which has additional costs and terms: [terms of use](https://www.microsoft.com/bing/apis/grounding-legal-enterprise) and [privacy statement](https://go.microsoft.com/fwlink/?LinkId=521839&clcid=0x409). Customer data will flow outside the Azure compliance boundary. Learn more [here](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/bing-tools)
+ *
  *
  * @azsdk-weight 100
  */
@@ -17,8 +20,8 @@ import { AIProjectClient } from "@azure/ai-projects";
 import * as readline from "readline";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 const bingCustomSearchProjectConnectionId =
   process.env["BING_CUSTOM_SEARCH_PROJECT_CONNECTION_ID"] ||
   "<bing custom search project connection id>";
@@ -27,8 +30,6 @@ const bingCustomSearchInstanceName =
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
-
   console.log("Creating agent with Bing Custom Search tool...");
 
   const agent = await project.agents.createVersion("MyAgent", {
@@ -52,6 +53,10 @@ export async function main(): Promise<void> {
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
+  const openAIClient = project.getOpenAIClient({
+    azureConfig: { allowPreview: true, agentName: agent.name },
+  });
+
   // Prompt user for input
   const rl = readline.createInterface({
     input: process.stdin,
@@ -60,7 +65,7 @@ export async function main(): Promise<void> {
 
   const userInput = await new Promise<string>((resolve) => {
     rl.question(
-      "Enter your question for the Bing Custom Search agent (e.g., 'Tell me more about foundry agent service'): \n",
+      "Enter your question for the Bing Custom Search agent (Default: 'Tell me more about foundry agent service'): \n",
       (answer) => {
         rl.close();
         resolve(answer);
@@ -70,17 +75,10 @@ export async function main(): Promise<void> {
 
   // Send initial request that will trigger the Bing Custom Search tool
   console.log("\nSending request to Bing Custom Search agent with streaming...");
-  const streamResponse = await openAIClient.responses.create(
-    {
-      input: userInput,
-      stream: true,
-    },
-    {
-      body: {
-        agent: { name: agent.name, type: "agent_reference" },
-      },
-    },
-  );
+  const streamResponse = await openAIClient.responses.create({
+    input: userInput || "Tell me more about foundry agent service",
+    stream: true,
+  });
 
   // Process the streaming response
   for await (const event of streamResponse) {

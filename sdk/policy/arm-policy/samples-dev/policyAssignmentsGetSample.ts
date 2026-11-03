@@ -1,97 +1,101 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to This operation retrieves a single policy assignment, given its name and the scope it was created at.
- *
- * @summary This operation retrieves a single policy assignment, given its name and the scope it was created at.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/getPolicyAssignment.json
- */
-
 import { PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to this operation retrieves a single policy assignment, given its name and the scope it was created at.
+ *
+ * @summary this operation retrieves a single policy assignment, given its name and the scope it was created at.
+ * x-ms-original-file: 2026-06-01/getPolicyAssignment.json
+ */
 async function retrieveAPolicyAssignment(): Promise<void> {
-  const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
-  const policyAssignmentName = "EnforceNaming";
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential);
   const result = await client.policyAssignments.get(
-    scope,
-    policyAssignmentName,
+    "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+    "EnforceNaming",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to This operation retrieves a single policy assignment, given its name and the scope it was created at.
+ * This sample demonstrates how to this operation retrieves a single policy assignment, given its name and the scope it was created at.
  *
- * @summary This operation retrieves a single policy assignment, given its name and the scope it was created at.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/getPolicyAssignmentWithIdentity.json
+ * @summary this operation retrieves a single policy assignment, given its name and the scope it was created at.
+ * x-ms-original-file: 2026-06-01/getPolicyAssignmentWithIdentity.json
  */
 async function retrieveAPolicyAssignmentWithASystemAssignedIdentity(): Promise<void> {
-  const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
-  const policyAssignmentName = "EnforceNaming";
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential);
   const result = await client.policyAssignments.get(
-    scope,
-    policyAssignmentName,
+    "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+    "EnforceNaming",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to This operation retrieves a single policy assignment, given its name and the scope it was created at.
+ * This sample demonstrates how to this operation retrieves a single policy assignment, given its name and the scope it was created at.
  *
- * @summary This operation retrieves a single policy assignment, given its name and the scope it was created at.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/getPolicyAssignmentWithUserAssignedIdentity.json
- */
-async function retrieveAPolicyAssignmentWithAUserAssignedIdentity(): Promise<void> {
-  const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
-  const policyAssignmentName = "EnforceNaming";
-  const credential = new DefaultAzureCredential();
-  const client = new PolicyClient(credential);
-  const result = await client.policyAssignments.get(
-    scope,
-    policyAssignmentName,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to This operation retrieves a single policy assignment, given its name and the scope it was created at.
- *
- * @summary This operation retrieves a single policy assignment, given its name and the scope it was created at.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/getPolicyAssignmentWithOverrides.json
+ * @summary this operation retrieves a single policy assignment, given its name and the scope it was created at.
+ * x-ms-original-file: 2026-06-01/getPolicyAssignmentWithOverrides.json
  */
 async function retrieveAPolicyAssignmentWithOverrides(): Promise<void> {
-  const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
-  const policyAssignmentName = "CostManagement";
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential);
   const result = await client.policyAssignments.get(
-    scope,
-    policyAssignmentName,
+    "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+    "CostManagement",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to This operation retrieves a single policy assignment, given its name and the scope it was created at.
+ * This sample demonstrates how to this operation retrieves a single policy assignment, given its name and the scope it was created at.
  *
- * @summary This operation retrieves a single policy assignment, given its name and the scope it was created at.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/getPolicyAssignmentWithResourceSelectors.json
+ * @summary this operation retrieves a single policy assignment, given its name and the scope it was created at.
+ * x-ms-original-file: 2026-06-01/getPolicyAssignmentWithResourceRolloutPercentageSelector.json
  */
-async function retrieveAPolicyAssignmentWithResourceSelectors(): Promise<void> {
-  const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
-  const policyAssignmentName = "CostManagement";
+async function retrieveAPolicyAssignmentWithAResourceRolloutPercentageSelector(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential);
   const result = await client.policyAssignments.get(
-    scope,
-    policyAssignmentName,
+    "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+    "CostManagement",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to this operation retrieves a single policy assignment, given its name and the scope it was created at.
+ *
+ * @summary this operation retrieves a single policy assignment, given its name and the scope it was created at.
+ * x-ms-original-file: 2026-06-01/getPolicyAssignmentWithResourceSelectors.json
+ */
+async function retrieveAPolicyAssignmentWithResourceSelectors(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new PolicyClient(credential);
+  const result = await client.policyAssignments.get(
+    "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+    "CostManagement",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to this operation retrieves a single policy assignment, given its name and the scope it was created at.
+ *
+ * @summary this operation retrieves a single policy assignment, given its name and the scope it was created at.
+ * x-ms-original-file: 2026-06-01/getPolicyAssignmentWithUserAssignedIdentity.json
+ */
+async function retrieveAPolicyAssignmentWithAUserAssignedIdentity(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new PolicyClient(credential);
+  const result = await client.policyAssignments.get(
+    "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+    "EnforceNaming",
   );
   console.log(result);
 }
@@ -99,9 +103,10 @@ async function retrieveAPolicyAssignmentWithResourceSelectors(): Promise<void> {
 async function main(): Promise<void> {
   await retrieveAPolicyAssignment();
   await retrieveAPolicyAssignmentWithASystemAssignedIdentity();
-  await retrieveAPolicyAssignmentWithAUserAssignedIdentity();
   await retrieveAPolicyAssignmentWithOverrides();
+  await retrieveAPolicyAssignmentWithAResourceRolloutPercentageSelector();
   await retrieveAPolicyAssignmentWithResourceSelectors();
+  await retrieveAPolicyAssignmentWithAUserAssignedIdentity();
 }
 
 main().catch(console.error);

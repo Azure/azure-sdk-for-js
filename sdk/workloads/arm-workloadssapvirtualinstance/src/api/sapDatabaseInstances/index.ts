@@ -3,11 +3,11 @@
 
 export { stop, start, list, $delete, update, create, get } from "./operations.js";
 export {
-  SAPDatabaseInstancesStopOptionalParams,
-  SAPDatabaseInstancesStartOptionalParams,
-  SAPDatabaseInstancesListOptionalParams,
-  SAPDatabaseInstancesDeleteOptionalParams,
-  SAPDatabaseInstancesUpdateOptionalParams,
-  SAPDatabaseInstancesCreateOptionalParams,
-  SAPDatabaseInstancesGetOptionalParams,
+  type SAPDatabaseInstancesStopOptionalParams,
+  type SAPDatabaseInstancesStartOptionalParams,
+  type SAPDatabaseInstancesListOptionalParams,
+  type SAPDatabaseInstancesDeleteOptionalParams,
+  type SAPDatabaseInstancesUpdateOptionalParams,
+  type SAPDatabaseInstancesCreateOptionalParams,
+  type SAPDatabaseInstancesGetOptionalParams,
 } from "./options.js";

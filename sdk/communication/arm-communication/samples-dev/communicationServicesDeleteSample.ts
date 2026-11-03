@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Operation to delete a CommunicationService.
- *
- * @summary Operation to delete a CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/delete.json
- */
-
 import { CommunicationServiceManagementClient } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to operation to delete a CommunicationService.
+ *
+ * @summary operation to delete a CommunicationService.
+ * x-ms-original-file: 2026-03-18/communicationServices/delete.json
+ */
 async function deleteResource(): Promise<void> {
-  const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
-  const communicationServiceName = "MyCommunicationResource";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11112222-3333-4444-5555-666677778888";
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);
-  const result = await client.communicationServices.beginDeleteAndWait(
-    resourceGroupName,
-    communicationServiceName,
-  );
-  console.log(result);
+  await client.communicationServices.delete("MyResourceGroup", "MyCommunicationResource");
 }
 
 async function main(): Promise<void> {

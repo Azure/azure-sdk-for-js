@@ -1,40 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates PrivateEndpointConnections of service namespace.
- *
- * @summary Creates or updates PrivateEndpointConnections of service namespace.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/PrivateEndPointConnectionCreate.json
- */
-
-import type { PrivateEndpointConnection } from "@azure/arm-servicebus";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates PrivateEndpointConnections of service namespace.
+ *
+ * @summary creates or updates PrivateEndpointConnections of service namespace.
+ * x-ms-original-file: 2026-01-01/NameSpaces/PrivateEndPointConnectionCreate.json
+ */
 async function nameSpacePrivateEndPointConnectionCreate(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "subID";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ArunMonocle";
-  const namespaceName = "sdk-Namespace-2924";
-  const privateEndpointConnectionName = "privateEndpointConnectionName";
-  const parameters: PrivateEndpointConnection = {
-    privateEndpoint: {
-      id: "/subscriptions/dbedb4e0-40e6-4145-81f3-f1314c150774/resourceGroups/SDK-ServiceBus-8396/providers/Microsoft.Network/privateEndpoints/sdk-Namespace-2847",
-    },
-    privateLinkServiceConnectionState: {
-      description: "testing",
-      status: "Rejected",
-    },
-    provisioningState: "Succeeded",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.createOrUpdate(
-    resourceGroupName,
-    namespaceName,
-    privateEndpointConnectionName,
-    parameters,
+    "ArunMonocle",
+    "sdk-Namespace-2924",
+    "privateEndpointConnectionName",
+    {
+      privateEndpoint: {
+        id: "/subscriptions/dbedb4e0-40e6-4145-81f3-f1314c150774/resourceGroups/SDK-ServiceBus-8396/providers/Microsoft.Network/privateEndpoints/sdk-Namespace-2847",
+      },
+      privateLinkServiceConnectionState: { description: "testing", status: "Rejected" },
+      provisioningState: "Succeeded",
+    },
   );
   console.log(result);
 }

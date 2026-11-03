@@ -1,66 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  GalleryInVMAccessControlProfileVersion} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update a gallery inVMAccessControlProfile version.
+ * This sample demonstrates how to create or update a gallery inVMAccessControlProfile version.
  *
- * @summary Create or update a gallery inVMAccessControlProfile version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Create.json
+ * @summary create or update a gallery inVMAccessControlProfile version.
+ * x-ms-original-file: 2026-03-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Create.json
  */
 async function createOrUpdateAGalleryInVMAccessControlProfileVersion(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const galleryName = "myGalleryName";
-  const inVMAccessControlProfileName = "myInVMAccessControlProfileName";
-  const inVMAccessControlProfileVersionName = "1.0.0";
-  const galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion =
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.galleryInVMAccessControlProfileVersions.createOrUpdate(
+    "myResourceGroup",
+    "myGalleryName",
+    "myInVMAccessControlProfileName",
+    "1.0.0",
     {
-      defaultAccess: "Allow",
-      excludeFromLatest: false,
       location: "West US",
       mode: "Audit",
+      defaultAccess: "Allow",
       rules: {
+        privileges: [
+          { name: "GoalState", path: "/machine", queryParameters: { comp: "goalstate" } },
+        ],
+        roles: [{ name: "Provisioning", privileges: ["GoalState"] }],
         identities: [
           {
             name: "WinPA",
-            exePath: "C:\\Windows\\System32\\cscript.exe",
-            groupName: "Administrators",
-            processName: "cscript",
             userName: "SYSTEM",
+            groupName: "Administrators",
+            exePath: "C:\\Windows\\System32\\cscript.exe",
+            processName: "cscript",
           },
         ],
-        privileges: [
-          {
-            name: "GoalState",
-            path: "/machine",
-            queryParameters: { comp: "goalstate" },
-          },
-        ],
-        roleAssignments: [{ identities: ["WinPA"], role: "Provisioning" }],
-        roles: [{ name: "Provisioning", privileges: ["GoalState"] }],
+        roleAssignments: [{ role: "Provisioning", identities: ["WinPA"] }],
       },
       targetLocations: [{ name: "West US" }, { name: "South Central US" }],
-    };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.galleryInVMAccessControlProfileVersions.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      galleryName,
-      inVMAccessControlProfileName,
-      inVMAccessControlProfileVersionName,
-      galleryInVMAccessControlProfileVersion,
-    );
+      excludeFromLatest: false,
+    },
+  );
   console.log(result);
 }
 

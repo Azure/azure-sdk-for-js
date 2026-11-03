@@ -1,68 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AvailabilitySet} from "@azure/arm-compute";
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update an availability set.
+ * This sample demonstrates how to create or update an availability set.
  *
- * @summary Create or update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/availabilitySetExamples/AvailabilitySet_Create_WithScheduledEventProfile.json
+ * @summary create or update an availability set.
+ * x-ms-original-file: 2026-04-01/availabilitySetExamples/AvailabilitySet_Create.json
  */
-async function createAnAvailabilitySetWithScheduledEventPolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const availabilitySetName = "myAvailabilitySet";
-  const parameters: AvailabilitySet = {
-    location: "westus",
-    platformFaultDomainCount: 2,
-    platformUpdateDomainCount: 20,
-  };
+async function createAnAvailabilitySet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.availabilitySets.createOrUpdate(
-    resourceGroupName,
-    availabilitySetName,
-    parameters,
+    "myResourceGroup",
+    "myAvailabilitySet",
+    { location: "westus", platformFaultDomainCount: 2, platformUpdateDomainCount: 20 },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update an availability set.
+ * This sample demonstrates how to create or update an availability set.
  *
- * @summary Create or update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/availabilitySetExamples/AvailabilitySet_Create.json
+ * @summary create or update an availability set.
+ * x-ms-original-file: 2026-04-01/availabilitySetExamples/AvailabilitySet_Create_WithScheduledEventProfile.json
  */
-async function createAnAvailabilitySet(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const availabilitySetName = "myAvailabilitySet";
-  const parameters: AvailabilitySet = {
-    location: "westus",
-    platformFaultDomainCount: 2,
-    platformUpdateDomainCount: 20,
-  };
+async function createAnAvailabilitySetWithScheduledEventPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.availabilitySets.createOrUpdate(
-    resourceGroupName,
-    availabilitySetName,
-    parameters,
+    "myResourceGroup",
+    "myAvailabilitySet",
+    { location: "westus", platformFaultDomainCount: 2, platformUpdateDomainCount: 20 },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await createAnAvailabilitySetWithScheduledEventPolicy();
   await createAnAvailabilitySet();
+  await createAnAvailabilitySetWithScheduledEventPolicy();
 }
 
 main().catch(console.error);

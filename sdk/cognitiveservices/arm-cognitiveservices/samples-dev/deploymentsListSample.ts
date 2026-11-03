@@ -3,33 +3,22 @@
 
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the deployments associated with the Cognitive Services account.
+ * This sample demonstrates how to gets the deployments associated with the Cognitive Services account.
  *
- * @summary Gets the deployments associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListDeployments.json
+ * @summary gets the deployments associated with the Cognitive Services account.
+ * x-ms-original-file: 2026-09-15-preview/ListDeployments.json
  */
 async function listDeployments(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
-  const accountName = "accountName";
   const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.deployments.list(
-    resourceGroupName,
-    accountName,
-  )) {
+  for await (const item of client.deployments.list("resourceGroupName", "accountName")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

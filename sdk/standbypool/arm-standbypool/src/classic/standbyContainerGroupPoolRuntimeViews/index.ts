@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
-import { StandbyContainerGroupPoolRuntimeViewResource } from "../../models/models.js";
-import {
-  StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
-  StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
-} from "../../api/standbyContainerGroupPoolRuntimeViews/options.js";
+import type { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
 import {
   listByStandbyPool,
   get,
 } from "../../api/standbyContainerGroupPoolRuntimeViews/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
+  StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
+} from "../../api/standbyContainerGroupPoolRuntimeViews/options.js";
+import type { StandbyContainerGroupPoolRuntimeViewResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StandbyContainerGroupPoolRuntimeViews operations. */
 export interface StandbyContainerGroupPoolRuntimeViewsOperations {

@@ -1,22 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Calculates price for exchanging `Reservations` if there are no policy errors.
-
- *
- * @summary Calculates price for exchanging `Reservations` if there are no policy errors.
-
- * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/CalculateExchange.json
- */
-
-import type { CalculateExchangeRequest } from "@azure/arm-reservations";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to calculates price for exchanging `Reservations` if there are no policy errors.
+ *
+ * @summary calculates price for exchanging `Reservations` if there are no policy errors.
+ * x-ms-original-file: 2022-11-01/CalculateExchange.json
+ */
 async function calculateExchange(): Promise<void> {
-  const body: CalculateExchangeRequest = {
+  const credential = new DefaultAzureCredential();
+  const client = new AzureReservationAPI(credential);
+  const result = await client.calculateExchange.post({
     properties: {
       reservationsToExchange: [
         {
@@ -27,18 +24,17 @@ async function calculateExchange(): Promise<void> {
       ],
       reservationsToPurchase: [
         {
+          location: "westus",
           appliedScopeType: "Shared",
-          appliedScopes: [],
           billingPlan: "Upfront",
           billingScopeId: "/subscriptions/ed3a1871-612d-abcd-a849-c2542a68be83",
           displayName: "testDisplayName",
-          location: "westus",
           quantity: 1,
           renew: false,
           reservedResourceProperties: { instanceFlexibility: "On" },
           reservedResourceType: "VirtualMachines",
-          sku: { name: "Standard_B1ls" },
           term: "P1Y",
+          sku: { name: "Standard_B1ls" },
         },
       ],
       savingsPlansToPurchase: [
@@ -51,15 +47,12 @@ async function calculateExchange(): Promise<void> {
           billingScopeId: "/subscriptions/10000000-0000-0000-0000-000000000000",
           commitment: { amount: 15.23, currencyCode: "USD", grain: "Hourly" },
           displayName: "ComputeSavingsPlan",
-          sku: { name: "Compute_Savings_Plan" },
           term: "P1Y",
+          sku: { name: "Compute_Savings_Plan" },
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureReservationAPI(credential);
-  const result = await client.calculateExchange.beginPostAndWait(body);
+  });
   console.log(result);
 }
 

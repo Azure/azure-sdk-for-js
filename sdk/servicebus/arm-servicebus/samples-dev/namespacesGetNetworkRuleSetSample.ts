@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets NetworkRuleSet for a Namespace.
- *
- * @summary Gets NetworkRuleSet for a Namespace.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/VirtualNetworkRule/SBNetworkRuleSetGet.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets NetworkRuleSet for a Namespace.
+ *
+ * @summary gets NetworkRuleSet for a Namespace.
+ * x-ms-original-file: 2026-01-01/NameSpaces/VirtualNetworkRule/SBNetworkRuleSetGet.json
+ */
 async function nameSpaceNetworkRuleSetGet(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "Subscription";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
-  const namespaceName = "sdk-Namespace-6019";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
-  const result = await client.namespaces.getNetworkRuleSet(resourceGroupName, namespaceName);
+  const result = await client.namespaces.getNetworkRuleSet("ResourceGroup", "sdk-Namespace-6019");
   console.log(result);
 }
 

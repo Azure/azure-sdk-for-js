@@ -1,27 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the QnA Maker endpoint keys
- *
- * @summary Lists the QnA Maker endpoint keys
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListQnAMakerEndpointKeys.json
- */
-
-import type { QnAMakerEndpointKeysRequestBody } from "@azure/arm-botservice";
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the QnA Maker endpoint keys
+ *
+ * @summary lists the QnA Maker endpoint keys
+ * x-ms-original-file: 2023-09-15-preview/ListQnAMakerEndpointKeys.json
+ */
 async function listQnAMakerEndpointKeys(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const parameters: QnAMakerEndpointKeysRequestBody = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
+  const client = new AzureBotService(credential, subscriptionId);
+  const result = await client.qnAMakerEndpointKeys.get({
     authkey: "testAuthKey",
     hostname: "https://xxx.cognitiveservices.azure.com/",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureBotService(credential, subscriptionId);
-  const result = await client.qnAMakerEndpointKeys.get(parameters);
+  });
   console.log(result);
 }
 

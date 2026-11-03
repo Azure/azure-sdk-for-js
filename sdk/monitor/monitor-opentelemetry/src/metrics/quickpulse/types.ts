@@ -40,8 +40,9 @@ import {
   SEMATTRS_RPC_GRPC_STATUS_CODE,
   SEMATTRS_RPC_SYSTEM,
 } from "@opentelemetry/semantic-conventions";
-import type { MonitoringDataPoint, PublishResponse } from "../../generated/index.js";
+import type { MonitoringDataPoint } from "../../generated/index.js";
 import type { DocumentIngress, CollectionConfigurationError } from "../../generated/index.js";
+import type { QuickpulseResponse } from "./export/sender.js";
 
 /**
  * Quickpulse Exporter Options
@@ -59,7 +60,7 @@ export interface QuickpulseExporterOptions {
 
   baseMonitoringDataPoint: MonitoringDataPoint;
 
-  postCallback: (response: PublishResponse | undefined) => void;
+  postCallback: (response: QuickpulseResponse | undefined) => void;
 
   getDocumentsFn: () => DocumentIngress[];
 

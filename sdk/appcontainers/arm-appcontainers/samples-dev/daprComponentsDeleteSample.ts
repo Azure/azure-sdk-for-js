@@ -3,30 +3,18 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete a Dapr Component from a Managed Environment.
+ * This sample demonstrates how to delete a Dapr Component from a Managed Environment.
  *
- * @summary Delete a Dapr Component from a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/DaprComponents_Delete.json
+ * @summary delete a Dapr Component from a Managed Environment.
+ * x-ms-original-file: 2026-07-01/DaprComponents_Delete.json
  */
 async function deleteDaprComponent(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "myenvironment";
-  const componentName = "reddog";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.daprComponents.delete(
-    resourceGroupName,
-    environmentName,
-    componentName,
-  );
-  console.log(result);
+  await client.daprComponents.delete("examplerg", "myenvironment", "reddog");
 }
 
 async function main(): Promise<void> {

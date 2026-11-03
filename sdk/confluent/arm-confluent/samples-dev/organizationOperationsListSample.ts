@@ -1,29 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all operations provided by Microsoft.Confluent.
- *
- * @summary List all operations provided by Microsoft.Confluent.
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/OrganizationOperations_List.json
- */
-
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function organizationOperationsList(): Promise<void> {
+/**
+ * This sample demonstrates how to list the operations for the provider
+ *
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2026-06-02-preview/OrganizationOperations_List_MaximumSet_Gen.json
+ */
+async function organizationOperationsListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.organizationOperations.list()) {
     resArray.push(item);
   }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to list the operations for the provider
+ *
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2026-06-02-preview/OrganizationOperations_List_MinimumSet_Gen.json
+ */
+async function organizationOperationsListMinimumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new ConfluentManagementClient(credential);
+  const resArray = new Array();
+  for await (const item of client.organizationOperations.list()) {
+    resArray.push(item);
+  }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await organizationOperationsList();
+  await organizationOperationsListMaximumSet();
+  await organizationOperationsListMinimumSet();
 }
 
 main().catch(console.error);

@@ -3,29 +3,26 @@
 
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List the operations for the provider
+ * This sample demonstrates how to list the operations for the provider
  *
- * @summary List the operations for the provider
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/listOperations.json
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2026-05-15/listOperations.json
  */
-async function listsAvailableRestApiOperations(): Promise<void> {
-  const subscriptionId =
-    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+async function listsAvailableRestAPIOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new KeyVaultManagementClient(credential, subscriptionId);
+  const client = new KeyVaultManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listsAvailableRestApiOperations();
+  await listsAvailableRestAPIOperations();
 }
 
 main().catch(console.error);

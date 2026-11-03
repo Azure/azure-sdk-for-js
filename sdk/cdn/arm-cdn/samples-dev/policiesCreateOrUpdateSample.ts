@@ -1,23 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update policy with specified rule set name within a resource group.
- *
- * @summary Create or update policy with specified rule set name within a resource group.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/WafPolicyCreateOrUpdate.json
- */
-
-import type { CdnWebApplicationFirewallPolicy } from "@azure/arm-cdn";
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update policy with specified rule set name within a resource group.
+ *
+ * @summary create or update policy with specified rule set name within a resource group.
+ * x-ms-original-file: 2026-10-01/WafPolicyCreateOrUpdate.json
+ */
 async function createsSpecificPolicy(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "rg1";
-  const policyName = "MicrosoftCdnWafPolicy";
-  const cdnWebApplicationFirewallPolicy: CdnWebApplicationFirewallPolicy = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CdnManagementClient(credential, subscriptionId);
+  const result = await client.policies.createOrUpdate("rg1", "MicrosoftCdnWafPolicy", {
+    location: "WestUs",
     customRules: {
       rules: [
         {
@@ -30,7 +28,6 @@ async function createsSpecificPolicy(): Promise<void> {
               matchVariable: "RemoteAddr",
               negateCondition: false,
               operator: "GeoMatch",
-              selector: undefined,
               transforms: [],
             },
             {
@@ -54,7 +51,6 @@ async function createsSpecificPolicy(): Promise<void> {
         },
       ],
     },
-    location: "WestUs",
     managedRules: {
       managedRuleSets: [
         {
@@ -62,11 +58,7 @@ async function createsSpecificPolicy(): Promise<void> {
             {
               ruleGroupName: "Group1",
               rules: [
-                {
-                  action: "Redirect",
-                  enabledState: "Enabled",
-                  ruleId: "GROUP1-0001",
-                },
+                { action: "Redirect", enabledState: "Enabled", ruleId: "GROUP1-0001" },
                 { enabledState: "Disabled", ruleId: "GROUP1-0002" },
               ],
             },
@@ -94,7 +86,6 @@ async function createsSpecificPolicy(): Promise<void> {
               matchVariable: "RemoteAddr",
               negateCondition: false,
               operator: "IPMatch",
-              selector: undefined,
               transforms: [],
             },
           ],
@@ -105,14 +96,7 @@ async function createsSpecificPolicy(): Promise<void> {
       ],
     },
     sku: { name: "Standard_Microsoft" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.policies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    policyName,
-    cdnWebApplicationFirewallPolicy,
-  );
+  });
   console.log(result);
 }
 

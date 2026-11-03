@@ -1,37 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get schema registry cluster by Id
- *
- * @summary Get schema registry cluster by Id
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_GetSchemaRegistryClusterById.json
- */
-
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function organizationGetSchemaRegistryClusterById(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const environmentId = "env-stgcczjp2j3";
-  const clusterId = "lsrc-stgczkq22z";
+/**
+ * This sample demonstrates how to get schema registry cluster by Id
+ *
+ * @summary get schema registry cluster by Id
+ * x-ms-original-file: 2026-06-02-preview/Organization_GetSchemaRegistryClusterById_MaximumSet_Gen.json
+ */
+async function organizationGetSchemaRegistryClusterByIdMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const result = await client.organization.getSchemaRegistryClusterById(
-    resourceGroupName,
-    organizationName,
-    environmentId,
-    clusterId,
+    "rgconfluent",
+    "hmhbrtw",
+    "ztozszmpzhwevkpmaxslloijkicwt",
+    "stfqijternpuzpleowkrbgzuutsgp",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get schema registry cluster by Id
+ *
+ * @summary get schema registry cluster by Id
+ * x-ms-original-file: 2026-06-02-preview/Organization_GetSchemaRegistryClusterById_MinimumSet_Gen.json
+ */
+async function organizationGetSchemaRegistryClusterByIdMinimumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
+  const client = new ConfluentManagementClient(credential, subscriptionId);
+  const result = await client.organization.getSchemaRegistryClusterById(
+    "rgconfluent",
+    "vcen",
+    "zsbdbdljcfrnxxafcchr",
+    "ivjcqxutsnlylxo",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await organizationGetSchemaRegistryClusterById();
+  await organizationGetSchemaRegistryClusterByIdMaximumSet();
+  await organizationGetSchemaRegistryClusterByIdMinimumSet();
 }
 
 main().catch(console.error);

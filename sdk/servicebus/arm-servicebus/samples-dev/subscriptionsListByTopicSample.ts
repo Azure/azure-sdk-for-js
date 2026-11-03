@@ -1,32 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all the subscriptions under a specified topic.
- *
- * @summary List all the subscriptions under a specified topic.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Subscriptions/SBSubscriptionListByTopic.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list all the subscriptions under a specified topic.
+ *
+ * @summary list all the subscriptions under a specified topic.
+ * x-ms-original-file: 2026-01-01/Subscriptions/SBSubscriptionListByTopic.json
+ */
 async function subscriptionListByTopic(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "5{Subscriptionid}";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
-  const namespaceName = "sdk-Namespace-1349";
-  const topicName = "sdk-Topics-8740";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.subscriptions.listByTopic(
-    resourceGroupName,
-    namespaceName,
-    topicName,
+    "ResourceGroup",
+    "sdk-Namespace-1349",
+    "sdk-Topics-8740",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

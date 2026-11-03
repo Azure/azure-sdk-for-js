@@ -3,33 +3,25 @@
 
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List all server administrators associated to a Microsoft Entra principal.
+ * This sample demonstrates how to list all server administrators associated to a Microsoft Entra principal.
  *
- * @summary List all server administrators associated to a Microsoft Entra principal.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/examples/AdministratorsMicrosoftEntraListByServer.json
+ * @summary list all server administrators associated to a Microsoft Entra principal.
+ * x-ms-original-file: 2026-10-01/AdministratorsMicrosoftEntraListByServer.json
  */
 async function listInformationAboutAllServerAdministratorsAssociatedToMicrosoftEntraPrincipals(): Promise<void> {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "exampleresourcegroup";
-  const serverName = "exampleserver";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.administratorsMicrosoftEntra.listByServer(
-    resourceGroupName,
-    serverName,
+    "exampleresourcegroup",
+    "exampleserver",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

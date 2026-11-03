@@ -1,30 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Initiates the deletion of the shared private link resource from the search service.
- *
- * @summary Initiates the deletion of the shared private link resource from the search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/DeleteSharedPrivateLinkResource.json
- */
-
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to initiates the deletion of the shared private link resource from the search service.
+ * Returns 202 (Accepted) for asynchronous deletion, 204 (No Content) if the service exists but the shared private link is not found, or 404 (Not Found) if the service is not found.
+ * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
+ *
+ * @summary initiates the deletion of the shared private link resource from the search service.
+ * Returns 202 (Accepted) for asynchronous deletion, 204 (No Content) if the service exists but the shared private link is not found, or 404 (Not Found) if the service is not found.
+ * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
+ * x-ms-original-file: 2026-11-01/DeleteSharedPrivateLinkResource.json
+ */
 async function sharedPrivateLinkResourceDelete(): Promise<void> {
-  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
-  const searchServiceName = "mysearchservice";
-  const sharedPrivateLinkResourceName = "testResource";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
-  const result = await client.sharedPrivateLinkResources.beginDeleteAndWait(
-    resourceGroupName,
-    searchServiceName,
-    sharedPrivateLinkResourceName,
-  );
-  console.log(result);
+  await client.sharedPrivateLinkResources.delete("rg1", "mysearchservice", "testResource");
 }
 
 async function main(): Promise<void> {

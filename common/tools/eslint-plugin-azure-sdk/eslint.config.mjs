@@ -1,20 +1,21 @@
 import eslint from "@eslint/js";
-import typescriptEsLint from "typescript-eslint";
+import { defineConfig, globalIgnores } from "eslint/config";
+import typescriptEslint from "typescript-eslint";
 
-export default typescriptEsLint.config(
-  { ignores: ["*.config.{js,cjs,mjs}"] },
+export default defineConfig(
+  globalIgnores(["*.config.{js,cjs,mjs}"]),
   {
     languageOptions: {
       parserOptions: {
         sourceType: "module",
         project: "./tsconfig.json",
       },
-      parser: typescriptEsLint.parser,
+      parser: typescriptEslint.parser,
     },
   },
   eslint.configs.recommended,
-  ...typescriptEsLint.configs.recommended,
-  typescriptEsLint.configs.eslintRecommended,
+  ...typescriptEslint.configs.recommended,
+  typescriptEslint.configs.eslintRecommended,
   {
     rules: {
       "@typescript-eslint/indent": "off",

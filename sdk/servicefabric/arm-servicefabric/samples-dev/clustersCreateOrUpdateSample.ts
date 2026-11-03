@@ -1,24 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update a Service Fabric cluster resource with the specified name.
- *
- * @summary Create or update a Service Fabric cluster resource with the specified name.
- * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterPutOperation_example_max.json
- */
-
-import type { Cluster } from "@azure/arm-servicefabric";
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update a Service Fabric cluster resource with the specified name.
+ *
+ * @summary create or update a Service Fabric cluster resource with the specified name.
+ * x-ms-original-file: 2026-03-01-preview/ClusterPutOperation_example_max.json
+ */
 async function putAClusterWithMaximumParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
-  const clusterName = "myCluster";
-  const parameters: Cluster = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ServiceFabricManagementClient(credential, subscriptionId);
+  const result = await client.clusters.createOrUpdate("resRg", "myCluster", {
+    location: "eastus",
     addOnFeatures: [
       "RepairManager",
       "DnsService",
@@ -48,10 +45,7 @@ async function putAClusterWithMaximumParameters(): Promise<void> {
       },
     ],
     clientCertificateThumbprints: [
-      {
-        certificateThumbprint: "5F3660C715EBBDA31DB1FFDCF508302348DE8E7A",
-        isAdmin: true,
-      },
+      { certificateThumbprint: "5F3660C715EBBDA31DB1FFDCF508302348DE8E7A", isAdmin: true },
     ],
     clusterCodeVersion: "7.0.470.9590",
     diagnosticsStorageAccountConfig: {
@@ -61,15 +55,12 @@ async function putAClusterWithMaximumParameters(): Promise<void> {
       storageAccountName: "diag",
       tableEndpoint: "https://diag.table.core.windows.net/",
     },
+    enableHttpGatewayExclusiveAuthMode: true,
     eventStoreServiceEnabled: true,
     fabricSettings: [
-      {
-        name: "UpgradeService",
-        parameters: [{ name: "AppPollIntervalInSeconds", value: "60" }],
-      },
+      { name: "UpgradeService", parameters: [{ name: "AppPollIntervalInSeconds", value: "60" }] },
     ],
     infrastructureServiceManager: true,
-    location: "eastus",
     managementEndpoint: "https://myCluster.eastus.cloudapp.azure.com:19080",
     nodeTypes: [
       {
@@ -79,6 +70,7 @@ async function putAClusterWithMaximumParameters(): Promise<void> {
         durabilityLevel: "Silver",
         ephemeralPorts: { endPort: 64000, startPort: 49000 },
         httpGatewayEndpointPort: 19007,
+        httpGatewayTokenAuthEndpointPort: 19081,
         isPrimary: true,
         isStateless: false,
         multipleAvailabilityZones: true,
@@ -95,10 +87,7 @@ async function putAClusterWithMaximumParameters(): Promise<void> {
             notificationChannel: "EmailUser",
             receivers: ["****@microsoft.com", "****@microsoft.com"],
           },
-          {
-            notificationChannel: "EmailSubscription",
-            receivers: ["Owner", "AccountAdmin"],
-          },
+          { notificationChannel: "EmailSubscription", receivers: ["Owner", "AccountAdmin"] },
         ],
       },
       {
@@ -110,10 +99,7 @@ async function putAClusterWithMaximumParameters(): Promise<void> {
             notificationChannel: "EmailUser",
             receivers: ["****@microsoft.com", "****@microsoft.com"],
           },
-          {
-            notificationChannel: "EmailSubscription",
-            receivers: ["Owner", "AccountAdmin"],
-          },
+          { notificationChannel: "EmailSubscription", receivers: ["Owner", "AccountAdmin"] },
         ],
       },
     ],
@@ -128,14 +114,11 @@ async function putAClusterWithMaximumParameters(): Promise<void> {
       x509StoreName: "My",
     },
     sfZonalUpgradeMode: "Hierarchical",
-    tags: {},
     upgradeDescription: {
       deltaHealthPolicy: {
         applicationDeltaHealthPolicies: {
           "fabric:/myApp1": {
-            defaultServiceTypeDeltaHealthPolicy: {
-              maxPercentDeltaUnhealthyServices: 0,
-            },
+            defaultServiceTypeDeltaHealthPolicy: { maxPercentDeltaUnhealthyServices: 0 },
             serviceTypeDeltaHealthPolicies: {
               myServiceType1: { maxPercentDeltaUnhealthyServices: 0 },
             },
@@ -153,9 +136,7 @@ async function putAClusterWithMaximumParameters(): Promise<void> {
         applicationHealthPolicies: {
           "fabric:/myApp1": {
             defaultServiceTypeHealthPolicy: { maxPercentUnhealthyServices: 0 },
-            serviceTypeHealthPolicies: {
-              myServiceType1: { maxPercentUnhealthyServices: 100 },
-            },
+            serviceTypeHealthPolicies: { myServiceType1: { maxPercentUnhealthyServices: 100 } },
           },
         },
         maxPercentUnhealthyApplications: 0,
@@ -171,29 +152,23 @@ async function putAClusterWithMaximumParameters(): Promise<void> {
     upgradeWave: "Wave1",
     vmImage: "Windows",
     vmssZonalUpgradeMode: "Parallel",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ServiceFabricManagementClient(credential, subscriptionId);
-  const result = await client.clusters.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
+    tags: {},
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update a Service Fabric cluster resource with the specified name.
+ * This sample demonstrates how to create or update a Service Fabric cluster resource with the specified name.
  *
- * @summary Create or update a Service Fabric cluster resource with the specified name.
- * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterPutOperation_example_min.json
+ * @summary create or update a Service Fabric cluster resource with the specified name.
+ * x-ms-original-file: 2026-03-01-preview/ClusterPutOperation_example_min.json
  */
 async function putAClusterWithMinimumParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
-  const clusterName = "myCluster";
-  const parameters: Cluster = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ServiceFabricManagementClient(credential, subscriptionId);
+  const result = await client.clusters.createOrUpdate("resRg", "myCluster", {
+    location: "eastus",
     diagnosticsStorageAccountConfig: {
       blobEndpoint: "https://diag.blob.core.windows.net/",
       protectedAccountKeyName: "StorageAccountKey1",
@@ -202,12 +177,8 @@ async function putAClusterWithMinimumParameters(): Promise<void> {
       tableEndpoint: "https://diag.table.core.windows.net/",
     },
     fabricSettings: [
-      {
-        name: "UpgradeService",
-        parameters: [{ name: "AppPollIntervalInSeconds", value: "60" }],
-      },
+      { name: "UpgradeService", parameters: [{ name: "AppPollIntervalInSeconds", value: "60" }] },
     ],
-    location: "eastus",
     managementEndpoint: "http://myCluster.eastus.cloudapp.azure.com:19080",
     nodeTypes: [
       {
@@ -222,16 +193,9 @@ async function putAClusterWithMinimumParameters(): Promise<void> {
       },
     ],
     reliabilityLevel: "Silver",
-    tags: {},
     upgradeMode: "Automatic",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ServiceFabricManagementClient(credential, subscriptionId);
-  const result = await client.clusters.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
+    tags: {},
+  });
   console.log(result);
 }
 

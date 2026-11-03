@@ -1,31 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a Collector Policy resource
- *
- * @summary Creates or updates a Collector Policy resource
- * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyCreate.json
- */
-
 import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to creates or updates a Collector Policy resource
+ *
+ * @summary creates or updates a Collector Policy resource
+ * x-ms-original-file: 2022-11-01/CollectorPolicyCreate.json
+ */
 async function createACollectionPolicy(): Promise<void> {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
-  const azureTrafficCollectorName = "atc";
-  const collectorPolicyName = "cp1";
-  const location = "West US";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
-  const result = await client.collectorPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    azureTrafficCollectorName,
-    collectorPolicyName,
-    location,
-  );
+  const result = await client.collectorPolicies.createOrUpdate("rg1", "atc", "cp1", {
+    location: "West US",
+    emissionPolicies: [
+      { emissionDestinations: [{ destinationType: "AzureMonitor" }], emissionType: "IPFIX" },
+    ],
+    ingestionPolicy: {
+      ingestionSources: [
+        {
+          resourceId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName",
+          sourceType: "Resource",
+        },
+      ],
+      ingestionType: "IPFIX",
+    },
+  });
   console.log(result);
 }
 
-createACollectionPolicy().catch(console.error);
+async function main(): Promise<void> {
+  await createACollectionPolicy();
+}
+
+main().catch(console.error);

@@ -3,23 +3,18 @@
 
 import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The services resource is the top-level resource that represents the Azure Database Migration Service (classic). The GET method retrieves information about a service instance.
+ * This sample demonstrates how to the services resource is the top-level resource that represents the Azure Database Migration Service (classic). The GET method retrieves information about a service instance.
  *
- * @summary The services resource is the top-level resource that represents the Azure Database Migration Service (classic). The GET method retrieves information about a service instance.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/Services_Get.json
+ * @summary the services resource is the top-level resource that represents the Azure Database Migration Service (classic). The GET method retrieves information about a service instance.
+ * x-ms-original-file: 2025-09-01-preview/Services_Get.json
  */
 async function servicesCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "fc04246f-04c5-437e-ac5e-206a19e7193f";
-  const groupName = "DmsSdkRg";
-  const serviceName = "DmsSdkService";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "fc04246f-04c5-437e-ac5e-206a19e7193f";
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.services.get(groupName, serviceName);
+  const result = await client.services.get("DmsSdkRg", "DmsSdkService");
   console.log(result);
 }
 

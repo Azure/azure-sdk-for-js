@@ -1,61 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  GalleryApplicationVersionUpdate} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Update a gallery Application Version.
+ * This sample demonstrates how to update a gallery Application Version.
  *
- * @summary Update a gallery Application Version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplicationVersion_Update.json
+ * @summary update a gallery Application Version.
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryApplicationVersion_Update.json
  */
 async function updateASimpleGalleryApplicationVersion(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const galleryName = "myGalleryName";
-  const galleryApplicationName = "myGalleryApplicationName";
-  const galleryApplicationVersionName = "1.0.0";
-  const galleryApplicationVersion: GalleryApplicationVersionUpdate = {
-    publishingProfile: {
-      endOfLifeDate: new Date("2019-07-01T07:00:00Z"),
-      manageActions: {
-        install:
-          'powershell -command "Expand-Archive -Path package.zip -DestinationPath C:\\package"',
-        remove: "del C:\\package ",
-      },
-      replicaCount: 1,
-      source: {
-        mediaLink:
-          "https://mystorageaccount.blob.core.windows.net/mycontainer/package.zip?{sasKey}",
-      },
-      storageAccountType: "Standard_LRS",
-      targetRegions: [
-        {
-          name: "West US",
-          excludeFromLatest: false,
-          regionalReplicaCount: 1,
-          storageAccountType: "Standard_LRS",
-        },
-      ],
-    },
-    safetyProfile: { allowDeletionOfReplicatedLocations: false },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.galleryApplicationVersions.beginUpdateAndWait(
-    resourceGroupName,
-    galleryName,
-    galleryApplicationName,
-    galleryApplicationVersionName,
-    galleryApplicationVersion,
+  const result = await client.galleryApplicationVersions.update(
+    "myResourceGroup",
+    "myGalleryName",
+    "myGalleryApplicationName",
+    "1.0.0",
+    {
+      publishingProfile: {
+        source: {
+          mediaLink:
+            "https://mystorageaccount.blob.core.windows.net/mycontainer/package.zip?{sasKey}",
+        },
+        manageActions: {
+          install:
+            'powershell -command "Expand-Archive -Path package.zip -DestinationPath C:\\package"',
+          remove: "del C:\\package ",
+        },
+        targetRegions: [
+          {
+            name: "West US",
+            regionalReplicaCount: 1,
+            storageAccountType: "Standard_LRS",
+            excludeFromLatest: false,
+          },
+        ],
+        replicaCount: 1,
+        endOfLifeDate: new Date("2019-07-01T07:00:00Z"),
+        storageAccountType: "Standard_LRS",
+      },
+      safetyProfile: { allowDeletionOfReplicatedLocations: false },
+    },
   );
   console.log(result);
 }

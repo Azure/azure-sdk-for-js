@@ -17,14 +17,13 @@ import {
 import { SASProtocol } from "../../src/SASQueryParameters.js";
 import {
   configureStorageClient,
+  createAndStartRecorder,
   getQSU,
   getSignatureFromSasUrl,
   getTokenBSU,
   getTokenBSUWithDefaultCredential,
   getTokenCredential,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
 } from "../utils/index.js";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -33,11 +32,10 @@ import { UserDelegationKeyCredential } from "@azure/storage-common";
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let queueServiceClient: QueueServiceClient;
   let recorder: Recorder;
+  const AZURE_TEST_TENANT_ID = "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     queueServiceClient = getQSU(recorder);
   });
 
@@ -473,7 +471,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       await queueClient.create();
     } catch (err) {
       assert.isTrue(
-        (err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"),
+        (err as any).details.additionalProperties.AuthenticationErrorDetail.startsWith(
+          "Signed expiry time",
+        ),
       );
     }
   });
@@ -507,6 +507,71 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await queueServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    const sharedKeyCredential = queueServiceClient["credential"] as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+
+    const queueName = recorder.variable("queue", getUniqueName("queue"));
+    const queueClient = queueServiceClient.getQueueClient(queueName);
+    await queueClient.create();
+
+    const queueSAS = generateQueueSASQueryParameters(
+      {
+        queueName: queueName,
+        expiresOn: tmr,
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
+        permissions: QueueSASPermissions.parse("raup"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        delegatedUserObjectId: jwtObj.oid,
+        version: "2025-07-05",
+      },
+      userDelegationKey,
+      accountName,
+    ).toString();
+
+    const sasClient = `${queueClient.url}?${queueSAS}`;
+    const queueClientwithSAS = new QueueClient(sasClient, tokenCredential);
+    configureStorageClient(recorder, queueClientwithSAS);
+
+    await queueClientwithSAS.getProperties();
+    await queueClient.delete();
+  });
+
+  // Service hasn't supported this feature yet.
+  it.skip("GenerateUserDelegationSAS with skutid should work", async (ctx) => {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+
+    // Try to get BlobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let queueServiceClientWithToken: QueueServiceClient;
+    try {
+      queueServiceClientWithToken = getTokenBSU(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+
+    const tokenCredential = getTokenCredential();
+    const token = (await tokenCredential.getToken(StorageOAuthScopes))?.token;
+    const jwtObj = parseJwt(token!);
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await queueServiceClientWithToken!.getUserDelegationKey({
+      delegatedUserTenantId: AZURE_TEST_TENANT_ID,
+      startsOn: now,
+      expiresOn: tmr,
+    });
 
     const sharedKeyCredential = queueServiceClient["credential"] as StorageSharedKeyCredential;
 

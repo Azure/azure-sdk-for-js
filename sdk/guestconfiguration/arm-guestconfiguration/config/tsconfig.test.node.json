@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-guestconfiguration": ["../src/index.ts"],
+      "@azure/arm-guestconfiguration/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

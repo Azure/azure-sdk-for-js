@@ -1,76 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  RestorePointCollection} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
+ * This sample demonstrates how to the operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
  *
- * @summary The operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePointCollection_CreateOrUpdate_ForCrossRegionCopy.json
+ * @summary the operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
+ * x-ms-original-file: 2026-04-01/restorePointExamples/RestorePointCollection_CreateOrUpdate.json
+ */
+async function createOrUpdateARestorePointCollection(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.restorePointCollections.createOrUpdate("myResourceGroup", "myRpc", {
+    location: "norwayeast",
+    source: {
+      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+    },
+    instantAccess: true,
+    tags: { myTag1: "tagValue1" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
+ *
+ * @summary the operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
+ * x-ms-original-file: 2026-04-01/restorePointExamples/RestorePointCollection_CreateOrUpdate_ForCrossRegionCopy.json
  */
 async function createOrUpdateARestorePointCollectionForCrossRegionCopy(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const restorePointCollectionName = "myRpc";
-  const parameters: RestorePointCollection = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.restorePointCollections.createOrUpdate("myResourceGroup", "myRpc", {
     location: "norwayeast",
     source: {
       id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName",
     },
     tags: { myTag1: "tagValue1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.restorePointCollections.createOrUpdate(
-    resourceGroupName,
-    restorePointCollectionName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to The operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
- *
- * @summary The operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePointCollection_CreateOrUpdate.json
- */
-async function createOrUpdateARestorePointCollection(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const restorePointCollectionName = "myRpc";
-  const parameters: RestorePointCollection = {
-    instantAccess: true,
-    location: "norwayeast",
-    source: {
-      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
-    },
-    tags: { myTag1: "tagValue1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.restorePointCollections.createOrUpdate(
-    resourceGroupName,
-    restorePointCollectionName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await createOrUpdateARestorePointCollectionForCrossRegionCopy();
   await createOrUpdateARestorePointCollection();
+  await createOrUpdateARestorePointCollectionForCrossRegionCopy();
 }
 
 main().catch(console.error);

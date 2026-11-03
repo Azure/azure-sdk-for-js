@@ -3,30 +3,22 @@
 
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Returns all import jobs the user has access to under an AML File System.
+ * This sample demonstrates how to returns all import jobs the user has access to under an AML File System.
  *
- * @summary Returns all import jobs the user has access to under an AML File System.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/importJobs_ListByAmlFilesystem.json
+ * @summary returns all import jobs the user has access to under an AML File System.
+ * x-ms-original-file: 2026-08-01/importJobs_ListByAmlFilesystem.json
  */
 async function importJobsListByAmlFilesystem(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
-  const amlFilesystemName = "fs1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.importJobs.listByAmlFilesystem(
-    resourceGroupName,
-    amlFilesystemName,
-  )) {
+  for await (const item of client.importJobs.listByAmlFilesystem("scgroup", "fs1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

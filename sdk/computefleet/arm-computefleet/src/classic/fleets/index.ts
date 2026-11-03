@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureFleetContext } from "../../api/azureFleetContext.js";
+import type { AzureFleetContext } from "../../api/azureFleetContext.js";
 import {
-  cancel,
   listVirtualMachines,
   listVirtualMachineScaleSets,
   listBySubscription,
@@ -13,8 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/fleets/operations.js";
-import {
-  FleetsCancelOptionalParams,
+import type {
   FleetsListVirtualMachinesOptionalParams,
   FleetsListVirtualMachineScaleSetsOptionalParams,
   FleetsListBySubscriptionOptionalParams,
@@ -24,19 +22,18 @@ import {
   FleetsCreateOrUpdateOptionalParams,
   FleetsGetOptionalParams,
 } from "../../api/fleets/options.js";
-import { Fleet, FleetUpdate, VirtualMachineScaleSet, VirtualMachine } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  Fleet,
+  FleetUpdate,
+  VirtualMachineScaleSet,
+  VirtualMachine,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Fleets operations. */
 export interface FleetsOperations {
-  /** Cancels an instance Fleet creation that is in progress. */
-  cancel: (
-    resourceGroupName: string,
-    fleetName: string,
-    options?: FleetsCancelOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List VirtualMachine resources of an instance Fleet. */
+  /** List VirtualMachine resources of a Launch mode Fleet. */
   listVirtualMachines: (
     resourceGroupName: string,
     name: string,
@@ -58,11 +55,6 @@ export interface FleetsOperations {
     options?: FleetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Fleet>;
   /** Delete a Fleet */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,
@@ -92,8 +84,6 @@ export interface FleetsOperations {
 
 function _getFleets(context: AzureFleetContext) {
   return {
-    cancel: (resourceGroupName: string, fleetName: string, options?: FleetsCancelOptionalParams) =>
-      cancel(context, resourceGroupName, fleetName, options),
     listVirtualMachines: (
       resourceGroupName: string,
       name: string,

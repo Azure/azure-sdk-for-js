@@ -1,41 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List versions.
- *
- * @summary List versions.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Registry/EnvironmentVersion/list.json
- */
-
-import type { RegistryEnvironmentVersionsListOptionalParams } from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list versions.
+ *
+ * @summary list versions.
+ * x-ms-original-file: 2026-03-15-preview/Registry/EnvironmentVersion/list.json
+ */
 async function listRegistryEnvironmentVersion(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
-  const registryName = "my-aml-regsitry";
-  const environmentName = "string";
-  const orderBy = "string";
-  const top = 1;
-  const options: RegistryEnvironmentVersionsListOptionalParams = {
-    orderBy,
-    top,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.registryEnvironmentVersions.list(
-    resourceGroupName,
-    registryName,
-    environmentName,
-    options,
+    "test-rg",
+    "my-aml-regsitry",
+    "string",
+    { orderBy: "string", top: 1 },
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

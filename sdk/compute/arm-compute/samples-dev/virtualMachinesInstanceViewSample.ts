@@ -3,47 +3,32 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves information about the run-time state of a virtual machine.
+ * This sample demonstrates how to retrieves information about the run-time state of a virtual machine.
  *
- * @summary Retrieves information about the run-time state of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Get_InstanceView.json
+ * @summary retrieves information about the run-time state of a virtual machine.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Get_InstanceView.json
  */
 async function getVirtualMachineInstanceView(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.instanceView(
-    resourceGroupName,
-    vmName,
-  );
+  const result = await client.virtualMachines.instanceView("myResourceGroup", "myVM");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Retrieves information about the run-time state of a virtual machine.
+ * This sample demonstrates how to retrieves information about the run-time state of a virtual machine.
  *
- * @summary Retrieves information about the run-time state of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
+ * @summary retrieves information about the run-time state of a virtual machine.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
  */
 async function getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.instanceView(
-    resourceGroupName,
-    vmName,
-  );
+  const result = await client.virtualMachines.instanceView("myResourceGroup", "myVM");
   console.log(result);
 }
 

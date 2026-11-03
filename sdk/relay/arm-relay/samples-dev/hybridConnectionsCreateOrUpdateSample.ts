@@ -1,32 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a service hybrid connection. This operation is idempotent.
- *
- * @summary Creates or updates a service hybrid connection. This operation is idempotent.
- * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/HybridConnection/RelayHybridConnectionCreate.json
- */
-
-import type { HybridConnection } from "@azure/arm-relay";
 import { RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a service hybrid connection. This operation is idempotent.
+ *
+ * @summary creates or updates a service hybrid connection. This operation is idempotent.
+ * x-ms-original-file: 2026-01-01/HybridConnection/RelayHybridConnectionCreate.json
+ */
 async function relayHybridConnectionCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
-  const namespaceName = "example-RelayNamespace-01";
-  const hybridConnectionName = "example-Relay-Hybrid-01";
-  const parameters: HybridConnection = { requiresClientAuthorization: true };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new RelayAPI(credential, subscriptionId);
   const result = await client.hybridConnections.createOrUpdate(
-    resourceGroupName,
-    namespaceName,
-    hybridConnectionName,
-    parameters,
+    "resourcegroup",
+    "example-RelayNamespace-01",
+    "example-Relay-Hybrid-01",
+    { requiresClientAuthorization: true },
   );
   console.log(result);
 }

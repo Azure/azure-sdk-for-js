@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a catalog.
- *
- * @summary Creates or updates a catalog.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Catalogs_CreateAdo.json
- */
-
-import type { Catalog } from "@azure/arm-devcenter";
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a catalog.
+ *
+ * @summary creates or updates a catalog.
+ * x-ms-original-file: 2026-01-01-preview/Catalogs_CreateAdo.json
+ */
 async function catalogsCreateOrUpdateAdo(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const devCenterName = "Contoso";
-  const catalogName = "CentralCatalog";
-  const body: Catalog = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.catalogs.createOrUpdate("rg1", "Contoso", "CentralCatalog", {
     adoGit: {
       path: "/templates",
       branch: "main",
@@ -27,31 +22,22 @@ async function catalogsCreateOrUpdateAdo(): Promise<void> {
       uri: "https://contoso@dev.azure.com/contoso/contosoOrg/_git/centralrepo-fakecontoso",
     },
     syncType: "Scheduled",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.catalogs.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    devCenterName,
-    catalogName,
-    body,
-  );
+    autoImageBuildEnableStatus: "Enabled",
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a catalog.
+ * This sample demonstrates how to creates or updates a catalog.
  *
- * @summary Creates or updates a catalog.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Catalogs_CreateGitHub.json
+ * @summary creates or updates a catalog.
+ * x-ms-original-file: 2026-01-01-preview/Catalogs_CreateGitHub.json
  */
 async function catalogsCreateOrUpdateGitHub(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const devCenterName = "Contoso";
-  const catalogName = "CentralCatalog";
-  const body: Catalog = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.catalogs.createOrUpdate("rg1", "Contoso", "CentralCatalog", {
     gitHub: {
       path: "/templates",
       branch: "main",
@@ -59,15 +45,8 @@ async function catalogsCreateOrUpdateGitHub(): Promise<void> {
       uri: "https://github.com/Contoso/centralrepo-fake.git",
     },
     syncType: "Manual",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.catalogs.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    devCenterName,
-    catalogName,
-    body,
-  );
+    autoImageBuildEnableStatus: "Enabled",
+  });
   console.log(result);
 }
 

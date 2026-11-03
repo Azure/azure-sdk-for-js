@@ -1,0 +1,32 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ApiManagementClient } from "@azure/arm-apimanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to updates the details of the group specified by its identifier.
+ *
+ * @summary updates the details of the group specified by its identifier.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementUpdateWorkspaceGroup.json
+ */
+async function apiManagementUpdateWorkspaceGroup(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.workspaceGroup.update(
+    "rg1",
+    "apimService1",
+    "wks1",
+    "tempgroup",
+    "*",
+    { displayName: "temp group" },
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await apiManagementUpdateWorkspaceGroup();
+}
+
+main().catch(console.error);

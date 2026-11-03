@@ -8,41 +8,36 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a ScheduledAction
  *
  * @summary update a ScheduledAction
- * x-ms-original-file: 2025-04-15-preview/ScheduledActions_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-04-15-preview/ScheduledActions_Update_MaximumSet_Gen.json
  */
 async function scheduledActionsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "732116BD-AF31-4E74-9283-B387C44B4A44";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.update("rgcomputeschedule", "myScheduledAction", {
+  const result = await client.scheduledActions.update("rgcomputeschedule", "scheduled-action-01", {
+    tags: { environment: "staging" },
     properties: {
       resourceType: "VirtualMachine",
       actionType: "Start",
-      startTime: "2025-04-17T00:23:58.149Z",
-      endTime: "2025-04-17T00:23:58.149Z",
+      startTime: "2026-03-12T02:39:45.818Z",
+      endTime: "2026-03-12T02:39:45.818Z",
       schedule: {
-        scheduledTime: "19:00:00",
-        timeZone: "bni",
+        scheduledTime: "12:00:00",
+        timeZone: "America/Los_Angeles",
         requestedWeekDays: ["Monday"],
         requestedMonths: ["January"],
-        requestedDaysOfTheMonth: [15],
+        requestedDaysOfTheMonth: [1],
         executionParameters: {
           optimizationPreference: "Cost",
-          retryPolicy: { retryCount: 17, retryWindowInMinutes: 29 },
+          retryPolicy: { retryCount: 3, retryWindowInMinutes: 30, onFailureAction: "Unknown" },
         },
         deadlineType: "Unknown",
       },
       notificationSettings: [
-        {
-          destination: "wbhryycyolvnypjxzlawwvb",
-          type: "Email",
-          language: "en-us",
-          disabled: true,
-        },
+        { destination: "admin@contoso.com", type: "Email", language: "en-us", disabled: true },
       ],
       disabled: true,
     },
-    tags: { key9989: "tryjidk" },
   });
   console.log(result);
 }

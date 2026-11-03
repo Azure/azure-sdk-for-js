@@ -8,7 +8,14 @@ import {
   getFilteredPackages,
   reducedDependencyTestMatrix,
   restrictedToPackages,
+  validSdkTypes,
 } from "../src/helpers.js";
+
+describe("validSdkTypes", () => {
+  it("includes provisioning packages", () => {
+    assert.ok(validSdkTypes.includes("provisioning"));
+  });
+});
 
 describe("getDirectionMappedPackages", () => {
   describe("build", () => {
@@ -87,6 +94,22 @@ describe("getDirectionMappedPackages", () => {
       });
 
       assert.deepStrictEqual(mapped, ["@azure/app-configuration", "...@azure/storage-blob"]);
+    });
+
+    it("should exclude changed packages from other batches pulled in as dependents", () => {
+      const packages = ["@azure/app-configuration"];
+      const mapped = getFilteredPackages(packages, "test", ["appconfiguration"], {
+        changedPackages: new Set(["@azure/app-configuration", "@azure/storage-blob"]),
+        diff: {
+          changedFiles: [],
+          changedServices: [],
+        },
+      });
+
+      // `...@azure/app-configuration` (changed, non-restricted) plus exclusion for
+      // @azure/storage-blob which is changed but in another batch. Unchanged
+      // dependents are NOT excluded — they must be tested to catch regressions.
+      assert.deepStrictEqual(mapped, ["...@azure/app-configuration", "!@azure/storage-blob"]);
     });
   });
 });

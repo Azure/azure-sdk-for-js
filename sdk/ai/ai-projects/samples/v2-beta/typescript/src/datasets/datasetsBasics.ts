@@ -12,13 +12,13 @@ import type { DatasetVersionUnion } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import "dotenv/config";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
 const containerConnectionName =
   process.env["AZURE_STORAGE_CONNECTION_NAME"] || "<storage connection name>";
 const VERSION1 = "1.0";
@@ -69,7 +69,7 @@ async function main(): Promise<void> {
     {
       connectionName: containerConnectionName,
       // only upload sample_file1.txt and sample_file2.txt
-      filePattern: /sample_file[1-2]\.txt$/,
+      filePattern: "/sample_file[1-2]\.txt$/",
     },
   );
   console.log("Dataset2 created:", JSON.stringify(dataset2, null, 2));
@@ -92,7 +92,7 @@ async function main(): Promise<void> {
   console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
 
   console.log(`Listing all versions of the Dataset named '${datasetName}':`);
-  const datasetVersions = await project.datasets.listVersions(datasetName);
+  const datasetVersions = project.datasets.listVersions(datasetName);
   for await (const version of datasetVersions) {
     console.log("List versions:", version);
   }

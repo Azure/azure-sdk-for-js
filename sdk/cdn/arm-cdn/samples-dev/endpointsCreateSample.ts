@@ -1,24 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
- *
- * @summary Creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Endpoints_Create.json
- */
-
-import type { Endpoint } from "@azure/arm-cdn";
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
+ *
+ * @summary creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
+ * x-ms-original-file: 2026-10-01/Endpoints_Create.json
+ */
 async function endpointsCreate(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
-  const endpointName = "endpoint1";
-  const endpoint: Endpoint = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CdnManagementClient(credential, subscriptionId);
+  const result = await client.endpoints.create("RG", "profile1", "endpoint1", {
+    location: "WestUs",
     contentTypesToCompress: ["text/html", "application/octet-stream"],
     defaultOriginGroup: {
       id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/originGroups/originGroup1",
@@ -75,7 +72,6 @@ async function endpointsCreate(): Promise<void> {
     isCompressionEnabled: true,
     isHttpAllowed: true,
     isHttpsAllowed: true,
-    location: "WestUs",
     originGroups: [
       {
         name: "originGroup1",
@@ -125,15 +121,7 @@ async function endpointsCreate(): Promise<void> {
     ],
     queryStringCachingBehavior: "BypassCaching",
     tags: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.endpoints.beginCreateAndWait(
-    resourceGroupName,
-    profileName,
-    endpointName,
-    endpoint,
-  );
+  });
   console.log(result);
 }
 

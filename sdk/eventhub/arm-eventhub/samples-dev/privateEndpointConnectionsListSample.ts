@@ -1,31 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the available PrivateEndpointConnections within a namespace.
- *
- * @summary Gets the available PrivateEndpointConnections within a namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/PrivateEndPointConnectionList.json
- */
-
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the available PrivateEndpointConnections within a namespace.
+ *
+ * @summary gets the available PrivateEndpointConnections within a namespace.
+ * x-ms-original-file: 2026-01-01/NameSpaces/PrivateEndPointConnectionList.json
+ */
 async function privateEndPointConnectionList(): Promise<void> {
-  const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subID";
-  const resourceGroupName =
-    process.env["EVENTHUB_RESOURCE_GROUP"] || "SDK-EventHub-4794";
-  const namespaceName = "sdk-Namespace-5828";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subID";
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.list(
-    resourceGroupName,
-    namespaceName,
+  for await (const item of client.privateEndpointConnections.list(
+    "SDK-EventHub-4794",
+    "sdk-Namespace-5828",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

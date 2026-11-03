@@ -1,75 +1,56 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualMachineScaleSetExtension} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to create or update an extension.
+ * This sample demonstrates how to the operation to create or update an extension.
  *
- * @summary The operation to create or update an extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MaximumSet_Gen.json
+ * @summary the operation to create or update an extension.
+ * x-ms-original-file: 2026-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const vmScaleSetName = "aaaaaaa";
-  const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaa";
-  const extensionParameters: VirtualMachineScaleSetExtension = {
-    name: "{extension-name}",
-    typePropertiesType: "{extension-Type}",
-    autoUpgradeMinorVersion: true,
-    enableAutomaticUpgrade: true,
-    forceUpdateTag: "aaaaaaaaa",
-    protectedSettings: {},
-    provisionAfterExtensions: ["aa"],
-    publisher: "{extension-Publisher}",
-    settings: {},
-    suppressFailures: true,
-    typeHandlerVersion: "{handler-version}",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSetExtensions.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      vmssExtensionName,
-      extensionParameters,
-    );
+  const result = await client.virtualMachineScaleSetExtensions.createOrUpdate(
+    "rgcompute",
+    "aaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaa",
+    {
+      name: "{extension-name}",
+      autoUpgradeMinorVersion: true,
+      publisher: "{extension-Publisher}",
+      typePropertiesType: "{extension-Type}",
+      typeHandlerVersion: "{handler-version}",
+      settings: {},
+      forceUpdateTag: "aaaaaaaaa",
+      enableAutomaticUpgrade: true,
+      protectedSettings: {},
+      provisionAfterExtensions: ["aa"],
+      suppressFailures: true,
+    },
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to create or update an extension.
+ * This sample demonstrates how to the operation to create or update an extension.
  *
- * @summary The operation to create or update an extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MinimumSet_Gen.json
+ * @summary the operation to create or update an extension.
+ * x-ms-original-file: 2026-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const vmScaleSetName = "aaaaaaaaaaa";
-  const vmssExtensionName = "aaaaaaaaaaa";
-  const extensionParameters: VirtualMachineScaleSetExtension = {};
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSetExtensions.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      vmssExtensionName,
-      extensionParameters,
-    );
+  const result = await client.virtualMachineScaleSetExtensions.createOrUpdate(
+    "rgcompute",
+    "aaaaaaaaaaa",
+    "aaaaaaaaaaa",
+    {},
+  );
   console.log(result);
 }
 

@@ -1,32 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets an Event Hubs description for the specified Event Hub.
- *
- * @summary Gets an Event Hubs description for the specified Event Hub.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/EventHubs/EHEventHubGet.json
- */
-
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets an Event Hubs description for the specified Event Hub.
+ *
+ * @summary gets an Event Hubs description for the specified Event Hub.
+ * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubGet.json
+ */
 async function eventHubGet(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
-    "e2f361f0-3b27-4503-a9cc-21cfba380093";
-  const resourceGroupName =
-    process.env["EVENTHUB_RESOURCE_GROUP"] ||
-    "Default-NotificationHubs-AustraliaEast";
-  const namespaceName = "sdk-Namespace-716";
-  const eventHubName = "sdk-EventHub-10";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "e2f361f0-3b27-4503-a9cc-21cfba380093";
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.eventHubs.get(
-    resourceGroupName,
-    namespaceName,
-    eventHubName,
+    "Default-NotificationHubs-AustraliaEast",
+    "sdk-Namespace-716",
+    "sdk-EventHub-10",
   );
   console.log(result);
 }

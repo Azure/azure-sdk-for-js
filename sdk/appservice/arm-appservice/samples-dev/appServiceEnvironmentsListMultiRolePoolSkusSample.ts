@@ -3,35 +3,30 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Get available SKUs for scaling a multi-role pool.
+ * This sample demonstrates how to description for Get available SKUs for scaling a multi-role pool.
  *
- * @summary Description for Get available SKUs for scaling a multi-role pool.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/AppServiceEnvironments_ListMultiRolePoolSkus.json
+ * @summary description for Get available SKUs for scaling a multi-role pool.
+ * x-ms-original-file: 2025-05-01/AppServiceEnvironments_ListMultiRolePoolSkus.json
  */
-async function getAvailableSkUsForScalingAMultiRolePool(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "test-rg";
-  const name = "test-ase";
+async function getAvailableSKUsForScalingAMultiRolePool(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.appServiceEnvironments.listMultiRolePoolSkus(
-    resourceGroupName,
-    name,
+    "test-rg",
+    "test-ase",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await getAvailableSkUsForScalingAMultiRolePool();
+  await getAvailableSKUsForScalingAMultiRolePool();
 }
 
 main().catch(console.error);

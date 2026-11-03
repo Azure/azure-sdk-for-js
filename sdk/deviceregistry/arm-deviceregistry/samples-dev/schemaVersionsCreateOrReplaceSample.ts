@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a SchemaVersion
  *
  * @summary create a SchemaVersion
- * x-ms-original-file: 2025-10-01/CreateOrReplace_SchemaVersion.json
+ * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_SchemaVersion.json
  */
 async function createOrReplaceSchemaVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

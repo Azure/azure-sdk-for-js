@@ -1,49 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List FileSystemResource resources by subscription ID
- *
- * @summary List FileSystemResource resources by subscription ID
- * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_ListBySubscription_MaximumSet_Gen.json
- */
-
 import { QumuloStorage } from "@azure/arm-qumulo";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function fileSystemsListBySubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
+/**
+ * This sample demonstrates how to list FileSystemResource resources by subscription ID
+ *
+ * @summary list FileSystemResource resources by subscription ID
+ * x-ms-original-file: 2026-04-16/FileSystems_ListBySubscription_MaximumSet_Gen.json
+ */
+async function fileSystemsListBySubscriptionMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "C9CC2D2A-5AA0-4839-A85F-18491F2D244A";
   const client = new QumuloStorage(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.fileSystems.listBySubscription()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to List FileSystemResource resources by subscription ID
+ * This sample demonstrates how to list FileSystemResource resources by subscription ID
  *
- * @summary List FileSystemResource resources by subscription ID
- * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_ListBySubscription_MinimumSet_Gen.json
+ * @summary list FileSystemResource resources by subscription ID
+ * x-ms-original-file: 2026-04-16/FileSystems_ListBySubscription_MinimumSet_Gen.json
  */
-async function fileSystemsListBySubscriptionMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaa";
+async function fileSystemsListBySubscriptionMaximumSetGenGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "53BA951C-DA09-400A-AB3A-F8E98F317423";
   const client = new QumuloStorage(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.fileSystems.listBySubscription()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await fileSystemsListBySubscription();
-  await fileSystemsListBySubscriptionMinimumSetGen();
+  await fileSystemsListBySubscriptionMaximumSet();
+  await fileSystemsListBySubscriptionMaximumSetGenGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

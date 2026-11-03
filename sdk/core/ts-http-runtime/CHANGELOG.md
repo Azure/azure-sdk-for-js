@@ -1,5 +1,87 @@
 # Release History
 
+## 0.3.10 (Unreleased)
+
+### Features Added
+
+- `azure-deprecating` response header is now included in the default set of headers logged without redaction. See [Azure API Guidelines: Deprecating Behavior Notification](https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md#deprecating-behavior-notification) for more information.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Release discarded response streams before redirects and retries, preserve cancellation and abort-signal cleanup across buffered and streamed responses, reject prematurely closed Node upload and buffered response streams, prevent unhandled Node upload errors during teardown, and honor method overrides when converting 303 redirects to GET. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)
+- Binary request bodies supplied as `ArrayBuffer`, `DataView`, or typed arrays other than `Uint8Array` are now sent as their original bytes instead of being JSON serialized. [#40382](https://github.com/Azure/azure-sdk-for-js/pull/40382)
+- Client requests now look up the `content-type` and `accept` entries of the `headers` request option without regard to how the header name is capitalized. Only the all lower case spellings were found before, so `headers: { "Content-Type": "application/xml" }` and `headers: { "Accept": "text/plain" }` were replaced by the default `application/json`. Both entries are now read back from the headers that will be sent, so the same value decides the header and how the body is encoded: a header name given under two spellings resolves to the last one in the object, a `content-type` value that is not a string, such as a number, is used as its string form rather than ignored, and a padded value selects the encoding of its trimmed form. [#39791](https://github.com/Azure/azure-sdk-for-js/pull/39791)
+
+### Other Changes
+
+- Upgraded the `http-proxy-agent` dependency to version `9.1.0`. [Issue #37669](https://github.com/Azure/azure-sdk-for-js/issues/37669)
+
+## 0.3.9 (2026-09-03)
+
+### Bugs Fixed
+
+- Added a `workerd` export condition so the Cloudflare Workers runtime resolves the Node-compatible build instead of the browser build. This fixes a `proxyPolicy` exception when constructing clients on Cloudflare Workers (e.g. via Wrangler with `nodejs_compat`). [Issue #37345](https://github.com/Azure/azure-sdk-for-js/issues/37345)
+- `NodeHttpClient` request timeouts now remain active while buffered response bodies are being read. [Issue #39519](https://github.com/Azure/azure-sdk-for-js/issues/39519)
+- `FetchHttpClient` now surfaces the system error code (such as `ECONNRESET` or `ETIMEDOUT`) carried by the `cause` of a failed `fetch()` call on the resulting `RestError`, so that `systemErrorRetryPolicy` retries transient network failures instead of rethrowing them immediately. [Issue #39703](https://github.com/Azure/azure-sdk-for-js/issues/39703)
+
+## 0.3.8 (2026-07-29)
+
+### Features Added
+
+- Added an optional `internal` property to `ClientOptions` for `getClient`, carrying a `noDefaultAcceptHeader` flag (defaults to `false`). When set to `true`, the client no longer adds a default `Accept: application/json` request header to operations that do not otherwise specify one, allowing operations that expect no response body to omit the `Accept` header. This option is intended for use by generated clients. [PR #39291](https://github.com/Azure/azure-sdk-for-js/pull/39291)
+
+### Other Changes
+
+- `proxyPolicy` no longer throws on platforms where proxies are not supported (such as browsers and React Native). Instead, it returns a no-op policy that forwards requests unchanged, and `getDefaultProxySettings` returns `undefined` [PR #39084](https://github.com/Azure/azure-sdk-for-js/pull/39084)
+
+## 0.3.7 (2026-07-13)
+
+### Bugs Fixed
+
+- `logPolicy` now redacts non-allowlisted response header values when verbose logging is enabled, instead of logging them in plaintext.
+
+### Other Changes
+
+- Removed the internal `randomUUID` polyfill for Node.js and browsers, relying on `globalThis.crypto.randomUUID()` which is available on those platforms. React Native keeps a `Math.random()` based fallback since its JS engines do not provide `crypto.randomUUID()`.
+- Update `engines` to `"node": ">=22.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 0.3.6 (2026-06-04)
+
+### Bugs Fixed
+
+- Fix an issue in `NodeHttpClient` where we incorrectly send the whole backing buffer when request body is an `ArrayBufferView`. [PR #38718](https://github.com/Azure/azure-sdk-for-js/pull/38718)
+- `createHttpHeaders` now strips CR (`\r`) and LF (`\n`) characters from header values to prevent obs-fold (line folding) sequences, as required by RFC 7230 §3.2.4. [PR #38744](https://github.com/Azure/azure-sdk-for-js/pull/38744)
+
+### Other Changes
+
+- Set `RestError.response.bodyAsText` when the error response body has `string` type [PR #38059](https://github.com/Azure/azure-sdk-for-js/pull/38059)
+- Forward `tracingOptions` to pipeline requests. [PR #38285](https://github.com/Azure/azure-sdk-for-js/pull/38285)
+
+## 0.3.5 (2026-04-07)
+
+### Bugs Fixed
+
+- Request headers are no longer forwarded to the proxy server as additional headers when establishing HTTPS CONNECT tunnels; headers on proxied HTTP(S) requests sent through an established tunnel are unchanged. [PR #37808](https://github.com/Azure/azure-sdk-for-js/pull/37808)
+
+## 0.3.4 (2026-03-05)
+
+### Features Added
+
+- Added `allowCrossOriginRedirects` option to `RedirectPolicyOptions`. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
+- Support function type and `Blob` type for request body. ([#37300](https://github.com/Azure/azure-sdk-for-js/pull/37300), [#37424](https://github.com/Azure/azure-sdk-for-js/pull/37424))
+
+### Bugs Fixed
+
+- The redirect policy now only follows same-origin redirects by default. Set `allowCrossOriginRedirects` to `true` to restore the previous behavior. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
+
+## 0.3.3 (2026-02-05)
+
+### Bugs Fixed
+
+- Fixed an issue where setting `content-type` header was ignored when the request has no body. [#37181](https://github.com/Azure/azure-sdk-for-js/pull/37181)
+
 ## 0.3.2 (2025-11-06)
 
 ### Bugs Fixed

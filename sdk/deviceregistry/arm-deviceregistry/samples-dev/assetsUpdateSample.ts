@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Asset
  *
  * @summary update a Asset
- * x-ms-original-file: 2025-10-01/Update_Asset.json
+ * x-ms-original-file: 2026-03-01-preview/Update_Asset.json
  */
 async function updateAsset(): Promise<void> {
   const credential = new DefaultAzureCredential();

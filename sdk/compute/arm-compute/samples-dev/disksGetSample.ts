@@ -3,28 +3,38 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets information about a disk.
+ * This sample demonstrates how to gets information about a disk.
  *
- * @summary Gets information about a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/Disk_Get.json
+ * @summary gets information about a disk.
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Get.json
  */
 async function getInformationAboutAManagedDisk(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const diskName = "myManagedDisk";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.get(resourceGroupName, diskName);
+  const result = await client.disks.get("myResourceGroup", "myManagedDisk");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets information about a disk.
+ *
+ * @summary gets information about a disk.
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Get_WithConfidentialVMVersion.json
+ */
+async function getInformationAboutAConfidentialVMDiskWithConfidentialVMVersion(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.get("myResourceGroup", "myConfidentialDisk");
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await getInformationAboutAManagedDisk();
+  await getInformationAboutAConfidentialVMDiskWithConfidentialVMVersion();
 }
 
 main().catch(console.error);

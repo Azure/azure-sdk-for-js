@@ -1,36 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update the policies for a billing account of Enterprise Agreement type.
- *
- * @summary Update the policies for a billing account of Enterprise Agreement type.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/policiesPutByBillingAccount.json
- */
-
-import type { BillingAccountPolicy } from "@azure/arm-billing";
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update the policies for a billing account of Enterprise Agreement type.
+ *
+ * @summary update the policies for a billing account of Enterprise Agreement type.
+ * x-ms-original-file: 2024-04-01/policiesPutByBillingAccount.json
+ */
 async function policiesPutByBillingAccount(): Promise<void> {
-  const billingAccountName = "1234567";
-  const parameters: BillingAccountPolicy = {
+  const credential = new DefaultAzureCredential();
+  const client = new BillingManagementClient(credential);
+  const result = await client.policies.createOrUpdateByBillingAccount("1234567", {
     properties: {
-      enterpriseAgreementPolicies: {
-        authenticationType: "OrganizationalAccountOnly",
-      },
+      enterpriseAgreementPolicies: { authenticationType: "OrganizationalAccountOnly" },
       marketplacePurchases: "AllAllowed",
       reservationPurchases: "Allowed",
       savingsPlanPurchases: "NotAllowed",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new BillingManagementClient(credential);
-  const result = await client.policies.beginCreateOrUpdateByBillingAccountAndWait(
-    billingAccountName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

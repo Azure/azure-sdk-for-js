@@ -1,29 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to This operation deletes the policy definition in the given management group with the given name.
- *
- * @summary This operation deletes the policy definition in the given management group with the given name.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/deletePolicyDefinitionVersionAtManagementGroup.json
- */
-
 import { PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to this operation deletes the policy definition in the given management group with the given name.
+ *
+ * @summary this operation deletes the policy definition in the given management group with the given name.
+ * x-ms-original-file: 2026-06-01/deletePolicyDefinitionVersionAtManagementGroup.json
+ */
 async function deleteAPolicyDefinitionVersionAtManagementGroupLevel(): Promise<void> {
-  const managementGroupName = "MyManagementGroup";
-  const policyDefinitionName = "ResourceNaming";
-  const policyDefinitionVersion = "1.2.1";
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential);
-  const result = await client.policyDefinitionVersions.deleteAtManagementGroup(
-    managementGroupName,
-    policyDefinitionName,
-    policyDefinitionVersion,
+  await client.policyDefinitionVersions.deleteAtManagementGroup(
+    "MyManagementGroup",
+    "ResourceNaming",
+    "1.2.1",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

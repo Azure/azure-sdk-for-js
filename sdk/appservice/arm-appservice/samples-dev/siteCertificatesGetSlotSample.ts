@@ -3,30 +3,22 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a certificate for a given site and deployment slot.
+ * This sample demonstrates how to get a certificate for a given site and deployment slot.
  *
- * @summary Get a certificate for a given site and deployment slot.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/GetSiteCertificateSlot.json
+ * @summary get a certificate for a given site and deployment slot.
+ * x-ms-original-file: 2025-05-01/GetSiteCertificateSlot.json
  */
 async function getSiteCertificateForASlot(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "testSiteName";
-  const slot = "staging";
-  const certificateName = "testc6282";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.siteCertificates.getSlot(
-    resourceGroupName,
-    name,
-    slot,
-    certificateName,
+    "testrg123",
+    "testSiteName",
+    "staging",
+    "testc6282",
   );
   console.log(result);
 }

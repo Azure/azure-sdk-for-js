@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an existing AzureFrontDoor domain with the specified domain name under the specified subscription, resource group and profile.
- *
- * @summary Deletes an existing AzureFrontDoor domain with the specified domain name under the specified subscription, resource group and profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDCustomDomains_Delete.json
- */
-
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes an existing AzureFrontDoor domain with the specified domain name under the specified subscription, resource group and profile.
+ *
+ * @summary deletes an existing AzureFrontDoor domain with the specified domain name under the specified subscription, resource group and profile.
+ * x-ms-original-file: 2026-10-01/AFDCustomDomains_Delete.json
+ */
 async function afdCustomDomainsDelete(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
-  const customDomainName = "domain1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.afdCustomDomains.beginDeleteAndWait(
-    resourceGroupName,
-    profileName,
-    customDomainName,
-  );
-  console.log(result);
+  await client.afdCustomDomains.delete("RG", "profile1", "domain1");
 }
 
 async function main(): Promise<void> {

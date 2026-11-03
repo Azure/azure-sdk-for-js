@@ -1,43 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualMachineAssignRelayParameters,
-  VirtualMachinesAssignRelayOptionalParams} from "@azure/arm-networkcloud";
-import {
-  NetworkCloud,
-} from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Assigns a relay to the specified Microsoft.HybridCompute machine associated with the provided virtual machine.
+ * This sample demonstrates how to assigns a relay to the specified Microsoft.HybridCompute machine associated with the provided virtual machine.
  *
- * @summary Assigns a relay to the specified Microsoft.HybridCompute machine associated with the provided virtual machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/VirtualMachines_AssignRelay.json
+ * @summary assigns a relay to the specified Microsoft.HybridCompute machine associated with the provided virtual machine.
+ * x-ms-original-file: 2026-07-01/VirtualMachines_AssignRelay.json
  */
 async function assignRelayToTheMicrosoftHybridComputeMachineForAVirtualMachine(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const virtualMachineName = "virtualMachineName";
-  const virtualMachineAssignRelayParameters: VirtualMachineAssignRelayParameters =
-    {
-      machineId:
-        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.HybridCompute/machines/machineName",
-      relayType: "Platform",
-    };
-  const options: VirtualMachinesAssignRelayOptionalParams = {
-    virtualMachineAssignRelayParameters,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
   const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.virtualMachines.beginAssignRelayAndWait(
-    resourceGroupName,
-    virtualMachineName,
-    options,
+  const result = await client.virtualMachines.assignRelay(
+    "resourceGroupName",
+    "virtualMachineName",
+    {
+      virtualMachineAssignRelayParameters: {
+        machineId:
+          "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.HybridCompute/machines/machineName",
+        relayType: "Platform",
+      },
+    },
   );
   console.log(result);
 }

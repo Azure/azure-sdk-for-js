@@ -1,29 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an existing registered ASN with the specified name under the given subscription, resource group and peering.
- *
- * @summary Deletes an existing registered ASN with the specified name under the given subscription, resource group and peering.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/DeleteRegisteredAsn.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function deletesARegisteredAsnAssociatedWithThePeering(): Promise<void> {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
-  const peeringName = "peeringName";
-  const registeredAsnName = "registeredAsnName";
+/**
+ * This sample demonstrates how to deletes an existing registered ASN with the specified name under the given subscription, resource group and peering.
+ *
+ * @summary deletes an existing registered ASN with the specified name under the given subscription, resource group and peering.
+ * x-ms-original-file: 2025-05-01/DeleteRegisteredAsn.json
+ */
+async function deletesARegisteredASNAssociatedWithThePeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
-  const result = await client.registeredAsns.delete(
-    resourceGroupName,
-    peeringName,
-    registeredAsnName,
-  );
-  console.log(result);
+  await client.registeredAsns.delete("rgName", "peeringName", "registeredAsnName");
 }
 
-deletesARegisteredAsnAssociatedWithThePeering().catch(console.error);
+async function main(): Promise<void> {
+  await deletesARegisteredASNAssociatedWithThePeering();
+}
+
+main().catch(console.error);

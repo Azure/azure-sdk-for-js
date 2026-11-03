@@ -8,14 +8,34 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list OccurrenceExtensionResource resources by parent
  *
  * @summary list OccurrenceExtensionResource resources by parent
- * x-ms-original-file: 2025-04-15-preview/OccurrenceExtension_ListOccurrenceByVms_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-04-15-preview/OccurrenceExtension_ListOccurrenceByVms_MaximumSet_Gen.json
  */
 async function occurrenceExtensionListOccurrenceByVmsMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new ComputeScheduleClient(credential, subscriptionId);
+  const client = new ComputeScheduleClient(credential);
   const resArray = new Array();
-  for await (const item of client.occurrenceExtension.listOccurrenceByVms("sazvpabfud")) {
+  for await (const item of client.occurrenceExtension.listOccurrenceByVms(
+    "subscriptions/732116BD-AF31-4E74-9283-B387C44B4A44/resourceGroups/rgcomputeschedule/providers/Microsoft.Compute/virtualMachines/myVm",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to list OccurrenceExtensionResource resources by parent
+ *
+ * @summary list OccurrenceExtensionResource resources by parent
+ * x-ms-original-file: 2026-04-15-preview/OccurrenceExtension_ListOccurrenceByVms_MinimumSet_Gen.json
+ */
+async function occurrenceExtensionListOccurrenceByVmsMinimumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeScheduleClient(credential);
+  const resArray = new Array();
+  for await (const item of client.occurrenceExtension.listOccurrenceByVms(
+    "subscriptions/732116BD-AF31-4E74-9283-B387C44B4A44/resourceGroups/rgcomputeschedule/providers/Microsoft.Compute/virtualMachines/myVm",
+  )) {
     resArray.push(item);
   }
 
@@ -24,6 +44,7 @@ async function occurrenceExtensionListOccurrenceByVmsMaximumSet(): Promise<void>
 
 async function main(): Promise<void> {
   await occurrenceExtensionListOccurrenceByVmsMaximumSet();
+  await occurrenceExtensionListOccurrenceByVmsMinimumSet();
 }
 
 main().catch(console.error);

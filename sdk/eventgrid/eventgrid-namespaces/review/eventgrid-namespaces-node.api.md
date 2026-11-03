@@ -7,7 +7,9 @@
 import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -87,6 +89,8 @@ export interface FailedLockToken {
     lockToken: string;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownReleaseDelay {
     NoDelay = "0",
@@ -160,6 +164,8 @@ export interface RenewLocksResult {
     readonly failedLockTokens: FailedLockToken[];
     readonly succeededLockTokens: string[];
 }
+
+export { RestError }
 
 // @public
 export interface SendEventOptionalParams extends OperationOptions {

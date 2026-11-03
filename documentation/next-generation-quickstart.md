@@ -3,7 +3,7 @@
 We are excited to announce the GA of a new set of management plane libraries for JavaScript/TypeScript. Those libraries contain a number of new features including Azure Identity support, HTTP pipeline, error-handling, etc, and follow the new Azure SDK guidelines which create easy-to-use
 APIs that are idiomatic, compatible, and dependable. See [TypeScript Design Guidelines](https://azure.github.io/azure-sdk/typescript_design.html) for more information.
 
-Currently, we have released GA version of several packages such as `azure/arm-resources`, `@azure/arm-storage`,
+Currently, we have released GA version of several packages such as `@azure/arm-resources`, `@azure/arm-storage`,
 `@azure/arm-compute`, `@azure/arm-network` for next-generation. Please find the latest version of those libraries in [npm](https://www.npmjs.com) and have a try.
 
 In this basic quickstart guide, we will walk you through how to
@@ -264,7 +264,7 @@ TypeScript or JavaScript
 ```typescript
 async function listResourceGroup() {
   const result_list = new Array();
-  for await (let item of resourceClient.resourceGroups.list()) {
+  for await (let item of resourcesClient.resourceGroups.list()) {
     result_list.push(item);
   }
   console.log(result_list);
@@ -276,7 +276,7 @@ TypeScript
 
 ```typescript
 async function getResourceGroup(resourceGroupName: string) {
-  const get_result = await resourceClient.resourceGroups.get(resourceGroupName);
+  const get_result = await resourcesClient.resourceGroups.get(resourceGroupName);
   console.log(get_result);
 }
 ```
@@ -285,7 +285,7 @@ JavaScript
 
 ```javascript
 async function getResourceGroup(resourceGroupName) {
-  const get_result = await resourceClient.resourceGroups.get(resourceGroupName);
+  const get_result = await resourcesClient.resourceGroups.get(resourceGroupName);
   console.log(get_result);
 }
 ```
@@ -320,7 +320,7 @@ async function main() {
   await createResourceGroup(resourceGroupName);
   await listResourceGroup();
   await getResourceGroup(resourceGroupName);
-  await updateResourceGroup(resourceGroup);
+  await updateResourceGroup(resourceGroupName);
   await getResourceGroup(resourceGroupName);
   await deleteResourceGroup(resourceGroupName);
   await listResourceGroup();
@@ -373,9 +373,9 @@ TypeScript
 
 ```typescript
 const credential = new DefaultAzureCredential();
-const computeClient = new compute.ComputeManagementClient(credential, subscriptionId);
-const networkClient = new network.NetworkManagementClient(credential, subscriptionId);
-const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
+const computeClient = new ComputeManagementClient(credential, subscriptionId);
+const networkClient = new NetworkManagementClient(credential, subscriptionId);
+const resourcesClient = new ResourceManagementClient(credential, subscriptionId);
 ```
 
 JavaScript

@@ -1,59 +1,77 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { FabricClient } from "./fabricClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   FabricCapacity,
   FabricCapacityProperties,
   ProvisioningState,
-  KnownProvisioningState,
-  KnownResourceState,
   ResourceState,
+  CapacityOverageProperties,
+  CapacityOverageState,
   CapacityAdministration,
   RpSku,
-  KnownRpSkuTier,
   RpSkuTier,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   FabricCapacityUpdate,
   FabricCapacityUpdateProperties,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
-  KnownCheckNameAvailabilityReason,
   CheckNameAvailabilityReason,
   RpSkuDetailsForExistingResource,
   RpSkuDetailsForNewResource,
+  Quota,
+  QuotaName,
+  Operation,
+  OperationDisplay,
+  Origin,
+  ActionType,
 } from "./models/index.js";
 export {
-  FabricClientOptionalParams,
-  FabricCapacitiesGetOptionalParams,
-  FabricCapacitiesCreateOrUpdateOptionalParams,
-  FabricCapacitiesUpdateOptionalParams,
-  FabricCapacitiesDeleteOptionalParams,
-  FabricCapacitiesListByResourceGroupOptionalParams,
-  FabricCapacitiesListBySubscriptionOptionalParams,
-  FabricCapacitiesResumeOptionalParams,
-  FabricCapacitiesSuspendOptionalParams,
-  FabricCapacitiesCheckNameAvailabilityOptionalParams,
-  FabricCapacitiesListSkusForCapacityOptionalParams,
+  KnownProvisioningState,
+  KnownResourceState,
+  KnownCapacityOverageState,
+  KnownRpSkuTier,
+  KnownCreatedByType,
+  KnownCheckNameAvailabilityReason,
+  KnownOrigin,
+  KnownActionType,
+  KnownVersions,
+} from "./models/index.js";
+export type { FabricClientOptionalParams } from "./api/index.js";
+export type {
+  FabricCapacitiesListUsagesOptionalParams,
   FabricCapacitiesListSkusOptionalParams,
-  OperationsListOptionalParams,
-} from "./api/index.js";
-export { FabricCapacitiesOperations, OperationsOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+  FabricCapacitiesListSkusForCapacityOptionalParams,
+  FabricCapacitiesCheckNameAvailabilityOptionalParams,
+  FabricCapacitiesSuspendOptionalParams,
+  FabricCapacitiesResumeOptionalParams,
+  FabricCapacitiesListBySubscriptionOptionalParams,
+  FabricCapacitiesListByResourceGroupOptionalParams,
+  FabricCapacitiesDeleteOptionalParams,
+  FabricCapacitiesUpdateOptionalParams,
+  FabricCapacitiesCreateOrUpdateOptionalParams,
+  FabricCapacitiesGetOptionalParams,
+} from "./api/fabricCapacities/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type { FabricCapacitiesOperations, OperationsOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

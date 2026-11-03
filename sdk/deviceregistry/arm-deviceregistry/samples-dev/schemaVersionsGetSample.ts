@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a SchemaVersion
  *
  * @summary get a SchemaVersion
- * x-ms-original-file: 2025-10-01/Get_SchemaVersion.json
+ * x-ms-original-file: 2026-03-01-preview/Get_SchemaVersion.json
  */
 async function getSchemaVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

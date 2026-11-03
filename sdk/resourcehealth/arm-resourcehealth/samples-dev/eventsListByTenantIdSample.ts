@@ -1,31 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists current service health events in the tenant.
- *
- * @summary Lists current service health events in the tenant.
- * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/Events_ListByTenantId.json
- */
-
-import type { EventsListByTenantIdOptionalParams } from "@azure/arm-resourcehealth";
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists current service health events in the tenant.
+ *
+ * @summary lists current service health events in the tenant.
+ * x-ms-original-file: 2025-05-01/Events_ListByTenantId.json
+ */
 async function listEventsByTenantId(): Promise<void> {
-  const filter = "service eq 'Virtual Machines' or region eq 'West US'";
-  const queryStartTime = "7/24/2020";
-  const options: EventsListByTenantIdOptionalParams = {
-    filter,
-    queryStartTime,
-  };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential);
   const resArray = new Array();
-  for await (const item of client.eventsOperations.listByTenantId(options)) {
+  for await (const item of client.events.listByTenantId({
+    filter: "service eq 'Virtual Machines' or region eq 'West US'",
+    queryStartTime: "7/24/2020",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

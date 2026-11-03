@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { RecoveryServicesClient } from "./recoveryServicesClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   OperationResource,
   ErrorModel,
   ErrorAdditionalInfo,
@@ -18,80 +21,60 @@ export {
   Vault,
   VaultProperties,
   UpgradeDetails,
-  KnownVaultUpgradeState,
   VaultUpgradeState,
-  KnownTriggerType,
   TriggerType,
   PrivateEndpointConnectionVaultProperties,
   PrivateEndpointConnection,
-  KnownProvisioningState,
   ProvisioningState,
   PrivateEndpoint,
   PrivateLinkServiceConnectionState,
-  KnownPrivateEndpointConnectionStatus,
   PrivateEndpointConnectionStatus,
-  KnownVaultSubResourceType,
   VaultSubResourceType,
-  KnownVaultPrivateEndpointState,
   VaultPrivateEndpointState,
   VaultPropertiesEncryption,
   CmkKeyVaultProperties,
   CmkKekIdentity,
-  KnownInfrastructureEncryptionState,
   InfrastructureEncryptionState,
   VaultPropertiesMoveDetails,
-  KnownResourceMoveState,
   ResourceMoveState,
-  KnownBackupStorageVersion,
   BackupStorageVersion,
-  KnownPublicNetworkAccess,
   PublicNetworkAccess,
   MonitoringSettings,
   AzureMonitorAlertSettings,
-  KnownAlertsState,
   AlertsState,
   ClassicAlertSettings,
+  CostManagementSettings,
+  GranularityLevel,
   RestoreSettings,
   CrossSubscriptionRestoreSettings,
-  KnownCrossSubscriptionRestoreState,
   CrossSubscriptionRestoreState,
   VaultPropertiesRedundancySettings,
-  KnownStandardTierStorageRedundancy,
   StandardTierStorageRedundancy,
-  KnownCrossRegionRestore,
   CrossRegionRestore,
   SecuritySettings,
   ImmutabilitySettings,
-  KnownImmutabilityState,
   ImmutabilityState,
+  ImmutabilityConfiguration,
+  ImmutabilityType,
   SoftDeleteSettings,
-  KnownSoftDeleteState,
   SoftDeleteState,
-  KnownEnhancedSecurityState,
   EnhancedSecurityState,
-  KnownMultiUserAuthorization,
   MultiUserAuthorization,
   SourceScanConfiguration,
-  KnownState,
   State,
   AssociatedIdentity,
-  KnownIdentityType,
   IdentityType,
-  KnownSecureScoreLevel,
   SecureScoreLevel,
-  KnownBcdrSecurityLevel,
   BcdrSecurityLevel,
+  RegionOfChoiceSettings,
   IdentityData,
-  KnownResourceIdentityType,
   ResourceIdentityType,
   UserIdentity,
   Sku,
-  KnownSkuName,
   SkuName,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   ClientDiscoveryValueForSingleApi,
   ClientDiscoveryDisplay,
@@ -111,7 +94,6 @@ export {
   PrivateLinkResourceProperties,
   CertificateRequest,
   RawCertificateData,
-  KnownAuthType,
   AuthType,
   VaultCertificateResponse,
   ResourceCertificateDetails,
@@ -122,7 +104,6 @@ export {
   MonitoringSummary,
   JobsSummary,
   VaultUsage,
-  KnownUsagesUnit,
   UsagesUnit,
   NameInfo,
   VaultExtendedInfoResource,
@@ -136,38 +117,69 @@ export {
   CapabilitiesResponse,
   CapabilitiesResponseProperties,
   DNSZoneResponse,
-  KnownVersions,
 } from "./models/index.js";
 export {
+  KnownVaultUpgradeState,
+  KnownTriggerType,
+  KnownProvisioningState,
+  KnownPrivateEndpointConnectionStatus,
+  KnownVaultSubResourceType,
+  KnownVaultPrivateEndpointState,
+  KnownInfrastructureEncryptionState,
+  KnownResourceMoveState,
+  KnownBackupStorageVersion,
+  KnownPublicNetworkAccess,
+  KnownAlertsState,
+  KnownGranularityLevel,
+  KnownCrossSubscriptionRestoreState,
+  KnownStandardTierStorageRedundancy,
+  KnownCrossRegionRestore,
+  KnownImmutabilityState,
+  KnownImmutabilityType,
+  KnownSoftDeleteState,
+  KnownEnhancedSecurityState,
+  KnownMultiUserAuthorization,
+  KnownState,
+  KnownIdentityType,
+  KnownSecureScoreLevel,
+  KnownBcdrSecurityLevel,
+  KnownResourceIdentityType,
+  KnownSkuName,
+  KnownCreatedByType,
+  KnownAuthType,
+  KnownUsagesUnit,
+  KnownVersions,
+} from "./models/index.js";
+export type {
   GetOperationResultOptionalParams,
   GetOperationStatusOptionalParams,
   RecoveryServicesClientOptionalParams,
 } from "./api/index.js";
-export {
+export type {
   DeletedVaultsGetOperationStatusOptionalParams,
   DeletedVaultsUndeleteOptionalParams,
   DeletedVaultsGetOptionalParams,
   DeletedVaultsListBySubscriptionIdOptionalParams,
 } from "./api/deletedVaults/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
 } from "./api/privateLinkResources/index.js";
-export {
+export type {
   RecoveryServicesCapabilitiesOptionalParams,
   RecoveryServicesCheckNameAvailabilityOptionalParams,
 } from "./api/recoveryServices/index.js";
-export { RegisteredIdentitiesDeleteOptionalParams } from "./api/registeredIdentities/index.js";
-export { ReplicationUsagesListOptionalParams } from "./api/replicationUsages/index.js";
-export { UsagesListByVaultsOptionalParams } from "./api/usages/index.js";
-export { VaultCertificatesCreateOptionalParams } from "./api/vaultCertificates/index.js";
-export {
+export type { RegisteredIdentitiesDeleteOptionalParams } from "./api/registeredIdentities/index.js";
+export type { ReplicationUsagesListOptionalParams } from "./api/replicationUsages/index.js";
+export type { UsagesListByVaultsOptionalParams } from "./api/usages/index.js";
+export type { VaultCertificatesCreateOptionalParams } from "./api/vaultCertificates/index.js";
+export type {
   VaultExtendedInfoUpdateOptionalParams,
   VaultExtendedInfoCreateOrUpdateOptionalParams,
   VaultExtendedInfoGetOptionalParams,
 } from "./api/vaultExtendedInfo/index.js";
-export {
+export type {
   VaultsListByResourceGroupOptionalParams,
   VaultsListBySubscriptionIdOptionalParams,
   VaultsDeleteOptionalParams,
@@ -175,7 +187,7 @@ export {
   VaultsCreateOrUpdateOptionalParams,
   VaultsGetOptionalParams,
 } from "./api/vaults/index.js";
-export {
+export type {
   DeletedVaultsOperations,
   OperationsOperations,
   PrivateLinkResourcesOperations,
@@ -187,5 +199,7 @@ export {
   VaultExtendedInfoOperations,
   VaultsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

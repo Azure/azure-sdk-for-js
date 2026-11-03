@@ -1,41 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update Static Route BFD for external Network.
- *
- * @summary Update Static Route BFD for external Network.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/ExternalNetworks_UpdateStaticRouteBfdAdministrativeState_MaximumSet_Gen.json
- */
-
-import type { UpdateAdministrativeState } from "@azure/arm-managednetworkfabric";
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function externalNetworksUpdateStaticRouteBfdAdministrativeStateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const l3IsolationDomainName = "example-l3domain";
-  const externalNetworkName = "example-externalnetwork";
-  const body: UpdateAdministrativeState = {
-    resourceIds: [""],
-    state: "Enable",
-  };
+/**
+ * This sample demonstrates how to update Static Route BFD for external Network.
+ *
+ * @summary update Static Route BFD for external Network.
+ * x-ms-original-file: 2025-07-15/ExternalNetworks_UpdateStaticRouteBfdAdministrativeState.json
+ */
+async function externalNetworksUpdateStaticRouteBfdAdministrativeState(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "1234ABCD-0A1B-1234-5678-123456ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.externalNetworks.beginUpdateStaticRouteBfdAdministrativeStateAndWait(
-    resourceGroupName,
-    l3IsolationDomainName,
-    externalNetworkName,
-    body,
+  const result = await client.externalNetworks.updateStaticRouteBfdAdministrativeState(
+    "example-rg",
+    "example-l3domain",
+    "example-externalnetwork",
+    { state: "Enable", resourceIds: [""] },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await externalNetworksUpdateStaticRouteBfdAdministrativeStateMaximumSetGen();
+  await externalNetworksUpdateStaticRouteBfdAdministrativeState();
 }
 
 main().catch(console.error);

@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all the userAssignedIdentities available under the specified ResourceGroup.
- *
- * @summary Lists all the userAssignedIdentities available under the specified ResourceGroup.
- * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2024-11-30/examples/IdentityListByResourceGroup.json
- */
-
 import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all the userAssignedIdentities available under the specified ResourceGroup.
+ *
+ * @summary lists all the userAssignedIdentities available under the specified ResourceGroup.
+ * x-ms-original-file: 2025-05-31-preview/IdentityListByResourceGroup.json
+ */
 async function identityListByResourceGroup(): Promise<void> {
-  const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-5678-9012-123456789012";
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.userAssignedIdentities.listByResourceGroup(
-    resourceGroupName,
-  )) {
+  for await (const item of client.userAssignedIdentities.listByResourceGroup("rgName")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -1,35 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
- *
- * @summary Updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/PrivateZonePatch.json
- */
-
-import type { PrivateZone } from "@azure/arm-privatedns";
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function patchPrivateDnsZone(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const parameters: PrivateZone = { tags: { key2: "value2" } };
+/**
+ * This sample demonstrates how to updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
+ *
+ * @summary updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
+ * x-ms-original-file: 2024-06-01/PrivateZonePatch.json
+ */
+async function patchPrivateDNSZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
-  const result = await client.privateZones.beginUpdateAndWait(
-    resourceGroupName,
-    privateZoneName,
-    parameters,
-  );
+  const result = await client.privateZones.update("resourceGroup1", "privatezone1.com", {
+    tags: { key2: "value2" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await patchPrivateDnsZone();
+  await patchPrivateDNSZone();
 }
 
 main().catch(console.error);

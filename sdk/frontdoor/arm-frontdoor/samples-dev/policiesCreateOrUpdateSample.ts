@@ -1,133 +1,156 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update policy with specified rule set name within a resource group.
- *
- * @summary Create or update policy with specified rule set name within a resource group.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2024-02-01/examples/WafPolicyCreateOrUpdate.json
- */
-
-import type { WebApplicationFirewallPolicy } from "@azure/arm-frontdoor";
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update policy with specified rule set name within a resource group.
+ *
+ * @summary create or update policy with specified rule set name within a resource group.
+ * x-ms-original-file: 2025-11-01/WafPolicyCreateOrUpdate.json
+ */
 async function createsSpecificPolicy(): Promise<void> {
-  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
-  const policyName = "Policy1";
-  const parameters: WebApplicationFirewallPolicy = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new FrontDoorManagementClient(credential, subscriptionId);
+  const result = await client.policies.createOrUpdate("rg1", "Policy1", {
+    location: "WestUs",
+    policySettings: {
+      enabledState: "Enabled",
+      mode: "Prevention",
+      redirectUrl: "http://www.bing.com",
+      customBlockResponseStatusCode: 429,
+      customBlockResponseBody:
+        "PGh0bWw+CjxoZWFkZXI+PHRpdGxlPkhlbGxvPC90aXRsZT48L2hlYWRlcj4KPGJvZHk+CkhlbGxvIHdvcmxkCjwvYm9keT4KPC9odG1sPg==",
+      requestBodyCheck: "Disabled",
+      javascriptChallengeExpirationInMinutes: 30,
+      captchaExpirationInMinutes: 30,
+      state: "Enabled",
+      scrubbingRules: [
+        { matchVariable: "RequestIPAddress", selectorMatchOperator: "EqualsAny", state: "Enabled" },
+      ],
+    },
     customRules: {
       rules: [
         {
           name: "Rule1",
-          action: "Block",
+          priority: 1,
+          ruleType: "RateLimitRule",
+          rateLimitThreshold: 1000,
           matchConditions: [
             {
-              matchValue: ["192.168.1.0/24", "10.0.0.0/24"],
               matchVariable: "RemoteAddr",
               operator: "IPMatch",
+              matchValue: ["192.168.1.0/24", "10.0.0.0/24"],
             },
           ],
-          priority: 1,
-          rateLimitThreshold: 1000,
-          ruleType: "RateLimitRule",
+          action: "Block",
         },
         {
           name: "Rule2",
-          action: "Block",
+          priority: 2,
+          ruleType: "MatchRule",
           matchConditions: [
+            { matchVariable: "RemoteAddr", operator: "GeoMatch", matchValue: ["CH"] },
             {
-              matchValue: ["CH"],
-              matchVariable: "RemoteAddr",
-              operator: "GeoMatch",
-            },
-            {
-              matchValue: ["windows"],
               matchVariable: "RequestHeader",
               operator: "Contains",
               selector: "UserAgent",
+              matchValue: ["windows"],
               transforms: ["Lowercase"],
             },
           ],
-          priority: 2,
-          ruleType: "MatchRule",
+          action: "Block",
+        },
+        {
+          name: "Rule3",
+          priority: 1,
+          ruleType: "RateLimitRule",
+          rateLimitThreshold: 1000,
+          matchConditions: [
+            {
+              matchVariable: "RemoteAddr",
+              operator: "ServiceTagMatch",
+              matchValue: ["AzureBackup", "AzureBotService"],
+            },
+          ],
+          action: "CAPTCHA",
         },
       ],
     },
-    location: "WestUs",
     managedRules: {
       managedRuleSets: [
         {
+          ruleSetType: "Microsoft_DefaultRuleSet",
+          ruleSetVersion: "2.2",
+          ruleSetAction: "Block",
           exclusions: [
             {
               matchVariable: "RequestHeaderNames",
-              selector: "User-Agent",
               selectorMatchOperator: "Equals",
+              selector: "User-Agent",
             },
           ],
           ruleGroupOverrides: [
             {
+              ruleGroupName: "SQLI",
               exclusions: [
                 {
                   matchVariable: "RequestCookieNames",
-                  selector: "token",
                   selectorMatchOperator: "StartsWith",
+                  selector: "token",
                 },
               ],
-              ruleGroupName: "SQLI",
               rules: [
                 {
-                  action: "Redirect",
+                  ruleId: "942100",
                   enabledState: "Enabled",
+                  action: "Redirect",
                   exclusions: [
                     {
                       matchVariable: "QueryStringArgNames",
-                      selector: "query",
                       selectorMatchOperator: "Equals",
+                      selector: "query",
                     },
                   ],
-                  ruleId: "942100",
                 },
-                { enabledState: "Disabled", ruleId: "942110" },
+                { ruleId: "942110", enabledState: "Disabled" },
               ],
             },
           ],
-          ruleSetAction: "Block",
-          ruleSetType: "DefaultRuleSet",
-          ruleSetVersion: "1.0",
         },
-      ],
-    },
-    policySettings: {
-      customBlockResponseBody:
-        "PGh0bWw+CjxoZWFkZXI+PHRpdGxlPkhlbGxvPC90aXRsZT48L2hlYWRlcj4KPGJvZHk+CkhlbGxvIHdvcmxkCjwvYm9keT4KPC9odG1sPg==",
-      customBlockResponseStatusCode: 429,
-      enabledState: "Enabled",
-      javascriptChallengeExpirationInMinutes: 30,
-      mode: "Prevention",
-      redirectUrl: "http://www.bing.com",
-      requestBodyCheck: "Disabled",
-      scrubbingRules: [
         {
-          matchVariable: "RequestIPAddress",
-          selector: undefined,
-          selectorMatchOperator: "EqualsAny",
-          state: "Enabled",
+          ruleSetType: "Microsoft_HTTPDDoSRuleSet",
+          ruleSetVersion: "1.0",
+          ruleGroupOverrides: [
+            {
+              ruleGroupName: "ExcessiveRequests",
+              rules: [
+                { ruleId: "500100", enabledState: "Enabled", action: "Block", sensitivity: "High" },
+              ],
+            },
+          ],
         },
       ],
-      state: "Enabled",
+      exceptionsList: {
+        exceptions: [
+          {
+            matchVariable: "RequestHeaderNames",
+            selectorMatchOperator: "Equals",
+            selector: "User-Agent",
+            valueMatchOperator: "Contains",
+            matchValues: ["Mozilla"],
+            scopes: [
+              { ruleSetType: "Microsoft_DefaultRuleSet", ruleSetVersion: "2.2" },
+              { ruleSetType: "Microsoft_HTTPDDoSRuleSet", ruleSetVersion: "1.0" },
+            ],
+          },
+        ],
+      },
     },
     sku: { name: "Premium_AzureFrontDoor" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new FrontDoorManagementClient(credential, subscriptionId);
-  const result = await client.policies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    policyName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

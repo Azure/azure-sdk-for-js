@@ -1,26 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Return list of Azure Traffic Collectors in a Resource Group
- *
- * @summary Return list of Azure Traffic Collectors in a Resource Group
- * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/AzureTrafficCollectorsByResourceGroupList.json
- */
-
 import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to return list of Azure Traffic Collectors in a Resource Group
+ *
+ * @summary return list of Azure Traffic Collectors in a Resource Group
+ * x-ms-original-file: 2022-11-01/AzureTrafficCollectorsByResourceGroupList.json
+ */
 async function listOfTrafficCollectorsByResourceGroup(): Promise<void> {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.azureTrafficCollectorsByResourceGroup.list(resourceGroupName)) {
+  for await (const item of client.azureTrafficCollectorsByResourceGroup.list("rg1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-listOfTrafficCollectorsByResourceGroup().catch(console.error);
+async function main(): Promise<void> {
+  await listOfTrafficCollectorsByResourceGroup();
+}
+
+main().catch(console.error);

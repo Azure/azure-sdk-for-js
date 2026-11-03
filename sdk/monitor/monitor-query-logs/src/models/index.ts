@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   QueryBody,
   Table,
   Column,
@@ -17,15 +17,15 @@ export {
 } from "./models.js";
 export {
   LogsQueryResultStatus,
-  LogsColumn,
-  LogsTable,
-  LogsErrorInfo,
-  LogsQuerySuccessfulResult,
-  LogsQueryPartialResult,
-  LogsQueryError,
-  LogsQueryResult,
-  LogsQueryBatchResult,
-  QueryBatch,
+  type LogsColumn,
+  type LogsTable,
+  type LogsErrorInfo,
+  type LogsQuerySuccessfulResult,
+  type LogsQueryPartialResult,
+  type LogsQueryError,
+  type LogsQueryResult,
+  type LogsQueryBatchResult,
+  type QueryBatch,
   KnownMonitorLogsQueryAudience,
 } from "./public.js";
 export * from "./constants.js";

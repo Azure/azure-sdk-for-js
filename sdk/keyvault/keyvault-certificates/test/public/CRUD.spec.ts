@@ -45,7 +45,10 @@ describe("Certificates client - create, read, update and delete", () => {
     secretClient = new SecretClient(
       keyVaultUrl,
       credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
+      recorder.configureClientOptions({
+        serviceVersion: "2026-04-01",
+        disableChallengeResourceVerification: !isLiveMode(),
+      }),
     );
   });
 
@@ -65,6 +68,46 @@ describe("Certificates client - create, read, update and delete", () => {
     const pendingCertificate = poller.getResult(); // Pending certificate
     expect(pendingCertificate!.properties.name).toEqual(certificateName);
   });
+
+  it(
+    "rejects platformManaged with BadParameter (experimental, live-only)",
+    { skip: !isLiveMode() },
+    async function (ctx) {
+      // PlatformManaged is exercised against the latest stable service API.
+      // It is intended for internal Azure Key Vault usage only; calls are expected to fail today.
+      // We still exercise the wire-up to make sure the wrapper serializes the property end-to-end.
+      const { CertificateClient: PreviewCertificateClient } = await import("../../src/index.js");
+      const previewClient = new PreviewCertificateClient(
+        keyVaultUrl,
+        credential,
+        recorder.configureClientOptions({
+          serviceVersion: "2026-04-01",
+          disableChallengeResourceVerification: !isLiveMode(),
+        }),
+      );
+
+      const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
+      let error: any;
+      try {
+        await previewClient.beginCreateCertificate(
+          certificateName,
+          {
+            ...basicCertificatePolicy,
+            platformManaged: {
+              certificateUsage: "ServerAuthentication",
+              metadata: { intendedFor: "internal-use-only" },
+            },
+          },
+          testPollerProperties,
+        );
+      } catch (e: any) {
+        error = e;
+      }
+      // The service is expected to reject the request today; assert we surfaced an error rather
+      // than silently dropping the experimental property on the floor.
+      expect(error).toMatchObject({ code: "BadParameter", statusCode: 400 });
+    },
+  );
 
   it("can create a certificate with preserveCertificateOrder", async (ctx) => {
     const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
@@ -440,12 +483,16 @@ describe("Certificates client - create, read, update and delete", () => {
     expect(result.policy!.issuerName).toEqual("Self");
     expect(result.policy!.subject).toEqual("cn=MyCert");
 
-    await client.updateCertificatePolicy(certificateName, {
+    const updatedPolicy = await client.updateCertificatePolicy(certificateName, {
       issuerName: "Self",
       subject: "cn=MyOtherCert",
     });
+    expect(updatedPolicy.issuerName).toEqual("Self");
+    expect(updatedPolicy.subject).toEqual("cn=MyOtherCert");
+
     const updated = await client.getCertificate(certificateName);
     expect(updated.policy!.issuerName).toEqual("Self");
+    expect(updated.policy!.subject).toEqual("cn=MyOtherCert");
   });
 
   it("can read, cancel and delete a certificate's operation", async () => {

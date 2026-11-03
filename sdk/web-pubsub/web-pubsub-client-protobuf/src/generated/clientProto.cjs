@@ -1,10 +1,11 @@
-/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
+/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-mixed-operators, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars, default-case, jsdoc/require-param*/
 "use strict";
 
 var $protobuf = require("protobufjs/minimal");
 
 // Common aliases
 var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
+var $Object = $util.global.Object, $undefined = $util.global.undefined, $Error = $util.global.Error, $RangeError = $util.global.RangeError, $TypeError = $util.global.TypeError, $String = $util.global.String, $parseInt = $util.global.parseInt, $Boolean = $util.global.Boolean, $BigInt = $util.global.BigInt, $Number = $util.global.Number, $Array = $util.global.Array;
 
 // Exported root namespace
 var $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
@@ -13,33 +14,56 @@ $root.UpstreamMessage = (function() {
 
     /**
      * Properties of an UpstreamMessage.
+     * @typedef {Object} UpstreamMessage.$Properties
+     * @property {UpstreamMessage.SendToGroupMessage.$Properties|null} [sendToGroupMessage] UpstreamMessage sendToGroupMessage
+     * @property {UpstreamMessage.EventMessage.$Properties|null} [eventMessage] UpstreamMessage eventMessage
+     * @property {UpstreamMessage.JoinGroupMessage.$Properties|null} [joinGroupMessage] UpstreamMessage joinGroupMessage
+     * @property {UpstreamMessage.LeaveGroupMessage.$Properties|null} [leaveGroupMessage] UpstreamMessage leaveGroupMessage
+     * @property {UpstreamMessage.SequenceAckMessage.$Properties|null} [sequenceAckMessage] UpstreamMessage sequenceAckMessage
+     * @property {"sendToGroupMessage"|"eventMessage"|"joinGroupMessage"|"leaveGroupMessage"|"sequenceAckMessage"} [message] UpstreamMessage message
+     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+     */
+
+    /**
+     * Properties of an UpstreamMessage.
      * @exports IUpstreamMessage
      * @interface IUpstreamMessage
-     * @property {UpstreamMessage.ISendToGroupMessage|null} [sendToGroupMessage] UpstreamMessage sendToGroupMessage
-     * @property {UpstreamMessage.IEventMessage|null} [eventMessage] UpstreamMessage eventMessage
-     * @property {UpstreamMessage.IJoinGroupMessage|null} [joinGroupMessage] UpstreamMessage joinGroupMessage
-     * @property {UpstreamMessage.ILeaveGroupMessage|null} [leaveGroupMessage] UpstreamMessage leaveGroupMessage
-     * @property {UpstreamMessage.ISequenceAckMessage|null} [sequenceAckMessage] UpstreamMessage sequenceAckMessage
+     * @augments UpstreamMessage.$Properties
+     * @deprecated Use UpstreamMessage.$Properties instead.
+     */
+
+    /**
+     * Narrowed shape of an UpstreamMessage.
+     * @typedef {{
+     *   sendToGroupMessage?: UpstreamMessage.SendToGroupMessage.$Shape|null;
+     *   eventMessage?: UpstreamMessage.EventMessage.$Shape|null;
+     *   joinGroupMessage?: UpstreamMessage.JoinGroupMessage.$Shape|null;
+     *   leaveGroupMessage?: UpstreamMessage.LeaveGroupMessage.$Shape|null;
+     *   sequenceAckMessage?: UpstreamMessage.SequenceAckMessage.$Shape|null;
+     *   $unknowns?: Array.<Uint8Array>;
+     * } & (
+     *   ({ message?: undefined; sendToGroupMessage?: null; eventMessage?: null; joinGroupMessage?: null; leaveGroupMessage?: null; sequenceAckMessage?: null }|{ message?: "sendToGroupMessage"; sendToGroupMessage: UpstreamMessage.SendToGroupMessage.$Shape; eventMessage?: null; joinGroupMessage?: null; leaveGroupMessage?: null; sequenceAckMessage?: null }|{ message?: "eventMessage"; sendToGroupMessage?: null; eventMessage: UpstreamMessage.EventMessage.$Shape; joinGroupMessage?: null; leaveGroupMessage?: null; sequenceAckMessage?: null }|{ message?: "joinGroupMessage"; sendToGroupMessage?: null; eventMessage?: null; joinGroupMessage: UpstreamMessage.JoinGroupMessage.$Shape; leaveGroupMessage?: null; sequenceAckMessage?: null }|{ message?: "leaveGroupMessage"; sendToGroupMessage?: null; eventMessage?: null; joinGroupMessage?: null; leaveGroupMessage: UpstreamMessage.LeaveGroupMessage.$Shape; sequenceAckMessage?: null }|{ message?: "sequenceAckMessage"; sendToGroupMessage?: null; eventMessage?: null; joinGroupMessage?: null; leaveGroupMessage?: null; sequenceAckMessage: UpstreamMessage.SequenceAckMessage.$Shape })
+     * )} UpstreamMessage.$Shape
      */
 
     /**
      * Constructs a new UpstreamMessage.
      * @exports UpstreamMessage
      * @classdesc Represents an UpstreamMessage.
-     * @implements IUpstreamMessage
      * @constructor
-     * @param {IUpstreamMessage=} [properties] Properties to set
+     * @param {UpstreamMessage.$Properties=} [properties] Properties to set
+     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
      */
-    function UpstreamMessage(properties) {
+    var UpstreamMessage = function (properties) {
         if (properties)
-            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                if (properties[keys[i]] != null)
+            for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null && keys[i] !== "__proto__")
                     this[keys[i]] = properties[keys[i]];
-    }
+    };
 
     /**
      * UpstreamMessage sendToGroupMessage.
-     * @member {UpstreamMessage.ISendToGroupMessage|null|undefined} sendToGroupMessage
+     * @member {UpstreamMessage.SendToGroupMessage.$Properties|null|undefined} sendToGroupMessage
      * @memberof UpstreamMessage
      * @instance
      */
@@ -47,7 +71,7 @@ $root.UpstreamMessage = (function() {
 
     /**
      * UpstreamMessage eventMessage.
-     * @member {UpstreamMessage.IEventMessage|null|undefined} eventMessage
+     * @member {UpstreamMessage.EventMessage.$Properties|null|undefined} eventMessage
      * @memberof UpstreamMessage
      * @instance
      */
@@ -55,7 +79,7 @@ $root.UpstreamMessage = (function() {
 
     /**
      * UpstreamMessage joinGroupMessage.
-     * @member {UpstreamMessage.IJoinGroupMessage|null|undefined} joinGroupMessage
+     * @member {UpstreamMessage.JoinGroupMessage.$Properties|null|undefined} joinGroupMessage
      * @memberof UpstreamMessage
      * @instance
      */
@@ -63,7 +87,7 @@ $root.UpstreamMessage = (function() {
 
     /**
      * UpstreamMessage leaveGroupMessage.
-     * @member {UpstreamMessage.ILeaveGroupMessage|null|undefined} leaveGroupMessage
+     * @member {UpstreamMessage.LeaveGroupMessage.$Properties|null|undefined} leaveGroupMessage
      * @memberof UpstreamMessage
      * @instance
      */
@@ -71,7 +95,7 @@ $root.UpstreamMessage = (function() {
 
     /**
      * UpstreamMessage sequenceAckMessage.
-     * @member {UpstreamMessage.ISequenceAckMessage|null|undefined} sequenceAckMessage
+     * @member {UpstreamMessage.SequenceAckMessage.$Properties|null|undefined} sequenceAckMessage
      * @memberof UpstreamMessage
      * @instance
      */
@@ -86,7 +110,7 @@ $root.UpstreamMessage = (function() {
      * @memberof UpstreamMessage
      * @instance
      */
-    Object.defineProperty(UpstreamMessage.prototype, "message", {
+    $Object.defineProperty(UpstreamMessage.prototype, "message", {
         get: $util.oneOfGetter($oneOfFields = ["sendToGroupMessage", "eventMessage", "joinGroupMessage", "leaveGroupMessage", "sequenceAckMessage"]),
         set: $util.oneOfSetter($oneOfFields)
     });
@@ -96,10 +120,14 @@ $root.UpstreamMessage = (function() {
      * @function create
      * @memberof UpstreamMessage
      * @static
-     * @param {IUpstreamMessage=} [properties] Properties to set
+     * @param {UpstreamMessage.$Properties=} [properties] Properties to set
      * @returns {UpstreamMessage} UpstreamMessage instance
+     * @type {{
+     *   (properties: UpstreamMessage.$Shape): UpstreamMessage & UpstreamMessage.$Shape;
+     *   (properties?: UpstreamMessage.$Properties): UpstreamMessage;
+     * }}
      */
-    UpstreamMessage.create = function create(properties) {
+    UpstreamMessage.create = function(properties) {
         return new UpstreamMessage(properties);
     };
 
@@ -108,23 +136,30 @@ $root.UpstreamMessage = (function() {
      * @function encode
      * @memberof UpstreamMessage
      * @static
-     * @param {IUpstreamMessage} message UpstreamMessage message or plain object to encode
+     * @param {UpstreamMessage.$Properties} message UpstreamMessage message or plain object to encode
      * @param {$protobuf.Writer} [writer] Writer to encode to
      * @returns {$protobuf.Writer} Writer
      */
-    UpstreamMessage.encode = function encode(message, writer) {
+    UpstreamMessage.encode = function (message, writer, _depth) {
         if (!writer)
             writer = $Writer.create();
-        if (message.sendToGroupMessage != null && Object.hasOwnProperty.call(message, "sendToGroupMessage"))
-            $root.UpstreamMessage.SendToGroupMessage.encode(message.sendToGroupMessage, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-        if (message.eventMessage != null && Object.hasOwnProperty.call(message, "eventMessage"))
-            $root.UpstreamMessage.EventMessage.encode(message.eventMessage, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-        if (message.joinGroupMessage != null && Object.hasOwnProperty.call(message, "joinGroupMessage"))
-            $root.UpstreamMessage.JoinGroupMessage.encode(message.joinGroupMessage, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-        if (message.leaveGroupMessage != null && Object.hasOwnProperty.call(message, "leaveGroupMessage"))
-            $root.UpstreamMessage.LeaveGroupMessage.encode(message.leaveGroupMessage, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
-        if (message.sequenceAckMessage != null && Object.hasOwnProperty.call(message, "sequenceAckMessage"))
-            $root.UpstreamMessage.SequenceAckMessage.encode(message.sequenceAckMessage, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $util.recursionLimit)
+            throw $Error("max depth exceeded");
+        if (message.sendToGroupMessage != null && $Object.hasOwnProperty.call(message, "sendToGroupMessage"))
+            $root.UpstreamMessage.SendToGroupMessage.encode(message.sendToGroupMessage, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+        if (message.eventMessage != null && $Object.hasOwnProperty.call(message, "eventMessage"))
+            $root.UpstreamMessage.EventMessage.encode(message.eventMessage, writer.uint32(/* id 5, wireType 2 =*/42).fork(), _depth + 1).ldelim();
+        if (message.joinGroupMessage != null && $Object.hasOwnProperty.call(message, "joinGroupMessage"))
+            $root.UpstreamMessage.JoinGroupMessage.encode(message.joinGroupMessage, writer.uint32(/* id 6, wireType 2 =*/50).fork(), _depth + 1).ldelim();
+        if (message.leaveGroupMessage != null && $Object.hasOwnProperty.call(message, "leaveGroupMessage"))
+            $root.UpstreamMessage.LeaveGroupMessage.encode(message.leaveGroupMessage, writer.uint32(/* id 7, wireType 2 =*/58).fork(), _depth + 1).ldelim();
+        if (message.sequenceAckMessage != null && $Object.hasOwnProperty.call(message, "sequenceAckMessage"))
+            $root.UpstreamMessage.SequenceAckMessage.encode(message.sequenceAckMessage, writer.uint32(/* id 8, wireType 2 =*/66).fork(), _depth + 1).ldelim();
+        if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+            for (var i = 0; i < message.$unknowns.length; ++i)
+                writer.raw(message.$unknowns[i]);
         return writer;
     };
 
@@ -133,12 +168,12 @@ $root.UpstreamMessage = (function() {
      * @function encodeDelimited
      * @memberof UpstreamMessage
      * @static
-     * @param {IUpstreamMessage} message UpstreamMessage message or plain object to encode
+     * @param {UpstreamMessage.$Properties} message UpstreamMessage message or plain object to encode
      * @param {$protobuf.Writer} [writer] Writer to encode to
      * @returns {$protobuf.Writer} Writer
      */
-    UpstreamMessage.encodeDelimited = function encodeDelimited(message, writer) {
-        return this.encode(message, writer).ldelim();
+    UpstreamMessage.encodeDelimited = function(message, writer) {
+        return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
     };
 
     /**
@@ -148,44 +183,86 @@ $root.UpstreamMessage = (function() {
      * @static
      * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
      * @param {number} [length] Message length if known beforehand
-     * @returns {UpstreamMessage} UpstreamMessage
+     * @returns {UpstreamMessage & UpstreamMessage.$Shape} UpstreamMessage
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    UpstreamMessage.decode = function decode(reader, length, error) {
+    UpstreamMessage.decode = function (reader, length, _end, _depth, _target) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage();
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $Reader.recursionLimit)
+            throw $Error("max depth exceeded");
+        var end, message;
+        if (length === $undefined)
+            end = reader.len;
+        else {
+            end = reader.pos + length;
+            if (end > reader.len)
+                throw $RangeError("index out of range");
+            length = reader.len;
+            reader.len = end;
+        }
+        message = _target || new $root.UpstreamMessage();
         while (reader.pos < end) {
-            var tag = reader.uint32();
-            if (tag === error)
-                break;
-            switch (tag >>> 3) {
-            case 1: {
-                    message.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.decode(reader, reader.uint32());
-                    break;
-                }
-            case 5: {
-                    message.eventMessage = $root.UpstreamMessage.EventMessage.decode(reader, reader.uint32());
-                    break;
-                }
-            case 6: {
-                    message.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.decode(reader, reader.uint32());
-                    break;
-                }
-            case 7: {
-                    message.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.decode(reader, reader.uint32());
-                    break;
-                }
-            case 8: {
-                    message.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.decode(reader, reader.uint32());
-                    break;
-                }
-            default:
-                reader.skipType(tag & 7);
+            var start = reader.pos;
+            var tag = reader.tag();
+            if (tag === _end) {
+                _end = $undefined;
                 break;
             }
+            var wireType = tag & 7;
+            switch (tag >>>= 3) {
+            case 1: {
+                    if (wireType !== 2)
+                        break;
+                    message.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.sendToGroupMessage);
+                    message.message = "sendToGroupMessage";
+                    continue;
+                }
+            case 5: {
+                    if (wireType !== 2)
+                        break;
+                    message.eventMessage = $root.UpstreamMessage.EventMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.eventMessage);
+                    message.message = "eventMessage";
+                    continue;
+                }
+            case 6: {
+                    if (wireType !== 2)
+                        break;
+                    message.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.joinGroupMessage);
+                    message.message = "joinGroupMessage";
+                    continue;
+                }
+            case 7: {
+                    if (wireType !== 2)
+                        break;
+                    message.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.leaveGroupMessage);
+                    message.message = "leaveGroupMessage";
+                    continue;
+                }
+            case 8: {
+                    if (wireType !== 2)
+                        break;
+                    message.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.sequenceAckMessage);
+                    message.message = "sequenceAckMessage";
+                    continue;
+                }
+            }
+            reader.skipType(wireType, _depth, tag);
+            if (!reader.discardUnknown) {
+                $util.makeProp(message, "$unknowns", false);
+                (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+            }
         }
+        if (length !== $undefined) {
+            if (reader.pos !== end)
+                throw $RangeError("index out of range");
+            reader.len = length;
+        }
+        if (_end !== $undefined)
+            throw $Error("missing end group");
         return message;
     };
 
@@ -195,14 +272,14 @@ $root.UpstreamMessage = (function() {
      * @memberof UpstreamMessage
      * @static
      * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @returns {UpstreamMessage} UpstreamMessage
+     * @returns {UpstreamMessage & UpstreamMessage.$Shape} UpstreamMessage
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    UpstreamMessage.decodeDelimited = function decodeDelimited(reader) {
+    UpstreamMessage.decodeDelimited = function(reader) {
         if (!(reader instanceof $Reader))
             reader = new $Reader(reader);
-        return this.decode(reader, reader.uint32());
+        return this.decode(reader, reader.size());
     };
 
     /**
@@ -213,54 +290,58 @@ $root.UpstreamMessage = (function() {
      * @param {Object.<string,*>} message Plain object to verify
      * @returns {string|null} `null` if valid, otherwise the reason why it is not
      */
-    UpstreamMessage.verify = function verify(message) {
+    UpstreamMessage.verify = function (message, _depth) {
         if (typeof message !== "object" || message === null)
             return "object expected";
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $util.recursionLimit)
+            return "max depth exceeded";
         var properties = {};
-        if (message.sendToGroupMessage != null && message.hasOwnProperty("sendToGroupMessage")) {
+        if (message.sendToGroupMessage != null && $Object.hasOwnProperty.call(message, "sendToGroupMessage")) {
             properties.message = 1;
             {
-                var error = $root.UpstreamMessage.SendToGroupMessage.verify(message.sendToGroupMessage);
+                var error = $root.UpstreamMessage.SendToGroupMessage.verify(message.sendToGroupMessage, _depth + 1);
                 if (error)
                     return "sendToGroupMessage." + error;
             }
         }
-        if (message.eventMessage != null && message.hasOwnProperty("eventMessage")) {
+        if (message.eventMessage != null && $Object.hasOwnProperty.call(message, "eventMessage")) {
             if (properties.message === 1)
                 return "message: multiple values";
             properties.message = 1;
             {
-                var error = $root.UpstreamMessage.EventMessage.verify(message.eventMessage);
+                var error = $root.UpstreamMessage.EventMessage.verify(message.eventMessage, _depth + 1);
                 if (error)
                     return "eventMessage." + error;
             }
         }
-        if (message.joinGroupMessage != null && message.hasOwnProperty("joinGroupMessage")) {
+        if (message.joinGroupMessage != null && $Object.hasOwnProperty.call(message, "joinGroupMessage")) {
             if (properties.message === 1)
                 return "message: multiple values";
             properties.message = 1;
             {
-                var error = $root.UpstreamMessage.JoinGroupMessage.verify(message.joinGroupMessage);
+                var error = $root.UpstreamMessage.JoinGroupMessage.verify(message.joinGroupMessage, _depth + 1);
                 if (error)
                     return "joinGroupMessage." + error;
             }
         }
-        if (message.leaveGroupMessage != null && message.hasOwnProperty("leaveGroupMessage")) {
+        if (message.leaveGroupMessage != null && $Object.hasOwnProperty.call(message, "leaveGroupMessage")) {
             if (properties.message === 1)
                 return "message: multiple values";
             properties.message = 1;
             {
-                var error = $root.UpstreamMessage.LeaveGroupMessage.verify(message.leaveGroupMessage);
+                var error = $root.UpstreamMessage.LeaveGroupMessage.verify(message.leaveGroupMessage, _depth + 1);
                 if (error)
                     return "leaveGroupMessage." + error;
             }
         }
-        if (message.sequenceAckMessage != null && message.hasOwnProperty("sequenceAckMessage")) {
+        if (message.sequenceAckMessage != null && $Object.hasOwnProperty.call(message, "sequenceAckMessage")) {
             if (properties.message === 1)
                 return "message: multiple values";
             properties.message = 1;
             {
-                var error = $root.UpstreamMessage.SequenceAckMessage.verify(message.sequenceAckMessage);
+                var error = $root.UpstreamMessage.SequenceAckMessage.verify(message.sequenceAckMessage, _depth + 1);
                 if (error)
                     return "sequenceAckMessage." + error;
             }
@@ -276,34 +357,40 @@ $root.UpstreamMessage = (function() {
      * @param {Object.<string,*>} object Plain object
      * @returns {UpstreamMessage} UpstreamMessage
      */
-    UpstreamMessage.fromObject = function fromObject(object) {
+    UpstreamMessage.fromObject = function (object, _depth) {
         if (object instanceof $root.UpstreamMessage)
             return object;
+        if (!$util.isObject(object))
+            throw $TypeError(".UpstreamMessage: object expected");
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $util.recursionLimit)
+            throw $Error("max depth exceeded");
         var message = new $root.UpstreamMessage();
         if (object.sendToGroupMessage != null) {
-            if (typeof object.sendToGroupMessage !== "object")
-                throw TypeError(".UpstreamMessage.sendToGroupMessage: object expected");
-            message.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.fromObject(object.sendToGroupMessage);
+            if (!$util.isObject(object.sendToGroupMessage))
+                throw $TypeError(".UpstreamMessage.sendToGroupMessage: object expected");
+            message.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.fromObject(object.sendToGroupMessage, _depth + 1);
         }
         if (object.eventMessage != null) {
-            if (typeof object.eventMessage !== "object")
-                throw TypeError(".UpstreamMessage.eventMessage: object expected");
-            message.eventMessage = $root.UpstreamMessage.EventMessage.fromObject(object.eventMessage);
+            if (!$util.isObject(object.eventMessage))
+                throw $TypeError(".UpstreamMessage.eventMessage: object expected");
+            message.eventMessage = $root.UpstreamMessage.EventMessage.fromObject(object.eventMessage, _depth + 1);
         }
         if (object.joinGroupMessage != null) {
-            if (typeof object.joinGroupMessage !== "object")
-                throw TypeError(".UpstreamMessage.joinGroupMessage: object expected");
-            message.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.fromObject(object.joinGroupMessage);
+            if (!$util.isObject(object.joinGroupMessage))
+                throw $TypeError(".UpstreamMessage.joinGroupMessage: object expected");
+            message.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.fromObject(object.joinGroupMessage, _depth + 1);
         }
         if (object.leaveGroupMessage != null) {
-            if (typeof object.leaveGroupMessage !== "object")
-                throw TypeError(".UpstreamMessage.leaveGroupMessage: object expected");
-            message.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.fromObject(object.leaveGroupMessage);
+            if (!$util.isObject(object.leaveGroupMessage))
+                throw $TypeError(".UpstreamMessage.leaveGroupMessage: object expected");
+            message.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.fromObject(object.leaveGroupMessage, _depth + 1);
         }
         if (object.sequenceAckMessage != null) {
-            if (typeof object.sequenceAckMessage !== "object")
-                throw TypeError(".UpstreamMessage.sequenceAckMessage: object expected");
-            message.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.fromObject(object.sequenceAckMessage);
+            if (!$util.isObject(object.sequenceAckMessage))
+                throw $TypeError(".UpstreamMessage.sequenceAckMessage: object expected");
+            message.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.fromObject(object.sequenceAckMessage, _depth + 1);
         }
         return message;
     };
@@ -317,32 +404,36 @@ $root.UpstreamMessage = (function() {
      * @param {$protobuf.IConversionOptions} [options] Conversion options
      * @returns {Object.<string,*>} Plain object
      */
-    UpstreamMessage.toObject = function toObject(message, options) {
+    UpstreamMessage.toObject = function (message, options, _depth) {
         if (!options)
             options = {};
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $util.recursionLimit)
+            throw $Error("max depth exceeded");
         var object = {};
-        if (message.sendToGroupMessage != null && message.hasOwnProperty("sendToGroupMessage")) {
-            object.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.toObject(message.sendToGroupMessage, options);
+        if (message.sendToGroupMessage != null && $Object.hasOwnProperty.call(message, "sendToGroupMessage")) {
+            object.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.toObject(message.sendToGroupMessage, options, _depth + 1);
             if (options.oneofs)
                 object.message = "sendToGroupMessage";
         }
-        if (message.eventMessage != null && message.hasOwnProperty("eventMessage")) {
-            object.eventMessage = $root.UpstreamMessage.EventMessage.toObject(message.eventMessage, options);
+        if (message.eventMessage != null && $Object.hasOwnProperty.call(message, "eventMessage")) {
+            object.eventMessage = $root.UpstreamMessage.EventMessage.toObject(message.eventMessage, options, _depth + 1);
             if (options.oneofs)
                 object.message = "eventMessage";
         }
-        if (message.joinGroupMessage != null && message.hasOwnProperty("joinGroupMessage")) {
-            object.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.toObject(message.joinGroupMessage, options);
+        if (message.joinGroupMessage != null && $Object.hasOwnProperty.call(message, "joinGroupMessage")) {
+            object.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.toObject(message.joinGroupMessage, options, _depth + 1);
             if (options.oneofs)
                 object.message = "joinGroupMessage";
         }
-        if (message.leaveGroupMessage != null && message.hasOwnProperty("leaveGroupMessage")) {
-            object.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.toObject(message.leaveGroupMessage, options);
+        if (message.leaveGroupMessage != null && $Object.hasOwnProperty.call(message, "leaveGroupMessage")) {
+            object.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.toObject(message.leaveGroupMessage, options, _depth + 1);
             if (options.oneofs)
                 object.message = "leaveGroupMessage";
         }
-        if (message.sequenceAckMessage != null && message.hasOwnProperty("sequenceAckMessage")) {
-            object.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.toObject(message.sequenceAckMessage, options);
+        if (message.sequenceAckMessage != null && $Object.hasOwnProperty.call(message, "sequenceAckMessage")) {
+            object.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.toObject(message.sequenceAckMessage, options, _depth + 1);
             if (options.oneofs)
                 object.message = "sequenceAckMessage";
         }
@@ -356,51 +447,69 @@ $root.UpstreamMessage = (function() {
      * @instance
      * @returns {Object.<string,*>} JSON object
      */
-    UpstreamMessage.prototype.toJSON = function toJSON() {
-        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    UpstreamMessage.prototype.toJSON = function() {
+        return UpstreamMessage.toObject(this, $protobuf.util.toJSONOptions);
     };
 
     /**
-     * Gets the default type url for UpstreamMessage
+     * Gets the type url for UpstreamMessage
      * @function getTypeUrl
      * @memberof UpstreamMessage
      * @static
-     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-     * @returns {string} The default type url
+     * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+     * @returns {string} The type url
      */
-    UpstreamMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-        if (typeUrlPrefix === undefined) {
-            typeUrlPrefix = "type.googleapis.com";
-        }
-        return typeUrlPrefix + "/UpstreamMessage";
+    UpstreamMessage.getTypeUrl = function(prefix) {
+        if (prefix === $undefined)
+            prefix = "type.googleapis.com";
+        return prefix + "/UpstreamMessage";
     };
 
     UpstreamMessage.SendToGroupMessage = (function() {
 
         /**
          * Properties of a SendToGroupMessage.
-         * @memberof UpstreamMessage
-         * @interface ISendToGroupMessage
+         * @typedef {Object} UpstreamMessage.SendToGroupMessage.$Properties
          * @property {string|null} [group] SendToGroupMessage group
          * @property {number|Long|null} [ackId] SendToGroupMessage ackId
-         * @property {IMessageData|null} [data] SendToGroupMessage data
+         * @property {MessageData.$Properties|null} [data] SendToGroupMessage data
          * @property {boolean|null} [noEcho] SendToGroupMessage noEcho
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a SendToGroupMessage.
+         * @memberof UpstreamMessage
+         * @interface ISendToGroupMessage
+         * @augments UpstreamMessage.SendToGroupMessage.$Properties
+         * @deprecated Use UpstreamMessage.SendToGroupMessage.$Properties instead.
+         */
+
+        /**
+         * Shape of a SendToGroupMessage.
+         * @typedef {{
+         *   group?: string|null;
+         *   ackId?: number|Long|null;
+         *   data?: MessageData.$Shape|null;
+         *   noEcho?: boolean|null;
+         *   $unknowns?: Array.<Uint8Array>;
+         * }} UpstreamMessage.SendToGroupMessage.$Shape
          */
 
         /**
          * Constructs a new SendToGroupMessage.
          * @memberof UpstreamMessage
          * @classdesc Represents a SendToGroupMessage.
-         * @implements ISendToGroupMessage
          * @constructor
-         * @param {UpstreamMessage.ISendToGroupMessage=} [properties] Properties to set
+         * @param {UpstreamMessage.SendToGroupMessage.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function SendToGroupMessage(properties) {
+        var SendToGroupMessage = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
 
         /**
          * SendToGroupMessage group.
@@ -420,7 +529,7 @@ $root.UpstreamMessage = (function() {
 
         /**
          * SendToGroupMessage data.
-         * @member {IMessageData|null|undefined} data
+         * @member {MessageData.$Properties|null|undefined} data
          * @memberof UpstreamMessage.SendToGroupMessage
          * @instance
          */
@@ -437,24 +546,14 @@ $root.UpstreamMessage = (function() {
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
-        /**
-         * SendToGroupMessage _ackId.
-         * @member {"ackId"|undefined} _ackId
-         * @memberof UpstreamMessage.SendToGroupMessage
-         * @instance
-         */
-        Object.defineProperty(SendToGroupMessage.prototype, "_ackId", {
+        // Virtual OneOf for proto3 optional field
+        $Object.defineProperty(SendToGroupMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
-        /**
-         * SendToGroupMessage _noEcho.
-         * @member {"noEcho"|undefined} _noEcho
-         * @memberof UpstreamMessage.SendToGroupMessage
-         * @instance
-         */
-        Object.defineProperty(SendToGroupMessage.prototype, "_noEcho", {
+        // Virtual OneOf for proto3 optional field
+        $Object.defineProperty(SendToGroupMessage.prototype, "_noEcho", {
             get: $util.oneOfGetter($oneOfFields = ["noEcho"]),
             set: $util.oneOfSetter($oneOfFields)
         });
@@ -464,10 +563,14 @@ $root.UpstreamMessage = (function() {
          * @function create
          * @memberof UpstreamMessage.SendToGroupMessage
          * @static
-         * @param {UpstreamMessage.ISendToGroupMessage=} [properties] Properties to set
+         * @param {UpstreamMessage.SendToGroupMessage.$Properties=} [properties] Properties to set
          * @returns {UpstreamMessage.SendToGroupMessage} SendToGroupMessage instance
+         * @type {{
+         *   (properties: UpstreamMessage.SendToGroupMessage.$Shape): UpstreamMessage.SendToGroupMessage & UpstreamMessage.SendToGroupMessage.$Shape;
+         *   (properties?: UpstreamMessage.SendToGroupMessage.$Properties): UpstreamMessage.SendToGroupMessage;
+         * }}
          */
-        SendToGroupMessage.create = function create(properties) {
+        SendToGroupMessage.create = function(properties) {
             return new SendToGroupMessage(properties);
         };
 
@@ -476,21 +579,28 @@ $root.UpstreamMessage = (function() {
          * @function encode
          * @memberof UpstreamMessage.SendToGroupMessage
          * @static
-         * @param {UpstreamMessage.ISendToGroupMessage} message SendToGroupMessage message or plain object to encode
+         * @param {UpstreamMessage.SendToGroupMessage.$Properties} message SendToGroupMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        SendToGroupMessage.encode = function encode(message, writer) {
+        SendToGroupMessage.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.group != null && $Object.hasOwnProperty.call(message, "group") && message.group !== "")
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
-            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ackId);
-            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
-                $root.MessageData.encode(message.data, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-            if (message.noEcho != null && Object.hasOwnProperty.call(message, "noEcho"))
+            if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
+                $root.MessageData.encode(message.data, writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
+            if (message.noEcho != null && $Object.hasOwnProperty.call(message, "noEcho"))
                 writer.uint32(/* id 4, wireType 0 =*/32).bool(message.noEcho);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
 
@@ -499,12 +609,12 @@ $root.UpstreamMessage = (function() {
          * @function encodeDelimited
          * @memberof UpstreamMessage.SendToGroupMessage
          * @static
-         * @param {UpstreamMessage.ISendToGroupMessage} message SendToGroupMessage message or plain object to encode
+         * @param {UpstreamMessage.SendToGroupMessage.$Properties} message SendToGroupMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        SendToGroupMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+        SendToGroupMessage.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
 
         /**
@@ -514,40 +624,80 @@ $root.UpstreamMessage = (function() {
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {UpstreamMessage.SendToGroupMessage} SendToGroupMessage
+         * @returns {UpstreamMessage.SendToGroupMessage & UpstreamMessage.SendToGroupMessage.$Shape} SendToGroupMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        SendToGroupMessage.decode = function decode(reader, length, error) {
+        SendToGroupMessage.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.SendToGroupMessage();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            var end, message, value;
+            if (length === $undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw $RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = _target || new $root.UpstreamMessage.SendToGroupMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.group = reader.string();
-                        break;
-                    }
-                case 2: {
-                        message.ackId = reader.uint64();
-                        break;
-                    }
-                case 3: {
-                        message.data = $root.MessageData.decode(reader, reader.uint32());
-                        break;
-                    }
-                case 4: {
-                        message.noEcho = reader.bool();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.group = value;
+                        else
+                            delete message.group;
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.ackId = reader.uint64();
+                        message._ackId = "ackId";
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 2)
+                            break;
+                        message.data = $root.MessageData.decode(reader, reader.size(), $undefined, _depth + 1, message.data);
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.noEcho = reader.bool();
+                        message._noEcho = "noEcho";
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
+            if (length !== $undefined) {
+                if (reader.pos !== end)
+                    throw $RangeError("index out of range");
+                reader.len = length;
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
 
@@ -557,14 +707,14 @@ $root.UpstreamMessage = (function() {
          * @memberof UpstreamMessage.SendToGroupMessage
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {UpstreamMessage.SendToGroupMessage} SendToGroupMessage
+         * @returns {UpstreamMessage.SendToGroupMessage & UpstreamMessage.SendToGroupMessage.$Shape} SendToGroupMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        SendToGroupMessage.decodeDelimited = function decodeDelimited(reader) {
+        SendToGroupMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -575,24 +725,28 @@ $root.UpstreamMessage = (function() {
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        SendToGroupMessage.verify = function verify(message) {
+        SendToGroupMessage.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
             var properties = {};
-            if (message.group != null && message.hasOwnProperty("group"))
+            if (message.group != null && $Object.hasOwnProperty.call(message, "group"))
                 if (!$util.isString(message.group))
                     return "group: string expected";
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId")) {
                 properties._ackId = 1;
                 if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
                     return "ackId: integer|Long expected";
             }
-            if (message.data != null && message.hasOwnProperty("data")) {
-                var error = $root.MessageData.verify(message.data);
+            if (message.data != null && $Object.hasOwnProperty.call(message, "data")) {
+                var error = $root.MessageData.verify(message.data, _depth + 1);
                 if (error)
                     return "data." + error;
             }
-            if (message.noEcho != null && message.hasOwnProperty("noEcho")) {
+            if (message.noEcho != null && $Object.hasOwnProperty.call(message, "noEcho")) {
                 properties._noEcho = 1;
                 if (typeof message.noEcho !== "boolean")
                     return "noEcho: boolean expected";
@@ -608,28 +762,35 @@ $root.UpstreamMessage = (function() {
          * @param {Object.<string,*>} object Plain object
          * @returns {UpstreamMessage.SendToGroupMessage} SendToGroupMessage
          */
-        SendToGroupMessage.fromObject = function fromObject(object) {
+        SendToGroupMessage.fromObject = function (object, _depth) {
             if (object instanceof $root.UpstreamMessage.SendToGroupMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".UpstreamMessage.SendToGroupMessage: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.UpstreamMessage.SendToGroupMessage();
             if (object.group != null)
-                message.group = String(object.group);
+                if (typeof object.group !== "string" || object.group.length)
+                    message.group = $String(object.group);
             if (object.ackId != null)
                 if ($util.Long)
-                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                    message.ackId = $util.Long.fromValue(object.ackId, true);
                 else if (typeof object.ackId === "string")
-                    message.ackId = parseInt(object.ackId, 10);
+                    message.ackId = $parseInt(object.ackId, 10);
                 else if (typeof object.ackId === "number")
                     message.ackId = object.ackId;
                 else if (typeof object.ackId === "object")
                     message.ackId = new $util.LongBits(object.ackId.low >>> 0, object.ackId.high >>> 0).toNumber(true);
             if (object.data != null) {
-                if (typeof object.data !== "object")
-                    throw TypeError(".UpstreamMessage.SendToGroupMessage.data: object expected");
-                message.data = $root.MessageData.fromObject(object.data);
+                if (!$util.isObject(object.data))
+                    throw $TypeError(".UpstreamMessage.SendToGroupMessage.data: object expected");
+                message.data = $root.MessageData.fromObject(object.data, _depth + 1);
             }
             if (object.noEcho != null)
-                message.noEcho = Boolean(object.noEcho);
+                message.noEcho = $Boolean(object.noEcho);
             return message;
         };
 
@@ -642,31 +803,31 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        SendToGroupMessage.toObject = function toObject(message, options) {
+        SendToGroupMessage.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.group = "";
                 object.data = null;
             }
-            if (message.group != null && message.hasOwnProperty("group"))
+            if (message.group != null && $Object.hasOwnProperty.call(message, "group"))
                 object.group = message.group;
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
-                if (typeof message.ackId === "number")
-                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.ackId = typeof message.ackId === "number" ? $BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
+                else if (typeof message.ackId === "number")
+                    object.ackId = options.longs === $String ? $String(message.ackId) : message.ackId;
                 else
-                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
-                if (options.oneofs)
-                    object._ackId = "ackId";
-            }
-            if (message.data != null && message.hasOwnProperty("data"))
-                object.data = $root.MessageData.toObject(message.data, options);
-            if (message.noEcho != null && message.hasOwnProperty("noEcho")) {
+                    object.ackId = options.longs === $String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === $Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
+            if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
+                object.data = $root.MessageData.toObject(message.data, options, _depth + 1);
+            if (message.noEcho != null && $Object.hasOwnProperty.call(message, "noEcho"))
                 object.noEcho = message.noEcho;
-                if (options.oneofs)
-                    object._noEcho = "noEcho";
-            }
             return object;
         };
 
@@ -677,23 +838,22 @@ $root.UpstreamMessage = (function() {
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        SendToGroupMessage.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        SendToGroupMessage.prototype.toJSON = function() {
+            return SendToGroupMessage.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for SendToGroupMessage
+         * Gets the type url for SendToGroupMessage
          * @function getTypeUrl
          * @memberof UpstreamMessage.SendToGroupMessage
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        SendToGroupMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/UpstreamMessage.SendToGroupMessage";
+        SendToGroupMessage.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/UpstreamMessage.SendToGroupMessage";
         };
 
         return SendToGroupMessage;
@@ -703,27 +863,45 @@ $root.UpstreamMessage = (function() {
 
         /**
          * Properties of an EventMessage.
+         * @typedef {Object} UpstreamMessage.EventMessage.$Properties
+         * @property {string|null} [event] EventMessage event
+         * @property {MessageData.$Properties|null} [data] EventMessage data
+         * @property {number|Long|null} [ackId] EventMessage ackId
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of an EventMessage.
          * @memberof UpstreamMessage
          * @interface IEventMessage
-         * @property {string|null} [event] EventMessage event
-         * @property {IMessageData|null} [data] EventMessage data
-         * @property {number|Long|null} [ackId] EventMessage ackId
+         * @augments UpstreamMessage.EventMessage.$Properties
+         * @deprecated Use UpstreamMessage.EventMessage.$Properties instead.
+         */
+
+        /**
+         * Shape of an EventMessage.
+         * @typedef {{
+         *   event?: string|null;
+         *   data?: MessageData.$Shape|null;
+         *   ackId?: number|Long|null;
+         *   $unknowns?: Array.<Uint8Array>;
+         * }} UpstreamMessage.EventMessage.$Shape
          */
 
         /**
          * Constructs a new EventMessage.
          * @memberof UpstreamMessage
          * @classdesc Represents an EventMessage.
-         * @implements IEventMessage
          * @constructor
-         * @param {UpstreamMessage.IEventMessage=} [properties] Properties to set
+         * @param {UpstreamMessage.EventMessage.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function EventMessage(properties) {
+        var EventMessage = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
 
         /**
          * EventMessage event.
@@ -735,7 +913,7 @@ $root.UpstreamMessage = (function() {
 
         /**
          * EventMessage data.
-         * @member {IMessageData|null|undefined} data
+         * @member {MessageData.$Properties|null|undefined} data
          * @memberof UpstreamMessage.EventMessage
          * @instance
          */
@@ -752,13 +930,8 @@ $root.UpstreamMessage = (function() {
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
-        /**
-         * EventMessage _ackId.
-         * @member {"ackId"|undefined} _ackId
-         * @memberof UpstreamMessage.EventMessage
-         * @instance
-         */
-        Object.defineProperty(EventMessage.prototype, "_ackId", {
+        // Virtual OneOf for proto3 optional field
+        $Object.defineProperty(EventMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
         });
@@ -768,10 +941,14 @@ $root.UpstreamMessage = (function() {
          * @function create
          * @memberof UpstreamMessage.EventMessage
          * @static
-         * @param {UpstreamMessage.IEventMessage=} [properties] Properties to set
+         * @param {UpstreamMessage.EventMessage.$Properties=} [properties] Properties to set
          * @returns {UpstreamMessage.EventMessage} EventMessage instance
+         * @type {{
+         *   (properties: UpstreamMessage.EventMessage.$Shape): UpstreamMessage.EventMessage & UpstreamMessage.EventMessage.$Shape;
+         *   (properties?: UpstreamMessage.EventMessage.$Properties): UpstreamMessage.EventMessage;
+         * }}
          */
-        EventMessage.create = function create(properties) {
+        EventMessage.create = function(properties) {
             return new EventMessage(properties);
         };
 
@@ -780,19 +957,26 @@ $root.UpstreamMessage = (function() {
          * @function encode
          * @memberof UpstreamMessage.EventMessage
          * @static
-         * @param {UpstreamMessage.IEventMessage} message EventMessage message or plain object to encode
+         * @param {UpstreamMessage.EventMessage.$Properties} message EventMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        EventMessage.encode = function encode(message, writer) {
+        EventMessage.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.event != null && Object.hasOwnProperty.call(message, "event"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.event != null && $Object.hasOwnProperty.call(message, "event") && message.event !== "")
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.event);
-            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
-                $root.MessageData.encode(message.data, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
+            if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
+                $root.MessageData.encode(message.data, writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.ackId);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
 
@@ -801,12 +985,12 @@ $root.UpstreamMessage = (function() {
          * @function encodeDelimited
          * @memberof UpstreamMessage.EventMessage
          * @static
-         * @param {UpstreamMessage.IEventMessage} message EventMessage message or plain object to encode
+         * @param {UpstreamMessage.EventMessage.$Properties} message EventMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        EventMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+        EventMessage.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
 
         /**
@@ -816,36 +1000,73 @@ $root.UpstreamMessage = (function() {
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {UpstreamMessage.EventMessage} EventMessage
+         * @returns {UpstreamMessage.EventMessage & UpstreamMessage.EventMessage.$Shape} EventMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        EventMessage.decode = function decode(reader, length, error) {
+        EventMessage.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.EventMessage();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            var end, message, value;
+            if (length === $undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw $RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = _target || new $root.UpstreamMessage.EventMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.event = reader.string();
-                        break;
-                    }
-                case 2: {
-                        message.data = $root.MessageData.decode(reader, reader.uint32());
-                        break;
-                    }
-                case 3: {
-                        message.ackId = reader.uint64();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.event = value;
+                        else
+                            delete message.event;
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.data = $root.MessageData.decode(reader, reader.size(), $undefined, _depth + 1, message.data);
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.ackId = reader.uint64();
+                        message._ackId = "ackId";
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
+            if (length !== $undefined) {
+                if (reader.pos !== end)
+                    throw $RangeError("index out of range");
+                reader.len = length;
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
 
@@ -855,14 +1076,14 @@ $root.UpstreamMessage = (function() {
          * @memberof UpstreamMessage.EventMessage
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {UpstreamMessage.EventMessage} EventMessage
+         * @returns {UpstreamMessage.EventMessage & UpstreamMessage.EventMessage.$Shape} EventMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        EventMessage.decodeDelimited = function decodeDelimited(reader) {
+        EventMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -873,19 +1094,23 @@ $root.UpstreamMessage = (function() {
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        EventMessage.verify = function verify(message) {
+        EventMessage.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
             var properties = {};
-            if (message.event != null && message.hasOwnProperty("event"))
+            if (message.event != null && $Object.hasOwnProperty.call(message, "event"))
                 if (!$util.isString(message.event))
                     return "event: string expected";
-            if (message.data != null && message.hasOwnProperty("data")) {
-                var error = $root.MessageData.verify(message.data);
+            if (message.data != null && $Object.hasOwnProperty.call(message, "data")) {
+                var error = $root.MessageData.verify(message.data, _depth + 1);
                 if (error)
                     return "data." + error;
             }
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId")) {
                 properties._ackId = 1;
                 if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
                     return "ackId: integer|Long expected";
@@ -901,22 +1126,29 @@ $root.UpstreamMessage = (function() {
          * @param {Object.<string,*>} object Plain object
          * @returns {UpstreamMessage.EventMessage} EventMessage
          */
-        EventMessage.fromObject = function fromObject(object) {
+        EventMessage.fromObject = function (object, _depth) {
             if (object instanceof $root.UpstreamMessage.EventMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".UpstreamMessage.EventMessage: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.UpstreamMessage.EventMessage();
             if (object.event != null)
-                message.event = String(object.event);
+                if (typeof object.event !== "string" || object.event.length)
+                    message.event = $String(object.event);
             if (object.data != null) {
-                if (typeof object.data !== "object")
-                    throw TypeError(".UpstreamMessage.EventMessage.data: object expected");
-                message.data = $root.MessageData.fromObject(object.data);
+                if (!$util.isObject(object.data))
+                    throw $TypeError(".UpstreamMessage.EventMessage.data: object expected");
+                message.data = $root.MessageData.fromObject(object.data, _depth + 1);
             }
             if (object.ackId != null)
                 if ($util.Long)
-                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                    message.ackId = $util.Long.fromValue(object.ackId, true);
                 else if (typeof object.ackId === "string")
-                    message.ackId = parseInt(object.ackId, 10);
+                    message.ackId = $parseInt(object.ackId, 10);
                 else if (typeof object.ackId === "number")
                     message.ackId = object.ackId;
                 else if (typeof object.ackId === "object")
@@ -933,26 +1165,29 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        EventMessage.toObject = function toObject(message, options) {
+        EventMessage.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.event = "";
                 object.data = null;
             }
-            if (message.event != null && message.hasOwnProperty("event"))
+            if (message.event != null && $Object.hasOwnProperty.call(message, "event"))
                 object.event = message.event;
-            if (message.data != null && message.hasOwnProperty("data"))
-                object.data = $root.MessageData.toObject(message.data, options);
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
-                if (typeof message.ackId === "number")
-                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+            if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
+                object.data = $root.MessageData.toObject(message.data, options, _depth + 1);
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.ackId = typeof message.ackId === "number" ? $BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
+                else if (typeof message.ackId === "number")
+                    object.ackId = options.longs === $String ? $String(message.ackId) : message.ackId;
                 else
-                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
-                if (options.oneofs)
-                    object._ackId = "ackId";
-            }
+                    object.ackId = options.longs === $String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === $Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
             return object;
         };
 
@@ -963,23 +1198,22 @@ $root.UpstreamMessage = (function() {
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        EventMessage.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        EventMessage.prototype.toJSON = function() {
+            return EventMessage.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for EventMessage
+         * Gets the type url for EventMessage
          * @function getTypeUrl
          * @memberof UpstreamMessage.EventMessage
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        EventMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/UpstreamMessage.EventMessage";
+        EventMessage.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/UpstreamMessage.EventMessage";
         };
 
         return EventMessage;
@@ -989,26 +1223,39 @@ $root.UpstreamMessage = (function() {
 
         /**
          * Properties of a JoinGroupMessage.
-         * @memberof UpstreamMessage
-         * @interface IJoinGroupMessage
+         * @typedef {Object} UpstreamMessage.JoinGroupMessage.$Properties
          * @property {string|null} [group] JoinGroupMessage group
          * @property {number|Long|null} [ackId] JoinGroupMessage ackId
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a JoinGroupMessage.
+         * @memberof UpstreamMessage
+         * @interface IJoinGroupMessage
+         * @augments UpstreamMessage.JoinGroupMessage.$Properties
+         * @deprecated Use UpstreamMessage.JoinGroupMessage.$Properties instead.
+         */
+
+        /**
+         * Shape of a JoinGroupMessage.
+         * @typedef {UpstreamMessage.JoinGroupMessage.$Properties} UpstreamMessage.JoinGroupMessage.$Shape
          */
 
         /**
          * Constructs a new JoinGroupMessage.
          * @memberof UpstreamMessage
          * @classdesc Represents a JoinGroupMessage.
-         * @implements IJoinGroupMessage
          * @constructor
-         * @param {UpstreamMessage.IJoinGroupMessage=} [properties] Properties to set
+         * @param {UpstreamMessage.JoinGroupMessage.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function JoinGroupMessage(properties) {
+        var JoinGroupMessage = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
 
         /**
          * JoinGroupMessage group.
@@ -1029,13 +1276,8 @@ $root.UpstreamMessage = (function() {
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
-        /**
-         * JoinGroupMessage _ackId.
-         * @member {"ackId"|undefined} _ackId
-         * @memberof UpstreamMessage.JoinGroupMessage
-         * @instance
-         */
-        Object.defineProperty(JoinGroupMessage.prototype, "_ackId", {
+        // Virtual OneOf for proto3 optional field
+        $Object.defineProperty(JoinGroupMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
         });
@@ -1045,10 +1287,14 @@ $root.UpstreamMessage = (function() {
          * @function create
          * @memberof UpstreamMessage.JoinGroupMessage
          * @static
-         * @param {UpstreamMessage.IJoinGroupMessage=} [properties] Properties to set
+         * @param {UpstreamMessage.JoinGroupMessage.$Properties=} [properties] Properties to set
          * @returns {UpstreamMessage.JoinGroupMessage} JoinGroupMessage instance
+         * @type {{
+         *   (properties: UpstreamMessage.JoinGroupMessage.$Shape): UpstreamMessage.JoinGroupMessage & UpstreamMessage.JoinGroupMessage.$Shape;
+         *   (properties?: UpstreamMessage.JoinGroupMessage.$Properties): UpstreamMessage.JoinGroupMessage;
+         * }}
          */
-        JoinGroupMessage.create = function create(properties) {
+        JoinGroupMessage.create = function(properties) {
             return new JoinGroupMessage(properties);
         };
 
@@ -1057,17 +1303,24 @@ $root.UpstreamMessage = (function() {
          * @function encode
          * @memberof UpstreamMessage.JoinGroupMessage
          * @static
-         * @param {UpstreamMessage.IJoinGroupMessage} message JoinGroupMessage message or plain object to encode
+         * @param {UpstreamMessage.JoinGroupMessage.$Properties} message JoinGroupMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        JoinGroupMessage.encode = function encode(message, writer) {
+        JoinGroupMessage.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.group != null && $Object.hasOwnProperty.call(message, "group") && message.group !== "")
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
-            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ackId);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
 
@@ -1076,12 +1329,12 @@ $root.UpstreamMessage = (function() {
          * @function encodeDelimited
          * @memberof UpstreamMessage.JoinGroupMessage
          * @static
-         * @param {UpstreamMessage.IJoinGroupMessage} message JoinGroupMessage message or plain object to encode
+         * @param {UpstreamMessage.JoinGroupMessage.$Properties} message JoinGroupMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        JoinGroupMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+        JoinGroupMessage.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
 
         /**
@@ -1091,32 +1344,67 @@ $root.UpstreamMessage = (function() {
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {UpstreamMessage.JoinGroupMessage} JoinGroupMessage
+         * @returns {UpstreamMessage.JoinGroupMessage & UpstreamMessage.JoinGroupMessage.$Shape} JoinGroupMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        JoinGroupMessage.decode = function decode(reader, length, error) {
+        JoinGroupMessage.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.JoinGroupMessage();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            var end, message, value;
+            if (length === $undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw $RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = _target || new $root.UpstreamMessage.JoinGroupMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.group = reader.string();
-                        break;
-                    }
-                case 2: {
-                        message.ackId = reader.uint64();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.group = value;
+                        else
+                            delete message.group;
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.ackId = reader.uint64();
+                        message._ackId = "ackId";
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
+            if (length !== $undefined) {
+                if (reader.pos !== end)
+                    throw $RangeError("index out of range");
+                reader.len = length;
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
 
@@ -1126,14 +1414,14 @@ $root.UpstreamMessage = (function() {
          * @memberof UpstreamMessage.JoinGroupMessage
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {UpstreamMessage.JoinGroupMessage} JoinGroupMessage
+         * @returns {UpstreamMessage.JoinGroupMessage & UpstreamMessage.JoinGroupMessage.$Shape} JoinGroupMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        JoinGroupMessage.decodeDelimited = function decodeDelimited(reader) {
+        JoinGroupMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -1144,14 +1432,18 @@ $root.UpstreamMessage = (function() {
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        JoinGroupMessage.verify = function verify(message) {
+        JoinGroupMessage.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
             var properties = {};
-            if (message.group != null && message.hasOwnProperty("group"))
+            if (message.group != null && $Object.hasOwnProperty.call(message, "group"))
                 if (!$util.isString(message.group))
                     return "group: string expected";
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId")) {
                 properties._ackId = 1;
                 if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
                     return "ackId: integer|Long expected";
@@ -1167,17 +1459,24 @@ $root.UpstreamMessage = (function() {
          * @param {Object.<string,*>} object Plain object
          * @returns {UpstreamMessage.JoinGroupMessage} JoinGroupMessage
          */
-        JoinGroupMessage.fromObject = function fromObject(object) {
+        JoinGroupMessage.fromObject = function (object, _depth) {
             if (object instanceof $root.UpstreamMessage.JoinGroupMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".UpstreamMessage.JoinGroupMessage: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.UpstreamMessage.JoinGroupMessage();
             if (object.group != null)
-                message.group = String(object.group);
+                if (typeof object.group !== "string" || object.group.length)
+                    message.group = $String(object.group);
             if (object.ackId != null)
                 if ($util.Long)
-                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                    message.ackId = $util.Long.fromValue(object.ackId, true);
                 else if (typeof object.ackId === "string")
-                    message.ackId = parseInt(object.ackId, 10);
+                    message.ackId = $parseInt(object.ackId, 10);
                 else if (typeof object.ackId === "number")
                     message.ackId = object.ackId;
                 else if (typeof object.ackId === "object")
@@ -1194,22 +1493,25 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        JoinGroupMessage.toObject = function toObject(message, options) {
+        JoinGroupMessage.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.group = "";
-            if (message.group != null && message.hasOwnProperty("group"))
+            if (message.group != null && $Object.hasOwnProperty.call(message, "group"))
                 object.group = message.group;
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
-                if (typeof message.ackId === "number")
-                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.ackId = typeof message.ackId === "number" ? $BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
+                else if (typeof message.ackId === "number")
+                    object.ackId = options.longs === $String ? $String(message.ackId) : message.ackId;
                 else
-                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
-                if (options.oneofs)
-                    object._ackId = "ackId";
-            }
+                    object.ackId = options.longs === $String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === $Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
             return object;
         };
 
@@ -1220,23 +1522,22 @@ $root.UpstreamMessage = (function() {
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        JoinGroupMessage.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        JoinGroupMessage.prototype.toJSON = function() {
+            return JoinGroupMessage.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for JoinGroupMessage
+         * Gets the type url for JoinGroupMessage
          * @function getTypeUrl
          * @memberof UpstreamMessage.JoinGroupMessage
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        JoinGroupMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/UpstreamMessage.JoinGroupMessage";
+        JoinGroupMessage.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/UpstreamMessage.JoinGroupMessage";
         };
 
         return JoinGroupMessage;
@@ -1246,26 +1547,39 @@ $root.UpstreamMessage = (function() {
 
         /**
          * Properties of a LeaveGroupMessage.
-         * @memberof UpstreamMessage
-         * @interface ILeaveGroupMessage
+         * @typedef {Object} UpstreamMessage.LeaveGroupMessage.$Properties
          * @property {string|null} [group] LeaveGroupMessage group
          * @property {number|Long|null} [ackId] LeaveGroupMessage ackId
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a LeaveGroupMessage.
+         * @memberof UpstreamMessage
+         * @interface ILeaveGroupMessage
+         * @augments UpstreamMessage.LeaveGroupMessage.$Properties
+         * @deprecated Use UpstreamMessage.LeaveGroupMessage.$Properties instead.
+         */
+
+        /**
+         * Shape of a LeaveGroupMessage.
+         * @typedef {UpstreamMessage.LeaveGroupMessage.$Properties} UpstreamMessage.LeaveGroupMessage.$Shape
          */
 
         /**
          * Constructs a new LeaveGroupMessage.
          * @memberof UpstreamMessage
          * @classdesc Represents a LeaveGroupMessage.
-         * @implements ILeaveGroupMessage
          * @constructor
-         * @param {UpstreamMessage.ILeaveGroupMessage=} [properties] Properties to set
+         * @param {UpstreamMessage.LeaveGroupMessage.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function LeaveGroupMessage(properties) {
+        var LeaveGroupMessage = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
 
         /**
          * LeaveGroupMessage group.
@@ -1286,13 +1600,8 @@ $root.UpstreamMessage = (function() {
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
-        /**
-         * LeaveGroupMessage _ackId.
-         * @member {"ackId"|undefined} _ackId
-         * @memberof UpstreamMessage.LeaveGroupMessage
-         * @instance
-         */
-        Object.defineProperty(LeaveGroupMessage.prototype, "_ackId", {
+        // Virtual OneOf for proto3 optional field
+        $Object.defineProperty(LeaveGroupMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
         });
@@ -1302,10 +1611,14 @@ $root.UpstreamMessage = (function() {
          * @function create
          * @memberof UpstreamMessage.LeaveGroupMessage
          * @static
-         * @param {UpstreamMessage.ILeaveGroupMessage=} [properties] Properties to set
+         * @param {UpstreamMessage.LeaveGroupMessage.$Properties=} [properties] Properties to set
          * @returns {UpstreamMessage.LeaveGroupMessage} LeaveGroupMessage instance
+         * @type {{
+         *   (properties: UpstreamMessage.LeaveGroupMessage.$Shape): UpstreamMessage.LeaveGroupMessage & UpstreamMessage.LeaveGroupMessage.$Shape;
+         *   (properties?: UpstreamMessage.LeaveGroupMessage.$Properties): UpstreamMessage.LeaveGroupMessage;
+         * }}
          */
-        LeaveGroupMessage.create = function create(properties) {
+        LeaveGroupMessage.create = function(properties) {
             return new LeaveGroupMessage(properties);
         };
 
@@ -1314,17 +1627,24 @@ $root.UpstreamMessage = (function() {
          * @function encode
          * @memberof UpstreamMessage.LeaveGroupMessage
          * @static
-         * @param {UpstreamMessage.ILeaveGroupMessage} message LeaveGroupMessage message or plain object to encode
+         * @param {UpstreamMessage.LeaveGroupMessage.$Properties} message LeaveGroupMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        LeaveGroupMessage.encode = function encode(message, writer) {
+        LeaveGroupMessage.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.group != null && $Object.hasOwnProperty.call(message, "group") && message.group !== "")
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
-            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ackId);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
 
@@ -1333,12 +1653,12 @@ $root.UpstreamMessage = (function() {
          * @function encodeDelimited
          * @memberof UpstreamMessage.LeaveGroupMessage
          * @static
-         * @param {UpstreamMessage.ILeaveGroupMessage} message LeaveGroupMessage message or plain object to encode
+         * @param {UpstreamMessage.LeaveGroupMessage.$Properties} message LeaveGroupMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        LeaveGroupMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+        LeaveGroupMessage.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
 
         /**
@@ -1348,32 +1668,67 @@ $root.UpstreamMessage = (function() {
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {UpstreamMessage.LeaveGroupMessage} LeaveGroupMessage
+         * @returns {UpstreamMessage.LeaveGroupMessage & UpstreamMessage.LeaveGroupMessage.$Shape} LeaveGroupMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        LeaveGroupMessage.decode = function decode(reader, length, error) {
+        LeaveGroupMessage.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.LeaveGroupMessage();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            var end, message, value;
+            if (length === $undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw $RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = _target || new $root.UpstreamMessage.LeaveGroupMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.group = reader.string();
-                        break;
-                    }
-                case 2: {
-                        message.ackId = reader.uint64();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.group = value;
+                        else
+                            delete message.group;
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.ackId = reader.uint64();
+                        message._ackId = "ackId";
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
+            if (length !== $undefined) {
+                if (reader.pos !== end)
+                    throw $RangeError("index out of range");
+                reader.len = length;
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
 
@@ -1383,14 +1738,14 @@ $root.UpstreamMessage = (function() {
          * @memberof UpstreamMessage.LeaveGroupMessage
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {UpstreamMessage.LeaveGroupMessage} LeaveGroupMessage
+         * @returns {UpstreamMessage.LeaveGroupMessage & UpstreamMessage.LeaveGroupMessage.$Shape} LeaveGroupMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        LeaveGroupMessage.decodeDelimited = function decodeDelimited(reader) {
+        LeaveGroupMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -1401,14 +1756,18 @@ $root.UpstreamMessage = (function() {
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        LeaveGroupMessage.verify = function verify(message) {
+        LeaveGroupMessage.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
             var properties = {};
-            if (message.group != null && message.hasOwnProperty("group"))
+            if (message.group != null && $Object.hasOwnProperty.call(message, "group"))
                 if (!$util.isString(message.group))
                     return "group: string expected";
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId")) {
                 properties._ackId = 1;
                 if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
                     return "ackId: integer|Long expected";
@@ -1424,17 +1783,24 @@ $root.UpstreamMessage = (function() {
          * @param {Object.<string,*>} object Plain object
          * @returns {UpstreamMessage.LeaveGroupMessage} LeaveGroupMessage
          */
-        LeaveGroupMessage.fromObject = function fromObject(object) {
+        LeaveGroupMessage.fromObject = function (object, _depth) {
             if (object instanceof $root.UpstreamMessage.LeaveGroupMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".UpstreamMessage.LeaveGroupMessage: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.UpstreamMessage.LeaveGroupMessage();
             if (object.group != null)
-                message.group = String(object.group);
+                if (typeof object.group !== "string" || object.group.length)
+                    message.group = $String(object.group);
             if (object.ackId != null)
                 if ($util.Long)
-                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                    message.ackId = $util.Long.fromValue(object.ackId, true);
                 else if (typeof object.ackId === "string")
-                    message.ackId = parseInt(object.ackId, 10);
+                    message.ackId = $parseInt(object.ackId, 10);
                 else if (typeof object.ackId === "number")
                     message.ackId = object.ackId;
                 else if (typeof object.ackId === "object")
@@ -1451,22 +1817,25 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        LeaveGroupMessage.toObject = function toObject(message, options) {
+        LeaveGroupMessage.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.group = "";
-            if (message.group != null && message.hasOwnProperty("group"))
+            if (message.group != null && $Object.hasOwnProperty.call(message, "group"))
                 object.group = message.group;
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
-                if (typeof message.ackId === "number")
-                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.ackId = typeof message.ackId === "number" ? $BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
+                else if (typeof message.ackId === "number")
+                    object.ackId = options.longs === $String ? $String(message.ackId) : message.ackId;
                 else
-                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
-                if (options.oneofs)
-                    object._ackId = "ackId";
-            }
+                    object.ackId = options.longs === $String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === $Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
             return object;
         };
 
@@ -1477,23 +1846,22 @@ $root.UpstreamMessage = (function() {
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        LeaveGroupMessage.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        LeaveGroupMessage.prototype.toJSON = function() {
+            return LeaveGroupMessage.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for LeaveGroupMessage
+         * Gets the type url for LeaveGroupMessage
          * @function getTypeUrl
          * @memberof UpstreamMessage.LeaveGroupMessage
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        LeaveGroupMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/UpstreamMessage.LeaveGroupMessage";
+        LeaveGroupMessage.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/UpstreamMessage.LeaveGroupMessage";
         };
 
         return LeaveGroupMessage;
@@ -1503,25 +1871,38 @@ $root.UpstreamMessage = (function() {
 
         /**
          * Properties of a SequenceAckMessage.
+         * @typedef {Object} UpstreamMessage.SequenceAckMessage.$Properties
+         * @property {number|Long|null} [sequenceId] SequenceAckMessage sequenceId
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a SequenceAckMessage.
          * @memberof UpstreamMessage
          * @interface ISequenceAckMessage
-         * @property {number|Long|null} [sequenceId] SequenceAckMessage sequenceId
+         * @augments UpstreamMessage.SequenceAckMessage.$Properties
+         * @deprecated Use UpstreamMessage.SequenceAckMessage.$Properties instead.
+         */
+
+        /**
+         * Shape of a SequenceAckMessage.
+         * @typedef {UpstreamMessage.SequenceAckMessage.$Properties} UpstreamMessage.SequenceAckMessage.$Shape
          */
 
         /**
          * Constructs a new SequenceAckMessage.
          * @memberof UpstreamMessage
          * @classdesc Represents a SequenceAckMessage.
-         * @implements ISequenceAckMessage
          * @constructor
-         * @param {UpstreamMessage.ISequenceAckMessage=} [properties] Properties to set
+         * @param {UpstreamMessage.SequenceAckMessage.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function SequenceAckMessage(properties) {
+        var SequenceAckMessage = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
 
         /**
          * SequenceAckMessage sequenceId.
@@ -1536,10 +1917,14 @@ $root.UpstreamMessage = (function() {
          * @function create
          * @memberof UpstreamMessage.SequenceAckMessage
          * @static
-         * @param {UpstreamMessage.ISequenceAckMessage=} [properties] Properties to set
+         * @param {UpstreamMessage.SequenceAckMessage.$Properties=} [properties] Properties to set
          * @returns {UpstreamMessage.SequenceAckMessage} SequenceAckMessage instance
+         * @type {{
+         *   (properties: UpstreamMessage.SequenceAckMessage.$Shape): UpstreamMessage.SequenceAckMessage & UpstreamMessage.SequenceAckMessage.$Shape;
+         *   (properties?: UpstreamMessage.SequenceAckMessage.$Properties): UpstreamMessage.SequenceAckMessage;
+         * }}
          */
-        SequenceAckMessage.create = function create(properties) {
+        SequenceAckMessage.create = function(properties) {
             return new SequenceAckMessage(properties);
         };
 
@@ -1548,15 +1933,22 @@ $root.UpstreamMessage = (function() {
          * @function encode
          * @memberof UpstreamMessage.SequenceAckMessage
          * @static
-         * @param {UpstreamMessage.ISequenceAckMessage} message SequenceAckMessage message or plain object to encode
+         * @param {UpstreamMessage.SequenceAckMessage.$Properties} message SequenceAckMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        SequenceAckMessage.encode = function encode(message, writer) {
+        SequenceAckMessage.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.sequenceId != null && Object.hasOwnProperty.call(message, "sequenceId"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.sequenceId != null && $Object.hasOwnProperty.call(message, "sequenceId") && (typeof message.sequenceId === "object" ? message.sequenceId.low || message.sequenceId.high : message.sequenceId !== 0))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.sequenceId);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
 
@@ -1565,12 +1957,12 @@ $root.UpstreamMessage = (function() {
          * @function encodeDelimited
          * @memberof UpstreamMessage.SequenceAckMessage
          * @static
-         * @param {UpstreamMessage.ISequenceAckMessage} message SequenceAckMessage message or plain object to encode
+         * @param {UpstreamMessage.SequenceAckMessage.$Properties} message SequenceAckMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        SequenceAckMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+        SequenceAckMessage.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
 
         /**
@@ -1580,28 +1972,60 @@ $root.UpstreamMessage = (function() {
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {UpstreamMessage.SequenceAckMessage} SequenceAckMessage
+         * @returns {UpstreamMessage.SequenceAckMessage & UpstreamMessage.SequenceAckMessage.$Shape} SequenceAckMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        SequenceAckMessage.decode = function decode(reader, length, error) {
+        SequenceAckMessage.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.SequenceAckMessage();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            var end, message, value;
+            if (length === $undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw $RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = _target || new $root.UpstreamMessage.SequenceAckMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.sequenceId = reader.uint64();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        if (typeof (value = reader.uint64()) === "object" ? value.low || value.high : value !== 0)
+                            message.sequenceId = value;
+                        else
+                            delete message.sequenceId;
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
+            if (length !== $undefined) {
+                if (reader.pos !== end)
+                    throw $RangeError("index out of range");
+                reader.len = length;
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
 
@@ -1611,14 +2035,14 @@ $root.UpstreamMessage = (function() {
          * @memberof UpstreamMessage.SequenceAckMessage
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {UpstreamMessage.SequenceAckMessage} SequenceAckMessage
+         * @returns {UpstreamMessage.SequenceAckMessage & UpstreamMessage.SequenceAckMessage.$Shape} SequenceAckMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        SequenceAckMessage.decodeDelimited = function decodeDelimited(reader) {
+        SequenceAckMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -1629,10 +2053,14 @@ $root.UpstreamMessage = (function() {
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        SequenceAckMessage.verify = function verify(message) {
+        SequenceAckMessage.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.sequenceId != null && message.hasOwnProperty("sequenceId"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.sequenceId != null && $Object.hasOwnProperty.call(message, "sequenceId"))
                 if (!$util.isInteger(message.sequenceId) && !(message.sequenceId && $util.isInteger(message.sequenceId.low) && $util.isInteger(message.sequenceId.high)))
                     return "sequenceId: integer|Long expected";
             return null;
@@ -1646,19 +2074,26 @@ $root.UpstreamMessage = (function() {
          * @param {Object.<string,*>} object Plain object
          * @returns {UpstreamMessage.SequenceAckMessage} SequenceAckMessage
          */
-        SequenceAckMessage.fromObject = function fromObject(object) {
+        SequenceAckMessage.fromObject = function (object, _depth) {
             if (object instanceof $root.UpstreamMessage.SequenceAckMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".UpstreamMessage.SequenceAckMessage: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.UpstreamMessage.SequenceAckMessage();
             if (object.sequenceId != null)
-                if ($util.Long)
-                    (message.sequenceId = $util.Long.fromValue(object.sequenceId)).unsigned = true;
-                else if (typeof object.sequenceId === "string")
-                    message.sequenceId = parseInt(object.sequenceId, 10);
-                else if (typeof object.sequenceId === "number")
-                    message.sequenceId = object.sequenceId;
-                else if (typeof object.sequenceId === "object")
-                    message.sequenceId = new $util.LongBits(object.sequenceId.low >>> 0, object.sequenceId.high >>> 0).toNumber(true);
+                if (typeof object.sequenceId === "object" ? object.sequenceId.low || object.sequenceId.high : $Number(object.sequenceId) !== 0)
+                    if ($util.Long)
+                        message.sequenceId = $util.Long.fromValue(object.sequenceId, true);
+                    else if (typeof object.sequenceId === "string")
+                        message.sequenceId = $parseInt(object.sequenceId, 10);
+                    else if (typeof object.sequenceId === "number")
+                        message.sequenceId = object.sequenceId;
+                    else if (typeof object.sequenceId === "object")
+                        message.sequenceId = new $util.LongBits(object.sequenceId.low >>> 0, object.sequenceId.high >>> 0).toNumber(true);
             return message;
         };
 
@@ -1671,21 +2106,27 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        SequenceAckMessage.toObject = function toObject(message, options) {
+        SequenceAckMessage.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.sequenceId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    object.sequenceId = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.sequenceId = options.longs === String ? "0" : 0;
-            if (message.sequenceId != null && message.hasOwnProperty("sequenceId"))
-                if (typeof message.sequenceId === "number")
-                    object.sequenceId = options.longs === String ? String(message.sequenceId) : message.sequenceId;
+                    object.sequenceId = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
+            if (message.sequenceId != null && $Object.hasOwnProperty.call(message, "sequenceId"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.sequenceId = typeof message.sequenceId === "number" ? $BigInt(message.sequenceId) : $util.Long.fromBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0, true).toBigInt();
+                else if (typeof message.sequenceId === "number")
+                    object.sequenceId = options.longs === $String ? $String(message.sequenceId) : message.sequenceId;
                 else
-                    object.sequenceId = options.longs === String ? $util.Long.prototype.toString.call(message.sequenceId) : options.longs === Number ? new $util.LongBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0).toNumber(true) : message.sequenceId;
+                    object.sequenceId = options.longs === $String ? $util.Long.prototype.toString.call(message.sequenceId) : options.longs === $Number ? new $util.LongBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0).toNumber(true) : message.sequenceId;
             return object;
         };
 
@@ -1696,23 +2137,22 @@ $root.UpstreamMessage = (function() {
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        SequenceAckMessage.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        SequenceAckMessage.prototype.toJSON = function() {
+            return SequenceAckMessage.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for SequenceAckMessage
+         * Gets the type url for SequenceAckMessage
          * @function getTypeUrl
          * @memberof UpstreamMessage.SequenceAckMessage
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        SequenceAckMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/UpstreamMessage.SequenceAckMessage";
+        SequenceAckMessage.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/UpstreamMessage.SequenceAckMessage";
         };
 
         return SequenceAckMessage;
@@ -1725,31 +2165,52 @@ $root.DownstreamMessage = (function() {
 
     /**
      * Properties of a DownstreamMessage.
+     * @typedef {Object} DownstreamMessage.$Properties
+     * @property {DownstreamMessage.AckMessage.$Properties|null} [ackMessage] DownstreamMessage ackMessage
+     * @property {DownstreamMessage.DataMessage.$Properties|null} [dataMessage] DownstreamMessage dataMessage
+     * @property {DownstreamMessage.SystemMessage.$Properties|null} [systemMessage] DownstreamMessage systemMessage
+     * @property {"ackMessage"|"dataMessage"|"systemMessage"} [message] DownstreamMessage message
+     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+     */
+
+    /**
+     * Properties of a DownstreamMessage.
      * @exports IDownstreamMessage
      * @interface IDownstreamMessage
-     * @property {DownstreamMessage.IAckMessage|null} [ackMessage] DownstreamMessage ackMessage
-     * @property {DownstreamMessage.IDataMessage|null} [dataMessage] DownstreamMessage dataMessage
-     * @property {DownstreamMessage.ISystemMessage|null} [systemMessage] DownstreamMessage systemMessage
+     * @augments DownstreamMessage.$Properties
+     * @deprecated Use DownstreamMessage.$Properties instead.
+     */
+
+    /**
+     * Narrowed shape of a DownstreamMessage.
+     * @typedef {{
+     *   ackMessage?: DownstreamMessage.AckMessage.$Shape|null;
+     *   dataMessage?: DownstreamMessage.DataMessage.$Shape|null;
+     *   systemMessage?: DownstreamMessage.SystemMessage.$Shape|null;
+     *   $unknowns?: Array.<Uint8Array>;
+     * } & (
+     *   ({ message?: undefined; ackMessage?: null; dataMessage?: null; systemMessage?: null }|{ message?: "ackMessage"; ackMessage: DownstreamMessage.AckMessage.$Shape; dataMessage?: null; systemMessage?: null }|{ message?: "dataMessage"; ackMessage?: null; dataMessage: DownstreamMessage.DataMessage.$Shape; systemMessage?: null }|{ message?: "systemMessage"; ackMessage?: null; dataMessage?: null; systemMessage: DownstreamMessage.SystemMessage.$Shape })
+     * )} DownstreamMessage.$Shape
      */
 
     /**
      * Constructs a new DownstreamMessage.
      * @exports DownstreamMessage
      * @classdesc Represents a DownstreamMessage.
-     * @implements IDownstreamMessage
      * @constructor
-     * @param {IDownstreamMessage=} [properties] Properties to set
+     * @param {DownstreamMessage.$Properties=} [properties] Properties to set
+     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
      */
-    function DownstreamMessage(properties) {
+    var DownstreamMessage = function (properties) {
         if (properties)
-            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                if (properties[keys[i]] != null)
+            for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null && keys[i] !== "__proto__")
                     this[keys[i]] = properties[keys[i]];
-    }
+    };
 
     /**
      * DownstreamMessage ackMessage.
-     * @member {DownstreamMessage.IAckMessage|null|undefined} ackMessage
+     * @member {DownstreamMessage.AckMessage.$Properties|null|undefined} ackMessage
      * @memberof DownstreamMessage
      * @instance
      */
@@ -1757,7 +2218,7 @@ $root.DownstreamMessage = (function() {
 
     /**
      * DownstreamMessage dataMessage.
-     * @member {DownstreamMessage.IDataMessage|null|undefined} dataMessage
+     * @member {DownstreamMessage.DataMessage.$Properties|null|undefined} dataMessage
      * @memberof DownstreamMessage
      * @instance
      */
@@ -1765,7 +2226,7 @@ $root.DownstreamMessage = (function() {
 
     /**
      * DownstreamMessage systemMessage.
-     * @member {DownstreamMessage.ISystemMessage|null|undefined} systemMessage
+     * @member {DownstreamMessage.SystemMessage.$Properties|null|undefined} systemMessage
      * @memberof DownstreamMessage
      * @instance
      */
@@ -1780,7 +2241,7 @@ $root.DownstreamMessage = (function() {
      * @memberof DownstreamMessage
      * @instance
      */
-    Object.defineProperty(DownstreamMessage.prototype, "message", {
+    $Object.defineProperty(DownstreamMessage.prototype, "message", {
         get: $util.oneOfGetter($oneOfFields = ["ackMessage", "dataMessage", "systemMessage"]),
         set: $util.oneOfSetter($oneOfFields)
     });
@@ -1790,10 +2251,14 @@ $root.DownstreamMessage = (function() {
      * @function create
      * @memberof DownstreamMessage
      * @static
-     * @param {IDownstreamMessage=} [properties] Properties to set
+     * @param {DownstreamMessage.$Properties=} [properties] Properties to set
      * @returns {DownstreamMessage} DownstreamMessage instance
+     * @type {{
+     *   (properties: DownstreamMessage.$Shape): DownstreamMessage & DownstreamMessage.$Shape;
+     *   (properties?: DownstreamMessage.$Properties): DownstreamMessage;
+     * }}
      */
-    DownstreamMessage.create = function create(properties) {
+    DownstreamMessage.create = function(properties) {
         return new DownstreamMessage(properties);
     };
 
@@ -1802,19 +2267,26 @@ $root.DownstreamMessage = (function() {
      * @function encode
      * @memberof DownstreamMessage
      * @static
-     * @param {IDownstreamMessage} message DownstreamMessage message or plain object to encode
+     * @param {DownstreamMessage.$Properties} message DownstreamMessage message or plain object to encode
      * @param {$protobuf.Writer} [writer] Writer to encode to
      * @returns {$protobuf.Writer} Writer
      */
-    DownstreamMessage.encode = function encode(message, writer) {
+    DownstreamMessage.encode = function (message, writer, _depth) {
         if (!writer)
             writer = $Writer.create();
-        if (message.ackMessage != null && Object.hasOwnProperty.call(message, "ackMessage"))
-            $root.DownstreamMessage.AckMessage.encode(message.ackMessage, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-        if (message.dataMessage != null && Object.hasOwnProperty.call(message, "dataMessage"))
-            $root.DownstreamMessage.DataMessage.encode(message.dataMessage, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-        if (message.systemMessage != null && Object.hasOwnProperty.call(message, "systemMessage"))
-            $root.DownstreamMessage.SystemMessage.encode(message.systemMessage, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $util.recursionLimit)
+            throw $Error("max depth exceeded");
+        if (message.ackMessage != null && $Object.hasOwnProperty.call(message, "ackMessage"))
+            $root.DownstreamMessage.AckMessage.encode(message.ackMessage, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+        if (message.dataMessage != null && $Object.hasOwnProperty.call(message, "dataMessage"))
+            $root.DownstreamMessage.DataMessage.encode(message.dataMessage, writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+        if (message.systemMessage != null && $Object.hasOwnProperty.call(message, "systemMessage"))
+            $root.DownstreamMessage.SystemMessage.encode(message.systemMessage, writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
+        if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+            for (var i = 0; i < message.$unknowns.length; ++i)
+                writer.raw(message.$unknowns[i]);
         return writer;
     };
 
@@ -1823,12 +2295,12 @@ $root.DownstreamMessage = (function() {
      * @function encodeDelimited
      * @memberof DownstreamMessage
      * @static
-     * @param {IDownstreamMessage} message DownstreamMessage message or plain object to encode
+     * @param {DownstreamMessage.$Properties} message DownstreamMessage message or plain object to encode
      * @param {$protobuf.Writer} [writer] Writer to encode to
      * @returns {$protobuf.Writer} Writer
      */
-    DownstreamMessage.encodeDelimited = function encodeDelimited(message, writer) {
-        return this.encode(message, writer).ldelim();
+    DownstreamMessage.encodeDelimited = function(message, writer) {
+        return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
     };
 
     /**
@@ -1838,36 +2310,72 @@ $root.DownstreamMessage = (function() {
      * @static
      * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
      * @param {number} [length] Message length if known beforehand
-     * @returns {DownstreamMessage} DownstreamMessage
+     * @returns {DownstreamMessage & DownstreamMessage.$Shape} DownstreamMessage
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    DownstreamMessage.decode = function decode(reader, length, error) {
+    DownstreamMessage.decode = function (reader, length, _end, _depth, _target) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage();
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $Reader.recursionLimit)
+            throw $Error("max depth exceeded");
+        var end, message;
+        if (length === $undefined)
+            end = reader.len;
+        else {
+            end = reader.pos + length;
+            if (end > reader.len)
+                throw $RangeError("index out of range");
+            length = reader.len;
+            reader.len = end;
+        }
+        message = _target || new $root.DownstreamMessage();
         while (reader.pos < end) {
-            var tag = reader.uint32();
-            if (tag === error)
-                break;
-            switch (tag >>> 3) {
-            case 1: {
-                    message.ackMessage = $root.DownstreamMessage.AckMessage.decode(reader, reader.uint32());
-                    break;
-                }
-            case 2: {
-                    message.dataMessage = $root.DownstreamMessage.DataMessage.decode(reader, reader.uint32());
-                    break;
-                }
-            case 3: {
-                    message.systemMessage = $root.DownstreamMessage.SystemMessage.decode(reader, reader.uint32());
-                    break;
-                }
-            default:
-                reader.skipType(tag & 7);
+            var start = reader.pos;
+            var tag = reader.tag();
+            if (tag === _end) {
+                _end = $undefined;
                 break;
             }
+            var wireType = tag & 7;
+            switch (tag >>>= 3) {
+            case 1: {
+                    if (wireType !== 2)
+                        break;
+                    message.ackMessage = $root.DownstreamMessage.AckMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.ackMessage);
+                    message.message = "ackMessage";
+                    continue;
+                }
+            case 2: {
+                    if (wireType !== 2)
+                        break;
+                    message.dataMessage = $root.DownstreamMessage.DataMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.dataMessage);
+                    message.message = "dataMessage";
+                    continue;
+                }
+            case 3: {
+                    if (wireType !== 2)
+                        break;
+                    message.systemMessage = $root.DownstreamMessage.SystemMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.systemMessage);
+                    message.message = "systemMessage";
+                    continue;
+                }
+            }
+            reader.skipType(wireType, _depth, tag);
+            if (!reader.discardUnknown) {
+                $util.makeProp(message, "$unknowns", false);
+                (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+            }
         }
+        if (length !== $undefined) {
+            if (reader.pos !== end)
+                throw $RangeError("index out of range");
+            reader.len = length;
+        }
+        if (_end !== $undefined)
+            throw $Error("missing end group");
         return message;
     };
 
@@ -1877,14 +2385,14 @@ $root.DownstreamMessage = (function() {
      * @memberof DownstreamMessage
      * @static
      * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @returns {DownstreamMessage} DownstreamMessage
+     * @returns {DownstreamMessage & DownstreamMessage.$Shape} DownstreamMessage
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    DownstreamMessage.decodeDelimited = function decodeDelimited(reader) {
+    DownstreamMessage.decodeDelimited = function(reader) {
         if (!(reader instanceof $Reader))
             reader = new $Reader(reader);
-        return this.decode(reader, reader.uint32());
+        return this.decode(reader, reader.size());
     };
 
     /**
@@ -1895,34 +2403,38 @@ $root.DownstreamMessage = (function() {
      * @param {Object.<string,*>} message Plain object to verify
      * @returns {string|null} `null` if valid, otherwise the reason why it is not
      */
-    DownstreamMessage.verify = function verify(message) {
+    DownstreamMessage.verify = function (message, _depth) {
         if (typeof message !== "object" || message === null)
             return "object expected";
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $util.recursionLimit)
+            return "max depth exceeded";
         var properties = {};
-        if (message.ackMessage != null && message.hasOwnProperty("ackMessage")) {
+        if (message.ackMessage != null && $Object.hasOwnProperty.call(message, "ackMessage")) {
             properties.message = 1;
             {
-                var error = $root.DownstreamMessage.AckMessage.verify(message.ackMessage);
+                var error = $root.DownstreamMessage.AckMessage.verify(message.ackMessage, _depth + 1);
                 if (error)
                     return "ackMessage." + error;
             }
         }
-        if (message.dataMessage != null && message.hasOwnProperty("dataMessage")) {
+        if (message.dataMessage != null && $Object.hasOwnProperty.call(message, "dataMessage")) {
             if (properties.message === 1)
                 return "message: multiple values";
             properties.message = 1;
             {
-                var error = $root.DownstreamMessage.DataMessage.verify(message.dataMessage);
+                var error = $root.DownstreamMessage.DataMessage.verify(message.dataMessage, _depth + 1);
                 if (error)
                     return "dataMessage." + error;
             }
         }
-        if (message.systemMessage != null && message.hasOwnProperty("systemMessage")) {
+        if (message.systemMessage != null && $Object.hasOwnProperty.call(message, "systemMessage")) {
             if (properties.message === 1)
                 return "message: multiple values";
             properties.message = 1;
             {
-                var error = $root.DownstreamMessage.SystemMessage.verify(message.systemMessage);
+                var error = $root.DownstreamMessage.SystemMessage.verify(message.systemMessage, _depth + 1);
                 if (error)
                     return "systemMessage." + error;
             }
@@ -1938,24 +2450,30 @@ $root.DownstreamMessage = (function() {
      * @param {Object.<string,*>} object Plain object
      * @returns {DownstreamMessage} DownstreamMessage
      */
-    DownstreamMessage.fromObject = function fromObject(object) {
+    DownstreamMessage.fromObject = function (object, _depth) {
         if (object instanceof $root.DownstreamMessage)
             return object;
+        if (!$util.isObject(object))
+            throw $TypeError(".DownstreamMessage: object expected");
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $util.recursionLimit)
+            throw $Error("max depth exceeded");
         var message = new $root.DownstreamMessage();
         if (object.ackMessage != null) {
-            if (typeof object.ackMessage !== "object")
-                throw TypeError(".DownstreamMessage.ackMessage: object expected");
-            message.ackMessage = $root.DownstreamMessage.AckMessage.fromObject(object.ackMessage);
+            if (!$util.isObject(object.ackMessage))
+                throw $TypeError(".DownstreamMessage.ackMessage: object expected");
+            message.ackMessage = $root.DownstreamMessage.AckMessage.fromObject(object.ackMessage, _depth + 1);
         }
         if (object.dataMessage != null) {
-            if (typeof object.dataMessage !== "object")
-                throw TypeError(".DownstreamMessage.dataMessage: object expected");
-            message.dataMessage = $root.DownstreamMessage.DataMessage.fromObject(object.dataMessage);
+            if (!$util.isObject(object.dataMessage))
+                throw $TypeError(".DownstreamMessage.dataMessage: object expected");
+            message.dataMessage = $root.DownstreamMessage.DataMessage.fromObject(object.dataMessage, _depth + 1);
         }
         if (object.systemMessage != null) {
-            if (typeof object.systemMessage !== "object")
-                throw TypeError(".DownstreamMessage.systemMessage: object expected");
-            message.systemMessage = $root.DownstreamMessage.SystemMessage.fromObject(object.systemMessage);
+            if (!$util.isObject(object.systemMessage))
+                throw $TypeError(".DownstreamMessage.systemMessage: object expected");
+            message.systemMessage = $root.DownstreamMessage.SystemMessage.fromObject(object.systemMessage, _depth + 1);
         }
         return message;
     };
@@ -1969,22 +2487,26 @@ $root.DownstreamMessage = (function() {
      * @param {$protobuf.IConversionOptions} [options] Conversion options
      * @returns {Object.<string,*>} Plain object
      */
-    DownstreamMessage.toObject = function toObject(message, options) {
+    DownstreamMessage.toObject = function (message, options, _depth) {
         if (!options)
             options = {};
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $util.recursionLimit)
+            throw $Error("max depth exceeded");
         var object = {};
-        if (message.ackMessage != null && message.hasOwnProperty("ackMessage")) {
-            object.ackMessage = $root.DownstreamMessage.AckMessage.toObject(message.ackMessage, options);
+        if (message.ackMessage != null && $Object.hasOwnProperty.call(message, "ackMessage")) {
+            object.ackMessage = $root.DownstreamMessage.AckMessage.toObject(message.ackMessage, options, _depth + 1);
             if (options.oneofs)
                 object.message = "ackMessage";
         }
-        if (message.dataMessage != null && message.hasOwnProperty("dataMessage")) {
-            object.dataMessage = $root.DownstreamMessage.DataMessage.toObject(message.dataMessage, options);
+        if (message.dataMessage != null && $Object.hasOwnProperty.call(message, "dataMessage")) {
+            object.dataMessage = $root.DownstreamMessage.DataMessage.toObject(message.dataMessage, options, _depth + 1);
             if (options.oneofs)
                 object.message = "dataMessage";
         }
-        if (message.systemMessage != null && message.hasOwnProperty("systemMessage")) {
-            object.systemMessage = $root.DownstreamMessage.SystemMessage.toObject(message.systemMessage, options);
+        if (message.systemMessage != null && $Object.hasOwnProperty.call(message, "systemMessage")) {
+            object.systemMessage = $root.DownstreamMessage.SystemMessage.toObject(message.systemMessage, options, _depth + 1);
             if (options.oneofs)
                 object.message = "systemMessage";
         }
@@ -1998,50 +2520,62 @@ $root.DownstreamMessage = (function() {
      * @instance
      * @returns {Object.<string,*>} JSON object
      */
-    DownstreamMessage.prototype.toJSON = function toJSON() {
-        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    DownstreamMessage.prototype.toJSON = function() {
+        return DownstreamMessage.toObject(this, $protobuf.util.toJSONOptions);
     };
 
     /**
-     * Gets the default type url for DownstreamMessage
+     * Gets the type url for DownstreamMessage
      * @function getTypeUrl
      * @memberof DownstreamMessage
      * @static
-     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-     * @returns {string} The default type url
+     * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+     * @returns {string} The type url
      */
-    DownstreamMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-        if (typeUrlPrefix === undefined) {
-            typeUrlPrefix = "type.googleapis.com";
-        }
-        return typeUrlPrefix + "/DownstreamMessage";
+    DownstreamMessage.getTypeUrl = function(prefix) {
+        if (prefix === $undefined)
+            prefix = "type.googleapis.com";
+        return prefix + "/DownstreamMessage";
     };
 
     DownstreamMessage.AckMessage = (function() {
 
         /**
          * Properties of an AckMessage.
-         * @memberof DownstreamMessage
-         * @interface IAckMessage
+         * @typedef {Object} DownstreamMessage.AckMessage.$Properties
          * @property {number|Long|null} [ackId] AckMessage ackId
          * @property {boolean|null} [success] AckMessage success
-         * @property {DownstreamMessage.AckMessage.IErrorMessage|null} [error] AckMessage error
+         * @property {DownstreamMessage.AckMessage.ErrorMessage.$Properties|null} [error] AckMessage error
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of an AckMessage.
+         * @memberof DownstreamMessage
+         * @interface IAckMessage
+         * @augments DownstreamMessage.AckMessage.$Properties
+         * @deprecated Use DownstreamMessage.AckMessage.$Properties instead.
+         */
+
+        /**
+         * Shape of an AckMessage.
+         * @typedef {DownstreamMessage.AckMessage.$Properties} DownstreamMessage.AckMessage.$Shape
          */
 
         /**
          * Constructs a new AckMessage.
          * @memberof DownstreamMessage
          * @classdesc Represents an AckMessage.
-         * @implements IAckMessage
          * @constructor
-         * @param {DownstreamMessage.IAckMessage=} [properties] Properties to set
+         * @param {DownstreamMessage.AckMessage.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function AckMessage(properties) {
+        var AckMessage = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
 
         /**
          * AckMessage ackId.
@@ -2061,7 +2595,7 @@ $root.DownstreamMessage = (function() {
 
         /**
          * AckMessage error.
-         * @member {DownstreamMessage.AckMessage.IErrorMessage|null|undefined} error
+         * @member {DownstreamMessage.AckMessage.ErrorMessage.$Properties|null|undefined} error
          * @memberof DownstreamMessage.AckMessage
          * @instance
          */
@@ -2070,13 +2604,8 @@ $root.DownstreamMessage = (function() {
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
-        /**
-         * AckMessage _error.
-         * @member {"error"|undefined} _error
-         * @memberof DownstreamMessage.AckMessage
-         * @instance
-         */
-        Object.defineProperty(AckMessage.prototype, "_error", {
+        // Virtual OneOf for proto3 optional field
+        $Object.defineProperty(AckMessage.prototype, "_error", {
             get: $util.oneOfGetter($oneOfFields = ["error"]),
             set: $util.oneOfSetter($oneOfFields)
         });
@@ -2086,10 +2615,14 @@ $root.DownstreamMessage = (function() {
          * @function create
          * @memberof DownstreamMessage.AckMessage
          * @static
-         * @param {DownstreamMessage.IAckMessage=} [properties] Properties to set
+         * @param {DownstreamMessage.AckMessage.$Properties=} [properties] Properties to set
          * @returns {DownstreamMessage.AckMessage} AckMessage instance
+         * @type {{
+         *   (properties: DownstreamMessage.AckMessage.$Shape): DownstreamMessage.AckMessage & DownstreamMessage.AckMessage.$Shape;
+         *   (properties?: DownstreamMessage.AckMessage.$Properties): DownstreamMessage.AckMessage;
+         * }}
          */
-        AckMessage.create = function create(properties) {
+        AckMessage.create = function(properties) {
             return new AckMessage(properties);
         };
 
@@ -2098,19 +2631,26 @@ $root.DownstreamMessage = (function() {
          * @function encode
          * @memberof DownstreamMessage.AckMessage
          * @static
-         * @param {DownstreamMessage.IAckMessage} message AckMessage message or plain object to encode
+         * @param {DownstreamMessage.AckMessage.$Properties} message AckMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        AckMessage.encode = function encode(message, writer) {
+        AckMessage.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId") && (typeof message.ackId === "object" ? message.ackId.low || message.ackId.high : message.ackId !== 0))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.ackId);
-            if (message.success != null && Object.hasOwnProperty.call(message, "success"))
+            if (message.success != null && $Object.hasOwnProperty.call(message, "success") && message.success !== false)
                 writer.uint32(/* id 2, wireType 0 =*/16).bool(message.success);
-            if (message.error != null && Object.hasOwnProperty.call(message, "error"))
-                $root.DownstreamMessage.AckMessage.ErrorMessage.encode(message.error, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.error != null && $Object.hasOwnProperty.call(message, "error"))
+                $root.DownstreamMessage.AckMessage.ErrorMessage.encode(message.error, writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
 
@@ -2119,12 +2659,12 @@ $root.DownstreamMessage = (function() {
          * @function encodeDelimited
          * @memberof DownstreamMessage.AckMessage
          * @static
-         * @param {DownstreamMessage.IAckMessage} message AckMessage message or plain object to encode
+         * @param {DownstreamMessage.AckMessage.$Properties} message AckMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        AckMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+        AckMessage.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
 
         /**
@@ -2134,36 +2674,76 @@ $root.DownstreamMessage = (function() {
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {DownstreamMessage.AckMessage} AckMessage
+         * @returns {DownstreamMessage.AckMessage & DownstreamMessage.AckMessage.$Shape} AckMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        AckMessage.decode = function decode(reader, length, error) {
+        AckMessage.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.AckMessage();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            var end, message, value;
+            if (length === $undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw $RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = _target || new $root.DownstreamMessage.AckMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.ackId = reader.uint64();
-                        break;
-                    }
-                case 2: {
-                        message.success = reader.bool();
-                        break;
-                    }
-                case 3: {
-                        message.error = $root.DownstreamMessage.AckMessage.ErrorMessage.decode(reader, reader.uint32());
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        if (typeof (value = reader.uint64()) === "object" ? value.low || value.high : value !== 0)
+                            message.ackId = value;
+                        else
+                            delete message.ackId;
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        if (value = reader.bool())
+                            message.success = value;
+                        else
+                            delete message.success;
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 2)
+                            break;
+                        message.error = $root.DownstreamMessage.AckMessage.ErrorMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.error);
+                        message._error = "error";
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
+            if (length !== $undefined) {
+                if (reader.pos !== end)
+                    throw $RangeError("index out of range");
+                reader.len = length;
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
 
@@ -2173,14 +2753,14 @@ $root.DownstreamMessage = (function() {
          * @memberof DownstreamMessage.AckMessage
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {DownstreamMessage.AckMessage} AckMessage
+         * @returns {DownstreamMessage.AckMessage & DownstreamMessage.AckMessage.$Shape} AckMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        AckMessage.decodeDelimited = function decodeDelimited(reader) {
+        AckMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -2191,20 +2771,24 @@ $root.DownstreamMessage = (function() {
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        AckMessage.verify = function verify(message) {
+        AckMessage.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
             var properties = {};
-            if (message.ackId != null && message.hasOwnProperty("ackId"))
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId"))
                 if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
                     return "ackId: integer|Long expected";
-            if (message.success != null && message.hasOwnProperty("success"))
+            if (message.success != null && $Object.hasOwnProperty.call(message, "success"))
                 if (typeof message.success !== "boolean")
                     return "success: boolean expected";
-            if (message.error != null && message.hasOwnProperty("error")) {
+            if (message.error != null && $Object.hasOwnProperty.call(message, "error")) {
                 properties._error = 1;
                 {
-                    var error = $root.DownstreamMessage.AckMessage.ErrorMessage.verify(message.error);
+                    var error = $root.DownstreamMessage.AckMessage.ErrorMessage.verify(message.error, _depth + 1);
                     if (error)
                         return "error." + error;
                 }
@@ -2220,25 +2804,33 @@ $root.DownstreamMessage = (function() {
          * @param {Object.<string,*>} object Plain object
          * @returns {DownstreamMessage.AckMessage} AckMessage
          */
-        AckMessage.fromObject = function fromObject(object) {
+        AckMessage.fromObject = function (object, _depth) {
             if (object instanceof $root.DownstreamMessage.AckMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".DownstreamMessage.AckMessage: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.DownstreamMessage.AckMessage();
             if (object.ackId != null)
-                if ($util.Long)
-                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
-                else if (typeof object.ackId === "string")
-                    message.ackId = parseInt(object.ackId, 10);
-                else if (typeof object.ackId === "number")
-                    message.ackId = object.ackId;
-                else if (typeof object.ackId === "object")
-                    message.ackId = new $util.LongBits(object.ackId.low >>> 0, object.ackId.high >>> 0).toNumber(true);
+                if (typeof object.ackId === "object" ? object.ackId.low || object.ackId.high : $Number(object.ackId) !== 0)
+                    if ($util.Long)
+                        message.ackId = $util.Long.fromValue(object.ackId, true);
+                    else if (typeof object.ackId === "string")
+                        message.ackId = $parseInt(object.ackId, 10);
+                    else if (typeof object.ackId === "number")
+                        message.ackId = object.ackId;
+                    else if (typeof object.ackId === "object")
+                        message.ackId = new $util.LongBits(object.ackId.low >>> 0, object.ackId.high >>> 0).toNumber(true);
             if (object.success != null)
-                message.success = Boolean(object.success);
+                if (object.success)
+                    message.success = $Boolean(object.success);
             if (object.error != null) {
-                if (typeof object.error !== "object")
-                    throw TypeError(".DownstreamMessage.AckMessage.error: object expected");
-                message.error = $root.DownstreamMessage.AckMessage.ErrorMessage.fromObject(object.error);
+                if (!$util.isObject(object.error))
+                    throw $TypeError(".DownstreamMessage.AckMessage.error: object expected");
+                message.error = $root.DownstreamMessage.AckMessage.ErrorMessage.fromObject(object.error, _depth + 1);
             }
             return message;
         };
@@ -2252,30 +2844,33 @@ $root.DownstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        AckMessage.toObject = function toObject(message, options) {
+        AckMessage.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.ackId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    object.ackId = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.ackId = options.longs === String ? "0" : 0;
+                    object.ackId = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.success = false;
             }
-            if (message.ackId != null && message.hasOwnProperty("ackId"))
-                if (typeof message.ackId === "number")
-                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+            if (message.ackId != null && $Object.hasOwnProperty.call(message, "ackId"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.ackId = typeof message.ackId === "number" ? $BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
+                else if (typeof message.ackId === "number")
+                    object.ackId = options.longs === $String ? $String(message.ackId) : message.ackId;
                 else
-                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
-            if (message.success != null && message.hasOwnProperty("success"))
+                    object.ackId = options.longs === $String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === $Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
+            if (message.success != null && $Object.hasOwnProperty.call(message, "success"))
                 object.success = message.success;
-            if (message.error != null && message.hasOwnProperty("error")) {
-                object.error = $root.DownstreamMessage.AckMessage.ErrorMessage.toObject(message.error, options);
-                if (options.oneofs)
-                    object._error = "error";
-            }
+            if (message.error != null && $Object.hasOwnProperty.call(message, "error"))
+                object.error = $root.DownstreamMessage.AckMessage.ErrorMessage.toObject(message.error, options, _depth + 1);
             return object;
         };
 
@@ -2286,49 +2881,61 @@ $root.DownstreamMessage = (function() {
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        AckMessage.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        AckMessage.prototype.toJSON = function() {
+            return AckMessage.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for AckMessage
+         * Gets the type url for AckMessage
          * @function getTypeUrl
          * @memberof DownstreamMessage.AckMessage
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        AckMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/DownstreamMessage.AckMessage";
+        AckMessage.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/DownstreamMessage.AckMessage";
         };
 
         AckMessage.ErrorMessage = (function() {
 
             /**
              * Properties of an ErrorMessage.
-             * @memberof DownstreamMessage.AckMessage
-             * @interface IErrorMessage
+             * @typedef {Object} DownstreamMessage.AckMessage.ErrorMessage.$Properties
              * @property {string|null} [name] ErrorMessage name
              * @property {string|null} [message] ErrorMessage message
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of an ErrorMessage.
+             * @memberof DownstreamMessage.AckMessage
+             * @interface IErrorMessage
+             * @augments DownstreamMessage.AckMessage.ErrorMessage.$Properties
+             * @deprecated Use DownstreamMessage.AckMessage.ErrorMessage.$Properties instead.
+             */
+
+            /**
+             * Shape of an ErrorMessage.
+             * @typedef {DownstreamMessage.AckMessage.ErrorMessage.$Properties} DownstreamMessage.AckMessage.ErrorMessage.$Shape
              */
 
             /**
              * Constructs a new ErrorMessage.
              * @memberof DownstreamMessage.AckMessage
              * @classdesc Represents an ErrorMessage.
-             * @implements IErrorMessage
              * @constructor
-             * @param {DownstreamMessage.AckMessage.IErrorMessage=} [properties] Properties to set
+             * @param {DownstreamMessage.AckMessage.ErrorMessage.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function ErrorMessage(properties) {
+            var ErrorMessage = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * ErrorMessage name.
@@ -2351,10 +2958,14 @@ $root.DownstreamMessage = (function() {
              * @function create
              * @memberof DownstreamMessage.AckMessage.ErrorMessage
              * @static
-             * @param {DownstreamMessage.AckMessage.IErrorMessage=} [properties] Properties to set
+             * @param {DownstreamMessage.AckMessage.ErrorMessage.$Properties=} [properties] Properties to set
              * @returns {DownstreamMessage.AckMessage.ErrorMessage} ErrorMessage instance
+             * @type {{
+             *   (properties: DownstreamMessage.AckMessage.ErrorMessage.$Shape): DownstreamMessage.AckMessage.ErrorMessage & DownstreamMessage.AckMessage.ErrorMessage.$Shape;
+             *   (properties?: DownstreamMessage.AckMessage.ErrorMessage.$Properties): DownstreamMessage.AckMessage.ErrorMessage;
+             * }}
              */
-            ErrorMessage.create = function create(properties) {
+            ErrorMessage.create = function(properties) {
                 return new ErrorMessage(properties);
             };
 
@@ -2363,17 +2974,24 @@ $root.DownstreamMessage = (function() {
              * @function encode
              * @memberof DownstreamMessage.AckMessage.ErrorMessage
              * @static
-             * @param {DownstreamMessage.AckMessage.IErrorMessage} message ErrorMessage message or plain object to encode
+             * @param {DownstreamMessage.AckMessage.ErrorMessage.$Properties} message ErrorMessage message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ErrorMessage.encode = function encode(message, writer) {
+            ErrorMessage.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name") && message.name !== "")
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                if (message.message != null && Object.hasOwnProperty.call(message, "message"))
+                if (message.message != null && $Object.hasOwnProperty.call(message, "message") && message.message !== "")
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.message);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
 
@@ -2382,12 +3000,12 @@ $root.DownstreamMessage = (function() {
              * @function encodeDelimited
              * @memberof DownstreamMessage.AckMessage.ErrorMessage
              * @static
-             * @param {DownstreamMessage.AckMessage.IErrorMessage} message ErrorMessage message or plain object to encode
+             * @param {DownstreamMessage.AckMessage.ErrorMessage.$Properties} message ErrorMessage message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ErrorMessage.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+            ErrorMessage.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -2397,32 +3015,69 @@ $root.DownstreamMessage = (function() {
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {DownstreamMessage.AckMessage.ErrorMessage} ErrorMessage
+             * @returns {DownstreamMessage.AckMessage.ErrorMessage & DownstreamMessage.AckMessage.ErrorMessage.$Shape} ErrorMessage
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ErrorMessage.decode = function decode(reader, length, error) {
+            ErrorMessage.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.AckMessage.ErrorMessage();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                var end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.DownstreamMessage.AckMessage.ErrorMessage();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.name = reader.string();
-                            break;
-                        }
-                    case 2: {
-                            message.message = reader.string();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.stringVerify()).length)
+                                message.name = value;
+                            else
+                                delete message.name;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.stringVerify()).length)
+                                message.message = value;
+                            else
+                                delete message.message;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -2432,14 +3087,14 @@ $root.DownstreamMessage = (function() {
              * @memberof DownstreamMessage.AckMessage.ErrorMessage
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {DownstreamMessage.AckMessage.ErrorMessage} ErrorMessage
+             * @returns {DownstreamMessage.AckMessage.ErrorMessage & DownstreamMessage.AckMessage.ErrorMessage.$Shape} ErrorMessage
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ErrorMessage.decodeDelimited = function decodeDelimited(reader) {
+            ErrorMessage.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
 
             /**
@@ -2450,13 +3105,17 @@ $root.DownstreamMessage = (function() {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            ErrorMessage.verify = function verify(message) {
+            ErrorMessage.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.name != null && message.hasOwnProperty("name"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                     if (!$util.isString(message.name))
                         return "name: string expected";
-                if (message.message != null && message.hasOwnProperty("message"))
+                if (message.message != null && $Object.hasOwnProperty.call(message, "message"))
                     if (!$util.isString(message.message))
                         return "message: string expected";
                 return null;
@@ -2470,14 +3129,22 @@ $root.DownstreamMessage = (function() {
              * @param {Object.<string,*>} object Plain object
              * @returns {DownstreamMessage.AckMessage.ErrorMessage} ErrorMessage
              */
-            ErrorMessage.fromObject = function fromObject(object) {
+            ErrorMessage.fromObject = function (object, _depth) {
                 if (object instanceof $root.DownstreamMessage.AckMessage.ErrorMessage)
                     return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".DownstreamMessage.AckMessage.ErrorMessage: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.DownstreamMessage.AckMessage.ErrorMessage();
                 if (object.name != null)
-                    message.name = String(object.name);
+                    if (typeof object.name !== "string" || object.name.length)
+                        message.name = $String(object.name);
                 if (object.message != null)
-                    message.message = String(object.message);
+                    if (typeof object.message !== "string" || object.message.length)
+                        message.message = $String(object.message);
                 return message;
             };
 
@@ -2490,17 +3157,21 @@ $root.DownstreamMessage = (function() {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ErrorMessage.toObject = function toObject(message, options) {
+            ErrorMessage.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.name = "";
                     object.message = "";
                 }
-                if (message.name != null && message.hasOwnProperty("name"))
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                     object.name = message.name;
-                if (message.message != null && message.hasOwnProperty("message"))
+                if (message.message != null && $Object.hasOwnProperty.call(message, "message"))
                     object.message = message.message;
                 return object;
             };
@@ -2512,23 +3183,22 @@ $root.DownstreamMessage = (function() {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            ErrorMessage.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            ErrorMessage.prototype.toJSON = function() {
+                return ErrorMessage.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
-             * Gets the default type url for ErrorMessage
+             * Gets the type url for ErrorMessage
              * @function getTypeUrl
              * @memberof DownstreamMessage.AckMessage.ErrorMessage
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            ErrorMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/DownstreamMessage.AckMessage.ErrorMessage";
+            ErrorMessage.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/DownstreamMessage.AckMessage.ErrorMessage";
             };
 
             return ErrorMessage;
@@ -2541,28 +3211,47 @@ $root.DownstreamMessage = (function() {
 
         /**
          * Properties of a DataMessage.
-         * @memberof DownstreamMessage
-         * @interface IDataMessage
+         * @typedef {Object} DownstreamMessage.DataMessage.$Properties
          * @property {string|null} [from] DataMessage from
          * @property {string|null} [group] DataMessage group
-         * @property {IMessageData|null} [data] DataMessage data
+         * @property {MessageData.$Properties|null} [data] DataMessage data
          * @property {number|Long|null} [sequenceId] DataMessage sequenceId
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a DataMessage.
+         * @memberof DownstreamMessage
+         * @interface IDataMessage
+         * @augments DownstreamMessage.DataMessage.$Properties
+         * @deprecated Use DownstreamMessage.DataMessage.$Properties instead.
+         */
+
+        /**
+         * Shape of a DataMessage.
+         * @typedef {{
+         *   from?: string|null;
+         *   group?: string|null;
+         *   data?: MessageData.$Shape|null;
+         *   sequenceId?: number|Long|null;
+         *   $unknowns?: Array.<Uint8Array>;
+         * }} DownstreamMessage.DataMessage.$Shape
          */
 
         /**
          * Constructs a new DataMessage.
          * @memberof DownstreamMessage
          * @classdesc Represents a DataMessage.
-         * @implements IDataMessage
          * @constructor
-         * @param {DownstreamMessage.IDataMessage=} [properties] Properties to set
+         * @param {DownstreamMessage.DataMessage.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function DataMessage(properties) {
+        var DataMessage = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
 
         /**
          * DataMessage from.
@@ -2582,7 +3271,7 @@ $root.DownstreamMessage = (function() {
 
         /**
          * DataMessage data.
-         * @member {IMessageData|null|undefined} data
+         * @member {MessageData.$Properties|null|undefined} data
          * @memberof DownstreamMessage.DataMessage
          * @instance
          */
@@ -2599,24 +3288,14 @@ $root.DownstreamMessage = (function() {
         // OneOf field names bound to virtual getters and setters
         var $oneOfFields;
 
-        /**
-         * DataMessage _group.
-         * @member {"group"|undefined} _group
-         * @memberof DownstreamMessage.DataMessage
-         * @instance
-         */
-        Object.defineProperty(DataMessage.prototype, "_group", {
+        // Virtual OneOf for proto3 optional field
+        $Object.defineProperty(DataMessage.prototype, "_group", {
             get: $util.oneOfGetter($oneOfFields = ["group"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
-        /**
-         * DataMessage _sequenceId.
-         * @member {"sequenceId"|undefined} _sequenceId
-         * @memberof DownstreamMessage.DataMessage
-         * @instance
-         */
-        Object.defineProperty(DataMessage.prototype, "_sequenceId", {
+        // Virtual OneOf for proto3 optional field
+        $Object.defineProperty(DataMessage.prototype, "_sequenceId", {
             get: $util.oneOfGetter($oneOfFields = ["sequenceId"]),
             set: $util.oneOfSetter($oneOfFields)
         });
@@ -2626,10 +3305,14 @@ $root.DownstreamMessage = (function() {
          * @function create
          * @memberof DownstreamMessage.DataMessage
          * @static
-         * @param {DownstreamMessage.IDataMessage=} [properties] Properties to set
+         * @param {DownstreamMessage.DataMessage.$Properties=} [properties] Properties to set
          * @returns {DownstreamMessage.DataMessage} DataMessage instance
+         * @type {{
+         *   (properties: DownstreamMessage.DataMessage.$Shape): DownstreamMessage.DataMessage & DownstreamMessage.DataMessage.$Shape;
+         *   (properties?: DownstreamMessage.DataMessage.$Properties): DownstreamMessage.DataMessage;
+         * }}
          */
-        DataMessage.create = function create(properties) {
+        DataMessage.create = function(properties) {
             return new DataMessage(properties);
         };
 
@@ -2638,21 +3321,28 @@ $root.DownstreamMessage = (function() {
          * @function encode
          * @memberof DownstreamMessage.DataMessage
          * @static
-         * @param {DownstreamMessage.IDataMessage} message DataMessage message or plain object to encode
+         * @param {DownstreamMessage.DataMessage.$Properties} message DataMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        DataMessage.encode = function encode(message, writer) {
+        DataMessage.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.from != null && Object.hasOwnProperty.call(message, "from"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.from != null && $Object.hasOwnProperty.call(message, "from") && message.from !== "")
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.from);
-            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
+            if (message.group != null && $Object.hasOwnProperty.call(message, "group"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.group);
-            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
-                $root.MessageData.encode(message.data, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-            if (message.sequenceId != null && Object.hasOwnProperty.call(message, "sequenceId"))
+            if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
+                $root.MessageData.encode(message.data, writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
+            if (message.sequenceId != null && $Object.hasOwnProperty.call(message, "sequenceId"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.sequenceId);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
 
@@ -2661,12 +3351,12 @@ $root.DownstreamMessage = (function() {
          * @function encodeDelimited
          * @memberof DownstreamMessage.DataMessage
          * @static
-         * @param {DownstreamMessage.IDataMessage} message DataMessage message or plain object to encode
+         * @param {DownstreamMessage.DataMessage.$Properties} message DataMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        DataMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+        DataMessage.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
 
         /**
@@ -2676,40 +3366,80 @@ $root.DownstreamMessage = (function() {
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {DownstreamMessage.DataMessage} DataMessage
+         * @returns {DownstreamMessage.DataMessage & DownstreamMessage.DataMessage.$Shape} DataMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        DataMessage.decode = function decode(reader, length, error) {
+        DataMessage.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.DataMessage();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            var end, message, value;
+            if (length === $undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw $RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = _target || new $root.DownstreamMessage.DataMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.from = reader.string();
-                        break;
-                    }
-                case 2: {
-                        message.group = reader.string();
-                        break;
-                    }
-                case 3: {
-                        message.data = $root.MessageData.decode(reader, reader.uint32());
-                        break;
-                    }
-                case 4: {
-                        message.sequenceId = reader.uint64();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.from = value;
+                        else
+                            delete message.from;
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.group = reader.stringVerify();
+                        message._group = "group";
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 2)
+                            break;
+                        message.data = $root.MessageData.decode(reader, reader.size(), $undefined, _depth + 1, message.data);
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.sequenceId = reader.uint64();
+                        message._sequenceId = "sequenceId";
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
+            if (length !== $undefined) {
+                if (reader.pos !== end)
+                    throw $RangeError("index out of range");
+                reader.len = length;
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
 
@@ -2719,14 +3449,14 @@ $root.DownstreamMessage = (function() {
          * @memberof DownstreamMessage.DataMessage
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {DownstreamMessage.DataMessage} DataMessage
+         * @returns {DownstreamMessage.DataMessage & DownstreamMessage.DataMessage.$Shape} DataMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        DataMessage.decodeDelimited = function decodeDelimited(reader) {
+        DataMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -2737,24 +3467,28 @@ $root.DownstreamMessage = (function() {
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        DataMessage.verify = function verify(message) {
+        DataMessage.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
             var properties = {};
-            if (message.from != null && message.hasOwnProperty("from"))
+            if (message.from != null && $Object.hasOwnProperty.call(message, "from"))
                 if (!$util.isString(message.from))
                     return "from: string expected";
-            if (message.group != null && message.hasOwnProperty("group")) {
+            if (message.group != null && $Object.hasOwnProperty.call(message, "group")) {
                 properties._group = 1;
                 if (!$util.isString(message.group))
                     return "group: string expected";
             }
-            if (message.data != null && message.hasOwnProperty("data")) {
-                var error = $root.MessageData.verify(message.data);
+            if (message.data != null && $Object.hasOwnProperty.call(message, "data")) {
+                var error = $root.MessageData.verify(message.data, _depth + 1);
                 if (error)
                     return "data." + error;
             }
-            if (message.sequenceId != null && message.hasOwnProperty("sequenceId")) {
+            if (message.sequenceId != null && $Object.hasOwnProperty.call(message, "sequenceId")) {
                 properties._sequenceId = 1;
                 if (!$util.isInteger(message.sequenceId) && !(message.sequenceId && $util.isInteger(message.sequenceId.low) && $util.isInteger(message.sequenceId.high)))
                     return "sequenceId: integer|Long expected";
@@ -2770,24 +3504,31 @@ $root.DownstreamMessage = (function() {
          * @param {Object.<string,*>} object Plain object
          * @returns {DownstreamMessage.DataMessage} DataMessage
          */
-        DataMessage.fromObject = function fromObject(object) {
+        DataMessage.fromObject = function (object, _depth) {
             if (object instanceof $root.DownstreamMessage.DataMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".DownstreamMessage.DataMessage: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.DownstreamMessage.DataMessage();
             if (object.from != null)
-                message.from = String(object.from);
+                if (typeof object.from !== "string" || object.from.length)
+                    message.from = $String(object.from);
             if (object.group != null)
-                message.group = String(object.group);
+                message.group = $String(object.group);
             if (object.data != null) {
-                if (typeof object.data !== "object")
-                    throw TypeError(".DownstreamMessage.DataMessage.data: object expected");
-                message.data = $root.MessageData.fromObject(object.data);
+                if (!$util.isObject(object.data))
+                    throw $TypeError(".DownstreamMessage.DataMessage.data: object expected");
+                message.data = $root.MessageData.fromObject(object.data, _depth + 1);
             }
             if (object.sequenceId != null)
                 if ($util.Long)
-                    (message.sequenceId = $util.Long.fromValue(object.sequenceId)).unsigned = true;
+                    message.sequenceId = $util.Long.fromValue(object.sequenceId, true);
                 else if (typeof object.sequenceId === "string")
-                    message.sequenceId = parseInt(object.sequenceId, 10);
+                    message.sequenceId = $parseInt(object.sequenceId, 10);
                 else if (typeof object.sequenceId === "number")
                     message.sequenceId = object.sequenceId;
                 else if (typeof object.sequenceId === "object")
@@ -2804,31 +3545,31 @@ $root.DownstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        DataMessage.toObject = function toObject(message, options) {
+        DataMessage.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.from = "";
                 object.data = null;
             }
-            if (message.from != null && message.hasOwnProperty("from"))
+            if (message.from != null && $Object.hasOwnProperty.call(message, "from"))
                 object.from = message.from;
-            if (message.group != null && message.hasOwnProperty("group")) {
+            if (message.group != null && $Object.hasOwnProperty.call(message, "group"))
                 object.group = message.group;
-                if (options.oneofs)
-                    object._group = "group";
-            }
-            if (message.data != null && message.hasOwnProperty("data"))
-                object.data = $root.MessageData.toObject(message.data, options);
-            if (message.sequenceId != null && message.hasOwnProperty("sequenceId")) {
-                if (typeof message.sequenceId === "number")
-                    object.sequenceId = options.longs === String ? String(message.sequenceId) : message.sequenceId;
+            if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
+                object.data = $root.MessageData.toObject(message.data, options, _depth + 1);
+            if (message.sequenceId != null && $Object.hasOwnProperty.call(message, "sequenceId"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.sequenceId = typeof message.sequenceId === "number" ? $BigInt(message.sequenceId) : $util.Long.fromBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0, true).toBigInt();
+                else if (typeof message.sequenceId === "number")
+                    object.sequenceId = options.longs === $String ? $String(message.sequenceId) : message.sequenceId;
                 else
-                    object.sequenceId = options.longs === String ? $util.Long.prototype.toString.call(message.sequenceId) : options.longs === Number ? new $util.LongBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0).toNumber(true) : message.sequenceId;
-                if (options.oneofs)
-                    object._sequenceId = "sequenceId";
-            }
+                    object.sequenceId = options.longs === $String ? $util.Long.prototype.toString.call(message.sequenceId) : options.longs === $Number ? new $util.LongBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0).toNumber(true) : message.sequenceId;
             return object;
         };
 
@@ -2839,23 +3580,22 @@ $root.DownstreamMessage = (function() {
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        DataMessage.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        DataMessage.prototype.toJSON = function() {
+            return DataMessage.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for DataMessage
+         * Gets the type url for DataMessage
          * @function getTypeUrl
          * @memberof DownstreamMessage.DataMessage
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        DataMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/DownstreamMessage.DataMessage";
+        DataMessage.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/DownstreamMessage.DataMessage";
         };
 
         return DataMessage;
@@ -2865,30 +3605,50 @@ $root.DownstreamMessage = (function() {
 
         /**
          * Properties of a SystemMessage.
+         * @typedef {Object} DownstreamMessage.SystemMessage.$Properties
+         * @property {DownstreamMessage.SystemMessage.ConnectedMessage.$Properties|null} [connectedMessage] SystemMessage connectedMessage
+         * @property {DownstreamMessage.SystemMessage.DisconnectedMessage.$Properties|null} [disconnectedMessage] SystemMessage disconnectedMessage
+         * @property {"connectedMessage"|"disconnectedMessage"} [message] SystemMessage message
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a SystemMessage.
          * @memberof DownstreamMessage
          * @interface ISystemMessage
-         * @property {DownstreamMessage.SystemMessage.IConnectedMessage|null} [connectedMessage] SystemMessage connectedMessage
-         * @property {DownstreamMessage.SystemMessage.IDisconnectedMessage|null} [disconnectedMessage] SystemMessage disconnectedMessage
+         * @augments DownstreamMessage.SystemMessage.$Properties
+         * @deprecated Use DownstreamMessage.SystemMessage.$Properties instead.
+         */
+
+        /**
+         * Narrowed shape of a SystemMessage.
+         * @typedef {{
+         *   connectedMessage?: DownstreamMessage.SystemMessage.ConnectedMessage.$Shape|null;
+         *   disconnectedMessage?: DownstreamMessage.SystemMessage.DisconnectedMessage.$Shape|null;
+         *   $unknowns?: Array.<Uint8Array>;
+         * } & (
+         *   ({ message?: undefined; connectedMessage?: null; disconnectedMessage?: null }|{ message?: "connectedMessage"; connectedMessage: DownstreamMessage.SystemMessage.ConnectedMessage.$Shape; disconnectedMessage?: null }|{ message?: "disconnectedMessage"; connectedMessage?: null; disconnectedMessage: DownstreamMessage.SystemMessage.DisconnectedMessage.$Shape })
+         * )} DownstreamMessage.SystemMessage.$Shape
          */
 
         /**
          * Constructs a new SystemMessage.
          * @memberof DownstreamMessage
          * @classdesc Represents a SystemMessage.
-         * @implements ISystemMessage
          * @constructor
-         * @param {DownstreamMessage.ISystemMessage=} [properties] Properties to set
+         * @param {DownstreamMessage.SystemMessage.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function SystemMessage(properties) {
+        var SystemMessage = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
 
         /**
          * SystemMessage connectedMessage.
-         * @member {DownstreamMessage.SystemMessage.IConnectedMessage|null|undefined} connectedMessage
+         * @member {DownstreamMessage.SystemMessage.ConnectedMessage.$Properties|null|undefined} connectedMessage
          * @memberof DownstreamMessage.SystemMessage
          * @instance
          */
@@ -2896,7 +3656,7 @@ $root.DownstreamMessage = (function() {
 
         /**
          * SystemMessage disconnectedMessage.
-         * @member {DownstreamMessage.SystemMessage.IDisconnectedMessage|null|undefined} disconnectedMessage
+         * @member {DownstreamMessage.SystemMessage.DisconnectedMessage.$Properties|null|undefined} disconnectedMessage
          * @memberof DownstreamMessage.SystemMessage
          * @instance
          */
@@ -2911,7 +3671,7 @@ $root.DownstreamMessage = (function() {
          * @memberof DownstreamMessage.SystemMessage
          * @instance
          */
-        Object.defineProperty(SystemMessage.prototype, "message", {
+        $Object.defineProperty(SystemMessage.prototype, "message", {
             get: $util.oneOfGetter($oneOfFields = ["connectedMessage", "disconnectedMessage"]),
             set: $util.oneOfSetter($oneOfFields)
         });
@@ -2921,10 +3681,14 @@ $root.DownstreamMessage = (function() {
          * @function create
          * @memberof DownstreamMessage.SystemMessage
          * @static
-         * @param {DownstreamMessage.ISystemMessage=} [properties] Properties to set
+         * @param {DownstreamMessage.SystemMessage.$Properties=} [properties] Properties to set
          * @returns {DownstreamMessage.SystemMessage} SystemMessage instance
+         * @type {{
+         *   (properties: DownstreamMessage.SystemMessage.$Shape): DownstreamMessage.SystemMessage & DownstreamMessage.SystemMessage.$Shape;
+         *   (properties?: DownstreamMessage.SystemMessage.$Properties): DownstreamMessage.SystemMessage;
+         * }}
          */
-        SystemMessage.create = function create(properties) {
+        SystemMessage.create = function(properties) {
             return new SystemMessage(properties);
         };
 
@@ -2933,17 +3697,24 @@ $root.DownstreamMessage = (function() {
          * @function encode
          * @memberof DownstreamMessage.SystemMessage
          * @static
-         * @param {DownstreamMessage.ISystemMessage} message SystemMessage message or plain object to encode
+         * @param {DownstreamMessage.SystemMessage.$Properties} message SystemMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        SystemMessage.encode = function encode(message, writer) {
+        SystemMessage.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.connectedMessage != null && Object.hasOwnProperty.call(message, "connectedMessage"))
-                $root.DownstreamMessage.SystemMessage.ConnectedMessage.encode(message.connectedMessage, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-            if (message.disconnectedMessage != null && Object.hasOwnProperty.call(message, "disconnectedMessage"))
-                $root.DownstreamMessage.SystemMessage.DisconnectedMessage.encode(message.disconnectedMessage, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.connectedMessage != null && $Object.hasOwnProperty.call(message, "connectedMessage"))
+                $root.DownstreamMessage.SystemMessage.ConnectedMessage.encode(message.connectedMessage, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+            if (message.disconnectedMessage != null && $Object.hasOwnProperty.call(message, "disconnectedMessage"))
+                $root.DownstreamMessage.SystemMessage.DisconnectedMessage.encode(message.disconnectedMessage, writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
 
@@ -2952,12 +3723,12 @@ $root.DownstreamMessage = (function() {
          * @function encodeDelimited
          * @memberof DownstreamMessage.SystemMessage
          * @static
-         * @param {DownstreamMessage.ISystemMessage} message SystemMessage message or plain object to encode
+         * @param {DownstreamMessage.SystemMessage.$Properties} message SystemMessage message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        SystemMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+        SystemMessage.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
 
         /**
@@ -2967,32 +3738,65 @@ $root.DownstreamMessage = (function() {
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {DownstreamMessage.SystemMessage} SystemMessage
+         * @returns {DownstreamMessage.SystemMessage & DownstreamMessage.SystemMessage.$Shape} SystemMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        SystemMessage.decode = function decode(reader, length, error) {
+        SystemMessage.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            var end, message;
+            if (length === $undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw $RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = _target || new $root.DownstreamMessage.SystemMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.decode(reader, reader.uint32());
-                        break;
-                    }
-                case 2: {
-                        message.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.decode(reader, reader.uint32());
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        message.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.connectedMessage);
+                        message.message = "connectedMessage";
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.disconnectedMessage);
+                        message.message = "disconnectedMessage";
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
+            if (length !== $undefined) {
+                if (reader.pos !== end)
+                    throw $RangeError("index out of range");
+                reader.len = length;
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
 
@@ -3002,14 +3806,14 @@ $root.DownstreamMessage = (function() {
          * @memberof DownstreamMessage.SystemMessage
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {DownstreamMessage.SystemMessage} SystemMessage
+         * @returns {DownstreamMessage.SystemMessage & DownstreamMessage.SystemMessage.$Shape} SystemMessage
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        SystemMessage.decodeDelimited = function decodeDelimited(reader) {
+        SystemMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -3020,24 +3824,28 @@ $root.DownstreamMessage = (function() {
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        SystemMessage.verify = function verify(message) {
+        SystemMessage.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
             var properties = {};
-            if (message.connectedMessage != null && message.hasOwnProperty("connectedMessage")) {
+            if (message.connectedMessage != null && $Object.hasOwnProperty.call(message, "connectedMessage")) {
                 properties.message = 1;
                 {
-                    var error = $root.DownstreamMessage.SystemMessage.ConnectedMessage.verify(message.connectedMessage);
+                    var error = $root.DownstreamMessage.SystemMessage.ConnectedMessage.verify(message.connectedMessage, _depth + 1);
                     if (error)
                         return "connectedMessage." + error;
                 }
             }
-            if (message.disconnectedMessage != null && message.hasOwnProperty("disconnectedMessage")) {
+            if (message.disconnectedMessage != null && $Object.hasOwnProperty.call(message, "disconnectedMessage")) {
                 if (properties.message === 1)
                     return "message: multiple values";
                 properties.message = 1;
                 {
-                    var error = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.verify(message.disconnectedMessage);
+                    var error = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.verify(message.disconnectedMessage, _depth + 1);
                     if (error)
                         return "disconnectedMessage." + error;
                 }
@@ -3053,19 +3861,25 @@ $root.DownstreamMessage = (function() {
          * @param {Object.<string,*>} object Plain object
          * @returns {DownstreamMessage.SystemMessage} SystemMessage
          */
-        SystemMessage.fromObject = function fromObject(object) {
+        SystemMessage.fromObject = function (object, _depth) {
             if (object instanceof $root.DownstreamMessage.SystemMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".DownstreamMessage.SystemMessage: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.DownstreamMessage.SystemMessage();
             if (object.connectedMessage != null) {
-                if (typeof object.connectedMessage !== "object")
-                    throw TypeError(".DownstreamMessage.SystemMessage.connectedMessage: object expected");
-                message.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.fromObject(object.connectedMessage);
+                if (!$util.isObject(object.connectedMessage))
+                    throw $TypeError(".DownstreamMessage.SystemMessage.connectedMessage: object expected");
+                message.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.fromObject(object.connectedMessage, _depth + 1);
             }
             if (object.disconnectedMessage != null) {
-                if (typeof object.disconnectedMessage !== "object")
-                    throw TypeError(".DownstreamMessage.SystemMessage.disconnectedMessage: object expected");
-                message.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.fromObject(object.disconnectedMessage);
+                if (!$util.isObject(object.disconnectedMessage))
+                    throw $TypeError(".DownstreamMessage.SystemMessage.disconnectedMessage: object expected");
+                message.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.fromObject(object.disconnectedMessage, _depth + 1);
             }
             return message;
         };
@@ -3079,17 +3893,21 @@ $root.DownstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        SystemMessage.toObject = function toObject(message, options) {
+        SystemMessage.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
-            if (message.connectedMessage != null && message.hasOwnProperty("connectedMessage")) {
-                object.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.toObject(message.connectedMessage, options);
+            if (message.connectedMessage != null && $Object.hasOwnProperty.call(message, "connectedMessage")) {
+                object.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.toObject(message.connectedMessage, options, _depth + 1);
                 if (options.oneofs)
                     object.message = "connectedMessage";
             }
-            if (message.disconnectedMessage != null && message.hasOwnProperty("disconnectedMessage")) {
-                object.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.toObject(message.disconnectedMessage, options);
+            if (message.disconnectedMessage != null && $Object.hasOwnProperty.call(message, "disconnectedMessage")) {
+                object.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.toObject(message.disconnectedMessage, options, _depth + 1);
                 if (options.oneofs)
                     object.message = "disconnectedMessage";
             }
@@ -3103,50 +3921,62 @@ $root.DownstreamMessage = (function() {
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        SystemMessage.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        SystemMessage.prototype.toJSON = function() {
+            return SystemMessage.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for SystemMessage
+         * Gets the type url for SystemMessage
          * @function getTypeUrl
          * @memberof DownstreamMessage.SystemMessage
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        SystemMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/DownstreamMessage.SystemMessage";
+        SystemMessage.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/DownstreamMessage.SystemMessage";
         };
 
         SystemMessage.ConnectedMessage = (function() {
 
             /**
              * Properties of a ConnectedMessage.
-             * @memberof DownstreamMessage.SystemMessage
-             * @interface IConnectedMessage
+             * @typedef {Object} DownstreamMessage.SystemMessage.ConnectedMessage.$Properties
              * @property {string|null} [connectionId] ConnectedMessage connectionId
              * @property {string|null} [userId] ConnectedMessage userId
              * @property {string|null} [reconnectionToken] ConnectedMessage reconnectionToken
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a ConnectedMessage.
+             * @memberof DownstreamMessage.SystemMessage
+             * @interface IConnectedMessage
+             * @augments DownstreamMessage.SystemMessage.ConnectedMessage.$Properties
+             * @deprecated Use DownstreamMessage.SystemMessage.ConnectedMessage.$Properties instead.
+             */
+
+            /**
+             * Shape of a ConnectedMessage.
+             * @typedef {DownstreamMessage.SystemMessage.ConnectedMessage.$Properties} DownstreamMessage.SystemMessage.ConnectedMessage.$Shape
              */
 
             /**
              * Constructs a new ConnectedMessage.
              * @memberof DownstreamMessage.SystemMessage
              * @classdesc Represents a ConnectedMessage.
-             * @implements IConnectedMessage
              * @constructor
-             * @param {DownstreamMessage.SystemMessage.IConnectedMessage=} [properties] Properties to set
+             * @param {DownstreamMessage.SystemMessage.ConnectedMessage.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function ConnectedMessage(properties) {
+            var ConnectedMessage = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * ConnectedMessage connectionId.
@@ -3177,10 +4007,14 @@ $root.DownstreamMessage = (function() {
              * @function create
              * @memberof DownstreamMessage.SystemMessage.ConnectedMessage
              * @static
-             * @param {DownstreamMessage.SystemMessage.IConnectedMessage=} [properties] Properties to set
+             * @param {DownstreamMessage.SystemMessage.ConnectedMessage.$Properties=} [properties] Properties to set
              * @returns {DownstreamMessage.SystemMessage.ConnectedMessage} ConnectedMessage instance
+             * @type {{
+             *   (properties: DownstreamMessage.SystemMessage.ConnectedMessage.$Shape): DownstreamMessage.SystemMessage.ConnectedMessage & DownstreamMessage.SystemMessage.ConnectedMessage.$Shape;
+             *   (properties?: DownstreamMessage.SystemMessage.ConnectedMessage.$Properties): DownstreamMessage.SystemMessage.ConnectedMessage;
+             * }}
              */
-            ConnectedMessage.create = function create(properties) {
+            ConnectedMessage.create = function(properties) {
                 return new ConnectedMessage(properties);
             };
 
@@ -3189,19 +4023,26 @@ $root.DownstreamMessage = (function() {
              * @function encode
              * @memberof DownstreamMessage.SystemMessage.ConnectedMessage
              * @static
-             * @param {DownstreamMessage.SystemMessage.IConnectedMessage} message ConnectedMessage message or plain object to encode
+             * @param {DownstreamMessage.SystemMessage.ConnectedMessage.$Properties} message ConnectedMessage message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ConnectedMessage.encode = function encode(message, writer) {
+            ConnectedMessage.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.connectionId != null && Object.hasOwnProperty.call(message, "connectionId"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.connectionId != null && $Object.hasOwnProperty.call(message, "connectionId") && message.connectionId !== "")
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.connectionId);
-                if (message.userId != null && Object.hasOwnProperty.call(message, "userId"))
+                if (message.userId != null && $Object.hasOwnProperty.call(message, "userId") && message.userId !== "")
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.userId);
-                if (message.reconnectionToken != null && Object.hasOwnProperty.call(message, "reconnectionToken"))
+                if (message.reconnectionToken != null && $Object.hasOwnProperty.call(message, "reconnectionToken") && message.reconnectionToken !== "")
                     writer.uint32(/* id 3, wireType 2 =*/26).string(message.reconnectionToken);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
 
@@ -3210,12 +4051,12 @@ $root.DownstreamMessage = (function() {
              * @function encodeDelimited
              * @memberof DownstreamMessage.SystemMessage.ConnectedMessage
              * @static
-             * @param {DownstreamMessage.SystemMessage.IConnectedMessage} message ConnectedMessage message or plain object to encode
+             * @param {DownstreamMessage.SystemMessage.ConnectedMessage.$Properties} message ConnectedMessage message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ConnectedMessage.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+            ConnectedMessage.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -3225,36 +4066,78 @@ $root.DownstreamMessage = (function() {
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {DownstreamMessage.SystemMessage.ConnectedMessage} ConnectedMessage
+             * @returns {DownstreamMessage.SystemMessage.ConnectedMessage & DownstreamMessage.SystemMessage.ConnectedMessage.$Shape} ConnectedMessage
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ConnectedMessage.decode = function decode(reader, length, error) {
+            ConnectedMessage.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage.ConnectedMessage();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                var end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.DownstreamMessage.SystemMessage.ConnectedMessage();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.connectionId = reader.string();
-                            break;
-                        }
-                    case 2: {
-                            message.userId = reader.string();
-                            break;
-                        }
-                    case 3: {
-                            message.reconnectionToken = reader.string();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.stringVerify()).length)
+                                message.connectionId = value;
+                            else
+                                delete message.connectionId;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.stringVerify()).length)
+                                message.userId = value;
+                            else
+                                delete message.userId;
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.stringVerify()).length)
+                                message.reconnectionToken = value;
+                            else
+                                delete message.reconnectionToken;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -3264,14 +4147,14 @@ $root.DownstreamMessage = (function() {
              * @memberof DownstreamMessage.SystemMessage.ConnectedMessage
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {DownstreamMessage.SystemMessage.ConnectedMessage} ConnectedMessage
+             * @returns {DownstreamMessage.SystemMessage.ConnectedMessage & DownstreamMessage.SystemMessage.ConnectedMessage.$Shape} ConnectedMessage
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ConnectedMessage.decodeDelimited = function decodeDelimited(reader) {
+            ConnectedMessage.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
 
             /**
@@ -3282,16 +4165,20 @@ $root.DownstreamMessage = (function() {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            ConnectedMessage.verify = function verify(message) {
+            ConnectedMessage.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.connectionId != null && message.hasOwnProperty("connectionId"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.connectionId != null && $Object.hasOwnProperty.call(message, "connectionId"))
                     if (!$util.isString(message.connectionId))
                         return "connectionId: string expected";
-                if (message.userId != null && message.hasOwnProperty("userId"))
+                if (message.userId != null && $Object.hasOwnProperty.call(message, "userId"))
                     if (!$util.isString(message.userId))
                         return "userId: string expected";
-                if (message.reconnectionToken != null && message.hasOwnProperty("reconnectionToken"))
+                if (message.reconnectionToken != null && $Object.hasOwnProperty.call(message, "reconnectionToken"))
                     if (!$util.isString(message.reconnectionToken))
                         return "reconnectionToken: string expected";
                 return null;
@@ -3305,16 +4192,25 @@ $root.DownstreamMessage = (function() {
              * @param {Object.<string,*>} object Plain object
              * @returns {DownstreamMessage.SystemMessage.ConnectedMessage} ConnectedMessage
              */
-            ConnectedMessage.fromObject = function fromObject(object) {
+            ConnectedMessage.fromObject = function (object, _depth) {
                 if (object instanceof $root.DownstreamMessage.SystemMessage.ConnectedMessage)
                     return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".DownstreamMessage.SystemMessage.ConnectedMessage: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.DownstreamMessage.SystemMessage.ConnectedMessage();
                 if (object.connectionId != null)
-                    message.connectionId = String(object.connectionId);
+                    if (typeof object.connectionId !== "string" || object.connectionId.length)
+                        message.connectionId = $String(object.connectionId);
                 if (object.userId != null)
-                    message.userId = String(object.userId);
+                    if (typeof object.userId !== "string" || object.userId.length)
+                        message.userId = $String(object.userId);
                 if (object.reconnectionToken != null)
-                    message.reconnectionToken = String(object.reconnectionToken);
+                    if (typeof object.reconnectionToken !== "string" || object.reconnectionToken.length)
+                        message.reconnectionToken = $String(object.reconnectionToken);
                 return message;
             };
 
@@ -3327,20 +4223,24 @@ $root.DownstreamMessage = (function() {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ConnectedMessage.toObject = function toObject(message, options) {
+            ConnectedMessage.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.connectionId = "";
                     object.userId = "";
                     object.reconnectionToken = "";
                 }
-                if (message.connectionId != null && message.hasOwnProperty("connectionId"))
+                if (message.connectionId != null && $Object.hasOwnProperty.call(message, "connectionId"))
                     object.connectionId = message.connectionId;
-                if (message.userId != null && message.hasOwnProperty("userId"))
+                if (message.userId != null && $Object.hasOwnProperty.call(message, "userId"))
                     object.userId = message.userId;
-                if (message.reconnectionToken != null && message.hasOwnProperty("reconnectionToken"))
+                if (message.reconnectionToken != null && $Object.hasOwnProperty.call(message, "reconnectionToken"))
                     object.reconnectionToken = message.reconnectionToken;
                 return object;
             };
@@ -3352,23 +4252,22 @@ $root.DownstreamMessage = (function() {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            ConnectedMessage.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            ConnectedMessage.prototype.toJSON = function() {
+                return ConnectedMessage.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
-             * Gets the default type url for ConnectedMessage
+             * Gets the type url for ConnectedMessage
              * @function getTypeUrl
              * @memberof DownstreamMessage.SystemMessage.ConnectedMessage
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            ConnectedMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/DownstreamMessage.SystemMessage.ConnectedMessage";
+            ConnectedMessage.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/DownstreamMessage.SystemMessage.ConnectedMessage";
             };
 
             return ConnectedMessage;
@@ -3378,25 +4277,38 @@ $root.DownstreamMessage = (function() {
 
             /**
              * Properties of a DisconnectedMessage.
+             * @typedef {Object} DownstreamMessage.SystemMessage.DisconnectedMessage.$Properties
+             * @property {string|null} [reason] DisconnectedMessage reason
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a DisconnectedMessage.
              * @memberof DownstreamMessage.SystemMessage
              * @interface IDisconnectedMessage
-             * @property {string|null} [reason] DisconnectedMessage reason
+             * @augments DownstreamMessage.SystemMessage.DisconnectedMessage.$Properties
+             * @deprecated Use DownstreamMessage.SystemMessage.DisconnectedMessage.$Properties instead.
+             */
+
+            /**
+             * Shape of a DisconnectedMessage.
+             * @typedef {DownstreamMessage.SystemMessage.DisconnectedMessage.$Properties} DownstreamMessage.SystemMessage.DisconnectedMessage.$Shape
              */
 
             /**
              * Constructs a new DisconnectedMessage.
              * @memberof DownstreamMessage.SystemMessage
              * @classdesc Represents a DisconnectedMessage.
-             * @implements IDisconnectedMessage
              * @constructor
-             * @param {DownstreamMessage.SystemMessage.IDisconnectedMessage=} [properties] Properties to set
+             * @param {DownstreamMessage.SystemMessage.DisconnectedMessage.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function DisconnectedMessage(properties) {
+            var DisconnectedMessage = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * DisconnectedMessage reason.
@@ -3411,10 +4323,14 @@ $root.DownstreamMessage = (function() {
              * @function create
              * @memberof DownstreamMessage.SystemMessage.DisconnectedMessage
              * @static
-             * @param {DownstreamMessage.SystemMessage.IDisconnectedMessage=} [properties] Properties to set
+             * @param {DownstreamMessage.SystemMessage.DisconnectedMessage.$Properties=} [properties] Properties to set
              * @returns {DownstreamMessage.SystemMessage.DisconnectedMessage} DisconnectedMessage instance
+             * @type {{
+             *   (properties: DownstreamMessage.SystemMessage.DisconnectedMessage.$Shape): DownstreamMessage.SystemMessage.DisconnectedMessage & DownstreamMessage.SystemMessage.DisconnectedMessage.$Shape;
+             *   (properties?: DownstreamMessage.SystemMessage.DisconnectedMessage.$Properties): DownstreamMessage.SystemMessage.DisconnectedMessage;
+             * }}
              */
-            DisconnectedMessage.create = function create(properties) {
+            DisconnectedMessage.create = function(properties) {
                 return new DisconnectedMessage(properties);
             };
 
@@ -3423,15 +4339,22 @@ $root.DownstreamMessage = (function() {
              * @function encode
              * @memberof DownstreamMessage.SystemMessage.DisconnectedMessage
              * @static
-             * @param {DownstreamMessage.SystemMessage.IDisconnectedMessage} message DisconnectedMessage message or plain object to encode
+             * @param {DownstreamMessage.SystemMessage.DisconnectedMessage.$Properties} message DisconnectedMessage message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            DisconnectedMessage.encode = function encode(message, writer) {
+            DisconnectedMessage.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.reason != null && Object.hasOwnProperty.call(message, "reason"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.reason != null && $Object.hasOwnProperty.call(message, "reason") && message.reason !== "")
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.reason);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
 
@@ -3440,12 +4363,12 @@ $root.DownstreamMessage = (function() {
              * @function encodeDelimited
              * @memberof DownstreamMessage.SystemMessage.DisconnectedMessage
              * @static
-             * @param {DownstreamMessage.SystemMessage.IDisconnectedMessage} message DisconnectedMessage message or plain object to encode
+             * @param {DownstreamMessage.SystemMessage.DisconnectedMessage.$Properties} message DisconnectedMessage message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            DisconnectedMessage.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+            DisconnectedMessage.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -3455,28 +4378,60 @@ $root.DownstreamMessage = (function() {
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {DownstreamMessage.SystemMessage.DisconnectedMessage} DisconnectedMessage
+             * @returns {DownstreamMessage.SystemMessage.DisconnectedMessage & DownstreamMessage.SystemMessage.DisconnectedMessage.$Shape} DisconnectedMessage
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            DisconnectedMessage.decode = function decode(reader, length, error) {
+            DisconnectedMessage.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage.DisconnectedMessage();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                var end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.DownstreamMessage.SystemMessage.DisconnectedMessage();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 2: {
-                            message.reason = reader.string();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.stringVerify()).length)
+                                message.reason = value;
+                            else
+                                delete message.reason;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -3486,14 +4441,14 @@ $root.DownstreamMessage = (function() {
              * @memberof DownstreamMessage.SystemMessage.DisconnectedMessage
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {DownstreamMessage.SystemMessage.DisconnectedMessage} DisconnectedMessage
+             * @returns {DownstreamMessage.SystemMessage.DisconnectedMessage & DownstreamMessage.SystemMessage.DisconnectedMessage.$Shape} DisconnectedMessage
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            DisconnectedMessage.decodeDelimited = function decodeDelimited(reader) {
+            DisconnectedMessage.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
 
             /**
@@ -3504,10 +4459,14 @@ $root.DownstreamMessage = (function() {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            DisconnectedMessage.verify = function verify(message) {
+            DisconnectedMessage.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.reason != null && message.hasOwnProperty("reason"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.reason != null && $Object.hasOwnProperty.call(message, "reason"))
                     if (!$util.isString(message.reason))
                         return "reason: string expected";
                 return null;
@@ -3521,12 +4480,19 @@ $root.DownstreamMessage = (function() {
              * @param {Object.<string,*>} object Plain object
              * @returns {DownstreamMessage.SystemMessage.DisconnectedMessage} DisconnectedMessage
              */
-            DisconnectedMessage.fromObject = function fromObject(object) {
+            DisconnectedMessage.fromObject = function (object, _depth) {
                 if (object instanceof $root.DownstreamMessage.SystemMessage.DisconnectedMessage)
                     return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".DownstreamMessage.SystemMessage.DisconnectedMessage: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.DownstreamMessage.SystemMessage.DisconnectedMessage();
                 if (object.reason != null)
-                    message.reason = String(object.reason);
+                    if (typeof object.reason !== "string" || object.reason.length)
+                        message.reason = $String(object.reason);
                 return message;
             };
 
@@ -3539,13 +4505,17 @@ $root.DownstreamMessage = (function() {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            DisconnectedMessage.toObject = function toObject(message, options) {
+            DisconnectedMessage.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults)
                     object.reason = "";
-                if (message.reason != null && message.hasOwnProperty("reason"))
+                if (message.reason != null && $Object.hasOwnProperty.call(message, "reason"))
                     object.reason = message.reason;
                 return object;
             };
@@ -3557,23 +4527,22 @@ $root.DownstreamMessage = (function() {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            DisconnectedMessage.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            DisconnectedMessage.prototype.toJSON = function() {
+                return DisconnectedMessage.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
-             * Gets the default type url for DisconnectedMessage
+             * Gets the type url for DisconnectedMessage
              * @function getTypeUrl
              * @memberof DownstreamMessage.SystemMessage.DisconnectedMessage
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            DisconnectedMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/DownstreamMessage.SystemMessage.DisconnectedMessage";
+            DisconnectedMessage.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/DownstreamMessage.SystemMessage.DisconnectedMessage";
             };
 
             return DisconnectedMessage;
@@ -3589,28 +4558,50 @@ $root.MessageData = (function() {
 
     /**
      * Properties of a MessageData.
-     * @exports IMessageData
-     * @interface IMessageData
+     * @typedef {Object} MessageData.$Properties
      * @property {string|null} [textData] MessageData textData
      * @property {Uint8Array|null} [binaryData] MessageData binaryData
-     * @property {google.protobuf.IAny|null} [protobufData] MessageData protobufData
+     * @property {google.protobuf.Any.$Properties|null} [protobufData] MessageData protobufData
      * @property {string|null} [jsonData] MessageData jsonData
+     * @property {"textData"|"binaryData"|"protobufData"|"jsonData"} [data] MessageData data
+     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+     */
+
+    /**
+     * Properties of a MessageData.
+     * @exports IMessageData
+     * @interface IMessageData
+     * @augments MessageData.$Properties
+     * @deprecated Use MessageData.$Properties instead.
+     */
+
+    /**
+     * Narrowed shape of a MessageData.
+     * @typedef {{
+     *   textData?: string|null;
+     *   binaryData?: Uint8Array|null;
+     *   protobufData?: google.protobuf.Any.$Shape|null;
+     *   jsonData?: string|null;
+     *   $unknowns?: Array.<Uint8Array>;
+     * } & (
+     *   ({ data?: undefined; textData?: null; binaryData?: null; protobufData?: null; jsonData?: null }|{ data?: "textData"; textData: string; binaryData?: null; protobufData?: null; jsonData?: null }|{ data?: "binaryData"; textData?: null; binaryData: Uint8Array; protobufData?: null; jsonData?: null }|{ data?: "protobufData"; textData?: null; binaryData?: null; protobufData: google.protobuf.Any.$Shape; jsonData?: null }|{ data?: "jsonData"; textData?: null; binaryData?: null; protobufData?: null; jsonData: string })
+     * )} MessageData.$Shape
      */
 
     /**
      * Constructs a new MessageData.
      * @exports MessageData
      * @classdesc Represents a MessageData.
-     * @implements IMessageData
      * @constructor
-     * @param {IMessageData=} [properties] Properties to set
+     * @param {MessageData.$Properties=} [properties] Properties to set
+     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
      */
-    function MessageData(properties) {
+    var MessageData = function (properties) {
         if (properties)
-            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                if (properties[keys[i]] != null)
+            for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null && keys[i] !== "__proto__")
                     this[keys[i]] = properties[keys[i]];
-    }
+    };
 
     /**
      * MessageData textData.
@@ -3630,7 +4621,7 @@ $root.MessageData = (function() {
 
     /**
      * MessageData protobufData.
-     * @member {google.protobuf.IAny|null|undefined} protobufData
+     * @member {google.protobuf.Any.$Properties|null|undefined} protobufData
      * @memberof MessageData
      * @instance
      */
@@ -3653,7 +4644,7 @@ $root.MessageData = (function() {
      * @memberof MessageData
      * @instance
      */
-    Object.defineProperty(MessageData.prototype, "data", {
+    $Object.defineProperty(MessageData.prototype, "data", {
         get: $util.oneOfGetter($oneOfFields = ["textData", "binaryData", "protobufData", "jsonData"]),
         set: $util.oneOfSetter($oneOfFields)
     });
@@ -3663,10 +4654,14 @@ $root.MessageData = (function() {
      * @function create
      * @memberof MessageData
      * @static
-     * @param {IMessageData=} [properties] Properties to set
+     * @param {MessageData.$Properties=} [properties] Properties to set
      * @returns {MessageData} MessageData instance
+     * @type {{
+     *   (properties: MessageData.$Shape): MessageData & MessageData.$Shape;
+     *   (properties?: MessageData.$Properties): MessageData;
+     * }}
      */
-    MessageData.create = function create(properties) {
+    MessageData.create = function(properties) {
         return new MessageData(properties);
     };
 
@@ -3675,21 +4670,28 @@ $root.MessageData = (function() {
      * @function encode
      * @memberof MessageData
      * @static
-     * @param {IMessageData} message MessageData message or plain object to encode
+     * @param {MessageData.$Properties} message MessageData message or plain object to encode
      * @param {$protobuf.Writer} [writer] Writer to encode to
      * @returns {$protobuf.Writer} Writer
      */
-    MessageData.encode = function encode(message, writer) {
+    MessageData.encode = function (message, writer, _depth) {
         if (!writer)
             writer = $Writer.create();
-        if (message.textData != null && Object.hasOwnProperty.call(message, "textData"))
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $util.recursionLimit)
+            throw $Error("max depth exceeded");
+        if (message.textData != null && $Object.hasOwnProperty.call(message, "textData"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.textData);
-        if (message.binaryData != null && Object.hasOwnProperty.call(message, "binaryData"))
+        if (message.binaryData != null && $Object.hasOwnProperty.call(message, "binaryData"))
             writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.binaryData);
-        if (message.protobufData != null && Object.hasOwnProperty.call(message, "protobufData"))
-            $root.google.protobuf.Any.encode(message.protobufData, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-        if (message.jsonData != null && Object.hasOwnProperty.call(message, "jsonData"))
+        if (message.protobufData != null && $Object.hasOwnProperty.call(message, "protobufData"))
+            $root.google.protobuf.Any.encode(message.protobufData, writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
+        if (message.jsonData != null && $Object.hasOwnProperty.call(message, "jsonData"))
             writer.uint32(/* id 4, wireType 2 =*/34).string(message.jsonData);
+        if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+            for (var i = 0; i < message.$unknowns.length; ++i)
+                writer.raw(message.$unknowns[i]);
         return writer;
     };
 
@@ -3698,12 +4700,12 @@ $root.MessageData = (function() {
      * @function encodeDelimited
      * @memberof MessageData
      * @static
-     * @param {IMessageData} message MessageData message or plain object to encode
+     * @param {MessageData.$Properties} message MessageData message or plain object to encode
      * @param {$protobuf.Writer} [writer] Writer to encode to
      * @returns {$protobuf.Writer} Writer
      */
-    MessageData.encodeDelimited = function encodeDelimited(message, writer) {
-        return this.encode(message, writer).ldelim();
+    MessageData.encodeDelimited = function(message, writer) {
+        return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
     };
 
     /**
@@ -3713,40 +4715,79 @@ $root.MessageData = (function() {
      * @static
      * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
      * @param {number} [length] Message length if known beforehand
-     * @returns {MessageData} MessageData
+     * @returns {MessageData & MessageData.$Shape} MessageData
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    MessageData.decode = function decode(reader, length, error) {
+    MessageData.decode = function (reader, length, _end, _depth, _target) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.MessageData();
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $Reader.recursionLimit)
+            throw $Error("max depth exceeded");
+        var end, message;
+        if (length === $undefined)
+            end = reader.len;
+        else {
+            end = reader.pos + length;
+            if (end > reader.len)
+                throw $RangeError("index out of range");
+            length = reader.len;
+            reader.len = end;
+        }
+        message = _target || new $root.MessageData();
         while (reader.pos < end) {
-            var tag = reader.uint32();
-            if (tag === error)
-                break;
-            switch (tag >>> 3) {
-            case 1: {
-                    message.textData = reader.string();
-                    break;
-                }
-            case 2: {
-                    message.binaryData = reader.bytes();
-                    break;
-                }
-            case 3: {
-                    message.protobufData = $root.google.protobuf.Any.decode(reader, reader.uint32());
-                    break;
-                }
-            case 4: {
-                    message.jsonData = reader.string();
-                    break;
-                }
-            default:
-                reader.skipType(tag & 7);
+            var start = reader.pos;
+            var tag = reader.tag();
+            if (tag === _end) {
+                _end = $undefined;
                 break;
             }
+            var wireType = tag & 7;
+            switch (tag >>>= 3) {
+            case 1: {
+                    if (wireType !== 2)
+                        break;
+                    message.textData = reader.stringVerify();
+                    message.data = "textData";
+                    continue;
+                }
+            case 2: {
+                    if (wireType !== 2)
+                        break;
+                    message.binaryData = reader.bytes();
+                    message.data = "binaryData";
+                    continue;
+                }
+            case 3: {
+                    if (wireType !== 2)
+                        break;
+                    message.protobufData = $root.google.protobuf.Any.decode(reader, reader.size(), $undefined, _depth + 1, message.protobufData);
+                    message.data = "protobufData";
+                    continue;
+                }
+            case 4: {
+                    if (wireType !== 2)
+                        break;
+                    message.jsonData = reader.stringVerify();
+                    message.data = "jsonData";
+                    continue;
+                }
+            }
+            reader.skipType(wireType, _depth, tag);
+            if (!reader.discardUnknown) {
+                $util.makeProp(message, "$unknowns", false);
+                (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+            }
         }
+        if (length !== $undefined) {
+            if (reader.pos !== end)
+                throw $RangeError("index out of range");
+            reader.len = length;
+        }
+        if (_end !== $undefined)
+            throw $Error("missing end group");
         return message;
     };
 
@@ -3756,14 +4797,14 @@ $root.MessageData = (function() {
      * @memberof MessageData
      * @static
      * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @returns {MessageData} MessageData
+     * @returns {MessageData & MessageData.$Shape} MessageData
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    MessageData.decodeDelimited = function decodeDelimited(reader) {
+    MessageData.decodeDelimited = function(reader) {
         if (!(reader instanceof $Reader))
             reader = new $Reader(reader);
-        return this.decode(reader, reader.uint32());
+        return this.decode(reader, reader.size());
     };
 
     /**
@@ -3774,33 +4815,37 @@ $root.MessageData = (function() {
      * @param {Object.<string,*>} message Plain object to verify
      * @returns {string|null} `null` if valid, otherwise the reason why it is not
      */
-    MessageData.verify = function verify(message) {
+    MessageData.verify = function (message, _depth) {
         if (typeof message !== "object" || message === null)
             return "object expected";
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $util.recursionLimit)
+            return "max depth exceeded";
         var properties = {};
-        if (message.textData != null && message.hasOwnProperty("textData")) {
+        if (message.textData != null && $Object.hasOwnProperty.call(message, "textData")) {
             properties.data = 1;
             if (!$util.isString(message.textData))
                 return "textData: string expected";
         }
-        if (message.binaryData != null && message.hasOwnProperty("binaryData")) {
+        if (message.binaryData != null && $Object.hasOwnProperty.call(message, "binaryData")) {
             if (properties.data === 1)
                 return "data: multiple values";
             properties.data = 1;
             if (!(message.binaryData && typeof message.binaryData.length === "number" || $util.isString(message.binaryData)))
                 return "binaryData: buffer expected";
         }
-        if (message.protobufData != null && message.hasOwnProperty("protobufData")) {
+        if (message.protobufData != null && $Object.hasOwnProperty.call(message, "protobufData")) {
             if (properties.data === 1)
                 return "data: multiple values";
             properties.data = 1;
             {
-                var error = $root.google.protobuf.Any.verify(message.protobufData);
+                var error = $root.google.protobuf.Any.verify(message.protobufData, _depth + 1);
                 if (error)
                     return "protobufData." + error;
             }
         }
-        if (message.jsonData != null && message.hasOwnProperty("jsonData")) {
+        if (message.jsonData != null && $Object.hasOwnProperty.call(message, "jsonData")) {
             if (properties.data === 1)
                 return "data: multiple values";
             properties.data = 1;
@@ -3818,24 +4863,30 @@ $root.MessageData = (function() {
      * @param {Object.<string,*>} object Plain object
      * @returns {MessageData} MessageData
      */
-    MessageData.fromObject = function fromObject(object) {
+    MessageData.fromObject = function (object, _depth) {
         if (object instanceof $root.MessageData)
             return object;
+        if (!$util.isObject(object))
+            throw $TypeError(".MessageData: object expected");
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $util.recursionLimit)
+            throw $Error("max depth exceeded");
         var message = new $root.MessageData();
         if (object.textData != null)
-            message.textData = String(object.textData);
+            message.textData = $String(object.textData);
         if (object.binaryData != null)
             if (typeof object.binaryData === "string")
                 $util.base64.decode(object.binaryData, message.binaryData = $util.newBuffer($util.base64.length(object.binaryData)), 0);
             else if (object.binaryData.length >= 0)
                 message.binaryData = object.binaryData;
         if (object.protobufData != null) {
-            if (typeof object.protobufData !== "object")
-                throw TypeError(".MessageData.protobufData: object expected");
-            message.protobufData = $root.google.protobuf.Any.fromObject(object.protobufData);
+            if (!$util.isObject(object.protobufData))
+                throw $TypeError(".MessageData.protobufData: object expected");
+            message.protobufData = $root.google.protobuf.Any.fromObject(object.protobufData, _depth + 1);
         }
         if (object.jsonData != null)
-            message.jsonData = String(object.jsonData);
+            message.jsonData = $String(object.jsonData);
         return message;
     };
 
@@ -3848,26 +4899,30 @@ $root.MessageData = (function() {
      * @param {$protobuf.IConversionOptions} [options] Conversion options
      * @returns {Object.<string,*>} Plain object
      */
-    MessageData.toObject = function toObject(message, options) {
+    MessageData.toObject = function (message, options, _depth) {
         if (!options)
             options = {};
+        if (_depth === $undefined)
+            _depth = 0;
+        if (_depth > $util.recursionLimit)
+            throw $Error("max depth exceeded");
         var object = {};
-        if (message.textData != null && message.hasOwnProperty("textData")) {
+        if (message.textData != null && $Object.hasOwnProperty.call(message, "textData")) {
             object.textData = message.textData;
             if (options.oneofs)
                 object.data = "textData";
         }
-        if (message.binaryData != null && message.hasOwnProperty("binaryData")) {
-            object.binaryData = options.bytes === String ? $util.base64.encode(message.binaryData, 0, message.binaryData.length) : options.bytes === Array ? Array.prototype.slice.call(message.binaryData) : message.binaryData;
+        if (message.binaryData != null && $Object.hasOwnProperty.call(message, "binaryData")) {
+            object.binaryData = options.bytes === $String ? $util.base64.encode(message.binaryData, 0, message.binaryData.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.binaryData) : message.binaryData;
             if (options.oneofs)
                 object.data = "binaryData";
         }
-        if (message.protobufData != null && message.hasOwnProperty("protobufData")) {
-            object.protobufData = $root.google.protobuf.Any.toObject(message.protobufData, options);
+        if (message.protobufData != null && $Object.hasOwnProperty.call(message, "protobufData")) {
+            object.protobufData = $root.google.protobuf.Any.toObject(message.protobufData, options, _depth + 1);
             if (options.oneofs)
                 object.data = "protobufData";
         }
-        if (message.jsonData != null && message.hasOwnProperty("jsonData")) {
+        if (message.jsonData != null && $Object.hasOwnProperty.call(message, "jsonData")) {
             object.jsonData = message.jsonData;
             if (options.oneofs)
                 object.data = "jsonData";
@@ -3882,23 +4937,22 @@ $root.MessageData = (function() {
      * @instance
      * @returns {Object.<string,*>} JSON object
      */
-    MessageData.prototype.toJSON = function toJSON() {
-        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    MessageData.prototype.toJSON = function() {
+        return MessageData.toObject(this, $protobuf.util.toJSONOptions);
     };
 
     /**
-     * Gets the default type url for MessageData
+     * Gets the type url for MessageData
      * @function getTypeUrl
      * @memberof MessageData
      * @static
-     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-     * @returns {string} The default type url
+     * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+     * @returns {string} The type url
      */
-    MessageData.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-        if (typeUrlPrefix === undefined) {
-            typeUrlPrefix = "type.googleapis.com";
-        }
-        return typeUrlPrefix + "/MessageData";
+    MessageData.getTypeUrl = function(prefix) {
+        if (prefix === $undefined)
+            prefix = "type.googleapis.com";
+        return prefix + "/MessageData";
     };
 
     return MessageData;
@@ -3926,26 +4980,39 @@ $root.google = (function() {
 
             /**
              * Properties of an Any.
-             * @memberof google.protobuf
-             * @interface IAny
+             * @typedef {Object} google.protobuf.Any.$Properties
              * @property {string|null} [type_url] Any type_url
              * @property {Uint8Array|null} [value] Any value
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of an Any.
+             * @memberof google.protobuf
+             * @interface IAny
+             * @augments google.protobuf.Any.$Properties
+             * @deprecated Use google.protobuf.Any.$Properties instead.
+             */
+
+            /**
+             * Shape of an Any.
+             * @typedef {google.protobuf.Any.$Properties} google.protobuf.Any.$Shape
              */
 
             /**
              * Constructs a new Any.
              * @memberof google.protobuf
              * @classdesc Represents an Any.
-             * @implements IAny
              * @constructor
-             * @param {google.protobuf.IAny=} [properties] Properties to set
+             * @param {google.protobuf.Any.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Any(properties) {
+            var Any = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * Any type_url.
@@ -3968,10 +5035,14 @@ $root.google = (function() {
              * @function create
              * @memberof google.protobuf.Any
              * @static
-             * @param {google.protobuf.IAny=} [properties] Properties to set
+             * @param {google.protobuf.Any.$Properties=} [properties] Properties to set
              * @returns {google.protobuf.Any} Any instance
+             * @type {{
+             *   (properties: google.protobuf.Any.$Shape): google.protobuf.Any & google.protobuf.Any.$Shape;
+             *   (properties?: google.protobuf.Any.$Properties): google.protobuf.Any;
+             * }}
              */
-            Any.create = function create(properties) {
+            Any.create = function(properties) {
                 return new Any(properties);
             };
 
@@ -3980,17 +5051,24 @@ $root.google = (function() {
              * @function encode
              * @memberof google.protobuf.Any
              * @static
-             * @param {google.protobuf.IAny} message Any message or plain object to encode
+             * @param {google.protobuf.Any.$Properties} message Any message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Any.encode = function encode(message, writer) {
+            Any.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.type_url != null && Object.hasOwnProperty.call(message, "type_url"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.type_url != null && $Object.hasOwnProperty.call(message, "type_url") && message.type_url !== "")
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.type_url);
-                if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value") && message.value.length)
                     writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.value);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
 
@@ -3999,12 +5077,12 @@ $root.google = (function() {
              * @function encodeDelimited
              * @memberof google.protobuf.Any
              * @static
-             * @param {google.protobuf.IAny} message Any message or plain object to encode
+             * @param {google.protobuf.Any.$Properties} message Any message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Any.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+            Any.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -4014,32 +5092,69 @@ $root.google = (function() {
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {google.protobuf.Any} Any
+             * @returns {google.protobuf.Any & google.protobuf.Any.$Shape} Any
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Any.decode = function decode(reader, length, error) {
+            Any.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Any();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                var end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.google.protobuf.Any();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.type_url = reader.string();
-                            break;
-                        }
-                    case 2: {
-                            message.value = reader.bytes();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.stringVerify()).length)
+                                message.type_url = value;
+                            else
+                                delete message.type_url;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.bytes()).length)
+                                message.value = value;
+                            else
+                                delete message.value;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -4049,14 +5164,14 @@ $root.google = (function() {
              * @memberof google.protobuf.Any
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {google.protobuf.Any} Any
+             * @returns {google.protobuf.Any & google.protobuf.Any.$Shape} Any
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Any.decodeDelimited = function decodeDelimited(reader) {
+            Any.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
 
             /**
@@ -4067,13 +5182,17 @@ $root.google = (function() {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Any.verify = function verify(message) {
+            Any.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.type_url != null && message.hasOwnProperty("type_url"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.type_url != null && $Object.hasOwnProperty.call(message, "type_url"))
                     if (!$util.isString(message.type_url))
                         return "type_url: string expected";
-                if (message.value != null && message.hasOwnProperty("value"))
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value"))
                     if (!(message.value && typeof message.value.length === "number" || $util.isString(message.value)))
                         return "value: buffer expected";
                 return null;
@@ -4087,17 +5206,25 @@ $root.google = (function() {
              * @param {Object.<string,*>} object Plain object
              * @returns {google.protobuf.Any} Any
              */
-            Any.fromObject = function fromObject(object) {
+            Any.fromObject = function (object, _depth) {
                 if (object instanceof $root.google.protobuf.Any)
                     return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".google.protobuf.Any: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.google.protobuf.Any();
                 if (object.type_url != null)
-                    message.type_url = String(object.type_url);
+                    if (typeof object.type_url !== "string" || object.type_url.length)
+                        message.type_url = $String(object.type_url);
                 if (object.value != null)
-                    if (typeof object.value === "string")
-                        $util.base64.decode(object.value, message.value = $util.newBuffer($util.base64.length(object.value)), 0);
-                    else if (object.value.length >= 0)
-                        message.value = object.value;
+                    if (object.value.length)
+                        if (typeof object.value === "string")
+                            $util.base64.decode(object.value, message.value = $util.newBuffer($util.base64.length(object.value)), 0);
+                        else if (object.value.length >= 0)
+                            message.value = object.value;
                 return message;
             };
 
@@ -4110,24 +5237,28 @@ $root.google = (function() {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Any.toObject = function toObject(message, options) {
+            Any.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.type_url = "";
-                    if (options.bytes === String)
+                    if (options.bytes === $String)
                         object.value = "";
                     else {
                         object.value = [];
-                        if (options.bytes !== Array)
+                        if (options.bytes !== $Array)
                             object.value = $util.newBuffer(object.value);
                     }
                 }
-                if (message.type_url != null && message.hasOwnProperty("type_url"))
+                if (message.type_url != null && $Object.hasOwnProperty.call(message, "type_url"))
                     object.type_url = message.type_url;
-                if (message.value != null && message.hasOwnProperty("value"))
-                    object.value = options.bytes === String ? $util.base64.encode(message.value, 0, message.value.length) : options.bytes === Array ? Array.prototype.slice.call(message.value) : message.value;
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value"))
+                    object.value = options.bytes === $String ? $util.base64.encode(message.value, 0, message.value.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.value) : message.value;
                 return object;
             };
 
@@ -4138,23 +5269,22 @@ $root.google = (function() {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Any.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Any.prototype.toJSON = function() {
+                return Any.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
-             * Gets the default type url for Any
+             * Gets the type url for Any
              * @function getTypeUrl
              * @memberof google.protobuf.Any
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            Any.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/google.protobuf.Any";
+            Any.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/google.protobuf.Any";
             };
 
             return Any;

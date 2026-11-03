@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createAzureVMwareSolutionAPI,
+export type {
   AzureVMwareSolutionAPIContext,
   AzureVMwareSolutionAPIOptionalParams,
 } from "./azureVMwareSolutionAPIContext.js";
+export { createAzureVMwareSolutionAPI } from "./azureVMwareSolutionAPIContext.js";

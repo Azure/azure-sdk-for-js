@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   // Id of the role to assing
   const roleId = "<role id>";
   // Workspace scope
-  const scope = "workspaces/<worskpaceName>";
+  const scope = "workspaces/<workspaceName>";
 
   const result = await client
     .path("/roleAssignments/{roleAssignmentId}", roleAssignmentId)

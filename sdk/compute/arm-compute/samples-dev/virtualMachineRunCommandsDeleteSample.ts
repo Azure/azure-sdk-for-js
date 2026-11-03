@@ -3,29 +3,18 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to delete the run command.
+ * This sample demonstrates how to the operation to delete the run command.
  *
- * @summary The operation to delete the run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/runCommandExamples/VirtualMachineRunCommand_Delete.json
+ * @summary the operation to delete the run command.
+ * x-ms-original-file: 2026-04-01/runCommandExamples/VirtualMachineRunCommand_Delete.json
  */
 async function deleteARunCommand(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const runCommandName = "myRunCommand";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineRunCommands.beginDeleteAndWait(
-    resourceGroupName,
-    vmName,
-    runCommandName,
-  );
-  console.log(result);
+  await client.virtualMachineRunCommands.delete("myResourceGroup", "myVM", "myRunCommand");
 }
 
 async function main(): Promise<void> {

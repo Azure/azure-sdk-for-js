@@ -3,47 +3,53 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets information about a snapshot.
+ * This sample demonstrates how to gets information about a snapshot.
  *
- * @summary Gets information about a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/Snapshot_Get.json
+ * @summary gets information about a snapshot.
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Get.json
  */
 async function getInformationAboutASnapshot(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const snapshotName = "mySnapshot";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.snapshots.get(resourceGroupName, snapshotName);
+  const result = await client.snapshots.get("myResourceGroup", "mySnapshot");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets information about a snapshot.
+ * This sample demonstrates how to gets information about a snapshot.
  *
- * @summary Gets information about a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/Snapshot_GetIncrementalSnapshot.json
+ * @summary gets information about a snapshot.
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_GetIncrementalSnapshot.json
  */
 async function getInformationAboutAnIncrementalSnapshot(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const snapshotName = "myIncrementalSnapshot";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.snapshots.get(resourceGroupName, snapshotName);
+  const result = await client.snapshots.get("myResourceGroup", "myIncrementalSnapshot");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets information about a snapshot.
+ *
+ * @summary gets information about a snapshot.
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Get_WithConfidentialVMVersion.json
+ */
+async function getInformationAboutAConfidentialVMSnapshotWithConfidentialVMVersion(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.snapshots.get("myResourceGroup", "myConfidentialSnapshot");
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await getInformationAboutASnapshot();
   await getInformationAboutAnIncrementalSnapshot();
+  await getInformationAboutAConfidentialVMSnapshotWithConfidentialVMVersion();
 }
 
 main().catch(console.error);

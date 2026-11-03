@@ -1,53 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Move recovery point from one datastore to another store.
- *
- * @summary Move recovery point from one datastore to another store.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/TriggerRecoveryPointMove_Post.json
- */
-
-import {
-  MoveRPAcrossTiersRequest,
-  RecoveryServicesBackupClient,
-} from "@azure/arm-recoveryservicesbackup";
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function triggerRpMoveOperation(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "testVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "netsdktestrg";
-  const fabricName = "Azure";
-  const containerName =
-    "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
-  const protectedItemName = "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
-  const recoveryPointId = "348916168024334";
-  const parameters: MoveRPAcrossTiersRequest = {
-    objectType: "MoveRPAcrossTiersRequest",
-    sourceTierType: "HardenedRP",
-    targetTierType: "ArchivedRP",
-  };
+/**
+ * This sample demonstrates how to move recovery point from one datastore to another store.
+ *
+ * @summary move recovery point from one datastore to another store.
+ * x-ms-original-file: 2026-10-01/TriggerRecoveryPointMove_Post.json
+ */
+async function triggerRPMoveOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  const result = await client.beginMoveRecoveryPointAndWait(
-    vaultName,
-    resourceGroupName,
-    fabricName,
-    containerName,
-    protectedItemName,
-    recoveryPointId,
-    parameters,
+  await client.moveRecoveryPoint(
+    "testVault",
+    "netsdktestrg",
+    "Azure",
+    "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1",
+    "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1",
+    "348916168024334",
+    {
+      objectType: "MoveRPAcrossTiersRequest",
+      sourceTierType: "HardenedRP",
+      targetTierType: "ArchivedRP",
+    },
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await triggerRpMoveOperation();
+  await triggerRPMoveOperation();
 }
 
 main().catch(console.error);

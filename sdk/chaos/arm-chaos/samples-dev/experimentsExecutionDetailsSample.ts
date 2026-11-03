@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ChaosManagementClient } from "@azure/arm-chaos";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to execution details of an experiment resource.
  *
  * @summary execution details of an experiment resource.
- * x-ms-original-file: 2025-01-01/Experiments_ExecutionDetails.json
+ * x-ms-original-file: 2026-08-01-preview/Experiments_ExecutionDetails.json
  */
-
-import { ChaosManagementClient } from "@azure/arm-chaos";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function getExperimentExecutionDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";

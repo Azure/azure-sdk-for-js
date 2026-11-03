@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { get } from "./operations.js";
-export { OperationStatusResourceGroupContextGetOptionalParams } from "./options.js";
+export type { OperationStatusResourceGroupContextGetOptionalParams } from "./options.js";

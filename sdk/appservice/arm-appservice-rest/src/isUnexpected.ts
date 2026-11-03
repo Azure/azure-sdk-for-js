@@ -2866,8 +2866,7 @@ const responseMap: Record<string, string[]> = {
 
 export function isUnexpected(
   response:
-    | AppServiceCertificateOrdersList200Response
-    | AppServiceCertificateOrdersListDefaultResponse,
+    AppServiceCertificateOrdersList200Response | AppServiceCertificateOrdersListDefaultResponse,
 ): response is AppServiceCertificateOrdersListDefaultResponse;
 export function isUnexpected(
   response:
@@ -2881,8 +2880,7 @@ export function isUnexpected(
 ): response is AppServiceCertificateOrdersListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
-    | AppServiceCertificateOrdersGet200Response
-    | AppServiceCertificateOrdersGetDefaultResponse,
+    AppServiceCertificateOrdersGet200Response | AppServiceCertificateOrdersGetDefaultResponse,
 ): response is AppServiceCertificateOrdersGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -2898,8 +2896,7 @@ export function isUnexpected(
 ): response is AppServiceCertificateOrdersDeleteDefaultResponse;
 export function isUnexpected(
   response:
-    | AppServiceCertificateOrdersUpdate200Response
-    | AppServiceCertificateOrdersUpdateDefaultResponse,
+    AppServiceCertificateOrdersUpdate200Response | AppServiceCertificateOrdersUpdateDefaultResponse,
 ): response is AppServiceCertificateOrdersUpdateDefaultResponse;
 export function isUnexpected(
   response:
@@ -2935,8 +2932,7 @@ export function isUnexpected(
 ): response is AppServiceCertificateOrdersReissueDefaultResponse;
 export function isUnexpected(
   response:
-    | AppServiceCertificateOrdersRenew204Response
-    | AppServiceCertificateOrdersRenewDefaultResponse,
+    AppServiceCertificateOrdersRenew204Response | AppServiceCertificateOrdersRenewDefaultResponse,
 ): response is AppServiceCertificateOrdersRenewDefaultResponse;
 export function isUnexpected(
   response:
@@ -2991,8 +2987,7 @@ export function isUnexpected(
 ): response is DomainsListDefaultResponse;
 export function isUnexpected(
   response:
-    | DomainsGetControlCenterSsoRequest200Response
-    | DomainsGetControlCenterSsoRequestDefaultResponse,
+    DomainsGetControlCenterSsoRequest200Response | DomainsGetControlCenterSsoRequestDefaultResponse,
 ): response is DomainsGetControlCenterSsoRequestDefaultResponse;
 export function isUnexpected(
   response: DomainsListRecommendations200Response | DomainsListRecommendationsDefaultResponse,
@@ -3017,8 +3012,7 @@ export function isUnexpected(
 ): response is DomainsUpdateDefaultResponse;
 export function isUnexpected(
   response:
-    | DomainsListOwnershipIdentifiers200Response
-    | DomainsListOwnershipIdentifiersDefaultResponse,
+    DomainsListOwnershipIdentifiers200Response | DomainsListOwnershipIdentifiersDefaultResponse,
 ): response is DomainsListOwnershipIdentifiersDefaultResponse;
 export function isUnexpected(
   response: DomainsGetOwnershipIdentifier200Response | DomainsGetOwnershipIdentifierDefaultResponse,
@@ -3036,8 +3030,7 @@ export function isUnexpected(
 ): response is DomainsDeleteOwnershipIdentifierDefaultResponse;
 export function isUnexpected(
   response:
-    | DomainsUpdateOwnershipIdentifier200Response
-    | DomainsUpdateOwnershipIdentifierDefaultResponse,
+    DomainsUpdateOwnershipIdentifier200Response | DomainsUpdateOwnershipIdentifierDefaultResponse,
 ): response is DomainsUpdateOwnershipIdentifierDefaultResponse;
 export function isUnexpected(
   response:
@@ -3104,8 +3097,7 @@ export function isUnexpected(
 ): response is AppServiceEnvironmentsListCapacitiesDefaultResponse;
 export function isUnexpected(
   response:
-    | AppServiceEnvironmentsGetVipInfo200Response
-    | AppServiceEnvironmentsGetVipInfoDefaultResponse,
+    AppServiceEnvironmentsGetVipInfo200Response | AppServiceEnvironmentsGetVipInfoDefaultResponse,
 ): response is AppServiceEnvironmentsGetVipInfoDefaultResponse;
 export function isUnexpected(
   response:
@@ -3234,8 +3226,7 @@ export function isUnexpected(
 ): response is AppServiceEnvironmentsListAppServicePlansDefaultResponse;
 export function isUnexpected(
   response:
-    | AppServiceEnvironmentsListWebApps200Response
-    | AppServiceEnvironmentsListWebAppsDefaultResponse,
+    AppServiceEnvironmentsListWebApps200Response | AppServiceEnvironmentsListWebAppsDefaultResponse,
 ): response is AppServiceEnvironmentsListWebAppsDefaultResponse;
 export function isUnexpected(
   response:
@@ -3245,8 +3236,7 @@ export function isUnexpected(
 ): response is AppServiceEnvironmentsSuspendDefaultResponse;
 export function isUnexpected(
   response:
-    | AppServiceEnvironmentsListUsages200Response
-    | AppServiceEnvironmentsListUsagesDefaultResponse,
+    AppServiceEnvironmentsListUsages200Response | AppServiceEnvironmentsListUsagesDefaultResponse,
 ): response is AppServiceEnvironmentsListUsagesDefaultResponse;
 export function isUnexpected(
   response:
@@ -3324,8 +3314,7 @@ export function isUnexpected(
 ): response is AppServicePlansUpdateDefaultResponse;
 export function isUnexpected(
   response:
-    | AppServicePlansListCapabilities200Response
-    | AppServicePlansListCapabilitiesDefaultResponse,
+    AppServicePlansListCapabilities200Response | AppServicePlansListCapabilitiesDefaultResponse,
 ): response is AppServicePlansListCapabilitiesDefaultResponse;
 export function isUnexpected(
   response:
@@ -3366,8 +3355,7 @@ export function isUnexpected(
 ): response is AppServicePlansListWebAppsDefaultResponse;
 export function isUnexpected(
   response:
-    | AppServicePlansGetServerFarmSkus200Response
-    | AppServicePlansGetServerFarmSkusDefaultResponse,
+    AppServicePlansGetServerFarmSkus200Response | AppServicePlansGetServerFarmSkusDefaultResponse,
 ): response is AppServicePlansGetServerFarmSkusDefaultResponse;
 export function isUnexpected(
   response: AppServicePlansListUsages200Response | AppServicePlansListUsagesDefaultResponse,
@@ -3386,13 +3374,11 @@ export function isUnexpected(
 ): response is AppServicePlansGetVnetGatewayDefaultResponse;
 export function isUnexpected(
   response:
-    | AppServicePlansUpdateVnetGateway200Response
-    | AppServicePlansUpdateVnetGatewayDefaultResponse,
+    AppServicePlansUpdateVnetGateway200Response | AppServicePlansUpdateVnetGatewayDefaultResponse,
 ): response is AppServicePlansUpdateVnetGatewayDefaultResponse;
 export function isUnexpected(
   response:
-    | AppServicePlansListRoutesForVnet200Response
-    | AppServicePlansListRoutesForVnetDefaultResponse,
+    AppServicePlansListRoutesForVnet200Response | AppServicePlansListRoutesForVnetDefaultResponse,
 ): response is AppServicePlansListRoutesForVnetDefaultResponse;
 export function isUnexpected(
   response:
@@ -3428,8 +3414,7 @@ export function isUnexpected(
 ): response is CertificatesListDefaultResponse;
 export function isUnexpected(
   response:
-    | CertificatesListByResourceGroup200Response
-    | CertificatesListByResourceGroupDefaultResponse,
+    CertificatesListByResourceGroup200Response | CertificatesListByResourceGroupDefaultResponse,
 ): response is CertificatesListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response: CertificatesGet200Response | CertificatesGetDefaultResponse,
@@ -3448,19 +3433,15 @@ export function isUnexpected(
 ): response is CertificatesUpdateDefaultResponse;
 export function isUnexpected(
   response:
-    | ContainerAppsListBySubscription200Response
-    | ContainerAppsListBySubscriptionDefaultResponse,
+    ContainerAppsListBySubscription200Response | ContainerAppsListBySubscriptionDefaultResponse,
 ): response is ContainerAppsListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
-    | ContainerAppsListByResourceGroup200Response
-    | ContainerAppsListByResourceGroupDefaultResponse,
+    ContainerAppsListByResourceGroup200Response | ContainerAppsListByResourceGroupDefaultResponse,
 ): response is ContainerAppsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
-    | ContainerAppsGet200Response
-    | ContainerAppsGet404Response
-    | ContainerAppsGetDefaultResponse,
+    ContainerAppsGet200Response | ContainerAppsGet404Response | ContainerAppsGetDefaultResponse,
 ): response is ContainerAppsGet404Response;
 export function isUnexpected(
   response:
@@ -3485,8 +3466,7 @@ export function isUnexpected(
 ): response is ContainerAppsRevisionsListRevisionsDefaultResponse;
 export function isUnexpected(
   response:
-    | ContainerAppsRevisionsGetRevision200Response
-    | ContainerAppsRevisionsGetRevisionDefaultResponse,
+    ContainerAppsRevisionsGetRevision200Response | ContainerAppsRevisionsGetRevisionDefaultResponse,
 ): response is ContainerAppsRevisionsGetRevisionDefaultResponse;
 export function isUnexpected(
   response:
@@ -3552,8 +3532,7 @@ export function isUnexpected(
 ): response is DiagnosticsGetSiteAnalysisDefaultResponse;
 export function isUnexpected(
   response:
-    | DiagnosticsExecuteSiteAnalysis200Response
-    | DiagnosticsExecuteSiteAnalysisDefaultResponse,
+    DiagnosticsExecuteSiteAnalysis200Response | DiagnosticsExecuteSiteAnalysisDefaultResponse,
 ): response is DiagnosticsExecuteSiteAnalysisDefaultResponse;
 export function isUnexpected(
   response: DiagnosticsListSiteDetectors200Response | DiagnosticsListSiteDetectorsDefaultResponse,
@@ -3563,8 +3542,7 @@ export function isUnexpected(
 ): response is DiagnosticsGetSiteDetectorDefaultResponse;
 export function isUnexpected(
   response:
-    | DiagnosticsExecuteSiteDetector200Response
-    | DiagnosticsExecuteSiteDetectorDefaultResponse,
+    DiagnosticsExecuteSiteDetector200Response | DiagnosticsExecuteSiteDetectorDefaultResponse,
 ): response is DiagnosticsExecuteSiteDetectorDefaultResponse;
 export function isUnexpected(
   response:
@@ -3588,13 +3566,11 @@ export function isUnexpected(
 ): response is DiagnosticsGetSiteDiagnosticCategorySlotDefaultResponse;
 export function isUnexpected(
   response:
-    | DiagnosticsListSiteAnalysesSlot200Response
-    | DiagnosticsListSiteAnalysesSlotDefaultResponse,
+    DiagnosticsListSiteAnalysesSlot200Response | DiagnosticsListSiteAnalysesSlotDefaultResponse,
 ): response is DiagnosticsListSiteAnalysesSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | DiagnosticsGetSiteAnalysisSlot200Response
-    | DiagnosticsGetSiteAnalysisSlotDefaultResponse,
+    DiagnosticsGetSiteAnalysisSlot200Response | DiagnosticsGetSiteAnalysisSlotDefaultResponse,
 ): response is DiagnosticsGetSiteAnalysisSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -3603,13 +3579,11 @@ export function isUnexpected(
 ): response is DiagnosticsExecuteSiteAnalysisSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | DiagnosticsListSiteDetectorsSlot200Response
-    | DiagnosticsListSiteDetectorsSlotDefaultResponse,
+    DiagnosticsListSiteDetectorsSlot200Response | DiagnosticsListSiteDetectorsSlotDefaultResponse,
 ): response is DiagnosticsListSiteDetectorsSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | DiagnosticsGetSiteDetectorSlot200Response
-    | DiagnosticsGetSiteDetectorSlotDefaultResponse,
+    DiagnosticsGetSiteDetectorSlot200Response | DiagnosticsGetSiteDetectorSlotDefaultResponse,
 ): response is DiagnosticsGetSiteDetectorSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -3621,8 +3595,7 @@ export function isUnexpected(
 ): response is GlobalGetDeletedWebAppDefaultResponse;
 export function isUnexpected(
   response:
-    | GlobalGetDeletedWebAppSnapshots200Response
-    | GlobalGetDeletedWebAppSnapshotsDefaultResponse,
+    GlobalGetDeletedWebAppSnapshots200Response | GlobalGetDeletedWebAppSnapshotsDefaultResponse,
 ): response is GlobalGetDeletedWebAppSnapshotsDefaultResponse;
 export function isUnexpected(
   response:
@@ -3685,16 +3658,14 @@ export function isUnexpected(
 ): response is ProviderGetWebAppStacksDefaultResponse;
 export function isUnexpected(
   response:
-    | ProviderGetAvailableStacksOnPrem200Response
-    | ProviderGetAvailableStacksOnPremDefaultResponse,
+    ProviderGetAvailableStacksOnPrem200Response | ProviderGetAvailableStacksOnPremDefaultResponse,
 ): response is ProviderGetAvailableStacksOnPremDefaultResponse;
 export function isUnexpected(
   response: RecommendationsList200Response | RecommendationsListDefaultResponse,
 ): response is RecommendationsListDefaultResponse;
 export function isUnexpected(
   response:
-    | RecommendationsResetAllFilters204Response
-    | RecommendationsResetAllFiltersDefaultResponse,
+    RecommendationsResetAllFilters204Response | RecommendationsResetAllFiltersDefaultResponse,
 ): response is RecommendationsResetAllFiltersDefaultResponse;
 export function isUnexpected(
   response:
@@ -3771,13 +3742,11 @@ export function isUnexpected(
 ): response is ResourceHealthMetadataListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
-    | ResourceHealthMetadataListBySite200Response
-    | ResourceHealthMetadataListBySiteDefaultResponse,
+    ResourceHealthMetadataListBySite200Response | ResourceHealthMetadataListBySiteDefaultResponse,
 ): response is ResourceHealthMetadataListBySiteDefaultResponse;
 export function isUnexpected(
   response:
-    | ResourceHealthMetadataGetBySite200Response
-    | ResourceHealthMetadataGetBySiteDefaultResponse,
+    ResourceHealthMetadataGetBySite200Response | ResourceHealthMetadataGetBySiteDefaultResponse,
 ): response is ResourceHealthMetadataGetBySiteDefaultResponse;
 export function isUnexpected(
   response:
@@ -3878,23 +3847,19 @@ export function isUnexpected(
 ): response is StaticSitesUpdateStaticSiteDefaultResponse;
 export function isUnexpected(
   response:
-    | StaticSitesListStaticSiteUsers200Response
-    | StaticSitesListStaticSiteUsersDefaultResponse,
+    StaticSitesListStaticSiteUsers200Response | StaticSitesListStaticSiteUsersDefaultResponse,
 ): response is StaticSitesListStaticSiteUsersDefaultResponse;
 export function isUnexpected(
   response:
-    | StaticSitesDeleteStaticSiteUser200Response
-    | StaticSitesDeleteStaticSiteUserDefaultResponse,
+    StaticSitesDeleteStaticSiteUser200Response | StaticSitesDeleteStaticSiteUserDefaultResponse,
 ): response is StaticSitesDeleteStaticSiteUserDefaultResponse;
 export function isUnexpected(
   response:
-    | StaticSitesUpdateStaticSiteUser200Response
-    | StaticSitesUpdateStaticSiteUserDefaultResponse,
+    StaticSitesUpdateStaticSiteUser200Response | StaticSitesUpdateStaticSiteUserDefaultResponse,
 ): response is StaticSitesUpdateStaticSiteUserDefaultResponse;
 export function isUnexpected(
   response:
-    | StaticSitesGetStaticSiteBuilds200Response
-    | StaticSitesGetStaticSiteBuildsDefaultResponse,
+    StaticSitesGetStaticSiteBuilds200Response | StaticSitesGetStaticSiteBuildsDefaultResponse,
 ): response is StaticSitesGetStaticSiteBuildsDefaultResponse;
 export function isUnexpected(
   response: StaticSitesGetStaticSiteBuild200Response | StaticSitesGetStaticSiteBuildDefaultResponse,
@@ -4030,8 +3995,7 @@ export function isUnexpected(
 ): response is StaticSitesListStaticSiteFunctionAppSettingsDefaultResponse;
 export function isUnexpected(
   response:
-    | StaticSitesListStaticSiteSecrets200Response
-    | StaticSitesListStaticSiteSecretsDefaultResponse,
+    StaticSitesListStaticSiteSecrets200Response | StaticSitesListStaticSiteSecretsDefaultResponse,
 ): response is StaticSitesListStaticSiteSecretsDefaultResponse;
 export function isUnexpected(
   response:
@@ -4063,8 +4027,7 @@ export function isUnexpected(
 ): response is StaticSitesGetPrivateLinkResourcesDefaultResponse;
 export function isUnexpected(
   response:
-    | StaticSitesResetStaticSiteApiKey200Response
-    | StaticSitesResetStaticSiteApiKeyDefaultResponse,
+    StaticSitesResetStaticSiteApiKey200Response | StaticSitesResetStaticSiteApiKeyDefaultResponse,
 ): response is StaticSitesResetStaticSiteApiKeyDefaultResponse;
 export function isUnexpected(
   response:
@@ -4144,8 +4107,7 @@ export function isUnexpected(
 ): response is WebAppsDeleteBackup404Response;
 export function isUnexpected(
   response:
-    | WebAppsListBackupStatusSecrets200Response
-    | WebAppsListBackupStatusSecretsDefaultResponse,
+    WebAppsListBackupStatusSecrets200Response | WebAppsListBackupStatusSecretsDefaultResponse,
 ): response is WebAppsListBackupStatusSecretsDefaultResponse;
 export function isUnexpected(
   response: WebAppsRestore200Response | WebAppsRestore202Response | WebAppsRestoreDefaultResponse,
@@ -4172,13 +4134,11 @@ export function isUnexpected(
 ): response is WebAppsListConfigurationsDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsUpdateApplicationSettings200Response
-    | WebAppsUpdateApplicationSettingsDefaultResponse,
+    WebAppsUpdateApplicationSettings200Response | WebAppsUpdateApplicationSettingsDefaultResponse,
 ): response is WebAppsUpdateApplicationSettingsDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListApplicationSettings200Response
-    | WebAppsListApplicationSettingsDefaultResponse,
+    WebAppsListApplicationSettings200Response | WebAppsListApplicationSettingsDefaultResponse,
 ): response is WebAppsListApplicationSettingsDefaultResponse;
 export function isUnexpected(
   response: WebAppsUpdateAuthSettings200Response | WebAppsUpdateAuthSettingsDefaultResponse,
@@ -4199,23 +4159,19 @@ export function isUnexpected(
 ): response is WebAppsGetAuthSettingsV2DefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsUpdateAzureStorageAccounts200Response
-    | WebAppsUpdateAzureStorageAccountsDefaultResponse,
+    WebAppsUpdateAzureStorageAccounts200Response | WebAppsUpdateAzureStorageAccountsDefaultResponse,
 ): response is WebAppsUpdateAzureStorageAccountsDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListAzureStorageAccounts200Response
-    | WebAppsListAzureStorageAccountsDefaultResponse,
+    WebAppsListAzureStorageAccounts200Response | WebAppsListAzureStorageAccountsDefaultResponse,
 ): response is WebAppsListAzureStorageAccountsDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsUpdateBackupConfiguration200Response
-    | WebAppsUpdateBackupConfigurationDefaultResponse,
+    WebAppsUpdateBackupConfiguration200Response | WebAppsUpdateBackupConfigurationDefaultResponse,
 ): response is WebAppsUpdateBackupConfigurationDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsDeleteBackupConfiguration200Response
-    | WebAppsDeleteBackupConfigurationDefaultResponse,
+    WebAppsDeleteBackupConfiguration200Response | WebAppsDeleteBackupConfigurationDefaultResponse,
 ): response is WebAppsDeleteBackupConfigurationDefaultResponse;
 export function isUnexpected(
   response: WebAppsGetBackupConfiguration200Response | WebAppsGetBackupConfigurationDefaultResponse,
@@ -4242,8 +4198,7 @@ export function isUnexpected(
 ): response is WebAppsGetSiteConnectionStringKeyVaultReferenceDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsUpdateConnectionStrings200Response
-    | WebAppsUpdateConnectionStringsDefaultResponse,
+    WebAppsUpdateConnectionStrings200Response | WebAppsUpdateConnectionStringsDefaultResponse,
 ): response is WebAppsUpdateConnectionStringsDefaultResponse;
 export function isUnexpected(
   response: WebAppsListConnectionStrings200Response | WebAppsListConnectionStringsDefaultResponse,
@@ -4255,8 +4210,7 @@ export function isUnexpected(
 ): response is WebAppsGetDiagnosticLogsConfigurationDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsUpdateDiagnosticLogsConfig200Response
-    | WebAppsUpdateDiagnosticLogsConfigDefaultResponse,
+    WebAppsUpdateDiagnosticLogsConfig200Response | WebAppsUpdateDiagnosticLogsConfigDefaultResponse,
 ): response is WebAppsUpdateDiagnosticLogsConfigDefaultResponse;
 export function isUnexpected(
   response: WebAppsUpdateMetadata200Response | WebAppsUpdateMetadataDefaultResponse,
@@ -4266,8 +4220,7 @@ export function isUnexpected(
 ): response is WebAppsListMetadataDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListPublishingCredentials200Response
-    | WebAppsListPublishingCredentialsDefaultResponse,
+    WebAppsListPublishingCredentials200Response | WebAppsListPublishingCredentialsDefaultResponse,
 ): response is WebAppsListPublishingCredentialsDefaultResponse;
 export function isUnexpected(
   response: WebAppsUpdateSitePushSettings200Response | WebAppsUpdateSitePushSettingsDefaultResponse,
@@ -4277,8 +4230,7 @@ export function isUnexpected(
 ): response is WebAppsListSitePushSettingsDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListSlotConfigurationNames200Response
-    | WebAppsListSlotConfigurationNamesDefaultResponse,
+    WebAppsListSlotConfigurationNames200Response | WebAppsListSlotConfigurationNamesDefaultResponse,
 ): response is WebAppsListSlotConfigurationNamesDefaultResponse;
 export function isUnexpected(
   response:
@@ -4303,8 +4255,7 @@ export function isUnexpected(
 ): response is WebAppsListConfigurationSnapshotInfoDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsGetConfigurationSnapshot200Response
-    | WebAppsGetConfigurationSnapshotDefaultResponse,
+    WebAppsGetConfigurationSnapshot200Response | WebAppsGetConfigurationSnapshotDefaultResponse,
 ): response is WebAppsGetConfigurationSnapshotDefaultResponse;
 export function isUnexpected(
   response:
@@ -4417,8 +4368,7 @@ export function isUnexpected(
 ): response is WebAppsGetOneDeployStatusDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsCreateOneDeployOperation200Response
-    | WebAppsCreateOneDeployOperationDefaultResponse,
+    WebAppsCreateOneDeployOperation200Response | WebAppsCreateOneDeployOperationDefaultResponse,
 ): response is WebAppsCreateOneDeployOperationDefaultResponse;
 export function isUnexpected(
   response:
@@ -4527,8 +4477,7 @@ export function isUnexpected(
 ): response is WebAppsListRelayServiceConnectionsDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsGetRelayServiceConnection200Response
-    | WebAppsGetRelayServiceConnectionDefaultResponse,
+    WebAppsGetRelayServiceConnection200Response | WebAppsGetRelayServiceConnectionDefaultResponse,
 ): response is WebAppsGetRelayServiceConnectionDefaultResponse;
 export function isUnexpected(
   response:
@@ -4548,16 +4497,14 @@ export function isUnexpected(
 ): response is WebAppsUpdateRelayServiceConnectionDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListInstanceIdentifiers200Response
-    | WebAppsListInstanceIdentifiersDefaultResponse,
+    WebAppsListInstanceIdentifiers200Response | WebAppsListInstanceIdentifiersDefaultResponse,
 ): response is WebAppsListInstanceIdentifiersDefaultResponse;
 export function isUnexpected(
   response: WebAppsGetInstanceInfo200Response | WebAppsGetInstanceInfoDefaultResponse,
 ): response is WebAppsGetInstanceInfoDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsGetInstanceMsDeployStatus200Response
-    | WebAppsGetInstanceMsDeployStatusDefaultResponse,
+    WebAppsGetInstanceMsDeployStatus200Response | WebAppsGetInstanceMsDeployStatusDefaultResponse,
 ): response is WebAppsGetInstanceMsDeployStatusDefaultResponse;
 export function isUnexpected(
   response:
@@ -4621,8 +4568,7 @@ export function isUnexpected(
 ): response is WebAppsListSiteBackupsDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListSyncFunctionTriggers200Response
-    | WebAppsListSyncFunctionTriggersDefaultResponse,
+    WebAppsListSyncFunctionTriggers200Response | WebAppsListSyncFunctionTriggersDefaultResponse,
 ): response is WebAppsListSyncFunctionTriggersDefaultResponse;
 export function isUnexpected(
   response: WebAppsMigrateStorage200Response | WebAppsMigrateStorageDefaultResponse,
@@ -4668,8 +4614,7 @@ export function isUnexpected(
 ): response is WebAppsGetNetworkTraceOperationDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsStartWebSiteNetworkTrace200Response
-    | WebAppsStartWebSiteNetworkTraceDefaultResponse,
+    WebAppsStartWebSiteNetworkTrace200Response | WebAppsStartWebSiteNetworkTraceDefaultResponse,
 ): response is WebAppsStartWebSiteNetworkTraceDefaultResponse;
 export function isUnexpected(
   response:
@@ -4753,8 +4698,7 @@ export function isUnexpected(
 ): response is WebAppsDeletePrivateEndpointConnectionDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsGetPrivateLinkResources200Response
-    | WebAppsGetPrivateLinkResourcesDefaultResponse,
+    WebAppsGetPrivateLinkResources200Response | WebAppsGetPrivateLinkResourcesDefaultResponse,
 ): response is WebAppsGetPrivateLinkResourcesDefaultResponse;
 export function isUnexpected(
   response:
@@ -4764,9 +4708,7 @@ export function isUnexpected(
 ): response is WebAppsListProcesses404Response;
 export function isUnexpected(
   response:
-    | WebAppsGetProcess200Response
-    | WebAppsGetProcess404Response
-    | WebAppsGetProcessDefaultResponse,
+    WebAppsGetProcess200Response | WebAppsGetProcess404Response | WebAppsGetProcessDefaultResponse,
 ): response is WebAppsGetProcess404Response;
 export function isUnexpected(
   response:
@@ -4822,8 +4764,7 @@ export function isUnexpected(
 ): response is WebAppsListPublishingProfileXmlWithSecretsDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsResetProductionSlotConfig200Response
-    | WebAppsResetProductionSlotConfigDefaultResponse,
+    WebAppsResetProductionSlotConfig200Response | WebAppsResetProductionSlotConfigDefaultResponse,
 ): response is WebAppsResetProductionSlotConfigDefaultResponse;
 export function isUnexpected(
   response: WebAppsRestart200Response | WebAppsRestartDefaultResponse,
@@ -4892,19 +4833,15 @@ export function isUnexpected(
 ): response is WebAppsDeleteSlot404Response;
 export function isUnexpected(
   response:
-    | WebAppsUpdateSlot200Response
-    | WebAppsUpdateSlot202Response
-    | WebAppsUpdateSlotDefaultResponse,
+    WebAppsUpdateSlot200Response | WebAppsUpdateSlot202Response | WebAppsUpdateSlotDefaultResponse,
 ): response is WebAppsUpdateSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsAnalyzeCustomHostnameSlot200Response
-    | WebAppsAnalyzeCustomHostnameSlotDefaultResponse,
+    WebAppsAnalyzeCustomHostnameSlot200Response | WebAppsAnalyzeCustomHostnameSlotDefaultResponse,
 ): response is WebAppsAnalyzeCustomHostnameSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsApplySlotConfigurationSlot200Response
-    | WebAppsApplySlotConfigurationSlotDefaultResponse,
+    WebAppsApplySlotConfigurationSlot200Response | WebAppsApplySlotConfigurationSlotDefaultResponse,
 ): response is WebAppsApplySlotConfigurationSlotDefaultResponse;
 export function isUnexpected(
   response: WebAppsBackupSlot200Response | WebAppsBackupSlotDefaultResponse,
@@ -4975,8 +4912,7 @@ export function isUnexpected(
 ): response is WebAppsGetAuthSettingsV2WithoutSecretsSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsUpdateAuthSettingsV2Slot200Response
-    | WebAppsUpdateAuthSettingsV2SlotDefaultResponse,
+    WebAppsUpdateAuthSettingsV2Slot200Response | WebAppsUpdateAuthSettingsV2SlotDefaultResponse,
 ): response is WebAppsUpdateAuthSettingsV2SlotDefaultResponse;
 export function isUnexpected(
   response: WebAppsGetAuthSettingsV2Slot200Response | WebAppsGetAuthSettingsV2SlotDefaultResponse,
@@ -5003,8 +4939,7 @@ export function isUnexpected(
 ): response is WebAppsDeleteBackupConfigurationSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsGetBackupConfigurationSlot200Response
-    | WebAppsGetBackupConfigurationSlotDefaultResponse,
+    WebAppsGetBackupConfigurationSlot200Response | WebAppsGetBackupConfigurationSlotDefaultResponse,
 ): response is WebAppsGetBackupConfigurationSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -5033,8 +4968,7 @@ export function isUnexpected(
 ): response is WebAppsUpdateConnectionStringsSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListConnectionStringsSlot200Response
-    | WebAppsListConnectionStringsSlotDefaultResponse,
+    WebAppsListConnectionStringsSlot200Response | WebAppsListConnectionStringsSlotDefaultResponse,
 ): response is WebAppsListConnectionStringsSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -5059,13 +4993,11 @@ export function isUnexpected(
 ): response is WebAppsListPublishingCredentialsSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsUpdateSitePushSettingsSlot200Response
-    | WebAppsUpdateSitePushSettingsSlotDefaultResponse,
+    WebAppsUpdateSitePushSettingsSlot200Response | WebAppsUpdateSitePushSettingsSlotDefaultResponse,
 ): response is WebAppsUpdateSitePushSettingsSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListSitePushSettingsSlot200Response
-    | WebAppsListSitePushSettingsSlotDefaultResponse,
+    WebAppsListSitePushSettingsSlot200Response | WebAppsListSitePushSettingsSlotDefaultResponse,
 ): response is WebAppsListSitePushSettingsSlotDefaultResponse;
 export function isUnexpected(
   response: WebAppsGetConfigurationSlot200Response | WebAppsGetConfigurationSlotDefaultResponse,
@@ -5077,8 +5009,7 @@ export function isUnexpected(
 ): response is WebAppsCreateOrUpdateConfigurationSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsUpdateConfigurationSlot200Response
-    | WebAppsUpdateConfigurationSlotDefaultResponse,
+    WebAppsUpdateConfigurationSlot200Response | WebAppsUpdateConfigurationSlotDefaultResponse,
 ): response is WebAppsUpdateConfigurationSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -5109,8 +5040,7 @@ export function isUnexpected(
 ): response is WebAppsGetContainerLogsZipSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListContinuousWebJobsSlot200Response
-    | WebAppsListContinuousWebJobsSlotDefaultResponse,
+    WebAppsListContinuousWebJobsSlot200Response | WebAppsListContinuousWebJobsSlotDefaultResponse,
 ): response is WebAppsListContinuousWebJobsSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -5206,8 +5136,7 @@ export function isUnexpected(
 ): response is WebAppsListInstanceFunctionsSlot404Response;
 export function isUnexpected(
   response:
-    | WebAppsGetFunctionsAdminTokenSlot200Response
-    | WebAppsGetFunctionsAdminTokenSlotDefaultResponse,
+    WebAppsGetFunctionsAdminTokenSlot200Response | WebAppsGetFunctionsAdminTokenSlotDefaultResponse,
 ): response is WebAppsGetFunctionsAdminTokenSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -5217,8 +5146,7 @@ export function isUnexpected(
 ): response is WebAppsGetInstanceFunctionSlot404Response;
 export function isUnexpected(
   response:
-    | WebAppsCreateInstanceFunctionSlot201Response
-    | WebAppsCreateInstanceFunctionSlotDefaultResponse,
+    WebAppsCreateInstanceFunctionSlot201Response | WebAppsCreateInstanceFunctionSlotDefaultResponse,
 ): response is WebAppsCreateInstanceFunctionSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -5243,8 +5171,7 @@ export function isUnexpected(
 ): response is WebAppsListFunctionKeysSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListFunctionSecretsSlot200Response
-    | WebAppsListFunctionSecretsSlotDefaultResponse,
+    WebAppsListFunctionSecretsSlot200Response | WebAppsListFunctionSecretsSlotDefaultResponse,
 ): response is WebAppsListFunctionSecretsSlotDefaultResponse;
 export function isUnexpected(
   response: WebAppsListHostKeysSlot200Response | WebAppsListHostKeysSlotDefaultResponse,
@@ -5269,8 +5196,7 @@ export function isUnexpected(
 ): response is WebAppsDeleteHostSecretSlot404Response;
 export function isUnexpected(
   response:
-    | WebAppsListHostNameBindingsSlot200Response
-    | WebAppsListHostNameBindingsSlotDefaultResponse,
+    WebAppsListHostNameBindingsSlot200Response | WebAppsListHostNameBindingsSlotDefaultResponse,
 ): response is WebAppsListHostNameBindingsSlotDefaultResponse;
 export function isUnexpected(
   response: WebAppsGetHostNameBindingSlot200Response | WebAppsGetHostNameBindingSlotDefaultResponse,
@@ -5288,8 +5214,7 @@ export function isUnexpected(
 ): response is WebAppsDeleteHostNameBindingSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsGetHybridConnectionSlot200Response
-    | WebAppsGetHybridConnectionSlotDefaultResponse,
+    WebAppsGetHybridConnectionSlot200Response | WebAppsGetHybridConnectionSlotDefaultResponse,
 ): response is WebAppsGetHybridConnectionSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -5304,13 +5229,11 @@ export function isUnexpected(
 ): response is WebAppsDeleteHybridConnectionSlot404Response;
 export function isUnexpected(
   response:
-    | WebAppsUpdateHybridConnectionSlot200Response
-    | WebAppsUpdateHybridConnectionSlotDefaultResponse,
+    WebAppsUpdateHybridConnectionSlot200Response | WebAppsUpdateHybridConnectionSlotDefaultResponse,
 ): response is WebAppsUpdateHybridConnectionSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListHybridConnectionsSlot200Response
-    | WebAppsListHybridConnectionsSlotDefaultResponse,
+    WebAppsListHybridConnectionsSlot200Response | WebAppsListHybridConnectionsSlotDefaultResponse,
 ): response is WebAppsListHybridConnectionsSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -5418,8 +5341,7 @@ export function isUnexpected(
 ): response is WebAppsListSyncFunctionTriggersSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsGetMigrateMySqlStatusSlot200Response
-    | WebAppsGetMigrateMySqlStatusSlotDefaultResponse,
+    WebAppsGetMigrateMySqlStatusSlot200Response | WebAppsGetMigrateMySqlStatusSlotDefaultResponse,
 ): response is WebAppsGetMigrateMySqlStatusSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -5491,13 +5413,11 @@ export function isUnexpected(
 ): response is WebAppsGenerateNewSitePublishingPasswordSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListPerfMonCountersSlot200Response
-    | WebAppsListPerfMonCountersSlotDefaultResponse,
+    WebAppsListPerfMonCountersSlot200Response | WebAppsListPerfMonCountersSlotDefaultResponse,
 ): response is WebAppsListPerfMonCountersSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsGetSitePhpErrorLogFlagSlot200Response
-    | WebAppsGetSitePhpErrorLogFlagSlotDefaultResponse,
+    WebAppsGetSitePhpErrorLogFlagSlot200Response | WebAppsGetSitePhpErrorLogFlagSlotDefaultResponse,
 ): response is WebAppsGetSitePhpErrorLogFlagSlotDefaultResponse;
 export function isUnexpected(
   response: WebAppsListPremierAddOnsSlot200Response | WebAppsListPremierAddOnsSlotDefaultResponse,
@@ -5519,8 +5439,7 @@ export function isUnexpected(
 ): response is WebAppsGetPrivateAccessSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsPutPrivateAccessVnetSlot200Response
-    | WebAppsPutPrivateAccessVnetSlotDefaultResponse,
+    WebAppsPutPrivateAccessVnetSlot200Response | WebAppsPutPrivateAccessVnetSlotDefaultResponse,
 ): response is WebAppsPutPrivateAccessVnetSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -5594,13 +5513,11 @@ export function isUnexpected(
 ): response is WebAppsListProcessThreadsSlot404Response;
 export function isUnexpected(
   response:
-    | WebAppsListPublicCertificatesSlot200Response
-    | WebAppsListPublicCertificatesSlotDefaultResponse,
+    WebAppsListPublicCertificatesSlot200Response | WebAppsListPublicCertificatesSlotDefaultResponse,
 ): response is WebAppsListPublicCertificatesSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsGetPublicCertificateSlot200Response
-    | WebAppsGetPublicCertificateSlotDefaultResponse,
+    WebAppsGetPublicCertificateSlot200Response | WebAppsGetPublicCertificateSlotDefaultResponse,
 ): response is WebAppsGetPublicCertificateSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -5620,8 +5537,7 @@ export function isUnexpected(
 ): response is WebAppsListPublishingProfileXmlWithSecretsSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsResetSlotConfigurationSlot200Response
-    | WebAppsResetSlotConfigurationSlotDefaultResponse,
+    WebAppsResetSlotConfigurationSlot200Response | WebAppsResetSlotConfigurationSlotDefaultResponse,
 ): response is WebAppsResetSlotConfigurationSlotDefaultResponse;
 export function isUnexpected(
   response: WebAppsRestartSlot200Response | WebAppsRestartSlotDefaultResponse,
@@ -5671,14 +5587,11 @@ export function isUnexpected(
 ): response is WebAppsDeleteSiteExtensionSlot404Response;
 export function isUnexpected(
   response:
-    | WebAppsListSlotDifferencesSlot200Response
-    | WebAppsListSlotDifferencesSlotDefaultResponse,
+    WebAppsListSlotDifferencesSlot200Response | WebAppsListSlotDifferencesSlotDefaultResponse,
 ): response is WebAppsListSlotDifferencesSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsSwapSlot200Response
-    | WebAppsSwapSlot202Response
-    | WebAppsSwapSlotDefaultResponse,
+    WebAppsSwapSlot200Response | WebAppsSwapSlot202Response | WebAppsSwapSlotDefaultResponse,
 ): response is WebAppsSwapSlotDefaultResponse;
 export function isUnexpected(
   response: WebAppsListSnapshotsSlot200Response | WebAppsListSnapshotsSlotDefaultResponse,
@@ -5739,13 +5652,11 @@ export function isUnexpected(
 ): response is WebAppsSyncRepositorySlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsSyncFunctionTriggersSlot204Response
-    | WebAppsSyncFunctionTriggersSlotDefaultResponse,
+    WebAppsSyncFunctionTriggersSlot204Response | WebAppsSyncFunctionTriggersSlotDefaultResponse,
 ): response is WebAppsSyncFunctionTriggersSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListTriggeredWebJobsSlot200Response
-    | WebAppsListTriggeredWebJobsSlotDefaultResponse,
+    WebAppsListTriggeredWebJobsSlot200Response | WebAppsListTriggeredWebJobsSlotDefaultResponse,
 ): response is WebAppsListTriggeredWebJobsSlotDefaultResponse;
 export function isUnexpected(
   response:
@@ -5782,8 +5693,7 @@ export function isUnexpected(
 ): response is WebAppsListUsagesSlotDefaultResponse;
 export function isUnexpected(
   response:
-    | WebAppsListVnetConnectionsSlot200Response
-    | WebAppsListVnetConnectionsSlotDefaultResponse,
+    WebAppsListVnetConnectionsSlot200Response | WebAppsListVnetConnectionsSlotDefaultResponse,
 ): response is WebAppsListVnetConnectionsSlotDefaultResponse;
 export function isUnexpected(
   response: WebAppsGetVnetConnectionSlot200Response | WebAppsGetVnetConnectionSlotDefaultResponse,
@@ -5801,8 +5711,7 @@ export function isUnexpected(
 ): response is WebAppsDeleteVnetConnectionSlot404Response;
 export function isUnexpected(
   response:
-    | WebAppsUpdateVnetConnectionSlot200Response
-    | WebAppsUpdateVnetConnectionSlotDefaultResponse,
+    WebAppsUpdateVnetConnectionSlot200Response | WebAppsUpdateVnetConnectionSlotDefaultResponse,
 ): response is WebAppsUpdateVnetConnectionSlotDefaultResponse;
 export function isUnexpected(
   response:

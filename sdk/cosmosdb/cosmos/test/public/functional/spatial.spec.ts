@@ -58,8 +58,8 @@ describe("Spatial Indexes", { timeout: 10000 }, () => {
     const query =
       "SELECT * FROM root WHERE (ST_DISTANCE(root.Location, {type: 'Point', coordinates: [20.1, 20]}) < 20000) ";
     const { resources: results } = await container.items.query(query).fetchAll();
-    assert.equal(1, results.length);
-    assert.equal("location1", results[0].id);
+    assert.equal(results.length, 1);
+    assert.equal(results[0].id, "location1");
   };
 
   it("nativeApi Should support spatial index name based", async () => {

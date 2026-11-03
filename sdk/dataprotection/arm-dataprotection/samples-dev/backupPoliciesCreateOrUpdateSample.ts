@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or Updates a backup policy belonging to a backup vault
  *
  * @summary creates or Updates a backup policy belonging to a backup vault
- * x-ms-original-file: 2025-07-01/PolicyCRUD/CreateOrUpdateBackupPolicy.json
+ * x-ms-original-file: 2026-07-01/PolicyCRUD/CreateOrUpdateBackupPolicy.json
  */
 async function createOrUpdateBackupPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,26 +25,14 @@ async function createOrUpdateBackupPolicy(): Promise<void> {
         policyRules: [
           {
             name: "BackupWeekly",
-            backupParameters: {
-              backupType: "Full",
-              objectType: "AzureBackupParams",
-            },
-            dataStore: {
-              dataStoreType: "VaultStore",
-              objectType: "DataStoreInfoBase",
-            },
+            backupParameters: { backupType: "Full", objectType: "AzureBackupParams" },
+            dataStore: { dataStoreType: "VaultStore", objectType: "DataStoreInfoBase" },
             objectType: "AzureBackupRule",
             trigger: {
               objectType: "ScheduleBasedTriggerContext",
-              schedule: {
-                repeatingTimeIntervals: ["R/2019-11-20T08:00:00-08:00/P1W"],
-              },
+              schedule: { repeatingTimeIntervals: ["R/2019-11-20T08:00:00-08:00/P1W"] },
               taggingCriteria: [
-                {
-                  isDefault: true,
-                  tagInfo: { tagName: "Default" },
-                  taggingPriority: 99,
-                },
+                { isDefault: true, tagInfo: { tagName: "Default" }, taggingPriority: 99 },
                 {
                   criteria: [
                     {
@@ -65,14 +53,8 @@ async function createOrUpdateBackupPolicy(): Promise<void> {
             isDefault: true,
             lifecycles: [
               {
-                deleteAfter: {
-                  duration: "P1W",
-                  objectType: "AbsoluteDeleteOption",
-                },
-                sourceDataStore: {
-                  dataStoreType: "VaultStore",
-                  objectType: "DataStoreInfoBase",
-                },
+                deleteAfter: { duration: "P1W", objectType: "AbsoluteDeleteOption" },
+                sourceDataStore: { dataStoreType: "VaultStore", objectType: "DataStoreInfoBase" },
               },
             ],
             objectType: "AzureRetentionRule",
@@ -82,14 +64,8 @@ async function createOrUpdateBackupPolicy(): Promise<void> {
             isDefault: false,
             lifecycles: [
               {
-                deleteAfter: {
-                  duration: "P12W",
-                  objectType: "AbsoluteDeleteOption",
-                },
-                sourceDataStore: {
-                  dataStoreType: "VaultStore",
-                  objectType: "DataStoreInfoBase",
-                },
+                deleteAfter: { duration: "P12W", objectType: "AbsoluteDeleteOption" },
+                sourceDataStore: { dataStoreType: "VaultStore", objectType: "DataStoreInfoBase" },
               },
             ],
             objectType: "AzureRetentionRule",

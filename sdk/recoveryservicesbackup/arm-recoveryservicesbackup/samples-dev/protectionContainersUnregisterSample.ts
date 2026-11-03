@@ -1,37 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Unregisters the given container from your Recovery Services Vault. This is an asynchronous operation. To determine
-whether the backend service has finished processing the request, call Get Container Operation Result API.
- *
- * @summary Unregisters the given container from your Recovery Services Vault. This is an asynchronous operation. To determine
-whether the backend service has finished processing the request, call Get Container Operation Result API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureWorkload/ProtectionContainers_Unregister.json
- */
-
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to unregisters the given container from your Recovery Services Vault. This is an asynchronous operation. To determine
+ * whether the backend service has finished processing the request, call Get Container Operation Result API.
+ *
+ * @summary unregisters the given container from your Recovery Services Vault. This is an asynchronous operation. To determine
+ * whether the backend service has finished processing the request, call Get Container Operation Result API.
+ * x-ms-original-file: 2026-10-01/AzureWorkload/ProtectionContainers_Unregister.json
+ */
 async function unregisterProtectionContainer(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "testVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "testRg";
-  const fabricName = "Azure";
-  const containerName = "storagecontainer;Storage;test-rg;teststorage";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  const result = await client.protectionContainers.unregister(
-    vaultName,
-    resourceGroupName,
-    fabricName,
-    containerName,
+  await client.protectionContainers.unregister(
+    "testVault",
+    "testRg",
+    "Azure",
+    "storagecontainer;Storage;test-rg;teststorage",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

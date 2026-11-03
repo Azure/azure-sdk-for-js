@@ -1,64 +1,193 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
-import {
+import type { AIProjectContext as Client } from "../index.js";
+import type {
   Agent,
-  agentObjectDeserializer,
   AgentVersion,
-  agentVersionObjectDeserializer,
-  agentDefinitionUnionSerializer,
   AgentDefinitionUnion,
-  apiErrorResponseDeserializer,
   DeleteAgentResponse,
-  deleteAgentResponseDeserializer,
   _AgentsPagedResultAgentObject,
-  _agentsPagedResultAgentObjectDeserializer,
   DeleteAgentVersionResponse,
-  deleteAgentVersionResponseDeserializer,
   _AgentsPagedResultAgentVersionObject,
-  _agentsPagedResultAgentVersionObjectDeserializer,
+  CreateAgentVersionFromCodeContent,
+  VersionIndicatorUnion,
+  AgentSessionResource,
+  _AgentsPagedResultAgentSessionResource,
+  Microsoft365PublishScope,
+  Microsoft365PublishResponse,
+  Microsoft365PublishDefaults,
+  SessionFileWriteResponse,
+  SessionDirectoryListResponse,
+  SessionDirectoryEntry,
+  AgentsDownloadSessionFileResponse,
+  GetMicrosoft365PackageResponse,
+  AgentsDownloadAgentCodeResponse,
+  AgentOptimizationJob,
+  AgentOptimizationJobResult,
+  AgentOptimizationEstimateInputs,
+  AgentOptimizationEstimateResult,
+  _AgentsPagedResultAgentOptimizationJob,
+  _AgentsPagedResultAgentOptimizationCandidate,
+  AgentOptimizationCandidate,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  agentDeserializer,
+  agentVersionDeserializer,
+  agentDefinitionUnionSerializer,
+  agentBlueprintReferenceUnionSerializer,
+  agentEndpointConfigSerializer,
+  agentCardSerializer,
+  apiErrorResponseDeserializer,
+  deleteAgentResponseDeserializer,
+  _agentsPagedResultAgentObjectDeserializer,
+  deleteAgentVersionResponseDeserializer,
+  _agentsPagedResultAgentVersionObjectDeserializer,
+  createAgentVersionFromCodeContentSerializer,
+  versionIndicatorUnionSerializer,
+  agentSessionResourceDeserializer,
+  _agentsPagedResultAgentSessionResourceDeserializer,
+  microsoft365PermissionScopesArraySerializer,
+  microsoft365PublishResponseDeserializer,
+  microsoft365PublishDefaultsDeserializer,
+  sessionFileWriteResponseDeserializer,
+  sessionDirectoryListResponseDeserializer,
+  agentOptimizationJobSerializer,
+  agentOptimizationJobDeserializer,
+  agentOptimizationJobResultDeserializer,
+  agentOptimizationEstimateInputsSerializer,
+  agentOptimizationEstimateResultDeserializer,
+  _agentsPagedResultAgentOptimizationJobDeserializer,
+  _agentsPagedResultAgentOptimizationCandidateDeserializer,
+  agentOptimizationCandidateDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  AgentsListAgentVersionsOptionalParams,
-  AgentsDeleteAgentVersionOptionalParams,
-  AgentsGetAgentVersionOptionalParams,
+import type {
+  AgentsDeleteSessionFileOptionalParams,
+  AgentsListSessionFilesOptionalParams,
+  AgentsDownloadSessionFileOptionalParams,
+  AgentsUploadSessionFileOptionalParams,
+  GetMicrosoft365PublishDefaultsOptionalParams,
+  GetMicrosoft365PackageOptionalParams,
+  PublishToMicrosoft365OptionalParams,
+  AgentsGetSessionLogStreamOptionalParams,
+  AgentsListSessionsOptionalParams,
+  AgentsStopSessionOptionalParams,
+  AgentsDeleteSessionOptionalParams,
+  AgentsGetSessionOptionalParams,
+  AgentsCreateSessionOptionalParams,
+  AgentsDisableOptionalParams,
+  AgentsEnableOptionalParams,
+  AgentsDownloadAgentCodeOptionalParams,
+  AgentsCreateVersionFromCodeOptionalParams,
+  AgentsUpdateAgentObjectOptionalParams,
+  AgentsListVersionsOptionalParams,
+  AgentsDeleteVersionOptionalParams,
+  AgentsGetVersionOptionalParams,
   AgentsCreateAgentVersionFromManifestOptionalParams,
-  AgentsCreateAgentVersionOptionalParams,
-  AgentsListAgentsOptionalParams,
-  AgentsDeleteAgentOptionalParams,
+  AgentsCreateVersionOptionalParams,
+  AgentsListOptionalParams,
+  AgentsDeleteOptionalParams,
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
-  AgentsUpdateAgentOptionalParams,
-  AgentsCreateAgentOptionalParams,
-  AgentsGetAgentOptionalParams,
+  AgentsUpdateOptionalParams,
+  AgentsCreateOptionalParams,
+  AgentsGetOptionalParams,
+  AgentsPatchAgentObjectOptionalParams,
+  AgentsPromoteOptimizationCandidateOptionalParams,
+  AgentsGetOptimizationCandidateOptionalParams,
+  AgentsListOptimizationCandidatesOptionalParams,
+  AgentsDeleteOptimizationJobOptionalParams,
+  AgentsCancelOptimizationJobOptionalParams,
+  AgentsListOptimizationJobsOptionalParams,
+  AgentsGetOptimizationJobOptionalParams,
+  AgentsEstimateOptimizationJobOptionalParams,
+  AgentsCreateOptimizationJobOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
+import type { ResolvedTracingConfig } from "../../tracing/configuration.js";
+import { traceAgentCreate, traceAgentVersionCreate } from "../../tracing/agentTracing.js";
+import type { JobPoller } from "../../static-helpers/pollingHelpers.js";
+import { getJobPoller } from "../../static-helpers/pollingHelpers.js";
 
-export function _listAgentVersionsSend(
+export function _deleteSessionFileSend(
   context: Client,
   agentName: string,
-  options: AgentsListAgentVersionsOptionalParams = { requestOptions: {} },
+  agentSessionId: string,
+  path: string,
+  options: AgentsDeleteSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?api-version,limit,order,after,before}",
+  const path_1 = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?api-version,path,recursive}",
     {
       agent_name: agentName,
+      agent_session_id: agentSessionId,
+      path: path,
+      recursive: options?.recursive,
       "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path_1).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _deleteSessionFileDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/**
+ * Deletes the specified file or directory from the session sandbox.
+ * When `recursive` is false, deleting a non-empty directory returns 409 Conflict.
+ */
+export async function deleteSessionFile(
+  context: Client,
+  agentName: string,
+  agentSessionId: string,
+  path: string,
+  options: AgentsDeleteSessionFileOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteSessionFileSend(context, agentName, agentSessionId, path, options);
+  return _deleteSessionFileDeserialize(result);
+}
+
+export function _listSessionFilesSend(
+  context: Client,
+  agentName: string,
+  agentSessionId: string,
+  options: AgentsListSessionFilesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?after,api-version,before,limit,order,path}",
+    {
+      agent_name: agentName,
+      agent_session_id: agentSessionId,
+      path: options?.path,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,45 +202,1084 @@ export function _listAgentVersionsSend(
   });
 }
 
-export async function _listAgentVersionsDeserialize(
+export async function _listSessionFilesDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultAgentVersionObject> {
+): Promise<SessionDirectoryListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _agentsPagedResultAgentVersionObjectDeserializer(result.body);
+  return sessionDirectoryListResponseDeserializer(result.body);
 }
 
-/** Returns the list of versions of an agent. */
-export function listAgentVersions(
+/**
+ * Returns files and directories at the specified path in the session sandbox.
+ * The response includes only the immediate children of the target directory and defaults to the session home directory when no path is supplied.
+ */
+export function listSessionFiles(
   context: Client,
   agentName: string,
-  options: AgentsListAgentVersionsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AgentVersion> {
+  agentSessionId: string,
+  options: AgentsListSessionFilesOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<SessionDirectoryEntry> {
   return buildPagedAsyncIterator(
     context,
-    () => _listAgentVersionsSend(context, agentName, options),
-    _listAgentVersionsDeserialize,
+    () => _listSessionFilesSend(context, agentName, agentSessionId, options),
+    _listSessionFilesDeserialize,
     ["200"],
-    { itemName: "data" },
+    {
+      itemName: "entries",
+      apiVersion: context.apiVersion,
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }
 
-export function _deleteAgentVersionSend(
+export function _downloadSessionFileSend(
+  context: Client,
+  agentName: string,
+  agentSessionId: string,
+  path: string,
+  options: AgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path_1 = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?api-version,path}",
+    {
+      agent_name: agentName,
+      agent_session_id: agentSessionId,
+      path: path,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path_1).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/octet-stream",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _downloadSessionFileDeserialize(
+  result: PathUncheckedResponse & AgentsDownloadSessionFileResponse,
+): Promise<AgentsDownloadSessionFileResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/**
+ * Downloads the file at the specified sandbox path as a binary stream.
+ * The path is resolved relative to the session home directory.
+ */
+export async function downloadSessionFile(
+  context: Client,
+  agentName: string,
+  agentSessionId: string,
+  path: string,
+  options: AgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
+): Promise<AgentsDownloadSessionFileResponse> {
+  const streamableMethod = _downloadSessionFileSend(
+    context,
+    agentName,
+    agentSessionId,
+    path,
+    options,
+  );
+  const result = await getBinaryStreamResponse(streamableMethod);
+  return _downloadSessionFileDeserialize(result);
+}
+
+export function _uploadSessionFileSend(
+  context: Client,
+  agentName: string,
+  agentSessionId: string,
+  path: string,
+  content: Uint8Array,
+  options: AgentsUploadSessionFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path_1 = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?api-version,path}",
+    {
+      agent_name: agentName,
+      agent_session_id: agentSessionId,
+      path: path,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path_1).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/octet-stream",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: content,
+  });
+}
+
+export async function _uploadSessionFileDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SessionFileWriteResponse> {
+  const expectedStatuses = ["200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return sessionFileWriteResponseDeserializer(result.body);
+}
+
+/**
+ * Uploads binary file content to the specified path in the session sandbox.
+ * The service stores the file relative to the session home directory and rejects payloads larger than 50 MB.
+ */
+export async function uploadSessionFile(
+  context: Client,
+  agentName: string,
+  agentSessionId: string,
+  path: string,
+  content: Uint8Array,
+  options: AgentsUploadSessionFileOptionalParams = { requestOptions: {} },
+): Promise<SessionFileWriteResponse> {
+  const result = await _uploadSessionFileSend(
+    context,
+    agentName,
+    agentSessionId,
+    path,
+    content,
+    options,
+  );
+  return _uploadSessionFileDeserialize(result);
+}
+
+export function _getMicrosoft365PublishDefaultsSend(
+  context: Client,
+  agentName: string,
+  options: GetMicrosoft365PublishDefaultsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/microsoft365/publishdefaults{?api-version,publishAsDigitalWorker}",
+    {
+      agent_name: agentName,
+      publishAsDigitalWorker: options?.publishAsDigitalWorker,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getMicrosoft365PublishDefaultsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Microsoft365PublishDefaults> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return microsoft365PublishDefaultsDeserializer(result.body);
+}
+
+/**
+ * Returns default and previously-published values used to pre-populate a Microsoft 365 publish
+ * request for a Foundry agent.
+ */
+export async function getMicrosoft365PublishDefaults(
+  context: Client,
+  agentName: string,
+  options: GetMicrosoft365PublishDefaultsOptionalParams = { requestOptions: {} },
+): Promise<Microsoft365PublishDefaults> {
+  const result = await _getMicrosoft365PublishDefaultsSend(context, agentName, options);
+  return _getMicrosoft365PublishDefaultsDeserialize(result);
+}
+
+export function _getMicrosoft365PackageSend(
+  context: Client,
+  agentName: string,
+  publishScope: Microsoft365PublishScope,
+  options: GetMicrosoft365PackageOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/microsoft365/zip{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/zip", ...options.requestOptions?.headers },
+    body: {
+      agentDisplayName: options?.agentDisplayName,
+      botServiceArmId: options?.botServiceArmId,
+      publishAsAutopilot: options?.publishAsAutopilot,
+      accessBoundaries: !options?.accessBoundaries
+        ? options?.accessBoundaries
+        : options?.accessBoundaries.map((p: any) => {
+            return p;
+          }),
+      optionalPermissionScopes: !options?.optionalPermissionScopes
+        ? options?.optionalPermissionScopes
+        : microsoft365PermissionScopesArraySerializer(options?.optionalPermissionScopes),
+      publishScope: publishScope,
+      canRespondWithoutMention: options?.canRespondWithoutMention,
+      appVersion: options?.appVersion,
+      shortDescription: options?.shortDescription,
+      fullDescription: options?.fullDescription,
+      developerName: options?.developerName,
+      developerWebsiteUrl: options?.developerWebsiteUrl,
+      privacyUrl: options?.privacyUrl,
+      termsOfUseUrl: options?.termsOfUseUrl,
+      colorIconBase64: options?.colorIconBase64,
+      outlineIconBase64: options?.outlineIconBase64,
+    },
+  });
+}
+
+export async function _getMicrosoft365PackageDeserialize(
+  result: PathUncheckedResponse & GetMicrosoft365PackageResponse,
+): Promise<GetMicrosoft365PackageResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/**
+ * Generates the Microsoft Teams app package (zip) for a Foundry agent from the supplied publish
+ * request, without publishing it. Returns the app package as `application/zip`.
+ */
+export async function getMicrosoft365Package(
+  context: Client,
+  agentName: string,
+  publishScope: Microsoft365PublishScope,
+  options: GetMicrosoft365PackageOptionalParams = { requestOptions: {} },
+): Promise<GetMicrosoft365PackageResponse> {
+  const streamableMethod = _getMicrosoft365PackageSend(context, agentName, publishScope, options);
+  const result = await getBinaryStreamResponse(streamableMethod);
+  return _getMicrosoft365PackageDeserialize(result);
+}
+
+export function _publishToMicrosoft365Send(
+  context: Client,
+  agentName: string,
+  publishScope: Microsoft365PublishScope,
+  options: PublishToMicrosoft365OptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/microsoft365/publish{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      agentDisplayName: options?.agentDisplayName,
+      botServiceArmId: options?.botServiceArmId,
+      publishAsAutopilot: options?.publishAsAutopilot,
+      accessBoundaries: !options?.accessBoundaries
+        ? options?.accessBoundaries
+        : options?.accessBoundaries.map((p: any) => {
+            return p;
+          }),
+      optionalPermissionScopes: !options?.optionalPermissionScopes
+        ? options?.optionalPermissionScopes
+        : microsoft365PermissionScopesArraySerializer(options?.optionalPermissionScopes),
+      publishScope: publishScope,
+      canRespondWithoutMention: options?.canRespondWithoutMention,
+      appVersion: options?.appVersion,
+      shortDescription: options?.shortDescription,
+      fullDescription: options?.fullDescription,
+      developerName: options?.developerName,
+      developerWebsiteUrl: options?.developerWebsiteUrl,
+      privacyUrl: options?.privacyUrl,
+      termsOfUseUrl: options?.termsOfUseUrl,
+      colorIconBase64: options?.colorIconBase64,
+      outlineIconBase64: options?.outlineIconBase64,
+    },
+  });
+}
+
+export async function _publishToMicrosoft365Deserialize(
+  result: PathUncheckedResponse,
+): Promise<Microsoft365PublishResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return microsoft365PublishResponseDeserializer(result.body);
+}
+
+/**
+ * Publishes a Foundry agent to Microsoft 365 / Microsoft Teams and returns the published title and
+ * Teams app ids.
+ */
+export async function publishToMicrosoft365(
+  context: Client,
+  agentName: string,
+  publishScope: Microsoft365PublishScope,
+  options: PublishToMicrosoft365OptionalParams = { requestOptions: {} },
+): Promise<Microsoft365PublishResponse> {
+  const result = await _publishToMicrosoft365Send(context, agentName, publishScope, options);
+  return _publishToMicrosoft365Deserialize(result);
+}
+
+export function _promoteOptimizationCandidateSend(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  options: AgentsPromoteOptimizationCandidateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/candidates/{candidateId}:promote{?api-version}",
+    {
+      jobId: jobId,
+      candidateId: candidateId,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _promoteOptimizationCandidateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentOptimizationCandidate> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentOptimizationCandidateDeserializer(result.body);
+}
+
+/** Promotes a candidate to the Foundry agent stored in the parent job's target configuration. Promotion is unavailable when the job omitted target_configuration. Prompt-agent promotion creates a new agent version. Hosted-agent promotion currently records promotion metadata without deploying a new hosted-agent version. */
+export async function promoteOptimizationCandidate(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  options: AgentsPromoteOptimizationCandidateOptionalParams = { requestOptions: {} },
+): Promise<AgentOptimizationCandidate> {
+  const result = await _promoteOptimizationCandidateSend(context, jobId, candidateId, options);
+  return _promoteOptimizationCandidateDeserialize(result);
+}
+
+export function _getOptimizationCandidateSend(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  options: AgentsGetOptimizationCandidateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/candidates/{candidateId}{?api-version}",
+    {
+      jobId: jobId,
+      candidateId: candidateId,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getOptimizationCandidateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentOptimizationCandidate> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentOptimizationCandidateDeserializer(result.body);
+}
+
+/** Retrieves a single candidate. Mutation values are always included. */
+export async function getOptimizationCandidate(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  options: AgentsGetOptimizationCandidateOptionalParams = { requestOptions: {} },
+): Promise<AgentOptimizationCandidate> {
+  const result = await _getOptimizationCandidateSend(context, jobId, candidateId, options);
+  return _getOptimizationCandidateDeserialize(result);
+}
+
+export function _listOptimizationCandidatesSend(
+  context: Client,
+  jobId: string,
+  options: AgentsListOptimizationCandidatesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/candidates{?after,api-version,before,expand,limit,order}",
+    {
+      jobId: jobId,
+      expand: !options?.expand
+        ? options?.expand
+        : options?.expand.map((p: any) => {
+            return p;
+          }),
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listOptimizationCandidatesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultAgentOptimizationCandidate> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultAgentOptimizationCandidateDeserializer(result.body);
+}
+
+/** Lists candidates for the given optimization job with cursor pagination, including the original baseline and generated candidates. Each `output.mutations` item identifies a changed attribute by `type`; mutation `value` fields are omitted unless the client passes `expand=mutations`. */
+export function listOptimizationCandidates(
+  context: Client,
+  jobId: string,
+  options: AgentsListOptimizationCandidatesOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<AgentOptimizationCandidate> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listOptimizationCandidatesSend(context, jobId, options),
+    _listOptimizationCandidatesDeserialize,
+    ["200"],
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...operationOptionsToRequestParameters(options),
+        headers: { accept: "application/json", ...options.requestOptions?.headers },
+      },
+    },
+  );
+}
+
+export function _deleteOptimizationJobSend(
+  context: Client,
+  jobId: string,
+  options: AgentsDeleteOptimizationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}{?api-version}",
+    {
+      jobId: jobId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _deleteOptimizationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Delete the job and its candidate artifacts. Cancels first if non-terminal. */
+export async function deleteOptimizationJob(
+  context: Client,
+  jobId: string,
+  options: AgentsDeleteOptimizationJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteOptimizationJobSend(context, jobId, options);
+  return _deleteOptimizationJobDeserialize(result);
+}
+
+export function _cancelOptimizationJobSend(
+  context: Client,
+  jobId: string,
+  options: AgentsCancelOptimizationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}:cancel{?api-version}",
+    {
+      jobId: jobId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _cancelOptimizationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentOptimizationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentOptimizationJobDeserializer(result.body);
+}
+
+/** Request cancellation of a running or queued job. Returns an error if the job is already in a terminal state. */
+export async function cancelOptimizationJob(
+  context: Client,
+  jobId: string,
+  options: AgentsCancelOptimizationJobOptionalParams = { requestOptions: {} },
+): Promise<AgentOptimizationJob> {
+  const result = await _cancelOptimizationJobSend(context, jobId, options);
+  return _cancelOptimizationJobDeserialize(result);
+}
+
+export function _listOptimizationJobsSend(
+  context: Client,
+  options: AgentsListOptimizationJobsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs{?after,agent_name,api-version,before,limit,order,status}",
+    {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      status: options?.status,
+      agent_name: options?.agentName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listOptimizationJobsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultAgentOptimizationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultAgentOptimizationJobDeserializer(result.body);
+}
+
+/** List optimization jobs. Supports cursor pagination and optional status / agent_name filters. */
+export function listOptimizationJobs(
+  context: Client,
+  options: AgentsListOptimizationJobsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<AgentOptimizationJob> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listOptimizationJobsSend(context, options),
+    _listOptimizationJobsDeserialize,
+    ["200"],
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...operationOptionsToRequestParameters(options),
+        headers: { accept: "application/json", ...options.requestOptions?.headers },
+      },
+    },
+  );
+}
+
+export function _getOptimizationJobSend(
+  context: Client,
+  jobId: string,
+  options: AgentsGetOptimizationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}{?api-version}",
+    {
+      jobId: jobId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getOptimizationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentOptimizationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentOptimizationJobDeserializer(result.body);
+}
+
+/** Get an optimization job by id. */
+export async function getOptimizationJob(
+  context: Client,
+  jobId: string,
+  options: AgentsGetOptimizationJobOptionalParams = { requestOptions: {} },
+): Promise<AgentOptimizationJob> {
+  const result = await _getOptimizationJobSend(context, jobId, options);
+  return _getOptimizationJobDeserialize(result);
+}
+
+export function _estimateOptimizationJobSend(
+  context: Client,
+  inputs: AgentOptimizationEstimateInputs,
+  options: AgentsEstimateOptimizationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs:estimate{?api-version}",
+    {
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: agentOptimizationEstimateInputsSerializer(inputs),
+  });
+}
+
+export async function _estimateOptimizationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentOptimizationEstimateResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentOptimizationEstimateResultDeserializer(result.body);
+}
+
+/** Estimates validation-set rows, per-stage model call volumes, and cost bands without submitting the job. */
+export async function estimateOptimizationJob(
+  context: Client,
+  inputs: AgentOptimizationEstimateInputs,
+  options: AgentsEstimateOptimizationJobOptionalParams = { requestOptions: {} },
+): Promise<AgentOptimizationEstimateResult> {
+  const result = await _estimateOptimizationJobSend(context, inputs, options);
+  return _estimateOptimizationJobDeserialize(result);
+}
+
+export function _createOptimizationJobSend(
+  context: Client,
+  job: AgentOptimizationJob,
+  options: AgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs{?api-version}",
+    {
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: agentOptimizationJobSerializer(job),
+  });
+}
+
+export async function _createOptimizationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentOptimizationJobResult> {
+  const expectedStatuses = ["201", "200", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return agentOptimizationJobResultDeserializer(result.body.result);
+}
+
+/** Create an optimization job. Returns the queued job. Honours `Operation-Id` for idempotent retry. */
+export function createOptimizationJob(
+  context: Client,
+  job: AgentOptimizationJob,
+  options: AgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
+): JobPoller<AgentOptimizationJobResult> {
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
+  return getJobPoller(context, _createOptimizationJobDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createOptimizationJobSend(context, job, options),
+    resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "v1",
+    pollHeaders: Object.fromEntries(
+      Object.entries(options?.requestOptions?.headers ?? {}).map(([name, value]) => [
+        name,
+        String(value),
+      ]),
+    ),
+  });
+}
+
+export function _getSessionLogStreamSend(
   context: Client,
   agentName: string,
   agentVersion: string,
-  options: AgentsDeleteAgentVersionOptionalParams = { requestOptions: {} },
+  sessionId: string,
+  options: AgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}{?api-version}",
+    "/agents/{agent_name}/versions/{agent_version}/sessions/{session_id}:logstream{?api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
+      session_id: sessionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "text/event-stream", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getSessionLogStreamDeserialize(
+  result: PathUncheckedResponse & AgentsDownloadSessionFileResponse,
+): Promise<AgentsDownloadSessionFileResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/**
+ * Streams console logs (stdout / stderr) for a specific hosted agent session
+ * as a Server-Sent Events (SSE) stream.
+ *
+ * Each SSE frame contains:
+ * - `event`: always `"log"`
+ * - `data`: a plain-text log line (currently JSON-formatted, but the schema
+ * is not contractual and may include additional keys or change format
+ * over time — clients should treat it as an opaque string)
+ *
+ * Example SSE frames:
+ * ```
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:33:17.121Z","stream":"stdout","message":"Starting FoundryCBAgent server on port 8088"}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:33:17.130Z","stream":"stderr","message":"INFO: Application startup complete."}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:34:52.714Z","stream":"status","message":"Successfully connected to container"}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:35:52.714Z","stream":"status","message":"No logs since last 60 seconds"}
+ * ```
+ *
+ * The stream remains open until the client disconnects or the server
+ * terminates the connection. Clients should handle reconnection as needed.
+ */
+export async function getSessionLogStream(
+  context: Client,
+  agentName: string,
+  agentVersion: string,
+  sessionId: string,
+  options: AgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
+): Promise<AgentsDownloadSessionFileResponse> {
+  const streamableMethod = _getSessionLogStreamSend(
+    context,
+    agentName,
+    agentVersion,
+    sessionId,
+    options,
+  );
+  const result = await getBinaryStreamResponse(streamableMethod);
+  return _getSessionLogStreamDeserialize(result);
+}
+
+export function _listSessionsSend(
+  context: Client,
+  agentName: string,
+  options: AgentsListSessionsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions{?after,api-version,before,limit,order}",
+    {
+      agent_name: agentName,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listSessionsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultAgentSessionResource> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultAgentSessionResourceDeserializer(result.body);
+}
+
+/** Returns a paged collection of sessions associated with the specified agent endpoint. */
+export function listSessions(
+  context: Client,
+  agentName: string,
+  options: AgentsListSessionsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<AgentSessionResource> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSessionsSend(context, agentName, options),
+    _listSessionsDeserialize,
+    ["200"],
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
+  );
+}
+
+export function _stopSessionSend(
+  context: Client,
+  agentName: string,
+  sessionId: string,
+  options: AgentsStopSessionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions/{session_id}:stop{?api-version}",
+    {
+      agent_name: agentName,
+      session_id: sessionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { ...options.requestOptions?.headers },
+  });
+}
+
+export async function _stopSessionDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Terminates the specified hosted agent session and returns 204 No Content when the request succeeds. */
+export async function stopSession(
+  context: Client,
+  agentName: string,
+  sessionId: string,
+  options: AgentsStopSessionOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _stopSessionSend(context, agentName, sessionId, options);
+  return _stopSessionDeserialize(result);
+}
+
+export function _deleteSessionSend(
+  context: Client,
+  agentName: string,
+  sessionId: string,
+  options: AgentsDeleteSessionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions/{session_id}{?api-version}",
+    {
+      agent_name: agentName,
+      session_id: sessionId,
       "api-version": context.apiVersion,
     },
     {
@@ -121,47 +1289,50 @@ export function _deleteAgentVersionSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json",
       ...options.requestOptions?.headers,
     },
   });
 }
 
-export async function _deleteAgentVersionDeserialize(
-  result: PathUncheckedResponse,
-): Promise<DeleteAgentVersionResponse> {
-  const expectedStatuses = ["200"];
+export async function _deleteSessionDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return deleteAgentVersionResponseDeserializer(result.body);
+  return;
 }
 
-/** Deletes a specific version of an agent. */
-export async function deleteAgentVersion(
+/**
+ * Deletes a session synchronously.
+ * Returns 204 No Content when the session is deleted or does not exist.
+ */
+export async function deleteSession(
   context: Client,
   agentName: string,
-  agentVersion: string,
-  options: AgentsDeleteAgentVersionOptionalParams = { requestOptions: {} },
-): Promise<DeleteAgentVersionResponse> {
-  const result = await _deleteAgentVersionSend(context, agentName, agentVersion, options);
-  return _deleteAgentVersionDeserialize(result);
+  sessionId: string,
+  options: AgentsDeleteSessionOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteSessionSend(context, agentName, sessionId, options);
+  return _deleteSessionDeserialize(result);
 }
 
-export function _getAgentVersionSend(
+export function _getSessionSend(
   context: Client,
   agentName: string,
-  agentVersion: string,
-  options: AgentsGetAgentVersionOptionalParams = { requestOptions: {} },
+  sessionId: string,
+  options: AgentsGetSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}{?api-version}",
+    "/agents/{agent_name}/endpoint/sessions/{session_id}{?api-version}",
     {
       agent_name: agentName,
-      agent_version: agentVersion,
+      session_id: sessionId,
       "api-version": context.apiVersion,
     },
     {
@@ -177,35 +1348,619 @@ export function _getAgentVersionSend(
   });
 }
 
-export async function _getAgentVersionDeserialize(
+export async function _getSessionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentSessionResource> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentSessionResourceDeserializer(result.body);
+}
+
+/** Retrieves the details of a hosted agent session by agent name and session identifier. */
+export async function getSession(
+  context: Client,
+  agentName: string,
+  sessionId: string,
+  options: AgentsGetSessionOptionalParams = { requestOptions: {} },
+): Promise<AgentSessionResource> {
+  const result = await _getSessionSend(context, agentName, sessionId, options);
+  return _getSessionDeserialize(result);
+}
+
+export function _createSessionSend(
+  context: Client,
+  agentName: string,
+  versionIndicator: VersionIndicatorUnion,
+  options: AgentsCreateSessionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      agent_session_id: options?.agentSessionId,
+      version_indicator: versionIndicatorUnionSerializer(versionIndicator),
+    },
+  });
+}
+
+export async function _createSessionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentSessionResource> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentSessionResourceDeserializer(result.body);
+}
+
+/**
+ * Creates a new session for an agent endpoint.
+ * The endpoint resolves the backing agent version from `version_indicator` and
+ * enforces session ownership using the provided isolation key for session-mutating operations.
+ */
+export async function createSession(
+  context: Client,
+  agentName: string,
+  versionIndicator: VersionIndicatorUnion,
+  options: AgentsCreateSessionOptionalParams = { requestOptions: {} },
+): Promise<AgentSessionResource> {
+  const result = await _createSessionSend(context, agentName, versionIndicator, options);
+  return _createSessionDeserialize(result);
+}
+
+export function _disableSend(
+  context: Client,
+  agentName: string,
+  options: AgentsDisableOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}:disable{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _disableDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/**
+ * Disables the specified agent, preventing it from accepting new sessions or processing requests.
+ * Existing active sessions are allowed to drain gracefully but no new sessions can be created.
+ * This operation is idempotent — disabling an already-disabled agent returns success with no side effects.
+ */
+export async function disable(
+  context: Client,
+  agentName: string,
+  options: AgentsDisableOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _disableSend(context, agentName, options);
+  return _disableDeserialize(result);
+}
+
+export function _enableSend(
+  context: Client,
+  agentName: string,
+  options: AgentsEnableOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}:enable{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _enableDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/**
+ * Enables the specified agent, allowing it to accept new sessions and process requests.
+ * This operation is idempotent — enabling an already-enabled agent returns success with no side effects.
+ */
+export async function enable(
+  context: Client,
+  agentName: string,
+  options: AgentsEnableOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _enableSend(context, agentName, options);
+  return _enableDeserialize(result);
+}
+
+export function _downloadAgentCodeSend(
+  context: Client,
+  agentName: string,
+  options: AgentsDownloadAgentCodeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/code:download{?agent_version,api-version}",
+    {
+      agent_name: agentName,
+      agent_version: options?.agentVersion,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/zip", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _downloadAgentCodeDeserialize(
+  result: PathUncheckedResponse & AgentsDownloadAgentCodeResponse,
+): Promise<AgentsDownloadAgentCodeResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body?.error) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/**
+ * Downloads the code zip for a code-based hosted agent.
+ * Returns the previously-uploaded zip (`application/zip`).
+ *
+ * If `agent_version` is supplied, returns that version's code zip; otherwise
+ * returns the latest version's code zip.
+ *
+ * The SHA-256 digest of the returned bytes matches the `content_hash` on the
+ * resolved version's `code_configuration`.
+ */
+export async function downloadAgentCode(
+  context: Client,
+  agentName: string,
+  options: AgentsDownloadAgentCodeOptionalParams = { requestOptions: {} },
+): Promise<AgentsDownloadAgentCodeResponse> {
+  const streamableMethod = _downloadAgentCodeSend(context, agentName, options);
+  const result = await getBinaryStreamResponse(streamableMethod);
+  return _downloadAgentCodeDeserialize(result);
+}
+
+export function _createVersionFromCodeSend(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  content: CreateAgentVersionFromCodeContent,
+  options: AgentsCreateVersionFromCodeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "multipart/form-data",
+    headers: {
+      "x-ms-code-zip-sha256": codeZipSha256,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: createAgentVersionFromCodeContentSerializer(content),
+  });
+}
+
+export async function _createVersionFromCodeDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AgentVersion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return agentVersionObjectDeserializer(result.body);
+  return agentVersionDeserializer(result.body);
 }
 
-/** Retrieves a specific version of an agent. */
-export async function getAgentVersion(
+/**
+ * Creates a new agent version from code. Uploads the code zip and creates a new version
+ * for an existing agent. The SHA-256 hex digest of the zip is provided in the
+ * `x-ms-code-zip-sha256` header for integrity and dedup.
+ * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+ * Maximum upload size is 250 MB.
+ */
+export async function createVersionFromCode(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  content: CreateAgentVersionFromCodeContent,
+  options: AgentsCreateVersionFromCodeOptionalParams = { requestOptions: {} },
+): Promise<AgentVersion> {
+  const result = await _createVersionFromCodeSend(
+    context,
+    agentName,
+    codeZipSha256,
+    content,
+    options,
+  );
+  return _createVersionFromCodeDeserialize(result);
+}
+
+export function _patchAgentObjectSend(
+  context: Client,
+  agentName: string,
+  options: AgentsUpdateAgentObjectOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/merge-patch+json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      agent_endpoint: !options?.agentEndpoint
+        ? options?.agentEndpoint
+        : agentEndpointConfigSerializer(options?.agentEndpoint),
+      agent_card: !options?.agentCard
+        ? options?.agentCard
+        : agentCardSerializer(options?.agentCard),
+    },
+  });
+}
+
+export async function _patchAgentObjectDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+
+/** Applies a merge-patch update to the specified agent endpoint configuration. */
+export async function updateAgentObject(
+  context: Client,
+  agentName: string,
+  options: AgentsUpdateAgentObjectOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _patchAgentObjectSend(context, agentName, options);
+  return _patchAgentObjectDeserialize(result);
+}
+
+export function _listVersionsSend(
+  context: Client,
+  agentName: string,
+  options: AgentsListVersionsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions{?after,api-version,before,include_drafts,limit,order}",
+    {
+      agent_name: agentName,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      include_drafts: options?.includeDrafts,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listVersionsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultAgentVersionObject> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultAgentVersionObjectDeserializer(result.body);
+}
+
+/** Returns a paged collection of versions for the specified agent. */
+export function listVersions(
+  context: Client,
+  agentName: string,
+  options: AgentsListVersionsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<AgentVersion> {
+  const requestParameters = operationOptionsToRequestParameters(options);
+  return buildPagedAsyncIterator(
+    context,
+    () => _listVersionsSend(context, agentName, options),
+    _listVersionsDeserialize,
+    ["200"],
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...requestParameters,
+        headers: {
+          ...(options?.foundryFeatures !== undefined
+            ? { "foundry-features": options?.foundryFeatures }
+            : {}),
+          ...requestParameters.headers,
+        },
+      },
+    },
+  );
+}
+
+export function _deleteVersionSend(
   context: Client,
   agentName: string,
   agentVersion: string,
-  options: AgentsGetAgentVersionOptionalParams = { requestOptions: {} },
-): Promise<AgentVersion> {
-  const result = await _getAgentVersionSend(context, agentName, agentVersion, options);
-  return _getAgentVersionDeserialize(result);
+  options: AgentsDeleteVersionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions/{agent_version}{?api-version,force}",
+    {
+      agent_name: agentName,
+      agent_version: agentVersion,
+      force: options?.force,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
-export function _createAgentVersionSend(
+export async function _deleteVersionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DeleteAgentVersionResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return deleteAgentVersionResponseDeserializer(result.body);
+}
+
+/**
+ * Deletes a specific version of an agent. For hosted agents, if the version has active
+ * sessions, the request is rejected with HTTP 409 unless `force` is set to true. When
+ * force is true, all sessions associated with this version are cascade-deleted.
+ */
+export async function deleteVersion(
+  context: Client,
+  agentName: string,
+  agentVersion: string,
+  options: AgentsDeleteVersionOptionalParams = { requestOptions: {} },
+): Promise<DeleteAgentVersionResponse> {
+  const result = await _deleteVersionSend(context, agentName, agentVersion, options);
+  return _deleteVersionDeserialize(result);
+}
+
+export function _getVersionSend(
+  context: Client,
+  agentName: string,
+  agentVersion: string,
+  options: AgentsGetVersionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions/{agent_version}{?api-version}",
+    {
+      agent_name: agentName,
+      agent_version: agentVersion,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getVersionDeserialize(result: PathUncheckedResponse): Promise<AgentVersion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentVersionDeserializer(result.body);
+}
+
+/** Retrieves the specified version of an agent by its agent name and version identifier. */
+export async function getVersion(
+  context: Client,
+  agentName: string,
+  agentVersion: string,
+  options: AgentsGetVersionOptionalParams = { requestOptions: {} },
+): Promise<AgentVersion> {
+  const result = await _getVersionSend(context, agentName, agentVersion, options);
+  return _getVersionDeserialize(result);
+}
+
+export function _createAgentVersionFromManifestSend(
+  context: Client,
+  agentName: string,
+  manifestId: string,
+  parameterValues: Record<string, unknown>,
+  options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions:import{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      metadata: options?.metadata,
+      description: options?.description,
+      manifest_id: manifestId,
+      parameter_values: parameterValues,
+    },
+  });
+}
+
+export async function _createAgentVersionFromManifestDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentVersion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentVersionDeserializer(result.body);
+}
+
+/** Imports the provided manifest to create a new version for the specified agent. */
+export async function createAgentVersionFromManifest(
+  context: Client,
+  agentName: string,
+  manifestId: string,
+  parameterValues: Record<string, unknown>,
+  options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
+  tracingConfig?: ResolvedTracingConfig,
+): Promise<AgentVersion> {
+  return traceAgentVersionCreate(agentName, context.endpoint, tracingConfig, async () => {
+    const result = await _createAgentVersionFromManifestSend(
+      context,
+      agentName,
+      manifestId,
+      parameterValues,
+      options,
+    );
+    return _createAgentVersionFromManifestDeserialize(result);
+  });
+}
+
+export function _createVersionSend(
   context: Client,
   agentName: string,
   definition: AgentDefinitionUnion,
-  options: AgentsCreateAgentVersionOptionalParams = { requestOptions: {} },
+  options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents/{agent_name}/versions{?api-version}",
@@ -221,54 +1976,68 @@ export function _createAgentVersionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": `${options?.foundryFeatures}` }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
     body: {
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
+      blueprint_reference: !options?.blueprintReference
+        ? options?.blueprintReference
+        : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
+      digital_worker_type: options?.digitalWorkerType,
+      draft: options?.draft,
     },
   });
 }
 
-export async function _createAgentVersionDeserialize(
+export async function _createVersionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AgentVersion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return agentVersionObjectDeserializer(result.body);
+  return agentVersionDeserializer(result.body);
 }
 
-/** Create a new agent version. */
-export async function createAgentVersion(
+/** Creates a new version for the specified agent and returns the created version resource. */
+export async function createVersion(
   context: Client,
   agentName: string,
   definition: AgentDefinitionUnion,
-  options: AgentsCreateAgentVersionOptionalParams = { requestOptions: {} },
+  options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
+  tracingConfig?: ResolvedTracingConfig,
 ): Promise<AgentVersion> {
-  const result = await _createAgentVersionSend(context, agentName, definition, options);
-  return _createAgentVersionDeserialize(result);
+  return traceAgentVersionCreate(agentName, context.endpoint, tracingConfig, async () => {
+    const result = await _createVersionSend(context, agentName, definition, options);
+    return _createVersionDeserialize(result);
+  });
 }
 
-export function _listAgentsSend(
+export function _listSend(
   context: Client,
-  options: AgentsListAgentsOptionalParams = { requestOptions: {} },
+  options: AgentsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents{?api-version,kind,limit,order,after,before}",
+    "/agents{?after,api-version,before,kind,limit,order}",
     {
-      "api-version": context.apiVersion,
       kind: options?.kind,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -276,49 +2045,55 @@ export function _listAgentsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
-export async function _listAgentsDeserialize(
+export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_AgentsPagedResultAgentObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return _agentsPagedResultAgentObjectDeserializer(result.body);
 }
 
-/** Returns the list of all agents. */
-export function listAgents(
+/** Returns a paged collection of agent resources. */
+export function list(
   context: Client,
-  options: AgentsListAgentsOptionalParams = { requestOptions: {} },
+  options: AgentsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Agent> {
   return buildPagedAsyncIterator(
     context,
-    () => _listAgentsSend(context, options),
-    _listAgentsDeserialize,
+    () => _listSend(context, options),
+    _listDeserialize,
     ["200"],
-    { itemName: "data" },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }
 
-export function _deleteAgentSend(
+export function _$deleteSend(
   context: Client,
   agentName: string,
-  options: AgentsDeleteAgentOptionalParams = { requestOptions: {} },
+  options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?api-version}",
+    "/agents/{agent_name}{?api-version,force}",
     {
       agent_name: agentName,
+      force: options?.force,
       "api-version": context.apiVersion,
     },
     {
@@ -327,41 +2102,45 @@ export function _deleteAgentSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
-export async function _deleteAgentDeserialize(
+export async function _$deleteDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DeleteAgentResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return deleteAgentResponseDeserializer(result.body);
 }
 
-/** Deletes an agent. */
-export async function deleteAgent(
+/**
+ * Deletes an agent. For hosted agents, if any version has active sessions, the request
+ * is rejected with HTTP 409 unless `force` is set to true. When force is true, all
+ * associated sessions are cascade-deleted along with the agent and its versions.
+ */
+export async function $delete(
   context: Client,
   agentName: string,
-  options: AgentsDeleteAgentOptionalParams = { requestOptions: {} },
+  options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<DeleteAgentResponse> {
-  const result = await _deleteAgentSend(context, agentName, options);
-  return _deleteAgentDeserialize(result);
+  const result = await _$deleteSend(context, agentName, options);
+  return _$deleteDeserialize(result);
 }
 
 export function _updateAgentFromManifestSend(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsUpdateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -377,13 +2156,10 @@ export function _updateAgentFromManifestSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: {
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       manifest_id: manifestId,
       parameter_values: parameterValues,
     },
@@ -396,11 +2172,14 @@ export async function _updateAgentFromManifestDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return agentObjectDeserializer(result.body);
+  return agentDeserializer(result.body);
 }
 
 /**
@@ -411,8 +2190,9 @@ export async function updateAgentFromManifest(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsUpdateAgentFromManifestOptionalParams = { requestOptions: {} },
+  _tracingConfig?: ResolvedTracingConfig,
 ): Promise<Agent> {
   const result = await _updateAgentFromManifestSend(
     context,
@@ -428,7 +2208,7 @@ export function _createAgentFromManifestSend(
   context: Client,
   name: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -443,14 +2223,11 @@ export function _createAgentFromManifestSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: {
       name: name,
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       manifest_id: manifestId,
       parameter_values: parameterValues,
     },
@@ -463,36 +2240,42 @@ export async function _createAgentFromManifestDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return agentObjectDeserializer(result.body);
+  return agentDeserializer(result.body);
 }
 
-/** Creates an agent from a manifest. */
+/** Imports the provided manifest to create an agent and returns the created resource. */
 export async function createAgentFromManifest(
   context: Client,
   name: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
+  tracingConfig?: ResolvedTracingConfig,
 ): Promise<Agent> {
-  const result = await _createAgentFromManifestSend(
-    context,
-    name,
-    manifestId,
-    parameterValues,
-    options,
-  );
-  return _createAgentFromManifestDeserialize(result);
+  return traceAgentCreate(name, context.endpoint, tracingConfig, async () => {
+    const result = await _createAgentFromManifestSend(
+      context,
+      name,
+      manifestId,
+      parameterValues,
+      options,
+    );
+    return _createAgentFromManifestDeserialize(result);
+  });
 }
 
-export function _updateAgentSend(
+export function _updateSend(
   context: Client,
   agentName: string,
   definition: AgentDefinitionUnion,
-  options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
+  options: AgentsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents/{agent_name}{?api-version}",
@@ -508,47 +2291,57 @@ export function _updateAgentSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": `${options?.foundryFeatures}` }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
     body: {
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
+      blueprint_reference: !options?.blueprintReference
+        ? options?.blueprintReference
+        : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
     },
   });
 }
 
-export async function _updateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return agentObjectDeserializer(result.body);
+  return agentDeserializer(result.body);
 }
 
 /**
  * Updates the agent by adding a new version if there are any changes to the agent definition.
  * If no changes, returns the existing agent version.
  */
-export async function updateAgent(
+export async function update(
   context: Client,
   agentName: string,
   definition: AgentDefinitionUnion,
-  options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
+  options: AgentsUpdateOptionalParams = { requestOptions: {} },
+  _tracingConfig?: ResolvedTracingConfig,
 ): Promise<Agent> {
-  const result = await _updateAgentSend(context, agentName, definition, options);
-  return _updateAgentDeserialize(result);
+  const result = await _updateSend(context, agentName, definition, options);
+  return _updateDeserialize(result);
 }
 
-export function _createAgentSend(
+export function _createSend(
   context: Client,
   name: string,
   definition: AgentDefinitionUnion,
-  options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
+  options: AgentsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents{?api-version}",
@@ -563,44 +2356,65 @@ export function _createAgentSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": `${options?.foundryFeatures}` }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
     body: {
       name: name,
-      description: options?.description,
+      state: options?.state,
       metadata: options?.metadata,
+      description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
+      blueprint_reference: !options?.blueprintReference
+        ? options?.blueprintReference
+        : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
+      digital_worker_type: options?.digitalWorkerType,
+      draft: options?.draft,
+      agent_endpoint: !options?.agentEndpoint
+        ? options?.agentEndpoint
+        : agentEndpointConfigSerializer(options?.agentEndpoint),
+      agent_card: !options?.agentCard
+        ? options?.agentCard
+        : agentCardSerializer(options?.agentCard),
     },
   });
 }
 
-export async function _createAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+export async function _createDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return agentObjectDeserializer(result.body);
+  return agentDeserializer(result.body);
 }
 
-/** Creates the agent. */
-export async function createAgent(
+/** Creates a new agent or a new version of an existing agent. */
+export async function create(
   context: Client,
   name: string,
   definition: AgentDefinitionUnion,
-  options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
+  options: AgentsCreateOptionalParams = { requestOptions: {} },
+  tracingConfig?: ResolvedTracingConfig,
 ): Promise<Agent> {
-  const result = await _createAgentSend(context, name, definition, options);
-  return _createAgentDeserialize(result);
+  return traceAgentCreate(name, context.endpoint, tracingConfig, async () => {
+    const result = await _createSend(context, name, definition, options);
+    return _createDeserialize(result);
+  });
 }
 
-export function _getAgentSend(
+export function _getSend(
   context: Client,
   agentName: string,
-  options: AgentsGetAgentOptionalParams = { requestOptions: {} },
+  options: AgentsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents/{agent_name}{?api-version}",
@@ -614,98 +2428,39 @@ export function _getAgentSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
-export async function _getAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return agentObjectDeserializer(result.body);
+  return agentDeserializer(result.body);
 }
 
-/** Retrieves the agent. */
-export async function getAgent(
+/** Retrieves an agent definition by its unique name. */
+export async function get(
   context: Client,
   agentName: string,
-  options: AgentsGetAgentOptionalParams = { requestOptions: {} },
+  options: AgentsGetOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _getAgentSend(context, agentName, options);
-  return _getAgentDeserialize(result);
+  const result = await _getSend(context, agentName, options);
+  return _getDeserialize(result);
 }
 
-export function _createAgentVersionFromManifestSend(
+/** Modifies an existing agent. */
+export async function patchAgentObject(
   context: Client,
   agentName: string,
-  manifestId: string,
-  parameterValues: Record<string, any>,
-  options: AgentsCreateAgentVersionFromManifestOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions:import{?api-version}",
-    {
-      agent_name: agentName,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      description: options?.description,
-      metadata: options?.metadata,
-      manifest_id: manifestId,
-      parameter_values: parameterValues,
-    },
-  });
-}
-
-export async function _createAgentVersionFromManifestDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AgentVersion> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return agentVersionObjectDeserializer(result.body);
-}
-
-/** Create a new agent version from a manifest. */
-export async function createAgentVersionFromManifest(
-  context: Client,
-  agentName: string,
-  manifestId: string,
-  parameterValues: Record<string, any>,
-  options: AgentsCreateAgentVersionFromManifestOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<AgentVersion> {
-  const result = await _createAgentVersionFromManifestSend(
-    context,
-    agentName,
-    manifestId,
-    parameterValues,
-    options,
-  );
-  return _createAgentVersionFromManifestDeserialize(result);
+  options: AgentsPatchAgentObjectOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  return updateAgentObject(context, agentName, options);
 }

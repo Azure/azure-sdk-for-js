@@ -1,33 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  FirewallResource} from "@azure/arm-paloaltonetworksngfw";
-import {
-  PaloAltoNetworksCloudngfw,
-} from "@azure/arm-paloaltonetworksngfw";
+import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create a FirewallResource
+ * This sample demonstrates how to create a FirewallResource
  *
- * @summary Create a FirewallResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/Firewalls_CreateOrUpdate_MaximumSet_Gen.json
+ * @summary create a FirewallResource
+ * x-ms-original-file: 2026-05-11-preview/Firewalls_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function firewallsCreateOrUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
-    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const resourceGroupName =
-    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "firewall-rg";
-  const firewallName = "firewall1";
-  const resource: FirewallResource = {
-    associatedRulestack: {
-      location: "eastus",
-      resourceId: "lrs1",
-      rulestackId: "PANRSID",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
+  const result = await client.firewalls.createOrUpdate("firewall-rg", "firewall1", {
+    identity: {
+      type: "None",
+      userAssignedIdentities: { key16: { clientId: "aaaa", principalId: "aaaaaaaaaaaaaaa" } },
     },
+    location: "eastus",
+    associatedRulestack: { location: "eastus", resourceId: "lrs1", rulestackId: "PANRSID" },
+    firewallSku: "PREMIUM",
     dnsSettings: {
       dnsServers: [
         {
@@ -61,14 +55,7 @@ async function firewallsCreateOrUpdateMaximumSetGen(): Promise<void> {
         protocol: "TCP",
       },
     ],
-    identity: {
-      type: "None",
-      userAssignedIdentities: {
-        key16: { clientId: "aaaa", principalId: "aaaaaaaaaaaaaaa" },
-      },
-    },
     isPanoramaManaged: "TRUE",
-    location: "eastus",
     marketplaceDetails: {
       marketplaceSubscriptionStatus: "PendingFulfillmentStart",
       offerId: "liftr-pan-ame-test",
@@ -141,44 +128,26 @@ async function firewallsCreateOrUpdateMaximumSetGen(): Promise<void> {
     },
     panEtag: "2bf4a339-294d-4c25-b0b2-ef649e9f5c12",
     panoramaConfig: { configString: "bas64EncodedString" },
-    planData: {
-      billingCycle: "MONTHLY",
-      planId: "liftrpantestplan",
-      usageType: "PAYG",
-    },
-    provisioningState: "Accepted",
+    planData: { billingCycle: "MONTHLY", planId: "liftrpantestplan", usageType: "PAYG" },
     tags: { tagName: "value" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.firewalls.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    firewallName,
-    resource,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create a FirewallResource
+ * This sample demonstrates how to create a FirewallResource
  *
- * @summary Create a FirewallResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/Firewalls_CreateOrUpdate_MinimumSet_Gen.json
+ * @summary create a FirewallResource
+ * x-ms-original-file: 2026-05-11-preview/Firewalls_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function firewallsCreateOrUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
-    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const resourceGroupName =
-    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "firewall-rg";
-  const firewallName = "firewall1";
-  const resource: FirewallResource = {
-    dnsSettings: {},
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
+  const result = await client.firewalls.createOrUpdate("firewall-rg", "firewall1", {
     location: "eastus",
-    marketplaceDetails: {
-      offerId: "liftr-pan-ame-test",
-      publisherId: "isvtestuklegacy",
-    },
+    dnsSettings: {},
+    marketplaceDetails: { offerId: "liftr-pan-ame-test", publisherId: "isvtestuklegacy" },
     networkProfile: {
       enableEgressNat: "ENABLED",
       networkType: "VNET",
@@ -191,14 +160,7 @@ async function firewallsCreateOrUpdateMinimumSetGen(): Promise<void> {
       ],
     },
     planData: { billingCycle: "MONTHLY", planId: "liftrpantestplan" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.firewalls.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    firewallName,
-    resource,
-  );
+  });
   console.log(result);
 }
 

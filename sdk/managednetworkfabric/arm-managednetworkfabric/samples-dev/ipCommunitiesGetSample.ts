@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Implements an IP Community GET method.
- *
- * @summary Implements an IP Community GET method.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/IpCommunities_Get_MaximumSet_Gen.json
- */
-
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to implements an IP Community GET method.
+ *
+ * @summary implements an IP Community GET method.
+ * x-ms-original-file: 2025-07-15/IpCommunities_Get.json
+ */
 async function ipCommunitiesGetMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const ipCommunityName = "example-ipcommunity";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.ipCommunities.get(resourceGroupName, ipCommunityName);
+  const result = await client.ipCommunities.get("example-rg", "example-ipcommunity");
   console.log(result);
 }
 

@@ -3,30 +3,25 @@
 
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a list of consoles for the provided virtual machine.
+ * This sample demonstrates how to get a list of consoles for the provided virtual machine.
  *
- * @summary Get a list of consoles for the provided virtual machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/Consoles_ListByVirtualMachine.json
+ * @summary get a list of consoles for the provided virtual machine.
+ * x-ms-original-file: 2026-07-01/Consoles_ListByVirtualMachine.json
  */
 async function listConsolesOfTheVirtualMachine(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const virtualMachineName = "virtualMachineName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.consoles.listByVirtualMachine(
-    resourceGroupName,
-    virtualMachineName,
+    "resourceGroupName",
+    "virtualMachineName",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

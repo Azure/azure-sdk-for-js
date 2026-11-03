@@ -15,7 +15,6 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { DigitalTwinsClient } = require("@azure/digital-twins-core");
 const { inspect } = require("util");
-const { v4 } = require("uuid");
 const buildingTwin = require("./dtdl/digitalTwins/buildingTwin.json");
 const building = require("./dtdl/models/building.json");
 
@@ -44,7 +43,7 @@ async function main() {
   console.log(inspect(model));
 
   // Create digital twin based on the created model
-  const digitalTwinId = `digitalTwin-${v4()}`;
+  const digitalTwinId = `digitalTwin-${crypto.randomUUID()}`;
   const newTwin = JSON.stringify(buildingTwin);
   const createdTwin = await serviceClient.upsertDigitalTwin(digitalTwinId, newTwin);
   console.log(`Created Digital Twin:`);

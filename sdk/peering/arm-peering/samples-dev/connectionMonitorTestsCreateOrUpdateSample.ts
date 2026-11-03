@@ -1,37 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a connection monitor test with the specified name under the given subscription, resource group and peering service.
- *
- * @summary Creates or updates a connection monitor test with the specified name under the given subscription, resource group and peering service.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreateOrUpdateConnectionMonitorTest.json
- */
-
-import type { ConnectionMonitorTest } from "@azure/arm-peering";
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to creates or updates a connection monitor test with the specified name under the given subscription, resource group and peering service.
+ *
+ * @summary creates or updates a connection monitor test with the specified name under the given subscription, resource group and peering service.
+ * x-ms-original-file: 2025-05-01/CreateOrUpdateConnectionMonitorTest.json
+ */
 async function createOrUpdateConnectionMonitorTest(): Promise<void> {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
-  const peeringServiceName = "peeringServiceName";
-  const connectionMonitorTestName = "connectionMonitorTestName";
-  const connectionMonitorTest: ConnectionMonitorTest = {
-    destination: "Example Destination",
-    destinationPort: 443,
-    sourceAgent: "Example Source Agent",
-    testFrequencyInSec: 30,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
   const result = await client.connectionMonitorTests.createOrUpdate(
-    resourceGroupName,
-    peeringServiceName,
-    connectionMonitorTestName,
-    connectionMonitorTest,
+    "rgName",
+    "peeringServiceName",
+    "connectionMonitorTestName",
+    {
+      destination: "Example Destination",
+      destinationPort: 443,
+      sourceAgent: "Example Source Agent",
+      testFrequencyInSec: 30,
+    },
   );
   console.log(result);
 }
 
-createOrUpdateConnectionMonitorTest().catch(console.error);
+async function main(): Promise<void> {
+  await createOrUpdateConnectionMonitorTest();
+}
+
+main().catch(console.error);

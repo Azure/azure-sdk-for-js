@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new security policy within the specified profile.
- *
- * @summary Creates a new security policy within the specified profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/SecurityPolicies_Create.json
- */
-
-import type { SecurityPolicy } from "@azure/arm-cdn";
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a new security policy within the specified profile.
+ *
+ * @summary creates a new security policy within the specified profile.
+ * x-ms-original-file: 2026-10-01/SecurityPolicies_Create.json
+ */
 async function securityPoliciesCreate(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
-  const securityPolicyName = "securityPolicy1";
-  const securityPolicy: SecurityPolicy = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CdnManagementClient(credential, subscriptionId);
+  const result = await client.securityPolicies.create("RG", "profile1", "securityPolicy1", {
     parameters: {
       type: "WebApplicationFirewall",
       associations: [
@@ -38,15 +34,7 @@ async function securityPoliciesCreate(): Promise<void> {
         id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Network/frontdoorwebapplicationfirewallpolicies/wafTest",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.securityPolicies.beginCreateAndWait(
-    resourceGroupName,
-    profileName,
-    securityPolicyName,
-    securityPolicy,
-  );
+  });
   console.log(result);
 }
 

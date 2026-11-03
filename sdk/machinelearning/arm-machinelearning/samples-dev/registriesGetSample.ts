@@ -1,48 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get registry
- *
- * @summary Get registry
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Registries/get-SystemCreated.json
- */
-
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
-async function getRegistryWithSystemCreatedAccounts(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
-  const registryName = "string";
-  const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.registries.get(resourceGroupName, registryName);
-  console.log(result);
-}
 
 /**
- * This sample demonstrates how to Get registry
+ * This sample demonstrates how to get registry
  *
- * @summary Get registry
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Registries/get-UserCreated.json
+ * @summary get registry
+ * x-ms-original-file: 2026-03-15-preview/Registries/get.json
  */
-async function getRegistryWithUserCreatedAccounts(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
-  const registryName = "string";
+async function getRegistryWithSystemCreatedAccounts(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.registries.get(resourceGroupName, registryName);
+  const result = await client.registries.get("test-rg", "string");
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await getRegistryWithSystemCreatedAccounts();
-  await getRegistryWithUserCreatedAccounts();
 }
 
 main().catch(console.error);

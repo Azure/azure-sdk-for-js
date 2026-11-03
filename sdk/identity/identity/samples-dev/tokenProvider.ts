@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * @summary demonstrates how to get a bearer token.
+ * @summary demonstrates how to get a bearer token and manually add it to a request.
  */
 
-import { PipelineRequest, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
 import { config } from "dotenv";
 

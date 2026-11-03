@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an existing peering with the specified name under the given subscription and resource group.
- *
- * @summary Deletes an existing peering with the specified name under the given subscription and resource group.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/DeletePeering.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to deletes an existing peering with the specified name under the given subscription and resource group.
+ *
+ * @summary deletes an existing peering with the specified name under the given subscription and resource group.
+ * x-ms-original-file: 2025-05-01/DeletePeering.json
+ */
 async function deleteAPeering(): Promise<void> {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
-  const peeringName = "peeringName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
-  const result = await client.peerings.delete(resourceGroupName, peeringName);
-  console.log(result);
+  await client.peerings.delete("rgName", "peeringName");
 }
 
-deleteAPeering().catch(console.error);
+async function main(): Promise<void> {
+  await deleteAPeering();
+}
+
+main().catch(console.error);

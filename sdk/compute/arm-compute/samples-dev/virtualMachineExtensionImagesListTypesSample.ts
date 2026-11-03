@@ -3,45 +3,35 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of virtual machine extension image types.
+ * This sample demonstrates how to gets a list of virtual machine extension image types.
  *
- * @summary Gets a list of virtual machine extension image types.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListTypes_MaximumSet_Gen.json
+ * @summary gets a list of virtual machine extension image types.
+ * x-ms-original-file: 2026-04-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListTypes_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImageListTypesMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const location = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
-  const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineExtensionImages.listTypes(
-    location,
-    publisherName,
+    "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets a list of virtual machine extension image types.
+ * This sample demonstrates how to gets a list of virtual machine extension image types.
  *
- * @summary Gets a list of virtual machine extension image types.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListTypes_MinimumSet_Gen.json
+ * @summary gets a list of virtual machine extension image types.
+ * x-ms-original-file: 2026-04-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListTypes_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImageListTypesMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const location = "aaaa";
-  const publisherName = "aa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineExtensionImages.listTypes(
-    location,
-    publisherName,
-  );
+  const result = await client.virtualMachineExtensionImages.listTypes("aaaa", "aa");
   console.log(result);
 }
 

@@ -3,30 +3,22 @@
 
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Returns a list of Storage Targets for the specified cache.
+ * This sample demonstrates how to returns a list of Storage Targets for the specified cache.
  *
- * @summary Returns a list of Storage Targets for the specified cache.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/StorageTargets_ListByCache.json
+ * @summary returns a list of Storage Targets for the specified cache.
+ * x-ms-original-file: 2026-08-01/StorageTargets_ListByCache.json
  */
 async function storageTargetsList(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
-  const cacheName = "sc1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.storageTargets.listByCache(
-    resourceGroupName,
-    cacheName,
-  )) {
+  for await (const item of client.storageTargets.listByCache("scgroup", "sc1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

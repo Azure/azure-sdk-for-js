@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes the Network Fabric Controller resource.
- *
- * @summary Deletes the Network Fabric Controller resource.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NetworkFabricControllers_Delete_MaximumSet_Gen.json
- */
-
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes the Network Fabric Controller resource.
+ *
+ * @summary deletes the Network Fabric Controller resource.
+ * x-ms-original-file: 2025-07-15/NetworkFabricControllers_Delete.json
+ */
 async function networkFabricControllersDeleteMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const networkFabricControllerName = "example-networkController";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.networkFabricControllers.beginDeleteAndWait(
-    resourceGroupName,
-    networkFabricControllerName,
-  );
-  console.log(result);
+  await client.networkFabricControllers.delete("example-rg", "example-networkController");
 }
 
 async function main(): Promise<void> {

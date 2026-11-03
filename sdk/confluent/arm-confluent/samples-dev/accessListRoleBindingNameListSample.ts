@@ -1,42 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Organization role bindings
- *
- * @summary Organization role bindings
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_RoleBindingNameList.json
- */
-
-import type { ListAccessRequestModel } from "@azure/arm-confluent";
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function accessRoleBindingNameList(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const body: ListAccessRequestModel = {
-    searchFilters: {
-      crnPattern: "crn://confluent.cloud/organization=1aa7de07-298e-479c-8f2f-16ac91fd8e76",
-      namespace:
-        "public,dataplane,networking,identity,datagovernance,connect,streamcatalog,pipelines,ksql",
-    },
-  };
+/**
+ * This sample demonstrates how to organization role bindings
+ *
+ * @summary organization role bindings
+ * x-ms-original-file: 2026-06-02-preview/Access_ListRoleBindingNameList_MaximumSet_Gen.json
+ */
+async function accessListRoleBindingNameListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const result = await client.access.listRoleBindingNameList(
-    resourceGroupName,
-    organizationName,
-    body,
+    "rgconfluent",
+    "zgcfotubdmgowayipmpgujypv",
+    { searchFilters: { key8083: "ft" } },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to organization role bindings
+ *
+ * @summary organization role bindings
+ * x-ms-original-file: 2026-06-02-preview/Access_ListRoleBindingNameList_MinimumSet_Gen.json
+ */
+async function accessListRoleBindingNameListMinimumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
+  const client = new ConfluentManagementClient(credential, subscriptionId);
+  const result = await client.access.listRoleBindingNameList(
+    "rgconfluent",
+    "nlxbyyyyrdwjzwrcwfjlg",
+    {},
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await accessRoleBindingNameList();
+  await accessListRoleBindingNameListMaximumSet();
+  await accessListRoleBindingNameListMinimumSet();
 }
 
 main().catch(console.error);

@@ -6,9 +6,11 @@
 
 import type { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -55,6 +57,8 @@ export type FileType = "png" | "jpg" | "jpeg" | "pdf";
 // @public
 export interface GetUSProgramBriefOptions extends OperationOptions {
 }
+
+export { isRestError }
 
 // @public
 export interface ListShortCodeCostsOptions extends ShortCodesGetCostsOptionalParams {
@@ -154,6 +158,8 @@ export const ProgramDetailsMapper: coreClient.CompositeMapper;
 
 // @public
 export type Recurrence = "subscription" | "transaction";
+
+export { RestError }
 
 // @public
 export interface ReviewNote {

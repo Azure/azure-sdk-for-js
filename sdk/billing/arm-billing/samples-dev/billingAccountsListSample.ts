@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the billing accounts that a user has access to.
- *
- * @summary Lists the billing accounts that a user has access to.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountForLegacyAccountDetails.json
- */
-
-import type { BillingAccountsListOptionalParams } from "@azure/arm-billing";
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the billing accounts that a user has access to.
+ *
+ * @summary lists the billing accounts that a user has access to.
+ * x-ms-original-file: 2024-04-01/billingAccountForLegacyAccountDetails.json
+ */
 async function billingAccountForLegacyAccountDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
@@ -20,14 +17,15 @@ async function billingAccountForLegacyAccountDetails(): Promise<void> {
   for await (const item of client.billingAccounts.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the billing accounts that a user has access to.
+ * This sample demonstrates how to lists the billing accounts that a user has access to.
  *
- * @summary Lists the billing accounts that a user has access to.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountsList.json
+ * @summary lists the billing accounts that a user has access to.
+ * x-ms-original-file: 2024-04-01/billingAccountsList.json
  */
 async function billingAccountsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,31 +34,33 @@ async function billingAccountsList(): Promise<void> {
   for await (const item of client.billingAccounts.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the billing accounts that a user has access to.
+ * This sample demonstrates how to lists the billing accounts that a user has access to.
  *
- * @summary Lists the billing accounts that a user has access to.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountsListWithExpandForPONumber.json
+ * @summary lists the billing accounts that a user has access to.
+ * x-ms-original-file: 2024-04-01/billingAccountsListWithExpandForPONumber.json
  */
-async function billingAccountsListWithExpandForPoNumber(): Promise<void> {
-  const expand = "soldTo,enrollmentDetails/poNumber";
-  const options: BillingAccountsListOptionalParams = { expand };
+async function billingAccountsListWithExpandForPONumber(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (const item of client.billingAccounts.list(options)) {
+  for await (const item of client.billingAccounts.list({
+    expand: "soldTo,enrollmentDetails/poNumber",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
   await billingAccountForLegacyAccountDetails();
   await billingAccountsList();
-  await billingAccountsListWithExpandForPoNumber();
+  await billingAccountsListWithExpandForPONumber();
 }
 
 main().catch(console.error);

@@ -3,25 +3,22 @@
 
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List supported trusted access roles.
+ * This sample demonstrates how to list supported trusted access roles.
  *
- * @summary List supported trusted access roles.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/TrustedAccessRoles_List.json
+ * @summary list supported trusted access roles.
+ * x-ms-original-file: 2026-08-02-preview/TrustedAccessRoles_List.json
  */
 async function listTrustedAccessRoles(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const location = "westus2";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.trustedAccessRoles.list(location)) {
+  for await (const item of client.trustedAccessRoles.list("westus2")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

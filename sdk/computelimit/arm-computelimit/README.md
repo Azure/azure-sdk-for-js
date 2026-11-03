@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computelimit/arm-computelimit)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-computelimit)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-computelimit?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-computelimit)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computelimit/arm-computelimit/samples)
 
 ## Getting started

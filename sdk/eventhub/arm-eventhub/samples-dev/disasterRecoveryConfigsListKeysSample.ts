@@ -1,32 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the primary and secondary connection strings for the Namespace.
- *
- * @summary Gets the primary and secondary connection strings for the Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/disasterRecoveryConfigs/EHAliasAuthorizationRuleListKey.json
- */
-
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the primary and secondary connection strings for the Namespace.
+ *
+ * @summary gets the primary and secondary connection strings for the Namespace.
+ * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/EHAliasAuthorizationRuleListKey.json
+ */
 async function nameSpaceAuthorizationRuleListKey(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTHUB_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
-  const resourceGroupName =
-    process.env["EVENTHUB_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const namespaceName = "sdk-Namespace-2702";
-  const alias = "sdk-DisasterRecovery-4047";
-  const authorizationRuleName = "sdk-Authrules-1746";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "exampleSubscriptionId";
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.disasterRecoveryConfigs.listKeys(
-    resourceGroupName,
-    namespaceName,
-    alias,
-    authorizationRuleName,
+    "exampleResourceGroup",
+    "sdk-Namespace-2702",
+    "sdk-DisasterRecovery-4047",
+    "sdk-Authrules-1746",
   );
   console.log(result);
 }

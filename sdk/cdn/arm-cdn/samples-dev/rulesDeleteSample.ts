@@ -1,32 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an existing delivery rule within a rule set.
- *
- * @summary Deletes an existing delivery rule within a rule set.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Rules_Delete.json
- */
-
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes an existing delivery rule within a rule set.
+ *
+ * @summary deletes an existing delivery rule within a rule set.
+ * x-ms-original-file: 2026-10-01/Rules_Delete.json
+ */
 async function rulesDelete(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
-  const ruleSetName = "ruleSet1";
-  const ruleName = "rule1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.rules.beginDeleteAndWait(
-    resourceGroupName,
-    profileName,
-    ruleSetName,
-    ruleName,
-  );
-  console.log(result);
+  await client.rules.delete("RG", "profile1", "ruleSet1", "rule1");
 }
 
 async function main(): Promise<void> {

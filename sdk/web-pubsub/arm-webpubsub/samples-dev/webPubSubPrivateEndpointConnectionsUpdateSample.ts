@@ -1,38 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update the state of specified private endpoint connection
- *
- * @summary Update the state of specified private endpoint connection
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubPrivateEndpointConnections_Update.json
- */
-
-import type { PrivateEndpointConnection } from "@azure/arm-webpubsub";
 import { WebPubSubManagementClient } from "@azure/arm-webpubsub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update the state of specified private endpoint connection
+ *
+ * @summary update the state of specified private endpoint connection
+ * x-ms-original-file: 2025-08-01-preview/WebPubSubPrivateEndpointConnections_Update.json
+ */
 async function webPubSubPrivateEndpointConnectionsUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["WEB-PUBSUB_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const privateEndpointConnectionName = "mywebpubsubservice.1fa229cd-bf3f-47f0-8c49-afb36723997e";
-  const resourceGroupName = process.env["WEB-PUBSUB_RESOURCE_GROUP"] || "myResourceGroup";
-  const resourceName = "myWebPubSubService";
-  const parameters: PrivateEndpointConnection = {
-    privateEndpoint: {},
-    privateLinkServiceConnectionState: {
-      actionsRequired: "None",
-      status: "Approved",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new WebPubSubManagementClient(credential, subscriptionId);
   const result = await client.webPubSubPrivateEndpointConnections.update(
-    privateEndpointConnectionName,
-    resourceGroupName,
-    resourceName,
-    parameters,
+    "mywebpubsubservice.1fa229cd-bf3f-47f0-8c49-afb36723997e",
+    "myResourceGroup",
+    "myWebPubSubService",
+    {
+      privateEndpoint: {},
+      privateLinkServiceConnectionState: { actionsRequired: "None", status: "Approved" },
+    },
   );
   console.log(result);
 }

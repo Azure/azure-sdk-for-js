@@ -1,33 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete a Service Fabric service resource with the specified name.
- *
- * @summary Delete a Service Fabric service resource with the specified name.
- * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ServiceDeleteOperation_example.json
- */
-
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete a Service Fabric service resource with the specified name.
+ *
+ * @summary delete a Service Fabric service resource with the specified name.
+ * x-ms-original-file: 2026-03-01-preview/ServiceDeleteOperation_example.json
+ */
 async function deleteAService(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
-  const clusterName = "myCluster";
-  const applicationName = "myApp";
-  const serviceName = "myService";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricManagementClient(credential, subscriptionId);
-  const result = await client.services.beginDeleteAndWait(
-    resourceGroupName,
-    clusterName,
-    applicationName,
-    serviceName,
-  );
-  console.log(result);
+  await client.services.delete("resRg", "myCluster", "myApp", "myService");
 }
 
 async function main(): Promise<void> {

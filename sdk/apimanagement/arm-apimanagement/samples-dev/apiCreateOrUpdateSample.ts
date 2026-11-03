@@ -1,68 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
- *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateApi.json
- */
-
-import {
-  ApiCreateOrUpdateParameter,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
+ *
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateApi.json
+ */
 async function apiManagementCreateApi(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "tempgroup";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "tempgroup", {
     path: "newapiPath",
     description: "apidescription5200",
     authenticationSettings: {
-      oAuth2: {
-        authorizationServerId: "authorizationServerId2283",
-        scope: "oauth2scope2580",
-      },
+      oAuth2: { authorizationServerId: "authorizationServerId2283", scope: "oauth2scope2580" },
     },
     displayName: "apiname1463",
     protocols: ["https", "http"],
     serviceUrl: "http://newechoapi.cloudapp.net/api",
     subscriptionKeyParameterNames: { header: "header4520", query: "query3037" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateApiClone.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateApiClone.json
  */
 async function apiManagementCreateApiClone(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "echo-api2";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "echo-api2", {
     path: "echo2",
     description: "Copy of Existing Echo Api including Operations.",
     displayName: "Echo API2",
@@ -72,33 +48,21 @@ async function apiManagementCreateApiClone(): Promise<void> {
     sourceApiId:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/58a4aeac497000007d040001",
     subscriptionRequired: true,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateApiNewVersionUsingExistingApi.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateApiNewVersionUsingExistingApi.json
  */
 async function apiManagementCreateApiNewVersionUsingExistingApi(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "echoapiv3";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "echoapiv3", {
     path: "echo2",
     description:
       "Create Echo API into a new Version using Existing Version Set and Copy all Operations.",
@@ -112,265 +76,163 @@ async function apiManagementCreateApiNewVersionUsingExistingApi(): Promise<void>
     sourceApiId:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echoPath",
     subscriptionRequired: true,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateApiRevisionFromExistingApi.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateApiRevisionFromExistingApi.json
  */
 async function apiManagementCreateApiRevisionFromExistingApi(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "echo-api;rev=3";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "echo-api;rev=3", {
     path: "echo",
     apiRevisionDescription: "Creating a Revision of an existing API",
     serviceUrl: "http://echoapi.cloudapp.net/apiv3",
     sourceApiId:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateApiUsingImportOverrideServiceUrl.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateApiUsingImportOverrideServiceUrl.json
  */
 async function apiManagementCreateApiUsingImportOverrideServiceUrl(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "apidocs";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "apidocs", {
     format: "swagger-link",
     path: "petstoreapi123",
     serviceUrl: "http://petstore.swagger.wordnik.com/api",
     value: "http://apimpimportviaurl.azurewebsites.net/api/apidocs/",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateApiUsingOai3Import.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateApiUsingOai3Import.json
  */
 async function apiManagementCreateApiUsingOai3Import(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "petstore";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "petstore", {
     format: "openapi-link",
     path: "petstore",
     value:
       "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateApiUsingOai3ImportWithTranslateRequiredQueryParametersConduct.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateApiUsingOai3ImportWithTranslateRequiredQueryParametersConduct.json
  */
 async function apiManagementCreateApiUsingOai3ImportWithTranslateRequiredQueryParametersConduct(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "petstore";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "petstore", {
     format: "openapi-link",
     path: "petstore",
     translateRequiredQueryParametersConduct: "template",
     value:
       "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateApiUsingSwaggerImport.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateApiUsingSwaggerImport.json
  */
 async function apiManagementCreateApiUsingSwaggerImport(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "petstore";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "petstore", {
     format: "swagger-link-json",
     path: "petstore",
     value: "http://petstore.swagger.io/v2/swagger.json",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateApiUsingWadlImport.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateApiUsingWadlImport.json
  */
 async function apiManagementCreateApiUsingWadlImport(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "petstore";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "petstore", {
     format: "wadl-link-json",
     path: "collector",
     value:
       "https://developer.cisco.com/media/wae-release-6-2-api-reference/wae-collector-rest-api/application.wadl",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateApiWithMultipleAuthServers.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateApiWithMultipleAuthServers.json
  */
 async function apiManagementCreateApiWithMultipleAuthServers(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "tempgroup";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "tempgroup", {
     path: "newapiPath",
     description: "apidescription5200",
     authenticationSettings: {
       oAuth2AuthenticationSettings: [
-        {
-          authorizationServerId: "authorizationServerId2283",
-          scope: "oauth2scope2580",
-        },
-        {
-          authorizationServerId: "authorizationServerId2284",
-          scope: "oauth2scope2581",
-        },
+        { authorizationServerId: "authorizationServerId2283", scope: "oauth2scope2580" },
+        { authorizationServerId: "authorizationServerId2284", scope: "oauth2scope2581" },
       ],
     },
     displayName: "apiname1463",
     protocols: ["https", "http"],
     serviceUrl: "http://newechoapi.cloudapp.net/api",
     subscriptionKeyParameterNames: { header: "header4520", query: "query3037" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateApiWithMultipleOpenIdConnectProviders.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateApiWithMultipleOpenIdConnectProviders.json
  */
 async function apiManagementCreateApiWithMultipleOpenIdConnectProviders(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "tempgroup";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "tempgroup", {
     path: "newapiPath",
     description: "apidescription5200",
     authenticationSettings: {
@@ -389,33 +251,21 @@ async function apiManagementCreateApiWithMultipleOpenIdConnectProviders(): Promi
     protocols: ["https", "http"],
     serviceUrl: "http://newechoapi.cloudapp.net/api",
     subscriptionKeyParameterNames: { header: "header4520", query: "query3037" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateApiWithOpenIdConnect.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateApiWithOpenIdConnect.json
  */
 async function apiManagementCreateApiWithOpenIdConnect(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "tempgroup";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "tempgroup", {
     path: "petstore",
     description:
       "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
@@ -432,66 +282,42 @@ async function apiManagementCreateApiWithOpenIdConnect(): Promise<void> {
       header: "Ocp-Apim-Subscription-Key",
       query: "subscription-key",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateGraphQLApi.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateGraphQLApi.json
  */
-async function apiManagementCreateGraphQlApi(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "tempgroup";
-  const parameters: ApiCreateOrUpdateParameter = {
+async function apiManagementCreateGraphQLApi(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "tempgroup", {
     apiType: "graphql",
     path: "graphql-api",
     description: "apidescription5200",
     displayName: "apiname1463",
     protocols: ["http", "https"],
     serviceUrl: "https://api.spacex.land/graphql",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateGrpcApi.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateGrpcApi.json
  */
 async function apiManagementCreateGrpcApi(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "tempgroup";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "tempgroup", {
     apiType: "grpc",
     format: "grpc-link",
     path: "grpc-api",
@@ -501,33 +327,46 @@ async function apiManagementCreateGrpcApi(): Promise<void> {
     serviceUrl: "https://your-api-hostname/samples",
     value:
       "https://raw.githubusercontent.com/kedacore/keda/main/pkg/scalers/externalscaler/externalscaler.proto",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateODataApi.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateMcpApi.json
+ */
+async function apiManagementCreateMcpApi(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "mcp-api", {
+    apiType: "mcp",
+    path: "mcp-api",
+    description: "MCP API for AI agent tool discovery and invocation",
+    displayName: "MCP API",
+    protocols: ["https"],
+    serviceUrl: "https://mcp-backend.contoso.com",
+    mcpProperties: {
+      transportType: "streamable",
+      endpoints: [{ name: "message", uriTemplate: "/mcp/messages" }],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
+ *
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateODataApi.json
  */
 async function apiManagementCreateODataApi(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "tempgroup";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "tempgroup", {
     apiType: "odata",
     format: "odata-link",
     path: "odata-api",
@@ -536,33 +375,21 @@ async function apiManagementCreateODataApi(): Promise<void> {
     protocols: ["http", "https"],
     serviceUrl: "https://services.odata.org/TripPinWebApiService",
     value: "https://services.odata.org/TripPinWebApiService/$metadata",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateSoapPassThroughApiUsingWsdlImport.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateSoapPassThroughApiUsingWsdlImport.json
  */
 async function apiManagementCreateSoapPassThroughApiUsingWsdlImport(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "soapApi";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "soapApi", {
     format: "wsdl-link",
     path: "currency",
     soapApiType: "soap",
@@ -571,33 +398,21 @@ async function apiManagementCreateSoapPassThroughApiUsingWsdlImport(): Promise<v
       wsdlEndpointName: "CurrencyConvertorSoap",
       wsdlServiceName: "CurrencyConvertor",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateSoapToRestApiUsingWsdlImport.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateSoapToRestApiUsingWsdlImport.json
  */
 async function apiManagementCreateSoapToRestApiUsingWsdlImport(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "soapApi";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "soapApi", {
     format: "wsdl-link",
     path: "currency",
     value: "http://www.webservicex.net/CurrencyConvertor.asmx?WSDL",
@@ -605,48 +420,28 @@ async function apiManagementCreateSoapToRestApiUsingWsdlImport(): Promise<void> 
       wsdlEndpointName: "CurrencyConvertorSoap",
       wsdlServiceName: "CurrencyConvertor",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates new or updates existing specified API of the API Management service instance.
+ * This sample demonstrates how to creates new or updates existing specified API of the API Management service instance.
  *
- * @summary Creates new or updates existing specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateWebsocketApi.json
+ * @summary creates new or updates existing specified API of the API Management service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateWebsocketApi.json
  */
 async function apiManagementCreateWebSocketApi(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "tempgroup";
-  const parameters: ApiCreateOrUpdateParameter = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.api.createOrUpdate("rg1", "apimService1", "tempgroup", {
     apiType: "websocket",
     path: "newapiPath",
     description: "apidescription5200",
     displayName: "apiname1463",
     protocols: ["wss", "ws"],
     serviceUrl: "wss://echo.websocket.org",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.api.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
@@ -663,8 +458,9 @@ async function main(): Promise<void> {
   await apiManagementCreateApiWithMultipleAuthServers();
   await apiManagementCreateApiWithMultipleOpenIdConnectProviders();
   await apiManagementCreateApiWithOpenIdConnect();
-  await apiManagementCreateGraphQlApi();
+  await apiManagementCreateGraphQLApi();
   await apiManagementCreateGrpcApi();
+  await apiManagementCreateMcpApi();
   await apiManagementCreateODataApi();
   await apiManagementCreateSoapPassThroughApiUsingWsdlImport();
   await apiManagementCreateSoapToRestApiUsingWsdlImport();

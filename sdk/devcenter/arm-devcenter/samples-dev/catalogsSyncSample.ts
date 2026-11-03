@@ -1,31 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Syncs templates for a template source.
- *
- * @summary Syncs templates for a template source.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Catalogs_Sync.json
- */
-
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to syncs templates for a template source.
+ *
+ * @summary syncs templates for a template source.
+ * x-ms-original-file: 2026-01-01-preview/Catalogs_Sync.json
+ */
 async function catalogsSync(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const devCenterName = "Contoso";
-  const catalogName = "CentralCatalog";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.catalogs.beginSyncAndWait(
-    resourceGroupName,
-    devCenterName,
-    catalogName,
-  );
-  console.log(result);
+  await client.catalogs.sync("rg1", "Contoso", "CentralCatalog");
 }
 
 async function main(): Promise<void> {

@@ -8,7 +8,7 @@ import type { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy.js";
 import type { ComputedProperty } from "../../documents/ComputedProperty.js";
 import type { VectorEmbeddingPolicy } from "../../documents/VectorEmbeddingPolicy.js";
 import type { FullTextPolicy } from "../../documents/FullTextPolicy.js";
-import { ClientEncryptionPolicy } from "../../encryption/index.js";
+import type { ClientEncryptionPolicy } from "../../encryption/index.js";
 
 export interface ContainerDefinition {
   /** The id of the container. */

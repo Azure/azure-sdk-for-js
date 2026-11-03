@@ -1,23 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
- *
- * @summary Upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDProfiles_Upgrade.json
- */
-
-import type { ProfileUpgradeParameters } from "@azure/arm-cdn";
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
+ *
+ * @summary upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
+ * x-ms-original-file: 2026-10-01/AFDProfiles_Upgrade.json
+ */
 async function afdProfilesUpgrade(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
-  const profileUpgradeParameters: ProfileUpgradeParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CdnManagementClient(credential, subscriptionId);
+  const result = await client.afdProfiles.upgrade("RG", "profile1", {
     wafMappingList: [
       {
         changeToWafPolicy: {
@@ -26,14 +23,7 @@ async function afdProfilesUpgrade(): Promise<void> {
         securityPolicyName: "securityPolicy1",
       },
     ],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.afdProfiles.beginUpgradeAndWait(
-    resourceGroupName,
-    profileName,
-    profileUpgradeParameters,
-  );
+  });
   console.log(result);
 }
 

@@ -732,9 +732,7 @@ export type DistributionModeOutput =
   | RoundRobinModeOutput;
 /** Abstract base class for defining a trigger for exception rules. */
 export type ExceptionTriggerOutput =
-  | ExceptionTriggerOutputParent
-  | QueueLengthExceptionTriggerOutput
-  | WaitTimeExceptionTriggerOutput;
+  ExceptionTriggerOutputParent | QueueLengthExceptionTriggerOutput | WaitTimeExceptionTriggerOutput;
 /** The action to take when the exception is triggered. */
 export type ExceptionActionOutput =
   | ExceptionActionOutputParent

@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a Deployment stack by name at Subscription scope. When operation completes, status code 200 returned without content.
- *
- * @summary Deletes a Deployment stack by name at Subscription scope. When operation completes, status code 200 returned without content.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackSubscriptionDelete.json
- */
-
 import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function deploymentStacksSubscriptionDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["RESOURCESDEPLOYMENTSTACKS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const deploymentStackName = "simpleDeploymentStack";
+/**
+ * This sample demonstrates how to deletes a Deployment stack by name at the specified scope. When operation completes, status code 200 returned without content.
+ *
+ * @summary deletes a Deployment stack by name at the specified scope. When operation completes, status code 200 returned without content.
+ * x-ms-original-file: 2025-07-01/DeploymentStackSubscriptionDelete.json
+ */
+async function deleteASubscriptionDeploymentStack(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeploymentStacksClient(credential, subscriptionId);
-  const result =
-    await client.deploymentStacks.beginDeleteAtSubscriptionAndWait(deploymentStackName);
-  console.log(result);
+  await client.deploymentStacks.deleteAtSubscription("simpleDeploymentStack");
 }
 
 async function main(): Promise<void> {
-  await deploymentStacksSubscriptionDelete();
+  await deleteASubscriptionDeploymentStack();
 }
 
 main().catch(console.error);

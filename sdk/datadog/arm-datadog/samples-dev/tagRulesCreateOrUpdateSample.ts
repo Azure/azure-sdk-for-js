@@ -1,48 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update a tag rule set for a given monitor resource.
- *
- * @summary Create or update a tag rule set for a given monitor resource.
- * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/TagRules_CreateOrUpdate.json
- */
-
-import type { MonitoringTagRules, TagRulesCreateOrUpdateOptionalParams } from "@azure/arm-datadog";
 import { MicrosoftDatadogClient } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update a tag rule set for a given monitor resource.
+ *
+ * @summary create or update a tag rule set for a given monitor resource.
+ * x-ms-original-file: 2025-12-26-preview/TagRules_CreateOrUpdate.json
+ */
 async function tagRulesCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
-  const ruleSetName = "default";
-  const body: MonitoringTagRules = {
-    properties: {
-      automuting: true,
-      logRules: {
-        filteringTags: [
-          { name: "Environment", action: "Include", value: "Prod" },
-          { name: "Environment", action: "Exclude", value: "Dev" },
-        ],
-        sendAadLogs: false,
-        sendResourceLogs: true,
-        sendSubscriptionLogs: true,
-      },
-      metricRules: { filteringTags: [] },
-    },
-  };
-  const options: TagRulesCreateOrUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
-  const result = await client.tagRules.createOrUpdate(
-    resourceGroupName,
-    monitorName,
-    ruleSetName,
-    options,
-  );
+  const result = await client.tagRules.createOrUpdate("myResourceGroup", "myMonitor", "default", {
+    body: {
+      properties: {
+        automuting: true,
+        logRules: {
+          filteringTags: [
+            { name: "Environment", action: "Include", value: "Prod" },
+            { name: "Environment", action: "Exclude", value: "Dev" },
+          ],
+          sendAadLogs: false,
+          sendResourceLogs: true,
+          sendSubscriptionLogs: true,
+        },
+        metricRules: { filteringTags: [] },
+      },
+    },
+  });
   console.log(result);
 }
 

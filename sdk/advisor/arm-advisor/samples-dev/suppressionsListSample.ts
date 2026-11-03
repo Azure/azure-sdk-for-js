@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieves the list of snoozed or dismissed suppressions for a subscription. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.
- *
- * @summary Retrieves the list of snoozed or dismissed suppressions for a subscription. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.
- * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListSuppressions.json
- */
-
 import { AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieves the list of snoozed or dismissed suppressions for a subscription. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.
+ *
+ * @summary retrieves the list of snoozed or dismissed suppressions for a subscription. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.
+ * x-ms-original-file: 2026-02-01-preview/ListSuppressions.json
+ */
 async function listSuppressions(): Promise<void> {
-  const subscriptionId = process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "a5481ee1-95df-47d0-85d4-dd3f0dfa19bc";
   const client = new AdvisorManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.suppressions.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

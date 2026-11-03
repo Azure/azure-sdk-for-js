@@ -1,34 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateMultiRegionServiceWithCustomHostname.json
- */
-
-import {
-  ApiManagementServiceResource,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ *
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateMultiRegionServiceWithCustomHostname.json
+ */
 async function apiManagementCreateMultiRegionServiceWithCustomHostname(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
+    location: "West US",
     additionalLocations: [
-      {
-        disableGateway: true,
-        location: "East US",
-        sku: { name: "Premium", capacity: 1 },
-      },
+      { disableGateway: true, location: "East US", sku: { name: "Premium", capacity: 1 } },
     ],
     apiVersionConstraint: { minApiVersion: "2019-01-01" },
     hostnameConfigurations: [
@@ -58,198 +47,145 @@ async function apiManagementCreateMultiRegionServiceWithCustomHostname(): Promis
         hostName: "configuration-api.msitesting.net",
       },
     ],
-    location: "West US",
     publisherEmail: "apim@autorestsdk.com",
     publisherName: "autorestsdk",
+    virtualNetworkType: "None",
     sku: { name: "Premium", capacity: 1 },
     tags: { tag1: "value1", tag2: "value2", tag3: "value3" },
-    virtualNetworkType: "None",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateService.json
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateService.json
  */
 async function apiManagementCreateService(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
     location: "South Central US",
     publisherEmail: "foo@contoso.com",
     publisherName: "foo",
     sku: { name: "Developer", capacity: 1 },
-    tags: { name: "Contoso", test: "User" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+    tags: { Name: "Contoso", Test: "User" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateServiceHavingMsi.json
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateServiceHavingMsi.json
  */
 async function apiManagementCreateServiceHavingMsi(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
     identity: { type: "SystemAssigned" },
     location: "West US",
     publisherEmail: "apim@autorestsdk.com",
     publisherName: "autorestsdk",
     sku: { name: "Consumption", capacity: 0 },
     tags: { tag1: "value1", tag2: "value2", tag3: "value3" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateServiceInVnetWithPublicIP.json
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateServiceInVnetWithPublicIP.json
  */
 async function apiManagementCreateServiceInVnetWithPublicIP(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
     location: "East US 2 EUAP",
     publicIpAddressId:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgName/providers/Microsoft.Network/publicIPAddresses/apimazvnet",
     publisherEmail: "apim@autorestsdk.com",
     publisherName: "autorestsdk",
-    sku: { name: "Premium", capacity: 2 },
-    tags: { tag1: "value1", tag2: "value2", tag3: "value3" },
     virtualNetworkConfiguration: {
       subnetResourceId:
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgName/providers/Microsoft.Network/virtualNetworks/apimcus/subnets/tenant",
     },
     virtualNetworkType: "External",
+    sku: { name: "Premium", capacity: 2 },
+    tags: { tag1: "value1", tag2: "value2", tag3: "value3" },
     zones: ["1", "2"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateServiceInZones.json
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateServiceInZones.json
  */
 async function apiManagementCreateServiceInZones(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
     location: "North europe",
     publisherEmail: "apim@autorestsdk.com",
     publisherName: "autorestsdk",
     sku: { name: "Premium", capacity: 2 },
     tags: { tag1: "value1", tag2: "value2", tag3: "value3" },
     zones: ["1", "2"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateServiceSkuv2Service.json
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateServiceSkuv2Service.json
  */
 async function apiManagementCreateServiceSkuv2Service(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
     identity: { type: "SystemAssigned" },
     location: "West US",
     publisherEmail: "apim@autorestsdk.com",
     publisherName: "autorestsdk",
     sku: { name: "StandardV2", capacity: 1 },
     tags: { tag1: "value1", tag2: "value2", tag3: "value3" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateServiceWithCustomHostnameKeyVault.json
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateServiceWithCustomHostnameKeyVault.json
  */
 async function apiManagementCreateServiceWithCustomHostnameKeyVault(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1":
+          {},
+      },
+    },
+    location: "North Europe",
     apiVersionConstraint: { minApiVersion: "2019-01-01" },
     hostnameConfigurations: [
       {
@@ -257,22 +193,19 @@ async function apiManagementCreateServiceWithCustomHostnameKeyVault(): Promise<v
         defaultSslBinding: true,
         hostName: "gateway1.msitesting.net",
         identityClientId: "329419bc-adec-4dce-9568-25a6d486e468",
-        keyVaultId:
-          "https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert",
+        keyVaultId: "https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert",
       },
       {
         type: "Management",
         hostName: "mgmt.msitesting.net",
         identityClientId: "329419bc-adec-4dce-9568-25a6d486e468",
-        keyVaultId:
-          "https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert",
+        keyVaultId: "https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert",
       },
       {
         type: "Portal",
         hostName: "portal1.msitesting.net",
         identityClientId: "329419bc-adec-4dce-9568-25a6d486e468",
-        keyVaultId:
-          "https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert",
+        keyVaultId: "https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert",
       },
       {
         type: "ConfigurationApi",
@@ -281,148 +214,99 @@ async function apiManagementCreateServiceWithCustomHostnameKeyVault(): Promise<v
         hostName: "configuration-api.msitesting.net",
       },
     ],
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourceGroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/id1":
-          {},
-      },
-    },
-    location: "North Europe",
     publisherEmail: "apim@autorestsdk.com",
     publisherName: "autorestsdk",
+    virtualNetworkType: "None",
     sku: { name: "Premium", capacity: 1 },
     tags: { tag1: "value1", tag2: "value2", tag3: "value3" },
-    virtualNetworkType: "None",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateServiceWithDeveloperPortal.json
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateServiceWithDeveloperPortal.json
  */
 async function apiManagementCreateServiceWithDeveloperPortal(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
-    developerPortalStatus: "Enabled",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
     location: "South Central US",
+    developerPortalStatus: "Enabled",
     publisherEmail: "foo@contoso.com",
     publisherName: "foo",
     sku: { name: "Developer", capacity: 1 },
-    tags: { name: "Contoso", test: "User" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+    tags: { Name: "Contoso", Test: "User" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateServiceWithNatGatewayEnabled.json
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateServiceWithNatGatewayEnabled.json
  */
 async function apiManagementCreateServiceWithNatGatewayEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
     location: "East US",
     natGatewayState: "Enabled",
     publisherEmail: "apim@autorestsdk.com",
     publisherName: "autorestsdk",
     sku: { name: "Premium", capacity: 1 },
     tags: { tag1: "value1", tag2: "value2", tag3: "value3" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateServiceWithSystemCertificates.json
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateServiceWithSystemCertificates.json
  */
 async function apiManagementCreateServiceWithSystemCertificates(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
+    location: "Central US",
     certificates: [
       {
         certificatePassword: "Password",
-        encodedCertificate:
-          "*******Base64 encoded Certificate******************",
+        encodedCertificate: "*******Base64 encoded Certificate******************",
         storeName: "CertificateAuthority",
       },
     ],
-    location: "Central US",
     publisherEmail: "apim@autorestsdk.com",
     publisherName: "autorestsdk",
     sku: { name: "Basic", capacity: 1 },
     tags: { tag1: "value1", tag2: "value2", tag3: "value3" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateServiceWithUserAssignedIdentity.json
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateServiceWithUserAssignedIdentity.json
  */
 async function apiManagementCreateServiceWithUserAssignedIdentity(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourceGroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/apimService1":
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/apimService1":
           {},
       },
     },
@@ -431,75 +315,48 @@ async function apiManagementCreateServiceWithUserAssignedIdentity(): Promise<voi
     publisherName: "autorestsdk",
     sku: { name: "Consumption", capacity: 0 },
     tags: { tag1: "value1", tag2: "value2", tag3: "value3" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateServiceWithoutLegacyConfigurationApi.json
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateServiceWithoutLegacyConfigurationApi.json
  */
 async function apiManagementCreateServiceWithoutLegacyConfigurationApi(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
-    configurationApi: { legacyApi: "Disabled" },
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
     location: "Central US",
+    configurationApi: { legacyApi: "Disabled" },
     publisherEmail: "apim@autorestsdk.com",
     publisherName: "autorestsdk",
     sku: { name: "Basic", capacity: 1 },
     tags: { tag1: "value1", tag2: "value2", tag3: "value3" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * This sample demonstrates how to creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
- * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementUndelete.json
+ * @summary creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementUndelete.json
  */
 async function apiManagementUndelete(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.createOrUpdate("rg1", "apimService1", {
     location: "South Central US",
     publisherEmail: "foo@contoso.com",
     publisherName: "foo",
     restore: true,
     sku: { name: "Developer", capacity: 1 },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

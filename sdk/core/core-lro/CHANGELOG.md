@@ -1,14 +1,22 @@
 # Release History
 
-## 3.3.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 3.4.2 (Unreleased)
 
 ### Bugs Fixed
 
+- Bound polling intervals to the range supported by the platform timer, preventing oversized caller intervals and server `Retry-After` values from overflowing into near-continuous polling. Unparseable, non-positive, or non-finite server delays fall back to the configured interval instead of reusing a stale delay. Date conversion uses the runtime parser, with timezone-less asctime HTTP dates interpreted as GMT. [#39793](https://github.com/Azure/azure-sdk-for-js/issues/39793)
+
+## 3.4.1 (2026-09-03)
+
 ### Other Changes
+
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
+## 3.4.0 (2026-07-13)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=22.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
 
 ## 3.3.1 (2025-09-11)
 

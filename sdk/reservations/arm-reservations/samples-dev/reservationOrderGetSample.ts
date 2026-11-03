@@ -1,39 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get the details of the `ReservationOrder`.
- *
- * @summary Get the details of the `ReservationOrder`.
- * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/GetReservationOrderDetails.json
- */
-
-import type { ReservationOrderGetOptionalParams } from "@azure/arm-reservations";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get the details of the `ReservationOrder`.
+ *
+ * @summary get the details of the `ReservationOrder`.
+ * x-ms-original-file: 2022-11-01/GetReservationOrderDetails.json
+ */
 async function getReservationOrder(): Promise<void> {
-  const reservationOrderId = "a075419f-44cc-497f-b68a-14ee811d48b9";
   const credential = new DefaultAzureCredential();
   const client = new AzureReservationAPI(credential);
-  const result = await client.reservationOrder.get(reservationOrderId);
+  const result = await client.reservationOrder.get("a075419f-44cc-497f-b68a-14ee811d48b9");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get the details of the `ReservationOrder`.
+ * This sample demonstrates how to get the details of the `ReservationOrder`.
  *
- * @summary Get the details of the `ReservationOrder`.
- * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/GetReservationOrderDetailsWithExpandPlanInformation.json
+ * @summary get the details of the `ReservationOrder`.
+ * x-ms-original-file: 2022-11-01/GetReservationOrderDetailsWithExpandPlanInformation.json
  */
 async function getReservationWithExpandPayments(): Promise<void> {
-  const reservationOrderId = "a075419f-44cc-497f-b68a-14ee811d48b9";
-  const expand = "schedule";
-  const options: ReservationOrderGetOptionalParams = { expand };
   const credential = new DefaultAzureCredential();
   const client = new AzureReservationAPI(credential);
-  const result = await client.reservationOrder.get(reservationOrderId, options);
+  const result = await client.reservationOrder.get("a075419f-44cc-497f-b68a-14ee811d48b9", {
+    expand: "schedule",
+  });
   console.log(result);
 }
 

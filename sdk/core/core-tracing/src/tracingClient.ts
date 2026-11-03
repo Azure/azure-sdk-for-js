@@ -4,7 +4,6 @@
 import type {
   OperationTracingOptions,
   OptionsWithTracingContext,
-  Resolved,
   TracingClient,
   TracingClientOptions,
   TracingContext,
@@ -33,8 +32,8 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
   } {
     const startSpanResult = getInstrumenter().startSpan(name, {
       ...spanOptions,
-      packageName: packageName,
-      packageVersion: packageVersion,
+      packageName,
+      packageVersion,
       tracingContext: operationOptions?.tracingOptions?.tracingContext,
     });
     let tracingContext = startSpanResult.tracingContext;
@@ -64,14 +63,14 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     operationOptions: Options,
     callback: Callback,
     spanOptions?: TracingSpanOptions,
-  ): Promise<Resolved<ReturnType<Callback>>> {
+  ): Promise<Awaited<ReturnType<Callback>>> {
     const { span, updatedOptions } = startSpan(name, operationOptions, spanOptions);
     try {
       const result = await withContext(updatedOptions.tracingOptions.tracingContext, () =>
-        Promise.resolve(callback(updatedOptions, span)),
+        callback(updatedOptions, span),
       );
       span.setStatus({ status: "success" });
-      return result as ReturnType<typeof withSpan>;
+      return result as Awaited<ReturnType<Callback>>;
     } catch (err: any) {
       span.setStatus({ status: "error", error: err });
       throw err;

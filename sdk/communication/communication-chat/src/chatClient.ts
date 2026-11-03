@@ -32,12 +32,12 @@ import { ChatApiClient } from "./generated/src/index.js";
 import { ChatThreadClient } from "./chatThreadClient.js";
 import type { CommunicationTokenCredential } from "@azure/communication-common";
 import type { CreateChatThreadRequest } from "./models/requests.js";
-import { EventEmitter } from "events";
+import { EventEmitter } from "eventemitter3";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy.js";
 import { generateUuid } from "./models/uuid.js";
-import { getSignalingClient } from "./signaling/signalingClient.js";
+import { getSignalingClient } from "#platform/signaling/signalingClient";
 import { logger } from "./models/logger.js";
 import { tracingClient } from "./generated/src/tracing.js";
 

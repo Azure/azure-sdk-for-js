@@ -1,63 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Queries component policy states under resource group scope.
- *
- * @summary Queries component policy states under resource group scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QueryResourceGroupScopeGroupByComponentTypeWithAggregate.json
- */
-
-import type { ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams } from "@azure/arm-policyinsights";
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceGroupScopeFilteredByGivenAssignment(): Promise<void> {
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
-  const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
-  const componentPolicyStatesResource = "latest";
-  const filter =
-    "policyAssignmentId eq '/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/providers/microsoft.authorization/policyassignments/560050f83dbb4a24974323f8'";
-  const apply = "groupby((type,complianceState),aggregate($count as count))";
-  const options: ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams = {
-    filter,
-    apply,
-  };
+/**
+ * This sample demonstrates how to queries component policy states under resource group scope.
+ *
+ * @summary queries component policy states under resource group scope.
+ * x-ms-original-file: 2024-10-01/ComponentPolicyStates_QueryResourceGroupScope.json
+ */
+async function queryLatestComponentPolicyStatesAtResourceGroupScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const result = await client.componentPolicyStates.listQueryResultsForResourceGroup(
-    subscriptionId,
-    resourceGroupName,
-    componentPolicyStatesResource,
-    options,
+    "fffedd8f-ffff-fffd-fffd-fffed2f84852",
+    "myResourceGroup",
+    "latest",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Queries component policy states under resource group scope.
+ * This sample demonstrates how to queries component policy states under resource group scope.
  *
- * @summary Queries component policy states under resource group scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QueryResourceGroupScope.json
+ * @summary queries component policy states under resource group scope.
+ * x-ms-original-file: 2024-10-01/ComponentPolicyStates_QueryResourceGroupScopeGroupByComponentTypeWithAggregate.json
  */
-async function queryLatestComponentPolicyStatesAtResourceGroupScope(): Promise<void> {
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
-  const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
-  const componentPolicyStatesResource = "latest";
+async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceGroupScopeFilteredByGivenAssignment(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const result = await client.componentPolicyStates.listQueryResultsForResourceGroup(
-    subscriptionId,
-    resourceGroupName,
-    componentPolicyStatesResource,
+    "fffedd8f-ffff-fffd-fffd-fffed2f84852",
+    "myResourceGroup",
+    "latest",
+    {
+      filter:
+        "policyAssignmentId eq '/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/providers/microsoft.authorization/policyassignments/560050f83dbb4a24974323f8'",
+      apply: "groupby((type,complianceState),aggregate($count as count))",
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceGroupScopeFilteredByGivenAssignment();
   await queryLatestComponentPolicyStatesAtResourceGroupScope();
+  await queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceGroupScopeFilteredByGivenAssignment();
 }
 
 main().catch(console.error);

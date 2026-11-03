@@ -1,60 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualMachineExtensionsGetOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to get the extension.
+ * This sample demonstrates how to the operation to get the extension.
  *
- * @summary The operation to get the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachineExtension_Get_MaximumSet_Gen.json
+ * @summary the operation to get the extension.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachineExtension_Get_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionGetMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const vmName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-  const vmExtensionName = "aaaaaaa";
-  const expand = "aaaaaa";
-  const options: VirtualMachineExtensionsGetOptionalParams = { expand };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineExtensions.get(
-    resourceGroupName,
-    vmName,
-    vmExtensionName,
-    options,
+    "rgcompute",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaa",
+    { expand: "aaaaaa" },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to get the extension.
+ * This sample demonstrates how to the operation to get the extension.
  *
- * @summary The operation to get the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachineExtension_Get_MinimumSet_Gen.json
+ * @summary the operation to get the extension.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachineExtension_Get_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionGetMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const vmName = "myVM";
-  const vmExtensionName = "myVMExtension";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineExtensions.get(
-    resourceGroupName,
-    vmName,
-    vmExtensionName,
-  );
+  const result = await client.virtualMachineExtensions.get("rgcompute", "myVM", "myVMExtension");
   console.log(result);
 }
 

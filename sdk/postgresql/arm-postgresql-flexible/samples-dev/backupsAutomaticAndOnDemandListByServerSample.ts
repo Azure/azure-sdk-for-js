@@ -3,33 +3,25 @@
 
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all available backups of a server.
+ * This sample demonstrates how to lists all available backups of a server.
  *
- * @summary Lists all available backups of a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/examples/BackupsAutomaticAndOnDemandListByServer.json
+ * @summary lists all available backups of a server.
+ * x-ms-original-file: 2026-10-01/BackupsAutomaticAndOnDemandListByServer.json
  */
 async function listAllAvailableBackupsOfAServer(): Promise<void> {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "exampleresourcegroup";
-  const serverName = "exampleserver";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.backupsAutomaticAndOnDemand.listByServer(
-    resourceGroupName,
-    serverName,
+    "exampleresourcegroup",
+    "exampleserver",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

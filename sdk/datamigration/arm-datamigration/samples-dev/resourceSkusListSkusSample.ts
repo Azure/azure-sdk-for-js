@@ -3,23 +3,22 @@
 
 import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The skus action returns the list of SKUs that DMS (classic) supports.
+ * This sample demonstrates how to the skus action returns the list of SKUs that DMS (classic) supports.
  *
- * @summary The skus action returns the list of SKUs that DMS (classic) supports.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/ResourceSkus_ListSkus.json
+ * @summary the skus action returns the list of SKUs that DMS (classic) supports.
+ * x-ms-original-file: 2025-09-01-preview/ResourceSkus_ListSkus.json
  */
 async function listSkus(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new DataMigrationManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.resourceSkus.listSkus()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

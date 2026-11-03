@@ -3,31 +3,22 @@
 
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all servers in a resource group.
+ * This sample demonstrates how to lists all servers in a resource group.
  *
- * @summary Lists all servers in a resource group.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/examples/ServersListByResourceGroup.json
+ * @summary lists all servers in a resource group.
+ * x-ms-original-file: 2026-10-01/ServersListByResourceGroup.json
  */
 async function listAllServersInAResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "exampleresourcegroup";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.servers.listByResourceGroup(
-    resourceGroupName,
-  )) {
+  for await (const item of client.servers.listByResourceGroup("exampleresourcegroup")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

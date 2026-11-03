@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a hybrid connection.
- *
- * @summary Deletes a hybrid connection.
- * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/HybridConnection/RelayHybridconnectionDelete.json
- */
-
 import { RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes a hybrid connection.
+ *
+ * @summary deletes a hybrid connection.
+ * x-ms-original-file: 2026-01-01/HybridConnection/RelayHybridconnectionDelete.json
+ */
 async function relayHybridconnectionDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
-  const namespaceName = "example-RelayNamespace-01";
-  const hybridConnectionName = "example-Relay-Hybrid-01";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new RelayAPI(credential, subscriptionId);
-  const result = await client.hybridConnections.delete(
-    resourceGroupName,
-    namespaceName,
-    hybridConnectionName,
+  await client.hybridConnections.delete(
+    "resourcegroup",
+    "example-RelayNamespace-01",
+    "example-Relay-Hybrid-01",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

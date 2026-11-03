@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
- *
- * @summary Updates an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Routes_Update.json
- */
-
-import type { RouteUpdateParameters } from "@azure/arm-cdn";
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
+ *
+ * @summary updates an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
+ * x-ms-original-file: 2026-10-01/Routes_Update.json
+ */
 async function routesUpdate(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
-  const endpointName = "endpoint1";
-  const routeName = "route1";
-  const routeUpdateProperties: RouteUpdateParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CdnManagementClient(credential, subscriptionId);
+  const result = await client.routes.update("RG", "profile1", "endpoint1", "route1", {
     cacheConfiguration: {
       compressionSettings: {
         contentTypesToCompress: ["text/html", "application/octet-stream"],
@@ -39,7 +34,6 @@ async function routesUpdate(): Promise<void> {
     originGroup: {
       id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/originGroup1",
     },
-    originPath: undefined,
     patternsToMatch: ["/*"],
     ruleSets: [
       {
@@ -47,16 +41,7 @@ async function routesUpdate(): Promise<void> {
       },
     ],
     supportedProtocols: ["Https", "Http"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.routes.beginUpdateAndWait(
-    resourceGroupName,
-    profileName,
-    endpointName,
-    routeName,
-    routeUpdateProperties,
-  );
+  });
   console.log(result);
 }
 

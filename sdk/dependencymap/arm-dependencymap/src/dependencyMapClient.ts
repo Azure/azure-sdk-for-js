@@ -15,7 +15,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { DependencyMapClientOptionalParams } from "./api/dependencyMapContext.js";
+export { type DependencyMapClientOptionalParams } from "./api/dependencyMapContext.js";
 
 export class DependencyMapClient {
   private _client: DependencyMapContext;

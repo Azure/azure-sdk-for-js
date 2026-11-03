@@ -9,6 +9,7 @@ import { createTokenCycler } from "../util/tokenCycler.js";
 import { logger as coreLogger } from "../log.js";
 import type { RestError } from "../restError.js";
 import { isRestError } from "../restError.js";
+import { disposeResponseBody } from "@typespec/ts-http-runtime/internal/util";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -263,6 +264,7 @@ export function bearerTokenAuthenticationPolicy(
           );
           // Send updated request and handle response for RestError
           if (shouldSendRequest) {
+            await disposeResponseBody(response);
             [response, error] = await trySendRequest(request, next);
           }
         } else if (callbacks.authorizeRequestOnChallenge) {
@@ -277,12 +279,13 @@ export function bearerTokenAuthenticationPolicy(
 
           // Send updated request and handle response for RestError
           if (shouldSendRequest) {
+            await disposeResponseBody(response);
             [response, error] = await trySendRequest(request, next);
           }
 
           // If we get another CAE Claim, we will handle it by default and return whatever value we receive for this
           if (isChallengeResponse(response)) {
-            claims = getCaeChallengeClaims(response.headers.get("WWW-Authenticate") as string);
+            claims = getCaeChallengeClaims(response.headers.get("WWW-Authenticate") ?? "");
             if (claims) {
               let parsedClaim: string;
               try {
@@ -306,6 +309,7 @@ export function bearerTokenAuthenticationPolicy(
               );
               // Send updated request and handle response for RestError
               if (shouldSendRequest) {
+                await disposeResponseBody(response);
                 [response, error] = await trySendRequest(request, next);
               }
             }

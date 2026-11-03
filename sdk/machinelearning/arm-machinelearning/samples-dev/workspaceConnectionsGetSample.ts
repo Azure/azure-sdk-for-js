@@ -1,29 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to
- *
- * @summary
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/WorkspaceConnection/get.json
- */
-
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists machine learning workspaces connections by name.
+ *
+ * @summary lists machine learning workspaces connections by name.
+ * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/get.json
+ */
 async function getWorkspaceConnection(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "resourceGroup-1";
-  const workspaceName = "workspace-1";
-  const connectionName = "connection-1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
   const result = await client.workspaceConnections.get(
-    resourceGroupName,
-    workspaceName,
-    connectionName,
+    "resourceGroup-1",
+    "workspace-1",
+    "connection-1",
   );
   console.log(result);
 }

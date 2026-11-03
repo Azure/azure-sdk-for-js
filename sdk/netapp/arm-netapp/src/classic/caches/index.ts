@@ -3,18 +3,20 @@
 
 import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
+  resetSmbPassword,
   poolChange,
   listPeeringPassphrases,
-  listByCapacityPools,
+  list,
   $delete,
   update,
   createOrUpdate,
   get,
 } from "../../api/caches/operations.js";
 import type {
+  CachesResetSmbPasswordOptionalParams,
   CachesPoolChangeOptionalParams,
   CachesListPeeringPassphrasesOptionalParams,
-  CachesListByCapacityPoolsOptionalParams,
+  CachesListOptionalParams,
   CachesDeleteOptionalParams,
   CachesUpdateOptionalParams,
   CachesCreateOrUpdateOptionalParams,
@@ -31,6 +33,14 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Caches operations. */
 export interface CachesOperations {
+  /** Resets the SMB password for the cache */
+  resetSmbPassword: (
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    cacheName: string,
+    options?: CachesResetSmbPasswordOptionalParams,
+  ) => PollerLike<OperationState<Cache>, Cache>;
   /** Moves Cache  to another Capacity Pool */
   poolChange: (
     resourceGroupName: string,
@@ -39,7 +49,7 @@ export interface CachesOperations {
     cacheName: string,
     body: PoolChangeRequest,
     options?: CachesPoolChangeOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<Cache>, Cache>;
   /** This operation will list the cluster peering command, cluster peering passphrase and the vserver peering command */
   listPeeringPassphrases: (
     resourceGroupName: string,
@@ -49,18 +59,13 @@ export interface CachesOperations {
     options?: CachesListPeeringPassphrasesOptionalParams,
   ) => Promise<PeeringPassphrases>;
   /** List all Caches within the Capacity Pool */
-  listByCapacityPools: (
+  list: (
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: CachesListByCapacityPoolsOptionalParams,
+    options?: CachesListOptionalParams,
   ) => PagedAsyncIterableIterator<Cache>;
   /** Delete the specified cache */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -98,6 +103,13 @@ export interface CachesOperations {
 
 function _getCaches(context: NetAppManagementContext) {
   return {
+    resetSmbPassword: (
+      resourceGroupName: string,
+      accountName: string,
+      poolName: string,
+      cacheName: string,
+      options?: CachesResetSmbPasswordOptionalParams,
+    ) => resetSmbPassword(context, resourceGroupName, accountName, poolName, cacheName, options),
     poolChange: (
       resourceGroupName: string,
       accountName: string,
@@ -114,12 +126,12 @@ function _getCaches(context: NetAppManagementContext) {
       options?: CachesListPeeringPassphrasesOptionalParams,
     ) =>
       listPeeringPassphrases(context, resourceGroupName, accountName, poolName, cacheName, options),
-    listByCapacityPools: (
+    list: (
       resourceGroupName: string,
       accountName: string,
       poolName: string,
-      options?: CachesListByCapacityPoolsOptionalParams,
-    ) => listByCapacityPools(context, resourceGroupName, accountName, poolName, options),
+      options?: CachesListOptionalParams,
+    ) => list(context, resourceGroupName, accountName, poolName, options),
     delete: (
       resourceGroupName: string,
       accountName: string,

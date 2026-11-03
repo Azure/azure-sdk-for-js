@@ -1,35 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates Migration configuration and starts migration of entities from Standard to Premium namespace
- *
- * @summary Creates Migration configuration and starts migration of entities from Standard to Premium namespace
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Migrationconfigurations/SBMigrationconfigurationCreateAndStartMigration.json
- */
-
-import type { MigrationConfigProperties } from "@azure/arm-servicebus";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates Migration configuration and starts migration of entities from Standard to Premium namespace
+ *
+ * @summary creates Migration configuration and starts migration of entities from Standard to Premium namespace
+ * x-ms-original-file: 2026-01-01/Migrationconfigurations/SBMigrationconfigurationCreateAndStartMigration.json
+ */
 async function migrationConfigurationsStartMigration(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "SubscriptionId";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
-  const namespaceName = "sdk-Namespace-41";
-  const configName = "$default";
-  const parameters: MigrationConfigProperties = {
-    postMigrationName: "sdk-PostMigration-5919",
-    targetNamespace:
-      "/subscriptions/SubscriptionId/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-4028",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
-  const result = await client.migrationConfigs.beginCreateAndStartMigrationAndWait(
-    resourceGroupName,
-    namespaceName,
-    configName,
-    parameters,
+  const result = await client.migrationConfigs.createAndStartMigration(
+    "ResourceGroup",
+    "sdk-Namespace-41",
+    "$default",
+    {
+      postMigrationName: "sdk-PostMigration-5919",
+      targetNamespace:
+        "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-4028",
+    },
   );
   console.log(result);
 }

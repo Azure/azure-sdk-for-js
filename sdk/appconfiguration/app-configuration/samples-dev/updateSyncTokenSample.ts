@@ -11,7 +11,8 @@
  */
 
 import { AppConfigurationClient } from "@azure/app-configuration";
-import { isSystemEvent, EventGridEvent, EventGridDeserializer } from "@azure/eventgrid";
+import type { EventGridEvent } from "@azure/eventgrid";
+import { isSystemEvent, EventGridDeserializer } from "@azure/eventgrid";
 import { appConfigTestEvent } from "./testData.js";
 
 // Load the .env file if it exists
@@ -31,7 +32,7 @@ async function processEvent(): Promise<EventGridEvent<unknown>[]> {
   return consumer.deserializeEventGridEvents(appConfigTestEvent);
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   // Set the following environment variable or edit the value on the following line.
   const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
 

@@ -1,26 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Displays L3IsolationDomains list by subscription GET method.
- *
- * @summary Displays L3IsolationDomains list by subscription GET method.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/L3IsolationDomains_ListBySubscription_MaximumSet_Gen.json
- */
-
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to displays L3IsolationDomains list by subscription GET method.
+ *
+ * @summary displays L3IsolationDomains list by subscription GET method.
+ * x-ms-original-file: 2025-07-15/L3IsolationDomains_ListBySubscription.json
+ */
 async function l3IsolationDomainsListBySubscriptionMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.l3IsolationDomains.listBySubscription()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

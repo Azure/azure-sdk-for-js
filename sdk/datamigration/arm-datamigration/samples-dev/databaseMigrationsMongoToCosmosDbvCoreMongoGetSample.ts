@@ -3,59 +3,46 @@
 
 import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get Database Migration resource.
+ * This sample demonstrates how to get Database Migration resource.
  *
- * @summary Get Database Migration resource.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/CosmosDbMongoGetDatabaseMigrationExpanded.json
+ * @summary get Database Migration resource.
+ * x-ms-original-file: 2025-09-01-preview/CosmosDbMongoGetDatabaseMigration1.json
  */
-async function getMongoToCosmosDbMongoVCoreDatabaseMigrationWithTheExpandParameter(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
-  const targetResourceName = "targetCosmosDbClusterName";
-  const migrationName = "migrationRequest";
+async function getMongoToCosmosDbMongoVCoreDatabaseMigrationWithoutTheExpandParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new DataMigrationManagementClient(credential, subscriptionId);
   const result = await client.databaseMigrationsMongoToCosmosDbvCoreMongo.get(
-    resourceGroupName,
-    targetResourceName,
-    migrationName,
+    "testrg",
+    "targetCosmosDbClusterName",
+    "migrationRequest",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get Database Migration resource.
+ * This sample demonstrates how to get Database Migration resource.
  *
- * @summary Get Database Migration resource.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/CosmosDbMongoGetDatabaseMigration.json
+ * @summary get Database Migration resource.
+ * x-ms-original-file: 2025-09-01-preview/CosmosDbMongoGetDatabaseMigrationExpanded1.json
  */
-async function getMongoToCosmosDbMongoVCoreDatabaseMigrationWithoutTheExpandParameter(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
-  const targetResourceName = "targetCosmosDbClusterName";
-  const migrationName = "migrationRequest";
+async function getMongoToCosmosDbMongoVCoreDatabaseMigrationWithTheExpandParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new DataMigrationManagementClient(credential, subscriptionId);
   const result = await client.databaseMigrationsMongoToCosmosDbvCoreMongo.get(
-    resourceGroupName,
-    targetResourceName,
-    migrationName,
+    "testrg",
+    "targetCosmosDbClusterName",
+    "migrationRequest",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getMongoToCosmosDbMongoVCoreDatabaseMigrationWithTheExpandParameter();
   await getMongoToCosmosDbMongoVCoreDatabaseMigrationWithoutTheExpandParameter();
+  await getMongoToCosmosDbMongoVCoreDatabaseMigrationWithTheExpandParameter();
 }
 
 main().catch(console.error);

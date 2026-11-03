@@ -1,35 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  AppServicePlanPatchResource} from "@azure/arm-appservice";
-import {
-  WebSiteManagementClient,
-} from "@azure/arm-appservice";
+import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Creates or updates an App Service Plan.
+ * This sample demonstrates how to description for Creates or updates an App Service Plan.
  *
- * @summary Description for Creates or updates an App Service Plan.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/PatchAppServicePlan.json
+ * @summary description for Creates or updates an App Service Plan.
+ * x-ms-original-file: 2025-05-01/PatchAppServicePlan.json
  */
 async function patchServicePlan(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "testsf6141";
-  const appServicePlan: AppServicePlanPatchResource = { kind: "app" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.appServicePlans.update(
-    resourceGroupName,
-    name,
-    appServicePlan,
-  );
+  const result = await client.appServicePlans.update("testrg123", "testsf6141", { kind: "app" });
   console.log(result);
 }
 

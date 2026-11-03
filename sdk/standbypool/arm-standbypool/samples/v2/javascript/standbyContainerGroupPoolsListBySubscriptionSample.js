@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list StandbyContainerGroupPoolResource resources by subscription ID
  *
  * @summary list StandbyContainerGroupPoolResource resources by subscription ID
- * x-ms-original-file: 2025-03-01/StandbyContainerGroupPools_ListBySubscription.json
+ * x-ms-original-file: 2025-10-01/StandbyContainerGroupPools_ListBySubscription.json
  */
 async function standbyContainerGroupPoolsListBySubscription() {
   const credential = new DefaultAzureCredential();

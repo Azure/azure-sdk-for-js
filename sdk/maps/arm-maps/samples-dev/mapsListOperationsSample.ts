@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List operations available for the Maps Resource Provider
- *
- * @summary List operations available for the Maps Resource Provider
- * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/GetOperations.json
- */
-
 import { AzureMapsManagementClient } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list operations available for the Maps Resource Provider
+ *
+ * @summary list operations available for the Maps Resource Provider
+ * x-ms-original-file: 2025-10-01-preview/GetOperations.json
+ */
 async function getOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new AzureMapsManagementClient(credential);
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new AzureMapsManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.maps.listOperations()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

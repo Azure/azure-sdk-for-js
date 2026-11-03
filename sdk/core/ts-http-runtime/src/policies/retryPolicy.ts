@@ -6,10 +6,12 @@ import type { PipelinePolicy } from "../pipeline.js";
 import { delay } from "../util/helpers.js";
 import type { RetryStrategy } from "../retryStrategies/retryStrategy.js";
 import type { RestError } from "../restError.js";
+import { isRestError } from "../restError.js";
 import { AbortError } from "../abort-controller/AbortError.js";
 import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
 import { createClientLogger } from "../logger/logger.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
+import { disposeResponseBody } from "../util/responseBody.js";
 
 const retryPolicyLogger = createClientLogger("ts-http-runtime retryPolicy");
 
@@ -49,25 +51,24 @@ export function retryPolicy(
 
       retryRequest: while (true) {
         retryCount += 1;
-        response = undefined;
         responseError = undefined;
 
         try {
           logger.info(`Retry ${retryCount}: Attempting to send request`, request.requestId);
           response = await next(request);
           logger.info(`Retry ${retryCount}: Received a response from request`, request.requestId);
-        } catch (e: any) {
+        } catch (e) {
           logger.error(`Retry ${retryCount}: Received an error from request`, request.requestId);
 
           // RestErrors are valid targets for the retry strategies.
           // If none of the retry strategies can work with them, they will be thrown later in this policy.
           // If the received error is not a RestError, it is immediately thrown.
-          responseError = e as RestError;
-          if (!e || responseError.name !== "RestError") {
+          if (!isRestError(e)) {
             throw e;
           }
 
-          response = responseError.response;
+          responseError = e;
+          response = e.response;
         }
 
         if (request.abortSignal?.aborted) {
@@ -120,6 +121,9 @@ export function retryPolicy(
             strategyLogger.info(
               `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`,
             );
+            if (response) {
+              await disposeResponseBody(response);
+            }
             await delay(retryAfterInMs, undefined, { abortSignal: request.abortSignal });
             continue retryRequest;
           }
@@ -128,6 +132,9 @@ export function retryPolicy(
             strategyLogger.info(
               `Retry ${retryCount}: Retry strategy ${strategy.name} redirects to ${redirectTo}`,
             );
+            if (response) {
+              await disposeResponseBody(response);
+            }
             request.url = redirectTo;
             continue retryRequest;
           }

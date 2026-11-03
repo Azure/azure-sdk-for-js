@@ -1,40 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new workspace or updates an existing one.
- *
- * @summary Creates a new workspace or updates an existing one.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateWorkspace.json
- */
-
-import {
-  WorkspaceContract,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a new workspace or updates an existing one.
+ *
+ * @summary creates a new workspace or updates an existing one.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateWorkspace.json
+ */
 async function apiManagementCreateWorkspace(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const workspaceId = "wks1";
-  const parameters: WorkspaceContract = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.workspace.createOrUpdate("rg1", "apimService1", "wks1", {
     description: "workspace 1",
     displayName: "my workspace",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.workspace.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    workspaceId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

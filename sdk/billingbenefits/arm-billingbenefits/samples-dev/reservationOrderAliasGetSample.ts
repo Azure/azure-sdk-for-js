@@ -1,22 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a reservation order alias.
- *
- * @summary Get a reservation order alias.
- * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/ReservationOrderAliasGet.json
- */
-
 import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to get a reservation order alias.
+ *
+ * @summary get a reservation order alias.
+ * x-ms-original-file: 2025-12-01-preview/ReservationOrderAliasGet.json
+ */
 async function reservationOrderAliasGet(): Promise<void> {
-  const reservationOrderAliasName = "reservationOrderAlias123";
   const credential = new DefaultAzureCredential();
   const client = new BillingBenefitsRP(credential);
-  const result = await client.reservationOrderAlias.get(reservationOrderAliasName);
+  const result = await client.reservationOrderAlias.get("reservationOrderAlias123");
   console.log(result);
 }
 
-reservationOrderAliasGet().catch(console.error);
+async function main(): Promise<void> {
+  await reservationOrderAliasGet();
+}
+
+main().catch(console.error);

@@ -1,34 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Exports all the device identities in the IoT hub identity registry to an Azure Storage blob container. For more information, see: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.
- *
- * @summary Exports all the device identities in the IoT hub identity registry to an Azure Storage blob container. For more information, see: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2023-06-30/examples/iothub_exportdevices.json
- */
-
-import type { ExportDevicesRequest } from "@azure/arm-iothub";
 import { IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to exports all the device identities in the IoT hub identity registry to an Azure Storage blob container. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.
+ *
+ * @summary exports all the device identities in the IoT hub identity registry to an Azure Storage blob container. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.
+ * x-ms-original-file: 2026-10-01-preview/iothub_exportdevices.json
+ */
 async function iotHubResourceExportDevices(): Promise<void> {
-  const subscriptionId =
-    process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const resourceGroupName = process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
-  const resourceName = "testHub";
-  const exportDevicesParameters: ExportDevicesRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const client = new IotHubClient(credential, subscriptionId);
+  const result = await client.iotHubResource.exportDevices("myResourceGroup", "testHub", {
+    authenticationType: "identityBased",
     excludeKeys: true,
     exportBlobContainerUri: "testBlob",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new IotHubClient(credential, subscriptionId);
-  const result = await client.iotHubResource.exportDevices(
-    resourceGroupName,
-    resourceName,
-    exportDevicesParameters,
-  );
+    identity: {
+      userAssignedIdentity:
+        "/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+    },
+  });
   console.log(result);
 }
 

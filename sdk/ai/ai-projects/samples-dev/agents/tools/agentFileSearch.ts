@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to run Prompt Agent operations
- * using the File Search Tool and a synchronous client.
+ * This sample demonstrates how to run Prompt Agent operations using the File Search Tool.
  *
  * @summary This sample demonstrates how to create a vector store, upload a file,
  * create an agent with file search capabilities, generate responses, and clean up resources.
@@ -15,11 +14,12 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import * as fs from "fs";
 import * as path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 export async function main(): Promise<void> {
   // Load the file to be indexed for search
@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
 
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create vector store for file search
   console.log("Creating vector store...");
@@ -46,7 +46,7 @@ export async function main(): Promise<void> {
 
   // Create agent with file search tool
   console.log("\nCreating agent with file search tool...");
-  const agent = await project.agents.createVersion("agent-file-search", {
+  const agent = await project.agents.createVersion(agentName, {
     kind: "prompt",
     model: deploymentName,
     instructions: "You are a helpful assistant that can search through product information.",
@@ -72,7 +72,7 @@ export async function main(): Promise<void> {
       input: "Tell me about Contoso products",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
   console.log(`Response: ${response.output_text}`);

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
-import child_process from "node:child_process";
+import { execFile } from "@azure/core-process";
 import fs, { PathLike } from "node:fs";
 import {
   getLanguageAndConfigInfoFromConfigurationFile,
@@ -11,6 +11,10 @@ import {
   getFileReferenceForImport,
 } from "../src/utils.js";
 import { Languages } from "../src/constants.js";
+
+vi.mock("@azure/core-process", () => ({
+  execFile: vi.fn(),
+}));
 
 describe("Utility functions", () => {
   beforeEach(() => {
@@ -24,22 +28,22 @@ describe("Utility functions", () => {
 
   describe("executeCommand", () => {
     it("should return output of command", async () => {
-      const command = "echo Hello World";
-      vi.spyOn(child_process, "exec").mockImplementation((_: string, callback: any): any => {
-        callback(null, "Hello World", "");
-      });
+      const command = { command: "echo", args: ["Hello", "World"] };
+      vi.mocked(execFile).mockResolvedValue({ stdout: "Hello World", stderr: "" });
 
       const response = (await executeCommand(command)).trim();
       expect(response).to.equal("Hello World");
+      expect(execFile).toHaveBeenCalledWith("echo", ["Hello", "World"], {
+        allowWindowsBatchFiles: true,
+        encoding: "utf8",
+      });
     });
 
     it("should throw error if command fails", async () => {
-      const command = "echo Hello World";
-      vi.spyOn(child_process, "exec").mockImplementation((_: string, callback: any): any => {
-        callback(new Error("Command failed"), "", "");
-      });
+      const command = { command: "echo", args: ["Hello", "World"] };
+      vi.mocked(execFile).mockRejectedValue(new Error("Command failed"));
 
-      expect(executeCommand(command)).rejects;
+      await expect(executeCommand(command)).rejects.toThrow("Command failed");
     });
   });
 

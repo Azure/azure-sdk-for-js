@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a description for the specified namespace.
- *
- * @summary Gets a description for the specified namespace.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/SBNameSpaceGet.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets a description for the specified namespace.
+ *
+ * @summary gets a description for the specified namespace.
+ * x-ms-original-file: 2026-01-01/NameSpaces/SBNameSpaceGet.json
+ */
 async function nameSpaceGet(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ArunMonocle";
-  const namespaceName = "sdk-Namespace-2924";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
-  const result = await client.namespaces.get(resourceGroupName, namespaceName);
+  const result = await client.namespaces.get("ArunMonocle", "sdk-Namespace-2924");
   console.log(result);
 }
 

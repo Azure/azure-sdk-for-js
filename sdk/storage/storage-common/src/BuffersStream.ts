@@ -83,7 +83,6 @@ export class BuffersStream extends Readable {
         outBuffers.push(this.buffers[this.bufferIndex].slice(this.byteOffsetInCurrentBuffer, end));
         this.pushedBytesLength += size - i;
         this.byteOffsetInCurrentBuffer = end;
-        i = size;
         break;
       } else {
         // chunkSize = remaining

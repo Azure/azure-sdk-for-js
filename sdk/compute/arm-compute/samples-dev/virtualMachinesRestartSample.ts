@@ -3,48 +3,31 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to restart a virtual machine.
+ * This sample demonstrates how to the operation to restart a virtual machine.
  *
- * @summary The operation to restart a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Restart_MaximumSet_Gen.json
+ * @summary the operation to restart a virtual machine.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Restart_MaximumSet_Gen.json
  */
 async function virtualMachineRestartMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const vmName = "aaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginRestartAndWait(
-    resourceGroupName,
-    vmName,
-  );
-  console.log(result);
+  await client.virtualMachines.restart("rgcompute", "aaaaaaaaaaaaaaaaaaaa");
 }
 
 /**
- * This sample demonstrates how to The operation to restart a virtual machine.
+ * This sample demonstrates how to the operation to restart a virtual machine.
  *
- * @summary The operation to restart a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Restart_MinimumSet_Gen.json
+ * @summary the operation to restart a virtual machine.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Restart_MinimumSet_Gen.json
  */
 async function virtualMachineRestartMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const vmName = "aaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginRestartAndWait(
-    resourceGroupName,
-    vmName,
-  );
-  console.log(result);
+  await client.virtualMachines.restart("rgcompute", "aaa");
 }
 
 async function main(): Promise<void> {

@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets all configuration information for an HDI cluster.
- *
- * @summary Gets all configuration information for an HDI cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Configurations_List.json
- */
-
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets all configuration information for an HDI cluster.
+ *
+ * @summary gets all configuration information for an HDI cluster.
+ * x-ms-original-file: 2025-01-15-preview/HDI_Configurations_List.json
+ */
 async function getAllConfigurationInformation(): Promise<void> {
-  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cluster1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new HDInsightManagementClient(credential, subscriptionId);
-  const result = await client.configurations.list(resourceGroupName, clusterName);
+  const result = await client.configurations.list("rg1", "cluster1");
   console.log(result);
 }
 

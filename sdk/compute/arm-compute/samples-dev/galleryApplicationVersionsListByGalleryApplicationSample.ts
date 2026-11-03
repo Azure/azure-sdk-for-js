@@ -3,31 +3,26 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List gallery Application Versions in a gallery Application Definition.
+ * This sample demonstrates how to list gallery Application Versions in a gallery Application Definition.
  *
- * @summary List gallery Application Versions in a gallery Application Definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplicationVersion_ListByGalleryApplication.json
+ * @summary list gallery Application Versions in a gallery Application Definition.
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryApplicationVersion_ListByGalleryApplication.json
  */
 async function listGalleryApplicationVersionsInAGalleryApplicationDefinition(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const galleryName = "myGalleryName";
-  const galleryApplicationName = "myGalleryApplicationName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.galleryApplicationVersions.listByGalleryApplication(
-    resourceGroupName,
-    galleryName,
-    galleryApplicationName,
+    "myResourceGroup",
+    "myGalleryName",
+    "myGalleryApplicationName",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

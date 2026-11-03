@@ -191,7 +191,7 @@ Next we need to configure Rollup to take the above code and turn it into a bundl
 // rollup.config.mjs
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 export default {
-  input: "src/main.js",
+  input: "src/index.js",
   output: {
     file: "dist/bundle.js",
     format: "esm",
@@ -509,7 +509,7 @@ Now you can invoke parcel on the command-line:
 parcel index.html
 ```
 
-This will bundle your code and create a local development server for your page at `http://localhost:1234`. Changes you make to `index.js` will automatically get reflected on the dev server.
+This will bundle your code and create a local development server for your page at `http://localhost:1234`. Changes you make to `index.ts` will automatically get reflected on the dev server.
 
 If you wish to bundle your page without using the local development server, you can do this by passing the `build` command:
 

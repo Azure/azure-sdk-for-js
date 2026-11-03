@@ -1,27 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all registered ASNs under the given subscription, resource group and peering.
- *
- * @summary Lists all registered ASNs under the given subscription, resource group and peering.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListRegisteredAsnsByPeering.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function listAllTheRegisteredAsNsAssociatedWithThePeering(): Promise<void> {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
-  const peeringName = "peeringName";
+/**
+ * This sample demonstrates how to lists all registered ASNs under the given subscription, resource group and peering.
+ *
+ * @summary lists all registered ASNs under the given subscription, resource group and peering.
+ * x-ms-original-file: 2025-05-01/ListRegisteredAsnsByPeering.json
+ */
+async function listAllTheRegisteredASNsAssociatedWithThePeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.registeredAsns.listByPeering(resourceGroupName, peeringName)) {
+  for await (const item of client.registeredAsns.listByPeering("rgName", "peeringName")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-listAllTheRegisteredAsNsAssociatedWithThePeering().catch(console.error);
+async function main(): Promise<void> {
+  await listAllTheRegisteredASNsAssociatedWithThePeering();
+}
+
+main().catch(console.error);

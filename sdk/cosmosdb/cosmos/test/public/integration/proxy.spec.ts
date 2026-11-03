@@ -10,7 +10,8 @@
 // import { endpoint } from "../common/_testConfig";
 // import { masterKey } from "../common/_fakeTestSecrets";
 // import { addEntropy } from "../common/TestHelpers";
-import { describe, it, TestContext } from "vitest";
+import type { TestContext } from "vitest";
+import { describe, it } from "vitest";
 
 const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
 if (!isBrowser()) {

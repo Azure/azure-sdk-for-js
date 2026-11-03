@@ -1,38 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the details of an Azure Site Recovery fabric.
- *
- * @summary Gets the details of an Azure Site Recovery fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationFabrics_Get.json
- */
-
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getsTheDetailsOfAnAsrFabric(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
-    "c183865e-6077-46f2-a3b1-deb0f4f4650a";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
-    "resourceGroupPS1";
-  const resourceName = "vault1";
-  const fabricName = "cloud1";
+/**
+ * This sample demonstrates how to gets the details of an Azure Site Recovery fabric.
+ *
+ * @summary gets the details of an Azure Site Recovery fabric.
+ * x-ms-original-file: 2025-08-01/ReplicationFabrics_Get.json
+ */
+async function getsTheDetailsOfAnASRFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "c183865e-6077-46f2-a3b1-deb0f4f4650a";
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationFabrics.get(
-    resourceGroupName,
-    resourceName,
-    fabricName,
-  );
+  const result = await client.replicationFabrics.get("resourceGroupPS1", "vault1", "cloud1");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getsTheDetailsOfAnAsrFabric();
+  await getsTheDetailsOfAnASRFabric();
 }
 
 main().catch(console.error);

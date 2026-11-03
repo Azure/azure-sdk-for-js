@@ -1,5 +1,61 @@
 # Release History
 
+## 6.0.0 (2026-10-06)
+
+### Features Added
+  - Added Enum KnownManagedHsmSkuName
+  - Enum KnownJsonWebKeyType has a new value OctHSM
+  - Enum KnownVersions has a new value V20260515
+
+### Breaking Changes
+  - Operation ManagedHsmsOperations.beginCreateOrUpdate has a new signature
+  - Operation ManagedHsmsOperations.beginCreateOrUpdateAndWait has a new signature
+  - Operation ManagedHsmsOperations.beginUpdate has a new signature
+  - Operation ManagedHsmsOperations.beginUpdateAndWait has a new signature
+  - Operation ManagedHsmsOperations.createOrUpdate has a new signature
+  - Operation ManagedHsmsOperations.get has a new signature
+  - Operation ManagedHsmsOperations.listByResourceGroup has a new signature
+  - Operation ManagedHsmsOperations.listBySubscription has a new signature
+  - Operation ManagedHsmsOperations.update has a new signature
+  - Operation MhsmPrivateEndpointConnectionsOperations.beginDelete has a new signature
+  - Operation MhsmPrivateEndpointConnectionsOperations.beginDeleteAndWait has a new signature
+  - Operation MhsmPrivateEndpointConnectionsOperations.delete has a new signature
+  - Operation MhsmPrivateEndpointConnectionsOperations.get has a new signature
+  - Operation MhsmPrivateEndpointConnectionsOperations.listByResource has a new signature
+  - Operation MhsmPrivateEndpointConnectionsOperations.put has a new signature
+  - Operation MhsmPrivateLinkResourcesOperations.listByMhsmResource has a new signature
+  - Operation PrivateEndpointConnectionsOperations.get has a new signature
+  - Type alias "ManagedHsmSkuName" has been changed
+
+## 5.0.0 (2026-03-17)
+
+### Features Added
+  - Added operation ManagedHsmsOperations.createOrUpdate
+  - Added operation ManagedHsmsOperations.delete
+  - Added operation ManagedHsmsOperations.purgeDeleted
+  - Added operation ManagedHsmsOperations.update
+  - Added operation MhsmPrivateEndpointConnectionsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation VaultsOperations.createOrUpdate
+  - Added operation VaultsOperations.purgeDeleted
+  - Added Interface MhsmPrivateEndpointConnectionProperties
+  - Added Interface MhsmPrivateLinkResourceProperties
+  - Added Interface OperationProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Operation ManagedHsms.beginPurgeDeletedAndWait has a new signature
+  - Removed Interface ManagedHsmResource
+  - Parameter location of interface MhsmPrivateLinkResource is now required
+
 ## 4.0.0 (2025-11-25)
 
 ### Features Added

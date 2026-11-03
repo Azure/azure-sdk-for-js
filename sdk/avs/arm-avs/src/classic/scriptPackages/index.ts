@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { ScriptPackage } from "../../models/models.js";
-import {
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { get, list } from "../../api/scriptPackages/operations.js";
+import type {
   ScriptPackagesGetOptionalParams,
   ScriptPackagesListOptionalParams,
 } from "../../api/scriptPackages/options.js";
-import { get, list } from "../../api/scriptPackages/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ScriptPackage } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ScriptPackages operations. */
 export interface ScriptPackagesOperations {

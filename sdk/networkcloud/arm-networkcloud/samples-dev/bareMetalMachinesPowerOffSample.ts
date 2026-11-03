@@ -1,39 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  BareMetalMachinePowerOffParameters,
-  BareMetalMachinesPowerOffOptionalParams} from "@azure/arm-networkcloud";
-import {
-  NetworkCloud,
-} from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Power off the provided bare metal machine.
+ * This sample demonstrates how to power off the provided bare metal machine.
  *
- * @summary Power off the provided bare metal machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/BareMetalMachines_PowerOff.json
+ * @summary power off the provided bare metal machine.
+ * x-ms-original-file: 2026-07-01/BareMetalMachines_PowerOff.json
  */
 async function powerOffBareMetalMachine(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const bareMetalMachineName = "bareMetalMachineName";
-  const bareMetalMachinePowerOffParameters: BareMetalMachinePowerOffParameters =
-    { skipShutdown: "True" };
-  const options: BareMetalMachinesPowerOffOptionalParams = {
-    bareMetalMachinePowerOffParameters,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
   const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.bareMetalMachines.beginPowerOffAndWait(
-    resourceGroupName,
-    bareMetalMachineName,
-    options,
+  const result = await client.bareMetalMachines.powerOff(
+    "resourceGroupName",
+    "bareMetalMachineName",
+    { bareMetalMachinePowerOffParameters: { skipShutdown: "True" } },
   );
   console.log(result);
 }

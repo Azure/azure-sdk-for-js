@@ -1,35 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Detach the tag from the Api.
- *
- * @summary Detach the tag from the Api.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementDeleteApiTag.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to detach the tag from the Api.
+ *
+ * @summary detach the tag from the Api.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementDeleteApiTag.json
+ */
 async function apiManagementDeleteApiTag(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "59d5b28d1f7fab116c282650";
-  const tagId = "59d5b28e1f7fab116402044e";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.tag.detachFromApi(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    tagId,
+  await client.tag.detachFromApi(
+    "rg1",
+    "apimService1",
+    "59d5b28d1f7fab116c282650",
+    "59d5b28e1f7fab116402044e",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

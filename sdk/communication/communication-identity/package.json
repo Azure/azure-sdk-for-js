@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-identity",
-  "version": "1.4.0-beta.1",
+  "version": "2.0.0",
   "description": "SDK for Azure Communication service which facilitates user token administration.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -8,7 +8,7 @@
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json",
+    "build:samples": "tsc -p config/tsconfig.samples.json",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:js-samples": "dev-tool samples run dist-samples/javascript",
@@ -16,33 +16,21 @@
     "execute:ts-samples": "dev-tool samples run dist-samples/typescript/dist/dist-samples/typescript/src/",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript ./swagger/README.md",
+    "generate:client": "tsp-client update && npm run format",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run test:vitest --browser",
+    "test:node": "dev-tool run test:vitest",
     "test:watch": "npm run test -- --watch --reporter min",
     "update-snippets": "dev-tool run update-snippets"
   },
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/identityRestClient.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/generated/src/tracing.ts",
-        "prefix": "packageVersion"
-      },
-      {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
       }
     ]
   },
@@ -72,26 +60,27 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-identity/",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-identity/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/communication/communication-identity"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
+    "@azure-rest/core-client": "^2.6.1",
     "@azure/communication-common": "^2.3.1",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^2.7.2",
-    "@azure/core-paging": "^1.6.2",
+    "@azure/core-client": "^1.11.1",
     "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-tracing": "^1.2.0",
     "@azure/logger": "^1.1.4",
-    "events": "^3.3.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -112,27 +101,11 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
+    "react-native": "catalog:testing",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "type": "module",
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
@@ -153,6 +126,13 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
     }
   }
 }

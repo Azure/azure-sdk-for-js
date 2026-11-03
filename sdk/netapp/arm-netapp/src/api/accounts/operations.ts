@@ -23,6 +23,7 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  AccountsRefreshLdapBindPasswordOptionalParams,
   AccountsChangeKeyVaultOptionalParams,
   AccountsGetChangeKeyVaultInformationOptionalParams,
   AccountsTransitionToCmkOptionalParams,
@@ -38,6 +39,60 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
+export function _refreshLdapBindPasswordSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  options: AccountsRefreshLdapBindPasswordOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/refreshLdapBindPassword{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _refreshLdapBindPasswordDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Refresh LDAP Bind DN password by fetching the latest password from Azure Key Vault. */
+export function refreshLdapBindPassword(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  options: AccountsRefreshLdapBindPasswordOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _refreshLdapBindPasswordDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _refreshLdapBindPasswordSend(context, resourceGroupName, accountName, options),
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
 export function _changeKeyVaultSend(
   context: Client,
   resourceGroupName: string,
@@ -50,7 +105,7 @@ export function _changeKeyVaultSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,7 +114,7 @@ export function _changeKeyVaultSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["body"] ? options["body"] : changeKeyVaultSerializer(options["body"]),
+    body: !options?.body ? options?.body : changeKeyVaultSerializer(options?.body),
   });
 }
 
@@ -67,7 +122,10 @@ export async function _changeKeyVaultDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -86,6 +144,7 @@ export function changeKeyVault(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _changeKeyVaultSend(context, resourceGroupName, accountName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -93,9 +152,7 @@ export function _getChangeKeyVaultInformationSend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: AccountsGetChangeKeyVaultInformationOptionalParams = {
-    requestOptions: {},
-  },
+  options: AccountsGetChangeKeyVaultInformationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/getKeyVaultStatus{?api%2Dversion}",
@@ -103,7 +160,7 @@ export function _getChangeKeyVaultInformationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,10 +168,7 @@ export function _getChangeKeyVaultInformationSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -124,7 +178,10 @@ export async function _getChangeKeyVaultInformationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -136,9 +193,7 @@ export function getChangeKeyVaultInformation(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: AccountsGetChangeKeyVaultInformationOptionalParams = {
-    requestOptions: {},
-  },
+  options: AccountsGetChangeKeyVaultInformationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<GetKeyVaultStatusResponse>, GetKeyVaultStatusResponse> {
   return getLongRunningPoller(
     context,
@@ -150,6 +205,7 @@ export function getChangeKeyVaultInformation(
       getInitialResponse: () =>
         _getChangeKeyVaultInformationSend(context, resourceGroupName, accountName, options),
       resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion ?? "2026-08-15-preview",
     },
   ) as PollerLike<OperationState<GetKeyVaultStatusResponse>, GetKeyVaultStatusResponse>;
 }
@@ -166,7 +222,7 @@ export function _transitionToCmkSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,9 +231,7 @@ export function _transitionToCmkSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["body"]
-      ? options["body"]
-      : encryptionTransitionRequestSerializer(options["body"]),
+    body: !options?.body ? options?.body : encryptionTransitionRequestSerializer(options?.body),
   });
 }
 
@@ -185,7 +239,10 @@ export async function _transitionToCmkDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -205,6 +262,7 @@ export function transitionToCmk(
     getInitialResponse: () =>
       _transitionToCmkSend(context, resourceGroupName, accountName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -220,7 +278,7 @@ export function _renewCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -233,7 +291,10 @@ export async function _renewCredentialsDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -253,6 +314,7 @@ export function renewCredentials(
     getInitialResponse: () =>
       _renewCredentialsSend(context, resourceGroupName, accountName, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -264,7 +326,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/netAppAccounts{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -272,10 +334,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -285,7 +344,10 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -302,7 +364,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-15-preview",
+    },
   );
 }
 
@@ -316,7 +382,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -324,10 +390,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -335,7 +398,10 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -353,7 +419,11 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-15-preview",
+    },
   );
 }
 
@@ -369,7 +439,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -379,10 +449,13 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -390,22 +463,18 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete the specified NetApp account */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
   accountName: string,
   options: AccountsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, accountName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -422,7 +491,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -431,10 +500,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: netAppAccountPatchSerializer(body),
   });
 }
@@ -443,7 +509,10 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -463,6 +532,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, accountName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
   }) as PollerLike<OperationState<NetAppAccount>, NetAppAccount>;
 }
 
@@ -479,7 +549,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -488,10 +558,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: netAppAccountSerializer(body),
   });
 }
@@ -502,7 +569,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -523,6 +593,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, accountName, body, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-08-15-preview",
   }) as PollerLike<OperationState<NetAppAccount>, NetAppAccount>;
 }
 
@@ -538,7 +609,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -546,10 +617,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -557,7 +625,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ne
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

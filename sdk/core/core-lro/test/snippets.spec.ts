@@ -7,9 +7,9 @@ import { describe, it } from "vitest";
 const poller = {} as unknown as PollerLike<any, any>;
 describe("snippets", () => {
   it("OperationStateExample", async () => {
-    switch (poller.operationState.status) {
-      case "succeeded": // return poller.getResult();
-      case "failed": // throw poller.getOperationState().error;
+    switch (poller.operationState?.status) {
+      case "succeeded": // return poller.result;
+      case "failed": // throw poller.operationState?.error;
       case "canceled": // throw new Error("Operation was canceled");
       case "running": // ...
       case "notStarted": // ...

@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets an environment type.
- *
- * @summary Gets an environment type.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/EnvironmentTypes_Get.json
- */
-
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets an environment type.
+ *
+ * @summary gets an environment type.
+ * x-ms-original-file: 2026-01-01-preview/EnvironmentTypes_Get.json
+ */
 async function environmentTypesGet(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const devCenterName = "Contoso";
-  const environmentTypeName = "DevTest";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.environmentTypes.get(
-    resourceGroupName,
-    devCenterName,
-    environmentTypeName,
-  );
+  const result = await client.environmentTypes.get("rg1", "Contoso", "DevTest");
   console.log(result);
 }
 

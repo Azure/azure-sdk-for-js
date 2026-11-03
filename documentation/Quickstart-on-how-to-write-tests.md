@@ -34,7 +34,7 @@ This page is to help you write and run tests quickly for Javascript Codegen SDK 
 
 The Azure SDK test framework uses the [`test-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md) library, which in turn rests upon on a HTTP recording system ([testproxy](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy)) that enables tests dependent on network interaction to be run offline.
 
-Please notice that this quickstart is based on 3.x.y version of recorder tool (`@azure-tools/test-recorder`).
+Please note that this quickstart is based on version 4.x of the recorder tool (`@azure-tools/test-recorder`), which uses the language-agnostic [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) and the [asset-sync workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md).
 
 # Prerequisites
 
@@ -48,13 +48,25 @@ To be able to leverage the asset-sync workflow
 
 - Install [Powershell](https://github.com/PowerShell/PowerShell)
   - Make sure "pwsh" command works at this step (If you follow the above link, "pwsh" is typically added to the system environment variables by default)
-- Add `dev-tool` to the `devDependencies` in the `package.json`.
+- Add `@azure/dev-tool` to the `devDependencies` in the `package.json`.
 
 # How to run test
 
 This section describes how to run the SDK tests. If you want to run the tests of a specific project, go to that project's folder and execute `pnpm test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `pnpm test:node` and `pnpm test:browser`. Let's take `purview-datamap-rest` as an example.
 
-If you have no concepts of `recording`, `playback` or [TEST_MODE](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#test_mode) we'll highly recommand you to read this [doc](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#key-concepts). We'll touch upon these concepts in below content.
+To select a subset of test files and/or test cases:
+
+```shell
+pnpm run test:node -- test/myTest.spec.ts -t "should handle basic operations"
+```
+
+Some shells (e.g. PowerShell) process command-line options differently and require double `--`:
+
+```shell
+pnpm run test:node -- -- test/myTest.spec.ts -t "should handle basic operations"
+```
+
+If you have no concepts of `recording`, `playback` or [TEST_MODE](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#test_mode) we'll highly recommend you to read this [doc](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#key-concepts). We'll touch upon these concepts in below content.
 
 ## Code structure
 
@@ -91,7 +103,7 @@ If this is your first time generating an SDK, you can enable the config `generat
   });
 ```
 
-This only contains basics for testing, we comment out some lines **except** licence header. If you want to update to your own utility and test cases. The overall structure will be similar to below:
+This only contains basics for testing, we comment out some lines **except** license header. If you want to update to your own utility and test cases. The overall structure will be similar to below:
 
 _Note: the structure of the `test` folder has slight differences between high-level, rest-level and Modular clients. In HLC, we only have one file under the `test` folder which contains all contents. But in RLC and Modular, we separate the sample test and utils._
 
@@ -101,9 +113,6 @@ sdk/
 │  ├─ purview-datamap-rest/
 │  │  ├─ src/
 │  │  │  ├─ ...
-│  │  ├─ recordings/
-│  │  │  ├─ node/
-│  │  │  ├─ browsers/
 │  │  ├─ test/
 │  │  │  ├─ public/
 │  │  │  |  ├─ utils/
@@ -117,11 +126,11 @@ After writing your test cases you need to run your test cases and record the tes
 
 ## Run tests in record mode
 
-Before running tests, it's advised to update the dependencies and build our project by running the command `pnpm install && pnpm build --filter=<package-name>...`. Please notice this command is time-consuming and it will take around 10 mins, you could refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#resolving-dependency-version-conflicts) for more details.
+Before running tests, it's advised to update the dependencies and build our project by running the command `pnpm install && pnpm turbo build --filter=<package-name>... --token 1`. Please notice this command is time-consuming and it will take around 10 mins, you could refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#resolving-dependency-version-conflicts) for more details.
 
 ```Shell
 > pnpm install
-> pnpm build --filter=@azure-rest/purview-datamap...
+> pnpm turbo build --filter=@azure-rest/purview-datamap... --token 1
 ```
 
 Then, we could go to the project folder to run the tests. By default, if you don't specify `TEST_MODE`, it will run previously recorded tests.
@@ -161,7 +170,7 @@ After running the test cases, you need to push your recordings into assets repo.
 > pnpm test
 ```
 
-This time we could get following similar logs. Go to the folder `purview-datamap-rest/recordings` to view recording files.
+This time we could get following similar logs. After pushing, recording files will be stored in the [azure-sdk-assets](https://github.com/Azure/azure-sdk-assets) repo and referenced via your `assets.json`.
 
 ```
 [test-info] ===TEST_MODE="record"===
@@ -358,9 +367,9 @@ This simple test creates a resource and checks that the service handles it corre
 
 ```typescript
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { PurviewDataMapClient } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import type { PurviewDataMapClient } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 describe("My test", () => {
   let recorder: Recorder;
@@ -368,14 +377,14 @@ describe("My test", () => {
   let client: PurviewDataMapClient;
   let glossaryName: string;
 
-  beforeEach(async function () {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     // Step 3: Create your client
     client = await createClient(recorder);
     glossaryName = "js-testing";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -403,11 +412,11 @@ describe("My test", () => {
 ### `utils/recordedClient.ts`
 
 ```typescript
-import { Context } from "mocha";
+import type { TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import PurviewDataMap, { PurviewDataMapClient } from "../../../src";
+import PurviewDataMap, { PurviewDataMapClient } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
@@ -427,8 +436,8 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function createRecorder(context: TestInfo): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
@@ -472,9 +481,8 @@ Next, we'll take the package `@azure/arm-monitor` as an example to guide you how
 
 import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { MonitorClient } from "../src/monitorClient";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { MonitorClient } from "../src/monitorClient.js";
 
 // Step 4: Add environment variables you'd like to mask the values in recordings
 const replaceableVariables: Record<string, string> = {
@@ -496,8 +504,8 @@ describe("Monitor client", () => {
   let client: MonitorClient;
   let diagnosticName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     // Step 3: create clients
     subscriptionId = env.SUBSCRIPTION_ID || "";

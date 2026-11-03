@@ -1,62 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve the Dsc node report list by node id.
- *
- * @summary Retrieve the Dsc node report list by node id.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listDscNodeReportsByNode.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function listDscReportsByNodeId(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount33";
-  const nodeId = "nodeId";
+/**
+ * This sample demonstrates how to retrieve the Dsc node report list by node id.
+ *
+ * @summary retrieve the Dsc node report list by node id.
+ * x-ms-original-file: 2024-10-23/listDscNodeReportsByNode.json
+ */
+async function listDSCReportsByNodeId(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.nodeReports.listByNode(
-    resourceGroupName,
-    automationAccountName,
-    nodeId,
-  )) {
+  for await (const item of client.nodeReports.listByNode("rg", "myAutomationAccount33", "nodeId")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Retrieve the Dsc node report list by node id.
+ * This sample demonstrates how to retrieve the Dsc node report list by node id.
  *
- * @summary Retrieve the Dsc node report list by node id.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodeReportsByNode.json
+ * @summary retrieve the Dsc node report list by node id.
+ * x-ms-original-file: 2024-10-23/listPagedDscNodeReportsByNode.json
  */
-async function listPagedDscReportsByNodeId(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount33";
-  const nodeId = "nodeId";
+async function listPagedDSCReportsByNodeId(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.nodeReports.listByNode(
-    resourceGroupName,
-    automationAccountName,
-    nodeId,
-  )) {
+  for await (const item of client.nodeReports.listByNode("rg", "myAutomationAccount33", "nodeId")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listDscReportsByNodeId();
-  await listPagedDscReportsByNodeId();
+  await listDSCReportsByNodeId();
+  await listPagedDSCReportsByNodeId();
 }
 
 main().catch(console.error);

@@ -10,7 +10,7 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
 import type { MockInstance } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { SecretClient } from "../../src/index.js";
+import { KnownContentType, SecretClient } from "../../src/index.js";
 import { LATEST_API_VERSION } from "../../src/secretsModels.js";
 
 describe("The Secrets client should set the serviceVersion", () => {
@@ -43,6 +43,7 @@ describe("The Secrets client should set the serviceVersion", () => {
   });
 
   it("it should default to the latest API version", async () => {
+    expect(LATEST_API_VERSION).toBe("2026-04-01");
     const client = new SecretClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient,
     });
@@ -56,11 +57,36 @@ describe("The Secrets client should set the serviceVersion", () => {
   });
 
   // Adding this to the source would change the public API.
-  type ApiVersions = "7.0" | "7.1" | "7.2";
+  type ApiVersions =
+    "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-04-01";
+
+  it("it should allow the stable API version used by certificate helpers", async () => {
+    const client = new SecretClient(keyVaultUrl, credential, {
+      serviceVersion: "2026-04-01",
+      httpClient: mockHttpClient,
+    });
+    await client.getSecret("secretName");
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: expect.stringContaining("api%2Dversion=2026-04-01"),
+      }),
+    );
+  });
 
   it("it should allow us to specify an API version from a specific set of versions", async () => {
-    const versions: ApiVersions[] = ["7.0", "7.1", "7.2"];
-    for (const serviceVersion in versions) {
+    const versions: ApiVersions[] = [
+      "7.0",
+      "7.1",
+      "7.2",
+      "7.3",
+      "7.4",
+      "7.5",
+      "7.6",
+      "2025-07-01",
+      "2026-04-01",
+    ];
+    for (const serviceVersion of versions) {
       const client = new SecretClient(keyVaultUrl, credential, {
         serviceVersion: serviceVersion as ApiVersions,
         httpClient: mockHttpClient,
@@ -73,5 +99,44 @@ describe("The Secrets client should set the serviceVersion", () => {
         }),
       );
     }
+  });
+
+  it("should include outContentType=PEM in the URL when specified in getSecret", async () => {
+    const client = new SecretClient(keyVaultUrl, credential, {
+      httpClient: mockHttpClient,
+    });
+    await client.getSecret("secretName", { outContentType: KnownContentType.PEM });
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: expect.stringContaining("outContentType=application%2Fx-pem-file"),
+      }),
+    );
+  });
+
+  it("should include outContentType=PFX in the URL when specified in getSecret", async () => {
+    const client = new SecretClient(keyVaultUrl, credential, {
+      httpClient: mockHttpClient,
+    });
+    await client.getSecret("secretName", { outContentType: KnownContentType.PFX });
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: expect.stringContaining("outContentType=application%2Fx-pkcs12"),
+      }),
+    );
+  });
+
+  it("should not include outContentType in the URL when not specified in getSecret", async () => {
+    const client = new SecretClient(keyVaultUrl, credential, {
+      httpClient: mockHttpClient,
+    });
+    await client.getSecret("secretName");
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: expect.not.stringContaining("outContentType"),
+      }),
+    );
   });
 });

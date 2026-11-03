@@ -1,34 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a virtual network link to the specified Private DNS zone.
- *
- * @summary Gets a virtual network link to the specified Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/VirtualNetworkLinkGet.json
- */
-
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getPrivateDnsZoneVirtualNetworkLink(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const virtualNetworkLinkName = "virtualNetworkLink1";
+/**
+ * This sample demonstrates how to gets a virtual network link to the specified Private DNS zone.
+ *
+ * @summary gets a virtual network link to the specified Private DNS zone.
+ * x-ms-original-file: 2024-06-01/VirtualNetworkLinkGet.json
+ */
+async function getPrivateDNSZoneVirtualNetworkLink(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.virtualNetworkLinks.get(
-    resourceGroupName,
-    privateZoneName,
-    virtualNetworkLinkName,
+    "resourceGroup1",
+    "privatezone1.com",
+    "virtualNetworkLink1",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getPrivateDnsZoneVirtualNetworkLink();
+  await getPrivateDNSZoneVirtualNetworkLink();
 }
 
 main().catch(console.error);

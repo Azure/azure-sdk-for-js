@@ -1,39 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Fetches trace collected by gateway.
- *
- * @summary Fetches trace collected by gateway.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGatewayListTrace.json
- */
-
-import {
-  GatewayListTraceContract,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to fetches trace collected by gateway.
+ *
+ * @summary fetches trace collected by gateway.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGatewayListTrace.json
+ */
 async function apiManagementGatewayListTrace(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const gatewayId = "gw1";
-  const parameters: GatewayListTraceContract = {
-    traceId: "CrDvXXXXXXXXXXXXXVU3ZA2-1",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.gateway.listTrace(
-    resourceGroupName,
-    serviceName,
-    gatewayId,
-    parameters,
-  );
+  const result = await client.gateway.listTrace("rg1", "apimService1", "gw1", {
+    traceId: "CrDvXXXXXXXXXXXXXVU3ZA2-1",
+  });
   console.log(result);
 }
 

@@ -1,50 +1,106 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AuthConfig} from "@azure/arm-appcontainers";
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update the AuthConfig for a Container App.
+ * This sample demonstrates how to create or update the AuthConfig for a Container App.
  *
- * @summary Create or update the AuthConfig for a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/AuthConfigs_CreateOrUpdate.json
+ * @summary create or update the AuthConfig for a Container App.
+ * x-ms-original-file: 2026-07-01/AuthConfigs_BlobStorageTokenStore_ClientId_CreateOrUpdate.json
  */
-async function createOrUpdateContainerAppAuthConfig(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "workerapps-rg-xj";
-  const containerAppName = "testcanadacentral";
-  const authConfigName = "current";
-  const authConfigEnvelope: AuthConfig = {
+async function createOrUpdateContainerAppAuthConfigWithMsiClientIDBlobStorageTokenStore(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.containerAppsAuthConfigs.createOrUpdate("rg1", "myapp", "current", {
     encryptionSettings: {
       containerAppAuthEncryptionSecretName: "testEncryptionSecretName",
       containerAppAuthSigningSecretName: "testSigningSecretName",
     },
     globalValidation: { unauthenticatedClientAction: "AllowAnonymous" },
     identityProviders: {
-      facebook: {
-        registration: { appId: "123", appSecretSettingName: "facebook-secret" },
+      facebook: { registration: { appId: "123", appSecretSettingName: "facebook-secret" } },
+    },
+    login: {
+      tokenStore: {
+        azureBlobStorage: {
+          blobContainerUri: "https://test.blob.core.windows.net/container1",
+          clientId: "00000000-0000-0000-0000-000000000000",
+        },
       },
     },
     platform: { enabled: true },
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update the AuthConfig for a Container App.
+ *
+ * @summary create or update the AuthConfig for a Container App.
+ * x-ms-original-file: 2026-07-01/AuthConfigs_BlobStorageTokenStore_CreateOrUpdate.json
+ */
+async function createOrUpdateContainerAppAuthConfigWithMsiManagedIdentityResourceIdBlobStorageTokenStore(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.containerAppsAuthConfigs.createOrUpdate("rg1", "myapp", "current", {
+    encryptionSettings: {
+      containerAppAuthEncryptionSecretName: "testEncryptionSecretName",
+      containerAppAuthSigningSecretName: "testSigningSecretName",
+    },
+    globalValidation: { unauthenticatedClientAction: "AllowAnonymous" },
+    identityProviders: {
+      facebook: { registration: { appId: "123", appSecretSettingName: "facebook-secret" } },
+    },
+    login: {
+      tokenStore: {
+        azureBlobStorage: {
+          blobContainerUri: "https://test.blob.core.windows.net/container1",
+          managedIdentityResourceId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1",
+        },
+      },
+    },
+    platform: { enabled: true },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update the AuthConfig for a Container App.
+ *
+ * @summary create or update the AuthConfig for a Container App.
+ * x-ms-original-file: 2026-07-01/AuthConfigs_CreateOrUpdate.json
+ */
+async function createOrUpdateContainerAppAuthConfig(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerAppsAuthConfigs.createOrUpdate(
-    resourceGroupName,
-    containerAppName,
-    authConfigName,
-    authConfigEnvelope,
+    "workerapps-rg-xj",
+    "testcanadacentral",
+    "current",
+    {
+      encryptionSettings: {
+        containerAppAuthEncryptionSecretName: "testEncryptionSecretName",
+        containerAppAuthSigningSecretName: "testSigningSecretName",
+      },
+      globalValidation: { unauthenticatedClientAction: "AllowAnonymous" },
+      identityProviders: {
+        facebook: { registration: { appId: "123", appSecretSettingName: "facebook-secret" } },
+      },
+      platform: { enabled: true },
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
+  await createOrUpdateContainerAppAuthConfigWithMsiClientIDBlobStorageTokenStore();
+  await createOrUpdateContainerAppAuthConfigWithMsiManagedIdentityResourceIdBlobStorageTokenStore();
   await createOrUpdateContainerAppAuthConfig();
 }
 

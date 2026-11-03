@@ -1,41 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates an existing quota counter value in the specified service instance.
- *
- * @summary Updates an existing quota counter value in the specified service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementUpdateQuotaCounterKeyByQuotaPeriod.json
- */
-
-import {
-  QuotaCounterValueUpdateContract,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates an existing quota counter value in the specified service instance.
+ *
+ * @summary updates an existing quota counter value in the specified service instance.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementUpdateQuotaCounterKeyByQuotaPeriod.json
+ */
 async function apiManagementUpdateQuotaCounterKeyByQuotaPeriod(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const quotaCounterKey = "ba";
-  const quotaPeriodKey = "0_P3Y6M4DT12H30M5S";
-  const parameters: QuotaCounterValueUpdateContract = {
-    callsCount: 0,
-    kbTransferred: 0,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
   const result = await client.quotaByPeriodKeys.update(
-    resourceGroupName,
-    serviceName,
-    quotaCounterKey,
-    quotaPeriodKey,
-    parameters,
+    "rg1",
+    "apimService1",
+    "ba",
+    "0_P3Y6M4DT12H30M5S",
+    { callsCount: 0, kbTransferred: 0 },
   );
   console.log(result);
 }

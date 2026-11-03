@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
- *
- * @summary Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
- * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/CreateAccountEncryption.json
- */
-
-import type { MapsAccount } from "@azure/arm-maps";
 import { AzureMapsManagementClient } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
+ *
+ * @summary create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
+ * x-ms-original-file: 2025-10-01-preview/CreateAccountEncryption.json
+ */
 async function createAccountWithEncryption(): Promise<void> {
-  const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "myMapsAccount";
-  const mapsAccount: MapsAccount = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const client = new AzureMapsManagementClient(credential, subscriptionId);
+  const result = await client.accounts.createOrUpdate("myResourceGroup", "myMapsAccount", {
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/21a9967aE8a94656A70b96ff1c4d05a0/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identityName":
+        "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName":
           {},
       },
     },
@@ -41,29 +37,51 @@ async function createAccountWithEncryption(): Promise<void> {
       },
     },
     sku: { name: "G2" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.createOrUpdate(resourceGroupName, accountName, mapsAccount);
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
+ * This sample demonstrates how to create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
  *
- * @summary Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
- * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/CreateAccountManagedIdentity.json
+ * @summary create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
+ * x-ms-original-file: 2025-10-01-preview/CreateAccountGen2.json
+ */
+async function createGen2Account(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const client = new AzureMapsManagementClient(credential, subscriptionId);
+  const result = await client.accounts.createOrUpdate("myResourceGroup", "myMapsAccount", {
+    kind: "Gen2",
+    location: "eastus",
+    properties: {
+      cors: {
+        corsRules: [{ allowedOrigins: ["http://www.contoso.com", "http://www.fabrikam.com"] }],
+      },
+      disableLocalAuth: true,
+      locations: [{ locationName: "northeurope" }],
+    },
+    sku: { name: "G2" },
+    tags: { test: "true" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
+ *
+ * @summary create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
+ * x-ms-original-file: 2025-10-01-preview/CreateAccountManagedIdentity.json
  */
 async function createAccountWithManagedIdentities(): Promise<void> {
-  const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "myMapsAccount";
-  const mapsAccount: MapsAccount = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const client = new AzureMapsManagementClient(credential, subscriptionId);
+  const result = await client.accounts.createOrUpdate("myResourceGroup", "myMapsAccount", {
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/21a9967aE8a94656A70b96ff1c4d05a0/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identityName":
+        "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName":
           {},
       },
     },
@@ -84,84 +102,14 @@ async function createAccountWithManagedIdentities(): Promise<void> {
     },
     sku: { name: "G2" },
     tags: { test: "true" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.createOrUpdate(resourceGroupName, accountName, mapsAccount);
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
- *
- * @summary Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
- * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/CreateAccount.json
- */
-async function createGen1Account(): Promise<void> {
-  const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "myMapsAccount";
-  const mapsAccount: MapsAccount = {
-    kind: "Gen1",
-    location: "eastus",
-    properties: {
-      cors: {
-        corsRules: [
-          {
-            allowedOrigins: ["http://www.contoso.com", "http://www.fabrikam.com"],
-          },
-        ],
-      },
-      disableLocalAuth: false,
-    },
-    sku: { name: "S0" },
-    tags: { test: "true" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.createOrUpdate(resourceGroupName, accountName, mapsAccount);
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
- *
- * @summary Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
- * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/CreateAccountGen2.json
- */
-async function createGen2Account(): Promise<void> {
-  const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "myMapsAccount";
-  const mapsAccount: MapsAccount = {
-    kind: "Gen2",
-    location: "eastus",
-    properties: {
-      cors: {
-        corsRules: [
-          {
-            allowedOrigins: ["http://www.contoso.com", "http://www.fabrikam.com"],
-          },
-        ],
-      },
-      disableLocalAuth: true,
-    },
-    sku: { name: "G2" },
-    tags: { test: "true" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.createOrUpdate(resourceGroupName, accountName, mapsAccount);
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createAccountWithEncryption();
-  await createAccountWithManagedIdentities();
-  await createGen1Account();
   await createGen2Account();
+  await createAccountWithManagedIdentities();
 }
 
 main().catch(console.error);

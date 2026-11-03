@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets an existing registered ASN with the specified name under the given subscription, resource group and peering.
- *
- * @summary Gets an existing registered ASN with the specified name under the given subscription, resource group and peering.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/GetRegisteredAsn.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function getARegisteredAsnAssociatedWithThePeering(): Promise<void> {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
-  const peeringName = "peeringName";
-  const registeredAsnName = "registeredAsnName0";
+/**
+ * This sample demonstrates how to gets an existing registered ASN with the specified name under the given subscription, resource group and peering.
+ *
+ * @summary gets an existing registered ASN with the specified name under the given subscription, resource group and peering.
+ * x-ms-original-file: 2025-05-01/GetRegisteredAsn.json
+ */
+async function getARegisteredASNAssociatedWithThePeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
-  const result = await client.registeredAsns.get(resourceGroupName, peeringName, registeredAsnName);
+  const result = await client.registeredAsns.get("rgName", "peeringName", "registeredAsnName0");
   console.log(result);
 }
 
-getARegisteredAsnAssociatedWithThePeering().catch(console.error);
+async function main(): Promise<void> {
+  await getARegisteredASNAssociatedWithThePeering();
+}
+
+main().catch(console.error);

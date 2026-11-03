@@ -1,25 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns all the resources of a particular type belonging to a subscription.
- *
- * @summary Returns all the resources of a particular type belonging to a subscription.
- * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2021-06-10/examples/ListBotsBySubscription.json
- */
-
 import { HealthbotClient } from "@azure/arm-healthbot";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to returns all the resources of a particular type belonging to a subscription.
+ *
+ * @summary returns all the resources of a particular type belonging to a subscription.
+ * x-ms-original-file: 2025-11-01/ListBotsBySubscription.json
+ */
 async function listBotsBySubscription(): Promise<void> {
-  const subscriptionId = "subscription-id";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new HealthbotClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.bots.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-listBotsBySubscription().catch(console.error);
+async function main(): Promise<void> {
+  await listBotsBySubscription();
+}
+
+main().catch(console.error);

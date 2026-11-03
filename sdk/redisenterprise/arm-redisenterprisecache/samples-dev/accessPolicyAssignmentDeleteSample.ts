@@ -3,36 +3,18 @@
 
 import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a single access policy assignment.
+ * This sample demonstrates how to deletes a single access policy assignment.
  *
- * @summary Deletes a single access policy assignment.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseAccessPolicyAssignmentDelete.json
+ * @summary deletes a single access policy assignment.
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseAccessPolicyAssignmentDelete.json
  */
 async function redisEnterpriseAccessPolicyAssignmentDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
-  const databaseName = "default";
-  const accessPolicyAssignmentName = "defaultTestEntraApp1";
   const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result =
-    await client.accessPolicyAssignmentOperations.beginDeleteAndWait(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      accessPolicyAssignmentName,
-    );
-  console.log(result);
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  await client.accessPolicyAssignment.delete("rg1", "cache1", "default", "defaultTestEntraApp1");
 }
 
 async function main(): Promise<void> {

@@ -1,42 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualEndpointResourceForPatch} from "@azure/arm-postgresql-flexible";
-import {
-  PostgreSQLManagementFlexibleServerClient,
-} from "@azure/arm-postgresql-flexible";
+import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates a pair of virtual endpoints for a server.
+ * This sample demonstrates how to updates a pair of virtual endpoints for a server.
  *
- * @summary Updates a pair of virtual endpoints for a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/examples/VirtualEndpointUpdate.json
+ * @summary updates a pair of virtual endpoints for a server.
+ * x-ms-original-file: 2026-10-01/VirtualEndpointUpdate.json
  */
 async function updateAPairOfVirtualEndpointsForAServer(): Promise<void> {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "exampleresourcegroup";
-  const serverName = "exampleserver";
-  const virtualEndpointName = "examplebasename";
-  const parameters: VirtualEndpointResourceForPatch = {
-    endpointType: "ReadWrite",
-    members: ["exampleprimaryserver"],
-  };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.virtualEndpoints.beginUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    virtualEndpointName,
-    parameters,
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.virtualEndpoints.update(
+    "exampleresourcegroup",
+    "exampleserver",
+    "examplebasename",
+    { endpointType: "ReadWrite", members: ["exampleprimaryserver"] },
   );
   console.log(result);
 }

@@ -1,45 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a list of grants that Microsoft has provided.
- *
- * @summary Get a list of grants that Microsoft has provided.
- * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/GrantList.json
- */
-
-import type { GrantsListAllOptionalParams } from "@azure/arm-education";
 import { EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get a list of grants that Microsoft has provided.
+ *
+ * @summary get a list of grants that Microsoft has provided.
+ * x-ms-original-file: 2021-12-01-preview/GrantList.json
+ */
 async function grantList(): Promise<void> {
-  const includeAllocatedBudget = false;
-  const options: GrantsListAllOptionalParams = { includeAllocatedBudget };
   const credential = new DefaultAzureCredential();
   const client = new EducationManagementClient(credential);
   const resArray = new Array();
-  for await (const item of client.grants.listAll(options)) {
+  for await (const item of client.grants.listAll({ includeAllocatedBudget: false })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Get a list of grants that Microsoft has provided.
+ * This sample demonstrates how to get a list of grants that Microsoft has provided.
  *
- * @summary Get a list of grants that Microsoft has provided.
- * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/GrantListIncludeAllocatedBudget.json
+ * @summary get a list of grants that Microsoft has provided.
+ * x-ms-original-file: 2021-12-01-preview/GrantListIncludeAllocatedBudget.json
  */
 async function grantListIncludeAllocatedBudget(): Promise<void> {
-  const includeAllocatedBudget = true;
-  const options: GrantsListAllOptionalParams = { includeAllocatedBudget };
   const credential = new DefaultAzureCredential();
   const client = new EducationManagementClient(credential);
   const resArray = new Array();
-  for await (const item of client.grants.listAll(options)) {
+  for await (const item of client.grants.listAll({ includeAllocatedBudget: true })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

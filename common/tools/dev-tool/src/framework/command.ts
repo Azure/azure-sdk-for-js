@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import { CommandLoader } from "./CommandModule";
-import { createPrinter } from "../util/printer";
-import { printCommandUsage, commandStack } from "./printCommandUsage";
-import { ParsedOptions, parseOptions } from "./parseOptions";
-import { CommandInfo, CommandOptions } from "./CommandInfo";
+import type { CommandLoader } from "./CommandModule.ts";
+import { createPrinter } from "../util/printer.ts";
+import { printCommandUsage, commandStack } from "./printCommandUsage.ts";
+import type { ParsedOptions } from "./parseOptions.ts";
+import { parseOptions } from "./parseOptions.ts";
+import type { CommandInfo, CommandOptions } from "./CommandInfo.ts";
 
 /**
  * Utility type that makes the type of the "allowMultiple" key in

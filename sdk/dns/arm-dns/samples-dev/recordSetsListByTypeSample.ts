@@ -1,285 +1,257 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
- *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListARecordset.json
- */
-
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
-async function listARecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const recordType = "A";
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
-    resArray.push(item);
-  }
-  console.log(resArray);
-}
 
 /**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
  *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListAAAARecordset.json
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListAAAARecordset.json
  */
 async function listAaaaRecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const recordType = "AAAA";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
+  for await (const item of client.recordSets.listByType("rg1", "zone1", "AAAA")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
  *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListCaaRecordset.json
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListARecordset.json
  */
-async function listCaaRecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const recordType = "CAA";
+async function listARecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
+  for await (const item of client.recordSets.listByType("rg1", "zone1", "A")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
  *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListCNAMERecordset.json
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListCNAMERecordset.json
  */
 async function listCnameRecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const recordType = "CNAME";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
+  for await (const item of client.recordSets.listByType("rg1", "zone1", "CNAME")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
  *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListDSRecordset.json
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListCaaRecordset.json
  */
-async function listDsRecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const recordType = "DS";
+async function listCAARecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
+  for await (const item of client.recordSets.listByType("rg1", "zone1", "CAA")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
  *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListMXRecordset.json
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListDSRecordset.json
  */
-async function listMxRecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const recordType = "MX";
+async function listDSRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
+  for await (const item of client.recordSets.listByType("rg1", "zone1", "DS")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
  *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListNAPTRRecordset.json
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListMXRecordset.json
+ */
+async function listMXRecordsets(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.recordSets.listByType("rg1", "zone1", "MX")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
+ *
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListNAPTRRecordset.json
  */
 async function listNaptrRecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const recordType = "NAPTR";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
+  for await (const item of client.recordSets.listByType("rg1", "zone1", "NAPTR")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
  *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListNSRecordset.json
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListNSRecordset.json
  */
-async function listNsRecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const recordType = "NS";
+async function listNSRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
+  for await (const item of client.recordSets.listByType("rg1", "zone1", "NS")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
  *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListPTRRecordset.json
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListPTRRecordset.json
  */
-async function listPtrRecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "0.0.127.in-addr.arpa";
-  const recordType = "PTR";
+async function listPTRRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
+  for await (const item of client.recordSets.listByType("rg1", "0.0.127.in-addr.arpa", "PTR")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
  *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListSOARecordset.json
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListSOARecordset.json
  */
-async function listSoaRecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const recordType = "SOA";
+async function listSOARecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
+  for await (const item of client.recordSets.listByType("rg1", "zone1", "SOA")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
  *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListSRVRecordset.json
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListSRVRecordset.json
  */
-async function listSrvRecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const recordType = "SRV";
+async function listSRVRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
+  for await (const item of client.recordSets.listByType("rg1", "zone1", "SRV")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
  *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListTLSARecordset.json
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListTLSARecordset.json
  */
 async function listTlsaRecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const recordType = "TLSA";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
+  for await (const item of client.recordSets.listByType("rg1", "zone1", "TLSA")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
+ * This sample demonstrates how to lists the record sets of a specified type in a DNS zone.
  *
- * @summary Lists the record sets of a specified type in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListTXTRecordset.json
+ * @summary lists the record sets of a specified type in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListTXTRecordset.json
  */
-async function listTxtRecordsets(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const recordType = "TXT";
+async function listTXTRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
+  for await (const item of client.recordSets.listByType("rg1", "zone1", "TXT")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listARecordsets();
   await listAaaaRecordsets();
-  await listCaaRecordsets();
+  await listARecordsets();
   await listCnameRecordsets();
-  await listDsRecordsets();
-  await listMxRecordsets();
+  await listCAARecordsets();
+  await listDSRecordsets();
+  await listMXRecordsets();
   await listNaptrRecordsets();
-  await listNsRecordsets();
-  await listPtrRecordsets();
-  await listSoaRecordsets();
-  await listSrvRecordsets();
+  await listNSRecordsets();
+  await listPTRRecordsets();
+  await listSOARecordsets();
+  await listSRVRecordsets();
   await listTlsaRecordsets();
-  await listTxtRecordsets();
+  await listTXTRecordsets();
 }
 
 main().catch(console.error);

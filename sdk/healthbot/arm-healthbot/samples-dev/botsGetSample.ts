@@ -1,24 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a HealthBot.
- *
- * @summary Get a HealthBot.
- * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2021-06-10/examples/ResourceInfoGet.json
- */
-
 import { HealthbotClient } from "@azure/arm-healthbot";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to get a HealthBot.
+ *
+ * @summary get a HealthBot.
+ * x-ms-original-file: 2025-11-01/ResourceInfoGet.json
+ */
 async function resourceInfoGet(): Promise<void> {
-  const subscriptionId = "subid";
-  const resourceGroupName = "healthbotClient";
-  const botName = "samplebotname";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new HealthbotClient(credential, subscriptionId);
-  const result = await client.bots.get(resourceGroupName, botName);
+  const result = await client.bots.get("healthbotClient", "samplebotname");
   console.log(result);
 }
 
-resourceInfoGet().catch(console.error);
+async function main(): Promise<void> {
+  await resourceInfoGet();
+}
+
+main().catch(console.error);

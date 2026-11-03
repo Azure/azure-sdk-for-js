@@ -1,55 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve counts for Dsc Nodes.
- *
- * @summary Retrieve counts for Dsc Nodes.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodeConfigurationCounts.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getNodeConfigurationCounts(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount33";
-  const countType = "nodeconfiguration";
+/**
+ * This sample demonstrates how to retrieve counts for Dsc Nodes.
+ *
+ * @summary retrieve counts for Dsc Nodes.
+ * x-ms-original-file: 2024-10-23/listPagedDscNodeConfigurationCounts.json
+ */
+async function getNodeNodeConfigurationCounts(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
   const result = await client.nodeCountInformation.get(
-    resourceGroupName,
-    automationAccountName,
-    countType,
+    "rg",
+    "myAutomationAccount33",
+    "nodeconfiguration",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Retrieve counts for Dsc Nodes.
+ * This sample demonstrates how to retrieve counts for Dsc Nodes.
  *
- * @summary Retrieve counts for Dsc Nodes.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodeStatusCounts.json
+ * @summary retrieve counts for Dsc Nodes.
+ * x-ms-original-file: 2024-10-23/listPagedDscNodeStatusCounts.json
  */
 async function getNodeStatusCounts(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount33";
-  const countType = "status";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.nodeCountInformation.get(
-    resourceGroupName,
-    automationAccountName,
-    countType,
-  );
+  const result = await client.nodeCountInformation.get("rg", "myAutomationAccount33", "status");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getNodeConfigurationCounts();
+  await getNodeNodeConfigurationCounts();
   await getNodeStatusCounts();
 }
 

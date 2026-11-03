@@ -10,12 +10,7 @@ import type {
   OnAmqpEvent,
 } from "rhea-promise";
 import { message as RheaMessageUtil } from "rhea-promise";
-import type {
-  MessagingError,
-  RetryConfig,
-  RetryOptions,
-  AmqpAnnotatedMessage,
-} from "@azure/core-amqp";
+import type { RetryConfig, RetryOptions, AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { Constants, ErrorNameConditionMapper, RetryOperationType, retry } from "@azure/core-amqp";
 import type { ServiceBusMessage } from "../serviceBusMessage.js";
 import { toRheaMessage } from "../serviceBusMessage.js";
@@ -31,6 +26,13 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError.js";
 import { isDefined } from "@azure/core-util";
 import { defaultDataTransformer } from "../dataTransformer.js";
+
+/**
+ * Default maximum batch size (1 MB). Used when the service does not
+ * advertise a batch size limit on the AMQP link.
+ * @internal
+ */
+const defaultMaxBatchSize = 1048576;
 
 /**
  * @internal
@@ -288,11 +290,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         translatedError,
         `${this.logPrefix} An error occurred while creating the sender`,
       );
-      // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
-      if ((translatedError as MessagingError).code === "OperationTimeoutError") {
-        translatedError.message =
-          "Failed to create a sender within allocated time and retry attempts.";
-      }
       throw translatedError;
     }
   }
@@ -395,22 +392,48 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     return retry(config);
   }
 
+  /**
+   * Returns the maximum batch size allowed by the service, reading the
+   * vendor-specific batch size property from the AMQP link if available.
+   * Falls back to `Math.min(maxMessageSize, defaultMaxBatchSize)` when
+   * the property is absent or invalid.
+   */
+  private getMaxBatchSizeFromLink(): number {
+    if (this.link) {
+      const vendorBatchSize = this.link.properties?.["com.microsoft:max-message-batch-size"];
+      if (typeof vendorBatchSize === "number" && vendorBatchSize > 0) {
+        return vendorBatchSize;
+      }
+    }
+    // Fallback: cap at defaultMaxBatchSize to avoid using the raw
+    // max-message-size (which can be 100 MB on Premium large-message entities)
+    // as the batch limit.  Matches the .NET SDK pattern.
+    const maxMessageSize = this.link?.maxMessageSize ?? 0;
+    return maxMessageSize > 0 ? Math.min(maxMessageSize, defaultMaxBatchSize) : 0;
+  }
+
   async createBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context);
-    let maxMessageSize = await this.getMaxMessageSize({
+    // Ensure the link is open so we can read link properties.
+    const maxMessageSize = await this.getMaxMessageSize({
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal,
     });
+    // Use the vendor batch size if available; fall back to
+    // min(maxMessageSize, defaultMaxBatchSize) to prevent using the raw
+    // max-message-size as the batch limit on large-message entities.
+    let maxBatchSize =
+      this.getMaxBatchSizeFromLink() || Math.min(maxMessageSize, defaultMaxBatchSize);
     if (options?.maxSizeInBytes) {
-      if (options.maxSizeInBytes > maxMessageSize!) {
+      if (options.maxSizeInBytes > maxBatchSize) {
         const error = new Error(
-          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`,
+          `Requested max batch size (${options.maxSizeInBytes} bytes) exceeds the maximum batch size (${maxBatchSize} bytes) on the AMQP sender link.`,
         );
         throw error;
       }
-      maxMessageSize = options.maxSizeInBytes;
+      maxBatchSize = options.maxSizeInBytes;
     }
-    return new ServiceBusMessageBatchImpl(this._context, maxMessageSize!);
+    return new ServiceBusMessageBatchImpl(this._context, maxBatchSize);
   }
 
   async sendBatch(

@@ -1,270 +1,174 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateARecordset.json
- */
-
-import type { RecordSet } from "@azure/arm-dns";
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
-async function createARecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "A";
-  const parameters: RecordSet = {
-    aRecords: [{ ipv4Address: "127.0.0.1" }],
-    ttl: 3600,
-    metadata: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
-  console.log(result);
-}
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateARecordsetAlias.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateAAAARecordset.json
  */
-async function createARecordsetWithAliasTargetResource(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "A";
-  const parameters: RecordSet = {
+async function createAaaaRecordset(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "AAAA", {
+    aaaaRecords: [{ ipv6Address: "::1" }],
     ttl: 3600,
     metadata: { key1: "value1" },
-    targetResource: {
-      id: "/subscriptions/726f8cd6-6459-4db4-8e6d-2cd2716904e2/resourceGroups/test/providers/Microsoft.Network/trafficManagerProfiles/testpp2",
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateARecordSetTrafficManagementProfile.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateARecordSetTrafficManagementProfile.json
  */
 async function createARecordsetWithTrafficManagementProfile(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "A";
-  const parameters: RecordSet = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "A", {
     ttl: 3600,
     metadata: { key1: "value1" },
     trafficManagementProfile: {
       id: "/subscriptions/726f8cd6-6459-4db4-8e6d-2cd2716904e2/resourceGroups/test/providers/Microsoft.Network/trafficManagerProfiles/testpp2",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateAAAARecordset.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateARecordset.json
  */
-async function createAaaaRecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "AAAA";
-  const parameters: RecordSet = {
-    aaaaRecords: [{ ipv6Address: "::1" }],
+async function createARecordset(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "A", {
+    aRecords: [{ ipv4Address: "127.0.0.1" }],
     ttl: 3600,
     metadata: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateCaaRecordset.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateARecordsetAlias.json
  */
-async function createCaaRecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "CAA";
-  const parameters: RecordSet = {
-    ttl: 3600,
-    caaRecords: [{ flags: 0, tag: "issue", value: "ca.contoso.com" }],
-    metadata: { key1: "value1" },
-  };
+async function createARecordsetWithAliasTargetResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "A", {
+    ttl: 3600,
+    metadata: { key1: "value1" },
+    targetResource: {
+      id: "/subscriptions/726f8cd6-6459-4db4-8e6d-2cd2716904e2/resourceGroups/test/providers/Microsoft.Network/trafficManagerProfiles/testpp2",
+    },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateCNAMERecordset.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateCNAMERecordset.json
  */
 async function createCnameRecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "CNAME";
-  const parameters: RecordSet = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "CNAME", {
     cnameRecord: { cname: "contoso.com" },
     ttl: 3600,
     metadata: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateDSRecordset.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateCaaRecordset.json
  */
-async function createDsRecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "DS";
-  const parameters: RecordSet = {
+async function createCAARecordset(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "CAA", {
+    ttl: 3600,
+    caaRecords: [{ flags: 0, tag: "issue", value: "ca.contoso.com" }],
+    metadata: { key1: "value1" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ *
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateDSRecordset.json
+ */
+async function createDSRecordset(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "DS", {
     dsRecords: [
       {
         algorithm: 5,
-        digest: {
-          algorithmType: 1,
-          value: "2BB183AF5F22588179A53B0A98631FAD1A292118",
-        },
+        digest: { algorithmType: 1, value: "2BB183AF5F22588179A53B0A98631FAD1A292118" },
         keyTag: 60485,
       },
     ],
     ttl: 3600,
     metadata: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateMXRecordset.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateMXRecordset.json
  */
-async function createMxRecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "MX";
-  const parameters: RecordSet = {
+async function createMXRecordset(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "MX", {
     mxRecords: [{ exchange: "mail.contoso.com", preference: 0 }],
     ttl: 3600,
     metadata: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateNAPTRRecordset.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateNAPTRRecordset.json
  */
 async function createNaptrRecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "NAPTR";
-  const parameters: RecordSet = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "NAPTR", {
     naptrRecords: [
       {
         flags: "U",
@@ -277,90 +181,57 @@ async function createNaptrRecordset(): Promise<void> {
     ],
     ttl: 3600,
     metadata: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateNSRecordset.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateNSRecordset.json
  */
-async function createNsRecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "NS";
-  const parameters: RecordSet = {
+async function createNSRecordset(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "NS", {
     nsRecords: [{ nsdname: "ns1.contoso.com" }],
     ttl: 3600,
     metadata: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdatePTRRecordset.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdatePTRRecordset.json
  */
-async function createPtrRecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "0.0.127.in-addr.arpa";
-  const relativeRecordSetName = "1";
-  const recordType = "PTR";
-  const parameters: RecordSet = {
+async function createPTRRecordset(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "0.0.127.in-addr.arpa", "1", "PTR", {
     ptrRecords: [{ ptrdname: "localhost" }],
     ttl: 3600,
     metadata: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateSOARecordset.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateSOARecordset.json
  */
-async function createSoaRecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "@";
-  const recordType = "SOA";
-  const parameters: RecordSet = {
+async function createSOARecordset(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "@", "SOA", {
     soaRecord: {
       email: "hostmaster.contoso.com",
       expireTime: 2419200,
@@ -372,61 +243,39 @@ async function createSoaRecordset(): Promise<void> {
     },
     ttl: 3600,
     metadata: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateSRVRecordset.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateSRVRecordset.json
  */
-async function createSrvRecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "SRV";
-  const parameters: RecordSet = {
+async function createSRVRecordset(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "SRV", {
     srvRecords: [{ port: 80, priority: 0, target: "contoso.com", weight: 10 }],
     ttl: 3600,
     metadata: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateTLSARecordset.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateTLSARecordset.json
  */
 async function createTlsaRecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "TLSA";
-  const parameters: RecordSet = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "TLSA", {
     tlsaRecords: [
       {
         certAssociationData: "6EC8A4B7F511454D84DCC055213B8D195E8ADA751FE14300AFE32D54B162438B",
@@ -437,64 +286,44 @@ async function createTlsaRecordset(): Promise<void> {
     ],
     ttl: 3600,
     metadata: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * This sample demonstrates how to creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
  *
- * @summary Creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateTXTRecordset.json
+ * @summary creates or updates a record set within a DNS zone. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateTXTRecordset.json
  */
-async function createTxtRecordset(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const relativeRecordSetName = "record1";
-  const recordType = "TXT";
-  const parameters: RecordSet = {
+async function createTXTRecordset(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate("rg1", "zone1", "record1", "TXT", {
     ttl: 3600,
     txtRecords: [{ value: ["string1", "string2"] }],
     metadata: { key1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    zoneName,
-    relativeRecordSetName,
-    recordType,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
+  await createAaaaRecordset();
+  await createARecordsetWithTrafficManagementProfile();
   await createARecordset();
   await createARecordsetWithAliasTargetResource();
-  await createARecordsetWithTrafficManagementProfile();
-  await createAaaaRecordset();
-  await createCaaRecordset();
   await createCnameRecordset();
-  await createDsRecordset();
-  await createMxRecordset();
+  await createCAARecordset();
+  await createDSRecordset();
+  await createMXRecordset();
   await createNaptrRecordset();
-  await createNsRecordset();
-  await createPtrRecordset();
-  await createSoaRecordset();
-  await createSrvRecordset();
+  await createNSRecordset();
+  await createPTRRecordset();
+  await createSOARecordset();
+  await createSRVRecordset();
   await createTlsaRecordset();
-  await createTxtRecordset();
+  await createTXTRecordset();
 }
 
 main().catch(console.error);

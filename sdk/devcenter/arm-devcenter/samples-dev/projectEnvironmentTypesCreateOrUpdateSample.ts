@@ -1,51 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a project environment type.
- *
- * @summary Creates or updates a project environment type.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/ProjectEnvironmentTypes_Put.json
- */
-
-import type { ProjectEnvironmentType } from "@azure/arm-devcenter";
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a project environment type.
+ *
+ * @summary creates or updates a project environment type.
+ * x-ms-original-file: 2026-01-01-preview/ProjectEnvironmentTypes_Put.json
+ */
 async function projectEnvironmentTypesCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const projectName = "ContosoProj";
-  const environmentTypeName = "DevTest";
-  const body: ProjectEnvironmentType = {
-    creatorRoleAssignment: {
-      roles: { "4cbf0b6cE750441c98a710da8387e4d6": {} },
-    },
-    deploymentTargetId: "/subscriptions/00000000-0000-0000-0000-000000000000",
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourcegroups/identityGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/testidentity1":
-          {},
-      },
-    },
-    status: "Enabled",
-    tags: { costCenter: "RnD" },
-    userRoleAssignments: {
-      e45e3m7c176e416aB4660c5ec8298f8a: {
-        roles: { "4cbf0b6cE750441c98a710da8387e4d6": {} },
-      },
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.projectEnvironmentTypes.createOrUpdate(
-    resourceGroupName,
-    projectName,
-    environmentTypeName,
-    body,
+    "rg1",
+    "ContosoProj",
+    "DevTest",
+    {
+      location: "centralus",
+      identity: {
+        type: "UserAssigned",
+        userAssignedIdentities: {
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1":
+            {},
+        },
+      },
+      creatorRoleAssignment: { roles: { "4cbf0b6c-e750-441c-98a7-10da8387e4d6": {} } },
+      deploymentTargetId: "/subscriptions/00000000-0000-0000-0000-000000000000",
+      status: "Enabled",
+      userRoleAssignments: {
+        "e45e3m7c-176e-416a-b466-0c5ec8298f8a": {
+          roles: { "4cbf0b6c-e750-441c-98a7-10da8387e4d6": {} },
+        },
+      },
+      tags: { CostCenter: "RnD" },
+    },
   );
   console.log(result);
 }

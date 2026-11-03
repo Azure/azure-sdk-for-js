@@ -17,9 +17,9 @@
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
- * 2) MODEL_DEPLOYMENT_NAME - Required. The name of the model deployment to use for evaluation.
+ * 2) FOUNDRY_MODEL_NAME - Required. The name of the model deployment to use for evaluation.
  * 3) DATASET_VERSION - Optional. The version of the Dataset to create and use in this sample.
  */
 
@@ -28,10 +28,10 @@ const { AIProjectClient } = require("@azure/ai-projects");
 const path = require("path");
 const { tmpdir } = require("os");
 require("dotenv/config");
-const fs = require("fs");
+const fs = require("node:fs/promises");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 const datasetVersion = process.env["DATASET_VERSION"] || "1";
 
 const evalData = [
@@ -46,13 +46,13 @@ const evalData = [
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   try {
     // Create a temporary directory to store the data file
     const tempFilePath = path.join(tmpdir(), `ai-eval-data-${Date.now()}.jsonl`);
     const jsonlContent = evalData.map((item) => JSON.stringify(item)).join("\n");
-    fs.writeFileSync(tempFilePath, jsonlContent);
+    await fs.writeFile(tempFilePath, jsonlContent);
     // Upload a single file and create a new Dataset to reference the file
     console.log("Upload a single file and create a new Dataset to reference the file.");
     const dataset = await project.datasets.uploadFile("ai-eval-data", datasetVersion, tempFilePath);

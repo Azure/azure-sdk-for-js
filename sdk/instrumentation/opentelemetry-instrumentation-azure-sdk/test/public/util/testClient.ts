@@ -3,12 +3,8 @@
 
 import type { OperationTracingOptions, TracingClient } from "@azure/core-tracing";
 import { createTracingClient } from "@azure/core-tracing";
-import type { Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
-import {
-  createDefaultHttpClient,
-  createHttpHeaders,
-  createPipelineFromOptions,
-} from "@azure/core-rest-pipeline";
+import type { HttpClient, Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineFromOptions } from "@azure/core-rest-pipeline";
 
 import { SDK_VERSION } from "../../../src/configuration.js";
 
@@ -26,6 +22,17 @@ export const tracingClientAttributes = {
   namespace: "Microsoft.Test",
   packageName: "@azure/opentelemetry-instrumentation-azure-sdk",
   packageVersion: SDK_VERSION,
+};
+
+/**
+ * A mock HTTP client that returns a canned response, avoiding real network calls.
+ */
+const mockHttpClient: HttpClient = {
+  sendRequest: async (request) => ({
+    request,
+    headers: createHttpHeaders(),
+    status: 200,
+  }),
 };
 
 /**
@@ -55,7 +62,7 @@ export class TestClient {
       "TestClient.inner",
       options,
       (updatedOptions) => {
-        return this.pipeline.sendRequest(createDefaultHttpClient(), {
+        return this.pipeline.sendRequest(mockHttpClient, {
           headers: createHttpHeaders(),
           method: "GET",
           requestId: "1",

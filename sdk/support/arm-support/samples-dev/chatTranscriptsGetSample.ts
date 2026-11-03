@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns chatTranscript details for a support ticket under a subscription.
- *
- * @summary Returns chatTranscript details for a support ticket under a subscription.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/GetchatTranscriptDetailsForSubscriptionSupportTicket.json
- */
-
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns chatTranscript details for a support ticket under a subscription.
+ *
+ * @summary returns chatTranscript details for a support ticket under a subscription.
+ * x-ms-original-file: 2025-06-01-preview/GetchatTranscriptDetailsForSubscriptionSupportTicket.json
+ */
 async function getChatTranscriptDetailsForASubscriptionSupportTicket(): Promise<void> {
-  const subscriptionId =
-    process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
-  const supportTicketName = "testticket";
-  const chatTranscriptName = "69586795-45e9-45b5-bd9e-c9bb237d3e44";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "132d901f-189d-4381-9214-fe68e27e05a1";
   const client = new MicrosoftSupport(credential, subscriptionId);
-  const result = await client.chatTranscripts.get(supportTicketName, chatTranscriptName);
+  const result = await client.chatTranscripts.get(
+    "testticket",
+    "69586795-45e9-45b5-bd9e-c9bb237d3e44",
+  );
   console.log(result);
 }
 

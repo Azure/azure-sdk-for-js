@@ -1,0 +1,72 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to run basic Prompt Agent operations
+ * using an existing configured agent endpoint with streaming responses.
+ *
+ * @summary This sample demonstrates how to reuse an existing agent endpoint,
+ * create a conversation, and stream responses with event handling.
+ */
+
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AIProjectClient } = require("@azure/ai-projects");
+require("dotenv/config");
+
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
+
+async function main() {
+  // Create AI Project client
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const agent = await project.agents.get(agentName);
+  if (!agent.agent_endpoint) {
+    throw new Error(
+      `Agent "${agentName}" does not have an agent endpoint configured. ` +
+        "Configure the existing agent endpoint before running this sample; " +
+        "use agent_reference instead when creating a new agent.",
+    );
+  }
+  console.log(`Using existing agent endpoint (name: ${agent.name})`);
+
+  const openAIClient = project.getOpenAIClient({
+    azureConfig: { allowPreview: true, agentName },
+  });
+
+  // Create conversation with initial user message
+  console.log("\nCreating conversation with initial user message...");
+  const conversation = await openAIClient.conversations.create({
+    items: [{ type: "message", role: "user", content: "Tell me about the capital city of France" }],
+  });
+  console.log(`Created conversation with initial user message (id: ${conversation.id})`);
+
+  // Generate streaming response using the agent
+  console.log("\nGenerating streaming response...");
+  const stream = openAIClient.responses.stream({
+    conversation: conversation.id,
+  });
+
+  // Process streaming events as they arrive
+  for await (const event of stream) {
+    if (event.type === "response.created") {
+      console.log(`Stream response created with ID: ${event.response.id}\n`);
+    } else if (event.type === "response.output_text.delta") {
+      process.stdout.write(event.delta);
+    } else if (event.type === "response.output_text.done") {
+      console.log(`\n\nResponse text done. Access final text in 'event.text'`);
+    } else if (event.type === "response.completed") {
+      console.log(`\nResponse completed. Access final text in 'event.response.output_text'`);
+    }
+  }
+
+  // Clean up
+  console.log("\nCleaning up resources...");
+  await openAIClient.conversations.delete(conversation.id);
+  console.log("Conversation deleted");
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+
+module.exports = { main };

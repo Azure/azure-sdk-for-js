@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all the private endpoint connections associated with the redis cache.
- *
- * @summary List all the private endpoint connections associated with the redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheListPrivateEndpointConnections.json
- */
-
 import { RedisManagementClient } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list all the private endpoint connections associated with the redis cache.
+ *
+ * @summary list all the private endpoint connections associated with the redis cache.
+ * x-ms-original-file: 2025-08-01-preview/RedisCacheListPrivateEndpointConnections.json
+ */
 async function redisCacheListPrivateEndpointConnection(): Promise<void> {
-  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "{subscriptionId}";
-  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rgtest01";
-  const cacheName = "cachetest01";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RedisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.privateEndpointConnections.list(resourceGroupName, cacheName)) {
+  for await (const item of client.privateEndpointConnections.list("rgtest01", "cachetest01")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -17,27 +17,26 @@
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
- * 2) MODEL_DEPLOYMENT_NAME. The name of the model deployment to use for evaluation.
+ * 2) FOUNDRY_MODEL_NAME. The name of the model deployment to use for evaluation.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
-  // [START evaluators_catalog_code]
   // Create a code-based custom evaluator
   console.log("Creating a single evaluator version - Code based (json style)");
-  const codeEvaluator = await project.evaluators.createVersion("my_custom_evaluator_code", {
+  const codeEvaluator = await project.beta.evaluators.createVersion("my_custom_evaluator_code", {
     name: "my_custom_evaluator_code",
     categories: ["quality"],
     display_name: "my_custom_evaluator_code",
@@ -273,12 +272,11 @@ async function main() {
 
   // Clean up
   console.log("\nDeleting the created evaluator version");
-  await project.evaluators.deleteVersion(codeEvaluator.name, codeEvaluator.version ?? "");
+  await project.beta.evaluators.deleteVersion(codeEvaluator.name, codeEvaluator.version ?? "");
   console.log("Evaluator version deleted");
 
   await openAIClient.evals.delete(evalObject.id);
   console.log("Evaluation deleted");
-  // [END evaluators_catalog_code]
 }
 
 main().catch((err) => {

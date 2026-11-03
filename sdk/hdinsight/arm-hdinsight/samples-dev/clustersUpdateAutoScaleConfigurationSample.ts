@@ -1,103 +1,66 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates the Autoscale Configuration for HDInsight cluster.
- *
- * @summary Updates the Autoscale Configuration for HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/DisableClusterAutoScale.json
- */
-
-import type { AutoscaleConfigurationUpdateParameter } from "@azure/arm-hdinsight";
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function disableAutoscaleForTheHdInsightCluster(): Promise<void> {
-  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cluster1";
-  const roleName = "workernode";
-  const parameters: AutoscaleConfigurationUpdateParameter = {};
+/**
+ * This sample demonstrates how to updates the Autoscale Configuration for HDInsight cluster.
+ *
+ * @summary updates the Autoscale Configuration for HDInsight cluster.
+ * x-ms-original-file: 2025-01-15-preview/DisableClusterAutoScale.json
+ */
+async function disableAutoscaleForTheHDInsightCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new HDInsightManagementClient(credential, subscriptionId);
-  const result = await client.clusters.beginUpdateAutoScaleConfigurationAndWait(
-    resourceGroupName,
-    clusterName,
-    roleName,
-    parameters,
-  );
-  console.log(result);
+  await client.clusters.updateAutoScaleConfiguration("rg1", "cluster1", "workernode", {});
 }
 
 /**
- * This sample demonstrates how to Updates the Autoscale Configuration for HDInsight cluster.
+ * This sample demonstrates how to updates the Autoscale Configuration for HDInsight cluster.
  *
- * @summary Updates the Autoscale Configuration for HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/EnableOrUpdateAutoScaleWithLoadBasedConfiguration.json
+ * @summary updates the Autoscale Configuration for HDInsight cluster.
+ * x-ms-original-file: 2025-01-15-preview/EnableOrUpdateAutoScaleWithLoadBasedConfiguration.json
  */
-async function enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHdInsightCluster(): Promise<void> {
-  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cluster1";
-  const roleName = "workernode";
-  const parameters: AutoscaleConfigurationUpdateParameter = {
+async function enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHDInsightCluster(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new HDInsightManagementClient(credential, subscriptionId);
+  await client.clusters.updateAutoScaleConfiguration("rg1", "cluster1", "workernode", {
     autoscale: { capacity: { maxInstanceCount: 5, minInstanceCount: 3 } },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new HDInsightManagementClient(credential, subscriptionId);
-  const result = await client.clusters.beginUpdateAutoScaleConfigurationAndWait(
-    resourceGroupName,
-    clusterName,
-    roleName,
-    parameters,
-  );
-  console.log(result);
+  });
 }
 
 /**
- * This sample demonstrates how to Updates the Autoscale Configuration for HDInsight cluster.
+ * This sample demonstrates how to updates the Autoscale Configuration for HDInsight cluster.
  *
- * @summary Updates the Autoscale Configuration for HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/EnableOrUpdateAutoScaleWithScheduleBasedConfiguration.json
+ * @summary updates the Autoscale Configuration for HDInsight cluster.
+ * x-ms-original-file: 2025-01-15-preview/EnableOrUpdateAutoScaleWithScheduleBasedConfiguration.json
  */
-async function enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHdInsightCluster(): Promise<void> {
-  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cluster1";
-  const roleName = "workernode";
-  const parameters: AutoscaleConfigurationUpdateParameter = {
+async function enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHDInsightCluster(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new HDInsightManagementClient(credential, subscriptionId);
+  await client.clusters.updateAutoScaleConfiguration("rg1", "cluster1", "workernode", {
     autoscale: {
       recurrence: {
         schedule: [
           {
             days: ["Thursday"],
-            timeAndCapacity: {
-              maxInstanceCount: 4,
-              minInstanceCount: 4,
-              time: "16:00",
-            },
+            timeAndCapacity: { maxInstanceCount: 4, minInstanceCount: 4, time: "16:00" },
           },
         ],
         timeZone: "China Standard Time",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new HDInsightManagementClient(credential, subscriptionId);
-  const result = await client.clusters.beginUpdateAutoScaleConfigurationAndWait(
-    resourceGroupName,
-    clusterName,
-    roleName,
-    parameters,
-  );
-  console.log(result);
+  });
 }
 
 async function main(): Promise<void> {
-  await disableAutoscaleForTheHdInsightCluster();
-  await enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHdInsightCluster();
-  await enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHdInsightCluster();
+  await disableAutoscaleForTheHDInsightCluster();
+  await enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHDInsightCluster();
+  await enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHDInsightCluster();
 }
 
 main().catch(console.error);

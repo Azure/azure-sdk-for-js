@@ -76,21 +76,21 @@ import type {
   ClusterPeerCommandResponse,
   SvmPeerCommandResponse,
   PoolChangeRequest,
-  ListQuotaReportResponse,
+  ListQuotaReportResult,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Volumes operations. */
 export interface VolumesOperations {
-  /** A long-running resource action. */
+  /** Get quota report for volume (with filter support) */
   listQuotaReport: (
     resourceGroupName: string,
     accountName: string,
     poolName: string,
     volumeName: string,
     options?: VolumesListQuotaReportOptionalParams,
-  ) => PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse>;
+  ) => PollerLike<OperationState<ListQuotaReportResult>, ListQuotaReportResult>;
   /** Reverts the volume relocation process, cleans up the new volume and starts using the former-existing volume. */
   revertRelocation: (
     resourceGroupName: string,
@@ -284,11 +284,6 @@ export interface VolumesOperations {
     options?: VolumesListOptionalParams,
   ) => PagedAsyncIterableIterator<Volume>;
   /** Delete the specified volume */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

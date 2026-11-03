@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/iot-device-registry-software-update": ["../src/index.ts"],
+      "@azure/iot-device-registry-software-update/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

@@ -2,11 +2,15 @@
   "name": "@azure/service-bus",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "7.10.0-beta.3",
+  "version": "7.10.0",
   "license": "MIT",
   "description": "Azure Service Bus SDK for JavaScript",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/servicebus/service-bus"
+  },
   "keywords": [
     "azure",
     "cloud",
@@ -22,7 +26,7 @@
   "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "files": [
     "dist/",
@@ -105,7 +109,6 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
-    "@rollup/plugin-inject": "catalog:testing",
     "@types/chai-as-promised": "catalog:testing",
     "@types/debug": "^4.1.4",
     "@types/is-buffer": "^2.0.0",
@@ -121,33 +124,16 @@
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "events": "^3.0.0",
-    "https-proxy-agent": "^7.0.0",
+    "https-proxy-agent": "^9.1.0",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing",
     "ws": "^8.0.0"
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./experimental": "./src/experimental/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -187,5 +173,10 @@
       }
     }
   },
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
+  }
 }

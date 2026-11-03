@@ -195,20 +195,18 @@ function convertGeneratedSentenceSentiment(
     offset: sentence.offset,
     length: sentence.length,
     opinions: sentence.targets
-      ? sentence.targets.map(
-          (target: SentenceTarget): Opinion => ({
-            target: {
-              confidenceScores: target.confidenceScores,
-              sentiment: target.sentiment,
-              text: target.text,
-              offset: target.offset,
-              length: target.length,
-            },
-            assessments: target.relations
-              .filter((relation) => relation.relationType === "assessment")
-              .map((relation) => convertTargetRelationToAssessmentSentiment(relation, result)),
-          }),
-        )
+      ? sentence.targets.map((target: SentenceTarget): Opinion => ({
+          target: {
+            confidenceScores: target.confidenceScores,
+            sentiment: target.sentiment,
+            text: target.text,
+            offset: target.offset,
+            length: target.length,
+          },
+          assessments: target.relations
+            .filter((relation) => relation.relationType === "assessment")
+            .map((relation) => convertTargetRelationToAssessmentSentiment(relation, result)),
+        }))
       : [],
   };
 }

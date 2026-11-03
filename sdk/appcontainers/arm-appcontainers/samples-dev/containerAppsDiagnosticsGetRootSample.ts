@@ -3,26 +3,18 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get the properties of a Container App.
+ * This sample demonstrates how to get the properties of a Container App.
  *
- * @summary Get the properties of a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ContainerApps_Get.json
+ * @summary get the properties of a Container App.
+ * x-ms-original-file: 2026-07-01/ContainerApps_Get1.json
  */
 async function getContainerApp(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const containerAppName = "testcontainerapp0";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.containerAppsDiagnostics.getRoot(
-    resourceGroupName,
-    containerAppName,
-  );
+  const result = await client.containerAppsDiagnostics.getRoot("rg", "testcontainerApp0");
   console.log(result);
 }
 

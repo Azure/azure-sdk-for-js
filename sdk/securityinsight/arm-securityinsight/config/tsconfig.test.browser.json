@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-securityinsight": ["../src/index.ts"],
+      "@azure/arm-securityinsight/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

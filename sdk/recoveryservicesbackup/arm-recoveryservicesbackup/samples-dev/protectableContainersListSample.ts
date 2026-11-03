@@ -1,42 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the containers that can be registered to Recovery Services Vault.
- *
- * @summary Lists the containers that can be registered to Recovery Services Vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureStorage/ProtectableContainers_List.json
- */
-
-import {
-  ProtectableContainersListOptionalParams,
-  RecoveryServicesBackupClient,
-} from "@azure/arm-recoveryservicesbackup";
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the containers that can be registered to Recovery Services Vault.
+ *
+ * @summary lists the containers that can be registered to Recovery Services Vault.
+ * x-ms-original-file: 2026-10-01/AzureStorage/ProtectableContainers_List.json
+ */
 async function listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "testvault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "testRg";
-  const fabricName = "Azure";
-  const filter =
-    "backupManagementType eq 'AzureStorage' and workloadType eq 'AzureFileShare'";
-  const options: ProtectableContainersListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.protectableContainers.list(
-    vaultName,
-    resourceGroupName,
-    fabricName,
-    options,
-  )) {
+  for await (const item of client.protectableContainers.list("testvault", "testRg", "Azure", {
+    filter: "backupManagementType eq 'AzureStorage' and workloadType eq 'AzureFileShare'",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

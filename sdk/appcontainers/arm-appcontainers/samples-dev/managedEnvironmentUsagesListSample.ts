@@ -3,29 +3,22 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the current usage information as well as the limits for environment.
+ * This sample demonstrates how to gets the current usage information as well as the limits for environment.
  *
- * @summary Gets the current usage information as well as the limits for environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironmentUsages_List.json
+ * @summary gets the current usage information as well as the limits for environment.
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentUsages_List.json
  */
 async function listManagedEnvironmentUsages(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "jlaw-demo1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.managedEnvironmentUsages.list(
-    resourceGroupName,
-    environmentName,
-  )) {
+  for await (const item of client.managedEnvironmentUsages.list("examplerg", "jlaw-demo1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

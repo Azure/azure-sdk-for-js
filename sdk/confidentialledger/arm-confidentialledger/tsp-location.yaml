@@ -1,0 +1,4 @@
+directory: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/ConfidentialLedger
+commit: 5844a51fbf0a1dcc72001ce84dd2078f0f01a2d9
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 

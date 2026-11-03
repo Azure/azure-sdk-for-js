@@ -25,7 +25,7 @@ describe("Abuse protection works", function () {
 
     const result = dispatcher.handlePreflight(req, res);
     assert.isTrue(result);
-    assert.equal("*", res.getHeader("webhook-allowed-origin"));
+    assert.equal(res.getHeader("webhook-allowed-origin"), "*");
   });
 
   it("Support valid url in allowed endpoints and return them", () => {

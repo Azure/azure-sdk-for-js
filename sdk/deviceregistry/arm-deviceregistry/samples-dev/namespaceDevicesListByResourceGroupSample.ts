@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list NamespaceDevice resources by Namespace
  *
  * @summary list NamespaceDevice resources by Namespace
- * x-ms-original-file: 2025-10-01/List_NamespaceDevices_ByResourceGroup.json
+ * x-ms-original-file: 2026-03-01-preview/List_NamespaceDevices_ByResourceGroup.json
  */
 async function listNamespaceDevicesByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

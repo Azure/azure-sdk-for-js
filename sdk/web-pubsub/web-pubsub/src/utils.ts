@@ -31,6 +31,29 @@ export interface BinaryPayload {
 
 export type Payload = TextPlainPayload | JsonPayload | BinaryPayload;
 
+export function toByteArrayPayload(payload: string | RequestBodyType): Uint8Array {
+  if (typeof payload === "string") {
+    return new TextEncoder().encode(payload);
+  }
+
+  if (payload instanceof ArrayBuffer) {
+    return new Uint8Array(payload);
+  }
+
+  if (ArrayBuffer.isView(payload)) {
+    if (payload instanceof Uint8Array) {
+      return payload;
+    }
+    return new Uint8Array(payload.buffer, payload.byteOffset, payload.byteLength);
+  }
+
+  throw new TypeError(
+    `toByteArrayPayload expects a string, ArrayBuffer, or ArrayBufferView, but received ${
+      payload instanceof Blob ? "Blob" : typeof payload
+    }. The REST layer requires Uint8Array bodies.`,
+  );
+}
+
 export function getPayloadForMessage(message: unknown, options: Record<string, any>): Payload {
   if (options?.contentType === "text/plain") {
     if (typeof message !== "string") {

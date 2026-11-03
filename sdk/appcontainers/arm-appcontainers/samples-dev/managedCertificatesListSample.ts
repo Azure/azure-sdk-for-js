@@ -3,30 +3,22 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get the Managed Certificates in a given managed environment.
+ * This sample demonstrates how to get the Managed Certificates in a given managed environment.
  *
- * @summary Get the Managed Certificates in a given managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedCertificates_ListByManagedEnvironment.json
+ * @summary get the Managed Certificates in a given managed environment.
+ * x-ms-original-file: 2026-07-01/ManagedCertificates_ListByManagedEnvironment.json
  */
 async function listManagedCertificatesByManagedEnvironment(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "testcontainerenv";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.managedCertificates.list(
-    resourceGroupName,
-    environmentName,
-  )) {
+  for await (const item of client.managedCertificates.list("examplerg", "testcontainerenv")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

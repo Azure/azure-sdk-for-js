@@ -1,45 +1,58 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { StorageDiscoveryClient } from "./storageDiscoveryClient.js";
-export {
+export type {
   StorageDiscoveryWorkspace,
   StorageDiscoveryWorkspaceProperties,
-  KnownStorageDiscoverySku,
   StorageDiscoverySku,
+  StorageDiscoveryCapabilities,
+  AzureBlobStorageCapability,
+  CapacityDetails,
+  CapabilityStatus,
+  PrefixConfiguration,
   StorageDiscoveryScope,
-  KnownStorageDiscoveryResourceType,
   StorageDiscoveryResourceType,
-  KnownResourceProvisioningState,
   ResourceProvisioningState,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
   StorageDiscoveryWorkspaceUpdate,
   StorageDiscoveryWorkspacePropertiesUpdate,
+  StorageDiscoveryCapabilitiesUpdate,
+  AzureBlobStorageCapabilityUpdate,
+  CapacityDetailsUpdate,
+  PrefixConfigurationUpdate,
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
+} from "./models/index.js";
+export {
+  KnownStorageDiscoverySku,
+  KnownCapabilityStatus,
+  KnownStorageDiscoveryResourceType,
+  KnownResourceProvisioningState,
+  KnownCreatedByType,
+  KnownOrigin,
+  KnownActionType,
   KnownApiVersion,
 } from "./models/index.js";
-export { StorageDiscoveryClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { StorageDiscoveryClientOptionalParams } from "./api/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
   StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
   StorageDiscoveryWorkspacesDeleteOptionalParams,
@@ -47,6 +60,11 @@ export {
   StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
   StorageDiscoveryWorkspacesGetOptionalParams,
 } from "./api/storageDiscoveryWorkspaces/index.js";
-export { OperationsOperations, StorageDiscoveryWorkspacesOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type {
+  OperationsOperations,
+  StorageDiscoveryWorkspacesOperations,
+} from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

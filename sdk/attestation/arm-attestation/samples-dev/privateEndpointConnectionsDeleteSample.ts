@@ -1,29 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes the specified private endpoint connection associated with the attestation provider.
- *
- * @summary Deletes the specified private endpoint connection associated with the attestation provider.
- * x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2020-10-01/examples/AttestationProviderDeletePrivateEndpointConnection.json
- */
-
 import { AttestationManagementClient } from "@azure/arm-attestation";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to deletes the specified private endpoint connection associated with the attestation provider.
+ *
+ * @summary deletes the specified private endpoint connection associated with the attestation provider.
+ * x-ms-original-file: 2021-06-01/AttestationProviderDeletePrivateEndpointConnection.json
+ */
 async function attestationProviderDeletePrivateEndpointConnection(): Promise<void> {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res6977";
-  const providerName = "sto2527";
-  const privateEndpointConnectionName = "{privateEndpointConnectionName}";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new AttestationManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnections.delete(
-    resourceGroupName,
-    providerName,
-    privateEndpointConnectionName,
+  await client.privateEndpointConnections.delete(
+    "res6977",
+    "sto2527",
+    "{privateEndpointConnectionName}",
   );
-  console.log(result);
 }
 
-attestationProviderDeletePrivateEndpointConnection().catch(console.error);
+async function main(): Promise<void> {
+  await attestationProviderDeletePrivateEndpointConnection();
+}
+
+main().catch(console.error);

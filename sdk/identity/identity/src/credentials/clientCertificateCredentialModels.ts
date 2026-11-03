@@ -34,5 +34,4 @@ export interface ClientCertificatePEMCertificatePath {
  * Required configuration options for the {@link ClientCertificateCredential}, with either the string contents of a PEM certificate, or the path to a PEM certificate.
  */
 export type ClientCertificateCredentialPEMConfiguration =
-  | ClientCertificatePEMCertificate
-  | ClientCertificatePEMCertificatePath;
+  ClientCertificatePEMCertificate | ClientCertificatePEMCertificatePath;

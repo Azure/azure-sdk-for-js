@@ -99,7 +99,22 @@ const credential = new DefaultAzureCredential();
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-// Lastly, create our keys client and connect to the service
+// Lastly, create our secrets client and connect to the service
+const client = new SecretClient(url, credential);
+```
+
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
+
+```ts snippet:ReadmeSampleCreateClientBrowser
+import { InteractiveBrowserCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
+
+const credential = new InteractiveBrowserCredential({
+  tenantId: "<YOUR_TENANT_ID>",
+  clientId: "<YOUR_CLIENT_ID>",
+});
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
 const client = new SecretClient(url, credential);
 ```
 

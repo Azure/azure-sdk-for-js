@@ -1,0 +1,9 @@
+{
+  "extends": "./base.src.json",
+  "compilerOptions": {
+    "lib": ["DOM", "ES2023"],
+    "types": [],
+    "outDir": "${configDir}/../dist/browser",
+    "customConditions": ["browser"]
+  }
+}

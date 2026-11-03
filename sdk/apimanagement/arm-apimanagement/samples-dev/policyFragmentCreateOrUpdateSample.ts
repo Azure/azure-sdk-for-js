@@ -1,41 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a policy fragment.
- *
- * @summary Creates or updates a policy fragment.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreatePolicyFragment.json
- */
-
-import {
-  PolicyFragmentContract,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a policy fragment.
+ *
+ * @summary creates or updates a policy fragment.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreatePolicyFragment.json
+ */
 async function apiManagementCreatePolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const id = "policyFragment1";
-  const parameters: PolicyFragmentContract = {
-    format: "xml",
-    description: "A policy fragment example",
-    value:
-      '<fragment><json-to-xml apply="always" consider-accept-header="false" /></fragment>',
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.policyFragment.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    id,
-    parameters,
+  const result = await client.policyFragment.createOrUpdate(
+    "rg1",
+    "apimService1",
+    "policyFragment1",
+    {
+      format: "xml",
+      description: "A policy fragment example",
+      value: '<fragment><json-to-xml apply="always" consider-accept-header="false" /></fragment>',
+    },
   );
   console.log(result);
 }

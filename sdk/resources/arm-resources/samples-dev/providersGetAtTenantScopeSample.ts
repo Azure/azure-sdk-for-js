@@ -1,30 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the specified resource provider at the tenant level.
- *
- * @summary Gets the specified resource provider at the tenant level.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-04-01/examples/GetNamedProviderAtTenant.json
- */
-
-import {
-  ProvidersGetAtTenantScopeOptionalParams,
-  ResourceManagementClient,
-} from "@azure/arm-resources";
+import { ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the specified resource provider at the tenant level.
+ *
+ * @summary gets the specified resource provider at the tenant level.
+ * x-ms-original-file: 2025-04-01/GetNamedProviderAtTenant.json
+ */
 async function getAResourceProviderAtTenantScope(): Promise<void> {
-  const expand = "resourceTypes/aliases";
-  const resourceProviderNamespace = "Microsoft.Storage";
-  const options: ProvidersGetAtTenantScopeOptionalParams = { expand };
   const credential = new DefaultAzureCredential();
   const client = new ResourceManagementClient(credential);
-  const result = await client.providers.getAtTenantScope(
-    resourceProviderNamespace,
-    options,
-  );
+  const result = await client.providers.getAtTenantScope("Microsoft.Storage", {
+    expand: "resourceTypes/aliases",
+  });
   console.log(result);
 }
 

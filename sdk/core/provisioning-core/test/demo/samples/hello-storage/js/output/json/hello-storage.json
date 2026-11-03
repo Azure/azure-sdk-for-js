@@ -1,0 +1,175 @@
+{
+  "infras": [
+    {
+      "targetScope": "subscription",
+      "fileName": "helloStorage.bicep",
+      "resources": {
+        "resourceGroup": {
+          "bicepIdentifier": "resourceGroup",
+          "type": "Microsoft.Resources/resourceGroups",
+          "apiVersion": "2024-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "rg-helloStorage"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "storageAccount": {
+          "bicepIdentifier": "storageAccount",
+          "type": "Microsoft.Storage/storageAccounts",
+          "apiVersion": "2026-04-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "function-call",
+                "target": "toLower",
+                "args": [
+                  {
+                    "kind": "function-call",
+                    "target": "concat",
+                    "args": [
+                      {
+                        "kind": "string",
+                        "value": "st-hellost-"
+                      },
+                      {
+                        "kind": "function-call",
+                        "target": "uniqueString",
+                        "args": [
+                          {
+                            "kind": "property-access",
+                            "base": {
+                              "kind": "function-call",
+                              "target": "subscription",
+                              "args": []
+                            },
+                            "property": "subscriptionId",
+                            "nullish": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "scope": {
+                "kind": "identifier",
+                "id": "resourceGroup"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "StorageV2"
+              },
+              "location": {
+                "kind": "property-access",
+                "base": {
+                  "kind": "function-call",
+                  "target": "resourceGroup",
+                  "args": []
+                },
+                "property": "location",
+                "nullish": false
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard_LRS"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "blobService": {
+          "bicepIdentifier": "blobService",
+          "type": "Microsoft.Storage/storageAccounts/blobServices",
+          "apiVersion": "2026-04-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "storageAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "isVersioningEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "changeFeed": {
+                    "kind": "object",
+                    "value": {
+                      "enabled": {
+                        "kind": "boolean",
+                        "value": true
+                      }
+                    }
+                  },
+                  "deleteRetentionPolicy": {
+                    "kind": "object",
+                    "value": {
+                      "enabled": {
+                        "kind": "boolean",
+                        "value": true
+                      },
+                      "days": {
+                        "kind": "integer",
+                        "value": "7"
+                      }
+                    }
+                  },
+                  "containerDeleteRetentionPolicy": {
+                    "kind": "object",
+                    "value": {
+                      "enabled": {
+                        "kind": "boolean",
+                        "value": true
+                      },
+                      "days": {
+                        "kind": "integer",
+                        "value": "7"
+                      }
+                    }
+                  },
+                  "restorePolicy": {
+                    "kind": "object",
+                    "value": {
+                      "enabled": {
+                        "kind": "boolean",
+                        "value": true
+                      },
+                      "days": {
+                        "kind": "integer",
+                        "value": "6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

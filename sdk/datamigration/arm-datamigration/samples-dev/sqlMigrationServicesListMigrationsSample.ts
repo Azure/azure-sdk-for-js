@@ -3,30 +3,22 @@
 
 import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieve the List of database migrations attached to the service.
+ * This sample demonstrates how to retrieve the List of database migrations attached to the service.
  *
- * @summary Retrieve the List of database migrations attached to the service.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/ListMigrationsBySqlMigrationService.json
+ * @summary retrieve the List of database migrations attached to the service.
+ * x-ms-original-file: 2025-09-01-preview/ListMigrationsBySqlMigrationService.json
  */
 async function listDatabaseMigrationsAttachedToTheService(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
-  const sqlMigrationServiceName = "service1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new DataMigrationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.sqlMigrationServices.listMigrations(
-    resourceGroupName,
-    sqlMigrationServiceName,
-  )) {
+  for await (const item of client.sqlMigrationServices.listMigrations("testrg", "service1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

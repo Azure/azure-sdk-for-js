@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets catalog synchronization error details
- *
- * @summary Gets catalog synchronization error details
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Catalogs_GetSyncErrorDetails.json
- */
-
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets catalog synchronization error details.
+ *
+ * @summary gets catalog synchronization error details.
+ * x-ms-original-file: 2026-01-01-preview/Catalogs_GetSyncErrorDetails.json
+ */
 async function catalogsGetSyncErrorDetails(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const devCenterName = "Contoso";
-  const catalogName = "CentralCatalog";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.catalogs.getSyncErrorDetails(
-    resourceGroupName,
-    devCenterName,
-    catalogName,
-  );
+  const result = await client.catalogs.getSyncErrorDetails("rg1", "Contoso", "CentralCatalog");
   console.log(result);
 }
 

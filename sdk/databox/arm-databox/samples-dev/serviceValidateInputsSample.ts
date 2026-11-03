@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to This method does all necessary pre-job creation validation under subscription.
- *
- * @summary This method does all necessary pre-job creation validation under subscription.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/ValidateInputs.json
- */
-
-import {
-  CreateJobValidations,
-  DataBoxManagementClient,
-} from "@azure/arm-databox";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to this method does all necessary pre-job creation validation under subscription.
+ *
+ * @summary this method does all necessary pre-job creation validation under subscription.
+ * x-ms-original-file: 2025-07-01/ValidateInputs.json
+ */
 async function validateInputs(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const location = "westus";
-  const validationRequest: CreateJobValidations = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "YourSubscriptionId";
+  const client = new DataBoxManagementClient(credential, subscriptionId);
+  const result = await client.service.validateInputs("westus", {
     individualRequestDetails: [
       {
         dataImportDetails: [
@@ -61,28 +56,16 @@ async function validateInputs(): Promise<void> {
         transferType: "ImportToAzure",
         validationType: "ValidateSkuAvailability",
       },
+      { deviceType: "DataBox", model: "DataBox", validationType: "ValidateCreateOrderLimit" },
       {
         deviceType: "DataBox",
         model: "DataBox",
-        validationType: "ValidateCreateOrderLimit",
-      },
-      {
-        deviceType: "DataBox",
-        model: "DataBox",
-        preference: {
-          transportPreferences: { preferredShipmentType: "MicrosoftManaged" },
-        },
+        preference: { transportPreferences: { preferredShipmentType: "MicrosoftManaged" } },
         validationType: "ValidatePreferences",
       },
     ],
     validationCategory: "JobCreationValidation",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.service.validateInputs(
-    location,
-    validationRequest,
-  );
+  });
   console.log(result);
 }
 

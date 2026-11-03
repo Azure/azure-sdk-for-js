@@ -1,36 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The operation to refresh the information from the recovery services provider.
- *
- * @summary The operation to refresh the information from the recovery services provider.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationRecoveryServicesProviders_RefreshProvider.json
- */
-
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to the operation to refresh the information from the recovery services provider.
+ *
+ * @summary the operation to refresh the information from the recovery services provider.
+ * x-ms-original-file: 2025-08-01/ReplicationRecoveryServicesProviders_RefreshProvider.json
+ */
 async function refreshDetailsFromTheRecoveryServicesProvider(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
-    "c183865e-6077-46f2-a3b1-deb0f4f4650a";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
-    "resourceGroupPS1";
-  const resourceName = "vault1";
-  const fabricName = "cloud1";
-  const providerName = "241641e6-ee7b-4ee4-8141-821fadda43fa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "c183865e-6077-46f2-a3b1-deb0f4f4650a";
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result =
-    await client.replicationRecoveryServicesProviders.beginRefreshProviderAndWait(
-      resourceGroupName,
-      resourceName,
-      fabricName,
-      providerName,
-    );
+  const result = await client.replicationRecoveryServicesProviders.refreshProvider(
+    "resourceGroupPS1",
+    "vault1",
+    "cloud1",
+    "241641e6-ee7b-4ee4-8141-821fadda43fa",
+  );
   console.log(result);
 }
 

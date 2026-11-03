@@ -1,34 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete a recovery plan.
- *
- * @summary Delete a recovery plan.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationRecoveryPlans_Delete.json
- */
-
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete a recovery plan.
+ *
+ * @summary delete a recovery plan.
+ * x-ms-original-file: 2025-08-01/ReplicationRecoveryPlans_Delete.json
+ */
 async function deletesTheSpecifiedRecoveryPlan(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
-    "c183865e-6077-46f2-a3b1-deb0f4f4650a";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
-    "resourceGroupPS1";
-  const resourceName = "vault1";
-  const recoveryPlanName = "RPtest1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "c183865e-6077-46f2-a3b1-deb0f4f4650a";
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationRecoveryPlans.beginDeleteAndWait(
-    resourceGroupName,
-    resourceName,
-    recoveryPlanName,
-  );
-  console.log(result);
+  await client.replicationRecoveryPlans.delete("resourceGroupPS1", "vault1", "RPtest1");
 }
 
 async function main(): Promise<void> {

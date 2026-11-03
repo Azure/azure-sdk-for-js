@@ -1,4 +1,129 @@
 # Release History
+
+## 3.0.0-beta.1 (2026-10-02)
+Compared with version 2.0.0
+
+### Features Added
+  - Added operation ElasticSanManagement.beginRestoreVolume
+  - Added operation ElasticSanManagement.beginRestoreVolumeAndWait
+  - Added operation ElasticSanManagement.restoreVolume
+  - Added Interface DeleteRetentionPolicy
+  - Added Interface ManagedByResources
+  - Added Interface RestoreVolumeOptionalParams
+  - Added Interface SkuZoneDetails
+  - Interface ElasticSanProperties has a new optional parameter totalReservedIops
+  - Interface ElasticSanProperties has a new optional parameter totalReservedMBps
+  - Interface ElasticSanProperties has a new optional parameter usedCapacityGiB
+  - Interface ElasticSanProperties has a new optional parameter version
+  - Interface ElasticSanUpdateProperties has a new optional parameter totalIops
+  - Interface ElasticSanUpdateProperties has a new optional parameter totalMBps
+  - Interface ElasticSanUpdateProperties has a new optional parameter totalSizeTiB
+  - Interface SkuLocationInfo has a new optional parameter zoneDetails
+  - Interface SnapshotProperties has a new optional parameter completionPercent
+  - Interface SnapshotProperties has a new optional parameter snapshotAccessState
+  - Interface VolumeGroupProperties has a new optional parameter deleteRetentionPolicy
+  - Interface VolumeGroupProperties has a new optional parameter encryptionInTransit
+  - Interface VolumeGroupProperties has a new optional parameter qualityOfService
+  - Interface VolumeGroupProperties has a new optional parameter reservedIops
+  - Interface VolumeGroupProperties has a new optional parameter reservedMBps
+  - Interface VolumeGroupsListByElasticSanOptionalParams has a new optional parameter xMsAccessSoftDeletedResources
+  - Interface VolumeGroupUpdateProperties has a new optional parameter deleteRetentionPolicy
+  - Interface VolumeGroupUpdateProperties has a new optional parameter reservedIops
+  - Interface VolumeGroupUpdateProperties has a new optional parameter reservedMBps
+  - Interface VolumesDeleteOptionalParams has a new optional parameter deleteType
+  - Interface VolumesListByVolumeGroupOptionalParams has a new optional parameter xMsAccessSoftDeletedResources
+  - Added Type Alias DeleteType
+  - Added Type Alias ElasticSanVersion
+  - Added Type Alias PolicyState
+  - Added Type Alias QualityOfService
+  - Added Type Alias SnapshotAccessState
+  - Added Type Alias XMsAccessSoftDeletedResources
+  - Added Enum KnownDeleteType
+  - Added Enum KnownElasticSanVersion
+  - Added Enum KnownPolicyState
+  - Added Enum KnownQualityOfService
+  - Added Enum KnownSnapshotAccessState
+  - Added Enum KnownXMsAccessSoftDeletedResources
+  - Enum KnownProvisioningStates has a new value SoftDeleting
+  - Enum KnownSkuName has a new value ElasticSANLRS
+  - Enum KnownStorageTargetType has a new value DirectAttach
+  - Enum KnownVersions has a new value V20260501Preview
+
+### Breaking Changes
+  - Operation ElasticSansOperations.beginCreate has a new signature
+  - Operation ElasticSansOperations.beginCreateAndWait has a new signature
+  - Operation ElasticSansOperations.beginUpdate has a new signature
+  - Operation ElasticSansOperations.beginUpdateAndWait has a new signature
+  - Operation ElasticSansOperations.create has a new signature
+  - Operation ElasticSansOperations.get has a new signature
+  - Operation ElasticSansOperations.listByResourceGroup has a new signature
+  - Operation ElasticSansOperations.listBySubscription has a new signature
+  - Operation ElasticSansOperations.update has a new signature
+  - Operation VolumesOperations.beginCreate has a new signature
+  - Operation VolumesOperations.beginCreateAndWait has a new signature
+  - Operation VolumesOperations.beginUpdate has a new signature
+  - Operation VolumesOperations.beginUpdateAndWait has a new signature
+  - Operation VolumesOperations.create has a new signature
+  - Operation VolumesOperations.get has a new signature
+  - Operation VolumesOperations.listByVolumeGroup has a new signature
+  - Operation VolumesOperations.update has a new signature
+  - Removed Interface ManagedByInfo
+  - Type of parameter managedBy of interface VolumeProperties is changed from ManagedByInfo to ManagedByResources[]
+  - Type of parameter managedBy of interface VolumeUpdateProperties is changed from ManagedByInfo to ManagedByResources[]
+  - Parameter baseSizeTiB of interface ElasticSanProperties is now optional
+  - Parameter extendedCapacitySizeTiB of interface ElasticSanProperties is now optional
+
+## 2.0.0 (2026-02-25)
+
+### Features Added
+  - Added operation ElasticSansOperations.create
+  - Added operation ElasticSansOperations.delete
+  - Added operation ElasticSansOperations.update
+  - Added operation PrivateEndpointConnectionsOperations.create
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation VolumeGroupsOperations.create
+  - Added operation VolumeGroupsOperations.delete
+  - Added operation VolumeGroupsOperations.update
+  - Added operation VolumesOperations.beginPreBackup
+  - Added operation VolumesOperations.beginPreBackupAndWait
+  - Added operation VolumesOperations.beginPreRestore
+  - Added operation VolumesOperations.beginPreRestoreAndWait
+  - Added operation VolumesOperations.create
+  - Added operation VolumesOperations.delete
+  - Added operation VolumesOperations.preBackup
+  - Added operation VolumesOperations.preRestore
+  - Added operation VolumesOperations.update
+  - Added operation VolumeSnapshotsOperations.create
+  - Added operation VolumeSnapshotsOperations.delete
+  - Added Interface AutoScaleProperties
+  - Added Interface DiskSnapshotList
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PreValidationResponse
+  - Added Interface RestorePollerOptions
+  - Added Interface ScaleUpProperties
+  - Added Interface SimplePollerLike
+  - Added Interface VolumeNameList
+  - Added Interface VolumesPreBackupOptionalParams
+  - Added Interface VolumesPreRestoreOptionalParams
+  - Interface ElasticSanProperties has a new optional parameter autoScaleProperties
+  - Interface ElasticSanUpdateProperties has a new optional parameter autoScaleProperties
+  - Added Type Alias AutoScalePolicyEnforcement
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownAutoScalePolicyEnforcement
+  - Added Enum KnownVersions
+  - Enum KnownProvisioningStates has a new value Deleted
+  - Enum KnownProvisioningStates has a new value Restoring
+
+### Breaking Changes
+  - Removed Interface ElasticSanList
+  - Removed Interface SkuInformationList
+  - Removed Interface SnapshotList
+  - Removed Interface VolumeGroupList
+  - Removed Interface VolumeList
+  - Parameter value of interface PrivateLinkResourceListResult is now required
+
     
 ## 1.2.0-beta.2 (2025-04-18)
 Compared with version 1.1.0

@@ -7,8 +7,7 @@ import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants.js"
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
 import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
-import { describe, it, beforeAll, afterAll } from "vitest";
-import { delay } from "@azure/core-util";
+import { describe, it, beforeAll, afterAll, vi } from "vitest";
 
 describe("Metric Exporter Scenarios", () => {
   describe(MetricBasicScenario.prototype.constructor.name, () => {
@@ -17,6 +16,7 @@ describe("Metric Exporter Scenarios", () => {
     let ingest: Envelope[] = [];
     beforeAll(() => {
       nock(DEFAULT_BREEZE_ENDPOINT)
+        .matchHeader("Content-Encoding", "gzip")
         .post("/v2.1/track", (body: Envelope[]) => {
           ingest.push(...body);
           return true;
@@ -34,14 +34,14 @@ describe("Metric Exporter Scenarios", () => {
 
     it("should work", async () => {
       await scenario.run();
-      // promisify doesn't work on this, so use callbacks/done for now
       await scenario.flush();
-      setTimeout(() => {
-        assertMetricExpectation(ingest, scenario.expectation);
-        assertCount(ingest, scenario.expectation);
-      }, 100);
-
-      await delay(200); // wait enough time for timeout callback
+      await vi.waitFor(
+        () => {
+          assertMetricExpectation(ingest, scenario.expectation);
+          assertCount(ingest, scenario.expectation);
+        },
+        { timeout: 5000 },
+      );
     });
   });
 });

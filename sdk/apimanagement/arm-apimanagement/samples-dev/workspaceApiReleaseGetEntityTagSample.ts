@@ -1,37 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns the etag of an API release.
- *
- * @summary Returns the etag of an API release.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementHeadWorkspaceApiRelease.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns the etag of an API release.
+ *
+ * @summary returns the etag of an API release.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementHeadWorkspaceApiRelease.json
+ */
 async function apiManagementHeadWorkspaceApiRelease(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const workspaceId = "wks1";
-  const apiId = "a1";
-  const releaseId = "5a7cb545298324c53224a799";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.workspaceApiRelease.getEntityTag(
-    resourceGroupName,
-    serviceName,
-    workspaceId,
-    apiId,
-    releaseId,
+  await client.workspaceApiRelease.getEntityTag(
+    "rg1",
+    "apimService1",
+    "wks1",
+    "a1",
+    "5a7cb545298324c53224a799",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

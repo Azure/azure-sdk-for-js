@@ -1,261 +1,198 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a record set within a Private DNS zone.
- *
- * @summary Creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAPut.json
- */
-
-import type { RecordSet } from "@azure/arm-privatedns";
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function putPrivateDnsZoneARecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "A";
-  const relativeRecordSetName = "recordA";
-  const parameters: RecordSet = {
-    aRecords: [{ ipv4Address: "1.2.3.4" }],
-    metadata: { key1: "value1" },
-    ttl: 3600,
-  };
+/**
+ * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
+ *
+ * @summary creates or updates a record set within a Private DNS zone.
+ * x-ms-original-file: 2024-06-01/RecordSetAAAAPut.json
+ */
+async function putPrivateDNSZoneAaaaRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
-    parameters,
+    "resourceGroup1",
+    "privatezone1.com",
+    "AAAA",
+    "recordAAAA",
+    { aaaaRecords: [{ ipv6Address: "::1" }], metadata: { key1: "value1" }, ttl: 3600 },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a Private DNS zone.
+ * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
- * @summary Creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAAAAPut.json
+ * @summary creates or updates a record set within a Private DNS zone.
+ * x-ms-original-file: 2024-06-01/RecordSetAPut.json
  */
-async function putPrivateDnsZoneAaaaRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "AAAA";
-  const relativeRecordSetName = "recordAAAA";
-  const parameters: RecordSet = {
-    aaaaRecords: [{ ipv6Address: "::1" }],
-    metadata: { key1: "value1" },
-    ttl: 3600,
-  };
+async function putPrivateDNSZoneARecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
-    parameters,
+    "resourceGroup1",
+    "privatezone1.com",
+    "A",
+    "recordA",
+    { aRecords: [{ ipv4Address: "1.2.3.4" }], metadata: { key1: "value1" }, ttl: 3600 },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a Private DNS zone.
+ * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
- * @summary Creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetCNAMEPut.json
+ * @summary creates or updates a record set within a Private DNS zone.
+ * x-ms-original-file: 2024-06-01/RecordSetCNAMEPut.json
  */
-async function putPrivateDnsZoneCnameRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "CNAME";
-  const relativeRecordSetName = "recordCNAME";
-  const parameters: RecordSet = {
-    cnameRecord: { cname: "contoso.com" },
-    metadata: { key1: "value1" },
-    ttl: 3600,
-  };
+async function putPrivateDNSZoneCnameRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
-    parameters,
+    "resourceGroup1",
+    "privatezone1.com",
+    "CNAME",
+    "recordCNAME",
+    { cnameRecord: { cname: "contoso.com" }, metadata: { key1: "value1" }, ttl: 3600 },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a Private DNS zone.
+ * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
- * @summary Creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetMXPut.json
+ * @summary creates or updates a record set within a Private DNS zone.
+ * x-ms-original-file: 2024-06-01/RecordSetMXPut.json
  */
-async function putPrivateDnsZoneMxRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "MX";
-  const relativeRecordSetName = "recordMX";
-  const parameters: RecordSet = {
-    metadata: { key1: "value1" },
-    mxRecords: [{ exchange: "mail.privatezone1.com", preference: 0 }],
-    ttl: 3600,
-  };
+async function putPrivateDNSZoneMXRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates a record set within a Private DNS zone.
- *
- * @summary Creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetPTRPut.json
- */
-async function putPrivateDnsZonePtrRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "0.0.127.in-addr.arpa";
-  const recordType = "PTR";
-  const relativeRecordSetName = "1";
-  const parameters: RecordSet = {
-    metadata: { key1: "value1" },
-    ptrRecords: [{ ptrdname: "localhost" }],
-    ttl: 3600,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PrivateDnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates a record set within a Private DNS zone.
- *
- * @summary Creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSOAPut.json
- */
-async function putPrivateDnsZoneSoaRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "SOA";
-  const relativeRecordSetName = "@";
-  const parameters: RecordSet = {
-    metadata: { key1: "value1" },
-    soaRecord: {
-      email: "azureprivatedns-hostmaster.microsoft.com",
-      expireTime: 2419200,
-      host: "azureprivatedns.net",
-      minimumTtl: 300,
-      refreshTime: 3600,
-      retryTime: 300,
-      serialNumber: 1,
+    "resourceGroup1",
+    "privatezone1.com",
+    "MX",
+    "recordMX",
+    {
+      metadata: { key1: "value1" },
+      mxRecords: [{ exchange: "mail.privatezone1.com", preference: 0 }],
+      ttl: 3600,
     },
-    ttl: 3600,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PrivateDnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
-    parameters,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a Private DNS zone.
+ * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
- * @summary Creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSRVPut.json
+ * @summary creates or updates a record set within a Private DNS zone.
+ * x-ms-original-file: 2024-06-01/RecordSetPTRPut.json
  */
-async function putPrivateDnsZoneSrvRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "SRV";
-  const relativeRecordSetName = "recordSRV";
-  const parameters: RecordSet = {
-    metadata: { key1: "value1" },
-    srvRecords: [{ port: 80, priority: 0, target: "contoso.com", weight: 10 }],
-    ttl: 3600,
-  };
+async function putPrivateDNSZonePTRRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
-    parameters,
+    "resourceGroup1",
+    "0.0.127.in-addr.arpa",
+    "PTR",
+    "1",
+    { metadata: { key1: "value1" }, ptrRecords: [{ ptrdname: "localhost" }], ttl: 3600 },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a record set within a Private DNS zone.
+ * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
- * @summary Creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetTXTPut.json
+ * @summary creates or updates a record set within a Private DNS zone.
+ * x-ms-original-file: 2024-06-01/RecordSetSOAPut.json
  */
-async function putPrivateDnsZoneTxtRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "TXT";
-  const relativeRecordSetName = "recordTXT";
-  const parameters: RecordSet = {
-    metadata: { key1: "value1" },
-    ttl: 3600,
-    txtRecords: [{ value: ["string1", "string2"] }],
-  };
+async function putPrivateDNSZoneSOARecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.recordSets.createOrUpdate(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
-    parameters,
+    "resourceGroup1",
+    "privatezone1.com",
+    "SOA",
+    "@",
+    {
+      metadata: { key1: "value1" },
+      soaRecord: {
+        email: "azureprivatedns-hostmaster.microsoft.com",
+        expireTime: 2419200,
+        host: "azureprivatedns.net",
+        minimumTtl: 300,
+        refreshTime: 3600,
+        retryTime: 300,
+        serialNumber: 1,
+      },
+      ttl: 3600,
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
+ *
+ * @summary creates or updates a record set within a Private DNS zone.
+ * x-ms-original-file: 2024-06-01/RecordSetSRVPut.json
+ */
+async function putPrivateDNSZoneSRVRecordSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
+  const client = new PrivateDnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate(
+    "resourceGroup1",
+    "privatezone1.com",
+    "SRV",
+    "recordSRV",
+    {
+      metadata: { key1: "value1" },
+      srvRecords: [{ port: 80, priority: 0, target: "contoso.com", weight: 10 }],
+      ttl: 3600,
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
+ *
+ * @summary creates or updates a record set within a Private DNS zone.
+ * x-ms-original-file: 2024-06-01/RecordSetTXTPut.json
+ */
+async function putPrivateDNSZoneTXTRecordSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
+  const client = new PrivateDnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate(
+    "resourceGroup1",
+    "privatezone1.com",
+    "TXT",
+    "recordTXT",
+    { metadata: { key1: "value1" }, ttl: 3600, txtRecords: [{ value: ["string1", "string2"] }] },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await putPrivateDnsZoneARecordSet();
-  await putPrivateDnsZoneAaaaRecordSet();
-  await putPrivateDnsZoneCnameRecordSet();
-  await putPrivateDnsZoneMxRecordSet();
-  await putPrivateDnsZonePtrRecordSet();
-  await putPrivateDnsZoneSoaRecordSet();
-  await putPrivateDnsZoneSrvRecordSet();
-  await putPrivateDnsZoneTxtRecordSet();
+  await putPrivateDNSZoneAaaaRecordSet();
+  await putPrivateDNSZoneARecordSet();
+  await putPrivateDNSZoneCnameRecordSet();
+  await putPrivateDNSZoneMXRecordSet();
+  await putPrivateDNSZonePTRRecordSet();
+  await putPrivateDNSZoneSOARecordSet();
+  await putPrivateDNSZoneSRVRecordSet();
+  await putPrivateDNSZoneTXTRecordSet();
 }
 
 main().catch(console.error);

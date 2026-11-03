@@ -15,18 +15,18 @@
 
 import "dotenv/config";
 import {
-  NotificationDetails,
-  NotificationOutcomeState,
+  type NotificationDetails,
+  type NotificationOutcomeState,
   createAppleNotification,
 } from "@azure/notification-hubs/models";
 import {
-  NotificationHubsClientContext,
+  type NotificationHubsClientContext,
   createClientContext,
   getNotificationOutcomeDetails,
   sendNotification,
 } from "@azure/notification-hubs/api";
 import { delay } from "@azure/core-util";
-import { isRestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/notification-hubs";
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";

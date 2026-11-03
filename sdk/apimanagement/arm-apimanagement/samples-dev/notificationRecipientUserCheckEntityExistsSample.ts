@@ -1,35 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Determine if the Notification Recipient User is subscribed to the notification.
- *
- * @summary Determine if the Notification Recipient User is subscribed to the notification.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementHeadNotificationRecipientUser.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to determine if the Notification Recipient User is subscribed to the notification.
+ *
+ * @summary determine if the Notification Recipient User is subscribed to the notification.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementHeadNotificationRecipientUser.json
+ */
 async function apiManagementHeadNotificationRecipientUser(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const notificationName = "RequestPublisherNotificationMessage";
-  const userId = "576823d0a40f7e74ec07d642";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.notificationRecipientUser.checkEntityExists(
-    resourceGroupName,
-    serviceName,
-    notificationName,
-    userId,
+  await client.notificationRecipientUser.checkEntityExists(
+    "rg1",
+    "apimService1",
+    "RequestPublisherNotificationMessage",
+    "576823d0a40f7e74ec07d642",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

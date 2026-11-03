@@ -1,56 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or Updates a logger.
- *
- * @summary Creates or Updates a logger.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateAILogger.json
- */
-
-import { LoggerContract, ApiManagementClient } from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function apiManagementCreateAiLogger(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const loggerId = "loggerId";
-  const parameters: LoggerContract = {
+/**
+ * This sample demonstrates how to creates or Updates a logger.
+ *
+ * @summary creates or Updates a logger.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateAILogger.json
+ */
+async function apiManagementCreateAILogger(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.logger.createOrUpdate("rg1", "apimService1", "loggerId", {
     description: "adding a new logger",
     credentials: { instrumentationKey: "11................a1" },
     loggerType: "applicationInsights",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.logger.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    loggerId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or Updates a logger.
+ * This sample demonstrates how to creates or Updates a logger.
  *
- * @summary Creates or Updates a logger.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateEHLogger.json
+ * @summary creates or Updates a logger.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateEHLogger.json
  */
-async function apiManagementCreateEhLogger(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const loggerId = "eh1";
-  const parameters: LoggerContract = {
+async function apiManagementCreateEHLogger(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.logger.createOrUpdate("rg1", "apimService1", "eh1", {
     description: "adding a new logger",
     credentials: {
       name: "hydraeventhub",
@@ -58,21 +40,13 @@ async function apiManagementCreateEhLogger(): Promise<void> {
         "Endpoint=sb://hydraeventhub-ns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=********=",
     },
     loggerType: "azureEventHub",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.logger.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    loggerId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await apiManagementCreateAiLogger();
-  await apiManagementCreateEhLogger();
+  await apiManagementCreateAILogger();
+  await apiManagementCreateEHLogger();
 }
 
 main().catch(console.error);

@@ -203,12 +203,7 @@ export interface AccessKeysOutput {
 export interface CollectionOutput {
   /** Gets the state of the provisioning. */
   readonly collectionProvisioningState?:
-    | "Unknown"
-    | "Creating"
-    | "Moving"
-    | "Deleting"
-    | "Failed"
-    | "Succeeded";
+    "Unknown" | "Creating" | "Moving" | "Deleting" | "Failed" | "Succeeded";
   /** Gets or sets the description. */
   description?: string;
   /** Gets or sets the friendly name of the collection. */

@@ -3,52 +3,37 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
+ * This sample demonstrates how to reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
  *
- * @summary Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MaximumSet_Gen.json
+ * @summary reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
+ * x-ms-original-file: 2026-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsReapplyMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] ||
-    "b4f1213b-cacc-4816-8bfb-f30f90643de8";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] ||
-    "VirtualMachineScaleSetReapplyTestRG";
-  const vmScaleSetName = "VMSSReapply-Test-ScaleSet";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "b4f1213b-cacc-4816-8bfb-f30f90643de8";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginReapplyAndWait(
-    resourceGroupName,
-    vmScaleSetName,
+  await client.virtualMachineScaleSets.reapply(
+    "VirtualMachineScaleSetReapplyTestRG",
+    "VMSSReapply-Test-ScaleSet",
   );
-  console.log(result);
 }
 
 /**
- * This sample demonstrates how to Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
+ * This sample demonstrates how to reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
  *
- * @summary Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MinimumSet_Gen.json
+ * @summary reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
+ * x-ms-original-file: 2026-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsReapplyMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] ||
-    "b4f1213b-cacc-4816-8bfb-f30f90643de8";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] ||
-    "VirtualMachineScaleSetReapplyTestRG";
-  const vmScaleSetName = "VMSSReapply-Test-ScaleSet";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "b4f1213b-cacc-4816-8bfb-f30f90643de8";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginReapplyAndWait(
-    resourceGroupName,
-    vmScaleSetName,
+  await client.virtualMachineScaleSets.reapply(
+    "VirtualMachineScaleSetReapplyTestRG",
+    "VMSSReapply-Test-ScaleSet",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

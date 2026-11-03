@@ -1,35 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes the global policy configuration of the Api Management Service.
- *
- * @summary Deletes the global policy configuration of the Api Management Service.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementDeletePolicy.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes the global policy configuration of the Api Management Service.
+ *
+ * @summary deletes the global policy configuration of the Api Management Service.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementDeletePolicy.json
+ */
 async function apiManagementDeletePolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const policyId = "policy";
-  const ifMatch = "*";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.policy.delete(
-    resourceGroupName,
-    serviceName,
-    policyId,
-    ifMatch,
-  );
-  console.log(result);
+  await client.policy.delete("rg1", "apimService1", "policy", "*");
 }
 
 async function main(): Promise<void> {

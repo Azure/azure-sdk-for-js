@@ -1,31 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the Private DNS zones within a resource group.
- *
- * @summary Lists the Private DNS zones within a resource group.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/PrivateZoneListInResourceGroup.json
- */
-
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getPrivateDnsZoneByResourceGroup(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
+/**
+ * This sample demonstrates how to lists the Private DNS zones within a resource group.
+ *
+ * @summary lists the Private DNS zones within a resource group.
+ * x-ms-original-file: 2024-06-01/PrivateZoneListInResourceGroup.json
+ */
+async function getPrivateDNSZoneByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.privateZones.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.privateZones.listByResourceGroup("resourceGroup1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await getPrivateDnsZoneByResourceGroup();
+  await getPrivateDNSZoneByResourceGroup();
 }
 
 main().catch(console.error);

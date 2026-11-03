@@ -1,51 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates azure databricks accessConnector.
- *
- * @summary Creates or updates azure databricks accessConnector.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorCreateOrUpdate.json
- */
-
-import type { AccessConnector } from "@azure/arm-databricks";
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates Azure Databricks Access Connector.
+ *
+ * @summary creates or updates Azure Databricks Access Connector.
+ * x-ms-original-file: 2026-01-01/AccessConnectorCreateOrUpdate.json
+ */
 async function createAnAzureDatabricksAccessConnectorWithSystemAssignedIdentity(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const connectorName = "myAccessConnector";
-  const parameters: AccessConnector = { location: "westus" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.accessConnectors.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    connectorName,
-    parameters,
-  );
+  const result = await client.accessConnectors.createOrUpdate("rg", "myAccessConnector", {
+    location: "westus",
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates azure databricks accessConnector.
+ * This sample demonstrates how to creates or updates Azure Databricks Access Connector.
  *
- * @summary Creates or updates azure databricks accessConnector.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorCreateOrUpdateWithUserAssigned.json
+ * @summary creates or updates Azure Databricks Access Connector.
+ * x-ms-original-file: 2026-01-01/AccessConnectorCreateOrUpdateWithUserAssigned.json
  */
 async function createAnAzureDatabricksAccessConnectorWithUserAssignedIdentity(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const connectorName = "myAccessConnector";
-  const parameters: AccessConnector = { location: "westus" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.accessConnectors.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    connectorName,
-    parameters,
-  );
+  const result = await client.accessConnectors.createOrUpdate("rg", "myAccessConnector", {
+    location: "westus",
+  });
   console.log(result);
 }
 

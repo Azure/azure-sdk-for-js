@@ -7,7 +7,7 @@ In this document, we describe how to address common linting issues for a package
 Our custom linting rules and recommended configurations is hosted in the `@azure/eslint-plugin-azure-sdk` package. You MUST build it first before linting any SDK packages.
 
 - `pnpm install`
-- `pnpm build --filter=@azure/eslint-plugin-azure-sdk...`
+- `pnpm turbo build --filter=@azure/eslint-plugin-azure-sdk... --token 1`
 
 It also gets built as a dependency of any SDK packages.
 
@@ -29,5 +29,21 @@ For linting issues that `lint:fix` script could not resolve, you will need to ex
 For documentation on `eslint` rules, refer to https://eslint.org/docs/latest/rules/.
 
 For documentation on `typescript-eslint` rules, refer to https://typescript-eslint.io/rules/
+
+## Cross-package `instanceof` checks
+
+Do not use `instanceof` with a class from another package. The check compares constructor identity.
+It can return `false` when an application loads two copies of the package.
+
+Use the structural type guard from the package that defines the class:
+
+- Use `isRestError` for `RestError`.
+- Use `isKeyCredential` for `AzureKeyCredential`.
+- Use `isNamedKeyCredential` for `AzureNamedKeyCredential`.
+- Use `isSASCredential` for `AzureSASCredential`.
+- Use `isPipelineLike` for `Pipeline`.
+
+If the current package defines the class, keep the `instanceof` check inside its type guard.
+Disable `no-restricted-syntax` only on that line. Add a comment that explains why the check is safe.
 
 For a generated package whose name starts with `@azure/arm-` or `@azure-rest/`, there might be "tsdoc/syntax" warnings because generated code files often contains some characters in reference docs that are not recommended in TSDoc. We should NEVER fix auto-generated files. You can add rules to suppress the "tsdoc/syntax" rules in the package's ESLint configuration file eslint.config.mjs. Create that file by using one from other packages as a template but do not copy rules that don't apply.

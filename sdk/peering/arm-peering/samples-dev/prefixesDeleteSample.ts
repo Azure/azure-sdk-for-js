@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an existing prefix with the specified name under the given subscription, resource group and peering service.
- *
- * @summary Deletes an existing prefix with the specified name under the given subscription, resource group and peering service.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/DeletePeeringServicePrefix.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to deletes an existing prefix with the specified name under the given subscription, resource group and peering service.
+ *
+ * @summary deletes an existing prefix with the specified name under the given subscription, resource group and peering service.
+ * x-ms-original-file: 2025-05-01/DeletePeeringServicePrefix.json
+ */
 async function deleteAPrefixAssociatedWithThePeeringService(): Promise<void> {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
-  const peeringServiceName = "peeringServiceName";
-  const prefixName = "peeringServicePrefixName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
-  const result = await client.prefixes.delete(resourceGroupName, peeringServiceName, prefixName);
-  console.log(result);
+  await client.prefixes.delete("rgName", "peeringServiceName", "peeringServicePrefixName");
 }
 
-deleteAPrefixAssociatedWithThePeeringService().catch(console.error);
+async function main(): Promise<void> {
+  await deleteAPrefixAssociatedWithThePeeringService();
+}
+
+main().catch(console.error);

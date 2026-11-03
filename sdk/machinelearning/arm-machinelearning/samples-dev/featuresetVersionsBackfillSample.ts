@@ -1,46 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Backfill.
- *
- * @summary Backfill.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/FeaturesetVersion/backfill.json
- */
-
-import type { FeaturesetVersionBackfillRequest } from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to backfill.
+ *
+ * @summary backfill.
+ * x-ms-original-file: 2026-03-15-preview/Workspace/FeaturesetVersion/backfill.json
+ */
 async function backfillWorkspaceFeaturesetVersion(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
-  const workspaceName = "my-aml-workspace";
-  const name = "string";
-  const version = "string";
-  const body: FeaturesetVersionBackfillRequest = {
-    description: "string",
-    dataAvailabilityStatus: ["None"],
-    displayName: "string",
-    featureWindow: {
-      featureWindowEnd: new Date("2020-01-01T12:34:56.999+00:51"),
-      featureWindowStart: new Date("2020-01-01T12:34:56.999+00:51"),
-    },
-    jobId: "string",
-    resource: { instanceType: "string" },
-    sparkConfiguration: { string: "string" },
-    tags: { string: "string" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.featuresetVersions.beginBackfillAndWait(
-    resourceGroupName,
-    workspaceName,
-    name,
-    version,
-    body,
+  const result = await client.featuresetVersions.backfill(
+    "test-rg",
+    "my-aml-workspace",
+    "string",
+    "string",
+    {
+      description: "string",
+      dataAvailabilityStatus: ["None"],
+      displayName: "string",
+      featureWindow: {
+        featureWindowEnd: new Date("2020-01-01T12:34:56.999+00:51"),
+        featureWindowStart: new Date("2020-01-01T12:34:56.999+00:51"),
+      },
+      jobId: "string",
+      resource: { instanceType: "string" },
+      sparkConfiguration: { string: "string" },
+      tags: { string: "string" },
+    },
   );
   console.log(result);
 }

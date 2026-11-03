@@ -1,35 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Reconcile network security perimeter configuration for the Azure AI Search resource provider. This triggers a manual resync with network security perimeter configurations by ensuring the search service carries the latest configuration.
- *
- * @summary Reconcile network security perimeter configuration for the Azure AI Search resource provider. This triggers a manual resync with network security perimeter configurations by ensuring the search service carries the latest configuration.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/NetworkSecurityPerimeterConfigurationsReconcile.json
- */
-
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function reconcileNspConfig(): Promise<void> {
-  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
-  const searchServiceName = "mysearchservice";
-  const nspConfigName = "00000001-2222-3333-4444-111144444444.assoc1";
+/**
+ * This sample demonstrates how to reconcile network security perimeter configuration for the Azure AI Search resource provider. This triggers a manual resync with network security perimeter configurations by ensuring the search service carries the latest configuration.
+ *
+ * @summary reconcile network security perimeter configuration for the Azure AI Search resource provider. This triggers a manual resync with network security perimeter configurations by ensuring the search service carries the latest configuration.
+ * x-ms-original-file: 2026-11-01/NetworkSecurityPerimeterConfigurationsReconcile.json
+ */
+async function reconcileNSPConfig(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkSecurityPerimeterConfigurations.beginReconcileAndWait(
-      resourceGroupName,
-      searchServiceName,
-      nspConfigName,
-    );
-  console.log(result);
+  await client.networkSecurityPerimeterConfigurations.reconcile(
+    "rg1",
+    "mysearchservice",
+    "00000001-2222-3333-4444-111144444444.assoc1",
+  );
 }
 
 async function main(): Promise<void> {
-  await reconcileNspConfig();
+  await reconcileNSPConfig();
 }
 
 main().catch(console.error);

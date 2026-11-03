@@ -5,6 +5,7 @@ import type { Instrumentation } from "@opentelemetry/instrumentation";
 import type { StatsbeatEnvironmentConfig } from "../types.js";
 import { AZURE_MONITOR_STATSBEAT_FEATURES, StatsbeatInstrumentationMap } from "../types.js";
 import { Logger } from "../shared/logging/index.js";
+import { addNumberFlag } from "./common.js";
 
 /**
  * Patch OpenTelemetry Instrumentation enablement to update the statsbeat environment variable with the enabled instrumentations
@@ -27,9 +28,12 @@ export function patchOpenTelemetryInstrumentationEnable(): void {
         );
         let updatedStatsbeat = {};
         for (let i = 0; i < instrumentations.length; i++) {
+          statsbeatOptions.instrumentation = addNumberFlag(
+            statsbeatOptions.instrumentation,
+            StatsbeatInstrumentationMap.get(instrumentations[i].instrumentationName) || 0,
+          );
           updatedStatsbeat = {
-            instrumentation: (statsbeatOptions.instrumentation |=
-              StatsbeatInstrumentationMap.get(instrumentations[i].instrumentationName) || 0),
+            instrumentation: statsbeatOptions.instrumentation,
             feature: statsbeatOptions.feature,
           };
         }

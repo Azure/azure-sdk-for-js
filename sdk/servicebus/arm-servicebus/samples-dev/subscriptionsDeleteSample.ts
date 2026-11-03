@@ -1,32 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a subscription from the specified topic.
- *
- * @summary Deletes a subscription from the specified topic.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Subscriptions/SBSubscriptionDelete.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes a subscription from the specified topic.
+ *
+ * @summary deletes a subscription from the specified topic.
+ * x-ms-original-file: 2026-01-01/Subscriptions/SBSubscriptionDelete.json
+ */
 async function subscriptionDelete(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
-  const namespaceName = "sdk-Namespace-5882";
-  const topicName = "sdk-Topics-1804";
-  const subscriptionName = "sdk-Subscriptions-3670";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
-  const result = await client.subscriptions.delete(
-    resourceGroupName,
-    namespaceName,
-    topicName,
-    subscriptionName,
+  await client.subscriptions.delete(
+    "ResourceGroup",
+    "sdk-Namespace-5882",
+    "sdk-Topics-1804",
+    "sdk-Subscriptions-3670",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

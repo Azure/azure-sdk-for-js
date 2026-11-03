@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates the Attestation Provider.
- *
- * @summary Updates the Attestation Provider.
- * x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2020-10-01/examples/Update_AttestationProvider.json
- */
-
-import type { AttestationServicePatchParams } from "@azure/arm-attestation";
 import { AttestationManagementClient } from "@azure/arm-attestation";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to updates the Attestation Provider.
+ *
+ * @summary updates the Attestation Provider.
+ * x-ms-original-file: 2021-06-01/Update_AttestationProvider.json
+ */
 async function attestationProvidersUpdate(): Promise<void> {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "MyResourceGroup";
-  const providerName = "myattestationprovider";
-  const updateParams: AttestationServicePatchParams = {
-    tags: { property1: "Value1", property2: "Value2", property3: "Value3" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AttestationManagementClient(credential, subscriptionId);
   const result = await client.attestationProviders.update(
-    resourceGroupName,
-    providerName,
-    updateParams,
+    "MyResourceGroup",
+    "myattestationprovider",
+    {
+      properties: { publicNetworkAccess: "Disabled", tpmAttestationAuthentication: "Disabled" },
+      tags: { Property1: "Value1", Property2: "Value2", Property3: "Value3" },
+    },
   );
   console.log(result);
 }
 
-attestationProvidersUpdate().catch(console.error);
+async function main(): Promise<void> {
+  await attestationProvidersUpdate();
+}
+
+main().catch(console.error);

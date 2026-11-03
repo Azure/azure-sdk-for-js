@@ -30,7 +30,7 @@ export function _getOperationResultSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -38,21 +38,25 @@ export function _getOperationResultSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
 export async function _getOperationResultDeserialize(
   result: PathUncheckedResponse,
-): Promise<Vault> {
+): Promise<Vault | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return vaultDeserializer(result.body);
@@ -65,7 +69,7 @@ export async function getOperationResult(
   vaultName: string,
   operationId: string,
   options: GetOperationResultOptionalParams = { requestOptions: {} },
-): Promise<Vault | null> {
+): Promise<Vault | void> {
   const result = await _getOperationResultSend(
     context,
     resourceGroupName,
@@ -90,7 +94,7 @@ export function _getOperationStatusSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -98,10 +102,7 @@ export function _getOperationStatusSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -111,7 +112,10 @@ export async function _getOperationStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 

@@ -3,19 +3,17 @@
 
 import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get Alias Subscription.
+ * This sample demonstrates how to get Alias Subscription.
  *
- * @summary Get Alias Subscription.
- * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/getAlias.json
+ * @summary get Alias Subscription.
+ * x-ms-original-file: 2025-11-01-preview/getAlias.json
  */
 async function getAlias(): Promise<void> {
-  const aliasName = "aliasForNewSub";
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
-  const result = await client.alias.get(aliasName);
+  const result = await client.alias.get("dummyalias");
   console.log(result);
 }
 

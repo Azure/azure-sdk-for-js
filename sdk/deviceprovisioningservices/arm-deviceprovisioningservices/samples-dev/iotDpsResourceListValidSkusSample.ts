@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of valid SKUs and tiers for a provisioning service.
  *
  * @summary gets the list of valid SKUs and tiers for a provisioning service.
- * x-ms-original-file: 2025-02-01-preview/DPSGetValidSku.json
+ * x-ms-original-file: 2026-11-01/DPSGetValidSku.json
  */
 async function dpsGetValidSku(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,8 +16,8 @@ async function dpsGetValidSku(): Promise<void> {
   const client = new IotDpsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.iotDpsResource.listValidSkus(
-    "myResourceGroup",
     "myFirstProvisioningService",
+    "myResourceGroup",
   )) {
     resArray.push(item);
   }

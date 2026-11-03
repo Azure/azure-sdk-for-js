@@ -1,67 +1,59 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create a Volume.
- *
- * @summary Create a Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_Create_MaximumSet_Gen.json
- */
-
-import { Volume, ElasticSanManagement } from "@azure/arm-elasticsan";
+import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create a Volume.
+ *
+ * @summary create a Volume.
+ * x-ms-original-file: 2026-05-01-preview/Volumes_Create_MaximumSet_Gen.json
+ */
 async function volumesCreateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
-  const elasticSanName = "elasticsanname";
-  const volumeGroupName = "volumegroupname";
-  const volumeName = "volumename";
-  const parameters: Volume = {
-    properties: {
-      creationData: { createSource: "None", sourceId: "mdonegivjquite" },
-      managedBy: { resourceId: "pclpkrpkpmvcsegcubrakcoodrubo" },
-      sizeGiB: 23,
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
-  const result = await client.volumes.beginCreateAndWait(
-    resourceGroupName,
-    elasticSanName,
-    volumeGroupName,
-    volumeName,
-    parameters,
+  const result = await client.volumes.create(
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+    "volumename",
+    {
+      properties: {
+        creationData: { createSource: "None", sourceId: "mdonegivjquite" },
+        managedBy: [
+          {
+            clientId: "pclpkrpkpmvcsegcubrakcoodrubo",
+            version: 1,
+            resourceIds: [
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SomeProvider/someResource/myResource",
+            ],
+          },
+        ],
+        sizeGiB: 23,
+      },
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create a Volume.
+ * This sample demonstrates how to create a Volume.
  *
- * @summary Create a Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_Create_MinimumSet_Gen.json
+ * @summary create a Volume.
+ * x-ms-original-file: 2026-05-01-preview/Volumes_Create_MinimumSet_Gen.json
  */
 async function volumesCreateMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
-  const elasticSanName = "elasticsanname";
-  const volumeGroupName = "volumegroupname";
-  const volumeName = "volumename";
-  const parameters: Volume = { properties: { sizeGiB: 9 } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
-  const result = await client.volumes.beginCreateAndWait(
-    resourceGroupName,
-    elasticSanName,
-    volumeGroupName,
-    volumeName,
-    parameters,
+  const result = await client.volumes.create(
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+    "volumename",
+    { properties: { sizeGiB: 9 } },
   );
   console.log(result);
 }

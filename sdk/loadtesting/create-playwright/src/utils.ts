@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { exec } from "node:child_process";
+import { execFile } from "@azure/core-process";
 import fs from "node:fs";
 import path, { extname } from "node:path";
-import type { CLIArguments, PlaywrightServiceInitConfig } from "./types.js";
+import type { CLIArguments, PlaywrightServiceInitConfig, ProcessCommand } from "./types.js";
 import { ErrorMessages, Extensions, Languages } from "./constants.js";
 
-export const executeCommand = (command: string): Promise<string> => {
-  return new Promise<string>((resolve, reject) => {
-    exec(command, (error, stdout, _) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(stdout);
-      }
-    });
+export const executeCommand = async (command: ProcessCommand): Promise<string> => {
+  const { stdout } = await execFile(command.command, command.args, {
+    allowWindowsBatchFiles: true,
+    encoding: "utf8",
   });
+  return stdout;
+};
+
+export const formatCommand = (command: ProcessCommand): string => {
+  return [command.command, ...command.args].join(" ");
 };
 
 export const getLanguageAndConfigInfoFromDirectory = (): PlaywrightServiceInitConfig => {

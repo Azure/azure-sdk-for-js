@@ -1,28 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create artifacts from a existing image template
- *
- * @summary Create artifacts from a existing image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/RunImageTemplate.json
- */
-
 import { ImageBuilderClient } from "@azure/arm-imagebuilder";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create artifacts from a existing image template
+ *
+ * @summary create artifacts from a existing image template
+ * x-ms-original-file: 2025-10-01/RunImageTemplate.json
+ */
 async function createImageSFromExistingImageTemplate(): Promise<void> {
-  const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
-  const imageTemplateName = "myImageTemplate";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ImageBuilderClient(credential, subscriptionId);
-  const result = await client.virtualMachineImageTemplates.beginRunAndWait(
-    resourceGroupName,
-    imageTemplateName,
-  );
-  console.log(result);
+  await client.virtualMachineImageTemplates.run("myResourceGroup", "myImageTemplate");
 }
 
 async function main(): Promise<void> {

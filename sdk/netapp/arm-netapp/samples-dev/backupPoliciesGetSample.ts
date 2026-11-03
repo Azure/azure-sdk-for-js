@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a particular backup Policy
  *
  * @summary get a particular backup Policy
- * x-ms-original-file: 2025-09-01-preview/BackupPolicies_Get.json
+ * x-ms-original-file: 2026-08-15-preview/BackupPolicies_Get.json
  */
-async function backupsGet(): Promise<void> {
+async function backupPoliciesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetAppManagementClient(credential, subscriptionId);
@@ -19,7 +19,7 @@ async function backupsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await backupsGet();
+  await backupPoliciesGet();
 }
 
 main().catch(console.error);

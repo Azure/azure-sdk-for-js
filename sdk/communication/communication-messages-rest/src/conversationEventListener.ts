@@ -11,9 +11,9 @@ import type {
   ParticipantsRemovedEvent,
 } from "./signaling/events.js";
 import type { CommunicationTokenCredential } from "@azure/communication-common";
-import { EventEmitter } from "events";
+import { EventEmitter } from "eventemitter3";
 import { logger } from "./generated/src/logger.js";
-import { getSignalingClient } from "./signaling/signalingClient.js";
+import { getSignalingClient } from "#platform/signaling/signalingClient";
 import type { MessagesServiceClientOptions } from "./generated/src/messagesServiceClient.js";
 
 export interface ConversationEventListener {

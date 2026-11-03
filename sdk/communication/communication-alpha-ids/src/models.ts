@@ -32,7 +32,7 @@ export interface GetPreRegisteredAlphaIdCountriesOptions extends AlphaIdsGetPreR
  */
 export interface UpsertConfigurationOptions extends OperationOptions {}
 
-export {
+export type {
   DynamicAlphaIdConfiguration,
   AlphaId,
   AlphaIdsGetAlphaIdsOptionalParams,

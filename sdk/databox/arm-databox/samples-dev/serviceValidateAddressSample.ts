@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { DataBoxManagementClient } from "@azure/arm-databox";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to [DEPRECATED NOTICE: This operation will soon be removed]. This method validates the customer shipping address and provide alternate addresses if any.
  *
  * @summary [DEPRECATED NOTICE: This operation will soon be removed]. This method validates the customer shipping address and provide alternate addresses if any.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/ValidateAddressPost.json
+ * x-ms-original-file: 2025-07-01/ValidateAddressPost.json
  */
-
-import { ValidateAddress, DataBoxManagementClient } from "@azure/arm-databox";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function validateAddressPost(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const location = "westus";
-  const validateAddress: ValidateAddress = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "YourSubscriptionId";
+  const client = new DataBoxManagementClient(credential, subscriptionId);
+  const result = await client.service.validateAddress("westus", {
     deviceType: "DataBox",
     model: "DataBox",
     shippingAddress: {
@@ -30,13 +28,7 @@ async function validateAddressPost(): Promise<void> {
       streetAddress2: "XXXX XXXX",
     },
     validationType: "ValidateAddress",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.service.validateAddress(
-    location,
-    validateAddress,
-  );
+  });
   console.log(result);
 }
 

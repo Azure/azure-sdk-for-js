@@ -19,7 +19,7 @@ use-extension:
   "@autorest/typescript": "6.0.34"
 azure-arm: false
 add-credentials: false
-package-version: 1.2.0-beta.4
+package-version: 1.2.0-beta.5
 v3: true
 tracing-info:
   namespace: "Microsoft.Communication"

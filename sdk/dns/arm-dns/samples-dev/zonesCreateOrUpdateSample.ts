@@ -1,26 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a DNS zone. Does not modify DNS records within the zone.
- *
- * @summary Creates or updates a DNS zone. Does not modify DNS records within the zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/CreateOrUpdateZone.json
- */
-
-import type { Zone } from "@azure/arm-dns";
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a DNS zone. Does not modify DNS records within the zone.
+ *
+ * @summary creates or updates a DNS zone. Does not modify DNS records within the zone.
+ * x-ms-original-file: 2023-07-01-preview/CreateOrUpdateZone.json
+ */
 async function createZone(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
-  const parameters: Zone = { location: "Global", tags: { key1: "value1" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.zones.createOrUpdate(resourceGroupName, zoneName, parameters);
+  const result = await client.zones.createOrUpdate("rg1", "zone1", {
+    location: "Global",
+    tags: { key1: "value1" },
+  });
   console.log(result);
 }
 

@@ -44,7 +44,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -54,7 +54,7 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -68,7 +68,10 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -89,7 +92,8 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, fleetName, managedNamespaceName, properties, options),
-    resourceLocationConfig: "location",
+    resourceLocationConfig: "original-uri",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<FleetManagedNamespace>, FleetManagedNamespace>;
 }
 
@@ -97,9 +101,7 @@ export function _listByFleetSend(
   context: Client,
   resourceGroupName: string,
   fleetName: string,
-  options: FleetManagedNamespacesListByFleetOptionalParams = {
-    requestOptions: {},
-  },
+  options: FleetManagedNamespacesListByFleetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/managedNamespaces{?api%2Dversion}",
@@ -107,7 +109,7 @@ export function _listByFleetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,10 +117,7 @@ export function _listByFleetSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -128,7 +127,10 @@ export async function _listByFleetDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -140,16 +142,18 @@ export function listByFleet(
   context: Client,
   resourceGroupName: string,
   fleetName: string,
-  options: FleetManagedNamespacesListByFleetOptionalParams = {
-    requestOptions: {},
-  },
+  options: FleetManagedNamespacesListByFleetOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<FleetManagedNamespace> {
   return buildPagedAsyncIterator(
     context,
     () => _listByFleetSend(context, resourceGroupName, fleetName, options),
     _listByFleetDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
+    },
   );
 }
 
@@ -167,7 +171,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,17 +180,20 @@ export function _$deleteSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -194,11 +201,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a FleetManagedNamespace */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -206,12 +208,13 @@ export function $delete(
   managedNamespaceName: string,
   options: FleetManagedNamespacesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, fleetName, managedNamespaceName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -221,9 +224,7 @@ export function _createOrUpdateSend(
   fleetName: string,
   managedNamespaceName: string,
   resource: FleetManagedNamespace,
-  options: FleetManagedNamespacesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: FleetManagedNamespacesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/managedNamespaces/{managedNamespaceName}{?api%2Dversion}",
@@ -232,7 +233,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -242,8 +243,8 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -257,7 +258,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -271,9 +275,7 @@ export function createOrUpdate(
   fleetName: string,
   managedNamespaceName: string,
   resource: FleetManagedNamespace,
-  options: FleetManagedNamespacesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: FleetManagedNamespacesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FleetManagedNamespace>, FleetManagedNamespace> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -288,6 +290,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<FleetManagedNamespace>, FleetManagedNamespace>;
 }
 
@@ -305,7 +308,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -313,10 +316,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -326,7 +326,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

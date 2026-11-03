@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to the operation to update an experiment.
- *
- * @summary the operation to update an experiment.
- * x-ms-original-file: 2025-01-01/Experiments_Update.json
- */
-
 import { ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to update an experiment.
+ *
+ * @summary update an experiment.
+ * x-ms-original-file: 2026-08-01-preview/Experiments_Update.json
+ */
 async function updateAnExperimentInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";

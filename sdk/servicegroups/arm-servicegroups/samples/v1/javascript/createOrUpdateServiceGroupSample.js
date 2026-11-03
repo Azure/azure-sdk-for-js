@@ -1,0 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ServiceGroupsManagementClient } = require("@azure/arm-servicegroups");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to create or Update a serviceGroup
+ *
+ * @summary create or Update a serviceGroup
+ * x-ms-original-file: 2026-08-01/ServiceGroup_Put.json
+ */
+async function putServiceGroup() {
+  const credential = new DefaultAzureCredential();
+  const client = new ServiceGroupsManagementClient(credential);
+  const result = await client.createOrUpdateServiceGroup("ServiceGroup1", {
+    properties: {
+      attributes: { criticality: 2 },
+      displayName: "ServiceGroup 1 Name",
+      parent: { resourceId: "/providers/Microsoft.Management/serviceGroups/RootGroup" },
+    },
+  });
+  console.log(result);
+}
+
+async function main() {
+  await putServiceGroup();
+}
+
+main().catch(console.error);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an application resource of a given managed cluster.
  *
  * @summary updates an application resource of a given managed cluster.
- * x-ms-original-file: 2025-10-01-preview/ApplicationPatchOperation_example.json
+ * x-ms-original-file: 2026-05-01-preview/ApplicationPatchOperation_example.json
  */
 async function patchAnApplication(): Promise<void> {
   const credential = new DefaultAzureCredential();

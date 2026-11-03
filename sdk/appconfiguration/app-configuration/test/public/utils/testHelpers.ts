@@ -211,7 +211,7 @@ export async function assertThrowsRestError(
   } catch (err: any) {
     console.log("running into ", JSON.stringify(err));
     if (!(err instanceof Error)) {
-      throw new Error("Error is not recognized");
+      throw new Error("Error is not recognized", { cause: err });
     }
     if (err.name === "RestError") {
       const restError = err as RestError;
@@ -234,7 +234,7 @@ export async function assertThrowsAbortError(
     assert.fail(`${message}: No error thrown`);
   } catch (e: any) {
     if (!(e instanceof Error)) {
-      throw new Error("Error is not recognized");
+      throw new Error("Error is not recognized", { cause: e });
     }
     if (isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
       return e;
@@ -246,7 +246,7 @@ export async function assertThrowsAbortError(
 }
 
 /**
- * Assert 2 snapshots with name, retentionPeriod and filters are equal
+ * Assert 2 snapshots with name, retentionPeriod, filters and description are equal
  */
 export function assertEqualSnapshot(
   snapshot1: ConfigurationSnapshot,
@@ -262,5 +262,10 @@ export function assertEqualSnapshot(
     snapshot1.filters,
     snapshot2.filters,
     "Unexpected filters in result from getSnapshot().",
+  );
+  assert.equal(
+    snapshot1.description,
+    snapshot2.description,
+    "Unexpected description in result from getSnapshot().",
   );
 }

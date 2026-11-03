@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
 import type {
   FileSystemListPathsResponse,
   DataLakeServiceClient,
@@ -14,17 +15,16 @@ import {
   DataLakeDirectoryClient,
 } from "../src/index.js";
 import {
+  createAndStartRecorder,
   getDataLakeServiceClient,
   getEncryptionScope,
   getGenericDataLakeServiceClient,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
 } from "./utils/index.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
-import {
+import type {
   Pipeline,
   PipelinePolicy,
   PipelineRequest,
@@ -42,9 +42,7 @@ describe("DataLakeFileSystemClient", () => {
   let serviceClient: DataLakeServiceClient;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -737,9 +735,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       ctx.skip();
     }
 
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
 
     try {
       serviceClient = getGenericDataLakeServiceClient(recorder, "DFS_SOFT_DELETE_");
@@ -1289,9 +1285,7 @@ describe("Version error test", () => {
   let serviceClient: DataLakeServiceClient;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -1320,7 +1314,7 @@ describe("Version error test", () => {
       await fileSystemClient.create();
     } catch (err) {
       assert.isTrue(
-        (err as any).message.startsWith(
+        (err as any).details.message.startsWith(
           "The provided service version is not enabled on this storage account. Please see",
         ),
       );

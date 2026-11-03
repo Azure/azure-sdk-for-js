@@ -1,31 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns list of all operations.
- *
- * @summary Returns list of all operations.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/ListOperations.json
- */
-
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function listOperations(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+/**
+ * This sample demonstrates how to list the operations for the provider
+ *
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2025-07-15/Operations_List.json
+ */
+async function operationsListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listOperations();
+  await operationsListMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -3,26 +3,20 @@
 
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete the provided cloud services network.
+ * This sample demonstrates how to delete the provided cloud services network.
  *
- * @summary Delete the provided cloud services network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/CloudServicesNetworks_Delete.json
+ * @summary delete the provided cloud services network.
+ * x-ms-original-file: 2026-07-01/CloudServicesNetworks_Delete.json
  */
 async function deleteCloudServicesNetwork(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const cloudServicesNetworkName = "cloudServicesNetworkName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
   const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.cloudServicesNetworks.beginDeleteAndWait(
-    resourceGroupName,
-    cloudServicesNetworkName,
+  const result = await client.cloudServicesNetworks.delete(
+    "resourceGroupName",
+    "cloudServicesNetworkName",
   );
   console.log(result);
 }

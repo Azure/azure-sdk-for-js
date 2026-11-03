@@ -3,6 +3,6 @@
 
 export { listByResourceGroup, get } from "./operations.js";
 export {
-  SchemaReferencesListByResourceGroupOptionalParams,
-  SchemaReferencesGetOptionalParams,
+  type SchemaReferencesListByResourceGroupOptionalParams,
+  type SchemaReferencesGetOptionalParams,
 } from "./options.js";

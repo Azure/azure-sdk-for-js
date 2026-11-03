@@ -33,7 +33,7 @@ describe("device and deployment test", () => {
       );
     }
 
-    assert.equal("200", response.status);
+    assert.equal(response.status, "200");
   });
 
   it("get device not found", async () => {
@@ -55,7 +55,7 @@ describe("device and deployment test", () => {
       );
     }
 
-    assert.equal("200", response.status);
+    assert.equal(response.status, "200");
   });
 
   it("get group", async () => {
@@ -69,7 +69,7 @@ describe("device and deployment test", () => {
       );
     }
 
-    assert.equal("200", response.status);
+    assert.equal(response.status, "200");
   });
 
   it("get group not found", async () => {
@@ -91,7 +91,7 @@ describe("device and deployment test", () => {
       );
     }
 
-    assert.equal("200", response.status);
+    assert.equal(response.status, "200");
   });
 
   it("get device class not found", async () => {
@@ -121,7 +121,7 @@ describe("device and deployment test", () => {
       );
     }
 
-    assert.equal("200", response.status);
+    assert.equal(response.status, "200");
   });
 
   it("list best updates for group not found", async () => {
@@ -151,7 +151,7 @@ describe("device and deployment test", () => {
       );
     }
 
-    assert.equal("200", response.status);
+    assert.equal(response.status, "200");
   });
 
   it("list deployments for group not found", { timeout: 600000 }, async () => {

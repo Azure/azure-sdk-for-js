@@ -1,40 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get metric status
- *
- * @summary Get metric status
- * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_GetMetricStatus_MaximumSet_Gen.json
- */
-
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get metric status
+ *
+ * @summary get metric status
+ * x-ms-original-file: 2024-04-24/Monitors_GetMetricStatus_MaximumSet_Gen.json
+ */
 async function monitorsGetMetricStatusMaximumSetGen(): Promise<void> {
-  const subscriptionId = process.env["DYNATRACE_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
-  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "rgDynatrace";
-  const monitorName = "fhcjxnxumkdlgpwanewtkdnyuz";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "1d701e7e-3150-4d33-9279-d4ea03e9110e";
   const client = new DynatraceObservability(credential, subscriptionId);
-  const result = await client.monitors.getMetricStatus(resourceGroupName, monitorName);
+  const result = await client.monitors.getMetricStatus(
+    "rgDynatrace",
+    "fhcjxnxumkdlgpwanewtkdnyuz",
+    {
+      request: {
+        monitoredResourceIds: [
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/publicIPAddresses/00000000-0000-0000-0000-000000000000",
+        ],
+      },
+    },
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get metric status
+ * This sample demonstrates how to get metric status
  *
- * @summary Get metric status
- * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_GetMetricStatus_MinimumSet_Gen.json
+ * @summary get metric status
+ * x-ms-original-file: 2024-04-24/Monitors_GetMetricStatus_MinimumSet_Gen.json
  */
 async function monitorsGetMetricStatusMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["DYNATRACE_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
-  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "rgDynatrace";
-  const monitorName = "fhcjxnxumkdlgpwanewtkdnyuz";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "1d701e7e-3150-4d33-9279-d4ea03e9110e";
   const client = new DynatraceObservability(credential, subscriptionId);
-  const result = await client.monitors.getMetricStatus(resourceGroupName, monitorName);
+  const result = await client.monitors.getMetricStatus("rgDynatrace", "fhcjxnxumkdlgpwanewtkdnyuz");
   console.log(result);
 }
 

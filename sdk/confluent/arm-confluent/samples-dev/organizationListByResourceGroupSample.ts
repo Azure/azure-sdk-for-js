@@ -1,32 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all Organizations under the specified resource group.
- *
- * @summary List all Organizations under the specified resource group.
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_ListByResourceGroup.json
- */
-
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function organizationListByResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+/**
+ * This sample demonstrates how to list all Organizations under the specified resource group.
+ *
+ * @summary list all Organizations under the specified resource group.
+ * x-ms-original-file: 2026-06-02-preview/Organization_ListByResourceGroup_MaximumSet_Gen.json
+ */
+async function organizationListByResourceGroupMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.organization.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.organization.listByResourceGroup("rgconfluent")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await organizationListByResourceGroup();
+  await organizationListByResourceGroupMaximumSet();
 }
 
 main().catch(console.error);

@@ -1,29 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get the regions and skus that are available for RI purchase for the specified Azure subscription.
- *
- * @summary Get the regions and skus that are available for RI purchase for the specified Azure subscription.
- * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/GetCatalog.json
- */
-
-import type { GetCatalogOptionalParams } from "@azure/arm-reservations";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get the regions and skus that are available for RI purchase for the specified Azure subscription.
+ *
+ * @summary get the regions and skus that are available for RI purchase for the specified Azure subscription.
+ * x-ms-original-file: 2022-11-01/GetCatalog.json
+ */
 async function catalog(): Promise<void> {
-  const subscriptionId = "23bc208b-083f-4901-ae85-4f98c0c3b4b6";
-  const reservedResourceType = "VirtualMachines";
-  const location = "eastus";
-  const options: GetCatalogOptionalParams = { reservedResourceType, location };
   const credential = new DefaultAzureCredential();
   const client = new AzureReservationAPI(credential);
   const resArray = new Array();
-  for await (const item of client.listCatalog(subscriptionId, options)) {
+  for await (const item of client.getCatalog("23bc208b-083f-4901-ae85-4f98c0c3b4b6", {
+    reservedResourceType: "VirtualMachines",
+    location: "eastus",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

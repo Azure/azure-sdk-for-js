@@ -1,24 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all the operations.
- *
- * @summary List all the operations.
- * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/OperationsGet.json
- */
-
 import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to list the operations for the provider
+ *
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2025-12-01-preview/OperationsGet.json
+ */
 async function operationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new BillingBenefitsRP(credential);
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new BillingBenefitsRP(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-operationsGet().catch(console.error);
+async function main(): Promise<void> {
+  await operationsGet();
+}
+
+main().catch(console.error);

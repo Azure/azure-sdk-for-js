@@ -4,12 +4,14 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
 import type { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { StreamableMethod } from '@azure-rest/core-client';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -522,6 +524,8 @@ export function isOutputOfType<T extends {
     type: string;
 }>(output: RequiredAction | RequiredToolCall | ToolDefinitionUnion, type: string): output is T;
 
+export { isRestError }
+
 // @public
 export enum KnownVersions {
     V1 = "v1",
@@ -1029,6 +1033,8 @@ export interface ResponseFormatJsonSchemaType {
     jsonSchema: ResponseFormatJsonSchema;
     type: "json_schema";
 }
+
+export { RestError }
 
 // @public
 export type RunAdditionalFieldList = "step_details.tool_calls[*].file_search.results[*].content";

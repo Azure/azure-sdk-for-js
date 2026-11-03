@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceprovisioningservices/arm-deviceprovisioningservices)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-deviceprovisioningservices)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-deviceprovisioningservices?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-deviceprovisioningservices)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceprovisioningservices/arm-deviceprovisioningservices/samples)
 
 ## Getting started

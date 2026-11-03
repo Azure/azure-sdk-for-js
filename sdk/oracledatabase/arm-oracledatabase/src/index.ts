@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { OracleDatabaseManagementClient } from "./oracleDatabaseManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
@@ -24,31 +24,24 @@ export {
   CloudExadataInfrastructureProperties,
   DefinedFileSystemConfiguration,
   MaintenanceWindow,
-  KnownPreference,
   Preference,
   Month,
-  KnownMonthName,
   MonthName,
   DayOfWeek,
-  KnownDayOfWeekName,
   DayOfWeekName,
-  KnownPatchingMode,
   PatchingMode,
   EstimatedPatchingTime,
   CustomerContact,
-  KnownAzureResourceProvisioningState,
   AzureResourceProvisioningState,
-  KnownCloudExadataInfrastructureLifecycleState,
   CloudExadataInfrastructureLifecycleState,
-  KnownComputeModel,
+  ProximityPlacementGroup,
+  ProximityPlacementGroupEntityType,
   ComputeModel,
   ExascaleConfigDetails,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
-  KnownResourceProvisioningState,
   ResourceProvisioningState,
   CloudExadataInfrastructureUpdate,
   CloudExadataInfrastructureUpdateProperties,
@@ -56,30 +49,22 @@ export {
   DbServer,
   DbServerProperties,
   DbServerPatchingDetails,
-  KnownDbServerPatchingStatus,
   DbServerPatchingStatus,
-  KnownDbServerProvisioningState,
   DbServerProvisioningState,
   ProxyResource,
   CloudVmCluster,
   CloudVmClusterProperties,
   FileSystemConfigurationDetails,
-  KnownLicenseModel,
   LicenseModel,
-  KnownDiskRedundancy,
   DiskRedundancy,
-  KnownCloudVmClusterLifecycleState,
   CloudVmClusterLifecycleState,
   NsgCidr,
   PortRange,
   DataCollectionOptions,
   ExadataIormConfig,
   DbIormConfig,
-  KnownIormLifecycleState,
   IormLifecycleState,
-  KnownObjective,
   Objective,
-  KnownExadataVmClusterStorageManagementType,
   ExadataVmClusterStorageManagementType,
   CloudVmClusterUpdate,
   CloudVmClusterUpdateProperties,
@@ -88,19 +73,14 @@ export {
   PrivateIpAddressProperties,
   VirtualNetworkAddress,
   VirtualNetworkAddressProperties,
-  KnownVirtualNetworkAddressLifecycleState,
   VirtualNetworkAddressLifecycleState,
   SystemVersion,
   SystemVersionProperties,
   OracleSubscription,
   OracleSubscriptionProperties,
-  KnownOracleSubscriptionProvisioningState,
   OracleSubscriptionProvisioningState,
-  KnownCloudAccountProvisioningState,
   CloudAccountProvisioningState,
-  KnownIntent,
   Intent,
-  KnownAddSubscriptionOperationState,
   AddSubscriptionOperationState,
   Plan,
   OracleSubscriptionUpdate,
@@ -112,12 +92,9 @@ export {
   AzureSubscriptions,
   DbNode,
   DbNodeProperties,
-  KnownDbNodeProvisioningState,
   DbNodeProvisioningState,
-  KnownDbNodeMaintenanceType,
   DbNodeMaintenanceType,
   DbNodeAction,
-  KnownDbNodeActionEnum,
   DbNodeActionEnum,
   GiVersion,
   GiVersionProperties,
@@ -127,75 +104,50 @@ export {
   DbSystemShapeProperties,
   DnsPrivateView,
   DnsPrivateViewProperties,
-  KnownDnsPrivateViewsLifecycleState,
   DnsPrivateViewsLifecycleState,
   DnsPrivateZone,
   DnsPrivateZoneProperties,
-  KnownDnsPrivateZonesLifecycleState,
   DnsPrivateZonesLifecycleState,
-  KnownZoneType,
   ZoneType,
   FlexComponent,
   FlexComponentProperties,
-  KnownHardwareType,
   HardwareType,
   AutonomousDatabase,
   AutonomousDatabaseBaseProperties,
   AutonomousDatabaseBasePropertiesUnion,
-  KnownDataBaseType,
   DataBaseType,
-  KnownAutonomousMaintenanceScheduleType,
   AutonomousMaintenanceScheduleType,
-  KnownWorkloadType,
   WorkloadType,
-  KnownDisasterRecoveryType,
   DisasterRecoveryType,
   DisasterRecoveryConfigurationDetails,
   AutonomousDatabaseStandbySummary,
-  KnownAutonomousDatabaseLifecycleState,
   AutonomousDatabaseLifecycleState,
   ScheduledOperationsType,
   ApexDetailsType,
   ConnectionStringType,
   AllConnectionStringType,
   ProfileType,
-  KnownConsumerGroup,
   ConsumerGroup,
-  KnownHostFormatType,
   HostFormatType,
-  KnownProtocolType,
   ProtocolType,
-  KnownSessionModeType,
   SessionModeType,
-  KnownSyntaxFormatType,
   SyntaxFormatType,
-  KnownTlsAuthenticationType,
   TlsAuthenticationType,
   ConnectionUrlType,
-  KnownDataSafeStatusType,
   DataSafeStatusType,
-  KnownDatabaseEditionType,
   DatabaseEditionType,
   LongTermBackUpScheduleDetails,
-  KnownRepeatCadenceType,
   RepeatCadenceType,
-  KnownOpenModeType,
   OpenModeType,
-  KnownOperationsInsightsStatusType,
   OperationsInsightsStatusType,
-  KnownPermissionLevelType,
   PermissionLevelType,
-  KnownRoleType,
   RoleType,
+  BackupDestinationType,
   AutonomousDatabaseProperties,
   AutonomousDatabaseCloneProperties,
-  KnownSourceType,
   SourceType,
-  KnownCloneType,
   CloneType,
-  KnownRefreshableModelType,
   RefreshableModelType,
-  KnownRefreshableStatusType,
   RefreshableStatusType,
   AutonomousDatabaseCrossRegionDisasterRecoveryProperties,
   AutonomousDatabaseFromBackupTimestampProperties,
@@ -205,18 +157,14 @@ export {
   DayOfWeekUpdate,
   PeerDbDetails,
   GenerateAutonomousDatabaseWalletDetails,
-  KnownGenerateType,
   GenerateType,
   AutonomousDatabaseWalletFile,
   RestoreAutonomousDatabaseDetails,
   AutonomousDatabaseLifecycleAction,
-  KnownAutonomousDatabaseLifecycleActionEnum,
   AutonomousDatabaseLifecycleActionEnum,
   AutonomousDatabaseBackup,
   AutonomousDatabaseBackupProperties,
-  KnownAutonomousDatabaseBackupLifecycleState,
   AutonomousDatabaseBackupLifecycleState,
-  KnownAutonomousDatabaseBackupType,
   AutonomousDatabaseBackupType,
   AutonomousDatabaseBackupUpdate,
   AutonomousDatabaseBackupUpdateProperties,
@@ -228,12 +176,9 @@ export {
   AutonomousDbVersionProperties,
   ExadbVmCluster,
   ExadbVmClusterProperties,
-  KnownExadbVmClusterLifecycleState,
   ExadbVmClusterLifecycleState,
-  KnownGridImageType,
   GridImageType,
   ExadbVmClusterStorageDetails,
-  KnownShapeAttribute,
   ShapeAttribute,
   ExadbVmClusterUpdate,
   ExadbVmClusterUpdateProperties,
@@ -246,7 +191,6 @@ export {
   ExascaleDbStorageVaultProperties,
   ExascaleDbStorageInputDetails,
   ExascaleDbStorageDetails,
-  KnownExascaleDbStorageVaultLifecycleState,
   ExascaleDbStorageVaultLifecycleState,
   ExascaleDbStorageVaultTagsUpdate,
   NetworkAnchor,
@@ -259,52 +203,174 @@ export {
   ResourceAnchorUpdate,
   DbSystem,
   DbSystemProperties,
-  KnownDbSystemDatabaseEditionType,
   DbSystemDatabaseEditionType,
   DbSystemBaseProperties,
   DbSystemBasePropertiesUnion,
-  KnownDbSystemSourceType,
   DbSystemSourceType,
   DbSystemOptions,
-  KnownStorageManagementType,
   StorageManagementType,
-  KnownDiskRedundancyType,
   DiskRedundancyType,
-  KnownDbSystemLifecycleState,
   DbSystemLifecycleState,
-  KnownStorageVolumePerformanceMode,
   StorageVolumePerformanceMode,
   DbSystemUpdate,
   DbSystemUpdateProperties,
   DbVersion,
   DbVersionProperties,
-  KnownSystemShapes,
+  DatabaseEdition,
+  DatabaseEditionProperties,
+  DatabaseSystemShape,
+  DatabaseSystemShapeProperties,
+  GoldenGateConnection,
+  ConnectionBaseProperties,
+  ConnectionBasePropertiesUnion,
+  ConnectionType,
+  RoutingMethod,
+  ConnectionLifecycleState,
+  KafkaConnectionDetails,
+  KafkaConnectionTechnologyType,
+  KafkaBootstrapServer,
+  MicrosoftFabricConnectionDetails,
+  MicrosoftFabricConnectionTechnologyType,
+  OracleConnectionDetails,
+  OracleConnectionTechnologyType,
+  SessionMode,
+  GoldenGateConnectionUpdate,
+  GoldenGateConnectionUpdateProperties,
+  AssignUnassignDeployment,
+  AssignedDeployment,
+  DeploymentConnectionAssignmentProperties,
+  GoldenGateConnectionAssignmentLifecycleState,
+  GoldenGateDeployment,
+  DeploymentProperties,
+  BackupScheduleType,
+  FrequencyType,
+  CategoryType,
+  DeploymentType,
+  SetupType,
+  DeploymentLifecycleState,
+  MaintenanceConfigurationType,
+  MaintenanceWindowType,
+  OggDeploymentDetails,
+  CredentialType,
+  GroupToRolesMappingDetails,
+  GoldenGateDeploymentUpdate,
+  GoldenGateDeploymentUpdateProperties,
+  AssignUnassignConnection,
+  AssignedConnection,
   SystemShapes,
-  KnownShapeFamily,
   ShapeFamily,
-  KnownBaseDbSystemShapes,
+  GiMinorVersionSortOrder,
   BaseDbSystemShapes,
-  KnownShapeFamilyType,
   ShapeFamilyType,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownPreference,
+  KnownMonthName,
+  KnownDayOfWeekName,
+  KnownPatchingMode,
+  KnownAzureResourceProvisioningState,
+  KnownCloudExadataInfrastructureLifecycleState,
+  KnownProximityPlacementGroupEntityType,
+  KnownComputeModel,
+  KnownCreatedByType,
+  KnownResourceProvisioningState,
+  KnownDbServerPatchingStatus,
+  KnownDbServerProvisioningState,
+  KnownLicenseModel,
+  KnownDiskRedundancy,
+  KnownCloudVmClusterLifecycleState,
+  KnownIormLifecycleState,
+  KnownObjective,
+  KnownExadataVmClusterStorageManagementType,
+  KnownVirtualNetworkAddressLifecycleState,
+  KnownOracleSubscriptionProvisioningState,
+  KnownCloudAccountProvisioningState,
+  KnownIntent,
+  KnownAddSubscriptionOperationState,
+  KnownDbNodeProvisioningState,
+  KnownDbNodeMaintenanceType,
+  KnownDbNodeActionEnum,
+  KnownDnsPrivateViewsLifecycleState,
+  KnownDnsPrivateZonesLifecycleState,
+  KnownZoneType,
+  KnownHardwareType,
+  KnownDataBaseType,
+  KnownAutonomousMaintenanceScheduleType,
+  KnownWorkloadType,
+  KnownDisasterRecoveryType,
+  KnownAutonomousDatabaseLifecycleState,
+  KnownConsumerGroup,
+  KnownHostFormatType,
+  KnownProtocolType,
+  KnownSessionModeType,
+  KnownSyntaxFormatType,
+  KnownTlsAuthenticationType,
+  KnownDataSafeStatusType,
+  KnownDatabaseEditionType,
+  KnownRepeatCadenceType,
+  KnownOpenModeType,
+  KnownOperationsInsightsStatusType,
+  KnownPermissionLevelType,
+  KnownRoleType,
+  KnownBackupDestinationType,
+  KnownSourceType,
+  KnownCloneType,
+  KnownRefreshableModelType,
+  KnownRefreshableStatusType,
+  KnownGenerateType,
+  KnownAutonomousDatabaseLifecycleActionEnum,
+  KnownAutonomousDatabaseBackupLifecycleState,
+  KnownAutonomousDatabaseBackupType,
+  KnownExadbVmClusterLifecycleState,
+  KnownGridImageType,
+  KnownShapeAttribute,
+  KnownExascaleDbStorageVaultLifecycleState,
+  KnownDbSystemDatabaseEditionType,
+  KnownDbSystemSourceType,
+  KnownStorageManagementType,
+  KnownDiskRedundancyType,
+  KnownDbSystemLifecycleState,
+  KnownStorageVolumePerformanceMode,
+  KnownConnectionType,
+  KnownRoutingMethod,
+  KnownConnectionLifecycleState,
+  KnownKafkaConnectionTechnologyType,
+  KnownMicrosoftFabricConnectionTechnologyType,
+  KnownOracleConnectionTechnologyType,
+  KnownSessionMode,
+  KnownGoldenGateConnectionAssignmentLifecycleState,
+  KnownFrequencyType,
+  KnownCategoryType,
+  KnownDeploymentType,
+  KnownSetupType,
+  KnownDeploymentLifecycleState,
+  KnownCredentialType,
+  KnownSystemShapes,
+  KnownShapeFamily,
+  KnownGiMinorVersionSortOrder,
+  KnownBaseDbSystemShapes,
+  KnownShapeFamilyType,
   KnownVersions,
 } from "./models/index.js";
-export { OracleDatabaseManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { OracleDatabaseManagementClientOptionalParams } from "./api/index.js";
+export type {
   AutonomousDatabaseBackupsListByParentOptionalParams,
   AutonomousDatabaseBackupsUpdateOptionalParams,
   AutonomousDatabaseBackupsDeleteOptionalParams,
   AutonomousDatabaseBackupsGetOptionalParams,
   AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
 } from "./api/autonomousDatabaseBackups/index.js";
-export {
+export type {
   AutonomousDatabaseCharacterSetsListByLocationOptionalParams,
   AutonomousDatabaseCharacterSetsGetOptionalParams,
 } from "./api/autonomousDatabaseCharacterSets/index.js";
-export {
+export type {
   AutonomousDatabaseNationalCharacterSetsListByLocationOptionalParams,
   AutonomousDatabaseNationalCharacterSetsGetOptionalParams,
 } from "./api/autonomousDatabaseNationalCharacterSets/index.js";
-export {
+export type {
   AutonomousDatabasesActionOptionalParams,
   AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
   AutonomousDatabasesShrinkOptionalParams,
@@ -319,11 +385,11 @@ export {
   AutonomousDatabasesCreateOrUpdateOptionalParams,
   AutonomousDatabasesListBySubscriptionOptionalParams,
 } from "./api/autonomousDatabases/index.js";
-export {
+export type {
   AutonomousDatabaseVersionsListByLocationOptionalParams,
   AutonomousDatabaseVersionsGetOptionalParams,
 } from "./api/autonomousDatabaseVersions/index.js";
-export {
+export type {
   CloudExadataInfrastructuresConfigureExascaleOptionalParams,
   CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
   CloudExadataInfrastructuresListByResourceGroupOptionalParams,
@@ -333,7 +399,7 @@ export {
   CloudExadataInfrastructuresCreateOrUpdateOptionalParams,
   CloudExadataInfrastructuresListBySubscriptionOptionalParams,
 } from "./api/cloudExadataInfrastructures/index.js";
-export {
+export type {
   CloudVmClustersListPrivateIpAddressesOptionalParams,
   CloudVmClustersRemoveVmsOptionalParams,
   CloudVmClustersAddVmsOptionalParams,
@@ -344,16 +410,24 @@ export {
   CloudVmClustersCreateOrUpdateOptionalParams,
   CloudVmClustersListBySubscriptionOptionalParams,
 } from "./api/cloudVmClusters/index.js";
-export {
+export type {
+  DatabaseEditionsListByLocationOptionalParams,
+  DatabaseEditionsGetOptionalParams,
+} from "./api/databaseEditions/index.js";
+export type {
+  DatabaseSystemShapeResourcesListByLocationOptionalParams,
+  DatabaseSystemShapeResourcesGetOptionalParams,
+} from "./api/databaseSystemShapeResources/index.js";
+export type {
   DbNodesActionOptionalParams,
   DbNodesListByParentOptionalParams,
   DbNodesGetOptionalParams,
 } from "./api/dbNodes/index.js";
-export {
+export type {
   DbServersListByParentOptionalParams,
   DbServersGetOptionalParams,
 } from "./api/dbServers/index.js";
-export {
+export type {
   DbSystemsListByResourceGroupOptionalParams,
   DbSystemsDeleteOptionalParams,
   DbSystemsUpdateOptionalParams,
@@ -361,23 +435,23 @@ export {
   DbSystemsCreateOrUpdateOptionalParams,
   DbSystemsListBySubscriptionOptionalParams,
 } from "./api/dbSystems/index.js";
-export {
+export type {
   DbSystemShapesListByLocationOptionalParams,
   DbSystemShapesGetOptionalParams,
 } from "./api/dbSystemShapes/index.js";
-export {
+export type {
   DbVersionsListByLocationOptionalParams,
   DbVersionsGetOptionalParams,
 } from "./api/dbVersions/index.js";
-export {
+export type {
   DnsPrivateViewsListByLocationOptionalParams,
   DnsPrivateViewsGetOptionalParams,
 } from "./api/dnsPrivateViews/index.js";
-export {
+export type {
   DnsPrivateZonesListByLocationOptionalParams,
   DnsPrivateZonesGetOptionalParams,
 } from "./api/dnsPrivateZones/index.js";
-export {
+export type {
   ExadbVmClustersRemoveVmsOptionalParams,
   ExadbVmClustersListByResourceGroupOptionalParams,
   ExadbVmClustersDeleteOptionalParams,
@@ -386,12 +460,12 @@ export {
   ExadbVmClustersCreateOrUpdateOptionalParams,
   ExadbVmClustersListBySubscriptionOptionalParams,
 } from "./api/exadbVmClusters/index.js";
-export {
+export type {
   ExascaleDbNodesActionOptionalParams,
   ExascaleDbNodesListByParentOptionalParams,
   ExascaleDbNodesGetOptionalParams,
 } from "./api/exascaleDbNodes/index.js";
-export {
+export type {
   ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
   ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
   ExascaleDbStorageVaultsDeleteOptionalParams,
@@ -399,19 +473,43 @@ export {
   ExascaleDbStorageVaultsCreateOptionalParams,
   ExascaleDbStorageVaultsGetOptionalParams,
 } from "./api/exascaleDbStorageVaults/index.js";
-export {
+export type {
   FlexComponentsListByParentOptionalParams,
   FlexComponentsGetOptionalParams,
 } from "./api/flexComponents/index.js";
-export {
+export type {
   GiMinorVersionsGetOptionalParams,
   GiMinorVersionsListByParentOptionalParams,
 } from "./api/giMinorVersions/index.js";
-export {
+export type {
   GiVersionsListByLocationOptionalParams,
   GiVersionsGetOptionalParams,
 } from "./api/giVersions/index.js";
-export {
+export type {
+  GoldenGateConnectionsGetAssignedDeploymentOptionalParams,
+  GoldenGateConnectionsListAssignedDeploymentsByParentOptionalParams,
+  GoldenGateConnectionsUnassignDeploymentOptionalParams,
+  GoldenGateConnectionsAssignDeploymentOptionalParams,
+  GoldenGateConnectionsListByResourceGroupOptionalParams,
+  GoldenGateConnectionsDeleteOptionalParams,
+  GoldenGateConnectionsUpdateOptionalParams,
+  GoldenGateConnectionsGetOptionalParams,
+  GoldenGateConnectionsCreateOrUpdateOptionalParams,
+  GoldenGateConnectionsListBySubscriptionOptionalParams,
+} from "./api/goldenGateConnections/index.js";
+export type {
+  GoldenGateDeploymentsGetAssignedConnectionOptionalParams,
+  GoldenGateDeploymentsListAssignedConnectionsByParentOptionalParams,
+  GoldenGateDeploymentsUnassignConnectionOptionalParams,
+  GoldenGateDeploymentsAssignConnectionOptionalParams,
+  GoldenGateDeploymentsListByResourceGroupOptionalParams,
+  GoldenGateDeploymentsDeleteOptionalParams,
+  GoldenGateDeploymentsUpdateOptionalParams,
+  GoldenGateDeploymentsGetOptionalParams,
+  GoldenGateDeploymentsCreateOrUpdateOptionalParams,
+  GoldenGateDeploymentsListBySubscriptionOptionalParams,
+} from "./api/goldenGateDeployments/index.js";
+export type {
   NetworkAnchorsListByResourceGroupOptionalParams,
   NetworkAnchorsDeleteOptionalParams,
   NetworkAnchorsUpdateOptionalParams,
@@ -419,8 +517,8 @@ export {
   NetworkAnchorsCreateOrUpdateOptionalParams,
   NetworkAnchorsListBySubscriptionOptionalParams,
 } from "./api/networkAnchors/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
   OracleSubscriptionsListActivationLinksOptionalParams,
   OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams,
@@ -431,7 +529,7 @@ export {
   OracleSubscriptionsCreateOrUpdateOptionalParams,
   OracleSubscriptionsListBySubscriptionOptionalParams,
 } from "./api/oracleSubscriptions/index.js";
-export {
+export type {
   ResourceAnchorsListByResourceGroupOptionalParams,
   ResourceAnchorsDeleteOptionalParams,
   ResourceAnchorsUpdateOptionalParams,
@@ -439,17 +537,17 @@ export {
   ResourceAnchorsCreateOrUpdateOptionalParams,
   ResourceAnchorsListBySubscriptionOptionalParams,
 } from "./api/resourceAnchors/index.js";
-export {
+export type {
   SystemVersionsListByLocationOptionalParams,
   SystemVersionsGetOptionalParams,
 } from "./api/systemVersions/index.js";
-export {
+export type {
   VirtualNetworkAddressesListByParentOptionalParams,
   VirtualNetworkAddressesDeleteOptionalParams,
   VirtualNetworkAddressesGetOptionalParams,
   VirtualNetworkAddressesCreateOrUpdateOptionalParams,
 } from "./api/virtualNetworkAddresses/index.js";
-export {
+export type {
   AutonomousDatabaseBackupsOperations,
   AutonomousDatabaseCharacterSetsOperations,
   AutonomousDatabaseNationalCharacterSetsOperations,
@@ -457,6 +555,8 @@ export {
   AutonomousDatabaseVersionsOperations,
   CloudExadataInfrastructuresOperations,
   CloudVmClustersOperations,
+  DatabaseEditionsOperations,
+  DatabaseSystemShapeResourcesOperations,
   DbNodesOperations,
   DbServersOperations,
   DbSystemsOperations,
@@ -470,6 +570,8 @@ export {
   FlexComponentsOperations,
   GiMinorVersionsOperations,
   GiVersionsOperations,
+  GoldenGateConnectionsOperations,
+  GoldenGateDeploymentsOperations,
   NetworkAnchorsOperations,
   OperationsOperations,
   OracleSubscriptionsOperations,
@@ -477,5 +579,7 @@ export {
   SystemVersionsOperations,
   VirtualNetworkAddressesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

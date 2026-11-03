@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { NodeJSReadableStream } from "@azure/storage-common";
 import fs from "node:fs";
-import stream from "node:stream";
+import stream, { Readable } from "node:stream";
 import util from "node:util";
 const pipeline = util.promisify(stream.pipeline);
 
@@ -38,4 +39,61 @@ export async function readStreamToLocalFileWithLogs(
   }
 
   return pipeline(rs, ws);
+}
+
+export class InjectorReadableStream extends Readable {
+  private source: NodeJSReadableStream;
+  public constructor(source: NodeJSReadableStream) {
+    super();
+    this.source = source;
+
+    this.setSourceEventHandlers();
+  }
+
+  public _read(): void {
+    this.source.resume();
+  }
+
+  private setSourceEventHandlers() {
+    this.source.on("data", this.sourceDataHandler);
+    this.source.on("end", this.sourceErrorOrEndHandler);
+    this.source.on("error", this.sourceErrorOrEndHandler);
+    // needed for Node14
+    this.source.on("aborted", this.sourceAbortedHandler);
+  }
+
+  private removeSourceEventHandlers() {
+    this.source.removeListener("data", this.sourceDataHandler);
+    this.source.removeListener("end", this.sourceErrorOrEndHandler);
+    this.source.removeListener("error", this.sourceErrorOrEndHandler);
+    this.source.removeListener("aborted", this.sourceAbortedHandler);
+  }
+
+  private sourceDataHandler = (data: Buffer) => {
+    if (!this.push(data)) {
+      this.source.pause();
+    }
+  };
+
+  private sourceAbortedHandler = () => {
+    const abortError = new Error("The operation was aborted.");
+    this.destroy(abortError);
+  };
+
+  private sourceErrorOrEndHandler = (err?: Error) => {
+    if (err && err.name === "AbortError") {
+      this.destroy(err);
+      return;
+    }
+    this.removeSourceEventHandlers();
+    this.push(null);
+  };
+
+  _destroy(error: Error | null, callback: (error?: Error) => void): void {
+    // remove listener from source and release source
+    this.removeSourceEventHandlers();
+    this.source.destroy();
+
+    callback(error === null ? undefined : error);
+  }
 }

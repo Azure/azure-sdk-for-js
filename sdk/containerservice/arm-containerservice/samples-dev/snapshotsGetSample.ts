@@ -3,24 +3,18 @@
 
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a snapshot.
+ * This sample demonstrates how to gets a snapshot.
  *
- * @summary Gets a snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/SnapshotsGet.json
+ * @summary gets a snapshot.
+ * x-ms-original-file: 2026-08-02-preview/SnapshotsGet.json
  */
 async function getSnapshot(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "snapshot1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.snapshots.get(resourceGroupName, resourceName);
+  const result = await client.snapshots.get("rg1", "snapshot1");
   console.log(result);
 }
 

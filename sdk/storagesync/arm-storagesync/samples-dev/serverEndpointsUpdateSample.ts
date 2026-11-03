@@ -1,44 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Patch a given ServerEndpoint.
- *
- * @summary Patch a given ServerEndpoint.
- * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/ServerEndpoints_Update.json
- */
-
-import type {
-  ServerEndpointUpdateParameters,
-  ServerEndpointsUpdateOptionalParams,
-} from "@azure/arm-storagesync";
 import { MicrosoftStorageSync } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to patch a given ServerEndpoint.
+ *
+ * @summary patch a given ServerEndpoint.
+ * x-ms-original-file: 2025-12-01/ServerEndpoints_Update.json
+ */
 async function serverEndpointsUpdate(): Promise<void> {
-  const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
-  const resourceGroupName = "SampleResourceGroup_1";
-  const storageSyncServiceName = "SampleStorageSyncService_1";
-  const syncGroupName = "SampleSyncGroup_1";
-  const serverEndpointName = "SampleServerEndpoint_1";
-  const parameters: ServerEndpointUpdateParameters = {
-    cloudTiering: "off",
-    localCacheMode: "UpdateLocallyCachedFiles",
-    offlineDataTransfer: "off",
-    tierFilesOlderThanDays: 0,
-    volumeFreeSpacePercent: 100,
-  };
-  const options: ServerEndpointsUpdateOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
   const client = new MicrosoftStorageSync(credential, subscriptionId);
-  const result = await client.serverEndpoints.beginUpdateAndWait(
-    resourceGroupName,
-    storageSyncServiceName,
-    syncGroupName,
-    serverEndpointName,
-    options,
+  const result = await client.serverEndpoints.update(
+    "SampleResourceGroup_1",
+    "SampleStorageSyncService_1",
+    "SampleSyncGroup_1",
+    "SampleServerEndpoint_1",
+    {
+      parameters: {
+        cloudTiering: "off",
+        localCacheMode: "UpdateLocallyCachedFiles",
+        offlineDataTransfer: "off",
+        tierFilesOlderThanDays: 0,
+        volumeFreeSpacePercent: 100,
+      },
+    },
   );
   console.log(result);
 }
 
-serverEndpointsUpdate().catch(console.error);
+async function main(): Promise<void> {
+  await serverEndpointsUpdate();
+}
+
+main().catch(console.error);

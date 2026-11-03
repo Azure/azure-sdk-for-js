@@ -1,39 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List data versions in the data container
- *
- * @summary List data versions in the data container
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/DataVersionBase/list.json
- */
-
-import type { DataVersionsListOptionalParams } from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list data versions in the data container
+ *
+ * @summary list data versions in the data container
+ * x-ms-original-file: 2026-03-15-preview/Workspace/DataVersionBase/list.json
+ */
 async function listWorkspaceDataVersionBase(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
-  const workspaceName = "my-aml-workspace";
-  const name = "string";
-  const orderBy = "string";
-  const top = 1;
-  const tags = "string";
-  const options: DataVersionsListOptionalParams = { orderBy, top, tags };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.dataVersions.list(
-    resourceGroupName,
-    workspaceName,
-    name,
-    options,
-  )) {
+  for await (const item of client.dataVersions.list("test-rg", "my-aml-workspace", "string", {
+    orderBy: "string",
+    top: 1,
+    tags: "string",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

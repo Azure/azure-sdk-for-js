@@ -1,0 +1,40 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export type {
+  AlertProcessingRule,
+  AlertProcessingRuleProperties,
+  Condition,
+  Field,
+  Operator,
+  Schedule,
+  Recurrence,
+  RecurrenceUnion,
+  RecurrenceType,
+  DailyRecurrence,
+  WeeklyRecurrence,
+  DaysOfWeek,
+  MonthlyRecurrence,
+  Action,
+  ActionUnion,
+  ActionType,
+  AddActionGroups,
+  RemoveAllActionGroups,
+  TrackedResource,
+  Resource,
+  SystemData,
+  CreatedByType,
+  ErrorResponse,
+  ErrorResponseBody,
+  PatchObject,
+  PatchProperties,
+} from "./models.js";
+export {
+  KnownField,
+  KnownOperator,
+  KnownRecurrenceType,
+  KnownDaysOfWeek,
+  KnownActionType,
+  KnownCreatedByType,
+  KnownVersions,
+} from "./models.js";

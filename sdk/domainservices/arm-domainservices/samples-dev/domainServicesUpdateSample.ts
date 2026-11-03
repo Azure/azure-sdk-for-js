@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The Update Domain Service operation can be used to update the existing deployment. The update call only supports the properties listed in the PATCH body.
- *
- * @summary The Update Domain Service operation can be used to update the existing deployment. The update call only supports the properties listed in the PATCH body.
- * x-ms-original-file: specification/domainservices/resource-manager/Microsoft.AAD/stable/2021-05-01/examples/UpdateDomainService.json
- */
-
-import type { DomainService } from "@azure/arm-domainservices";
 import { DomainServicesResourceProvider } from "@azure/arm-domainservices";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to the Update Domain Service operation can be used to update the existing deployment. The update call only supports the properties listed in the PATCH body.
+ *
+ * @summary the Update Domain Service operation can be used to update the existing deployment. The update call only supports the properties listed in the PATCH body.
+ * x-ms-original-file: 2025-10-01-preview/UpdateDomainService.json
+ */
 async function updateDomainService(): Promise<void> {
+  const credential = new DefaultAzureCredential();
   const subscriptionId = "1639790a-76a2-4ac4-98d9-8562f5dfcb4d";
-  const resourceGroupName = "TestResourceGroup";
-  const domainServiceName = "TestDomainService.com";
-  const domainService: DomainService = {
+  const client = new DomainServicesResourceProvider(credential, subscriptionId);
+  const result = await client.domainServices.update("TestResourceGroup", "TestDomainService.com", {
     configDiagnostics: {
-      lastExecuted: new Date("2021-05-05T12:00:23Z;"),
+      lastExecuted: new Date("05 May 2021 12:00:23 GMT"),
       validatorResults: [
         {
           issues: [{ descriptionParams: [], id: "AADDS-CFG-DIAG-I20" }],
@@ -31,6 +29,7 @@ async function updateDomainService(): Promise<void> {
     domainSecuritySettings: {
       ntlmV1: "Enabled",
       syncNtlmPasswords: "Enabled",
+      syncOnPremSamAccountName: "Disabled",
       tlsV1: "Disabled",
     },
     filteredSync: "Enabled",
@@ -57,15 +56,12 @@ async function updateDomainService(): Promise<void> {
           "/subscriptions/1639790a-76a2-4ac4-98d9-8562f5dfcb4d/resourceGroups/TestNetworkResourceGroup/providers/Microsoft.Network/virtualNetworks/TestVnetEUS/subnets/TestSubnetEUS",
       },
     ],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DomainServicesResourceProvider(credential, subscriptionId);
-  const result = await client.domainServices.beginUpdateAndWait(
-    resourceGroupName,
-    domainServiceName,
-    domainService,
-  );
+  });
   console.log(result);
 }
 
-updateDomainService().catch(console.error);
+async function main(): Promise<void> {
+  await updateDomainService();
+}
+
+main().catch(console.error);

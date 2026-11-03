@@ -1,60 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Connect to serial port of the target resource
- *
- * @summary Connect to serial port of the target resource
- * x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/SerialPortConnectVMSS.json
- */
-
 import { MicrosoftSerialConsoleClient } from "@azure/arm-serialconsole";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function connectToAScaleSetInstanceSerialPort(): Promise<void> {
-  const subscriptionId = "00000000-00000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
-  const resourceProviderNamespace = "Microsoft.Compute";
-  const parentResourceType = "virtualMachineScaleSets";
-  const parentResource = "myscaleset/virtualMachines/2";
-  const serialPort = "0";
-  const credential = new DefaultAzureCredential();
-  const client = new MicrosoftSerialConsoleClient(credential, subscriptionId);
-  const result = await client.serialPorts.connect(
-    resourceGroupName,
-    resourceProviderNamespace,
-    parentResourceType,
-    parentResource,
-    serialPort,
-  );
-  console.log(result);
-}
-
-connectToAScaleSetInstanceSerialPort().catch(console.error);
-
 /**
- * This sample demonstrates how to Connect to serial port of the target resource
+ * This sample demonstrates how to connect to serial port of the target resource
  *
- * @summary Connect to serial port of the target resource
- * x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/SerialPortConnectVM.json
+ * @summary connect to serial port of the target resource
+ * x-ms-original-file: 2024-07-01/SerialPortConnectVM.json
  */
 async function connectToAVirtualMachineSerialPort(): Promise<void> {
-  const subscriptionId = "00000000-00000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
-  const resourceProviderNamespace = "Microsoft.Compute";
-  const parentResourceType = "virtualMachines";
-  const parentResource = "myVM";
-  const serialPort = "0";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MicrosoftSerialConsoleClient(credential, subscriptionId);
   const result = await client.serialPorts.connect(
-    resourceGroupName,
-    resourceProviderNamespace,
-    parentResourceType,
-    parentResource,
-    serialPort,
+    "myResourceGroup",
+    "Microsoft.Compute",
+    "virtualMachines",
+    "myVM",
+    "0",
   );
   console.log(result);
 }
 
-connectToAVirtualMachineSerialPort().catch(console.error);
+/**
+ * This sample demonstrates how to connect to serial port of the target resource
+ *
+ * @summary connect to serial port of the target resource
+ * x-ms-original-file: 2024-07-01/SerialPortConnectVMSS.json
+ */
+async function connectToAScaleSetInstanceSerialPort(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new MicrosoftSerialConsoleClient(credential, subscriptionId);
+  const result = await client.serialPorts.connect(
+    "myResourceGroup",
+    "Microsoft.Compute",
+    "virtualMachineScaleSets",
+    "myscaleset/virtualMachines/2",
+    "0",
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await connectToAVirtualMachineSerialPort();
+  await connectToAScaleSetInstanceSerialPort();
+}
+
+main().catch(console.error);

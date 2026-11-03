@@ -1,30 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The list of billing requests submitted for the billing profile.
- *
- * @summary The list of billing requests submitted for the billing profile.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRequestsListByBillingProfile.json
- */
-
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to the list of billing requests submitted for the billing profile.
+ *
+ * @summary the list of billing requests submitted for the billing profile.
+ * x-ms-original-file: 2024-04-01/billingRequestsListByBillingProfile.json
+ */
 async function billingRequestsListByBillingProfile(): Promise<void> {
-  const billingAccountName =
-    "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
-  const billingProfileName = "xxxx-xxxx-xxx-xxx";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.billingRequests.listByBillingProfile(
-    billingAccountName,
-    billingProfileName,
+    "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31",
+    "xxxx-xxxx-xxx-xxx",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

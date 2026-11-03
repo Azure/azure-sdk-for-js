@@ -1,29 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Accepts a transfer request.
- *
- * @summary Accepts a transfer request.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/recipientTransfersAccept.json
- */
-
-import type { AcceptTransferRequest } from "@azure/arm-billing";
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to accepts a transfer request.
+ *
+ * @summary accepts a transfer request.
+ * x-ms-original-file: 2024-04-01/recipientTransfersAccept.json
+ */
 async function acceptTransfer(): Promise<void> {
-  const transferName = "aabb123";
-  const parameters: AcceptTransferRequest = {
+  const credential = new DefaultAzureCredential();
+  const client = new BillingManagementClient(credential);
+  const result = await client.recipientTransfers.accept("aabb123", {
     productDetails: [
       { productId: "subscriptionId", productType: "AzureSubscription" },
       { productId: "reservedInstanceId", productType: "AzureReservation" },
     ],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new BillingManagementClient(credential);
-  const result = await client.recipientTransfers.accept(transferName, parameters);
+  });
   console.log(result);
 }
 

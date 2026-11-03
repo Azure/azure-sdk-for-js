@@ -1,0 +1,56 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { Recorder } from "@azure-tools/test-recorder";
+import { createAADRecorder, createAADClient } from "./utils/recordedAADClient.js";
+import type { ContentSafetyClient } from "../../src/index.js";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { isBrowser } from "@azure/core-util";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+
+describe("Content Safety AAD Client Test", () => {
+  let recorder: Recorder;
+  let client: ContentSafetyClient;
+
+  beforeEach(async (ctx) => {
+    recorder = await createAADRecorder(ctx);
+    client = createAADClient(recorder);
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it("analyze text with aad auth", async () => {
+    const response = await client.analyzeText({
+      text: "This is a sample text",
+      categories: ["Hate"],
+      outputType: "FourSeverityLevels",
+    });
+    assert.equal(response.categoriesAnalysis[0]?.category, "Hate");
+    assert.notExists(response.categoriesAnalysis[1]);
+  });
+
+  it("analyze image with aad auth", async () => {
+    let image: Uint8Array;
+    if (isBrowser) {
+      const imagePath = "../../../samples-dev/example-data/image.png";
+      const response = await globalThis.fetch(imagePath);
+      const buffer = await response.arrayBuffer();
+      image = new Uint8Array(buffer);
+    } else {
+      const imagePath = join("samples-dev", "example-data", "image.png");
+      image = readFileSync(imagePath);
+    }
+    const response = await client.analyzeImage({
+      image: {
+        content: image,
+      },
+      categories: ["Sexual"],
+      outputType: "FourSeverityLevels",
+    });
+    assert.equal(response.categoriesAnalysis[0]?.category, "Sexual");
+    assert.notExists(response.categoriesAnalysis[1]);
+  });
+});

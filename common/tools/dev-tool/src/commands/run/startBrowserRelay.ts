@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { startRelayServer } from "../../util/browserRelayServer";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { startRelayServer } from "../../util/browserRelayServer.ts";
 
 export const commandInfo = makeCommandInfo(
   "start-browser-relay",

@@ -3,27 +3,22 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the list of restore point collections in a resource group.
+ * This sample demonstrates how to gets the list of restore point collections in a resource group.
  *
- * @summary Gets the list of restore point collections in a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePointCollection_ListByResourceGroup.json
+ * @summary gets the list of restore point collections in a resource group.
+ * x-ms-original-file: 2026-04-01/restorePointExamples/RestorePointCollection_ListByResourceGroup.json
  */
 async function getsTheListOfRestorePointCollectionsInAResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.restorePointCollections.list(
-    resourceGroupName,
-  )) {
+  for await (const item of client.restorePointCollections.list("myResourceGroup")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

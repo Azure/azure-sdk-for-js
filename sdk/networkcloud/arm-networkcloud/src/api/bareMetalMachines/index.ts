@@ -1,0 +1,41 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  uncordon,
+  start,
+  runReadCommands,
+  runDataExtractsRestricted,
+  runDataExtracts,
+  runCommand,
+  restart,
+  replace,
+  reimage,
+  powerOff,
+  cordon,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export type {
+  BareMetalMachinesUncordonOptionalParams,
+  BareMetalMachinesStartOptionalParams,
+  BareMetalMachinesRunReadCommandsOptionalParams,
+  BareMetalMachinesRunDataExtractsRestrictedOptionalParams,
+  BareMetalMachinesRunDataExtractsOptionalParams,
+  BareMetalMachinesRunCommandOptionalParams,
+  BareMetalMachinesRestartOptionalParams,
+  BareMetalMachinesReplaceOptionalParams,
+  BareMetalMachinesReimageOptionalParams,
+  BareMetalMachinesPowerOffOptionalParams,
+  BareMetalMachinesCordonOptionalParams,
+  BareMetalMachinesListBySubscriptionOptionalParams,
+  BareMetalMachinesListByResourceGroupOptionalParams,
+  BareMetalMachinesDeleteOptionalParams,
+  BareMetalMachinesUpdateOptionalParams,
+  BareMetalMachinesCreateOrUpdateOptionalParams,
+  BareMetalMachinesGetOptionalParams,
+} from "./options.js";

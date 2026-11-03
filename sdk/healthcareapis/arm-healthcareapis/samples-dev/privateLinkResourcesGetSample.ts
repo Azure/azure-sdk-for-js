@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a private link resource that need to be created for a service.
- *
- * @summary Gets a private link resource that need to be created for a service.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/PrivateLinkResourceGet.json
- */
-
 import { HealthcareApisManagementClient } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets a private link resource that need to be created for a service.
+ *
+ * @summary gets a private link resource that need to be created for a service.
+ * x-ms-original-file: 2025-04-01-preview/legacy/PrivateLinkResourceGet.json
+ */
 async function privateLinkResourcesGet(): Promise<void> {
-  const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["HEALTHCAREAPIS_RESOURCE_GROUP"] || "rgname";
-  const resourceName = "service1";
-  const groupName = "fhir";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
-  const result = await client.privateLinkResources.get(resourceGroupName, resourceName, groupName);
+  const result = await client.privateLinkResources.get("rgname", "service1", "fhir");
   console.log(result);
 }
 

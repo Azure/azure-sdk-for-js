@@ -25,6 +25,9 @@ export class DataLakeSASPermissions {
         case "r":
           blobSASPermissions.read = true;
           break;
+        case "t":
+          blobSASPermissions.tag = true;
+          break;
         case "a":
           blobSASPermissions.add = true;
           break;
@@ -91,6 +94,10 @@ export class DataLakeSASPermissions {
    * Specifies Execute access granted.
    */
   public execute: boolean = false;
+  /**
+   * Specifies Tag access granted.
+   */
+  public tag: boolean = false;
 
   /**
    * Specifies Ownership access granted, which allows the caller to set owner, owning group,
@@ -115,6 +122,9 @@ export class DataLakeSASPermissions {
     const permissions: string[] = [];
     if (this.read) {
       permissions.push("r");
+    }
+    if (this.tag) {
+      permissions.push("t");
     }
     if (this.add) {
       permissions.push("a");

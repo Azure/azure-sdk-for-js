@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  Cluster} from "@azure/arm-redisenterprisecache";
-import {
-  RedisEnterpriseManagementClient,
-} from "@azure/arm-redisenterprisecache";
+import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
+ * This sample demonstrates how to creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
  *
- * @summary Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseCreate.json
+ * @summary creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseCreate.json
  */
 async function redisEnterpriseCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
-  const parameters: Cluster = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  const result = await client.redisEnterprise.create("rg1", "cache1", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/your-subscription/resourceGroups/your-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/your-identity":
+          {},
+      },
+    },
+    location: "West US",
     encryption: {
       customerManagedKeyEncryption: {
         keyEncryptionKeyIdentity: {
@@ -30,34 +30,22 @@ async function redisEnterpriseCreate(): Promise<void> {
           userAssignedIdentityResourceId:
             "/subscriptions/your-subscription/resourceGroups/your-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/your-identity",
         },
-        keyEncryptionKeyUrl:
-          "https://your-kv.vault.azure.net/keys/your-key/your-key-version",
+        keyEncryptionKeyUrl: "https://your-kv.vault.azure.net/keys/your-key/your-key-version",
       },
     },
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/yourSubscription/resourceGroups/yourRg/providers/MicrosoftManagedIdentity/userAssignedIdentities/yourIdentity":
-          {},
-      },
-    },
-    location: "West US",
     minimumTlsVersion: "1.2",
     publicNetworkAccess: "Disabled",
+    maintenanceConfiguration: {
+      maintenanceWindows: [
+        { type: "Weekly", duration: "PT6H", startHourUtc: 3, schedule: { dayOfWeek: "Monday" } },
+        { type: "Weekly", duration: "PT6H", startHourUtc: 3, schedule: { dayOfWeek: "Tuesday" } },
+        { type: "Weekly", duration: "PT6H", startHourUtc: 3, schedule: { dayOfWeek: "Wednesday" } },
+      ],
+    },
     sku: { name: "EnterpriseFlash_F300", capacity: 3 },
     tags: { tag1: "value1" },
     zones: ["1", "2", "3"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.redisEnterprise.beginCreateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

@@ -3,27 +3,18 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a snapshot.
+ * This sample demonstrates how to deletes a snapshot.
  *
- * @summary Deletes a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/Snapshot_Delete.json
+ * @summary deletes a snapshot.
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Delete.json
  */
 async function deleteASnapshot(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const snapshotName = "mySnapshot";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.snapshots.beginDeleteAndWait(
-    resourceGroupName,
-    snapshotName,
-  );
-  console.log(result);
+  await client.snapshots.delete("myResourceGroup", "mySnapshot");
 }
 
 async function main(): Promise<void> {

@@ -29,7 +29,7 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name
@@ -50,7 +50,7 @@ async function main() {
 
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   // Create a container

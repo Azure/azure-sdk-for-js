@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets an existing security policy within a profile.
- *
- * @summary Gets an existing security policy within a profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/SecurityPolicies_Get.json
- */
-
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets an existing security policy within a profile.
+ *
+ * @summary gets an existing security policy within a profile.
+ * x-ms-original-file: 2026-10-01/SecurityPolicies_Get.json
+ */
 async function securityPoliciesGet(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
-  const securityPolicyName = "securityPolicy1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.securityPolicies.get(
-    resourceGroupName,
-    profileName,
-    securityPolicyName,
-  );
+  const result = await client.securityPolicies.get("RG", "profile1", "securityPolicy1");
   console.log(result);
 }
 

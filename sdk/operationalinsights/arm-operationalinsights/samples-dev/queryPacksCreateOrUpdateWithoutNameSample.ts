@@ -1,62 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
- *
- * @summary Creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
- * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPacksCreateNoName.json
- */
-
-import type { LogAnalyticsQueryPack } from "@azure/arm-operationalinsights";
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function queryPackCreateNoName(): Promise<void> {
-  const subscriptionId =
-    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "86dc51d3-92ed-4d7e-947a-775ea79b4919";
-  const resourceGroupName =
-    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
-  const logAnalyticsQueryPackPayload: LogAnalyticsQueryPack = {
-    location: "South Central US",
-  };
+/**
+ * This sample demonstrates how to creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
+ *
+ * @summary creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
+ * x-ms-original-file: 2025-07-01/QueryPackUpdateNoName.json
+ */
+async function queryPackUpdateNoName(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4919";
   const client = new OperationalInsightsManagementClient(credential, subscriptionId);
-  const result = await client.queryPacks.createOrUpdateWithoutName(
-    resourceGroupName,
-    logAnalyticsQueryPackPayload,
-  );
+  const result = await client.queryPacks.createOrUpdateWithoutName("my-resource-group", {
+    location: "South Central US",
+    tags: { Tag1: "Value1" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
+ * This sample demonstrates how to creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  *
- * @summary Creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
- * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackUpdateNoName.json
+ * @summary creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
+ * x-ms-original-file: 2025-07-01/QueryPacksCreateNoName.json
  */
-async function queryPackUpdateNoName(): Promise<void> {
-  const subscriptionId =
-    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "86dc51d3-92ed-4d7e-947a-775ea79b4919";
-  const resourceGroupName =
-    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
-  const logAnalyticsQueryPackPayload: LogAnalyticsQueryPack = {
-    location: "South Central US",
-    tags: { tag1: "Value1" },
-  };
+async function queryPackCreateNoName(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4919";
   const client = new OperationalInsightsManagementClient(credential, subscriptionId);
-  const result = await client.queryPacks.createOrUpdateWithoutName(
-    resourceGroupName,
-    logAnalyticsQueryPackPayload,
-  );
+  const result = await client.queryPacks.createOrUpdateWithoutName("my-resource-group", {
+    location: "South Central US",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await queryPackCreateNoName();
   await queryPackUpdateNoName();
+  await queryPackCreateNoName();
 }
 
 main().catch(console.error);

@@ -1,21 +1,112 @@
 # Release History
 
-## 6.1.2 (Unreleased)
+## 6.2.0 (2026-09-16)
 
 ### Features Added
+  - Class TrafficManagerManagementClient has a new constructor "constructor(credential: TokenCredential, options?: TrafficManagerManagementClientOptionalParams);"
+  - Added Interface EndpointProperties
+  - Added Interface GeographicHierarchyProperties
+  - Added Interface HeatMapProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProfileProperties
+  - Added Interface UserMetricsProperties
+  - Interface EndpointsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface EndpointsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface EndpointsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface EndpointsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface EndpointsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface EndpointsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface EndpointsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface EndpointsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface EndpointsGetOptionalParams has a new optional parameter abortSignal
+  - Interface EndpointsGetOptionalParams has a new optional parameter requestOptions
+  - Interface EndpointsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface EndpointsGetOptionalParams has a new optional parameter onResponse
+  - Interface EndpointsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface EndpointsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface EndpointsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface EndpointsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface GeographicHierarchiesGetDefaultOptionalParams has a new optional parameter abortSignal
+  - Interface GeographicHierarchiesGetDefaultOptionalParams has a new optional parameter requestOptions
+  - Interface GeographicHierarchiesGetDefaultOptionalParams has a new optional parameter tracingOptions
+  - Interface GeographicHierarchiesGetDefaultOptionalParams has a new optional parameter onResponse
+  - Interface HeatMapGetOptionalParams has a new optional parameter abortSignal
+  - Interface HeatMapGetOptionalParams has a new optional parameter requestOptions
+  - Interface HeatMapGetOptionalParams has a new optional parameter tracingOptions
+  - Interface HeatMapGetOptionalParams has a new optional parameter onResponse
+  - Interface Profile has a new optional parameter recordType
+  - Interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams has a new optional parameter abortSignal
+  - Interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams has a new optional parameter requestOptions
+  - Interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams has a new optional parameter tracingOptions
+  - Interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams has a new optional parameter onResponse
+  - Interface ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams has a new optional parameter abortSignal
+  - Interface ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams has a new optional parameter requestOptions
+  - Interface ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams has a new optional parameter tracingOptions
+  - Interface ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams has a new optional parameter onResponse
+  - Interface ProfilesCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ProfilesCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ProfilesCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProfilesCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ProfilesDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ProfilesDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ProfilesDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ProfilesDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ProfilesGetOptionalParams has a new optional parameter abortSignal
+  - Interface ProfilesGetOptionalParams has a new optional parameter requestOptions
+  - Interface ProfilesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ProfilesGetOptionalParams has a new optional parameter onResponse
+  - Interface ProfilesListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ProfilesListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ProfilesListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ProfilesListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ProfilesListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface ProfilesListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface ProfilesListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface ProfilesListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface ProfilesUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ProfilesUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ProfilesUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProfilesUpdateOptionalParams has a new optional parameter onResponse
+  - Interface TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface TrafficManagerUserMetricsKeysDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface TrafficManagerUserMetricsKeysDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface TrafficManagerUserMetricsKeysDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface TrafficManagerUserMetricsKeysDeleteOptionalParams has a new optional parameter onResponse
+  - Interface TrafficManagerUserMetricsKeysGetOptionalParams has a new optional parameter abortSignal
+  - Interface TrafficManagerUserMetricsKeysGetOptionalParams has a new optional parameter requestOptions
+  - Interface TrafficManagerUserMetricsKeysGetOptionalParams has a new optional parameter tracingOptions
+  - Interface TrafficManagerUserMetricsKeysGetOptionalParams has a new optional parameter onResponse
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias RecordType
+  - Added Enum AzureClouds
+  - Added Enum KnownRecordType
+  - Added Enum KnownVersions
+  - Operation Endpoints.delete has a new signature
+  - Operation Profiles.delete has a new signature
 
-### Breaking Changes
+## 6.2.0-beta.1 (2026-05-27)
+Compared with version 6.1.0
 
-### Bugs Fixed
+### Features Added
+  - Added Interface EndpointProperties
+  - Added Interface GeographicHierarchyProperties
+  - Added Interface HeatMapProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProfileProperties
+  - Added Interface UserMetricsProperties
+  - Interface Profile has a new optional parameter recordType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias RecordType
+  - Added Enum AzureClouds
+  - Added Enum KnownRecordType
+  - Added Enum KnownVersions
 
-### Other Changes
-
-## 6.1.1 (2025-08-21)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 6.1.0 (2023-06-02)
     
 ### Features Added
@@ -49,4 +140,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

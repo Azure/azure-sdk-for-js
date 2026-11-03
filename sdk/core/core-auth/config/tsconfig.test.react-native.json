@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.react-native.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/core-auth": ["../src/index.ts"],
+      "@azure/core-auth/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

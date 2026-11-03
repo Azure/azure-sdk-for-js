@@ -32,8 +32,8 @@
  */
 
 export { ModelsRepositoryClient } from "./modelsRepositoryClient.js";
-export { GetModelsOptions } from "./interfaces/getModelsOptions.js";
-export { ModelsRepositoryClientOptions } from "./interfaces/modelsRepositoryClientOptions.js";
-export { dependencyResolutionType } from "./dependencyResolutionType.js";
+export type { GetModelsOptions } from "./interfaces/getModelsOptions.js";
+export type { ModelsRepositoryClientOptions } from "./interfaces/modelsRepositoryClientOptions.js";
+export type { dependencyResolutionType } from "./dependencyResolutionType.js";
 export { ModelError } from "./exceptions.js";
 export { getModelUri, isValidDtmi } from "./dtmiConventions.js";

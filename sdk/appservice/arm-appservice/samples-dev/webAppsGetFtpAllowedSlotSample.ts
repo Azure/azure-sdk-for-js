@@ -3,33 +3,23 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Returns whether FTP is allowed on the site or not.
+ * This sample demonstrates how to description for Returns whether FTP is allowed on the site or not.
  *
- * @summary Description for Returns whether FTP is allowed on the site or not.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/GetPublishingCredentialsPolicySlot.json
+ * @summary description for Returns whether FTP is allowed on the site or not.
+ * x-ms-original-file: 2025-05-01/GetPublishingCredentialsPolicySlot_FtpAllowedSlot.json
  */
-async function getFtpAllowed(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
-  const name = "testSite";
-  const slot = "stage";
+async function getFTPAllowed(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.getFtpAllowedSlot(
-    resourceGroupName,
-    name,
-    slot,
-  );
+  const result = await client.webApps.getFtpAllowedSlot("rg", "testSite", "stage");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getFtpAllowed();
+  await getFTPAllowed();
 }
 
 main().catch(console.error);

@@ -3,30 +3,22 @@
 
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List trusted access role bindings.
+ * This sample demonstrates how to list trusted access role bindings.
  *
- * @summary List trusted access role bindings.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/TrustedAccessRoleBindings_List.json
+ * @summary list trusted access role bindings.
+ * x-ms-original-file: 2026-08-02-preview/TrustedAccessRoleBindings_List.json
  */
 async function listTrustedAccessRoleBindings(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.trustedAccessRoleBindings.list(
-    resourceGroupName,
-    resourceName,
-  )) {
+  for await (const item of client.trustedAccessRoleBindings.list("rg1", "clustername1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

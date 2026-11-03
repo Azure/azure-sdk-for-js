@@ -10,7 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^5.0.3",
-    "dotenv": "^16.0.0",
+    "dotenv": "^18.0.5",
     "express": "^5.2.1",
     "open": "^11.0.0",
     "qs": "^6.10.1",

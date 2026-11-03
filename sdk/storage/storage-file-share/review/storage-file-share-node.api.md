@@ -9,19 +9,24 @@ import { AnonymousCredential } from '@azure/storage-common';
 import { AnonymousCredentialPolicy } from '@azure/storage-common';
 import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/storage-common';
-import * as coreClient from '@azure/core-client';
-import * as coreHttpCompat from '@azure/core-http-compat';
-import * as coreRestPipeline from '@azure/core-rest-pipeline';
+import { ClientOptions } from '@azure-rest/core-client';
 import { Credential as Credential_2 } from '@azure/storage-common';
 import { CredentialPolicy } from '@azure/storage-common';
+import { CredentialPolicyCreator } from '@azure/storage-common';
+import type { ExtendedServiceClientOptions } from '@azure/core-http-compat';
+import type { FullOperationResponse } from '@azure-rest/core-client';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
-import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
+import type { NodeJSReadableStream } from '@azure/storage-common';
+import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { Pipeline as Pipeline_2 } from '@azure/core-rest-pipeline';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
-import { Readable } from 'node:stream';
+import type { Readable } from 'node:stream';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
 import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
@@ -33,7 +38,7 @@ import { StorageRetryPolicyFactory } from '@azure/storage-common';
 import { StorageRetryPolicyType } from '@azure/storage-common';
 import { StorageSharedKeyCredential } from '@azure/storage-common';
 import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { UserDelegationKey } from '@azure/storage-common';
@@ -159,6 +164,8 @@ export interface CorsRule {
 export { Credential_2 as Credential }
 
 export { CredentialPolicy }
+
+export { CredentialPolicyCreator }
 
 // @public
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
@@ -530,15 +537,21 @@ export interface FileCreateHeaders {
     lastModified?: Date;
     posixProperties?: FilePosixProperties;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
 }
 
 // @public
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    content?: HttpRequestBody;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+    contentLength?: number;
+    contentMD5?: Uint8Array;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
+    onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 // @public
@@ -635,22 +648,15 @@ export interface FileDownloadHeaders {
     };
     posixProperties?: FilePosixProperties;
     requestId?: string;
+    structuredBodyType?: string;
+    structuredContentLength?: number;
     version?: string;
-}
-
-// @public
-export interface FileDownloadOptionalParams extends coreClient.OperationOptions {
-    allowTrailingDot?: boolean;
-    fileRequestIntent?: ShareTokenIntent;
-    leaseAccessConditions?: LeaseAccessConditions;
-    range?: string;
-    rangeGetContentMD5?: boolean;
-    timeoutInSeconds?: number;
 }
 
 // @public
 export interface FileDownloadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     leaseAccessConditions?: LeaseAccessConditions;
     maxRetryRequests?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -664,6 +670,7 @@ export type FileDownloadResponseModel = WithResponse<RawFileDownloadResponse, Fi
 export interface FileDownloadToBufferOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     leaseAccessConditions?: LeaseAccessConditions;
     maxRetryRequestsPerRange?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -843,9 +850,37 @@ export interface FileListHandlesSegmentOptions extends CommonOptions {
 }
 
 // @public
+export interface FileListRangesDiffOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    includeRenames?: boolean;
+    leaseAccessConditions?: LeaseAccessConditions;
+    range?: Range_2;
+}
+
+// @public
+export interface FileListRangesOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
+    range?: Range_2;
+}
+
+// @public
+export interface FileListRangesSegment {
+    clearRanges?: RangeModel[];
+    nextMarker?: string;
+    ranges?: RangeModel[];
+}
+
+// @public
+export type FileListRangesSegmentResponse = WithResponse<FileGetRangeListHeaders & FileListRangesSegment & {
+    continuationToken?: string;
+}, FileGetRangeListHeaders, FileListRangesSegment>;
+
+// @public
 export interface FileParallelUploadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
@@ -1088,20 +1123,6 @@ export interface FileUploadRangeFromURLHeaders {
 }
 
 // @public
-export interface FileUploadRangeFromURLOptionalParams extends coreClient.OperationOptions {
-    allowSourceTrailingDot?: boolean;
-    allowTrailingDot?: boolean;
-    copySourceAuthorization?: string;
-    fileLastWrittenMode?: FileLastWrittenMode;
-    fileRequestIntent?: ShareTokenIntent;
-    leaseAccessConditions?: LeaseAccessConditions;
-    sourceContentCrc64?: Uint8Array;
-    sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
-    sourceRange?: string;
-    timeoutInSeconds?: number;
-}
-
-// @public
 export interface FileUploadRangeFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     fileLastWrittenMode?: FileLastWrittenMode;
@@ -1125,12 +1146,14 @@ export interface FileUploadRangeHeaders {
     isServerEncrypted?: boolean;
     lastModified?: Date;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
 }
 
 // @public
 export interface FileUploadRangeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     contentMD5?: Uint8Array;
     fileLastWrittenMode?: FileLastWrittenMode;
     leaseAccessConditions?: LeaseAccessConditions;
@@ -1143,6 +1166,7 @@ export type FileUploadRangeResponse = WithResponse<FileUploadRangeHeaders, FileU
 // @public
 export interface FileUploadStreamOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
@@ -1197,6 +1221,8 @@ export interface HttpResponse {
 
 // @public
 export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
+
+export { isRestError }
 
 // @public
 export enum KnownShareTokenIntent {
@@ -1397,7 +1423,7 @@ export interface RangeModel {
 // @public
 export type RawFileDownloadResponse = FileDownloadHeaders & {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
 };
 
 export { RequestPolicy as IHttpClient }
@@ -1517,9 +1543,6 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
 export type ServiceGetUserDelegationKeyResponse = WithResponse<UserDelegationKey & ServiceGetUserDelegationKeyHeaders, ServiceGetUserDelegationKeyHeaders, UserDelegationKeyModel>;
 
 // @public
-export type ServiceGetUserDelegationKeyResponseModel = ServiceGetUserDelegationKeyHeaders & UserDelegationKeyModel;
-
-// @public
 export interface ServiceListSharesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     includeDeleted?: boolean;
@@ -1613,7 +1636,9 @@ export class ShareClient extends StorageClient {
 export interface ShareClientConfig {
     allowSourceTrailingDot?: boolean;
     allowTrailingDot?: boolean;
+    downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileRequestIntent?: ShareTokenIntent;
+    uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 // @public (undocumented)
@@ -1794,11 +1819,15 @@ export class ShareFileClient extends StorageClient {
     generateUserDelegationSasUrl(options: ShareGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
     generateUserDelegationStringToSign(options: ShareGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
+    // @deprecated
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
+    // @deprecated
     getRangeListDiff(prevShareSnapshot: string, options?: FileGetRangeListOptions): Promise<FileGetRangeListDiffResponse>;
     getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     getSymbolicLink(options?: FileGetSymbolicLinkOptions): Promise<FileGetSymbolicLinkResponse>;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
+    listRanges(options?: FileListRangesOptions): PagedAsyncIterableIterator<ShareFileRange, FileListRangesSegmentResponse>;
+    listRangesDiff(prevShareSnapshot: string, options?: FileListRangesDiffOptions): PagedAsyncIterableIterator<ShareFileRange, FileListRangesSegmentResponse>;
     get name(): string;
     get path(): string;
     rename(destinationPath: string, options?: FileRenameOptions): Promise<{
@@ -1823,6 +1852,13 @@ export class ShareFileClient extends StorageClient {
 
 // @public
 export type ShareFileHandleAccessRights = "Read" | "Write" | "Delete";
+
+// @public
+export interface ShareFileRange {
+    end: number;
+    isClear: boolean;
+    start: number;
+}
 
 // @public
 export interface ShareFileRangeList {
@@ -1947,6 +1983,13 @@ export type ShareGetStatisticsResponse = ShareGetStatisticsResponseModel & {
 
 // @public
 export type ShareGetStatisticsResponseModel = WithResponse<ShareGetStatisticsHeaders & ShareStats, ShareGetStatisticsHeaders, ShareStats>;
+
+// @public
+export interface ShareGetUserDelegationKeyParameters {
+    delegatedUserTenantId: string;
+    expiresOn: Date;
+    startsOn: Date;
+}
 
 // @public
 export interface ShareItem {
@@ -2110,6 +2153,7 @@ export class ShareServiceClient extends StorageClient {
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getShareClient(shareName: string): ShareClient;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
+    getUserDelegationKey(parameters: ShareGetUserDelegationKeyParameters, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
     setProperties(properties: FileServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
     undeleteShare(deletedShareName: string, deletedShareVersion: string, options?: ServiceUndeleteShareOptions): Promise<ShareClient>;
@@ -2250,6 +2294,9 @@ export interface SourceModifiedAccessConditions {
 export { StorageBrowserPolicyFactory }
 
 // @public
+export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
+
+// @public
 export enum StorageFileAudience {
     StorageOAuthScopes = "https://storage.azure.com/.default"
 }
@@ -2295,11 +2342,12 @@ export { UserDelegationKey }
 
 // @public
 export interface UserDelegationKeyModel {
-    signedExpiry: Date;
-    signedOid: string;
+    signedDelegatedUserTenantId?: string;
+    signedExpiresOn: Date;
+    signedObjectId: string;
     signedService: string;
-    signedStart: Date;
-    signedTid: string;
+    signedStartsOn: Date;
+    signedTenantId: string;
     signedVersion: string;
     value: string;
 }

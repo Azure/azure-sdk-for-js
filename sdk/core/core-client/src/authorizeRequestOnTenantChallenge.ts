@@ -95,8 +95,7 @@ function buildScopes(
   }
 
   const challengeScopes = new URL(challengeInfo.resource_id);
-  challengeScopes.pathname = Constants.DefaultScope;
-  let scope = challengeScopes.toString();
+  let scope = new URL(Constants.DefaultScope, challengeScopes.origin).toString();
   if (scope === "https://disk.azure.com/.default") {
     // the extra slash is required by the service
     scope = "https://disk.azure.com//.default";

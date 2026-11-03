@@ -1,28 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates an Appliance with the specified Resource Name in the specified Resource Group and Subscription.
- *
- * @summary Updates an Appliance with the specified Resource Name in the specified Resource Group and Subscription.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesPatch.json
- */
-
-import type { AppliancesUpdateOptionalParams } from "@azure/arm-resourceconnector";
 import { ResourceConnectorManagementClient } from "@azure/arm-resourceconnector";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates an Appliance with the specified Resource Name in the specified Resource Group and Subscription.
+ *
+ * @summary updates an Appliance with the specified Resource Name in the specified Resource Group and Subscription.
+ * x-ms-original-file: 2025-03-01-preview/AppliancesPatch.json
+ */
 async function updateAppliance(): Promise<void> {
-  const subscriptionId =
-    process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
-  const resourceGroupName = process.env["RESOURCECONNECTOR_RESOURCE_GROUP"] || "testresourcegroup";
-  const resourceName = "appliance01";
-  const tags = { key: "value" };
-  const options: AppliancesUpdateOptionalParams = { tags };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-2222-3333-4444-555555555555";
   const client = new ResourceConnectorManagementClient(credential, subscriptionId);
-  const result = await client.appliances.update(resourceGroupName, resourceName, options);
+  const result = await client.appliances.update("testresourcegroup", "appliance01", {
+    tags: { key: "value" },
+  });
   console.log(result);
 }
 

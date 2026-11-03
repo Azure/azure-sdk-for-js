@@ -3,27 +3,18 @@
 
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete the provided volume.
+ * This sample demonstrates how to delete the provided volume.
  *
- * @summary Delete the provided volume.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/Volumes_Delete.json
+ * @summary delete the provided volume.
+ * x-ms-original-file: 2026-07-01/Volumes_Delete.json
  */
 async function deleteVolume(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const volumeName = "volumeName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
   const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.volumes.beginDeleteAndWait(
-    resourceGroupName,
-    volumeName,
-  );
+  const result = await client.volumes.delete("resourceGroupName", "volumeName");
   console.log(result);
 }
 

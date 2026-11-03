@@ -1,35 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Organization role bindings
- *
- * @summary Organization role bindings
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_DeleteRoleBinding.json
- */
-
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function accessDeleteRoleBinding(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const roleBindingId = "dlz-f3a90de";
+/**
+ * This sample demonstrates how to organization role bindings
+ *
+ * @summary organization role bindings
+ * x-ms-original-file: 2026-06-02-preview/Access_DeleteRoleBinding_MaximumSet_Gen.json
+ */
+async function accessDeleteRoleBindingMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
-  const result = await client.access.deleteRoleBinding(
-    resourceGroupName,
-    organizationName,
-    roleBindingId,
+  await client.access.deleteRoleBinding(
+    "rgconfluent",
+    "aeqwsawfoagclmfwwaw",
+    "ucuqvcuiwmoreczccknufbhrwyp",
   );
-  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to organization role bindings
+ *
+ * @summary organization role bindings
+ * x-ms-original-file: 2026-06-02-preview/Access_DeleteRoleBinding_MinimumSet_Gen.json
+ */
+async function accessDeleteRoleBindingMinimumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
+  const client = new ConfluentManagementClient(credential, subscriptionId);
+  await client.access.deleteRoleBinding("rgconfluent", "kxbwvfhsqesuaswozdiivwo", "dqlmrdp");
 }
 
 async function main(): Promise<void> {
-  await accessDeleteRoleBinding();
+  await accessDeleteRoleBindingMaximumSet();
+  await accessDeleteRoleBindingMinimumSet();
 }
 
 main().catch(console.error);

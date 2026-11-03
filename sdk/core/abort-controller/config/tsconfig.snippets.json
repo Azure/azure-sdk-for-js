@@ -1,0 +1,9 @@
+{
+  "extends": "../../../../eng/tsconfigs/snippets.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/abort-controller": ["../src/index.ts"],
+      "@azure/abort-controller/*": ["../src/*"]
+    }
+  }
+}

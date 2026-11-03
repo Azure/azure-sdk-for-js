@@ -1,25 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all the supported operations.
- *
- * @summary List all the supported operations.
- * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/OperationsGet.json
- */
-
 import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to list the operations for the provider
+ *
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2023-12-01/OperationsGet.json
+ */
 async function operationsGet(): Promise<void> {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
+  const client = new DataBoxEdgeManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-operationsGet().catch(console.error);
+async function main(): Promise<void> {
+  await operationsGet();
+}
+
+main().catch(console.error);

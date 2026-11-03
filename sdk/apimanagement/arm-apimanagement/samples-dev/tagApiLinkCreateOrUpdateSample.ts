@@ -1,42 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Adds an API to the specified tag via link.
- *
- * @summary Adds an API to the specified tag via link.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateTagApiLink.json
- */
-
-import {
-  TagApiLinkContract,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to adds an API to the specified tag via link.
+ *
+ * @summary adds an API to the specified tag via link.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateTagApiLink.json
+ */
 async function apiManagementCreateTagApiLink(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const tagId = "tag1";
-  const apiLinkId = "link1";
-  const parameters: TagApiLinkContract = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.tagApiLink.createOrUpdate("rg1", "apimService1", "tag1", "link1", {
     apiId:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.tagApiLink.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    tagId,
-    apiLinkId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

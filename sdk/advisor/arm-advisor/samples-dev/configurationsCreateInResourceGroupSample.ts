@@ -1,28 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create/Overwrite Azure Advisor configuration.
- *
- * @summary Create/Overwrite Azure Advisor configuration.
- * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/CreateConfiguration.json
- */
-
-import type { ConfigData } from "@azure/arm-advisor";
 import { AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create/Overwrite Azure Advisor configuration.
+ *
+ * @summary create/Overwrite Azure Advisor configuration.
+ * x-ms-original-file: 2026-02-01-preview/CreateConfiguration.json
+ */
 async function putConfigurations(): Promise<void> {
-  const subscriptionId = process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
-  const configurationName = "default";
-  const resourceGroup = "resourceGroup";
-  const configContract: ConfigData = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "58c3f667-7a62-4bfd-a658-846493e9a493";
+  const client = new AdvisorManagementClient(credential, subscriptionId);
+  const result = await client.configurations.createInResourceGroup("default", "resourceGroup", {
+    lowCpuThreshold: "5",
+    duration: "7",
+    exclude: true,
     digests: [
       {
         name: "digestConfigName",
         actionGroupResourceId:
-          "/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/microsoft.insights/actionGroups/actionGroupName",
+          "/subscriptions/58c3f667-7a62-4bfd-a658-846493e9a493/resourceGroups/resourceGroup/providers/microsoft.insights/actionGroups/actionGroupName",
+        frequency: 30,
         categories: [
           "HighAvailability",
           "Security",
@@ -30,21 +31,11 @@ async function putConfigurations(): Promise<void> {
           "Cost",
           "OperationalExcellence",
         ],
-        frequency: 30,
-        state: "Active",
         language: "en",
+        state: "Active",
       },
     ],
-    exclude: true,
-    lowCpuThreshold: "5",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AdvisorManagementClient(credential, subscriptionId);
-  const result = await client.configurations.createInResourceGroup(
-    configurationName,
-    resourceGroup,
-    configContract,
-  );
+  });
   console.log(result);
 }
 

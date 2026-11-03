@@ -1,24 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerApp} from "@azure/arm-appcontainers";
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Patches a Container App using JSON Merge Patch
+ * This sample demonstrates how to patches a Container App using JSON Merge Patch
  *
- * @summary Patches a Container App using JSON Merge Patch
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ContainerApps_Patch.json
+ * @summary patches a Container App using JSON Merge Patch
+ * x-ms-original-file: 2026-07-01/ContainerApps_Patch.json
  */
 async function patchContainerApp(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const containerAppName = "testcontainerapp0";
-  const containerAppEnvelope: ContainerApp = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.containerApps.update("rg", "testcontainerApp0", {
+    location: "East US",
     configuration: {
       dapr: {
         appHealth: {
@@ -56,40 +53,30 @@ async function patchContainerApp(): Promise<void> {
         ipSecurityRestrictions: [
           {
             name: "Allow work IP A subnet",
-            description:
-              "Allowing all IP's within the subnet below to access containerapp",
+            description: "Allowing all IP's within the subnet below to access containerapp",
             action: "Allow",
             ipAddressRange: "192.168.1.1/32",
           },
           {
             name: "Allow work IP B subnet",
-            description:
-              "Allowing all IP's within the subnet below to access containerapp",
+            description: "Allowing all IP's within the subnet below to access containerapp",
             action: "Allow",
             ipAddressRange: "192.168.1.1/8",
           },
         ],
         stickySessions: { affinity: "sticky" },
         targetPort: 3000,
-        traffic: [
-          {
-            label: "production",
-            revisionName: "testcontainerapp0-ab1234",
-            weight: 100,
-          },
-        ],
+        traffic: [{ label: "production", revisionName: "testcontainerApp0-ab1234" }],
       },
       maxInactiveRevisions: 10,
       runtime: { java: { enableMetrics: true } },
       service: { type: "redis" },
     },
-    location: "East US",
-    tags: { tag1: "value1", tag2: "value2" },
     template: {
       containers: [
         {
-          name: "testcontainerapp0",
-          image: "repo/testcontainerapp0:v1",
+          name: "testcontainerApp0",
+          image: "repo/testcontainerApp0:v1",
           probes: [
             {
               type: "Liveness",
@@ -107,8 +94,8 @@ async function patchContainerApp(): Promise<void> {
       initContainers: [
         {
           name: "testinitcontainerApp0",
-          image: "repo/testcontainerapp0:v4",
-          resources: { cpu: 0.5, memory: "1Gi" },
+          image: "repo/testcontainerApp0:v4",
+          resources: { cpu: 0.2, memory: "100Mi" },
         },
       ],
       scale: {
@@ -131,14 +118,8 @@ async function patchContainerApp(): Promise<void> {
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.containerApps.beginUpdateAndWait(
-    resourceGroupName,
-    containerAppName,
-    containerAppEnvelope,
-  );
+    tags: { tag1: "value1", tag2: "value2" },
+  });
   console.log(result);
 }
 

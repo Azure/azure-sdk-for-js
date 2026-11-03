@@ -1,39 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Upgrades an API Management service to the Stv2 platform. For details refer to https://aka.ms/apim-migrate-stv2. This change is not reversible. This is long running operation and could take several minutes to complete.
- *
- * @summary Upgrades an API Management service to the Stv2 platform. For details refer to https://aka.ms/apim-migrate-stv2. This change is not reversible. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementServiceMigrateToStv2.json
- */
-
-import {
-  MigrateToStv2Contract,
-  ApiManagementServiceMigrateToStv2OptionalParams,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to upgrades an API Management service to the Stv2 platform. For details refer to https://aka.ms/apim-migrate-stv2. This change is not reversible. This is long running operation and could take several minutes to complete.
+ *
+ * @summary upgrades an API Management service to the Stv2 platform. For details refer to https://aka.ms/apim-migrate-stv2. This change is not reversible. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementServiceMigrateToStv2.json
+ */
 async function apiManagementMigrateService(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: MigrateToStv2Contract = { mode: "PreserveIp" };
-  const options: ApiManagementServiceMigrateToStv2OptionalParams = {
-    parameters,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginMigrateToStv2AndWait(
-    resourceGroupName,
-    serviceName,
-    options,
-  );
+  const result = await client.apiManagementService.migrateToStv2("rg1", "apimService1", {
+    parameters: { mode: "PreserveIp" },
+  });
   console.log(result);
 }
 

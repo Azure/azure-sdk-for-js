@@ -1,43 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ClusterUpdate} from "@azure/arm-redisenterprisecache";
-import {
-  RedisEnterpriseManagementClient,
-} from "@azure/arm-redisenterprisecache";
+import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates an existing Redis Enterprise cluster
+ * This sample demonstrates how to updates an existing Redis Enterprise cluster
  *
- * @summary Updates an existing Redis Enterprise cluster
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseUpdate.json
+ * @summary updates an existing Redis Enterprise cluster
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseUpdate.json
  */
 async function redisEnterpriseUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
-  const parameters: ClusterUpdate = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  const result = await client.redisEnterprise.update("rg1", "cache1", {
     minimumTlsVersion: "1.2",
     publicNetworkAccess: "Enabled",
+    maintenanceConfiguration: {
+      maintenanceWindows: [
+        { type: "Weekly", duration: "PT6H", startHourUtc: 3, schedule: { dayOfWeek: "Monday" } },
+        { type: "Weekly", duration: "PT6H", startHourUtc: 3, schedule: { dayOfWeek: "Tuesday" } },
+        { type: "Weekly", duration: "PT6H", startHourUtc: 3, schedule: { dayOfWeek: "Wednesday" } },
+      ],
+    },
     sku: { name: "EnterpriseFlash_F300", capacity: 9 },
     tags: { tag1: "value1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.redisEnterprise.beginUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

@@ -3,32 +3,26 @@
 
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all available REST API operations.
+ * This sample demonstrates how to lists all available REST API operations.
  *
- * @summary Lists all available REST API operations.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/examples/OperationsList.json
+ * @summary lists all available REST API operations.
+ * x-ms-original-file: 2026-10-01/OperationsList.json
  */
-async function listAllAvailableRestApiOperations(): Promise<void> {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+async function listAllAvailableRestAPIOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listAllAvailableRestApiOperations();
+  await listAllAvailableRestAPIOperations();
 }
 
 main().catch(console.error);

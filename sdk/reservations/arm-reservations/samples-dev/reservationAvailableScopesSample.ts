@@ -1,34 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Check whether the scopes from request is valid for `Reservation`.
-
- *
- * @summary Check whether the scopes from request is valid for `Reservation`.
-
- * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/GetAvailableScope.json
- */
-
-import type { AvailableScopeRequest } from "@azure/arm-reservations";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to check whether the scopes from request is valid for `Reservation`.
+ *
+ * @summary check whether the scopes from request is valid for `Reservation`.
+ * x-ms-original-file: 2022-11-01/GetAvailableScope.json
+ */
 async function availableScopes(): Promise<void> {
-  const reservationOrderId = "276e7ae4-84d0-4da6-ab4b-d6b94f3557da";
-  const reservationId = "356e7ae4-84d0-4da6-ab4b-d6b94f3557da";
-  const body: AvailableScopeRequest = {
-    properties: {
-      scopes: ["/subscriptions/efc7c997-7700-4a74-b731-55aec16c15e9"],
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new AzureReservationAPI(credential);
-  const result = await client.reservation.beginAvailableScopesAndWait(
-    reservationOrderId,
-    reservationId,
-    body,
+  const result = await client.reservation.availableScopes(
+    "276e7ae4-84d0-4da6-ab4b-d6b94f3557da",
+    "356e7ae4-84d0-4da6-ab4b-d6b94f3557da",
+    { properties: { scopes: ["/subscriptions/efc7c997-7700-4a74-b731-55aec16c15e9"] } },
   );
   console.log(result);
 }

@@ -1,0 +1,40 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export type {
+  EdgeAction,
+  EdgeActionProperties,
+  ProvisioningState,
+  EdgeActionAttachment,
+  SkuType,
+  TrackedResource,
+  Resource,
+  SystemData,
+  CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  EdgeActionUpdate,
+  EdgeActionPropertiesUpdate,
+  SkuTypeUpdate,
+  EdgeActionVersion,
+  EdgeActionVersionProperties,
+  EdgeActionVersionDeploymentType,
+  EdgeActionVersionValidationStatus,
+  EdgeActionIsDefaultVersion,
+  EdgeActionVersionUpdate,
+  EdgeActionVersionUpdateProperties,
+  VersionCode,
+  EdgeActionExecutionFilter,
+  EdgeActionExecutionFilterProperties,
+  EdgeActionExecutionFilterUpdate,
+  EdgeActionExecutionFilterUpdateProperties,
+} from "./models.js";
+export {
+  KnownProvisioningState,
+  KnownCreatedByType,
+  KnownEdgeActionVersionDeploymentType,
+  KnownEdgeActionVersionValidationStatus,
+  KnownEdgeActionIsDefaultVersion,
+  KnownVersions,
+} from "./models.js";

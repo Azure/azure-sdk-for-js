@@ -8,7 +8,7 @@ export {
   getWidgetOperationStatus,
   getWidget,
 } from "./operations.js";
-export {
+export type {
   WidgetsListWidgetsOptionalParams,
   WidgetsDeleteWidgetOptionalParams,
   WidgetsCreateOrUpdateWidgetOptionalParams,

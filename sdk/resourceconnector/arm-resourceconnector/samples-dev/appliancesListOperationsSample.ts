@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all available Appliances operations.
- *
- * @summary Lists all available Appliances operations.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesListOperations.json
- */
-
 import { ResourceConnectorManagementClient } from "@azure/arm-resourceconnector";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all available Appliances operations.
+ *
+ * @summary lists all available Appliances operations.
+ * x-ms-original-file: 2025-03-01-preview/AppliancesListOperations.json
+ */
 async function listAppliancesOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ResourceConnectorManagementClient(credential);
@@ -19,6 +17,7 @@ async function listAppliancesOperations(): Promise<void> {
   for await (const item of client.appliances.listOperations()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

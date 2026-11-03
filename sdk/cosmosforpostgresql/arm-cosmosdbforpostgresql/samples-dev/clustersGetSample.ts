@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets information about a cluster such as compute and storage configuration and cluster lifecycle metadata such as cluster creation date and time.
- *
- * @summary Gets information about a cluster such as compute and storage configuration and cluster lifecycle metadata such as cluster creation date and time.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterGet.json
- */
-
 import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets information about a cluster such as compute and storage configuration and cluster lifecycle metadata such as cluster creation date and time.
+ *
+ * @summary gets information about a cluster such as compute and storage configuration and cluster lifecycle metadata such as cluster creation date and time.
+ * x-ms-original-file: 2023-03-02-preview/ClusterGet.json
+ */
 async function getTheCluster(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
-  const clusterName = "testcluster1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
-  const result = await client.clusters.get(resourceGroupName, clusterName);
+  const result = await client.clusters.get("TestGroup", "testcluster1");
   console.log(result);
 }
 

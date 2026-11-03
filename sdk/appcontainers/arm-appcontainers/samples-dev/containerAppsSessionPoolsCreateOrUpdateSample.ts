@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SessionPool} from "@azure/arm-appcontainers";
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update a session pool with the given properties.
+ * This sample demonstrates how to create or update a session pool with the given properties.
  *
- * @summary Create or update a session pool with the given properties.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/SessionPools_LifecycleOnContainerExit_CreateOrUpdate.json
+ * @summary create or update a session pool with the given properties.
+ * x-ms-original-file: 2026-07-01/SessionPools_LifecycleOnContainerExit_CreateOrUpdate.json
  */
 async function createOrUpdateSessionPoolWithLifecycleOnContainerExitTimed(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const sessionPoolName = "testsessionpool";
-  const sessionPoolEnvelope: SessionPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.containerAppsSessionPools.createOrUpdate("rg", "testsessionpool", {
+    identity: { type: "SystemAssigned" },
+    location: "East US",
     containerType: "CustomContainer",
     customContainerTemplate: {
       containers: [
@@ -38,47 +36,31 @@ async function createOrUpdateSessionPoolWithLifecycleOnContainerExitTimed(): Pro
       },
     },
     dynamicPoolConfiguration: {
-      lifecycleConfiguration: {
-        lifecycleType: "OnContainerExit",
-        maxAlivePeriodInSeconds: 86400,
-      },
+      lifecycleConfiguration: { lifecycleType: "OnContainerExit", maxAlivePeriodInSeconds: 86400 },
     },
     environmentId:
       "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
-    identity: { type: "SystemAssigned" },
-    location: "East US",
     managedIdentitySettings: [{ identity: "system", lifecycle: "Main" }],
     poolManagementType: "Dynamic",
-    scaleConfiguration: {
-      maxConcurrentSessions: 500,
-      readySessionInstances: 100,
-    },
+    scaleConfiguration: { maxConcurrentSessions: 500, readySessionInstances: 100 },
     sessionNetworkConfiguration: { status: "EgressEnabled" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result =
-    await client.containerAppsSessionPools.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      sessionPoolName,
-      sessionPoolEnvelope,
-    );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update a session pool with the given properties.
+ * This sample demonstrates how to create or update a session pool with the given properties.
  *
- * @summary Create or update a session pool with the given properties.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/SessionPools_LifecycleTimed_CreateOrUpdate.json
+ * @summary create or update a session pool with the given properties.
+ * x-ms-original-file: 2026-07-01/SessionPools_LifecycleTimed_CreateOrUpdate.json
  */
 async function createOrUpdateSessionPoolWithLifecycleTypeTimed(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const sessionPoolName = "testsessionpool";
-  const sessionPoolEnvelope: SessionPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.containerAppsSessionPools.createOrUpdate("rg", "testsessionpool", {
+    identity: { type: "SystemAssigned" },
+    location: "East US",
     containerType: "CustomContainer",
     customContainerTemplate: {
       containers: [
@@ -98,37 +80,45 @@ async function createOrUpdateSessionPoolWithLifecycleTypeTimed(): Promise<void> 
       },
     },
     dynamicPoolConfiguration: {
-      lifecycleConfiguration: {
-        lifecycleType: "OnContainerExit",
-        maxAlivePeriodInSeconds: 86400,
-      },
+      lifecycleConfiguration: { cooldownPeriodInSeconds: 600, lifecycleType: "Timed" },
     },
     environmentId:
       "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
-    identity: { type: "SystemAssigned" },
-    location: "East US",
     managedIdentitySettings: [{ identity: "system", lifecycle: "Main" }],
     poolManagementType: "Dynamic",
-    scaleConfiguration: {
-      maxConcurrentSessions: 500,
-      readySessionInstances: 100,
-    },
+    scaleConfiguration: { maxConcurrentSessions: 500, readySessionInstances: 100 },
     sessionNetworkConfiguration: { status: "EgressEnabled" },
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a session pool with the given properties.
+ *
+ * @summary create or update a session pool with the given properties.
+ * x-ms-original-file: 2026-07-01/SessionPools_McpServer_CreateOrUpdate.json
+ */
+async function createOrUpdateSessionPoolWithMCPServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result =
-    await client.containerAppsSessionPools.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      sessionPoolName,
-      sessionPoolEnvelope,
-    );
+  const result = await client.containerAppsSessionPools.createOrUpdate("rg", "testsessionpool", {
+    location: "East US",
+    containerType: "Shell",
+    dynamicPoolConfiguration: {
+      lifecycleConfiguration: { cooldownPeriodInSeconds: 600, lifecycleType: "Timed" },
+    },
+    poolManagementType: "Dynamic",
+    scaleConfiguration: { maxConcurrentSessions: 50 },
+    sessionNetworkConfiguration: { status: "EgressEnabled" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createOrUpdateSessionPoolWithLifecycleOnContainerExitTimed();
   await createOrUpdateSessionPoolWithLifecycleTypeTimed();
+  await createOrUpdateSessionPoolWithMCPServer();
 }
 
 main().catch(console.error);

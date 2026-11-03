@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an existing Rules Engine Configuration with the specified parameters.
- *
- * @summary Deletes an existing Rules Engine Configuration with the specified parameters.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorRulesEngineDelete.json
- */
-
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes an existing Rules Engine Configuration with the specified parameters.
+ *
+ * @summary deletes an existing Rules Engine Configuration with the specified parameters.
+ * x-ms-original-file: 2025-11-01/FrontdoorRulesEngineDelete.json
+ */
 async function deleteRulesEngineConfiguration(): Promise<void> {
-  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
-  const frontDoorName = "frontDoor1";
-  const rulesEngineName = "rulesEngine1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new FrontDoorManagementClient(credential, subscriptionId);
-  const result = await client.rulesEngines.beginDeleteAndWait(
-    resourceGroupName,
-    frontDoorName,
-    rulesEngineName,
-  );
-  console.log(result);
+  await client.rulesEngines.delete("rg1", "frontDoor1", "rulesEngine1");
 }
 
 async function main(): Promise<void> {

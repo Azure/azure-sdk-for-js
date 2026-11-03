@@ -1,30 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a list of privately linkable resources for an account
- *
- * @summary Gets a list of privately linkable resources for an account
- * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/PrivateLinkResources_ListByAccount.json
- */
-
 import { PurviewManagementClient } from "@azure/arm-purview";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to gets a list of privately linkable resources for an account
+ *
+ * @summary gets a list of privately linkable resources for an account
+ * x-ms-original-file: 2024-04-01-preview/PrivateLinkResources_ListByAccount.json
+ */
 async function privateLinkResourcesListByAccount(): Promise<void> {
-  const subscriptionId = "12345678-1234-1234-12345678abc";
-  const resourceGroupName = "SampleResourceGroup";
-  const accountName = "account1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-12345678abc";
   const client = new PurviewManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.privateLinkResources.listByAccount(
-    resourceGroupName,
-    accountName,
+    "SampleResourceGroup",
+    "account1",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-privateLinkResourcesListByAccount().catch(console.error);
+async function main(): Promise<void> {
+  await privateLinkResourcesListByAccount();
+}
+
+main().catch(console.error);

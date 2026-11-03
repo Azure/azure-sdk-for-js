@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns all the Connection Settings registered to a particular BotService resource
- *
- * @summary Returns all the Connection Settings registered to a particular BotService resource
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListConnectionsByBotService.json
- */
-
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns all the Connection Settings registered to a particular BotService resource
+ *
+ * @summary returns all the Connection Settings registered to a particular BotService resource
+ * x-ms-original-file: 2023-09-15-preview/ListConnectionsByBotService.json
+ */
 async function listConnectionSettings(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.botConnection.listByBotService(resourceGroupName, resourceName)) {
+  for await (const item of client.botConnection.listByBotService(
+    "OneResourceGroupName",
+    "samplebotname",
+  )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

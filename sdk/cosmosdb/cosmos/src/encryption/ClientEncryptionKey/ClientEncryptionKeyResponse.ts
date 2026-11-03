@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
-import { CosmosHeaders } from "../../queryExecutionContext/index.js";
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
+import type { CosmosHeaders } from "../../queryExecutionContext/index.js";
 import { ResourceResponse } from "../../request/ResourceResponse.js";
-import { Resource } from "../../client/Resource.js";
-import { ClientEncryptionKeyProperties } from "./ClientEncryptionKeyProperties.js";
+import type { Resource } from "../../client/Resource.js";
+import type { ClientEncryptionKeyProperties } from "./ClientEncryptionKeyProperties.js";
 
 /** Response object for ClientEncryptionKey operations */
 export class ClientEncryptionKeyResponse extends ResourceResponse<Resource> {

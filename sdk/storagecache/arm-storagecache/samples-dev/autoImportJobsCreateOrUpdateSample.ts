@@ -1,44 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  AutoImportJob,
-  StorageCacheManagementClient,
-} from "@azure/arm-storagecache";
+import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update an auto import job.
+ * This sample demonstrates how to create or update an auto import job.
  *
- * @summary Create or update an auto import job.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/autoImportJobs_CreateOrUpdate.json
+ * @summary create or update an auto import job.
+ * x-ms-original-file: 2026-08-01/autoImportJobs_CreateOrUpdate.json
  */
 async function autoImportJobsCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
-  const amlFilesystemName = "fs1";
-  const autoImportJobName = "autojob1";
-  const autoImportJob: AutoImportJob = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageCacheManagementClient(credential, subscriptionId);
+  const result = await client.autoImportJobs.createOrUpdate("scgroup", "fs1", "autojob1", {
+    location: "eastus",
     adminStatus: "Enable",
     autoImportPrefixes: ["/"],
     conflictResolutionMode: "Skip",
     enableDeletions: false,
-    location: "eastus",
     maximumErrors: 0,
-    tags: { dept: "ContosoAds" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageCacheManagementClient(credential, subscriptionId);
-  const result = await client.autoImportJobs.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    amlFilesystemName,
-    autoImportJobName,
-    autoImportJob,
-  );
+    tags: { Dept: "ContosoAds" },
+  });
   console.log(result);
 }
 

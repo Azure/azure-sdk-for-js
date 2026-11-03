@@ -1,54 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
- *
- * @summary Regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/DirectlineRegenerateKeys.json
- */
-
-import type { SiteInfo } from "@azure/arm-botservice";
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
+ *
+ * @summary regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
+ * x-ms-original-file: 2023-09-15-preview/DirectlineRegenerateKeys.json
+ */
 async function regenerateKeysForDirectLineChannelSite(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const channelName = "DirectLineChannel";
-  const parameters: SiteInfo = { key: "key1", siteName: "testSiteName" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.directLine.regenerateKeys(
-    resourceGroupName,
-    resourceName,
-    channelName,
-    parameters,
+    "OneResourceGroupName",
+    "samplebotname",
+    "DirectLineChannel",
+    { key: "key1", siteName: "testSiteName" },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
+ * This sample demonstrates how to regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
  *
- * @summary Regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/WebChatRegenerateKeys.json
+ * @summary regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
+ * x-ms-original-file: 2023-09-15-preview/WebChatRegenerateKeys.json
  */
 async function regenerateKeysForWebChatChannelSite(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const channelName = "WebChatChannel";
-  const parameters: SiteInfo = { key: "key1", siteName: "testSiteName" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.directLine.regenerateKeys(
-    resourceGroupName,
-    resourceName,
-    channelName,
-    parameters,
+    "OneResourceGroupName",
+    "samplebotname",
+    "WebChatChannel",
+    { key: "key1", siteName: "testSiteName" },
   );
   console.log(result);
 }

@@ -3,29 +3,18 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a logic app extension resource.
+ * This sample demonstrates how to gets a logic app extension resource.
  *
- * @summary Gets a logic app extension resource.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/LogicApps_Get.json
+ * @summary gets a logic app extension resource.
+ * x-ms-original-file: 2026-07-01/LogicApps_Get.json
  */
 async function getLogicAppExtensionByName(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const containerAppName = "testcontainerApp0";
-  const logicAppName = "testcontainerApp0";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.logicApps.get(
-    resourceGroupName,
-    containerAppName,
-    logicAppName,
-  );
+  const result = await client.logicApps.get("examplerg", "testcontainerApp0", "testcontainerApp0");
   console.log(result);
 }
 

@@ -3,30 +3,22 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get the list of diagnostics for a Container App Job.
+ * This sample demonstrates how to get the list of diagnostics for a Container App Job.
  *
- * @summary Get the list of diagnostics for a Container App Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/Job_ListDetectors.json
+ * @summary get the list of diagnostics for a Container App Job.
+ * x-ms-original-file: 2026-07-01/Job_ListDetectors.json
  */
 async function getTheListOfAvailableDiagnosticDataForAContainerAppJob(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "f07f3711-b45e-40fe-a941-4e6d93f851e6";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "mikono-workerapp-test-rg";
-  const jobName = "mikonojob1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "f07f3711-b45e-40fe-a941-4e6d93f851e6";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.jobs.listDetectors(
-    resourceGroupName,
-    jobName,
-  )) {
+  for await (const item of client.jobs.listDetectors("mikono-workerapp-test-rg", "mikonojob1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

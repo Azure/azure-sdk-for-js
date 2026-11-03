@@ -1,0 +1,18 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/api/privateLinkResourcesInterface/index.ts",
+    "../src/api/privateEndpointConnectionsInterface/index.ts",
+    "../src/api/trafficControllerInterface/index.ts",
+    "../src/api/securityPoliciesInterface/index.ts",
+    "../src/api/frontendsInterface/index.ts",
+    "../src/api/associationsInterface/index.ts",
+    "../src/models/index.ts"
+  ]
+}

@@ -1,42 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+interface BrowserBrand {
+  brand: string;
+  version: string;
+}
+
+interface UserAgentData {
+  brands: BrowserBrand[];
+  mobile: boolean;
+  platform?: string;
+  getHighEntropyValues: (hints: string[]) => Promise<{
+    architecture: string;
+    bitness: string;
+    brands: BrowserBrand[];
+    formFactor: string;
+    fullVersionList: BrowserBrand[];
+    mobile: boolean;
+    model: string;
+    platform: string;
+    platformVersion: string;
+    wow64: boolean;
+  }>;
+}
+
+declare global {
+  interface Navigator {
+    userAgentData?: UserAgentData;
+  }
+
+  // Vercel Edge Runtime global
+  var EdgeRuntime: string | undefined;
+}
+
 /**
  * @internal
  */
 export function getHeaderName(): string {
   return "x-ms-useragent";
 }
-
-interface BrowserBrand {
-  brand: string;
-  version: string;
-}
-
-interface NavigatorEx extends Navigator {
-  userAgentData?: {
-    brands: BrowserBrand[];
-    mobile: boolean;
-    platform?: string;
-    getHighEntropyValues: (hints: string[]) => Promise<{
-      architecture: string;
-      bitness: string;
-      brands: BrowserBrand[];
-      formFactor: string;
-      fullVersionList: BrowserBrand[];
-      mobile: boolean;
-      model: string;
-      platform: string;
-      platformVersion: string;
-      wow64: boolean;
-    }>;
-  };
-}
-
-declare const globalThis: {
-  navigator?: NavigatorEx;
-  EdgeRuntime?: unknown;
-};
 
 function getBrowserInfo(userAgent: string): BrowserBrand | undefined {
   const browserRegexes = [
@@ -69,27 +71,27 @@ function getBrandVersionString(brands: BrowserBrand[]): BrowserBrand | undefined
  * @internal
  */
 export async function setPlatformSpecificData(map: Map<string, string>): Promise<void> {
-  const localNavigator = globalThis.navigator as NavigatorEx;
+  const nav = globalThis.navigator;
   let osInfo = "unknown";
-  if (localNavigator?.userAgentData) {
-    const entropyValues = await localNavigator.userAgentData.getHighEntropyValues([
+
+  if (nav?.userAgentData) {
+    const entropyValues = await nav.userAgentData.getHighEntropyValues([
       "architecture",
       "platformVersion",
     ]);
     osInfo = `${entropyValues.platform} ${entropyValues.platformVersion}; ${entropyValues.architecture}`;
 
-    // Get the brand and version
-    const brand = getBrandVersionString(localNavigator.userAgentData.brands);
+    const brand = getBrandVersionString(nav.userAgentData.brands);
     if (brand) {
       map.set(brand.brand, `${brand.version} (${osInfo})`);
     }
-  } else if (localNavigator?.platform) {
-    osInfo = localNavigator.platform;
-    const brand = getBrowserInfo(localNavigator.userAgent);
+  } else if (nav?.platform) {
+    osInfo = nav.platform;
+    const brand = getBrowserInfo(nav.userAgent);
     if (brand) {
       map.set(brand.brand, `${brand.version} (${osInfo})`);
     }
-  } else if (typeof globalThis.EdgeRuntime === "string") {
-    map.set("EdgeRuntime", `${globalThis.EdgeRuntime} (${osInfo})`);
+  } else if (typeof EdgeRuntime === "string") {
+    map.set("EdgeRuntime", `${EdgeRuntime} (${osInfo})`);
   }
 }

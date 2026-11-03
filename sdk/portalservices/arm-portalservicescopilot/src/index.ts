@@ -9,35 +9,35 @@ import {
 
 export { PortalServicesClient } from "./portalServicesClient.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  CopilotSettingsResource,
-  CopilotSettingsProperties,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type CopilotSettingsResource,
+  type CopilotSettingsProperties,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
-  ProxyResource,
-  Resource,
-  SystemData,
+  type ResourceProvisioningState,
+  type ProxyResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  CopilotSettingsResourceUpdate,
-  CopilotSettingsResourceUpdateProperties,
+  type CreatedByType,
+  type CopilotSettingsResourceUpdate,
+  type CopilotSettingsResourceUpdateProperties,
   KnownVersions,
 } from "./models/index.js";
-export { PortalServicesClientOptionalParams } from "./api/index.js";
+export { type PortalServicesClientOptionalParams } from "./api/index.js";
 export {
-  CopilotSettingsDeleteOptionalParams,
-  CopilotSettingsUpdateOptionalParams,
-  CopilotSettingsCreateOrUpdateOptionalParams,
-  CopilotSettingsGetOptionalParams,
+  type CopilotSettingsDeleteOptionalParams,
+  type CopilotSettingsUpdateOptionalParams,
+  type CopilotSettingsCreateOrUpdateOptionalParams,
+  type CopilotSettingsGetOptionalParams,
 } from "./api/copilotSettings/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export { CopilotSettingsOperations, OperationsOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { type OperationsListOptionalParams } from "./api/operations/index.js";
+export { type CopilotSettingsOperations, type OperationsOperations } from "./classic/index.js";
+export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };

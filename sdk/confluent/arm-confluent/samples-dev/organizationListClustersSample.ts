@@ -1,42 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists of all the clusters in a environment
- *
- * @summary Lists of all the clusters in a environment
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_ClusterList.json
- */
-
-import type { OrganizationListClustersOptionalParams } from "@azure/arm-confluent";
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function organizationListClusters(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const environmentId = "env-12132";
-  const pageSize = 10;
-  const options: OrganizationListClustersOptionalParams = { pageSize };
+/**
+ * This sample demonstrates how to lists of all the clusters in a environment
+ *
+ * @summary lists of all the clusters in a environment
+ * x-ms-original-file: 2026-06-02-preview/Organization_ListClusters_MaximumSet_Gen.json
+ */
+async function organizationListClustersMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.organization.listClusters(
-    resourceGroupName,
-    organizationName,
-    environmentId,
-    options,
+    "rgconfluent",
+    "hpinjsodpkprhbvpzh",
+    "qjeouprbl",
+    { pageSize: 24, pageToken: "esiyyipdkqikzcedkyrjnqvsbf" },
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await organizationListClusters();
+  await organizationListClustersMaximumSet();
 }
 
 main().catch(console.error);

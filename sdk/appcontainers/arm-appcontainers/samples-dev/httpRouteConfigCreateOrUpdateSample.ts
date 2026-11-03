@@ -1,175 +1,145 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  HttpRouteConfig,
-  HttpRouteConfigCreateOrUpdateOptionalParams} from "@azure/arm-appcontainers";
-import {
-  ContainerAppsAPIClient,
-} from "@azure/arm-appcontainers";
+import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or Update a Http Route Config.
+ * This sample demonstrates how to create or Update a Http Route Config.
  *
- * @summary Create or Update a Http Route Config.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/HttpRouteConfig_CreateOrUpdate.json
+ * @summary create or Update a Http Route Config.
+ * x-ms-original-file: 2026-07-01/HttpRouteConfig_CreateOrUpdate.json
  */
 async function createOrUpdateHttpRoute(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "testcontainerenv";
-  const httpRouteName = "httproutefriendlyname";
-  const httpRouteConfigEnvelope: HttpRouteConfig = {
-    properties: {
-      customDomains: [
-        {
-          name: "example.com",
-          bindingType: "SniEnabled",
-          certificateId:
-            "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/certificates/certificate-1",
-        },
-      ],
-      rules: [
-        {
-          description: "random-description",
-          routes: [
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.httpRouteConfig.createOrUpdate(
+    "examplerg",
+    "testcontainerenv",
+    "httproutefriendlyname",
+    {
+      httpRouteConfigEnvelope: {
+        properties: {
+          customDomains: [
             {
-              action: { prefixRewrite: "/v1/api" },
-              match: { path: "/v1", caseSensitive: true },
+              name: "example.com",
+              bindingType: "SniEnabled",
+              certificateId:
+                "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/certificates/certificate-1",
             },
           ],
-          targets: [{ containerApp: "capp-1", revision: "capp-1--0000001" }],
+          rules: [
+            {
+              description: "random-description",
+              routes: [
+                {
+                  action: { prefixRewrite: "/v1/api" },
+                  match: { path: "/v1", caseSensitive: true },
+                },
+              ],
+              targets: [{ containerApp: "capp-1", revision: "rev-1" }],
+            },
+          ],
         },
-      ],
+      },
     },
-  };
-  const options: HttpRouteConfigCreateOrUpdateOptionalParams = {
-    httpRouteConfigEnvelope,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.httpRouteConfigOperations.createOrUpdate(
-    resourceGroupName,
-    environmentName,
-    httpRouteName,
-    options,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or Update a Http Route Config.
+ * This sample demonstrates how to create or Update a Http Route Config.
  *
- * @summary Create or Update a Http Route Config.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/HttpRouteConfig_CreateOrUpdate_PathSepPrefix.json
- */
-async function createOrUpdateHttpRoutePathSeparatedPrefixRule(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "testcontainerenv";
-  const httpRouteName = "httproutefriendlyname";
-  const httpRouteConfigEnvelope: HttpRouteConfig = {
-    properties: {
-      customDomains: [
-        {
-          name: "example.com",
-          bindingType: "SniEnabled",
-          certificateId:
-            "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/certificates/certificate-1",
-        },
-      ],
-      rules: [
-        {
-          description: "random-description",
-          routes: [
-            {
-              action: { prefixRewrite: "/v1/api" },
-              match: { caseSensitive: true, pathSeparatedPrefix: "/v1" },
-            },
-          ],
-          targets: [{ containerApp: "capp-1", label: "label-1" }],
-        },
-      ],
-    },
-  };
-  const options: HttpRouteConfigCreateOrUpdateOptionalParams = {
-    httpRouteConfigEnvelope,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.httpRouteConfigOperations.createOrUpdate(
-    resourceGroupName,
-    environmentName,
-    httpRouteName,
-    options,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Create or Update a Http Route Config.
- *
- * @summary Create or Update a Http Route Config.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/HttpRouteConfig_CreateOrUpdatePrefix.json
+ * @summary create or Update a Http Route Config.
+ * x-ms-original-file: 2026-07-01/HttpRouteConfig_CreateOrUpdatePrefix.json
  */
 async function createOrUpdateHttpRoutePrefixRule(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "testcontainerenv";
-  const httpRouteName = "httproutefriendlyname";
-  const httpRouteConfigEnvelope: HttpRouteConfig = {
-    properties: {
-      customDomains: [
-        {
-          name: "example.com",
-          bindingType: "SniEnabled",
-          certificateId:
-            "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/certificates/certificate-1",
-        },
-      ],
-      rules: [
-        {
-          description: "random-description",
-          routes: [
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.httpRouteConfig.createOrUpdate(
+    "examplerg",
+    "testcontainerenv",
+    "httproutefriendlyname",
+    {
+      httpRouteConfigEnvelope: {
+        properties: {
+          customDomains: [
             {
-              action: { prefixRewrite: "/v1/api" },
-              match: { caseSensitive: true, prefix: "/v1" },
+              name: "example.com",
+              bindingType: "Disabled",
+              certificateId:
+                "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/certificates/certificate-1",
             },
           ],
-          targets: [{ containerApp: "capp-1", label: "label-1" }],
+          rules: [
+            {
+              description: "random-description",
+              routes: [
+                {
+                  action: { prefixRewrite: "/v1/api" },
+                  match: { caseSensitive: true, prefix: "/v1" },
+                },
+              ],
+              targets: [{ containerApp: "capp-1", label: "label-1" }],
+            },
+          ],
         },
-      ],
+      },
     },
-  };
-  const options: HttpRouteConfigCreateOrUpdateOptionalParams = {
-    httpRouteConfigEnvelope,
-  };
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or Update a Http Route Config.
+ *
+ * @summary create or Update a Http Route Config.
+ * x-ms-original-file: 2026-07-01/HttpRouteConfig_CreateOrUpdate_PathSepPrefix.json
+ */
+async function createOrUpdateHttpRoutePathSeparatedPrefixRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.httpRouteConfigOperations.createOrUpdate(
-    resourceGroupName,
-    environmentName,
-    httpRouteName,
-    options,
+  const result = await client.httpRouteConfig.createOrUpdate(
+    "examplerg",
+    "testcontainerenv",
+    "httproutefriendlyname",
+    {
+      httpRouteConfigEnvelope: {
+        properties: {
+          customDomains: [
+            {
+              name: "example.com",
+              bindingType: "Disabled",
+              certificateId:
+                "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/certificates/certificate-1",
+            },
+          ],
+          rules: [
+            {
+              description: "random-description",
+              routes: [
+                {
+                  action: { prefixRewrite: "/v1/api" },
+                  match: { caseSensitive: true, pathSeparatedPrefix: "/v1" },
+                },
+              ],
+              targets: [{ containerApp: "capp-1", label: "label-1" }],
+            },
+          ],
+        },
+      },
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createOrUpdateHttpRoute();
-  await createOrUpdateHttpRoutePathSeparatedPrefixRule();
   await createOrUpdateHttpRoutePrefixRule();
+  await createOrUpdateHttpRoutePathSeparatedPrefixRule();
 }
 
 main().catch(console.error);

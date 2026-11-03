@@ -1,80 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  Project} from "@azure/arm-cognitiveservices";
-import {
-  CognitiveServicesManagementClient,
-} from "@azure/arm-cognitiveservices";
+import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
+ * This sample demonstrates how to create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
  *
- * @summary Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/CreateProject.json
+ * @summary create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
+ * x-ms-original-file: 2026-09-15-preview/CreateProject.json
  */
 async function createProject(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "testCreate1";
-  const projectName = "testProject1";
-  const project: Project = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.projects.create("myResourceGroup", "testCreate1", "testProject1", {
     identity: { type: "SystemAssigned" },
     location: "West US",
     properties: {
       description: "Description of this project",
       displayName: "p1",
+      capabilitySettings: {
+        documentStore:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/myProjectCosmosAccount",
+        vectorStore:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.Search/searchServices/myProjectSearchService",
+      },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.projects.beginCreateAndWait(
-    resourceGroupName,
-    accountName,
-    projectName,
-    project,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
+ * This sample demonstrates how to create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
  *
- * @summary Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/CreateProjectMin.json
+ * @summary create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
+ * x-ms-original-file: 2026-09-15-preview/CreateProjectMin.json
  */
 async function createProjectMin(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "testCreate1";
-  const projectName = "testProject1";
-  const project: Project = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.projects.create("myResourceGroup", "testCreate1", "testProject1", {
     identity: { type: "SystemAssigned" },
     location: "West US",
     properties: {},
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.projects.beginCreateAndWait(
-    resourceGroupName,
-    accountName,
-    projectName,
-    project,
-  );
+  });
   console.log(result);
 }
 

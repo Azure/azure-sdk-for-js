@@ -1,35 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Fetches the result of any operation.
- *
- * @summary Fetches the result of any operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/CancelJobOperationResult.json
- */
-
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to fetches the result of any operation.
+ *
+ * @summary fetches the result of any operation.
+ * x-ms-original-file: 2026-10-01/Common/CancelJobOperationResult.json
+ */
 async function cancelJobOperationResult(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
-  const jobName = "00000000-0000-0000-0000-000000000000";
-  const operationId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  const result = await client.jobOperationResults.get(
-    vaultName,
-    resourceGroupName,
-    jobName,
-    operationId,
+  await client.jobOperationResults.get(
+    "NetSDKTestRsVault",
+    "SwaggerTestRg",
+    "00000000-0000-0000-0000-000000000000",
+    "00000000-0000-0000-0000-000000000000",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

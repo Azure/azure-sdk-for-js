@@ -19,8 +19,12 @@ const examplePackageGood = `{
   "version": "1.0.2",
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/servicebus/service-bus"
+  },
   "keywords": [
     "azure",
     "cloud",
@@ -129,8 +133,12 @@ const examplePackageBad = `{
   "version": "1.0.2",
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/servicebus/service-bus"
+  },
   "keywords": [
     "azure",
     "cloud",
@@ -247,6 +255,10 @@ ruleTester.run("ts-package-json-sideeffects", rule, {
       filename: "package.json",
     },
     {
+      code: '{"sdk-type": "provisioning", "sideEffects": true}',
+      filename: "package.json",
+    },
+    {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
       filename: "package.json",
@@ -258,6 +270,12 @@ ruleTester.run("ts-package-json-sideeffects", rule, {
     },
   ],
   invalid: [
+    {
+      code: '{"sdk-type": "provisioning", "sideEffects": false}',
+      filename: "package.json",
+      errors: [{ message: "sideEffects is set to false when it should be set to true" }],
+      output: '{"sdk-type": "provisioning", "sideEffects": true}',
+    },
     {
       code: '{"notSideEffects": false}',
       filename: "package.json",

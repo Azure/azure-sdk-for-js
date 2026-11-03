@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The Delete Domain Service operation deletes an existing Domain Service.
- *
- * @summary The Delete Domain Service operation deletes an existing Domain Service.
- * x-ms-original-file: specification/domainservices/resource-manager/Microsoft.AAD/stable/2021-05-01/examples/DeleteDomainService.json
- */
-
 import { DomainServicesResourceProvider } from "@azure/arm-domainservices";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to the Delete Domain Service operation deletes an existing Domain Service.
+ *
+ * @summary the Delete Domain Service operation deletes an existing Domain Service.
+ * x-ms-original-file: 2025-10-01-preview/DeleteDomainService.json
+ */
 async function deleteDomainService(): Promise<void> {
-  const subscriptionId = "1639790a-76a2-4ac4-98d9-8562f5dfcb4d";
-  const resourceGroupName = "TestResourceGroup";
-  const domainServiceName = "TestDomainService.com";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "1639790a-76a2-4ac4-98d9-8562f5dfcb4d";
   const client = new DomainServicesResourceProvider(credential, subscriptionId);
-  const result = await client.domainServices.beginDeleteAndWait(
-    resourceGroupName,
-    domainServiceName,
-  );
-  console.log(result);
+  await client.domainServices.delete("TestResourceGroup", "TestDomainService.com");
 }
 
-deleteDomainService().catch(console.error);
+async function main(): Promise<void> {
+  await deleteDomainService();
+}
+
+main().catch(console.error);

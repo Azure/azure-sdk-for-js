@@ -1,91 +1,139 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Implements Access Control List PUT method.
- *
- * @summary Implements Access Control List PUT method.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/AccessControlLists_Create_MaximumSet_Gen.json
- */
-
-import type { AccessControlList } from "@azure/arm-managednetworkfabric";
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to implements Access Control List PUT method.
+ *
+ * @summary implements Access Control List PUT method.
+ * x-ms-original-file: 2025-07-15/AccessControlLists_Create.json
+ */
 async function accessControlListsCreateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const accessControlListName = "example-acl";
-  const body: AccessControlList = {
-    aclsUrl: "https://ACL-Storage-URL",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
+  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
+  const result = await client.accessControlLists.create("example-rg", "example-acl", {
     annotation: "annotation",
     configurationType: "File",
-    dynamicMatchConfigurations: [
-      {
-        ipGroups: [
-          {
-            name: "example-ipGroup",
-            ipAddressType: "IPv4",
-            ipPrefixes: ["10.20.3.1/20"],
-          },
-        ],
-        portGroups: [{ name: "example-portGroup", ports: ["100-200"] }],
-        vlanGroups: [{ name: "example-vlanGroup", vlans: ["20-30"] }],
-      },
-    ],
-    location: "eastUs",
+    aclsUrl: "https://ACL-Storage-URL",
+    defaultAction: "Permit",
     matchConfigurations: [
       {
-        actions: [{ type: "Count", counterName: "example-counter" }],
+        matchConfigurationName: "example-match",
+        sequenceNumber: 123,
         ipAddressType: "IPv4",
         matchConditions: [
           {
-            dscpMarkings: ["32"],
-            etherTypes: ["0x1"],
-            fragments: ["0xff00-0xffff"],
-            ipCondition: {
-              type: "SourceIP",
-              ipGroupNames: ["example-ipGroup"],
-              ipPrefixValues: ["10.20.20.20/12"],
-              prefixType: "Prefix",
-            },
-            ipLengths: ["4094-9214"],
-            portCondition: {
-              flags: ["established"],
-              layer4Protocol: "TCP",
-              portGroupNames: ["example-portGroup"],
-              portType: "SourcePort",
-              ports: ["1-20"],
-            },
             protocolTypes: ["TCP"],
-            ttlValues: ["23"],
             vlanMatchCondition: {
+              vlans: ["20-30"],
               innerVlans: ["30"],
               vlanGroupNames: ["example-vlanGroup"],
-              vlans: ["20-30"],
+            },
+            ipCondition: {
+              type: "SourceIP",
+              prefixType: "Prefix",
+              ipPrefixValues: ["10.20.20.20/12"],
+              ipGroupNames: ["example-ipGroup"],
+            },
+            etherTypes: ["0x1"],
+            fragments: ["0xff00-0xffff"],
+            ipLengths: ["4094-9214"],
+            ttlValues: ["23"],
+            dscpMarkings: ["32"],
+            protocolNeighbors: ["example-neighbor"],
+            portCondition: {
+              portType: "SourcePort",
+              layer4Protocol: "TCP",
+              ports: ["1-20"],
+              portGroupNames: ["example-portGroup"],
+              flags: ["established"],
+            },
+            icmpConfiguration: { icmpTypes: ["echo"] },
+          },
+        ],
+        actions: [
+          {
+            type: "Count",
+            counterName: "example-counter",
+            remarkComment: "example-remark",
+            policeRateConfiguration: {
+              bitRate: { rate: 15, unit: "bps" },
+              burstSize: { size: 2, unit: "Bytes" },
             },
           },
         ],
-        matchConfigurationName: "example-match",
-        sequenceNumber: 123,
       },
     ],
-    tags: { keyID: "KeyValue" },
-  };
+    dynamicMatchConfigurations: [
+      {
+        ipGroups: [
+          { name: "example-ipGroup", ipAddressType: "IPv4", ipPrefixes: ["10.20.3.1/20"] },
+        ],
+        vlanGroups: [{ name: "example-vlanGroup", vlans: ["20-30"] }],
+        portGroups: [{ name: "example-portGroup", ports: ["100-200"] }],
+      },
+    ],
+    aclType: "ControlPlaneTrafficPolicy",
+    deviceRole: "CE",
+    globalAccessControlListActions: { enableCount: "True" },
+    tags: { keyID: "keyValue" },
+    location: "eastUs",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to implements Access Control List PUT method.
+ *
+ * @summary implements Access Control List PUT method.
+ * x-ms-original-file: 2025-07-15/AccessControlLists_Create_ControlPlaneAcl.json
+ */
+async function accessControlListsCreateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "1234ABCD-0A1B-1234-5678-123456ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.accessControlLists.beginCreateAndWait(
-    resourceGroupName,
-    accessControlListName,
-    body,
-  );
+  const result = await client.accessControlLists.create("example-resource-group", "example-acl", {
+    annotation: "annotation",
+    configurationType: "Inline",
+    aclsUrl: "https://microsoft.com/a",
+    defaultAction: "Permit",
+    aclType: "ControlPlaneTrafficPolicy",
+    deviceRole: "CE",
+    controlPlaneAclConfiguration: [
+      {
+        ipAddressType: "IPv4",
+        matchConfigurations: [
+          {
+            matchConfigurationName: "example-match-config",
+            sequenceNumber: 3779271459,
+            matchCondition: {
+              protocolTypes: "tcp",
+              ipCondition: { sourceIpPrefix: "10.0.0.0/24", destinationIpPrefix: "10.0.0.0/24" },
+              ttlMatchCondition: { ttlValue: "1", ttlMatchType: "eq" },
+              portCondition: {
+                sourcePorts: { ports: ["100"], portMatchType: "eq" },
+                destinationPorts: { ports: ["200"], portMatchType: "eq" },
+              },
+              flags: ["established"],
+              icmpConfiguration: { icmpTypes: ["icmp"] },
+            },
+            action: { type: "Drop", remarkComment: "remark" },
+          },
+        ],
+      },
+    ],
+    tags: { key5032: "example-tag-value" },
+    location: "eastus",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await accessControlListsCreateMaximumSetGen();
+  await accessControlListsCreateMaximumSetGenGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

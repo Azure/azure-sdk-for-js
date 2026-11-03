@@ -1,67 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SnapshotUpdate} from "@azure/arm-compute";
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates (patches) a snapshot.
+ * This sample demonstrates how to updates (patches) a snapshot.
  *
- * @summary Updates (patches) a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/Snapshot_Update_WithAcceleratedNetwork.json
+ * @summary updates (patches) a snapshot.
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Update.json
  */
-async function updateASnapshotWithAcceleratedNetworking(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const snapshotName = "mySnapshot";
-  const snapshot: SnapshotUpdate = {
-    diskSizeGB: 20,
-    supportedCapabilities: { acceleratedNetwork: false },
-    tags: { department: "Development", project: "UpdateSnapshots" },
-  };
+async function updateASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.snapshots.beginUpdateAndWait(
-    resourceGroupName,
-    snapshotName,
-    snapshot,
-  );
+  const result = await client.snapshots.update("myResourceGroup", "mySnapshot", {
+    diskSizeGB: 20,
+    tags: { department: "Development", project: "UpdateSnapshots" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates (patches) a snapshot.
+ * This sample demonstrates how to updates (patches) a snapshot.
  *
- * @summary Updates (patches) a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/Snapshot_Update.json
+ * @summary updates (patches) a snapshot.
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Update_WithAcceleratedNetwork.json
  */
-async function updateASnapshot(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const snapshotName = "mySnapshot";
-  const snapshot: SnapshotUpdate = {
-    diskSizeGB: 20,
-    tags: { department: "Development", project: "UpdateSnapshots" },
-  };
+async function updateASnapshotWithAcceleratedNetworking(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.snapshots.beginUpdateAndWait(
-    resourceGroupName,
-    snapshotName,
-    snapshot,
-  );
+  const result = await client.snapshots.update("myResourceGroup", "mySnapshot", {
+    diskSizeGB: 20,
+    supportedCapabilities: { acceleratedNetwork: false },
+    tags: { department: "Development", project: "UpdateSnapshots" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await updateASnapshotWithAcceleratedNetworking();
   await updateASnapshot();
+  await updateASnapshotWithAcceleratedNetworking();
 }
 
 main().catch(console.error);

@@ -1,41 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates a private endpoint connection to the search service in the given resource group.
- *
- * @summary Updates a private endpoint connection to the search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/UpdatePrivateEndpointConnection.json
- */
-
-import {
-  PrivateEndpointConnection,
-  SearchManagementClient,
-} from "@azure/arm-search";
+import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates a private endpoint connection to the search service in the given resource group.
+ *
+ * @summary updates a private endpoint connection to the search service in the given resource group.
+ * x-ms-original-file: 2026-11-01/UpdatePrivateEndpointConnection.json
+ */
 async function privateEndpointConnectionUpdate(): Promise<void> {
-  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
-  const searchServiceName = "mysearchservice";
-  const privateEndpointConnectionName =
-    "testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546";
-  const privateEndpointConnection: PrivateEndpointConnection = {
-    properties: {
-      privateLinkServiceConnectionState: {
-        description: "Rejected for some reason.",
-        status: "Rejected",
-      },
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.update(
-    resourceGroupName,
-    searchServiceName,
-    privateEndpointConnectionName,
-    privateEndpointConnection,
+    "rg1",
+    "mysearchservice",
+    "testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546",
+    {
+      properties: {
+        privateLinkServiceConnectionState: {
+          description: "Rejected for some reason.",
+          status: "Rejected",
+        },
+      },
+    },
   );
   console.log(result);
 }

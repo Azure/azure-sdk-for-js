@@ -1,137 +1,113 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates a Channel registration for a Bot Service
- *
- * @summary Updates a Channel registration for a Bot Service
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateAlexaChannel.json
- */
-
-import type {
-  ChannelsUpdateOptionalParams,
-  EmailChannel,
-  AlexaChannel,
-  LineChannel,
-  DirectLineSpeechChannel,
-} from "@azure/arm-botservice";
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates a Channel registration for a Bot Service
+ *
+ * @summary updates a Channel registration for a Bot Service
+ * x-ms-original-file: 2023-09-15-preview/UpdateAlexaChannel.json
+ */
 async function updateAlexaChannel(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const channelName = "AlexaChannel";
-  const location = "global";
-  const properties: AlexaChannel = {
-    channelName: "AlexaChannel",
-    properties: { alexaSkillId: "XAlexaSkillIdX", isEnabled: true },
-  };
-  const options: ChannelsUpdateOptionalParams = { location, properties };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.channels.update(
-    resourceGroupName,
-    resourceName,
-    channelName,
-    options,
+    "OneResourceGroupName",
+    "samplebotname",
+    "AlexaChannel",
+    {
+      properties: {
+        channelName: "AlexaChannel",
+        properties: { alexaSkillId: "XAlexaSkillIdX", isEnabled: true },
+      },
+      location: "global",
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates a Channel registration for a Bot Service
+ * This sample demonstrates how to updates a Channel registration for a Bot Service
  *
- * @summary Updates a Channel registration for a Bot Service
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateChannel.json
+ * @summary updates a Channel registration for a Bot Service
+ * x-ms-original-file: 2023-09-15-preview/UpdateChannel.json
  */
 async function updateChannel(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const channelName = "EmailChannel";
-  const location = "global";
-  const properties: EmailChannel = {
-    channelName: "EmailChannel",
-    properties: { emailAddress: "a@b.com", isEnabled: true, password: "pwd" },
-  };
-  const options: ChannelsUpdateOptionalParams = { location, properties };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.channels.update(
-    resourceGroupName,
-    resourceName,
-    channelName,
-    options,
+    "OneResourceGroupName",
+    "samplebotname",
+    "EmailChannel",
+    {
+      properties: {
+        channelName: "EmailChannel",
+        properties: { emailAddress: "a@b.com", isEnabled: true, password: "pwd" },
+      },
+      location: "global",
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates a Channel registration for a Bot Service
+ * This sample demonstrates how to updates a Channel registration for a Bot Service
  *
- * @summary Updates a Channel registration for a Bot Service
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateDirectLineSpeechChannel.json
+ * @summary updates a Channel registration for a Bot Service
+ * x-ms-original-file: 2023-09-15-preview/UpdateDirectLineSpeechChannel.json
  */
 async function updateDirectLineSpeechChannel(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const channelName = "DirectLineSpeechChannel";
-  const location = "global";
-  const properties: DirectLineSpeechChannel = {
-    channelName: "DirectLineSpeechChannel",
-    properties: {
-      cognitiveServiceRegion: "XcognitiveServiceRegionX",
-      cognitiveServiceSubscriptionKey: "XcognitiveServiceSubscriptionKeyX",
-      isEnabled: true,
-    },
-  };
-  const options: ChannelsUpdateOptionalParams = { location, properties };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.channels.update(
-    resourceGroupName,
-    resourceName,
-    channelName,
-    options,
+    "OneResourceGroupName",
+    "samplebotname",
+    "DirectLineSpeechChannel",
+    {
+      properties: {
+        channelName: "DirectLineSpeechChannel",
+        properties: {
+          cognitiveServiceRegion: "XcognitiveServiceRegionX",
+          cognitiveServiceSubscriptionKey: "XcognitiveServiceSubscriptionKeyX",
+          isEnabled: true,
+        },
+      },
+      location: "global",
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates a Channel registration for a Bot Service
+ * This sample demonstrates how to updates a Channel registration for a Bot Service
  *
- * @summary Updates a Channel registration for a Bot Service
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateLineChannel.json
+ * @summary updates a Channel registration for a Bot Service
+ * x-ms-original-file: 2023-09-15-preview/UpdateLineChannel.json
  */
 async function updateLineChannel(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const channelName = "LineChannel";
-  const location = "global";
-  const properties: LineChannel = {
-    channelName: "LineChannel",
-    properties: {
-      lineRegistrations: [
-        {
-          channelAccessToken: "channelAccessToken",
-          channelSecret: "channelSecret",
-        },
-      ],
-    },
-  };
-  const options: ChannelsUpdateOptionalParams = { location, properties };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.channels.update(
-    resourceGroupName,
-    resourceName,
-    channelName,
-    options,
+    "OneResourceGroupName",
+    "samplebotname",
+    "LineChannel",
+    {
+      properties: {
+        channelName: "LineChannel",
+        properties: {
+          lineRegistrations: [
+            { channelAccessToken: "channelAccessToken", channelSecret: "channelSecret" },
+          ],
+        },
+      },
+      location: "global",
+    },
   );
   console.log(result);
 }

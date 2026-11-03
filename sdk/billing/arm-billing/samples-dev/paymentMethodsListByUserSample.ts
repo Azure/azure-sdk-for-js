@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the payment methods owned by the caller.
- *
- * @summary Lists the payment methods owned by the caller.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/paymentMethodsListByUser.json
- */
-
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the payment methods owned by the caller.
+ *
+ * @summary lists the payment methods owned by the caller.
+ * x-ms-original-file: 2024-04-01/paymentMethodsListByUser.json
+ */
 async function listPaymentMethodOwnedByUser(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
@@ -19,6 +17,7 @@ async function listPaymentMethodOwnedByUser(): Promise<void> {
   for await (const item of client.paymentMethods.listByUser()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

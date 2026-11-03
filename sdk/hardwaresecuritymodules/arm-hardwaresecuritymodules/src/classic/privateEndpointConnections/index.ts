@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
-import { PrivateEndpointConnection } from "../../models/models.js";
-import { PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams } from "../../api/privateEndpointConnections/options.js";
+import type { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
 import { listByCloudHsmCluster } from "../../api/privateEndpointConnections/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams } from "../../api/privateEndpointConnections/options.js";
+import type { PrivateEndpointConnection } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {
@@ -16,7 +16,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
-
 function _getPrivateEndpointConnections(context: AzureDedicatedHSMResourceProviderContext) {
   return {
     listByCloudHsmCluster: (
@@ -26,7 +25,6 @@ function _getPrivateEndpointConnections(context: AzureDedicatedHSMResourceProvid
     ) => listByCloudHsmCluster(context, resourceGroupName, cloudHsmClusterName, options),
   };
 }
-
 export function _getPrivateEndpointConnectionsOperations(
   context: AzureDedicatedHSMResourceProviderContext,
 ): PrivateEndpointConnectionsOperations {

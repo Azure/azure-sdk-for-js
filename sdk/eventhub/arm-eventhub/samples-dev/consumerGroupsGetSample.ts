@@ -1,33 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a description for the specified consumer group.
- *
- * @summary Gets a description for the specified consumer group.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/ConsumerGroup/EHConsumerGroupGet.json
- */
-
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets a description for the specified consumer group.
+ *
+ * @summary gets a description for the specified consumer group.
+ * x-ms-original-file: 2026-01-01/ConsumerGroup/EHConsumerGroupGet.json
+ */
 async function consumerGroupGet(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
-    "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
-  const resourceGroupName =
-    process.env["EVENTHUB_RESOURCE_GROUP"] || "ArunMonocle";
-  const namespaceName = "sdk-Namespace-2661";
-  const eventHubName = "sdk-EventHub-6681";
-  const consumerGroupName = "sdk-ConsumerGroup-5563";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.consumerGroups.get(
-    resourceGroupName,
-    namespaceName,
-    eventHubName,
-    consumerGroupName,
+    "ArunMonocle",
+    "sdk-Namespace-2661",
+    "sdk-EventHub-6681",
+    "sdk-ConsumerGroup-5563",
   );
   console.log(result);
 }

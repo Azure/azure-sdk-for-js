@@ -1,32 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns ResourceGuardProxy under vault and with the name referenced in request
- *
- * @summary Returns ResourceGuardProxy under vault and with the name referenced in request
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
- */
-
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns ResourceGuardProxy under vault and with the name referenced in request
+ *
+ * @summary returns ResourceGuardProxy under vault and with the name referenced in request
+ * x-ms-original-file: 2026-10-01/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
+ */
 async function getResourceGuardProxy(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "0b352192-dcac-4cc7-992e-a96190ccc68c";
-  const vaultName = "sampleVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] ||
-    "SampleResourceGroup";
-  const resourceGuardProxyName = "swaggerExample";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0b352192-dcac-4cc7-992e-a96190ccc68c";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.resourceGuardProxy.get(
-    vaultName,
-    resourceGroupName,
-    resourceGuardProxyName,
+    "sampleVault",
+    "SampleResourceGroup",
+    "swaggerExample",
   );
   console.log(result);
 }

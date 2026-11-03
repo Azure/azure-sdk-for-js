@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { action, listByParent, get } from "./operations.js";
-export {
+export type {
   ExascaleDbNodesActionOptionalParams,
   ExascaleDbNodesListByParentOptionalParams,
   ExascaleDbNodesGetOptionalParams,

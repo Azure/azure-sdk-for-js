@@ -1,29 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns a monitored GitLab Group resource for a given fully-qualified name.
- *
- * @summary Returns a monitored GitLab Group resource for a given fully-qualified name.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/GetGitLabGroups_example.json
- */
-
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns a monitored GitLab Group resource for a given fully-qualified name.
+ *
+ * @summary returns a monitored GitLab Group resource for a given fully-qualified name.
+ * x-ms-original-file: 2025-11-01-preview/SecurityConnectorsDevOps/GetGitLabGroups_example.json
+ */
 async function getGitLabGroups(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
-  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
-  const securityConnectorName = "mySecurityConnectorName";
-  const groupFQName = "myGitLabGroup$mySubGroup";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.gitLabGroups.get(
-    resourceGroupName,
-    securityConnectorName,
-    groupFQName,
+    "myRg",
+    "mySecurityConnectorName",
+    "myGitLabGroup$mySubGroup",
   );
   console.log(result);
 }

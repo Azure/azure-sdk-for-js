@@ -1,70 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualMachineScaleSetVMInstanceRequiredIDs,
-  VirtualMachineScaleSetsDeleteInstancesOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes virtual machines in a VM scale set.
+ * This sample demonstrates how to deletes virtual machines in a VM scale set.
  *
- * @summary Deletes virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MaximumSet_Gen.json
+ * @summary deletes virtual machines in a VM scale set.
+ * x-ms-original-file: 2026-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetDeleteInstancesMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaa";
-  const forceDeletion = true;
-  const vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs = {
-    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
-  };
-  const options: VirtualMachineScaleSetsDeleteInstancesOptionalParams = {
-    forceDeletion,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginDeleteInstancesAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      vmInstanceIDs,
-      options,
-    );
-  console.log(result);
+  await client.virtualMachineScaleSets.deleteInstances(
+    "rgcompute",
+    "aaaaaaaaaaaaaaaaaaaa",
+    { instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"] },
+    { forceDeletion: true },
+  );
 }
 
 /**
- * This sample demonstrates how to Deletes virtual machines in a VM scale set.
+ * This sample demonstrates how to deletes virtual machines in a VM scale set.
  *
- * @summary Deletes virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MinimumSet_Gen.json
+ * @summary deletes virtual machines in a VM scale set.
+ * x-ms-original-file: 2026-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetDeleteInstancesMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const vmScaleSetName = "aaaaaaaaaaaaaaa";
-  const vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs = {
-    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginDeleteInstancesAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      vmInstanceIDs,
-    );
-  console.log(result);
+  await client.virtualMachineScaleSets.deleteInstances("rgcompute", "aaaaaaaaaaaaaaa", {
+    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
+  });
 }
 
 async function main(): Promise<void> {

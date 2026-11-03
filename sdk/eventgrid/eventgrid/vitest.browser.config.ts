@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import viteConfig from "../../../vitest.browser.shared.config.ts";
+import { relativeRecordingsPath } from "@azure-tools/test-recorder";
 
-export default viteConfig;
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+
+export { default } from "../../../eng/vitestconfigs/browser.config.ts";

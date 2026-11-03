@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to This operation lists all the built-in policy set definition versions for all built-in policy set definitions.
- *
- * @summary This operation lists all the built-in policy set definition versions for all built-in policy set definitions.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/listAllBuiltInPolicySetDefinitionVersions.json
- */
-
 import { PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to this operation lists all the built-in policy set definition versions for all built-in policy set definitions.
+ *
+ * @summary this operation lists all the built-in policy set definition versions for all built-in policy set definitions.
+ * x-ms-original-file: 2026-06-01/listAllBuiltInPolicySetDefinitionVersions.json
+ */
 async function listAllBuiltInPolicyDefinitionVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential);

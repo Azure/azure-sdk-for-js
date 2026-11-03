@@ -1,56 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualMachinesListOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
+ * This sample demonstrates how to lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
  *
- * @summary Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_List_MaximumSet_Gen.json
+ * @summary lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_List_MaximumSet_Gen.json
  */
 async function virtualMachineListMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const filter = "aaaaaaaaaaaaaaaaaaaaaaa";
-  const options: VirtualMachinesListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.virtualMachines.list(
-    resourceGroupName,
-    options,
-  )) {
+  for await (const item of client.virtualMachines.list("rgcompute", {
+    filter: "aaaaaaaaaaaaaaaaaaaaaaa",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
+ * This sample demonstrates how to lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
  *
- * @summary Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_List_MinimumSet_Gen.json
+ * @summary lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_List_MinimumSet_Gen.json
  */
 async function virtualMachineListMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.virtualMachines.list(resourceGroupName)) {
+  for await (const item of client.virtualMachines.list("rgcompute")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

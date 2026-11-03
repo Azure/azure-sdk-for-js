@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MCPToolDefinition, MCPToolResource, ToolResources } from "../index.js";
+import type { MCPToolDefinition, MCPToolResource, ToolResources } from "../index.js";
 /**
  * A tool that connects to Model Context Protocol (MCP) servers.
  * Supports managing MCP server connections and allowed tools dynamically.

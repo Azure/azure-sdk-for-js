@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { RedisManagementClient } from "@azure/arm-rediscache";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to gets the list of access policies associated with this redis cache
+ *
+ * @summary gets the list of access policies associated with this redis cache
+ * x-ms-original-file: 2025-08-01-preview/RedisCacheAccessPolicyList.json
+ */
+async function redisCacheAccessPolicyList(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RedisManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.accessPolicy.list("rg1", "cache1")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await redisCacheAccessPolicyList();
+}
+
+main().catch(console.error);

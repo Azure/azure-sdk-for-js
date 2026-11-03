@@ -1,48 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete a FileSystemResource
- *
- * @summary Delete a FileSystemResource
- * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_Delete_MaximumSet_Gen.json
- */
-
 import { QumuloStorage } from "@azure/arm-qumulo";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function fileSystemsDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
-  const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
-  const fileSystemName = "xoschzkccroahrykedlvbbnsddq";
+/**
+ * This sample demonstrates how to delete a FileSystemResource
+ *
+ * @summary delete a FileSystemResource
+ * x-ms-original-file: 2026-04-16/FileSystems_Delete_MaximumSet_Gen.json
+ */
+async function fileSystemsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "C9CC2D2A-5AA0-4839-A85F-18491F2D244A";
   const client = new QumuloStorage(credential, subscriptionId);
-  const result = await client.fileSystems.beginDeleteAndWait(resourceGroupName, fileSystemName);
-  console.log(result);
+  await client.fileSystems.delete("rgQumulo", "qumulo-fs-01");
 }
 
 /**
- * This sample demonstrates how to Delete a FileSystemResource
+ * This sample demonstrates how to delete a FileSystemResource
  *
- * @summary Delete a FileSystemResource
- * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_Delete_MinimumSet_Gen.json
+ * @summary delete a FileSystemResource
+ * x-ms-original-file: 2026-04-16/FileSystems_Delete_MinimumSet_Gen.json
  */
-async function fileSystemsDeleteMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
-  const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
-  const fileSystemName = "jgtskkiplquyrlkaxvhdg";
+async function fileSystemsDeleteMaximumSetGenGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "53BA951C-DA09-400A-AB3A-F8E98F317423";
   const client = new QumuloStorage(credential, subscriptionId);
-  const result = await client.fileSystems.beginDeleteAndWait(resourceGroupName, fileSystemName);
-  console.log(result);
+  await client.fileSystems.delete("rgQumulo", "qumulo-fs-01");
 }
 
 async function main(): Promise<void> {
-  await fileSystemsDelete();
-  await fileSystemsDeleteMinimumSetGen();
+  await fileSystemsDeleteMaximumSet();
+  await fileSystemsDeleteMaximumSetGenGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

@@ -1,5 +1,97 @@
 # Release History
 
+## 5.1.0-beta.1 (2026-09-28)
+Compared with version 5.0.0
+
+### Features Added
+  - Added Interface ImmutabilityConfiguration
+  - Added Interface PostgreSqlFlexibleServerBackupDatasourceParameters
+  - Added Interface RecoveryPointImmutabilityProperties
+  - Interface AzureBackupDiscreteRecoveryPoint has a new optional parameter immutabilityProperties
+  - Interface ImmutabilitySettings has a new optional parameter configuration
+  - Added Type Alias BackupSolutionType
+  - Added Type Alias ImmutabilityType
+  - Added Enum KnownBackupSolutionType
+  - Added Enum KnownImmutabilityType
+  - Enum KnownVersions has a new value V20260701
+
+## 5.0.0 (2026-09-04)
+
+### Features Added
+  - Added operation group DeletedBackupVaultsOperations
+  - Class DataProtectionClient has a new constructor "constructor(credential: TokenCredential, options?: DataProtectionClientOptionalParams);"
+  - Added Interface AdlsBlobBackupDatasourceParametersForAutoProtection
+  - Added Interface BlobBackupAutoProtectionRule
+  - Added Interface BlobBackupAutoProtectionSettings
+  - Added Interface BlobBackupDatasourceParametersForAutoProtection
+  - Added Interface BlobBackupRuleBasedAutoProtectionSettings
+  - Added Interface CostManagementSettings
+  - Added Interface DeletedBackupVault
+  - Added Interface DeletedBackupVaultResource
+  - Added Interface DeletedBackupVaultsGetOptionalParams
+  - Added Interface DeletedBackupVaultsListByLocationOptionalParams
+  - Added Interface GenericBackupDatasourceParameters
+  - Added Interface GenericRestoreDatasourceCriteria
+  - Added Interface ResourceDeletionInfo
+  - Added Interface ResourceListSelectionCriteria
+  - Interface BackupVault has a new optional parameter costManagementSettings
+  - Interface BackupVaultsCreateOrUpdateOptionalParams has a new optional parameter xMsDeletedVaultId
+  - Interface PatchBackupVaultInput has a new optional parameter costManagementSettings
+  - Added Type Alias BlobBackupAutoProtectionSettingsUnion
+  - Added Type Alias BlobBackupPatternType
+  - Added Type Alias BlobBackupRuleMode
+  - Added Type Alias GranularityLevel
+  - Added Enum KnownBlobBackupPatternType
+  - Added Enum KnownBlobBackupRuleMode
+  - Added Enum KnownGranularityLevel
+  - Enum KnownVersions has a new value V20250901
+  - Enum KnownVersions has a new value V20260301
+  - Enum KnownVersions has a new value V20260601
+
+### Breaking Changes
+  - Operation BackupInstancesOperations.getBackupInstanceOperationResult has a new signature
+  - Operation BackupVaultOperationResultsOperations.get has a new signature
+  - Operation BackupVaultsOperations.createOrUpdate has a new signature
+  - Operation BackupVaultsOperations.get has a new signature
+  - Operation BackupVaultsOperations.listInResourceGroup has a new signature
+  - Operation BackupVaultsOperations.listInSubscription has a new signature
+  - Operation ExportJobsOperationResultOperations.get has a new signature
+  - Operation OperationResultOperations.get has a new signature
+  - Parameter storageSettings of interface BackupVault is now optional
+
+## 5.0.0-beta.1 (2026-04-01)
+Compared with version 4.0.0
+
+### Features Added
+  - Added operation group DeletedBackupVaultsOperations
+  - Class DataProtectionClient has a new constructor "constructor(credential: TokenCredential, options?: DataProtectionClientOptionalParams);"
+  - Added Interface AdlsBlobBackupDatasourceParametersForAutoProtection
+  - Added Interface BlobBackupAutoProtectionRule
+  - Added Interface BlobBackupAutoProtectionSettings
+  - Added Interface BlobBackupDatasourceParametersForAutoProtection
+  - Added Interface BlobBackupRuleBasedAutoProtectionSettings
+  - Added Interface DeletedBackupVault
+  - Added Interface DeletedBackupVaultResource
+  - Added Interface DeletedBackupVaultsGetOptionalParams
+  - Added Interface DeletedBackupVaultsListByLocationOptionalParams
+  - Added Interface ResourceDeletionInfo
+  - Interface BackupVaultsCreateOrUpdateOptionalParams has a new optional parameter xMsDeletedVaultId
+  - Added Type Alias BlobBackupAutoProtectionSettingsUnion
+  - Added Type Alias BlobBackupPatternType
+  - Added Type Alias BlobBackupRuleMode
+  - Added Enum KnownBlobBackupPatternType
+  - Added Enum KnownBlobBackupRuleMode
+  - Enum KnownVersions has a new value V20250901
+  - Enum KnownVersions has a new value V20260301
+
+### Breaking Changes
+  - Operation BackupVaultOperationResultsOperations.get has a new signature
+  - Operation BackupVaultsOperations.createOrUpdate has a new signature
+  - Operation BackupVaultsOperations.get has a new signature
+  - Operation BackupVaultsOperations.listInResourceGroup has a new signature
+  - Operation BackupVaultsOperations.listInSubscription has a new signature
+  - Parameter storageSettings of interface BackupVault is now optional
+
 ## 4.0.0 (2025-10-13)
 
 ### Features Added

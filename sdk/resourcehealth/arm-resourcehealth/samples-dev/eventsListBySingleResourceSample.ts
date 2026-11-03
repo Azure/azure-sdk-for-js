@@ -1,26 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists current service health events for given resource.
- *
- * @summary Lists current service health events for given resource.
- * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/Events_ListBySingleResource.json
- */
-
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists current service health events for given resource.
+ *
+ * @summary lists current service health events for given resource.
+ * x-ms-original-file: 2025-05-01/Events_ListBySingleResource.json
+ */
 async function listEventsBySingleResource(): Promise<void> {
-  const resourceUri =
-    "subscriptions/4abcdefgh-ijkl-mnop-qrstuvwxyz/resourceGroups/rhctestenv/providers/Microsoft.Compute/virtualMachines/rhctestenvV1PI";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential);
   const resArray = new Array();
-  for await (const item of client.eventsOperations.listBySingleResource(resourceUri)) {
+  for await (const item of client.events.listBySingleResource(
+    "subscriptions/4abcdefgh-ijkl-mnop-qrstuvwxyz/resourceGroups/rhctestenv/providers/Microsoft.Compute/virtualMachines/rhctestenvV1PI",
+  )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

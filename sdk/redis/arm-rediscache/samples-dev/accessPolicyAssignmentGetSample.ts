@@ -1,28 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the list of assignments for an access policy of a redis cache
- *
- * @summary Gets the list of assignments for an access policy of a redis cache
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheAccessPolicyAssignmentGet.json
- */
-
 import { RedisManagementClient } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the list of assignments for an access policy of a redis cache
+ *
+ * @summary gets the list of assignments for an access policy of a redis cache
+ * x-ms-original-file: 2025-08-01-preview/RedisCacheAccessPolicyAssignmentGet.json
+ */
 async function redisCacheAccessPolicyAssignmentGet(): Promise<void> {
-  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
-  const cacheName = "cache1";
-  const accessPolicyAssignmentName = "accessPolicyAssignmentName1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RedisManagementClient(credential, subscriptionId);
   const result = await client.accessPolicyAssignment.get(
-    resourceGroupName,
-    cacheName,
-    accessPolicyAssignmentName,
+    "rg1",
+    "cache1",
+    "accessPolicyAssignmentName1",
   );
   console.log(result);
 }

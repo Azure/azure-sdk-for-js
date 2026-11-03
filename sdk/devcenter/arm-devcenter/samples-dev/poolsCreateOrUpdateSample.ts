@@ -1,84 +1,105 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a machine pool
- *
- * @summary Creates or updates a machine pool
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Pools_Put.json
- */
-
-import type { Pool } from "@azure/arm-devcenter";
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a machine pool.
+ *
+ * @summary creates or updates a machine pool.
+ * x-ms-original-file: 2026-01-01-preview/Pools_Put.json
+ */
 async function poolsCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const projectName = "DevProject";
-  const poolName = "DevPool";
-  const body: Pool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.pools.createOrUpdate("rg1", "DevProject", "DevPool", {
+    location: "centralus",
+    activeHoursConfiguration: {
+      autoStartEnableStatus: "Enabled",
+      daysOfWeekLimit: 5,
+      defaultDaysOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      defaultEndTimeHour: 17,
+      defaultStartTimeHour: 9,
+      defaultTimeZone: "America/Los_Angeles",
+      keepAwakeEnableStatus: "Enabled",
+    },
     devBoxDefinitionName: "WebDevBox",
     displayName: "Developer Pool",
     licenseType: "Windows_Client",
     localAdministrator: "Enabled",
-    location: "centralus",
     networkConnectionName: "Network1-westus2",
     singleSignOnStatus: "Disabled",
     stopOnDisconnect: { gracePeriodMinutes: 60, status: "Enabled" },
+    stopOnNoConnect: { gracePeriodMinutes: 120, status: "Enabled" },
     virtualNetworkType: "Unmanaged",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.pools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    projectName,
-    poolName,
-    body,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a machine pool
+ * This sample demonstrates how to creates or updates a machine pool.
  *
- * @summary Creates or updates a machine pool
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Pools_PutWithManagedNetwork.json
+ * @summary creates or updates a machine pool.
+ * x-ms-original-file: 2026-01-01-preview/Pools_PutWithManagedNetwork.json
  */
 async function poolsCreateOrUpdateWithManagedNetwork(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const projectName = "DevProject";
-  const poolName = "DevPool";
-  const body: Pool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.pools.createOrUpdate("rg1", "DevProject", "DevPool", {
+    location: "centralus",
     devBoxDefinitionName: "WebDevBox",
     displayName: "Developer Pool",
     licenseType: "Windows_Client",
     localAdministrator: "Enabled",
-    location: "centralus",
     managedVirtualNetworkRegions: ["centralus"],
     networkConnectionName: "managedNetwork",
     singleSignOnStatus: "Disabled",
     stopOnDisconnect: { gracePeriodMinutes: 60, status: "Enabled" },
+    stopOnNoConnect: { gracePeriodMinutes: 120, status: "Enabled" },
     virtualNetworkType: "Managed",
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a machine pool.
+ *
+ * @summary creates or updates a machine pool.
+ * x-ms-original-file: 2026-01-01-preview/Pools_PutWithValueDevBoxDefinition.json
+ */
+async function poolsCreateOrUpdateWithValueDevBoxDefinition(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.pools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    projectName,
-    poolName,
-    body,
-  );
+  const result = await client.pools.createOrUpdate("rg1", "DevProject", "DevPool", {
+    location: "centralus",
+    devBoxDefinition: {
+      imageReference: {
+        id: "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/Example/providers/Microsoft.DevCenter/projects/DevProject/images/exampleImage/version/1.0.0",
+      },
+      sku: { name: "Preview" },
+    },
+    devBoxDefinitionName: "",
+    devBoxDefinitionType: "Value",
+    displayName: "Developer Pool",
+    licenseType: "Windows_Client",
+    localAdministrator: "Enabled",
+    networkConnectionName: "Network1-westus2",
+    singleSignOnStatus: "Disabled",
+    stopOnDisconnect: { gracePeriodMinutes: 60, status: "Enabled" },
+    stopOnNoConnect: { gracePeriodMinutes: 120, status: "Enabled" },
+    virtualNetworkType: "Unmanaged",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await poolsCreateOrUpdate();
   await poolsCreateOrUpdateWithManagedNetwork();
+  await poolsCreateOrUpdateWithValueDevBoxDefinition();
 }
 
 main().catch(console.error);

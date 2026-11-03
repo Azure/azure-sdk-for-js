@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates an existing AutoscaleSettingsResource. To update other fields use the CreateOrUpdate method.
- *
- * @summary Updates an existing AutoscaleSettingsResource. To update other fields use the CreateOrUpdate method.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/examples/patchAutoscaleSetting.json
- */
-
-import type { AutoscaleSettingResourcePatch } from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates an existing AutoscaleSettingsResource. To update other fields use the CreateOrUpdate method.
+ *
+ * @summary updates an existing AutoscaleSettingsResource. To update other fields use the CreateOrUpdate method.
+ * x-ms-original-file: 2025-09-01-preview/patchAutoscaleSetting.json
+ */
 async function patchAnAutoscaleSetting(): Promise<void> {
-  const subscriptionId =
-    process.env["MONITOR_SUBSCRIPTION_ID"] || "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
-  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "TestingMetricsScaleSet";
-  const autoscaleSettingName = "MySetting";
-  const autoscaleSettingResource: AutoscaleSettingResourcePatch = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
+  const client = new MonitorClient(credential, subscriptionId);
+  const result = await client.autoscaleSettings.update("TestingMetricsScaleSet", "MySetting", {
     enabled: true,
     notifications: [
       {
@@ -135,22 +131,39 @@ async function patchAnAutoscaleSetting(): Promise<void> {
         ],
       },
     ],
-    tags: { key1: "value1" },
     targetResourceUri:
       "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
-  };
+    tags: { key1: "value1" },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myIdentity":
+          {},
+      },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates an existing AutoscaleSettingsResource. To update other fields use the CreateOrUpdate method.
+ *
+ * @summary updates an existing AutoscaleSettingsResource. To update other fields use the CreateOrUpdate method.
+ * x-ms-original-file: 2025-09-01-preview/patchAutoscaleSettingRemoveIdentity.json
+ */
+async function removeTheManagedIdentityFromAnAutoscaleSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.autoscaleSettings.update(
-    resourceGroupName,
-    autoscaleSettingName,
-    autoscaleSettingResource,
-  );
+  const result = await client.autoscaleSettings.update("TestingMetricsScaleSet", "MySetting", {
+    identity: { type: "None" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await patchAnAutoscaleSetting();
+  await removeTheManagedIdentityFromAnAutoscaleSetting();
 }
 
 main().catch(console.error);

@@ -6,7 +6,7 @@
  * about generating samples.
  */
 
-import { SampleConfiguration } from "./configuration";
+import type { SampleConfiguration } from "./configuration.ts";
 
 export const DEV_SAMPLES_BASE = "samples-dev";
 export const PUBLIC_SAMPLES_BASE = "samples";
@@ -14,23 +14,18 @@ export const PUBLIC_SAMPLES_BASE = "samples";
 /**
  * Default TypeScript compiler configuration for sample projects.
  *
- * The default configuration targets ES2018 to support async iteration
- * by default with no `lib` entry.
+ * The default configuration targets ES2023 to support the latest JavaScript features.
  */
 export const DEFAULT_TYPESCRIPT_CONFIG = {
   compilerOptions: {
-    target: "ES2020",
-    module: "commonjs",
-
-    moduleResolution: "node",
+    target: "ES2023",
+    module: "nodenext",
+    moduleResolution: "nodenext",
     resolveJsonModule: true,
-
     esModuleInterop: true,
     allowSyntheticDefaultImports: true,
-
     strict: true,
     alwaysStrict: true,
-
     outDir: "dist",
     rootDir: "src",
   },
@@ -42,10 +37,12 @@ export const DEFAULT_TYPESCRIPT_CONFIG = {
  * - "js" to output a plain JavaScript package, or
  * - "ts" to output a TypeScript package
  */
-export const enum OutputKind {
-  TypeScript = "ts",
-  JavaScript = "js",
-}
+export const OutputKind = {
+  TypeScript: "ts",
+  JavaScript: "js",
+} as const;
+
+export type OutputKind = (typeof OutputKind)[keyof typeof OutputKind];
 
 /**
  * Information required for generating sample projects.

@@ -47,10 +47,8 @@ import type {
   UpdateMessageOptions,
   UpdateTopicOptions,
 } from "./models/options.js";
-import {
-  ChatApiClient,
-  ChatThreadUpdateChatThreadPropertiesOptionalParams,
-} from "./generated/src/index.js";
+import type { ChatThreadUpdateChatThreadPropertiesOptionalParams } from "./generated/src/index.js";
+import { ChatApiClient } from "./generated/src/index.js";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy.js";
 import { tracingClient } from "./generated/src/tracing.js";

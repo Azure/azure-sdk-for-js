@@ -3,27 +3,21 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a revision of a Container App.
+ * This sample demonstrates how to get a revision of a Container App.
  *
- * @summary Get a revision of a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/Revisions_Get.json
+ * @summary get a revision of a Container App.
+ * x-ms-original-file: 2026-07-01/Revisions_Get1.json
  */
 async function getContainerAppRevision(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const containerAppName = "testcontainerApp0";
-  const revisionName = "testcontainerApp0-pjxhsye";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerAppsDiagnostics.getRevision(
-    resourceGroupName,
-    containerAppName,
-    revisionName,
+    "rg",
+    "testcontainerApp0",
+    "testcontainerApp0-pjxhsye",
   );
   console.log(result);
 }

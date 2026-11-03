@@ -1,0 +1,11 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/planetarycomputer": ["../src/index.ts"],
+      "@azure/planetarycomputer/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  },
+  "include": ["../test/**/*.spec.ts", "../test/**/*.ts", "../src/index.ts"]
+}

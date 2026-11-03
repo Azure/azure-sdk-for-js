@@ -1,35 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists a collection of loggers in the specified workspace.
- *
- * @summary Lists a collection of loggers in the specified workspace.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementListWorkspaceLoggers.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists a collection of loggers in the specified workspace.
+ *
+ * @summary lists a collection of loggers in the specified workspace.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementListWorkspaceLoggers.json
+ */
 async function apiManagementListWorkspaceLoggers(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const workspaceId = "wks1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.workspaceLogger.listByWorkspace(
-    resourceGroupName,
-    serviceName,
-    workspaceId,
-  )) {
+  for await (const item of client.workspaceLogger.listByWorkspace("rg1", "apimService1", "wks1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

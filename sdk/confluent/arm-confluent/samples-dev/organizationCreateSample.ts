@@ -1,57 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create Organization resource
- *
- * @summary Create Organization resource
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_Create.json
- */
-
-import type { OrganizationResource, OrganizationCreateOptionalParams } from "@azure/arm-confluent";
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function organizationCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const body: OrganizationResource = {
-    linkOrganization: { token: "string" },
-    location: "West US",
-    offerDetail: {
-      id: "string",
-      planId: "string",
-      planName: "string",
-      privateOfferId: "string",
-      privateOfferIds: ["string"],
-      publisherId: "string",
-      termUnit: "string",
-    },
-    tags: { environment: "Dev" },
-    userDetail: {
-      aadEmail: "contoso@microsoft.com",
-      emailAddress: "contoso@microsoft.com",
-      firstName: "string",
-      lastName: "string",
-      userPrincipalName: "contoso@microsoft.com",
-    },
-  };
-  const options: OrganizationCreateOptionalParams = { body };
+/**
+ * This sample demonstrates how to create Organization resource
+ *
+ * @summary create Organization resource
+ * x-ms-original-file: 2026-06-02-preview/Organization_Create_MaximumSet_Gen.json
+ */
+async function organizationCreateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
-  const result = await client.organization.beginCreateAndWait(
-    resourceGroupName,
-    organizationName,
-    options,
-  );
+  const result = await client.organization.create("rgconfluent", "qcqrbyx", {
+    body: {
+      offerDetail: {
+        publisherId: "jvmchwpbqvavlgmuwquhqrnacgpvlobkkavwppwvhjfqcy",
+        id: "ufewkfngssvswmxfurnchnvgmnjuzzsoys",
+        planId: "l",
+        planName:
+          "ycpeesrtyybhvmkdenugbkffjwistugfertrprgevcczlsnbcinotsdtsmealomyzsinypzimyyubepkuewirtcxhvxhsmwhwptvzuhirckvrgogahfwchvxnfkgfwqxqy",
+        termUnit: "ipefrkgclpjaswyxpyjkppo",
+        termId: "vujdve",
+        privateOfferId:
+          "goshpcnjukfzfhubmynjxiulurrwplzcjpjstebtsiigbkovchcrlfmgoymqfuayhihnxruthwjywtedlcsqqsgaelqthvfzvafyjhsfzfjwotsiajpcogwrwylgcphxfhvvwemynoyovnvqcetftiofkthgdzfvybvhpviqlwlslaupndcxlvjssdap",
+        privateOfferIds: ["nrbzkbcpvsakewlgubfmej"],
+      },
+      userDetail: {
+        firstName: "gqxqhtniapwvnsliaifhvmbtvvrciebktpeadanapfcqzflomz",
+        lastName: "vhdbyshxnnxivxbgzxscscdsvlwbsukqmcw",
+        emailAddress: "user@example.com",
+        userPrincipalName: "g",
+        aadEmail: "swugcwecfnkp",
+      },
+      linkOrganization: { token: "yvynviychdid" },
+      tags: { key2047: "maumzdwvkwd" },
+      location: "ogifpylahax",
+    },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await organizationCreate();
+  await organizationCreateMaximumSet();
 }
 
 main().catch(console.error);

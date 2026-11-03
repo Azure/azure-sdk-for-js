@@ -3,51 +3,32 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to get the restore point.
+ * This sample demonstrates how to the operation to get the restore point.
  *
- * @summary The operation to get the restore point.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePoint_Get.json
+ * @summary the operation to get the restore point.
+ * x-ms-original-file: 2026-04-01/restorePointExamples/RestorePoint_Get.json
  */
 async function getARestorePoint(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const restorePointCollectionName = "rpcName";
-  const restorePointName = "rpName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.restorePoints.get(
-    resourceGroupName,
-    restorePointCollectionName,
-    restorePointName,
-  );
+  const result = await client.restorePoints.get("myResourceGroup", "rpcName", "rpName");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to get the restore point.
+ * This sample demonstrates how to the operation to get the restore point.
  *
- * @summary The operation to get the restore point.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePoint_Get_WithInstanceView.json
+ * @summary the operation to get the restore point.
+ * x-ms-original-file: 2026-04-01/restorePointExamples/RestorePoint_Get_WithInstanceView.json
  */
 async function getRestorePointWithInstanceView(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const restorePointCollectionName = "rpcName";
-  const restorePointName = "rpName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.restorePoints.get(
-    resourceGroupName,
-    restorePointCollectionName,
-    restorePointName,
-  );
+  const result = await client.restorePoints.get("myResourceGroup", "rpcName", "rpName");
   console.log(result);
 }
 

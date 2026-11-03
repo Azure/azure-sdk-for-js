@@ -3,30 +3,18 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete a Java Component.
+ * This sample demonstrates how to delete a Java Component.
  *
- * @summary Delete a Java Component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/JavaComponents_Delete.json
+ * @summary delete a Java Component.
+ * x-ms-original-file: 2026-07-01/JavaComponents_Delete.json
  */
 async function deleteJavaComponent(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "myenvironment";
-  const name = "myjavacomponent";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.javaComponents.beginDeleteAndWait(
-    resourceGroupName,
-    environmentName,
-    name,
-  );
-  console.log(result);
+  await client.javaComponents.delete("examplerg", "myenvironment", "myjavacomponent");
 }
 
 async function main(): Promise<void> {

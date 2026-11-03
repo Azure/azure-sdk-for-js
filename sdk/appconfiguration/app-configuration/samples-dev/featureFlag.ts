@@ -6,28 +6,24 @@
  *
  * @azsdk-weight 20
  */
+import type { ConfigurationSetting, FeatureFlagValue } from "@azure/app-configuration";
 import {
   AppConfigurationClient,
-  ConfigurationSetting,
   featureFlagContentType,
   featureFlagPrefix,
-  FeatureFlagValue,
 } from "@azure/app-configuration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Use configuration provider and feature management library to consume feature flags
 import { load } from "@azure/app-configuration-provider";
-import {
-  ConfigurationMapFeatureFlagProvider,
-  FeatureManager,
-  ITargetingContext,
-} from "@microsoft/feature-management";
+import type { ITargetingContext } from "@microsoft/feature-management";
+import { ConfigurationMapFeatureFlagProvider, FeatureManager } from "@microsoft/feature-management";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log(`Running featureFlag sample`);
 
   const featureFlagName = "sample-feature-flag";

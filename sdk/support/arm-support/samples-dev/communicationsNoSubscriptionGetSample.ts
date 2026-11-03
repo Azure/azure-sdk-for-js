@@ -1,26 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns communication details for a support ticket.
- *
- * @summary Returns communication details for a support ticket.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/GetCommunicationDetailsForSupportTicket.json
- */
-
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns communication details for a support ticket.
+ *
+ * @summary returns communication details for a support ticket.
+ * x-ms-original-file: 2025-06-01-preview/GetCommunicationDetailsForSupportTicket.json
+ */
 async function getCommunicationDetailsForANoSubscriptionSupportTicket(): Promise<void> {
-  const supportTicketName = "testticket";
-  const communicationName = "testmessage";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
-  const result = await client.communicationsNoSubscription.get(
-    supportTicketName,
-    communicationName,
-  );
+  const result = await client.communicationsNoSubscription.get("testticket", "testmessage");
   console.log(result);
 }
 

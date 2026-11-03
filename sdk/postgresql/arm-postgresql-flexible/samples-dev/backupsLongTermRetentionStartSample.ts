@@ -1,40 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  BackupsLongTermRetentionRequest} from "@azure/arm-postgresql-flexible";
-import {
-  PostgreSQLManagementFlexibleServerClient,
-} from "@azure/arm-postgresql-flexible";
+import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Initiates a long term retention backup.
+ * This sample demonstrates how to initiates a long term retention backup.
  *
- * @summary Initiates a long term retention backup.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/examples/BackupsLongTermRetentionStart.json
+ * @summary initiates a long term retention backup.
+ * x-ms-original-file: 2026-10-01/BackupsLongTermRetentionStart.json
  */
 async function initiateALongTermRetentionBackup(): Promise<void> {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "exampleresourcegroup";
-  const serverName = "exampleserver";
-  const parameters: BackupsLongTermRetentionRequest = {
-    backupSettings: { backupName: "exampleltrbackup" },
-    targetDetails: { sasUriList: ["sasuri"] },
-  };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.backupsLongTermRetention.beginStartAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.backupsLongTermRetention.start(
+    "exampleresourcegroup",
+    "exampleserver",
+    {
+      backupSettings: { backupName: "exampleltrbackup" },
+      targetDetails: { sasUriList: ["sasuri"] },
+    },
   );
   console.log(result);
 }

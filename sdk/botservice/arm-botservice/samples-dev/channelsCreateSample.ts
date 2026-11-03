@@ -1,169 +1,143 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a Channel registration for a Bot Service
- *
- * @summary Creates a Channel registration for a Bot Service
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/PutAlexaChannel.json
- */
-
-import type { BotChannel } from "@azure/arm-botservice";
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a Channel registration for a Bot Service
+ *
+ * @summary creates a Channel registration for a Bot Service
+ * x-ms-original-file: 2023-09-15-preview/PutAlexaChannel.json
+ */
 async function createAlexaChannel(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const channelName = "AlexaChannel";
-  const parameters: BotChannel = {
-    location: "global",
-    properties: {
-      channelName: "AlexaChannel",
-      properties: { alexaSkillId: "XAlexaSkillIdX", isEnabled: true },
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.channels.create(
-    resourceGroupName,
-    resourceName,
-    channelName,
-    parameters,
+    "OneResourceGroupName",
+    "samplebotname",
+    "AlexaChannel",
+    {
+      location: "global",
+      properties: {
+        channelName: "AlexaChannel",
+        properties: { alexaSkillId: "XAlexaSkillIdX", isEnabled: true },
+      },
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a Channel registration for a Bot Service
+ * This sample demonstrates how to creates a Channel registration for a Bot Service
  *
- * @summary Creates a Channel registration for a Bot Service
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/PutChannel.json
+ * @summary creates a Channel registration for a Bot Service
+ * x-ms-original-file: 2023-09-15-preview/PutChannel.json
  */
 async function createChannel(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const channelName = "EmailChannel";
-  const parameters: BotChannel = {
-    location: "global",
-    properties: {
-      channelName: "EmailChannel",
-      properties: { emailAddress: "a@b.com", isEnabled: true, password: "pwd" },
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.channels.create(
-    resourceGroupName,
-    resourceName,
-    channelName,
-    parameters,
+    "OneResourceGroupName",
+    "samplebotname",
+    "EmailChannel",
+    {
+      location: "global",
+      properties: {
+        channelName: "EmailChannel",
+        properties: { emailAddress: "a@b.com", isEnabled: true, password: "pwd" },
+      },
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a Channel registration for a Bot Service
+ * This sample demonstrates how to creates a Channel registration for a Bot Service
  *
- * @summary Creates a Channel registration for a Bot Service
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/PutDirectLineSpeechChannel.json
+ * @summary creates a Channel registration for a Bot Service
+ * x-ms-original-file: 2023-09-15-preview/PutDirectLineSpeechChannel.json
  */
 async function createDirectLineSpeechChannel(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const channelName = "DirectLineSpeechChannel";
-  const parameters: BotChannel = {
-    location: "global",
-    properties: {
-      channelName: "DirectLineSpeechChannel",
-      properties: {
-        cognitiveServiceRegion: "XcognitiveServiceRegionX",
-        cognitiveServiceSubscriptionKey: "XcognitiveServiceSubscriptionKeyX",
-        isEnabled: true,
-      },
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.channels.create(
-    resourceGroupName,
-    resourceName,
-    channelName,
-    parameters,
+    "OneResourceGroupName",
+    "samplebotname",
+    "DirectLineSpeechChannel",
+    {
+      location: "global",
+      properties: {
+        channelName: "DirectLineSpeechChannel",
+        properties: {
+          cognitiveServiceRegion: "XcognitiveServiceRegionX",
+          cognitiveServiceSubscriptionKey: "XcognitiveServiceSubscriptionKeyX",
+          isEnabled: true,
+        },
+      },
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a Channel registration for a Bot Service
+ * This sample demonstrates how to creates a Channel registration for a Bot Service
  *
- * @summary Creates a Channel registration for a Bot Service
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/PutEmailChannel.json
+ * @summary creates a Channel registration for a Bot Service
+ * x-ms-original-file: 2023-09-15-preview/PutEmailChannel.json
  */
 async function createEmailChannel(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const channelName = "EmailChannel";
-  const parameters: BotChannel = {
-    location: "global",
-    properties: {
-      channelName: "EmailChannel",
-      properties: {
-        authMethod: 1,
-        emailAddress: "a@b.com",
-        isEnabled: true,
-        magicCode: "000000",
-      },
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.channels.create(
-    resourceGroupName,
-    resourceName,
-    channelName,
-    parameters,
+    "OneResourceGroupName",
+    "samplebotname",
+    "EmailChannel",
+    {
+      location: "global",
+      properties: {
+        channelName: "EmailChannel",
+        properties: {
+          authMethod: 1,
+          emailAddress: "a@b.com",
+          isEnabled: true,
+          magicCode: "000000",
+        },
+      },
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a Channel registration for a Bot Service
+ * This sample demonstrates how to creates a Channel registration for a Bot Service
  *
- * @summary Creates a Channel registration for a Bot Service
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/PutLineChannel.json
+ * @summary creates a Channel registration for a Bot Service
+ * x-ms-original-file: 2023-09-15-preview/PutLineChannel.json
  */
 async function createLineChannel(): Promise<void> {
-  const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";
-  const resourceName = "samplebotname";
-  const channelName = "LineChannel";
-  const parameters: BotChannel = {
-    location: "global",
-    properties: {
-      channelName: "LineChannel",
-      properties: {
-        lineRegistrations: [
-          {
-            channelAccessToken: "channelAccessToken",
-            channelSecret: "channelSecret",
-          },
-        ],
-      },
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.channels.create(
-    resourceGroupName,
-    resourceName,
-    channelName,
-    parameters,
+    "OneResourceGroupName",
+    "samplebotname",
+    "LineChannel",
+    {
+      location: "global",
+      properties: {
+        channelName: "LineChannel",
+        properties: {
+          lineRegistrations: [
+            { channelAccessToken: "channelAccessToken", channelSecret: "channelSecret" },
+          ],
+        },
+      },
+    },
   );
   console.log(result);
 }

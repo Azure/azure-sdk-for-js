@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates applications for the HDInsight cluster.
- *
- * @summary Creates applications for the HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateApplication.json
- */
-
-import type { Application } from "@azure/arm-hdinsight";
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates applications for the HDInsight cluster.
+ *
+ * @summary creates applications for the HDInsight cluster.
+ * x-ms-original-file: 2025-01-15-preview/CreateApplication.json
+ */
 async function createApplication(): Promise<void> {
-  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cluster1";
-  const applicationName = "hue";
-  const parameters: Application = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new HDInsightManagementClient(credential, subscriptionId);
+  const result = await client.applications.create("rg1", "cluster1", "hue", {
     properties: {
       applicationType: "CustomApplication",
       computeProfile: {
@@ -32,11 +28,7 @@ async function createApplication(): Promise<void> {
       },
       errors: [],
       httpsEndpoints: [
-        {
-          accessModes: ["WebPage"],
-          destinationPort: 20000,
-          subDomainSuffix: "dss",
-        },
+        { accessModes: ["WebPage"], destinationPort: 20000, subDomainSuffix: "dss" },
       ],
       installScriptActions: [
         {
@@ -48,15 +40,7 @@ async function createApplication(): Promise<void> {
       ],
       uninstallScriptActions: [],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new HDInsightManagementClient(credential, subscriptionId);
-  const result = await client.applications.beginCreateAndWait(
-    resourceGroupName,
-    clusterName,
-    applicationName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

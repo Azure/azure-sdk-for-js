@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets all the azure databricks accessConnectors within a subscription.
- *
- * @summary Gets all the azure databricks accessConnectors within a subscription.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorsListBySubscriptionId.json
- */
-
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets all the Azure Databricks Access Connectors within a subscription.
+ *
+ * @summary gets all the Azure Databricks Access Connectors within a subscription.
+ * x-ms-original-file: 2026-01-01/AccessConnectorsListBySubscriptionId.json
+ */
 async function listsAllTheAzureDatabricksAccessConnectorsWithinASubscription(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.accessConnectors.listBySubscription()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

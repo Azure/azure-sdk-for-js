@@ -1,31 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a factory.
- *
- * @summary Creates or updates a factory.
- * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Factories_CreateOrUpdate.json
- */
-
-import { Factory, DataFactoryManagementClient } from "@azure/arm-datafactory";
+import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a factory.
+ *
+ * @summary creates or updates a factory.
+ * x-ms-original-file: 2018-06-01/Factories_CreateOrUpdate.json
+ */
 async function factoriesCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
-    "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName =
-    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const factoryName = "exampleFactoryName";
-  const factory: Factory = { location: "East US" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const result = await client.factories.createOrUpdate(
-    resourceGroupName,
-    factoryName,
-    factory,
+    "exampleResourceGroup",
+    "exampleFactoryName",
+    { location: "East US" },
   );
   console.log(result);
 }

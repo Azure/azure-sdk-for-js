@@ -91,7 +91,7 @@ describe("Saved Filters Test", () => {
     assert.strictEqual(put_saved_filter_name, saved_filter.name);
     assert.strictEqual(put_saved_filter_name, saved_filter.id);
     // assert.strictEqual(put_saved_filter_name, saved_filter.displayName);
-    assert.strictEqual("Sample description", saved_filter.description);
+    assert.strictEqual(saved_filter.description, "Sample description");
   });
 
   it("Should delete a saved filter", async () => {

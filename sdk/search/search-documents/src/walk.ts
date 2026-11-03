@@ -62,7 +62,7 @@ function isComplex(v: unknown): v is object {
 
 function getChildren(v: unknown): unknown[] | undefined {
   if (!isComplex(v)) {
-    return;
+    return undefined;
   }
 
   if (Array.isArray(v)) {

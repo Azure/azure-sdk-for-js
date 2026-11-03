@@ -3,34 +3,34 @@
 
 export { LogsQueryClient } from "./logsQueryClient.js";
 export {
-  QueryBody,
-  Table,
-  Column,
-  ColumnDataType,
-  ErrorInfo,
-  ErrorDetail,
-  ErrorResponse,
-  BatchRequest,
-  BatchQueryRequest,
-  LogsQueryBatchResult,
-  BatchQueryResponse,
-  BatchQueryResults,
-  QueryBatch,
-  QueryTimeInterval,
+  type QueryBody,
+  type Table,
+  type Column,
+  type ColumnDataType,
+  type ErrorInfo,
+  type ErrorDetail,
+  type ErrorResponse,
+  type BatchRequest,
+  type BatchQueryRequest,
+  type LogsQueryBatchResult,
+  type BatchQueryResponse,
+  type BatchQueryResults,
+  type QueryBatch,
+  type QueryTimeInterval,
   Durations,
 } from "./models/index.js";
 export {
-  LogsQueryResult,
+  type LogsQueryResult,
   LogsQueryResultStatus,
-  LogsTable,
-  LogsColumn,
-  LogsErrorInfo,
-  LogsQuerySuccessfulResult,
-  LogsQueryPartialResult,
-  LogsQueryError,
+  type LogsTable,
+  type LogsColumn,
+  type LogsErrorInfo,
+  type LogsQuerySuccessfulResult,
+  type LogsQueryPartialResult,
+  type LogsQueryError,
   KnownMonitorLogsQueryAudience,
 } from "./models/public.js";
-export {
+export type {
   LogsQueryClientOptions,
   LogsQueryBatchOptions,
   LogsQueryOptions,
@@ -38,3 +38,4 @@ export {
   ExecuteOptionalParams,
   QueryLogsOptions,
 } from "./api/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to list InventoryResource resources by SolutionConfiguration
  *
  * @summary list InventoryResource resources by SolutionConfiguration
- * x-ms-original-file: 2024-12-01/Inventory_ListBySolutionConfiguration.json
+ * x-ms-original-file: 2027-01-01/Inventory_ListBySolutionConfiguration_MaximumSet_Gen.json
  */
-
-import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
-
-async function inventoryListBySolutionConfiguration(): Promise<void> {
+async function inventoryListBySolutionConfigurationGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
+  const client = new HybridConnectivityManagementAPI(credential);
   const resArray = new Array();
-  for await (const item of client.inventory.listBySolutionConfiguration("ymuj", "wsxt")) {
+  for await (const item of client.inventory.listBySolutionConfiguration(
+    "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine",
+    "abc",
+  )) {
     resArray.push(item);
   }
 
@@ -24,7 +25,7 @@ async function inventoryListBySolutionConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await inventoryListBySolutionConfiguration();
+  await inventoryListBySolutionConfigurationGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

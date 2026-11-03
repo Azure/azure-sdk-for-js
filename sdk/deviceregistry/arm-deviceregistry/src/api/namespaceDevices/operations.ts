@@ -6,6 +6,7 @@ import type {
   NamespaceDevice,
   NamespaceDeviceUpdate,
   _NamespaceDeviceListResult,
+  DeviceCredentialsRevokeRequest,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -13,12 +14,14 @@ import {
   namespaceDeviceDeserializer,
   namespaceDeviceUpdateSerializer,
   _namespaceDeviceListResultDeserializer,
+  deviceCredentialsRevokeRequestSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  NamespaceDevicesRevokeOptionalParams,
   NamespaceDevicesListByResourceGroupOptionalParams,
   NamespaceDevicesDeleteOptionalParams,
   NamespaceDevicesUpdateOptionalParams,
@@ -29,13 +32,71 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
+export function _revokeSend(
+  context: Client,
+  resourceGroupName: string,
+  namespaceName: string,
+  deviceName: string,
+  body: DeviceCredentialsRevokeRequest,
+  options: NamespaceDevicesRevokeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/devices/{deviceName}/revoke{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      namespaceName: namespaceName,
+      deviceName: deviceName,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: deviceCredentialsRevokeRequestSerializer(body),
+  });
+}
+
+export async function _revokeDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return;
+}
+
+/** A long-running resource action. */
+export function revoke(
+  context: Client,
+  resourceGroupName: string,
+  namespaceName: string,
+  deviceName: string,
+  body: DeviceCredentialsRevokeRequest,
+  options: NamespaceDevicesRevokeOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _revokeDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _revokeSend(context, resourceGroupName, namespaceName, deviceName, body, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  options: NamespaceDevicesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: NamespaceDevicesListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/devices{?api%2Dversion}",
@@ -43,7 +104,7 @@ export function _listByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,10 +112,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -65,6 +123,7 @@ export async function _listByResourceGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -76,16 +135,18 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  options: NamespaceDevicesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: NamespaceDevicesListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<NamespaceDevice> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, namespaceName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -103,7 +164,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       deviceName: deviceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,6 +178,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -142,6 +204,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, namespaceName, deviceName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -160,7 +223,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       deviceName: deviceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -169,19 +232,17 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: namespaceDeviceUpdateSerializer(properties),
   });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<NamespaceDevice> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -197,12 +258,13 @@ export function update(
   properties: NamespaceDeviceUpdate,
   options: NamespaceDevicesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NamespaceDevice>, NamespaceDevice> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, namespaceName, deviceName, properties, options),
-    resourceLocationConfig: "original-uri",
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<NamespaceDevice>, NamespaceDevice>;
 }
 
@@ -212,9 +274,7 @@ export function _createOrReplaceSend(
   namespaceName: string,
   deviceName: string,
   resource: NamespaceDevice,
-  options: NamespaceDevicesCreateOrReplaceOptionalParams = {
-    requestOptions: {},
-  },
+  options: NamespaceDevicesCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/devices/{deviceName}{?api%2Dversion}",
@@ -223,7 +283,7 @@ export function _createOrReplaceSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       deviceName: deviceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -232,10 +292,7 @@ export function _createOrReplaceSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: namespaceDeviceSerializer(resource),
   });
 }
@@ -247,6 +304,7 @@ export async function _createOrReplaceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -260,9 +318,7 @@ export function createOrReplace(
   namespaceName: string,
   deviceName: string,
   resource: NamespaceDevice,
-  options: NamespaceDevicesCreateOrReplaceOptionalParams = {
-    requestOptions: {},
-  },
+  options: NamespaceDevicesCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NamespaceDevice>, NamespaceDevice> {
   return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -277,6 +333,7 @@ export function createOrReplace(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<NamespaceDevice>, NamespaceDevice>;
 }
 
@@ -294,7 +351,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       deviceName: deviceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -302,10 +359,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -314,6 +368,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Na
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

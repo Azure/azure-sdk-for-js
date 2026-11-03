@@ -8,6 +8,10 @@
 
 ### Bugs Fixed
 
+- Fixed dependency resolution fallback so that a `RestError` is recognized even when the consuming application
+  resolves more than one copy of `@azure/core-rest-pipeline`. The check now uses the `isRestError` type guard
+  rather than an `instanceof` check, which compares constructor identity.
+
 ### Other Changes
 
 ## 1.0.0-beta.3 (2021-06-22)

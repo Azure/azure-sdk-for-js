@@ -1,27 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the list of endpoints that VNET Injected Workspace calls Azure Databricks Control Plane. You must configure outbound access with these endpoints. For more information, see https://learn.microsoft.com/azure/databricks/administration-guide/cloud-configurations/azure/udr
- *
- * @summary Gets the list of endpoints that VNET Injected Workspace calls Azure Databricks Control Plane. You must configure outbound access with these endpoints. For more information, see https://learn.microsoft.com/azure/databricks/administration-guide/cloud-configurations/azure/udr
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/OutboundNetworkDependenciesEndpointsList.json
- */
-
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the list of endpoints that VNET Injected Workspace calls Azure Databricks Control Plane. You must configure outbound access with these endpoints. For more information, see https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr
+ *
+ * @summary gets the list of endpoints that VNET Injected Workspace calls Azure Databricks Control Plane. You must configure outbound access with these endpoints. For more information, see https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr
+ * x-ms-original-file: 2026-01-01/OutboundNetworkDependenciesEndpointsList.json
+ */
 async function listOutboundNetworkDependenciesEndpointsByWorkspace(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABRICKS_SUBSCRIPTION_ID"] || "11111111-1111-1111-1111-111111111111";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "myResourceGroup";
-  const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
   const result = await client.outboundNetworkDependenciesEndpoints.list(
-    resourceGroupName,
-    workspaceName,
+    "myResourceGroup",
+    "myWorkspace",
   );
   console.log(result);
 }

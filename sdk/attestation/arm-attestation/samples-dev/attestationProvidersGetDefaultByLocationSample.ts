@@ -1,23 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get the default provider by location.
- *
- * @summary Get the default provider by location.
- * x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2020-10-01/examples/Get_DefaultProviderByLocation.json
- */
-
 import { AttestationManagementClient } from "@azure/arm-attestation";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to get the default provider by location.
+ *
+ * @summary get the default provider by location.
+ * x-ms-original-file: 2021-06-01/Get_DefaultProviderByLocation.json
+ */
 async function attestationProvidersGetDefaultWithLocation(): Promise<void> {
-  const subscriptionId = "6c96b33e-f5b8-40a6-9011-5cb1c58b0915";
-  const location = "Central US";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "6c96b33e-f5b8-40a6-9011-5cb1c58b0915";
   const client = new AttestationManagementClient(credential, subscriptionId);
-  const result = await client.attestationProviders.getDefaultByLocation(location);
+  const result = await client.attestationProviders.getDefaultByLocation("Central US");
   console.log(result);
 }
 
-attestationProvidersGetDefaultWithLocation().catch(console.error);
+async function main(): Promise<void> {
+  await attestationProvidersGetDefaultWithLocation();
+}
+
+main().catch(console.error);

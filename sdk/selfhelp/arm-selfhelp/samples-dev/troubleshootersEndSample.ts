@@ -1,25 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Ends the troubleshooter action
- *
- * @summary Ends the troubleshooter action
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/Troubleshooter_End.json
- */
-
 import { HelpRP } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to ends the troubleshooter action
+ *
+ * @summary ends the troubleshooter action
+ * x-ms-original-file: 2024-03-01-preview/Troubleshooter_End.json
+ */
 async function troubleshootersEnd(): Promise<void> {
-  const scope =
-    "subscriptions/mySubscription/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-rp";
-  const troubleshooterName = "abf168ed-1b54-454a-86f6-e4b62253d3b1";
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.troubleshooters.end(scope, troubleshooterName);
-  console.log(result);
+  await client.troubleshooters.end(
+    "subscriptions/mySubscription/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-rp",
+    "abf168ed-1b54-454a-86f6-e4b62253d3b1",
+  );
 }
 
 async function main(): Promise<void> {

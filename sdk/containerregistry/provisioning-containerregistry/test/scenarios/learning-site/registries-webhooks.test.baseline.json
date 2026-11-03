@@ -1,0 +1,169 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "registry": {
+          "bicepIdentifier": "registry",
+          "type": "Microsoft.ContainerRegistry/registries",
+          "apiVersion": "2025-11-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "crtest07"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "adminUserEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "anonymousPullEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "dataEndpointEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "encryption": {
+                    "kind": "object",
+                    "value": {
+                      "status": {
+                        "kind": "string",
+                        "value": "disabled"
+                      }
+                    }
+                  },
+                  "networkRuleBypassOptions": {
+                    "kind": "string",
+                    "value": "AzureServices"
+                  },
+                  "policies": {
+                    "kind": "object",
+                    "value": {
+                      "exportPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "status": {
+                            "kind": "string",
+                            "value": "enabled"
+                          }
+                        }
+                      },
+                      "quarantinePolicy": {
+                        "kind": "object",
+                        "value": {
+                          "status": {
+                            "kind": "string",
+                            "value": "disabled"
+                          }
+                        }
+                      },
+                      "retentionPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "status": {
+                            "kind": "string",
+                            "value": "disabled"
+                          }
+                        }
+                      },
+                      "trustPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "status": {
+                            "kind": "string",
+                            "value": "disabled"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  },
+                  "zoneRedundancy": {
+                    "kind": "string",
+                    "value": "Disabled"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "webhook": {
+          "bicepIdentifier": "webhook",
+          "type": "Microsoft.ContainerRegistry/registries/webhooks",
+          "apiVersion": "2025-11-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "webhook01"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "registry"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "actions": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "push"
+                      }
+                    ]
+                  },
+                  "customHeaders": {
+                    "kind": "object",
+                    "value": {}
+                  },
+                  "scope": {
+                    "kind": "string",
+                    "value": ""
+                  },
+                  "serviceUri": {
+                    "kind": "string",
+                    "value": "https://mywebhookreceiver.example/mytag"
+                  },
+                  "status": {
+                    "kind": "string",
+                    "value": "enabled"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

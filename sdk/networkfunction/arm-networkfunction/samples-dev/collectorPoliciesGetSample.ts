@@ -1,29 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the collector policy in a specified Traffic Collector
- *
- * @summary Gets the collector policy in a specified Traffic Collector
- * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyGet.json
- */
-
 import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to gets the collector policy in a specified Traffic Collector
+ *
+ * @summary gets the collector policy in a specified Traffic Collector
+ * x-ms-original-file: 2022-11-01/CollectorPolicyGet.json
+ */
 async function getCollectionPolicy(): Promise<void> {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
-  const azureTrafficCollectorName = "atc";
-  const collectorPolicyName = "cp1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
-  const result = await client.collectorPolicies.get(
-    resourceGroupName,
-    azureTrafficCollectorName,
-    collectorPolicyName,
-  );
+  const result = await client.collectorPolicies.get("rg1", "atc", "cp1");
   console.log(result);
 }
 
-getCollectionPolicy().catch(console.error);
+async function main(): Promise<void> {
+  await getCollectionPolicy();
+}
+
+main().catch(console.error);

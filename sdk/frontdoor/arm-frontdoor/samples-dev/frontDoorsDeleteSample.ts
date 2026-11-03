@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an existing Front Door with the specified parameters.
- *
- * @summary Deletes an existing Front Door with the specified parameters.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorDelete.json
- */
-
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes an existing Front Door with the specified parameters.
+ *
+ * @summary deletes an existing Front Door with the specified parameters.
+ * x-ms-original-file: 2025-11-01/FrontdoorDelete.json
+ */
 async function deleteFrontDoor(): Promise<void> {
-  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
-  const frontDoorName = "frontDoor1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new FrontDoorManagementClient(credential, subscriptionId);
-  const result = await client.frontDoors.beginDeleteAndWait(resourceGroupName, frontDoorName);
-  console.log(result);
+  await client.frontDoors.delete("rg1", "frontDoor1");
 }
 
 async function main(): Promise<void> {

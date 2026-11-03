@@ -3,27 +3,18 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete a Shared Image Gallery.
+ * This sample demonstrates how to delete a Shared Image Gallery.
  *
- * @summary Delete a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Delete.json
+ * @summary delete a Shared Image Gallery.
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_Delete.json
  */
 async function deleteAGallery(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const galleryName = "myGalleryName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.galleries.beginDeleteAndWait(
-    resourceGroupName,
-    galleryName,
-  );
-  console.log(result);
+  await client.galleries.delete("myResourceGroup", "myGalleryName");
 }
 
 async function main(): Promise<void> {

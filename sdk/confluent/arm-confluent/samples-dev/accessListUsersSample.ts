@@ -1,34 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Organization users details
- *
- * @summary Organization users details
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_UsersList.json
- */
-
-import type { ListAccessRequestModel } from "@azure/arm-confluent";
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function accessUsersList(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const body: ListAccessRequestModel = {
-    searchFilters: { pageSize: "10", pageToken: "asc4fts4ft" },
-  };
+/**
+ * This sample demonstrates how to organization users details
+ *
+ * @summary organization users details
+ * x-ms-original-file: 2026-06-02-preview/Access_ListUsers_MaximumSet_Gen.json
+ */
+async function accessListUsersMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
-  const result = await client.access.listUsers(resourceGroupName, organizationName, body);
+  const result = await client.access.listUsers("rgconfluent", "iggbjjnfqgutjxyvnlriqdm", {
+    searchFilters: { key8083: "ft" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to organization users details
+ *
+ * @summary organization users details
+ * x-ms-original-file: 2026-06-02-preview/Access_ListUsers_MinimumSet_Gen.json
+ */
+async function accessListUsersMinimumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
+  const client = new ConfluentManagementClient(credential, subscriptionId);
+  const result = await client.access.listUsers("rgconfluent", "elqetgujssclojggilbgl", {});
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await accessUsersList();
+  await accessListUsersMaximumSet();
+  await accessListUsersMinimumSet();
 }
 
 main().catch(console.error);

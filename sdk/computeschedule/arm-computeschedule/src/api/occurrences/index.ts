@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { delay, cancel, listResources, listByScheduledAction, get } from "./operations.js";
-export {
+export type {
   OccurrencesDelayOptionalParams,
   OccurrencesCancelOptionalParams,
   OccurrencesListResourcesOptionalParams,

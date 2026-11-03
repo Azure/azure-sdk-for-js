@@ -1,34 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Regenerates the primary or secondary connection strings to the queue.
- *
- * @summary Regenerates the primary or secondary connection strings to the queue.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Queues/SBQueueAuthorizationRuleRegenerateKey.json
- */
-
-import type { RegenerateAccessKeyParameters } from "@azure/arm-servicebus";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to regenerates the primary or secondary connection strings to the queue.
+ *
+ * @summary regenerates the primary or secondary connection strings to the queue.
+ * x-ms-original-file: 2026-01-01/Queues/SBQueueAuthorizationRuleRegenerateKey.json
+ */
 async function queueAuthorizationRuleRegenerateKey(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ArunMonocle";
-  const namespaceName = "sdk-namespace-7982";
-  const queueName = "sdk-Queues-2317";
-  const authorizationRuleName = "sdk-AuthRules-5800";
-  const parameters: RegenerateAccessKeyParameters = { keyType: "PrimaryKey" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const result = await client.queues.regenerateKeys(
-    resourceGroupName,
-    namespaceName,
-    queueName,
-    authorizationRuleName,
-    parameters,
+    "ArunMonocle",
+    "sdk-namespace-7982",
+    "sdk-Queues-2317",
+    "sdk-AuthRules-5800",
+    { keyType: "PrimaryKey" },
   );
   console.log(result);
 }

@@ -3,32 +3,18 @@
 
 import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified private endpoint connection associated with the Redis Enterprise cluster.
+ * This sample demonstrates how to gets the specified private endpoint connection associated with the Redis Enterprise cluster.
  *
- * @summary Gets the specified private endpoint connection associated with the Redis Enterprise cluster.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseGetPrivateEndpointConnection.json
+ * @summary gets the specified private endpoint connection associated with the Redis Enterprise cluster.
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseGetPrivateEndpointConnection.json
  */
 async function redisEnterpriseGetPrivateEndpointConnection(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
-  const privateEndpointConnectionName = "pectest01";
   const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.privateEndpointConnections.get(
-    resourceGroupName,
-    clusterName,
-    privateEndpointConnectionName,
-  );
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  const result = await client.privateEndpointConnections.get("rg1", "cache1", "pectest01");
   console.log(result);
 }
 

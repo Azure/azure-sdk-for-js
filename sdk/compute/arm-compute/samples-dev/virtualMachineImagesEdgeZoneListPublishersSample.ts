@@ -3,44 +3,37 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
+ * This sample demonstrates how to gets a list of virtual machine image publishers for the specified Azure location and edge zone.
  *
- * @summary Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MaximumSet_Gen.json
+ * @summary gets a list of virtual machine image publishers for the specified Azure location and edge zone.
+ * x-ms-original-file: 2026-04-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListPublishersMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const location = "aaaaaa";
-  const edgeZone = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImagesEdgeZone.listPublishers(
-    location,
-    edgeZone,
+    "aaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
+ * This sample demonstrates how to gets a list of virtual machine image publishers for the specified Azure location and edge zone.
  *
- * @summary Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MinimumSet_Gen.json
+ * @summary gets a list of virtual machine image publishers for the specified Azure location and edge zone.
+ * x-ms-original-file: 2026-04-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListPublishersMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const location = "aaaa";
-  const edgeZone = "aaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImagesEdgeZone.listPublishers(
-    location,
-    edgeZone,
+    "aaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaa",
   );
   console.log(result);
 }

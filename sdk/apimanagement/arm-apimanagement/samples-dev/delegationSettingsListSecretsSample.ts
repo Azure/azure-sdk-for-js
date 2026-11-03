@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the secret validation key of the DelegationSettings.
- *
- * @summary Gets the secret validation key of the DelegationSettings.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementListSecretsPortalSettingsValidationKey.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the secret validation key of the DelegationSettings.
+ *
+ * @summary gets the secret validation key of the DelegationSettings.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementListSecretsPortalSettingsValidationKey.json
+ */
 async function apiManagementListSecretsPortalSettings(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.delegationSettings.listSecrets(
-    resourceGroupName,
-    serviceName,
-  );
+  const result = await client.delegationSettings.listSecrets("rg1", "apimService1");
   console.log(result);
 }
 

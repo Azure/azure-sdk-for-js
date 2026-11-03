@@ -1,49 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualMachineExtensionUpdate} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to update the extension.
+ * This sample demonstrates how to the operation to update the extension.
  *
- * @summary The operation to update the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachineExtension_Update.json
+ * @summary the operation to update the extension.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachineExtension_Update.json
  */
 async function updateVMExtension(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const vmExtensionName = "myVMExtension";
-  const extensionParameters: VirtualMachineExtensionUpdate = {
-    type: "extType",
-    autoUpgradeMinorVersion: true,
-    protectedSettingsFromKeyVault: {
-      secretUrl:
-        "https://kvName.vault.azure.net/secrets/secretName/79b88b3a6f5440ffb2e73e44a0db712e",
-      sourceVault: {
-        id: "/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachineExtensions.update(
+    "myResourceGroup",
+    "myVM",
+    "myVMExtension",
+    {
+      autoUpgradeMinorVersion: true,
+      publisher: "extPublisher",
+      type: "extType",
+      typeHandlerVersion: "1.2",
+      suppressFailures: true,
+      settings: { UserName: "xyz@microsoft.com" },
+      protectedSettingsFromKeyVault: {
+        sourceVault: {
+          id: "/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName",
+        },
+        secretUrl:
+          "https://kvName.vault.azure.net/secrets/secretName/79b88b3a6f5440ffb2e73e44a0db712e",
       },
     },
-    publisher: "extPublisher",
-    settings: { UserName: "xyz@microsoft.com" },
-    suppressFailures: true,
-    typeHandlerVersion: "1.2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineExtensions.beginUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    vmExtensionName,
-    extensionParameters,
   );
   console.log(result);
 }

@@ -103,19 +103,11 @@ export interface DtmfData {
 
 // StreamingDataResult type  | TranscriptionMetadata| TranscriptionData| AudioData| AudioMetadata;
 export type StreamingDataResult =
-  | TranscriptionMetadata
-  | TranscriptionData
-  | AudioData
-  | AudioMetadata
-  | DtmfData;
+  TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata | DtmfData;
 
 // Enum for different kinds of streaming data in a call automation system
 export type StreamingDataKind =
-  | "AudioData"
-  | "AudioMetadata"
-  | "TranscriptionData"
-  | "TranscriptionMetadata"
-  | "DtmfData";
+  "AudioData" | "AudioMetadata" | "TranscriptionData" | "TranscriptionMetadata" | "DtmfData";
 
 // Enum for channel.
 export enum Channel {

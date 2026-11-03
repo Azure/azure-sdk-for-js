@@ -3,7 +3,7 @@
 
 import { isError } from "./util/error.js";
 import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
-import { custom } from "./util/inspect.js";
+import { custom } from "#platform/inspect";
 import { Sanitizer } from "./util/sanitizer.js";
 
 const errorSanitizer = new Sanitizer();
@@ -114,6 +114,10 @@ export class RestError extends Error {
  * @param e - Something caught by a catch clause.
  */
 export function isRestError(e: unknown): e is RestError {
+  // This package declares RestError, so there is exactly one constructor that can produce it
+  // here and the cross-package `instanceof` restriction does not apply. The `name` check below
+  // is the fallback for a RestError built by a second copy of this package.
+  // eslint-disable-next-line no-restricted-syntax
   if (e instanceof RestError) {
     return true;
   }

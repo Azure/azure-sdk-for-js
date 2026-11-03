@@ -1,26 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets all the azure databricks accessConnectors within a resource group.
- *
- * @summary Gets all the azure databricks accessConnectors within a resource group.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorsListByResourceGroup.json
- */
-
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets all the Azure Databricks Access Connectors within a resource group.
+ *
+ * @summary gets all the Azure Databricks Access Connectors within a resource group.
+ * x-ms-original-file: 2026-01-01/AccessConnectorsListByResourceGroup.json
+ */
 async function listsAzureDatabricksAccessConnectorsWithinAResourceGroup(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.accessConnectors.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.accessConnectors.listByResourceGroup("rg")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

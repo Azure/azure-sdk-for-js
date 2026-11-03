@@ -3,41 +3,30 @@
 
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a FqdnListGlobalRulestackResource
+ * This sample demonstrates how to get a FqdnListGlobalRulestackResource
  *
- * @summary Get a FqdnListGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/FqdnListGlobalRulestack_Get_MaximumSet_Gen.json
+ * @summary get a FqdnListGlobalRulestackResource
+ * x-ms-original-file: 2026-05-11-preview/FqdnListGlobalRulestack_Get_MaximumSet_Gen.json
  */
 async function fqdnListGlobalRulestackGetMaximumSetGen(): Promise<void> {
-  const globalRulestackName = "praval";
-  const name = "armid1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.fqdnListGlobalRulestack.get(
-    globalRulestackName,
-    name,
-  );
+  const result = await client.fqdnListGlobalRulestack.get("praval", "armid1");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get a FqdnListGlobalRulestackResource
+ * This sample demonstrates how to get a FqdnListGlobalRulestackResource
  *
- * @summary Get a FqdnListGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/FqdnListGlobalRulestack_Get_MinimumSet_Gen.json
+ * @summary get a FqdnListGlobalRulestackResource
+ * x-ms-original-file: 2026-05-11-preview/FqdnListGlobalRulestack_Get_MinimumSet_Gen.json
  */
 async function fqdnListGlobalRulestackGetMinimumSetGen(): Promise<void> {
-  const globalRulestackName = "praval";
-  const name = "armid1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.fqdnListGlobalRulestack.get(
-    globalRulestackName,
-    name,
-  );
+  const result = await client.fqdnListGlobalRulestack.get("praval", "armid1");
   console.log(result);
 }
 

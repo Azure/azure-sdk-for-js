@@ -1,35 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to CancelJob.
- *
- * @summary CancelJob.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsCancelPost.json
- */
-
-import {
-  CancellationReason,
-  DataBoxManagementClient,
-} from "@azure/arm-databox";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to cancelJob.
+ *
+ * @summary cancelJob.
+ * x-ms-original-file: 2025-07-01/JobsCancelPost.json
+ */
 async function jobsCancelPost(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
-  const jobName = "TestJobName1";
-  const cancellationReason: CancellationReason = { reason: "CancelTest" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "YourSubscriptionId";
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.jobs.cancel(
-    resourceGroupName,
-    jobName,
-    cancellationReason,
-  );
-  console.log(result);
+  await client.jobs.cancel("YourResourceGroupName", "TestJobName1", { reason: "CancelTest" });
 }
 
 async function main(): Promise<void> {

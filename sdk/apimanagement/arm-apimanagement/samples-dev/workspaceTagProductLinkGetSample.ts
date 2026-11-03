@@ -1,35 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the product link for the tag.
- *
- * @summary Gets the product link for the tag.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGetWorkspaceTagProductLink.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the product link for the tag.
+ *
+ * @summary gets the product link for the tag.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGetWorkspaceTagProductLink.json
+ */
 async function apiManagementGetWorkspaceTagProductLink(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const workspaceId = "wks1";
-  const tagId = "tag1";
-  const productLinkId = "link1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
   const result = await client.workspaceTagProductLink.get(
-    resourceGroupName,
-    serviceName,
-    workspaceId,
-    tagId,
-    productLinkId,
+    "rg1",
+    "apimService1",
+    "wks1",
+    "tag1",
+    "link1",
   );
   console.log(result);
 }

@@ -1,19 +1,16 @@
 {
   "compilerOptions": {
     "target": "ES2023",
-    "module": "es6",
-    "lib": [],
+    "module": "NodeNext",
+    "lib": ["ES2023"],
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
     "sourceMap": true,
     "importHelpers": true,
-    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true
+    "noFallthroughCasesInSwitch": true
   }
 }

@@ -3,29 +3,44 @@
 
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all of the available Storage Rest API operations.
+ * This sample demonstrates how to lists all of the available Storage Rest API operations.
  *
- * @summary Lists all of the available Storage Rest API operations.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/OperationsList.json
+ * @summary lists all of the available Storage Rest API operations.
+ * x-ms-original-file: 2026-09-01/OperationsList.json
  */
 async function operationsList(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
+  const client = new StorageManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to lists all of the available Storage Rest API operations.
+ *
+ * @summary lists all of the available Storage Rest API operations.
+ * x-ms-original-file: 2026-09-01/Operations_List.json
+ */
+async function listOperations(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new StorageManagementClient(credential);
+  const resArray = new Array();
+  for await (const item of client.operations.list()) {
+    resArray.push(item);
+  }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
   await operationsList();
+  await listOperations();
 }
 
 main().catch(console.error);

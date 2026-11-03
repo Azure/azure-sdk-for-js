@@ -1,37 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Patch a given StorageSyncService.
- *
- * @summary Patch a given StorageSyncService.
- * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/StorageSyncServices_Update.json
- */
-
-import type {
-  StorageSyncServiceUpdateParameters,
-  StorageSyncServicesUpdateOptionalParams,
-} from "@azure/arm-storagesync";
 import { MicrosoftStorageSync } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to patch a given StorageSyncService.
+ *
+ * @summary patch a given StorageSyncService.
+ * x-ms-original-file: 2025-12-01/StorageSyncServices_Update.json
+ */
 async function storageSyncServicesUpdate(): Promise<void> {
-  const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
-  const resourceGroupName = "SampleResourceGroup_1";
-  const storageSyncServiceName = "SampleStorageSyncService_1";
-  const parameters: StorageSyncServiceUpdateParameters = {
-    incomingTrafficPolicy: "AllowAllTraffic",
-    tags: { dept: "IT", environment: "Test" },
-  };
-  const options: StorageSyncServicesUpdateOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
   const client = new MicrosoftStorageSync(credential, subscriptionId);
-  const result = await client.storageSyncServices.beginUpdateAndWait(
-    resourceGroupName,
-    storageSyncServiceName,
-    options,
+  const result = await client.storageSyncServices.update(
+    "SampleResourceGroup_1",
+    "SampleStorageSyncService_1",
+    {
+      parameters: {
+        incomingTrafficPolicy: "AllowAllTraffic",
+        useIdentity: true,
+        tags: { Dept: "IT", Environment: "Test" },
+      },
+    },
   );
   console.log(result);
 }
 
-storageSyncServicesUpdate().catch(console.error);
+async function main(): Promise<void> {
+  await storageSyncServicesUpdate();
+}
+
+main().catch(console.error);

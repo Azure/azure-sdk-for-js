@@ -6,7 +6,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { Duplex } from "node:stream";
 import * as zlib from "zlib";
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import type {
   ShareClient,
   ShareDirectoryClient,
@@ -29,9 +30,8 @@ import {
   getBSU,
   getTokenCredential,
   getUniqueName,
-  recorderEnvSetup,
   SimpleTokenCredential,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "../utils/index.js";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -50,8 +50,7 @@ describe("FileClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getBSU(recorder);
     await recorder.addSanitizers(
       {
@@ -62,7 +61,6 @@ describe("FileClient Node.js only", () => {
             "x-ms-copy-source-authorization",
           ],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );

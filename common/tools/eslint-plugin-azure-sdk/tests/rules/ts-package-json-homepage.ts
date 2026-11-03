@@ -20,7 +20,11 @@ const examplePackageGood = `{
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/servicebus/service-bus"
+  },
   "keywords": [
     "azure",
     "cloud",
@@ -130,7 +134,11 @@ const examplePackageBad = `{
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/servicebus/service-bus"
+  },
   "keywords": [
     "azure",
     "cloud",

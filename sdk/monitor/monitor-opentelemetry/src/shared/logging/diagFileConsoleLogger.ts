@@ -16,6 +16,10 @@ import {
   unlinkAsync,
 } from "../../utils/index.js";
 
+// Capture the unpatched sink to prevent recursive diagnostic collection.
+// eslint-disable-next-line no-console
+const originalConsoleLog: (...args: any[]) => void = console.log.bind(console);
+
 export class DiagFileConsoleLogger implements DiagLogger {
   private _TAG = "DiagFileConsoleLogger:";
   private _cleanupTimeOut = 60 * 30 * 1000; // 30 minutes;
@@ -70,8 +74,10 @@ export class DiagFileConsoleLogger implements DiagLogger {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public error(message?: any, ...args: any[]): void {
-    // Filter out warnings about accessing resource attributes before async attributes are settled
     if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
       return;
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -80,8 +86,10 @@ export class DiagFileConsoleLogger implements DiagLogger {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public warn(message?: any, ...args: any[]): void {
-    // Filter out warnings about accessing resource attributes before async attributes are settled
     if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
       return;
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -90,18 +98,36 @@ export class DiagFileConsoleLogger implements DiagLogger {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public info(message?: any, ...args: any[]): void {
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public debug(message?: any, ...args: any[]): void {
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public verbose(message?: any, ...args: any[]): void {
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
@@ -114,13 +140,16 @@ export class DiagFileConsoleLogger implements DiagLogger {
         await this._storeToDisk(args);
       }
       if (this._logToConsole) {
-        // eslint-disable-next-line no-console
-        console.log(...args);
+        this._writeToConsole(...args);
       }
     } catch (err: any) {
-      // eslint-disable-next-line no-console
-      console.log(this._TAG, `Failed to log to file: ${err && err.message}`);
+      this._writeToConsole(this._TAG, `Failed to log to file: ${err && err.message}`);
     }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  private _writeToConsole(...args: any[]): void {
+    originalConsoleLog(...args);
   }
 
   /**
@@ -132,28 +161,29 @@ export class DiagFileConsoleLogger implements DiagLogger {
       "accessing resource attributes before async attributes settled",
       "resource attributes being accessed before async attributes finished",
       "async attributes settled",
+      "unsettled resource attribute",
       "resource attributes accessed before async detection completed",
       "module @azure/core-tracing has been loaded before @azure/opentelemetry-instrumentation-azure-sdk",
     ];
 
+    const stringsToInspect: string[] = [];
     if (typeof message === "string") {
-      if (messagesToFilter.some((filterText) => message.toLowerCase().includes(filterText))) {
-        return true;
-      }
+      stringsToInspect.push(message.toLowerCase());
     }
-
-    // Check if the message is in the args array
     if (args && Array.isArray(args)) {
       for (const arg of args) {
         if (typeof arg === "string") {
-          if (messagesToFilter.some((filterText) => arg.toLowerCase().includes(filterText))) {
-            return true;
-          }
+          stringsToInspect.push(arg.toLowerCase());
         }
       }
     }
 
-    // Also check if message starts with the warning text (in case it's formatted differently)
+    for (const text of stringsToInspect) {
+      if (messagesToFilter.some((filterText) => text.includes(filterText))) {
+        return true;
+      }
+    }
+
     if (typeof message === "string") {
       const messageParts = message.split(" ");
       if (
@@ -169,14 +199,31 @@ export class DiagFileConsoleLogger implements DiagLogger {
     return false;
   }
 
+  private _shouldFilterAzureMonitorExporterWarning(message?: any): boolean {
+    if (typeof message !== "string") {
+      return false;
+    }
+
+    const text = message.toLowerCase();
+    if (!text.includes("otel_metrics_exporter")) {
+      return false;
+    }
+
+    const matchesUnsupportedValue = text.includes("unsupported otel_metrics_exporter value");
+
+    return matchesUnsupportedValue && text.includes("azure_monitor");
+  }
+
   private async _storeToDisk(args: any): Promise<void> {
     const data = `${args}\r\n`;
 
     try {
       await confirmDirExists(this._tempDir);
     } catch (err: any) {
-      // eslint-disable-next-line no-console
-      console.log(this._TAG, `Failed to create directory for log file: ${err && err.message}`);
+      this._writeToConsole(
+        this._TAG,
+        `Failed to create directory for log file: ${err && err.message}`,
+      );
       return;
     }
     try {
@@ -186,8 +233,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
       try {
         await appendFileAsync(this._fileFullPath, data);
       } catch (appendError: any) {
-        // eslint-disable-next-line no-console
-        console.log(
+        this._writeToConsole(
           this._TAG,
           `Failed to put log into file: ${appendError && appendError.message}`,
         );
@@ -209,8 +255,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
       const backupPath = path.join(this._tempDir, `${new Date().getTime()}.${this._logFileName}`);
       await writeFileAsync(backupPath, buffer);
     } catch (err: any) {
-      // eslint-disable-next-line no-console
-      console.log("Failed to generate backup log file", err);
+      this._writeToConsole(this._TAG, "Failed to generate backup log file", err);
     } finally {
       // Store logs
       await writeFileAsync(this._fileFullPath, data);
@@ -239,8 +284,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
         await unlinkAsync(pathToDelete);
       }
     } catch (err: any) {
-      // eslint-disable-next-line no-console
-      console.log(this._TAG, `Failed to cleanup log files: ${err && err.message}`);
+      this._writeToConsole(this._TAG, `Failed to cleanup log files: ${err && err.message}`);
     }
   }
 }

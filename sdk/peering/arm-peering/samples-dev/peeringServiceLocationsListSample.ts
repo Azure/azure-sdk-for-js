@@ -1,25 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all of the available locations for peering service.
- *
- * @summary Lists all of the available locations for peering service.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListPeeringServiceLocationsBySubscription.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to lists all of the available locations for peering service.
+ *
+ * @summary lists all of the available locations for peering service.
+ * x-ms-original-file: 2025-05-01/ListPeeringServiceLocationsBySubscription.json
+ */
 async function listPeeringServiceLocations(): Promise<void> {
-  const subscriptionId = "subId";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.peeringServiceLocations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-listPeeringServiceLocations().catch(console.error);
+async function main(): Promise<void> {
+  await listPeeringServiceLocations();
+}
+
+main().catch(console.error);

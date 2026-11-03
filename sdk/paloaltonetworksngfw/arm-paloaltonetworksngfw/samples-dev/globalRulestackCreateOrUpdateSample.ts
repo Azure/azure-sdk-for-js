@@ -1,37 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  GlobalRulestackResource} from "@azure/arm-paloaltonetworksngfw";
-import {
-  PaloAltoNetworksCloudngfw,
-} from "@azure/arm-paloaltonetworksngfw";
+import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create a GlobalRulestackResource
+ * This sample demonstrates how to create a GlobalRulestackResource
  *
- * @summary Create a GlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
+ * @summary create a GlobalRulestackResource
+ * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function globalRulestackCreateOrUpdateMaximumSetGen(): Promise<void> {
-  const globalRulestackName = "praval";
-  const resource: GlobalRulestackResource = {
+  const credential = new DefaultAzureCredential();
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.globalRulestack.createOrUpdate("praval", {
+    identity: {
+      type: "None",
+      userAssignedIdentities: { key16: { clientId: "aaaa", principalId: "aaaaaaaaaaaaaaa" } },
+    },
+    location: "eastus",
     description: "global rulestacks",
     associatedSubscriptions: ["2bf4a339-294d-4c25-b0b2-ef649e9f5c27"],
     defaultMode: "IPS",
-    identity: {
-      type: "None",
-      userAssignedIdentities: {
-        key16: { clientId: "aaaa", principalId: "aaaaaaaaaaaaaaa" },
-      },
-    },
-    location: "eastus",
     minAppIdVersion: "8.5.3",
     panEtag: "2bf4a339-294d-4c25-b0b2-ef649e9f5c12",
     panLocation: "eastus",
-    provisioningState: "Accepted",
     scope: "GLOBAL",
     securityServices: {
       antiSpywareProfile: "default",
@@ -43,31 +36,20 @@ async function globalRulestackCreateOrUpdateMaximumSetGen(): Promise<void> {
       urlFilteringProfile: "default",
       vulnerabilityProfile: "default",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.globalRulestack.beginCreateOrUpdateAndWait(
-    globalRulestackName,
-    resource,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create a GlobalRulestackResource
+ * This sample demonstrates how to create a GlobalRulestackResource
  *
- * @summary Create a GlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
+ * @summary create a GlobalRulestackResource
+ * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function globalRulestackCreateOrUpdateMinimumSetGen(): Promise<void> {
-  const globalRulestackName = "praval";
-  const resource: GlobalRulestackResource = { location: "eastus" };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.globalRulestack.beginCreateOrUpdateAndWait(
-    globalRulestackName,
-    resource,
-  );
+  const result = await client.globalRulestack.createOrUpdate("praval", { location: "eastus" });
   console.log(result);
 }
 

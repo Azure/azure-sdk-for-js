@@ -1,30 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all connection monitor tests under the given subscription, resource group and peering service.
- *
- * @summary Lists all connection monitor tests under the given subscription, resource group and peering service.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListConnectionMonitorTestsByPeeringService.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to lists all connection monitor tests under the given subscription, resource group and peering service.
+ *
+ * @summary lists all connection monitor tests under the given subscription, resource group and peering service.
+ * x-ms-original-file: 2025-05-01/ListConnectionMonitorTestsByPeeringService.json
+ */
 async function listAllConnectionMonitorTestsAssociatedWithThePeeringService(): Promise<void> {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
-  const peeringServiceName = "peeringServiceName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.connectionMonitorTests.listByPeeringService(
-    resourceGroupName,
-    peeringServiceName,
+    "rgName",
+    "peeringServiceName",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-listAllConnectionMonitorTestsAssociatedWithThePeeringService().catch(console.error);
+async function main(): Promise<void> {
+  await listAllConnectionMonitorTestsAssociatedWithThePeeringService();
+}
+
+main().catch(console.error);

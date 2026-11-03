@@ -1,35 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Adds the access policy assignment to the specified users
- *
- * @summary Adds the access policy assignment to the specified users
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheAccessPolicyAssignmentCreateUpdate.json
- */
-
-import type { RedisCacheAccessPolicyAssignment } from "@azure/arm-rediscache";
 import { RedisManagementClient } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to adds the access policy assignment to the specified users
+ *
+ * @summary adds the access policy assignment to the specified users
+ * x-ms-original-file: 2025-08-01-preview/RedisCacheAccessPolicyAssignmentCreateUpdate.json
+ */
 async function redisCacheAccessPolicyAssignmentCreateUpdate(): Promise<void> {
-  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
-  const cacheName = "cache1";
-  const accessPolicyAssignmentName = "accessPolicyAssignmentName1";
-  const parameters: RedisCacheAccessPolicyAssignment = {
-    accessPolicyName: "accessPolicy1",
-    objectId: "6497c918-11ad-41e7-1b0f-7c518a87d0b0",
-    objectIdAlias: "TestAADAppRedis",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RedisManagementClient(credential, subscriptionId);
-  const result = await client.accessPolicyAssignment.beginCreateUpdateAndWait(
-    resourceGroupName,
-    cacheName,
-    accessPolicyAssignmentName,
-    parameters,
+  const result = await client.accessPolicyAssignment.createUpdate(
+    "rg1",
+    "cache1",
+    "accessPolicyAssignmentName1",
+    {
+      accessPolicyName: "accessPolicy1",
+      objectId: "6497c918-11ad-41e7-1b0f-7c518a87d0b0",
+      objectIdAlias: "TestAADAppRedis",
+    },
   );
   console.log(result);
 }

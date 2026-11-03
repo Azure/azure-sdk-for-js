@@ -3,32 +3,22 @@
 
 import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete Database Migration Service.
+ * This sample demonstrates how to delete Database Migration Service.
  *
- * @summary Delete Database Migration Service.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/DeleteSqlMigrationService.json
+ * @summary delete Database Migration Service.
+ * x-ms-original-file: 2025-09-01-preview/DeleteSqlMigrationService.json
  */
-async function deleteSqlMigrationService(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
-  const sqlMigrationServiceName = "service1";
+async function deleteSQLMigrationService(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.sqlMigrationServices.beginDeleteAndWait(
-    resourceGroupName,
-    sqlMigrationServiceName,
-  );
-  console.log(result);
+  await client.sqlMigrationServices.delete("testrg", "service1");
 }
 
 async function main(): Promise<void> {
-  await deleteSqlMigrationService();
+  await deleteSQLMigrationService();
 }
 
 main().catch(console.error);

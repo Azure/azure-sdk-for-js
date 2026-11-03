@@ -1,65 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  CheckNameAvailabilityRequest} from "@azure/arm-appcontainers";
-import {
-  ContainerAppsAPIClient,
-} from "@azure/arm-appcontainers";
+import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Checks if resource name is available.
+ * This sample demonstrates how to checks if resource name is available.
  *
- * @summary Checks if resource name is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/Certificates_CheckNameAvailability.json
+ * @summary checks if resource name is available.
+ * x-ms-original-file: 2026-07-01/Certificates_CheckNameAvailability.json
  */
 async function certificatesCheckNameAvailability(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "testcontainerenv";
-  const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.namespaces.checkNameAvailability("examplerg", "testcontainerenv", {
     name: "testcertificatename",
     type: "Microsoft.App/managedEnvironments/certificates",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.namespaces.checkNameAvailability(
-    resourceGroupName,
-    environmentName,
-    checkNameAvailabilityRequest,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Checks if resource name is available.
+ * This sample demonstrates how to checks if resource name is available.
  *
- * @summary Checks if resource name is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ContainerApps_CheckNameAvailability.json
+ * @summary checks if resource name is available.
+ * x-ms-original-file: 2026-07-01/ContainerApps_CheckNameAvailability.json
  */
 async function containerAppsCheckNameAvailability(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "testcontainerenv";
-  const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.namespaces.checkNameAvailability("examplerg", "testcontainerenv", {
     name: "testcappname",
     type: "Microsoft.App/containerApps",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.namespaces.checkNameAvailability(
-    resourceGroupName,
-    environmentName,
-    checkNameAvailabilityRequest,
-  );
+  });
   console.log(result);
 }
 

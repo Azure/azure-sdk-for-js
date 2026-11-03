@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List keys of a notebook.
- *
- * @summary List keys of a notebook.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Notebook/listKeys.json
- */
-
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists keys of Azure Machine Learning Workspaces notebook.
+ *
+ * @summary lists keys of Azure Machine Learning Workspaces notebook.
+ * x-ms-original-file: 2026-03-15-preview/Notebook/listKeys.json
+ */
 async function listWorkspaceKeys(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
-  const workspaceName = "workspaces123";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.listNotebookKeys(resourceGroupName, workspaceName);
+  const result = await client.workspaces.listNotebookKeys("testrg123", "workspaces123");
   console.log(result);
 }
 

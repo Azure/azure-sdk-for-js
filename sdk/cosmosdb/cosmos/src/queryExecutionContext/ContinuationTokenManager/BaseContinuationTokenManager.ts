@@ -11,7 +11,7 @@ import type {
   PartitionRangeUpdate,
   PartitionRangeUpdates,
 } from "../../documents/ContinuationToken/PartitionRangeUpdate.js";
-import { PartitionRangeManager } from "../PartitionRangeManager.js";
+import { PartitionRangeManager, isPartitionExhausted } from "../PartitionRangeManager.js";
 import type { ParallelQueryResult } from "../parallelQueryResult.js";
 
 /**
@@ -20,15 +20,21 @@ import type { ParallelQueryResult } from "../parallelQueryResult.js";
  * @internal
  */
 export abstract class BaseContinuationTokenManager {
-  private ranges: QueryRangeWithContinuationToken[] = [];
+  private readonly ranges: QueryRangeWithContinuationToken[] = [];
   private readonly partitionRangeManager: PartitionRangeManager = new PartitionRangeManager();
+  protected readonly collectionLink: string;
+  protected offset?: number;
+  protected limit?: number;
 
-  constructor(initialContinuationToken?: string) {
+  constructor(collectionLink: string, initialContinuationToken?: string) {
+    this.collectionLink = collectionLink;
     if (initialContinuationToken) {
       const token = parseBaseContinuationToken(initialContinuationToken);
       if (token?.rangeMappings) {
-        this.ranges = token.rangeMappings;
+        this.ranges.push(...token.rangeMappings);
       }
+      this.offset = token?.offset;
+      this.limit = token?.limit;
     }
   }
 
@@ -71,7 +77,6 @@ export abstract class BaseContinuationTokenManager {
     endIndex: number;
     continuationToken?: string;
   } {
-    // Process response data
     if (responseResult) {
       this.processResponseResult(responseResult);
     }
@@ -157,26 +162,31 @@ export abstract class BaseContinuationTokenManager {
     this.processQuerySpecificResponse(responseResult);
   }
 
-  private isPartitionExhausted(continuationToken: string | undefined): boolean {
-    return (
-      !continuationToken ||
-      continuationToken === "" ||
-      continuationToken === "null" ||
-      continuationToken.toLowerCase() === "null"
-    );
+  /**
+   * Compacts the ranges array in place by keeping only items that satisfy the predicate.
+   * This preserves the same array reference while removing unwanted entries.
+   */
+  private compactRangesInPlace(
+    shouldKeep: (mapping: QueryRangeWithContinuationToken) => boolean,
+  ): void {
+    let writeIndex = 0;
+    for (let i = 0; i < this.ranges.length; i++) {
+      const mapping = this.ranges[i];
+      if (!shouldKeep(mapping)) {
+        continue;
+      }
+      this.ranges[writeIndex++] = mapping;
+    }
+    this.ranges.length = writeIndex;
   }
 
   private removeExhaustedRangesFromRanges(): void {
     if (!this.ranges || !Array.isArray(this.ranges)) {
       return;
     }
-    this.ranges = this.ranges.filter((mapping) => {
-      if (!mapping) {
-        return false;
-      }
-      const isExhausted = this.isPartitionExhausted(mapping.continuationToken);
-      return !isExhausted;
-    });
+    this.compactRangesInPlace(
+      (mapping) => !!mapping && !isPartitionExhausted(mapping.continuationToken),
+    );
   }
 
   private handlePartitionRangeChanges(updatedContinuationRanges: PartitionRangeUpdates): void {
@@ -223,8 +233,8 @@ export abstract class BaseContinuationTokenManager {
   }
 
   private handleRangeSplit(oldRange: any, newRanges: any[], continuationToken: string): void {
-    // Remove the old range mapping from the common ranges array
-    this.ranges = this.ranges.filter(
+    // Remove the old range mapping from the common ranges array (in-place, no reinitialization)
+    this.compactRangesInPlace(
       (mapping) =>
         !(mapping.queryRange.min === oldRange.min && mapping.queryRange.max === oldRange.max),
     );

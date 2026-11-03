@@ -1,38 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates the billing property of a subscription. Currently, cost center can be updated for billing accounts with agreement type Microsoft Customer Agreement and subscription service usage address can be updated for billing accounts with agreement type Microsoft Online Service Program.
- *
- * @summary Updates the billing property of a subscription. Currently, cost center can be updated for billing accounts with agreement type Microsoft Customer Agreement and subscription service usage address can be updated for billing accounts with agreement type Microsoft Online Service Program.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingPropertyPatchCostCenter.json
- */
-
-import type { BillingProperty } from "@azure/arm-billing";
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates the billing property of a subscription. Currently, cost center can be updated for billing accounts with agreement type Microsoft Customer Agreement and subscription service usage address can be updated for billing accounts with agreement type Microsoft Online Service Program.
+ *
+ * @summary updates the billing property of a subscription. Currently, cost center can be updated for billing accounts with agreement type Microsoft Customer Agreement and subscription service usage address can be updated for billing accounts with agreement type Microsoft Online Service Program.
+ * x-ms-original-file: 2024-04-01/billingPropertyPatchCostCenter.json
+ */
 async function billingPropertyPatchCostCenter(): Promise<void> {
-  const subscriptionId =
-    process.env["BILLING_SUBSCRIPTION_ID"] || "11111111-1111-1111-1111-111111111111";
-  const parameters: BillingProperty = { properties: { costCenter: "1010" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new BillingManagementClient(credential, subscriptionId);
-  const result = await client.billingPropertyOperations.update(parameters);
+  const result = await client.billingProperty.update({ properties: { costCenter: "1010" } });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates the billing property of a subscription. Currently, cost center can be updated for billing accounts with agreement type Microsoft Customer Agreement and subscription service usage address can be updated for billing accounts with agreement type Microsoft Online Service Program.
+ * This sample demonstrates how to updates the billing property of a subscription. Currently, cost center can be updated for billing accounts with agreement type Microsoft Customer Agreement and subscription service usage address can be updated for billing accounts with agreement type Microsoft Online Service Program.
  *
- * @summary Updates the billing property of a subscription. Currently, cost center can be updated for billing accounts with agreement type Microsoft Customer Agreement and subscription service usage address can be updated for billing accounts with agreement type Microsoft Online Service Program.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingPropertyPatchSubscriptionServiceUsageAddress.json
+ * @summary updates the billing property of a subscription. Currently, cost center can be updated for billing accounts with agreement type Microsoft Customer Agreement and subscription service usage address can be updated for billing accounts with agreement type Microsoft Online Service Program.
+ * x-ms-original-file: 2024-04-01/billingPropertyPatchSubscriptionServiceUsageAddress.json
  */
 async function billingPropertyPatchSubscriptionServiceUsageAddress(): Promise<void> {
-  const subscriptionId =
-    process.env["BILLING_SUBSCRIPTION_ID"] || "11111111-1111-1111-1111-111111111111";
-  const parameters: BillingProperty = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
+  const client = new BillingManagementClient(credential, subscriptionId);
+  const result = await client.billingProperty.update({
     properties: {
       subscriptionServiceUsageAddress: {
         addressLine1: "Address line 1",
@@ -46,10 +42,7 @@ async function billingPropertyPatchSubscriptionServiceUsageAddress(): Promise<vo
         region: "State",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new BillingManagementClient(credential, subscriptionId);
-  const result = await client.billingPropertyOperations.update(parameters);
+  });
   console.log(result);
 }
 

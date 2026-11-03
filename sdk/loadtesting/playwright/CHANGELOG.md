@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.7 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,68 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Replaced shell command strings with safe, structured process execution.
+  [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
+
+## 1.1.6 (2026-06-05)
+
+### Features Added
+
+- Added a `sourceType` option to `createAzurePlaywrightConfig` and `getConnectOptions`
+  that sets the `sourceType` query parameter on the remote browser WebSocket
+  endpoint. Supported values are `PlaywrightWorkspacesTestRun` (default) and
+  `Others`. Defaults remain unchanged for existing callers.
+
+### Bugs Fixed
+
+- Validated workspace `storageUri` against an Azure Storage Blob allowlist before uploading reports.
+
+## 1.1.5 (2026-04-24)
+
+### Bugs Fixed
+
+- Fixed failure during report upload for test runs longer than 5 minutes when using GitHub OIDC authentication.
+
+## 1.1.4 (2026-04-10)
+
+### Bugs Fixed
+
+- Provided a direct Azure Portal URL to the specific Playwright test run.
+
+## 1.1.3 (2026-03-18)
+
+### Features Added
+
+- Added `useCloudHostedBrowsers` option to allow users to opt out of connecting to cloud-hosted browsers while still using the reporting feature.
+
+### Other Changes
+
+- Enhanced browser session activity logging with source type tracking.
+
+## 1.1.2 (2026-02-13)
+
+### Bugs Fixed
+
+- Fixed Report URLs to use correct Azure AD tenant domain
+
+## 1.1.1 (2026-01-28)
+
+### Bugs Fixed
+
+- Improved error messages for better clarity and troubleshooting.
+- Fixed trace viewer logic for HTML reporter to correctly handle Azure Portal and local scenarios.
+
+## 1.1.0 (2026-01-06)
+
+### Features Added
+
+- Added Azure Playwright Reporter that uploads Playwright HTML test reports to Azure Storage after test execution completes.
+
+### Bugs Fixed
+
+- Improved error handling for authentication scenarios.
+- Changed test run creation failures from fatal to non-fatal errors.
 
 ## 1.0.0 (2025-08-28)
 

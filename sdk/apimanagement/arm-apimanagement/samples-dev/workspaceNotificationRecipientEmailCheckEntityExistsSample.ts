@@ -1,38 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Determine if Notification Recipient Email subscribed to the notification.
- *
- * @summary Determine if Notification Recipient Email subscribed to the notification.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementHeadWorkspaceNotificationRecipientEmail.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to determine if Notification Recipient Email subscribed to the notification.
+ *
+ * @summary determine if Notification Recipient Email subscribed to the notification.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementHeadWorkspaceNotificationRecipientEmail.json
+ */
 async function apiManagementHeadWorkspaceNotificationRecipientEmail(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const workspaceId = "wks1";
-  const notificationName = "RequestPublisherNotificationMessage";
-  const email = "contoso@live.com";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result =
-    await client.workspaceNotificationRecipientEmail.checkEntityExists(
-      resourceGroupName,
-      serviceName,
-      workspaceId,
-      notificationName,
-      email,
-    );
-  console.log(result);
+  await client.workspaceNotificationRecipientEmail.checkEntityExists(
+    "rg1",
+    "apimService1",
+    "wks1",
+    "RequestPublisherNotificationMessage",
+    "contoso@live.com",
+  );
 }
 
 async function main(): Promise<void> {

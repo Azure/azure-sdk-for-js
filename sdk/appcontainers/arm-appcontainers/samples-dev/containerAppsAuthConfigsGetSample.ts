@@ -3,28 +3,21 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a AuthConfig of a Container App.
+ * This sample demonstrates how to get a AuthConfig of a Container App.
  *
- * @summary Get a AuthConfig of a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/AuthConfigs_Get.json
+ * @summary get a AuthConfig of a Container App.
+ * x-ms-original-file: 2026-07-01/AuthConfigs_Get.json
  */
 async function getContainerAppAuthConfig(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "workerapps-rg-xj";
-  const containerAppName = "testcanadacentral";
-  const authConfigName = "current";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerAppsAuthConfigs.get(
-    resourceGroupName,
-    containerAppName,
-    authConfigName,
+    "workerapps-rg-xj",
+    "testcanadacentral",
+    "current",
   );
   console.log(result);
 }

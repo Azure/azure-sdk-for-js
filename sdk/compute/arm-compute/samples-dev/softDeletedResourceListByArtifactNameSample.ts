@@ -3,33 +3,27 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image version of an image.
+ * This sample demonstrates how to list soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image version of an image.
  *
- * @summary List soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image version of an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GallerySoftDeletedResource_ListByArtifactName.json
+ * @summary list soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image version of an image.
+ * x-ms-original-file: 2026-03-03/galleryExamples/GallerySoftDeletedResource_ListByArtifactName.json
  */
 async function listSoftDeletedResourcesOfAnArtifactInTheGallery(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const galleryName = "myGalleryName";
-  const artifactType = "images";
-  const artifactName = "myGalleryImageName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.softDeletedResource.listByArtifactName(
-    resourceGroupName,
-    galleryName,
-    artifactType,
-    artifactName,
+    "myResourceGroup",
+    "myGalleryName",
+    "images",
+    "myGalleryImageName",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

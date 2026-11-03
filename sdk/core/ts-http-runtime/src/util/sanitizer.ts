@@ -35,6 +35,7 @@ const defaultAllowedHeaderNames = [
   "ms-cv",
   "return-client-request-id",
   "traceparent",
+  "azure-deprecating",
 
   "Access-Control-Allow-Credentials",
   "Access-Control-Allow-Headers",
@@ -108,12 +109,12 @@ export class Sanitizer {
           };
         }
 
-        if (key === "headers") {
-          return this.sanitizeHeaders(value as UnknownObject);
-        } else if (key === "url") {
-          return this.sanitizeUrl(value as string);
-        } else if (key === "query") {
-          return this.sanitizeQuery(value as UnknownObject);
+        if (key === "headers" && isObject(value)) {
+          return this.sanitizeHeaders(value);
+        } else if (key === "url" && typeof value === "string") {
+          return this.sanitizeUrl(value);
+        } else if (key === "query" && isObject(value)) {
+          return this.sanitizeQuery(value);
         } else if (key === "body") {
           // Don't log the request body
           return undefined;

@@ -583,10 +583,7 @@ export interface ContainerServiceNetworkProfileOutput {
   dockerBridgeCidr?: string;
   /** This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype). */
   outboundType?:
-    | "loadBalancer"
-    | "userDefinedRouting"
-    | "managedNATGateway"
-    | "userAssignedNATGateway";
+    "loadBalancer" | "userDefinedRouting" | "managedNATGateway" | "userAssignedNATGateway";
   /** The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs. */
   loadBalancerSku?: "standard" | "basic";
   /** Profile of the cluster load balancer. */

@@ -1,6 +1,8 @@
 {
-  "apiVersion": "2025-08-01",
-  "emitterVersion": "0.44.1",
+  "apiVersions": {
+    "Microsoft.RecoveryServices": "2026-07-01"
+  },
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.RecoveryServices",
     "CrossLanguageDefinitionId": {
@@ -22,14 +24,17 @@
       "@azure/arm-recoveryservices!MonitoringSettings:interface": "Microsoft.RecoveryServices.MonitoringSettings",
       "@azure/arm-recoveryservices!AzureMonitorAlertSettings:interface": "Microsoft.RecoveryServices.AzureMonitorAlertSettings",
       "@azure/arm-recoveryservices!ClassicAlertSettings:interface": "Microsoft.RecoveryServices.ClassicAlertSettings",
+      "@azure/arm-recoveryservices!CostManagementSettings:interface": "Microsoft.RecoveryServices.CostManagementSettings",
       "@azure/arm-recoveryservices!RestoreSettings:interface": "Microsoft.RecoveryServices.RestoreSettings",
       "@azure/arm-recoveryservices!CrossSubscriptionRestoreSettings:interface": "Microsoft.RecoveryServices.CrossSubscriptionRestoreSettings",
       "@azure/arm-recoveryservices!VaultPropertiesRedundancySettings:interface": "Microsoft.RecoveryServices.VaultPropertiesRedundancySettings",
       "@azure/arm-recoveryservices!SecuritySettings:interface": "Microsoft.RecoveryServices.SecuritySettings",
       "@azure/arm-recoveryservices!ImmutabilitySettings:interface": "Microsoft.RecoveryServices.ImmutabilitySettings",
+      "@azure/arm-recoveryservices!ImmutabilityConfiguration:interface": "Microsoft.RecoveryServices.ImmutabilityConfiguration",
       "@azure/arm-recoveryservices!SoftDeleteSettings:interface": "Microsoft.RecoveryServices.SoftDeleteSettings",
       "@azure/arm-recoveryservices!SourceScanConfiguration:interface": "Microsoft.RecoveryServices.SourceScanConfiguration",
       "@azure/arm-recoveryservices!AssociatedIdentity:interface": "Microsoft.RecoveryServices.AssociatedIdentity",
+      "@azure/arm-recoveryservices!RegionOfChoiceSettings:interface": "Microsoft.RecoveryServices.RegionOfChoiceSettings",
       "@azure/arm-recoveryservices!IdentityData:interface": "Microsoft.RecoveryServices.IdentityData",
       "@azure/arm-recoveryservices!UserIdentity:interface": "Microsoft.RecoveryServices.UserIdentity",
       "@azure/arm-recoveryservices!Sku:interface": "Microsoft.RecoveryServices.Sku",
@@ -92,10 +97,12 @@
       "@azure/arm-recoveryservices!KnownBackupStorageVersion:enum": "Microsoft.RecoveryServices.BackupStorageVersion",
       "@azure/arm-recoveryservices!KnownPublicNetworkAccess:enum": "Microsoft.RecoveryServices.PublicNetworkAccess",
       "@azure/arm-recoveryservices!KnownAlertsState:enum": "Microsoft.RecoveryServices.AlertsState",
+      "@azure/arm-recoveryservices!KnownGranularityLevel:enum": "Microsoft.RecoveryServices.GranularityLevel",
       "@azure/arm-recoveryservices!KnownCrossSubscriptionRestoreState:enum": "Microsoft.RecoveryServices.CrossSubscriptionRestoreState",
       "@azure/arm-recoveryservices!KnownStandardTierStorageRedundancy:enum": "Microsoft.RecoveryServices.StandardTierStorageRedundancy",
       "@azure/arm-recoveryservices!KnownCrossRegionRestore:enum": "Microsoft.RecoveryServices.CrossRegionRestore",
       "@azure/arm-recoveryservices!KnownImmutabilityState:enum": "Microsoft.RecoveryServices.ImmutabilityState",
+      "@azure/arm-recoveryservices!KnownImmutabilityType:enum": "Microsoft.RecoveryServices.ImmutabilityType",
       "@azure/arm-recoveryservices!KnownSoftDeleteState:enum": "Microsoft.RecoveryServices.SoftDeleteState",
       "@azure/arm-recoveryservices!KnownEnhancedSecurityState:enum": "Microsoft.RecoveryServices.EnhancedSecurityState",
       "@azure/arm-recoveryservices!KnownMultiUserAuthorization:enum": "Microsoft.RecoveryServices.MultiUserAuthorization",

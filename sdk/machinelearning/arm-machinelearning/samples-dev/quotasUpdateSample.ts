@@ -1,23 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update quota for each VM family in workspace.
- *
- * @summary Update quota for each VM family in workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Quota/update.json
- */
-
-import type { QuotaUpdateParameters } from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update quota for each VM family in workspace.
+ *
+ * @summary update quota for each VM family in workspace.
+ * x-ms-original-file: 2026-03-15-preview/Quota/update.json
+ */
 async function updateQuotas(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const location = "eastus";
-  const parameters: QuotaUpdateParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
+  const result = await client.quotas.update("eastus", {
     value: [
       {
         type: "Microsoft.MachineLearningServices/workspaces/quotas",
@@ -32,10 +29,7 @@ async function updateQuotas(): Promise<void> {
         unit: "Count",
       },
     ],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.quotas.update(location, parameters);
+  });
   console.log(result);
 }
 

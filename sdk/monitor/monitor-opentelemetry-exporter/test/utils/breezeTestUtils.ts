@@ -23,17 +23,17 @@ export function failedBreezeResponse(count: number, statusCode: number): BreezeR
   };
 }
 
-export function partialBreezeResponse(statusCodes: number[]): BreezeResponse {
+export function partialBreezeResponse(statusCodes: number[], messages?: string[]): BreezeResponse {
   const itemsAccepted = statusCodes.filter((v) => v === 200).length;
   return {
     itemsAccepted,
     itemsReceived: statusCodes.length,
     errors: statusCodes
       .filter((v) => v !== 200)
-      .map((v) => ({
+      .map((v, i) => ({
         index: statusCodes.findIndex((s) => v === s),
         statusCode: v,
-        message: "foo",
+        message: messages?.[i] ?? "foo",
       })),
   };
 }

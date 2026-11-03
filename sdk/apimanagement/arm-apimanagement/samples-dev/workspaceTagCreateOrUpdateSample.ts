@@ -1,39 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a tag.
- *
- * @summary Creates a tag.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateWorkspaceTag.json
- */
-
-import {
-  TagCreateUpdateParameters,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a tag.
+ *
+ * @summary creates a tag.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateWorkspaceTag.json
+ */
 async function apiManagementCreateWorkspaceTag(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const workspaceId = "wks1";
-  const tagId = "tagId1";
-  const parameters: TagCreateUpdateParameters = { displayName: "tag1" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.workspaceTag.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    workspaceId,
-    tagId,
-    parameters,
-  );
+  const result = await client.workspaceTag.createOrUpdate("rg1", "apimService1", "wks1", "tagId1", {
+    displayName: "tag1",
+  });
   console.log(result);
 }
 

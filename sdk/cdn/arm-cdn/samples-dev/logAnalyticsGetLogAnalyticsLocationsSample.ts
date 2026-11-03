@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get all available location names for AFD log analytics report.
- *
- * @summary Get all available location names for AFD log analytics report.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/LogAnalytics_GetLogAnalyticsLocations.json
- */
-
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get all available location names for AFD log analytics report.
+ *
+ * @summary get all available location names for AFD log analytics report.
+ * x-ms-original-file: 2026-10-01/LogAnalytics_GetLogAnalyticsLocations.json
+ */
 async function logAnalyticsGetLogAnalyticsLocations(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.logAnalytics.getLogAnalyticsLocations(resourceGroupName, profileName);
+  const result = await client.logAnalytics.getLogAnalyticsLocations("RG", "profile1");
   console.log(result);
 }
 

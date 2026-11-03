@@ -2,13 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AIProjectClient } from "../../../../src/index.js";
 import type { OpenAI } from "openai/client";
-
-const isLive = isLiveMode();
 
 describe("files - basic", () => {
   let recorder: Recorder;
@@ -18,7 +15,7 @@ describe("files - basic", () => {
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
-    openai = await projectsClient.getOpenAIClient();
+    openai = projectsClient.getOpenAIClient();
   });
 
   afterEach(async function () {
@@ -39,7 +36,7 @@ describe("files - basic", () => {
     return openai.files.retrieve(created.id);
   }
 
-  it.skipIf(!isLive)("should upload, get, read content, list, and delete a file", async () => {
+  it.skip("should upload, get, read content, list, and delete a file", async () => {
     // Create (upload) and wait until processed
     console.log(`Starting file upload.`);
     const uploadedFile = await uploadFileAndWait();

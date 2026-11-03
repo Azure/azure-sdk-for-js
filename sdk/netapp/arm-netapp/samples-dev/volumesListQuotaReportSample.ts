@@ -5,10 +5,10 @@ import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to a long-running resource action.
+ * This sample demonstrates how to get quota report for volume (with filter support)
  *
- * @summary a long-running resource action.
- * x-ms-original-file: 2025-09-01-preview/Volumes_ListQuotaReport.json
+ * @summary get quota report for volume (with filter support)
+ * x-ms-original-file: 2026-08-15-preview/Volumes_ListQuotaReport.json
  */
 async function listQuotaReport(): Promise<void> {
   const credential = new DefaultAzureCredential();

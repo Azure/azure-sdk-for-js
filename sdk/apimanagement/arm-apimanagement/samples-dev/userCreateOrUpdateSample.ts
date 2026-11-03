@@ -1,41 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or Updates a user.
- *
- * @summary Creates or Updates a user.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateUser.json
- */
-
-import {
-  UserCreateParameters,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or Updates a user.
+ *
+ * @summary creates or Updates a user.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateUser.json
+ */
 async function apiManagementCreateUser(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const userId = "5931a75ae4bbd512288c680b";
-  const parameters: UserCreateParameters = {
-    confirmation: "signup",
-    email: "foobar@outlook.com",
-    firstName: "foo",
-    lastName: "bar",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
   const result = await client.user.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    userId,
-    parameters,
+    "rg1",
+    "apimService1",
+    "5931a75ae4bbd512288c680b",
+    { confirmation: "signup", email: "foobar@outlook.com", firstName: "foo", lastName: "bar" },
   );
   console.log(result);
 }

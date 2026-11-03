@@ -1,0 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ApiManagementClient } from "@azure/arm-apimanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to gets authorization login links.
+ *
+ * @summary gets authorization login links.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGetAuthorizationLoginRequest.json
+ */
+async function apiManagementGetAuthorizationLoginRequest(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.authorizationLoginLinks.post(
+    "rg1",
+    "apimService1",
+    "aadwithauthcode",
+    "authz1",
+    { postLoginRedirectUrl: "https://www.bing.com/" },
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await apiManagementGetAuthorizationLoginRequest();
+}
+
+main().catch(console.error);

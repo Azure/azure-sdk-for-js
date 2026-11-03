@@ -3,29 +3,22 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to get the VMSS VM run command.
+ * This sample demonstrates how to the operation to get the VMSS VM run command.
  *
- * @summary The operation to get the VMSS VM run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Get.json
+ * @summary the operation to get the VMSS VM run command.
+ * x-ms-original-file: 2026-04-01/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Get.json
  */
 async function getVirtualMachineScaleSetVMRunCommands(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmScaleSetName = "myvmScaleSet";
-  const instanceId = "0";
-  const runCommandName = "myRunCommand";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSetVMRunCommands.get(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId,
-    runCommandName,
+    "myResourceGroup",
+    "myvmScaleSet",
+    "0",
+    "myRunCommand",
   );
   console.log(result);
 }

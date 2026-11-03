@@ -3,56 +3,41 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Get Site Analysis
+ * This sample demonstrates how to description for Get Site Analysis
  *
- * @summary Description for Get Site Analysis
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_GetSiteAnalysis.json
+ * @summary description for Get Site Analysis
+ * x-ms-original-file: 2025-05-01/Diagnostics_GetSiteAnalysis.json
  */
 async function getAppAnalysis(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const diagnosticCategory = "availability";
-  const analysisName = "appanalysis";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.diagnostics.getSiteAnalysis(
-    resourceGroupName,
-    siteName,
-    diagnosticCategory,
-    analysisName,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "availability",
+    "appanalysis",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Description for Get Site Analysis
+ * This sample demonstrates how to description for Get Site Analysis
  *
- * @summary Description for Get Site Analysis
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_GetSiteAnalysisSlot.json
+ * @summary description for Get Site Analysis
+ * x-ms-original-file: 2025-05-01/Diagnostics_GetSiteAnalysisSlot.json
  */
 async function getAppSlotAnalysis(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const diagnosticCategory = "availability";
-  const analysisName = "appanalysis";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.diagnostics.getSiteAnalysis(
-    resourceGroupName,
-    siteName,
-    diagnosticCategory,
-    analysisName,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "availability",
+    "appanalysis",
   );
   console.log(result);
 }

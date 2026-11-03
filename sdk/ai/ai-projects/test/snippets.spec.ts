@@ -2,38 +2,85 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { AIProjectClient, DatasetVersion } from "../src/index.js";
+import { AIProjectClient, DatasetVersion, RestError } from "../src/index.js";
+import type { VersionRefIndicator } from "../src/index.js";
+import {
+  useAzureMonitor,
+  type AzureMonitorOpenTelemetryOptions,
+} from "@azure/monitor-opentelemetry";
 import type {
   AzureAISearchIndex,
   Connection,
   DatasetVersionUnion,
+  MCPTool,
   ModelDeployment,
+  ToolUnion,
 } from "../src/index.js";
 import { isRestError } from "@azure/core-rest-pipeline";
-import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
-import { beforeEach, it, describe } from "vitest";
-import { RestError } from "@azure/core-rest-pipeline";
+import type { JobCreateParams } from "openai/resources/fine-tuning/jobs";
+import { it, describe } from "vitest";
 import * as path from "path";
 import * as fs from "fs";
 import { fileURLToPath } from "url";
+import { context, trace } from "@opentelemetry/api";
+import {
+  NodeTracerProvider,
+  ConsoleSpanExporter,
+  SimpleSpanProcessor,
+} from "@opentelemetry/sdk-trace-node";
 
 describe("snippets", function () {
   let project: AIProjectClient;
-  let deploymentName: string = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+  let deploymentName: string = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
   const filePath = "";
 
-  beforeEach(async function (context: VitestTestContext) {
-    project = createProjectsClient();
+  it("setup", async function () {
+    const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
+    project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   });
 
-  it("setup", async function () {
-    const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
-    const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  it("ReadmeSampleVoiceAgentTracing", async function () {
+    const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential(), {
+      tracingOptions: {
+        experimental: true,
+        contentRecording: false,
+      },
+    });
+
+    const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
+    try {
+      await connection.sendText("Hello.");
+      for await (const event of connection) {
+        if (event.type === "response.done") break;
+      }
+    } finally {
+      await connection.close();
+    }
+  });
+
+  it("previewflag", async function () {
+    await project.agents.createVersion(
+      "preview-agent",
+      {
+        kind: "workflow",
+      },
+      { foundryFeatures: "WorkflowAgents=V1Preview" },
+    );
+
+    for await (const rule of project.evaluationRules.list()) {
+      console.log(rule.id);
+    }
+  });
+
+  it("agent-insight-monitors", async function () {
+    for await (const monitor of project.beta.agentInsightMonitors.list()) {
+      console.log(`${monitor.id}: ${monitor.agent_name}`);
+    }
   });
 
   it("openAI", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const response = await openAIClient.responses.create({
       model: deploymentName,
       input: "What is the size of France in square miles?",
@@ -49,7 +96,7 @@ describe("snippets", function () {
   });
 
   it("agents", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const agent = await project.agents.createVersion("my-agent-basic", {
       kind: "prompt",
       model: deploymentName,
@@ -103,8 +150,55 @@ describe("snippets", function () {
     console.log("Agent deleted");
   });
 
+  it("voiceAgent", async function () {
+    const voiceAgentName = `voice-agent-${Date.now()}`;
+    const voiceAgent = await project.beta.agents.createFromPrompt({
+      kind: "voice",
+      name: voiceAgentName,
+    });
+    try {
+      const connection = await project.beta.voiceAgents.realtime.connect(voiceAgent.name);
+      try {
+        await connection.sendText("Hello. Please introduce yourself briefly.");
+        for await (const event of connection) {
+          // Voice agents speak their reply, so the text form of it streams as an audio transcript
+          // rather than as `response.output_text.delta`.
+          if (
+            event.type === "response.output_text.delta" ||
+            event.type === "response.output_audio_transcript.delta"
+          ) {
+            process.stdout.write(event.delta);
+          } else if (event.type === "unknown") {
+            // event.rawEvent preserves all wire fields; validate them before using them.
+            console.log(`Unrecognized server event: ${event.eventType}`);
+          } else if (event.type === "response.done") {
+            await connection.close();
+          }
+        }
+      } finally {
+        await connection.dispose();
+      }
+    } finally {
+      await project.agents.delete(voiceAgent.name, {
+        requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
+      });
+    }
+  });
+
+  it("ReadmeSampleVoiceAgentQuery", async function () {
+    const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
+      agentSessionId: "session-123",
+      store: false,
+      query: {
+        custom_key: "custom value",
+        custom_flag: true,
+      },
+    });
+    await connection.close();
+  });
+
   it("agent-code-interpreter", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const response = await openAIClient.responses.create({
       model: deploymentName,
       input: "I need to solve the equation 3x + 11 = 14. Can you help me?",
@@ -114,7 +208,7 @@ describe("snippets", function () {
   });
 
   it("agent-file-search", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const assetFilePath = path.join(
       __dirname,
       "..",
@@ -169,7 +263,7 @@ describe("snippets", function () {
   });
 
   it("agent-image-generation-download", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const agent = await project.agents.createVersion("agent-image-generation", {
       kind: "prompt",
       model: deploymentName,
@@ -213,7 +307,7 @@ describe("snippets", function () {
   });
 
   it("agent-web-search", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     // Create Agent with web search tool
     const agent = await project.agents.createVersion("agent-web-search", {
       kind: "prompt",
@@ -251,8 +345,29 @@ describe("snippets", function () {
     console.log(`Response: ${response.output_text}`);
   });
 
+  it("agent-computer-use", async function () {
+    const agent = await project.agents.createVersion("ComputerUseAgent", {
+      kind: "prompt" as const,
+      model: deploymentName,
+      instructions: `
+You are a computer automation assistant.
+
+Be direct and efficient. When you reach the search results page, read and describe the actual search result titles and descriptions you can see.
+    `.trim(),
+      tools: [
+        {
+          type: "computer_use_preview",
+          display_width: 1026,
+          display_height: 769,
+          environment: "windows" as const,
+        },
+      ],
+    });
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+  });
+
   it("agent-mcp", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const agent = await project.agents.createVersion("agent-mcp", {
       kind: "prompt",
       model: deploymentName,
@@ -294,7 +409,7 @@ describe("snippets", function () {
       kind: "prompt",
       model: deploymentName,
       instructions:
-        "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions.",
+        "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions. When calling the weather tool, always include the query parameter format=j1.",
       tools: [
         {
           type: "openapi",
@@ -341,6 +456,47 @@ describe("snippets", function () {
       tools: [funcTool],
     });
     console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+  });
+
+  it("agent-memory-search", async function () {
+    const memoryStoreName = "AgentMemoryStore";
+    const embeddingModelDeployment =
+      process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
+    const scope = "user_123";
+    const memoryStore = await project.beta.memoryStores.create(
+      memoryStoreName,
+      {
+        kind: "default",
+        chat_model: deploymentName,
+        embedding_model: embeddingModelDeployment,
+        options: {
+          user_profile_enabled: true,
+          chat_summary_enabled: true,
+        },
+      },
+      {
+        description: "Memory store for agent conversations",
+      },
+    );
+    console.log(
+      `Created memory store: ${memoryStore.name} (${memoryStore.id}) using chat model '${deploymentName}'`,
+    );
+
+    // Create an agent that will use the Memory Search tool
+    const agent = await project.agents.createVersion("MemorySearchAgent", {
+      kind: "prompt",
+      model: deploymentName,
+      instructions:
+        "You are a helpful assistant that remembers user preferences using the memory search tool.",
+      tools: [
+        {
+          type: "memory_search_preview",
+          memory_store_name: memoryStore.name,
+          scope,
+          update_delay: 1, // wait briefly after conversation inactivity before updating memories
+        },
+      ],
+    });
   });
 
   it("agent-azure-ai-search", async function () {
@@ -465,7 +621,7 @@ describe("snippets", function () {
 
   it("agent-browser-automation", async function () {
     const browserAutomationProjectConnectionId =
-      process.env["BROWSER_AUTOMATION_CONNECTION_ID"] || "";
+      process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] || "";
     const agent = await project.agents.createVersion("MyAgent", {
       kind: "prompt",
       model: deploymentName,
@@ -475,8 +631,8 @@ describe("snippets", function () {
       // Define Browser Automation tool
       tools: [
         {
-          type: "browser_automation_preview",
-          browser_automation_preview: {
+          type: "browser_automation",
+          browser_automation: {
             connection: {
               project_connection_id: browserAutomationProjectConnectionId,
             },
@@ -565,6 +721,33 @@ describe("snippets", function () {
     console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
   });
 
+  it("evaluations", async function () {
+    const openAIClient = project.getOpenAIClient();
+    const dataSourceConfig = {
+      type: "custom" as const,
+      item_schema: {
+        type: "object",
+        properties: { query: { type: "string" } },
+        required: ["query"],
+      },
+      include_sample_schema: true,
+    };
+
+    const evalObject = await openAIClient.evals.create({
+      name: "Agent Evaluation",
+      data_source_config: dataSourceConfig,
+      testing_criteria: [
+        {
+          type: "azure_ai_evaluator",
+          name: "violence_detection",
+          evaluator_name: "builtin.violence",
+          data_mapping: { query: "{{item.query}}", response: "{{item.response}}" },
+        } as any,
+      ],
+    });
+    console.log(`Evaluation created (id: ${evalObject.id}, name: ${evalObject.name})`);
+  });
+
   it("deployments", async function () {
     const modelPublisher = process.env["MODEL_PUBLISHER"] || "<model publisher>";
     console.log("List all deployments:");
@@ -649,7 +832,9 @@ describe("snippets", function () {
     console.log(`Retrieved ${azureAIConnections.length} Azure OpenAI connections`);
     // @ts-preserve-whitespace
     // Get the details of a default connection
-    const defaultConnection = await project.connections.getDefault("AzureOpenAI", true);
+    const defaultConnection = await project.connections.getDefault("AzureOpenAI", {
+      includeCredentials: true,
+    });
     console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, null, 2)}`);
   });
 
@@ -705,7 +890,7 @@ describe("snippets", function () {
     console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
 
     console.log(`Listing all versions of the Dataset named '${datasetName}':`);
-    const datasetVersions = await project.datasets.listVersions(datasetName);
+    const datasetVersions = project.datasets.listVersions(datasetName);
     for await (const version of datasetVersions) {
       console.log("List versions:", version);
     }
@@ -732,7 +917,7 @@ describe("snippets", function () {
   });
 
   it("files", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     console.log("Uploading file");
     const created = await openAIClient.files.create({
       file: fs.createReadStream(filePath),
@@ -800,6 +985,233 @@ describe("snippets", function () {
 
     console.log("Delete the Index versions created above:");
     await project.indexes.delete(indexName, version);
+  });
+
+  it("finetuning", async function () {
+    const trainingFilePath = "training_data_path.jsonl";
+    const validationFilePath = "validation_data_path.jsonl";
+    const openAIClient = project.getOpenAIClient();
+    // 1) Create the training and validation files
+    const trainingFile = await openAIClient.files.create({
+      file: fs.createReadStream(trainingFilePath),
+      purpose: "fine-tune",
+    });
+    console.log(`Uploaded file with ID: ${trainingFile.id}`);
+    const validationFile = await openAIClient.files.create({
+      file: fs.createReadStream(validationFilePath),
+      purpose: "fine-tune",
+    });
+    console.log(`Uploaded file with ID: ${validationFile.id}`);
+    // 2) Wait for the files to be processed
+    await openAIClient.files.waitForProcessing(trainingFile.id);
+    await openAIClient.files.waitForProcessing(validationFile.id);
+    console.log("Files processed.");
+
+    // 3) Create a supervised fine-tuning job
+    const fineTuningJob = await openAIClient.fineTuning.jobs.create({} as JobCreateParams, {
+      body: {
+        trainingType: "Standard",
+        training_file: trainingFile.id,
+        validation_file: validationFile.id,
+        model: deploymentName,
+        method: {
+          type: "supervised",
+          supervised: {
+            hyperparameters: {
+              n_epochs: 3,
+              batch_size: 1,
+              learning_rate_multiplier: 1.0,
+            },
+          },
+        },
+      },
+    });
+    console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
+  });
+
+  it("beta-agents", async function () {
+    const agentName = "MyBetaAgent";
+
+    // Create a session for the agent
+    const versionIndicator: VersionRefIndicator = {
+      type: "version_ref",
+      agent_version: "1.0",
+    };
+    const session = await project.beta.agents.createSession(agentName, versionIndicator);
+    console.log(`Session created: ${session.agent_session_id}`);
+
+    // Upload a file to the session sandbox
+    const filePath = "/sandbox/hello.txt";
+    const fileContent = new TextEncoder().encode("Hello from the beta agents sample!");
+    const uploadResult = await project.beta.agents.uploadSessionFile(
+      agentName,
+      session.agent_session_id,
+      filePath,
+      fileContent,
+    );
+    console.log(`Uploaded file: ${uploadResult.path} (${uploadResult.bytes_written} bytes)`);
+  });
+
+  it("skills", async function () {
+    const skillName = "sample-skill";
+
+    // Create a new skill
+    const created = await project.beta.skills.create(skillName, {
+      description: "Example skill created by the @azure/ai-projects sample.",
+      instructions: "You are a helpful assistant that answers questions concisely.",
+      metadata: { owner: "sample" },
+    });
+    console.log(`Skill created: ${created.name} (id: ${created.skill_id})`);
+
+    // Retrieve the skill
+    const fetched = await project.beta.skills.get(skillName);
+    console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.skill_id})`);
+  });
+
+  it("toolboxes", async function () {
+    const toolboxName = "mcp";
+
+    // Define tools for the toolbox
+    const tools: ToolUnion[] = [
+      {
+        type: "mcp",
+        server_label: "api_specs",
+        server_url: "https://github.com/Azure/azure-rest-api-specs",
+        require_approval: "never",
+      } satisfies MCPTool,
+    ];
+
+    // Create a new toolbox version
+    const created = await project.toolboxes.createVersion(toolboxName, tools, {
+      description: "Example toolbox created by the @azure/ai-projects sample.",
+      metadata: { status: "created" },
+    });
+    console.log(`Toolbox: ${created.name} (tools: ${created.tools.length})`);
+
+    // Retrieve the toolbox
+    const fetched = await project.toolboxes.get(toolboxName);
+    console.log(`Retrieved toolbox: ${fetched.name} (${fetched.id})`);
+  });
+
+  it("routines", async function () {
+    const routineName = "sample-routine";
+
+    // Create or update a routine
+    const routine = await project.beta.routines.createOrUpdate(
+      routineName,
+      { daily: { type: "schedule", cron_expression: "0 9 * * *", time_zone: "UTC" } },
+      { type: "invoke_agent_responses_api", agent_name: "my-agent" },
+      {
+        description: "Example routine created by the @azure/ai-projects sample.",
+      },
+    );
+    console.log(`Routine created: ${routine.name}`);
+
+    // Retrieve the routine
+    const fetched = await project.beta.routines.get(routineName);
+    console.log(`Retrieved routine: ${fetched.name}`);
+
+    // List routines
+    for await (const r of project.beta.routines.list()) {
+      console.log(`Routine: ${r.name}`);
+    }
+  });
+
+  it("models", async function () {
+    // Create a model version from local files
+    const modelVersion = await project.beta.models.create("my-model", "1", "./model-assets", {
+      weightType: "FullWeight",
+      description: "My custom model",
+      tags: { source: "sdk-sample" },
+    });
+    console.log(`Created: ${modelVersion.name} v${modelVersion.version}`);
+
+    // List model versions
+    for await (const model of project.beta.models.list()) {
+      console.log(`Model: ${model.name}`);
+    }
+
+    // Get a specific version
+    const fetched = await project.beta.models.get("my-model", "1");
+    console.log(`Fetched: ${fetched.name} v${fetched.version}`);
+
+    // Delete the model version
+    await project.beta.models.delete("my-model", "1");
+  });
+
+  it("tracing_enable_disable", async function () {
+    const endpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    // Tracing enabled
+    const project = new AIProjectClient(endpoint, credential, {
+      tracingOptions: { experimental: true },
+    });
+    // @ts-preserve-whitespace
+    // Tracing disabled (default — no tracingOptions passed)
+    const projectNoTrace = new AIProjectClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    console.log(project, projectNoTrace);
+  });
+
+  it("tracing_azure_monitor", async function () {
+    const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+    // Configure Azure Monitor tracing (must be done before creating the client)
+    const connectionString =
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<connection string>";
+    useAzureMonitor({
+      azureMonitorExporterOptions: { connectionString },
+      samplingRatio: 1,
+      tracesPerSecond: 0,
+    });
+    // Create client with tracing enabled (experimental)
+    const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+      tracingOptions: {
+        experimental: true,
+        contentRecording: false,
+        traceContextPropagation: true,
+      },
+    });
+  });
+
+  it("tracing", async function () {
+    const TELEMETRY_CONNECTION_STRING = process.env["TELEMETRY_CONNECTION_STRING"];
+    const options: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: TELEMETRY_CONNECTION_STRING,
+      },
+    };
+
+    useAzureMonitor(options);
+  });
+
+  it("tracing_create_span", async function () {
+    const tracer = trace.getTracer("MyScenario");
+    const span = tracer.startSpan("myOperation");
+    const ctx = trace.setSpan(context.active(), span);
+
+    await context.with(ctx, async () => {
+      // Your agent operations here
+    });
+
+    span.end();
+  });
+
+  it("tracing_console", async function () {
+    // Set up OpenTelemetry with a console exporter (must be done before creating the client)
+    const provider = new NodeTracerProvider({
+      spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
+    });
+    provider.register();
+    // Create client with tracing enabled (experimental)
+    const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+    const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+      tracingOptions: {
+        experimental: true,
+        contentRecording: false,
+        traceContextPropagation: true,
+      },
+    });
   });
 
   it("datasetUpload", async function () {

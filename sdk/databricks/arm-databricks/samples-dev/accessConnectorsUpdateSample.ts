@@ -1,30 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates an azure databricks accessConnector.
- *
- * @summary Updates an azure databricks accessConnector.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorPatchUpdate.json
- */
-
-import type { AccessConnectorUpdate } from "@azure/arm-databricks";
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates an Azure Databricks Access Connector.
+ *
+ * @summary updates an Azure Databricks Access Connector.
+ * x-ms-original-file: 2026-01-01/AccessConnectorPatchUpdate.json
+ */
 async function updateAnAzureDatabricksAccessConnector(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const connectorName = "myAccessConnector";
-  const parameters: AccessConnectorUpdate = { tags: { key1: "value1" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.accessConnectors.beginUpdateAndWait(
-    resourceGroupName,
-    connectorName,
-    parameters,
-  );
+  const result = await client.accessConnectors.update("rg", "myAccessConnector", {
+    tags: { key1: "value1" },
+  });
   console.log(result);
 }
 

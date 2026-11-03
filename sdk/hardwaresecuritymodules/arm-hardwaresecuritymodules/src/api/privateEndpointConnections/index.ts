@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { listByCloudHsmCluster } from "./operations.js";
-export { PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams } from "./options.js";
+export type { PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams } from "./options.js";

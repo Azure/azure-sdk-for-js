@@ -1,39 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update or Create a Log Analytics workspace table.
- *
- * @summary Update or Create a Log Analytics workspace table.
- * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/TablesUpsert.json
- */
-
-import type { Table } from "@azure/arm-operationalinsights";
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update or Create a Log Analytics workspace table.
+ *
+ * @summary update or Create a Log Analytics workspace table.
+ * x-ms-original-file: 2025-07-01/TablesUpsertForTable.json
+ */
 async function tablesUpsert(): Promise<void> {
-  const subscriptionId =
-    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "oiautorest6685";
-  const workspaceName = "oiautorest6685";
-  const tableName = "AzureNetworkFlow";
-  const parameters: Table = {
-    schema: {
-      name: "AzureNetworkFlow",
-      columns: [{ name: "MyNewColumn", type: "guid" }],
-    },
-    retentionInDays: 45,
-    totalRetentionInDays: 70,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OperationalInsightsManagementClient(credential, subscriptionId);
-  const result = await client.tables.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    workspaceName,
-    tableName,
-    parameters,
+  const result = await client.tables.createOrUpdate(
+    "oiautorest6685",
+    "oiautorest6685",
+    "AzureNetworkFlow",
+    {
+      schema: { name: "AzureNetworkFlow", columns: [{ name: "MyNewColumn", type: "guid" }] },
+      retentionInDays: 45,
+      totalRetentionInDays: 70,
+    },
   );
   console.log(result);
 }

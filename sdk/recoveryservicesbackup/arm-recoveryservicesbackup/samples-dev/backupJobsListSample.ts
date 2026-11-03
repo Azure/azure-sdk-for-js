@@ -1,94 +1,65 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Provides a pageable list of jobs.
- *
- * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/ListJobs.json
- */
-
-import {
-  BackupJobsListOptionalParams,
-  RecoveryServicesBackupClient,
-} from "@azure/arm-recoveryservicesbackup";
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to provides a pageable list of jobs.
+ *
+ * @summary provides a pageable list of jobs.
+ * x-ms-original-file: 2026-10-01/Common/ListJobs.json
+ */
 async function listAllJobs(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.backupJobs.list(
-    vaultName,
-    resourceGroupName,
-  )) {
+  for await (const item of client.backupJobs.list("NetSDKTestRsVault", "SwaggerTestRg")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Provides a pageable list of jobs.
+ * This sample demonstrates how to provides a pageable list of jobs.
  *
- * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/ListJobsWithAllSupportedFilters.json
+ * @summary provides a pageable list of jobs.
+ * x-ms-original-file: 2026-10-01/Common/ListJobsWithAllSupportedFilters.json
  */
 async function listJobsWithFilters(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
-  const filter =
-    "startTime eq '2016-01-01 00:00:00 AM' and endTime eq '2017-11-29 00:00:00 AM' and operation eq 'Backup' and backupManagementType eq 'AzureIaasVM' and status eq 'InProgress'";
-  const options: BackupJobsListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.backupJobs.list(
-    vaultName,
-    resourceGroupName,
-    options,
-  )) {
+  for await (const item of client.backupJobs.list("NetSDKTestRsVault", "SwaggerTestRg", {
+    filter:
+      "startTime eq '2016-01-01 00:00:00 AM' and endTime eq '2017-11-29 00:00:00 AM' and operation eq 'Backup' and backupManagementType eq 'AzureIaasVM' and status eq 'InProgress'",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Provides a pageable list of jobs.
+ * This sample demonstrates how to provides a pageable list of jobs.
  *
- * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/ListJobsWithStartTimeAndEndTimeFilters.json
+ * @summary provides a pageable list of jobs.
+ * x-ms-original-file: 2026-10-01/Common/ListJobsWithStartTimeAndEndTimeFilters.json
  */
 async function listJobsWithTimeFilter(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
-  const filter =
-    "startTime eq '2016-01-01 00:00:00 AM' and endTime eq '2017-11-29 00:00:00 AM'";
-  const options: BackupJobsListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.backupJobs.list(
-    vaultName,
-    resourceGroupName,
-    options,
-  )) {
+  for await (const item of client.backupJobs.list("NetSDKTestRsVault", "SwaggerTestRg", {
+    filter: "startTime eq '2016-01-01 00:00:00 AM' and endTime eq '2017-11-29 00:00:00 AM'",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

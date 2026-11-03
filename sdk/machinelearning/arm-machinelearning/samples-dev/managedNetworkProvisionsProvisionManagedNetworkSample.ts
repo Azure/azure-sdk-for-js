@@ -1,34 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Provisions the managed network of a machine learning workspace.
- *
- * @summary Provisions the managed network of a machine learning workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/ManagedNetwork/provision.json
- */
-
-import type {
-  ManagedNetworkProvisionOptions,
-  ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
-} from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to provisions the managed network of a machine learning workspace.
+ *
+ * @summary provisions the managed network of a machine learning workspace.
+ * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/provision.json
+ */
 async function provisionManagedNetwork(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
-  const workspaceName = "aml-workspace-name";
-  const body: ManagedNetworkProvisionOptions = { includeSpark: false };
-  const options: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams = { body };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
-  const result = await client.managedNetworkProvisions.beginProvisionManagedNetworkAndWait(
-    resourceGroupName,
-    workspaceName,
-    options,
+  const result = await client.managedNetworkProvisions.provisionManagedNetwork(
+    "test-rg",
+    "aml-workspace-name",
+    { body: { includeSpark: false } },
   );
   console.log(result);
 }

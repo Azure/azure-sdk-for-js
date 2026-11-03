@@ -1,10 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AggregationOption } from "@opentelemetry/sdk-metrics";
+import { AggregationType } from "@opentelemetry/sdk-metrics";
+
 /**
  * Disable Standard Metrics environment variable name.
  */
 export const APPLICATION_INSIGHTS_NO_STANDARD_METRICS = "APPLICATION_INSIGHTS_NO_STANDARD_METRICS";
+
+/**
+ * Mapping of OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION values to aggregation options.
+ */
+export const HISTOGRAM_AGGREGATION_MAP: Record<string, AggregationOption> = {
+  explicit_bucket_histogram: { type: AggregationType.EXPLICIT_BUCKET_HISTOGRAM },
+  base2_exponential_bucket_histogram: { type: AggregationType.EXPONENTIAL_HISTOGRAM },
+};
 
 export interface StandardMetricBaseDimensions {
   metricId?: string;

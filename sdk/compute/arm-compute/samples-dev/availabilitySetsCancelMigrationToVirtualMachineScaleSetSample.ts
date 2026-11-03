@@ -3,28 +3,21 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Cancel the migration operation on an Availability Set.
+ * This sample demonstrates how to cancel the migration operation on an Availability Set.
  *
- * @summary Cancel the migration operation on an Availability Set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/availabilitySetExamples/AvailabilitySet_CancelMigrationToVirtualMachineScaleSet.json
+ * @summary cancel the migration operation on an Availability Set.
+ * x-ms-original-file: 2026-04-01/availabilitySetExamples/AvailabilitySet_CancelMigrationToVirtualMachineScaleSet.json
  */
 async function availabilitySetCancelMigrationToVirtualMachineScaleSet(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const availabilitySetName = "myAvailabilitySet";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.availabilitySets.cancelMigrationToVirtualMachineScaleSet(
-      resourceGroupName,
-      availabilitySetName,
-    );
-  console.log(result);
+  await client.availabilitySets.cancelMigrationToVirtualMachineScaleSet(
+    "rgcompute",
+    "myAvailabilitySet",
+  );
 }
 
 async function main(): Promise<void> {

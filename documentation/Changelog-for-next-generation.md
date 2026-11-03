@@ -1,3 +1,5 @@
+# Changelog for Next Generation Libraries
+
 The next-generation Azure JavaScript libraries introduce a few important changes:
 
 1. Authentication: The packages `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported. Use package [@azure/identity](https://www.npmjs.com/package/@azure/identity) instead. Select a credential from Azure Identity examples based on the authentication method of your choice. You may find out the new authentication examples [here](https://www.npmjs.com/package/@azure/identity)  

@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all the jobs available under the given resource group.
- *
- * @summary Lists all the jobs available under the given resource group.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsListByResourceGroup.json
- */
-
 import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all the jobs available under the given resource group.
+ *
+ * @summary lists all the jobs available under the given resource group.
+ * x-ms-original-file: 2025-07-01/JobsListByResourceGroup.json
+ */
 async function jobsListByResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "YourSubscriptionId";
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.jobs.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.jobs.listByResourceGroup("YourResourceGroupName")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

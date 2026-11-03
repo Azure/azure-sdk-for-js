@@ -1,31 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  AmlFilesystem,
-  StorageCacheManagementClient,
-} from "@azure/arm-storagecache";
+import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update an AML file system.
+ * This sample demonstrates how to create or update an AML file system.
  *
- * @summary Create or update an AML file system.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/amlFilesystems_CreateOrUpdate.json
+ * @summary create or update an AML file system.
+ * x-ms-original-file: 2026-08-01/amlFilesystems_CreateOrUpdate.json
  */
 async function amlFilesystemsCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
-  const amlFilesystemName = "fs1";
-  const amlFilesystem: AmlFilesystem = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageCacheManagementClient(credential, subscriptionId);
+  const result = await client.amlFilesystems.createOrUpdate("scgroup", "fs1", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
+    },
+    location: "eastus",
     encryptionSettings: {
       keyEncryptionKey: {
-        keyUrl:
-          "https://examplekv.vault.azure.net/keys/kvk/3540a47df75541378d3518c6a4bdf5af",
+        keyUrl: "https://examplekv.vault.azure.net/keys/kvk/3540a47df75541378d3518c6a4bdf5af",
         sourceVault: {
           id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.KeyVault/vaults/keyvault-cmk",
         },
@@ -42,14 +42,6 @@ async function amlFilesystemsCreateOrUpdate(): Promise<void> {
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Storage/storageAccounts/storageaccountname/blobServices/default/containers/loggingcontainername",
       },
     },
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourceGroups/scgroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
-          {},
-      },
-    },
-    location: "eastus",
     maintenanceWindow: { dayOfWeek: "Friday", timeOfDayUTC: "22:00" },
     rootSquashSettings: {
       mode: "All",
@@ -57,18 +49,11 @@ async function amlFilesystemsCreateOrUpdate(): Promise<void> {
       squashGID: 99,
       squashUID: 99,
     },
-    sku: { name: "AMLFS-Durable-Premium-250" },
     storageCapacityTiB: 16,
-    tags: { dept: "ContosoAds" },
+    sku: { name: "AMLFS-Durable-Premium-250" },
+    tags: { Dept: "ContosoAds" },
     zones: ["1"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageCacheManagementClient(credential, subscriptionId);
-  const result = await client.amlFilesystems.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    amlFilesystemName,
-    amlFilesystem,
-  );
+  });
   console.log(result);
 }
 

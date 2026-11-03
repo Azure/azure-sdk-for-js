@@ -83,6 +83,7 @@ export const redirectPolicyName = "redirectPolicy";
 
 // @public
 export interface RedirectPolicyOptions {
+    allowCrossOriginRedirects?: boolean;
     maxRetries?: number;
 }
 

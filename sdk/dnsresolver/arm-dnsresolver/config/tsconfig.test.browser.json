@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-dnsresolver": ["../src/index.ts"],
+      "@azure/arm-dnsresolver/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

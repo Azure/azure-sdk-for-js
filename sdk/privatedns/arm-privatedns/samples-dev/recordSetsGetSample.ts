@@ -1,204 +1,155 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a record set.
- *
- * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAGet.json
- */
-
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getPrivateDnsZoneARecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "A";
-  const relativeRecordSetName = "recordA";
+/**
+ * This sample demonstrates how to gets a record set.
+ *
+ * @summary gets a record set.
+ * x-ms-original-file: 2024-06-01/RecordSetAAAAGet.json
+ */
+async function getPrivateDNSZoneAaaaRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.recordSets.get(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
+    "resourceGroup1",
+    "privatezone1.com",
+    "AAAA",
+    "recordAAAA",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets a record set.
+ * This sample demonstrates how to gets a record set.
  *
- * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAAAAGet.json
+ * @summary gets a record set.
+ * x-ms-original-file: 2024-06-01/RecordSetAGet.json
  */
-async function getPrivateDnsZoneAaaaRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "AAAA";
-  const relativeRecordSetName = "recordAAAA";
+async function getPrivateDNSZoneARecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
+  const client = new PrivateDnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.get("resourceGroup1", "privatezone1.com", "A", "recordA");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a record set.
+ *
+ * @summary gets a record set.
+ * x-ms-original-file: 2024-06-01/RecordSetCNAMEGet.json
+ */
+async function getPrivateDNSZoneCnameRecordSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.recordSets.get(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
+    "resourceGroup1",
+    "privatezone1.com",
+    "CNAME",
+    "recordCNAME",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets a record set.
+ * This sample demonstrates how to gets a record set.
  *
- * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetCNAMEGet.json
+ * @summary gets a record set.
+ * x-ms-original-file: 2024-06-01/RecordSetMXGet.json
  */
-async function getPrivateDnsZoneCnameRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "CNAME";
-  const relativeRecordSetName = "recordCNAME";
+async function getPrivateDNSZoneMXRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.recordSets.get(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
+    "resourceGroup1",
+    "privatezone1.com",
+    "MX",
+    "recordMX",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets a record set.
+ * This sample demonstrates how to gets a record set.
  *
- * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetMXGet.json
+ * @summary gets a record set.
+ * x-ms-original-file: 2024-06-01/RecordSetPTRGet.json
  */
-async function getPrivateDnsZoneMxRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "MX";
-  const relativeRecordSetName = "recordMX";
+async function getPrivateDNSZonePTRRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
+  const client = new PrivateDnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.get("resourceGroup1", "0.0.127.in-addr.arpa", "PTR", "1");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a record set.
+ *
+ * @summary gets a record set.
+ * x-ms-original-file: 2024-06-01/RecordSetSOAGet.json
+ */
+async function getPrivateDNSZoneSOARecordSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
+  const client = new PrivateDnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.get("resourceGroup1", "privatezone1.com", "SOA", "@");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a record set.
+ *
+ * @summary gets a record set.
+ * x-ms-original-file: 2024-06-01/RecordSetSRVGet.json
+ */
+async function getPrivateDNSZoneSRVRecordSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.recordSets.get(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
+    "resourceGroup1",
+    "privatezone1.com",
+    "SRV",
+    "recordSRV",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets a record set.
+ * This sample demonstrates how to gets a record set.
  *
- * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetPTRGet.json
+ * @summary gets a record set.
+ * x-ms-original-file: 2024-06-01/RecordSetTXTGet.json
  */
-async function getPrivateDnsZonePtrRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "0.0.127.in-addr.arpa";
-  const recordType = "PTR";
-  const relativeRecordSetName = "1";
+async function getPrivateDNSZoneTXTRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.recordSets.get(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Gets a record set.
- *
- * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSOAGet.json
- */
-async function getPrivateDnsZoneSoaRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "SOA";
-  const relativeRecordSetName = "@";
-  const credential = new DefaultAzureCredential();
-  const client = new PrivateDnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.get(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Gets a record set.
- *
- * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSRVGet.json
- */
-async function getPrivateDnsZoneSrvRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "SRV";
-  const relativeRecordSetName = "recordSRV";
-  const credential = new DefaultAzureCredential();
-  const client = new PrivateDnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.get(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Gets a record set.
- *
- * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetTXTGet.json
- */
-async function getPrivateDnsZoneTxtRecordSet(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const recordType = "TXT";
-  const relativeRecordSetName = "recordTXT";
-  const credential = new DefaultAzureCredential();
-  const client = new PrivateDnsManagementClient(credential, subscriptionId);
-  const result = await client.recordSets.get(
-    resourceGroupName,
-    privateZoneName,
-    recordType,
-    relativeRecordSetName,
+    "resourceGroup1",
+    "privatezone1.com",
+    "TXT",
+    "recordTXT",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getPrivateDnsZoneARecordSet();
-  await getPrivateDnsZoneAaaaRecordSet();
-  await getPrivateDnsZoneCnameRecordSet();
-  await getPrivateDnsZoneMxRecordSet();
-  await getPrivateDnsZonePtrRecordSet();
-  await getPrivateDnsZoneSoaRecordSet();
-  await getPrivateDnsZoneSrvRecordSet();
-  await getPrivateDnsZoneTxtRecordSet();
+  await getPrivateDNSZoneAaaaRecordSet();
+  await getPrivateDNSZoneARecordSet();
+  await getPrivateDNSZoneCnameRecordSet();
+  await getPrivateDNSZoneMXRecordSet();
+  await getPrivateDNSZonePTRRecordSet();
+  await getPrivateDNSZoneSOARecordSet();
+  await getPrivateDNSZoneSRVRecordSet();
+  await getPrivateDNSZoneTXTRecordSet();
 }
 
 main().catch(console.error);

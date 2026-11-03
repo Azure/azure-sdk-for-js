@@ -479,10 +479,7 @@ export function createConnectionContext(
   hostOrConnectionString: string,
   eventHubNameOrOptions?: string | EventHubClientOptions,
   credentialOrOptions?:
-    | TokenCredential
-    | NamedKeyCredential
-    | SASCredential
-    | EventHubClientOptions,
+    TokenCredential | NamedKeyCredential | SASCredential | EventHubClientOptions,
   options?: EventHubClientOptions,
 ): ConnectionContext {
   let connectionString;
@@ -492,12 +489,10 @@ export function createConnectionContext(
 
   if (!isCredential(credentialOrOptions)) {
     const parsedCS = parseEventHubConnectionString(hostOrConnectionString);
-    if (
-      !(
-        parsedCS.eventHubName ||
-        (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions)
-      )
-    ) {
+    if (!(
+      parsedCS.eventHubName ||
+      (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions)
+    )) {
       throw new TypeError(
         `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
           `must contain "EntityPath=<your-event-hub-name>".`,

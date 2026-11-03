@@ -7,9 +7,11 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -556,10 +558,10 @@ interface ComplexReplacerConfigOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewMetadataPoliciesClientOptions): PurviewMetadataPoliciesClient;
+function createClient(endpoint: string, credentials: TokenCredential, input?: PurviewMetadataPoliciesClientOptions): PurviewMetadataPoliciesClient;
 
 // @public
-function createClient_2(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewAccountClientOptions): PurviewAccountClient;
+function createClient_2(endpoint: string, credentials: TokenCredential, input?: PurviewAccountClientOptions): PurviewAccountClient;
 
 // @public
 interface DataPlaneAccountUpdateParameters {
@@ -717,6 +719,8 @@ interface IdentityOutput {
     readonly tenantId?: string;
     type?: "SystemAssigned";
 }
+
+export { isRestError }
 
 // @public (undocumented)
 function isUnexpected(response: MetadataRolesList200Response | MetadataRolesListDefaultResponse): response is MetadataRolesListDefaultResponse;
@@ -1622,6 +1626,8 @@ declare namespace Responses_2 {
         ResourceSetRulesListResourceSetRulesDefaultResponse
     }
 }
+
+export { RestError }
 
 // @public (undocumented)
 interface Routes {

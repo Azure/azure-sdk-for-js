@@ -1,33 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Removes a content from CDN.
- *
- * @summary Removes a content from CDN.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Endpoints_PurgeContent.json
- */
-
-import type { PurgeParameters } from "@azure/arm-cdn";
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to removes a content from CDN.
+ *
+ * @summary removes a content from CDN.
+ * x-ms-original-file: 2026-10-01/Endpoints_PurgeContent.json
+ */
 async function endpointsPurgeContent(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
-  const endpointName = "endpoint1";
-  const contentFilePaths: PurgeParameters = { contentPaths: ["/folder1"] };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.endpoints.beginPurgeContentAndWait(
-    resourceGroupName,
-    profileName,
-    endpointName,
-    contentFilePaths,
-  );
-  console.log(result);
+  await client.endpoints.purgeContent("RG", "profile1", "endpoint1", {
+    contentPaths: ["/folder1"],
+  });
 }
 
 async function main(): Promise<void> {

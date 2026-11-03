@@ -121,6 +121,10 @@ export class ContainerRegistryClient {
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
+      redirectOptions: {
+        allowCrossOriginRedirects: true,
+        ...options?.redirectOptions,
+      },
       loggingOptions: {
         logger: logger.info,
         // This array contains header names we want to log that are not already

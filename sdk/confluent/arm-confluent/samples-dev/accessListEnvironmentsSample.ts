@@ -1,34 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Environment list of an organization
- *
- * @summary Environment list of an organization
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_EnvironmentList.json
- */
-
-import type { ListAccessRequestModel } from "@azure/arm-confluent";
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function accessEnvironmentList(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const body: ListAccessRequestModel = {
-    searchFilters: { pageSize: "10", pageToken: "asc4fts4ft" },
-  };
+/**
+ * This sample demonstrates how to environment list of an organization
+ *
+ * @summary environment list of an organization
+ * x-ms-original-file: 2026-06-02-preview/Access_ListEnvironments_MaximumSet_Gen.json
+ */
+async function accessListEnvironmentsMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
-  const result = await client.access.listEnvironments(resourceGroupName, organizationName, body);
+  const result = await client.access.listEnvironments("rgconfluent", "rnbjtcdqddweb", {
+    searchFilters: { key8083: "ft" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to environment list of an organization
+ *
+ * @summary environment list of an organization
+ * x-ms-original-file: 2026-06-02-preview/Access_ListEnvironments_MinimumSet_Gen.json
+ */
+async function accessListEnvironmentsMinimumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
+  const client = new ConfluentManagementClient(credential, subscriptionId);
+  const result = await client.access.listEnvironments("rgconfluent", "mv", {});
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await accessEnvironmentList();
+  await accessListEnvironmentsMaximumSet();
+  await accessListEnvironmentsMinimumSet();
 }
 
 main().catch(console.error);

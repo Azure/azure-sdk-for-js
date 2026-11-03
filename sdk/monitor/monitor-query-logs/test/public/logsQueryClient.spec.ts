@@ -52,7 +52,7 @@ describe("LogsQueryClient live tests", function () {
       const innermostError = getInnermostErrorDetails(err);
 
       if (innermostError == null) {
-        throw new Error("No innermost error - error reporting would break.");
+        throw new Error("No innermost error - error reporting would break.", { cause: err });
       }
 
       loggerForTest.verbose(`(Diagnostics) Actual error thrown when we use a bad query: `, err);
@@ -322,7 +322,7 @@ describe("LogsQueryClient live tests", function () {
       const innermostError = getInnermostErrorDetails(err);
 
       if (innermostError == null) {
-        throw new Error("No innermost error - error reporting would break.");
+        throw new Error("No innermost error - error reporting would break.", { cause: err });
       }
 
       loggerForTest.verbose(`(Diagnostics) Actual error thrown when we use a bad query: `, err);

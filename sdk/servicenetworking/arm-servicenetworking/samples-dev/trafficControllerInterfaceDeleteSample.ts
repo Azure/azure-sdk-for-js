@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to delete a TrafficController
  *
  * @summary delete a TrafficController
- * x-ms-original-file: 2025-03-01-preview/TrafficControllerDelete.json
+ * x-ms-original-file: 2026-03-01/TrafficControllerDelete.json
  */
-
-import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function deleteTrafficController(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";

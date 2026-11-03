@@ -1,23 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  CommonClientOptions,
-  FullOperationResponse,
-  OperationOptions,
-} from "@azure/core-client";
+import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
 import type { RequestBodyType } from "@azure/core-rest-pipeline";
 import { RestError } from "@azure/core-rest-pipeline";
-import type { GeneratedClient } from "./generated/generatedClient.js";
+import type { WebPubSubServiceContext } from "./api/webPubSubServiceContext.js";
 import { tracingClient } from "./tracing.js";
-import { getPayloadForMessage } from "./utils.js";
+import { getPayloadForMessage, toByteArrayPayload } from "./utils.js";
 import type { JSONTypes } from "./hubClient.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+import type { MessageContentType } from "./models/models.js";
+import {
+  removeConnectionFromGroup as generatedRemoveConnectionFromGroup,
+  closeGroupConnections as generatedCloseGroupConnections,
+  addUserToGroup as generatedAddUserToGroup,
+  removeUserFromGroup as generatedRemoveUserFromGroup,
+  sendToGroup as generatedSendToGroup,
+  listConnectionsInGroup as generatedListConnectionsInGroup,
+  _addConnectionToGroupSend,
+} from "./api/operations.js";
 
 /**
  * Options for constructing a GroupAdmin client.
  */
-export interface GroupAdminClientOptions extends CommonClientOptions {}
+export interface GroupAdminClientOptions extends ClientOptions {}
 
 /**
  * Options for adding a connection to a group.
@@ -110,6 +117,9 @@ export interface GroupListConnectionsOptions extends OperationOptions {
   continuationToken?: string;
 }
 
+/**
+ * Represents a group in the Web PubSub service.
+ */
 export interface WebPubSubGroup {
   /**
    * The name of this group
@@ -206,7 +216,7 @@ export interface WebPubSubGroup {
  * @hidden
  */
 export class WebPubSubGroupImpl implements WebPubSubGroup {
-  private client!: GeneratedClient;
+  private client!: WebPubSubServiceContext;
 
   /**
    * The name of this group
@@ -231,7 +241,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   /**
    * @internal
    */
-  constructor(client: GeneratedClient, hubName: string, groupName: string) {
+  constructor(client: WebPubSubServiceContext, hubName: string, groupName: string) {
     this.client = client;
     this.groupName = groupName;
     this.hubName = hubName;
@@ -246,34 +256,25 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     connectionId: string,
     options: GroupAddConnectionOptions = {},
   ): Promise<void> {
-    let response: FullOperationResponse | undefined;
-    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-      response = rawResponse;
-      if (options.onResponse) {
-        options.onResponse(rawResponse, flatResponse);
-      }
-    }
-
     return tracingClient.withSpan(
       "WebPubSubGroupClient.addConnection",
       options,
       async (updatedOptions) => {
-        await this.client.webPubSub.addConnectionToGroup(
-          this.hubName,
+        const result = await _addConnectionToGroupSend(
+          this.client,
           this.groupName,
           connectionId,
-          {
-            ...updatedOptions,
-            onResponse,
-          },
+          updatedOptions as any,
         );
 
-        if (response!.status === 404) {
+        if (result.status === "404") {
           throw new RestError(`Connection id '${connectionId}' doesn't exist`, {
-            statusCode: response?.status,
-            request: response?.request,
-            response: response,
+            statusCode: 404,
+            request: result.request,
           });
+        }
+        if (result.status !== "200") {
+          throw createRestError(result);
         }
       },
     );
@@ -293,11 +294,11 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
       "WebPubSubGroupClient.removeConnection",
       options,
       (updatedOptions) => {
-        return this.client.webPubSub.removeConnectionFromGroup(
-          this.hubName,
+        return generatedRemoveConnectionFromGroup(
+          this.client,
           this.groupName,
           connectionId,
-          updatedOptions,
+          updatedOptions as any,
         );
       },
     );
@@ -313,11 +314,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
       "WebPubSubGroupClient.closeAllConnections",
       options,
       (updatedOptions) => {
-        return this.client.webPubSub.closeGroupConnections(
-          this.hubName,
-          this.groupName,
-          updatedOptions,
-        );
+        return generatedCloseGroupConnections(this.client, this.groupName, updatedOptions as any);
       },
     );
   }
@@ -329,12 +326,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
    */
   public async addUser(username: string, options: GroupAddUserOptions = {}): Promise<void> {
     return tracingClient.withSpan("WebPubSubGroupClient.addUser", options, (updatedOptions) => {
-      return this.client.webPubSub.addUserToGroup(
-        this.hubName,
-        this.groupName,
-        username,
-        updatedOptions,
-      );
+      return generatedAddUserToGroup(this.client, this.groupName, username, updatedOptions as any);
     });
   }
 
@@ -346,11 +338,11 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
    */
   public async removeUser(username: string, options: GroupRemoveUserOptions = {}): Promise<void> {
     return tracingClient.withSpan("WebPubSubGroupClient.removeUser", options, (updatedOptions) => {
-      return this.client.webPubSub.removeUserFromGroup(
-        this.hubName,
+      return generatedRemoveUserFromGroup(
+        this.client,
         this.groupName,
         username,
-        updatedOptions,
+        updatedOptions as any,
       );
     });
   }
@@ -381,16 +373,23 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     message: JSONTypes | RequestBodyType,
     options: GroupSendToAllOptions | GroupSendTextToAllOptions = {},
   ): Promise<void> {
-    return tracingClient.withSpan("WebPubSubGroupClient.sendToAll", options, (updatedOptions) => {
-      const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-      return this.client.webPubSub.sendToGroup(
-        this.hubName,
-        this.groupName,
-        contentType,
-        payload as any,
-        updatedOptions,
-      );
-    });
+    return tracingClient.withSpan(
+      "WebPubSubGroupClient.sendToAll",
+      options,
+      async (updatedOptions) => {
+        const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
+        await generatedSendToGroup(
+          this.client,
+          this.groupName,
+          contentType as MessageContentType,
+          toByteArrayPayload(payload) as any,
+          {
+            ...updatedOptions,
+            excluded: (updatedOptions as any).excludedConnections,
+          } as any,
+        );
+      },
+    );
   }
 
   /**
@@ -404,7 +403,10 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
       "WebPubSubGroupClient.listConnections",
       options,
       (updatedOptions) =>
-        this.client.webPubSub.listConnectionsInGroup(this.hubName, this.groupName, updatedOptions),
+        generatedListConnectionsInGroup(this.client, this.groupName, {
+          ...updatedOptions,
+          maxpagesize: updatedOptions.maxPageSize,
+        } as any),
     );
   }
 }

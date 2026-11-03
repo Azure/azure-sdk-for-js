@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates the developer portal's content type. Content types describe content items' properties, validation rules, and constraints. Custom content types' identifiers need to start with the `c-` prefix. Built-in content types can't be modified.
- *
- * @summary Creates or updates the developer portal's content type. Content types describe content items' properties, validation rules, and constraints. Custom content types' identifiers need to start with the `c-` prefix. Built-in content types can't be modified.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateContentType.json
- */
-
-import {
-  ContentTypeContract,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates the developer portal's content type. Content types describe content items' properties, validation rules, and constraints. Custom content types' identifiers need to start with the `c-` prefix. Built-in content types can't be modified.
+ *
+ * @summary creates or updates the developer portal's content type. Content types describe content items' properties, validation rules, and constraints. Custom content types' identifiers need to start with the `c-` prefix. Built-in content types can't be modified.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementCreateContentType.json
+ */
 async function apiManagementCreateContentType(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const contentTypeId = "page";
-  const parameters: ContentTypeContract = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.contentType.createOrUpdate("rg1", "apimService1", "page", {
     namePropertiesName: "Page",
     schema: {
       additionalProperties: false,
@@ -34,8 +25,7 @@ async function apiManagementCreateContentType(): Promise<void> {
           properties: {
             description: {
               type: "string",
-              description:
-                "Page description. This property gets included in SEO attributes.",
+              description: "Page description. This property gets included in SEO attributes.",
               indexed: true,
               title: "Description",
             },
@@ -46,8 +36,7 @@ async function apiManagementCreateContentType(): Promise<void> {
             },
             keywords: {
               type: "string",
-              description:
-                "Page keywords. This property gets included in SEO attributes.",
+              description: "Page keywords. This property gets included in SEO attributes.",
               indexed: true,
               title: "Keywords",
             },
@@ -59,8 +48,7 @@ async function apiManagementCreateContentType(): Promise<void> {
             },
             title: {
               type: "string",
-              description:
-                "Page title. This property gets included in SEO attributes.",
+              description: "Page title. This property gets included in SEO attributes.",
               indexed: true,
               title: "Title",
             },
@@ -71,15 +59,7 @@ async function apiManagementCreateContentType(): Promise<void> {
     },
     description: "A regular page",
     version: "1.0.0",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.contentType.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    contentTypeId,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

@@ -1,51 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ListCustomHostNameSitesOptionalParams} from "@azure/arm-appservice";
-import {
-  WebSiteManagementClient,
-} from "@azure/arm-appservice";
+import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get custom hostnames under this subscription
+ * This sample demonstrates how to get custom hostnames under this subscription
  *
- * @summary Get custom hostnames under this subscription
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/ListCustomHostNameSites.json
+ * @summary get custom hostnames under this subscription
+ * x-ms-original-file: 2025-05-01/ListCustomHostNameSites.json
  */
 async function getCustomHostnamesUnderSubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.listCustomHostNameSites()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Get custom hostnames under this subscription
+ * This sample demonstrates how to get custom hostnames under this subscription
  *
- * @summary Get custom hostnames under this subscription
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/ListCustomSpecificHostNameSites.json
+ * @summary get custom hostnames under this subscription
+ * x-ms-original-file: 2025-05-01/ListCustomSpecificHostNameSites.json
  */
 async function getSpecificCustomHostnameUnderSubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const hostname = "www.example.com";
-  const options: ListCustomHostNameSitesOptionalParams = { hostname };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.listCustomHostNameSites(options)) {
+  for await (const item of client.listCustomHostNameSites({ hostname: "www.example.com" })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

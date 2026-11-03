@@ -1,85 +1,67 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClusterManager} from "@azure/arm-networkcloud";
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create a new cluster manager or update properties of the cluster manager if it exists.
+ * This sample demonstrates how to create a new cluster manager or update properties of the cluster manager if it exists.
  *
- * @summary Create a new cluster manager or update properties of the cluster manager if it exists.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/ClusterManagers_Create.json
+ * @summary create a new cluster manager or update properties of the cluster manager if it exists.
+ * x-ms-original-file: 2026-07-01/ClusterManagers_Create.json
  */
 async function createOrUpdateClusterManager(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const clusterManagerName = "clusterManagerName";
-  const clusterManagerParameters: ClusterManager = {
-    analyticsWorkspaceId:
-      "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/microsoft.operationalInsights/workspaces/logAnalyticsWorkspaceName",
-    fabricControllerId:
-      "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/fabricControllerName",
-    identity: { type: "SystemAssigned" },
-    location: "location",
-    managedResourceGroupConfiguration: {
-      name: "my-managed-rg",
-      location: "East US",
-    },
-    tags: { key1: "myvalue1", key2: "myvalue2" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
   const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.clusterManagers.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterManagerName,
-    clusterManagerParameters,
+  const result = await client.clusterManagers.createOrUpdate(
+    "resourceGroupName",
+    "clusterManagerName",
+    {
+      identity: { type: "SystemAssigned" },
+      kind: "AzureLocal",
+      location: "location",
+      analyticsWorkspaceId:
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.OperationalInsights/workspaces/logAnalyticsWorkspaceName",
+      fabricControllerId:
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/fabricControllerName",
+      managedResourceGroupConfiguration: { location: "East US", name: "my-managed-rg" },
+      tags: { key1: "myvalue1", key2: "myvalue2" },
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create a new cluster manager or update properties of the cluster manager if it exists.
+ * This sample demonstrates how to create a new cluster manager or update properties of the cluster manager if it exists.
  *
- * @summary Create a new cluster manager or update properties of the cluster manager if it exists.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/ClusterManagers_Create_Uami.json
+ * @summary create a new cluster manager or update properties of the cluster manager if it exists.
+ * x-ms-original-file: 2026-07-01/ClusterManagers_Create_Uami.json
  */
 async function createOrUpdateClusterManagerWithUserAssignedIdentity(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const clusterManagerName = "clusterManagerName";
-  const clusterManagerParameters: ClusterManager = {
-    analyticsWorkspaceId:
-      "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/microsoft.operationalInsights/workspaces/logAnalyticsWorkspaceName",
-    fabricControllerId:
-      "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/fabricControllerName",
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/123e4567E89b12d3A456426655440000/resourceGroups/resourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/userIdentity1":
-          {},
-      },
-    },
-    location: "location",
-    managedResourceGroupConfiguration: {
-      name: "my-managed-rg",
-      location: "East US",
-    },
-    tags: { key1: "myvalue1", key2: "myvalue2" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
   const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.clusterManagers.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterManagerName,
-    clusterManagerParameters,
+  const result = await client.clusterManagers.createOrUpdate(
+    "resourceGroupName",
+    "clusterManagerName",
+    {
+      identity: {
+        type: "UserAssigned",
+        userAssignedIdentities: {
+          "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/userIdentity1":
+            {},
+        },
+      },
+      kind: "AzureLocal",
+      location: "location",
+      analyticsWorkspaceId:
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.OperationalInsights/workspaces/logAnalyticsWorkspaceName",
+      fabricControllerId:
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/fabricControllerName",
+      managedResourceGroupConfiguration: { location: "East US", name: "my-managed-rg" },
+      tags: { key1: "myvalue1", key2: "myvalue2" },
+    },
   );
   console.log(result);
 }

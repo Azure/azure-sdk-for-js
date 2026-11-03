@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext } from "../../api/agentsContext.js";
-import {
+import type { AgentsContext } from "../../api/agentsContext.js";
+import type {
   FileListResponse,
   FileInfo,
   FilePurpose,
   FileDeletionStatus,
 } from "../../models/models.js";
-import {
+import type {
   FilesGetFileContentOptionalParams,
   FilesGetFileOptionalParams,
   FilesDeleteFileOptionalParams,
@@ -23,8 +23,8 @@ import {
   listFiles,
   uploadFileAndPoll,
 } from "../../api/files/operations.js";
-import { OperationState, PollerLike } from "@azure/core-lro";
-import { StreamableMethod } from "@azure-rest/core-client";
+import type { OperationState, PollerLike } from "@azure/core-lro";
+import type { StreamableMethod } from "@azure-rest/core-client";
 
 /** Interface representing a Files operations. */
 export interface FilesOperations {

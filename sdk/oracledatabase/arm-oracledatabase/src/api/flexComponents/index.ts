@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByParent, get } from "./operations.js";
-export {
+export type {
   FlexComponentsListByParentOptionalParams,
   FlexComponentsGetOptionalParams,
 } from "./options.js";

@@ -6,10 +6,12 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import type { CommonClientOptions } from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { SimplePollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -445,6 +447,8 @@ export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
     readonly entities: HealthcareEntity[];
     readonly entityRelations: HealthcareEntityRelation[];
 }
+
+export { isRestError }
 
 // @public
 export interface KeyPhraseExtractionAction extends ActionPrebuilt {
@@ -907,6 +911,8 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult> ext
 
 // @public
 export type RelationType = string;
+
+export { RestError }
 
 // @public
 export interface RestoreAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {

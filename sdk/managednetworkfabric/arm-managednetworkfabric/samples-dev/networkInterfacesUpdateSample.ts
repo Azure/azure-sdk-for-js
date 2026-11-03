@@ -1,32 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update certain properties of the Network Interface resource.
- *
- * @summary Update certain properties of the Network Interface resource.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NetworkInterfaces_Update_MaximumSet_Gen.json
- */
-
-import type { NetworkInterfacePatch } from "@azure/arm-managednetworkfabric";
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update certain properties of the Network Interface resource.
+ *
+ * @summary update certain properties of the Network Interface resource.
+ * x-ms-original-file: 2025-07-15/NetworkInterfaces_Update.json
+ */
 async function networkInterfacesUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const networkDeviceName = "example-device";
-  const networkInterfaceName = "example-interface";
-  const body: NetworkInterfacePatch = { annotation: "annotation" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.networkInterfaces.beginUpdateAndWait(
-    resourceGroupName,
-    networkDeviceName,
-    networkInterfaceName,
-    body,
+  const result = await client.networkInterfaces.update(
+    "example-rg",
+    "example-device",
+    "example-interface",
+    { annotation: "annotation", additionalDescription: "device 1" },
   );
   console.log(result);
 }

@@ -3,25 +3,18 @@
 
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified Azure key vault.
+ * This sample demonstrates how to deletes the specified Azure key vault.
  *
- * @summary Deletes the specified Azure key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/deleteVault.json
+ * @summary deletes the specified Azure key vault.
+ * x-ms-original-file: 2026-05-15/deleteVault.json
  */
 async function deleteAVault(): Promise<void> {
-  const subscriptionId =
-    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-resource-group";
-  const vaultName = "sample-vault";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new KeyVaultManagementClient(credential, subscriptionId);
-  const result = await client.vaults.delete(resourceGroupName, vaultName);
-  console.log(result);
+  await client.vaults.delete("sample-resource-group", "sample-vault");
 }
 
 async function main(): Promise<void> {

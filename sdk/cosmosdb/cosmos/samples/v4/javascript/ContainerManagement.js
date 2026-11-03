@@ -169,7 +169,6 @@ async function run() {
         path: "/vector3",
         type: VectorIndexType.DiskANN,
         quantizerType: VectorIndexQuantizationType.Spherical,
-        quantizationByteSize: 2,
         indexingSearchListSize: 50,
         vectorIndexShardKey: ["/ZipCode"],
       },

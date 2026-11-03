@@ -1,39 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a list of the Azure Site Recovery fabrics in the vault.
- *
- * @summary Gets a list of the Azure Site Recovery fabrics in the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationFabrics_List.json
- */
-
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getsTheListOfAsrFabrics(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
-    "c183865e-6077-46f2-a3b1-deb0f4f4650a";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
-    "resourceGroupPS1";
-  const resourceName = "vault1";
+/**
+ * This sample demonstrates how to gets a list of the Azure Site Recovery fabrics in the vault.
+ *
+ * @summary gets a list of the Azure Site Recovery fabrics in the vault.
+ * x-ms-original-file: 2025-08-01/ReplicationFabrics_List.json
+ */
+async function getsTheListOfASRFabrics(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "c183865e-6077-46f2-a3b1-deb0f4f4650a";
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.replicationFabrics.list(
-    resourceGroupName,
-    resourceName,
-  )) {
+  for await (const item of client.replicationFabrics.list("resourceGroupPS1", "vault1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await getsTheListOfAsrFabrics();
+  await getsTheListOfASRFabrics();
 }
 
 main().catch(console.error);

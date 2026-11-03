@@ -6,11 +6,13 @@
 
 import type { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -94,6 +96,8 @@ export type GetPurchasedPhoneNumberOptions = OperationOptions;
 // @public
 export interface GetReservationOptions extends OperationOptions {
 }
+
+export { isRestError }
 
 // @public
 export interface ListAvailableCountriesOptions extends OperationOptions {
@@ -352,6 +356,8 @@ export interface ReleasePhoneNumberResult {
 
 // @public
 export type ReservationStatus = "active" | "submitted" | "completed" | "expired";
+
+export { RestError }
 
 // @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {

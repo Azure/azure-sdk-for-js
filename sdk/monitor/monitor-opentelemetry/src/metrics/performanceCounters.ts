@@ -18,10 +18,12 @@ import type {
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { PerformanceCounterMetricNames } from "./types.js";
+import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import type { AzureMonitorOpenTelemetryOptions } from "../types.js";
 import { getLogData, isExceptionData } from "./quickpulse/utils.js";
 import type { ExceptionData, TraceData } from "./quickpulse/types.js";
 import { Logger } from "../shared/logging/logger.js";
+import { readAvailableMemory } from "./utils.js";
 import process from "node:process";
 
 /**
@@ -48,7 +50,7 @@ export class PerformanceCounterMetrics {
   private processTimeGaugeCallback: ObservableCallback;
   private exceptionCountGauge: ObservableGauge;
   private exceptionCountGaugeCallback: ObservableCallback;
-  private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
+  private lastExceptionRate: { count: number; time: number };
   private totalCount: number = 0;
   private intervalExecutionTime = 0;
   private lastRequestRate: { count: number; time: number; executionInterval: number };
@@ -60,6 +62,13 @@ export class PerformanceCounterMetrics {
     times: { user: number; nice: number; sys: number; idle: number; irq: number };
   }[];
   private lastCpusProcess: {
+    model: string;
+    speed: number;
+    times: { user: number; nice: number; sys: number; idle: number; irq: number };
+  }[];
+  private lastAppCpuUsageNormalized: { user: number; system: number };
+  private lastHrtimeNormalized: number[];
+  private lastCpusProcessNormalized: {
     model: string;
     speed: number;
     times: { user: number; nice: number; sys: number; idle: number; irq: number };
@@ -77,12 +86,16 @@ export class PerformanceCounterMetrics {
     this.lastCpusProcess = os.cpus();
     this.lastAppCpuUsage = process.cpuUsage();
     this.lastHrtime = process.hrtime();
+    this.lastCpusProcessNormalized = os.cpus();
+    this.lastAppCpuUsageNormalized = process.cpuUsage();
+    this.lastHrtimeNormalized = process.hrtime();
 
     this.lastRequestRate = {
       count: this.totalCount,
       time: +new Date(),
       executionInterval: this.intervalExecutionTime,
     };
+    this.lastExceptionRate = { count: this.totalExceptionCount, time: +new Date() };
 
     this.azureExporter = new AzureMonitorMetricExporter(
       this.internalConfig.azureMonitorExporterOptions,
@@ -97,8 +110,6 @@ export class PerformanceCounterMetrics {
     };
     this.meterProvider = new MeterProvider(meterProviderConfig);
     this.meter = this.meterProvider.getMeter("AzureMonitorPerformanceCountersMeter");
-
-    this.lastRequestRate = { count: 0, time: 0, executionInterval: 0 };
 
     // Create Instruments
     this.requestDurationHistogram = this.meter.createHistogram(
@@ -197,7 +208,7 @@ export class PerformanceCounterMetrics {
       return;
     }
     this.totalCount++;
-    const durationMs = span.duration[0];
+    const durationMs = hrTimeToMilliseconds(span.duration);
     this.intervalExecutionTime += durationMs;
     this.requestDurationHistogram.record(durationMs);
     if (span.events) {
@@ -246,7 +257,7 @@ export class PerformanceCounterMetrics {
   }
 
   private getAvailableMemory(observableResult: ObservableResult): void {
-    observableResult.observe(os.freemem());
+    observableResult.observe(readAvailableMemory());
   }
 
   private getTotalCombinedCpu(cpus: os.CpuInfo[], lastCpus: os.CpuInfo[]) {
@@ -312,8 +323,8 @@ export class PerformanceCounterMetrics {
     if (
       cpus &&
       cpus.length &&
-      this.lastCpusProcess &&
-      cpus.length === this.lastCpusProcess.length
+      this.lastCpusProcessNormalized &&
+      cpus.length === this.lastCpusProcessNormalized.length
     ) {
       // Calculate % of total cpu time (user + system) this App Process used (Only supported by node v6.1.0+)
       let appCpuPercent: number | undefined = undefined;
@@ -321,28 +332,30 @@ export class PerformanceCounterMetrics {
       const hrtime = process.hrtime();
       const totalApp =
         appCpuUsage.user -
-          this.lastAppCpuUsage.user +
-          (appCpuUsage.system - this.lastAppCpuUsage.system) || 0;
+          this.lastAppCpuUsageNormalized.user +
+          (appCpuUsage.system - this.lastAppCpuUsageNormalized.system) || 0;
 
-      if (typeof this.lastHrtime !== "undefined" && this.lastHrtime.length === 2) {
+      if (
+        typeof this.lastHrtimeNormalized !== "undefined" &&
+        this.lastHrtimeNormalized.length === 2
+      ) {
         const elapsedTime =
-          (hrtime[0] - this.lastHrtime[0]) * 1e6 + (hrtime[1] - this.lastHrtime[1]) / 1e3 || 0; // convert to microseconds
+          (hrtime[0] - this.lastHrtimeNormalized[0]) * 1e6 +
+            (hrtime[1] - this.lastHrtimeNormalized[1]) / 1e3 || 0; // convert to microseconds
 
         appCpuPercent = (100 * totalApp) / (elapsedTime * cpus.length);
       }
       // Set previous
-      this.lastAppCpuUsage = appCpuUsage;
-      this.lastHrtime = hrtime;
-      const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
-      let value = 0;
-      if (appCpuPercent !== undefined) {
-        value = appCpuPercent;
-      } else {
-        value = (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
-      }
+      this.lastAppCpuUsageNormalized = appCpuUsage;
+      this.lastHrtimeNormalized = hrtime;
+      const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcessNormalized);
+      const value =
+        appCpuPercent !== undefined
+          ? appCpuPercent
+          : (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
       observableResult.observe(value);
     }
-    this.lastCpusProcess = cpus;
+    this.lastCpusProcessNormalized = cpus;
   }
 
   private getProcessTime(observableResult: ObservableResult): void {
@@ -374,12 +387,10 @@ export class PerformanceCounterMetrics {
         this.lastAppCpuUsage = appCpuUsage;
         this.lastHrtime = hrtime;
         const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
-        let value = 0;
-        if (appCpuPercent !== undefined) {
-          value = appCpuPercent;
-        } else {
-          value = (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
-        }
+        const value =
+          appCpuPercent !== undefined
+            ? appCpuPercent
+            : (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
         observableResult.observe(value);
       }
       this.lastCpusProcess = cpus;

@@ -8,11 +8,9 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      browser: {
-        api: {
-          host: '127.0.0.1',
-          port: 54322,
-        },
+      api: {
+        host: "127.0.0.1",
+        port: 54322,
       },
     },
     optimizeDeps: {

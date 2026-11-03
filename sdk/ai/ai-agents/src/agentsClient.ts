@@ -32,7 +32,7 @@ import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
 
-export { AgentsClientOptionalParams } from "./api/agentsContext.js";
+export type { AgentsClientOptionalParams } from "./api/agentsContext.js";
 
 export class AgentsClient {
   private _client: AgentsContext;

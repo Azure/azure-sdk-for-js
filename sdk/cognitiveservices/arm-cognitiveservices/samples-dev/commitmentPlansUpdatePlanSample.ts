@@ -1,37 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  PatchResourceTagsAndSku} from "@azure/arm-cognitiveservices";
-import {
-  CognitiveServicesManagementClient,
-} from "@azure/arm-cognitiveservices";
+import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create Cognitive Services commitment plan.
+ * This sample demonstrates how to create Cognitive Services commitment plan.
  *
- * @summary Create Cognitive Services commitment plan.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/UpdateSharedCommitmentPlan.json
+ * @summary create Cognitive Services commitment plan.
+ * x-ms-original-file: 2026-09-15-preview/UpdateSharedCommitmentPlan.json
  */
 async function createCommitmentPlan(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
-  const commitmentPlanName = "commitmentPlanName";
-  const commitmentPlan: PatchResourceTagsAndSku = { tags: { name: "value" } };
   const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.commitmentPlans.beginUpdatePlanAndWait(
-    resourceGroupName,
-    commitmentPlanName,
-    commitmentPlan,
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.commitmentPlans.updatePlan(
+    "resourceGroupName",
+    "commitmentPlanName",
+    { tags: { name: "value" } },
   );
   console.log(result);
 }

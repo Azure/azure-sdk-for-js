@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a list of all the jobs in an IoT hub. For more information, see: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry.
- *
- * @summary Get a list of all the jobs in an IoT hub. For more information, see: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2023-06-30/examples/iothub_listjobs.json
- */
-
 import { IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get a list of all the jobs in an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry.
+ *
+ * @summary get a list of all the jobs in an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry.
+ * x-ms-original-file: 2026-10-01-preview/iothub_listjobs.json
+ */
 async function iotHubResourceListJobs(): Promise<void> {
-  const subscriptionId =
-    process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const resourceGroupName = process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
-  const resourceName = "testHub";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const client = new IotHubClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.iotHubResource.listJobs(resourceGroupName, resourceName)) {
+  for await (const item of client.iotHubResource.listJobs("myResourceGroup", "testHub")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

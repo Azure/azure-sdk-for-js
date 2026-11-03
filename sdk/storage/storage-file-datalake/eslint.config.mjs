@@ -6,4 +6,10 @@ export default azsdkEslint.config([
       "@azure/azure-sdk/ts-naming-options": "warn",
     },
   },
+  {
+    files: ["src/generated-classic-models.ts"],
+    rules: {
+      "tsdoc/syntax": "off",
+    },
+  },
 ]);

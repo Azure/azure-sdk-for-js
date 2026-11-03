@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import { createOrUpdate, $delete, get, list, listVersions } from "../../api/indexes/operations.js";
-import {
+import type {
   IndexesCreateOrUpdateOptionalParams,
   IndexesDeleteOptionalParams,
   IndexesGetOptionalParams,
   IndexesListOptionalParams,
   IndexesListVersionsOptionalParams,
 } from "../../api/indexes/options.js";
-import { IndexUnion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { IndexUnion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a Indexes operations. */
 export interface IndexesOperations {
@@ -42,7 +42,7 @@ function _getIndexes(context: AIProjectContext) {
       version: string,
       index: IndexUnion,
       options?: IndexesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, name, version, index, options),
+    ) => createOrUpdate(context, name, index, version, options),
     delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) =>
       $delete(context, name, version, options),
     get: (name: string, version: string, options?: IndexesGetOptionalParams) =>

@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a MigrationConfiguration
- *
- * @summary Deletes a MigrationConfiguration
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Migrationconfigurations/SBMigrationconfigurationDelete.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes a MigrationConfiguration
+ *
+ * @summary deletes a MigrationConfiguration
+ * x-ms-original-file: 2026-01-01/Migrationconfigurations/SBMigrationconfigurationDelete.json
+ */
 async function migrationConfigurationsDelete(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "SubscriptionId";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
-  const namespaceName = "sdk-Namespace-41";
-  const configName = "$default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
-  const result = await client.migrationConfigs.delete(resourceGroupName, namespaceName, configName);
-  console.log(result);
+  await client.migrationConfigs.delete("ResourceGroup", "sdk-Namespace-41", "$default");
 }
 
 async function main(): Promise<void> {

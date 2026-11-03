@@ -1,28 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Obtains details of a cached recommendation.
- *
- * @summary Obtains details of a cached recommendation.
- * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/GetRecommendationDetail.json
- */
-
 import { AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getRecommendationDetail(): Promise<void> {
-  const resourceUri = "resourceUri";
-  const recommendationId = "recommendationId";
+/**
+ * This sample demonstrates how to obtains details of a cached recommendation.
+ *
+ * @summary obtains details of a cached recommendation.
+ * x-ms-original-file: 2026-02-01-preview/GetRecommendationDetailServiceGroupResourceUri.json
+ */
+async function getRecommendationDetailServiceGroupResourceUri(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential);
-  const result = await client.recommendations.get(resourceUri, recommendationId);
+  const result = await client.recommendations.get(
+    "providers/microsoft.management/serviceGroup/serviceGroupXYZ",
+    "37c93209-4bfb-4f3b-8874-ccc718f7a467",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to obtains details of a cached recommendation.
+ *
+ * @summary obtains details of a cached recommendation.
+ * x-ms-original-file: 2026-02-01-preview/GetRecommendationDetailSubscriptionResourceUri.json
+ */
+async function getRecommendationDetailSubscriptionResourceUri(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new AdvisorManagementClient(credential);
+  const result = await client.recommendations.get(
+    "subscriptions/a5481ee1-95df-47d0-85d4-dd3f0dfa19bc/resourceGroups/resourceGroup/providers/Microsoft.Compute/availabilitysets/armavset",
+    "2e7c72b2d7987ec224a1ebae03398b0fbdaa9a5a6a762e6fcf1c806599744b45",
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getRecommendationDetail();
+  await getRecommendationDetailServiceGroupResourceUri();
+  await getRecommendationDetailSubscriptionResourceUri();
 }
 
 main().catch(console.error);

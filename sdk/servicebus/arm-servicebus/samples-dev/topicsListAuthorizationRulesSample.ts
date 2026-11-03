@@ -1,33 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets authorization rules for a topic.
- *
- * @summary Gets authorization rules for a topic.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Topics/SBTopicAuthorizationRuleListAll.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets authorization rules for a topic.
+ *
+ * @summary gets authorization rules for a topic.
+ * x-ms-original-file: 2026-01-01/Topics/SBTopicAuthorizationRuleListAll.json
+ */
 async function topicAuthorizationRuleListAll(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ArunMonocle";
-  const namespaceName = "sdk-Namespace-6261";
-  const topicName = "sdk-Topics-1984";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.topics.listAuthorizationRules(
-    resourceGroupName,
-    namespaceName,
-    topicName,
+    "ArunMonocle",
+    "sdk-Namespace-6261",
+    "sdk-Topics-1984",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

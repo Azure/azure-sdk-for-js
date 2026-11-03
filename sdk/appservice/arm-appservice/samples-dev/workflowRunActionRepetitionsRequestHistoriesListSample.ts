@@ -3,38 +3,29 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List a workflow run repetition request history.
+ * This sample demonstrates how to list a workflow run repetition request history.
  *
- * @summary List a workflow run repetition request history.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/WorkflowRunActionRepetitionsRequestHistories_List.json
+ * @summary list a workflow run repetition request history.
+ * x-ms-original-file: 2025-05-01/WorkflowRunActionRepetitionsRequestHistories_List.json
  */
 async function listRepetitionRequestHistory(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "test-resource-group";
-  const name = "test-name";
-  const workflowName = "test-workflow";
-  const runName = "08586776228332053161046300351";
-  const actionName = "HTTP_Webhook";
-  const repetitionName = "000001";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.workflowRunActionRepetitionsRequestHistories.list(
-    resourceGroupName,
-    name,
-    workflowName,
-    runName,
-    actionName,
-    repetitionName,
+    "test-resource-group",
+    "test-name",
+    "test-workflow",
+    "08586776228332053161046300351",
+    "HTTP_Webhook",
+    "000001",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -1,34 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Cluster details
- *
- * @summary Cluster details
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_ClusterList.json
- */
-
-import type { ListAccessRequestModel } from "@azure/arm-confluent";
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function accessClusterList(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const body: ListAccessRequestModel = {
-    searchFilters: { pageSize: "10", pageToken: "asc4fts4ft" },
-  };
+/**
+ * This sample demonstrates how to cluster details
+ *
+ * @summary cluster details
+ * x-ms-original-file: 2026-06-02-preview/Access_ListClusters_MaximumSet_Gen.json
+ */
+async function accessListClustersMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
-  const result = await client.access.listClusters(resourceGroupName, organizationName, body);
+  const result = await client.access.listClusters("rgconfluent", "zfs", {
+    searchFilters: { key8083: "ft" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to cluster details
+ *
+ * @summary cluster details
+ * x-ms-original-file: 2026-06-02-preview/Access_ListClusters_MinimumSet_Gen.json
+ */
+async function accessListClustersMinimumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
+  const client = new ConfluentManagementClient(credential, subscriptionId);
+  const result = await client.access.listClusters("rgconfluent", "kfmxlzmfkz", {});
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await accessClusterList();
+  await accessListClustersMaximumSet();
+  await accessListClustersMinimumSet();
 }
 
 main().catch(console.error);

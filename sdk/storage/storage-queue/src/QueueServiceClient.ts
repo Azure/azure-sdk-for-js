@@ -20,12 +20,12 @@ import type {
   ServiceGetStatisticsHeaders,
   QueueServiceStatistics,
   ServiceGetUserDelegationKeyResponse,
-  ServiceGetUserDelegationKeyResponseModel,
   ServiceGetUserDelegationKeyHeaders,
   UserDelegationKeyModel,
 } from "./generatedModels.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { ServiceOperations } from "./generated/index.js";
+import type { ListQueuesIncludeType } from "./generated/index.js";
 import type { StoragePipelineOptions, Pipeline } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type { CommonOptions } from "./StorageClient.js";
@@ -36,6 +36,7 @@ import {
   appendToURLQuery,
   extractConnectionStringParts,
   assertResponse,
+  adjustResponse,
   truncatedISO8061Date,
 } from "./utils/utils.common.js";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
@@ -181,6 +182,36 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
 }
 
 /**
+ * Parameters for getting user delegation key.
+ */
+export interface QueueGetUserDelegationKeyParameters {
+  /**
+   * The start time for the user delegation key. Must be within 7 days of the current time
+   */
+  startsOn: Date;
+  /**
+   * The end time for the user delegation key. Must be within 7 days of the current time
+   */
+  expiresOn: Date;
+  /**
+   * The tenant ID for the user delegation key.
+   */
+  delegatedUserTenantId: string;
+}
+
+function isQueueGetUserDelegationKeyParameters(
+  parameter: unknown,
+): parameter is QueueGetUserDelegationKeyParameters {
+  if (!parameter || typeof parameter !== "object") {
+    return false;
+  }
+
+  const castParameter = parameter as QueueGetUserDelegationKeyParameters;
+
+  return castParameter.expiresOn instanceof Date;
+}
+
+/**
  * A QueueServiceClient represents a URL to the Azure Storage Queue service allowing you
  * to manipulate queues.
  */
@@ -232,7 +263,7 @@ export class QueueServiceClient extends StorageClient {
   /**
    * serviceContext provided by protocol layer.
    */
-  private serviceContext: Service;
+  private serviceContext: ServiceOperations;
 
   /**
    * Creates an instance of QueueServiceClient.
@@ -303,10 +334,7 @@ export class QueueServiceClient extends StorageClient {
   constructor(
     url: string,
     credentialOrPipeline?:
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | Pipeline,
+      StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions,
@@ -389,11 +417,17 @@ export class QueueServiceClient extends StorageClient {
           ServiceListQueuesSegmentHeaders,
           ListQueuesSegmentResponse
         >(
-          await this.serviceContext.listQueuesSegment({
-            ...updatedOptions,
-            marker,
-            include: options.include === undefined ? undefined : [options.include],
-          }),
+          adjustResponse(
+            await this.serviceContext.getQueues({
+              ...updatedOptions,
+              marker,
+              maxresults: options.maxPageSize,
+              include:
+                options.include === undefined
+                  ? undefined
+                  : ([options.include] as ListQueuesIncludeType[]),
+            }),
+          ) as any,
         );
       },
     );
@@ -439,8 +473,7 @@ export class QueueServiceClient extends StorageClient {
       options.prefix = undefined;
     }
 
-    let marker: string | undefined;
-    for await (const segment of this.listSegments(marker, options)) {
+    for await (const segment of this.listSegments(undefined, options)) {
       if (segment.queueItems) {
         yield* segment.queueItems;
       }
@@ -607,7 +640,7 @@ export class QueueServiceClient extends StorageClient {
           ServiceGetPropertiesHeaders & QueueServiceProperties,
           ServiceGetPropertiesHeaders,
           QueueServiceProperties
-        >(await this.serviceContext.getProperties(updatedOptions));
+        >(adjustResponse(await this.serviceContext.getProperties(updatedOptions)));
       },
     );
   }
@@ -630,7 +663,7 @@ export class QueueServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
-          await this.serviceContext.setProperties(properties, updatedOptions),
+          adjustResponse(await this.serviceContext.setProperties(properties, updatedOptions)),
         );
       },
     );
@@ -656,7 +689,7 @@ export class QueueServiceClient extends StorageClient {
           ServiceGetStatisticsHeaders & QueueServiceStatistics,
           ServiceGetStatisticsHeaders,
           QueueServiceStatistics
-        >(await this.serviceContext.getStatistics(updatedOptions));
+        >(adjustResponse(await this.serviceContext.getStatistics(updatedOptions)));
       },
     );
   }
@@ -805,36 +838,71 @@ export class QueueServiceClient extends StorageClient {
   public async getUserDelegationKey(
     startsOn: Date,
     expiresOn: Date,
+    options?: ServiceGetUserDelegationKeyOptions,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+
+  /**
+   * ONLY AVAILABLE WHEN USING BEARER TOKEN AUTHENTICATION (TokenCredential).
+   *
+   * Retrieves a user delegation key for the Blob service. This is only a valid operation when using
+   * bearer token authentication.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-user-delegation-key
+   *
+   * @param parameters -      Parameters to specific start time, expiry time and tenant id.
+   */
+  public async getUserDelegationKey(
+    parameters: QueueGetUserDelegationKeyParameters,
+    options?: ServiceGetUserDelegationKeyOptions,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+
+  public async getUserDelegationKey(
+    startsOnOrParam: Date | QueueGetUserDelegationKeyParameters,
+    expiresOnOrOption: Date | ServiceGetUserDelegationKeyOptions | undefined,
     options: ServiceGetUserDelegationKeyOptions = {},
   ): Promise<ServiceGetUserDelegationKeyResponse> {
+    let startsOn = startsOnOrParam as Date;
+    let expiresOn = expiresOnOrOption as Date;
+    let userDelegationTid = undefined;
+    let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
+    if (isQueueGetUserDelegationKeyParameters(startsOnOrParam)) {
+      startsOn = startsOnOrParam.startsOn;
+      expiresOn = startsOnOrParam.expiresOn;
+      userDelegationTid = startsOnOrParam.delegatedUserTenantId;
+      getUserDelegationKeyOptions = expiresOnOrOption as ServiceGetUserDelegationKeyOptions;
+    }
     return tracingClient.withSpan(
       "QueueServiceClient-getUserDelegationKey",
-      options,
+      getUserDelegationKeyOptions,
       async (updatedOptions) => {
         const response = assertResponse<
-          ServiceGetUserDelegationKeyResponseModel,
+          ServiceGetUserDelegationKeyHeaders & UserDelegationKeyModel,
           ServiceGetUserDelegationKeyHeaders,
           UserDelegationKeyModel
         >(
-          await this.serviceContext.getUserDelegationKey(
-            {
-              start: truncatedISO8061Date(startsOn, false),
-              expiry: truncatedISO8061Date(expiresOn, false),
-            },
-            {
-              abortSignal: options.abortSignal,
-              tracingOptions: updatedOptions.tracingOptions,
-            },
-          ),
+          adjustResponse(
+            await this.serviceContext.getUserDelegationKey(
+              {
+                startsOn: truncatedISO8061Date(startsOn, false),
+                expiresOn: truncatedISO8061Date(expiresOn, false),
+                delegatedUserTid: userDelegationTid,
+              },
+              {
+                abortSignal: options.abortSignal,
+                tracingOptions: updatedOptions.tracingOptions,
+              },
+            ),
+          ) as any,
         );
 
         const userDelegationKey = {
-          signedObjectId: response.signedOid,
-          signedTenantId: response.signedTid,
-          signedStartsOn: new Date(response.signedStart),
-          signedExpiresOn: new Date(response.signedExpiry),
+          signedObjectId: response.signedObjectId,
+          signedTenantId: response.signedTenantId,
+          signedStartsOn: new Date(response.signedStartsOn),
+          signedExpiresOn: new Date(response.signedExpiresOn),
           signedService: response.signedService,
           signedVersion: response.signedVersion,
+          signedDelegatedUserTenantId: response.signedDelegatedUserTenantId,
           value: response.value,
         };
 

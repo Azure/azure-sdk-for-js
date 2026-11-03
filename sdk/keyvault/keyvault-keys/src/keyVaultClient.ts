@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
-import {
+import type { KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
+import { createKeyVault } from "./api/index.js";
+import type {
   KeyCreateParameters,
   KeyBundle,
   KeyImportParameters,
@@ -18,12 +19,14 @@ import {
   KeyVerifyResult,
   KeyReleaseParameters,
   KeyReleaseResult,
+  SecureKeyWrapParameters,
+  SecureKeyUnwrapParameters,
   DeletedKeyItem,
   KeyRotationPolicy,
   GetRandomBytesRequest,
   RandomBytes,
 } from "./models/models.js";
-import {
+import type {
   GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
   UpdateKeyRotationPolicyOptionalParams,
@@ -35,6 +38,8 @@ import {
   ReleaseOptionalParams,
   UnwrapKeyOptionalParams,
   WrapKeyOptionalParams,
+  SecureWrapKeyOptionalParams,
+  SecureUnwrapKeyOptionalParams,
   VerifyOptionalParams,
   SignOptionalParams,
   DecryptOptionalParams,
@@ -62,6 +67,8 @@ import {
   release,
   unwrapKey,
   wrapKey,
+  secureWrapKey,
+  secureUnwrapKey,
   verify,
   sign,
   decrypt,
@@ -77,11 +84,11 @@ import {
   rotateKey,
   createKey,
 } from "./api/operations.js";
-import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
+export type { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 
 export class KeyVaultClient {
   private _client: KeyVaultContext;
@@ -108,7 +115,7 @@ export class KeyVaultClient {
   /** The get key attestation operation returns the key along with its attestation blob. This operation requires the keys/get permission. */
   getKeyAttestation(
     keyName: string,
-    keyVersion: string,
+    keyVersion: string | undefined,
     options: GetKeyAttestationOptionalParams = { requestOptions: {} },
   ): Promise<KeyBundle> {
     return getKeyAttestation(this._client, keyName, keyVersion, options);
@@ -173,11 +180,31 @@ export class KeyVaultClient {
   /** The release key operation is applicable to all key types. The target key must be marked exportable. This operation requires the keys/release permission. */
   release(
     keyName: string,
-    keyVersion: string,
+    keyVersion: string | undefined,
     parameters: KeyReleaseParameters,
     options: ReleaseOptionalParams = { requestOptions: {} },
   ): Promise<KeyReleaseResult> {
     return release(this._client, keyName, keyVersion, parameters, options);
+  }
+
+  /** Securely wraps a 256-bit AES key generated within a trusted execution environment using the target key encryption key. This operation requires the keys/wrapKey permission. */
+  secureWrapKey(
+    keyName: string,
+    keyVersion: string | undefined,
+    parameters: SecureKeyWrapParameters,
+    options: SecureWrapKeyOptionalParams = { requestOptions: {} },
+  ): Promise<KeyOperationResult> {
+    return secureWrapKey(this._client, keyName, keyVersion, parameters, options);
+  }
+
+  /** Securely unwraps a symmetric key previously wrapped via {@link secureWrapKey}. The unwrap operation runs inside a trusted execution environment after attestation. This operation requires the keys/unwrapKey permission. */
+  secureUnwrapKey(
+    keyName: string,
+    keyVersion: string | undefined,
+    parameters: SecureKeyUnwrapParameters,
+    options: SecureUnwrapKeyOptionalParams = { requestOptions: {} },
+  ): Promise<KeyOperationResult> {
+    return secureUnwrapKey(this._client, keyName, keyVersion, parameters, options);
   }
 
   /** The UNWRAP operation supports decryption of a symmetric key using the target key encryption key. This operation is the reverse of the WRAP operation. The UNWRAP operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key. This operation requires the keys/unwrapKey permission. */

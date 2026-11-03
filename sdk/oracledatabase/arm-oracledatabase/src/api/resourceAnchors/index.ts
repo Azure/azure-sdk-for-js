@@ -9,7 +9,7 @@ export {
   createOrUpdate,
   listBySubscription,
 } from "./operations.js";
-export {
+export type {
   ResourceAnchorsListByResourceGroupOptionalParams,
   ResourceAnchorsDeleteOptionalParams,
   ResourceAnchorsUpdateOptionalParams,

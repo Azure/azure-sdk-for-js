@@ -1,33 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a private endpoint connection
- *
- * @summary Deletes a private endpoint connection
- * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DeletePrivateEndpointConnection.json
- */
-
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes a private endpoint connection
+ *
+ * @summary deletes a private endpoint connection
+ * x-ms-original-file: 2018-06-01/DeletePrivateEndpointConnection.json
+ */
 async function deleteAPrivateEndpointConnectionForADatafactory(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const factoryName = "exampleFactoryName";
-  const privateEndpointConnectionName = "connection";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new DataFactoryManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnection.delete(
-    resourceGroupName,
-    factoryName,
-    privateEndpointConnectionName,
+  await client.privateEndpointConnection.delete(
+    "exampleResourceGroup",
+    "exampleFactoryName",
+    "connection",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

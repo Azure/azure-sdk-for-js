@@ -3,33 +3,18 @@
 
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a pair of virtual endpoints.
+ * This sample demonstrates how to deletes a pair of virtual endpoints.
  *
- * @summary Deletes a pair of virtual endpoints.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/examples/VirtualEndpointDelete.json
+ * @summary deletes a pair of virtual endpoints.
+ * x-ms-original-file: 2026-10-01/VirtualEndpointDelete.json
  */
 async function deleteAPairOfVirtualEndpoints(): Promise<void> {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "exampleresourcegroup";
-  const serverName = "exampleserver";
-  const virtualEndpointName = "examplebasename";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.virtualEndpoints.beginDeleteAndWait(
-    resourceGroupName,
-    serverName,
-    virtualEndpointName,
-  );
-  console.log(result);
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  await client.virtualEndpoints.delete("exampleresourcegroup", "exampleserver", "examplebasename");
 }
 
 async function main(): Promise<void> {

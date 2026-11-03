@@ -1,33 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the entity state (Etag) version of the Global policy definition in the Api Management service.
- *
- * @summary Gets the entity state (Etag) version of the Global policy definition in the Api Management service.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementHeadPolicy.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the entity state (Etag) version of the Global policy definition in the Api Management service.
+ *
+ * @summary gets the entity state (Etag) version of the Global policy definition in the Api Management service.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementHeadPolicy.json
+ */
 async function apiManagementHeadPolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const policyId = "policy";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.policy.getEntityTag(
-    resourceGroupName,
-    serviceName,
-    policyId,
-  );
-  console.log(result);
+  await client.policy.getEntityTag("rg1", "apimService1", "policy");
 }
 
 async function main(): Promise<void> {

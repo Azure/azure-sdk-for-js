@@ -4,6 +4,7 @@
 import {
   KeyVaultAccessControlClient,
   KeyVaultBackupClient,
+  KeyVaultEkmClient,
   KeyVaultSettingsClient,
   KnownKeyVaultDataAction,
   KnownKeyVaultRoleScope,
@@ -29,6 +30,12 @@ describe("snippets", () => {
     const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
     const credentials = new DefaultAzureCredential();
     const client = new KeyVaultSettingsClient(vaultUrl, credentials);
+  });
+
+  it("ReadmeSampleCreateEkmClient", async () => {
+    const vaultUrl = `https://<MY KEY VAULT HERE>.managedhsm.azure.net`;
+    const credentials = new DefaultAzureCredential();
+    const client = new KeyVaultEkmClient(vaultUrl, credentials);
   });
 
   it("ReadmeSampleCreateRoleAssignment", async () => {

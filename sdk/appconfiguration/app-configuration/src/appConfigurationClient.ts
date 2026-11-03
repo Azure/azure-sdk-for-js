@@ -9,8 +9,10 @@ import {
   type AddConfigurationSettingParam,
   type AddConfigurationSettingResponse,
   type AppConfigurationClientOptions,
+  type CheckConfigurationSettingsOptions,
   type ConfigurationSetting,
   type ConfigurationSettingId,
+  type ConfigurationSnapshot,
   type CreateSnapshotOptions,
   type CreateSnapshotResponse,
   type DeleteConfigurationSettingOptions,
@@ -19,7 +21,6 @@ import {
   type GetConfigurationSettingResponse,
   type GetSnapshotOptions,
   type GetSnapshotResponse,
-  type HttpResponseField,
   type ListConfigurationSettingPage,
   type ListConfigurationSettingsForSnapshotOptions,
   type ListConfigurationSettingsOptions,
@@ -40,25 +41,14 @@ import {
   type UpdateSnapshotOptions,
   type UpdateSnapshotResponse,
 } from "./models.js";
-import type {
-  AppConfigurationGetKeyValuesHeaders,
-  AppConfigurationGetRevisionsHeaders,
-  AppConfigurationGetSnapshotsHeaders,
-  GetKeyValuesResponse,
-  GetRevisionsResponse,
-  GetSnapshotsResponse,
-  ConfigurationSnapshot,
-  GetLabelsResponse,
-  AppConfigurationGetLabelsHeaders,
-} from "./generated/src/models/index.js";
-import type { InternalClientPipelineOptions } from "@azure/core-client";
 import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { PipelinePolicy, RestError } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicyName, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { audienceErrorHandlingPolicy } from "./internal/audienceErrorHandlingPolicy.js";
 import { SyncTokens, syncTokenPolicy } from "./internal/syncTokenPolicy.js";
 import { queryParamPolicy } from "./internal/queryParamPolicy.js";
+import { emptyBodyPolicy } from "./internal/emptyBodyPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type {
@@ -68,6 +58,7 @@ import type {
 import {
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
+  encodePathParameter,
   extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
@@ -79,35 +70,49 @@ import {
   getScope,
   makeConfigurationSettingEmpty,
   serializeAsConfigurationSettingParam,
+  snapshotInfoToGenerated,
   transformKeyValue,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
   transformSnapshotResponse,
 } from "./internal/helpers.js";
-import { AppConfiguration } from "./generated/src/appConfiguration.js";
+import {
+  AppConfigurationClient as GeneratedAppConfigurationClient,
+  type AppConfigurationClientOptionalParams as GeneratedAppConfigurationClientOptionalParams,
+} from "./generated/appConfigurationClient.js";
+import type {
+  _KeyValueListResult,
+  _LabelListResult,
+  _SnapshotListResult,
+} from "./generated/models/models.js";
+import {
+  _getKeyValuesSend,
+  _getKeyValuesDeserialize,
+  _checkKeyValuesSend,
+  _checkKeyValuesDeserialize,
+  _getRevisionsSend,
+  _getRevisionsDeserialize,
+  _getLabelsSend,
+  _getLabelsDeserialize,
+  _getSnapshotsSend,
+  _getSnapshotsDeserialize,
+  _createSnapshotSend,
+  _createSnapshotDeserialize,
+} from "./generated/api/operations.js";
+import { getLongRunningPoller } from "./generated/static-helpers/pollingHelpers.js";
+import type { AppConfigurationContext } from "./generated/api/appConfigurationContext.js";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
 import { tracingClient } from "./internal/tracing.js";
 import { logger } from "./logger.js";
-import type { OperationState, SimplePollerLike } from "@azure/core-lro";
-import { appConfigurationApiVersion } from "./internal/constants.js";
+import type { OperationState } from "@azure/core-lro";
+import type { SimplePollerLike } from "./internal/lroShim.js";
+import { wrapPoller } from "./internal/lroShim.js";
+import { appConfigurationApiVersion, packageVersion } from "./internal/constants.js";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
-const deserializationContentTypes = {
-  json: [
-    "application/vnd.microsoft.appconfig.kvset+json",
-    "application/vnd.microsoft.appconfig.kv+json",
-    "application/vnd.microsoft.appconfig.kvs+json",
-    "application/vnd.microsoft.appconfig.keyset+json",
-    "application/vnd.microsoft.appconfig.revs+json",
-    "application/vnd.microsoft.appconfig.snapshotset+json",
-    "application/vnd.microsoft.appconfig.snapshot+json",
-    "application/vnd.microsoft.appconfig.labelset+json",
-    "application/json",
-  ],
-};
 
 /**
  * Provides internal configuration options for AppConfigurationClient.
@@ -125,7 +130,7 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
  * Client for the Azure App Configuration service.
  */
 export class AppConfigurationClient {
-  private client: AppConfiguration;
+  private client: GeneratedAppConfigurationClient;
   private _syncTokens: SyncTokens;
 
   /**
@@ -150,11 +155,12 @@ export class AppConfigurationClient {
     tokenCredentialOrOptions?: TokenCredential | AppConfigurationClientOptions,
     options?: AppConfigurationClientOptions,
   ) {
-    let appConfigOptions: InternalAppConfigurationClientOptions = {};
-    let appConfigCredential: TokenCredential;
+    let appConfigOptions: InternalAppConfigurationClientOptions;
+    let appConfigCredential: TokenCredential | undefined = undefined;
     let appConfigEndpoint: string;
-    let authPolicy: PipelinePolicy;
-    let scope: string;
+    let authPolicy: PipelinePolicy | undefined;
+    let authPolicyName: string;
+    let scope: [string] | undefined;
 
     if (isTokenCredential(tokenCredentialOrOptions)) {
       appConfigOptions = (options as InternalAppConfigurationClientOptions) || {};
@@ -162,17 +168,15 @@ export class AppConfigurationClient {
       appConfigEndpoint = connectionStringOrEndpoint.endsWith("/")
         ? connectionStringOrEndpoint.slice(0, -1)
         : connectionStringOrEndpoint;
-      scope = getScope(appConfigEndpoint, appConfigOptions.audience);
-      authPolicy = bearerTokenAuthenticationPolicy({
-        scopes: scope,
-        credential: appConfigCredential,
-      });
+      scope = [getScope(appConfigEndpoint, appConfigOptions.audience)];
+      authPolicyName = bearerTokenAuthenticationPolicyName;
     } else {
       appConfigOptions = (tokenCredentialOrOptions as InternalAppConfigurationClientOptions) || {};
       const regexMatch = connectionStringOrEndpoint?.match(ConnectionStringRegex);
       if (regexMatch) {
         appConfigEndpoint = regexMatch[1];
         authPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
+        authPolicyName = authPolicy.name;
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
@@ -181,31 +185,49 @@ export class AppConfigurationClient {
       }
     }
 
-    const internalClientPipelineOptions: InternalClientPipelineOptions = {
+    const generatedClientOptions: GeneratedAppConfigurationClientOptionalParams = {
       ...appConfigOptions,
+      userAgentOptions: {
+        ...appConfigOptions.userAgentOptions,
+        userAgentPrefix: appConfigOptions.userAgentOptions?.userAgentPrefix
+          ? `${appConfigOptions.userAgentOptions.userAgentPrefix} azsdk-js-app-configuration/${packageVersion}`
+          : `azsdk-js-app-configuration/${packageVersion}`,
+      },
       loggingOptions: {
         logger: logger.info,
       },
-      deserializationOptions: {
-        expectedContentTypes: deserializationContentTypes,
-      },
+      apiVersion: options?.apiVersion ?? appConfigurationApiVersion,
+      credentials: {},
+    };
+
+    generatedClientOptions.credentials = {
+      ...generatedClientOptions.credentials,
+      scopes: scope,
     };
 
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
-    this.client = new AppConfiguration(
+    this.client = new GeneratedAppConfigurationClient(
       appConfigEndpoint,
-      options?.apiVersion ?? appConfigurationApiVersion,
-      internalClientPipelineOptions,
+      // When a connection string is used, appConfigCredential is undefined here. We pass undefined to avoid @azure-rest/core-client's keyCredentialAuthenticationPolicy setting the apiKeyHeader on the request.
+      // Connection strings are authenticated by HMAC (appConfigKeyCredentialPolicy) and the secret should never leave the client.
+      // The `as TokenCredential` cast bridges a gap between the generated client and the core SDK: the generated constructor types `credential` as required (KeyCredential | TokenCredential),
+      // but @azure-rest/core-client's addCredentialPipelinePolicy no-ops when no credential is passed, so handing it undefined is safe at runtime.
+      appConfigCredential as TokenCredential,
+      generatedClientOptions,
     );
     this.client.pipeline.addPolicy(
       audienceErrorHandlingPolicy(appConfigOptions?.audience !== undefined),
       {
         phase: "Sign",
-        beforePolicies: [authPolicy.name],
+        beforePolicies: [authPolicyName],
       },
     );
-    this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
+    if (authPolicy) {
+      this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
+    }
+
     this.client.pipeline.addPolicy(queryParamPolicy());
+    this.client.pipeline.addPolicy(emptyBodyPolicy());
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
   }
 
@@ -247,12 +269,20 @@ export class AppConfigurationClient {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
         logger.info("[addConfigurationSetting] Creating a key value pair");
         try {
-          const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
-            ifNoneMatch: "*",
-            label: configurationSetting.label,
-            entity: keyValue,
-            ...updatedOptions,
-          });
+          const originalResponse = await this.client.putKeyValue(
+            "application/json",
+            encodePathParameter(configurationSetting.key),
+            {
+              ifNoneMatch: "*",
+              label: configurationSetting.label,
+              entity: keyValue,
+              ...updatedOptions,
+              requestOptions: {
+                ...updatedOptions.requestOptions,
+                skipUrlEncoding: true,
+              },
+            },
+          );
           const response = transformKeyValueResponse(originalResponse);
           assertResponse(response);
           return response;
@@ -300,12 +330,17 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         let status;
         logger.info("[deleteConfigurationSetting] Deleting key value pair");
-        const originalResponse = await this.client.deleteKeyValue(id.key, {
+        const originalResponse = await this.client.deleteKeyValue(encodePathParameter(id.key), {
           label: id.label,
           ...updatedOptions,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
-          onResponse: (response) => {
-            status = response.status;
+          onResponse: (...args) => {
+            status = args[0].status;
+            updatedOptions.onResponse?.(...args);
+          },
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
           },
         });
 
@@ -343,32 +378,57 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         let status;
+        let rawResponse: any;
+        let callbackThrew = false;
         logger.info("[getConfigurationSetting] Getting key value pair");
-        const originalResponse = await this.client.getKeyValue(id.key, {
-          ...updatedOptions,
-          label: id.label,
-          select: formatFieldsForSelect(options.fields),
-          ...formatAcceptDateTime(options),
-          ...checkAndFormatIfAndIfNoneMatch(id, options),
-          onResponse: (response) => {
-            status = response.status;
-          },
-        });
+        try {
+          const originalResponse = await this.client.getKeyValue(encodePathParameter(id.key), {
+            ...updatedOptions,
+            label: id.label,
+            select: formatFieldsForSelect(options.fields),
+            ...formatAcceptDateTime(options),
+            ...checkAndFormatIfAndIfNoneMatch(id, options),
+            onResponse: (...args) => {
+              status = args[0].status;
+              rawResponse = args[0];
+              try {
+                updatedOptions.onResponse?.(...args);
+              } catch (error) {
+                callbackThrew = true;
+                throw error;
+              }
+            },
+            requestOptions: {
+              ...updatedOptions.requestOptions,
+              skipUrlEncoding: true,
+            },
+          });
 
-        const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
-
-        // 304 only comes back if the user has passed a conditional option in their
-        // request _and_ the remote object has the same etag as what the user passed.
-        if (response.statusCode === 304) {
-          // this is one of our few 'required' fields so we'll make sure it does get initialized
-          // with a value
-          response.key = id.key;
-
-          // and now we'll undefine all the other properties that are not HTTP related
-          makeConfigurationSettingEmpty(response);
+          const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
+          assertResponse(response);
+          return response;
+        } catch (error) {
+          if (callbackThrew) {
+            throw error;
+          }
+          const err = error as RestError;
+          // 304 only comes back if the user has passed a conditional option in their
+          // request _and_ the remote object has the same etag as what the user passed.
+          if (err.statusCode === 304) {
+            const response = transformKeyValueResponseWithStatusCode(
+              { _response: rawResponse } as any,
+              304,
+            );
+            // this is one of our few 'required' fields so we'll make sure it does get initialized
+            // with a value
+            response.key = id.key;
+            // and now we'll undefine all the other properties that are not HTTP related
+            makeConfigurationSettingEmpty(response);
+            assertResponse(response);
+            return response;
+          }
+          throw err;
         }
-        assertResponse(response);
-        return response;
       },
     );
   }
@@ -428,6 +488,81 @@ export class AppConfigurationClient {
               err.message = `Status 304: No updates for this page`;
               logger.info(
                 `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+              );
+              return {
+                page: {
+                  items: [],
+                  etag,
+                  _response: { ...err.response, status: 304 },
+                } as unknown as ListConfigurationSettingPage,
+                nextPageLink: continuationToken,
+              };
+            }
+
+            throw err;
+          }
+        },
+        toElements: (page) => page.items,
+      };
+    return getPagedAsyncIterator(pagedResult);
+  }
+
+  /**
+   * Checks settings from the Azure App Configuration service using a HEAD request, returning only headers without the response body.
+   * This is useful for efficiently checking if settings have changed by comparing ETags.
+   *
+   * Example code:
+   * ```ts snippet:CheckConfigurationSettings
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const pageIterator = client.checkConfigurationSettings({ keyFilter: "MyKey" }).byPage();
+   * ```
+   * @param options - Optional parameters for the request.
+   */
+  checkConfigurationSettings(
+    options: CheckConfigurationSettingsOptions = {},
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
+    const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
+    delete options.pageEtags;
+    const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const etag = pageEtags?.shift();
+          try {
+            const response = await this.checkConfigurationSettingsRequest(
+              { ...options, etag },
+              pageLink,
+            );
+            const link = response._response?.headers?.get("link") as string | undefined;
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+            const currentResponse: ListConfigurationSettingPage = {
+              ...response,
+              etag: response._response?.headers?.get("etag") as string | undefined,
+              items: [],
+              continuationToken: continuationToken,
+              _response: response._response,
+            };
+            return {
+              page: currentResponse,
+              nextPageLink: currentResponse.continuationToken,
+            };
+          } catch (error) {
+            const err = error as RestError;
+
+            const link = err.response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+
+            if (err.statusCode === 304) {
+              err.message = `Status 304: No updates for this page`;
+              logger.info(
+                `[checkConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
               );
               return {
                 page: {
@@ -538,22 +673,30 @@ export class AppConfigurationClient {
     return getPagedAsyncIterator(pagedResult);
   }
 
+  private get _context(): AppConfigurationContext {
+    return (this.client as any)._client as AppConfigurationContext;
+  }
+
   private async sendLabelsRequest(
     options: SendLabelsRequestOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetLabelsResponse & HttpResponseField<AppConfigurationGetLabelsHeaders>> {
+  ): Promise<_LabelListResult & { _response: any }> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listConfigurationSettings",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getLabels({
+        const rawResponse = await _getLabelsSend(this._context, {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatLabelsFiltersAndSelect(options),
           after: pageLink,
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
         });
-
-        return response as GetLabelsResponse & HttpResponseField<AppConfigurationGetLabelsHeaders>;
+        const parsed = await _getLabelsDeserialize(rawResponse);
+        return Object.assign(parsed, { _response: rawResponse });
       },
     );
   }
@@ -561,21 +704,54 @@ export class AppConfigurationClient {
   private async sendConfigurationSettingsRequest(
     options: SendConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
+  ): Promise<_KeyValueListResult & { _response: any }> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listConfigurationSettings",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getKeyValues({
+        const rawResponse = await _getKeyValuesSend(this._context, {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatConfigurationSettingsFiltersAndSelect(options),
           ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
           after: pageLink,
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
         });
+        const parsed = await _getKeyValuesDeserialize(rawResponse);
+        return Object.assign(parsed, { _response: rawResponse });
+      },
+    );
+  }
 
-        return response as GetKeyValuesResponse &
-          HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
+  private async checkConfigurationSettingsRequest(
+    options: SendConfigurationSettingsOptions & PageSettings = {},
+    pageLink: string | undefined,
+  ): Promise<{ _response: any }> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.checkConfigurationSettings",
+      options,
+      async (updatedOptions) => {
+        const rawResponse = await _checkKeyValuesSend(this._context, {
+          ...updatedOptions,
+          ...formatAcceptDateTime(options),
+          ...formatConfigurationSettingsFiltersAndSelect(options),
+          ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
+          after: pageLink,
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
+        });
+        await _checkKeyValuesDeserialize(rawResponse);
+        return {
+          _response: {
+            ...rawResponse,
+            headers: createHttpHeaders(rawResponse.headers),
+          },
+        };
       },
     );
   }
@@ -626,20 +802,23 @@ export class AppConfigurationClient {
   private async sendRevisionsRequest(
     options: ListConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
+  ): Promise<_KeyValueListResult & { _response: any }> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listRevisions",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getRevisions({
+        const rawResponse = await _getRevisionsSend(this._context, {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(updatedOptions),
           after: pageLink,
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
         });
-
-        return response as GetRevisionsResponse &
-          HttpResponseField<AppConfigurationGetRevisionsHeaders>;
+        const parsed = await _getRevisionsDeserialize(rawResponse);
+        return Object.assign(parsed, { _response: rawResponse });
       },
     );
   }
@@ -678,12 +857,21 @@ export class AppConfigurationClient {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
         logger.info("[setConfigurationSetting] Setting new key value");
         const response = transformKeyValueResponse(
-          await this.client.putKeyValue(configurationSetting.key, {
-            ...updatedOptions,
-            label: configurationSetting.label,
-            entity: keyValue,
-            ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
-          }),
+          await this.client.putKeyValue(
+            "application/json",
+            encodePathParameter(configurationSetting.key),
+            {
+              ...updatedOptions,
+              label: configurationSetting.label,
+              entity: keyValue,
+              ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
+
+              requestOptions: {
+                ...updatedOptions.requestOptions,
+                skipUrlEncoding: true,
+              },
+            },
+          ),
         );
         assertResponse(response);
         return response;
@@ -707,17 +895,27 @@ export class AppConfigurationClient {
         let response;
         if (readOnly) {
           logger.info("[setReadOnly] Setting read-only status to ${readOnly}");
-          response = await this.client.putLock(id.key, {
+          response = await this.client.putLock(encodePathParameter(id.key), {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
+
+            requestOptions: {
+              ...newOptions.requestOptions,
+              skipUrlEncoding: true,
+            },
           });
         } else {
           logger.info("[setReadOnly] Deleting read-only lock");
-          response = await this.client.deleteLock(id.key, {
+          response = await this.client.deleteLock(encodePathParameter(id.key), {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
+
+            requestOptions: {
+              ...newOptions.requestOptions,
+              skipUrlEncoding: true,
+            },
           });
         }
         response = transformKeyValueResponse(response);
@@ -748,8 +946,37 @@ export class AppConfigurationClient {
     return tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshot`,
       options,
-      (updatedOptions) =>
-        this.client.beginCreateSnapshot(snapshot.name, snapshot, { ...updatedOptions }),
+      async (updatedOptions) => {
+        const generatedSnapshot = snapshotInfoToGenerated(snapshot);
+        const poller = getLongRunningPoller(
+          this._context,
+          async (result) =>
+            transformSnapshotResponse(
+              await _createSnapshotDeserialize(result),
+            ) as CreateSnapshotResponse,
+          ["201", "200", "202"],
+          {
+            updateIntervalInMs: updatedOptions?.updateIntervalInMs,
+            abortSignal: updatedOptions?.abortSignal,
+            getInitialResponse: () =>
+              _createSnapshotSend(
+                this._context,
+                "application/vnd.microsoft.appconfig.snapshot+json",
+                snapshot.name,
+                generatedSnapshot,
+                {
+                  ...updatedOptions,
+                  requestOptions: {
+                    ...updatedOptions.requestOptions,
+                    skipUrlEncoding: true,
+                  },
+                },
+              ),
+            resourceLocationConfig: "original-uri",
+          },
+        );
+        return wrapPoller(poller);
+      },
     );
   }
 
@@ -765,8 +992,37 @@ export class AppConfigurationClient {
     return tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshotAndWait`,
       options,
-      (updatedOptions) =>
-        this.client.beginCreateSnapshotAndWait(snapshot.name, snapshot, { ...updatedOptions }),
+      async (updatedOptions) => {
+        const generatedSnapshot = snapshotInfoToGenerated(snapshot);
+        const poller = getLongRunningPoller(
+          this._context,
+          async (result) =>
+            transformSnapshotResponse(
+              await _createSnapshotDeserialize(result),
+            ) as CreateSnapshotResponse,
+          ["201", "200", "202"],
+          {
+            updateIntervalInMs: updatedOptions?.updateIntervalInMs,
+            abortSignal: updatedOptions?.abortSignal,
+            getInitialResponse: () =>
+              _createSnapshotSend(
+                this._context,
+                "application/vnd.microsoft.appconfig.snapshot+json",
+                snapshot.name,
+                generatedSnapshot,
+                {
+                  ...updatedOptions,
+                  requestOptions: {
+                    ...updatedOptions.requestOptions,
+                    skipUrlEncoding: true,
+                  },
+                },
+              ),
+            resourceLocationConfig: "original-uri",
+          },
+        );
+        return poller.pollUntilDone();
+      },
     );
   }
 
@@ -797,6 +1053,10 @@ export class AppConfigurationClient {
         logger.info("[getSnapshot] Get a snapshot");
         const originalResponse = await this.client.getSnapshot(name, {
           ...updatedOptions,
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
         });
         const response = transformSnapshotResponse(originalResponse);
         assertResponse(response);
@@ -834,6 +1094,7 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         logger.info("[recoverSnapshot] Recover a snapshot");
         const originalResponse = await this.client.updateSnapshot(
+          "application/merge-patch+json",
           name,
           { status: "ready" },
           {
@@ -842,6 +1103,10 @@ export class AppConfigurationClient {
               { etag: options.etag },
               { onlyIfUnchanged: true, ...options },
             ),
+            requestOptions: {
+              ...updatedOptions.requestOptions,
+              skipUrlEncoding: true,
+            },
           },
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -879,6 +1144,7 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         logger.info("[archiveSnapshot] Archive a snapshot");
         const originalResponse = await this.client.updateSnapshot(
+          "application/merge-patch+json",
           name,
           { status: "archived" },
           {
@@ -887,6 +1153,10 @@ export class AppConfigurationClient {
               { etag: options.etag },
               { onlyIfUnchanged: true, ...options },
             ),
+            requestOptions: {
+              ...updatedOptions.requestOptions,
+              skipUrlEncoding: true,
+            },
           },
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -926,7 +1196,8 @@ export class AppConfigurationClient {
         const response = await this.sendSnapShotsRequest(options, pageLink);
         const currentResponse = {
           ...response,
-          items: response.items != null ? response.items : [],
+          items:
+            response.items != null ? response.items.map((s) => transformSnapshotResponse(s)) : [],
           continuationToken: response.nextLink
             ? extractAfterTokenFromNextLink(response.nextLink)
             : undefined,
@@ -944,19 +1215,22 @@ export class AppConfigurationClient {
   private async sendSnapShotsRequest(
     options: ListSnapshotsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetSnapshotsResponse & HttpResponseField<AppConfigurationGetSnapshotsHeaders>> {
+  ): Promise<_SnapshotListResult & { _response: any }> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listSnapshots",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getSnapshots({
+        const rawResponse = await _getSnapshotsSend(this._context, {
           ...updatedOptions,
           ...formatSnapshotFiltersAndSelect(options),
           after: pageLink,
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
         });
-
-        return response as GetSnapshotsResponse &
-          HttpResponseField<AppConfigurationGetSnapshotsHeaders>;
+        const parsed = await _getSnapshotsDeserialize(rawResponse);
+        return Object.assign(parsed, { _response: rawResponse });
       },
     );
   }

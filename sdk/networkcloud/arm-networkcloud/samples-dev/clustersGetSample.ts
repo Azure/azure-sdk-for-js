@@ -3,24 +3,18 @@
 
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get properties of the provided cluster.
+ * This sample demonstrates how to get properties of the provided cluster.
  *
- * @summary Get properties of the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/Clusters_Get.json
+ * @summary get properties of the provided cluster.
+ * x-ms-original-file: 2026-07-01/Clusters_Get.json
  */
 async function getCluster(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const clusterName = "clusterName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
   const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.clusters.get(resourceGroupName, clusterName);
+  const result = await client.clusters.get("resourceGroupName", "clusterName");
   console.log(result);
 }
 

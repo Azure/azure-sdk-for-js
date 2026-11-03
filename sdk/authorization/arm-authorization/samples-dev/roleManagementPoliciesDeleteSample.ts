@@ -1,25 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete a role management policy
- *
- * @summary Delete a role management policy
- * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-10-01-preview/examples/DeleteRoleManagementPolicy.json
- */
-
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete a role management policy
+ *
+ * @summary delete a role management policy
+ * x-ms-original-file: 2024-09-01-preview/DeleteRoleManagementPolicy.json
+ */
 async function deleteRoleManagementPolicy(): Promise<void> {
-  const scope =
-    "providers/Microsoft.Subscription/subscriptions/129ff972-28f8-46b8-a726-e497be039368";
-  const roleManagementPolicyName = "570c3619-7688-4b34-b290-2b8bb3ccab2a";
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
-  const result = await client.roleManagementPolicies.delete(scope, roleManagementPolicyName);
-  console.log(result);
+  await client.roleManagementPolicies.delete(
+    "providers/Microsoft.Subscription/subscriptions/129ff972-28f8-46b8-a726-e497be039368",
+    "570c3619-7688-4b34-b290-2b8bb3ccab2a",
+  );
 }
 
 async function main(): Promise<void> {

@@ -3,7 +3,6 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import type { HttpClient, SendRequest } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
 import type { TokenCredential } from "@azure/identity";
 import type { SmsClientOptions, SmsSendRequest } from "../../src/index.js";
 import { SmsClient } from "../../src/index.js";
@@ -60,9 +59,7 @@ describe("[mocked] SmsClient", async function () {
       await smsClient.send(testSendRequest);
 
       const request = sendRequestSpy.mock.calls[0][0];
-      if (isNodeLike) {
-        assert.equal(request.headers.get("host"), "contoso.api.fake");
-      }
+      assert.equal(request.headers.get("host"), "contoso.api.fake");
       assert.typeOf(request.headers.get(dateHeader), "string");
       assert.isDefined(request.headers.get("authorization"));
       assert.match(

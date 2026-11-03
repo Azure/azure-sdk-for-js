@@ -1,30 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new Attestation Provider.
- *
- * @summary Creates a new Attestation Provider.
- * x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2020-10-01/examples/Create_AttestationProvider.json
- */
-
-import type { AttestationServiceCreationParams } from "@azure/arm-attestation";
 import { AttestationManagementClient } from "@azure/arm-attestation";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to creates or updates an Attestation Provider.
+ *
+ * @summary creates or updates an Attestation Provider.
+ * x-ms-original-file: 2021-06-01/Create_AttestationProvider.json
+ */
 async function attestationProvidersCreate(): Promise<void> {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "MyResourceGroup";
-  const providerName = "myattestationprovider";
-  const creationParams: AttestationServiceCreationParams = { location: "eastus", properties: {} };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AttestationManagementClient(credential, subscriptionId);
   const result = await client.attestationProviders.create(
-    resourceGroupName,
-    providerName,
-    creationParams,
+    "MyResourceGroup",
+    "myattestationprovider",
+    {
+      location: "East US",
+      properties: { publicNetworkAccess: "Enabled", tpmAttestationAuthentication: "Enabled" },
+      tags: { Property1: "Value1", Property2: "Value2", Property3: "Value3" },
+    },
   );
   console.log(result);
 }
 
-attestationProvidersCreate().catch(console.error);
+async function main(): Promise<void> {
+  await attestationProvidersCreate();
+}
+
+main().catch(console.error);

@@ -1,185 +1,149 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DatabaseMigrationSqlMi,
-  DataMigrationManagementClient,
-} from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create a new database migration to a given SQL Managed Instance.
+ * This sample demonstrates how to create a new database migration to a given SQL Managed Instance.
  *
- * @summary Create a new database migration to a given SQL Managed Instance.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/SqlMiCreateOrUpdateDatabaseMigrationBlobManagedIdentity.json
+ * @summary create a new database migration to a given SQL Managed Instance.
+ * x-ms-original-file: 2025-09-01-preview/SqlMiCreateOrUpdateDatabaseMigrationBlobManagedIdentity.json
  */
 async function createOrUpdateDatabaseMigrationResourceFromAzureBlobUsingManagedIdentity(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "managedInstance1";
-  const targetDbName = "db1";
-  const parameters: DatabaseMigrationSqlMi = {
-    properties: {
-      backupConfiguration: {
-        sourceLocation: {
-          azureBlob: {
-            authType: "ManagedIdentity",
-            blobContainerName: "test",
-            identity: {
-              type: "UserAssigned",
-              userAssignedIdentities: {
-                "/subscriptions/00000000111122223333444444444444/resourceGroups/testrg/providers/MicrosoftManagedIdentity/userAssignedIdentities/testidentity":
-                  {},
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new DataMigrationManagementClient(credential, subscriptionId);
+  const result = await client.databaseMigrationsSqlMi.createOrUpdate(
+    "testrg",
+    "managedInstance1",
+    "db1",
+    {
+      properties: {
+        backupConfiguration: {
+          sourceLocation: {
+            azureBlob: {
+              authType: "ManagedIdentity",
+              blobContainerName: "test",
+              identity: {
+                type: "UserAssigned",
+                userAssignedIdentities: {
+                  "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity":
+                    {},
+                },
               },
+              storageAccountResourceId:
+                "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
             },
-            storageAccountResourceId:
-              "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
           },
         },
+        kind: "SqlMi",
+        migrationService:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.DataMigration/sqlMigrationServices/testagent",
+        offlineConfiguration: { lastBackupName: "last_backup_file_name", offline: true },
+        scope:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/instance",
+        sourceDatabaseName: "aaa",
+        sqlServerInstanceId:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.AzureArcData/SqlServerInstances/instanceName",
       },
-      kind: "SqlMi",
-      migrationService:
-        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.DataMigration/sqlMigrationServices/testagent",
-      offlineConfiguration: {
-        lastBackupName: "last_backup_file_name",
-        offline: true,
-      },
-      scope:
-        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/instance",
-      sourceDatabaseName: "aaa",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result =
-    await client.databaseMigrationsSqlMi.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      managedInstanceName,
-      targetDbName,
-      parameters,
-    );
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create a new database migration to a given SQL Managed Instance.
+ * This sample demonstrates how to create a new database migration to a given SQL Managed Instance.
  *
- * @summary Create a new database migration to a given SQL Managed Instance.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/SqlMiCreateOrUpdateDatabaseMigrationMAX.json
+ * @summary create a new database migration to a given SQL Managed Instance.
+ * x-ms-original-file: 2025-09-01-preview/SqlMiCreateOrUpdateDatabaseMigrationMAX.json
  */
 async function createOrUpdateDatabaseMigrationResourceWithMaximumParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "managedInstance1";
-  const targetDbName = "db1";
-  const parameters: DatabaseMigrationSqlMi = {
-    properties: {
-      backupConfiguration: {
-        sourceLocation: {
-          fileShare: {
-            path: "C:\\aaa\\bbb\\ccc",
-            password: "placeholder",
-            username: "name",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new DataMigrationManagementClient(credential, subscriptionId);
+  const result = await client.databaseMigrationsSqlMi.createOrUpdate(
+    "testrg",
+    "managedInstance1",
+    "db1",
+    {
+      properties: {
+        backupConfiguration: {
+          sourceLocation: {
+            fileShare: { path: "C:\\aaa\\bbb\\ccc", password: "placeholder", username: "name" },
+          },
+          targetLocation: {
+            accountKey: "abcd",
+            storageAccountResourceId: "account.database.windows.net",
           },
         },
-        targetLocation: {
-          accountKey: "abcd",
-          storageAccountResourceId: "account.database.windows.net",
+        kind: "SqlMi",
+        migrationService:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.DataMigration/sqlMigrationServices/testagent",
+        offlineConfiguration: { lastBackupName: "last_backup_file_name", offline: true },
+        scope:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/instance",
+        sourceDatabaseName: "aaa",
+        sourceSqlConnection: {
+          authentication: "WindowsAuthentication",
+          dataSource: "aaa",
+          encryptConnection: true,
+          password: "placeholder",
+          trustServerCertificate: true,
+          userName: "bbb",
         },
-      },
-      kind: "SqlMi",
-      migrationService:
-        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.DataMigration/sqlMigrationServices/testagent",
-      offlineConfiguration: {
-        lastBackupName: "last_backup_file_name",
-        offline: true,
-      },
-      scope:
-        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/instance",
-      sourceDatabaseName: "aaa",
-      sourceSqlConnection: {
-        authentication: "WindowsAuthentication",
-        dataSource: "aaa",
-        encryptConnection: true,
-        password: "placeholder",
-        trustServerCertificate: true,
-        userName: "bbb",
+        sqlServerInstanceId:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.AzureArcData/SqlServerInstances/instanceName",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result =
-    await client.databaseMigrationsSqlMi.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      managedInstanceName,
-      targetDbName,
-      parameters,
-    );
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create a new database migration to a given SQL Managed Instance.
+ * This sample demonstrates how to create a new database migration to a given SQL Managed Instance.
  *
- * @summary Create a new database migration to a given SQL Managed Instance.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/SqlMiCreateOrUpdateDatabaseMigrationMIN.json
+ * @summary create a new database migration to a given SQL Managed Instance.
+ * x-ms-original-file: 2025-09-01-preview/SqlMiCreateOrUpdateDatabaseMigrationMIN.json
  */
 async function createOrUpdateDatabaseMigrationResourceWithMinimumParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "managedInstance1";
-  const targetDbName = "db1";
-  const parameters: DatabaseMigrationSqlMi = {
-    properties: {
-      backupConfiguration: {
-        sourceLocation: {
-          fileShare: {
-            path: "C:\\aaa\\bbb\\ccc",
-            password: "placeholder",
-            username: "name",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new DataMigrationManagementClient(credential, subscriptionId);
+  const result = await client.databaseMigrationsSqlMi.createOrUpdate(
+    "testrg",
+    "managedInstance1",
+    "db1",
+    {
+      properties: {
+        backupConfiguration: {
+          sourceLocation: {
+            fileShare: { path: "C:\\aaa\\bbb\\ccc", password: "placeholder", username: "name" },
+          },
+          targetLocation: {
+            accountKey: "abcd",
+            storageAccountResourceId: "account.database.windows.net",
           },
         },
-        targetLocation: {
-          accountKey: "abcd",
-          storageAccountResourceId: "account.database.windows.net",
+        kind: "SqlMi",
+        migrationService:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.DataMigration/sqlMigrationServices/testagent",
+        scope:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/instance",
+        sourceDatabaseName: "aaa",
+        sourceSqlConnection: {
+          authentication: "WindowsAuthentication",
+          dataSource: "aaa",
+          encryptConnection: true,
+          password: "placeholder",
+          trustServerCertificate: true,
+          userName: "bbb",
         },
-      },
-      kind: "SqlMi",
-      migrationService:
-        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.DataMigration/sqlMigrationServices/testagent",
-      scope:
-        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/instance",
-      sourceDatabaseName: "aaa",
-      sourceSqlConnection: {
-        authentication: "WindowsAuthentication",
-        dataSource: "aaa",
-        encryptConnection: true,
-        password: "placeholder",
-        trustServerCertificate: true,
-        userName: "bbb",
+        sqlServerInstanceId:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.AzureArcData/SqlServerInstances/instanceName",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result =
-    await client.databaseMigrationsSqlMi.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      managedInstanceName,
-      targetDbName,
-      parameters,
-    );
+  );
   console.log(result);
 }
 

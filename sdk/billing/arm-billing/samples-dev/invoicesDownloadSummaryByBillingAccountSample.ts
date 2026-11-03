@@ -1,26 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a URL to download the summary document for an invoice. The operation is supported for billing accounts with agreement type Enterprise Agreement.
- *
- * @summary Gets a URL to download the summary document for an invoice. The operation is supported for billing accounts with agreement type Enterprise Agreement.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoicesDownloadSummaryByBillingAccount.json
- */
-
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets a URL to download the summary document for an invoice. The operation is supported for billing accounts with agreement type Enterprise Agreement.
+ *
+ * @summary gets a URL to download the summary document for an invoice. The operation is supported for billing accounts with agreement type Enterprise Agreement.
+ * x-ms-original-file: 2024-04-01/invoicesDownloadSummaryByBillingAccount.json
+ */
 async function invoicesDownloadSummaryByBillingAccount(): Promise<void> {
-  const billingAccountName = "123456789";
-  const invoiceName = "G123456789";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
-  const result = await client.invoices.beginDownloadSummaryByBillingAccountAndWait(
-    billingAccountName,
-    invoiceName,
-  );
+  const result = await client.invoices.downloadSummaryByBillingAccount("123456789", "G123456789");
   console.log(result);
 }
 

@@ -1,225 +1,218 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentPool} from "@azure/arm-containerservice";
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsAssociate_CRG.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsAssociate_CRG.json
  */
 async function associateAgentPoolWithCapacityReservationGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     capacityReservationGroupID:
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/CapacityReservationGroups/crg1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/CapacityReservationGroups/crg1",
     count: 3,
     orchestratorVersion: "",
     osType: "Linux",
     vmSize: "Standard_DS2_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_Snapshot.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_CustomNodeConfig.json
  */
-async function createAgentPoolUsingAnAgentPoolSnapshot(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+async function createAgentPoolWithKubeletConfigAndLinuxOSConfig(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     count: 3,
-    creationData: {
-      sourceResourceId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1",
+    kubeletConfig: {
+      allowedUnsafeSysctls: ["kernel.msg*", "net.core.somaxconn"],
+      cpuCfsQuota: true,
+      cpuCfsQuotaPeriod: "200ms",
+      cpuManagerPolicy: "static",
+      evictionMaxPodGracePeriodInSeconds: 60,
+      failSwapOn: false,
+      hardEvictionThreshold: {
+        memoryAvailable: "500Mi",
+        nodeFsAvailable: "15%",
+        nodeFsInodesFree: "10%",
+      },
+      imageGcHighThreshold: 90,
+      imageGcLowThreshold: 70,
+      kubeReserved: { cpuMillicores: 200, memoryMB: 1024 },
+      softEvictionGracePeriod: {
+        memoryAvailable: "1m30s",
+        nodeFsAvailable: "2m",
+        nodeFsInodesFree: "2m",
+      },
+      softEvictionThreshold: {
+        memoryAvailable: "750Mi",
+        nodeFsAvailable: "20%",
+        nodeFsInodesFree: "15%",
+      },
+      topologyManagerPolicy: "best-effort",
     },
-    enableFips: true,
+    linuxOSConfig: {
+      swapFileSizeMB: 1500,
+      sysctls: {
+        kernelThreadsMax: 99999,
+        netCoreWmemDefault: 12345,
+        netIpv4IpLocalPortRange: "20000 60000",
+        netIpv4TcpTwReuse: true,
+      },
+      transparentHugePageDefrag: "madvise",
+      transparentHugePageEnabled: "always",
+    },
     orchestratorVersion: "",
     osType: "Linux",
     vmSize: "Standard_DS2_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_DedicatedHostGroup.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_DedicatedHostGroup.json
  */
 async function createAgentPoolWithDedicatedHostGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     count: 3,
     hostGroupID:
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg/providers/Microsoft.Compute/hostGroups/hostgroup1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Compute/hostGroups/hostgroup1",
     orchestratorVersion: "",
     osType: "Linux",
     vmSize: "Standard_DS2_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_EnableEncryptionAtHost.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_EnableEncryptionAtHost.json
  */
 async function createAgentPoolWithEncryptionAtHostEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     count: 3,
     enableEncryptionAtHost: true,
     orchestratorVersion: "",
     osType: "Linux",
     vmSize: "Standard_DS2_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_Ephemeral.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_EnableFIPS.json
+ */
+async function createAgentPoolWithFipsEnabledOS(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
+    count: 3,
+    enableFips: true,
+    orchestratorVersion: "",
+    osType: "Linux",
+    vmSize: "Standard_DS2_v2",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_EnableUltraSSD.json
+ */
+async function createAgentPoolWithUltraSSDEnabled(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
+    count: 3,
+    enableUltraSSD: true,
+    orchestratorVersion: "",
+    osType: "Linux",
+    vmSize: "Standard_DS2_v2",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_Ephemeral.json
  */
 async function createAgentPoolWithEphemeralOSDisk(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     count: 3,
     orchestratorVersion: "",
     osDiskSizeGB: 64,
     osDiskType: "Ephemeral",
     osType: "Linux",
     vmSize: "Standard_DS2_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_EnableFIPS.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_FlexNode.json
  */
-async function createAgentPoolWithFipsEnabledOS(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
-    count: 3,
-    enableFips: true,
-    orchestratorVersion: "",
-    osType: "Linux",
-    vmSize: "Standard_DS2_v2",
-  };
+async function createFlexNodeAgentPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "flexnode1", {
+    mode: "User",
+    orchestratorVersion: "1.32",
+    typePropertiesType: "FlexNodes",
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_GPUMIG.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_GPUMIG.json
  */
 async function createAgentPoolWithGpumig(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     count: 3,
     gpuInstanceProfile: "MIG2g",
     kubeletConfig: {
@@ -246,119 +239,21 @@ async function createAgentPoolWithGpumig(): Promise<void> {
     orchestratorVersion: "",
     osType: "Linux",
     vmSize: "Standard_ND96asr_v4",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_WasmWasi.json
- */
-async function createAgentPoolWithKrustletAndTheWasiRuntime(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
-    count: 3,
-    mode: "User",
-    orchestratorVersion: "",
-    osDiskSizeGB: 64,
-    osType: "Linux",
-    vmSize: "Standard_DS2_v2",
-    workloadRuntime: "WasmWasi",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
- *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_CustomNodeConfig.json
- */
-async function createAgentPoolWithKubeletConfigAndLinuxOSConfig(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
-    count: 3,
-    kubeletConfig: {
-      allowedUnsafeSysctls: ["kernel.msg*", "net.core.somaxconn"],
-      cpuCfsQuota: true,
-      cpuCfsQuotaPeriod: "200ms",
-      cpuManagerPolicy: "static",
-      failSwapOn: false,
-      imageGcHighThreshold: 90,
-      imageGcLowThreshold: 70,
-      topologyManagerPolicy: "best-effort",
-    },
-    linuxOSConfig: {
-      swapFileSizeMB: 1500,
-      sysctls: {
-        kernelThreadsMax: 99999,
-        netCoreWmemDefault: 12345,
-        netIpv4IpLocalPortRange: "20000 60000",
-        netIpv4TcpTwReuse: true,
-      },
-      transparentHugePageDefrag: "madvise",
-      transparentHugePageEnabled: "always",
-    },
-    orchestratorVersion: "",
-    osType: "Linux",
-    vmSize: "Standard_DS2_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
- *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_MessageOfTheDay.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_MessageOfTheDay.json
  */
 async function createAgentPoolWithMessageOfTheDay(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     count: 3,
     messageOfTheDay: "Zm9vCg==",
     mode: "User",
@@ -366,33 +261,48 @@ async function createAgentPoolWithMessageOfTheDay(): Promise<void> {
     osDiskSizeGB: 64,
     osType: "Linux",
     vmSize: "Standard_DS2_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_OSSKU.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_MixedMIG.json
+ */
+async function createAgentPoolWithMixedMIGProfiles(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
+    count: 3,
+    gpuProfile: {
+      driver: "Install",
+      nvidia: {
+        managementMode: "Managed",
+        migStrategy: "Mixed",
+        migProfiles: ["MIG3g", "MIG2g", "MIG1g", "MIG1g"],
+      },
+    },
+    mode: "User",
+    osType: "Linux",
+    vmSize: "Standard_ND96asr_v4",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_OSSKU.json
  */
 async function createAgentPoolWithOssku(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     count: 3,
     kubeletConfig: {
       allowedUnsafeSysctls: ["kernel.msg*", "net.core.somaxconn"],
@@ -419,98 +329,157 @@ async function createAgentPoolWithOssku(): Promise<void> {
     osSKU: "AzureLinux",
     osType: "Linux",
     vmSize: "Standard_DS2_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_PPG.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_PPG.json
  */
-async function createAgentPoolWithPpg(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+async function createAgentPoolWithPPG(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     count: 3,
     orchestratorVersion: "",
     osType: "Linux",
     proximityPlacementGroupID:
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/proximityPlacementGroups/ppg1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/proximityPlacementGroups/ppg1",
     vmSize: "Standard_DS2_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_EnableUltraSSD.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_PerNICPublicIP.json
  */
-async function createAgentPoolWithUltraSsdEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+async function createAgentPoolWithPerNICPublicIPConfiguration(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     count: 3,
-    enableUltraSSD: true,
+    orchestratorVersion: "",
+    osType: "Linux",
+    vmSize: "Standard_D8s_v3",
+    networkProfile: {
+      secondaryNetworkInterfaces: [
+        {
+          type: "Standard",
+          vnetSubnetId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVNet/subnets/secondary-subnet-1",
+          enableAcceleratedNetworking: true,
+          publicIPAddressConfiguration: {
+            publicIPAddressVersion: "IPv4",
+            ipTags: [{ ipTagType: "FirstPartyUsage", tag: "teams" }],
+          },
+        },
+        {
+          type: "Standard",
+          vnetSubnetId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVNet/subnets/secondary-subnet-2",
+          enableAcceleratedNetworking: true,
+          publicIPAddressConfiguration: {
+            publicIPAddressVersion: "IPv4",
+            publicIPPrefixID:
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/myPrefix",
+          },
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_SingleMIG.json
+ */
+async function createAgentPoolWithSingleMIGProfile(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
+    count: 3,
+    gpuProfile: {
+      driver: "Install",
+      nvidia: { managementMode: "Managed", migStrategy: "Single", migProfiles: ["MIG3g"] },
+    },
+    mode: "User",
+    osType: "Linux",
+    vmSize: "Standard_ND96asr_v4",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_Snapshot.json
+ */
+async function createAgentPoolUsingAnAgentPoolSnapshot(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
+    count: 3,
+    creationData: {
+      sourceResourceId:
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1",
+    },
+    enableFips: true,
     orchestratorVersion: "",
     osType: "Linux",
     vmSize: "Standard_DS2_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_TypeVirtualMachines.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_Spot.json
+ */
+async function createSpotAgentPool(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
+    count: 3,
+    nodeLabels: { key1: "val1" },
+    nodeTaints: ["Key1=Value1:NoSchedule"],
+    orchestratorVersion: "",
+    osType: "Linux",
+    scaleSetEvictionPolicy: "Delete",
+    scaleSetPriority: "Spot",
+    tags: { name1: "val1" },
+    vmSize: "Standard_DS1_v2",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_TypeVirtualMachines.json
  */
 async function createAgentPoolWithVirtualMachinesPoolType(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     typePropertiesType: "VirtualMachines",
     nodeLabels: { key1: "val1" },
     nodeTaints: ["Key1=Value1:NoSchedule"],
@@ -525,33 +494,21 @@ async function createAgentPoolWithVirtualMachinesPoolType(): Promise<void> {
         ],
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_TypeVirtualMachines_Autoscale.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_TypeVirtualMachines_Autoscale.json
  */
 async function createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     typePropertiesType: "VirtualMachines",
     nodeLabels: { key1: "val1" },
     nodeTaints: ["Key1=Value1:NoSchedule"],
@@ -559,138 +516,23 @@ async function createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled(
     osType: "Linux",
     tags: { name1: "val1" },
     virtualMachinesProfile: {
-      scale: {
-        autoscale: { maxCount: 5, minCount: 1, size: "Standard_D2_v2" },
-      },
+      scale: { autoscale: [{ maxCount: 5, minCount: 1, size: "Standard_D2_v2" }] },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_WindowsOSSKU.json
- */
-async function createAgentPoolWithWindowsOssku(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "wnp2";
-  const parameters: AgentPool = {
-    count: 3,
-    orchestratorVersion: "1.23.3",
-    osSKU: "Windows2022",
-    osType: "Windows",
-    vmSize: "Standard_D4s_v3",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
- *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_Spot.json
- */
-async function createSpotAgentPool(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
-    count: 3,
-    nodeLabels: { key1: "val1" },
-    nodeTaints: ["Key1=Value1:NoSchedule"],
-    orchestratorVersion: "",
-    osType: "Linux",
-    scaleSetEvictionPolicy: "Delete",
-    scaleSetPriority: "Spot",
-    tags: { name1: "val1" },
-    vmSize: "Standard_DS1_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
- *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_WindowsDisableOutboundNAT.json
- */
-async function createWindowsAgentPoolWithDisablingOutboundNat(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "wnp2";
-  const parameters: AgentPool = {
-    count: 3,
-    orchestratorVersion: "1.23.8",
-    osSKU: "Windows2022",
-    osType: "Windows",
-    vmSize: "Standard_D4s_v3",
-    windowsProfile: { disableOutboundNat: true },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
- *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsCreate_Update.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_Update.json
  */
 async function createOrUpdateAgentPool(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     count: 3,
     mode: "User",
     nodeLabels: { key1: "val1" },
@@ -701,85 +543,136 @@ async function createOrUpdateAgentPool(): Promise<void> {
     scaleSetPriority: "Spot",
     tags: { name1: "val1" },
     vmSize: "Standard_DS1_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPools_Start.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_UpgradeGate.json
+ */
+async function createAgentPoolWithUpgradeGateEnabled(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
+    count: 3,
+    orchestratorVersion: "",
+    osType: "Linux",
+    upgradeSettings: { maxSurge: "33%", upgradeGateSettings: { enabled: true } },
+    vmSize: "Standard_DS2_v2",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_WasmWasi.json
+ */
+async function createAgentPoolWithKrustletAndTheWasiRuntime(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
+    count: 3,
+    mode: "User",
+    orchestratorVersion: "",
+    osDiskSizeGB: 64,
+    osType: "Linux",
+    vmSize: "Standard_DS2_v2",
+    workloadRuntime: "WasmWasi",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_WindowsDisableOutboundNAT.json
+ */
+async function createWindowsAgentPoolWithDisablingOutboundNAT(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "wnp2", {
+    count: 3,
+    orchestratorVersion: "1.23.8",
+    osSKU: "Windows2022",
+    osType: "Windows",
+    vmSize: "Standard_D4s_v3",
+    windowsProfile: { disableOutboundNat: true },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPoolsCreate_WindowsOSSKU.json
+ */
+async function createAgentPoolWithWindowsOssku(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "wnp2", {
+    count: 3,
+    orchestratorVersion: "1.23.3",
+    osSKU: "Windows2022",
+    osType: "Windows",
+    vmSize: "Standard_D4s_v3",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPools_Start.json
  */
 async function startAgentPool(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = { powerState: { code: "Running" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
+    powerState: { code: "Running" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPools_Stop.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPools_Stop.json
  */
 async function stopAgentPool(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = { powerState: { code: "Stopped" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
+    powerState: { code: "Stopped" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPools_Update.json
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/AgentPools_Update.json
  */
 async function updateAgentPool(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
     count: 3,
     enableAutoScaling: true,
     maxCount: 2,
@@ -790,38 +683,35 @@ async function updateAgentPool(): Promise<void> {
     scaleSetEvictionPolicy: "Delete",
     scaleSetPriority: "Spot",
     vmSize: "Standard_DS1_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await associateAgentPoolWithCapacityReservationGroup();
-  await createAgentPoolUsingAnAgentPoolSnapshot();
+  await createAgentPoolWithKubeletConfigAndLinuxOSConfig();
   await createAgentPoolWithDedicatedHostGroup();
   await createAgentPoolWithEncryptionAtHostEnabled();
-  await createAgentPoolWithEphemeralOSDisk();
   await createAgentPoolWithFipsEnabledOS();
+  await createAgentPoolWithUltraSSDEnabled();
+  await createAgentPoolWithEphemeralOSDisk();
+  await createFlexNodeAgentPool();
   await createAgentPoolWithGpumig();
-  await createAgentPoolWithKrustletAndTheWasiRuntime();
-  await createAgentPoolWithKubeletConfigAndLinuxOSConfig();
   await createAgentPoolWithMessageOfTheDay();
+  await createAgentPoolWithMixedMIGProfiles();
   await createAgentPoolWithOssku();
-  await createAgentPoolWithPpg();
-  await createAgentPoolWithUltraSsdEnabled();
+  await createAgentPoolWithPPG();
+  await createAgentPoolWithPerNICPublicIPConfiguration();
+  await createAgentPoolWithSingleMIGProfile();
+  await createAgentPoolUsingAnAgentPoolSnapshot();
+  await createSpotAgentPool();
   await createAgentPoolWithVirtualMachinesPoolType();
   await createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled();
-  await createAgentPoolWithWindowsOssku();
-  await createSpotAgentPool();
-  await createWindowsAgentPoolWithDisablingOutboundNat();
   await createOrUpdateAgentPool();
+  await createAgentPoolWithUpgradeGateEnabled();
+  await createAgentPoolWithKrustletAndTheWasiRuntime();
+  await createWindowsAgentPoolWithDisablingOutboundNAT();
+  await createAgentPoolWithWindowsOssku();
   await startAgentPool();
   await stopAgentPool();
   await updateAgentPool();

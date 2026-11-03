@@ -3,35 +3,23 @@
 
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified blocklist Item associated with the custom blocklist.
+ * This sample demonstrates how to deletes the specified blocklist Item associated with the custom blocklist.
  *
- * @summary Deletes the specified blocklist Item associated with the custom blocklist.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/DeleteRaiBlocklistItem.json
+ * @summary deletes the specified blocklist Item associated with the custom blocklist.
+ * x-ms-original-file: 2026-09-15-preview/DeleteRaiBlocklistItem.json
  */
 async function deleteRaiBlocklistItem(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
-  const accountName = "accountName";
-  const raiBlocklistName = "raiBlocklistName";
-  const raiBlocklistItemName = "raiBlocklistItemName";
   const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  await client.raiBlocklistItems.delete(
+    "resourceGroupName",
+    "accountName",
+    "raiBlocklistName",
+    "raiBlocklistItemName",
   );
-  const result = await client.raiBlocklistItems.beginDeleteAndWait(
-    resourceGroupName,
-    accountName,
-    raiBlocklistName,
-    raiBlocklistItemName,
-  );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

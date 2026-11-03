@@ -1,44 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { AzureStackHCIVMManagementClient } from "./azureStackHcivmManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   GalleryImage,
   GalleryImageProperties,
-  KnownOperatingSystemTypes,
   OperatingSystemTypes,
-  KnownCloudInitDataSource,
   CloudInitDataSource,
-  KnownHyperVGeneration,
   HyperVGeneration,
-  VmImageRepositoryCredentials,
   GalleryImageIdentifier,
   GalleryImageVersion,
   GalleryImageVersionProperties,
   GalleryImageVersionStorageProfile,
   GalleryOSDiskImage,
-  KnownProvisioningStateEnum,
   ProvisioningStateEnum,
   GalleryImageStatus,
   GalleryImageStatusProvisioningStatus,
-  KnownStatus,
   Status,
   GalleryImageStatusDownloadStatus,
   ExtendedLocation,
-  KnownExtendedLocationTypes,
   ExtendedLocationTypes,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   ErrorResponse,
   ErrorDetail,
@@ -47,9 +41,9 @@ export {
   LogicalNetwork,
   LogicalNetworkProperties,
   LogicalNetworkPropertiesDhcpOptions,
+  ManagedNetworkFabricArmReference,
   Subnet,
   SubnetProperties,
-  KnownIpAllocationMethodEnum,
   IpAllocationMethodEnum,
   SubnetIpConfigurationReference,
   NetworkSecurityGroupArmReference,
@@ -58,12 +52,15 @@ export {
   Route,
   RouteProperties,
   IPPool,
-  KnownIPPoolTypeEnum,
   IPPoolTypeEnum,
   IPPoolInfo,
   LogicalNetworkStatus,
   LogicalNetworkStatusProvisioningStatus,
-  KnownLogicalNetworkTypeEnum,
+  FabricIntegrationStatus,
+  FabricIntegrationStateEnum,
+  FabricConnectionHealthEnum,
+  FabricResourceTypeEnum,
+  FabricIssue,
   LogicalNetworkTypeEnum,
   LogicalNetworksUpdateRequest,
   MarketplaceGalleryImage,
@@ -90,13 +87,17 @@ export {
   NetworkSecurityGroupTagsUpdate,
   SecurityRule,
   SecurityRuleProperties,
-  KnownSecurityRuleProtocol,
   SecurityRuleProtocol,
-  KnownSecurityRuleAccess,
   SecurityRuleAccess,
-  KnownSecurityRuleDirection,
   SecurityRuleDirection,
   ProxyResource,
+  Snapshot,
+  SnapshotProperties,
+  CreationData,
+  DiskCreateOption,
+  SnapshotStatus,
+  SnapshotStatusProvisioningStatus,
+  SnapshotTagsUpdate,
   StorageContainer,
   StorageContainerProperties,
   StorageContainerStatus,
@@ -104,7 +105,6 @@ export {
   StorageContainerTagsUpdate,
   VirtualHardDisk,
   VirtualHardDiskProperties,
-  KnownDiskFileFormat,
   DiskFileFormat,
   VirtualHardDiskStatus,
   VirtualHardDiskStatusProvisioningStatus,
@@ -117,11 +117,9 @@ export {
   VirtualMachineInstance,
   VirtualMachineInstanceProperties,
   VirtualMachineInstancePropertiesHardwareProfile,
-  KnownVmSizeEnum,
   VmSizeEnum,
   VirtualMachineInstancePropertiesHardwareProfileDynamicMemoryConfig,
   VirtualMachineInstancePropertiesHardwareProfileVirtualMachineGPU,
-  KnownGpuAssignmentTypeEnum,
   GpuAssignmentTypeEnum,
   VirtualMachineInstancePropertiesPlacementProfile,
   VirtualMachineInstancePropertiesNetworkProfile,
@@ -132,7 +130,6 @@ export {
   VirtualMachineInstancePropertiesOsProfileWindowsConfiguration,
   VirtualMachineInstancePropertiesSecurityProfile,
   VirtualMachineInstancePropertiesSecurityProfileUefiSettings,
-  KnownSecurityTypes,
   SecurityTypes,
   VirtualMachineInstancePropertiesStorageProfile,
   VirtualHardDiskArmReference,
@@ -140,23 +137,19 @@ export {
   VirtualMachineInstancePropertiesStorageProfileOsDisk,
   VirtualMachineInstanceManagedDiskParameters,
   VMDiskSecurityProfile,
-  KnownSecurityEncryptionType,
   SecurityEncryptionType,
   HttpProxyConfiguration,
   VirtualMachineInstanceView,
   VirtualMachineConfigAgentInstanceView,
   InstanceViewStatus,
-  KnownStatusLevelTypes,
   StatusLevelTypes,
   VirtualMachineInstanceStatus,
-  KnownPowerStateEnum,
   PowerStateEnum,
   VirtualMachineInstanceStatusProvisioningStatus,
+  OperationStepResult,
   GuestAgentInstallStatus,
-  KnownStatusTypes,
   StatusTypes,
   ManagedServiceIdentity,
-  KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   ExtensionResource,
@@ -169,32 +162,129 @@ export {
   OsProfileUpdateLinuxConfiguration,
   OsProfileUpdateWindowsConfiguration,
   Identity,
+  PowerOffVirtualMachineOptions,
+  OperationStatusResult,
   HybridIdentityMetadata,
   HybridIdentityMetadataProperties,
   AttestationStatus,
   AttestationStatusProperties,
-  KnownAttestSecureBootPropertyEnum,
   AttestSecureBootPropertyEnum,
-  KnownAttestCertPropertyEnum,
   AttestCertPropertyEnum,
-  KnownAttestBootIntegrityPropertyEnum,
   AttestBootIntegrityPropertyEnum,
-  KnownAttestHealthStatusEnum,
   AttestHealthStatusEnum,
-  KnownAttestHWPlatformEnum,
   AttestHWPlatformEnum,
-  KnownAttestDiskSecurityEncryptionTypeEnum,
   AttestDiskSecurityEncryptionTypeEnum,
   GuestAgent,
   GuestAgentProperties,
   GuestCredential,
-  KnownProvisioningAction,
   ProvisioningAction,
+  VirtualNetwork,
+  VirtualNetworkProperties,
+  VirtualNetworkAddressSpace,
+  VirtualNetworkDhcpOptions,
+  VirtualNetworkStatus,
+  VirtualNetworkStatusProvisioningStatus,
+  VirtualNetworkTagsUpdate,
+  VirtualNetworkSubnet,
+  VirtualNetworkSubnetProperties,
+  NatGatewayArmReference,
+  VirtualNetworkSubnetIpConfigurationReference,
+  VirtualNetworkSubnetStatus,
+  VirtualNetworkSubnetStatusProvisioningStatus,
+  VirtualNetworkSubnetUpdateRequest,
+  VirtualNetworkSubnetUpdateProperties,
+  PublicIPAddress,
+  PublicIPAddressProperties,
+  PublicIPAddressType,
+  IPConfigurationArmReference,
+  PublicIPAddressTagsUpdate,
+  NatGateway,
+  NatGatewayProperties,
+  PublicIPAddressArmReference,
+  VirtualNetworkSubnetArmReference,
+  NatGatewayStatus,
+  NatGatewayStatusProvisioningStatus,
+  NatGatewayTagsUpdate,
+  InboundRule,
+  InboundRuleProperties,
+  InboundNATRuleProtocol,
+  InboundRuleStatus,
+  InboundRuleStatusProvisioningStatus,
+  LoadBalancer,
+  LoadBalancerProperties,
+  FrontendIPConfiguration,
+  FrontendIPConfigurationProperties,
+  BackendAddressPool,
+  BackendAddressPoolProperties,
+  LoadBalancerBackendAddress,
+  LoadBalancerBackendAddressProperties,
+  LoadBalancerBackendAddressAdminState,
+  VirtualNetworkArmReference,
+  LoadBalancerRule,
+  LoadBalancerRuleProperties,
+  LoadBalancerFrontendIPConfigurationReference,
+  LoadBalancerBackendAddressPoolReference,
+  LoadBalancerRuleTransportProtocol,
+  LoadBalancerProbeReference,
+  LoadBalancerRuleSessionPersistenceType,
+  Probe,
+  ProbeProperties,
+  LoadBalancerProbeProtocol,
+  LoadBalancerStatus,
+  LoadBalancerStatusProvisioningStatus,
+  LoadBalancerTagsUpdate,
+  Operation,
+  OperationDisplay,
+  Origin,
+  ActionType,
+} from "./models/index.js";
+export {
+  KnownOperatingSystemTypes,
+  KnownCloudInitDataSource,
+  KnownHyperVGeneration,
+  KnownProvisioningStateEnum,
+  KnownStatus,
+  KnownExtendedLocationTypes,
+  KnownCreatedByType,
+  KnownIpAllocationMethodEnum,
+  KnownIPPoolTypeEnum,
+  KnownFabricIntegrationStateEnum,
+  KnownFabricConnectionHealthEnum,
+  KnownFabricResourceTypeEnum,
+  KnownLogicalNetworkTypeEnum,
+  KnownSecurityRuleProtocol,
+  KnownSecurityRuleAccess,
+  KnownSecurityRuleDirection,
+  KnownDiskCreateOption,
+  KnownDiskFileFormat,
+  KnownVmSizeEnum,
+  KnownGpuAssignmentTypeEnum,
+  KnownSecurityTypes,
+  KnownSecurityEncryptionType,
+  KnownStatusLevelTypes,
+  KnownPowerStateEnum,
+  KnownStatusTypes,
+  KnownManagedServiceIdentityType,
+  KnownAttestSecureBootPropertyEnum,
+  KnownAttestCertPropertyEnum,
+  KnownAttestBootIntegrityPropertyEnum,
+  KnownAttestHealthStatusEnum,
+  KnownAttestHWPlatformEnum,
+  KnownAttestDiskSecurityEncryptionTypeEnum,
+  KnownProvisioningAction,
+  KnownPublicIPAddressType,
+  KnownInboundNATRuleProtocol,
+  KnownLoadBalancerBackendAddressAdminState,
+  KnownLoadBalancerRuleTransportProtocol,
+  KnownLoadBalancerRuleSessionPersistenceType,
+  KnownLoadBalancerProbeProtocol,
+  KnownOrigin,
+  KnownActionType,
   KnownVersions,
 } from "./models/index.js";
-export { AzureStackHCIVMManagementClientOptionalParams } from "./api/index.js";
-export { AttestationStatusesGetOptionalParams } from "./api/attestationStatuses/index.js";
-export {
+export type { AzureStackHCIVMManagementClientOptionalParams } from "./api/index.js";
+export type { AttestationStatusesGetOptionalParams } from "./api/attestationStatuses/index.js";
+export type {
   GalleryImagesListAllOptionalParams,
   GalleryImagesListByResourceGroupOptionalParams,
   GalleryImagesDeleteOptionalParams,
@@ -202,17 +292,31 @@ export {
   GalleryImagesCreateOrUpdateOptionalParams,
   GalleryImagesGetOptionalParams,
 } from "./api/galleryImages/index.js";
-export {
+export type {
   GuestAgentsListByVirtualMachineInstanceOptionalParams,
   GuestAgentsDeleteOptionalParams,
   GuestAgentsCreateOptionalParams,
   GuestAgentsGetOptionalParams,
 } from "./api/guestAgents/index.js";
-export {
+export type {
   HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
   HybridIdentityMetadataGetOptionalParams,
 } from "./api/hybridIdentityMetadata/index.js";
-export {
+export type {
+  InboundRulesListByNatGatewayOptionalParams,
+  InboundRulesDeleteOptionalParams,
+  InboundRulesCreateOrUpdateOptionalParams,
+  InboundRulesGetOptionalParams,
+} from "./api/inboundRules/index.js";
+export type {
+  LoadBalancersListAllOptionalParams,
+  LoadBalancersListByResourceGroupOptionalParams,
+  LoadBalancersDeleteOptionalParams,
+  LoadBalancersUpdateTagsOptionalParams,
+  LoadBalancersCreateOrUpdateOptionalParams,
+  LoadBalancersGetOptionalParams,
+} from "./api/loadBalancers/index.js";
+export type {
   LogicalNetworksListAllOptionalParams,
   LogicalNetworksListByResourceGroupOptionalParams,
   LogicalNetworksDeleteOptionalParams,
@@ -220,7 +324,7 @@ export {
   LogicalNetworksCreateOrUpdateOptionalParams,
   LogicalNetworksGetOptionalParams,
 } from "./api/logicalNetworks/index.js";
-export {
+export type {
   MarketplaceGalleryImagesListAllOptionalParams,
   MarketplaceGalleryImagesListByResourceGroupOptionalParams,
   MarketplaceGalleryImagesDeleteOptionalParams,
@@ -228,7 +332,15 @@ export {
   MarketplaceGalleryImagesCreateOrUpdateOptionalParams,
   MarketplaceGalleryImagesGetOptionalParams,
 } from "./api/marketplaceGalleryImages/index.js";
-export {
+export type {
+  NatGatewaysListAllOptionalParams,
+  NatGatewaysListByResourceGroupOptionalParams,
+  NatGatewaysDeleteOptionalParams,
+  NatGatewaysUpdateTagsOptionalParams,
+  NatGatewaysCreateOrUpdateOptionalParams,
+  NatGatewaysGetOptionalParams,
+} from "./api/natGateways/index.js";
+export type {
   NetworkInterfacesListAllOptionalParams,
   NetworkInterfacesListByResourceGroupOptionalParams,
   NetworkInterfacesDeleteOptionalParams,
@@ -236,7 +348,7 @@ export {
   NetworkInterfacesCreateOrUpdateOptionalParams,
   NetworkInterfacesGetOptionalParams,
 } from "./api/networkInterfaces/index.js";
-export {
+export type {
   NetworkSecurityGroupsListAllOptionalParams,
   NetworkSecurityGroupsListByResourceGroupOptionalParams,
   NetworkSecurityGroupsDeleteOptionalParams,
@@ -244,13 +356,30 @@ export {
   NetworkSecurityGroupsCreateOrUpdateOptionalParams,
   NetworkSecurityGroupsGetOptionalParams,
 } from "./api/networkSecurityGroups/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
+  PublicIPAddressesListAllOptionalParams,
+  PublicIPAddressesListByResourceGroupOptionalParams,
+  PublicIPAddressesDeleteOptionalParams,
+  PublicIPAddressesUpdateTagsOptionalParams,
+  PublicIPAddressesCreateOrUpdateOptionalParams,
+  PublicIPAddressesGetOptionalParams,
+} from "./api/publicIPAddresses/index.js";
+export type {
   SecurityRulesListByNetworkSecurityGroupOptionalParams,
   SecurityRulesDeleteOptionalParams,
   SecurityRulesCreateOrUpdateOptionalParams,
   SecurityRulesGetOptionalParams,
 } from "./api/securityRules/index.js";
-export {
+export type {
+  SnapshotsListAllOptionalParams,
+  SnapshotsListByResourceGroupOptionalParams,
+  SnapshotsDeleteOptionalParams,
+  SnapshotsUpdateOptionalParams,
+  SnapshotsCreateOrUpdateOptionalParams,
+  SnapshotsGetOptionalParams,
+} from "./api/snapshots/index.js";
+export type {
   StorageContainersListAllOptionalParams,
   StorageContainersListByResourceGroupOptionalParams,
   StorageContainersDeleteOptionalParams,
@@ -258,7 +387,7 @@ export {
   StorageContainersCreateOrUpdateOptionalParams,
   StorageContainersGetOptionalParams,
 } from "./api/storageContainers/index.js";
-export {
+export type {
   VirtualHardDisksUploadOptionalParams,
   VirtualHardDisksListAllOptionalParams,
   VirtualHardDisksListByResourceGroupOptionalParams,
@@ -267,7 +396,8 @@ export {
   VirtualHardDisksCreateOrUpdateOptionalParams,
   VirtualHardDisksGetOptionalParams,
 } from "./api/virtualHardDisks/index.js";
-export {
+export type {
+  VirtualMachineInstancesPowerOffOptionalParams,
   VirtualMachineInstancesSaveOptionalParams,
   VirtualMachineInstancesPauseOptionalParams,
   VirtualMachineInstancesRestartOptionalParams,
@@ -279,19 +409,44 @@ export {
   VirtualMachineInstancesCreateOrUpdateOptionalParams,
   VirtualMachineInstancesGetOptionalParams,
 } from "./api/virtualMachineInstances/index.js";
-export {
+export type {
+  VirtualNetworksListAllOptionalParams,
+  VirtualNetworksListByResourceGroupOptionalParams,
+  VirtualNetworksDeleteOptionalParams,
+  VirtualNetworksUpdateTagsOptionalParams,
+  VirtualNetworksCreateOrUpdateOptionalParams,
+  VirtualNetworksGetOptionalParams,
+} from "./api/virtualNetworks/index.js";
+export type {
+  VirtualNetworkSubnetsListByVirtualNetworkOptionalParams,
+  VirtualNetworkSubnetsDeleteOptionalParams,
+  VirtualNetworkSubnetsUpdateOptionalParams,
+  VirtualNetworkSubnetsCreateOrUpdateOptionalParams,
+  VirtualNetworkSubnetsGetOptionalParams,
+} from "./api/virtualNetworkSubnets/index.js";
+export type {
   AttestationStatusesOperations,
   GalleryImagesOperations,
   GuestAgentsOperations,
   HybridIdentityMetadataOperations,
+  InboundRulesOperations,
+  LoadBalancersOperations,
   LogicalNetworksOperations,
   MarketplaceGalleryImagesOperations,
+  NatGatewaysOperations,
   NetworkInterfacesOperations,
   NetworkSecurityGroupsOperations,
+  OperationsOperations,
+  PublicIPAddressesOperations,
   SecurityRulesOperations,
+  SnapshotsOperations,
   StorageContainersOperations,
   VirtualHardDisksOperations,
   VirtualMachineInstancesOperations,
+  VirtualNetworksOperations,
+  VirtualNetworkSubnetsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

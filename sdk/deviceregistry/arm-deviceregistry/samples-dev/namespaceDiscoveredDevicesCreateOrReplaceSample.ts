@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a NamespaceDiscoveredDevice
  *
  * @summary create a NamespaceDiscoveredDevice
- * x-ms-original-file: 2025-10-01/CreateOrReplace_NamespaceDiscoveredDevice.json
+ * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_NamespaceDiscoveredDevice.json
  */
 async function createOrReplaceNamespaceDiscoveredDevice(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,9 +29,9 @@ async function createOrReplaceNamespaceDiscoveredDevice(): Promise<void> {
         endpoints: {
           outbound: {
             assigned: {
-              eventGridEndpoint: {
-                endpointType: "Microsoft.Devices/IoTHubs",
-                address: "https://myeventgridtopic.westeurope-1.eventgrid.azure.net/api/events",
+              iothubEndpoint: {
+                endpointType: "Microsoft.Devices/IotHubs",
+                address: "https://iothub-for-dps.azure-devices.net",
               },
             },
           },

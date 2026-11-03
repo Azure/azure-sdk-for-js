@@ -1,37 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get cluster by Id
- *
- * @summary Get cluster by Id
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_GetClusterById.json
- */
-
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function organizationGetClusterById(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const environmentId = "env-12132";
-  const clusterId = "dlz-f3a90de";
+/**
+ * This sample demonstrates how to get cluster by Id
+ *
+ * @summary get cluster by Id
+ * x-ms-original-file: 2026-06-02-preview/Organization_GetClusterById_MaximumSet_Gen.json
+ */
+async function organizationGetClusterByIdMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const result = await client.organization.getClusterById(
-    resourceGroupName,
-    organizationName,
-    environmentId,
-    clusterId,
+    "rgconfluent",
+    "qiasyqphlvkxxgyofmf",
+    "xmkhyxmtjzez",
+    "lirhyplbzq",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await organizationGetClusterById();
+  await organizationGetClusterByIdMaximumSet();
 }
 
 main().catch(console.error);

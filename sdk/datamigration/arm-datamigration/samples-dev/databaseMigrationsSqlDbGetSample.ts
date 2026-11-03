@@ -1,67 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DatabaseMigrationsSqlDbGetOptionalParams,
-  DataMigrationManagementClient,
-} from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieve the Database Migration resource.
+ * This sample demonstrates how to retrieve the Database Migration resource.
  *
- * @summary Retrieve the Database Migration resource.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/SqlDbGetDatabaseMigrationExpanded.json
+ * @summary retrieve the Database Migration resource.
+ * x-ms-original-file: 2025-09-01-preview/SqlDbGetDatabaseMigration.json
  */
-async function getSqlDbDatabaseMigrationWithTheExpandParameter(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
-  const sqlDbInstanceName = "sqldbinstance";
-  const targetDbName = "db1";
-  const expand = "MigrationStatusDetails";
-  const options: DatabaseMigrationsSqlDbGetOptionalParams = { expand };
+async function getSqlDBDatabaseMigrationWithoutTheExpandParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.databaseMigrationsSqlDb.get(
-    resourceGroupName,
-    sqlDbInstanceName,
-    targetDbName,
-    options,
-  );
+  const result = await client.databaseMigrationsSqlDb.get("testrg", "sqldbinstance", "db1");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Retrieve the Database Migration resource.
+ * This sample demonstrates how to retrieve the Database Migration resource.
  *
- * @summary Retrieve the Database Migration resource.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/stable/2025-06-30/examples/SqlDbGetDatabaseMigration.json
+ * @summary retrieve the Database Migration resource.
+ * x-ms-original-file: 2025-09-01-preview/SqlDbGetDatabaseMigrationExpanded.json
  */
-async function getSqlDbDatabaseMigrationWithoutTheExpandParameter(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
-  const sqlDbInstanceName = "sqldbinstance";
-  const targetDbName = "db1";
+async function getSqlDBDatabaseMigrationWithTheExpandParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.databaseMigrationsSqlDb.get(
-    resourceGroupName,
-    sqlDbInstanceName,
-    targetDbName,
-  );
+  const result = await client.databaseMigrationsSqlDb.get("testrg", "sqldbinstance", "db1", {
+    expand: "MigrationStatusDetails",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getSqlDbDatabaseMigrationWithTheExpandParameter();
-  await getSqlDbDatabaseMigrationWithoutTheExpandParameter();
+  await getSqlDBDatabaseMigrationWithoutTheExpandParameter();
+  await getSqlDBDatabaseMigrationWithTheExpandParameter();
 }
 
 main().catch(console.error);

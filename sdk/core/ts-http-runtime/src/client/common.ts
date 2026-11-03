@@ -13,6 +13,7 @@ import type {
 import type { Pipeline, PipelinePolicy } from "../pipeline.js";
 import type { PipelineOptions } from "../createPipelineFromOptions.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
+import type { NodeReadableStream, WebReadableStream } from "#platform/types";
 import type { AuthScheme } from "../auth/schemes.js";
 import type { ClientCredential } from "../auth/credentials.js";
 
@@ -26,9 +27,10 @@ export type RequestParameters = {
    */
   headers?: RawHttpHeadersInput;
   /**
-   * Sets the accept header to send to the service
-   * defaults to 'application/json'. If also a header "accept" is set
-   * this property will take precedence.
+   * Sets the accept header to send to the service.
+   * When omitted, defaults to 'application/json' unless the client was created
+   * with `internal.noDefaultAcceptHeader` enabled, in which case no default is
+   * applied. If an accept header is set in `headers`, this property will take precedence.
    */
   accept?: string;
   /**
@@ -206,7 +208,7 @@ export type HttpNodeStreamResponse = HttpResponse & {
   /**
    * Streamable body
    */
-  body?: NodeJS.ReadableStream;
+  body?: NodeReadableStream;
 };
 
 /**
@@ -216,7 +218,7 @@ export type HttpBrowserStreamResponse = HttpResponse & {
   /**
    * Streamable body
    */
-  body?: ReadableStream<Uint8Array>;
+  body?: WebReadableStream<Uint8Array>;
 };
 
 /**
@@ -346,7 +348,29 @@ export type ClientOptions = PipelineOptions & {
    * will be ignored.
    */
   pipeline?: Pipeline;
+  /**
+   * Options that are intended for use by generated clients and are not meant to
+   * be set by end users directly.
+   */
+  internal?: InternalClientOptions;
 };
+
+/**
+ * Options for {@link getClient} that are intended for use by generated clients.
+ * These are grouped under {@link ClientOptions.internal} so they are not
+ * surfaced as top-level options on every generated client.
+ */
+export interface InternalClientOptions {
+  /**
+   * When set to `true`, the client does not add a default
+   * `Accept: application/json` request header to operations that do not
+   * otherwise specify an `Accept` header. This allows operations that expect
+   * no response body to omit the `Accept` header.
+   *
+   * @defaultValue `false`
+   */
+  noDefaultAcceptHeader?: boolean;
+}
 
 /**
  * Represents the shape of an HttpResponse

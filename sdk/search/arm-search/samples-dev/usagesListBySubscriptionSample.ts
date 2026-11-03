@@ -1,26 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a list of all Azure AI Search quota usages across the subscription.
- *
- * @summary Get a list of all Azure AI Search quota usages across the subscription.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/GetQuotaUsagesList.json
- */
-
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get a list of all Azure AI Search quota usages across the subscription.
+ *
+ * @summary get a list of all Azure AI Search quota usages across the subscription.
+ * x-ms-original-file: 2026-11-01/GetQuotaUsagesList.json
+ */
 async function getQuotaUsagesList(): Promise<void> {
-  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
-  const location = "westus";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.usages.listBySubscription(location)) {
+  for await (const item of client.usages.listBySubscription("westus")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

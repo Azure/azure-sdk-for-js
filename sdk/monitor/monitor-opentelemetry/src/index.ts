@@ -3,6 +3,7 @@
 
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
+import type { Instrumentation } from "@opentelemetry/instrumentation";
 import type { NodeSDKConfiguration } from "@opentelemetry/sdk-node";
 import { NodeSDK } from "@opentelemetry/sdk-node";
 import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
@@ -10,13 +11,17 @@ import { InternalConfig } from "./shared/config.js";
 import { MetricHandler } from "./metrics/index.js";
 import { TraceHandler } from "./traces/handler.js";
 import { LogHandler } from "./logs/index.js";
-import type { StatsbeatFeatures, StatsbeatInstrumentations } from "./types.js";
+import type {
+  StatsbeatFeatures,
+  StatsbeatInstrumentations,
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+  ConsoleInstrumentationOptions,
+  BrowserSdkLoaderOptions,
+} from "./types.js";
 import {
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
-  AzureMonitorOpenTelemetryOptions,
-  APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
-  InstrumentationOptions,
-  BrowserSdkLoaderOptions,
+  APPLICATIONINSIGHTS_SDKSTATS_DISABLED,
 } from "./types.js";
 import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader.js";
 import { setSdkPrefix } from "./metrics/quickpulse/utils.js";
@@ -24,14 +29,58 @@ import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { getInstance } from "./utils/statsbeat.js";
 import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher.js";
-import { parseResourceDetectorsFromEnvVar } from "./utils/common.js";
+import { isFunctionApp, parseResourceDetectorsFromEnvVar } from "./utils/common.js";
+import { isLogCollectionDisabled } from "./utils/logUtils.js";
+import { Logger } from "./shared/logging/index.js";
+import { AZURE_MONITOR_AUTO_ATTACH } from "./types.js";
 
-export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
+export type {
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+  ConsoleInstrumentationOptions,
+  BrowserSdkLoaderOptions,
+};
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
-let sdk: NodeSDK;
+let sdk: NodeSDK | undefined;
+let sdkShutdownPromise: Promise<void> | undefined;
+let metricHandler: MetricHandler | undefined;
 let browserSdkLoader: BrowserSdkLoader | undefined;
+// NodeSDK shuts down providers, but leaves instrumentation hooks enabled.
+let instrumentations: Instrumentation[] = [];
+const instrumentationCache = new Map<string, Instrumentation>();
+
+function shutdownSdk(): Promise<void> | undefined {
+  sdkShutdownPromise ??= sdk?.shutdown();
+  return sdkShutdownPromise;
+}
+
+function disableInstrumentations(): void {
+  for (const instrumentation of instrumentations) {
+    instrumentation.disable();
+  }
+  instrumentations = [];
+}
+
+/**
+ * Check if auto-attach (autoinstrumentation) is enabled and warn about double instrumentation.
+ */
+function sendAttachWarning(): void {
+  if (process.env[AZURE_MONITOR_AUTO_ATTACH] === "true" && !isFunctionApp()) {
+    // TODO: When AKS attach is public, update this message with disablement instructions for AKS
+    const message =
+      "Distro detected that automatic instrumentation may have occurred. Only use autoinstrumentation if you " +
+      "are not using manual instrumentation of OpenTelemetry in your code, such as with " +
+      "@azure/monitor-opentelemetry or @azure/monitor-opentelemetry-exporter. For App Service resources, disable " +
+      "autoinstrumentation in the Application Insights experience on your App Service resource or by setting " +
+      "the ApplicationInsightsAgent_EXTENSION_VERSION app setting to 'disabled'.";
+    // Surface in the log stream
+    console.warn(message);
+    // Also log via diagnostic logging
+    Logger.getInstance().warn(message);
+  }
+}
 
 /**
  * Initialize Azure Monitor Distro
@@ -39,7 +88,16 @@ let browserSdkLoader: BrowserSdkLoader | undefined;
  */
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void {
   const config = new InternalConfig(options);
+  void metricHandler?.shutdown().catch((error) => {
+    Logger.getInstance().warn("Failed to shut down previous metric collectors", error);
+  });
+  void shutdownSdk()?.catch((error) => {
+    Logger.getInstance().warn("Failed to shut down previous SDK", error);
+  });
+  disableInstrumentations();
   patchOpenTelemetryInstrumentationEnable();
+  // Omit disabled log instrumentations from Statsbeat.
+  const logInstrumentationsEnabled = !isLogCollectionDisabled();
   const statsbeatInstrumentations: StatsbeatInstrumentations = {
     // Instrumentations
     azureSdk: config.instrumentationOptions?.azureSdk?.enabled,
@@ -47,15 +105,19 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     mySql: config.instrumentationOptions?.mySql?.enabled,
     postgreSql: config.instrumentationOptions?.postgreSql?.enabled,
     redis: config.instrumentationOptions?.redis?.enabled,
-    bunyan: config.instrumentationOptions?.bunyan?.enabled,
-    winston: config.instrumentationOptions?.winston?.enabled,
+    bunyan: logInstrumentationsEnabled && config.instrumentationOptions?.bunyan?.enabled,
+    winston: logInstrumentationsEnabled && config.instrumentationOptions?.winston?.enabled,
+    console: logInstrumentationsEnabled && config.instrumentationOptions?.console?.enabled,
   };
+  // Only report this feature when the AKS resource detector itself was able to populate the AKS
+  // cluster attributes, which requires the customer to have configured access to the
+  // aks-cluster-metadata ConfigMap (RBAC + env var or mounted file).
   const statsbeatFeatures: StatsbeatFeatures = {
     browserSdkLoader: config.browserSdkLoaderOptions.enabled,
     aadHandling: !!config.azureMonitorExporterOptions?.credential,
     diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
-    rateLimitedSampler: !!config.tracesPerSecond,
-    customerSdkStats: process.env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] === "True",
+    customerSdkStats: process.env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED]?.toLowerCase() === "true",
+    aksResourceDetectorPopulation: config.aksResourceDetectorPopulated,
   };
   getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 
@@ -67,14 +129,22 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   trace.disable();
   logs.disable();
 
-  // Create internal handlers
-  const metricHandler = new MetricHandler(config);
-  const traceHandler = new TraceHandler(config, metricHandler);
-  const logHandler = new LogHandler(config, metricHandler);
+  // Clear the entire OpenTelemetry API global state to avoid version conflicts.
+  // The disable() calls above remove individual providers but leave the `version` field
+  // on the global object intact. If a different version of @opentelemetry/api was loaded
+  // first (e.g. by a VS Code extension host or another extension), the stale version
+  // causes registerGlobal() in sdk.start() to fail with "All API registration versions
+  // must match", resulting in Noop providers. Deleting the global object forces
+  // registerGlobal() to create a fresh one with the correct version.
+  const globalOpentelemetryApiKey = Symbol.for("opentelemetry.js.api.1");
+  Reflect.deleteProperty(globalThis, globalOpentelemetryApiKey);
 
-  const instrumentations = traceHandler
-    .getInstrumentations()
-    .concat(logHandler.getInstrumentations());
+  // Create internal handlers
+  metricHandler = new MetricHandler(config);
+  const traceHandler = new TraceHandler(config, metricHandler, instrumentationCache);
+  const logHandler = new LogHandler(config, metricHandler, instrumentationCache);
+
+  instrumentations = traceHandler.getInstrumentations().concat(logHandler.getInstrumentations());
 
   const resourceDetectorsList = parseResourceDetectorsFromEnvVar();
 
@@ -112,7 +182,9 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     resourceDetectors: resourceDetectorsList,
   };
   sdk = new NodeSDK(sdkConfig);
+  sdkShutdownPromise = undefined;
   setSdkPrefix();
+  sendAttachWarning();
   sdk.start();
 }
 
@@ -120,9 +192,10 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
  * Shutdown Azure Monitor Open Telemetry Distro
  * @see https://github.com/open-telemetry/opentelemetry-js/blob/0229434cb5a3179f63c021105f36270ae7897929/experimental/packages/opentelemetry-sdk-node/src/sdk.ts#L398
  */
-export function shutdownAzureMonitor(): Promise<void> {
+export async function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
-  return sdk?.shutdown();
+  disableInstrumentations();
+  await Promise.all([metricHandler?.shutdown(), shutdownSdk()]);
 }
 
 /**

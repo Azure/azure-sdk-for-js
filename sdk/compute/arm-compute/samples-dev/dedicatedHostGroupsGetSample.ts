@@ -3,53 +3,38 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves information about a dedicated host group.
+ * This sample demonstrates how to retrieves information about a dedicated host group.
  *
- * @summary Retrieves information about a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
+ * @summary retrieves information about a dedicated host group.
+ * x-ms-original-file: 2026-04-01/dedicatedHostExamples/DedicatedHostGroup_Get.json
  */
 async function createADedicatedHostGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const hostGroupName = "myDedicatedHostGroup";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscriptionId}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.dedicatedHostGroups.get(
-    resourceGroupName,
-    hostGroupName,
-  );
+  const result = await client.dedicatedHostGroups.get("myResourceGroup", "myDedicatedHostGroup");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Retrieves information about a dedicated host group.
+ * This sample demonstrates how to retrieves information about a dedicated host group.
  *
- * @summary Retrieves information about a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
+ * @summary retrieves information about a dedicated host group.
+ * x-ms-original-file: 2026-04-01/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
  */
-async function createAnUltraSsdEnabledDedicatedHostGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const hostGroupName = "myDedicatedHostGroup";
+async function createAnUltraSSDEnabledDedicatedHostGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscriptionId}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.dedicatedHostGroups.get(
-    resourceGroupName,
-    hostGroupName,
-  );
+  const result = await client.dedicatedHostGroups.get("myResourceGroup", "myDedicatedHostGroup");
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createADedicatedHostGroup();
-  await createAnUltraSsdEnabledDedicatedHostGroup();
+  await createAnUltraSSDEnabledDedicatedHostGroup();
 }
 
 main().catch(console.error);

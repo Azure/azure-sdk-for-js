@@ -1,36 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { HybridConnectivityManagementAPI } from "./hybridConnectivityManagementAPI.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
   EndpointResource,
   EndpointProperties,
-  KnownType,
   Type,
   ExtensionResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   ListCredentialsRequest,
-  KnownServiceName,
   ServiceName,
   EndpointAccessResource,
   RelayNamespaceAccessProperties,
@@ -42,7 +39,6 @@ export {
   ManagedProxyResource,
   ServiceConfigurationResource,
   ServiceConfigurationProperties,
-  KnownProvisioningState,
   ProvisioningState,
   ServiceConfigurationResourcePatch,
   ServiceConfigurationPropertiesPatch,
@@ -50,37 +46,54 @@ export {
   SolutionTypeSettings,
   SolutionSettings,
   GenerateAwsTemplateResponse,
+  GenerateGcpTemplateRequest,
+  GcpCloudProfile,
+  GcpProjectProperties,
+  GcpOrganizationProperties,
+  GcpTemplateFormat,
+  GenerateGcpTemplateResponse,
   PublicCloudConnector,
   PublicCloudConnectorProperties,
   AwsCloudProfile,
-  KnownHostType,
   HostType,
-  KnownResourceProvisioningState,
   ResourceProvisioningState,
   TrackedResource,
   PublicCloudConnectorUpdate,
   PublicCloudConnectorPropertiesUpdate,
   AwsCloudProfileUpdate,
+  GcpCloudProfileUpdate,
+  GcpOrganizationPropertiesUpdate,
   TrackedResourceUpdate,
   OperationStatusResult,
   SolutionConfiguration,
   SolutionConfigurationProperties,
-  KnownSolutionConfigurationStatus,
   SolutionConfigurationStatus,
   SolutionConfigurationUpdate,
   SolutionConfigurationPropertiesUpdate,
   ProxyResource,
   InventoryResource,
   InventoryProperties,
-  KnownCloudNativeType,
   CloudNativeType,
   SolutionTypeResource,
   SolutionTypeProperties,
   SolutionTypeSettingsProperties,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownType,
+  KnownCreatedByType,
+  KnownServiceName,
+  KnownProvisioningState,
+  KnownGcpTemplateFormat,
+  KnownHostType,
+  KnownResourceProvisioningState,
+  KnownSolutionConfigurationStatus,
+  KnownCloudNativeType,
   KnownVersions,
 } from "./models/index.js";
-export { HybridConnectivityManagementAPIOptionalParams } from "./api/index.js";
-export {
+export type { HybridConnectivityManagementAPIOptionalParams } from "./api/index.js";
+export type {
   EndpointsListManagedProxyDetailsOptionalParams,
   EndpointsListIngressGatewayCredentialsOptionalParams,
   EndpointsListCredentialsOptionalParams,
@@ -90,13 +103,14 @@ export {
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "./api/endpoints/index.js";
-export { GenerateAwsTemplatePostOptionalParams } from "./api/generateAwsTemplate/index.js";
-export {
+export type { GenerateAwsTemplatePostOptionalParams } from "./api/generateAwsTemplate/index.js";
+export type { GenerateGcpTemplatePostOptionalParams } from "./api/generateGcpTemplate/index.js";
+export type {
   InventoryListBySolutionConfigurationOptionalParams,
   InventoryGetOptionalParams,
 } from "./api/inventory/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   PublicCloudConnectorsTestPermissionsOptionalParams,
   PublicCloudConnectorsListBySubscriptionOptionalParams,
   PublicCloudConnectorsListByResourceGroupOptionalParams,
@@ -105,14 +119,14 @@ export {
   PublicCloudConnectorsCreateOrUpdateOptionalParams,
   PublicCloudConnectorsGetOptionalParams,
 } from "./api/publicCloudConnectors/index.js";
-export {
+export type {
   ServiceConfigurationsListByEndpointResourceOptionalParams,
   ServiceConfigurationsDeleteOptionalParams,
   ServiceConfigurationsUpdateOptionalParams,
   ServiceConfigurationsCreateOrupdateOptionalParams,
   ServiceConfigurationsGetOptionalParams,
 } from "./api/serviceConfigurations/index.js";
-export {
+export type {
   SolutionConfigurationsSyncNowOptionalParams,
   SolutionConfigurationsListOptionalParams,
   SolutionConfigurationsDeleteOptionalParams,
@@ -120,14 +134,15 @@ export {
   SolutionConfigurationsCreateOrUpdateOptionalParams,
   SolutionConfigurationsGetOptionalParams,
 } from "./api/solutionConfigurations/index.js";
-export {
+export type {
   SolutionTypesListBySubscriptionOptionalParams,
   SolutionTypesListByResourceGroupOptionalParams,
   SolutionTypesGetOptionalParams,
 } from "./api/solutionTypes/index.js";
-export {
+export type {
   EndpointsOperations,
   GenerateAwsTemplateOperations,
+  GenerateGcpTemplateOperations,
   InventoryOperations,
   OperationsOperations,
   PublicCloudConnectorsOperations,
@@ -135,5 +150,7 @@ export {
   SolutionConfigurationsOperations,
   SolutionTypesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

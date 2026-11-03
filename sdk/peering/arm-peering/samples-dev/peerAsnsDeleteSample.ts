@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an existing peer ASN with the specified name under the given subscription.
- *
- * @summary Deletes an existing peer ASN with the specified name under the given subscription.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/DeletePeerAsn.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function deleteAPeerAsn(): Promise<void> {
-  const subscriptionId = "subId";
-  const peerAsnName = "peerAsnName";
+/**
+ * This sample demonstrates how to deletes an existing peer ASN with the specified name under the given subscription.
+ *
+ * @summary deletes an existing peer ASN with the specified name under the given subscription.
+ * x-ms-original-file: 2025-05-01/DeletePeerAsn.json
+ */
+async function deleteAPeerASN(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
-  const result = await client.peerAsns.delete(peerAsnName);
-  console.log(result);
+  await client.peerAsns.delete("peerAsnName");
 }
 
-deleteAPeerAsn().catch(console.error);
+async function main(): Promise<void> {
+  await deleteAPeerASN();
+}
+
+main().catch(console.error);

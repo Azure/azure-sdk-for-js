@@ -1,31 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates the policies for a customer. This operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
- *
- * @summary Updates the policies for a customer. This operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/policiesPutByCustomer.json
- */
-
-import type { CustomerPolicy } from "@azure/arm-billing";
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates the policies for a customer. This operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+ *
+ * @summary updates the policies for a customer. This operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+ * x-ms-original-file: 2024-04-01/policiesPutByCustomer.json
+ */
 async function policiesPutByCustomer(): Promise<void> {
-  const billingAccountName =
-    "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
-  const billingProfileName = "xxxx-xxxx-xxx-xxx";
-  const customerName = "11111111-1111-1111-1111-111111111111";
-  const parameters: CustomerPolicy = { properties: { viewCharges: "Allowed" } };
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
-  const result = await client.policies.beginCreateOrUpdateByCustomerAndWait(
-    billingAccountName,
-    billingProfileName,
-    customerName,
-    parameters,
+  const result = await client.policies.createOrUpdateByCustomer(
+    "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31",
+    "xxxx-xxxx-xxx-xxx",
+    "11111111-1111-1111-1111-111111111111",
+    { properties: { viewCharges: "Allowed" } },
   );
   console.log(result);
 }

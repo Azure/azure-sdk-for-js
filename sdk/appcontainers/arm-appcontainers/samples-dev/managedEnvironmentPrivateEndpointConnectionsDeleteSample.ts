@@ -3,31 +3,22 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete a private endpoint connection for a given managed environment.
+ * This sample demonstrates how to delete a private endpoint connection for a given managed environment.
  *
- * @summary Delete a private endpoint connection for a given managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironmentPrivateEndpointConnections_Delete.json
+ * @summary delete a private endpoint connection for a given managed environment.
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentPrivateEndpointConnections_Delete.json
  */
 async function deleteAPrivateEndpointConnectionByManagedEnvironment(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "managedEnv";
-  const privateEndpointConnectionName = "jlaw-demo1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result =
-    await client.managedEnvironmentPrivateEndpointConnections.beginDeleteAndWait(
-      resourceGroupName,
-      environmentName,
-      privateEndpointConnectionName,
-    );
-  console.log(result);
+  await client.managedEnvironmentPrivateEndpointConnections.delete(
+    "examplerg",
+    "managedEnv",
+    "jlaw-demo1",
+  );
 }
 
 async function main(): Promise<void> {

@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete a given StorageSyncService.
- *
- * @summary Delete a given StorageSyncService.
- * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/StorageSyncServices_Delete.json
- */
-
 import { MicrosoftStorageSync } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to delete a given StorageSyncService.
+ *
+ * @summary delete a given StorageSyncService.
+ * x-ms-original-file: 2025-12-01/StorageSyncServices_Delete.json
+ */
 async function storageSyncServicesDelete(): Promise<void> {
-  const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
-  const resourceGroupName = "SampleResourceGroup_1";
-  const storageSyncServiceName = "SampleStorageSyncService_1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
   const client = new MicrosoftStorageSync(credential, subscriptionId);
-  const result = await client.storageSyncServices.beginDeleteAndWait(
-    resourceGroupName,
-    storageSyncServiceName,
-  );
-  console.log(result);
+  await client.storageSyncServices.delete("SampleResourceGroup_1", "SampleStorageSyncService_1");
 }
 
-storageSyncServicesDelete().catch(console.error);
+async function main(): Promise<void> {
+  await storageSyncServicesDelete();
+}
+
+main().catch(console.error);

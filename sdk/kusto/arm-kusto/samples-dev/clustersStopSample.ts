@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Stops a Kusto cluster.
- *
- * @summary Stops a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersStop.json
- */
-
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to stops a Kusto cluster.
+ *
+ * @summary stops a Kusto cluster.
+ * x-ms-original-file: 2025-02-14/KustoClustersStop.json
+ */
 async function kustoClustersStop(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster2";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.clusters.beginStopAndWait(resourceGroupName, clusterName);
-  console.log(result);
+  await client.clusters.stop("kustorptest", "kustoCluster2");
 }
 
 async function main(): Promise<void> {

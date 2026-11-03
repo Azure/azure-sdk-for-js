@@ -4,16 +4,21 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AppliedReservationList {
     nextLink?: string;
-    // (undocumented)
     value?: string[];
 }
 
@@ -23,6 +28,11 @@ export interface AppliedReservations {
     readonly name?: string;
     reservationOrderIds?: AppliedReservationList;
     readonly type?: string;
+}
+
+// @public
+export interface AppliedReservationsProperties {
+    reservationOrderIds?: AppliedReservationList;
 }
 
 // @public
@@ -53,38 +63,37 @@ export interface AvailableScopeRequestProperties {
     scopes?: string[];
 }
 
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
 // @public (undocumented)
-export class AzureReservationAPI extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: AzureReservationAPIOptionalParams);
-    // (undocumented)
-    calculateExchange: CalculateExchange;
-    // (undocumented)
-    calculateRefund: CalculateRefund;
-    // (undocumented)
-    exchange: Exchange;
-    getAppliedReservationList(subscriptionId: string, options?: GetAppliedReservationListOptionalParams): Promise<GetAppliedReservationListResponse>;
-    listCatalog(subscriptionId: string, options?: GetCatalogOptionalParams): PagedAsyncIterableIterator<Catalog>;
-    // (undocumented)
-    operation: Operation;
-    // (undocumented)
-    quota: Quota;
-    // (undocumented)
-    quotaRequestStatus: QuotaRequestStatus;
-    // (undocumented)
-    reservation: Reservation;
-    // (undocumented)
-    reservationOrder: ReservationOrder;
-    // (undocumented)
-    return: Return;
+export class AzureReservationAPI {
+    constructor(credential: TokenCredential, options?: AzureReservationAPIOptionalParams);
+    readonly calculateExchange: CalculateExchangeOperations;
+    readonly calculateRefund: CalculateRefundOperations;
+    readonly exchange: ExchangeOperations;
+    getAppliedReservationList(subscriptionId: string, options?: GetAppliedReservationListOptionalParams): Promise<AppliedReservations>;
+    getCatalog(subscriptionId: string, options?: GetCatalogOptionalParams): PagedAsyncIterableIterator<Catalog>;
+    readonly operation: OperationOperations;
+    readonly pipeline: Pipeline;
+    readonly quota: QuotaOperations;
+    readonly quotaRequestStatus: QuotaRequestStatusOperations;
+    readonly reservation: ReservationOperations;
+    readonly reservationOrder: ReservationOrderOperations;
+    readonly return: ReturnOperations;
 }
 
 // @public
-export interface AzureReservationAPIOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    endpoint?: string;
+export interface AzureReservationAPIOptionalParams extends ClientOptions {
+    cloudSetting?: AzureSupportedClouds;
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BillingInformation {
@@ -95,12 +104,6 @@ export interface BillingInformation {
 
 // @public
 export type BillingPlan = string;
-
-// @public
-export interface CalculateExchange {
-    beginPost(body: CalculateExchangeRequest, options?: CalculateExchangePostOptionalParams): Promise<SimplePollerLike<OperationState<CalculateExchangePostResponse>, CalculateExchangePostResponse>>;
-    beginPostAndWait(body: CalculateExchangeRequest, options?: CalculateExchangePostOptionalParams): Promise<CalculateExchangePostResponse>;
-}
 
 // @public
 export interface CalculateExchangeOperationResultResponse {
@@ -115,20 +118,18 @@ export interface CalculateExchangeOperationResultResponse {
 export type CalculateExchangeOperationResultStatus = string;
 
 // @public
-export interface CalculateExchangePostHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: number;
+export interface CalculateExchangeOperations {
+    // @deprecated (undocumented)
+    beginPost: (body: CalculateExchangeRequest, options?: CalculateExchangePostOptionalParams) => Promise<SimplePollerLike<OperationState<CalculateExchangeOperationResultResponse>, CalculateExchangeOperationResultResponse>>;
+    // @deprecated (undocumented)
+    beginPostAndWait: (body: CalculateExchangeRequest, options?: CalculateExchangePostOptionalParams) => Promise<CalculateExchangeOperationResultResponse>;
+    post: (body: CalculateExchangeRequest, options?: CalculateExchangePostOptionalParams) => PollerLike<OperationState<CalculateExchangeOperationResultResponse>, CalculateExchangeOperationResultResponse>;
 }
 
 // @public
-export interface CalculateExchangePostOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CalculateExchangePostOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type CalculateExchangePostResponse = CalculateExchangeOperationResultResponse;
 
 // @public
 export interface CalculateExchangeRequest {
@@ -189,16 +190,13 @@ export interface CalculatePriceResponsePropertiesPricingCurrencyTotal {
 }
 
 // @public
-export interface CalculateRefund {
-    post(reservationOrderId: string, body: CalculateRefundRequest, options?: CalculateRefundPostOptionalParams): Promise<CalculateRefundPostResponse>;
+export interface CalculateRefundOperations {
+    post: (reservationOrderId: string, body: CalculateRefundRequest, options?: CalculateRefundPostOptionalParams) => Promise<CalculateRefundResponse>;
 }
 
 // @public
-export interface CalculateRefundPostOptionalParams extends coreClient.OperationOptions {
+export interface CalculateRefundPostOptionalParams extends OperationOptions {
 }
-
-// @public
-export type CalculateRefundPostResponse = CalculateRefundResponse;
 
 // @public
 export interface CalculateRefundRequest {
@@ -220,16 +218,18 @@ export interface CalculateRefundResponse {
 
 // @public
 export interface Catalog {
-    billingPlans?: {
-        [propertyName: string]: ReservationBillingPlan[];
-    };
+    billingPlans?: Record<string, ReservationBillingPlan[]>;
+    // (undocumented)
     readonly capabilities?: SkuCapability[];
+    // (undocumented)
     readonly locations?: string[];
     readonly msrp?: CatalogMsrp;
     readonly name?: string;
     readonly resourceType?: string;
+    // (undocumented)
     readonly restrictions?: SkuRestriction[];
     readonly size?: string;
+    // (undocumented)
     readonly skuProperties?: SkuProperty[];
     readonly terms?: ReservationTerm[];
     readonly tier?: string;
@@ -240,13 +240,6 @@ export interface CatalogMsrp {
     p1Y?: Price;
     p3Y?: Price;
     p5Y?: Price;
-}
-
-// @public
-export interface CatalogsResult {
-    readonly nextLink?: string;
-    totalItems?: number;
-    readonly value?: Catalog[];
 }
 
 // @public
@@ -278,33 +271,17 @@ export interface Commitment extends Price {
 export type CommitmentGrain = string;
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
-export interface CreateGenericQuotaRequestParameters {
-    value?: CurrentQuotaLimitBase[];
-}
-
-// @public
-export interface CurrentQuotaLimit {
-    readonly id?: string;
-    readonly message?: string;
-    readonly name?: string;
+export interface CurrentQuotaLimitBase extends ProxyResource {
     properties?: QuotaProperties;
-    readonly provisioningState?: QuotaRequestState;
-    readonly type?: string;
 }
-
-// @public
-export interface CurrentQuotaLimitBase {
-    readonly id?: string;
-    readonly name?: string;
-    properties?: QuotaProperties;
-    readonly type?: string;
-}
-
-// @public
-export type DisplayProvisioningState = string;
 
 // @public
 export interface ErrorDetails {
@@ -332,12 +309,6 @@ export interface ExceptionResponse {
 }
 
 // @public
-export interface Exchange {
-    beginPost(body: ExchangeRequest, options?: ExchangePostOptionalParams): Promise<SimplePollerLike<OperationState<ExchangePostResponse>, ExchangePostResponse>>;
-    beginPostAndWait(body: ExchangeRequest, options?: ExchangePostOptionalParams): Promise<ExchangePostResponse>;
-}
-
-// @public
 export interface ExchangeOperationResultResponse {
     error?: OperationResultError;
     id?: string;
@@ -348,6 +319,15 @@ export interface ExchangeOperationResultResponse {
 
 // @public
 export type ExchangeOperationResultStatus = string;
+
+// @public
+export interface ExchangeOperations {
+    // @deprecated (undocumented)
+    beginPost: (body: ExchangeRequest, options?: ExchangePostOptionalParams) => Promise<SimplePollerLike<OperationState<ExchangeOperationResultResponse>, ExchangeOperationResultResponse>>;
+    // @deprecated (undocumented)
+    beginPostAndWait: (body: ExchangeRequest, options?: ExchangePostOptionalParams) => Promise<ExchangeOperationResultResponse>;
+    post: (body: ExchangeRequest, options?: ExchangePostOptionalParams) => PollerLike<OperationState<ExchangeOperationResultResponse>, ExchangeOperationResultResponse>;
+}
 
 // @public
 export interface ExchangePolicyError {
@@ -363,20 +343,9 @@ export interface ExchangePolicyErrors {
 }
 
 // @public
-export interface ExchangePostHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ExchangePostOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExchangePostOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ExchangePostResponse = ExchangeOperationResultResponse;
 
 // @public
 export interface ExchangeRequest {
@@ -407,7 +376,7 @@ export interface ExtendedErrorInfo {
     message?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ExtendedStatusInfo {
     message?: string;
     // (undocumented)
@@ -415,21 +384,11 @@ export interface ExtendedStatusInfo {
 }
 
 // @public
-export interface GetAppliedReservationListOptionalParams extends coreClient.OperationOptions {
+export interface GetAppliedReservationListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GetAppliedReservationListResponse = AppliedReservations;
-
-// @public
-export interface GetCatalogNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GetCatalogNextResponse = CatalogsResult;
-
-// @public
-export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
+export interface GetCatalogOptionalParams extends OperationOptions {
     filter?: string;
     location?: string;
     offerId?: string;
@@ -441,13 +400,9 @@ export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type GetCatalogResponse = CatalogsResult;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export type InstanceFlexibility = string;
+
+export { isRestError }
 
 // @public
 export enum KnownAppliedScopeType {
@@ -480,19 +435,6 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
-}
-
-// @public
-export enum KnownDisplayProvisioningState {
-    Cancelled = "Cancelled",
-    Expired = "Expired",
-    Expiring = "Expiring",
-    Failed = "Failed",
-    NoBenefit = "NoBenefit",
-    Pending = "Pending",
-    Processing = "Processing",
-    Succeeded = "Succeeded",
-    Warning = "Warning"
 }
 
 // @public
@@ -570,34 +512,6 @@ export enum KnownExchangeOperationResultStatus {
 export enum KnownInstanceFlexibility {
     Off = "Off",
     On = "On"
-}
-
-// @public
-export enum KnownLocation {
-    Australiaeast = "australiaeast",
-    Australiasoutheast = "australiasoutheast",
-    Brazilsouth = "brazilsouth",
-    Canadacentral = "canadacentral",
-    Canadaeast = "canadaeast",
-    Centralindia = "centralindia",
-    Centralus = "centralus",
-    Eastasia = "eastasia",
-    Eastus = "eastus",
-    Eastus2 = "eastus2",
-    Japaneast = "japaneast",
-    Japanwest = "japanwest",
-    Northcentralus = "northcentralus",
-    Northeurope = "northeurope",
-    Southcentralus = "southcentralus",
-    Southeastasia = "southeastasia",
-    Southindia = "southindia",
-    Uksouth = "uksouth",
-    Ukwest = "ukwest",
-    Westcentralus = "westcentralus",
-    Westeurope = "westeurope",
-    Westindia = "westindia",
-    Westus = "westus",
-    Westus2 = "westus2"
 }
 
 // @public
@@ -715,34 +629,13 @@ export enum KnownSavingsPlanTerm {
 }
 
 // @public
-export enum KnownUserFriendlyAppliedScopeType {
-    ManagementGroup = "ManagementGroup",
-    None = "None",
-    ResourceGroup = "ResourceGroup",
-    Shared = "Shared",
-    Single = "Single"
-}
-
-// @public
-export enum KnownUserFriendlyRenewState {
-    NotApplicable = "NotApplicable",
-    NotRenewed = "NotRenewed",
-    Off = "Off",
-    On = "On",
-    Renewed = "Renewed"
-}
-
-// @public
-export type Location = string;
-
-// @public
-export interface MergeRequest {
+export interface MergeProperties {
     sources?: string[];
 }
 
 // @public
-export interface Operation {
-    list(options?: OperationListOptionalParams): PagedAsyncIterableIterator<OperationResponse>;
+export interface MergeRequest {
+    sources?: string[];
 }
 
 // @public
@@ -758,25 +651,13 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationList {
-    nextLink?: string;
-    // (undocumented)
-    value?: OperationResponse[];
+export interface OperationListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationOperations {
+    list: (options?: OperationListOptionalParams) => PagedAsyncIterableIterator<OperationResponse>;
 }
-
-// @public
-export type OperationListNextResponse = OperationList;
-
-// @public
-export interface OperationListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationListResponse = OperationList;
 
 // @public
 export interface OperationResponse {
@@ -784,7 +665,7 @@ export interface OperationResponse {
     isDataAction?: boolean;
     name?: string;
     origin?: string;
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
@@ -795,6 +676,18 @@ export interface OperationResultError {
 
 // @public
 export type OperationStatus = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface Patch {
@@ -809,7 +702,20 @@ export interface Patch {
     reviewDateTime?: Date;
 }
 
-// @public (undocumented)
+// @public
+export interface PatchProperties {
+    appliedScopeProperties?: AppliedScopeProperties;
+    appliedScopes?: string[];
+    appliedScopeType?: AppliedScopeType;
+    instanceFlexibility?: InstanceFlexibility;
+    name?: string;
+    renew?: boolean;
+    // (undocumented)
+    renewProperties?: PatchPropertiesRenewProperties;
+    reviewDateTime?: Date;
+}
+
+// @public
 export interface PatchPropertiesRenewProperties {
     purchaseProperties?: PurchaseRequest;
 }
@@ -862,117 +768,72 @@ export interface PurchaseRequest {
 }
 
 // @public
+export interface PurchaseRequestProperties {
+    appliedScopeProperties?: AppliedScopeProperties;
+    appliedScopes?: string[];
+    appliedScopeType?: AppliedScopeType;
+    billingPlan?: ReservationBillingPlan;
+    billingScopeId?: string;
+    displayName?: string;
+    quantity?: number;
+    renew?: boolean;
+    reservedResourceProperties?: PurchaseRequestPropertiesReservedResourceProperties;
+    reservedResourceType?: ReservedResourceType;
+    reviewDateTime?: Date;
+    term?: ReservationTerm;
+}
+
+// @public
 export interface PurchaseRequestPropertiesReservedResourceProperties {
     instanceFlexibility?: InstanceFlexibility;
 }
 
 // @public
-export interface Quota {
-    beginCreateOrUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<QuotaCreateOrUpdateResponse>;
-    beginUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>>;
-    beginUpdateAndWait(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<QuotaUpdateResponse>;
-    get(subscriptionId: string, providerId: string, location: string, resourceName: string, options?: QuotaGetOptionalParams): Promise<QuotaGetResponse>;
-    list(subscriptionId: string, providerId: string, location: string, options?: QuotaListOptionalParams): PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
-}
-
-// @public
-export interface QuotaCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface QuotaCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type QuotaCreateOrUpdateResponse = CurrentQuotaLimitBase;
-
-// @public
-export interface QuotaGetHeaders {
-    eTag?: string;
+export interface QuotaGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface QuotaGetOptionalParams extends coreClient.OperationOptions {
+export interface QuotaListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type QuotaGetResponse = QuotaGetHeaders & CurrentQuotaLimitBase;
-
-// @public
-export interface QuotaLimits {
-    nextLink?: string;
-    value?: CurrentQuotaLimitBase[];
+export interface QuotaOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams) => Promise<CurrentQuotaLimitBase>;
+    // @deprecated (undocumented)
+    beginUpdate: (subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams) => Promise<CurrentQuotaLimitBase>;
+    createOrUpdate: (subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
+    get: (subscriptionId: string, providerId: string, location: string, resourceName: string, options?: QuotaGetOptionalParams) => Promise<CurrentQuotaLimitBase>;
+    list: (subscriptionId: string, providerId: string, location: string, options?: QuotaListOptionalParams) => PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
+    update: (subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
 }
-
-// @public
-export interface QuotaLimitsResponse {
-    nextLink?: string;
-    value?: CurrentQuotaLimit[];
-}
-
-// @public
-export interface QuotaListHeaders {
-    eTag?: string;
-}
-
-// @public
-export interface QuotaListNextHeaders {
-    eTag?: string;
-}
-
-// @public
-export interface QuotaListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotaListNextResponse = QuotaListNextHeaders & QuotaLimits;
-
-// @public
-export interface QuotaListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotaListResponse = QuotaListHeaders & QuotaLimits;
 
 // @public
 export interface QuotaProperties {
     readonly currentValue?: number;
     limit?: number;
     name?: ResourceName;
-    properties?: Record<string, unknown>;
+    properties?: any;
     readonly quotaPeriod?: string;
     resourceType?: ResourceType;
     unit?: string;
 }
 
 // @public
-export interface QuotaRequestDetails {
-    readonly id?: string;
+export interface QuotaRequestDetails extends ProxyResource {
     readonly message?: string;
-    readonly name?: string;
     provisioningState?: QuotaRequestState;
     readonly requestSubmitTime?: Date;
-    readonly type?: string;
     value?: SubRequest[];
-}
-
-// @public
-export interface QuotaRequestDetailsList {
-    nextLink?: string;
-    value?: QuotaRequestDetails[];
-}
-
-// @public
-export interface QuotaRequestOneResourceSubmitResponse {
-    readonly id?: string;
-    readonly idPropertiesId?: string;
-    readonly message?: string;
-    readonly name?: string;
-    readonly namePropertiesName?: string;
-    properties?: QuotaProperties;
-    readonly provisioningState?: QuotaRequestState;
-    readonly requestSubmitTime?: Date;
-    readonly type?: string;
-    readonly typePropertiesType?: string;
 }
 
 // @public
@@ -987,60 +848,26 @@ export interface QuotaRequestProperties {
 export type QuotaRequestState = string;
 
 // @public
-export interface QuotaRequestStatus {
-    get(subscriptionId: string, providerId: string, location: string, id: string, options?: QuotaRequestStatusGetOptionalParams): Promise<QuotaRequestStatusGetResponse>;
-    list(subscriptionId: string, providerId: string, location: string, options?: QuotaRequestStatusListOptionalParams): PagedAsyncIterableIterator<QuotaRequestDetails>;
+export interface QuotaRequestStatusGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface QuotaRequestStatusGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotaRequestStatusGetResponse = QuotaRequestDetails;
-
-// @public
-export interface QuotaRequestStatusListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotaRequestStatusListNextResponse = QuotaRequestDetailsList;
-
-// @public
-export interface QuotaRequestStatusListOptionalParams extends coreClient.OperationOptions {
+export interface QuotaRequestStatusListOptionalParams extends OperationOptions {
     filter?: string;
     skiptoken?: string;
     top?: number;
 }
 
 // @public
-export type QuotaRequestStatusListResponse = QuotaRequestDetailsList;
-
-// @public
-export interface QuotaRequestSubmitResponse {
-    readonly id?: string;
-    readonly name?: string;
-    properties?: QuotaRequestProperties;
-    readonly type?: string;
+export interface QuotaRequestStatusOperations {
+    get: (subscriptionId: string, providerId: string, location: string, id: string, options?: QuotaRequestStatusGetOptionalParams) => Promise<QuotaRequestDetails>;
+    list: (subscriptionId: string, providerId: string, location: string, options?: QuotaRequestStatusListOptionalParams) => PagedAsyncIterableIterator<QuotaRequestDetails>;
 }
 
 // @public
-export interface QuotaRequestSubmitResponse201 {
-    readonly id?: string;
-    readonly message?: string;
-    readonly name?: string;
-    readonly provisioningState?: QuotaRequestState;
-    readonly type?: string;
-}
-
-// @public
-export interface QuotaUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface QuotaUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type QuotaUpdateResponse = CurrentQuotaLimitBase;
 
 // @public
 export interface RefundBillingInformation {
@@ -1085,12 +912,6 @@ export interface RefundRequestProperties {
 }
 
 // @public
-export interface RefundResponse {
-    id?: string;
-    properties?: RefundResponseProperties;
-}
-
-// @public
 export interface RefundResponseProperties {
     billingInformation?: RefundBillingInformation;
     billingRefundAmount?: Price;
@@ -1122,63 +943,24 @@ export interface RenewPropertiesResponsePricingCurrencyTotal {
 }
 
 // @public
-export interface Reservation {
-    archive(reservationOrderId: string, reservationId: string, options?: ReservationArchiveOptionalParams): Promise<void>;
-    beginAvailableScopes(reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams): Promise<SimplePollerLike<OperationState<ReservationAvailableScopesResponse>, ReservationAvailableScopesResponse>>;
-    beginAvailableScopesAndWait(reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams): Promise<ReservationAvailableScopesResponse>;
-    beginMerge(reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams): Promise<SimplePollerLike<OperationState<ReservationMergeResponse>, ReservationMergeResponse>>;
-    beginMergeAndWait(reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams): Promise<ReservationMergeResponse>;
-    beginSplit(reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams): Promise<SimplePollerLike<OperationState<ReservationSplitResponse>, ReservationSplitResponse>>;
-    beginSplitAndWait(reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams): Promise<ReservationSplitResponse>;
-    beginUpdate(reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReservationUpdateResponse>, ReservationUpdateResponse>>;
-    beginUpdateAndWait(reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams): Promise<ReservationUpdateResponse>;
-    get(reservationOrderId: string, reservationId: string, options?: ReservationGetOptionalParams): Promise<ReservationGetResponse>;
-    list(reservationOrderId: string, options?: ReservationListOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
-    listAll(options?: ReservationListAllOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
-    listRevisions(reservationOrderId: string, reservationId: string, options?: ReservationListRevisionsOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
-    unarchive(reservationOrderId: string, reservationId: string, options?: ReservationUnarchiveOptionalParams): Promise<void>;
+export interface ReservationArchiveOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ReservationArchiveOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface ReservationAvailableScopesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReservationAvailableScopesOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ReservationAvailableScopesResponse = AvailableScopeProperties;
 
 // @public
 export type ReservationBillingPlan = string;
 
 // @public
-export interface ReservationGetOptionalParams extends coreClient.OperationOptions {
+export interface ReservationGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type ReservationGetResponse = ReservationResponse;
-
-// @public
-export interface ReservationList {
-    nextLink?: string;
-    // (undocumented)
-    value?: ReservationResponse[];
-}
-
-// @public
-export interface ReservationListAllNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationListAllNextResponse = ReservationsListResult;
-
-// @public
-export interface ReservationListAllOptionalParams extends coreClient.OperationOptions {
+export interface ReservationListAllOptionalParams extends OperationOptions {
     filter?: string;
     orderby?: string;
     refreshSummary?: string;
@@ -1188,45 +970,15 @@ export interface ReservationListAllOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export type ReservationListAllResponse = ReservationsListResult;
-
-// @public
-export interface ReservationListNextOptionalParams extends coreClient.OperationOptions {
+export interface ReservationListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReservationListNextResponse = ReservationList;
-
-// @public
-export interface ReservationListOptionalParams extends coreClient.OperationOptions {
+export interface ReservationListRevisionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReservationListResponse = ReservationList;
-
-// @public
-export interface ReservationListRevisionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationListRevisionsNextResponse = ReservationList;
-
-// @public
-export interface ReservationListRevisionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationListRevisionsResponse = ReservationList;
-
-// @public
-export interface ReservationMergeHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ReservationMergeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReservationMergeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -1237,16 +989,33 @@ export interface ReservationMergeProperties {
 }
 
 // @public
-export type ReservationMergeResponse = ReservationResponse[];
-
-// @public
-export interface ReservationOrder {
-    beginPurchase(reservationOrderId: string, body: PurchaseRequest, options?: ReservationOrderPurchaseOptionalParams): Promise<SimplePollerLike<OperationState<ReservationOrderPurchaseResponse>, ReservationOrderPurchaseResponse>>;
-    beginPurchaseAndWait(reservationOrderId: string, body: PurchaseRequest, options?: ReservationOrderPurchaseOptionalParams): Promise<ReservationOrderPurchaseResponse>;
-    calculate(body: PurchaseRequest, options?: ReservationOrderCalculateOptionalParams): Promise<ReservationOrderCalculateResponse>;
-    changeDirectory(reservationOrderId: string, body: ChangeDirectoryRequest, options?: ReservationOrderChangeDirectoryOptionalParams): Promise<ReservationOrderChangeDirectoryResponse>;
-    get(reservationOrderId: string, options?: ReservationOrderGetOptionalParams): Promise<ReservationOrderGetResponse>;
-    list(options?: ReservationOrderListOptionalParams): PagedAsyncIterableIterator<ReservationOrderResponse>;
+export interface ReservationOperations {
+    archive: (reservationOrderId: string, reservationId: string, options?: ReservationArchiveOptionalParams) => Promise<void>;
+    availableScopes: (reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams) => PollerLike<OperationState<AvailableScopeProperties>, AvailableScopeProperties>;
+    // @deprecated (undocumented)
+    beginAvailableScopes: (reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams) => Promise<SimplePollerLike<OperationState<AvailableScopeProperties>, AvailableScopeProperties>>;
+    // @deprecated (undocumented)
+    beginAvailableScopesAndWait: (reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams) => Promise<AvailableScopeProperties>;
+    // @deprecated (undocumented)
+    beginMerge: (reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams) => Promise<SimplePollerLike<OperationState<ReservationResponse[]>, ReservationResponse[]>>;
+    // @deprecated (undocumented)
+    beginMergeAndWait: (reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams) => Promise<ReservationResponse[]>;
+    // @deprecated (undocumented)
+    beginSplit: (reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams) => Promise<SimplePollerLike<OperationState<ReservationResponse[]>, ReservationResponse[]>>;
+    // @deprecated (undocumented)
+    beginSplitAndWait: (reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams) => Promise<ReservationResponse[]>;
+    // @deprecated (undocumented)
+    beginUpdate: (reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ReservationResponse>, ReservationResponse>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams) => Promise<ReservationResponse>;
+    get: (reservationOrderId: string, reservationId: string, options?: ReservationGetOptionalParams) => Promise<ReservationResponse>;
+    list: (reservationOrderId: string, options?: ReservationListOptionalParams) => PagedAsyncIterableIterator<ReservationResponse>;
+    listAll: (options?: ReservationListAllOptionalParams) => PagedAsyncIterableIterator<ReservationResponse>;
+    listRevisions: (reservationOrderId: string, reservationId: string, options?: ReservationListRevisionsOptionalParams) => PagedAsyncIterableIterator<ReservationResponse>;
+    merge: (reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams) => PollerLike<OperationState<ReservationResponse[]>, ReservationResponse[]>;
+    split: (reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams) => PollerLike<OperationState<ReservationResponse[]>, ReservationResponse[]>;
+    unarchive: (reservationOrderId: string, reservationId: string, options?: ReservationUnarchiveOptionalParams) => Promise<void>;
+    update: (reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams) => PollerLike<OperationState<ReservationResponse>, ReservationResponse>;
 }
 
 // @public
@@ -1259,65 +1028,60 @@ export interface ReservationOrderBillingPlanInformation {
 }
 
 // @public
-export interface ReservationOrderCalculateOptionalParams extends coreClient.OperationOptions {
+export interface ReservationOrderCalculateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReservationOrderCalculateResponse = CalculatePriceResponse;
-
-// @public
-export interface ReservationOrderChangeDirectoryOptionalParams extends coreClient.OperationOptions {
+export interface ReservationOrderChangeDirectoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReservationOrderChangeDirectoryResponse = ChangeDirectoryResponse;
-
-// @public
-export interface ReservationOrderGetOptionalParams extends coreClient.OperationOptions {
+export interface ReservationOrderGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type ReservationOrderGetResponse = ReservationOrderResponse;
+export interface ReservationOrderListOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface ReservationOrderList {
-    nextLink?: string;
+export interface ReservationOrderOperations {
+    // @deprecated (undocumented)
+    beginPurchase: (reservationOrderId: string, body: PurchaseRequest, options?: ReservationOrderPurchaseOptionalParams) => Promise<SimplePollerLike<OperationState<ReservationOrderResponse>, ReservationOrderResponse>>;
+    // @deprecated (undocumented)
+    beginPurchaseAndWait: (reservationOrderId: string, body: PurchaseRequest, options?: ReservationOrderPurchaseOptionalParams) => Promise<ReservationOrderResponse>;
+    calculate: (body: PurchaseRequest, options?: ReservationOrderCalculateOptionalParams) => Promise<CalculatePriceResponse>;
+    changeDirectory: (reservationOrderId: string, body: ChangeDirectoryRequest, options?: ReservationOrderChangeDirectoryOptionalParams) => Promise<ChangeDirectoryResponse>;
+    get: (reservationOrderId: string, options?: ReservationOrderGetOptionalParams) => Promise<ReservationOrderResponse>;
+    list: (options?: ReservationOrderListOptionalParams) => PagedAsyncIterableIterator<ReservationOrderResponse>;
+    purchase: (reservationOrderId: string, body: PurchaseRequest, options?: ReservationOrderPurchaseOptionalParams) => PollerLike<OperationState<ReservationOrderResponse>, ReservationOrderResponse>;
+}
+
+// @public
+export interface ReservationOrderProperties {
+    benefitStartTime?: Date;
+    billingPlan?: ReservationBillingPlan;
+    createdDateTime?: Date;
+    displayName?: string;
+    expiryDate?: Date;
+    expiryDateTime?: Date;
+    originalQuantity?: number;
+    planInformation?: ReservationOrderBillingPlanInformation;
+    provisioningState?: ProvisioningState;
+    requestDateTime?: Date;
     // (undocumented)
-    value?: ReservationOrderResponse[];
+    reservations?: ReservationResponse[];
+    reviewDateTime?: Date;
+    term?: ReservationTerm;
 }
 
 // @public
-export interface ReservationOrderListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationOrderListNextResponse = ReservationOrderList;
-
-// @public
-export interface ReservationOrderListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationOrderListResponse = ReservationOrderList;
-
-// @public
-export interface ReservationOrderPurchaseHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ReservationOrderPurchaseOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReservationOrderPurchaseOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReservationOrderPurchaseResponse = ReservationOrderResponse;
-
-// @public
-export interface ReservationOrderResponse {
+export interface ReservationOrderResponse extends ProxyResource {
     benefitStartTime?: Date;
     billingPlan?: ReservationBillingPlan;
     createdDateTime?: Date;
@@ -1326,8 +1090,6 @@ export interface ReservationOrderResponse {
     etag?: number;
     expiryDate?: Date;
     expiryDateTime?: Date;
-    readonly id?: string;
-    readonly name?: string;
     originalQuantity?: number;
     planInformation?: ReservationOrderBillingPlanInformation;
     provisioningState?: ProvisioningState;
@@ -1335,9 +1097,7 @@ export interface ReservationOrderResponse {
     // (undocumented)
     reservations?: ReservationResponse[];
     reviewDateTime?: Date;
-    readonly systemData?: SystemData;
     term?: ReservationTerm;
-    readonly type?: string;
 }
 
 // @public
@@ -1351,21 +1111,7 @@ export interface ReservationResponse extends ProxyResource {
 }
 
 // @public
-export interface ReservationsListResult {
-    readonly nextLink?: string;
-    summary?: ReservationSummary;
-    readonly value?: ReservationResponse[];
-}
-
-// @public
-export interface ReservationSplitHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ReservationSplitOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReservationSplitOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -1374,9 +1120,6 @@ export interface ReservationSplitProperties {
     splitDestinations?: string[];
     splitSource?: string;
 }
-
-// @public
-export type ReservationSplitResponse = ReservationResponse[];
 
 // @public
 export interface ReservationsProperties {
@@ -1487,24 +1230,13 @@ export interface ReservationToReturnForExchange {
 }
 
 // @public
-export interface ReservationUnarchiveOptionalParams extends coreClient.OperationOptions {
+export interface ReservationUnarchiveOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ReservationUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ReservationUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReservationUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ReservationUpdateResponse = ReservationResponse;
 
 // @public
 export interface ReservationUtilizationAggregates {
@@ -1534,26 +1266,31 @@ export interface ResourceName {
 // @public
 export type ResourceType = string;
 
-// @public
-export interface Return {
-    beginPost(reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams): Promise<SimplePollerLike<OperationState<ReturnPostResponse>, ReturnPostResponse>>;
-    beginPostAndWait(reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams): Promise<ReturnPostResponse>;
-}
+export { RestError }
 
 // @public
-export interface ReturnPostHeaders {
-    // (undocumented)
-    location?: string;
-}
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureReservationAPI, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
-// @public
-export interface ReturnPostOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReturnPostResponse = ReservationOrderResponse;
+export interface ReturnOperations {
+    // @deprecated (undocumented)
+    beginPost: (reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams) => Promise<SimplePollerLike<OperationState<ReservationOrderResponse>, ReservationOrderResponse>>;
+    // @deprecated (undocumented)
+    beginPostAndWait: (reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams) => Promise<ReservationOrderResponse>;
+    post: (reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams) => PollerLike<OperationState<ReservationOrderResponse>, ReservationOrderResponse>;
+}
+
+// @public
+export interface ReturnPostOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface SavingsPlanPurchaseRequest {
@@ -1564,6 +1301,17 @@ export interface SavingsPlanPurchaseRequest {
     commitment?: Commitment;
     displayName?: string;
     sku?: SkuName;
+    term?: SavingsPlanTerm;
+}
+
+// @public
+export interface SavingsPlanPurchaseRequestProperties {
+    appliedScopeProperties?: AppliedScopeProperties;
+    appliedScopeType?: AppliedScopeType;
+    billingPlan?: BillingPlan;
+    billingScopeId?: string;
+    commitment?: Commitment;
+    displayName?: string;
     term?: SavingsPlanTerm;
 }
 
@@ -1607,6 +1355,28 @@ export interface ServiceErrorDetail {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface SkuCapability {
     name?: string;
     value?: string;
@@ -1629,6 +1399,12 @@ export interface SkuRestriction {
     reasonCode?: string;
     type?: string;
     values?: string[];
+}
+
+// @public
+export interface SplitProperties {
+    quantities?: number[];
+    reservationId?: string;
 }
 
 // @public
@@ -1663,12 +1439,6 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
-
-// @public
-export type UserFriendlyAppliedScopeType = string;
-
-// @public
-export type UserFriendlyRenewState = string;
 
 // (No @packageDocumentation comment for this package)
 

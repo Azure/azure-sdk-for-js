@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import chalk from "chalk";
-import { baseCommands, baseCommandInfo } from ".";
-import { resolveProject } from "../util/resolveProject";
-import { createPrinter } from "../util/printer";
-import { leafCommand, makeCommandInfo } from "../framework/command";
-import { printCommandUsage } from "../framework/printCommandUsage";
-import * as pwsh from "../util/pwsh";
+import { styleText } from "node:util";
+import { baseCommands, baseCommandInfo } from "./index.ts";
+import { resolveProject } from "../util/resolveProject.ts";
+import { createPrinter } from "../util/printer.ts";
+import { leafCommand, makeCommandInfo } from "../framework/command.ts";
+import { printCommandUsage } from "../framework/printCommandUsage.ts";
+import * as pwsh from "../util/pwsh.ts";
 
 const log = createPrinter("about");
 
@@ -24,12 +24,14 @@ Developer quality-of-life command for the Azure SDK for JS
 export const commandInfo = makeCommandInfo("about", "display command help and information");
 
 export default leafCommand(commandInfo, async (options) => {
-  console.log(chalk.blueBright(banner));
+  console.log(styleText("blueBright", banner));
 
   try {
-    const packageInfo = await resolveProject(__dirname);
-    console.log(chalk.blueBright(`  Name/Version:\t${packageInfo.name}@${packageInfo.version}`));
-    console.log(chalk.blueBright(`  Location:\t${packageInfo.path}`));
+    const packageInfo = await resolveProject(import.meta.dirname);
+    console.log(
+      styleText("blueBright", `  Name/Version:\t${packageInfo.name}@${packageInfo.version}`),
+    );
+    console.log(styleText("blueBright", `  Location:\t${packageInfo.path}`));
     console.log();
   } catch (error: unknown) {
     log.error("Could not locate dev-tool package.");
@@ -39,9 +41,9 @@ export default leafCommand(commandInfo, async (options) => {
   const hasPowerShell = await pwsh.hasPowerShell();
 
   if (hasPowerShell) {
-    console.log(chalk.blueBright("  PowerShell: Found"));
+    console.log(styleText("blueBright", "  PowerShell: Found"));
   } else {
-    console.log(chalk.yellow("  PowerShell: Not found"));
+    console.log(styleText("yellow", "  PowerShell: Not found"));
   }
   console.log();
 

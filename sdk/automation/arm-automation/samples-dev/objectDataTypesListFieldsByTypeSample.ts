@@ -1,32 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve a list of fields of a given type across all accessible modules.
- *
- * @summary Retrieve a list of fields of a given type across all accessible modules.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listFieldsByType.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve a list of fields of a given type across all accessible modules.
+ *
+ * @summary retrieve a list of fields of a given type across all accessible modules.
+ * x-ms-original-file: 2024-10-23/listFieldsByType.json
+ */
 async function getAListOfFieldsOfAGivenTypeAcrossAllAccessibleModules(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "MyAutomationAccount";
-  const typeName = "MyCustomType";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.objectDataTypes.listFieldsByType(
-    resourceGroupName,
-    automationAccountName,
-    typeName,
+    "rg",
+    "MyAutomationAccount",
+    "MyCustomType",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

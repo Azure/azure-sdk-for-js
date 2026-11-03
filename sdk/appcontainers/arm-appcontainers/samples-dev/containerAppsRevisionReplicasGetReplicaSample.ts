@@ -3,30 +3,22 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a replica for a Container App Revision.
+ * This sample demonstrates how to get a replica for a Container App Revision.
  *
- * @summary Get a replica for a Container App Revision.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/Replicas_Get.json
+ * @summary get a replica for a Container App Revision.
+ * x-ms-original-file: 2026-07-01/Replicas_Get.json
  */
 async function getContainerAppRevisionReplica(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "workerapps-rg-xj";
-  const containerAppName = "myapp";
-  const revisionName = "myapp--0wlqy09";
-  const replicaName = "myapp--0wlqy09-5d9774cff-5wnd8";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerAppsRevisionReplicas.getReplica(
-    resourceGroupName,
-    containerAppName,
-    revisionName,
-    replicaName,
+    "workerapps-rg-xj",
+    "myapp",
+    "myapp--0wlqy09",
+    "myapp--0wlqy09-5d9774cff-5wnd8",
   );
   console.log(result);
 }

@@ -1,24 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get the status of Attestation Provider.
- *
- * @summary Get the status of Attestation Provider.
- * x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2020-10-01/examples/Get_AttestationProvider.json
- */
-
 import { AttestationManagementClient } from "@azure/arm-attestation";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to get the status of Attestation Provider.
+ *
+ * @summary get the status of Attestation Provider.
+ * x-ms-original-file: 2021-06-01/Get_AttestationProvider.json
+ */
 async function attestationProvidersGet(): Promise<void> {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "MyResourceGroup";
-  const providerName = "myattestationprovider";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AttestationManagementClient(credential, subscriptionId);
-  const result = await client.attestationProviders.get(resourceGroupName, providerName);
+  const result = await client.attestationProviders.get("MyResourceGroup", "myattestationprovider");
   console.log(result);
 }
 
-attestationProvidersGet().catch(console.error);
+async function main(): Promise<void> {
+  await attestationProvidersGet();
+}
+
+main().catch(console.error);

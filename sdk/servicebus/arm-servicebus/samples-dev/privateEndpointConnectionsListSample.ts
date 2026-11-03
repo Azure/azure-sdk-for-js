@@ -1,30 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the available PrivateEndpointConnections within a namespace.
- *
- * @summary Gets the available PrivateEndpointConnections within a namespace.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/PrivateEndPointConnectionList.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the available PrivateEndpointConnections within a namespace.
+ *
+ * @summary gets the available PrivateEndpointConnections within a namespace.
+ * x-ms-original-file: 2026-01-01/NameSpaces/PrivateEndPointConnectionList.json
+ */
 async function nameSpaceCreate(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "subID";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "SDK-ServiceBus-4794";
-  const namespaceName = "sdk-Namespace-5828";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.privateEndpointConnections.list(
-    resourceGroupName,
-    namespaceName,
+    "SDK-ServiceBus-4794",
+    "sdk-Namespace-5828",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

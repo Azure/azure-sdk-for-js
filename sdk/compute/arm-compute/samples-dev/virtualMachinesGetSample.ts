@@ -1,102 +1,118 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualMachinesGetOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
+ * This sample demonstrates how to retrieves information about the model view or the instance view of a virtual machine.
  *
- * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Get.json
+ * @summary retrieves information about the model view or the instance view of a virtual machine.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Get.json
  */
 async function getAVirtualMachine(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const expand = "userData";
-  const options: VirtualMachinesGetOptionalParams = { expand };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.get(
-    resourceGroupName,
-    vmName,
-    options,
-  );
+  const result = await client.virtualMachines.get("myResourceGroup", "myVM", {
+    expand: "userData",
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
+ * This sample demonstrates how to retrieves information about the model view or the instance view of a virtual machine.
  *
- * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
+ * @summary retrieves information about the model view or the instance view of a virtual machine.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
  */
 async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.get(resourceGroupName, vmName);
+  const result = await client.virtualMachines.get("myResourceGroup", "myVM");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
+ * This sample demonstrates how to retrieves information about the model view or the instance view of a virtual machine.
  *
- * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Get_WithDiskControllerType.json
+ * @summary retrieves information about the model view or the instance view of a virtual machine.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Get_WithDeterministicProcessorMode.json
+ */
+async function getAVirtualMachineWithDeterministicProcessorMode(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.get("myResourceGroup", "myVM");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to retrieves information about the model view or the instance view of a virtual machine.
+ *
+ * @summary retrieves information about the model view or the instance view of a virtual machine.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Get_WithDiskControllerType.json
  */
 async function getAVirtualMachineWithDiskControllerTypeProperties(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
-  const expand = "userData";
-  const options: VirtualMachinesGetOptionalParams = { expand };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.get(
-    resourceGroupName,
-    vmName,
-    options,
-  );
+  const result = await client.virtualMachines.get("myResourceGroup", "myVM", {
+    expand: "userData",
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
+ * This sample demonstrates how to retrieves information about the model view or the instance view of a virtual machine.
  *
- * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
+ * @summary retrieves information about the model view or the instance view of a virtual machine.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Get_WithFlexProfile.json
+ */
+async function getAVirtualMachineWithAFlexProfile(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.get("myResourceGroup", "myVM");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to retrieves information about the model view or the instance view of a virtual machine.
+ *
+ * @summary retrieves information about the model view or the instance view of a virtual machine.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Get_WithOpportunisticProcessorMode.json
+ */
+async function getAVirtualMachineWithOpportunisticProcessorMode(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.get("myResourceGroup", "myVM");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to retrieves information about the model view or the instance view of a virtual machine.
+ *
+ * @summary retrieves information about the model view or the instance view of a virtual machine.
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
  */
 async function getAVirtualMachineWithVMSizeProperties(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const vmName = "myVM";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.get(resourceGroupName, vmName);
+  const result = await client.virtualMachines.get("myResourceGroup", "myVM");
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await getAVirtualMachine();
   await getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement();
+  await getAVirtualMachineWithDeterministicProcessorMode();
   await getAVirtualMachineWithDiskControllerTypeProperties();
+  await getAVirtualMachineWithAFlexProfile();
+  await getAVirtualMachineWithOpportunisticProcessorMode();
   await getAVirtualMachineWithVMSizeProperties();
 }
 

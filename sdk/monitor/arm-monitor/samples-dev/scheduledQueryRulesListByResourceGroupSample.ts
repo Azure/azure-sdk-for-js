@@ -1,27 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve scheduled query rule definitions in a resource group.
- *
- * @summary Retrieve scheduled query rule definitions in a resource group.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-12-01/examples/listScheduledQueryRulesByResourceGroup.json
- */
-
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve scheduled query rule definitions in a resource group.
+ *
+ * @summary retrieve scheduled query rule definitions in a resource group.
+ * x-ms-original-file: 2025-01-01-preview/listScheduledQueryRulesByResourceGroup.json
+ */
 async function listScheduledQueryRulesByResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["MONITOR_SUBSCRIPTION_ID"] || "dd4bfc94-a096-412b-9c43-4bd13e35afbc";
-  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "QueryResourceGroupName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "dd4bfc94-a096-412b-9c43-4bd13e35afbc";
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.scheduledQueryRules.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.scheduledQueryRules.listByResourceGroup(
+    "QueryResourceGroupName",
+  )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

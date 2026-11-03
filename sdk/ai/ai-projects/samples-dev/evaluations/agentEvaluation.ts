@@ -17,16 +17,15 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const agentName = process.env["AZURE_AI_AGENT_NAME"] || "my-agent-evaluation";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "my-agent-evaluation";
+const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
-  // [START agent_evaluation_basic]
   // Create agent
   console.log("Creating agent...");
   const agent = await project.agents.createVersion(agentName, {
@@ -94,7 +93,6 @@ export async function main(): Promise<void> {
     } as any,
   });
   console.log(`Evaluation run created (id: ${agentEvalRun.id})`);
-  // [END agent_evaluation_basic]
 
   // Poll for completion
   while (!["completed", "failed"].includes(agentEvalRun.status)) {

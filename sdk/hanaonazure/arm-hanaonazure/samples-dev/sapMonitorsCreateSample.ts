@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a SAP monitor for the specified subscription, resource group, and resource name.
- *
- * @summary Creates a SAP monitor for the specified subscription, resource group, and resource name.
- * x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_Create.json
- */
-
-import type { SapMonitor } from "@azure/arm-hanaonazure";
 import { HanaManagementClient } from "@azure/arm-hanaonazure";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function createASapMonitor(): Promise<void> {
+/**
+ * This sample demonstrates how to the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
+ *
+ * @summary the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
+ * x-ms-original-file: 2020-02-07-preview/SapMonitors_Create.json
+ */
+async function createASAPMonitor(): Promise<void> {
+  const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
-  const sapMonitorName = "mySapMonitor";
-  const sapMonitorParameter: SapMonitor = {
-    enableCustomerAnalytics: true,
+  const client = new HanaManagementClient(credential, subscriptionId);
+  const result = await client.sapMonitors.create("myResourceGroup", "mySapMonitor", {
     location: "westus",
+    enableCustomerAnalytics: true,
     logAnalyticsWorkspaceArmId:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/microsoft.operationalinsights/workspaces/myWorkspace",
     logAnalyticsWorkspaceId: "00000000-0000-0000-0000-000000000000",
@@ -27,15 +25,12 @@ async function createASapMonitor(): Promise<void> {
     monitorSubnet:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
     tags: { key: "value" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new HanaManagementClient(credential, subscriptionId);
-  const result = await client.sapMonitors.beginCreateAndWait(
-    resourceGroupName,
-    sapMonitorName,
-    sapMonitorParameter,
-  );
+  });
   console.log(result);
 }
 
-createASapMonitor().catch(console.error);
+async function main(): Promise<void> {
+  await createASAPMonitor();
+}
+
+main().catch(console.error);

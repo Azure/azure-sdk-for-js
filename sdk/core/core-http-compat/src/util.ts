@@ -15,6 +15,22 @@ type CompatWebResourceLike = WebResourceLike & { [originalRequestSymbol]?: Pipel
 // cloned but we need to retrieve the OperationSpec and OperationArguments from the
 // original request.
 const originalClientRequestSymbol = Symbol.for("@azure/core-client original request");
+const passThroughProps = new Set([
+  "url",
+  "method",
+  "withCredentials",
+  "timeout",
+  "requestId",
+  "abortSignal",
+  "body",
+  "formData",
+  "onDownloadProgress",
+  "onUploadProgress",
+  "proxySettings",
+  "streamResponseStatusCodes",
+  "agent",
+  "requestOverrides",
+]);
 type PipelineRequestWithOriginal = PipelineRequest & {
   [originalClientRequestSymbol]?: PipelineRequest;
 };
@@ -110,24 +126,8 @@ export function toWebResourceLike(
         if (prop === "keepAlive") {
           request.disableKeepAlive = !value;
         }
-        const passThroughProps = [
-          "url",
-          "method",
-          "withCredentials",
-          "timeout",
-          "requestId",
-          "abortSignal",
-          "body",
-          "formData",
-          "onDownloadProgress",
-          "onUploadProgress",
-          "proxySettings",
-          "streamResponseStatusCodes",
-          "agent",
-          "requestOverrides",
-        ];
 
-        if (typeof prop === "string" && passThroughProps.includes(prop)) {
+        if (typeof prop === "string" && passThroughProps.has(prop)) {
           (request as any)[prop] = value;
         }
 
@@ -233,7 +233,7 @@ export interface HttpHeadersLike {
 /**
  * A collection of HTTP header key/value pairs.
  */
-export class HttpHeaders implements HttpHeadersLike {
+class HttpHeaders implements HttpHeadersLike {
   private readonly _headersMap: { [headerKey: string]: HttpHeader };
 
   constructor(rawHeaders?: RawHttpHeaders) {

@@ -2,18 +2,28 @@
 // Licensed under the MIT License.
 
 export {
+  deleteGenerationJob,
+  cancelGenerationJob,
+  listGenerationJobs,
+  getGenerationJob,
+  createGenerationJob,
   updateVersion,
   createVersion,
   deleteVersion,
   getVersion,
-  listLatestVersions,
+  list,
   listVersions,
 } from "./operations.js";
-export {
+export type {
+  EvaluatorsDeleteGenerationJobOptionalParams,
+  EvaluatorsCancelGenerationJobOptionalParams,
+  EvaluatorsListGenerationJobsOptionalParams,
+  EvaluatorsGetGenerationJobOptionalParams,
+  EvaluatorsCreateGenerationJobOptionalParams,
   EvaluatorsUpdateVersionOptionalParams,
   EvaluatorsCreateVersionOptionalParams,
   EvaluatorsDeleteVersionOptionalParams,
   EvaluatorsGetVersionOptionalParams,
-  EvaluatorsListLatestVersionsOptionalParams,
+  EvaluatorsListOptionalParams,
   EvaluatorsListVersionsOptionalParams,
 } from "./options.js";

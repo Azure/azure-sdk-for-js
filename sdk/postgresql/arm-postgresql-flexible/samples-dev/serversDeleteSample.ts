@@ -3,31 +3,18 @@
 
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes or drops an existing server.
+ * This sample demonstrates how to deletes or drops an existing server.
  *
- * @summary Deletes or drops an existing server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/examples/ServersDelete.json
+ * @summary deletes or drops an existing server.
+ * x-ms-original-file: 2026-10-01/ServersDelete.json
  */
 async function deleteOrDropAnExistingServer(): Promise<void> {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "exampleresourcegroup";
-  const serverName = "exampleserver";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.servers.beginDeleteAndWait(
-    resourceGroupName,
-    serverName,
-  );
-  console.log(result);
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  await client.servers.delete("exampleresourcegroup", "exampleserver");
 }
 
 async function main(): Promise<void> {

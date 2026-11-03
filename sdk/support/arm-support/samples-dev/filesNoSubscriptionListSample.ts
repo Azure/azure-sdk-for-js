@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all the Files information under a workspace for an Azure subscription.
- *
- * @summary Lists all the Files information under a workspace for an Azure subscription.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListFilesUnderFileWorkspace.json
- */
-
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all the Files information under a workspace for an Azure subscription.
+ *
+ * @summary lists all the Files information under a workspace for an Azure subscription.
+ * x-ms-original-file: 2025-06-01-preview/ListFilesUnderFileWorkspace.json
+ */
 async function listFilesUnderAWorkspace(): Promise<void> {
-  const fileWorkspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
-  for await (const item of client.filesNoSubscription.list(fileWorkspaceName)) {
+  for await (const item of client.filesNoSubscription.list("testworkspace")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

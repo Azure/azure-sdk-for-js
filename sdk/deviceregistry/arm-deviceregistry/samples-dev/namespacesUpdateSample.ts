@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Namespace
  *
  * @summary update a Namespace
- * x-ms-original-file: 2025-10-01/Update_Namespace_Endpoints.json
+ * x-ms-original-file: 2026-03-01-preview/Update_Namespace_Endpoints.json
  */
 async function updateNamespaceEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,9 +18,9 @@ async function updateNamespaceEndpoints(): Promise<void> {
     properties: {
       messaging: {
         endpoints: {
-          eventGridEndpoint: {
-            endpointType: "Microsoft.Devices/IoTHubs",
-            address: "https://myeventgridtopic.westeurope-1.eventgrid.azure.net/api/events",
+          iothubEndpoint: {
+            endpointType: "Microsoft.Devices/IotHubs",
+            address: "https://iothub-for-dps.azure-devices.net",
           },
         },
       },

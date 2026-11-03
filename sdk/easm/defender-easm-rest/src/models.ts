@@ -145,9 +145,7 @@ export interface SavedFilterData {
 }
 
 export type DataConnectionData =
-  | DataConnectionDataParent
-  | LogAnalyticsDataConnectionData
-  | AzureDataExplorerDataConnectionData;
+  DataConnectionDataParent | LogAnalyticsDataConnectionData | AzureDataExplorerDataConnectionData;
 /** Alias for AssetUpdateState */
 export type AssetUpdateState = string;
 /** Alias for AssetUpdateTransfers */

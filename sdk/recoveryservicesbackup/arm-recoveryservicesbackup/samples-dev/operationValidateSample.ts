@@ -1,28 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Validate operation for specified backed up item. This is a synchronous operation.
- *
- * @summary Validate operation for specified backed up item. This is a synchronous operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk.json
- */
-
-import {
-  ValidateOperationRequestResource,
-  RecoveryServicesBackupClient,
-} from "@azure/arm-recoveryservicesbackup";
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to validate operation for specified backed up item. This is a synchronous operation.
+ *
+ * @summary validate operation for specified backed up item. This is a synchronous operation.
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/ValidateOperation_RestoreDisk.json
+ */
 async function validateOperation(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "testVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "testRG";
-  const parameters: ValidateOperationRequestResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RecoveryServicesBackupClient(credential, subscriptionId);
+  const result = await client.operation.validate("testVault", "testRG", {
     id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testVault/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;testRG;testvmName/protectedItems/VM;iaasvmcontainerv2;testRG;testvmName/recoveryPoints/348916168024334",
     properties: {
       objectType: "ValidateIaasVMRestoreOperationRequest",
@@ -45,31 +37,21 @@ async function validateOperation(): Promise<void> {
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testingRg/providers/Microsoft.Storage/storageAccounts/testAccount",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  const result = await client.operation.validate(
-    vaultName,
-    resourceGroupName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Validate operation for specified backed up item. This is a synchronous operation.
+ * This sample demonstrates how to validate operation for specified backed up item. This is a synchronous operation.
  *
- * @summary Validate operation for specified backed up item. This is a synchronous operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk_IdentityBasedRestoreDetails.json
+ * @summary validate operation for specified backed up item. This is a synchronous operation.
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/ValidateOperation_RestoreDisk_IdentityBasedRestoreDetails.json
  */
 async function validateOperationWithIdentityBasedRestoreDetails(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "testVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "testRG";
-  const parameters: ValidateOperationRequestResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RecoveryServicesBackupClient(credential, subscriptionId);
+  const result = await client.operation.validate("testVault", "testRG", {
     id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testVault/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;testRG;testvmName/protectedItems/VM;iaasvmcontainerv2;testRG;testvmName/recoveryPoints/348916168024334",
     properties: {
       objectType: "ValidateIaasVMRestoreOperationRequest",
@@ -94,14 +76,7 @@ async function validateOperationWithIdentityBasedRestoreDetails(): Promise<void>
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  const result = await client.operation.validate(
-    vaultName,
-    resourceGroupName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

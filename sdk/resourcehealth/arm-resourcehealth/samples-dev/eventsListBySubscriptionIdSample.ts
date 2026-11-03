@@ -1,32 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists service health events in the subscription.
- *
- * @summary Lists service health events in the subscription.
- * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/Events_ListBySubscriptionId.json
- */
-
-import type { EventsListBySubscriptionIdOptionalParams } from "@azure/arm-resourcehealth";
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists service health events in the subscription.
+ *
+ * @summary lists service health events in the subscription.
+ * x-ms-original-file: 2025-05-01/Events_ListBySubscriptionId.json
+ */
 async function listEventsBySubscriptionId(): Promise<void> {
-  const subscriptionId = process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] || "subscriptionId";
-  const filter = "service eq 'Virtual Machines' or region eq 'West US'";
-  const queryStartTime = "7/24/2020";
-  const options: EventsListBySubscriptionIdOptionalParams = {
-    filter,
-    queryStartTime,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new MicrosoftResourceHealth(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.eventsOperations.listBySubscriptionId(options)) {
+  for await (const item of client.events.listBySubscriptionId({
+    filter: "service eq 'Virtual Machines' or region eq 'West US'",
+    queryStartTime: "5/12/2025",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

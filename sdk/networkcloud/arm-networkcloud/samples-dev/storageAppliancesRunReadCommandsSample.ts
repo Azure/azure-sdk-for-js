@@ -1,43 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  StorageApplianceRunReadCommandsParameters} from "@azure/arm-networkcloud";
-import {
-  NetworkCloud,
-} from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Run one or more read-only commands on the provided storage appliance.
+ * This sample demonstrates how to run one or more read-only commands on the provided storage appliance.
  *
- * @summary Run one or more read-only commands on the provided storage appliance.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/StorageAppliances_RunReadCommands.json
+ * @summary run one or more read-only commands on the provided storage appliance.
+ * x-ms-original-file: 2026-07-01/StorageAppliances_RunReadCommands.json
  */
 async function runAndRetrieveOutputFromReadOnlyCommandsOnStorageAppliance(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const storageApplianceName = "storageApplianceName";
-  const storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters =
-    {
-      limitTimeSeconds: 60,
-      commands: [
-        {
-          arguments: ["list", "--filter", "state='open'"],
-          command: "purealert",
-        },
-      ],
-    };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
   const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.storageAppliances.beginRunReadCommandsAndWait(
-    resourceGroupName,
-    storageApplianceName,
-    storageApplianceRunReadCommandsParameters,
+  const result = await client.storageAppliances.runReadCommands(
+    "resourceGroupName",
+    "storageApplianceName",
+    {
+      commands: [{ arguments: ["list", "--filter", "state='open'"], command: "purealert" }],
+      limitTimeSeconds: 60,
+    },
   );
   console.log(result);
 }

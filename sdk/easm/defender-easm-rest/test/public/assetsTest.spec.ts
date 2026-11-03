@@ -92,8 +92,8 @@ describe("Assets Test", () => {
 
     const task_response = assetPageResponse.body;
 
-    assert.strictEqual("complete", task_response.state);
-    assert.strictEqual("complete", task_response.phase);
+    assert.strictEqual(task_response.state, "complete");
+    assert.strictEqual(task_response.phase, "complete");
     assert.isNotEmpty(task_response.id?.match(UUID_REGEX));
   });
 });

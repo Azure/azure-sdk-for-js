@@ -3,6 +3,6 @@
 
 export {
   createPortalServices,
-  PortalServicesContext,
-  PortalServicesClientOptionalParams,
+  type PortalServicesContext,
+  type PortalServicesClientOptionalParams,
 } from "./portalServicesContext.js";

@@ -21,7 +21,7 @@ export {
   listDeleteResourceGuardProxyRequestsObjects,
   getDefaultDeleteResourceGuardProxyRequestsObject,
 } from "./operations.js";
-export {
+export type {
   ResourceGuardsListBackupSecurityPINRequestsObjectsOptionalParams,
   ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectOptionalParams,
   ResourceGuardsListDeleteProtectedItemRequestsObjectsOptionalParams,

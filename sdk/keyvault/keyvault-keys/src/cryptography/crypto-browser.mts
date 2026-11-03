@@ -7,7 +7,7 @@ import { LocalCryptographyUnsupportedError } from "./models.js";
  * @internal
  * Use the platform-local hashing functionality
  */
-export async function createHash(_algorithm: string, _data: Uint8Array): Promise<Buffer> {
+export async function createHash(_algorithm: string, _data: Uint8Array): Promise<Uint8Array> {
   throw new LocalCryptographyUnsupportedError(
     "Our libraries don't currently support browser hashing",
   );

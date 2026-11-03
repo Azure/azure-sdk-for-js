@@ -1,19 +1,19 @@
-# client library samples for TypeScript (Beta)
+# @azure/arm-hanaonazure client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for @azure/arm-hanaonazure in some common scenarios.
 
-| **File Name**                                                     | **Description**                                                                                                                                                                                                                                                                            |
-| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [operationsListSample.ts][operationslistsample]                   | Gets a list of SAP HANA management operations. x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/HanaOperations_List.json                                                                                           |
-| [providerInstancesCreateSample.ts][providerinstancescreatesample] | Creates a provider instance for the specified subscription, resource group, SapMonitor name, and resource name. x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/ProviderInstances_Create.json                     |
-| [providerInstancesDeleteSample.ts][providerinstancesdeletesample] | Deletes a provider instance for the specified subscription, resource group, SapMonitor name, and resource name. x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/ProviderInstances_Delete.json                     |
-| [providerInstancesGetSample.ts][providerinstancesgetsample]       | Gets properties of a provider instance for the specified subscription, resource group, SapMonitor name, and resource name. x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/ProviderInstances_Get.json             |
-| [providerInstancesListSample.ts][providerinstanceslistsample]     | Gets a list of provider instances in the specified SAP monitor. The operations returns various properties of each provider instances. x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/ProviderInstances_List.json |
-| [sapMonitorsCreateSample.ts][sapmonitorscreatesample]             | Creates a SAP monitor for the specified subscription, resource group, and resource name. x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_Create.json                                                  |
-| [sapMonitorsDeleteSample.ts][sapmonitorsdeletesample]             | Deletes a SAP monitor with the specified subscription, resource group, and monitor name. x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_Delete.json                                                  |
-| [sapMonitorsGetSample.ts][sapmonitorsgetsample]                   | Gets properties of a SAP monitor for the specified subscription, resource group, and resource name. x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_Get.json                                          |
-| [sapMonitorsListSample.ts][sapmonitorslistsample]                 | Gets a list of SAP monitors in the specified subscription. The operations returns various properties of each SAP monitor. x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_List.json                   |
-| [sapMonitorsUpdateSample.ts][sapmonitorsupdatesample]             | Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name. x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_PatchTags_Delete.json                       |
+| **File Name**                                                     | **Description**                                                                                                                                                          |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [operationsListSample.ts][operationslistsample]                   | gets a list of SAP HANA management operations. x-ms-original-file: 2020-02-07-preview/HanaOperations_List.json                                                           |
+| [providerInstancesCreateSample.ts][providerinstancescreatesample] | the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023. x-ms-original-file: 2020-02-07-preview/ProviderInstances_Create.json |
+| [providerInstancesDeleteSample.ts][providerinstancesdeletesample] | the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023. x-ms-original-file: 2020-02-07-preview/ProviderInstances_Delete.json |
+| [providerInstancesGetSample.ts][providerinstancesgetsample]       | the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023. x-ms-original-file: 2020-02-07-preview/ProviderInstances_Get.json    |
+| [providerInstancesListSample.ts][providerinstanceslistsample]     | the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023. x-ms-original-file: 2020-02-07-preview/ProviderInstances_List.json   |
+| [sapMonitorsCreateSample.ts][sapmonitorscreatesample]             | the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023. x-ms-original-file: 2020-02-07-preview/SapMonitors_Create.json       |
+| [sapMonitorsDeleteSample.ts][sapmonitorsdeletesample]             | the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023. x-ms-original-file: 2020-02-07-preview/SapMonitors_Delete.json       |
+| [sapMonitorsGetSample.ts][sapmonitorsgetsample]                   | the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023. x-ms-original-file: 2020-02-07-preview/SapMonitors_Get.json          |
+| [sapMonitorsListSample.ts][sapmonitorslistsample]                 | the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023. x-ms-original-file: 2020-02-07-preview/SapMonitors_List.json         |
+| [sapMonitorsUpdateSample.ts][sapmonitorsupdatesample]             | the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023. x-ms-original-file: 2020-02-07-preview/SapMonitors_PatchTags.json    |
 
 ## Prerequisites
 
@@ -55,10 +55,10 @@ npm run build
 node dist/operationsListSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env node dist/operationsListSample.js
+node dist/operationsListSample.js
 ```
 
 ## Next Steps

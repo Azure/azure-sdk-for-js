@@ -1,0 +1,8 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "outDir": "${configDir}/../dist/workerd",
+    "customConditions": ["workerd"]
+  },
+  "include": ["../src/index.ts", "../src/**/internal.ts"]
+}

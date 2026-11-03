@@ -1,58 +1,67 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a list of ElasticSan in a resource group.
- *
- * @summary Gets a list of ElasticSan in a resource group.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_ListByResourceGroup_MaximumSet_Gen.json
- */
-
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function elasticSansListByResourceGroupMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
+/**
+ * This sample demonstrates how to gets a list of ElasticSan in a resource group.
+ *
+ * @summary gets a list of ElasticSan in a resource group.
+ * x-ms-original-file: 2026-05-01-preview/ElasticSans_ListByResourceGroup_MinimumSet_Gen.json
+ */
+async function elasticSansListByResourceGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.elasticSans.listByResourceGroup(
-    resourceGroupName,
-  )) {
+  for await (const item of client.elasticSans.listByResourceGroup("resourcegroupname")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Gets a list of ElasticSan in a resource group.
+ * This sample demonstrates how to gets a list of ElasticSan in a resource group.
  *
- * @summary Gets a list of ElasticSan in a resource group.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_ListByResourceGroup_MinimumSet_Gen.json
+ * @summary gets a list of ElasticSan in a resource group.
+ * x-ms-original-file: 2026-05-01-preview/ElasticSans_V1_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function elasticSansListByResourceGroupMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
+async function elasticSansV1ListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.elasticSans.listByResourceGroup(
-    resourceGroupName,
-  )) {
+  for await (const item of client.elasticSans.listByResourceGroup("resourcegroupname")) {
     resArray.push(item);
   }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to gets a list of ElasticSan in a resource group.
+ *
+ * @summary gets a list of ElasticSan in a resource group.
+ * x-ms-original-file: 2026-05-01-preview/ElasticSans_V2_ListByResourceGroup_MaximumSet_Gen.json
+ */
+async function elasticSansV2ListByResourceGroupMaximumSetGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanManagement(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.elasticSans.listByResourceGroup("resourcegroupname")) {
+    resArray.push(item);
+  }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await elasticSansListByResourceGroupMaximumSetGen();
   await elasticSansListByResourceGroupMinimumSetGen();
+  await elasticSansV1ListByResourceGroupMaximumSetGen();
+  await elasticSansV2ListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to restart a code package instance of a service replica or instance. This is a potentially destabilizing operation that should be used with immense care.
  *
  * @summary restart a code package instance of a service replica or instance. This is a potentially destabilizing operation that should be used with immense care.
- * x-ms-original-file: 2025-10-01-preview/ApplicationActionRestartDeployedCodePackage_example.json
+ * x-ms-original-file: 2026-05-01-preview/ApplicationActionRestartDeployedCodePackage_example.json
  */
 async function restartDeployedCodePackage() {
   const credential = new DefaultAzureCredential();

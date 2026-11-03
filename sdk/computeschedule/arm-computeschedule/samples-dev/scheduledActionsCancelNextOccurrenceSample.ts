@@ -8,18 +8,18 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to a synchronous resource action.
  *
  * @summary a synchronous resource action.
- * x-ms-original-file: 2025-04-15-preview/ScheduledActions_CancelNextOccurrence_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-04-15-preview/ScheduledActions_CancelNextOccurrence_MaximumSet_Gen.json
  */
 async function scheduledActionsCancelNextOccurrenceMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "732116BD-AF31-4E74-9283-B387C44B4A44";
   const client = new ComputeScheduleClient(credential, subscriptionId);
   const result = await client.scheduledActions.cancelNextOccurrence(
     "rgcomputeschedule",
-    "myScheduledAction",
+    "scheduled-action-01",
     {
       resourceIds: [
-        "/subscriptions/1d04e8f1-ee04-4056-b0b2-718f5bb45b04/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachines/myVm",
+        "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rgcomputeschedule/providers/Microsoft.Compute/virtualMachines/vm1",
       ],
     },
   );

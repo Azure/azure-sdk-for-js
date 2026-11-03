@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-secretsstoreextension": ["../src/index.ts"],
+      "@azure/arm-secretsstoreextension/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

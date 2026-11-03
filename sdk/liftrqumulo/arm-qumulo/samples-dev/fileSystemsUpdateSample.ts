@@ -1,65 +1,55 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update a FileSystemResource
- *
- * @summary Update a FileSystemResource
- * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_Update_MaximumSet_Gen.json
- */
-
-import type { FileSystemResourceUpdate } from "@azure/arm-qumulo";
 import { QumuloStorage } from "@azure/arm-qumulo";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function fileSystemsUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
-  const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
-  const fileSystemName = "ahpixnvykleksjlr";
-  const properties: FileSystemResourceUpdate = {
-    identity: { type: "None", userAssignedIdentities: { key7679: {} } },
-    properties: {
-      delegatedSubnetId: "bqaryqsjlackxphpmzffgoqsvm",
-      marketplaceDetails: {
-        marketplaceSubscriptionId: "xaqtkloiyovmexqhn",
-        marketplaceSubscriptionStatus: "PendingFulfillmentStart",
-        offerId: "s",
-        planId: "fwtpz",
-        publisherId: "czxcfrwodazyaft",
-        termUnit: "cfwwczmygsimcyvoclcw",
-      },
-      userDetails: { email: "aqsnzyroo" },
-    },
-    tags: { key357: "ztkkvhfia" },
-  };
+/**
+ * This sample demonstrates how to update a FileSystemResource
+ *
+ * @summary update a FileSystemResource
+ * x-ms-original-file: 2026-04-16/FileSystems_Update_MaximumSet_Gen.json
+ */
+async function fileSystemsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "C9CC2D2A-5AA0-4839-A85F-18491F2D244A";
   const client = new QumuloStorage(credential, subscriptionId);
-  const result = await client.fileSystems.update(resourceGroupName, fileSystemName, properties);
+  const result = await client.fileSystems.update("rgQumulo", "qumulo-fs-01", {
+    identity: { type: "None", userAssignedIdentities: { key8111: {} } },
+    tags: { key5846: "pyrehicqychbuvhcqcbbstzcxsueyf" },
+    properties: {
+      marketplaceDetails: {
+        marketplaceSubscriptionId: "vwjzkiurjihwxrhoicenkbxacokvep",
+        planId: "vxnyxa",
+        offerId: "itiocfnteqyuavgmdtnvwvbpectyr",
+        publisherId: "zfevjvhjiifwxbazta",
+        termUnit: "lkbiqoqdyqbua",
+      },
+      userDetails: { email: "rlqqzevfgtqpynvifqp" },
+      delegatedSubnetId: "osinzkhurmzdaw",
+      performanceTier: "Premium",
+    },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Update a FileSystemResource
+ * This sample demonstrates how to update a FileSystemResource
  *
- * @summary Update a FileSystemResource
- * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_Update_MinimumSet_Gen.json
+ * @summary update a FileSystemResource
+ * x-ms-original-file: 2026-04-16/FileSystems_Update_MinimumSet_Gen.json
  */
-async function fileSystemsUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaa";
-  const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
-  const fileSystemName = "aaaaaaaaaaaaaaaaa";
-  const properties: FileSystemResourceUpdate = {};
+async function fileSystemsUpdateMaximumSetGenGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "53BA951C-DA09-400A-AB3A-F8E98F317423";
   const client = new QumuloStorage(credential, subscriptionId);
-  const result = await client.fileSystems.update(resourceGroupName, fileSystemName, properties);
+  const result = await client.fileSystems.update("rgQumulo", "qumulo-fs-01", {});
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await fileSystemsUpdate();
-  await fileSystemsUpdateMinimumSetGen();
+  await fileSystemsUpdateMaximumSet();
+  await fileSystemsUpdateMaximumSetGenGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

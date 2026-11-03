@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "privateLinkServiceConnectionState": {
+      "description": "Approved by cdk test.",
+      "status": "Approved"
+    }
+  }
+}

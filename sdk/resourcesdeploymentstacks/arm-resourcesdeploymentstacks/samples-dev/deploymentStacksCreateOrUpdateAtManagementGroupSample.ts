@@ -1,51 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a Deployment stack at Management Group scope.
- *
- * @summary Creates or updates a Deployment stack at Management Group scope.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackManagementGroupCreate.json
- */
-
-import type { DeploymentStack } from "@azure/arm-resourcesdeploymentstacks";
 import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function deploymentStacksManagementGroupCreateOrUpdate(): Promise<void> {
-  const managementGroupId = "myMg";
-  const deploymentStackName = "simpleDeploymentStack";
-  const deploymentStack: DeploymentStack = {
-    location: "eastus",
-    properties: {
-      actionOnUnmanage: {
-        managementGroups: "detach",
-        resourceGroups: "delete",
-        resources: "delete",
-      },
-      denySettings: {
-        applyToChildScopes: false,
-        excludedActions: ["action"],
-        excludedPrincipals: ["principal"],
-        mode: "denyDelete",
-      },
-      parameters: { parameter1: { value: "a string" } },
-    },
-    tags: { tagkey: "tagVal" },
-  };
+/**
+ * This sample demonstrates how to creates or updates a Deployment stack at the specified scope.
+ *
+ * @summary creates or updates a Deployment stack at the specified scope.
+ * x-ms-original-file: 2025-07-01/DeploymentStackManagementGroupCreate.json
+ */
+async function createOrUpdateAManagementGroupDeploymentStack(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DeploymentStacksClient(credential);
-  const result = await client.deploymentStacks.beginCreateOrUpdateAtManagementGroupAndWait(
-    managementGroupId,
-    deploymentStackName,
-    deploymentStack,
+  const result = await client.deploymentStacks.createOrUpdateAtManagementGroup(
+    "myMg",
+    "simpleDeploymentStack",
+    {
+      location: "eastus",
+      tags: { tagkey: "tagVal" },
+      properties: {
+        actionOnUnmanage: {
+          resources: "delete",
+          resourceGroups: "delete",
+          managementGroups: "detach",
+        },
+        denySettings: {
+          mode: "denyDelete",
+          excludedPrincipals: ["principal"],
+          excludedActions: ["action"],
+          applyToChildScopes: false,
+        },
+        parameters: { parameter1: { value: "a string" } },
+        extensionConfigs: {
+          contoso: {
+            additionalProperties: {
+              configOne: { value: "config1Value" },
+              configTwo: { value: true },
+            },
+          },
+        },
+      },
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await deploymentStacksManagementGroupCreateOrUpdate();
+  await createOrUpdateAManagementGroupDeploymentStack();
 }
 
 main().catch(console.error);

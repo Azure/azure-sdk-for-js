@@ -3,53 +3,43 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
+ * This sample demonstrates how to lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
  *
- * @summary Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MaximumSet_Gen.json
+ * @summary lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
+ * x-ms-original-file: 2026-04-01/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MaximumSet_Gen.json
  */
 async function availabilitySetListAvailableSizesMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const availabilitySetName = "aaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.availabilitySets.listAvailableSizes(
-    resourceGroupName,
-    availabilitySetName,
+    "rgcompute",
+    "aaaaaaaaaaaaaaaaaaaa",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
+ * This sample demonstrates how to lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
  *
- * @summary Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MinimumSet_Gen.json
+ * @summary lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
+ * x-ms-original-file: 2026-04-01/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MinimumSet_Gen.json
  */
 async function availabilitySetListAvailableSizesMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const availabilitySetName = "aa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.availabilitySets.listAvailableSizes(
-    resourceGroupName,
-    availabilitySetName,
-  )) {
+  for await (const item of client.availabilitySets.listAvailableSizes("rgcompute", "aa")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

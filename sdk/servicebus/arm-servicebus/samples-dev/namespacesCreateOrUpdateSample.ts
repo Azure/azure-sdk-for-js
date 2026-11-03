@@ -1,36 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
- *
- * @summary Creates or updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/SBNameSpaceCreate.json
- */
-
-import type { SBNamespace } from "@azure/arm-servicebus";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
+ *
+ * @summary creates or updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
+ * x-ms-original-file: 2026-01-01/NameSpaces/SBNameSpaceCreate.json
+ */
 async function nameSpaceCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ArunMonocle";
-  const namespaceName = "sdk-Namespace2924";
-  const parameters: SBNamespace = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
+  const client = new ServiceBusManagementClient(credential, subscriptionId);
+  const result = await client.namespaces.createOrUpdate("ArunMonocle", "sdk-Namespace2924", {
     location: "South Central US",
+    geoDataReplication: {
+      locations: [
+        { locationName: "eastus", roleType: "Primary" },
+        { locationName: "southcentralus", roleType: "Secondary" },
+      ],
+      maxReplicationLagDurationInSeconds: 300,
+    },
     premiumMessagingPartitions: 2,
     sku: { name: "Premium", capacity: 4, tier: "Premium" },
     tags: { tag1: "value1", tag2: "value2" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ServiceBusManagementClient(credential, subscriptionId);
-  const result = await client.namespaces.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    namespaceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

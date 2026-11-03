@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { KeyCredential } from "@azure/core-auth";
+import { computeSha256Hmac } from "@azure/core-util";
 import { DEFAULT_API_VERSION } from "./constants.js";
-import { sha256Hmac } from "./cryptoHelpers.js";
 import { dateToServiceTimeString } from "./util.js";
 
 export interface GenerateSharedAccessSignatureOptions {
@@ -33,7 +33,7 @@ export async function generateSharedAccessSignature(
   const unsignedSas = `r=${encodeURIComponent(
     `${endpointUrl}?apiVersion=${options?.apiVersion || DEFAULT_API_VERSION}`,
   )}&e=${encodeURIComponent(expiresOnString)}`;
-  return sha256Hmac(credential.key, unsignedSas).then(
+  return computeSha256Hmac(credential.key, unsignedSas, "base64").then(
     (digest) => `${unsignedSas}&s=${encodeURIComponent(digest)}`,
   );
 }

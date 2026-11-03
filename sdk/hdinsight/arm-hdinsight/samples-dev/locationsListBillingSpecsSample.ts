@@ -1,23 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the billingSpecs for the specified subscription and location.
- *
- * @summary Lists the billingSpecs for the specified subscription and location.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Locations_ListBillingSpecs.json
- */
-
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the billingSpecs for the specified subscription and location.
+ *
+ * @summary lists the billingSpecs for the specified subscription and location.
+ * x-ms-original-file: 2025-01-15-preview/HDI_Locations_ListBillingSpecs.json
+ */
 async function getTheSubscriptionBillingSpecsForTheSpecifiedLocation(): Promise<void> {
-  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
-  const location = "East US 2";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new HDInsightManagementClient(credential, subscriptionId);
-  const result = await client.locations.listBillingSpecs(location);
+  const result = await client.locations.listBillingSpecs("East US 2");
   console.log(result);
 }
 

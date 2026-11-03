@@ -1,32 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a CloudEndpoint List.
- *
- * @summary Get a CloudEndpoint List.
- * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/CloudEndpoints_ListBySyncGroup.json
- */
-
 import { MicrosoftStorageSync } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to get a CloudEndpoint List.
+ *
+ * @summary get a CloudEndpoint List.
+ * x-ms-original-file: 2025-12-01/CloudEndpoints_ListBySyncGroup.json
+ */
 async function cloudEndpointsListBySyncGroup(): Promise<void> {
-  const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
-  const resourceGroupName = "SampleResourceGroup_1";
-  const storageSyncServiceName = "SampleStorageSyncService_1";
-  const syncGroupName = "SampleSyncGroup_1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
   const client = new MicrosoftStorageSync(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.cloudEndpoints.listBySyncGroup(
-    resourceGroupName,
-    storageSyncServiceName,
-    syncGroupName,
+    "SampleResourceGroup_1",
+    "SampleStorageSyncService_1",
+    "SampleSyncGroup_1",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-cloudEndpointsListBySyncGroup().catch(console.error);
+async function main(): Promise<void> {
+  await cloudEndpointsListBySyncGroup();
+}
+
+main().catch(console.error);

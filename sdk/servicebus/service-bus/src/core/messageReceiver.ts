@@ -198,12 +198,6 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
         this.logPrefix,
       );
 
-      // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
-      if ((translatedError as MessagingError).code === "OperationTimeoutError") {
-        translatedError.message =
-          "Failed to create a receiver within allocated time and retry attempts.";
-      }
-
       throw translatedError;
     }
   }

@@ -8,6 +8,10 @@ export default azsdkEslint.config([
       "n/hashbang": "off",
       // shebang needs to come first
       "@azure/azure-sdk/github-source-headers": "off",
+      // Dev-only codegen script (regenerates model code); not a shipped package entry point
+      // (no `bin` field, unreachable from `main`). It intentionally uses devDependencies
+      // (@azure/identity, prettier) that must not be added as runtime dependencies.
+      "import/no-extraneous-dependencies": "off",
     },
   },
 ]);

@@ -56,8 +56,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
@@ -66,6 +65,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -76,56 +76,41 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/users/{userName}":
-    {
-      deserializer: _$deleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/users/{userName}":
-    {
-      deserializer: _createOrUpdateDeserialize,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
       deserializer: _$deleteDeserializePrivateEndpointConnections,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
-    {
-      deserializer: _createDeserialize,
-      expectedStatuses: ["202", "200", "201"],
-    },
+    { deserializer: _createDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
-    {
-      deserializer: _$deleteDeserializeFirewallRules,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeFirewallRules, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
     {
       deserializer: _createOrUpdateDeserializeFirewallRules,
       expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/promote":
-    { deserializer: _promoteDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _promoteDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
-    {
-      deserializer: _$deleteDeserializeMongoClusters,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeMongoClusters, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
     {
       deserializer: _createOrUpdateDeserializeMongoClusters,
@@ -201,4 +186,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

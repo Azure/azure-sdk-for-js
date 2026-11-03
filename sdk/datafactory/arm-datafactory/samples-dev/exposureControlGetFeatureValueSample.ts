@@ -1,35 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get exposure control feature for specific location.
- *
- * @summary Get exposure control feature for specific location.
- * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ExposureControl_GetFeatureValue.json
- */
-
-import {
-  ExposureControlRequest,
-  DataFactoryManagementClient,
-} from "@azure/arm-datafactory";
+import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get exposure control feature for specific location.
+ *
+ * @summary get exposure control feature for specific location.
+ * x-ms-original-file: 2018-06-01/ExposureControl_GetFeatureValue.json
+ */
 async function exposureControlGetFeatureValue(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
-    "12345678-1234-1234-1234-12345678abc";
-  const locationId = "WestEurope";
-  const exposureControlRequest: ExposureControlRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
+  const client = new DataFactoryManagementClient(credential, subscriptionId);
+  const result = await client.exposureControl.getFeatureValue("WestEurope", {
     featureName: "ADFIntegrationRuntimeSharingRbac",
     featureType: "Feature",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DataFactoryManagementClient(credential, subscriptionId);
-  const result = await client.exposureControl.getFeatureValue(
-    locationId,
-    exposureControlRequest,
-  );
+  });
   console.log(result);
 }
 

@@ -1,44 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a virtual network link to the specified Private DNS zone.
- *
- * @summary Creates or updates a virtual network link to the specified Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/VirtualNetworkLinkPut.json
- */
-
-import type { VirtualNetworkLink } from "@azure/arm-privatedns";
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function putPrivateDnsZoneVirtualNetworkLink(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const virtualNetworkLinkName = "virtualNetworkLink1";
-  const parameters: VirtualNetworkLink = {
-    location: "Global",
-    registrationEnabled: false,
-    tags: { key1: "value1" },
-    virtualNetwork: {
-      id: "/subscriptions/virtualNetworkSubscriptionId/resourceGroups/virtualNetworkResourceGroup/providers/Microsoft.Network/virtualNetworks/virtualNetworkName",
-    },
-  };
+/**
+ * This sample demonstrates how to creates or updates a virtual network link to the specified Private DNS zone.
+ *
+ * @summary creates or updates a virtual network link to the specified Private DNS zone.
+ * x-ms-original-file: 2024-06-01/VirtualNetworkLinkPut.json
+ */
+async function putPrivateDNSZoneVirtualNetworkLink(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
-  const result = await client.virtualNetworkLinks.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    privateZoneName,
-    virtualNetworkLinkName,
-    parameters,
+  const result = await client.virtualNetworkLinks.createOrUpdate(
+    "resourceGroup1",
+    "privatezone1.com",
+    "virtualNetworkLink1",
+    {
+      location: "Global",
+      registrationEnabled: false,
+      virtualNetwork: {
+        id: "/subscriptions/virtualNetworkSubscriptionId/resourceGroups/virtualNetworkResourceGroup/providers/Microsoft.Network/virtualNetworks/virtualNetworkName",
+      },
+      tags: { key1: "value1" },
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await putPrivateDnsZoneVirtualNetworkLink();
+  await putPrivateDNSZoneVirtualNetworkLink();
 }
 
 main().catch(console.error);

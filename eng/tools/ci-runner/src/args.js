@@ -7,6 +7,11 @@ export function parseProcessArgs() {
   return parseArgs(process.argv);
 }
 
+/**
+ *
+ * @param {string[]} argv - The command line arguments to parse
+ * @returns {{action: string, serviceDirs: string[], extraParams: string[], artifactNames: string, ciFlag: boolean, packageInfoPath: string, changeInfoPath: string}}
+ */
 export function parseArgs(argv) {
   if (argv.length < 3 || argv.some((a) => ["-h", "--help"].includes(a.toLowerCase()))) {
     console.error("Usage: index.js <action> [<servicename>...] [args...]");

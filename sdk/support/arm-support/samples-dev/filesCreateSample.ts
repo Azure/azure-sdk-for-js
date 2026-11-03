@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new file under a workspace for the specified subscription.
- *
- * @summary Creates a new file under a workspace for the specified subscription.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/CreateFileForSubscription.json
- */
-
-import type { FileDetails } from "@azure/arm-support";
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a new file under a workspace for the specified subscription.
+ *
+ * @summary creates a new file under a workspace for the specified subscription.
+ * x-ms-original-file: 2025-06-01-preview/CreateFileForSubscription.json
+ */
 async function createAFileUnderASubscriptionWorkspace(): Promise<void> {
-  const subscriptionId =
-    process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
-  const fileWorkspaceName = "testworkspace";
-  const fileName = "test.txt";
-  const createFileParameters: FileDetails = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "132d901f-189d-4381-9214-fe68e27e05a1";
+  const client = new MicrosoftSupport(credential, subscriptionId);
+  const result = await client.files.create("testworkspace", "test.txt", {
     chunkSize: 41423,
     fileSize: 41423,
     numberOfChunks: 1,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new MicrosoftSupport(credential, subscriptionId);
-  const result = await client.files.create(fileWorkspaceName, fileName, createFileParameters);
+  });
   console.log(result);
 }
 

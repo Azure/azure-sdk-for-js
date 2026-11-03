@@ -1,35 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Authorization rule for a namespace by name.
- *
- * @summary Authorization rule for a namespace by name.
- * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceAutorizationRuleGet.json
- */
-
 import { RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function relayNameSpaceAutorizationRuleGet(): Promise<void> {
-  const subscriptionId =
-    process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
-  const namespaceName = "example-RelayNamespace-01";
-  const authorizationRuleName = "example-RelayAuthRules-01";
+/**
+ * This sample demonstrates how to authorization rule for a namespace by name.
+ *
+ * @summary authorization rule for a namespace by name.
+ * x-ms-original-file: 2026-01-01/NameSpaces/RelayNameSpaceAuthorizationRuleGet.json
+ */
+async function relayNameSpaceAuthorizationRuleGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new RelayAPI(credential, subscriptionId);
   const result = await client.namespaces.getAuthorizationRule(
-    resourceGroupName,
-    namespaceName,
-    authorizationRuleName,
+    "resourcegroup",
+    "example-RelayNamespace-01",
+    "example-RelayAuthRules-01",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await relayNameSpaceAutorizationRuleGet();
+  await relayNameSpaceAuthorizationRuleGet();
 }
 
 main().catch(console.error);

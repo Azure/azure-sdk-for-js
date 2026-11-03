@@ -423,6 +423,7 @@ for await (const path of paths) {
 ```ts snippet:ReadmeSampleDownloadFile_Node
 import { DataLakeServiceClient } from "@azure/storage-file-datalake";
 import { DefaultAzureCredential } from "@azure/identity";
+import { buffer } from "node:stream/consumers";
 
 const account = "<account>";
 const datalakeServiceClient = new DataLakeServiceClient(
@@ -439,22 +440,10 @@ const fileClient = fileSystemClient.getFileClient(fileName);
 // In Node.js, get downloaded data by accessing downloadResponse.readableStreamBody
 const downloadResponse = await fileClient.read();
 if (downloadResponse.readableStreamBody) {
-  const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
+  // Download the raw bytes of the file. Use `text` from "node:stream/consumers"
+  // instead if you want to read the content as a string directly.
+  const downloaded = await buffer(downloadResponse.readableStreamBody);
   console.log("Downloaded file content:", downloaded.toString());
-}
-
-// [Node.js only] A helper method used to read a Node.js readable stream into a Buffer.
-async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = [];
-    readableStream.on("data", (data) => {
-      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-    });
-    readableStream.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    readableStream.on("error", reject);
-  });
 }
 ```
 

@@ -1,29 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes the workspace.
- *
- * @summary Deletes the workspace.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceDelete.json
- */
-
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes the workspace.
+ *
+ * @summary deletes the workspace.
+ * x-ms-original-file: 2026-01-01/WorkspaceDelete.json
+ */
 async function deleteAWorkspace(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.beginDeleteAndWait(resourceGroupName, workspaceName);
-  console.log(result);
+  await client.workspaces.delete("rg", "myWorkspace");
+}
+
+/**
+ * This sample demonstrates how to deletes the workspace.
+ *
+ * @summary deletes the workspace.
+ * x-ms-original-file: 2026-01-01/WorkspaceDeleteForceDeletion.json
+ */
+async function deleteAWorkspaceWithForceDeletionParameter(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
+  const client = new AzureDatabricksManagementClient(credential, subscriptionId);
+  await client.workspaces.delete("rg", "myWorkspace", { forceDeletion: false });
 }
 
 async function main(): Promise<void> {
   await deleteAWorkspace();
+  await deleteAWorkspaceWithForceDeletionParameter();
 }
 
 main().catch(console.error);

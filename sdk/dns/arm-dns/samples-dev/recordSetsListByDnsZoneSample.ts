@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all record sets in a DNS zone.
- *
- * @summary Lists all record sets in a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListRecordSetsByZone.json
- */
-
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all record sets in a DNS zone.
+ *
+ * @summary lists all record sets in a DNS zone.
+ * x-ms-original-file: 2023-07-01-preview/ListRecordSetsByZone.json
+ */
 async function listRecordsetsByZone(): Promise<void> {
-  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
-  const zoneName = "zone1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.recordSets.listByDnsZone(resourceGroupName, zoneName)) {
+  for await (const item of client.recordSets.listByDnsZone("rg1", "zone1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

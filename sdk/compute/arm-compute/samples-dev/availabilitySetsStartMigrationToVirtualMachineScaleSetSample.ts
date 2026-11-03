@@ -1,40 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  MigrateToVirtualMachineScaleSetInput} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Start migration operation on an Availability Set to move its Virtual Machines to a Virtual Machine Scale Set. This should be followed by a migrate operation on each Virtual Machine that triggers a downtime on the Virtual Machine.
+ * This sample demonstrates how to start migration operation on an Availability Set to move its Virtual Machines to a Virtual Machine Scale Set. This should be followed by a migrate operation on each Virtual Machine that triggers a downtime on the Virtual Machine.
  *
- * @summary Start migration operation on an Availability Set to move its Virtual Machines to a Virtual Machine Scale Set. This should be followed by a migrate operation on each Virtual Machine that triggers a downtime on the Virtual Machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/availabilitySetExamples/AvailabilitySet_StartMigrationToVirtualMachineScaleSet.json
+ * @summary start migration operation on an Availability Set to move its Virtual Machines to a Virtual Machine Scale Set. This should be followed by a migrate operation on each Virtual Machine that triggers a downtime on the Virtual Machine.
+ * x-ms-original-file: 2026-04-01/availabilitySetExamples/AvailabilitySet_StartMigrationToVirtualMachineScaleSet.json
  */
 async function availabilitySetStartMigrationToVirtualMachineScaleSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const availabilitySetName = "myAvailabilitySet";
-  const parameters: MigrateToVirtualMachineScaleSetInput = {
-    virtualMachineScaleSetFlexible: {
-      id: "/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.availabilitySets.startMigrationToVirtualMachineScaleSet(
-      resourceGroupName,
-      availabilitySetName,
-      parameters,
-    );
-  console.log(result);
+  await client.availabilitySets.startMigrationToVirtualMachineScaleSet(
+    "rgcompute",
+    "myAvailabilitySet",
+    {
+      virtualMachineScaleSetFlexible: {
+        id: "/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}",
+      },
+    },
+  );
 }
 
 async function main(): Promise<void> {

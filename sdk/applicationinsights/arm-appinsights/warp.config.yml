@@ -1,0 +1,53 @@
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/webTestLocations": "./src/api/webTestLocations/index.ts"
+  "./api/liveToken": "./src/api/liveToken/index.ts"
+  "./api/favorites": "./src/api/favorites/index.ts"
+  "./api/deletedWorkbooks": "./src/api/deletedWorkbooks/index.ts"
+  "./api/components": "./src/api/components/index.ts"
+  "./api/componentLinkedStorageAccounts": "./src/api/componentLinkedStorageAccounts/index.ts"
+  "./api/workItemConfigurations": "./src/api/workItemConfigurations/index.ts"
+  "./api/proactiveDetectionConfigurations": "./src/api/proactiveDetectionConfigurations/index.ts"
+  "./api/componentAvailableFeatures": "./src/api/componentAvailableFeatures/index.ts"
+  "./api/componentFeatureCapabilities": "./src/api/componentFeatureCapabilities/index.ts"
+  "./api/componentQuotaStatus": "./src/api/componentQuotaStatus/index.ts"
+  "./api/componentCurrentBillingFeatures": "./src/api/componentCurrentBillingFeatures/index.ts"
+  "./api/exportConfigurations": "./src/api/exportConfigurations/index.ts"
+  "./api/apiKeys": "./src/api/apiKeys/index.ts"
+  "./api/annotations": "./src/api/annotations/index.ts"
+  "./api/analyticsItems": "./src/api/analyticsItems/index.ts"
+  "./api/workbookTemplates": "./src/api/workbookTemplates/index.ts"
+  "./api/workbooks": "./src/api/workbooks/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./api/webTests": "./src/api/webTests/index.ts"
+  "./models": "./src/models/index.ts"
+  "./models/analyticsItems": "./src/models/analyticsItems/index.ts"
+  "./models/applicationInsightsCommonTypes": "./src/models/applicationInsightsCommonTypes/index.ts"
+  "./models/componentAPIs": "./src/models/componentAPIs/index.ts"
+  "./models/componentLinkedStorageAccountApi": "./src/models/componentLinkedStorageAccountApi/index.ts"
+  "./models/components": "./src/models/components/index.ts"
+  "./models/deletedWorkbookApi": "./src/models/deletedWorkbookApi/index.ts"
+  "./models/favorites": "./src/models/favorites/index.ts"
+  "./models/liveTokenApi": "./src/models/liveTokenApi/index.ts"
+  "./models/webTestLocation": "./src/models/webTestLocation/index.ts"
+  "./models/webTestsApi": "./src/models/webTestsApi/index.ts"
+  "./models/workBookOperations": "./src/models/workBookOperations/index.ts"
+  "./models/workbooksApi": "./src/models/workbooksApi/index.ts"
+  "./models/workbookTemplatesApi": "./src/models/workbookTemplatesApi/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

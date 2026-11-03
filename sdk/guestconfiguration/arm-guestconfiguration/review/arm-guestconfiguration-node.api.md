@@ -4,9 +4,12 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionAfterReboot = string;
@@ -17,7 +20,7 @@ export interface AssignmentInfo {
     readonly name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AssignmentReport {
     assignment?: AssignmentInfo;
     readonly complianceStatus?: ComplianceStatus;
@@ -43,7 +46,7 @@ export interface AssignmentReportDetails {
 // @public
 export interface AssignmentReportResource {
     readonly complianceStatus?: ComplianceStatus;
-    readonly properties?: Record<string, unknown>;
+    readonly properties?: any;
     reasons?: AssignmentReportResourceComplianceReason[];
     readonly resourceId?: string;
 }
@@ -56,6 +59,16 @@ export interface AssignmentReportResourceComplianceReason {
 
 // @public
 export type AssignmentType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export type ComplianceStatus = string;
@@ -86,32 +99,26 @@ export interface ConfigurationSetting {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
 export interface ErrorResponse {
     // (undocumented)
-    error?: ErrorResponseError;
+    error?: {
+        code?: string;
+        message?: string;
+    };
 }
-
-// @public (undocumented)
-export interface ErrorResponseError {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GuestConfigurationAssignment extends ProxyResource {
     properties?: GuestConfigurationAssignmentProperties;
     readonly systemData?: SystemData;
-}
-
-// @public
-export interface GuestConfigurationAssignmentList {
-    value?: GuestConfigurationAssignment[];
 }
 
 // @public
@@ -139,6 +146,8 @@ export interface GuestConfigurationAssignmentReport {
 
 // @public
 export interface GuestConfigurationAssignmentReportList {
+    // (undocumented)
+    nextLink?: string;
     value?: GuestConfigurationAssignmentReport[];
 }
 
@@ -155,271 +164,188 @@ export interface GuestConfigurationAssignmentReportProperties {
 }
 
 // @public
-export interface GuestConfigurationAssignmentReports {
-    get(resourceGroupName: string, guestConfigurationAssignmentName: string, reportId: string, vmName: string, options?: GuestConfigurationAssignmentReportsGetOptionalParams): Promise<GuestConfigurationAssignmentReportsGetResponse>;
-    list(resourceGroupName: string, guestConfigurationAssignmentName: string, vmName: string, options?: GuestConfigurationAssignmentReportsListOptionalParams): Promise<GuestConfigurationAssignmentReportsListResponse>;
+export interface GuestConfigurationAssignmentReportsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GuestConfigurationAssignmentReportsGetOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentReportsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationAssignmentReportsGetResponse = GuestConfigurationAssignmentReport;
-
-// @public
-export interface GuestConfigurationAssignmentReportsListOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentReportsOperations {
+    get: (resourceGroupName: string, guestConfigurationAssignmentName: string, reportId: string, vmName: string, options?: GuestConfigurationAssignmentReportsGetOptionalParams) => Promise<GuestConfigurationAssignmentReport>;
+    list: (resourceGroupName: string, guestConfigurationAssignmentName: string, vmName: string, options?: GuestConfigurationAssignmentReportsListOptionalParams) => Promise<GuestConfigurationAssignmentReportList>;
 }
 
 // @public
-export type GuestConfigurationAssignmentReportsListResponse = GuestConfigurationAssignmentReportList;
-
-// @public
-export interface GuestConfigurationAssignmentReportsVmss {
-    get(resourceGroupName: string, vmssName: string, name: string, id: string, options?: GuestConfigurationAssignmentReportsVmssGetOptionalParams): Promise<GuestConfigurationAssignmentReportsVmssGetResponse>;
-    list(resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentReportsVmssListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignmentReport>;
+export interface GuestConfigurationAssignmentReportsVmssGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GuestConfigurationAssignmentReportsVmssGetOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentReportsVmssListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationAssignmentReportsVmssGetResponse = GuestConfigurationAssignmentReport;
-
-// @public
-export interface GuestConfigurationAssignmentReportsVmssListOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentReportsVmssOperations {
+    get: (resourceGroupName: string, vmssName: string, name: string, id: string, options?: GuestConfigurationAssignmentReportsVmssGetOptionalParams) => Promise<GuestConfigurationAssignmentReport>;
+    list: (resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentReportsVmssListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignmentReport>;
 }
 
 // @public
-export type GuestConfigurationAssignmentReportsVmssListResponse = GuestConfigurationAssignmentReportList;
-
-// @public
-export interface GuestConfigurationAssignments {
-    createOrUpdate(guestConfigurationAssignmentName: string, resourceGroupName: string, vmName: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationAssignmentsCreateOrUpdateOptionalParams): Promise<GuestConfigurationAssignmentsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, guestConfigurationAssignmentName: string, vmName: string, options?: GuestConfigurationAssignmentsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, guestConfigurationAssignmentName: string, vmName: string, options?: GuestConfigurationAssignmentsGetOptionalParams): Promise<GuestConfigurationAssignmentsGetResponse>;
-    list(resourceGroupName: string, vmName: string, options?: GuestConfigurationAssignmentsListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
-    listRGList(resourceGroupName: string, options?: GuestConfigurationAssignmentsRGListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
-    listSubscriptionList(options?: GuestConfigurationAssignmentsSubscriptionListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
+export interface GuestConfigurationAssignmentsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GuestConfigurationAssignmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationAssignmentsCreateOrUpdateResponse = GuestConfigurationAssignment;
-
-// @public
-export interface GuestConfigurationAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GuestConfigurationAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationAssignmentsGetResponse = GuestConfigurationAssignment;
-
-// @public
-export interface GuestConfigurationAssignmentsListOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentsListRGListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationAssignmentsListResponse = GuestConfigurationAssignmentList;
-
-// @public
-export interface GuestConfigurationAssignmentsRGListOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentsListSubscriptionListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationAssignmentsRGListResponse = GuestConfigurationAssignmentList;
-
-// @public
-export interface GuestConfigurationAssignmentsSubscriptionListOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentsOperations {
+    createOrUpdate: (guestConfigurationAssignmentName: string, resourceGroupName: string, vmName: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationAssignmentsCreateOrUpdateOptionalParams) => Promise<GuestConfigurationAssignment>;
+    delete: (resourceGroupName: string, guestConfigurationAssignmentName: string, vmName: string, options?: GuestConfigurationAssignmentsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, guestConfigurationAssignmentName: string, vmName: string, options?: GuestConfigurationAssignmentsGetOptionalParams) => Promise<GuestConfigurationAssignment>;
+    list: (resourceGroupName: string, vmName: string, options?: GuestConfigurationAssignmentsListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
+    listRGList: (resourceGroupName: string, options?: GuestConfigurationAssignmentsListRGListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
+    listSubscriptionList: (options?: GuestConfigurationAssignmentsListSubscriptionListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
 }
 
 // @public
-export type GuestConfigurationAssignmentsSubscriptionListResponse = GuestConfigurationAssignmentList;
-
-// @public
-export interface GuestConfigurationAssignmentsVmss {
-    createOrUpdate(resourceGroupName: string, vmssName: string, name: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationAssignmentsVmssCreateOrUpdateOptionalParams): Promise<GuestConfigurationAssignmentsVmssCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentsVmssDeleteOptionalParams): Promise<GuestConfigurationAssignmentsVmssDeleteResponse>;
-    get(resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentsVmssGetOptionalParams): Promise<GuestConfigurationAssignmentsVmssGetResponse>;
-    list(resourceGroupName: string, vmssName: string, options?: GuestConfigurationAssignmentsVmssListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
+export interface GuestConfigurationAssignmentsVmssCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GuestConfigurationAssignmentsVmssCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentsVmssDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationAssignmentsVmssCreateOrUpdateResponse = GuestConfigurationAssignment;
-
-// @public
-export interface GuestConfigurationAssignmentsVmssDeleteOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentsVmssGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationAssignmentsVmssDeleteResponse = GuestConfigurationAssignment;
-
-// @public
-export interface GuestConfigurationAssignmentsVmssGetOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentsVmssListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationAssignmentsVmssGetResponse = GuestConfigurationAssignment;
-
-// @public
-export interface GuestConfigurationAssignmentsVmssListOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationAssignmentsVmssOperations {
+    createOrUpdate: (resourceGroupName: string, vmssName: string, name: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationAssignmentsVmssCreateOrUpdateOptionalParams) => Promise<GuestConfigurationAssignment>;
+    delete: (resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentsVmssDeleteOptionalParams) => Promise<GuestConfigurationAssignment>;
+    get: (resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentsVmssGetOptionalParams) => Promise<GuestConfigurationAssignment>;
+    list: (resourceGroupName: string, vmssName: string, options?: GuestConfigurationAssignmentsVmssListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
 }
-
-// @public
-export type GuestConfigurationAssignmentsVmssListResponse = GuestConfigurationAssignmentList;
 
 // @public (undocumented)
-export class GuestConfigurationClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: GuestConfigurationClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    guestConfigurationAssignmentReports: GuestConfigurationAssignmentReports;
-    // (undocumented)
-    guestConfigurationAssignmentReportsVmss: GuestConfigurationAssignmentReportsVmss;
-    // (undocumented)
-    guestConfigurationAssignments: GuestConfigurationAssignments;
-    // (undocumented)
-    guestConfigurationAssignmentsVmss: GuestConfigurationAssignmentsVmss;
-    // (undocumented)
-    guestConfigurationConnectedVMwarevSphereAssignments: GuestConfigurationConnectedVMwarevSphereAssignments;
-    // (undocumented)
-    guestConfigurationConnectedVMwarevSphereAssignmentsReports: GuestConfigurationConnectedVMwarevSphereAssignmentsReports;
-    // (undocumented)
-    guestConfigurationHcrpAssignmentReports: GuestConfigurationHcrpAssignmentReports;
-    // (undocumented)
-    guestConfigurationHcrpAssignments: GuestConfigurationHcrpAssignments;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionId: string;
+export class GuestConfigurationClient {
+    constructor(credential: TokenCredential, options?: GuestConfigurationClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: GuestConfigurationClientOptionalParams);
+    readonly guestConfigurationAssignmentReports: GuestConfigurationAssignmentReportsOperations;
+    readonly guestConfigurationAssignmentReportsVmss: GuestConfigurationAssignmentReportsVmssOperations;
+    readonly guestConfigurationAssignments: GuestConfigurationAssignmentsOperations;
+    readonly guestConfigurationAssignmentsVmss: GuestConfigurationAssignmentsVmssOperations;
+    readonly guestConfigurationConnectedVMwarevSphereAssignments: GuestConfigurationConnectedVMwarevSphereAssignmentsOperations;
+    readonly guestConfigurationConnectedVMwarevSphereAssignmentsReports: GuestConfigurationConnectedVMwarevSphereAssignmentsReportsOperations;
+    readonly guestConfigurationHcrpAssignmentReports: GuestConfigurationHcrpAssignmentReportsOperations;
+    readonly guestConfigurationHcrpAssignments: GuestConfigurationHcrpAssignmentsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
 }
 
 // @public
-export interface GuestConfigurationClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface GuestConfigurationClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface GuestConfigurationConnectedVMwarevSphereAssignments {
-    createOrUpdate(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateOptionalParams): Promise<GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsGetOptionalParams): Promise<GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse>;
-    list(resourceGroupName: string, vmName: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse = GuestConfigurationAssignment;
-
-// @public
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse = GuestConfigurationAssignment;
-
-// @public
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsListOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsOperations {
+    createOrUpdate: (resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateOptionalParams) => Promise<GuestConfigurationAssignment>;
+    delete: (resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsGetOptionalParams) => Promise<GuestConfigurationAssignment>;
+    list: (resourceGroupName: string, vmName: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
 }
 
 // @public
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsListResponse = GuestConfigurationAssignmentList;
-
-// @public
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReports {
-    get(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, reportId: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetOptionalParams): Promise<GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetResponse>;
-    list(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams): Promise<GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse>;
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetResponse = GuestConfigurationAssignmentReport;
-
-// @public
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReportsOperations {
+    get: (resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, reportId: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetOptionalParams) => Promise<GuestConfigurationAssignmentReport>;
+    list: (resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams) => Promise<GuestConfigurationAssignmentReportList>;
 }
 
 // @public
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse = GuestConfigurationAssignmentReportList;
-
-// @public
-export interface GuestConfigurationHcrpAssignmentReports {
-    get(resourceGroupName: string, guestConfigurationAssignmentName: string, reportId: string, machineName: string, options?: GuestConfigurationHcrpAssignmentReportsGetOptionalParams): Promise<GuestConfigurationHcrpAssignmentReportsGetResponse>;
-    list(resourceGroupName: string, guestConfigurationAssignmentName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentReportsListOptionalParams): Promise<GuestConfigurationHcrpAssignmentReportsListResponse>;
+export interface GuestConfigurationHcrpAssignmentReportsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GuestConfigurationHcrpAssignmentReportsGetOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationHcrpAssignmentReportsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationHcrpAssignmentReportsGetResponse = GuestConfigurationAssignmentReport;
-
-// @public
-export interface GuestConfigurationHcrpAssignmentReportsListOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationHcrpAssignmentReportsOperations {
+    get: (resourceGroupName: string, guestConfigurationAssignmentName: string, reportId: string, machineName: string, options?: GuestConfigurationHcrpAssignmentReportsGetOptionalParams) => Promise<GuestConfigurationAssignmentReport>;
+    list: (resourceGroupName: string, guestConfigurationAssignmentName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentReportsListOptionalParams) => Promise<GuestConfigurationAssignmentReportList>;
 }
 
 // @public
-export type GuestConfigurationHcrpAssignmentReportsListResponse = GuestConfigurationAssignmentReportList;
-
-// @public
-export interface GuestConfigurationHcrpAssignments {
-    createOrUpdate(guestConfigurationAssignmentName: string, resourceGroupName: string, machineName: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams): Promise<GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, guestConfigurationAssignmentName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, guestConfigurationAssignmentName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentsGetOptionalParams): Promise<GuestConfigurationHcrpAssignmentsGetResponse>;
-    list(resourceGroupName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentsListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
+export interface GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationHcrpAssignmentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse = GuestConfigurationAssignment;
-
-// @public
-export interface GuestConfigurationHcrpAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationHcrpAssignmentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GuestConfigurationHcrpAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationHcrpAssignmentsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GuestConfigurationHcrpAssignmentsGetResponse = GuestConfigurationAssignment;
-
-// @public
-export interface GuestConfigurationHcrpAssignmentsListOptionalParams extends coreClient.OperationOptions {
+export interface GuestConfigurationHcrpAssignmentsOperations {
+    createOrUpdate: (guestConfigurationAssignmentName: string, resourceGroupName: string, machineName: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams) => Promise<GuestConfigurationAssignment>;
+    delete: (resourceGroupName: string, guestConfigurationAssignmentName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, guestConfigurationAssignmentName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentsGetOptionalParams) => Promise<GuestConfigurationAssignment>;
+    list: (resourceGroupName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentsListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
 }
-
-// @public
-export type GuestConfigurationHcrpAssignmentsListResponse = GuestConfigurationAssignmentList;
 
 // @public
 export interface GuestConfigurationNavigation {
@@ -429,12 +355,15 @@ export interface GuestConfigurationNavigation {
     configurationProtectedParameter?: ConfigurationParameter[];
     readonly configurationSetting?: ConfigurationSetting;
     contentHash?: string;
+    contentManagedIdentity?: string;
     readonly contentType?: string;
     contentUri?: string;
     kind?: Kind;
     name?: string;
     version?: string;
 }
+
+export { isRestError }
 
 // @public
 export type Kind = string;
@@ -495,6 +424,11 @@ export enum KnownType {
 }
 
 // @public
+export enum KnownVersions {
+    V20240405 = "2024-04-05"
+}
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
     name?: string;
@@ -510,41 +444,43 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationList {
-    value?: Operation[];
-}
-
-// @public
 export interface OperationProperties {
     statusCode?: string;
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export type OperationsListResponse = OperationList;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export type ProvisioningState = string;
 
 // @public
-export interface ProxyResource extends Resource {
-}
-
-// @public
-export interface Resource {
+export interface ProxyResource {
     readonly id?: string;
     location?: string;
-    name?: string;
+    name: string;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export interface SystemData {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list StandbyVirtualMachinePoolResource resources by resource group
  *
  * @summary list StandbyVirtualMachinePoolResource resources by resource group
- * x-ms-original-file: 2025-03-01/StandbyVirtualMachinePools_ListByResourceGroup.json
+ * x-ms-original-file: 2025-10-01/StandbyVirtualMachinePools_ListByResourceGroup.json
  */
 async function standbyVirtualMachinePoolsListByResourceGroup() {
   const credential = new DefaultAzureCredential();

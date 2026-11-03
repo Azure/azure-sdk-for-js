@@ -1,25 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Check the specified namespace name availability.
- *
- * @summary Check the specified namespace name availability.
- * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceCheckNameAvailability.json
- */
-
-import type { CheckNameAvailability } from "@azure/arm-relay";
 import { RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to check the specified namespace name availability.
+ *
+ * @summary check the specified namespace name availability.
+ * x-ms-original-file: 2026-01-01/NameSpaces/RelayNameSpaceCheckNameAvailability.json
+ */
 async function relayCheckNameAvailability(): Promise<void> {
-  const subscriptionId =
-    process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const parameters: CheckNameAvailability = { name: "sdk-Namespace1321" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new RelayAPI(credential, subscriptionId);
-  const result = await client.namespaces.checkNameAvailability(parameters);
+  const result = await client.namespaces.checkNameAvailability({
+    name: "example-RelayNamespace1321",
+  });
   console.log(result);
 }
 

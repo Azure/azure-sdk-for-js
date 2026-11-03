@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The operation returns properties of a OpenShift cluster.
- *
- * @summary The operation returns properties of a OpenShift cluster.
- * x-ms-original-file: specification/redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/openshiftclusters/stable/2023-11-22/examples/OpenShiftClusters_Get.json
- */
-
 import { AzureRedHatOpenShiftClient } from "@azure/arm-redhatopenshift";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to the operation returns properties of a OpenShift cluster.
+ *
+ * @summary the operation returns properties of a OpenShift cluster.
+ * x-ms-original-file: 2025-07-25/OpenShiftClusters_Get.json
+ */
 async function getsAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName(): Promise<void> {
-  const subscriptionId = process.env["REDHATOPENSHIFT_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["REDHATOPENSHIFT_RESOURCE_GROUP"] || "resourceGroup";
-  const resourceName = "resourceName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureRedHatOpenShiftClient(credential, subscriptionId);
-  const result = await client.openShiftClusters.get(resourceGroupName, resourceName);
+  const result = await client.openShiftClusters.get("resourceGroup", "resourceName");
   console.log(result);
 }
 

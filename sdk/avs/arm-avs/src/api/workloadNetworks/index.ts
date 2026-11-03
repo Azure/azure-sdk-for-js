@@ -40,10 +40,10 @@ export {
   createDhcp,
   getDhcp,
   listDhcp,
-  get,
   list,
+  get,
 } from "./operations.js";
-export {
+export type {
   WorkloadNetworksDeleteVMGroupOptionalParams,
   WorkloadNetworksUpdateVMGroupOptionalParams,
   WorkloadNetworksCreateVMGroupOptionalParams,
@@ -82,6 +82,6 @@ export {
   WorkloadNetworksCreateDhcpOptionalParams,
   WorkloadNetworksGetDhcpOptionalParams,
   WorkloadNetworksListDhcpOptionalParams,
-  WorkloadNetworksGetOptionalParams,
   WorkloadNetworksListOptionalParams,
+  WorkloadNetworksGetOptionalParams,
 } from "./options.js";

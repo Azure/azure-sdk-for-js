@@ -5,7 +5,7 @@ import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import type { WebPubSubGroup } from "../../src/index.js";
 import { WebPubSubServiceClient } from "../../src/index.js";
 import recorderOptions from "../testEnv.js";
-import type { FullOperationResponse } from "@azure/core-client";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getEndpoint } from "../utils/injectables.js";
@@ -13,11 +13,19 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import WebSocket from "ws";
 import type { GroupListConnectionsOptions } from "../../src/index.js";
 
+function getErrorMessage(error: any): string {
+  try {
+    return JSON.parse(error.message).message ?? error.message;
+  } catch {
+    return error.message;
+  }
+}
+
 describe("Group client working with a group", () => {
   let recorder: Recorder;
   let client: WebPubSubGroup;
-  let lastResponse: FullOperationResponse | undefined;
-  function onResponse(response: FullOperationResponse): void {
+  let lastResponse: PipelineResponse | undefined;
+  function onResponse(response: PipelineResponse): void {
     lastResponse = response;
   }
   beforeEach(async (ctx) => {
@@ -69,7 +77,7 @@ describe("Group client working with a group", () => {
     }
     assert.equal(error.statusCode, 400);
     assert.equal(
-      JSON.parse(error.message).message,
+      getErrorMessage(error),
       "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
     );
   });
@@ -94,13 +102,25 @@ describe("Group client working with a group", () => {
     }
   });
 
-  // skipping until we can record better tests with an actual user active.
-  it.skip("can manage users", async () => {
-    // service returns 404, this should likely be raised as an error but isn't
-    // due to the swagger design
-    await client.addUser("brian");
+  it("can broadcast to group with excludedConnections", async () => {
+    await client.sendToAll("hello", {
+      contentType: "text/plain",
+      excludedConnections: ["conn1", "conn2"],
+      onResponse,
+    });
+    assert.equal(lastResponse?.status, 202);
+  });
 
-    // service returns 404 and this throws.
+  it("can close all connections with reason", async () => {
+    await client.closeAllConnections({ reason: "test reason", onResponse });
+    assert.equal(lastResponse?.status, 204);
+  });
+
+  it.skip("can manage users", async () => {
+    // addUser and removeUser require a user with an active WebSocket connection.
+    // Without a connected user, addUser silently no-ops (404 swallowed per swagger design)
+    // and removeUser throws 404. Tested via integration tests when users are live.
+    await client.addUser("brian");
     await client.removeUser("brian");
   });
 
@@ -111,9 +131,9 @@ describe("Group client working with a group", () => {
 
 describe("client working with multiple groups", () => {
   let recorder: Recorder;
-  let lastResponse: FullOperationResponse | undefined;
+  let lastResponse: PipelineResponse | undefined;
   let hubClient: WebPubSubServiceClient;
-  function onResponse(response: FullOperationResponse): void {
+  function onResponse(response: PipelineResponse): void {
     lastResponse = response;
   }
   beforeEach(async (ctx) => {
@@ -149,7 +169,7 @@ describe("client working with multiple groups", () => {
     }
     assert.equal(error.statusCode, 400);
     assert.equal(
-      JSON.parse(error.message).message,
+      getErrorMessage(error),
       "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
     );
   });
@@ -172,7 +192,7 @@ describe("client working with multiple groups", () => {
     }
     assert.equal(error.statusCode, 400);
     assert.equal(
-      JSON.parse(error.message).message,
+      getErrorMessage(error),
       "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
     );
   });
@@ -248,9 +268,8 @@ describe("Group client listing connections", () => {
     it(`can list connections with ${testCase.totalConnectionCount} connections, maxCount=${testCase.maxCountToList}, pageSize=${testCase.maxPageSize}`, async () => {
       const groupName = "group1";
 
-      const clientAccessUri = await hubClient.getClientAccessToken({ groups: [groupName] });
-
       if (!isPlaybackMode()) {
+        const clientAccessUri = await hubClient.getClientAccessToken({ groups: [groupName] });
         for (let i = 0; i < testCase.totalConnectionCount; i++) {
           const client = new WebSocket(clientAccessUri.url);
           await new Promise((resolve) => client.on("open", resolve));

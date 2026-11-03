@@ -1,35 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a Deployment stack with a given name at Resource Group scope.
- *
- * @summary Gets a Deployment stack with a given name at Resource Group scope.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackResourceGroupGet.json
- */
-
 import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function deploymentStacksResourceGroupGet(): Promise<void> {
-  const subscriptionId =
-    process.env["RESOURCESDEPLOYMENTSTACKS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["RESOURCESDEPLOYMENTSTACKS_RESOURCE_GROUP"] || "deploymentStacksRG";
-  const deploymentStackName = "simpleDeploymentStack";
+/**
+ * This sample demonstrates how to gets the Deployment stack with the given name.
+ *
+ * @summary gets the Deployment stack with the given name.
+ * x-ms-original-file: 2025-07-01/DeploymentStackResourceGroupGet.json
+ */
+async function getAResourceGroupDeploymentStack(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeploymentStacksClient(credential, subscriptionId);
   const result = await client.deploymentStacks.getAtResourceGroup(
-    resourceGroupName,
-    deploymentStackName,
+    "deploymentStacksRG",
+    "simpleDeploymentStack",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await deploymentStacksResourceGroupGet();
+  await getAResourceGroupDeploymentStack();
 }
 
 main().catch(console.error);

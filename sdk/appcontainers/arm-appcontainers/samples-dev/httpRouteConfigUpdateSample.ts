@@ -1,65 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  HttpRouteConfig} from "@azure/arm-appcontainers";
-import {
-  ContainerAppsAPIClient,
-} from "@azure/arm-appcontainers";
+import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Patches a Http Route Config resource. Only patching of tags is supported
+ * This sample demonstrates how to patches an http route config resource. Only patching of tags is supported
  *
- * @summary Patches a Http Route Config resource. Only patching of tags is supported
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/HttpRouteConfig_Patch.json
+ * @summary patches an http route config resource. Only patching of tags is supported
+ * x-ms-original-file: 2026-07-01/HttpRouteConfig_Patch.json
  */
-async function patchAHttpRouteConfig(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
-  const environmentName = "testcontainerenv";
-  const httpRouteName = "httproutefriendlyname";
-  const httpRouteConfigEnvelope: HttpRouteConfig = {
-    properties: {
-      customDomains: [
-        {
-          name: "example.com",
-          bindingType: "SniEnabled",
-          certificateId:
-            "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/certificates/certificate-1",
-        },
-      ],
-      rules: [
-        {
-          description: "random-description",
-          routes: [
-            {
-              action: { prefixRewrite: "/v1/api" },
-              match: { path: "/v1", caseSensitive: true },
-            },
-          ],
-          targets: [{ containerApp: "capp-1", revision: "capp-1--0000001" }],
-        },
-      ],
-    },
-  };
+async function patchManagedHttpRoute(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.httpRouteConfigOperations.update(
-    resourceGroupName,
-    environmentName,
-    httpRouteName,
-    httpRouteConfigEnvelope,
+  const result = await client.httpRouteConfig.update(
+    "examplerg",
+    "testcontainerenv",
+    "httproutefriendlyname",
+    {
+      properties: {
+        customDomains: [
+          {
+            name: "example.com",
+            bindingType: "SniEnabled",
+            certificateId:
+              "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/certificates/certificate-1",
+          },
+        ],
+        rules: [
+          {
+            description: "random-description",
+            routes: [
+              { action: { prefixRewrite: "/v1/api" }, match: { path: "/v1", caseSensitive: true } },
+            ],
+            targets: [{ containerApp: "capp-1", revision: "rev-1" }],
+          },
+        ],
+      },
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await patchAHttpRouteConfig();
+  await patchManagedHttpRoute();
 }
 
 main().catch(console.error);

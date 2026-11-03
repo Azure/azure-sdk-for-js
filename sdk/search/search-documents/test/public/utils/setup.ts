@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertEnvironmentVariable, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { computeSha256Hash, delay, isDefined } from "@azure/core-util";
-import type { OpenAIClient } from "@azure/openai";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { computeSha256Hash, delay } from "@azure/core-util";
 import { assert } from "vitest";
 import type {
   SearchClient,
@@ -14,10 +13,10 @@ import type {
   VectorSearchAlgorithmConfiguration,
   VectorSearchCompression,
   VectorSearchProfile,
-  VectorSearchVectorizer,
 } from "../../../src/index.js";
 import { GeographyPoint, KnownAnalyzerNames } from "../../../src/index.js";
 import type { Hotel } from "./interfaces.js";
+import { mockEmbeddingsData } from "./mockEmbeddings.js";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
@@ -27,20 +26,6 @@ export async function createIndex(
   serviceVersion: string,
 ): Promise<SearchIndex> {
   const isPreview = serviceVersion.toLowerCase().includes("preview");
-
-  const vectorizers: VectorSearchVectorizer[] = [
-    {
-      kind: "azureOpenAI",
-      vectorizerName: "vector-search-vectorizer",
-      parameters: {
-        deploymentId: assertEnvironmentVariable("AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME"),
-        resourceUrl: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
-        modelName: "text-embedding-ada-002",
-      },
-    },
-  ];
-  await Promise.all(vectorizers.map((v) => renameUniquelyInPlace("vectorizerName", v)));
-  const [azureOpenAiVectorizerName] = vectorizers.map((v) => v.vectorizerName);
 
   const algorithmConfigurations: VectorSearchAlgorithmConfiguration[] = [
     {
@@ -75,19 +60,18 @@ export async function createIndex(
   const vectorSearchProfiles: VectorSearchProfile[] = [
     {
       name: "vector-search-profile-1",
-      vectorizerName: isPreview ? azureOpenAiVectorizerName : undefined,
       algorithmConfigurationName: exhaustiveKnnAlgorithmConfigurationName,
     },
     {
       name: "vector-search-profile-2",
-      vectorizerName: isPreview ? azureOpenAiVectorizerName : undefined,
       algorithmConfigurationName: hnswAlgorithmConfigurationName,
       compressionName: isPreview ? scalarQuantizationCompressionConfigurationName : undefined,
     },
   ];
   await Promise.all(vectorSearchProfiles.map((p) => renameUniquelyInPlace("name", p)));
-  const [azureOpenAiVectorSearchProfileName, azureOpenAiCompressedVectorSearchProfileName] =
-    vectorSearchProfiles.map((p) => p.name);
+  const [vectorSearchProfileName, compressedVectorSearchProfileName] = vectorSearchProfiles.map(
+    (p) => p.name,
+  );
 
   const vectorFields: SearchField[] = [
     {
@@ -96,7 +80,7 @@ export async function createIndex(
       searchable: true,
       vectorSearchDimensions: 1536,
       hidden: true,
-      vectorSearchProfileName: azureOpenAiVectorSearchProfileName,
+      vectorSearchProfileName: vectorSearchProfileName,
     },
     {
       type: "Collection(Edm.Half)",
@@ -104,7 +88,7 @@ export async function createIndex(
       searchable: true,
       hidden: true,
       vectorSearchDimensions: 1536,
-      vectorSearchProfileName: azureOpenAiCompressedVectorSearchProfileName,
+      vectorSearchProfileName: compressedVectorSearchProfileName,
       stored: false,
     },
   ];
@@ -321,7 +305,6 @@ export async function createIndex(
     },
     vectorSearch: {
       algorithms: algorithmConfigurations,
-      vectorizers: isPreview ? vectorizers : undefined,
       compressions: isPreview ? compressionConfigurations : undefined,
       profiles: vectorSearchProfiles,
     },
@@ -343,10 +326,7 @@ export async function createIndex(
   return client.createIndex(hotelIndex);
 }
 
-export async function populateIndex(
-  client: SearchClient<Hotel>,
-  openAIClient: OpenAIClient,
-): Promise<void> {
+export async function populateIndex(client: SearchClient<Hotel>): Promise<void> {
   // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
     {
@@ -550,9 +530,7 @@ export async function populateIndex(
     },
   ];
 
-  if (!isLiveMode()) {
-    await addVectorDescriptions(testDocuments, openAIClient);
-  }
+  addVectorDescriptions(testDocuments);
 
   await client.uploadDocuments(testDocuments);
 
@@ -561,23 +539,26 @@ export async function populateIndex(
   }
 }
 
-async function addVectorDescriptions(
-  documents: Hotel[],
-  openAIClient: OpenAIClient,
-): Promise<void> {
-  const deploymentName =
-    process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME ?? "embedding-deployment-name";
+function addVectorDescriptions(documents: Hotel[]): void {
+  // Use mock embeddings data for vector descriptions
+  const embeddingsMap = new Map(
+    mockEmbeddingsData.embeddings.hotelDescriptions.map((item) => [item.hotelId, item.embedding]),
+  );
 
-  const descriptions = documents.map(({ description }) => description).filter(isDefined);
+  for (const document of documents) {
+    const embedding = embeddingsMap.get(document.hotelId!);
+    if (embedding) {
+      document.vectorDescription = embedding;
+      document.compressedVectorDescription = embedding;
+    }
+  }
+}
 
-  const embeddingsArray = await openAIClient.getEmbeddings(deploymentName, descriptions);
-
-  embeddingsArray.data.forEach((embeddingItem) => {
-    const { embedding, index } = embeddingItem;
-    const document = documents[index];
-    document.vectorDescription = embedding;
-    document.compressedVectorDescription = embedding;
-  });
+/**
+ * Gets the mock query embedding for vector search tests
+ */
+export function getMockQueryEmbedding(): number[] {
+  return mockEmbeddingsData.embeddings.queryEmbedding.embedding;
 }
 
 export async function deleteDataSourceConnections(client: SearchIndexerClient): Promise<void> {

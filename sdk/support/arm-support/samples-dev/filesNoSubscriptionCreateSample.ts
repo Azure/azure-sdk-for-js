@@ -1,33 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new file under a workspace.
- *
- * @summary Creates a new file under a workspace.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/CreateFile.json
- */
-
-import type { FileDetails } from "@azure/arm-support";
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a new file under a workspace.
+ *
+ * @summary creates a new file under a workspace.
+ * x-ms-original-file: 2025-06-01-preview/CreateFile.json
+ */
 async function createAFileWorkspace(): Promise<void> {
-  const fileWorkspaceName = "testworkspace";
-  const fileName = "test.txt";
-  const createFileParameters: FileDetails = {
+  const credential = new DefaultAzureCredential();
+  const client = new MicrosoftSupport(credential);
+  const result = await client.filesNoSubscription.create("testworkspace", "test.txt", {
     chunkSize: 41423,
     fileSize: 41423,
     numberOfChunks: 1,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new MicrosoftSupport(credential);
-  const result = await client.filesNoSubscription.create(
-    fileWorkspaceName,
-    fileName,
-    createFileParameters,
-  );
+  });
   console.log(result);
 }
 

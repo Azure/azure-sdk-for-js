@@ -1,14 +1,28 @@
 # Release History
 
-## 1.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.4.3 (Unreleased)
 
 ### Other Changes
+
+- Updated `@azure/msal-node` to `^7.1.0`. [#40532](https://github.com/Azure/azure-sdk-for-js/pull/40532)
+
+## 1.4.2 (2026-09-15)
+
+### Other Changes
+
+- Updated `@azure/msal-node` to `^6.0.0`. [#39965](https://github.com/Azure/azure-sdk-for-js/pull/39965)
+
+## 1.4.1 (2026-08-12)
+
+### Other Changes
+
+- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#39568](https://github.com/Azure/azure-sdk-for-js/pull/39568)
+
+## 1.4.0 (2026-04-08)
+
+### Other Changes
+
+- Updated `@azure/msal-node` to `^5.1.0` and `@azure/msal-node-extensions` to `^5.1.0`. [#37780](https://github.com/Azure/azure-sdk-for-js/pull/37780)
 
 ## 1.3.0 (2025-11-06)
 

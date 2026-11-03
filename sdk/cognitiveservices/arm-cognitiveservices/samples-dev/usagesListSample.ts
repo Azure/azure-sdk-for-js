@@ -3,33 +3,103 @@
 
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get usages for the requested subscription
+ * This sample demonstrates how to get usages for the requested subscription
  *
- * @summary Get usages for the requested subscription
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListUsages.json
+ * @summary get usages for the requested subscription
+ * x-ms-original-file: 2026-09-15-preview/ListUsages.json
  */
 async function getUsages(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const location = "WestUS";
   const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.usages.list(location)) {
+  for await (const item of client.usages.list("WestUS")) {
     resArray.push(item);
   }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to get usages for the requested subscription
+ *
+ * @summary get usages for the requested subscription
+ * x-ms-original-file: 2026-09-15-preview/ListUsagesClassicScope.json
+ */
+async function getUsagesClassicScope(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.usages.list("WestUS")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to get usages for the requested subscription
+ *
+ * @summary get usages for the requested subscription
+ * x-ms-original-file: 2026-09-15-preview/ListUsagesDataZoneScope.json
+ */
+async function getUsagesDataZoneScope(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.usages.list("WestUS")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to get usages for the requested subscription
+ *
+ * @summary get usages for the requested subscription
+ * x-ms-original-file: 2026-09-15-preview/ListUsagesGlobalScope.json
+ */
+async function getUsagesGlobalScope(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.usages.list("WestUS")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to get usages for the requested subscription
+ *
+ * @summary get usages for the requested subscription
+ * x-ms-original-file: 2026-09-15-preview/ListUsagesWithResourceMetadata.json
+ */
+async function getUsagesWithResourceMetadata(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.usages.list("WestUS")) {
+    resArray.push(item);
+  }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
   await getUsages();
+  await getUsagesClassicScope();
+  await getUsagesDataZoneScope();
+  await getUsagesGlobalScope();
+  await getUsagesWithResourceMetadata();
 }
 
 main().catch(console.error);

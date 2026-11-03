@@ -1,116 +1,89 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get the details of the management group.
-
- *
- * @summary Get the details of the management group.
-
- * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetManagementGroup.json
- */
-
-import type { ManagementGroupsGetOptionalParams } from "@azure/arm-managementgroups";
 import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to get the details of the management group.
+ *
+ * @summary get the details of the management group.
+ * x-ms-original-file: 2023-04-01/GetManagementGroup.json
+ */
 async function getManagementGroup(): Promise<void> {
-  const groupId = "20000000-0001-0000-0000-000000000000";
-  const cacheControl = "no-cache";
-  const options: ManagementGroupsGetOptionalParams = { cacheControl };
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);
-  const result = await client.managementGroups.get(groupId, options);
+  const result = await client.managementGroups.get("20000000-0001-0000-0000-000000000000");
   console.log(result);
 }
 
-getManagementGroup().catch(console.error);
-
 /**
- * This sample demonstrates how to Get the details of the management group.
-
+ * This sample demonstrates how to get the details of the management group.
  *
- * @summary Get the details of the management group.
-
- * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetManagementGroupWithAncestors.json
+ * @summary get the details of the management group.
+ * x-ms-original-file: 2023-04-01/GetManagementGroupWithAncestors.json
  */
 async function getManagementGroupWithAncestors(): Promise<void> {
-  const groupId = "20000000-0001-0000-0000-00000000000";
-  const expand = "ancestors";
-  const cacheControl = "no-cache";
-  const options: ManagementGroupsGetOptionalParams = { expand, cacheControl };
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);
-  const result = await client.managementGroups.get(groupId, options);
+  const result = await client.managementGroups.get("20000000-0001-0000-0000-00000000000", {
+    expand: "ancestors",
+  });
   console.log(result);
 }
 
-getManagementGroupWithAncestors().catch(console.error);
-
 /**
- * This sample demonstrates how to Get the details of the management group.
-
+ * This sample demonstrates how to get the details of the management group.
  *
- * @summary Get the details of the management group.
-
- * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetManagementGroupWithExpand.json
+ * @summary get the details of the management group.
+ * x-ms-original-file: 2023-04-01/GetManagementGroupWithExpand.json
  */
 async function getManagementGroupWithExpand(): Promise<void> {
-  const groupId = "20000000-0001-0000-0000-000000000000";
-  const expand = "children";
-  const cacheControl = "no-cache";
-  const options: ManagementGroupsGetOptionalParams = { expand, cacheControl };
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);
-  const result = await client.managementGroups.get(groupId, options);
+  const result = await client.managementGroups.get("20000000-0001-0000-0000-000000000000", {
+    expand: "children",
+  });
   console.log(result);
 }
 
-getManagementGroupWithExpand().catch(console.error);
-
 /**
- * This sample demonstrates how to Get the details of the management group.
-
+ * This sample demonstrates how to get the details of the management group.
  *
- * @summary Get the details of the management group.
-
- * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetManagementGroupWithPath.json
- */
-async function getManagementGroupWithPath(): Promise<void> {
-  const groupId = "20000000-0001-0000-0000-000000000000";
-  const expand = "path";
-  const cacheControl = "no-cache";
-  const options: ManagementGroupsGetOptionalParams = { expand, cacheControl };
-  const credential = new DefaultAzureCredential();
-  const client = new ManagementGroupsAPI(credential);
-  const result = await client.managementGroups.get(groupId, options);
-  console.log(result);
-}
-
-getManagementGroupWithPath().catch(console.error);
-
-/**
- * This sample demonstrates how to Get the details of the management group.
-
- *
- * @summary Get the details of the management group.
-
- * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetManagementGroupWithExpandAndRecurse.json
+ * @summary get the details of the management group.
+ * x-ms-original-file: 2023-04-01/GetManagementGroupWithExpandAndRecurse.json
  */
 async function getManagementGroupsWithExpandAndRecurse(): Promise<void> {
-  const groupId = "20000000-0001-0000-0000-000000000000";
-  const expand = "children";
-  const recurse = true;
-  const cacheControl = "no-cache";
-  const options: ManagementGroupsGetOptionalParams = {
-    expand,
-    recurse,
-    cacheControl,
-  };
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);
-  const result = await client.managementGroups.get(groupId, options);
+  const result = await client.managementGroups.get("20000000-0001-0000-0000-000000000000", {
+    expand: "children",
+    recurse: true,
+  });
   console.log(result);
 }
 
-getManagementGroupsWithExpandAndRecurse().catch(console.error);
+/**
+ * This sample demonstrates how to get the details of the management group.
+ *
+ * @summary get the details of the management group.
+ * x-ms-original-file: 2023-04-01/GetManagementGroupWithPath.json
+ */
+async function getManagementGroupWithPath(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new ManagementGroupsAPI(credential);
+  const result = await client.managementGroups.get("20000000-0001-0000-0000-000000000000", {
+    expand: "path",
+  });
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await getManagementGroup();
+  await getManagementGroupWithAncestors();
+  await getManagementGroupWithExpand();
+  await getManagementGroupsWithExpandAndRecurse();
+  await getManagementGroupWithPath();
+}
+
+main().catch(console.error);

@@ -20,10 +20,10 @@ import type {
   ServiceListQueuesSegmentHeaders,
   ServiceSetPropertiesHeaders,
   UserDelegationKey as UserDelegationKeyModel,
-} from "./generated/src/index.js";
-import { UserDelegationKey } from "@azure/storage-common";
+} from "./generated-classic-models.js";
+import type { UserDelegationKey } from "@azure/storage-common";
 
-export {
+export type {
   AccessPolicy,
   CorsRule,
   DequeuedMessageItem,
@@ -52,13 +52,12 @@ export {
   RetentionPolicy,
   ServiceGetPropertiesHeaders,
   ServiceGetStatisticsHeaders,
-  ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
   ServiceGetUserDelegationKeyHeaders,
   ServiceListQueuesSegmentHeaders,
   ServiceSetPropertiesHeaders,
   SignedIdentifier as SignedIdentifierModel,
   UserDelegationKey as UserDelegationKeyModel,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-models.js";
 
 /** Contains response data for the getProperties operation. */
 export type ServiceGetPropertiesResponse = WithResponse<

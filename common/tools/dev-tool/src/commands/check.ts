@@ -2,12 +2,13 @@
 // Licensed under the MIT License
 
 import path from "node:path";
-import { resolveProject } from "../util/resolveProject";
-import { createPrinter } from "../util/printer";
-import { leafCommand } from "../framework/command";
-import { makeCommandInfo } from "../framework/command";
+import { resolveProject } from "../util/resolveProject.ts";
+import { createPrinter } from "../util/printer.ts";
+import { leafCommand } from "../framework/command.ts";
+import { makeCommandInfo } from "../framework/command.ts";
 import fs from "node:fs/promises";
-import { Check, isCheckFailedError } from "../framework/check";
+import type { Check } from "../framework/check.ts";
+import { isCheckFailedError } from "../framework/check.ts";
 
 const log = createPrinter("check");
 
@@ -30,7 +31,7 @@ export const commandInfo = makeCommandInfo("check", "run package checks", {
 });
 
 export default leafCommand(commandInfo, async (options) => {
-  const checkFileNames = await fs.readdir(path.join(__dirname, "..", "checks"));
+  const checkFileNames = await fs.readdir(path.join(import.meta.dirname, "..", "checks"));
 
   log.info("Running checks");
 

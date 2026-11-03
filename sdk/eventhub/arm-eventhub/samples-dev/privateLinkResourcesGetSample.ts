@@ -1,28 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets lists of resources that supports Privatelinks.
- *
- * @summary Gets lists of resources that supports Privatelinks.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/PrivateLinkResourcesGet.json
- */
-
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets lists of resources that supports Privatelinks.
+ *
+ * @summary gets lists of resources that supports Privatelinks.
+ * x-ms-original-file: 2026-01-01/NameSpaces/PrivateLinkResourcesGet.json
+ */
 async function nameSpacePrivateLinkResourcesGet(): Promise<void> {
-  const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subID";
-  const resourceGroupName =
-    process.env["EVENTHUB_RESOURCE_GROUP"] || "ArunMonocle";
-  const namespaceName = "sdk-Namespace-2924";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subID";
   const client = new EventHubManagementClient(credential, subscriptionId);
-  const result = await client.privateLinkResources.get(
-    resourceGroupName,
-    namespaceName,
-  );
+  const result = await client.privateLinkResources.get("ArunMonocle", "sdk-Namespace-2924");
   console.log(result);
 }
 

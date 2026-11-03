@@ -1,85 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  DatabaseUpdate} from "@azure/arm-redisenterprisecache";
-import {
-  RedisEnterpriseManagementClient,
-} from "@azure/arm-redisenterprisecache";
+import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates a database
+ * This sample demonstrates how to updates a database
  *
- * @summary Updates a database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseDatabasesUpdate.json
+ * @summary updates a database
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesNoClusterCacheUpdateClustering.json
  */
-async function redisEnterpriseDatabasesUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
-  const databaseName = "default";
-  const parameters: DatabaseUpdate = {
-    accessKeysAuthentication: "Enabled",
-    clientProtocol: "Encrypted",
-    evictionPolicy: "AllKeysLRU",
-    persistence: { rdbEnabled: true, rdbFrequency: "12h" },
-  };
+async function redisEnterpriseDatabasesUpdateClusteringOnNoClusterCache(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.databases.beginUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    parameters,
-  );
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  const result = await client.databases.update("rg1", "cache1", "default", {
+    clientProtocol: "Encrypted",
+    clusteringPolicy: "EnterpriseCluster",
+    evictionPolicy: "NoEviction",
+    notifyKeyspaceEvents: "",
+    port: 10000,
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates a database
+ * This sample demonstrates how to updates a database
  *
- * @summary Updates a database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseDatabasesNoClusterCacheUpdateClustering.json
+ * @summary updates a database
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesUpdate.json
  */
-async function redisEnterpriseDatabasesUpdateClusteringOnNoClusterCache(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
-  const databaseName = "default";
-  const parameters: DatabaseUpdate = {
-    clientProtocol: "Encrypted",
-    clusteringPolicy: "EnterpriseCluster",
-    evictionPolicy: "NoEviction",
-    port: 10000,
-  };
+async function redisEnterpriseDatabasesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.databases.beginUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    parameters,
-  );
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  const result = await client.databases.update("rg1", "cache1", "default", {
+    accessKeysAuthentication: "Enabled",
+    clientProtocol: "Encrypted",
+    evictionPolicy: "AllKeysLRU",
+    notifyKeyspaceEvents: "KEA",
+    persistence: { rdbEnabled: true, rdbFrequency: "12h" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await redisEnterpriseDatabasesUpdate();
   await redisEnterpriseDatabasesUpdateClusteringOnNoClusterCache();
+  await redisEnterpriseDatabasesUpdate();
 }
 
 main().catch(console.error);

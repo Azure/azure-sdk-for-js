@@ -52,12 +52,12 @@ export interface PageBlobGetPageRangesDiffResponse
 export function rangeResponseFromModel(
   response: PageBlobGetPageRangesResponseModel | PageBlobGetPageRangesDiffResponseModel,
 ): PageBlobGetPageRangesResponse | PageBlobGetPageRangesDiffResponse {
-  const pageRange = (response._response.parsedBody.pageRange || []).map((x) => ({
+  const pageRange = (response.pageRange || []).map((x) => ({
     offset: x.start,
     count: x.end - x.start,
   }));
 
-  const clearRange = (response._response.parsedBody.clearRange || []).map((x) => ({
+  const clearRange = (response.clearRange || []).map((x) => ({
     offset: x.start,
     count: x.end - x.start,
   }));

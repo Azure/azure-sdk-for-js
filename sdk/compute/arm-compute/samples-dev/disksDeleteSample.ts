@@ -3,27 +3,18 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a disk.
+ * This sample demonstrates how to deletes a disk.
  *
- * @summary Deletes a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/Disk_Delete.json
+ * @summary deletes a disk.
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Delete.json
  */
 async function deleteAManagedDisk(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const diskName = "myDisk";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginDeleteAndWait(
-    resourceGroupName,
-    diskName,
-  );
-  console.log(result);
+  await client.disks.delete("myResourceGroup", "myDisk");
 }
 
 async function main(): Promise<void> {

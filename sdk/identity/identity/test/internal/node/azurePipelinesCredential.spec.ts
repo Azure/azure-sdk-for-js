@@ -40,4 +40,53 @@ describe("AzurePipelinesCredential (internal)", function () {
       /AzurePipelinesCredential: Authentication Failed. oidcToken field not detected in the response. Status code: 400[\s\S]*No service connection found with identifier/,
     );
   });
+
+  describe("stringified response in error messages", function () {
+    beforeEach(function () {
+      response.headers = createHttpHeaders({
+        "x-vss-e2eid": "test-e2e-id",
+        "x-msedge-ref": "test-msedge-ref",
+      });
+    });
+
+    function assertSafeErrorDetails(error: any): void {
+      assert.include(error.message, `"status":${response.status}`);
+      assert.include(error.message, "test-e2e-id");
+      assert.include(error.message, "test-msedge-ref");
+      assert.notInclude(error.message.toLowerCase(), "authorization");
+      assert.notInclude(error.message, "REDACTED");
+      assert.notInclude(error.message.toLowerCase(), '"request"');
+    }
+
+    it("includes status, body, and allow-listed headers but not request headers for an empty body", function () {
+      // response.bodyAsText is undefined by default (empty body case).
+      try {
+        handleOidcResponse(response);
+        assert.fail("Expected handleOidcResponse to throw");
+      } catch (e: any) {
+        assertSafeErrorDetails(e);
+      }
+    });
+
+    it("includes status, body, and allow-listed headers but not request headers for a malformed (non-JSON) body", function () {
+      response.bodyAsText = "No service connection found with identifier fake-identifier";
+      try {
+        handleOidcResponse(response);
+        assert.fail("Expected handleOidcResponse to throw");
+      } catch (e: any) {
+        assertSafeErrorDetails(e);
+        assert.include(e.message, "No service connection found with identifier fake-identifier");
+      }
+    });
+
+    it("includes status, body, and allow-listed headers but not request headers when the oidcToken field is missing", function () {
+      response.bodyAsText = JSON.stringify({ notOidcToken: "unexpected" });
+      try {
+        handleOidcResponse(response);
+        assert.fail("Expected handleOidcResponse to throw");
+      } catch (e: any) {
+        assertSafeErrorDetails(e);
+      }
+    });
+  });
 });

@@ -1,44 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a TagRule
- *
- * @summary Get a TagRule
- * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/TagRules_Get_MaximumSet_Gen.json
- */
-
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get a TagRule
+ *
+ * @summary get a TagRule
+ * x-ms-original-file: 2024-04-24/TagRules_Get_MaximumSet_Gen.json
+ */
 async function tagRulesGetMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
-  const ruleSetName = "default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DynatraceObservability(credential, subscriptionId);
-  const result = await client.tagRules.get(resourceGroupName, monitorName, ruleSetName);
+  const result = await client.tagRules.get("myResourceGroup", "myMonitor", "default");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get a TagRule
+ * This sample demonstrates how to get a TagRule
  *
- * @summary Get a TagRule
- * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/TagRules_Get_MinimumSet_Gen.json
+ * @summary get a TagRule
+ * x-ms-original-file: 2024-04-24/TagRules_Get_MinimumSet_Gen.json
  */
 async function tagRulesGetMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
-  const ruleSetName = "default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DynatraceObservability(credential, subscriptionId);
-  const result = await client.tagRules.get(resourceGroupName, monitorName, ruleSetName);
+  const result = await client.tagRules.get("myResourceGroup", "myMonitor", "default");
   console.log(result);
 }
 

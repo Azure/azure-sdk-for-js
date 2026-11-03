@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List the hosts for a given monitor resource.
- *
- * @summary List the hosts for a given monitor resource.
- * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/Hosts_List.json
- */
-
 import { MicrosoftDatadogClient } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list the hosts for a given monitor resource.
+ *
+ * @summary list the hosts for a given monitor resource.
+ * x-ms-original-file: 2025-12-26-preview/Hosts_List.json
+ */
 async function monitorsListHosts(): Promise<void> {
-  const subscriptionId =
-    process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.monitors.listHosts(resourceGroupName, monitorName)) {
+  for await (const item of client.monitors.listHosts("myResourceGroup", "myMonitor")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

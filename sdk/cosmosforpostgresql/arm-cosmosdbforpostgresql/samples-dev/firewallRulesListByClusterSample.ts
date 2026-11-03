@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all the firewall rules on cluster.
- *
- * @summary Lists all the firewall rules on cluster.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/FirewallRuleListByCluster.json
- */
-
 import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all the firewall rules on cluster.
+ *
+ * @summary lists all the firewall rules on cluster.
+ * x-ms-original-file: 2023-03-02-preview/FirewallRuleListByCluster.json
+ */
 async function listFirewallRulesOfTheCluster(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
-  const clusterName = "pgtestsvc4";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.firewallRules.listByCluster(resourceGroupName, clusterName)) {
+  for await (const item of client.firewallRules.listByCluster("TestGroup", "pgtestsvc4")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

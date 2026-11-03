@@ -8,45 +8,40 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a ScheduledAction
  *
  * @summary create a ScheduledAction
- * x-ms-original-file: 2025-04-15-preview/ScheduledActions_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-04-15-preview/ScheduledActions_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function scheduledActionsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "732116BD-AF31-4E74-9283-B387C44B4A44";
   const client = new ComputeScheduleClient(credential, subscriptionId);
   const result = await client.scheduledActions.createOrUpdate(
     "rgcomputeschedule",
-    "myScheduledAction",
+    "scheduled-action-01",
     {
       properties: {
         resourceType: "VirtualMachine",
         actionType: "Start",
-        startTime: "2025-04-17T00:23:55.281Z",
-        endTime: "2025-04-17T00:23:55.286Z",
+        startTime: "2026-03-12T02:39:45.061Z",
+        endTime: "2026-03-12T02:39:45.062Z",
         schedule: {
-          scheduledTime: "19:00:00",
-          timeZone: "g",
+          scheduledTime: "12:00:00",
+          timeZone: "America/Los_Angeles",
           requestedWeekDays: ["Monday"],
           requestedMonths: ["January"],
-          requestedDaysOfTheMonth: [15],
+          requestedDaysOfTheMonth: [1],
           executionParameters: {
             optimizationPreference: "Cost",
-            retryPolicy: { retryCount: 17, retryWindowInMinutes: 29 },
+            retryPolicy: { retryCount: 3, retryWindowInMinutes: 30, onFailureAction: "Unknown" },
           },
           deadlineType: "Unknown",
         },
         notificationSettings: [
-          {
-            destination: "wbhryycyolvnypjxzlawwvb",
-            type: "Email",
-            language: "en-us",
-            disabled: true,
-          },
+          { destination: "admin@contoso.com", type: "Email", language: "en-us", disabled: true },
         ],
         disabled: true,
       },
-      tags: { key2102: "obwsqwdydpkscnzceopxgkrhrxtdhv" },
-      location: "vmuhgdgipeypkcv",
+      tags: { environment: "production" },
+      location: "eastus2",
     },
   );
   console.log(result);

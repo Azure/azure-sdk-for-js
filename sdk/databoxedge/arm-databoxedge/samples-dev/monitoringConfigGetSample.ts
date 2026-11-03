@@ -1,25 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a  metric configuration of a role.
- *
- * @summary Gets a  metric configuration of a role.
- * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/GetMonitoringConfig.json
- */
-
 import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to gets a  metric configuration of a role.
+ *
+ * @summary gets a  metric configuration of a role.
+ * x-ms-original-file: 2023-12-01/GetMonitoringConfig.json
+ */
 async function getMonitoringConfig(): Promise<void> {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const deviceName = "testedgedevice";
-  const roleName = "testrole";
-  const resourceGroupName = "GroupForEdgeAutomation";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
-  const result = await client.monitoringConfig.get(deviceName, roleName, resourceGroupName);
+  const result = await client.monitoringConfig.get(
+    "testedgedevice",
+    "testrole",
+    "GroupForEdgeAutomation",
+  );
   console.log(result);
 }
 
-getMonitoringConfig().catch(console.error);
+async function main(): Promise<void> {
+  await getMonitoringConfig();
+}
+
+main().catch(console.error);

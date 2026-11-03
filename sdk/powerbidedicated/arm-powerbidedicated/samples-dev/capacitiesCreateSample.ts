@@ -1,38 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Provisions the specified Dedicated capacity based on the configuration specified in the request.
- *
- * @summary Provisions the specified Dedicated capacity based on the configuration specified in the request.
- * x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/createCapacity.json
- */
-
-import type { DedicatedCapacity } from "@azure/arm-powerbidedicated";
 import { PowerBIDedicated } from "@azure/arm-powerbidedicated";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to provisions the specified Dedicated capacity based on the configuration specified in the request.
+ *
+ * @summary provisions the specified Dedicated capacity based on the configuration specified in the request.
+ * x-ms-original-file: 2021-01-01/createCapacity.json
+ */
 async function createCapacity(): Promise<void> {
-  const subscriptionId =
-    process.env["POWERBIDEDICATED_SUBSCRIPTION_ID"] || "613192d7-503f-477a-9cfe-4efc3ee2bd60";
-  const resourceGroupName = process.env["POWERBIDEDICATED_RESOURCE_GROUP"] || "TestRG";
-  const dedicatedCapacityName = "azsdktest";
-  const capacityParameters: DedicatedCapacity = {
-    administration: {
-      members: ["azsdktest@microsoft.com", "azsdktest2@microsoft.com"],
-    },
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
+  const client = new PowerBIDedicated(credential, subscriptionId);
+  const result = await client.capacities.create("TestRG", "azsdktest", {
     location: "West US",
+    administration: { members: ["azsdktest@microsoft.com", "azsdktest2@microsoft.com"] },
     sku: { name: "A1", tier: "PBIE_Azure" },
     tags: { testKey: "testValue" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PowerBIDedicated(credential, subscriptionId);
-  const result = await client.capacities.beginCreateAndWait(
-    resourceGroupName,
-    dedicatedCapacityName,
-    capacityParameters,
-  );
+  });
   console.log(result);
 }
 

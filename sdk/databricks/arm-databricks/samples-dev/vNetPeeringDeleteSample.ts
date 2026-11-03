@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes the workspace vNetPeering.
- *
- * @summary Deletes the workspace vNetPeering.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceVirtualNetworkPeeringDelete.json
- */
-
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes the workspace vNetPeering.
+ *
+ * @summary deletes the workspace vNetPeering.
+ * x-ms-original-file: 2026-01-01/WorkspaceVirtualNetworkPeeringDelete.json
+ */
 async function deleteAWorkspaceVNetPeering(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const workspaceName = "myWorkspace";
-  const peeringName = "vNetPeering";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0140911e-1040-48da-8bc9-b99fb3dd88a6/";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.vNetPeering.beginDeleteAndWait(
-    resourceGroupName,
-    workspaceName,
-    peeringName,
-  );
-  console.log(result);
+  await client.vNetPeering.delete("subramantest", "adbworkspace", "vNetPeeringTest");
 }
 
 async function main(): Promise<void> {

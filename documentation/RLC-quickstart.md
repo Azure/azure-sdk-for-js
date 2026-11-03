@@ -15,7 +15,7 @@ Join the [JavaScript - Reviews](https://teams.microsoft.com/l/channel/19%3a408c5
 
 ## Prerequisites
 
-- Node.js 20 or later.
+- [LTS versions of Node.js](https://nodejs.org/en/about/releases/)
 - Install pnpm via the [pnpm installation instructions](https://pnpm.io/installation).
 - Install tsp-client dependencies with `npm --prefix eng/common/tsp-client ci`
 
@@ -27,7 +27,7 @@ Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CON
 
 The `service name` is a concise identifier for the Azure service and should be consistent across all SDK languages. It's typically the name of the directory in the `azure-rest-api-specs` repository containing your service's REST API definition.
 
-The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). It usually follows the format `@azure/{service-name}-rest` or `@azure/{service-name}-{module}-rest` for services with multiple modules.
+The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). It usually follows the format `@azure-rest/{service-name}` or `@azure-rest/{service-name}-{module}` for services with multiple modules.
 
 # Structure your project
 

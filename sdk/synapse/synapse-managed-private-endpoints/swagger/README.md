@@ -6,7 +6,7 @@
 
 ```yaml
 package-name: "@azure/synapse-managed-private-endpoints"
-package-version: "1.0.0-beta.6"
+package-version: "1.0.0-beta.7"
 title: ManagedPrivateEndpointsClient
 add-credentials: true
 license-header: MICROSOFT_MIT_NO_VERSION

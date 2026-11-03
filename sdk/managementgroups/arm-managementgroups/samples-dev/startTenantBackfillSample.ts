@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Starts backfilling subscriptions for the Tenant.
- *
- * @summary Starts backfilling subscriptions for the Tenant.
- * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/StartTenantBackfillRequest.json
- */
-
 import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to starts backfilling subscriptions for the Tenant.
+ *
+ * @summary starts backfilling subscriptions for the Tenant.
+ * x-ms-original-file: 2023-04-01/StartTenantBackfillRequest.json
+ */
 async function startTenantBackfill(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);
@@ -18,4 +17,8 @@ async function startTenantBackfill(): Promise<void> {
   console.log(result);
 }
 
-startTenantBackfill().catch(console.error);
+async function main(): Promise<void> {
+  await startTenantBackfill();
+}
+
+main().catch(console.error);

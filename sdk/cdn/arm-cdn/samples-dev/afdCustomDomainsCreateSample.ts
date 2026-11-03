@@ -1,39 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new domain within the specified profile.
- *
- * @summary Creates a new domain within the specified profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDCustomDomains_Create.json
- */
-
-import type { AFDDomain } from "@azure/arm-cdn";
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a new domain within the specified profile.
+ *
+ * @summary creates a new domain within the specified profile.
+ * x-ms-original-file: 2026-10-01/AFDCustomDomains_Create.json
+ */
 async function afdCustomDomainsCreate(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
-  const customDomainName = "domain1";
-  const customDomain: AFDDomain = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CdnManagementClient(credential, subscriptionId);
+  const result = await client.afdCustomDomains.create("RG", "profile1", "domain1", {
     azureDnsZone: { id: "" },
     hostName: "www.someDomain.net",
     tlsSettings: {
       certificateType: "ManagedCertificate",
+      cipherSuiteSetType: "Customized",
+      customizedCipherSuiteSet: {
+        cipherSuiteSetForTls12: ["ECDHE_RSA_AES128_GCM_SHA256"],
+        cipherSuiteSetForTls13: ["TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384"],
+      },
       minimumTlsVersion: "TLS12",
+      serverTlsGroupPolicy: "Custom",
+      serverTlsGroups: ["X25519MLKEM768", "SecP256r1MLKEM768", "X25519", "prime256v1"],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.afdCustomDomains.beginCreateAndWait(
-    resourceGroupName,
-    profileName,
-    customDomainName,
-    customDomain,
-  );
+  });
   console.log(result);
 }
 

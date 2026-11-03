@@ -1,28 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
- *
- * @summary Validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/TriggerValidateOperation_RestoreDisk.json
- */
-
-import {
-  ValidateOperationRequestResource,
-  RecoveryServicesBackupClient,
-} from "@azure/arm-recoveryservicesbackup";
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
+ *
+ * @summary validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/TriggerValidateOperation_RestoreDisk.json
+ */
 async function triggerValidateOperation(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "testVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "testRG";
-  const parameters: ValidateOperationRequestResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RecoveryServicesBackupClient(credential, subscriptionId);
+  await client.validateOperation.trigger("testVault", "testRG", {
     id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testVault/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;testRG;testvmName/protectedItems/VM;iaasvmcontainerv2;testRG;testvmName/recoveryPoints/348916168024334",
     properties: {
       objectType: "ValidateIaasVMRestoreOperationRequest",
@@ -45,19 +37,48 @@ async function triggerValidateOperation(): Promise<void> {
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testingRg/providers/Microsoft.Storage/storageAccounts/testAccount",
       },
     },
-  };
+  });
+}
+
+/**
+ * This sample demonstrates how to validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
+ *
+ * @summary validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
+ * x-ms-original-file: 2026-10-01/AzureWorkload/TriggerValidateOperation_SnapshotFilesystemClash.json
+ */
+async function validateSQLSnapshotRestoreAfterResolvingFilesystemClashes(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  const result = await client.validateOperation.beginTriggerAndWait(
-    vaultName,
-    resourceGroupName,
-    parameters,
-  );
-  console.log(result);
+  await client.validateOperation.trigger("testVault", "testRG", {
+    id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRG/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/VMAppContainer;Compute;testRG;sqlVm/protectedItems/SQLDataBase;mssqlserver;inventory/recoveryPoints/1700000000000",
+    properties: {
+      objectType: "ValidateAzureWorkloadRestoreOperationRequest",
+      restoreRequest: {
+        objectType: "AzureWorkloadSQLRestoreRequest",
+        recoveryMode: "Snapshot",
+        recoveryType: "AlternateLocation",
+        snapshotRestoreParameters: {
+          disksToDetachOnClash: [
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/targetRG/providers/Microsoft.Compute/disks/sqlDataDisk01",
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/targetRG/providers/Microsoft.Compute/disks/sqlLogDisk01",
+          ],
+          skipAttachAndMount: false,
+        },
+        shouldUseAlternateTargetLocation: true,
+        sourceResourceId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRG/providers/Microsoft.Compute/virtualMachines/sqlVm",
+        targetResourceGroupName: "targetRG",
+        targetVirtualMachineId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/targetRG/providers/Microsoft.Compute/virtualMachines/sqlRestoreVm",
+      },
+    },
+  });
 }
 
 async function main(): Promise<void> {
   await triggerValidateOperation();
+  await validateSQLSnapshotRestoreAfterResolvingFilesystemClashes();
 }
 
 main().catch(console.error);

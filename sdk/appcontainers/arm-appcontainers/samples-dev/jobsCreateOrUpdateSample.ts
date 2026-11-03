@@ -1,24 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Job} from "@azure/arm-appcontainers";
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or Update a Container Apps Job.
+ * This sample demonstrates how to create or Update a Container Apps Job.
  *
- * @summary Create or Update a Container Apps Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/Job_CreateorUpdate.json
+ * @summary create or Update a Container Apps Job.
+ * x-ms-original-file: 2026-07-01/Job_CreateorUpdate.json
  */
 async function createOrUpdateContainerAppsJob(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const jobName = "testcontainerappsjob0";
-  const jobEnvelope: Job = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.jobs.createOrUpdate("rg", "testcontainerAppsJob0", {
+    identity: {
+      type: "SystemAssigned,UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity":
+          {},
+      },
+    },
+    location: "East US",
     configuration: {
       identitySettings: [
         {
@@ -35,19 +39,11 @@ async function createOrUpdateContainerAppsJob(): Promise<void> {
     },
     environmentId:
       "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
-    identity: {
-      type: "SystemAssigned,UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/34adfa4fCedf4dc0Ba29B6d1a69ab345/resourcegroups/rg/providers/MicrosoftManagedIdentity/userAssignedIdentities/myidentity":
-          {},
-      },
-    },
-    location: "East US",
     template: {
       containers: [
         {
-          name: "testcontainerappsjob0",
-          image: "repo/testcontainerappsjob0:v1",
+          name: "testcontainerAppsJob0",
+          image: "repo/testcontainerAppsJob0:v1",
           probes: [
             {
               type: "Liveness",
@@ -61,15 +57,60 @@ async function createOrUpdateContainerAppsJob(): Promise<void> {
             },
           ],
           volumeMounts: [
+            { mountPath: "/mnt/path1", subPath: "subPath1", volumeName: "azurefile" },
+            { mountPath: "/mnt/path2", subPath: "subPath2", volumeName: "nfsazurefile" },
+          ],
+        },
+      ],
+      initContainers: [
+        {
+          name: "testinitcontainerAppsJob0",
+          args: ["-c", "while true; do echo hello; sleep 10;done"],
+          command: ["/bin/sh"],
+          image: "repo/testcontainerAppsJob0:v4",
+          resources: { cpu: 0.2, memory: "100Mi" },
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or Update a Container Apps Job.
+ *
+ * @summary create or Update a Container Apps Job.
+ * x-ms-original-file: 2026-07-01/Job_CreateorUpdate_ConnectedEnvironment.json
+ */
+async function createOrUpdateContainerAppsJobOnAConnectedEnvironment(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.jobs.createOrUpdate("rg", "testcontainerAppsJob0", {
+    location: "East US",
+    configuration: {
+      manualTriggerConfig: { parallelism: 4, replicaCompletionCount: 1 },
+      replicaRetryLimit: 10,
+      replicaTimeout: 10,
+      triggerType: "Manual",
+    },
+    environmentId:
+      "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/connectedEnvironments/demokube",
+    template: {
+      containers: [
+        {
+          name: "testcontainerAppsJob0",
+          image: "repo/testcontainerAppsJob0:v1",
+          probes: [
             {
-              mountPath: "/mnt/path1",
-              subPath: "subPath1",
-              volumeName: "azurefile",
-            },
-            {
-              mountPath: "/mnt/path2",
-              subPath: "subPath2",
-              volumeName: "nfsazurefile",
+              type: "Liveness",
+              httpGet: {
+                path: "/health",
+                httpHeaders: [{ name: "Custom-Header", value: "Awesome" }],
+                port: 8080,
+              },
+              initialDelaySeconds: 5,
+              periodSeconds: 3,
             },
           ],
         },
@@ -79,43 +120,34 @@ async function createOrUpdateContainerAppsJob(): Promise<void> {
           name: "testinitcontainerAppsJob0",
           args: ["-c", "while true; do echo hello; sleep 10;done"],
           command: ["/bin/sh"],
-          image: "repo/testcontainerappsjob0:v4",
-          resources: { cpu: 0.5, memory: "1Gi" },
-        },
-      ],
-      volumes: [
-        { name: "azurefile", storageName: "storage", storageType: "AzureFile" },
-        {
-          name: "nfsazurefile",
-          storageName: "nfsStorage",
-          storageType: "NfsAzureFile",
+          image: "repo/testcontainerAppsJob0:v4",
+          resources: { cpu: 0.2, memory: "100Mi" },
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.jobs.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    jobName,
-    jobEnvelope,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or Update a Container Apps Job.
+ * This sample demonstrates how to create or Update a Container Apps Job.
  *
- * @summary Create or Update a Container Apps Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/Job_CreateorUpdate_EventTrigger.json
+ * @summary create or Update a Container Apps Job.
+ * x-ms-original-file: 2026-07-01/Job_CreateorUpdate_EventTrigger.json
  */
 async function createOrUpdateContainerAppsJobWithEventDrivenTrigger(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const jobName = "testcontainerappsjob0";
-  const jobEnvelope: Job = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.jobs.createOrUpdate("rg", "testcontainerAppsJob0", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity":
+          {},
+      },
+    },
+    location: "East US",
     configuration: {
       eventTriggerConfig: {
         parallelism: 4,
@@ -141,44 +173,25 @@ async function createOrUpdateContainerAppsJobWithEventDrivenTrigger(): Promise<v
     },
     environmentId:
       "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/34adfa4fCedf4dc0Ba29B6d1a69ab345/resourcegroups/rg/providers/MicrosoftManagedIdentity/userAssignedIdentities/myidentity":
-          {},
-      },
-    },
-    location: "East US",
     template: {
-      containers: [
-        {
-          name: "testcontainerappsjob0",
-          image: "repo/testcontainerappsjob0:v1",
-        },
-      ],
+      containers: [{ name: "testcontainerAppsJob0", image: "repo/testcontainerAppsJob0:v1" }],
       initContainers: [
         {
           name: "testinitcontainerAppsJob0",
           args: ["-c", "while true; do echo hello; sleep 10;done"],
           command: ["/bin/sh"],
-          image: "repo/testcontainerappsjob0:v4",
-          resources: { cpu: 0.5, memory: "1Gi" },
+          image: "repo/testcontainerAppsJob0:v4",
+          resources: { cpu: 0.2, memory: "100Mi" },
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.jobs.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    jobName,
-    jobEnvelope,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createOrUpdateContainerAppsJob();
+  await createOrUpdateContainerAppsJobOnAConnectedEnvironment();
   await createOrUpdateContainerAppsJobWithEventDrivenTrigger();
 }
 

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { globalIgnores } from "eslint/config";
 import processors from "./processors/index.js";
 import rules from "./rules/index.js";
 import * as constants from "./utils/constants.js";
@@ -23,9 +24,7 @@ function config(customConfigs?: FlatConfig.ConfigArray) {
   return [
     ...configs.recommended,
     ...(customConfigs ?? []),
-    {
-      ignores: ["**/test/snippets.spec.ts", "**/test/stress"],
-    },
+    globalIgnores(["**/test/snippets.spec.ts", "**/test/stress"]),
   ];
 }
 

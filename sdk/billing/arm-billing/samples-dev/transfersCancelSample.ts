@@ -1,30 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Cancels a transfer request. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
- *
- * @summary Cancels a transfer request. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/transfersCancel.json
- */
-
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to cancels a transfer request. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+ *
+ * @summary cancels a transfer request. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+ * x-ms-original-file: 2024-04-01/transfersCancel.json
+ */
 async function transferCancel(): Promise<void> {
-  const billingAccountName =
-    "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
-  const billingProfileName = "xxxx-xxxx-xxx-xxx";
-  const invoiceSectionName = "yyyy-yyyy-yyy-yyy";
-  const transferName = "aabb123";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const result = await client.transfers.cancel(
-    billingAccountName,
-    billingProfileName,
-    invoiceSectionName,
-    transferName,
+    "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31",
+    "xxxx-xxxx-xxx-xxx",
+    "yyyy-yyyy-yyy-yyy",
+    "aabb123",
   );
   console.log(result);
 }

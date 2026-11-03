@@ -1,0 +1,24 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { PowerBIDedicated } from "@azure/arm-powerbidedicated";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to deletes the specified Dedicated capacity.
+ *
+ * @summary deletes the specified Dedicated capacity.
+ * x-ms-original-file: 2021-01-01/deleteCapacity.json
+ */
+async function getDetailsOfACapacity(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
+  const client = new PowerBIDedicated(credential, subscriptionId);
+  await client.capacities.delete("TestRG", "azsdktest");
+}
+
+async function main(): Promise<void> {
+  await getDetailsOfACapacity();
+}
+
+main().catch(console.error);

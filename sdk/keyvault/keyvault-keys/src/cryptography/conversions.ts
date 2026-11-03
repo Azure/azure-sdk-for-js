@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { JsonWebKey } from "../keysModels.js";
+import { uint8ArrayToString } from "@azure/core-util";
 
 /**
  * @internal
@@ -60,7 +61,7 @@ function makeSequence(encodedParts: Uint8Array[]): string {
   }
 
   const full_encoded = encodeBuffer(sequence, 0x30); // SEQUENCE
-  return Buffer.from(full_encoded).toString("base64");
+  return uint8ArrayToString(full_encoded, "base64");
 }
 
 /**

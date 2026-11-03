@@ -1,58 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  GalleryApplication} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update a gallery Application Definition.
+ * This sample demonstrates how to create or update a gallery Application Definition.
  *
- * @summary Create or update a gallery Application Definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplication_Create.json
+ * @summary create or update a gallery Application Definition.
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryApplication_Create.json
  */
 async function createOrUpdateASimpleGalleryApplication(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const galleryName = "myGalleryName";
-  const galleryApplicationName = "myGalleryApplicationName";
-  const galleryApplication: GalleryApplication = {
-    description: "This is the gallery application description.",
-    customActions: [
-      {
-        name: "myCustomAction",
-        description: "This is the custom action description.",
-        parameters: [
-          {
-            name: "myCustomActionParameter",
-            type: "String",
-            description: "This is the description of the parameter",
-            defaultValue: "default value of parameter.",
-            required: false,
-          },
-        ],
-        script: "myCustomActionScript",
-      },
-    ],
-    eula: "This is the gallery application EULA.",
-    location: "West US",
-    privacyStatementUri: "myPrivacyStatementUri}",
-    releaseNoteUri: "myReleaseNoteUri",
-    supportedOSType: "Windows",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.galleryApplications.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    galleryName,
-    galleryApplicationName,
-    galleryApplication,
+  const result = await client.galleryApplications.createOrUpdate(
+    "myResourceGroup",
+    "myGalleryName",
+    "myGalleryApplicationName",
+    {
+      location: "West US",
+      description: "This is the gallery application description.",
+      eula: "This is the gallery application EULA.",
+      privacyStatementUri: "myPrivacyStatementUri}",
+      releaseNoteUri: "myReleaseNoteUri",
+      supportedOSType: "Windows",
+      customActions: [
+        {
+          name: "myCustomAction",
+          script: "myCustomActionScript",
+          description: "This is the custom action description.",
+          parameters: [
+            {
+              name: "myCustomActionParameter",
+              required: false,
+              type: "String",
+              defaultValue: "default value of parameter.",
+              description: "This is the description of the parameter",
+            },
+          ],
+        },
+      ],
+    },
   );
   console.log(result);
 }

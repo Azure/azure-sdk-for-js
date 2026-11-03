@@ -1,27 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Checks if account name is available.
- *
- * @summary Checks if account name is available.
- * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/Accounts_CheckNameAvailability.json
- */
-
-import type { CheckNameAvailabilityRequest } from "@azure/arm-purview";
 import { PurviewManagementClient } from "@azure/arm-purview";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to checks if account name is available.
+ *
+ * @summary checks if account name is available.
+ * x-ms-original-file: 2024-04-01-preview/Accounts_CheckNameAvailability.json
+ */
 async function accountsCheckNameAvailability(): Promise<void> {
+  const credential = new DefaultAzureCredential();
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
+  const client = new PurviewManagementClient(credential, subscriptionId);
+  const result = await client.accounts.checkNameAvailability({
     name: "account1",
     type: "Microsoft.Purview/accounts",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PurviewManagementClient(credential, subscriptionId);
-  const result = await client.accounts.checkNameAvailability(checkNameAvailabilityRequest);
+  });
   console.log(result);
 }
 
-accountsCheckNameAvailability().catch(console.error);
+async function main(): Promise<void> {
+  await accountsCheckNameAvailability();
+}
+
+main().catch(console.error);

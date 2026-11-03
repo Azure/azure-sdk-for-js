@@ -1,98 +1,74 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
-asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
- *
- * @summary Enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
-asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ConfigureProtection.json
- */
-
-import {
-  ProtectedItemResource,
-  RecoveryServicesBackupClient,
-} from "@azure/arm-recoveryservicesbackup";
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function enableProtectionOnAzureIaasVM(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
-  const fabricName = "Azure";
-  const containerName =
-    "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
-  const protectedItemName = "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
-  const parameters: ProtectedItemResource = {
-    properties: {
-      policyId:
-        "/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SwaggerTestRg/providers/Microsoft.RecoveryServices/vaults/NetSDKTestRsVault/backupPolicies/DefaultPolicy",
-      protectedItemType: "Microsoft.Compute/virtualMachines",
-      sourceResourceId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
-    },
-  };
+/**
+ * This sample demonstrates how to enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
+ * asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
+ *
+ * @summary enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
+ * asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/ConfigureProtection.json
+ */
+async function enableProtectionOnAzureIaasVm(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.protectedItems.createOrUpdate(
-    vaultName,
-    resourceGroupName,
-    fabricName,
-    containerName,
-    protectedItemName,
-    parameters,
+    "NetSDKTestRsVault",
+    "SwaggerTestRg",
+    "Azure",
+    "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1",
+    "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1",
+    {
+      properties: {
+        policyId:
+          "/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SwaggerTestRg/providers/Microsoft.RecoveryServices/vaults/NetSDKTestRsVault/backupPolicies/DefaultPolicy",
+        protectedItemType: "Microsoft.Compute/virtualMachines",
+        existingBasicVMProtection: "DisableWithDeleteRPsNow",
+        sourceResourceId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
+      },
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
-asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
+ * This sample demonstrates how to enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
+ * asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
  *
- * @summary Enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
-asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/StopProtection.json
+ * @summary enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
+ * asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/StopProtection.json
  */
-async function stopProtectionWithRetainDataOnAzureIaasVM(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
-  const fabricName = "Azure";
-  const containerName =
-    "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
-  const protectedItemName = "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
-  const parameters: ProtectedItemResource = {
-    properties: {
-      protectedItemType: "Microsoft.Compute/virtualMachines",
-      protectionState: "ProtectionStopped",
-      sourceResourceId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
-    },
-  };
+async function stopProtectionWithRetainDataOnAzureIaasVm(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.protectedItems.createOrUpdate(
-    vaultName,
-    resourceGroupName,
-    fabricName,
-    containerName,
-    protectedItemName,
-    parameters,
+    "NetSDKTestRsVault",
+    "SwaggerTestRg",
+    "Azure",
+    "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1",
+    "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1",
+    {
+      properties: {
+        protectedItemType: "Microsoft.Compute/virtualMachines",
+        protectionState: "ProtectionStopped",
+        sourceResourceId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
+      },
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await enableProtectionOnAzureIaasVM();
-  await stopProtectionWithRetainDataOnAzureIaasVM();
+  await enableProtectionOnAzureIaasVm();
+  await stopProtectionWithRetainDataOnAzureIaasVm();
 }
 
 main().catch(console.error);

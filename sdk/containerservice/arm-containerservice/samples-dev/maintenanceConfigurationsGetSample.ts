@@ -3,33 +3,45 @@
 
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified maintenance configuration of a managed cluster.
+ * This sample demonstrates how to gets the specified maintenance configuration of a managed cluster.
  *
- * @summary Gets the specified maintenance configuration of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/MaintenanceConfigurationsGet_MaintenanceWindow.json
+ * @summary gets the specified maintenance configuration of a managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/MaintenanceConfigurationsGet_LinkedMaintenanceWindow.json
  */
-async function getMaintenanceConfigurationConfiguredWithMaintenanceWindow(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const configName = "aksManagedNodeOSUpgradeSchedule";
+async function getALinkedMaintenanceConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.maintenanceConfigurations.get(
-    resourceGroupName,
-    resourceName,
-    configName,
+    "rg1",
+    "clustername1",
+    "aksManagedAutoUpgradeSchedule",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets the specified maintenance configuration of a managed cluster.
+ *
+ * @summary gets the specified maintenance configuration of a managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/MaintenanceConfigurationsGet_MaintenanceWindow.json
+ */
+async function getMaintenanceConfigurationConfiguredWithMaintenanceWindow(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.maintenanceConfigurations.get(
+    "rg1",
+    "clustername1",
+    "aksManagedNodeOSUpgradeSchedule",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
+  await getALinkedMaintenanceConfiguration();
   await getMaintenanceConfigurationConfiguredWithMaintenanceWindow();
 }
 

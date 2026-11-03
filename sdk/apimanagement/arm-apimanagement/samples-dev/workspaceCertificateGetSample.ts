@@ -1,59 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the details of the certificate specified by its identifier.
- *
- * @summary Gets the details of the certificate specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGetWorkspaceCertificate.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the details of the certificate specified by its identifier.
+ *
+ * @summary gets the details of the certificate specified by its identifier.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGetWorkspaceCertificate.json
+ */
 async function apiManagementGetWorkspaceCertificate(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const workspaceId = "wks1";
-  const certificateId = "templateCert1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
   const result = await client.workspaceCertificate.get(
-    resourceGroupName,
-    serviceName,
-    workspaceId,
-    certificateId,
+    "rg1",
+    "apimService1",
+    "wks1",
+    "templateCert1",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the details of the certificate specified by its identifier.
+ * This sample demonstrates how to gets the details of the certificate specified by its identifier.
  *
- * @summary Gets the details of the certificate specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementGetWorkspaceCertificateWithKeyVault.json
+ * @summary gets the details of the certificate specified by its identifier.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementGetWorkspaceCertificateWithKeyVault.json
  */
 async function apiManagementGetWorkspaceCertificateWithKeyVault(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const workspaceId = "wks1";
-  const certificateId = "templateCertkv";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
   const result = await client.workspaceCertificate.get(
-    resourceGroupName,
-    serviceName,
-    workspaceId,
-    certificateId,
+    "rg1",
+    "apimService1",
+    "wks1",
+    "templateCertkv",
   );
   console.log(result);
 }

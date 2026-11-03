@@ -7,7 +7,7 @@ import { createTracingClient } from "@azure/core-tracing";
  * Creates a tracing client using the global tracer.
  * @internal
  */
-const tracingClient = createTracingClient({
+export const tracingClient = createTracingClient({
   namespace: "Microsoft.Search",
   packageName: "Azure.Search",
 });

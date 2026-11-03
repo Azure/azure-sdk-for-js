@@ -1,25 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Cluster} from "@azure/arm-networkcloud";
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create a new cluster or update the properties of the cluster if it exists.
+ * This sample demonstrates how to create a new cluster or update the properties of the cluster if it exists.
  *
- * @summary Create a new cluster or update the properties of the cluster if it exists.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2025-07-01-preview/examples/Clusters_Create.json
+ * @summary create a new cluster or update the properties of the cluster if it exists.
+ * x-ms-original-file: 2026-07-01/Clusters_Create.json
  */
 async function createOrUpdateCluster(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
-    "123e4567-e89b-12d3-a456-426655440000";
-  const resourceGroupName =
-    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
-  const clusterName = "clusterName";
-  const clusterParameters: Cluster = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
+  const client = new NetworkCloud(credential, subscriptionId);
+  const result = await client.clusters.createOrUpdate("resourceGroupName", "clusterName", {
+    extendedLocation: {
+      name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterManagerExtendedLocationName",
+      type: "CustomLocation",
+    },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/userIdentity1":
+          {},
+      },
+    },
+    kind: "AzureLocal",
+    location: "location",
     aggregatorOrSingleRackDefinition: {
       bareMetalMachineConfigurationData: [
         {
@@ -67,7 +75,7 @@ async function createOrUpdateCluster(): Promise<void> {
     },
     analyticsOutputSettings: {
       analyticsWorkspaceId:
-        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/microsoft.operationalInsights/workspaces/logAnalyticsWorkspaceName",
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.OperationalInsights/workspaces/logAnalyticsWorkspaceName",
       associatedIdentity: {
         identityType: "UserAssignedIdentity",
         userAssignedIdentityResourceId:
@@ -83,8 +91,7 @@ async function createOrUpdateCluster(): Promise<void> {
         userAssignedIdentityResourceId:
           "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/userIdentity1",
       },
-      containerUrl:
-        "https://myaccount.blob.core.windows.net/mycontainer?restype=container",
+      containerUrl: "https://myaccount.blob.core.windows.net/mycontainer?restype=container",
       overrides: [
         {
           associatedIdentity: {
@@ -93,23 +100,17 @@ async function createOrUpdateCluster(): Promise<void> {
               "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/userIdentity2",
           },
           commandOutputType: "StorageRunReadCommands",
-          containerUrl:
-            "https://myaccount.blob.core.windows.net/myContainer2?restype=container",
+          containerUrl: "https://myaccount.blob.core.windows.net/myContainer2?restype=container",
         },
       ],
     },
-    computeDeploymentThreshold: {
-      type: "PercentSuccess",
-      grouping: "PerCluster",
-      value: 90,
-    },
+    computeDeploymentThreshold: { grouping: "PerCluster", type: "PercentSuccess", value: 90 },
     computeRackDefinitions: [
       {
         bareMetalMachineConfigurationData: [
           {
             bmcCredentials: {
-              password:
-                "https://keyvaultname.vault.azure.net/secrets/secretName",
+              password: "https://keyvaultname.vault.azure.net/secrets/secretName",
               username: "username",
             },
             bmcMacAddress: "AA:BB:CC:DD:EE:FF",
@@ -121,8 +122,7 @@ async function createOrUpdateCluster(): Promise<void> {
           },
           {
             bmcCredentials: {
-              password:
-                "https://keyvaultname.vault.azure.net/secrets/secretName",
+              password: "https://keyvaultname.vault.azure.net/secrets/secretName",
               username: "username",
             },
             bmcMacAddress: "AA:BB:CC:DD:EE:00",
@@ -142,8 +142,7 @@ async function createOrUpdateCluster(): Promise<void> {
         storageApplianceConfigurationData: [
           {
             adminCredentials: {
-              password:
-                "https://keyvaultname.vault.azure.net/secrets/secretName",
+              password: "https://keyvaultname.vault.azure.net/secrets/secretName",
               username: "username",
             },
             rackSlot: 1,
@@ -153,25 +152,10 @@ async function createOrUpdateCluster(): Promise<void> {
         ],
       },
     ],
-    extendedLocation: {
-      name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterManagerExtendedLocationName",
-      type: "CustomLocation",
-    },
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/123e4567E89b12d3A456426655440000/resourceGroups/resourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/userIdentity1":
-          {},
-      },
-    },
-    location: "location",
-    managedResourceGroupConfiguration: {
-      name: "my-managed-rg",
-      location: "East US",
-    },
+    managedResourceGroupConfiguration: { location: "East US", name: "my-managed-rg" },
     networkFabricId:
       "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkFabrics/fabricName",
-    runtimeProtectionConfiguration: { enforcementLevel: "OnDemand" },
+    runtimeProtectionConfiguration: { definitionUpdateMode: "None", enforcementLevel: "OnDemand" },
     secretArchiveSettings: {
       associatedIdentity: {
         identityType: "UserAssignedIdentity",
@@ -180,7 +164,6 @@ async function createOrUpdateCluster(): Promise<void> {
       },
       vaultUri: "https://keyvaultname.vault.azure.net/",
     },
-    tags: { key1: "myvalue1", key2: "myvalue2" },
     updateStrategy: {
       maxUnavailable: 4,
       strategyType: "Rack",
@@ -189,14 +172,8 @@ async function createOrUpdateCluster(): Promise<void> {
       waitTimeMinutes: 10,
     },
     vulnerabilityScanningSettings: { containerScan: "Enabled" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.clusters.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    clusterParameters,
-  );
+    tags: { key1: "myvalue1", key2: "myvalue2" },
+  });
   console.log(result);
 }
 

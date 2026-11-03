@@ -1,29 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Validate the cluster create request spec is valid or not.
- *
- * @summary Validate the cluster create request spec is valid or not.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Locations_ValidateClusterCreateRequest.json
- */
-
-import type { ClusterCreateRequestValidationParameters } from "@azure/arm-hdinsight";
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to validate the cluster create request spec is valid or not.
+ *
+ * @summary validate the cluster create request spec is valid or not.
+ * x-ms-original-file: 2025-01-15-preview/HDI_Locations_ValidateClusterCreateRequest.json
+ */
 async function getTheSubscriptionUsagesForSpecificLocation(): Promise<void> {
-  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
-  const location = "southcentralus";
-  const parameters: ClusterCreateRequestValidationParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new HDInsightManagementClient(credential, subscriptionId);
+  const result = await client.locations.validateClusterCreateRequest("southcentralus", {
     name: "testclustername",
     type: "Microsoft.HDInsight/clusters",
     fetchAaddsResource: false,
     location: "southcentralus",
     properties: {
       clusterDefinition: {
-        componentVersion: { spark: "2.4" },
+        componentVersion: { Spark: "2.4" },
         configurations: {
           gateway: {
             "restAuthCredential.isEnabled": true,
@@ -38,50 +36,32 @@ async function getTheSubscriptionUsagesForSpecificLocation(): Promise<void> {
         roles: [
           {
             name: "headnode",
-            autoscaleConfiguration: {},
-            dataDisksGroups: [],
             hardwareProfile: { vmSize: "Standard_E8_V3" },
             minInstanceCount: 1,
             osProfile: {
-              linuxOperatingSystemProfile: {
-                password: "********",
-                username: "sshuser",
-              },
+              linuxOperatingSystemProfile: { password: "********", username: "sshuser" },
             },
             scriptActions: [],
             targetInstanceCount: 2,
-            virtualNetworkProfile: {},
           },
           {
             name: "workernode",
-            autoscaleConfiguration: {},
-            dataDisksGroups: [],
             hardwareProfile: { vmSize: "Standard_E8_V3" },
             osProfile: {
-              linuxOperatingSystemProfile: {
-                password: "********",
-                username: "sshuser",
-              },
+              linuxOperatingSystemProfile: { password: "********", username: "sshuser" },
             },
             scriptActions: [],
             targetInstanceCount: 4,
-            virtualNetworkProfile: {},
           },
           {
             name: "zookeepernode",
-            autoscaleConfiguration: {},
-            dataDisksGroups: [],
             hardwareProfile: { vmSize: "Standard_D13_V2" },
             minInstanceCount: 1,
             osProfile: {
-              linuxOperatingSystemProfile: {
-                password: "**********",
-                username: "sshuser",
-              },
+              linuxOperatingSystemProfile: { password: "**********", username: "sshuser" },
             },
             scriptActions: [],
             targetInstanceCount: 3,
-            virtualNetworkProfile: {},
           },
         ],
       },
@@ -104,10 +84,7 @@ async function getTheSubscriptionUsagesForSpecificLocation(): Promise<void> {
     },
     tags: {},
     tenantId: "00000000-0000-0000-0000-000000000000",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new HDInsightManagementClient(credential, subscriptionId);
-  const result = await client.locations.validateClusterCreateRequest(location, parameters);
+  });
   console.log(result);
 }
 

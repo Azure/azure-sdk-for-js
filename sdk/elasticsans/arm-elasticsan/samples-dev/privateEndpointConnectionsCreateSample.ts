@@ -1,72 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update the state of specified private endpoint connection associated with the Elastic San
- *
- * @summary Update the state of specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_Create_MaximumSet_Gen.json
- */
-
-import {
-  PrivateEndpointConnection,
-  ElasticSanManagement,
-} from "@azure/arm-elasticsan";
+import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update the state of specified private endpoint connection associated with the Elastic San
+ *
+ * @summary update the state of specified private endpoint connection associated with the Elastic San
+ * x-ms-original-file: 2026-05-01-preview/PrivateEndpointConnections_Create_MaximumSet_Gen.json
+ */
 async function privateEndpointConnectionsCreateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
-  const elasticSanName = "elasticsanname";
-  const privateEndpointConnectionName = "privateendpointconnectionname";
-  const parameters: PrivateEndpointConnection = {
-    properties: {
-      groupIds: ["jdwrzpemdjrpiwzvy"],
-      privateEndpoint: {},
-      privateLinkServiceConnectionState: {
-        description: "dxl",
-        actionsRequired: "jhjdpwvyzipggtn",
-        status: "Pending",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanManagement(credential, subscriptionId);
+  const result = await client.privateEndpointConnections.create(
+    "resourcegroupname",
+    "elasticsanname",
+    "privateendpointconnectionname",
+    {
+      properties: {
+        groupIds: ["jdwrzpemdjrpiwzvy"],
+        privateEndpoint: {},
+        privateLinkServiceConnectionState: {
+          description: "dxl",
+          actionsRequired: "jhjdpwvyzipggtn",
+          status: "Pending",
+        },
       },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ElasticSanManagement(credential, subscriptionId);
-  const result = await client.privateEndpointConnections.beginCreateAndWait(
-    resourceGroupName,
-    elasticSanName,
-    privateEndpointConnectionName,
-    parameters,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Update the state of specified private endpoint connection associated with the Elastic San
+ * This sample demonstrates how to update the state of specified private endpoint connection associated with the Elastic San
  *
- * @summary Update the state of specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_Create_MinimumSet_Gen.json
+ * @summary update the state of specified private endpoint connection associated with the Elastic San
+ * x-ms-original-file: 2026-05-01-preview/PrivateEndpointConnections_Create_MinimumSet_Gen.json
  */
 async function privateEndpointConnectionsCreateMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
-  const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
-  const elasticSanName = "elasticsanname";
-  const privateEndpointConnectionName = "privateendpointconnectionname";
-  const parameters: PrivateEndpointConnection = {
-    properties: { privateLinkServiceConnectionState: {} },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
-  const result = await client.privateEndpointConnections.beginCreateAndWait(
-    resourceGroupName,
-    elasticSanName,
-    privateEndpointConnectionName,
-    parameters,
+  const result = await client.privateEndpointConnections.create(
+    "resourcegroupname",
+    "elasticsanname",
+    "privateendpointconnectionname",
+    { properties: { privateLinkServiceConnectionState: {} } },
   );
   console.log(result);
 }

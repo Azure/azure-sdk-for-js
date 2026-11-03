@@ -1,26 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the specific impacted resource in the tenant by an event.
- *
- * @summary Gets the specific impacted resource in the tenant by an event.
- * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/ImpactedResources_GetByTenantId.json
- */
-
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the specific impacted resource in the tenant by an event.
+ *
+ * @summary gets the specific impacted resource in the tenant by an event.
+ * x-ms-original-file: 2025-05-01/ImpactedResources_GetByTenantId.json
+ */
 async function impactedResourcesGet(): Promise<void> {
-  const eventTrackingId = "BC_1-FXZ";
-  const impactedResourceName = "abc-123-ghj-456";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential);
-  const result = await client.impactedResources.getByTenantId(
-    eventTrackingId,
-    impactedResourceName,
-  );
+  const result = await client.impactedResources.getByTenantId("BC_1-FXZ", "abc-123-ghj-456");
   console.log(result);
 }
 

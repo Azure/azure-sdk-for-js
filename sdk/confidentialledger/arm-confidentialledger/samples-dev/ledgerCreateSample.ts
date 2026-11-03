@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a  Confidential Ledger with the specified ledger parameters.
- *
- * @summary Creates a  Confidential Ledger with the specified ledger parameters.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-09-19-preview/examples/ConfidentialLedger_Create.json
- */
-
-import type {
-  ConfidentialLedger} from "@azure/arm-confidentialledger";
-import {
-  ConfidentialLedgerClient,
-} from "@azure/arm-confidentialledger";
+import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a  Confidential Ledger with the specified ledger parameters.
+ *
+ * @summary creates a  Confidential Ledger with the specified ledger parameters.
+ * x-ms-original-file: 2026-02-23/ConfidentialLedger_Create.json
+ */
 async function confidentialLedgerCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
-    "0000000-0000-0000-0000-000000000001";
-  const resourceGroupName =
-    process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] ||
-    "DummyResourceGroupName";
-  const ledgerName = "DummyLedgerName";
-  const confidentialLedger: ConfidentialLedger = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000000-0000-0000-0000-000000000001";
+  const client = new ConfidentialLedgerClient(credential, subscriptionId);
+  const result = await client.ledger.create("DummyResourceGroupName", "DummyLedgerName", {
     location: "EastUS",
     properties: {
       aadBasedSecurityPrincipals: [
@@ -47,17 +37,12 @@ async function confidentialLedgerCreate(): Promise<void> {
       nodeCount: 3,
       subjectName: "CN=CCF Node",
       workerThreads: 0,
-      writeLBAddressPrefix: "write",
+      applicationType: "ConfidentialLedger",
+      scittConfiguration:
+        '{\r\n        "configuration": {\r\n          "policy": {\r\n            "policyScript": "export function apply(phdr) { if (!phdr.issuer) {return \'Issuer not found\'} else if (phdr.issuer !== \'did:x509:0:sha256:HnwZ4lezuxq/GVcl/Sk7YWW170qAD0DZBLXilXet0jg=::eku:1.3.6.1.4.1.311.10.3.13\') { return \'Invalid issuer\'; } return true; }"\r\n          },\r\n          "authentication": {\r\n            "allowUnauthenticated": false,\r\n            "jwt": {\r\n              "requiredClaims": {\r\n                "aud": "scitt",\r\n                "iss": "https://authserver.com/",\r\n                "http://unique.claim/department_id": "654987"\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }',
     },
     tags: { additionalProps1: "additional properties" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ConfidentialLedgerClient(credential, subscriptionId);
-  const result = await client.ledger.beginCreateAndWait(
-    resourceGroupName,
-    ledgerName,
-    confidentialLedger,
-  );
+  });
   console.log(result);
 }
 

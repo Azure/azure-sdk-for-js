@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { getOperationStatus, undelete, get, listBySubscriptionId } from "./operations.js";
-export {
+export type {
   DeletedVaultsGetOperationStatusOptionalParams,
   DeletedVaultsUndeleteOptionalParams,
   DeletedVaultsGetOptionalParams,

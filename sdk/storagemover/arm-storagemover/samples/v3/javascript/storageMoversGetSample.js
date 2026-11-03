@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a Storage Mover resource.
  *
  * @summary gets a Storage Mover resource.
- * x-ms-original-file: 2025-07-01/StorageMovers_Get.json
+ * x-ms-original-file: 2025-12-01/StorageMovers_Get.json
  */
 async function storageMoversGet() {
   const credential = new DefaultAzureCredential();

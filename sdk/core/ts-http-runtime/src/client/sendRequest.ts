@@ -14,7 +14,7 @@ import type { Pipeline } from "../pipeline.js";
 import { createHttpHeaders } from "../httpHeaders.js";
 import { createPipelineRequest } from "../pipelineRequest.js";
 import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
-import { isReadableStream } from "../util/typeGuards.js";
+import { isBlob, isReadableStream } from "../util/typeGuards.js";
 import type { HttpResponse, RequestParameters } from "./common.js";
 import type { PartDescriptor } from "./multipart.js";
 import { buildMultipartBody } from "./multipart.js";
@@ -69,27 +69,22 @@ export async function sendRequest(
 }
 
 /**
- * Function to determine the request content type
- * @param options - request options InternalRequestParameters
- * @returns returns the content-type
- */
-function getRequestContentType(options: InternalRequestParameters = {}): string {
-  return (
-    options.contentType ??
-    (options.headers?.["content-type"] as string) ??
-    getContentType(options.body)
-  );
-}
-
-/**
  * Function to determine the content-type of a body
  * this is used if an explicit content-type is not provided
  * @param body - body in the request
  * @returns returns the content-type
  */
 function getContentType(body: any): string | undefined {
-  if (ArrayBuffer.isView(body)) {
+  if (body === undefined) {
+    return undefined;
+  }
+
+  if (body instanceof ArrayBuffer || ArrayBuffer.isView(body)) {
     return "application/octet-stream";
+  }
+
+  if (isBlob(body) && body.type) {
+    return body.type;
   }
 
   if (typeof body === "string") {
@@ -107,6 +102,11 @@ function getContentType(body: any): string | undefined {
 
 export interface InternalRequestParameters extends RequestParameters {
   responseAsStream?: boolean;
+  /**
+   * When set to `true`, no default `Accept: application/json` header is added
+   * when a request does not otherwise specify an `Accept` header. Internal only.
+   */
+  noDefaultAcceptHeader?: boolean;
 }
 
 function buildPipelineRequest(
@@ -114,35 +114,67 @@ function buildPipelineRequest(
   url: string,
   options: InternalRequestParameters = {},
 ): PipelineRequest {
-  const requestContentType = getRequestContentType(options);
+  const headers = createHttpHeaders(options.headers);
+
+  let requestContentType = options.contentType;
+  if (!requestContentType) {
+    requestContentType = headers.get("content-type");
+  }
+  if (requestContentType === undefined) {
+    requestContentType = getContentType(options.body);
+  }
+
   const { body, multipartBody } = getRequestBody(options.body, requestContentType);
-  const hasContent = body !== undefined || multipartBody !== undefined;
 
-  const headers = createHttpHeaders({
-    ...(options.headers ? options.headers : {}),
-    accept: options.accept ?? options.headers?.accept ?? "application/json",
-    ...(hasContent &&
-      requestContentType && {
-        "content-type": requestContentType,
-      }),
-  });
+  const accept =
+    options.accept ??
+    headers.get("accept") ??
+    (options.noDefaultAcceptHeader ? undefined : "application/json");
 
-  return createPipelineRequest({
+  if (accept !== undefined) {
+    headers.set("accept", accept);
+  }
+  if (requestContentType) {
+    headers.set("content-type", requestContentType);
+  }
+
+  const {
+    allowInsecureConnection,
+    abortSignal,
+    onUploadProgress,
+    onDownloadProgress,
+    timeout,
+    responseAsStream,
+    noDefaultAcceptHeader: _noDefaultAcceptHeader,
+    url: _url,
+    method: _method,
+    body: _body,
+    multipartBody: _multiBody,
+    headers: _headers,
+    ...rest
+  } = options as InternalRequestParameters & {
+    url: string;
+    method: string;
+    multipartBody: unknown;
+  };
+
+  const request = createPipelineRequest({
     url,
     method,
     body,
     multipartBody,
     headers,
-    allowInsecureConnection: options.allowInsecureConnection,
-    abortSignal: options.abortSignal,
-    onUploadProgress: options.onUploadProgress,
-    onDownloadProgress: options.onDownloadProgress,
-    timeout: options.timeout,
+    allowInsecureConnection,
+    abortSignal,
+    onUploadProgress,
+    onDownloadProgress,
+    timeout,
     enableBrowserStreams: true,
-    streamResponseStatusCodes: options.responseAsStream
-      ? new Set([Number.POSITIVE_INFINITY])
-      : undefined,
+    streamResponseStatusCodes: responseAsStream ? new Set([Number.POSITIVE_INFINITY]) : undefined,
   });
+
+  Object.assign(request, rest);
+  return request;
 }
 
 interface RequestBody {
@@ -153,7 +185,7 @@ interface RequestBody {
 /**
  * Prepares the body before sending the request
  */
-function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
+export function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   if (body === undefined) {
     return { body: undefined };
   }
@@ -162,12 +194,20 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
     return { body };
   }
 
+  if (isBlob(body)) {
+    return { body };
+  }
+
   if (isReadableStream(body)) {
     return { body };
   }
 
-  if (ArrayBuffer.isView(body)) {
-    return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
+  if (typeof body === "function") {
+    return { body: body as RequestBodyType };
+  }
+
+  if (body instanceof ArrayBuffer || ArrayBuffer.isView(body)) {
+    return { body };
   }
 
   const firstType = contentType.split(";")[0];
@@ -177,7 +217,7 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
       return { body: JSON.stringify(body) };
     case "multipart/form-data":
       if (Array.isArray(body)) {
-        return { multipartBody: buildMultipartBody(body as PartDescriptor[]) };
+        return { multipartBody: buildMultipartBody(body as unknown as PartDescriptor[]) };
       }
       return { body: JSON.stringify(body) };
     case "text/plain":

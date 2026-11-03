@@ -1,43 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get Marketplace SaaS resource details of a tenant under a specific subscription
- *
- * @summary Get Marketplace SaaS resource details of a tenant under a specific subscription
- * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_GetMarketplaceSaaSResourceDetails_MaximumSet_Gen.json
- */
-
-import type { MarketplaceSaaSResourceDetailsRequest } from "@azure/arm-dynatrace";
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get Marketplace SaaS resource details
+ *
+ * @summary get Marketplace SaaS resource details
+ * x-ms-original-file: 2024-04-24/Monitors_GetMarketplaceSaaSResourceDetails_MaximumSet_Gen.json
+ */
 async function monitorsGetMarketplaceSaaSResourceDetailsMaximumSetGen(): Promise<void> {
-  const subscriptionId = process.env["DYNATRACE_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
-  const request: MarketplaceSaaSResourceDetailsRequest = {
-    tenantId: "urnmattojzhktcfw",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "1d701e7e-3150-4d33-9279-d4ea03e9110e";
   const client = new DynatraceObservability(credential, subscriptionId);
-  const result = await client.monitors.getMarketplaceSaaSResourceDetails(request);
+  const result = await client.monitors.getMarketplaceSaaSResourceDetails({
+    tenantId: "urnmattojzhktcfw",
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get Marketplace SaaS resource details of a tenant under a specific subscription
+ * This sample demonstrates how to get Marketplace SaaS resource details
  *
- * @summary Get Marketplace SaaS resource details of a tenant under a specific subscription
- * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_GetMarketplaceSaaSResourceDetails_MinimumSet_Gen.json
+ * @summary get Marketplace SaaS resource details
+ * x-ms-original-file: 2024-04-24/Monitors_GetMarketplaceSaaSResourceDetails_MinimumSet_Gen.json
  */
 async function monitorsGetMarketplaceSaaSResourceDetailsMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["DYNATRACE_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
-  const request: MarketplaceSaaSResourceDetailsRequest = {
-    tenantId: "urnmattojzhktcfw",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "1d701e7e-3150-4d33-9279-d4ea03e9110e";
   const client = new DynatraceObservability(credential, subscriptionId);
-  const result = await client.monitors.getMarketplaceSaaSResourceDetails(request);
+  const result = await client.monitors.getMarketplaceSaaSResourceDetails({
+    tenantId: "urnmattojzhktcfw",
+  });
   console.log(result);
 }
 

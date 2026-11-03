@@ -1,36 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates an attached NetworkConnection.
- *
- * @summary Creates or updates an attached NetworkConnection.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/AttachedNetworks_Create.json
- */
-
-import type { AttachedNetworkConnection } from "@azure/arm-devcenter";
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates an attached NetworkConnection.
+ *
+ * @summary creates or updates an attached NetworkConnection.
+ * x-ms-original-file: 2026-01-01-preview/AttachedNetworks_Create.json
+ */
 async function attachedNetworksCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const devCenterName = "Contoso";
-  const attachedNetworkConnectionName = "network-uswest3";
-  const body: AttachedNetworkConnection = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.attachedNetworks.createOrUpdate("rg1", "Contoso", "network-uswest3", {
     networkConnectionId:
       "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/NetworkConnections/network-uswest3",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.attachedNetworks.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    devCenterName,
-    attachedNetworkConnectionName,
-    body,
-  );
+  });
   console.log(result);
 }
 

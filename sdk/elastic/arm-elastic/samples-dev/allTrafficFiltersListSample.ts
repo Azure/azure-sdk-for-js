@@ -3,27 +3,18 @@
 
 import { MicrosoftElastic } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List all traffic filters associated with your Elastic monitor resource, helping you manage network traffic control.
+ * This sample demonstrates how to list all traffic filters associated with your Elastic monitor resource, helping you manage network traffic control.
  *
- * @summary List all traffic filters associated with your Elastic monitor resource, helping you manage network traffic control.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2025-06-01/examples/AllTrafficFilters_list.json
+ * @summary list all traffic filters associated with your Elastic monitor resource, helping you manage network traffic control.
+ * x-ms-original-file: 2025-06-01/AllTrafficFilters_list.json
  */
 async function allTrafficFiltersList(): Promise<void> {
-  const subscriptionId =
-    process.env["ELASTIC_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MicrosoftElastic(credential, subscriptionId);
-  const result = await client.allTrafficFilters.list(
-    resourceGroupName,
-    monitorName,
-  );
+  const result = await client.allTrafficFilters.list("myResourceGroup", "myMonitor");
   console.log(result);
 }
 

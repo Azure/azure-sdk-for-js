@@ -1,34 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a virtual network link to the specified Private DNS zone. WARNING: In case of a registration virtual network, all auto-registered DNS records in the zone for the virtual network will also be deleted. This operation cannot be undone.
- *
- * @summary Deletes a virtual network link to the specified Private DNS zone. WARNING: In case of a registration virtual network, all auto-registered DNS records in the zone for the virtual network will also be deleted. This operation cannot be undone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/VirtualNetworkLinkDelete.json
- */
-
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function deletePrivateDnsZoneVirtualNetworkLink(): Promise<void> {
-  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
-  const virtualNetworkLinkName = "virtualNetworkLink1";
+/**
+ * This sample demonstrates how to deletes a virtual network link to the specified Private DNS zone. WARNING: In case of a registration virtual network, all auto-registered DNS records in the zone for the virtual network will also be deleted. This operation cannot be undone.
+ *
+ * @summary deletes a virtual network link to the specified Private DNS zone. WARNING: In case of a registration virtual network, all auto-registered DNS records in the zone for the virtual network will also be deleted. This operation cannot be undone.
+ * x-ms-original-file: 2024-06-01/VirtualNetworkLinkDelete.json
+ */
+async function deletePrivateDNSZoneVirtualNetworkLink(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
-  const result = await client.virtualNetworkLinks.beginDeleteAndWait(
-    resourceGroupName,
-    privateZoneName,
-    virtualNetworkLinkName,
+  await client.virtualNetworkLinks.delete(
+    "resourceGroup1",
+    "privatezone1.com",
+    "virtualNetworkLink1",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await deletePrivateDnsZoneVirtualNetworkLink();
+  await deletePrivateDNSZoneVirtualNetworkLink();
 }
 
 main().catch(console.error);

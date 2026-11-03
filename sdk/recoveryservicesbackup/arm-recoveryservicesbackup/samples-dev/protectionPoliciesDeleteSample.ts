@@ -1,39 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes specified backup policy from your Recovery Services Vault. This is an asynchronous operation. Status of the
-operation can be fetched using GetProtectionPolicyOperationResult API.
- *
- * @summary Deletes specified backup policy from your Recovery Services Vault. This is an asynchronous operation. Status of the
-operation can be fetched using GetProtectionPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ProtectionPolicies_Delete.json
- */
-
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function deleteAzureVMProtectionPolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
-  const policyName = "testPolicy1";
+/**
+ * This sample demonstrates how to deletes specified backup policy from your Recovery Services Vault. This is an asynchronous operation. Status of the
+ * operation can be fetched using GetProtectionPolicyOperationResult API.
+ *
+ * @summary deletes specified backup policy from your Recovery Services Vault. This is an asynchronous operation. Status of the
+ * operation can be fetched using GetProtectionPolicyOperationResult API.
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/ProtectionPolicies_Delete.json
+ */
+async function deleteAzureVmProtectionPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  const result = await client.protectionPolicies.beginDeleteAndWait(
-    vaultName,
-    resourceGroupName,
-    policyName,
-  );
-  console.log(result);
+  await client.protectionPolicies.delete("NetSDKTestRsVault", "SwaggerTestRg", "testPolicy1");
 }
 
 async function main(): Promise<void> {
-  await deleteAzureVMProtectionPolicy();
+  await deleteAzureVmProtectionPolicy();
 }
 
 main().catch(console.error);

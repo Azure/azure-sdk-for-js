@@ -1,29 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets an existing registered prefix with the specified name under the given subscription, resource group and peering.
- *
- * @summary Gets an existing registered prefix with the specified name under the given subscription, resource group and peering.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/GetRegisteredPrefix.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to gets an existing registered prefix with the specified name under the given subscription, resource group and peering.
+ *
+ * @summary gets an existing registered prefix with the specified name under the given subscription, resource group and peering.
+ * x-ms-original-file: 2025-05-01/GetRegisteredPrefix.json
+ */
 async function getARegisteredPrefixAssociatedWithThePeering(): Promise<void> {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
-  const peeringName = "peeringName";
-  const registeredPrefixName = "registeredPrefixName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
   const result = await client.registeredPrefixes.get(
-    resourceGroupName,
-    peeringName,
-    registeredPrefixName,
+    "rgName",
+    "peeringName",
+    "registeredPrefixName",
   );
   console.log(result);
 }
 
-getARegisteredPrefixAssociatedWithThePeering().catch(console.error);
+async function main(): Promise<void> {
+  await getARegisteredPrefixAssociatedWithThePeering();
+}
+
+main().catch(console.error);

@@ -1,42 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SshPublicKeyResource} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates a new SSH public key resource.
+ * This sample demonstrates how to creates a new SSH public key resource.
  *
- * @summary Creates a new SSH public key resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/sshPublicKeyExamples/SshPublicKey_Create.json
+ * @summary creates a new SSH public key resource.
+ * x-ms-original-file: 2026-04-01/sshPublicKeyExamples/SshPublicKey_Create.json
  */
-async function createANewSshPublicKeyResource(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const sshPublicKeyName = "mySshPublicKeyName";
-  const parameters: SshPublicKeyResource = {
+async function createANewSSHPublicKeyResource(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.sshPublicKeys.create("myResourceGroup", "mySshPublicKeyName", {
     location: "westus",
     publicKey: "{ssh-rsa public key}",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.sshPublicKeys.create(
-    resourceGroupName,
-    sshPublicKeyName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await createANewSshPublicKeyResource();
+  await createANewSSHPublicKeyResource();
 }
 
 main().catch(console.error);

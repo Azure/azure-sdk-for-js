@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  resubscribe,
+  linkSaaS,
+  latestLinkedSaaS,
+  vmHostPayload,
+  listLinkedResources,
+  listMonitoredResources,
+  refreshIngestionKey,
+  listHosts,
+  switchBilling,
+  listAppServices,
+  getMetricStatus,
+  getMetricRules,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export type {
+  MonitorsResubscribeOptionalParams,
+  MonitorsLinkSaaSOptionalParams,
+  MonitorsLatestLinkedSaaSOptionalParams,
+  MonitorsVmHostPayloadOptionalParams,
+  MonitorsListLinkedResourcesOptionalParams,
+  MonitorsListMonitoredResourcesOptionalParams,
+  MonitorsRefreshIngestionKeyOptionalParams,
+  MonitorsListHostsOptionalParams,
+  MonitorsSwitchBillingOptionalParams,
+  MonitorsListAppServicesOptionalParams,
+  MonitorsGetMetricStatusOptionalParams,
+  MonitorsGetMetricRulesOptionalParams,
+  MonitorsListBySubscriptionOptionalParams,
+  MonitorsListByResourceGroupOptionalParams,
+  MonitorsDeleteOptionalParams,
+  MonitorsUpdateOptionalParams,
+  MonitorsCreateOrUpdateOptionalParams,
+  MonitorsGetOptionalParams,
+} from "./options.js";

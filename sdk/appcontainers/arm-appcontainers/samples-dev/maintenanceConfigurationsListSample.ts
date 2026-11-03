@@ -3,30 +3,22 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets all maintenance configurations in the specified Managed Environment.
+ * This sample demonstrates how to gets all maintenance configurations in the specified Managed Environment.
  *
- * @summary Gets all maintenance configurations in the specified Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironment_MaintenanceConfigurations_List.json
+ * @summary gets all maintenance configurations in the specified Managed Environment.
+ * x-ms-original-file: 2026-07-01/ManagedEnvironment_MaintenanceConfigurations_List.json
  */
 async function managedEnvironmentMaintenanceConfigurationsList(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg1";
-  const environmentName = "managedEnv";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.maintenanceConfigurations.list(
-    resourceGroupName,
-    environmentName,
-  )) {
+  for await (const item of client.maintenanceConfigurations.list("rg1", "managedEnv")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

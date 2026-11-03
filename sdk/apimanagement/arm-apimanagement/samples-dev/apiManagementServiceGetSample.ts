@@ -1,74 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets an API Management service resource description.
- *
- * @summary Gets an API Management service resource description.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementServiceGetMultiRegionInternalVnet.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets an API Management service resource description.
+ *
+ * @summary gets an API Management service resource description.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementServiceGetMultiRegionInternalVnet.json
+ */
 async function apiManagementServiceGetMultiRegionInternalVnet(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.get(
-    resourceGroupName,
-    serviceName,
-  );
+  const result = await client.apiManagementService.get("rg1", "apimService1");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets an API Management service resource description.
+ * This sample demonstrates how to gets an API Management service resource description.
  *
- * @summary Gets an API Management service resource description.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementServiceGetService.json
+ * @summary gets an API Management service resource description.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementServiceGetService.json
  */
 async function apiManagementServiceGetService(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.get(
-    resourceGroupName,
-    serviceName,
-  );
+  const result = await client.apiManagementService.get("rg1", "apimService1");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets an API Management service resource description.
+ * This sample demonstrates how to gets an API Management service resource description.
  *
- * @summary Gets an API Management service resource description.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementServiceGetServiceHavingMsi.json
+ * @summary gets an API Management service resource description.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementServiceGetServiceHavingMsi.json
  */
 async function apiManagementServiceGetServiceHavingMsi(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.get(
-    resourceGroupName,
-    serviceName,
-  );
+  const result = await client.apiManagementService.get("rg1", "apimService1");
   console.log(result);
 }
 

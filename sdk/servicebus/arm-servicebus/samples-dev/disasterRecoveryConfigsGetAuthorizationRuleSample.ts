@@ -1,30 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets an authorization rule for a namespace by rule name.
- *
- * @summary Gets an authorization rule for a namespace by rule name.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/SBAliasAuthorizationRuleGet.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets an authorization rule for a namespace by rule name.
+ *
+ * @summary gets an authorization rule for a namespace by rule name.
+ * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/SBAliasAuthorizationRuleGet.json
+ */
 async function disasterRecoveryConfigsAuthorizationRuleGet(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const namespaceName = "sdk-Namespace-9080";
-  const alias = "sdk-DisasterRecovery-4879";
-  const authorizationRuleName = "sdk-Authrules-4879";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const result = await client.disasterRecoveryConfigs.getAuthorizationRule(
-    resourceGroupName,
-    namespaceName,
-    alias,
-    authorizationRuleName,
+    "exampleResourceGroup",
+    "sdk-Namespace-9080",
+    "sdk-DisasterRecovery-4879",
+    "sdk-Authrules-4879",
   );
   console.log(result);
 }

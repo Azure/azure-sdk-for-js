@@ -1,59 +1,54 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates the properties of a billing account. Currently, displayName and address can be updated for billing accounts with agreement type Microsoft Customer Agreement. Currently address and notification email address can be updated for billing accounts with agreement type Microsoft Online Services Agreement. Currently, purchase order number can be edited for billing accounts with agreement type Enterprise Agreement.
- *
- * @summary Updates the properties of a billing account. Currently, displayName and address can be updated for billing accounts with agreement type Microsoft Customer Agreement. Currently address and notification email address can be updated for billing accounts with agreement type Microsoft Online Services Agreement. Currently, purchase order number can be edited for billing accounts with agreement type Enterprise Agreement.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountUpdateWithPONumber.json
- */
-
-import type { BillingAccountPatch } from "@azure/arm-billing";
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function billingAccountUpdateWithPoNumber(): Promise<void> {
-  const billingAccountName = "6575495";
-  const parameters: BillingAccountPatch = {
-    properties: { enrollmentDetails: { poNumber: "poNumber123" } },
-  };
+/**
+ * This sample demonstrates how to updates the properties of a billing account. Currently, displayName and address can be updated for billing accounts with agreement type Microsoft Customer Agreement. Currently address and notification email address can be updated for billing accounts with agreement type Microsoft Online Services Agreement. Currently, purchase order number can be edited for billing accounts with agreement type Enterprise Agreement.
+ *
+ * @summary updates the properties of a billing account. Currently, displayName and address can be updated for billing accounts with agreement type Microsoft Customer Agreement. Currently address and notification email address can be updated for billing accounts with agreement type Microsoft Online Services Agreement. Currently, purchase order number can be edited for billing accounts with agreement type Enterprise Agreement.
+ * x-ms-original-file: 2024-04-01/billingAccountUpdateWithPONumber.json
+ */
+async function billingAccountUpdateWithPONumber(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
-  const result = await client.billingAccounts.beginUpdateAndWait(billingAccountName, parameters);
+  const result = await client.billingAccounts.update("6575495", {
+    properties: { enrollmentDetails: { poNumber: "poNumber123" } },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates the properties of a billing account. Currently, displayName and address can be updated for billing accounts with agreement type Microsoft Customer Agreement. Currently address and notification email address can be updated for billing accounts with agreement type Microsoft Online Services Agreement. Currently, purchase order number can be edited for billing accounts with agreement type Enterprise Agreement.
+ * This sample demonstrates how to updates the properties of a billing account. Currently, displayName and address can be updated for billing accounts with agreement type Microsoft Customer Agreement. Currently address and notification email address can be updated for billing accounts with agreement type Microsoft Online Services Agreement. Currently, purchase order number can be edited for billing accounts with agreement type Enterprise Agreement.
  *
- * @summary Updates the properties of a billing account. Currently, displayName and address can be updated for billing accounts with agreement type Microsoft Customer Agreement. Currently address and notification email address can be updated for billing accounts with agreement type Microsoft Online Services Agreement. Currently, purchase order number can be edited for billing accounts with agreement type Enterprise Agreement.
- * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountsUpdate.json
+ * @summary updates the properties of a billing account. Currently, displayName and address can be updated for billing accounts with agreement type Microsoft Customer Agreement. Currently address and notification email address can be updated for billing accounts with agreement type Microsoft Online Services Agreement. Currently, purchase order number can be edited for billing accounts with agreement type Enterprise Agreement.
+ * x-ms-original-file: 2024-04-01/billingAccountsUpdate.json
  */
 async function billingAccountsUpdate(): Promise<void> {
-  const billingAccountName =
-    "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
-  const parameters: BillingAccountPatch = {
-    properties: {
-      displayName: "Test Account",
-      soldTo: {
-        addressLine1: "1 Microsoft Way",
-        city: "Redmond",
-        companyName: "Contoso",
-        country: "US",
-        postalCode: "98052-8300",
-        region: "WA",
-      },
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
-  const result = await client.billingAccounts.beginUpdateAndWait(billingAccountName, parameters);
+  const result = await client.billingAccounts.update(
+    "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31",
+    {
+      properties: {
+        displayName: "Test Account",
+        soldTo: {
+          addressLine1: "1 Microsoft Way",
+          city: "Redmond",
+          companyName: "Contoso",
+          country: "US",
+          postalCode: "98052-8300",
+          region: "WA",
+        },
+      },
+    },
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await billingAccountUpdateWithPoNumber();
+  await billingAccountUpdateWithPONumber();
   await billingAccountsUpdate();
 }
 

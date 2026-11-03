@@ -1,52 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to virtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- *
- * @summary virtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesExecuteDelete_MaximumSet_Gen.json
- */
-
 import { ComputeScheduleClient } from "@azure/arm-computeschedule";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function scheduledActionsVirtualMachinesExecuteDeleteMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
+/**
+ * This sample demonstrates how to [PRIVATE PREVIEW]: VirtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
+ *
+ * @summary [PRIVATE PREVIEW]: VirtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
+ * x-ms-original-file: 2026-04-15-preview/ScheduledActions_VirtualMachinesExecuteDelete_MaximumSet_Gen.json
+ */
+async function scheduledActionsVirtualMachinesExecuteDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
+  const subscriptionId = "732116BD-AF31-4E74-9283-B387C44B4A44";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.virtualMachinesExecuteDelete("east", {
+  const result = await client.scheduledActions.virtualMachinesExecuteDelete("eastus2", {
     executionParameters: {
-      retryPolicy: { retryCount: 2, retryWindowInMinutes: 4 },
+      optimizationPreference: "Cost",
+      retryPolicy: { retryCount: 3, retryWindowInMinutes: 30, onFailureAction: "Unknown" },
     },
     resources: {
       ids: [
-        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3",
-        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource4",
+        "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rgcomputeschedule/providers/Microsoft.Compute/virtualMachines/vm1",
       ],
     },
-    correlationid: "dfe927c5-16a6-40b7-a0f7-8524975ed642",
-    forceDeletion: false,
+    correlationId: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    forceDeletion: true,
   });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to virtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
+ * This sample demonstrates how to [PRIVATE PREVIEW]: VirtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
- * @summary virtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesExecuteDelete_MinimumSet_Gen.json
+ * @summary [PRIVATE PREVIEW]: VirtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
+ * x-ms-original-file: 2026-04-15-preview/ScheduledActions_VirtualMachinesExecuteDelete_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesExecuteDeleteMinimumSetGenGeneratedByMinimumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesExecuteDeleteMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
+  const subscriptionId = "732116BD-AF31-4E74-9283-B387C44B4A44";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.virtualMachinesExecuteDelete("east", {
+  const result = await client.scheduledActions.virtualMachinesExecuteDelete("eastus2", {
     executionParameters: {},
     resources: {
       ids: [
-        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3",
-        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource4",
+        "/subscriptions/732116BD-AF31-4E74-9283-B387C44B4A44/resourceGroups/rgcomputeschedule/providers/Microsoft.Compute/virtualMachines/vm1",
       ],
     },
   });
@@ -54,8 +52,8 @@ async function scheduledActionsVirtualMachinesExecuteDeleteMinimumSetGenGenerate
 }
 
 async function main(): Promise<void> {
-  await scheduledActionsVirtualMachinesExecuteDeleteMaximumSetGenGeneratedByMaximumSetRule();
-  await scheduledActionsVirtualMachinesExecuteDeleteMinimumSetGenGeneratedByMinimumSetRule();
+  await scheduledActionsVirtualMachinesExecuteDeleteMaximumSet();
+  await scheduledActionsVirtualMachinesExecuteDeleteMinimumSet();
 }
 
 main().catch(console.error);

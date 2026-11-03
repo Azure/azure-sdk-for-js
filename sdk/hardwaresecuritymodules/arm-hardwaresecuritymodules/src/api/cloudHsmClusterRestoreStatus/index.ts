@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { get } from "./operations.js";
-export { CloudHsmClusterRestoreStatusGetOptionalParams } from "./options.js";
+export type { CloudHsmClusterRestoreStatusGetOptionalParams } from "./options.js";

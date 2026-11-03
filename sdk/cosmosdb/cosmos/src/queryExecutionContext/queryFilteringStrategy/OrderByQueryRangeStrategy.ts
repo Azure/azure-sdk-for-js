@@ -47,7 +47,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     const result: PartitionRangeFilterResult = {
       rangeTokenPairs: [],
     };
-    let filteredRanges: PartitionKeyRange[] = [];
     let resumeRangeFound = false;
 
     if (continuationRanges && continuationRanges.length > 0) {
@@ -108,7 +107,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     // If we couldn't find a specific resume point, include all ranges
     // This can happen with certain types of ORDER BY continuation tokens
     if (!resumeRangeFound) {
-      filteredRanges = [...targetRanges];
+      const filteredRanges = [...targetRanges];
       filteredRanges.forEach((range) => {
         result.rangeTokenPairs.push({
           range: range,
@@ -143,6 +142,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         `Unable to resume ORDER BY query from continuation token. The ORDER BY sort direction configuration ` +
           `in the query plan is invalid or missing. This may indicate a client version mismatch or corrupted continuation token. ` +
           `Please retry the query without a continuation token. Original error: ${error}`,
+        { cause: error },
       );
     }
 
@@ -201,6 +201,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
             `in the query plan is invalid or incompatible with the continuation token format. ` +
             `This may indicate a client version mismatch or corrupted continuation token. ` +
             `Please retry the query without a continuation token. Original error: ${error}`,
+          { cause: error },
         );
       }
     }
@@ -354,7 +355,8 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
   }
 
   /**
-   * Formats a value for use in SQL condition
+   * Formats a value for use in SQL condition.
+   * We escape single quotes as \\u0027 to avoid ambiguity with \\\\ followed by '
    */
   private formatValueForSQL(value: any): string {
     if (value === null || value === undefined) {
@@ -365,8 +367,8 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
     switch (valueType) {
       case "string":
-        // Escape single quotes and wrap in quotes
-        return `'${value.toString().replace(/'/g, "''")}'`;
+        // Escape backslashes first, then single quotes as unicode escape
+        return `'${value.toString().replace(/\\/g, "\\\\").replace(/'/g, "\\u0027")}'`;
       case "number":
       case "bigint":
         return value.toString();
@@ -375,9 +377,9 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       default:
         // For objects and arrays, convert to JSON string
         if (typeof value === "object") {
-          return `'${JSON.stringify(value).replace(/'/g, "''")}'`;
+          return `'${JSON.stringify(value).replace(/\\/g, "\\\\").replace(/'/g, "\\u0027")}'`;
         }
-        return `'${value.toString().replace(/'/g, "''")}'`;
+        return `'${value.toString().replace(/\\/g, "\\\\").replace(/'/g, "\\u0027")}'`;
     }
   }
 

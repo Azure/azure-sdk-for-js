@@ -8,17 +8,14 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { KeyVaultClient } from "./keyVaultClient.js";
-export {
+export type {
   KeyCreateParameters,
-  KnownJsonWebKeyType,
   JsonWebKeyType,
-  KnownJsonWebKeyOperation,
   JsonWebKeyOperation,
   KeyAttributes,
-  KnownDeletionRecoveryLevel,
   DeletionRecoveryLevel,
   KeyAttestation,
-  KnownJsonWebKeyCurveName,
+  ExternalKey,
   JsonWebKeyCurveName,
   KeyReleasePolicy,
   KeyBundle,
@@ -32,16 +29,17 @@ export {
   BackupKeyResult,
   KeyRestoreParameters,
   KeyOperationsParameters,
-  KnownJsonWebKeyEncryptionAlgorithm,
   JsonWebKeyEncryptionAlgorithm,
   KeyOperationResult,
   KeySignParameters,
-  KnownJsonWebKeySignatureAlgorithm,
   JsonWebKeySignatureAlgorithm,
   KeyVerifyParameters,
   KeyVerifyResult,
+  SecureKeyWrapOperationParameters,
+  JsonWebKeyWrapAlgorithm,
+  SecureKeyOperationResult,
+  SecureKeyUnWrapOperationParameters,
   KeyReleaseParameters,
-  KnownKeyEncryptionAlgorithm,
   KeyEncryptionAlgorithm,
   KeyReleaseResult,
   DeletedKeyItem,
@@ -53,9 +51,19 @@ export {
   KeyRotationPolicyAttributes,
   GetRandomBytesRequest,
   RandomBytes,
-  KnownVersions,
 } from "./models/index.js";
 export {
+  KnownJsonWebKeyType,
+  KnownJsonWebKeyOperation,
+  KnownDeletionRecoveryLevel,
+  KnownJsonWebKeyCurveName,
+  KnownJsonWebKeyEncryptionAlgorithm,
+  KnownJsonWebKeySignatureAlgorithm,
+  KnownJsonWebKeyWrapAlgorithm,
+  KnownKeyEncryptionAlgorithm,
+  KnownVersions,
+} from "./models/index.js";
+export type {
   KeyVaultClientOptionalParams,
   GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
@@ -67,6 +75,8 @@ export {
   GetDeletedKeysOptionalParams,
   ReleaseOptionalParams,
   UnwrapKeyOptionalParams,
+  SecureUnwrapKeyOptionalParams,
+  SecureWrapKeyOptionalParams,
   WrapKeyOptionalParams,
   VerifyOptionalParams,
   SignOptionalParams,
@@ -83,4 +93,5 @@ export {
   RotateKeyOptionalParams,
   CreateKeyOptionalParams,
 } from "./api/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

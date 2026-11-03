@@ -1,25 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
- *
- * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheCreate.json
- */
-
-import type { RedisCreateParameters } from "@azure/arm-rediscache";
 import { RedisManagementClient } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
+ *
+ * @summary create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
+ * x-ms-original-file: 2025-08-01-preview/RedisCacheCreate.json
+ */
 async function redisCacheCreate(): Promise<void> {
-  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
-  const name = "cache1";
-  const parameters: RedisCreateParameters = {
-    enableNonSslPort: true,
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RedisManagementClient(credential, subscriptionId);
+  const result = await client.redis.create("rg1", "cache1", {
     location: "East US",
+    enableNonSslPort: true,
     minimumTlsVersion: "1.2",
     redisConfiguration: { maxmemoryPolicy: "allkeys-lru" },
     redisVersion: "4",
@@ -28,28 +25,25 @@ async function redisCacheCreate(): Promise<void> {
     sku: { name: "Premium", capacity: 1, family: "P" },
     staticIP: "192.168.0.5",
     subnetId:
-      "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
     zones: ["1"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RedisManagementClient(credential, subscriptionId);
-  const result = await client.redis.beginCreateAndWait(resourceGroupName, name, parameters);
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
+ * This sample demonstrates how to create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  *
- * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheCreateAutomaticZonalAllocationPolicy.json
+ * @summary create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
+ * x-ms-original-file: 2025-08-01-preview/RedisCacheCreateAutomaticZonalAllocationPolicy.json
  */
 async function redisCacheCreateAutomaticZonalAllocationPolicy(): Promise<void> {
-  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
-  const name = "cache1";
-  const parameters: RedisCreateParameters = {
-    enableNonSslPort: true,
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RedisManagementClient(credential, subscriptionId);
+  const result = await client.redis.create("rg1", "cache1", {
     location: "East US",
+    enableNonSslPort: true,
     minimumTlsVersion: "1.2",
     redisConfiguration: { maxmemoryPolicy: "allkeys-lru" },
     replicasPerPrimary: 2,
@@ -57,28 +51,25 @@ async function redisCacheCreateAutomaticZonalAllocationPolicy(): Promise<void> {
     sku: { name: "Premium", capacity: 1, family: "P" },
     staticIP: "192.168.0.5",
     subnetId:
-      "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
     zonalAllocationPolicy: "Automatic",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RedisManagementClient(credential, subscriptionId);
-  const result = await client.redis.beginCreateAndWait(resourceGroupName, name, parameters);
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
+ * This sample demonstrates how to create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  *
- * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheCreateDefaultVersion.json
+ * @summary create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
+ * x-ms-original-file: 2025-08-01-preview/RedisCacheCreateDefaultVersion.json
  */
 async function redisCacheCreateDefaultVersion(): Promise<void> {
-  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
-  const name = "cache1";
-  const parameters: RedisCreateParameters = {
-    enableNonSslPort: true,
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RedisManagementClient(credential, subscriptionId);
+  const result = await client.redis.create("rg1", "cache1", {
     location: "East US",
+    enableNonSslPort: true,
     minimumTlsVersion: "1.2",
     redisConfiguration: { maxmemoryPolicy: "allkeys-lru" },
     replicasPerPrimary: 2,
@@ -86,28 +77,25 @@ async function redisCacheCreateDefaultVersion(): Promise<void> {
     sku: { name: "Premium", capacity: 1, family: "P" },
     staticIP: "192.168.0.5",
     subnetId:
-      "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
     zones: ["1"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RedisManagementClient(credential, subscriptionId);
-  const result = await client.redis.beginCreateAndWait(resourceGroupName, name, parameters);
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
+ * This sample demonstrates how to create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  *
- * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheCreateLatestVersion.json
+ * @summary create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
+ * x-ms-original-file: 2025-08-01-preview/RedisCacheCreateLatestVersion.json
  */
 async function redisCacheCreateLatestVersion(): Promise<void> {
-  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
-  const name = "cache1";
-  const parameters: RedisCreateParameters = {
-    enableNonSslPort: true,
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RedisManagementClient(credential, subscriptionId);
+  const result = await client.redis.create("rg1", "cache1", {
     location: "East US",
+    enableNonSslPort: true,
     minimumTlsVersion: "1.2",
     redisConfiguration: { maxmemoryPolicy: "allkeys-lru" },
     redisVersion: "Latest",
@@ -116,28 +104,25 @@ async function redisCacheCreateLatestVersion(): Promise<void> {
     sku: { name: "Premium", capacity: 1, family: "P" },
     staticIP: "192.168.0.5",
     subnetId:
-      "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
     zones: ["1"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RedisManagementClient(credential, subscriptionId);
-  const result = await client.redis.beginCreateAndWait(resourceGroupName, name, parameters);
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
+ * This sample demonstrates how to create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  *
- * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheCreateNoZonesZonalAllocationPolicy.json
+ * @summary create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
+ * x-ms-original-file: 2025-08-01-preview/RedisCacheCreateNoZonesZonalAllocationPolicy.json
  */
 async function redisCacheCreateNoZonesZonalAllocationPolicy(): Promise<void> {
-  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
-  const name = "cache1";
-  const parameters: RedisCreateParameters = {
-    enableNonSslPort: true,
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RedisManagementClient(credential, subscriptionId);
+  const result = await client.redis.create("rg1", "cache1", {
     location: "East US",
+    enableNonSslPort: true,
     minimumTlsVersion: "1.2",
     redisConfiguration: { maxmemoryPolicy: "allkeys-lru" },
     replicasPerPrimary: 2,
@@ -145,28 +130,25 @@ async function redisCacheCreateNoZonesZonalAllocationPolicy(): Promise<void> {
     sku: { name: "Premium", capacity: 1, family: "P" },
     staticIP: "192.168.0.5",
     subnetId:
-      "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
     zonalAllocationPolicy: "NoZones",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RedisManagementClient(credential, subscriptionId);
-  const result = await client.redis.beginCreateAndWait(resourceGroupName, name, parameters);
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
+ * This sample demonstrates how to create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  *
- * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheCreateUserDefinedZonalAllocationPolicy.json
+ * @summary create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
+ * x-ms-original-file: 2025-08-01-preview/RedisCacheCreateUserDefinedZonalAllocationPolicy.json
  */
 async function redisCacheCreateUserDefinedZonalAllocationPolicy(): Promise<void> {
-  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
-  const name = "cache1";
-  const parameters: RedisCreateParameters = {
-    enableNonSslPort: true,
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RedisManagementClient(credential, subscriptionId);
+  const result = await client.redis.create("rg1", "cache1", {
     location: "East US",
+    enableNonSslPort: true,
     minimumTlsVersion: "1.2",
     redisConfiguration: { maxmemoryPolicy: "allkeys-lru" },
     redisVersion: "Latest",
@@ -175,13 +157,10 @@ async function redisCacheCreateUserDefinedZonalAllocationPolicy(): Promise<void>
     sku: { name: "Premium", capacity: 1, family: "P" },
     staticIP: "192.168.0.5",
     subnetId:
-      "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
     zonalAllocationPolicy: "UserDefined",
     zones: ["1"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RedisManagementClient(credential, subscriptionId);
-  const result = await client.redis.beginCreateAndWait(resourceGroupName, name, parameters);
+  });
   console.log(result);
 }
 

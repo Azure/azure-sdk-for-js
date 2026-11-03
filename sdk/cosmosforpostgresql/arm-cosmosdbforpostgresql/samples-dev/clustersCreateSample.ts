@@ -1,119 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new cluster with servers.
- *
- * @summary Creates a new cluster with servers.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreatePITR.json
- */
-
-import type { Cluster } from "@azure/arm-cosmosdbforpostgresql";
 import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
-async function createANewClusterAsAPointInTimeRestore(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
-  const clusterName = "testcluster";
-  const parameters: Cluster = {
-    location: "westus",
-    pointInTimeUTC: new Date("2017-12-14T00:00:37.467Z"),
-    sourceLocation: "westus",
-    sourceResourceId:
-      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/source-cluster",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
-  const result = await client.clusters.beginCreateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
-  console.log(result);
-}
 
 /**
- * This sample demonstrates how to Creates a new cluster with servers.
+ * This sample demonstrates how to creates a new cluster with servers.
  *
- * @summary Creates a new cluster with servers.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateReadReplica.json
- */
-async function createANewClusterAsAReadReplica(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
-  const clusterName = "testcluster";
-  const parameters: Cluster = {
-    location: "westus",
-    sourceLocation: "westus",
-    sourceResourceId:
-      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/sourcecluster",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
-  const result = await client.clusters.beginCreateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates a new cluster with servers.
- *
- * @summary Creates a new cluster with servers.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateMultiNode.json
- */
-async function createANewMultiNodeCluster(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
-  const clusterName = "testcluster-multinode";
-  const parameters: Cluster = {
-    administratorLoginPassword: "password",
-    citusVersion: "11.1",
-    coordinatorEnablePublicIpAccess: true,
-    coordinatorServerEdition: "GeneralPurpose",
-    coordinatorStorageQuotaInMb: 524288,
-    coordinatorVCores: 4,
-    enableHa: true,
-    enableShardsOnCoordinator: false,
-    location: "westus",
-    nodeCount: 3,
-    nodeEnablePublicIpAccess: false,
-    nodeServerEdition: "MemoryOptimized",
-    nodeStorageQuotaInMb: 524288,
-    nodeVCores: 8,
-    postgresqlVersion: "15",
-    preferredPrimaryZone: "1",
-    tags: {},
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
-  const result = await client.clusters.beginCreateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates a new cluster with servers.
- *
- * @summary Creates a new cluster with servers.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateBurstablev1.json
+ * @summary creates a new cluster with servers.
+ * x-ms-original-file: 2023-03-02-preview/ClusterCreateBurstablev1.json
  */
 async function createANewSingleNodeBurstable1VCoreCluster(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
-  const clusterName = "testcluster-burstablev1";
-  const parameters: Cluster = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
+  const result = await client.clusters.create("TestGroup", "testcluster-burstablev1", {
+    location: "westus",
     administratorLoginPassword: "password",
     citusVersion: "11.3",
     coordinatorEnablePublicIpAccess: true,
@@ -122,34 +24,26 @@ async function createANewSingleNodeBurstable1VCoreCluster(): Promise<void> {
     coordinatorVCores: 1,
     enableHa: false,
     enableShardsOnCoordinator: true,
-    location: "westus",
     nodeCount: 0,
     postgresqlVersion: "15",
     preferredPrimaryZone: "1",
     tags: { owner: "JohnDoe" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
-  const result = await client.clusters.beginCreateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a new cluster with servers.
+ * This sample demonstrates how to creates a new cluster with servers.
  *
- * @summary Creates a new cluster with servers.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateBurstablev2.json
+ * @summary creates a new cluster with servers.
+ * x-ms-original-file: 2023-03-02-preview/ClusterCreateBurstablev2.json
  */
 async function createANewSingleNodeBurstable2VCoresCluster(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
-  const clusterName = "testcluster-burstablev2";
-  const parameters: Cluster = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
+  const result = await client.clusters.create("TestGroup", "testcluster-burstablev2", {
+    location: "westus",
     administratorLoginPassword: "password",
     citusVersion: "11.3",
     coordinatorEnablePublicIpAccess: true,
@@ -158,34 +52,126 @@ async function createANewSingleNodeBurstable2VCoresCluster(): Promise<void> {
     coordinatorVCores: 2,
     enableHa: false,
     enableShardsOnCoordinator: true,
-    location: "westus",
     nodeCount: 0,
     postgresqlVersion: "15",
     preferredPrimaryZone: "1",
     tags: { owner: "JohnDoe" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
-  const result = await client.clusters.beginCreateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a new cluster with servers.
+ * This sample demonstrates how to creates a new cluster with servers.
  *
- * @summary Creates a new cluster with servers.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateSingleNode.json
+ * @summary creates a new cluster with servers.
+ * x-ms-original-file: 2023-03-02-preview/ClusterCreateCustomDatabaseName.json
+ */
+async function createANewClusterWithCustomDatabaseName(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
+  const result = await client.clusters.create("TestGroup", "testcluster-custom-db-name", {
+    location: "westus",
+    administratorLoginPassword: "password",
+    citusVersion: "11.3",
+    coordinatorEnablePublicIpAccess: true,
+    coordinatorServerEdition: "GeneralPurpose",
+    coordinatorStorageQuotaInMb: 131072,
+    coordinatorVCores: 8,
+    databaseName: "testdbname",
+    enableHa: true,
+    enableShardsOnCoordinator: true,
+    nodeCount: 0,
+    postgresqlVersion: "15",
+    preferredPrimaryZone: "1",
+    tags: { owner: "JohnDoe" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new cluster with servers.
+ *
+ * @summary creates a new cluster with servers.
+ * x-ms-original-file: 2023-03-02-preview/ClusterCreateMultiNode.json
+ */
+async function createANewMultiNodeCluster(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
+  const result = await client.clusters.create("TestGroup", "testcluster-multinode", {
+    location: "westus",
+    administratorLoginPassword: "password",
+    citusVersion: "11.1",
+    coordinatorEnablePublicIpAccess: true,
+    coordinatorServerEdition: "GeneralPurpose",
+    coordinatorStorageQuotaInMb: 524288,
+    coordinatorVCores: 4,
+    enableHa: true,
+    enableShardsOnCoordinator: false,
+    nodeCount: 3,
+    nodeEnablePublicIpAccess: false,
+    nodeServerEdition: "MemoryOptimized",
+    nodeStorageQuotaInMb: 524288,
+    nodeVCores: 8,
+    postgresqlVersion: "15",
+    preferredPrimaryZone: "1",
+    tags: {},
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new cluster with servers.
+ *
+ * @summary creates a new cluster with servers.
+ * x-ms-original-file: 2023-03-02-preview/ClusterCreatePITR.json
+ */
+async function createANewClusterAsAPointInTimeRestore(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
+  const result = await client.clusters.create("TestGroup", "testcluster", {
+    location: "westus",
+    pointInTimeUTC: new Date("2017-12-14T00:00:37.467Z"),
+    sourceLocation: "westus",
+    sourceResourceId:
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/source-cluster",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new cluster with servers.
+ *
+ * @summary creates a new cluster with servers.
+ * x-ms-original-file: 2023-03-02-preview/ClusterCreateReadReplica.json
+ */
+async function createANewClusterAsAReadReplica(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
+  const result = await client.clusters.create("TestGroup", "testcluster", {
+    location: "westus",
+    sourceLocation: "westus",
+    sourceResourceId:
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/sourcecluster",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new cluster with servers.
+ *
+ * @summary creates a new cluster with servers.
+ * x-ms-original-file: 2023-03-02-preview/ClusterCreateSingleNode.json
  */
 async function createANewSingleNodeCluster(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
-  const clusterName = "testcluster-singlenode";
-  const parameters: Cluster = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
+  const result = await client.clusters.create("TestGroup", "testcluster-singlenode", {
+    location: "westus",
     administratorLoginPassword: "password",
     citusVersion: "11.3",
     coordinatorEnablePublicIpAccess: true,
@@ -194,29 +180,118 @@ async function createANewSingleNodeCluster(): Promise<void> {
     coordinatorVCores: 8,
     enableHa: true,
     enableShardsOnCoordinator: true,
-    location: "westus",
     nodeCount: 0,
     postgresqlVersion: "15",
     preferredPrimaryZone: "1",
     tags: { owner: "JohnDoe" },
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new cluster with servers.
+ *
+ * @summary creates a new cluster with servers.
+ * x-ms-original-file: 2023-03-02-preview/ClusterCreateWithAAD.json
+ */
+async function createANewClusterWithAzureActiveDirectoryAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
-  const result = await client.clusters.beginCreateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
+  const result = await client.clusters.create("TestGroup", "testcluster-cmk", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity":
+          {},
+      },
+    },
+    location: "westus",
+    administratorLoginPassword: "password",
+    citusVersion: "12.1",
+    coordinatorEnablePublicIpAccess: true,
+    coordinatorServerEdition: "GeneralPurpose",
+    coordinatorStorageQuotaInMb: 524288,
+    coordinatorVCores: 4,
+    dataEncryption: {
+      type: "AzureKeyVault",
+      primaryKeyUri:
+        "https://test-kv.vault.azure.net/keys/test-key1/fffffffffffffffffffffffffffffff",
+      primaryUserAssignedIdentityId:
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity",
+    },
+    databaseName: "citus",
+    enableHa: false,
+    enableShardsOnCoordinator: false,
+    nodeCount: 3,
+    nodeEnablePublicIpAccess: false,
+    nodeServerEdition: "MemoryOptimized",
+    nodeStorageQuotaInMb: 524288,
+    nodeVCores: 8,
+    postgresqlVersion: "15",
+    preferredPrimaryZone: "1",
+    tags: {},
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new cluster with servers.
+ *
+ * @summary creates a new cluster with servers.
+ * x-ms-original-file: 2023-03-02-preview/ClusterCreateWithCMK.json
+ */
+async function createANewClusterWithCustomerManagedKeyCMKDataEncryption(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
+  const result = await client.clusters.create("TestGroup", "testcluster-cmk", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity":
+          {},
+      },
+    },
+    location: "westus",
+    administratorLoginPassword: "password",
+    citusVersion: "12.1",
+    coordinatorEnablePublicIpAccess: true,
+    coordinatorServerEdition: "GeneralPurpose",
+    coordinatorStorageQuotaInMb: 524288,
+    coordinatorVCores: 4,
+    dataEncryption: {
+      type: "AzureKeyVault",
+      primaryKeyUri:
+        "https://test-kv.vault.azure.net/keys/test-key1/fffffffffffffffffffffffffffffff",
+      primaryUserAssignedIdentityId:
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity",
+    },
+    databaseName: "citus",
+    enableHa: false,
+    enableShardsOnCoordinator: false,
+    nodeCount: 3,
+    nodeEnablePublicIpAccess: false,
+    nodeServerEdition: "MemoryOptimized",
+    nodeStorageQuotaInMb: 524288,
+    nodeVCores: 8,
+    postgresqlVersion: "15",
+    preferredPrimaryZone: "1",
+    tags: {},
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await createANewClusterAsAPointInTimeRestore();
-  await createANewClusterAsAReadReplica();
-  await createANewMultiNodeCluster();
   await createANewSingleNodeBurstable1VCoreCluster();
   await createANewSingleNodeBurstable2VCoresCluster();
+  await createANewClusterWithCustomDatabaseName();
+  await createANewMultiNodeCluster();
+  await createANewClusterAsAPointInTimeRestore();
+  await createANewClusterAsAReadReplica();
   await createANewSingleNodeCluster();
+  await createANewClusterWithAzureActiveDirectoryAuthentication();
+  await createANewClusterWithCustomerManagedKeyCMKDataEncryption();
 }
 
 main().catch(console.error);

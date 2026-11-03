@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all chat transcripts for a support ticket
- *
- * @summary Lists all chat transcripts for a support ticket
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListChatTranscriptsForSupportTicket.json
- */
-
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all chat transcripts for a support ticket
+ *
+ * @summary lists all chat transcripts for a support ticket
+ * x-ms-original-file: 2025-06-01-preview/ListChatTranscriptsForSupportTicket.json
+ */
 async function listChatTranscriptsForANoSubscriptionSupportTicket(): Promise<void> {
-  const supportTicketName = "testticket";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
-  for await (const item of client.chatTranscriptsNoSubscription.list(supportTicketName)) {
+  for await (const item of client.chatTranscriptsNoSubscription.list("testticket")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -1,71 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a database.
- *
- * @summary Creates or updates a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabaseReadonlyUpdate.json
- */
-
-import type {
-  ReadOnlyFollowingDatabase,
-  ReadWriteDatabase,
-  DatabasesCreateOrUpdateOptionalParams,
-} from "@azure/arm-kusto";
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a database.
+ *
+ * @summary creates or updates a database.
+ * x-ms-original-file: 2025-02-14/KustoDatabaseReadonlyUpdate.json
+ */
 async function kustoReadOnlyDatabaseUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster";
-  const databaseName = "kustoReadOnlyDatabase";
-  const parameters: ReadOnlyFollowingDatabase = {
-    hotCachePeriod: "P1D",
-    kind: "ReadOnlyFollowing",
-    location: "westus",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.databases.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    parameters,
+  const result = await client.databases.createOrUpdate(
+    "kustorptest",
+    "kustoCluster",
+    "kustoReadOnlyDatabase",
+    { kind: "ReadOnlyFollowing", location: "westus", hotCachePeriod: "P1D" },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a database.
+ * This sample demonstrates how to creates or updates a database.
  *
- * @summary Creates or updates a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasesCreateOrUpdate.json
+ * @summary creates or updates a database.
+ * x-ms-original-file: 2025-02-14/KustoDatabasesCreateOrUpdate.json
  */
 async function kustoReadWriteDatabaseCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster";
-  const databaseName = "KustoDatabase8";
-  const callerRole = "Admin";
-  const parameters: ReadWriteDatabase = {
-    kind: "ReadWrite",
-    location: "westus",
-    softDeletePeriod: "P1D",
-  };
-  const options: DatabasesCreateOrUpdateOptionalParams = { callerRole };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.databases.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    parameters,
-    options,
+  const result = await client.databases.createOrUpdate(
+    "kustorptest",
+    "kustoCluster",
+    "KustoDatabase8",
+    { kind: "ReadWrite", location: "westus", softDeletePeriod: "P1D" },
+    { callerRole: "Admin" },
   );
   console.log(result);
 }

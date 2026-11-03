@@ -16,8 +16,14 @@ export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialP
  * Options used to configure StorageSharedKeyCredentialPolicy.
  */
 export interface StorageSharedKeyCredentialPolicyOptions {
+  /**
+   * Account name
+   */
   accountName: string;
-  accountKey: Buffer;
+  /**
+   * Account key - accepts any type on browser since SharedKey is not supported.
+   */
+  accountKey: unknown;
 }
 
 /**

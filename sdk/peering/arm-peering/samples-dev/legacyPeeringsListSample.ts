@@ -1,27 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all of the legacy peerings under the given subscription matching the specified kind and location.
- *
- * @summary Lists all of the legacy peerings under the given subscription matching the specified kind and location.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListLegacyPeerings.json
- */
-
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to lists all of the legacy peerings under the given subscription matching the specified kind and location.
+ *
+ * @summary lists all of the legacy peerings under the given subscription matching the specified kind and location.
+ * x-ms-original-file: 2025-05-01/ListLegacyPeerings.json
+ */
 async function listLegacyPeerings(): Promise<void> {
-  const subscriptionId = "subId";
-  const peeringLocation = "peeringLocation0";
-  const kind = "Exchange";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.legacyPeerings.list(peeringLocation, kind)) {
+  for await (const item of client.legacyPeerings.list("peeringLocation0", "Exchange", {
+    directPeeringType: "Edge",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-listLegacyPeerings().catch(console.error);
+async function main(): Promise<void> {
+  await listLegacyPeerings();
+}
+
+main().catch(console.error);

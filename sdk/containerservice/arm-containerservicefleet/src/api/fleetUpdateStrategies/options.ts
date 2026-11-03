@@ -4,7 +4,12 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface FleetUpdateStrategiesListByFleetOptionalParams extends OperationOptions {}
+export interface FleetUpdateStrategiesListByFleetOptionalParams extends OperationOptions {
+  /** The number of result items to return. */
+  top?: number;
+  /** The page-continuation token to use with a paged version of this API. */
+  skipToken?: string;
+}
 
 /** Optional parameters. */
 export interface FleetUpdateStrategiesDeleteOptionalParams extends OperationOptions {

@@ -1,55 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Runs preflight validation on the Resource Group scoped Deployment stack template to verify its acceptance to Azure Resource Manager.
- *
- * @summary Runs preflight validation on the Resource Group scoped Deployment stack template to verify its acceptance to Azure Resource Manager.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackResourceGroupValidate.json
- */
-
-import type { DeploymentStack } from "@azure/arm-resourcesdeploymentstacks";
 import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function deploymentStacksResourceGroupValidate(): Promise<void> {
-  const subscriptionId =
-    process.env["RESOURCESDEPLOYMENTSTACKS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["RESOURCESDEPLOYMENTSTACKS_RESOURCE_GROUP"] || "deploymentStacksRG";
-  const deploymentStackName = "simpleDeploymentStack";
-  const deploymentStack: DeploymentStack = {
-    properties: {
-      actionOnUnmanage: {
-        managementGroups: "delete",
-        resourceGroups: "delete",
-        resources: "delete",
-      },
-      denySettings: {
-        applyToChildScopes: false,
-        excludedActions: ["action"],
-        excludedPrincipals: ["principal"],
-        mode: "denyDelete",
-      },
-      parameters: { parameter1: { value: "a string" } },
-      templateLink: { uri: "https://example.com/exampleTemplate.json" },
-    },
-    tags: { tagkey: "tagVal" },
-  };
+/**
+ * This sample demonstrates how to runs preflight validation on the Deployment stack template at the specified scope to verify its acceptance to Azure Resource Manager.
+ *
+ * @summary runs preflight validation on the Deployment stack template at the specified scope to verify its acceptance to Azure Resource Manager.
+ * x-ms-original-file: 2025-07-01/DeploymentStackResourceGroupValidate.json
+ */
+async function validateAResourceGroupDeploymentStack(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeploymentStacksClient(credential, subscriptionId);
-  const result = await client.deploymentStacks.beginValidateStackAtResourceGroupAndWait(
-    resourceGroupName,
-    deploymentStackName,
-    deploymentStack,
+  const result = await client.deploymentStacks.validateStackAtResourceGroup(
+    "deploymentStacksRG",
+    "simpleDeploymentStack",
+    {
+      tags: { tagkey: "tagVal" },
+      properties: {
+        actionOnUnmanage: {
+          resources: "delete",
+          resourceGroups: "delete",
+          managementGroups: "delete",
+        },
+        denySettings: {
+          mode: "denyDelete",
+          excludedPrincipals: ["principal"],
+          excludedActions: ["action"],
+          applyToChildScopes: false,
+        },
+        templateLink: { uri: "https://example.com/exampleTemplate.json" },
+        parameters: { parameter1: { value: "a string" } },
+      },
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await deploymentStacksResourceGroupValidate();
+  await validateAResourceGroupDeploymentStack();
 }
 
 main().catch(console.error);

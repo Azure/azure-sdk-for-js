@@ -1,30 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified subscription and resource group.
- *
- * @summary Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified subscription and resource group.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2024-02-01/examples/WafPolicyPatch.json
- */
-
-import type { TagsObject } from "@azure/arm-frontdoor";
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to patch a specific frontdoor webApplicationFirewall policy for tags update under the specified subscription and resource group.
+ *
+ * @summary patch a specific frontdoor webApplicationFirewall policy for tags update under the specified subscription and resource group.
+ * x-ms-original-file: 2025-11-01/WafPolicyPatch.json
+ */
 async function patchesSpecificPolicy(): Promise<void> {
-  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
-  const policyName = "Policy1";
-  const parameters: TagsObject = { tags: { key1: "value1", key2: "value2" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new FrontDoorManagementClient(credential, subscriptionId);
-  const result = await client.policies.beginUpdateAndWait(
-    resourceGroupName,
-    policyName,
-    parameters,
-  );
+  const result = await client.policies.update("rg1", "Policy1", {
+    tags: { key1: "value1", key2: "value2" },
+  });
   console.log(result);
 }
 

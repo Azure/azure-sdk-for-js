@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import { list, getWithCredentials, get, getDefault } from "../../api/connections/operations.js";
-import {
+import type {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
+  ConnectionsGetDefaultOptionalParams,
 } from "../../api/connections/options.js";
-import { Connection, ConnectionType } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Connection, ConnectionType } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a Connections operations. */
 export interface ConnectionsOperations {
@@ -21,13 +22,12 @@ export interface ConnectionsOperations {
     options?: ConnectionsGetWithCredentialsOptionalParams,
   ) => Promise<Connection>;
   /** Get a connection by name, without populating connection credentials */
-  get: (
-    name: string,
-    includeCredentials?: boolean,
-    options?: ConnectionsGetOptionalParams,
-  ) => Promise<Connection>;
+  get: (name: string, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
   /** Get the default connection for the project */
-  getDefault: (connectionType: ConnectionType, includeCredentials?: boolean) => Promise<Connection>;
+  getDefault: (
+    connectionType: ConnectionType,
+    options?: ConnectionsGetDefaultOptionalParams,
+  ) => Promise<Connection>;
 }
 
 function _getConnections(context: AIProjectContext) {
@@ -35,10 +35,9 @@ function _getConnections(context: AIProjectContext) {
     list: (options?: ConnectionsListOptionalParams) => list(context, options),
     getWithCredentials: (name: string, options?: ConnectionsGetWithCredentialsOptionalParams) =>
       getWithCredentials(context, name, options),
-    get: (name: string, includeCredentials?: boolean, options?: ConnectionsGetOptionalParams) =>
-      get(context, name, includeCredentials, options),
-    getDefault: (connectionType: ConnectionType, includeCredentials?: boolean) =>
-      getDefault(context, connectionType, includeCredentials),
+    get: (name: string, options?: ConnectionsGetOptionalParams) => get(context, name, options),
+    getDefault: (connectionType: ConnectionType, options?: ConnectionsGetDefaultOptionalParams) =>
+      getDefault(context, connectionType, options),
   };
 }
 

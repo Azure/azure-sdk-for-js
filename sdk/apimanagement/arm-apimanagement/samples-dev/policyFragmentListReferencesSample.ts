@@ -1,31 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists policy resources that reference the policy fragment.
- *
- * @summary Lists policy resources that reference the policy fragment.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementListPolicyFragmentReferences.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists policy resources that reference the policy fragment.
+ *
+ * @summary lists policy resources that reference the policy fragment.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementListPolicyFragmentReferences.json
+ */
 async function apiManagementListPolicyFragmentReferences(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const id = "policyFragment1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
   const result = await client.policyFragment.listReferences(
-    resourceGroupName,
-    serviceName,
-    id,
+    "rg1",
+    "apimService1",
+    "policyFragment1",
   );
   console.log(result);
 }

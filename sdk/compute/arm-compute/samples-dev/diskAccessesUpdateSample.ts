@@ -1,33 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiskAccessUpdate} from "@azure/arm-compute";
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates (patches) a disk access resource.
+ * This sample demonstrates how to updates (patches) a disk access resource.
  *
- * @summary Updates (patches) a disk access resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/DiskAccess_Update.json
+ * @summary updates (patches) a disk access resource.
+ * x-ms-original-file: 2026-03-02/diskAccessExamples/DiskAccess_Update.json
  */
 async function updateADiskAccessResource(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const diskAccessName = "myDiskAccess";
-  const diskAccess: DiskAccessUpdate = {
-    tags: { department: "Development", project: "PrivateEndpoints" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.diskAccesses.beginUpdateAndWait(
-    resourceGroupName,
-    diskAccessName,
-    diskAccess,
-  );
+  const result = await client.diskAccesses.update("myResourceGroup", "myDiskAccess", {
+    tags: { department: "Development", project: "PrivateEndpoints" },
+  });
   console.log(result);
 }
 

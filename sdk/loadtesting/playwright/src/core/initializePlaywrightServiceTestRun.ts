@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { FullConfig } from "@playwright/test";
-import { PlaywrightServiceApiCall } from "../utils/playwrightServiceApicall.js";
+import { PlaywrightServiceClient } from "../utils/PlaywrightServiceClient.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
 import { getTestRunConfig } from "../utils/utils.js";
 import { CIInfoProvider } from "../utils/cIInfoProvider.js";
@@ -14,11 +14,9 @@ import { CIInfoProvider } from "../utils/cIInfoProvider.js";
  * @returns Promise that resolves when service initialization is complete
  */
 export async function initializePlaywrightServiceTestRun(config: FullConfig): Promise<void> {
-  const playwrightServiceApiClient = new PlaywrightServiceApiCall();
-
-  const ciConfigInfo = CIInfoProvider.getCIInfo();
-
+  const playwrightServiceApiClient = new PlaywrightServiceClient();
   const playwrightServiceConfig = PlaywrightServiceConfig.instance;
+  const ciConfigInfo = CIInfoProvider.getCIInfo();
 
   const testRunCreatePayload = {
     displayName:
@@ -29,6 +27,5 @@ export async function initializePlaywrightServiceTestRun(config: FullConfig): Pr
     ciConfig: ciConfigInfo,
   };
 
-  // Create/update test run in the service
-  await playwrightServiceApiClient.patchTestRunAPI(testRunCreatePayload);
+  await playwrightServiceApiClient.createOrUpdateTestRun(testRunCreatePayload);
 }

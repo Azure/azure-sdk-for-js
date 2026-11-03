@@ -3,34 +3,23 @@
 
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified JWT authenticator of a managed cluster.
+ * This sample demonstrates how to gets the specified JWT authenticator of a managed cluster.
  *
- * @summary Gets the specified JWT authenticator of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/JWTAuthenticators_Get.json
+ * @summary gets the specified JWT authenticator of a managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/JWTAuthenticators_Get.json
  */
-async function getJwtAuthenticator(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const jwtAuthenticatorName = "jwt1";
+async function getJWTAuthenticator(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.jWTAuthenticators.get(
-    resourceGroupName,
-    resourceName,
-    jwtAuthenticatorName,
-  );
+  const result = await client.jwtAuthenticators.get("rg1", "clustername1", "jwt1");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getJwtAuthenticator();
+  await getJWTAuthenticator();
 }
 
 main().catch(console.error);

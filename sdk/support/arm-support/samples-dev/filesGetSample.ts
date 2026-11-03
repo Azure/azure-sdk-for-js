@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns details of a specific file in a work space.
- *
- * @summary Returns details of a specific file in a work space.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/GetFileDetailsForSubscription.json
- */
-
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns details of a specific file in a work space.
+ *
+ * @summary returns details of a specific file in a work space.
+ * x-ms-original-file: 2025-06-01-preview/GetFileDetailsForSubscription.json
+ */
 async function getDetailsOfASubscriptionFile(): Promise<void> {
-  const subscriptionId =
-    process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
-  const fileWorkspaceName = "testworkspace";
-  const fileName = "test.txt";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "132d901f-189d-4381-9214-fe68e27e05a1";
   const client = new MicrosoftSupport(credential, subscriptionId);
-  const result = await client.files.get(fileWorkspaceName, fileName);
+  const result = await client.files.get("testworkspace", "test.txt");
   console.log(result);
 }
 

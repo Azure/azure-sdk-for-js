@@ -1,32 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a Service Fabric application type version resource created or in the process of being created in the Service Fabric application type name resource.
- *
- * @summary Get a Service Fabric application type version resource created or in the process of being created in the Service Fabric application type name resource.
- * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationTypeVersionGetOperation_example.json
- */
-
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get a Service Fabric application type version resource created or in the process of being created in the Service Fabric application type name resource.
+ *
+ * @summary get a Service Fabric application type version resource created or in the process of being created in the Service Fabric application type name resource.
+ * x-ms-original-file: 2026-03-01-preview/ApplicationTypeVersionGetOperation_example.json
+ */
 async function getAnApplicationTypeVersion(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
-  const clusterName = "myCluster";
-  const applicationTypeName = "myAppType";
-  const version = "1.0";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricManagementClient(credential, subscriptionId);
-  const result = await client.applicationTypeVersions.get(
-    resourceGroupName,
-    clusterName,
-    applicationTypeName,
-    version,
-  );
+  const result = await client.applicationTypeVersions.get("resRg", "myCluster", "myAppType", "1.0");
   console.log(result);
 }
 

@@ -1,32 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an EventHub schema group.
- *
- * @summary Deletes an EventHub schema group.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/SchemaRegistry/SchemaRegistryDelete.json
- */
-
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes an EventHub schema group.
+ *
+ * @summary deletes an EventHub schema group.
+ * x-ms-original-file: 2026-01-01/SchemaRegistry/SchemaRegistryDelete.json
+ */
 async function schemaRegistryDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
-    "e8baea74-64ce-459b-bee3-5aa4c47b3ae3";
-  const resourceGroupName = process.env["EVENTHUB_RESOURCE_GROUP"] || "alitest";
-  const namespaceName = "ali-ua-test-eh-system-1";
-  const schemaGroupName = "testSchemaGroup1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "e8baea74-64ce-459b-bee3-5aa4c47b3ae3";
   const client = new EventHubManagementClient(credential, subscriptionId);
-  const result = await client.schemaRegistry.delete(
-    resourceGroupName,
-    namespaceName,
-    schemaGroupName,
-  );
-  console.log(result);
+  await client.schemaRegistry.delete("alitest", "ali-ua-test-eh-system-1", "testSchemaGroup1");
 }
 
 async function main(): Promise<void> {

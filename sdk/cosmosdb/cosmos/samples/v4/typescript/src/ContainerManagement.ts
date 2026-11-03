@@ -170,7 +170,6 @@ async function run(): Promise<void> {
         path: "/vector3",
         type: VectorIndexType.DiskANN,
         quantizerType: VectorIndexQuantizationType.Spherical,
-        quantizationByteSize: 2,
         indexingSearchListSize: 50,
         vectorIndexShardKey: ["/ZipCode"],
       },

@@ -1,37 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new peer ASN or updates an existing peer ASN with the specified name under the given subscription.
- *
- * @summary Creates a new peer ASN or updates an existing peer ASN with the specified name under the given subscription.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreatePeerAsn.json
- */
-
-import type { PeerAsn } from "@azure/arm-peering";
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function createAPeerAsn(): Promise<void> {
+/**
+ * This sample demonstrates how to creates a new peer ASN or updates an existing peer ASN with the specified name under the given subscription.
+ *
+ * @summary creates a new peer ASN or updates an existing peer ASN with the specified name under the given subscription.
+ * x-ms-original-file: 2025-05-01/CreatePeerAsn.json
+ */
+async function createAPeerASN(): Promise<void> {
+  const credential = new DefaultAzureCredential();
   const subscriptionId = "subId";
-  const peerAsnName = "peerAsnName";
-  const peerAsn: PeerAsn = {
+  const client = new PeeringManagementClient(credential, subscriptionId);
+  const result = await client.peerAsns.createOrUpdate("peerAsnName", {
     peerAsn: 65000,
     peerContactDetail: [
       { email: "noc@contoso.com", phone: "+1 (234) 567-8999", role: "Noc" },
       { email: "abc@contoso.com", phone: "+1 (234) 567-8900", role: "Policy" },
-      {
-        email: "xyz@contoso.com",
-        phone: "+1 (234) 567-8900",
-        role: "Technical",
-      },
+      { email: "xyz@contoso.com", phone: "+1 (234) 567-8900", role: "Technical" },
     ],
     peerName: "Contoso",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PeeringManagementClient(credential, subscriptionId);
-  const result = await client.peerAsns.createOrUpdate(peerAsnName, peerAsn);
+  });
   console.log(result);
 }
 
-createAPeerAsn().catch(console.error);
+async function main(): Promise<void> {
+  await createAPeerASN();
+}
+
+main().catch(console.error);

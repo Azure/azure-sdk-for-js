@@ -3,19 +3,17 @@
 
 import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get the status of the pending Microsoft.Subscription API operations.
+ * This sample demonstrates how to get the status of the pending Microsoft.Subscription API operations.
  *
- * @summary Get the status of the pending Microsoft.Subscription API operations.
- * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/getSubscriptionOperation.json
+ * @summary get the status of the pending Microsoft.Subscription API operations.
+ * x-ms-original-file: 2025-11-01-preview/getSubscriptionOperation.json
  */
 async function getPendingSubscriptionOperations(): Promise<void> {
-  const operationId = "e4b8d068-f574-462a-a76f-6fa0afc613c9";
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
-  const result = await client.subscriptionOperation.get(operationId);
+  const result = await client.subscriptionOperation.get("e4b8d068-f574-462a-a76f-6fa0afc613c9");
   console.log(result);
 }
 

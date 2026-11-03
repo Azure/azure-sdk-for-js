@@ -3,27 +3,18 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a disk access resource.
+ * This sample demonstrates how to deletes a disk access resource.
  *
- * @summary Deletes a disk access resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/DiskAccess_Delete.json
+ * @summary deletes a disk access resource.
+ * x-ms-original-file: 2026-03-02/diskAccessExamples/DiskAccess_Delete.json
  */
 async function deleteADiskAccessResource(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const diskAccessName = "myDiskAccess";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.diskAccesses.beginDeleteAndWait(
-    resourceGroupName,
-    diskAccessName,
-  );
-  console.log(result);
+  await client.diskAccesses.delete("myResourceGroup", "myDiskAccess");
 }
 
 async function main(): Promise<void> {

@@ -1,41 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  MeshMembership} from "@azure/arm-containerservice";
-import {
-  ContainerServiceClient,
-} from "@azure/arm-containerservice";
+import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates the mesh membership of a managed cluster.
+ * This sample demonstrates how to creates or updates the mesh membership of a managed cluster.
  *
- * @summary Creates or updates the mesh membership of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/MeshMemberships_CreateOrUpdate.json
+ * @summary creates or updates the mesh membership of a managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/MeshMemberships_CreateOrUpdate.json
  */
 async function createOrUpdateMeshMembership(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const meshMembershipName = "meshmembership1";
-  const parameters: MeshMembership = {
-    properties: {
-      managedMeshID:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.AppLink/applinks/applink1/appLinkMembers/member1",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.meshMemberships.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    meshMembershipName,
-    parameters,
+  const result = await client.meshMemberships.createOrUpdate(
+    "rg1",
+    "clustername1",
+    "meshmembership1",
+    {
+      properties: {
+        managedMeshID:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.AppLink/applinks/applink1/appLinkMembers/member1",
+      },
+    },
   );
   console.log(result);
 }

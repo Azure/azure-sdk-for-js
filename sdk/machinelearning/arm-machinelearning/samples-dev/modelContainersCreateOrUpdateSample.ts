@@ -1,37 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update container.
- *
- * @summary Create or update container.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/ModelContainer/createOrUpdate.json
- */
-
-import type { ModelContainer } from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update container.
+ *
+ * @summary create or update container.
+ * x-ms-original-file: 2026-03-15-preview/Workspace/ModelContainer/createOrUpdate.json
+ */
 async function createOrUpdateWorkspaceModelContainer(): Promise<void> {
-  const subscriptionId =
-    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
-  const workspaceName = "workspace123";
-  const name = "testContainer";
-  const body: ModelContainer = {
-    properties: {
-      description: "Model container description",
-      tags: { tag1: "value1", tag2: "value2" },
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
   const result = await client.modelContainers.createOrUpdate(
-    resourceGroupName,
-    workspaceName,
-    name,
-    body,
+    "testrg123",
+    "workspace123",
+    "testContainer",
+    {
+      properties: {
+        description: "Model container description",
+        tags: { tag1: "value1", tag2: "value2" },
+      },
+    },
   );
   console.log(result);
 }

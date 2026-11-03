@@ -44,7 +44,7 @@ import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
 import { streamToBuffer3 } from "../../src/utils/utils.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
-import { ShareClient, ShareServiceClient } from "@azure/storage-file-share";
+import type { ShareClient, ShareServiceClient } from "@azure/storage-file-share";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("BlobClient Node.js only", () => {
@@ -74,6 +74,10 @@ describe("BlobClient Node.js only", () => {
       },
       ["playback", "record"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1066,6 +1070,10 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
       { removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
       ["playback"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder);
     containerClient = blobServiceClient.getContainerClient(containerName);
     blobName = recorder.variable("blob", getUniqueName("blob"));
@@ -1178,6 +1186,10 @@ describe("BlobClient Copy from file Node.js only", () => {
       },
       ["playback", "record"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);

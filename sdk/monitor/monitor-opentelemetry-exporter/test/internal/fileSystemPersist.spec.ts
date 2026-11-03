@@ -6,6 +6,7 @@ import { describe, it, assert, expect, beforeEach, vi, afterEach } from "vitest"
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import type * as fsPromises from "node:fs/promises";
 import {
   FileSystemPersist,
   getStorageDirectory,
@@ -142,9 +143,85 @@ describe("FileSystemPersist", () => {
       assert.strictEqual(success, 50);
       deleteFolderRecursive(tempDir);
     });
+
+    it("should allow later lookup by timestamp prefix", async () => {
+      const envelopes: Envelope[] = [{ name: "lookup", time: new Date() }];
+      const persister = new FileSystemPersist(instrumentationKey);
+
+      vi.useFakeTimers();
+      const timestamp = 1700000000000;
+      vi.setSystemTime(new Date(timestamp));
+
+      const success = await persister.push(envelopes);
+      expect(success).toBe(true);
+
+      // Simulate a later login/session
+      vi.setSystemTime(new Date(timestamp + 60_000));
+      const laterPersister = new FileSystemPersist(instrumentationKey);
+      expect(laterPersister).toBeDefined();
+
+      const origFiles = await readdirAsync(tempDir);
+      const files = origFiles.filter((f) =>
+        path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
+      );
+      expect(files.length).toBeGreaterThan(0);
+      expect(files.some((f) => f.startsWith(`${timestamp}-`))).toBe(true);
+
+      vi.useRealTimers();
+      deleteFolderRecursive(tempDir);
+    });
+
+    it("should fail on filename collision when using exclusive create and preserve original file", async () => {
+      const envelopes: Envelope[] = [{ name: "collision", time: new Date() }];
+      const persister = new FileSystemPersist(instrumentationKey);
+
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date(1700000000000));
+      const hrSpy = vi.spyOn(process.hrtime, "bigint").mockReturnValue(1234n);
+
+      const first = await persister.push(envelopes);
+      const second = await persister.push([{ name: "second", time: new Date() }]);
+
+      expect(first).toBe(true);
+      expect(second).toBe(false);
+
+      const origFiles = await readdirAsync(tempDir);
+      const files = origFiles.filter((f) =>
+        path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
+      );
+      expect(files.length).toBe(1);
+      const payload = await readFileAsync(path.join(tempDir, files[0]));
+      expect(JSON.parse(payload.toString()).map((e: any) => e.name)).toEqual(["collision"]);
+
+      hrSpy.mockRestore();
+      vi.useRealTimers();
+      deleteFolderRecursive(tempDir);
+    });
   });
 
   describe("#shift()", () => {
+    it("rehydrates envelope timestamps without changing nested time properties", async () => {
+      const timestamp = "2026-09-25T12:34:56.789Z";
+      const persisted = [
+        {
+          name: "replay",
+          time: timestamp,
+          tags: { time: timestamp },
+          data: { baseData: { properties: { time: timestamp } } },
+        },
+        { name: "second", time: timestamp },
+      ];
+      const persister = new FileSystemPersist(instrumentationKey);
+      try {
+        expect(await persister.push(persisted)).toBe(true);
+        expect(await persister.shift()).toEqual(
+          persisted.map((envelope) => ({ ...envelope, time: new Date(timestamp) })),
+        );
+      } finally {
+        persister.shutdown();
+      }
+    });
+
     it("should not crash if folder does not exist", () => {
       const persister = new FileSystemPersist(instrumentationKey);
       expect(() => persister.shift()).not.toThrow();
@@ -160,22 +237,26 @@ describe("FileSystemPersist", () => {
     });
 
     it("should get the first file on disk and return it", async () => {
-      const sleep = promisify(setTimeout);
       const persister = new FileSystemPersist(instrumentationKey);
 
       const firstBatch = [{ batch: "first" }];
       const secondBatch = [{ batch: "second" }];
-      const success1 = await persister.push(firstBatch);
-      assert.strictEqual(success1, true);
-      // wait 100 ms so that we don't overwrite previous file
-      await sleep(100);
+      vi.useFakeTimers();
+      try {
+        vi.setSystemTime(new Date(1700000000000));
+        const success1 = await persister.push(firstBatch);
+        assert.strictEqual(success1, true);
 
-      const success2 = await persister.push(secondBatch);
-      assert.strictEqual(success2, true);
-      const value1 = await persister.shift();
-      assert.deepStrictEqual(value1, firstBatch);
-      const value2 = await persister.shift();
-      assert.deepStrictEqual(value2, secondBatch);
+        vi.setSystemTime(new Date(1700000000100));
+        const success2 = await persister.push(secondBatch);
+        assert.strictEqual(success2, true);
+        const value1 = await persister.shift();
+        assert.deepStrictEqual(value1, firstBatch);
+        const value2 = await persister.shift();
+        assert.deepStrictEqual(value2, secondBatch);
+      } finally {
+        vi.useRealTimers();
+      }
     });
   });
 
@@ -193,6 +274,153 @@ describe("FileSystemPersist", () => {
       assert.strictEqual(cleanup, true);
       const fileValue = await persister.shift();
       assert.deepStrictEqual(fileValue, null, "File is still present"); // File doesn't exist anymore
+    });
+  });
+
+  describe("#cleanExpiredFiles()", () => {
+    it("should clean expired files via public interface", async () => {
+      const sleep = promisify(setTimeout);
+      const persister = new FileSystemPersist(instrumentationKey);
+      const batch = [{ batch: "expired" }];
+      const success = await persister.push(batch);
+      assert.strictEqual(success, true);
+      persister.fileRetemptionPeriod = 1;
+      await sleep(100);
+      await persister.cleanExpiredFiles();
+      const fileValue = await persister.shift();
+      assert.deepStrictEqual(fileValue, null, "Expired file should have been cleaned");
+    });
+
+    it("should not clean non-expired files", async () => {
+      const persister = new FileSystemPersist(instrumentationKey);
+      const batch = [{ batch: "not-expired" }];
+      const success = await persister.push(batch);
+      assert.strictEqual(success, true);
+      await persister.cleanExpiredFiles();
+      const fileValue = await persister.shift();
+      assert.deepStrictEqual(fileValue, batch, "Non-expired file should still exist");
+    });
+
+    it("should be a no-op when offline storage is disabled", async () => {
+      const persister = new FileSystemPersist(instrumentationKey, { disableOfflineStorage: true });
+      // Should not throw
+      await persister.cleanExpiredFiles();
+    });
+
+    it("should only clean expired files and keep non-expired ones", async () => {
+      const sleep = promisify(setTimeout);
+      const persister = new FileSystemPersist(instrumentationKey);
+
+      const expiredBatch = [{ batch: "expired" }];
+      const freshBatch = [{ batch: "fresh" }];
+
+      // Push the "expired" batch first
+      await persister.push(expiredBatch);
+      await sleep(1000);
+
+      // Set retention so the first file (1s+ old) is expired but the fresh one isn't
+      persister.fileRetemptionPeriod = 500;
+
+      // Push the "fresh" batch
+      await persister.push(freshBatch);
+
+      // Clean — should only remove the expired file
+      await persister.cleanExpiredFiles();
+
+      // The fresh file should still be present
+      const remaining = await persister.shift();
+      assert.deepStrictEqual(remaining, freshBatch, "Fresh file should still exist");
+
+      // No more files
+      const empty = await persister.shift();
+      assert.strictEqual(empty, null, "No more files should remain");
+    });
+  });
+
+  describe("#shift() and #cleanExpiredFiles() integration", () => {
+    it("should return null after all files are shifted out", async () => {
+      const persister = new FileSystemPersist(instrumentationKey);
+      const batch = [{ batch: "only" }];
+      await persister.push(batch);
+
+      const value = await persister.shift();
+      assert.deepStrictEqual(value, batch);
+
+      const empty = await persister.shift();
+      assert.strictEqual(empty, null, "Should return null after all files shifted");
+    });
+
+    it("should shift files in FIFO order after cleanup removes expired ones", async () => {
+      vi.useFakeTimers({ toFake: ["Date"] });
+      const timestamp = 1700000000000;
+      vi.setSystemTime(timestamp);
+      const persister = new FileSystemPersist(instrumentationKey);
+
+      const oldBatch = [{ batch: "old" }];
+      const newBatch1 = [{ batch: "new1" }];
+      const newBatch2 = [{ batch: "new2" }];
+
+      try {
+        assert.isTrue(await persister.push(oldBatch));
+        vi.setSystemTime(timestamp + 1000);
+        assert.isTrue(await persister.push(newBatch1));
+        vi.setSystemTime(timestamp + 1250);
+        assert.isTrue(await persister.push(newBatch2));
+
+        // Freeze the expiration cutoff while real filesystem operations complete.
+        vi.setSystemTime(timestamp + 1500);
+        persister.fileRetemptionPeriod = 500;
+        await persister.cleanExpiredFiles();
+
+        const first = await persister.shift();
+        assert.deepStrictEqual(first, newBatch1);
+
+        const second = await persister.shift();
+        assert.deepStrictEqual(second, newBatch2);
+
+        const empty = await persister.shift();
+        assert.strictEqual(empty, null);
+      } finally {
+        persister.shutdown();
+        vi.useRealTimers();
+      }
+    });
+
+    it("push then shift round-trip preserves data integrity", async () => {
+      const persister = new FileSystemPersist(instrumentationKey);
+      const complexBatch = [
+        { name: "trace1", time: new Date(), data: { baseData: { message: "hello" } } },
+        { name: "trace2", time: new Date(), data: { baseData: { message: "world" } } },
+      ];
+
+      const success = await persister.push(complexBatch);
+      assert.strictEqual(success, true);
+
+      const result = await persister.shift();
+      assert.deepStrictEqual(result, complexBatch, "Data should survive push/shift round-trip");
+    });
+
+    it("shift should handle empty directory gracefully", async () => {
+      const persister = new FileSystemPersist(instrumentationKey);
+
+      // No files pushed — shift should return null without error
+      const result = await persister.shift();
+      assert.strictEqual(result, null);
+    });
+
+    it("cleanExpiredFiles followed by shift on empty dir returns null", async () => {
+      const sleep = promisify(setTimeout);
+      const persister = new FileSystemPersist(instrumentationKey);
+      const batch = [{ batch: "will-expire" }];
+
+      await persister.push(batch);
+      persister.fileRetemptionPeriod = 1;
+      await sleep(100);
+
+      await persister.cleanExpiredFiles();
+
+      const result = await persister.shift();
+      assert.strictEqual(result, null, "Should return null after all files cleaned");
     });
   });
 
@@ -217,7 +445,7 @@ describe("FileSystemPersist", () => {
     });
 
     it("should have CLIENT_READONLY logic implemented", () => {
-      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerSDKStats);
+      const persister = new FileSystemPersist(instrumentationKey, {}, () => mockCustomerSDKStats);
       expect(persister).toBeDefined();
       expect(DropCode.CLIENT_READONLY).toBeDefined();
 
@@ -241,7 +469,7 @@ describe("FileSystemPersist", () => {
         .spyOn(helpersMod, "confirmDirExists")
         .mockRejectedValue(error);
 
-      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerSDKStats);
+      const persister = new FileSystemPersist(instrumentationKey, {}, () => mockCustomerSDKStats);
 
       const result = await persister.push([envelope]);
 
@@ -256,6 +484,105 @@ describe("FileSystemPersist", () => {
 
       // Restore the spy
       mockConfirmDirExists.mockRestore();
+    });
+  });
+
+  describe("#confirmDirExists ownership enforcement", () => {
+    const directory = "/tmp/azure-monitor-test";
+    const originalGetuid = (process as any).getuid;
+
+    const restoreGetuid = (): void => {
+      if (originalGetuid === undefined) {
+        delete (process as any).getuid;
+      } else {
+        (process as any).getuid = originalGetuid;
+      }
+    };
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+      vi.resetModules();
+      vi.doUnmock("node:fs/promises");
+      restoreGetuid();
+    });
+
+    it("does not warn when directory is owned by current user", async () => {
+      (process as any).getuid = () => 4242;
+      vi.doMock("node:fs/promises", async () => {
+        const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
+        return {
+          ...actual,
+          lstat: vi.fn().mockResolvedValue(<any>{
+            isDirectory: () => true,
+            uid: 4242,
+          }),
+        };
+      });
+
+      const { confirmDirExists } =
+        await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
+
+      await confirmDirExists(directory);
+    });
+
+    it("does not warn when directory is owned by admin (uid 0)", async () => {
+      (process as any).getuid = () => 4242;
+      vi.doMock("node:fs/promises", async () => {
+        const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
+        return {
+          ...actual,
+          lstat: vi.fn().mockResolvedValue(<any>{
+            isDirectory: () => true,
+            uid: 0,
+          }),
+        };
+      });
+
+      const { confirmDirExists } =
+        await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
+
+      await confirmDirExists(directory);
+    });
+
+    it("throws when directory is owned by another user", async () => {
+      (process as any).getuid = () => 4242;
+      vi.doMock("node:fs/promises", async () => {
+        const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
+        return {
+          ...actual,
+          lstat: vi.fn().mockResolvedValue(<any>{
+            isDirectory: () => true,
+            uid: 9999,
+          }),
+        };
+      });
+
+      const { confirmDirExists } =
+        await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
+
+      await expect(confirmDirExists(directory)).rejects.toThrow("owned by uid 9999");
+    });
+
+    it("skips ownership check on Windows (process.getuid undefined)", async () => {
+      // Simulate Windows environment where getuid is not available
+      delete (process as any).getuid;
+
+      vi.doMock("node:fs/promises", async () => {
+        const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
+        return {
+          ...actual,
+          lstat: vi.fn().mockResolvedValue(<any>{
+            isDirectory: () => true,
+            uid: 9999, // Would trigger error on Unix, but should be ignored on Windows
+          }),
+        };
+      });
+
+      const { confirmDirExists } =
+        await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
+
+      // Should not throw even though uid doesn't match - ownership check is skipped on Windows
+      await expect(confirmDirExists(directory)).resolves.not.toThrow();
     });
   });
 

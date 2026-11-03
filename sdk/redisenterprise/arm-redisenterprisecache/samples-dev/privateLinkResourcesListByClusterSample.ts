@@ -3,33 +3,22 @@
 
 import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the private link resources that need to be created for a Redis Enterprise cluster.
+ * This sample demonstrates how to gets the private link resources that need to be created for a Redis Enterprise cluster.
  *
- * @summary Gets the private link resources that need to be created for a Redis Enterprise cluster.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseListPrivateLinkResources.json
+ * @summary gets the private link resources that need to be created for a Redis Enterprise cluster.
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseListPrivateLinkResources.json
  */
 async function redisEnterpriseListPrivateLinkResources(): Promise<void> {
-  const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
-    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
-  const resourceGroupName =
-    process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
-  const clusterName = "cache1";
   const credential = new DefaultAzureCredential();
-  const client = new RedisEnterpriseManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.privateLinkResources.listByCluster(
-    resourceGroupName,
-    clusterName,
-  )) {
+  for await (const item of client.privateLinkResources.listByCluster("rg1", "cache1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

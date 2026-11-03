@@ -1,49 +1,79 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  IdentityBinding} from "@azure/arm-containerservice";
-import {
-  ContainerServiceClient,
-} from "@azure/arm-containerservice";
+import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates an identity binding in the specified managed cluster.
+ * This sample demonstrates how to creates or updates an identity binding in the specified managed cluster.
  *
- * @summary Creates or updates an identity binding in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/IdentityBindings_Create_Or_Update.json
+ * @summary creates or updates an identity binding in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/IdentityBindings_Create_Or_Update.json
  */
 async function createOrUpdateIdentityBinding(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const identityBindingName = "identitybinding1";
-  const parameters: IdentityBinding = {
-    properties: {
-      managedIdentity: {
-        resourceId:
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.identityBindings.createOrUpdate(
+    "rg1",
+    "clustername1",
+    "identitybinding1",
+    {
+      properties: {
+        managedIdentity: {
+          resourceId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1",
+        },
       },
     },
-  };
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an identity binding in the specified managed cluster.
+ *
+ * @summary creates or updates an identity binding in the specified managed cluster.
+ * x-ms-original-file: 2026-08-02-preview/IdentityBindings_Create_Or_UpdateWithAllowedSubjects.json
+ */
+async function createOrUpdateIdentityBindingWithAllowedSubjects(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.identityBindings.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    identityBindingName,
-    parameters,
+  const result = await client.identityBindings.createOrUpdate(
+    "rg1",
+    "clustername1",
+    "identitybinding1",
+    {
+      properties: {
+        managedIdentity: {
+          resourceId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1",
+        },
+        allowedSubjects: [
+          { namespaceSelector: { matchLabels: ["kubernetes.io/metadata.name=team-a"] } },
+          {
+            namespaceSelector: {
+              matchExpressions: [
+                {
+                  key: "kubernetes.io/metadata.name",
+                  operator: "In",
+                  values: ["team-a", "team-b"],
+                },
+              ],
+            },
+            serviceAccountSelector: { matchLabels: ["app=my-workload"] },
+          },
+        ],
+      },
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createOrUpdateIdentityBinding();
+  await createOrUpdateIdentityBindingWithAllowedSubjects();
 }
 
 main().catch(console.error);

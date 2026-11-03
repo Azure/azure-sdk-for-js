@@ -5,10 +5,13 @@ import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-
 import { AuthenticationError, CredentialUnavailableError } from "../errors.js";
 import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging.js";
 
-import { ClientCertificateCredential } from "./clientCertificateCredential.js";
-import { ClientSecretCredential } from "./clientSecretCredential.js";
+import { ClientCertificateCredential } from "#platform/credentials/clientCertificateCredential";
+import type { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions.js";
+import { ClientSecretCredential } from "#platform/credentials/clientSecretCredential";
+import type { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions.js";
 import type { EnvironmentCredentialOptions } from "./environmentCredentialOptions.js";
-import { UsernamePasswordCredential } from "./usernamePasswordCredential.js";
+import { UsernamePasswordCredential } from "#platform/credentials/usernamePasswordCredential";
+import type { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
 import { tracingClient } from "../util/tracing.js";
 
@@ -31,9 +34,9 @@ export const AllSupportedEnvironmentVariables = [
   "AZURE_CLIENT_SEND_CERTIFICATE_CHAIN",
 ];
 
-function getAdditionallyAllowedTenants(): string[] {
-  const additionallyAllowedValues = process.env.AZURE_ADDITIONALLY_ALLOWED_TENANTS ?? "";
-  return additionallyAllowedValues.split(";");
+function getAdditionallyAllowedTenants(): string[] | undefined {
+  const additionallyAllowedValues = process.env.AZURE_ADDITIONALLY_ALLOWED_TENANTS;
+  return additionallyAllowedValues ? additionallyAllowedValues.split(";") : undefined;
 }
 
 const credentialName = "EnvironmentCredential";
@@ -55,9 +58,7 @@ export function getSendCertificateChain(): boolean {
  */
 export class EnvironmentCredential implements TokenCredential {
   private _credential?:
-    | ClientSecretCredential
-    | ClientCertificateCredential
-    | UsernamePasswordCredential = undefined;
+    ClientSecretCredential | ClientCertificateCredential | UsernamePasswordCredential = undefined;
   /**
    * Creates an instance of the EnvironmentCredential class and decides what credential to use depending on the available environment variables.
    *
@@ -93,9 +94,16 @@ export class EnvironmentCredential implements TokenCredential {
       clientId = process.env.AZURE_CLIENT_ID,
       clientSecret = process.env.AZURE_CLIENT_SECRET;
 
-    const additionallyAllowedTenantIds = getAdditionallyAllowedTenants();
+    const additionallyAllowedTenants =
+      options?.additionallyAllowedTenants ?? getAdditionallyAllowedTenants();
     const sendCertificateChain = getSendCertificateChain();
-    const newOptions = { ...options, additionallyAllowedTenantIds, sendCertificateChain };
+    const newOptions: ClientSecretCredentialOptions &
+      ClientCertificateCredentialOptions &
+      UsernamePasswordCredentialOptions = {
+      ...options,
+      additionallyAllowedTenants,
+      sendCertificateChain,
+    };
 
     if (tenantId) {
       checkTenantId(logger, tenantId);

@@ -1,44 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the prefixes received over the specified peering under the given subscription and resource group.
- *
- * @summary Lists the prefixes received over the specified peering under the given subscription and resource group.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/GetPeeringReceivedRoutes.json
- */
-
-import type { ReceivedRoutesListByPeeringOptionalParams } from "@azure/arm-peering";
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to lists the prefixes received over the specified peering under the given subscription and resource group.
+ *
+ * @summary lists the prefixes received over the specified peering under the given subscription and resource group.
+ * x-ms-original-file: 2025-05-01/GetPeeringReceivedRoutes.json
+ */
 async function listsThePrefixesReceivedOverTheSpecifiedPeeringUnderTheGivenSubscriptionAndResourceGroup(): Promise<void> {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
-  const peeringName = "peeringName";
-  const prefix = "1.1.1.0/24";
-  const asPath = "123 456";
-  const originAsValidationState = "Valid";
-  const rpkiValidationState = "Valid";
-  const options: ReceivedRoutesListByPeeringOptionalParams = {
-    prefix,
-    asPath,
-    originAsValidationState,
-    rpkiValidationState,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.receivedRoutes.listByPeering(
-    resourceGroupName,
-    peeringName,
-    options,
-  )) {
+  for await (const item of client.receivedRoutes.listByPeering("rgName", "peeringName", {
+    prefix: "1.1.1.0/24",
+    asPath: "123 456",
+    originAsValidationState: "Valid",
+    rpkiValidationState: "Valid",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
-listsThePrefixesReceivedOverTheSpecifiedPeeringUnderTheGivenSubscriptionAndResourceGroup().catch(
-  console.error,
-);
+async function main(): Promise<void> {
+  await listsThePrefixesReceivedOverTheSpecifiedPeeringUnderTheGivenSubscriptionAndResourceGroup();
+}
+
+main().catch(console.error);

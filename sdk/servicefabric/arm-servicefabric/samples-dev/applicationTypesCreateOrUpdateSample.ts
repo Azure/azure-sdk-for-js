@@ -1,33 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update a Service Fabric application type name resource with the specified name.
- *
- * @summary Create or update a Service Fabric application type name resource with the specified name.
- * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationTypeNamePutOperation_example.json
- */
-
-import type { ApplicationTypeResource } from "@azure/arm-servicefabric";
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update a Service Fabric application type name resource with the specified name.
+ *
+ * @summary create or update a Service Fabric application type name resource with the specified name.
+ * x-ms-original-file: 2026-03-01-preview/ApplicationTypeNamePutOperation_example.json
+ */
 async function putAnApplicationType(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
-  const clusterName = "myCluster";
-  const applicationTypeName = "myAppType";
-  const parameters: ApplicationTypeResource = { tags: {} };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricManagementClient(credential, subscriptionId);
-  const result = await client.applicationTypes.createOrUpdate(
-    resourceGroupName,
-    clusterName,
-    applicationTypeName,
-    parameters,
-  );
+  const result = await client.applicationTypes.createOrUpdate("resRg", "myCluster", "myAppType", {
+    tags: {},
+  });
   console.log(result);
 }
 

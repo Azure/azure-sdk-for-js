@@ -1,30 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a Latency Scorecard for a given Experiment
- *
- * @summary Gets a Latency Scorecard for a given Experiment
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2019-11-01/examples/NetworkExperimentGetLatencyScorecard.json
- */
-
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets a Latency Scorecard for a given Experiment
+ *
+ * @summary gets a Latency Scorecard for a given Experiment
+ * x-ms-original-file: 2025-11-01/NetworkExperimentGetLatencyScorecard.json
+ */
 async function getsALatencyScorecardForAGivenExperiment(): Promise<void> {
-  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "MyResourceGroup";
-  const profileName = "MyProfile";
-  const experimentName = "MyExperiment";
-  const aggregationInterval = "Daily";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const result = await client.reports.getLatencyScorecards(
-    resourceGroupName,
-    profileName,
-    experimentName,
-    aggregationInterval,
+    "MyResourceGroup",
+    "MyProfile",
+    "MyExperiment",
+    "Daily",
   );
   console.log(result);
 }

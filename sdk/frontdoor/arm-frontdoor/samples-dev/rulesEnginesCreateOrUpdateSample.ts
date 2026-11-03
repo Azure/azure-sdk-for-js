@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new Rules Engine Configuration with the specified name within the specified Front Door.
- *
- * @summary Creates a new Rules Engine Configuration with the specified name within the specified Front Door.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorRulesEngineCreate.json
- */
-
-import type { RulesEngine } from "@azure/arm-frontdoor";
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a new Rules Engine Configuration with the specified name within the specified Front Door.
+ *
+ * @summary creates a new Rules Engine Configuration with the specified name within the specified Front Door.
+ * x-ms-original-file: 2025-11-01/FrontdoorRulesEngineCreate.json
+ */
 async function createOrUpdateASpecificRulesEngineConfiguration(): Promise<void> {
-  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
-  const frontDoorName = "frontDoor1";
-  const rulesEngineName = "rulesEngine1";
-  const rulesEngineParameters: RulesEngine = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new FrontDoorManagementClient(credential, subscriptionId);
+  const result = await client.rulesEngines.createOrUpdate("rg1", "frontDoor1", "rulesEngine1", {
     rules: [
       {
         name: "Rule1",
@@ -78,7 +74,6 @@ async function createOrUpdateASpecificRulesEngineConfiguration(): Promise<void> 
               queryParameterStripDirective: "StripOnly",
               queryParameters: "a=b,p=q",
             },
-            customForwardingPath: undefined,
             forwardingProtocol: "HttpsOnly",
           },
         },
@@ -95,15 +90,7 @@ async function createOrUpdateASpecificRulesEngineConfiguration(): Promise<void> 
         priority: 3,
       },
     ],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new FrontDoorManagementClient(credential, subscriptionId);
-  const result = await client.rulesEngines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    frontDoorName,
-    rulesEngineName,
-    rulesEngineParameters,
-  );
+  });
   console.log(result);
 }
 

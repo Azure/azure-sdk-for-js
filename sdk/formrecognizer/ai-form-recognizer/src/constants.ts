@@ -29,6 +29,6 @@ export const DEFAULT_COGNITIVE_SCOPE = `${KnownFormRecognizerAudience.AzurePubli
 /**
  * @internal
  */
-export const SDK_VERSION = "5.1.0";
+export const SDK_VERSION = "5.1.1";
 
 export const FORM_RECOGNIZER_API_VERSION = "2023-07-31";

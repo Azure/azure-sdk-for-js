@@ -23,7 +23,7 @@ async function main(): Promise<void> {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = new ContainerClient(
     `https://${account}.blob.core.windows.net/${containerName}`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   const createContainerResponse = await containerClient.create();
@@ -73,7 +73,7 @@ async function main(): Promise<void> {
 
   if (!continuationToken) {
     throw new Error(
-      "Expected a continuation token from the blob service, but one was not returned."
+      "Expected a continuation token from the blob service, but one was not returned.",
     );
   }
 

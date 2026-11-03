@@ -4,6 +4,7 @@
 /**
  * This sample demonstrates how to create and use code-based custom evaluators
  * with the AIProjectClient.
+ * Code definitions remain preview and require the Evaluations=V1Preview header.
  *
  * The OpenAI compatible Evals calls in this sample are made using the OpenAI client.
  * See https://platform.openai.com/docs/api-reference for more information.
@@ -17,35 +18,39 @@
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
- * 2) MODEL_DEPLOYMENT_NAME. The name of the model deployment to use for evaluation.
+ * 2) FOUNDRY_MODEL_NAME. The name of the model deployment to use for evaluation.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const previewOptions = {
+    requestOptions: { headers: { "foundry-features": "Evaluations=V1Preview" } },
+  };
+  const openAIClient = project.getOpenAIClient();
 
-  // [START evaluators_catalog_code]
   // Create a code-based custom evaluator
   console.log("Creating a single evaluator version - Code based (json style)");
-  const codeEvaluator = await project.evaluators.createVersion("my_custom_evaluator_code", {
-    name: "my_custom_evaluator_code",
-    categories: ["quality"],
-    display_name: "my_custom_evaluator_code",
-    evaluator_type: "custom",
-    description: "Custom evaluator to detect violent content",
-    definition: {
-      type: "code",
-      code_text: `def grade(sample, item) -> float:
+  const codeEvaluator = await project.evaluators.createVersion(
+    "my_custom_evaluator_code",
+    {
+      name: "my_custom_evaluator_code",
+      categories: ["quality"],
+      display_name: "my_custom_evaluator_code",
+      evaluator_type: "custom",
+      description: "Custom evaluator to detect violent content",
+      definition: {
+        type: "code",
+        code_text: `def grade(sample, item) -> float:
     """
     Evaluate response quality based on multiple criteria.
     Note: All data is in the 'item' parameter, 'sample' is empty.
@@ -88,44 +93,46 @@ export async function main(): Promise<void> {
         similarity_score = 0.5
 
     return min(1.0, (technical_score * 0.3) + (relevance_score * 0.3) + (similarity_score * 0.4))`,
-      init_parameters: {
-        required: ["deployment_name", "pass_threshold"],
-        type: "object",
-        properties: {
-          deployment_name: { type: "string" },
-          pass_threshold: { type: "string" },
+        init_parameters: {
+          required: ["deployment_name", "pass_threshold"],
+          type: "object",
+          properties: {
+            deployment_name: { type: "string" },
+            pass_threshold: { type: "string" },
+          },
         },
-      },
-      metrics: {
-        result: {
-          type: "ordinal",
-          desirable_direction: "increase",
-          min_value: 0.0,
-          max_value: 1.0,
+        metrics: {
+          result: {
+            type: "ordinal",
+            desirable_direction: "increase",
+            min_value: 0.0,
+            max_value: 1.0,
+          },
         },
-      },
-      data_schema: {
-        required: ["item"],
-        type: "object",
-        properties: {
-          item: {
-            type: "object",
-            properties: {
-              query: {
-                type: "string",
-              },
-              response: {
-                type: "string",
-              },
-              ground_truth: {
-                type: "string",
+        data_schema: {
+          required: ["item"],
+          type: "object",
+          properties: {
+            item: {
+              type: "object",
+              properties: {
+                query: {
+                  type: "string",
+                },
+                response: {
+                  type: "string",
+                },
+                ground_truth: {
+                  type: "string",
+                },
               },
             },
           },
         },
       },
     },
-  });
+    previewOptions,
+  );
   console.log(
     `Code evaluator created (name: ${codeEvaluator.name}, version: ${codeEvaluator.version})`,
   );
@@ -252,12 +259,15 @@ export async function main(): Promise<void> {
 
   // Clean up
   console.log("\nDeleting the created evaluator version");
-  await project.evaluators.deleteVersion(codeEvaluator.name, codeEvaluator.version ?? "");
+  await project.evaluators.deleteVersion(
+    codeEvaluator.name,
+    codeEvaluator.version ?? "",
+    previewOptions,
+  );
   console.log("Evaluator version deleted");
 
   await openAIClient.evals.delete(evalObject.id);
   console.log("Evaluation deleted");
-  // [END evaluators_catalog_code]
 }
 
 main().catch((err) => {

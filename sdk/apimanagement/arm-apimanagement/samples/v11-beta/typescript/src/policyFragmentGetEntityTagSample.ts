@@ -1,0 +1,24 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ApiManagementClient } from "@azure/arm-apimanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to gets the entity state (Etag) version of a policy fragment.
+ *
+ * @summary gets the entity state (Etag) version of a policy fragment.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementHeadPolicyFragment.json
+ */
+async function apiManagementHeadPolicyFragment(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  await client.policyFragment.getEntityTag("rg1", "apimService1", "policyFragment1");
+}
+
+async function main(): Promise<void> {
+  await apiManagementHeadPolicyFragment();
+}
+
+main().catch(console.error);

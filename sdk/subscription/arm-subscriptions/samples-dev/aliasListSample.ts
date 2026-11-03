@@ -3,19 +3,22 @@
 
 import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List Alias Subscription.
+ * This sample demonstrates how to list Alias Subscription.
  *
- * @summary List Alias Subscription.
- * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/listAlias.json
+ * @summary list Alias Subscription.
+ * x-ms-original-file: 2025-11-01-preview/listAlias.json
  */
 async function listAlias(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
-  const result = await client.alias.list();
-  console.log(result);
+  const resArray = new Array();
+  for await (const item of client.alias.list()) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {

@@ -1,36 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all policy descriptions.
- *
- * @summary Lists all policy descriptions.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementListPolicyDescriptions.json
- */
-
-import {
-  PolicyDescriptionListByServiceOptionalParams,
-  ApiManagementClient,
-} from "@azure/arm-apimanagement";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all policy descriptions.
+ *
+ * @summary lists all policy descriptions.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementListPolicyDescriptions.json
+ */
 async function apiManagementListPolicyDescriptions(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const scope = "Api";
-  const options: PolicyDescriptionListByServiceOptionalParams = { scope };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.policyDescription.listByService(
-    resourceGroupName,
-    serviceName,
-    options,
-  );
+  const result = await client.policyDescription.listByService("rg1", "apimService1", {
+    scope: "Api",
+  });
   console.log(result);
 }
 

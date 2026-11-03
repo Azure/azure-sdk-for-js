@@ -111,7 +111,10 @@ export class RequestResponseLink implements ReqResLink {
    * @returns Promise<Message> The AMQP (response) message.
    */
   sendRequest(request: RheaMessage, options: SendRequestOptions = {}): Promise<RheaMessage> {
-    const timeoutInMs = options.timeoutInMs || Constants.defaultOperationTimeoutInMs;
+    const timeoutInMs =
+      options.timeoutInMs === undefined
+        ? Constants.defaultOperationTimeoutInMs
+        : Math.max(options.timeoutInMs, 0);
 
     const aborter: AbortSignalLike | undefined = options.abortSignal;
 

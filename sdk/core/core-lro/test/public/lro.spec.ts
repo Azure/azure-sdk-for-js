@@ -3,8 +3,10 @@
 
 import type { ImplementationName, Result } from "../utils/utils.js";
 import { assertDivergentBehavior, assertError, createDoubleHeaders } from "../utils/utils.js";
-import { describe, it, assert, expect } from "vitest";
+import { describe, it, assert, expect, vi } from "vitest";
 import { createRunLroWith, createTestPoller } from "../utils/router.js";
+import { createHttpPoller } from "../../src/index.js";
+import { makeRawResponse } from "../utils/utils.js";
 import { delay } from "@azure/core-util";
 import { matrix } from "@azure-tools/test-utils-vitest";
 
@@ -370,8 +372,8 @@ matrix(
               },
             ],
           });
-          assert.deepEqual(result.id, "100");
-          assert.deepEqual(result.name, "foo");
+          assert.strictEqual(result.id, "100");
+          assert.strictEqual(result.name, "foo");
         });
 
         it("should handle initial response creating followed by success through an Azure Resource", async () => {
@@ -392,9 +394,9 @@ matrix(
               },
             ],
           });
-          assert.deepEqual(result.properties?.provisioningState, "Succeeded");
-          assert.deepEqual(result.id, "100");
-          assert.deepEqual(result.name, "foo");
+          assert.strictEqual(result.properties?.provisioningState, "Succeeded");
+          assert.strictEqual(result.id, "100");
+          assert.strictEqual(result.name, "foo");
         });
 
         it("should handle put200Acceptedcanceled200", async () => {
@@ -448,9 +450,9 @@ matrix(
               },
             ],
           });
-          assert.deepEqual(result.properties?.provisioningState, "Succeeded");
-          assert.deepEqual(result.id, "100");
-          assert.deepEqual(result.name, "foo");
+          assert.strictEqual(result.properties?.provisioningState, "Succeeded");
+          assert.strictEqual(result.id, "100");
+          assert.strictEqual(result.name, "foo");
         });
 
         it("should handle put201CreatingFailed200", async () => {
@@ -1282,7 +1284,7 @@ matrix(
               });
               assert.equal(result.name, "foo");
               assert.equal(result.id, "100");
-              assert.deepEqual(result.properties?.provisioningState, "Succeeded");
+              assert.strictEqual(result.properties?.provisioningState, "Succeeded");
             });
 
             it("should handle putAsyncNoRetrySucceeded", async () => {
@@ -2438,7 +2440,7 @@ matrix(
             statusCode: 200,
           };
           const pollingPath = `pollingPath`;
-          let pollCount = 0;
+          const pollSpy = vi.fn();
           const pollingRoutes = [
             ...Array(10).fill({
               method: "GET",
@@ -2466,12 +2468,12 @@ matrix(
             throwOnNon2xxResponse,
             implName,
             updateState: () => {
-              pollCount++;
+              pollSpy();
             },
           });
           assert.isUndefined(poller.operationState);
           const serialized = await poller.serialize();
-          assert.equal(pollCount, 0);
+          expect(pollSpy).not.toHaveBeenCalled();
           const expectedSerialized = JSON.stringify({
             state: {
               status: "running",
@@ -2486,32 +2488,32 @@ matrix(
           assert.equal(serialized, expectedSerialized);
           assert.isNotNull(poller.operationState);
           assert.equal(poller.operationState!.status, "running");
-          pollCount = 0;
+          pollSpy.mockClear();
           const restoredPoller = createTestPoller({
             routes: pollingRoutes,
             restoreFrom: serialized,
             implName,
             throwOnNon2xxResponse,
             updateState: () => {
-              pollCount++;
+              pollSpy();
             },
           });
-          assert.equal(pollCount, 0);
+          expect(pollSpy).not.toHaveBeenCalled();
           assert.deepEqual(retResult, await restoredPoller);
-          assert.equal(pollCount, 11);
+          expect(pollSpy).toHaveBeenCalledTimes(11);
           assert.equal(restoredPoller.operationState?.status, "succeeded");
           assert.deepEqual(restoredPoller.result, retResult);
           assert.isUndefined(poller.result);
           // duplicate awaitting would not trigger extra pollings
           await restoredPoller;
-          assert.equal(pollCount, 11);
+          expect(pollSpy).toHaveBeenCalledTimes(11);
         });
       });
 
       describe("mutate state", () => {
         it("The state can be mutated in onProgress", async () => {
           let setState = false;
-          let check = false;
+          const checkSpy = vi.fn();
           const pollingPath = `pollingPath`;
           await runLro({
             routes: [
@@ -2546,17 +2548,17 @@ matrix(
                 (state as any).x = 1;
                 setState = true;
               } else {
-                assert.isDefined((state as any).x);
-                check = true;
+                assert.equal((state as any).x, 1);
+                checkSpy();
               }
             },
           });
-          assert.isTrue(check);
+          expect(checkSpy).toHaveBeenCalled();
         });
 
         it("The state can be mutated in updateState", async () => {
           let setState = false;
-          let check = false;
+          const checkSpy = vi.fn();
           const pollingPath = `pollingPath`;
           await runLro({
             routes: [
@@ -2591,12 +2593,12 @@ matrix(
                 (state as any).x = 1;
                 setState = true;
               } else {
-                assert.isDefined((state as any).x);
-                check = true;
+                assert.equal((state as any).x, 1);
+                checkSpy();
               }
             },
           });
-          assert.isTrue(check);
+          expect(checkSpy).toHaveBeenCalled();
         });
       });
 
@@ -2705,12 +2707,13 @@ matrix(
               result: { ...body, statusCode: 200 },
             },
           });
-          assert.deepEqual(poller.result!.results, [1, 2]);
+          assert.isDefined(poller.result);
+          assert.deepEqual(poller.result?.results, [1, 2]);
         });
       });
       describe("abort signals", function () {
         it("poll can be aborted", async () => {
-          let pollCount = 0;
+          const pollSpy = vi.fn();
           const pollingPath = "pollingPath";
           const poller = createTestPoller({
             routes: [
@@ -2737,13 +2740,13 @@ matrix(
             implName,
             throwOnNon2xxResponse,
             updateState: () => {
-              pollCount++;
+              pollSpy();
             },
           });
           const abortController = new AbortController();
           await poller.poll();
           abortController.abort();
-          assert.equal(pollCount, 1);
+          expect(pollSpy).toHaveBeenCalledTimes(1);
           await assertError(
             poller.poll({
               abortSignal: abortController.signal,
@@ -2756,7 +2759,7 @@ matrix(
         });
 
         it("pollUntilDone can be aborted", async () => {
-          let pollCount = 0;
+          const pollSpy = vi.fn();
           const pollingPath = "pollingPath";
           const poller = createTestPoller({
             routes: [
@@ -2783,13 +2786,13 @@ matrix(
             throwOnNon2xxResponse,
             implName,
             updateState: () => {
-              pollCount++;
+              pollSpy();
             },
           });
           const abortController = new AbortController();
           await poller.poll();
           abortController.abort();
-          assert.equal(pollCount, 1);
+          expect(pollSpy).toHaveBeenCalledTimes(1);
           await assertError(
             poller.pollUntilDone({
               abortSignal: abortController.signal,
@@ -2798,12 +2801,12 @@ matrix(
               messagePattern: /The operation was aborted/,
             },
           );
-          assert.equal(pollCount, 1);
+          expect(pollSpy).toHaveBeenCalledTimes(1);
           assert.isFalse(poller.isDone);
         });
 
         it("pollUntilDone() respects the abort signal", async () => {
-          let pollCount = 0;
+          const pollSpy = vi.fn();
           const pollingPath = "pollingPath";
           const abortController = new AbortController();
           const poller = createTestPoller({
@@ -2831,19 +2834,19 @@ matrix(
             throwOnNon2xxResponse,
             implName,
             updateState: () => {
-              pollCount++;
-              if (pollCount === 10) {
+              pollSpy();
+              if (pollSpy.mock.calls.length === 10) {
                 abortController.abort();
               }
             },
           });
           await poller.poll();
-          assert.equal(pollCount, 1);
+          expect(pollSpy).toHaveBeenCalledTimes(1);
           const promise = poller.pollUntilDone({
             abortSignal: abortController.signal,
           });
           await assertError(promise);
-          assert.equal(pollCount, 10);
+          expect(pollSpy).toHaveBeenCalledTimes(10);
           assert.isFalse(poller.isDone);
         });
       });
@@ -2859,7 +2862,7 @@ matrix(
             statusCode: 200,
           };
           const pollingPath = `pollingPath`;
-          let pollCount = 0;
+          const pollSpy = vi.fn();
           const pollingRoutes = [
             {
               method: "POST",
@@ -2886,22 +2889,22 @@ matrix(
             throwOnNon2xxResponse,
             implName,
             updateState: () => {
-              pollCount++;
+              pollSpy();
             },
           });
           assert.isUndefined(poller.operationState);
           assert.isUndefined(poller.result);
-          assert.equal(pollCount, 0);
+          expect(pollSpy).not.toHaveBeenCalled();
           const result = await poller;
           assert.deepEqual(retResult, result);
-          assert.equal(pollCount, 11);
+          expect(pollSpy).toHaveBeenCalledTimes(11);
           assert.isNotNull(poller.operationState);
           assert.equal(poller.operationState!.status, "succeeded");
           assert.deepEqual(poller.result, retResult);
           assert.equal(poller.result, result);
           // duplicate awaitting would not trigger extra pollings
           await poller;
-          assert.equal(pollCount, 11);
+          expect(pollSpy).toHaveBeenCalledTimes(11);
         });
         it("poll() doesn't poll after the poller is in a succeed status", async function () {
           const poller = createTestPoller({
@@ -3080,7 +3083,8 @@ matrix(
         it("processResult() could be asynchronized", async () => {
           const processResult = async (res: unknown): Promise<Result> => {
             await delay(1);
-            return { statusCode: (res as Result).statusCode } as Result;
+            const { statusCode } = res as Result;
+            return { statusCode };
           };
           const poller = createTestPoller({
             routes: [
@@ -3099,7 +3103,8 @@ matrix(
         });
         it("processResult() could be synchronized", async () => {
           const processResult = async (res: unknown): Promise<Result> => {
-            return { statusCode: (res as Result).statusCode } as Result;
+            const { statusCode } = res as Result;
+            return { statusCode };
           };
           const poller = createTestPoller({
             routes: [
@@ -3117,7 +3122,7 @@ matrix(
           assert.isUndefined(result.properties?.provisioningState);
         });
         it("submitted() is resolved once the initial response is back and poller state is ready", async () => {
-          let pollCount = 0;
+          const pollSpy = vi.fn();
           const pollingPath = "pollingPath";
           const poller = createTestPoller({
             routes: [
@@ -3144,12 +3149,12 @@ matrix(
             implName,
             throwOnNon2xxResponse,
             updateState: () => {
-              pollCount++;
+              pollSpy();
             },
           });
           assert.isUndefined(poller.operationState);
           await poller.submitted();
-          assert.equal(pollCount, 0);
+          expect(pollSpy).not.toHaveBeenCalled();
           assert.isNotNull(poller.operationState);
           assert.equal(poller.operationState!.status, "running");
         });
@@ -3221,8 +3226,8 @@ matrix(
             const await2 = await poller;
             const await3 = await poller;
             assert.equal(await1.statusCode, 200);
-            assert.isTrue(await1 === await2);
-            assert.isTrue(await1 === await3);
+            assert.strictEqual(await1, await2);
+            assert.strictEqual(await1, await3);
           });
           it("thenable should return the same result", async () => {
             const poller = createTestPoller({
@@ -3235,24 +3240,20 @@ matrix(
               ],
               throwOnNon2xxResponse,
             });
-            let callbackCounts = 0;
-            const await1 = await poller.then((result) => {
-              callbackCounts++;
+            const thenCallback = vi.fn((result: Result) => {
               assert.equal(result.statusCode, 200);
               return result;
             });
-            const await2 = await poller.then((result) => {
-              callbackCounts++;
-              assert.equal(result.statusCode, 200);
-              return result;
-            });
-            assert.isTrue(await1 === await2);
-            assert.equal(callbackCounts, 2);
-            await poller.finally(() => callbackCounts++);
-            assert.equal(callbackCounts, 3);
+            const await1 = await poller.then(thenCallback);
+            const await2 = await poller.then(thenCallback);
+            assert.strictEqual(await1, await2);
+            expect(thenCallback).toHaveBeenCalledTimes(2);
+            const finallyCallback = vi.fn();
+            await poller.finally(finallyCallback);
+            expect(finallyCallback).toHaveBeenCalledTimes(1);
           });
           it("should trigger the whole polling process to server side only once", async () => {
-            let pollCount = 0;
+            const pollSpy = vi.fn();
             const pollingPath = "pollingPath";
             const poller = createTestPoller({
               routes: [
@@ -3279,13 +3280,13 @@ matrix(
               implName,
               throwOnNon2xxResponse,
               updateState: () => {
-                pollCount++;
+                pollSpy();
               },
             });
             await poller;
             await poller;
             await poller;
-            assert.equal(pollCount, 11);
+            expect(pollSpy).toHaveBeenCalledTimes(11);
           });
           it("should catch the same error in multiple times", async () => {
             const body = { status: "canceled", results: [1, 2] };
@@ -3342,19 +3343,491 @@ matrix(
               throwOnNon2xxResponse: true,
             });
             let err: any;
-            let callbackCounts = 0;
-            await poller.catch((e) => {
-              callbackCounts++;
+            const catchCallback = vi.fn((e: any) => {
               err = e;
             });
+            await poller.catch(catchCallback);
             assert.equal(err.message, errMsg);
             await expect(poller).rejects.toThrow(errMsg);
-            assert.equal(callbackCounts, 1);
-            await expect(poller.finally(() => callbackCounts++)).rejects.toThrow(errMsg);
-            assert.equal(callbackCounts, 2);
+            expect(catchCallback).toHaveBeenCalledTimes(1);
+            const finallyCallback = vi.fn();
+            await expect(poller.finally(finallyCallback)).rejects.toThrow(errMsg);
+            expect(finallyCallback).toHaveBeenCalledTimes(1);
           });
         });
       });
     });
   },
 );
+
+describe("createHttpPoller", () => {
+  describe("withOperationLocation callback", () => {
+    it("calls withOperationLocation on initial and updated locations", async () => {
+      const locations: string[] = [];
+      const pollingPath = "path/poll";
+      const newPollingPath = "path/poll-updated";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            headers: {
+              "operation-location": newPollingPath,
+            },
+            body: JSON.stringify({ status: "InProgress" }),
+          },
+          {
+            method: "GET",
+            path: newPollingPath,
+            status: 200,
+            body: JSON.stringify({ status: "Succeeded" }),
+          },
+          {
+            method: "GET",
+            path: "path",
+            status: 200,
+            body: JSON.stringify({ id: "done" }),
+          },
+        ],
+        withOperationLocation: (loc: string) => locations.push(loc),
+        throwOnNon2xxResponse: true,
+      });
+
+      await poller.pollUntilDone();
+      assert.isAbove(locations.length, 0);
+      assert.include(locations, pollingPath);
+      assert.include(locations, newPollingPath);
+    });
+
+    it("calls withOperationLocation only once for non-updated location", async () => {
+      const locations: string[] = [];
+      const pollingPath = "path/poll";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            headers: {
+              "operation-location": pollingPath,
+            },
+            body: JSON.stringify({ status: "InProgress" }),
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({ status: "Succeeded" }),
+          },
+          {
+            method: "GET",
+            path: "path",
+            status: 200,
+            body: JSON.stringify({ id: "done" }),
+          },
+        ],
+        withOperationLocation: (loc: string) => locations.push(loc),
+        throwOnNon2xxResponse: true,
+      });
+
+      await poller.pollUntilDone();
+      assert.equal(locations.length, 1);
+      assert.equal(locations[0], pollingPath);
+    });
+  });
+
+  describe("poll method", () => {
+    it("returns state directly when already succeeded and resolveOnUnsuccessful", async () => {
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 200,
+            body: JSON.stringify({ properties: { provisioningState: "Succeeded" }, id: "1" }),
+          },
+        ],
+        throwOnNon2xxResponse: false,
+      });
+
+      await poller.submitted();
+      const state = await poller.poll();
+      assert.equal(state.status, "succeeded");
+    });
+
+    it("throws on poll when canceled and resolveOnUnsuccessful is false", async () => {
+      const pollingPath = "path/poll-cancel";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({ status: "Canceled" }),
+          },
+        ],
+        throwOnNon2xxResponse: true,
+      });
+
+      await expect(poller.poll()).rejects.toThrow(/canceled/i);
+      // re-polling after terminal state should still throw (idempotency)
+      await expect(poller.poll()).rejects.toThrow(/canceled/i);
+    });
+
+    it("throws on poll when failed and resolveOnUnsuccessful is false", async () => {
+      const pollingPath = "path/poll-fail";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({
+              status: "Failed",
+              error: { code: "Err", message: "something failed" },
+            }),
+          },
+        ],
+        throwOnNon2xxResponse: true,
+      });
+
+      await expect(poller.poll()).rejects.toThrow(/failed/i);
+      // re-polling after terminal state should still throw (idempotency)
+      await expect(poller.poll()).rejects.toThrow(/failed/i);
+    });
+  });
+
+  describe("pollUntilDone", () => {
+    it("throws canceled error from pollUntilDone", async () => {
+      const pollingPath = "path/poll-cancel2";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({ status: "Canceled" }),
+          },
+        ],
+        throwOnNon2xxResponse: true,
+      });
+
+      await expect(poller.pollUntilDone()).rejects.toThrow(/canceled/i);
+    });
+
+    it("completes polling when retry-after header is present", async () => {
+      const pollingPath = "path/poll-retry";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            headers: {
+              "retry-after": "1",
+            },
+            body: JSON.stringify({ status: "InProgress" }),
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({ status: "Succeeded" }),
+          },
+          {
+            method: "GET",
+            path: "path",
+            status: 200,
+            body: JSON.stringify({ id: "done" }),
+          },
+        ],
+        throwOnNon2xxResponse: true,
+      });
+
+      const result = await poller.pollUntilDone();
+      assert.equal(result.statusCode, 200);
+    });
+  });
+
+  describe("with no options", () => {
+    it("handles no options argument (undefined)", async () => {
+      const lro = {
+        sendInitialRequest: async () => ({
+          flatResponse: { id: "1" },
+          rawResponse: makeRawResponse({
+            statusCode: 200,
+            request: { method: "PUT", url: "https://example.com/resource" },
+            body: { properties: { provisioningState: "Succeeded" } },
+          }),
+        }),
+        sendPollRequest: vi.fn(),
+      };
+
+      const poller = createHttpPoller(lro);
+      const result = await poller.pollUntilDone();
+      assert.deepEqual(result, { id: "1" });
+    });
+  });
+
+  describe("resolveOnUnsuccessful", () => {
+    it("returns result for canceled when resolveOnUnsuccessful is true", async () => {
+      const pollingPath = "path/poll-resolve";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({ status: "Canceled" }),
+          },
+        ],
+        throwOnNon2xxResponse: false,
+      });
+
+      const result = await poller.pollUntilDone();
+      assert.deepInclude(result, { status: "Canceled" });
+    });
+
+    it("isDone returns true for failed state", async () => {
+      const pollingPath = "path/poll-fail-done";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({
+              status: "Failed",
+              error: { code: "Err", message: "Fail" },
+            }),
+          },
+        ],
+        throwOnNon2xxResponse: false,
+      });
+
+      const result = await poller.pollUntilDone();
+      assert.isTrue(poller.isDone);
+      assert.deepInclude(result, { status: "Failed" });
+    });
+  });
+
+  describe("error handling", () => {
+    it("traverses innererror chain and appends messages", async () => {
+      const pollingPath = "path/poll";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({
+              status: "Failed",
+              error: {
+                code: "OuterCode",
+                message: "Outer message",
+                innererror: {
+                  code: "InnerCode",
+                  message: "Inner message",
+                  innererror: {
+                    code: "DeepCode",
+                    message: "Deep message",
+                  },
+                },
+              },
+            }),
+          },
+        ],
+        throwOnNon2xxResponse: true,
+      });
+
+      await expect(poller.pollUntilDone()).rejects.toThrow(
+        /Outer message\..*Inner message\..*Deep message/,
+      );
+    });
+
+    it("appends period to message when missing", async () => {
+      const pollingPath = "path/poll";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({
+              status: "Failed",
+              error: {
+                code: "ErrCode",
+                message: "No period at end",
+                innererror: {
+                  code: "Inner",
+                  message: "Inner detail",
+                },
+              },
+            }),
+          },
+        ],
+        throwOnNon2xxResponse: true,
+      });
+
+      await expect(poller.pollUntilDone()).rejects.toThrow(/No period at end\. Inner detail/);
+    });
+
+    it("does not double-add a period when message already ends with one", async () => {
+      const pollingPath = "path/poll-period";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({
+              status: "Failed",
+              error: {
+                code: "Err",
+                message: "Something failed.",
+                innererror: {
+                  code: "Inner",
+                  message: "Inner detail.",
+                },
+              },
+            }),
+          },
+        ],
+        throwOnNon2xxResponse: true,
+      });
+
+      await expect(poller.pollUntilDone()).rejects.toThrow(/Something failed\. Inner detail\./);
+    });
+
+    it("throws and sets state to failed when poll encounters a server error", async () => {
+      const pollingPath = "path/poll";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 500,
+            body: JSON.stringify({ error: { code: "ServerError", message: "fail" } }),
+          },
+        ],
+        throwOnNon2xxResponse: true,
+      });
+
+      await expect(poller.pollUntilDone()).rejects.toThrow();
+      assert.equal(poller.operationState?.status, "failed");
+    });
+
+    it("resolves with failed result when resolveOnUnsuccessful is true", async () => {
+      const pollingPath = "path/poll-err-result";
+      const poller = createTestPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 202,
+            headers: {
+              "operation-location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: JSON.stringify({
+              status: "Failed",
+              error: { code: "SomeError", message: "Something went wrong" },
+            }),
+          },
+        ],
+        throwOnNon2xxResponse: false,
+      });
+
+      const result = await poller.pollUntilDone();
+      assert.deepInclude(result, { status: "Failed" });
+      assert.isTrue(poller.isDone);
+    });
+  });
+});

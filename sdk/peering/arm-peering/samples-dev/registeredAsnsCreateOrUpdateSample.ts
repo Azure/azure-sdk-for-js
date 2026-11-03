@@ -1,32 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new registered ASN with the specified name under the given subscription, resource group and peering.
- *
- * @summary Creates a new registered ASN with the specified name under the given subscription, resource group and peering.
- * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreateRegisteredAsn.json
- */
-
-import type { PeeringRegisteredAsn } from "@azure/arm-peering";
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function createOrUpdateARegisteredAsnForThePeering(): Promise<void> {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
-  const peeringName = "peeringName";
-  const registeredAsnName = "registeredAsnName";
-  const registeredAsn: PeeringRegisteredAsn = { asn: 65000 };
+/**
+ * This sample demonstrates how to creates a new registered ASN with the specified name under the given subscription, resource group and peering.
+ *
+ * @summary creates a new registered ASN with the specified name under the given subscription, resource group and peering.
+ * x-ms-original-file: 2025-05-01/CreateRegisteredAsn.json
+ */
+async function createOrUpdateARegisteredASNForThePeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new PeeringManagementClient(credential, subscriptionId);
   const result = await client.registeredAsns.createOrUpdate(
-    resourceGroupName,
-    peeringName,
-    registeredAsnName,
-    registeredAsn,
+    "rgName",
+    "peeringName",
+    "registeredAsnName",
+    { asn: 65000 },
   );
   console.log(result);
 }
 
-createOrUpdateARegisteredAsnForThePeering().catch(console.error);
+async function main(): Promise<void> {
+  await createOrUpdateARegisteredASNForThePeering();
+}
+
+main().catch(console.error);

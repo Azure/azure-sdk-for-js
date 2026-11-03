@@ -1,33 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Partially updates a project catalog.
- *
- * @summary Partially updates a project catalog.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/ProjectCatalogs_Patch.json
- */
-
-import type { CatalogUpdate } from "@azure/arm-devcenter";
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to partially updates a project catalog.
+ *
+ * @summary partially updates a project catalog.
+ * x-ms-original-file: 2026-01-01-preview/ProjectCatalogs_Patch.json
+ */
 async function projectCatalogsPatch(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
-  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
-  const projectName = "DevProject";
-  const catalogName = "CentralCatalog";
-  const body: CatalogUpdate = { gitHub: { path: "/environments" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.projectCatalogs.beginPatchAndWait(
-    resourceGroupName,
-    projectName,
-    catalogName,
-    body,
-  );
+  const result = await client.projectCatalogs.patch("rg1", "DevProject", "CentralCatalog", {
+    gitHub: { path: "/environments" },
+  });
   console.log(result);
 }
 

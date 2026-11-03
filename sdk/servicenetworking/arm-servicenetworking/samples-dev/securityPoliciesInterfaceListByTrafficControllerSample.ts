@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to list SecurityPolicy resources by TrafficController
  *
  * @summary list SecurityPolicy resources by TrafficController
- * x-ms-original-file: 2025-03-01-preview/SecurityPoliciesGetList.json
+ * x-ms-original-file: 2026-03-01/SecurityPoliciesGetList.json
  */
-
-import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function getSecurityPolicies(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";

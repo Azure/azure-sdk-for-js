@@ -44,12 +44,7 @@ export interface PrebuiltReceiptResult extends fr.AnalyzeResultCommon {
 }
 
 export type PrebuiltReceiptDocument =
-  | Receipt
-  | ReceiptRetailMeal
-  | ReceiptCreditCard
-  | ReceiptGas
-  | ReceiptParking
-  | ReceiptHotel;
+  Receipt | ReceiptRetailMeal | ReceiptCreditCard | ReceiptGas | ReceiptParking | ReceiptHotel;
 
 export interface Receipt {
   /**

@@ -3,54 +3,39 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to delete the extension.
+ * This sample demonstrates how to the operation to delete the extension.
  *
- * @summary The operation to delete the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Delete_MaximumSet_Gen.json
+ * @summary the operation to delete the extension.
+ * x-ms-original-file: 2026-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Delete_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionDeleteMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-  const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSetExtensions.beginDeleteAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      vmssExtensionName,
-    );
-  console.log(result);
+  await client.virtualMachineScaleSetExtensions.delete(
+    "rgcompute",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaa",
+  );
 }
 
 /**
- * This sample demonstrates how to The operation to delete the extension.
+ * This sample demonstrates how to the operation to delete the extension.
  *
- * @summary The operation to delete the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Delete_MinimumSet_Gen.json
+ * @summary the operation to delete the extension.
+ * x-ms-original-file: 2026-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Delete_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionDeleteMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const vmScaleSetName = "aaaa";
-  const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSetExtensions.beginDeleteAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      vmssExtensionName,
-    );
-  console.log(result);
+  await client.virtualMachineScaleSetExtensions.delete(
+    "rgcompute",
+    "aaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaa",
+  );
 }
 
 async function main(): Promise<void> {

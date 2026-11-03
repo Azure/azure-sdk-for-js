@@ -1,55 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Organization Validate proxy resource
- *
- * @summary Organization Validate proxy resource
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Validations_ValidateOrganizationsV2.json
- */
-
-import type { OrganizationResource } from "@azure/arm-confluent";
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function validationsValidateOrganizations(): Promise<void> {
-  const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
-  const organizationName = "myOrganization";
-  const body: OrganizationResource = {
-    location: "West US",
-    offerDetail: {
-      id: "string",
-      planId: "string",
-      planName: "string",
-      privateOfferId: "string",
-      privateOfferIds: ["string"],
-      publisherId: "string",
-      termUnit: "string",
-    },
-    tags: { environment: "Dev" },
-    userDetail: {
-      aadEmail: "abc@microsoft.com",
-      emailAddress: "abc@microsoft.com",
-      firstName: "string",
-      lastName: "string",
-      userPrincipalName: "abc@microsoft.com",
-    },
-  };
+/**
+ * This sample demonstrates how to organization Validate proxy resource
+ *
+ * @summary organization Validate proxy resource
+ * x-ms-original-file: 2026-06-02-preview/Validations_ValidateOrganizationV2_MaximumSet_Gen.json
+ */
+async function organizationValidateProxyResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const result = await client.validations.validateOrganizationV2(
-    resourceGroupName,
-    organizationName,
-    body,
+    "rgconfluent",
+    "qhipfdfhxjzvwlergbvldnwhttfb",
+    {
+      offerDetail: {
+        publisherId: "jvmchwpbqvavlgmuwquhqrnacgpvlobkkavwppwvhjfqcy",
+        id: "ufewkfngssvswmxfurnchnvgmnjuzzsoys",
+        planId: "l",
+        planName:
+          "ycpeesrtyybhvmkdenugbkffjwistugfertrprgevcczlsnbcinotsdtsmealomyzsinypzimyyubepkuewirtcxhvxhsmwhwptvzuhirckvrgogahfwchvxnfkgfwqxqy",
+        termUnit: "ipefrkgclpjaswyxpyjkppo",
+        termId: "vujdve",
+        privateOfferId:
+          "goshpcnjukfzfhubmynjxiulurrwplzcjpjstebtsiigbkovchcrlfmgoymqfuayhihnxruthwjywtedlcsqqsgaelqthvfzvafyjhsfzfjwotsiajpcogwrwylgcphxfhvvwemynoyovnvqcetftiofkthgdzfvybvhpviqlwlslaupndcxlvjssdap",
+        privateOfferIds: ["nrbzkbcpvsakewlgubfmej"],
+      },
+      userDetail: {
+        firstName: "gqxqhtniapwvnsliaifhvmbtvvrciebktpeadanapfcqzflomz",
+        lastName: "vhdbyshxnnxivxbgzxscscdsvlwbsukqmcw",
+        emailAddress: "user@example.com",
+        userPrincipalName: "g",
+        aadEmail: "swugcwecfnkp",
+      },
+      linkOrganization: { token: "yvynviychdid" },
+      tags: { key2047: "maumzdwvkwd" },
+      location: "ogifpylahax",
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await validationsValidateOrganizations();
+  await organizationValidateProxyResource();
 }
 
 main().catch(console.error);

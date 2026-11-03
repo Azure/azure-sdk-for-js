@@ -3,33 +3,23 @@
 
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Revokes access to a diskRestorePoint.
+ * This sample demonstrates how to revokes access to a diskRestorePoint.
  *
- * @summary Revokes access to a diskRestorePoint.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskRestorePointExamples/DiskRestorePoint_EndGetAccess.json
+ * @summary revokes access to a diskRestorePoint.
+ * x-ms-original-file: 2026-03-02/diskRestorePointExamples/DiskRestorePoint_EndGetAccess.json
  */
 async function revokesAccessToADiskRestorePoint(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const restorePointCollectionName = "rpc";
-  const vmRestorePointName = "vmrp";
-  const diskRestorePointName =
-    "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.diskRestorePointOperations.beginRevokeAccessAndWait(
-      resourceGroupName,
-      restorePointCollectionName,
-      vmRestorePointName,
-      diskRestorePointName,
-    );
-  console.log(result);
+  await client.diskRestorePoint.revokeAccess(
+    "myResourceGroup",
+    "rpc",
+    "vmrp",
+    "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745",
+  );
 }
 
 async function main(): Promise<void> {

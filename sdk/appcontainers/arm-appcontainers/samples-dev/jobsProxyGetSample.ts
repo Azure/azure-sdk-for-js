@@ -3,28 +3,18 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get the properties of a Container App Job.
+ * This sample demonstrates how to get the properties for a given Container App Job.
  *
- * @summary Get the properties of a Container App Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/Job_ProxyGet.json
+ * @summary get the properties for a given Container App Job.
+ * x-ms-original-file: 2026-07-01/Job_ProxyGet.json
  */
 async function getContainerAppJobByName(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const jobName = "testcontainerappsjob0";
-  const apiName = "rootApi";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.jobs.proxyGet(
-    resourceGroupName,
-    jobName,
-    apiName,
-  );
+  const result = await client.jobs.proxyGet("rg", "testcontainerAppsJob0", "rootApi");
   console.log(result);
 }
 

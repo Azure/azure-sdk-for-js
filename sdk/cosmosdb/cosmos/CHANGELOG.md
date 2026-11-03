@@ -1,10 +1,58 @@
 # Release History
+
+## 4.11.0 (Unreleased)
+
+### Features Added
+
+- Added `VectorIndexQuantizationType` and the optional `quantizerType` property for `diskANN` and `quantizedFlat` vector indexes. Supported values are `"product"` (the service default) and `"spherical"`. The `quantizationByteSize` option is supported only with product quantization.
+
+## 4.10.1 (2026-09-14)
+
+### Bugs Fixed
+
+- [#39626](https://github.com/Azure/azure-sdk-for-js/issues/39626) Fixed non-streaming `ORDER BY` queries that could hang indefinitely for zero results or stop early when an empty page still had a continuation token.
+
+### Other Changes
+
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
+## 4.10.0 (2026-07-21)
+
+### Features Added
+
+- Added a semantic reranking API. Use `Container.semanticRerank(rerankContext, documents, options)` to score and reorder documents by relevance via the Cosmos DB Inference Service. Configure it through `enablePreviewFeatures.semanticRerank` on `CosmosClientOptions`: `inferenceEndpoint` (required) and an optional `inferenceRequestTimeout` (ms, default 5000) single-attempt timeout that fails with HTTP 408 when exceeded. Requires AAD authentication. The result and any thrown error include `CosmosDiagnostics` for the operation.
+- Added `enablePreviewFeatures` to `CosmosClientOptions`, a dictionary for opting into preview features of the SDK.
+
+### Bugs Fixed
+
+- [#38087](https://github.com/Azure/azure-sdk-for-js/issues/38087) Made `boundingBox` optional on the `SpatialIndex` type. Bounding boxes are only required for geometry spatial indexes, not geography ones.
+- Fixed cross-partition queries making a redundant `/pkranges` metadata call on every query. Queries now reuse the shared partition key range cache (worst for hybrid queries, which previously fetched ranges per component query). The cache is also made failure-safe so a transient fetch error no longer poisons later lookups.
+- [#39115](https://github.com/Azure/azure-sdk-for-js/issues/39115) Fixed continuation token handling for `enableQueryControl` queries. Resuming now routes through the query plan instead of forwarding the SDK-internal composite token to the gateway, avoiding an extra failing call and the `MalformedContinuationToken` error.
+
+## 4.9.3 (2026-04-20)
+
+### Bugs Fixed
+
+- [#38124](https://github.com/Azure/azure-sdk-for-js/pull/38124) Fixed incorrect SQL filter generation in ORDER BY queries with continuation tokens. Backslashes and single quotes in `orderByItem` values are now properly escaped in `formatValueForSQL` before being embedded in WHERE clauses.
+
+## 4.9.2 (2026-03-16)
+
+### Bugs Fixed
+
+- [#36765](https://github.com/Azure/azure-sdk-for-js/pull/36765) Fixed inflated continuation token size in streaming queries (`SELECT * FROM c`) by properly removing exhausted partition ranges from the continuation token.
+
+## 4.9.1 (2026-01-29)
+
+### Bugs Fixed
+
+- [#37178](https://github.com/Azure/azure-sdk-for-js/pull/37178) Fixed memory leak in full-text search queries by improving continuation token handling for hybrid component query scenarios.
+- [#37194](https://github.com/Azure/azure-sdk-for-js/pull/37194) Added support for `SQLQuerySpec` in hybrid search queries. Previously, only string queries were supported.
+
 ## 4.9.0 (2025-11-24)
 
 ### Features Added
 
 - Added support for continuation tokens in queries. This capability is available when using the `enableQueryControl` feature in `FeedOptions`.
-- Added support for `quantizerType` property in vector index definition. This is an optional parameter and applies to index types DiskANN and quantizedFlat. Allowed values are "product" and "spherical".
 
 ## 4.8.0 (2025-11-20)
 

@@ -9,8 +9,13 @@ export {
   get,
   list,
   listVersions,
+  deleteGenerationJob,
+  cancelGenerationJob,
+  createGenerationJob,
+  listGenerationJobs,
+  getGenerationJob,
 } from "./operations.js";
-export {
+export type {
   DatasetsGetCredentialsOptionalParams,
   DatasetsPendingUploadOptionalParams,
   DatasetsCreateOrUpdateOptionalParams,
@@ -18,4 +23,9 @@ export {
   DatasetsGetOptionalParams,
   DatasetsListOptionalParams,
   DatasetsListVersionsOptionalParams,
+  DatasetsDeleteGenerationJobOptionalParams,
+  DatasetsCancelGenerationJobOptionalParams,
+  DatasetsCreateGenerationJobOptionalParams,
+  DatasetsListGenerationJobsOptionalParams,
+  DatasetsGetGenerationJobOptionalParams,
 } from "./options.js";

@@ -1,24 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a FHIR Service resource with the specified parameters.
- *
- * @summary Creates or updates a FHIR Service resource with the specified parameters.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/fhirservices/FhirServices_Create.json
- */
-
-import type { FhirService } from "@azure/arm-healthcareapis";
 import { HealthcareApisManagementClient } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates or updates a FHIR Service resource with the specified parameters.
+ *
+ * @summary creates or updates a FHIR Service resource with the specified parameters.
+ * x-ms-original-file: 2025-04-01-preview/fhirservices/FhirServices_Create.json
+ */
 async function createOrUpdateAFhirService(): Promise<void> {
-  const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["HEALTHCAREAPIS_RESOURCE_GROUP"] || "testRG";
-  const workspaceName = "workspace1";
-  const fhirServiceName = "fhirservice1";
-  const fhirservice: FhirService = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new HealthcareApisManagementClient(credential, subscriptionId);
+  const result = await client.fhirServices.createOrUpdate("testRG", "workspace1", "fhirservice1", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/subid/resourcegroups/testRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-mi":
+          {},
+      },
+    },
+    kind: "fhir-R4",
+    location: "westus",
     acrConfiguration: { loginServers: ["test1.azurecr.io"] },
     authenticationConfiguration: {
       audience: "https://azurehealthcareapis.com",
@@ -50,35 +55,14 @@ async function createOrUpdateAFhirService(): Promise<void> {
       },
     },
     exportConfiguration: { storageAccountName: "existingStorageAccount" },
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/subid/resourcegroups/testRG/providers/MicrosoftManagedIdentity/userAssignedIdentities/testMi":
-          {},
-      },
-    },
     implementationGuidesConfiguration: { usCoreMissingData: false },
     importConfiguration: {
       enabled: false,
       initialImportMode: false,
       integrationDataStore: "existingStorageAccount",
     },
-    kind: "fhir-R4",
-    location: "westus",
-    tags: {
-      additionalProp1: "string",
-      additionalProp2: "string",
-      additionalProp3: "string",
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new HealthcareApisManagementClient(credential, subscriptionId);
-  const result = await client.fhirServices.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    workspaceName,
-    fhirServiceName,
-    fhirservice,
-  );
+    tags: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+  });
   console.log(result);
 }
 

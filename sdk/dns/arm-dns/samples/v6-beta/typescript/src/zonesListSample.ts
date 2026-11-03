@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { DnsManagementClient } from "@azure/arm-dns";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to lists the DNS zones in all resource groups in a subscription.
+ *
+ * @summary lists the DNS zones in all resource groups in a subscription.
+ * x-ms-original-file: 2023-07-01-preview/ListZonesBySubscription.json
+ */
+async function listZonesBySubscription(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.zones.list()) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await listZonesBySubscription();
+}
+
+main().catch(console.error);

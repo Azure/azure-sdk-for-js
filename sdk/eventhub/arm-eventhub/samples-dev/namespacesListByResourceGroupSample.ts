@@ -1,30 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the available Namespaces within a resource group.
- *
- * @summary Lists the available Namespaces within a resource group.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceListByResourceGroup.json
- */
-
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the available Namespaces within a resource group.
+ *
+ * @summary lists the available Namespaces within a resource group.
+ * x-ms-original-file: 2026-01-01/NameSpaces/EHNameSpaceListByResourceGroup.json
+ */
 async function namespaceListByResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTHUB_SUBSCRIPTION_ID"] || "SampleSubscription";
-  const resourceGroupName =
-    process.env["EVENTHUB_RESOURCE_GROUP"] || "ResurceGroupSample";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "SampleSubscription";
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.namespaces.listByResourceGroup(
-    resourceGroupName,
-  )) {
+  for await (const item of client.namespaces.listByResourceGroup("ResurceGroupSample")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

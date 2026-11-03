@@ -1,32 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
- *
- * @summary Deletes an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Routes_Delete.json
- */
-
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
+ *
+ * @summary deletes an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
+ * x-ms-original-file: 2026-10-01/Routes_Delete.json
+ */
 async function routesDelete(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
-  const endpointName = "endpoint1";
-  const routeName = "route1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.routes.beginDeleteAndWait(
-    resourceGroupName,
-    profileName,
-    endpointName,
-    routeName,
-  );
-  console.log(result);
+  await client.routes.delete("RG", "profile1", "endpoint1", "route1");
 }
 
 async function main(): Promise<void> {

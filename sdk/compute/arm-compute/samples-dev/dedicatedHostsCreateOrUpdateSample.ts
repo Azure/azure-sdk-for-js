@@ -1,37 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DedicatedHost} from "@azure/arm-compute";
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update a dedicated host .
+ * This sample demonstrates how to create or update a dedicated host .
  *
- * @summary Create or update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
+ * @summary create or update a dedicated host .
+ * x-ms-original-file: 2026-04-01/dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
  */
 async function createOrUpdateADedicatedHost(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const hostGroupName = "myDedicatedHostGroup";
-  const hostName = "myDedicatedHost";
-  const parameters: DedicatedHost = {
-    location: "westus",
-    platformFaultDomain: 1,
-    sku: { name: "DSv3-Type1" },
-    tags: { department: "HR" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.dedicatedHosts.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    hostGroupName,
-    hostName,
-    parameters,
+  const result = await client.dedicatedHosts.createOrUpdate(
+    "myResourceGroup",
+    "myDedicatedHostGroup",
+    "myDedicatedHost",
+    {
+      location: "westus",
+      tags: { department: "HR" },
+      platformFaultDomain: 1,
+      sku: { name: "DSv3-Type1" },
+    },
   );
   console.log(result);
 }

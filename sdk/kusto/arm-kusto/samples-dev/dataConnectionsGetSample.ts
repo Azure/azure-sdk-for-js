@@ -1,79 +1,100 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns a data connection.
- *
- * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsCosmosDbGet.json
- */
-
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns a data connection.
+ *
+ * @summary returns a data connection.
+ * x-ms-original-file: 2025-02-14/KustoDataConnectionsCosmosDbGet.json
+ */
 async function kustoDataConnectionsCosmosDbGet(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster";
-  const databaseName = "KustoDatabase1";
-  const dataConnectionName = "dataConnectionTest";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.dataConnections.get(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    dataConnectionName,
+    "kustorptest",
+    "kustoCluster",
+    "KustoDatabase1",
+    "dataConnectionTest",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Returns a data connection.
+ * This sample demonstrates how to returns a data connection.
  *
- * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsEventGridGet.json
+ * @summary returns a data connection.
+ * x-ms-original-file: 2025-02-14/KustoDataConnectionsEventGridGet.json
  */
 async function kustoDataConnectionsEventGridGet(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster";
-  const databaseName = "KustoDatabase8";
-  const dataConnectionName = "dataConnectionTest";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.dataConnections.get(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    dataConnectionName,
+    "kustorptest",
+    "kustoCluster",
+    "KustoDatabase8",
+    "dataConnectionTest",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Returns a data connection.
+ * This sample demonstrates how to returns a data connection.
  *
- * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsGet.json
+ * @summary returns a data connection.
+ * x-ms-original-file: 2025-02-14/KustoDataConnectionsEventGridWithManagedIdentityGet.json
  */
-async function kustoDataConnectionsGet(): Promise<void> {
-  const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
-  const clusterName = "kustoCluster";
-  const databaseName = "KustoDatabase8";
-  const dataConnectionName = "dataConnectionTest";
+async function kustoDataConnectionsEventGridWithManagedIdentityGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.dataConnections.get(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    dataConnectionName,
+    "kustorptest",
+    "kustoCluster",
+    "KustoDatabase8",
+    "dataConnectionTest",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to returns a data connection.
+ *
+ * @summary returns a data connection.
+ * x-ms-original-file: 2025-02-14/KustoDataConnectionsEventHubWithManagedIdentityGet.json
+ */
+async function kustoDataConnectionsEventHubWithManagedIdentityGet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const client = new KustoManagementClient(credential, subscriptionId);
+  const result = await client.dataConnections.get(
+    "kustorptest",
+    "kustoCluster",
+    "KustoDatabase8",
+    "dataConnectionTest",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to returns a data connection.
+ *
+ * @summary returns a data connection.
+ * x-ms-original-file: 2025-02-14/KustoDataConnectionsGet.json
+ */
+async function kustoDataConnectionsGet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const client = new KustoManagementClient(credential, subscriptionId);
+  const result = await client.dataConnections.get(
+    "kustorptest",
+    "kustoCluster",
+    "KustoDatabase8",
+    "dataConnectionTest",
   );
   console.log(result);
 }
@@ -81,6 +102,8 @@ async function kustoDataConnectionsGet(): Promise<void> {
 async function main(): Promise<void> {
   await kustoDataConnectionsCosmosDbGet();
   await kustoDataConnectionsEventGridGet();
+  await kustoDataConnectionsEventGridWithManagedIdentityGet();
+  await kustoDataConnectionsEventHubWithManagedIdentityGet();
   await kustoDataConnectionsGet();
 }
 

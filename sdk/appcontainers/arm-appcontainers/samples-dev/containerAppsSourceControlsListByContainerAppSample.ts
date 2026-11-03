@@ -3,30 +3,25 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get the Container App SourceControls in a given resource group.
+ * This sample demonstrates how to get the Container App SourceControls in a given resource group.
  *
- * @summary Get the Container App SourceControls in a given resource group.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/SourceControls_ListByContainer.json
+ * @summary get the Container App SourceControls in a given resource group.
+ * x-ms-original-file: 2026-07-01/SourceControls_ListByContainer.json
  */
 async function listAppSourceControls(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "workerapps-rg-xj";
-  const containerAppName = "testcanadacentral";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.containerAppsSourceControls.listByContainerApp(
-    resourceGroupName,
-    containerAppName,
+    "workerapps-rg-xj",
+    "testcanadacentral",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

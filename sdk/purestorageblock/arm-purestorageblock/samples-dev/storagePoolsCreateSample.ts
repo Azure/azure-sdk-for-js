@@ -1,37 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { BlockClient } from "@azure/arm-purestorageblock";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a storage pool
  *
  * @summary create a storage pool
- * x-ms-original-file: 2024-11-01/StoragePools_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/StoragePools_Create_MaximumSet_Gen.json
  */
-
-import { BlockClient } from "@azure/arm-purestorageblock";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function storagePoolsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "BC47D6CC-AA80-4374-86F8-19D94EC70666";
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new BlockClient(credential, subscriptionId);
-  const result = await client.storagePools.create("rgpurestorage", "storagePoolname", {
+  const result = await client.storagePools.create("rgpurestorage", "storagepool-01", {
     properties: {
-      availabilityZone: "vknyl",
+      availabilityZone: "1",
       vnetInjection: {
-        subnetId: "tnlctolrxdvnkjiphlrdxq",
-        vnetId: "zbumtytyqwewjcyckwqchiypshv",
+        subnetId:
+          "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rgpurestorage/providers/Microsoft.Network/virtualNetworks/vnet-01/subnets/subnet-01",
+        vnetId:
+          "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rgpurestorage/providers/Microsoft.Network/virtualNetworks/vnet-01",
       },
       provisionedBandwidthMbPerSec: 17,
-      avs: {
-        avsEnabled: true,
-        clusterResourceId: "zekrdsarbkwcbvpzhmuwoazogziwms",
-      },
-      reservationResourceId: "xiowoxnbtcotutcmmrofvgdi",
+      reservationResourceId:
+        "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rgpurestorage/providers/PureStorage.Block/reservations/reservation-01",
     },
-    identity: { type: "None", userAssignedIdentities: { key4211: {} } },
-    tags: { key7593: "vsyiygyurvwlfaezpuqu" },
-    location: "lonlc",
+    identity: { type: "None", userAssignedIdentities: { "identity-01": {} } },
+    tags: { environment: "production" },
+    location: "eastus",
   });
   console.log(result);
 }

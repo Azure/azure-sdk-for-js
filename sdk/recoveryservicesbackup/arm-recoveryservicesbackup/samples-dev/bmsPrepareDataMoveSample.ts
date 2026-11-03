@@ -1,41 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Prepares source vault for Data Move operation
- *
- * @summary Prepares source vault for Data Move operation
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/BackupDataMove/PrepareDataMove_Post.json
- */
-
-import {
-  PrepareDataMoveRequest,
-  RecoveryServicesBackupClient,
-} from "@azure/arm-recoveryservicesbackup";
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to prepares source vault for Data Move operation
+ *
+ * @summary prepares source vault for Data Move operation
+ * x-ms-original-file: 2026-10-01/BackupDataMove/PrepareDataMove_Post.json
+ */
 async function prepareDataMove(): Promise<void> {
-  const subscriptionId =
-    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const vaultName = "source-rsv";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "sourceRG";
-  const parameters: PrepareDataMoveRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RecoveryServicesBackupClient(credential, subscriptionId);
+  await client.bmsPrepareDataMove("source-rsv", "sourceRG", {
     dataMoveLevel: "Vault",
     targetRegion: "USGov Virginia",
     targetResourceId:
       "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/targetRG/providers/Microsoft.RecoveryServices/vaults/target-rsv",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  const result = await client.beginBMSPrepareDataMoveAndWait(
-    vaultName,
-    resourceGroupName,
-    parameters,
-  );
-  console.log(result);
+  });
 }
 
 async function main(): Promise<void> {

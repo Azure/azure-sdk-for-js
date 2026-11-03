@@ -26,7 +26,10 @@ import { GeospatialType } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 import { skipTestForSignOff } from "../common/_testConfig.js";
 
-describe("Containers", { timeout: 10000 }, () => {
+// Must exceed the SDK's default requestTimeout (60s, ConnectionPolicy.ts): a tighter
+// budget kills the test mid-await with no diagnostics when the emulator stalls on a
+// single control-plane request. See https://github.com/Azure/azure-sdk-for-js/issues/39659.
+describe("Containers", { timeout: 120000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
@@ -69,7 +72,7 @@ describe("Containers", { timeout: 10000 }, () => {
       );
       const container = database.container(containerDef.id);
       assert.equal(containerDefinition.id, containerDef.id);
-      assert.equal("consistent", containerDef.indexingPolicy.indexingMode);
+      assert.equal(containerDef.indexingPolicy.indexingMode, "consistent");
       if (containerDef.partitionKey) {
         const comparePaths =
           typeof containerDefinition.partitionKey === "string"
@@ -436,7 +439,7 @@ describe("Containers", { timeout: 10000 }, () => {
         "Unexpected includedPaths length",
       );
       // The first included path is what we created.
-      assert.equal("/*", containerWithIndexingPolicyDef.indexingPolicy.includedPaths[0].path);
+      assert.equal(containerWithIndexingPolicyDef.indexingPolicy.includedPaths[0].path, "/*");
       // And two excluded paths.
       assert.equal(
         2,
@@ -448,15 +451,15 @@ describe("Containers", { timeout: 10000 }, () => {
         containerWithIndexingPolicyDef.indexingPolicy.excludedPaths[0].path,
       );
       // Check for composite Index metrics
-      assert.equal("/a", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[0][0].path);
-      assert.equal("/b", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[0][1].path);
-      assert.equal("/c", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[1][0].path);
-      assert.equal("/d", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[1][1].path);
+      assert.equal(containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[0][0].path, "/a");
+      assert.equal(containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[0][1].path, "/b");
+      assert.equal(containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[1][0].path, "/c");
+      assert.equal(containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[1][1].path, "/d");
     });
 
     const checkDefaultIndexingPolicyPaths = function (indexingPolicy: IndexingPolicy): void {
-      assert.equal(1, indexingPolicy["excludedPaths"].length);
-      assert.equal(1, indexingPolicy["includedPaths"].length);
+      assert.equal(indexingPolicy["excludedPaths"].length, 1);
+      assert.equal(indexingPolicy["includedPaths"].length, 1);
 
       let rootIncludedPath: IndexedPath = null;
       if (indexingPolicy["includedPaths"][0]["path"] === "/*") {

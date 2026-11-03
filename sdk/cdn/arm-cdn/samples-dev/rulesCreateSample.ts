@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new delivery rule within the specified rule set.
- *
- * @summary Creates a new delivery rule within the specified rule set.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Rules_Create.json
- */
-
-import type { Rule } from "@azure/arm-cdn";
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a new delivery rule within the specified rule set.
+ *
+ * @summary creates a new delivery rule within the specified rule set.
+ * x-ms-original-file: 2026-10-01/Rules_Create.json
+ */
 async function rulesCreate(): Promise<void> {
-  const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
-  const profileName = "profile1";
-  const ruleSetName = "ruleSet1";
-  const ruleName = "rule1";
-  const rule: Rule = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CdnManagementClient(credential, subscriptionId);
+  const result = await client.rules.create("RG", "profile1", "ruleSet1", "rule1", {
     actions: [
       {
         name: "ModifyResponseHeader",
@@ -43,21 +38,52 @@ async function rulesCreate(): Promise<void> {
       },
     ],
     order: 1,
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new delivery rule within the specified rule set.
+ *
+ * @summary creates a new delivery rule within the specified rule set.
+ * x-ms-original-file: 2026-10-01/Rules_Create_EdgeAction.json
+ */
+async function rulesCreateEdgeAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.rules.beginCreateAndWait(
-    resourceGroupName,
-    profileName,
-    ruleSetName,
-    ruleName,
-    rule,
-  );
+  const result = await client.rules.create("RG", "profile1", "ruleSet1", "rule1", {
+    actions: [
+      {
+        name: "EdgeAction",
+        parameters: {
+          edgeActionReference: {
+            id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/edgeActions/edgeAction1",
+          },
+          invocationPoint: "ClientResponse",
+          typeName: "DeliveryRuleEdgeActionParameters",
+        },
+      },
+    ],
+    conditions: [
+      {
+        name: "RequestMethod",
+        parameters: {
+          matchValues: ["GET"],
+          negateCondition: false,
+          operator: "Equal",
+          typeName: "DeliveryRuleRequestMethodConditionParameters",
+        },
+      },
+    ],
+    order: 1,
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await rulesCreate();
+  await rulesCreateEdgeAction();
 }
 
 main().catch(console.error);

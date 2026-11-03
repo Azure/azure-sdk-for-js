@@ -3,41 +3,104 @@
 
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List Location Based ModelCapacities.
+ * This sample demonstrates how to list Location Based ModelCapacities.
  *
- * @summary List Location Based ModelCapacities.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListLocationBasedModelCapacities.json
+ * @summary list Location Based ModelCapacities.
+ * x-ms-original-file: 2026-09-15-preview/ListLocationBasedModelCapacities.json
  */
 async function listLocationBasedModelCapacities(): Promise<void> {
-  const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const location = "WestUS";
-  const modelFormat = "OpenAI";
-  const modelName = "ada";
-  const modelVersion = "1";
   const credential = new DefaultAzureCredential();
-  const client = new CognitiveServicesManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.locationBasedModelCapacities.list(
-    location,
-    modelFormat,
-    modelName,
-    modelVersion,
+    "WestUS",
+    "OpenAI",
+    "ada",
+    "1",
   )) {
     resArray.push(item);
   }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to list Location Based ModelCapacities.
+ *
+ * @summary list Location Based ModelCapacities.
+ * x-ms-original-file: 2026-09-15-preview/ListLocationBasedModelCapacitiesClassicScope.json
+ */
+async function listLocationBasedModelCapacitiesClassicScope(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.locationBasedModelCapacities.list(
+    "WestUS",
+    "OpenAI",
+    "ada",
+    "1",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to list Location Based ModelCapacities.
+ *
+ * @summary list Location Based ModelCapacities.
+ * x-ms-original-file: 2026-09-15-preview/ListLocationBasedModelCapacitiesDataZoneScope.json
+ */
+async function listLocationBasedModelCapacitiesDataZoneScope(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.locationBasedModelCapacities.list(
+    "WestUS",
+    "OpenAI",
+    "ada",
+    "1",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to list Location Based ModelCapacities.
+ *
+ * @summary list Location Based ModelCapacities.
+ * x-ms-original-file: 2026-09-15-preview/ListLocationBasedModelCapacitiesGlobalScope.json
+ */
+async function listLocationBasedModelCapacitiesGlobalScope(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.locationBasedModelCapacities.list(
+    "WestUS",
+    "OpenAI",
+    "ada",
+    "1",
+  )) {
+    resArray.push(item);
+  }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
   await listLocationBasedModelCapacities();
+  await listLocationBasedModelCapacitiesClassicScope();
+  await listLocationBasedModelCapacitiesDataZoneScope();
+  await listLocationBasedModelCapacitiesGlobalScope();
 }
 
 main().catch(console.error);

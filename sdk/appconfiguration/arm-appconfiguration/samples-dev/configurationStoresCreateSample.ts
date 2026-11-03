@@ -1,157 +1,140 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a configuration store with the specified parameters.
- *
- * @summary Creates a configuration store with the specified parameters.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-06-01/examples/ConfigurationStoresCreate.json
- */
-
-import {
-  ConfigurationStore,
-  AppConfigurationManagementClient,
-} from "@azure/arm-appconfiguration";
+import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a configuration store with the specified parameters.
+ *
+ * @summary creates a configuration store with the specified parameters.
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreate.json
+ */
 async function configurationStoresCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
-    "c80fb759-c965-4c6a-9110-9b2b2d038882";
-  const resourceGroupName =
-    process.env["APPCONFIGURATION_RESOURCE_GROUP"] || "myResourceGroup";
-  const configStoreName = "contoso";
-  const configStoreCreationParameters: ConfigurationStore = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
+  const result = await client.configurationStores.create("myResourceGroup", "contoso", {
     location: "westus",
     sku: { name: "Standard" },
     tags: { myTag: "myTagValue" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.configurationStores.beginCreateAndWait(
-    resourceGroupName,
-    configStoreName,
-    configStoreCreationParameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a configuration store with the specified parameters.
+ * This sample demonstrates how to creates a configuration store with the specified parameters.
  *
- * @summary Creates a configuration store with the specified parameters.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-06-01/examples/ConfigurationStoresCreateWithDataPlaneProxy.json
+ * @summary creates a configuration store with the specified parameters.
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateWithAzureFrontDoor.json
  */
-async function configurationStoresCreateWithDataPlaneProxy(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
-    "c80fb759-c965-4c6a-9110-9b2b2d038882";
-  const resourceGroupName =
-    process.env["APPCONFIGURATION_RESOURCE_GROUP"] || "myResourceGroup";
-  const configStoreName = "contoso";
-  const configStoreCreationParameters: ConfigurationStore = {
-    dataPlaneProxy: {
-      authenticationMode: "Pass-through",
-      privateLinkDelegation: "Enabled",
-    },
+async function configurationStoresCreateWithAzureFrontDoor(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
+  const result = await client.configurationStores.create("myResourceGroup", "contoso", {
     location: "westus",
     sku: { name: "Standard" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.configurationStores.beginCreateAndWait(
-    resourceGroupName,
-    configStoreName,
-    configStoreCreationParameters,
-  );
+    tags: { myTag: "myTagValue" },
+    azureFrontDoor: {
+      resourceId:
+        "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/microsoft.cdn/profiles/myAzureFrontDoorProfile",
+    },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a configuration store with the specified parameters.
+ * This sample demonstrates how to creates a configuration store with the specified parameters.
  *
- * @summary Creates a configuration store with the specified parameters.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-06-01/examples/ConfigurationStoresCreateWithIdentity.json
+ * @summary creates a configuration store with the specified parameters.
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateWithDataPlaneProxy.json
+ */
+async function configurationStoresCreateWithDataPlaneProxy(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
+  const result = await client.configurationStores.create("myResourceGroup", "contoso", {
+    location: "westus",
+    dataPlaneProxy: { authenticationMode: "Pass-through", privateLinkDelegation: "Enabled" },
+    sku: { name: "Standard" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a configuration store with the specified parameters.
+ *
+ * @summary creates a configuration store with the specified parameters.
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateWithIdentity.json
  */
 async function configurationStoresCreateWithIdentity(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
-    "c80fb759-c965-4c6a-9110-9b2b2d038882";
-  const resourceGroupName =
-    process.env["APPCONFIGURATION_RESOURCE_GROUP"] || "myResourceGroup";
-  const configStoreName = "contoso";
-  const configStoreCreationParameters: ConfigurationStore = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
+  const result = await client.configurationStores.create("myResourceGroup", "contoso", {
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/c80fb759C9654c6a91109b2b2d038882/resourcegroups/myResourceGroup1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity2":
+        "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2":
           {},
       },
     },
     location: "westus",
     sku: { name: "Standard" },
     tags: { myTag: "myTagValue" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.configurationStores.beginCreateAndWait(
-    resourceGroupName,
-    configStoreName,
-    configStoreCreationParameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a configuration store with the specified parameters.
+ * This sample demonstrates how to creates a configuration store with the specified parameters.
  *
- * @summary Creates a configuration store with the specified parameters.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-06-01/examples/ConfigurationStoresCreateWithLocalAuthDisabled.json
+ * @summary creates a configuration store with the specified parameters.
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateWithLocalAuthDisabled.json
  */
 async function configurationStoresCreateWithLocalAuthDisabled(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
-    "c80fb759-c965-4c6a-9110-9b2b2d038882";
-  const resourceGroupName =
-    process.env["APPCONFIGURATION_RESOURCE_GROUP"] || "myResourceGroup";
-  const configStoreName = "contoso";
-  const configStoreCreationParameters: ConfigurationStore = {
-    dataPlaneProxy: {
-      authenticationMode: "Pass-through",
-      privateLinkDelegation: "Disabled",
-    },
-    disableLocalAuth: true,
-    location: "westus",
-    sku: { name: "Standard" },
-  };
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.configurationStores.beginCreateAndWait(
-    resourceGroupName,
-    configStoreName,
-    configStoreCreationParameters,
-  );
+  const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
+  const result = await client.configurationStores.create("myResourceGroup", "contoso", {
+    location: "westus",
+    dataPlaneProxy: { authenticationMode: "Pass-through", privateLinkDelegation: "Disabled" },
+    disableLocalAuth: true,
+    sku: { name: "Standard" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a configuration store with the specified parameters.
+ *
+ * @summary creates a configuration store with the specified parameters.
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateWithTelemetry.json
+ */
+async function configurationStoresCreateWithTelemetry(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
+  const result = await client.configurationStores.create("myResourceGroup", "contoso", {
+    location: "westus",
+    telemetry: {
+      resourceId:
+        "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/microsoft.insights/components/appInsightsName",
+    },
+    sku: { name: "Standard" },
+    tags: { myTag: "myTagValue" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await configurationStoresCreate();
+  await configurationStoresCreateWithAzureFrontDoor();
   await configurationStoresCreateWithDataPlaneProxy();
   await configurationStoresCreateWithIdentity();
   await configurationStoresCreateWithLocalAuthDisabled();
+  await configurationStoresCreateWithTelemetry();
 }
 
 main().catch(console.error);

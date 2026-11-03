@@ -1,32 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create a MonitorResource
- *
- * @summary Create a MonitorResource
- * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_CreateOrUpdate_MaximumSet_Gen.json
- */
-
-import type { MonitorResource } from "@azure/arm-dynatrace";
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create a MonitorResource
+ *
+ * @summary create a MonitorResource
+ * x-ms-original-file: 2024-04-24/Monitors_CreateOrUpdate_MaximumSet_Gen.json
+ */
 async function monitorsCreateOrUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
-  const resource: MonitorResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new DynatraceObservability(credential, subscriptionId);
+  const result = await client.monitors.createOrUpdate("myResourceGroup", "myMonitor", {
+    identity: { type: "SystemAssigned" },
+    location: "West US 2",
     dynatraceEnvironmentProperties: {
       accountInfo: {},
       environmentInfo: {},
       singleSignOnProperties: {},
     },
-    identity: { type: "SystemAssigned" },
-    liftrResourceCategory: "Unknown",
-    location: "West US 2",
     marketplaceSubscriptionStatus: "Active",
     monitoringStatus: "Enabled",
     planData: {
@@ -35,8 +30,6 @@ async function monitorsCreateOrUpdateMaximumSetGen(): Promise<void> {
       planDetails: "dynatraceapitestplan",
       usageType: "Committed",
     },
-    provisioningState: "Accepted",
-    tags: { environment: "Dev" },
     userInfo: {
       country: "westus2",
       emailAddress: "alice@microsoft.com",
@@ -44,36 +37,24 @@ async function monitorsCreateOrUpdateMaximumSetGen(): Promise<void> {
       lastName: "Bobab",
       phoneNumber: "123456",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DynatraceObservability(credential, subscriptionId);
-  const result = await client.monitors.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    monitorName,
-    resource,
-  );
+    tags: { Environment: "Dev" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create a MonitorResource
+ * This sample demonstrates how to create a MonitorResource
  *
- * @summary Create a MonitorResource
- * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_CreateOrUpdate_MinimumSet_Gen.json
+ * @summary create a MonitorResource
+ * x-ms-original-file: 2024-04-24/Monitors_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function monitorsCreateOrUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
-  const resource: MonitorResource = { location: "West US 2" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DynatraceObservability(credential, subscriptionId);
-  const result = await client.monitors.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    monitorName,
-    resource,
-  );
+  const result = await client.monitors.createOrUpdate("myResourceGroup", "myMonitor", {
+    location: "West US 2",
+  });
   console.log(result);
 }
 

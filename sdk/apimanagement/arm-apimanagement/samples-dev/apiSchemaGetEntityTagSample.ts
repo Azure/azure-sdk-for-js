@@ -1,35 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the entity state (Etag) version of the schema specified by its identifier.
- *
- * @summary Gets the entity state (Etag) version of the schema specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementHeadApiSchema.json
- */
-
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the entity state (Etag) version of the schema specified by its identifier.
+ *
+ * @summary gets the entity state (Etag) version of the schema specified by its identifier.
+ * x-ms-original-file: 2025-09-01-preview/ApiManagementHeadApiSchema.json
+ */
 async function apiManagementHeadApiSchema(): Promise<void> {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "57d1f7558aa04f15146d9d8a";
-  const schemaId = "ec12520d-9d48-4e7b-8f39-698ca2ac63f1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiSchema.getEntityTag(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    schemaId,
+  await client.apiSchema.getEntityTag(
+    "rg1",
+    "apimService1",
+    "57d1f7558aa04f15146d9d8a",
+    "ec12520d-9d48-4e7b-8f39-698ca2ac63f1",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

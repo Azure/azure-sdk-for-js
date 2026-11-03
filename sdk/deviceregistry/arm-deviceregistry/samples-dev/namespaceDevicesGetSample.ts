@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a NamespaceDevice
  *
  * @summary get a NamespaceDevice
- * x-ms-original-file: 2025-10-01/Get_NamespaceDevice.json
+ * x-ms-original-file: 2026-03-01-preview/Get_NamespaceDevice.json
  */
 async function getNamespaceDevice(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getNamespaceDevice(): Promise<void> {
  * This sample demonstrates how to get a NamespaceDevice
  *
  * @summary get a NamespaceDevice
- * x-ms-original-file: 2025-10-01/Get_NamespaceDeviceWithEndpointErrorStatus.json
+ * x-ms-original-file: 2026-03-01-preview/Get_NamespaceDeviceWithEndpointErrorStatus.json
  */
 async function getNamespaceDeviceWithEndpointErrorStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,27 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the private link resources that need to be created for a storage sync service.
- *
- * @summary Gets the private link resources that need to be created for a storage sync service.
- * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/PrivateLinkResources_List.json
- */
-
 import { MicrosoftStorageSync } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
+/**
+ * This sample demonstrates how to gets the private link resources that need to be created for a storage sync service.
+ *
+ * @summary gets the private link resources that need to be created for a storage sync service.
+ * x-ms-original-file: 2025-12-01/PrivateLinkResources_List.json
+ */
 async function privateLinkResourcesList(): Promise<void> {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res6977";
-  const storageSyncServiceName = "sss2527";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
   const client = new MicrosoftStorageSync(credential, subscriptionId);
-  const result = await client.privateLinkResources.listByStorageSyncService(
-    resourceGroupName,
-    storageSyncServiceName,
-  );
+  const result = await client.privateLinkResources.listByStorageSyncService("res6977", "sss2527");
   console.log(result);
 }
 
-privateLinkResourcesList().catch(console.error);
+async function main(): Promise<void> {
+  await privateLinkResourcesList();
+}
+
+main().catch(console.error);

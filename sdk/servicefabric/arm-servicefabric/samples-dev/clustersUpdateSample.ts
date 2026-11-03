@@ -1,24 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update the configuration of a Service Fabric cluster resource with the specified name.
- *
- * @summary Update the configuration of a Service Fabric cluster resource with the specified name.
- * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterPatchOperation_example.json
- */
-
-import type { ClusterUpdateParameters } from "@azure/arm-servicefabric";
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update the configuration of a Service Fabric cluster resource with the specified name.
+ *
+ * @summary update the configuration of a Service Fabric cluster resource with the specified name.
+ * x-ms-original-file: 2026-03-01-preview/ClusterPatchOperation_example.json
+ */
 async function patchACluster(): Promise<void> {
-  const subscriptionId =
-    process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
-  const clusterName = "myCluster";
-  const parameters: ClusterUpdateParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ServiceFabricManagementClient(credential, subscriptionId);
+  const result = await client.clusters.update("resRg", "myCluster", {
+    enableHttpGatewayExclusiveAuthMode: true,
     eventStoreServiceEnabled: true,
     nodeTypes: [
       {
@@ -28,6 +25,7 @@ async function patchACluster(): Promise<void> {
         durabilityLevel: "Bronze",
         ephemeralPorts: { endPort: 64000, startPort: 49000 },
         httpGatewayEndpointPort: 19007,
+        httpGatewayTokenAuthEndpointPort: 19081,
         isPrimary: true,
         vmInstanceCount: 5,
       },
@@ -38,24 +36,18 @@ async function patchACluster(): Promise<void> {
         durabilityLevel: "Bronze",
         ephemeralPorts: { endPort: 4000, startPort: 3000 },
         httpGatewayEndpointPort: 0,
+        httpGatewayTokenAuthEndpointPort: 19081,
         isPrimary: false,
         vmInstanceCount: 3,
       },
     ],
     reliabilityLevel: "Bronze",
-    tags: { a: "b" },
     upgradeMode: "Automatic",
     upgradePauseEndTimestampUtc: new Date("2021-06-25T22:00:00Z"),
     upgradePauseStartTimestampUtc: new Date("2021-06-21T22:00:00Z"),
     upgradeWave: "Wave",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ServiceFabricManagementClient(credential, subscriptionId);
-  const result = await client.clusters.beginUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    parameters,
-  );
+    tags: { a: "b" },
+  });
   console.log(result);
 }
 

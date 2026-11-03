@@ -1,30 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns a subscription description for the specified topic.
- *
- * @summary Returns a subscription description for the specified topic.
- * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Subscriptions/SBSubscriptionGet.json
- */
-
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns a subscription description for the specified topic.
+ *
+ * @summary returns a subscription description for the specified topic.
+ * x-ms-original-file: 2026-01-01/Subscriptions/SBSubscriptionGet.json
+ */
 async function subscriptionGet(): Promise<void> {
-  const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "Subscriptionid";
-  const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
-  const namespaceName = "sdk-Namespace-1349";
-  const topicName = "sdk-Topics-8740";
-  const subscriptionName = "sdk-Subscriptions-2178";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const result = await client.subscriptions.get(
-    resourceGroupName,
-    namespaceName,
-    topicName,
-    subscriptionName,
+    "ResourceGroup",
+    "sdk-Namespace-1349",
+    "sdk-Topics-8740",
+    "sdk-Subscriptions-2178",
   );
   console.log(result);
 }

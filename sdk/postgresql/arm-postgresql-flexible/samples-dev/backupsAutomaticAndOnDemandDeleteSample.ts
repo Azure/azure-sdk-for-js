@@ -3,33 +3,22 @@
 
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a specific backup, given its name.
+ * This sample demonstrates how to deletes a specific backup, given its name.
  *
- * @summary Deletes a specific backup, given its name.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/examples/BackupsAutomaticAndOnDemandDelete.json
+ * @summary deletes a specific backup, given its name.
+ * x-ms-original-file: 2026-10-01/BackupsAutomaticAndOnDemandDelete.json
  */
 async function deleteAnOnDemandBackupGivenItsName(): Promise<void> {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "exampleresourcegroup";
-  const serverName = "exampleserver";
-  const backupName = "ondemandbackup-20250601T183022";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  await client.backupsAutomaticAndOnDemand.delete(
+    "exampleresourcegroup",
+    "exampleserver",
+    "ondemandbackup-20250601T183022",
   );
-  const result = await client.backupsAutomaticAndOnDemand.beginDeleteAndWait(
-    resourceGroupName,
-    serverName,
-    backupName,
-  );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

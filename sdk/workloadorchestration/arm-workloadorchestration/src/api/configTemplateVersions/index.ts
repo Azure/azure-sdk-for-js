@@ -3,6 +3,6 @@
 
 export { listByConfigTemplate, get } from "./operations.js";
 export {
-  ConfigTemplateVersionsListByConfigTemplateOptionalParams,
-  ConfigTemplateVersionsGetOptionalParams,
+  type ConfigTemplateVersionsListByConfigTemplateOptionalParams,
+  type ConfigTemplateVersionsGetOptionalParams,
 } from "./options.js";

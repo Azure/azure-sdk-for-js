@@ -1,89 +1,61 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create a FileSystemResource
- *
- * @summary Create a FileSystemResource
- * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_CreateOrUpdate_MaximumSet_Gen.json
- */
-
-import type { FileSystemResource } from "@azure/arm-qumulo";
 import { QumuloStorage } from "@azure/arm-qumulo";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function fileSystemsCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
-  const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
-  const fileSystemName = "hfcmtgaes";
-  const resource: FileSystemResource = {
-    adminPassword: "fakeTestSecretPlaceholder",
-    availabilityZone: "eqdvbdiuwmhhzqzmksmwllpddqquwt",
-    clusterLoginUrl: "ykaynsjvhihdthkkvvodjrgc",
-    delegatedSubnetId: "jykmxrf",
-    identity: { type: "None", userAssignedIdentities: { key7679: {} } },
-    location: "pnb",
-    marketplaceDetails: {
-      marketplaceSubscriptionId: "xaqtkloiyovmexqhn",
-      marketplaceSubscriptionStatus: "PendingFulfillmentStart",
-      offerId: "s",
-      planId: "fwtpz",
-      publisherId: "czxcfrwodazyaft",
-      termUnit: "cfwwczmygsimcyvoclcw",
-    },
-    privateIPs: ["gzken"],
-    storageSku: "yhyzby",
-    tags: { key7090: "rurrdiaqp" },
-    userDetails: { email: "aqsnzyroo" },
-  };
+/**
+ * This sample demonstrates how to create a FileSystemResource
+ *
+ * @summary create a FileSystemResource
+ * x-ms-original-file: 2026-04-16/FileSystems_CreateOrUpdate_MaximumSet_Gen.json
+ */
+async function fileSystemsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "C9CC2D2A-5AA0-4839-A85F-18491F2D244A";
   const client = new QumuloStorage(credential, subscriptionId);
-  const result = await client.fileSystems.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    fileSystemName,
-    resource,
-  );
+  const result = await client.fileSystems.createOrUpdate("rgQumulo", "qumulo-fs-01", {
+    marketplaceDetails: {
+      marketplaceSubscriptionId: "vwjzkiurjihwxrhoicenkbxacokvep",
+      planId: "vxnyxa",
+      offerId: "itiocfnteqyuavgmdtnvwvbpectyr",
+      publisherId: "zfevjvhjiifwxbazta",
+      termUnit: "lkbiqoqdyqbua",
+    },
+    storageSku: "myzqnfqelxo",
+    userDetails: { email: "rlqqzevfgtqpynvifqp" },
+    delegatedSubnetId: "kmjaqsfflkjpke",
+    performanceTier: "fjgqmkcvjtygcavpbo",
+    clusterLoginUrl: "uzpvkgxrbgtthyxgavsjr",
+    privateIPs: ["qrhvbdfbfdgqqe"],
+    adminPassword: "<a-password-goes-here>",
+    availabilityZone: "luklrtwmngwnaerygykcbwljeso",
+    identity: { type: "None", userAssignedIdentities: { key8111: {} } },
+    tags: { key7800: "izzovtmtunlwpglmglq" },
+    location: "uiuztlexlmxsqcnsdpvzzygmi",
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create a FileSystemResource
+ * This sample demonstrates how to create a FileSystemResource
  *
- * @summary Create a FileSystemResource
- * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_CreateOrUpdate_MinimumSet_Gen.json
+ * @summary create a FileSystemResource
+ * x-ms-original-file: 2026-04-16/FileSystems_CreateOrUpdate_MinimumSet_Gen.json
  */
-async function fileSystemsCreateOrUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgopenapi";
-  const fileSystemName = "aaaaaaaa";
-  const resource: FileSystemResource = {
-    adminPassword: "fakeTestSecretPlaceholder",
-    delegatedSubnetId: "aaaaaaaaaa",
-    location: "aaaaaaaaaaaaaaaaaaaaaaaaa",
-    marketplaceDetails: {
-      marketplaceSubscriptionId: "aaaaaaaaaaaaa",
-      marketplaceSubscriptionStatus: "PendingFulfillmentStart",
-      offerId: "aaaaaaaaaaaaaaaaaaaaaaaaa",
-      planId: "aaaaaa",
-    },
-    storageSku: "Standard",
-    userDetails: { email: "viptslwulnpaupfljvnjeq" },
-  };
+async function fileSystemsCreateOrUpdateMaximumSetGenGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "53BA951C-DA09-400A-AB3A-F8E98F317423";
   const client = new QumuloStorage(credential, subscriptionId);
-  const result = await client.fileSystems.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    fileSystemName,
-    resource,
-  );
+  const result = await client.fileSystems.createOrUpdate("rgQumulo", "qumulo-fs-01", {
+    location: "ninyfyhmsedp",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await fileSystemsCreateOrUpdate();
-  await fileSystemsCreateOrUpdateMinimumSetGen();
+  await fileSystemsCreateOrUpdateMaximumSet();
+  await fileSystemsCreateOrUpdateMaximumSetGenGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

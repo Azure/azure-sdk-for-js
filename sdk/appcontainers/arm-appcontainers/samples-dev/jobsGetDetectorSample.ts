@@ -3,28 +3,21 @@
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get the diagnostics data for a Container App Job.
+ * This sample demonstrates how to get the diagnostics data for a Container App Job.
  *
- * @summary Get the diagnostics data for a Container App Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/Job_GetDetector.json
+ * @summary get the diagnostics data for a Container App Job.
+ * x-ms-original-file: 2026-07-01/Job_GetDetector.json
  */
 async function getDiagnosticDataForAContainerAppJob(): Promise<void> {
-  const subscriptionId =
-    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "f07f3711-b45e-40fe-a941-4e6d93f851e6";
-  const resourceGroupName =
-    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "mikono-workerapp-test-rg";
-  const jobName = "mikonojob1";
-  const detectorName = "containerappjobnetworkIO";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "f07f3711-b45e-40fe-a941-4e6d93f851e6";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.jobs.getDetector(
-    resourceGroupName,
-    jobName,
-    detectorName,
+    "mikono-workerapp-test-rg",
+    "mikonojob1",
+    "containerappjobnetworkIO",
   );
   console.log(result);
 }

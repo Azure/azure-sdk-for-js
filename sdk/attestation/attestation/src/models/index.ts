@@ -1,18 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { AttestationSigner } from "./attestationSigner.js";
-export { AttestationToken, AttestationTokenValidationOptions } from "./attestationToken.js";
-export { AttestationResponse } from "./attestationResponse.js";
-export { PolicyResult } from "./policyResult.js";
-export { AttestationResult, AttestationSgxCollateralInfo } from "./attestationResult.js";
+export type { AttestationSigner } from "./attestationSigner.js";
+export type { AttestationToken, AttestationTokenValidationOptions } from "./attestationToken.js";
+export type { AttestationResponse } from "./attestationResponse.js";
+export type { PolicyResult } from "./policyResult.js";
+export type { AttestationResult, AttestationSgxCollateralInfo } from "./attestationResult.js";
 export {
   KnownAttestationType,
   KnownCertificateModification,
   KnownPolicyModification,
-  AttestationType,
-  CertificateModification,
-  PolicyModification,
-  PolicyCertificatesModificationResult,
+  type AttestationType,
+  type CertificateModification,
+  type PolicyModification,
+  type PolicyCertificatesModificationResult,
 } from "../generated/models/index.js";
-export { AttestationPolicyToken, createAttestationPolicyToken } from "./attestationPolicyToken.js";
+export {
+  type AttestationPolicyToken,
+  createAttestationPolicyToken,
+} from "./attestationPolicyToken.js";

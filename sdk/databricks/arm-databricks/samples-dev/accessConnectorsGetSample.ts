@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets an azure databricks accessConnector.
- *
- * @summary Gets an azure databricks accessConnector.
- * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorGet.json
- */
-
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets an Azure Databricks Access Connector.
+ *
+ * @summary gets an Azure Databricks Access Connector.
+ * x-ms-original-file: 2026-01-01/AccessConnectorGet.json
+ */
 async function getAnAzureDatabricksAccessConnector(): Promise<void> {
-  const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
-  const connectorName = "myAccessConnector";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
-  const result = await client.accessConnectors.get(resourceGroupName, connectorName);
+  const result = await client.accessConnectors.get("rg", "myAccessConnector");
   console.log(result);
 }
 

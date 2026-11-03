@@ -3,32 +3,22 @@
 
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified managed HSM Pool.
+ * This sample demonstrates how to deletes the specified managed HSM Pool.
  *
- * @summary Deletes the specified managed HSM Pool.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/ManagedHsm_Delete.json
+ * @summary deletes the specified managed HSM Pool.
+ * x-ms-original-file: 2026-05-15/ManagedHsm_Delete.json
  */
-async function deleteAManagedHsmPool(): Promise<void> {
-  const subscriptionId =
-    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["KEYVAULT_RESOURCE_GROUP"] || "hsm-group";
-  const name = "hsm1";
+async function deleteAManagedHSMPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new KeyVaultManagementClient(credential, subscriptionId);
-  const result = await client.managedHsms.beginDeleteAndWait(
-    resourceGroupName,
-    name,
-  );
-  console.log(result);
+  await client.managedHsms.delete("hsm-group", "hsm1");
 }
 
 async function main(): Promise<void> {
-  await deleteAManagedHsmPool();
+  await deleteAManagedHSMPool();
 }
 
 main().catch(console.error);

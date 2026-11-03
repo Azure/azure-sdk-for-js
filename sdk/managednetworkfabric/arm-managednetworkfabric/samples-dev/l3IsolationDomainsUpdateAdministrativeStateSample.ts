@@ -1,33 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Enables racks for this Isolation Domain.
- *
- * @summary Enables racks for this Isolation Domain.
- * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/L3IsolationDomains_updateAdministrativeState_MaximumSet_Gen.json
- */
-
-import type { UpdateAdministrativeState } from "@azure/arm-managednetworkfabric";
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates the administrative state of the L3 Isolation Domain resource.
+ *
+ * @summary updates the administrative state of the L3 Isolation Domain resource.
+ * x-ms-original-file: 2025-07-15/L3IsolationDomains_UpdateAdministrativeState.json
+ */
 async function l3IsolationDomainsUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
-  const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
-  const l3IsolationDomainName = "example-l3domain";
-  const body: UpdateAdministrativeState = {
-    resourceIds: [""],
-    state: "Enable",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.l3IsolationDomains.beginUpdateAdministrativeStateAndWait(
-    resourceGroupName,
-    l3IsolationDomainName,
-    body,
+  const result = await client.l3IsolationDomains.updateAdministrativeState(
+    "example-rg",
+    "example-l3domain",
+    { resourceIds: [""], state: "Enable" },
   );
   console.log(result);
 }

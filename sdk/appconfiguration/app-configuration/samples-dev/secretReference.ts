@@ -5,12 +5,8 @@
  * @summary SecretReference represents a configuration setting that references as KeyVault secret.
  * @azsdk-weight 30
  */
-import {
-  AppConfigurationClient,
-  SecretReferenceValue,
-  secretReferenceContentType,
-  ConfigurationSetting,
-} from "@azure/app-configuration";
+import type { SecretReferenceValue, ConfigurationSetting } from "@azure/app-configuration";
+import { AppConfigurationClient, secretReferenceContentType } from "@azure/app-configuration";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -21,7 +17,7 @@ import { load } from "@azure/app-configuration-provider";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log(`Running secretReference sample`);
 
   const secretName = `secret${new Date().getTime()}`;
