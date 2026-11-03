@@ -1,0 +1,43 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "webPubSub": {
+          "bicepIdentifier": "webPubSub",
+          "type": "Microsoft.SignalRService/webPubSub",
+          "apiVersion": "2025-12-01-preview",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "myWebPubSubService"
+              }
+            }
+          }
+        },
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.SignalRService/webPubSub/privateEndpointConnections",
+          "apiVersion": "2025-12-01-preview",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "mywebpubsubservice.1fa229cd-bf3f-47f0-8c49-afb36723997e"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "webPubSub"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "properties": {
+    "keyVaultBaseUri": "https://myvault.keyvault.azure.net/",
+    "keyVaultSecretName": "mycert",
+    "keyVaultSecretVersion": "bb6a44b2743f47f68dad0d6cc9756432"
+  }
+}
