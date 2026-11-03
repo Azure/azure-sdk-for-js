@@ -8,6 +8,10 @@ import { ONE_SETTINGS_FEATURE_SDK_STATS } from "../../Declarations/Constants.js"
 import type { ConfigurationChangeCallback } from "../../_configuration/configurationManager.js";
 import { ConfigurationManager } from "../../_configuration/configurationManager.js";
 import { evaluateFeature } from "../../_configuration/featureEvaluation.js";
+import {
+  getBuiltInStatsbeatConnectionString,
+  resolveStatsbeatConnectionString,
+} from "./statsbeatConfiguration.js";
 
 /**
  * Coordinates the process-wide internal Statsbeat providers.
@@ -21,13 +25,29 @@ export class StatsbeatManager {
   private shutdownPromise: Promise<void> | undefined;
   private shouldBeRunning = false;
   private oneSettingsEnabled: boolean | undefined;
+  private configurationSettings: Readonly<Record<string, unknown>> = {};
   private configurationCallbackRegistered = false;
   private readonly configurationCallback: ConfigurationChangeCallback = async (settings) => {
-    this.oneSettingsEnabled = evaluateFeature(ONE_SETTINGS_FEATURE_SDK_STATS, settings) === true;
-    if (this.oneSettingsEnabled) {
-      this.initialize();
-    } else {
+    this.configurationSettings = settings;
+    const enabled = evaluateFeature(ONE_SETTINGS_FEATURE_SDK_STATS, settings);
+    this.oneSettingsEnabled = enabled !== false;
+    if (!this.oneSettingsEnabled) {
       await this.shutdown();
+      return;
+    }
+    if (!this.options) {
+      return;
+    }
+
+    const connectionString = resolveStatsbeatConnectionString(this.options.endpointUrl, settings);
+    this.options = { ...this.options, connectionString };
+    if (this.networkMetrics && this.longIntervalMetrics) {
+      await Promise.all([
+        this.networkMetrics.updateConnectionString(connectionString),
+        this.longIntervalMetrics.updateConnectionString(connectionString),
+      ]);
+    } else {
+      this.initialize();
     }
   };
 
@@ -120,13 +140,22 @@ export class StatsbeatManager {
   }
 
   public async updateEndpoint(endpointUrl: string): Promise<void> {
+    let connectionString: string | undefined;
     if (this.options) {
-      this.options = { ...this.options, endpointUrl };
+      connectionString = resolveStatsbeatConnectionString(endpointUrl, this.configurationSettings);
+      this.options = { ...this.options, endpointUrl, connectionString };
     }
+
     await Promise.all([
       this.networkMetrics?.updateEndpoint(endpointUrl),
       this.longIntervalMetrics?.updateEndpoint(endpointUrl),
     ]);
+    if (connectionString && connectionString !== getBuiltInStatsbeatConnectionString(endpointUrl)) {
+      await Promise.all([
+        this.networkMetrics?.updateConnectionString(connectionString),
+        this.longIntervalMetrics?.updateConnectionString(connectionString),
+      ]);
+    }
   }
 
   /** @internal */

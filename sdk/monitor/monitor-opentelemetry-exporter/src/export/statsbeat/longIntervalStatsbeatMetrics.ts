@@ -62,7 +62,8 @@ export class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
 
   constructor(options: StatsbeatOptions) {
     super();
-    this.connectionString = super.getConnectionString(options.endpointUrl);
+    this.connectionString =
+      options.connectionString ?? super.getConnectionString(options.endpointUrl);
     const exporterConfig: AzureMonitorExporterOptions = {
       connectionString: this.connectionString,
       disableOfflineStorage: options.disableOfflineStorage,
@@ -236,6 +237,14 @@ export class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
    */
   public async updateEndpoint(endpointUrl: string): Promise<void> {
     const connectionString = super.getConnectionString(endpointUrl);
+    await this.updateConnectionString(connectionString);
+  }
+
+  /**
+   * Apply a OneSettings SDKStats destination without replacing the periodic metric reader.
+   * @internal
+   */
+  public async updateConnectionString(connectionString: string): Promise<void> {
     await this.longIntervalAzureExporter.updateConnectionString(connectionString, () => {
       this.connectionString = connectionString;
     });
