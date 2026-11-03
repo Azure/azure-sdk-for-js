@@ -3,7 +3,6 @@
 ## 4.15.0-beta.2 (2026-11-03)
 
 
-
 ### Bugs Fixed
 
 - Restored the fix from 4.13.3 that forwards constructor options from `DefaultAzureCredential` to `ManagedIdentityCredential` when selected through `AZURE_TOKEN_CREDENTIALS`, including `managedIdentityClientId` and `managedIdentityResourceId`. [#40547](https://github.com/Azure/azure-sdk-for-js/pull/40547)
