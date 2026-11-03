@@ -151,7 +151,7 @@ import ExampleClient from "@azure-rest/example-client";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = ExampleClient ("https://example.org/", new DefaultAzureCredential());
-const response = await client.pathUnchecked("/hello/{name}", "Brian").get();
+const response = await client.path("/hello/{name}", "Brian").get();
 
 if (response.status !== "200") {
    // Type will be narrowed down to the error type
