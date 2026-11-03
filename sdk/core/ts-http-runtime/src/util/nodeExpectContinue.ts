@@ -29,6 +29,22 @@ function observeUnusedSource(stream: NodeJS.ReadableStream): void {
   unusedSourceObservers.set(stream, stopObserving);
 }
 
+/**
+ * Protects existing sources through validation until transport listeners take ownership.
+ *
+ * @internal
+ */
+export function observeRequestBodySources(streams: readonly NodeJS.ReadableStream[]): () => void {
+  for (const stream of streams) {
+    observeUnusedSource(stream);
+  }
+  return () => {
+    for (const stream of streams) {
+      unusedSourceObservers.get(stream)?.();
+    }
+  };
+}
+
 interface ExpectContinueRequestOptions {
   abortSignal: AbortSignal;
   bodyStreams?: readonly NodeJS.ReadableStream[];
@@ -44,7 +60,7 @@ function getHeaderValues(headers: unknown, name: string): unknown[] {
   if (Array.isArray(headers)) {
     return getHeaderPairs(headers)
       .filter(([key]) => typeof key === "string" && key.toLowerCase() === name)
-      .map(([, value]) => value);
+      .flatMap(([, value]) => (Array.isArray(value) ? value : [value]));
   }
 
   if (headers && typeof headers === "object") {

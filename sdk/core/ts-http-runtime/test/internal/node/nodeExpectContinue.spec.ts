@@ -8,7 +8,7 @@ import { randomUUID } from "node:crypto";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { Socket } from "node:net";
-import { PassThrough, Readable, Writable } from "node:stream";
+import { PassThrough, Readable, Stream, Writable } from "node:stream";
 import { finished } from "node:stream/promises";
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock, type Mocked } from "vitest";
 import {
@@ -28,6 +28,33 @@ import {
   getEffectiveHeaderValues,
   hasExpectContinue,
 } from "../../../src/util/nodeExpectContinue.js";
+
+class StructuralReadable extends Stream implements NodeJS.ReadableStream {
+  public readable = true;
+  public read = vi.fn(() => Buffer.from("unused"));
+  public setEncoding(): this {
+    return this;
+  }
+  public pause(): this {
+    return this;
+  }
+  public resume(): this {
+    return this;
+  }
+  public isPaused(): boolean {
+    return true;
+  }
+  public unpipe(): this {
+    return this;
+  }
+  public unshift(): void {}
+  public wrap(): this {
+    return this;
+  }
+  public async *[Symbol.asyncIterator](): AsyncIterableIterator<Buffer> {
+    yield this.read();
+  }
+}
 
 function createOptions(suppressDestroyError = true): {
   request: Writable & {
@@ -116,6 +143,19 @@ describe("Expect header detection and framing", () => {
     });
 
     expect(getEffectiveHeaderValues(request, "EXPECT")).toEqual(["foo", "100-continue"]);
+    expect(hasExpectContinue(request)).toBe(true);
+  });
+
+  it.each([
+    { format: "flat", headers: ["Expect", ["foo", "100-continue"]] },
+    { format: "paired", headers: [["Expect", ["foo", "100-continue"]]] },
+  ])("flattens array-valued Expect entries in $format headers", ({ headers }) => {
+    const request = createPipelineRequest({
+      url: "https://localhost",
+      requestOverrides: { headers },
+    });
+
+    expect(getEffectiveHeaderValues(request, "expect")).toEqual(["foo", "100-continue"]);
     expect(hasExpectContinue(request)).toBe(true);
   });
 
@@ -782,6 +822,237 @@ describe("Expect: 100-continue end-to-end transport", () => {
       agent.destroy();
     }
   });
+
+  it.each([
+    { multipart: false, setup: "insecure" },
+    { multipart: true, setup: "insecure" },
+    { multipart: false, setup: "invalid URL" },
+    { multipart: true, setup: "invalid URL" },
+    { multipart: false, setup: "overrides" },
+    { multipart: true, setup: "overrides" },
+    { multipart: false, setup: "preaborted" },
+    { multipart: true, setup: "preaborted" },
+  ])(
+    "protects untouched sources after $setup setup fails (multipart=$multipart)",
+    async ({ multipart, setup }) => {
+      const source = new Readable({ read: vi.fn() });
+      const callerError = vi.fn();
+      source.on("error", callerError);
+      const controller = new AbortController();
+      if (setup === "preaborted") {
+        controller.abort();
+      }
+      const failure = new Error("override setup failed");
+      const factory = vi.fn(() => Readable.from(["unused"]));
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(multipartPolicy());
+      const request = createPipelineRequest({
+        url: setup === "invalid URL" ? "invalid-url" : "http://127.0.0.1",
+        allowInsecureConnection: setup !== "insecure",
+        abortSignal: controller.signal,
+        headers: createHttpHeaders({ Expect: "100-continue" }),
+        ...(multipart
+          ? {
+              multipartBody: {
+                parts: [
+                  { headers: createHttpHeaders(), body: source },
+                  { headers: createHttpHeaders(), body: factory },
+                ],
+              },
+            }
+          : { body: source }),
+        requestOverrides:
+          setup === "overrides"
+            ? {
+                get agent() {
+                  throw failure;
+                },
+              }
+            : undefined,
+      });
+
+      try {
+        const result = pipeline.sendRequest(createDefaultHttpClient(), request);
+        if (setup === "overrides") {
+          await expect(result).rejects.toBe(failure);
+        } else {
+          await expect(result).rejects.toMatchObject({
+            name:
+              setup === "preaborted"
+                ? "AbortError"
+                : setup === "invalid URL"
+                  ? "TypeError"
+                  : "Error",
+          });
+        }
+        expect(source.destroyed).toBe(false);
+        expect(source.readableFlowing).toBe(null);
+        expect(source.listenerCount("error")).toBeGreaterThan(1);
+        expect(factory).not.toHaveBeenCalled();
+        const sourceFailure = new Error("source failed after validation rejection");
+        source.destroy(sourceFailure);
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        expect(callerError).toHaveBeenCalledExactlyOnceWith(sourceFailure);
+        expect(source.listeners("error")).toEqual([callerError]);
+      } finally {
+        source.destroy();
+      }
+    },
+  );
+
+  it("observes structural pipe-capable multipart streams before Continue", async () => {
+    const source = new StructuralReadable();
+    const callerError = vi.fn();
+    source.on("error", callerError);
+    const failure = new Error("non-native stream failed");
+    const factory = vi.fn(() => Readable.from(["unused"]));
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(multipartPolicy());
+    const server = http.createServer();
+    server.on("checkContinue", () => {
+      source.emit("error", failure);
+    });
+    const port = await listen(server);
+    const agent = new http.Agent({ keepAlive: false });
+
+    try {
+      await expect(
+        pipeline.sendRequest(
+          createDefaultHttpClient(),
+          createPipelineRequest({
+            url: `http://127.0.0.1:${port}`,
+            method: "POST",
+            allowInsecureConnection: true,
+            headers: createHttpHeaders({ Expect: "100-continue" }),
+            multipartBody: {
+              parts: [
+                { headers: createHttpHeaders(), body: source },
+                { headers: createHttpHeaders(), body: factory },
+              ],
+            },
+            timeout: 1500,
+            requestOverrides: { agent },
+          }),
+        ),
+      ).rejects.toBe(failure);
+      expect(source).not.toBeInstanceOf(Readable);
+      expect(source.read).not.toHaveBeenCalled();
+      expect(factory).not.toHaveBeenCalled();
+      expect(callerError).toHaveBeenCalledExactlyOnceWith(failure);
+    } finally {
+      source.readable = false;
+      source.emit("end");
+      agent.destroy();
+    }
+  });
+
+  it.each(["flat", "paired"])(
+    "negotiates array-valued Expect headers from %s overrides",
+    async (format) => {
+      const bodyFactory = vi.fn(() => Readable.from(["payload"]));
+      const progress = vi.fn();
+      let factoriesBeforeContinue: number | undefined;
+      let progressBeforeContinue: number | undefined;
+      const server = http.createServer();
+      server.on("checkContinue", (request, response) => {
+        factoriesBeforeContinue = bodyFactory.mock.calls.length;
+        progressBeforeContinue = progress.mock.calls.length;
+        request.resume();
+        request.once("end", () => response.end("accepted"));
+        response.writeContinue();
+      });
+      const port = await listen(server);
+      const agent = new http.Agent({ keepAlive: false });
+
+      try {
+        const response = await createDefaultHttpClient().sendRequest(
+          createPipelineRequest({
+            url: `http://127.0.0.1:${port}`,
+            method: "POST",
+            allowInsecureConnection: true,
+            requestOverrides: {
+              agent,
+              headers:
+                format === "flat"
+                  ? ["Host", `127.0.0.1:${port}`, "Expect", ["100-continue"]]
+                  : [
+                      ["Host", `127.0.0.1:${port}`],
+                      ["Expect", ["100-continue"]],
+                    ],
+            },
+            body: bodyFactory,
+            onUploadProgress: progress,
+          }),
+        );
+        expect(response.status).toBe(200);
+        expect(factoriesBeforeContinue).toBe(0);
+        expect(progressBeforeContinue).toBe(0);
+        expect(bodyFactory).toHaveBeenCalledOnce();
+        expect(progress).toHaveBeenLastCalledWith({ loadedBytes: 7 });
+      } finally {
+        agent.destroy();
+      }
+    },
+  );
+
+  it.each([false, true])(
+    "reports upload progress for a reused download-progress stream (negotiated=%s)",
+    async (negotiated) => {
+      const downloadProgress = vi.fn();
+      const uploadProgress = vi.fn();
+      const chunks: Buffer[] = [];
+      const acceptUpload = (request: http.IncomingMessage, response: http.ServerResponse): void => {
+        request.on("data", (chunk: Buffer) => chunks.push(chunk));
+        request.once("end", () => response.end("accepted"));
+      };
+      const server = http.createServer((request, response) => {
+        if (request.method === "GET") {
+          response.end("payload");
+        } else {
+          acceptUpload(request, response);
+        }
+      });
+      server.on("checkContinue", (request, response) => {
+        acceptUpload(request, response);
+        response.writeContinue();
+      });
+      const port = await listen(server);
+      const agent = new http.Agent({ keepAlive: false });
+      const client = createDefaultHttpClient();
+      let source: NodeJS.ReadableStream | undefined;
+
+      try {
+        const download = await client.sendRequest(
+          createPipelineRequest({
+            url: `http://127.0.0.1:${port}`,
+            allowInsecureConnection: true,
+            streamResponseStatusCodes: new Set([200]),
+            onDownloadProgress: downloadProgress,
+            requestOverrides: { agent },
+          }),
+        );
+        source = download.readableStreamBody;
+        const upload = await client.sendRequest(
+          createPipelineRequest({
+            url: `http://127.0.0.1:${port}`,
+            method: "POST",
+            allowInsecureConnection: true,
+            headers: createHttpHeaders(negotiated ? { Expect: "100-continue" } : {}),
+            body: source,
+            onUploadProgress: uploadProgress,
+            requestOverrides: { agent },
+          }),
+        );
+        expect(upload.status).toBe(200);
+        expect(Buffer.concat(chunks).toString()).toBe("payload");
+        expect(downloadProgress).toHaveBeenLastCalledWith({ loadedBytes: 7 });
+        expect(uploadProgress).toHaveBeenLastCalledWith({ loadedBytes: 7 });
+      } finally {
+        source?.resume();
+        agent.destroy();
+      }
+    },
+  );
 
   it("observes a queued direct-source failure after abort without a caller error listener", async () => {
     const body = new Readable({ read: vi.fn() });
@@ -1548,7 +1819,65 @@ describe("Expect: 100-continue end-to-end transport", () => {
     expect(bodyReceivedAt - headersReceivedAt).toBeGreaterThanOrEqual(900);
   });
 
-  it("excludes slow DNS and agent socket queueing from the fallback timer", async () => {
+  it("keeps factories and progress deferred through slow DNS on a fresh socket", async () => {
+    let finishLookup!: () => void;
+    let lookupStarted!: () => void;
+    const lookupPending = new Promise<void>((resolve) => {
+      lookupStarted = resolve;
+    });
+    const bodyFactory = vi.fn(() => Readable.from(["payload"]));
+    const progress = vi.fn();
+    let releaseContinue!: () => void;
+    let headersReceived!: () => void;
+    const headersPending = new Promise<void>((resolve) => {
+      headersReceived = resolve;
+    });
+    const server = http.createServer();
+    server.on("checkContinue", (request, response) => {
+      request.resume();
+      request.on("end", () => response.end("accepted"));
+      releaseContinue = () => response.writeContinue();
+      headersReceived();
+    });
+    const port = await listen(server);
+    const agent = new http.Agent({
+      keepAlive: false,
+      lookup(_hostname, options, callback) {
+        finishLookup = () => lookup("127.0.0.1", options, callback);
+        lookupStarted();
+      },
+    });
+
+    try {
+      const responsePending = createDefaultHttpClient().sendRequest(
+        createPipelineRequest({
+          url: `http://slow-lookup.test:${port}`,
+          method: "POST",
+          allowInsecureConnection: true,
+          headers: createHttpHeaders({ Expect: "100-continue" }),
+          body: bodyFactory,
+          onUploadProgress: progress,
+          requestOverrides: { agent },
+        }),
+      );
+      await lookupPending;
+      await new Promise<void>((resolve) => setTimeout(resolve, 1200));
+      expect(bodyFactory).not.toHaveBeenCalled();
+      expect(progress).not.toHaveBeenCalled();
+      finishLookup();
+      await headersPending;
+      expect(bodyFactory).not.toHaveBeenCalled();
+      expect(progress).not.toHaveBeenCalled();
+      releaseContinue();
+      expect((await responsePending).bodyAsText).toBe("accepted");
+      expect(bodyFactory).toHaveBeenCalledOnce();
+      expect(progress).toHaveBeenLastCalledWith({ loadedBytes: 7 });
+    } finally {
+      agent.destroy();
+    }
+  });
+
+  it("excludes agent socket queueing from the fallback timer", async () => {
     let releaseFirstResponse: (() => void) | undefined;
     let firstRequestArrived!: () => void;
     const firstRequest = new Promise<void>((resolve) => {

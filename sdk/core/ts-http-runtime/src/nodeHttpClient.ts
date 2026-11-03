@@ -23,10 +23,12 @@ import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
 import { removeExpectContinueHeader } from "./util/requestBodyHeaders.js";
 import { getConcatSources } from "./util/concat.js";
+import { isNodeReadableStream as isReadableStream } from "./util/typeGuards-node.js";
 import {
   addExpectContinueFraming,
   createExpectContinueRequest,
   hasExpectContinue,
+  observeRequestBodySources,
 } from "./util/nodeExpectContinue.js";
 import {
   disposeNodeStream,
@@ -36,10 +38,6 @@ import {
 } from "./util/responseBody.js";
 
 const DEFAULT_TLS_SETTINGS = {};
-
-function isReadableStream(body: any): body is NodeJS.ReadableStream {
-  return body && typeof body.pipe === "function";
-}
 
 function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
   if (stream.readable === false) {
@@ -190,6 +188,14 @@ class NodeHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+    const requestBody = request.body;
+    const bodyStreams =
+      typeof requestBody === "function"
+        ? getConcatSources(requestBody)
+        : isReadableStream(requestBody)
+          ? [requestBody]
+          : [];
+    const stopObservingSources = observeRequestBodySources(bodyStreams);
     const abortController = new AbortController();
     let abortListener: ((event: any) => void) | undefined;
     const requestAbortSignal = request.abortSignal;
@@ -219,7 +225,6 @@ class NodeHttpClient implements HttpClient {
     const shouldDecompress =
       acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
 
-    const requestBody = request.body;
     // Keep input separate from the prepared upload. Even a direct stream must leave body
     // undefined until preparation starts, so early rejection does not transfer its ownership.
     let body: RequestBodyType | undefined;
@@ -245,7 +250,7 @@ class NodeHttpClient implements HttpClient {
             request.headers.set("Content-Length", bodyLength);
           }
         }
-        if (!body || !request.onUploadProgress || body instanceof ReportTransform) {
+        if (!body || !request.onUploadProgress) {
           return body;
         }
 
@@ -274,8 +279,9 @@ class NodeHttpClient implements HttpClient {
             abortController,
             prepareBody,
             knownBodyLength,
+            bodyStreams,
           )
-        : await this.makeRequest(request, abortController, body);
+        : await this.makeRequest(request, abortController, body, stopObservingSources);
 
       requestComplete = result.requestComplete;
       const res = result.response;
@@ -425,7 +431,8 @@ class NodeHttpClient implements HttpClient {
   private makeRequest(
     request: PipelineRequest,
     abortController: AbortController,
-    body?: RequestBodyType,
+    body: RequestBodyType | undefined,
+    stopObservingSources: () => void,
   ): Promise<NodeRequestResult> {
     const { options, isInsecure } = this.getRequestOptions(request);
 
@@ -441,6 +448,7 @@ class NodeHttpClient implements HttpClient {
       req.once("error", rejectRequest);
       abortController.signal.addEventListener("abort", () => abortRequest(req));
       sendRequestBody(req, body, request, rejectRequest);
+      stopObservingSources();
     });
   }
 
@@ -449,6 +457,7 @@ class NodeHttpClient implements HttpClient {
     abortController: AbortController,
     prepareBody: () => RequestBodyType | undefined,
     knownBodyLength: number | null,
+    bodyStreams: readonly NodeJS.ReadableStream[],
   ): Promise<NodeRequestResult> {
     const { options, isInsecure } = this.getRequestOptions(request);
 
@@ -460,12 +469,7 @@ class NodeHttpClient implements HttpClient {
 
       createExpectContinueRequest({
         abortSignal: abortController.signal,
-        bodyStreams:
-          typeof request.body === "function"
-            ? getConcatSources(request.body)
-            : isReadableStream(request.body)
-              ? [request.body]
-              : undefined,
+        bodyStreams,
         createRequest,
         onAbort: abortRequest,
         onError: rejectRequest,

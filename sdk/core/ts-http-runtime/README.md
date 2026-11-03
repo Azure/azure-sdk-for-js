@@ -73,6 +73,8 @@ without being classified as a retryable network error. Body and multipart part f
 deferred until upload permission.
 If negotiation stops before upload starts, stream-local error observation remains until each
 unused source settles; this does not consume or destroy the source or retain the stopped request.
+Existing sources are protected before request validation as well, including pipe-capable
+multipart streams that do not inherit from Node's `Readable`.
 
 ```ts snippet:ReadmeSampleExpectContinue
 import {
