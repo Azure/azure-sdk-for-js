@@ -410,7 +410,7 @@ export interface EventHubEndpoint {
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -435,7 +435,7 @@ export interface EventHubEndpointInput extends InputOf<EventHubEndpoint> {
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -549,7 +549,7 @@ export interface EventNameFilter {
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -577,7 +577,7 @@ export interface EventNameFilterInput extends InputOf<EventNameFilter> {
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -1793,7 +1793,7 @@ export interface ThrottleByJwtCustomClaimRule {
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -1817,7 +1817,7 @@ export interface ThrottleByJwtCustomClaimRuleInput extends InputOf<ThrottleByJwt
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -1848,7 +1848,7 @@ export interface ThrottleByJwtSignatureRule {
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -1868,7 +1868,7 @@ export interface ThrottleByJwtSignatureRuleInput extends InputOf<ThrottleByJwtSi
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -1898,7 +1898,7 @@ export interface ThrottleByUserIdRule {
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -1918,7 +1918,7 @@ export interface ThrottleByUserIdRuleInput extends InputOf<ThrottleByUserIdRule>
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -1956,7 +1956,7 @@ export interface TrafficThrottleByJwtCustomClaimRule {
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -1984,7 +1984,7 @@ export interface TrafficThrottleByJwtCustomClaimRuleInput extends InputOf<Traffi
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -2023,7 +2023,7 @@ export interface TrafficThrottleByJwtSignatureRule {
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -2047,7 +2047,7 @@ export interface TrafficThrottleByJwtSignatureRuleInput extends InputOf<TrafficT
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -2085,7 +2085,7 @@ export interface TrafficThrottleByUserIdRule {
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */
@@ -2109,7 +2109,7 @@ export interface TrafficThrottleByUserIdRuleInput extends InputOf<TrafficThrottl
    *
    * Use `asDiscriminator` for a value known only at deploy time:
    *
-   * ```ts
+   * ```
    * type: asDiscriminator(typeParam),
    * ```
    */

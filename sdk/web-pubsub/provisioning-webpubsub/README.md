@@ -23,7 +23,6 @@ const stack = new Stack("web-pubsub", {
   targetScope: "resourceGroup",
   location: "eastus",
 });
-
 new WebPubSub(stack, {
   name: "example-web-pubsub",
   kind: "WebPubSub",
