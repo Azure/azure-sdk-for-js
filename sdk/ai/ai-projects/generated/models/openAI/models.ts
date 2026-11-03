@@ -66,11 +66,11 @@ import {
   MemorySearchPreviewTool,
   memorySearchPreviewToolSerializer,
   memorySearchPreviewToolDeserializer,
-  _codeInterpreterToolContainerSerializer,
-  _codeInterpreterToolContainerDeserializer,
   WebSearchConfiguration,
   webSearchConfigurationSerializer,
   webSearchConfigurationDeserializer,
+  _toolCodeInterpreterToolContainerSerializer,
+  _toolCodeInterpreterToolContainerDeserializer,
   VoiceAgentClientEventSessionAvatarConnect,
   voiceAgentClientEventSessionAvatarConnectSerializer,
   voiceAgentClientEventSessionAvatarConnectDeserializer,
@@ -245,22 +245,22 @@ export type ToolUnion =
   | FabricIQPreviewTool
   | WebIQPreviewTool
   | MemorySearchPreviewTool
-  | MCPTool
-  | CodeInterpreterTool
-  | FunctionTool
-  | FileSearchTool
-  | ComputerUsePreviewTool
-  | WebSearchTool
-  | ProgrammaticToolCallingParam
-  | ImageGenTool
-  | LocalShellToolParam
-  | FunctionShellToolParam
-  | CustomToolParam
-  | WebSearchPreviewTool
-  | ApplyPatchToolParam
-  | ComputerTool
+  | ToolFunctionTool
+  | ToolFileSearchTool
+  | ToolComputerTool
+  | ToolComputerUsePreviewTool
+  | ToolWebSearchTool
+  | ToolMcpTool
+  | ToolCodeInterpreterTool
+  | ToolProgrammaticToolCallingParam
+  | ToolImageGenTool
+  | ToolLocalShellToolParam
+  | ToolFunctionShellToolParam
+  | ToolCustomToolParam
+  | ToolToolSearchToolParam
+  | ToolWebSearchPreviewTool
+  | ToolApplyPatchToolParam
   | NamespaceToolParam
-  | ToolSearchToolParam
   | Tool;
 
 export function toolUnionSerializer(item: ToolUnion): any {
@@ -319,53 +319,53 @@ export function toolUnionSerializer(item: ToolUnion): any {
     case "memory_search_preview":
       return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
 
-    case "mcp":
-      return mcpToolSerializer(item as MCPTool);
-
-    case "code_interpreter":
-      return codeInterpreterToolSerializer(item as CodeInterpreterTool);
-
     case "function":
-      return functionToolSerializer(item as FunctionTool);
+      return toolFunctionToolSerializer(item as ToolFunctionTool);
 
     case "file_search":
-      return fileSearchToolSerializer(item as FileSearchTool);
-
-    case "computer_use_preview":
-      return computerUsePreviewToolSerializer(item as ComputerUsePreviewTool);
-
-    case "web_search":
-      return webSearchToolSerializer(item as WebSearchTool);
-
-    case "programmatic_tool_calling":
-      return programmaticToolCallingParamSerializer(item as ProgrammaticToolCallingParam);
-
-    case "image_generation":
-      return imageGenToolSerializer(item as ImageGenTool);
-
-    case "local_shell":
-      return localShellToolParamSerializer(item as LocalShellToolParam);
-
-    case "shell":
-      return functionShellToolParamSerializer(item as FunctionShellToolParam);
-
-    case "custom":
-      return customToolParamSerializer(item as CustomToolParam);
-
-    case "web_search_preview":
-      return webSearchPreviewToolSerializer(item as WebSearchPreviewTool);
-
-    case "apply_patch":
-      return applyPatchToolParamSerializer(item as ApplyPatchToolParam);
+      return toolFileSearchToolSerializer(item as ToolFileSearchTool);
 
     case "computer":
-      return computerToolSerializer(item as ComputerTool);
+      return toolComputerToolSerializer(item as ToolComputerTool);
+
+    case "computer_use_preview":
+      return toolComputerUsePreviewToolSerializer(item as ToolComputerUsePreviewTool);
+
+    case "web_search":
+      return toolWebSearchToolSerializer(item as ToolWebSearchTool);
+
+    case "mcp":
+      return toolMcpToolSerializer(item as ToolMcpTool);
+
+    case "code_interpreter":
+      return toolCodeInterpreterToolSerializer(item as ToolCodeInterpreterTool);
+
+    case "programmatic_tool_calling":
+      return toolProgrammaticToolCallingParamSerializer(item as ToolProgrammaticToolCallingParam);
+
+    case "image_generation":
+      return toolImageGenToolSerializer(item as ToolImageGenTool);
+
+    case "local_shell":
+      return toolLocalShellToolParamSerializer(item as ToolLocalShellToolParam);
+
+    case "shell":
+      return toolFunctionShellToolParamSerializer(item as ToolFunctionShellToolParam);
+
+    case "custom":
+      return toolCustomToolParamSerializer(item as ToolCustomToolParam);
+
+    case "tool_search":
+      return toolToolSearchToolParamSerializer(item as ToolToolSearchToolParam);
+
+    case "web_search_preview":
+      return toolWebSearchPreviewToolSerializer(item as ToolWebSearchPreviewTool);
+
+    case "apply_patch":
+      return toolApplyPatchToolParamSerializer(item as ToolApplyPatchToolParam);
 
     case "namespace":
       return namespaceToolParamSerializer(item as NamespaceToolParam);
-
-    case "tool_search":
-      return toolSearchToolParamSerializer(item as ToolSearchToolParam);
 
     default:
       return toolSerializer(item);
@@ -428,53 +428,53 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "memory_search_preview":
       return memorySearchPreviewToolDeserializer(item as MemorySearchPreviewTool);
 
-    case "mcp":
-      return mcpToolDeserializer(item as MCPTool);
-
-    case "code_interpreter":
-      return codeInterpreterToolDeserializer(item as CodeInterpreterTool);
-
     case "function":
-      return functionToolDeserializer(item as FunctionTool);
+      return toolFunctionToolDeserializer(item as ToolFunctionTool);
 
     case "file_search":
-      return fileSearchToolDeserializer(item as FileSearchTool);
-
-    case "computer_use_preview":
-      return computerUsePreviewToolDeserializer(item as ComputerUsePreviewTool);
-
-    case "web_search":
-      return webSearchToolDeserializer(item as WebSearchTool);
-
-    case "programmatic_tool_calling":
-      return programmaticToolCallingParamDeserializer(item as ProgrammaticToolCallingParam);
-
-    case "image_generation":
-      return imageGenToolDeserializer(item as ImageGenTool);
-
-    case "local_shell":
-      return localShellToolParamDeserializer(item as LocalShellToolParam);
-
-    case "shell":
-      return functionShellToolParamDeserializer(item as FunctionShellToolParam);
-
-    case "custom":
-      return customToolParamDeserializer(item as CustomToolParam);
-
-    case "web_search_preview":
-      return webSearchPreviewToolDeserializer(item as WebSearchPreviewTool);
-
-    case "apply_patch":
-      return applyPatchToolParamDeserializer(item as ApplyPatchToolParam);
+      return toolFileSearchToolDeserializer(item as ToolFileSearchTool);
 
     case "computer":
-      return computerToolDeserializer(item as ComputerTool);
+      return toolComputerToolDeserializer(item as ToolComputerTool);
+
+    case "computer_use_preview":
+      return toolComputerUsePreviewToolDeserializer(item as ToolComputerUsePreviewTool);
+
+    case "web_search":
+      return toolWebSearchToolDeserializer(item as ToolWebSearchTool);
+
+    case "mcp":
+      return toolMcpToolDeserializer(item as ToolMcpTool);
+
+    case "code_interpreter":
+      return toolCodeInterpreterToolDeserializer(item as ToolCodeInterpreterTool);
+
+    case "programmatic_tool_calling":
+      return toolProgrammaticToolCallingParamDeserializer(item as ToolProgrammaticToolCallingParam);
+
+    case "image_generation":
+      return toolImageGenToolDeserializer(item as ToolImageGenTool);
+
+    case "local_shell":
+      return toolLocalShellToolParamDeserializer(item as ToolLocalShellToolParam);
+
+    case "shell":
+      return toolFunctionShellToolParamDeserializer(item as ToolFunctionShellToolParam);
+
+    case "custom":
+      return toolCustomToolParamDeserializer(item as ToolCustomToolParam);
+
+    case "tool_search":
+      return toolToolSearchToolParamDeserializer(item as ToolToolSearchToolParam);
+
+    case "web_search_preview":
+      return toolWebSearchPreviewToolDeserializer(item as ToolWebSearchPreviewTool);
+
+    case "apply_patch":
+      return toolApplyPatchToolParamDeserializer(item as ToolApplyPatchToolParam);
 
     case "namespace":
       return namespaceToolParamDeserializer(item as NamespaceToolParam);
-
-    case "tool_search":
-      return toolSearchToolParamDeserializer(item as ToolSearchToolParam);
 
     default:
       return toolDeserializer(item);
@@ -573,11 +573,504 @@ export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
   };
 }
 
+/** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://developers.openai.com/api/docs/guides/function-calling). */
+export interface ToolFunctionTool extends Tool {
+  /** The type of the function tool. Always `function`. */
+  type: "function";
+  /** The name of the function to call. */
+  name: string;
+  async?: boolean;
+  description?: string;
+  parameters: Record<string, any> | null;
+  output_schema?: Record<string, any>;
+  strict: boolean | null;
+  /** Whether this function is deferred and loaded via tool search. */
+  defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
+}
+
+export function toolFunctionToolSerializer(item: ToolFunctionTool): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    async: item["async"],
+    description: item["description"],
+    parameters: item["parameters"],
+    output_schema: item["output_schema"],
+    strict: item["strict"],
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function toolFunctionToolDeserializer(item: any): ToolFunctionTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    async: item["async"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : Object.fromEntries(
+          Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    output_schema: !item["output_schema"]
+      ? item["output_schema"]
+      : Object.fromEntries(
+          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    strict: item["strict"],
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+  };
+}
+
+/** Type of CallableToolAllowedCaller */
+export type CallableToolAllowedCaller = "direct" | "programmatic";
+
+/** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search). */
+export interface ToolFileSearchTool extends Tool {
+  /** The type of the file search tool. Always `file_search`. */
+  type: "file_search";
+  /** The IDs of the vector stores to search. */
+  vector_store_ids: string[];
+  /** The maximum number of results to return. This number should be between 1 and 50 inclusive. */
+  max_num_results?: number;
+  /** Ranking options for search. */
+  ranking_options?: RankingOptions;
+  filters?: Filters;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+}
+
+export function toolFileSearchToolSerializer(item: ToolFileSearchTool): any {
+  return {
+    type: item["type"],
+    vector_store_ids: item["vector_store_ids"].map((p: any) => {
+      return p;
+    }),
+    max_num_results: item["max_num_results"],
+    ranking_options: !item["ranking_options"]
+      ? item["ranking_options"]
+      : rankingOptionsSerializer(item["ranking_options"]),
+    filters: !item["filters"] ? item["filters"] : filtersSerializer(item["filters"]),
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+export function toolFileSearchToolDeserializer(item: any): ToolFileSearchTool {
+  return {
+    type: item["type"],
+    vector_store_ids: item["vector_store_ids"].map((p: any) => {
+      return p;
+    }),
+    max_num_results: item["max_num_results"],
+    ranking_options: !item["ranking_options"]
+      ? item["ranking_options"]
+      : rankingOptionsDeserializer(item["ranking_options"]),
+    filters: !item["filters"] ? item["filters"] : filtersDeserializer(item["filters"]),
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+  };
+}
+
+/** model interface RankingOptions */
+export interface RankingOptions {
+  /** The ranker to use for the file search. */
+  ranker?: RankerVersionType;
+  /** The score threshold for the file search, a number between 0 and 1. Numbers closer to 1 will attempt to return only the most relevant results, but may return fewer results. */
+  score_threshold?: number;
+  /** Weights that control how reciprocal rank fusion balances semantic embedding matches versus sparse keyword matches when hybrid search is enabled. */
+  hybrid_search?: HybridSearchOptions;
+}
+
+export function rankingOptionsSerializer(item: RankingOptions): any {
+  return {
+    ranker: item["ranker"],
+    score_threshold: item["score_threshold"],
+    hybrid_search: !item["hybrid_search"]
+      ? item["hybrid_search"]
+      : hybridSearchOptionsSerializer(item["hybrid_search"]),
+  };
+}
+
+export function rankingOptionsDeserializer(item: any): RankingOptions {
+  return {
+    ranker: item["ranker"],
+    score_threshold: item["score_threshold"],
+    hybrid_search: !item["hybrid_search"]
+      ? item["hybrid_search"]
+      : hybridSearchOptionsDeserializer(item["hybrid_search"]),
+  };
+}
+
+/** Type of RankerVersionType */
+export type RankerVersionType = "auto" | "default-2024-11-15";
+
+/** model interface HybridSearchOptions */
+export interface HybridSearchOptions {
+  /** The weight of the embedding in the reciprocal ranking fusion. */
+  embedding_weight: number;
+  /** The weight of the text in the reciprocal ranking fusion. */
+  text_weight: number;
+}
+
+export function hybridSearchOptionsSerializer(item: HybridSearchOptions): any {
+  return { embedding_weight: item["embedding_weight"], text_weight: item["text_weight"] };
+}
+
+export function hybridSearchOptionsDeserializer(item: any): HybridSearchOptions {
+  return {
+    embedding_weight: item["embedding_weight"],
+    text_weight: item["text_weight"],
+  };
+}
+
+/** Alias for Filters */
+export type Filters = ComparisonFilter | CompoundFilter;
+
+export function filtersSerializer(item: Filters): any {
+  return item;
+}
+
+export function filtersDeserializer(item: any): Filters {
+  return item;
+}
+
+/** A filter used to compare a specified attribute key to a given value using a defined comparison operation. */
+export interface ComparisonFilter {
+  /**
+   * Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
+   *   - `eq`: equals
+   *   - `ne`: not equal
+   *   - `gt`: greater than
+   *   - `gte`: greater than or equal
+   *   - `lt`: less than
+   *   - `lte`: less than or equal
+   *   - `in`: in
+   *   - `nin`: not in
+   */
+  type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "nin";
+  /** The key to compare against the value. */
+  key: string;
+  /** The value to compare against the attribute key; supports string, number, or boolean types. */
+  value: string | number | boolean | (string | number)[];
+}
+
+export function comparisonFilterSerializer(item: ComparisonFilter): any {
+  return {
+    type: item["type"],
+    key: item["key"],
+    value: _toolFileSearchToolFiltersValueSerializer(item["value"]),
+  };
+}
+
+export function comparisonFilterDeserializer(item: any): ComparisonFilter {
+  return {
+    type: item["type"],
+    key: item["key"],
+    value: _toolFileSearchToolFiltersValueDeserializer(item["value"]),
+  };
+}
+
+/** Alias for _ToolFileSearchToolFiltersValue */
+export type _ToolFileSearchToolFiltersValue = string | number | boolean | (string | number)[];
+
+export function _toolFileSearchToolFiltersValueSerializer(
+  item: _ToolFileSearchToolFiltersValue,
+): any {
+  return item;
+}
+
+export function _toolFileSearchToolFiltersValueDeserializer(
+  item: any,
+): _ToolFileSearchToolFiltersValue {
+  return item;
+}
+
+export function _toolFileSearchToolFiltersValue1ArraySerializer(
+  result: Array<_ToolFileSearchToolFiltersValue1>,
+): any[] {
+  return result.map((item) => {
+    return _toolFileSearchToolFiltersValue1Serializer(item);
+  });
+}
+
+export function _toolFileSearchToolFiltersValue1ArrayDeserializer(
+  result: Array<_ToolFileSearchToolFiltersValue1>,
+): any[] {
+  return result.map((item) => {
+    return _toolFileSearchToolFiltersValue1Deserializer(item);
+  });
+}
+
+/** Alias for _ToolFileSearchToolFiltersValue1 */
+export type _ToolFileSearchToolFiltersValue1 = string | number;
+
+export function _toolFileSearchToolFiltersValue1Serializer(
+  item: _ToolFileSearchToolFiltersValue1,
+): any {
+  return item;
+}
+
+export function _toolFileSearchToolFiltersValue1Deserializer(
+  item: any,
+): _ToolFileSearchToolFiltersValue1 {
+  return item;
+}
+
+/** Combine multiple filters using `and` or `or`. */
+export interface CompoundFilter {
+  /** Type of operation: `and` or `or`. */
+  type: "and" | "or";
+  /** Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`. */
+  filters: (ComparisonFilter | CompoundFilter)[];
+}
+
+export function compoundFilterSerializer(item: CompoundFilter): any {
+  return {
+    type: item["type"],
+    filters: _toolFileSearchToolFiltersFilterArraySerializer(item["filters"]),
+  };
+}
+
+export function compoundFilterDeserializer(item: any): CompoundFilter {
+  return {
+    type: item["type"],
+    filters: _toolFileSearchToolFiltersFilterArrayDeserializer(item["filters"]),
+  };
+}
+
+export function _toolFileSearchToolFiltersFilterArraySerializer(
+  result: Array<_ToolFileSearchToolFiltersFilter>,
+): any[] {
+  return result.map((item) => {
+    return _toolFileSearchToolFiltersFilterSerializer(item);
+  });
+}
+
+export function _toolFileSearchToolFiltersFilterArrayDeserializer(
+  result: Array<_ToolFileSearchToolFiltersFilter>,
+): any[] {
+  return result.map((item) => {
+    return _toolFileSearchToolFiltersFilterDeserializer(item);
+  });
+}
+
+/** Alias for _ToolFileSearchToolFiltersFilter */
+export type _ToolFileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
+
+export function _toolFileSearchToolFiltersFilterSerializer(
+  item: _ToolFileSearchToolFiltersFilter,
+): any {
+  return item;
+}
+
+export function _toolFileSearchToolFiltersFilterDeserializer(
+  item: any,
+): _ToolFileSearchToolFiltersFilter {
+  return item;
+}
+
+/** A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use). */
+export interface ToolComputerTool extends Tool {
+  /** The type of the computer tool. Always `computer`. */
+  type: "computer";
+}
+
+export function toolComputerToolSerializer(item: ToolComputerTool): any {
+  return { type: item["type"] };
+}
+
+export function toolComputerToolDeserializer(item: any): ToolComputerTool {
+  return {
+    type: item["type"],
+  };
+}
+
+/** A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use). */
+export interface ToolComputerUsePreviewTool extends Tool {
+  /** The type of the computer use tool. Always `computer_use_preview`. */
+  type: "computer_use_preview";
+  /** The type of computer environment to control. */
+  environment: ComputerEnvironment;
+  /** The width of the computer display. */
+  display_width: number;
+  /** The height of the computer display. */
+  display_height: number;
+}
+
+export function toolComputerUsePreviewToolSerializer(item: ToolComputerUsePreviewTool): any {
+  return {
+    type: item["type"],
+    environment: item["environment"],
+    display_width: item["display_width"],
+    display_height: item["display_height"],
+  };
+}
+
+export function toolComputerUsePreviewToolDeserializer(item: any): ToolComputerUsePreviewTool {
+  return {
+    type: item["type"],
+    environment: item["environment"],
+    display_width: item["display_width"],
+    display_height: item["display_height"],
+  };
+}
+
+/** Type of ComputerEnvironment */
+export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
+
+/**
+ * Search the Internet for sources related to the prompt. Learn more about the
+ * [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
+ */
+export interface ToolWebSearchTool extends Tool {
+  /** The type of the web search tool. One of `web_search` or `web_search_2025_08_26`. */
+  type: "web_search";
+  /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
+  external_web_access?: boolean;
+  filters?: WebSearchToolFilters;
+  /**
+   * The approximate location of the user. If omitted or null, defaults to the
+   *   United States. To avoid this fallback, pass `{"type": "approximate"}` without
+   *   location fields. To localize results, provide the relevant location fields.
+   */
+  user_location?: WebSearchApproximateLocation;
+  /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
+  search_context_size?: "low" | "medium" | "high";
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  /**
+   * The project connections attached to this tool. There can be a maximum of 1 connection
+   * resource attached to the tool.
+   */
+  custom_search_configuration?: WebSearchConfiguration;
+}
+
+export function toolWebSearchToolSerializer(item: ToolWebSearchTool): any {
+  return {
+    type: item["type"],
+    external_web_access: item["external_web_access"],
+    filters: !item["filters"] ? item["filters"] : webSearchToolFiltersSerializer(item["filters"]),
+    user_location: !item["user_location"]
+      ? item["user_location"]
+      : webSearchApproximateLocationSerializer(item["user_location"]),
+    search_context_size: item["search_context_size"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    custom_search_configuration: !item["custom_search_configuration"]
+      ? item["custom_search_configuration"]
+      : webSearchConfigurationSerializer(item["custom_search_configuration"]),
+  };
+}
+
+export function toolWebSearchToolDeserializer(item: any): ToolWebSearchTool {
+  return {
+    type: item["type"],
+    external_web_access: item["external_web_access"],
+    filters: !item["filters"] ? item["filters"] : webSearchToolFiltersDeserializer(item["filters"]),
+    user_location: !item["user_location"]
+      ? item["user_location"]
+      : webSearchApproximateLocationDeserializer(item["user_location"]),
+    search_context_size: item["search_context_size"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+    custom_search_configuration: !item["custom_search_configuration"]
+      ? item["custom_search_configuration"]
+      : webSearchConfigurationDeserializer(item["custom_search_configuration"]),
+  };
+}
+
+/** model interface WebSearchToolFilters */
+export interface WebSearchToolFilters {
+  allowed_domains?: string[];
+}
+
+export function webSearchToolFiltersSerializer(item: WebSearchToolFilters): any {
+  return {
+    allowed_domains: !item["allowed_domains"]
+      ? item["allowed_domains"]
+      : item["allowed_domains"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function webSearchToolFiltersDeserializer(item: any): WebSearchToolFilters {
+  return {
+    allowed_domains: !item["allowed_domains"]
+      ? item["allowed_domains"]
+      : item["allowed_domains"].map((p1: any) => {
+          return p1;
+        }),
+  };
+}
+
+/** The approximate location of the user. */
+export interface WebSearchApproximateLocation {
+  /** The type of location approximation. Always `approximate`. */
+  type: "approximate";
+  country?: string;
+  region?: string;
+  city?: string;
+  timezone?: string;
+}
+
+export function webSearchApproximateLocationSerializer(item: WebSearchApproximateLocation): any {
+  return {
+    type: item["type"],
+    country: item["country"],
+    region: item["region"],
+    city: item["city"],
+    timezone: item["timezone"],
+  };
+}
+
+export function webSearchApproximateLocationDeserializer(item: any): WebSearchApproximateLocation {
+  return {
+    type: item["type"],
+    country: item["country"],
+    region: item["region"],
+    city: item["city"],
+    timezone: item["timezone"],
+  };
+}
+
 /**
  * Give the model access to additional tools via remote Model Context Protocol
  * (MCP) servers. [Learn more about MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp).
  */
-export interface MCPTool extends Tool {
+export interface ToolMcpTool extends Tool {
   /** The type of the MCP tool. Always `mcp`. */
   type: "mcp";
   /** A label for this MCP server, used to identify it in tool calls. */
@@ -638,7 +1131,7 @@ export interface MCPTool extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function mcpToolSerializer(item: MCPTool): any {
+export function toolMcpToolSerializer(item: ToolMcpTool): any {
   return {
     type: item["type"],
     server_label: item["server_label"],
@@ -650,7 +1143,7 @@ export function mcpToolSerializer(item: MCPTool): any {
     headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p: any) => {
@@ -658,7 +1151,7 @@ export function mcpToolSerializer(item: MCPTool): any {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -667,7 +1160,7 @@ export function mcpToolSerializer(item: MCPTool): any {
   };
 }
 
-export function mcpToolDeserializer(item: any): MCPTool {
+export function toolMcpToolDeserializer(item: any): ToolMcpTool {
   return {
     type: item["type"],
     server_label: item["server_label"],
@@ -683,7 +1176,7 @@ export function mcpToolDeserializer(item: any): MCPTool {
         ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p1: any) => {
@@ -691,7 +1184,7 @@ export function mcpToolDeserializer(item: any): MCPTool {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -700,42 +1193,33 @@ export function mcpToolDeserializer(item: any): MCPTool {
   };
 }
 
-/** Alias for _MCPToolAllowedTools */
-export type _MCPToolAllowedTools = string[] | MCPToolFilter;
+/** Alias for _ToolMcpToolAllowedTools */
+export type _ToolMcpToolAllowedTools = string[] | MCPToolFilter;
 
-export function _mcpToolAllowedToolsSerializer(item: _MCPToolAllowedTools): any {
+export function _toolMcpToolAllowedToolsSerializer(item: _ToolMcpToolAllowedTools): any {
   return item;
 }
 
-export function _mcpToolAllowedToolsDeserializer(item: any): _MCPToolAllowedTools {
+export function _toolMcpToolAllowedToolsDeserializer(item: any): _ToolMcpToolAllowedTools {
   return item;
 }
 
-/** Type of CallableToolAllowedCaller */
-export type CallableToolAllowedCaller = "direct" | "programmatic";
+/** Alias for _ToolMcpToolRequireApproval */
+export type _ToolMcpToolRequireApproval = MCPToolRequireApproval | "always" | "never";
 
-/** Alias for _MCPToolRequireApproval */
-export type _MCPToolRequireApproval = MCPToolRequireApproval | "always" | "never";
-
-export function _mcpToolRequireApprovalSerializer(item: _MCPToolRequireApproval): any {
+export function _toolMcpToolRequireApprovalSerializer(item: _ToolMcpToolRequireApproval): any {
   return item;
 }
 
-export function _mcpToolRequireApprovalDeserializer(item: any): _MCPToolRequireApproval {
+export function _toolMcpToolRequireApprovalDeserializer(item: any): _ToolMcpToolRequireApproval {
   return item;
 }
 
 /** A tool that runs Python code to help generate a response to a prompt. */
-export interface CodeInterpreterTool extends Tool {
+export interface ToolCodeInterpreterTool extends Tool {
   /** The type of the code interpreter tool. Always `code_interpreter`. */
   type: "code_interpreter";
   allowed_callers?: CallableToolAllowedCaller[];
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  name?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  description?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
   /**
    * The code interpreter container. Can be a container ID or an object that
    * specifies uploaded file IDs to make available to your code, along with an
@@ -743,9 +1227,15 @@ export interface CodeInterpreterTool extends Tool {
    * If not provided, the service assumes auto.
    */
   container?: string | AutoCodeInterpreterToolParam;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
-export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
+export function toolCodeInterpreterToolSerializer(item: ToolCodeInterpreterTool): any {
   return {
     type: item["type"],
     allowed_callers: !item["allowed_callers"]
@@ -753,18 +1243,18 @@ export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
       : item["allowed_callers"].map((p: any) => {
           return p;
         }),
+    container: !item["container"]
+      ? item["container"]
+      : _toolCodeInterpreterToolContainerSerializer(item["container"]),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
-    container: !item["container"]
-      ? item["container"]
-      : _codeInterpreterToolContainerSerializer(item["container"]),
   };
 }
 
-export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool {
+export function toolCodeInterpreterToolDeserializer(item: any): ToolCodeInterpreterTool {
   return {
     type: item["type"],
     allowed_callers: !item["allowed_callers"]
@@ -772,14 +1262,14 @@ export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool 
       : item["allowed_callers"].map((p1: any) => {
           return p1;
         }),
+    container: !item["container"]
+      ? item["container"]
+      : _toolCodeInterpreterToolContainerDeserializer(item["container"]),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordDeserializer(item["tool_configs"]),
-    container: !item["container"]
-      ? item["container"]
-      : _codeInterpreterToolContainerDeserializer(item["container"]),
   };
 }
 
@@ -988,486 +1478,28 @@ export function containerNetworkPolicyDomainSecretParamDeserializer(
   };
 }
 
-/** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://developers.openai.com/api/docs/guides/function-calling). */
-export interface FunctionTool extends Tool {
-  /** The type of the function tool. Always `function`. */
-  type: "function";
-  /** The name of the function to call. */
-  name: string;
-  async?: boolean;
-  description?: string;
-  parameters: Record<string, any> | null;
-  output_schema?: Record<string, any>;
-  strict: boolean | null;
-  /** Whether this function is deferred and loaded via tool search. */
-  defer_loading?: boolean;
-  allowed_callers?: CallableToolAllowedCaller[];
-}
-
-export function functionToolSerializer(item: FunctionTool): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    async: item["async"],
-    description: item["description"],
-    parameters: item["parameters"],
-    output_schema: item["output_schema"],
-    strict: item["strict"],
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function functionToolDeserializer(item: any): FunctionTool {
-  return {
-    type: item["type"],
-    name: item["name"],
-    async: item["async"],
-    description: item["description"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : Object.fromEntries(
-          Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
-    output_schema: !item["output_schema"]
-      ? item["output_schema"]
-      : Object.fromEntries(
-          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
-    strict: item["strict"],
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search). */
-export interface FileSearchTool extends Tool {
-  /** The type of the file search tool. Always `file_search`. */
-  type: "file_search";
-  /** The IDs of the vector stores to search. */
-  vector_store_ids: string[];
-  /** The maximum number of results to return. This number should be between 1 and 50 inclusive. */
-  max_num_results?: number;
-  /** Ranking options for search. */
-  ranking_options?: RankingOptions;
-  filters?: Filters;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  name?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  description?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-}
-
-export function fileSearchToolSerializer(item: FileSearchTool): any {
-  return {
-    type: item["type"],
-    vector_store_ids: item["vector_store_ids"].map((p: any) => {
-      return p;
-    }),
-    max_num_results: item["max_num_results"],
-    ranking_options: !item["ranking_options"]
-      ? item["ranking_options"]
-      : rankingOptionsSerializer(item["ranking_options"]),
-    filters: !item["filters"] ? item["filters"] : filtersSerializer(item["filters"]),
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-  };
-}
-
-export function fileSearchToolDeserializer(item: any): FileSearchTool {
-  return {
-    type: item["type"],
-    vector_store_ids: item["vector_store_ids"].map((p: any) => {
-      return p;
-    }),
-    max_num_results: item["max_num_results"],
-    ranking_options: !item["ranking_options"]
-      ? item["ranking_options"]
-      : rankingOptionsDeserializer(item["ranking_options"]),
-    filters: !item["filters"] ? item["filters"] : filtersDeserializer(item["filters"]),
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-  };
-}
-
-/** model interface RankingOptions */
-export interface RankingOptions {
-  /** The ranker to use for the file search. */
-  ranker?: RankerVersionType;
-  /** The score threshold for the file search, a number between 0 and 1. Numbers closer to 1 will attempt to return only the most relevant results, but may return fewer results. */
-  score_threshold?: number;
-  /** Weights that control how reciprocal rank fusion balances semantic embedding matches versus sparse keyword matches when hybrid search is enabled. */
-  hybrid_search?: HybridSearchOptions;
-}
-
-export function rankingOptionsSerializer(item: RankingOptions): any {
-  return {
-    ranker: item["ranker"],
-    score_threshold: item["score_threshold"],
-    hybrid_search: !item["hybrid_search"]
-      ? item["hybrid_search"]
-      : hybridSearchOptionsSerializer(item["hybrid_search"]),
-  };
-}
-
-export function rankingOptionsDeserializer(item: any): RankingOptions {
-  return {
-    ranker: item["ranker"],
-    score_threshold: item["score_threshold"],
-    hybrid_search: !item["hybrid_search"]
-      ? item["hybrid_search"]
-      : hybridSearchOptionsDeserializer(item["hybrid_search"]),
-  };
-}
-
-/** Type of RankerVersionType */
-export type RankerVersionType = "auto" | "default-2024-11-15";
-
-/** model interface HybridSearchOptions */
-export interface HybridSearchOptions {
-  /** The weight of the embedding in the reciprocal ranking fusion. */
-  embedding_weight: number;
-  /** The weight of the text in the reciprocal ranking fusion. */
-  text_weight: number;
-}
-
-export function hybridSearchOptionsSerializer(item: HybridSearchOptions): any {
-  return { embedding_weight: item["embedding_weight"], text_weight: item["text_weight"] };
-}
-
-export function hybridSearchOptionsDeserializer(item: any): HybridSearchOptions {
-  return {
-    embedding_weight: item["embedding_weight"],
-    text_weight: item["text_weight"],
-  };
-}
-
-/** Alias for Filters */
-export type Filters = ComparisonFilter | CompoundFilter;
-
-export function filtersSerializer(item: Filters): any {
-  return item;
-}
-
-export function filtersDeserializer(item: any): Filters {
-  return item;
-}
-
-/** A filter used to compare a specified attribute key to a given value using a defined comparison operation. */
-export interface ComparisonFilter {
-  /**
-   * Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
-   *   - `eq`: equals
-   *   - `ne`: not equal
-   *   - `gt`: greater than
-   *   - `gte`: greater than or equal
-   *   - `lt`: less than
-   *   - `lte`: less than or equal
-   *   - `in`: in
-   *   - `nin`: not in
-   */
-  type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "nin";
-  /** The key to compare against the value. */
-  key: string;
-  /** The value to compare against the attribute key; supports string, number, or boolean types. */
-  value: string | number | boolean | (string | number)[];
-}
-
-export function comparisonFilterSerializer(item: ComparisonFilter): any {
-  return {
-    type: item["type"],
-    key: item["key"],
-    value: _fileSearchToolFiltersValueSerializer(item["value"]),
-  };
-}
-
-export function comparisonFilterDeserializer(item: any): ComparisonFilter {
-  return {
-    type: item["type"],
-    key: item["key"],
-    value: _fileSearchToolFiltersValueDeserializer(item["value"]),
-  };
-}
-
-/** Alias for _FileSearchToolFiltersValue */
-export type _FileSearchToolFiltersValue = string | number | boolean | (string | number)[];
-
-export function _fileSearchToolFiltersValueSerializer(item: _FileSearchToolFiltersValue): any {
-  return item;
-}
-
-export function _fileSearchToolFiltersValueDeserializer(item: any): _FileSearchToolFiltersValue {
-  return item;
-}
-
-export function _fileSearchToolFiltersValue1ArraySerializer(
-  result: Array<_FileSearchToolFiltersValue1>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersValue1Serializer(item);
-  });
-}
-
-export function _fileSearchToolFiltersValue1ArrayDeserializer(
-  result: Array<_FileSearchToolFiltersValue1>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersValue1Deserializer(item);
-  });
-}
-
-/** Alias for _FileSearchToolFiltersValue1 */
-export type _FileSearchToolFiltersValue1 = string | number;
-
-export function _fileSearchToolFiltersValue1Serializer(item: _FileSearchToolFiltersValue1): any {
-  return item;
-}
-
-export function _fileSearchToolFiltersValue1Deserializer(item: any): _FileSearchToolFiltersValue1 {
-  return item;
-}
-
-/** Combine multiple filters using `and` or `or`. */
-export interface CompoundFilter {
-  /** Type of operation: `and` or `or`. */
-  type: "and" | "or";
-  /** Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`. */
-  filters: (ComparisonFilter | CompoundFilter)[];
-}
-
-export function compoundFilterSerializer(item: CompoundFilter): any {
-  return {
-    type: item["type"],
-    filters: _fileSearchToolFiltersFilterArraySerializer(item["filters"]),
-  };
-}
-
-export function compoundFilterDeserializer(item: any): CompoundFilter {
-  return {
-    type: item["type"],
-    filters: _fileSearchToolFiltersFilterArrayDeserializer(item["filters"]),
-  };
-}
-
-export function _fileSearchToolFiltersFilterArraySerializer(
-  result: Array<_FileSearchToolFiltersFilter>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersFilterSerializer(item);
-  });
-}
-
-export function _fileSearchToolFiltersFilterArrayDeserializer(
-  result: Array<_FileSearchToolFiltersFilter>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersFilterDeserializer(item);
-  });
-}
-
-/** Alias for _FileSearchToolFiltersFilter */
-export type _FileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
-
-export function _fileSearchToolFiltersFilterSerializer(item: _FileSearchToolFiltersFilter): any {
-  return item;
-}
-
-export function _fileSearchToolFiltersFilterDeserializer(item: any): _FileSearchToolFiltersFilter {
-  return item;
-}
-
-/** A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use). */
-export interface ComputerUsePreviewTool extends Tool {
-  /** The type of the computer use tool. Always `computer_use_preview`. */
-  type: "computer_use_preview";
-  /** The type of computer environment to control. */
-  environment: ComputerEnvironment;
-  /** The width of the computer display. */
-  display_width: number;
-  /** The height of the computer display. */
-  display_height: number;
-}
-
-export function computerUsePreviewToolSerializer(item: ComputerUsePreviewTool): any {
-  return {
-    type: item["type"],
-    environment: item["environment"],
-    display_width: item["display_width"],
-    display_height: item["display_height"],
-  };
-}
-
-export function computerUsePreviewToolDeserializer(item: any): ComputerUsePreviewTool {
-  return {
-    type: item["type"],
-    environment: item["environment"],
-    display_width: item["display_width"],
-    display_height: item["display_height"],
-  };
-}
-
-/** Type of ComputerEnvironment */
-export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
-
-/**
- * Search the Internet for sources related to the prompt. Learn more about the
- * [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
- */
-export interface WebSearchTool extends Tool {
-  /** The type of the web search tool. One of `web_search` or `web_search_2025_08_26`. */
-  type: "web_search";
-  /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
-  external_web_access?: boolean;
-  filters?: WebSearchToolFilters;
-  /**
-   * The approximate location of the user. If omitted or null, defaults to the
-   *   United States. To avoid this fallback, pass `{"type": "approximate"}` without
-   *   location fields. To localize results, provide the relevant location fields.
-   */
-  user_location?: WebSearchApproximateLocation;
-  /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
-  search_context_size?: "low" | "medium" | "high";
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  name?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  description?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-  /**
-   * The project connections attached to this tool. There can be a maximum of 1 connection
-   * resource attached to the tool.
-   */
-  custom_search_configuration?: WebSearchConfiguration;
-}
-
-export function webSearchToolSerializer(item: WebSearchTool): any {
-  return {
-    type: item["type"],
-    external_web_access: item["external_web_access"],
-    filters: !item["filters"] ? item["filters"] : webSearchToolFiltersSerializer(item["filters"]),
-    user_location: !item["user_location"]
-      ? item["user_location"]
-      : webSearchApproximateLocationSerializer(item["user_location"]),
-    search_context_size: item["search_context_size"],
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-    custom_search_configuration: !item["custom_search_configuration"]
-      ? item["custom_search_configuration"]
-      : webSearchConfigurationSerializer(item["custom_search_configuration"]),
-  };
-}
-
-export function webSearchToolDeserializer(item: any): WebSearchTool {
-  return {
-    type: item["type"],
-    external_web_access: item["external_web_access"],
-    filters: !item["filters"] ? item["filters"] : webSearchToolFiltersDeserializer(item["filters"]),
-    user_location: !item["user_location"]
-      ? item["user_location"]
-      : webSearchApproximateLocationDeserializer(item["user_location"]),
-    search_context_size: item["search_context_size"],
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-    custom_search_configuration: !item["custom_search_configuration"]
-      ? item["custom_search_configuration"]
-      : webSearchConfigurationDeserializer(item["custom_search_configuration"]),
-  };
-}
-
-/** model interface WebSearchToolFilters */
-export interface WebSearchToolFilters {
-  allowed_domains?: string[];
-}
-
-export function webSearchToolFiltersSerializer(item: WebSearchToolFilters): any {
-  return {
-    allowed_domains: !item["allowed_domains"]
-      ? item["allowed_domains"]
-      : item["allowed_domains"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function webSearchToolFiltersDeserializer(item: any): WebSearchToolFilters {
-  return {
-    allowed_domains: !item["allowed_domains"]
-      ? item["allowed_domains"]
-      : item["allowed_domains"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** The approximate location of the user. */
-export interface WebSearchApproximateLocation {
-  /** The type of location approximation. Always `approximate`. */
-  type: "approximate";
-  country?: string;
-  region?: string;
-  city?: string;
-  timezone?: string;
-}
-
-export function webSearchApproximateLocationSerializer(item: WebSearchApproximateLocation): any {
-  return {
-    type: item["type"],
-    country: item["country"],
-    region: item["region"],
-    city: item["city"],
-    timezone: item["timezone"],
-  };
-}
-
-export function webSearchApproximateLocationDeserializer(item: any): WebSearchApproximateLocation {
-  return {
-    type: item["type"],
-    country: item["country"],
-    region: item["region"],
-    city: item["city"],
-    timezone: item["timezone"],
-  };
-}
-
-/** model interface ProgrammaticToolCallingParam */
-export interface ProgrammaticToolCallingParam extends Tool {
+/** model interface ToolProgrammaticToolCallingParam */
+export interface ToolProgrammaticToolCallingParam extends Tool {
   /** The type of the tool. Always `programmatic_tool_calling`. */
   type: "programmatic_tool_calling";
 }
 
-export function programmaticToolCallingParamSerializer(item: ProgrammaticToolCallingParam): any {
+export function toolProgrammaticToolCallingParamSerializer(
+  item: ToolProgrammaticToolCallingParam,
+): any {
   return { type: item["type"] };
 }
 
-export function programmaticToolCallingParamDeserializer(item: any): ProgrammaticToolCallingParam {
+export function toolProgrammaticToolCallingParamDeserializer(
+  item: any,
+): ToolProgrammaticToolCallingParam {
   return {
     type: item["type"],
   };
 }
 
 /** A tool that generates images using the GPT image models. */
-export interface ImageGenTool extends Tool {
+export interface ToolImageGenTool extends Tool {
   /** The type of the image generation tool. Always `image_generation`. */
   type: "image_generation";
   model?:
@@ -1487,7 +1519,7 @@ export interface ImageGenTool extends Tool {
    *   Default: `auto`.
    */
   quality?: "low" | "medium" | "high" | "xhigh" | "max" | "auto";
-  /** The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
+  /** The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. */
   size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
   /**
    * The output format of the generated image. One of `png`, `webp`, or
@@ -1526,7 +1558,7 @@ export interface ImageGenTool extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function imageGenToolSerializer(item: ImageGenTool): any {
+export function toolImageGenToolSerializer(item: ToolImageGenTool): any {
   return {
     type: item["type"],
     model: item["model"],
@@ -1550,7 +1582,7 @@ export function imageGenToolSerializer(item: ImageGenTool): any {
   };
 }
 
-export function imageGenToolDeserializer(item: any): ImageGenTool {
+export function toolImageGenToolDeserializer(item: any): ToolImageGenTool {
   return {
     type: item["type"],
     model: item["model"],
@@ -1574,7 +1606,7 @@ export function imageGenToolDeserializer(item: any): ImageGenTool {
   };
 }
 
-/** Control how much effort the model will exert to match the style and features, especially facial features, of input images. This parameter is only supported for `gpt-image-1` and `gpt-image-1.5` and later models, unsupported for `gpt-image-1-mini`. Supports `high` and `low`. Defaults to `low`. */
+/** Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models. */
 export type InputFidelity = "high" | "low";
 
 /** model interface ImageGenToolInputImageMask */
@@ -1598,7 +1630,7 @@ export function imageGenToolInputImageMaskDeserializer(item: any): ImageGenToolI
 export type ImageGenAction = "generate" | "edit" | "auto";
 
 /** A tool that allows the model to execute shell commands in a local environment. */
-export interface LocalShellToolParam extends Tool {
+export interface ToolLocalShellToolParam extends Tool {
   /** The type of the local shell tool. Always `local_shell`. */
   type: "local_shell";
   /** Deprecated. This property is deprecated and will be removed in a future version. */
@@ -1609,7 +1641,7 @@ export interface LocalShellToolParam extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function localShellToolParamSerializer(item: LocalShellToolParam): any {
+export function toolLocalShellToolParamSerializer(item: ToolLocalShellToolParam): any {
   return {
     type: item["type"],
     name: item["name"],
@@ -1620,7 +1652,7 @@ export function localShellToolParamSerializer(item: LocalShellToolParam): any {
   };
 }
 
-export function localShellToolParamDeserializer(item: any): LocalShellToolParam {
+export function toolLocalShellToolParamDeserializer(item: any): ToolLocalShellToolParam {
   return {
     type: item["type"],
     name: item["name"],
@@ -1632,7 +1664,7 @@ export function localShellToolParamDeserializer(item: any): LocalShellToolParam 
 }
 
 /** A tool that allows the model to execute shell commands. */
-export interface FunctionShellToolParam extends Tool {
+export interface ToolFunctionShellToolParam extends Tool {
   /** The type of the shell tool. Always `shell`. */
   type: "shell";
   environment?: FunctionShellToolParamEnvironmentUnion;
@@ -1645,7 +1677,7 @@ export interface FunctionShellToolParam extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function functionShellToolParamSerializer(item: FunctionShellToolParam): any {
+export function toolFunctionShellToolParamSerializer(item: ToolFunctionShellToolParam): any {
   return {
     type: item["type"],
     environment: !item["environment"]
@@ -1664,7 +1696,7 @@ export function functionShellToolParamSerializer(item: FunctionShellToolParam): 
   };
 }
 
-export function functionShellToolParamDeserializer(item: any): FunctionShellToolParam {
+export function toolFunctionShellToolParamDeserializer(item: any): ToolFunctionShellToolParam {
   return {
     type: item["type"],
     environment: !item["environment"]
@@ -2018,7 +2050,7 @@ export function inlineSkillSourceParamDeserializer(item: any): InlineSkillSource
 }
 
 /** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/api/docs/guides/function-calling#custom-tools) */
-export interface CustomToolParam extends Tool {
+export interface ToolCustomToolParam extends Tool {
   /** The type of the custom tool. Always `custom`. */
   type: "custom";
   /** The name of the custom tool, used to identify it in tool calls. */
@@ -2034,7 +2066,7 @@ export interface CustomToolParam extends Tool {
   allowed_callers?: CallableToolAllowedCaller[];
 }
 
-export function customToolParamSerializer(item: CustomToolParam): any {
+export function toolCustomToolParamSerializer(item: ToolCustomToolParam): any {
   return {
     type: item["type"],
     name: item["name"],
@@ -2050,7 +2082,7 @@ export function customToolParamSerializer(item: CustomToolParam): any {
   };
 }
 
-export function customToolParamDeserializer(item: any): CustomToolParam {
+export function toolCustomToolParamDeserializer(item: any): ToolCustomToolParam {
   return {
     type: item["type"],
     name: item["name"],
@@ -2157,8 +2189,54 @@ export function customGrammarFormatParamDeserializer(item: any): CustomGrammarFo
 /** Type of GrammarSyntax1 */
 export type GrammarSyntax1 = "lark" | "regex";
 
+/** Hosted or BYOT tool search configuration for deferred tools. */
+export interface ToolToolSearchToolParam extends Tool {
+  /** The type of the tool. Always `tool_search`. */
+  type: "tool_search";
+  /** Whether tool search is executed by the server or by the client. */
+  execution?: ToolSearchExecutionType;
+  description?: string;
+  parameters?: EmptyModelParam;
+}
+
+export function toolToolSearchToolParamSerializer(item: ToolToolSearchToolParam): any {
+  return {
+    type: item["type"],
+    execution: item["execution"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamSerializer(item["parameters"]),
+  };
+}
+
+export function toolToolSearchToolParamDeserializer(item: any): ToolToolSearchToolParam {
+  return {
+    type: item["type"],
+    execution: item["execution"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamDeserializer(item["parameters"]),
+  };
+}
+
+/** Type of ToolSearchExecutionType */
+export type ToolSearchExecutionType = "server" | "client";
+
+/** model interface EmptyModelParam */
+export interface EmptyModelParam {}
+
+export function emptyModelParamSerializer(_item: EmptyModelParam): any {
+  return {};
+}
+
+export function emptyModelParamDeserializer(item: any): EmptyModelParam {
+  return item;
+}
+
 /** This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search). */
-export interface WebSearchPreviewTool extends Tool {
+export interface ToolWebSearchPreviewTool extends Tool {
   /** The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`. */
   type: "web_search_preview";
   user_location?: ApproximateLocation;
@@ -2167,7 +2245,7 @@ export interface WebSearchPreviewTool extends Tool {
   search_content_types?: SearchContentType[];
 }
 
-export function webSearchPreviewToolSerializer(item: WebSearchPreviewTool): any {
+export function toolWebSearchPreviewToolSerializer(item: ToolWebSearchPreviewTool): any {
   return {
     type: item["type"],
     user_location: !item["user_location"]
@@ -2182,7 +2260,7 @@ export function webSearchPreviewToolSerializer(item: WebSearchPreviewTool): any 
   };
 }
 
-export function webSearchPreviewToolDeserializer(item: any): WebSearchPreviewTool {
+export function toolWebSearchPreviewToolDeserializer(item: any): ToolWebSearchPreviewTool {
   return {
     type: item["type"],
     user_location: !item["user_location"]
@@ -2234,13 +2312,13 @@ export type SearchContextSize = "low" | "medium" | "high";
 export type SearchContentType = "text" | "image";
 
 /** Allows the assistant to create, delete, or update files using unified diffs. */
-export interface ApplyPatchToolParam extends Tool {
+export interface ToolApplyPatchToolParam extends Tool {
   /** The type of the tool. Always `apply_patch`. */
   type: "apply_patch";
   allowed_callers?: CallableToolAllowedCaller[];
 }
 
-export function applyPatchToolParamSerializer(item: ApplyPatchToolParam): any {
+export function toolApplyPatchToolParamSerializer(item: ToolApplyPatchToolParam): any {
   return {
     type: item["type"],
     allowed_callers: !item["allowed_callers"]
@@ -2251,7 +2329,7 @@ export function applyPatchToolParamSerializer(item: ApplyPatchToolParam): any {
   };
 }
 
-export function applyPatchToolParamDeserializer(item: any): ApplyPatchToolParam {
+export function toolApplyPatchToolParamDeserializer(item: any): ToolApplyPatchToolParam {
   return {
     type: item["type"],
     allowed_callers: !item["allowed_callers"]
@@ -2259,22 +2337,6 @@ export function applyPatchToolParamDeserializer(item: any): ApplyPatchToolParam 
       : item["allowed_callers"].map((p1: any) => {
           return p1;
         }),
-  };
-}
-
-/** A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use). */
-export interface ComputerTool extends Tool {
-  /** The type of the computer tool. Always `computer`. */
-  type: "computer";
-}
-
-export function computerToolSerializer(item: ComputerTool): any {
-  return { type: item["type"] };
-}
-
-export function computerToolDeserializer(item: any): ComputerTool {
-  return {
-    type: item["type"],
   };
 }
 
@@ -2394,51 +2456,56 @@ export function functionToolParamDeserializer(item: any): FunctionToolParam {
   };
 }
 
-/** model interface EmptyModelParam */
-export interface EmptyModelParam {}
-
-export function emptyModelParamSerializer(_item: EmptyModelParam): any {
-  return {};
-}
-
-export function emptyModelParamDeserializer(item: any): EmptyModelParam {
-  return item;
-}
-
-/** Hosted or BYOT tool search configuration for deferred tools. */
-export interface ToolSearchToolParam extends Tool {
-  /** The type of the tool. Always `tool_search`. */
-  type: "tool_search";
-  /** Whether tool search is executed by the server or by the client. */
-  execution?: ToolSearchExecutionType;
+/** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/api/docs/guides/function-calling#custom-tools) */
+export interface CustomToolParam {
+  /** The type of the custom tool. Always `custom`. */
+  type: "custom";
+  /** The name of the custom tool, used to identify it in tool calls. */
+  name: string;
+  /** Whether the tool response can be returned asynchronously versus immediately returned on next response creation. */
+  async?: boolean;
+  /** Optional description of the custom tool, used to provide more context. */
   description?: string;
-  parameters?: EmptyModelParam;
+  /** The input format for the custom tool. Default is unconstrained text. */
+  format?: CustomToolParamFormatUnion;
+  /** Whether this tool should be deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
 }
 
-export function toolSearchToolParamSerializer(item: ToolSearchToolParam): any {
+export function customToolParamSerializer(item: CustomToolParam): any {
   return {
     type: item["type"],
-    execution: item["execution"],
+    name: item["name"],
+    async: item["async"],
     description: item["description"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : emptyModelParamSerializer(item["parameters"]),
+    format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
-export function toolSearchToolParamDeserializer(item: any): ToolSearchToolParam {
+export function customToolParamDeserializer(item: any): CustomToolParam {
   return {
     type: item["type"],
-    execution: item["execution"],
+    name: item["name"],
+    async: item["async"],
     description: item["description"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : emptyModelParamDeserializer(item["parameters"]),
+    format: !item["format"]
+      ? item["format"]
+      : customToolParamFormatUnionDeserializer(item["format"]),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
-
-/** Type of ToolSearchExecutionType */
-export type ToolSearchExecutionType = "server" | "client";
 
 /**
  * How the model should select which tool (or tools) to use when generating
@@ -3222,6 +3289,7 @@ export function apiErrorDeserializer(item: any): ApiError {
 
 /** model interface MisalignmentErrorDetailsResource */
 export interface MisalignmentErrorDetailsResource {
+  review_target?: string;
   /** An optional classification; clients must accept additional values. */
   error_type?: MisalignmentErrorType;
   /** The public explanation for this block. */
@@ -3234,6 +3302,7 @@ export function misalignmentErrorDetailsResourceDeserializer(
   item: any,
 ): MisalignmentErrorDetailsResource {
   return {
+    review_target: item["review_target"],
     error_type: !item["error_type"]
       ? item["error_type"]
       : misalignmentErrorTypeDeserializer(item["error_type"]),
@@ -3540,12 +3609,13 @@ export function realtimeResponseStatusDetailsDeserializer(
 export interface RealtimeResponseStatusDetailsError {
   type?: string;
   code?: string;
+  message?: string;
 }
 
 export function realtimeResponseStatusDetailsErrorSerializer(
   item: RealtimeResponseStatusDetailsError,
 ): any {
-  return { type: item["type"], code: item["code"] };
+  return { type: item["type"], code: item["code"], message: item["message"] };
 }
 
 export function realtimeResponseStatusDetailsErrorDeserializer(
@@ -3554,6 +3624,7 @@ export function realtimeResponseStatusDetailsErrorDeserializer(
   return {
     type: item["type"],
     code: item["code"],
+    message: item["message"],
   };
 }
 
@@ -5157,6 +5228,133 @@ export function realtimeFunctionToolDeserializer(item: any): RealtimeFunctionToo
     parameters: !item["parameters"]
       ? item["parameters"]
       : realtimeFunctionToolParametersDeserializer(item["parameters"]),
+  };
+}
+
+/**
+ * Give the model access to additional tools via remote Model Context Protocol
+ * (MCP) servers. [Learn more about MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp).
+ */
+export interface MCPTool {
+  /** The type of the MCP tool. Always `mcp`. */
+  type: "mcp";
+  /** A label for this MCP server, used to identify it in tool calls. */
+  server_label: string;
+  /**
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
+   */
+  server_url?: string;
+  /**
+   * Identifier for service connectors, like those available in ChatGPT. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
+   *   about service connectors [here](https://developers.openai.com/api/docs/guides/tools-connectors-mcp#connectors).
+   *   This field is deprecated for models released after September 1, 2026.
+   *   Use `server_url` to connect to a remote MCP server, or `tunnel_id` to
+   *   connect through a Secure MCP Tunnel.
+   *   Currently supported `connector_id` values are:
+   *   - Dropbox: `connector_dropbox`
+   *   - Gmail: `connector_gmail`
+   *   - Google Calendar: `connector_googlecalendar`
+   *   - Google Drive: `connector_googledrive`
+   *   - Microsoft Teams: `connector_microsoftteams`
+   *   - Outlook Calendar: `connector_outlookcalendar`
+   *   - Outlook Email: `connector_outlookemail`
+   *   - SharePoint: `connector_sharepoint`
+   */
+  connector_id?:
+    | "connector_dropbox"
+    | "connector_gmail"
+    | "connector_googlecalendar"
+    | "connector_googledrive"
+    | "connector_microsoftteams"
+    | "connector_outlookcalendar"
+    | "connector_outlookemail"
+    | "connector_sharepoint";
+  /**
+   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
+   */
+  tunnel_id?: string;
+  /**
+   * An OAuth access token that can be used with a remote MCP server, either
+   *   with a custom MCP server URL or a service connector. Your application
+   *   must handle the OAuth authorization flow and provide the token here.
+   */
+  authorization?: string;
+  /** Optional description of the MCP server, used to provide more context. */
+  server_description?: string;
+  headers?: Record<string, string>;
+  allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
+  require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
+  project_connection_id?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+}
+
+export function mcpToolSerializer(item: MCPTool): any {
+  return {
+    type: item["type"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: item["headers"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+export function mcpToolDeserializer(item: any): MCPTool {
+  return {
+    type: item["type"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(
+          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -7996,7 +8194,7 @@ export function realtimeServerEventErrorErrorDeserializer(
 /**
  * Returned when an error occurs, which could be a client problem or a server
  * problem. Most errors are recoverable and the session will stay open, we
- * recommend to implementors to monitor and log error messages by default.
+ * recommend to implementers to monitor and log error messages by default.
  */
 export interface RealtimeServerEventError {
   /** The unique ID of the server event. */

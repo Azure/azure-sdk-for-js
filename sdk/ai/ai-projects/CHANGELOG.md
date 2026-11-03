@@ -1,5 +1,16 @@
 # Release History
 
+## 2.11.0 (Unreleased)
+
+### Features Added
+
+- Add voice-agent `post_call` configuration for delivering transcripts to Event Grid connections and routines after a session ends. Post-call audio delivery is not supported in this preview. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
+- Add `review_target` to misalignment error details and `message` to realtime response failure details. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `f5ead4e289e118a0037dabc893316670e5435850`, exposing the emitted `Tool*` names as aliases while preserving existing tool shapes and serializer dispatch. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f5ead4e289e118a0037dabc893316670e5435850). [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
+
 ## 2.10.0 (2026-10-30)
 
 ### Breaking Changes

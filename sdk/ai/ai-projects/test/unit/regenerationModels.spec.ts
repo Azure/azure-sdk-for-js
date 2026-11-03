@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, expect, expectTypeOf, it } from "vitest";
+import type * as Models from "../../src/index.js";
 import type {
   AgentSessionResource,
   ApiErrorResponse,
@@ -81,6 +82,8 @@ import {
   misalignmentErrorDetailsResourceDeserializer,
   realtimeConversationItemUnionDeserializer,
   realtimeConversationItemUnionSerializer,
+  realtimeResponseStatusDetailsErrorDeserializer,
+  realtimeResponseStatusDetailsErrorSerializer,
   realtimeServerEventConversationItemInputAudioTranscriptionCompletedDeserializer,
   realtimeServerEventConversationItemInputAudioTranscriptionCompletedSerializer,
   telephonyBindingListItemUnionDeserializer,
@@ -94,6 +97,8 @@ import {
   toolboxToolUnionSerializer,
   toolUnionDeserializer,
   toolUnionSerializer,
+  toolFunctionToolSerializer,
+  toolFunctionToolDeserializer,
   updateTelephonyBindingRequestSerializer,
   voiceAgentInputTranscriptionDeserializer,
   voiceAgentInputTranscriptionSerializer,
@@ -113,6 +118,72 @@ const timestamp = 1_789_200_000;
 const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
+  it("keeps emitted tool names as aliases of the customized public contracts", () => {
+    expectTypeOf<Models.ToolFunctionTool>().toEqualTypeOf<Models.FunctionTool>();
+    expectTypeOf<Models.ToolFileSearchTool>().toEqualTypeOf<Models.FileSearchTool>();
+    expectTypeOf<Models.ToolComputerTool>().toEqualTypeOf<Models.ComputerTool>();
+    expectTypeOf<Models.ToolComputerUsePreviewTool>().toEqualTypeOf<Models.ComputerUsePreviewTool>();
+    expectTypeOf<Models.ToolWebSearchTool>().toEqualTypeOf<Models.WebSearchTool>();
+    expectTypeOf<Models.ToolMcpTool>().toEqualTypeOf<Models.MCPTool>();
+    expectTypeOf<Models.ToolCodeInterpreterTool>().toEqualTypeOf<Models.CodeInterpreterTool>();
+    expectTypeOf<Models.ToolProgrammaticToolCallingParam>().toEqualTypeOf<Models.ProgrammaticToolCallingParam>();
+    expectTypeOf<Models.ToolImageGenTool>().toEqualTypeOf<Models.ImageGenTool>();
+    expectTypeOf<Models.ToolLocalShellToolParam>().toEqualTypeOf<Models.LocalShellToolParam>();
+    expectTypeOf<Models.ToolFunctionShellToolParam>().toEqualTypeOf<Models.FunctionShellToolParam>();
+    expectTypeOf<Models.ToolCustomToolParam>().toEqualTypeOf<Models.CustomToolParam>();
+    expectTypeOf<Models.ToolToolSearchToolParam>().toEqualTypeOf<Models.ToolSearchToolParam>();
+    expectTypeOf<Models.ToolWebSearchPreviewTool>().toEqualTypeOf<Models.WebSearchPreviewTool>();
+    expectTypeOf<Models.ToolApplyPatchToolParam>().toEqualTypeOf<Models.ApplyPatchToolParam>();
+    const tool: Models.ToolFunctionTool = { type: "function", name: "lookup", async: false };
+    expect(toolFunctionToolSerializer).toBe(functionToolSerializer);
+    expect(toolFunctionToolDeserializer).toBe(functionToolDeserializer);
+    expect(toWire(toolUnionSerializer(tool))).toEqual(tool);
+    expect(toolUnionDeserializer(tool)).toMatchObject(tool);
+  });
+
+  it.each([{ include: undefined }, { include: [] }, { include: ["audio"] }] as const)(
+    "round-trips both post-call destinations with include $include",
+    ({ include }) => {
+      const postCall: Models.VoiceAgentPostCallConfig = {
+        destinations: [
+          { type: "event_grid", connection_name: "post-call-events" },
+          { type: "routine", name: "archive" },
+        ],
+        // "audio" is modeled but rejected by the service in this preview.
+        include: include ? [...include] : undefined,
+      };
+      const definition: VoiceAgentDefinition = {
+        kind: "voice",
+        store: false,
+        post_call: postCall,
+      };
+      expect(toWire(voiceAgentDefinitionSerializer(definition))).toEqual(toWire(definition));
+      expect(voiceAgentDefinitionDeserializer(definition)).toMatchObject(definition);
+    },
+  );
+
+  it("omits unconfigured post-call delivery without changing storage", () => {
+    const definition: VoiceAgentDefinition = { kind: "voice", store: false };
+    expect(toWire(voiceAgentDefinitionSerializer(definition))).toEqual(definition);
+    expect(toWire(voiceAgentDefinitionDeserializer(definition))).toEqual(definition);
+  });
+
+  it("preserves error review targets and realtime failure messages", () => {
+    const details: MisalignmentErrorDetailsResource = {
+      review_target: "destination",
+      detailed_explanation: "Review before sending.",
+    };
+    expect(misalignmentErrorDetailsResourceDeserializer(details)).toMatchObject(details);
+    const failure: Models.RealtimeResponseStatusDetailsError = {
+      type: "server_error",
+      code: "response_failed",
+      message: "Unable to complete the response.",
+    };
+    expect(realtimeResponseStatusDetailsErrorSerializer(failure)).toEqual(failure);
+    expect(realtimeResponseStatusDetailsErrorDeserializer(failure)).toEqual(failure);
+    expect(toWire(realtimeResponseStatusDetailsErrorSerializer({}))).toEqual({});
+  });
+
   it("exports the upstream voice transports and fine-tuning preview opt-in", () => {
     expectTypeOf<VoiceAgentTransport>().toEqualTypeOf<"websocket" | "webrtc">();
     expectTypeOf<"FineTuningSessions=V1Preview">().toExtend<FoundryFeaturesOptInKeys>();

@@ -4,12 +4,13 @@
 /**
  * This sample demonstrates how to configure and retrieve a voice agent definition.
  *
- * @summary Create a voice agent with a greeting and disabled conversation storage.
+ * @summary Create a voice agent with a greeting, disabled conversation storage, and optional post-call notifications.
  * @azsdk-weight 50
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
+import type { VoiceAgentPostCallDestinationUnion } from "@azure/ai-projects";
 import "dotenv/config";
 
 export async function main(): Promise<void> {
@@ -22,6 +23,18 @@ export async function main(): Promise<void> {
     );
   }
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const postCallDestinations: VoiceAgentPostCallDestinationUnion[] = [];
+  // Optionally name an existing Event Grid connection or routine in this project.
+  const eventGridConnection = process.env["FOUNDRY_POST_CALL_EVENT_GRID_CONNECTION"];
+  const routineName = process.env["FOUNDRY_POST_CALL_ROUTINE_NAME"];
+  if (eventGridConnection) {
+    postCallDestinations.push({ type: "event_grid", connection_name: eventGridConnection });
+  }
+  if (routineName) {
+    postCallDestinations.push({ type: "routine", name: routineName });
+  }
+  // Post-call destinations always receive the transcript. Do not request "audio":
+  // the service rejects that include option in this preview.
 
   console.log("Creating a voice agent version...");
   const options = {
@@ -37,6 +50,7 @@ export async function main(): Promise<void> {
       greeting: { type: "template", text: "Hello! How can I help with your journey?" },
       output_modalities: ["audio"],
       store: false,
+      post_call: postCallDestinations.length ? { destinations: postCallDestinations } : undefined,
     },
     options,
   );
@@ -48,6 +62,9 @@ export async function main(): Promise<void> {
     }
     if ("store" in version.definition) {
       console.log("Conversation storage enabled:", version.definition.store);
+    }
+    if ("post_call" in version.definition) {
+      console.log("Post-call delivery:", version.definition.post_call);
     }
     // This sample configures the agent; it does not open a microphone or voice session.
   } finally {
