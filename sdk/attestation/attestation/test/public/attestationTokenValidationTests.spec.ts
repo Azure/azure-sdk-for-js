@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect } from "vitest";
+import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { AttestationClient } from "../../src/index.js";
 import { AttestationTokenImpl } from "../../src/models/attestationToken.js";
 import { base64UrlEncodeByteArray } from "../../src/utils/base64.js";
 import { stringToBytes } from "../../src/utils/utf8.js";
@@ -15,33 +18,77 @@ describe("AttestationTokenValidation", () => {
     return { privKey, cert };
   };
 
-  it("rejects a token signed by an untrusted key with its own embedded certificate", () => {
-    const trusted = createSigner("trusted");
-    const attacker = createSigner("attacker");
-    const trustedSigner = AttestationTokenImpl.create({
-      privateKey: trusted.privKey,
-      certificate: trusted.cert,
-    }).certificateChain!;
-
-    const forged = AttestationTokenImpl.create({
-      body: JSON.stringify({ "x-ms-sgx-is-debuggable": false }),
-      privateKey: attacker.privKey,
-      certificate: attacker.cert,
+  const claims = (expiresInSeconds: number): string => {
+    const now = Math.floor(Date.now() / 1000);
+    return JSON.stringify({
+      iat: now,
+      nbf: now,
+      exp: now + expiresInSeconds,
+      "x-ms-sgx-is-debuggable": true,
     });
+  };
 
-    assert.deepEqual(forged.getTokenProblems([trustedSigner]), [
-      "Attestation Token is not properly signed.",
-    ]);
-    assert.deepEqual(forged.getTokenProblems([]), ["Attestation Token is not properly signed."]);
+  // Serves /certs and /attest/* like the attestation service, without any network traffic.
+  const fakeService = (signingCertificate: string | undefined, token: string): HttpClient => ({
+    sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
+      const keys = signingCertificate
+        ? [{ kty: "RSA", x5c: [signingCertificate.replace(/-----[A-Z ]+-----|\s/g, "")] }]
+        : [];
+      const body = new URL(request.url).pathname === "/certs" ? { keys } : { token };
+      return {
+        request,
+        status: 200,
+        headers: createHttpHeaders({ "content-type": "application/json" }),
+        bodyAsText: JSON.stringify(body),
+      };
+    },
   });
 
-  it("rejects an unsigned token by default", () => {
-    const unsigned = AttestationTokenImpl.create({ body: JSON.stringify({ foo: "foo" }) });
-    assert.deepEqual(unsigned.getTokenProblems(), ["Attestation Token is not signed."]);
-    assert.deepEqual(unsigned.getTokenProblems(undefined, { validateIssuer: true }), [
+  it("rejects a service token signed by a key other than the trusted signers", () => {
+    const trusted = createSigner("trusted");
+    const attacker = createSigner("attacker");
+    const forged = new AttestationTokenImpl(
+      AttestationTokenImpl.create({
+        body: claims(60),
+        privateKey: attacker.privKey,
+        certificate: attacker.cert,
+      }).serialize(),
+    );
+
+    assert.deepEqual(
+      forged._getServiceTokenProblems([{ certificates: [trusted.cert] }], {}, false),
+      ["Attestation Token is not properly signed."],
+    );
+    assert.deepEqual(forged._getServiceTokenProblems([], {}, false), [
+      "Attestation Token is not properly signed.",
+    ]);
+  });
+
+  it("accepts a service token signed by a trusted signer", () => {
+    const trusted = createSigner("trusted");
+    const token = new AttestationTokenImpl(
+      AttestationTokenImpl.create({
+        body: claims(60),
+        privateKey: trusted.privKey,
+        certificate: trusted.cert,
+      }).serialize(),
+    );
+
+    assert.deepEqual(
+      token._getServiceTokenProblems([{ certificates: [trusted.cert] }], {}, false),
+      [],
+    );
+  });
+
+  it("rejects an unsigned service token unless unsigned tokens are allowed", () => {
+    const unsigned = new AttestationTokenImpl(
+      AttestationTokenImpl.create({ body: claims(60) }).serialize(),
+    );
+
+    assert.deepEqual(unsigned._getServiceTokenProblems([], {}, false), [
       "Attestation Token is not signed.",
     ]);
-    assert.deepEqual(unsigned.getTokenProblems(undefined, { allowUnsignedToken: true }), []);
+    assert.deepEqual(unsigned._getServiceTokenProblems([], {}, true), []);
   });
 
   it("rejects a token signed with an unsupported algorithm", () => {
@@ -50,24 +97,57 @@ describe("AttestationTokenValidation", () => {
     const token = new AttestationTokenImpl(
       `${encode({ alg: "HS256" })}.${encode({ foo: "foo" })}.c2lnbmF0dXJl`,
     );
-    const trusted = createSigner("trusted");
-    const trustedSigner = AttestationTokenImpl.create({
-      privateKey: trusted.privKey,
-      certificate: trusted.cert,
-    }).certificateChain!;
 
-    assert.deepEqual(token.getTokenProblems([trustedSigner]), [
+    assert.deepEqual(token._getServiceTokenProblems([], {}, false), [
       "Unsupported attestation token algorithm: HS256",
     ]);
   });
 
-  it("accepts a token signed by a trusted signer", () => {
-    const trusted = createSigner("trusted");
-    const token = AttestationTokenImpl.create({
-      body: JSON.stringify({ foo: "foo" }),
-      privateKey: trusted.privKey,
-      certificate: trusted.cert,
+  it("runs the validation callback when it is the only option provided", () => {
+    const token = AttestationTokenImpl.create({ body: claims(60) });
+
+    assert.deepEqual(
+      token.getTokenProblems(undefined, { validateAttestationToken: () => ["rejected by policy"] }),
+      ["rejected by policy"],
+    );
+  });
+
+  it("validates the expiration time when the time validation options are omitted", () => {
+    const token = AttestationTokenImpl.create({ body: claims(-60) });
+
+    assert.deepEqual(token.getTokenProblems(undefined, { validateIssuer: false }), [
+      "AttestationToken has expired.",
+    ]);
+  });
+
+  it("accepts the unsigned response to a draft policy request only", async () => {
+    const unsignedToken = AttestationTokenImpl.create({ body: claims(60) }).serialize();
+    const client = new AttestationClient("https://attestation.test", {
+      httpClient: fakeService(undefined, unsignedToken),
     });
-    assert.deepEqual(token.getTokenProblems([token.certificateChain!]), []);
+
+    await client.attestSgxEnclave(new Uint8Array([1]), { draftPolicyForAttestation: "policy" });
+    await expect(client.attestSgxEnclave(new Uint8Array([1]))).rejects.toThrow(
+      "Attestation Token is not signed.",
+    );
+  });
+
+  it("keeps the client's validation callback when an operation passes its own options", async () => {
+    const service = createSigner("service");
+    const signedToken = AttestationTokenImpl.create({
+      body: claims(60),
+      privateKey: service.privKey,
+      certificate: service.cert,
+    }).serialize();
+    const client = new AttestationClient("https://attestation.test", {
+      httpClient: fakeService(service.cert, signedToken),
+      validationOptions: { validateAttestationToken: () => ["rejected by policy"] },
+    });
+
+    await expect(
+      client.attestSgxEnclave(new Uint8Array([1]), {
+        validationOptions: { timeValidationSlack: 30 },
+      }),
+    ).rejects.toThrow("rejected by policy");
   });
 });

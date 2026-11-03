@@ -11,12 +11,11 @@
 Fixed a bug where the client options are ignored when passed along with an AAD credential.
 [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175)
 
-- Fixed a signature verification bypass in attestation token validation. Previously, a token signed with an untrusted key could vouch for itself through the certificate chain embedded in its header, and an unsigned (`alg: "none"`) token was accepted. Tokens are now validated only against the trusted signing keys returned by the service, using an asymmetric-algorithm allow-list, and unsigned tokens are rejected by default.
-- `AttestationTokenValidationOptions.validateToken` no longer disables all validation when other validation options are supplied without it; validation is skipped only when `validateToken` is `false`.
+- `AttestationClient` and `AttestationAdministrationClient` now validate the tokens returned by the attestation service only against the signing certificates retrieved from the service. A token is no longer accepted on the strength of a certificate embedded in its own header, only the `RS*`, `PS*`, and `ES*` signature algorithms are accepted, and an unsigned (`alg: "none"`) token is accepted only in response to a request that sets `draftPolicyForAttestation`, the only case in which the service returns one. Validating a token directly with `AttestationToken.getTokenProblems` is unchanged.
+- Omitted `validateToken`, `validateExpirationTime`, and `validateNotBeforeTime` validation options now default to `true`, as documented. Previously, setting any validation option without `validateToken` skipped all validation, including the `validateAttestationToken` callback, and omitting `validateExpirationTime` or `validateNotBeforeTime` skipped that check.
+- Validation options passed to an individual operation are now combined with the validation options of the client instead of replacing them, so a `validateAttestationToken` callback set on the client also runs when an operation sets other validation options. Options set on the operation take precedence.
 
 ### Other Changes
-
-- Added `allowUnsignedToken` to `AttestationTokenValidationOptions` to explicitly accept unsigned tokens (for example, tokens created locally). It defaults to `false`.
 
 - Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31433](https://github.com/Azure/azure-sdk-for-js/pull/31433)
 

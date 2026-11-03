@@ -36,7 +36,7 @@ import { _policyResultFromGenerated } from "./models/policyResult.js";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner.js";
 import { verifyAttestationSigningKey } from "./utils/helpers.js";
 import { createAttestationResponse } from "./models/attestationResponse.js";
-import { AttestationTokenImpl } from "./models/attestationToken.js";
+import { AttestationTokenImpl, _combineValidationOptions } from "./models/attestationToken.js";
 import { tracingClient } from "./generated/tracing.js";
 
 /**
@@ -165,9 +165,10 @@ export class AttestationAdministrationClient {
         const token = new AttestationTokenImpl(getPolicyResult.token);
 
         // Validate the token returned from the service.
-        const problems = token.getTokenProblems(
+        const problems = token._getServiceTokenProblems(
           await this.signingKeys(),
-          options.validationOptions ?? this._validationOptions,
+          _combineValidationOptions(this._validationOptions, options.validationOptions),
+          false,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -254,9 +255,10 @@ export class AttestationAdministrationClient {
         // The attestation token returned from the service has a PolicyResult
         // object as the body.
         const token = new AttestationTokenImpl(setPolicyResult.token);
-        const problems = token.getTokenProblems(
+        const problems = token._getServiceTokenProblems(
           await this.signingKeys(),
-          options.validationOptions ?? this._validationOptions,
+          _combineValidationOptions(this._validationOptions, options.validationOptions),
+          false,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -329,9 +331,10 @@ export class AttestationAdministrationClient {
         // The attestation token returned from the service has a PolicyResult
         // object as the body.
         const token = new AttestationTokenImpl(resetPolicyResult.token);
-        const problems = token.getTokenProblems(
+        const problems = token._getServiceTokenProblems(
           await this.signingKeys(),
-          options.validationOptions ?? this._validationOptions,
+          _combineValidationOptions(this._validationOptions, options.validationOptions),
+          false,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -368,9 +371,10 @@ export class AttestationAdministrationClient {
         // The attestation token returned from the service has a PolicyResult
         // object as the body.
         const token = new AttestationTokenImpl(getCertificatesResult.token);
-        const problems = token.getTokenProblems(
+        const problems = token._getServiceTokenProblems(
           await this.signingKeys(),
-          options.validationOptions ?? this._validationOptions,
+          _combineValidationOptions(this._validationOptions, options.validationOptions),
+          false,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -469,9 +473,10 @@ export class AttestationAdministrationClient {
         // The attestation token returned from the service has a PolicyResult
         // object as the body.
         const token = new AttestationTokenImpl(addCertificateResult.token);
-        const problems = token.getTokenProblems(
+        const problems = token._getServiceTokenProblems(
           await this.signingKeys(),
-          options.validationOptions ?? this._validationOptions,
+          _combineValidationOptions(this._validationOptions, options.validationOptions),
+          false,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -582,9 +587,10 @@ export class AttestationAdministrationClient {
         // The attestation token returned from the service has a PolicyResult
         // object as the body.
         const token = new AttestationTokenImpl(removeCertificateResult.token);
-        const problems = token.getTokenProblems(
+        const problems = token._getServiceTokenProblems(
           await this.signingKeys(),
-          options.validationOptions ?? this._validationOptions,
+          _combineValidationOptions(this._validationOptions, options.validationOptions),
+          false,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));

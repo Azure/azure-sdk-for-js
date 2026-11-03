@@ -133,7 +133,6 @@ export interface AttestationToken {
 
 // @public
 export interface AttestationTokenValidationOptions {
-    allowUnsignedToken?: boolean;
     expectedIssuer?: string;
     timeValidationSlack?: number;
     validateAttestationToken?: (token: AttestationToken, signer?: AttestationSigner) => string[] | undefined;
