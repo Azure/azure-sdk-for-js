@@ -1,0 +1,40 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to restarts PostgreSQL database engine in a server.
+ *
+ * @summary restarts PostgreSQL database engine in a server.
+ * x-ms-original-file: 2026-10-01/ServersRestart.json
+ */
+async function restartPostgreSQLDatabaseEngineInAServer(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  await client.servers.restart("exampleresourcegroup", "exampleserver");
+}
+
+/**
+ * This sample demonstrates how to restarts PostgreSQL database engine in a server.
+ *
+ * @summary restarts PostgreSQL database engine in a server.
+ * x-ms-original-file: 2026-10-01/ServersRestartWithFailover.json
+ */
+async function restartPostgreSQLDatabaseEngineInAServerWithAForcedFailoverToStandbyServer(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  await client.servers.restart("exampleresourcegroup", "exampleserver", {
+    parameters: { failoverMode: "ForcedFailover", restartWithFailover: true },
+  });
+}
+
+async function main(): Promise<void> {
+  await restartPostgreSQLDatabaseEngineInAServer();
+  await restartPostgreSQLDatabaseEngineInAServerWithAForcedFailoverToStandbyServer();
+}
+
+main().catch(console.error);

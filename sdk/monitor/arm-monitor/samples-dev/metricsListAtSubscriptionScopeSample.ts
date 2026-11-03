@@ -5,9 +5,9 @@ import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to **Lists the metric data for a subscription**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling).
+ * This sample demonstrates how to **Lists the metric data for a subscription**. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling).
  *
- * @summary **Lists the metric data for a subscription**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling).
+ * @summary **Lists the metric data for a subscription**. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling).
  * x-ms-original-file: 2024-02-01/GetMultiResourceMetric.json
  */
 async function getSubscriptionLevelMetricData(): Promise<void> {
@@ -30,9 +30,9 @@ async function getSubscriptionLevelMetricData(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to **Lists the metric data for a subscription**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling).
+ * This sample demonstrates how to **Lists the metric data for a subscription**. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling).
  *
- * @summary **Lists the metric data for a subscription**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling).
+ * @summary **Lists the metric data for a subscription**. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling).
  * x-ms-original-file: 2024-02-01/GetMultiResourceMetricMetadata.json
  */
 async function getSubscriptionLevelMetricMetadata(): Promise<void> {

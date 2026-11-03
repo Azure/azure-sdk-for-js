@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all read replicas of a server.
  *
  * @summary lists all read replicas of a server.
- * x-ms-original-file: 2026-07-01-preview/ReplicasListByServer.json
+ * x-ms-original-file: 2026-10-01/ReplicasListByServer.json
  */
 async function listAllReadReplicasOfAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

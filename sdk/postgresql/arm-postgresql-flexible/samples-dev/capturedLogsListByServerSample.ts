@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all captured logs for download in a server.
  *
  * @summary lists all captured logs for download in a server.
- * x-ms-original-file: 2026-07-01-preview/CapturedLogsListByServer.json
+ * x-ms-original-file: 2026-10-01/CapturedLogsListByServer.json
  */
 async function listAllCapturedLogsForDownloadInAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
