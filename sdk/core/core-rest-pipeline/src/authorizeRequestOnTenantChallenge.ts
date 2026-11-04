@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  AuthorizeRequestOnChallengeOptions,
-  PipelineRequest,
-  PipelineResponse,
-} from "@azure/core-rest-pipeline";
-
+import type { AuthorizeRequestOnChallengeOptions } from "./policies/bearerTokenAuthenticationPolicy.js";
+import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
 import type { GetTokenOptions } from "@azure/core-auth";
 
 /**
@@ -35,6 +31,9 @@ function isUuid(text: string): boolean {
  * Defines a callback to handle auth challenge for Storage APIs.
  * This implements the bearer challenge process described here: https://learn.microsoft.com/rest/api/storageservices/authorize-with-azure-active-directory#bearer-challenge
  * Handling has specific features for storage that departs to the general AAD challenge docs.
+ *
+ * @param challengeOptions - The request, response, scopes, and token retrieval callback.
+ * @returns Whether the request was authorized and should be sent again.
  **/
 export const authorizeRequestOnTenantChallenge: (
   challengeOptions: AuthorizeRequestOnChallengeOptions,

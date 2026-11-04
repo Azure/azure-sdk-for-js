@@ -37,6 +37,8 @@ The method `createSerializer` creates a `Serializer` that is used to do the bulk
 
 ## Next steps
 
+The `authorizeRequestOnTenantChallenge` helper is re-exported from `@azure/core-rest-pipeline` for backward compatibility. New code can import it directly from `@azure/core-rest-pipeline` without depending on `@azure/core-client`.
+
 You can build and run the tests locally by executing `npm run test`. Explore the [test](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-client/test) folder to see advanced usage and behavior of the public classes.
 
 Learn more about the [TypeSpec](https://typespec.io) [`@azure-tools/typespec-ts`](https://github.com/Azure/typespec-azure/tree/main/packages/typespec-ts) emitter for generating a compatible client on top of this package.
