@@ -8,7 +8,6 @@ Compared with version 4.0.0
   - Added operation group MigrationsOperations
   - Added operation AccessPolicyAssignmentOperationsOperations.createUpdate
   - Added operation AccessPolicyAssignmentOperationsOperations.delete
-  - Added operation ClustersOperations.unlinkMigratedEndpoint
   - Added operation DatabasesOperations.create
   - Added operation DatabasesOperations.delete
   - Added operation DatabasesOperations.export
@@ -19,8 +18,6 @@ Compared with version 4.0.0
   - Added operation DatabasesOperations.regenerateKey
   - Added operation DatabasesOperations.update
   - Added operation DatabasesOperations.upgradeDBRedisVersion
-  - Added operation MigrationsOperations.undo
-  - Added operation MigrationsOperations.unlinkMigratedEndpoint
   - Added operation PrivateEndpointConnectionsOperations.delete
   - Added operation PrivateEndpointConnectionsOperations.put
   - Added operation RedisEnterpriseOperations.create
