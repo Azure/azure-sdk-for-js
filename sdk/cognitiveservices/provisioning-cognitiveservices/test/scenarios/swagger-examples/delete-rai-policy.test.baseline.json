@@ -1,0 +1,24 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "raiPolicy": {
+          "bicepIdentifier": "raiPolicy",
+          "type": "Microsoft.CognitiveServices/raiPolicy",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "raiPolicyName"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

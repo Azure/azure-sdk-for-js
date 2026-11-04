@@ -1,0 +1,24 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "deletedAccount": {
+          "bicepIdentifier": "deletedAccount",
+          "type": "Microsoft.CognitiveServices/locations/resourceGroups/deletedAccounts",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "eastus/rg-cdk-package-test/deleted-account"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

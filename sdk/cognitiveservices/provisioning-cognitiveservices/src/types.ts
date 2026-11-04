@@ -36,12 +36,6 @@ export interface AadAuthTypeConnectionProperties {
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "AAD".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "AAD";
   /**
@@ -87,12 +81,6 @@ export interface AadAuthTypeConnectionPropertiesInput extends InputOf<AadAuthTyp
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "AAD".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "AAD";
   /**
@@ -133,12 +121,6 @@ export interface AadAuthTypeConnectionPropertiesView extends InputOf<AadAuthType
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "AAD".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "AAD";
   /**
@@ -274,12 +256,6 @@ export interface AccessKeyAuthTypeConnectionProperties {
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "AccessKey".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "AccessKey";
   /**
@@ -323,12 +299,6 @@ export interface AccessKeyAuthTypeConnectionPropertiesInput extends InputOf<Acce
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "AccessKey".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "AccessKey";
   /**
@@ -367,12 +337,6 @@ export interface AccessKeyAuthTypeConnectionPropertiesView extends InputOf<Acces
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "AccessKey".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "AccessKey";
   /**
@@ -455,12 +419,6 @@ export interface AccountKeyAuthTypeConnectionProperties {
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "AccountKey".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "AccountKey";
   /**
@@ -510,12 +468,6 @@ export interface AccountKeyAuthTypeConnectionPropertiesInput extends InputOf<Acc
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "AccountKey".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "AccountKey";
   /**
@@ -560,12 +512,6 @@ export interface AccountKeyAuthTypeConnectionPropertiesView extends InputOf<Acco
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "AccountKey".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "AccountKey";
   /**
@@ -1373,12 +1319,6 @@ export interface ApiKeyAuthConnectionProperties {
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "ApiKey".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "ApiKey";
   /**
@@ -1447,12 +1387,6 @@ export interface ApiKeyAuthConnectionPropertiesInput extends InputOf<ApiKeyAuthC
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "ApiKey".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "ApiKey";
   /**
@@ -1516,12 +1450,6 @@ export interface ApiKeyAuthConnectionPropertiesView extends InputOf<ApiKeyAuthCo
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "ApiKey".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "ApiKey";
   /**
@@ -2099,12 +2027,6 @@ export interface ChannelsBuiltInAuthorizationPolicy {
    * Authorization scheme type.
    *
    * Selects this variant. Must be "Channels".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "Channels";
 }
@@ -2117,12 +2039,6 @@ export interface ChannelsBuiltInAuthorizationPolicyInput extends InputOf<Channel
    * Authorization scheme type.
    *
    * Selects this variant. Must be "Channels".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "Channels";
 }
@@ -2984,12 +2900,6 @@ export interface CustomKeysConnectionProperties {
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "CustomKeys".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "CustomKeys";
   /**
@@ -3043,12 +2953,6 @@ export interface CustomKeysConnectionPropertiesInput extends InputOf<CustomKeysC
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "CustomKeys".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "CustomKeys";
   /**
@@ -3097,12 +3001,6 @@ export interface CustomKeysConnectionPropertiesView extends InputOf<CustomKeysCo
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "CustomKeys".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "CustomKeys";
   /**
@@ -3822,12 +3720,6 @@ export interface FqdnOutboundRule {
    * Type of a managed network Outbound Rule of a cognitive services account.
    *
    * Selects this variant. Must be "FQDN".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "FQDN";
 }
@@ -3849,12 +3741,6 @@ export interface FqdnOutboundRuleInput extends InputOf<FqdnOutboundRule> {
    * Type of a managed network Outbound Rule of a cognitive services account.
    *
    * Selects this variant. Must be "FQDN".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "FQDN";
 }
@@ -3881,12 +3767,6 @@ export interface FqdnOutboundRuleView extends InputOf<FqdnOutboundRule> {
    * Type of a managed network Outbound Rule of a cognitive services account.
    *
    * Selects this variant. Must be "FQDN".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "FQDN";
 }
@@ -3920,12 +3800,6 @@ export interface HostedAgentDeployment {
    * Gets or sets the type of deployment for the agent.
    *
    * Selects this variant. Must be "Hosted".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * deploymentType: asDiscriminator(deploymentTypeParam),
-   * ```
    */
   deploymentType: "Hosted";
   /**
@@ -3981,12 +3855,6 @@ export interface HostedAgentDeploymentInput extends InputOf<HostedAgentDeploymen
    * Gets or sets the type of deployment for the agent.
    *
    * Selects this variant. Must be "Hosted".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * deploymentType: asDiscriminator(deploymentTypeParam),
-   * ```
    */
   deploymentType: "Hosted";
   /**
@@ -4041,12 +3909,6 @@ export interface HostedAgentDeploymentView extends InputOf<HostedAgentDeployment
    * Gets or sets the type of deployment for the agent.
    *
    * Selects this variant. Must be "Hosted".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * deploymentType: asDiscriminator(deploymentTypeParam),
-   * ```
    */
   deploymentType: "Hosted";
   /**
@@ -4271,12 +4133,6 @@ export interface ManagedAgentDeployment {
    * Gets or sets the type of deployment for the agent.
    *
    * Selects this variant. Must be "Managed".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * deploymentType: asDiscriminator(deploymentTypeParam),
-   * ```
    */
   deploymentType: "Managed";
   /**
@@ -4324,12 +4180,6 @@ export interface ManagedAgentDeploymentInput extends InputOf<ManagedAgentDeploym
    * Gets or sets the type of deployment for the agent.
    *
    * Selects this variant. Must be "Managed".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * deploymentType: asDiscriminator(deploymentTypeParam),
-   * ```
    */
   deploymentType: "Managed";
   /**
@@ -4376,12 +4226,6 @@ export interface ManagedAgentDeploymentView extends InputOf<ManagedAgentDeployme
    * Gets or sets the type of deployment for the agent.
    *
    * Selects this variant. Must be "Managed".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * deploymentType: asDiscriminator(deploymentTypeParam),
-   * ```
    */
   deploymentType: "Managed";
   /**
@@ -4436,12 +4280,6 @@ export interface ManagedIdentityAuthTypeConnectionProperties {
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "ManagedIdentity".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "ManagedIdentity";
   /**
@@ -4485,12 +4323,6 @@ export interface ManagedIdentityAuthTypeConnectionPropertiesInput extends InputO
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "ManagedIdentity".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "ManagedIdentity";
   /**
@@ -4529,12 +4361,6 @@ export interface ManagedIdentityAuthTypeConnectionPropertiesView extends InputOf
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "ManagedIdentity".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "ManagedIdentity";
   /**
@@ -5365,12 +5191,6 @@ export interface NoneAuthTypeConnectionProperties {
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "None".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "None";
   /**
@@ -5413,12 +5233,6 @@ export interface NoneAuthTypeConnectionPropertiesInput extends InputOf<NoneAuthT
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "None".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "None";
   /**
@@ -5456,12 +5270,6 @@ export interface NoneAuthTypeConnectionPropertiesView extends InputOf<NoneAuthTy
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "None".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "None";
   /**
@@ -5536,12 +5344,6 @@ export interface OAuth2AuthTypeConnectionProperties {
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "OAuth2".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "OAuth2";
   /**
@@ -5589,12 +5391,6 @@ export interface OAuth2AuthTypeConnectionPropertiesInput extends InputOf<OAuth2A
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "OAuth2".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "OAuth2";
   /**
@@ -5637,12 +5433,6 @@ export interface OAuth2AuthTypeConnectionPropertiesView extends InputOf<OAuth2Au
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "OAuth2".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "OAuth2";
   /**
@@ -5729,12 +5519,6 @@ export interface OrganizationSharedBuiltInAuthorizationPolicy {
    * Authorization scheme type.
    *
    * Selects this variant. Must be "OrganizationScope".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "OrganizationScope";
 }
@@ -5747,12 +5531,6 @@ export interface OrganizationSharedBuiltInAuthorizationPolicyInput extends Input
    * Authorization scheme type.
    *
    * Selects this variant. Must be "OrganizationScope".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "OrganizationScope";
 }
@@ -5773,12 +5551,6 @@ export interface PatAuthTypeConnectionProperties {
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "PAT".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "PAT";
   /**
@@ -5822,12 +5594,6 @@ export interface PatAuthTypeConnectionPropertiesInput extends InputOf<PatAuthTyp
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "PAT".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "PAT";
   /**
@@ -5866,12 +5632,6 @@ export interface PatAuthTypeConnectionPropertiesView extends InputOf<PatAuthType
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "PAT".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "PAT";
   /**
@@ -6079,12 +5839,6 @@ export interface PrivateEndpointOutboundRule {
    * Type of a managed network Outbound Rule of a cognitive services account.
    *
    * Selects this variant. Must be "PrivateEndpoint".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "PrivateEndpoint";
 }
@@ -6113,12 +5867,6 @@ export interface PrivateEndpointOutboundRuleInput extends InputOf<PrivateEndpoin
    * Type of a managed network Outbound Rule of a cognitive services account.
    *
    * Selects this variant. Must be "PrivateEndpoint".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "PrivateEndpoint";
 }
@@ -6152,12 +5900,6 @@ export interface PrivateEndpointOutboundRuleView extends InputOf<PrivateEndpoint
    * Type of a managed network Outbound Rule of a cognitive services account.
    *
    * Selects this variant. Must be "PrivateEndpoint".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "PrivateEndpoint";
 }
@@ -7493,12 +7235,6 @@ export interface RoleBasedBuiltInAuthorizationPolicy {
    * Authorization scheme type.
    *
    * Selects this variant. Must be "Default".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "Default";
 }
@@ -7511,12 +7247,6 @@ export interface RoleBasedBuiltInAuthorizationPolicyInput extends InputOf<RoleBa
    * Authorization scheme type.
    *
    * Selects this variant. Must be "Default".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "Default";
 }
@@ -7582,12 +7312,6 @@ export interface SasAuthTypeConnectionProperties {
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "SAS".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "SAS";
   /**
@@ -7631,12 +7355,6 @@ export interface SasAuthTypeConnectionPropertiesInput extends InputOf<SasAuthTyp
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "SAS".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "SAS";
   /**
@@ -7675,12 +7393,6 @@ export interface SasAuthTypeConnectionPropertiesView extends InputOf<SasAuthType
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "SAS".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "SAS";
   /**
@@ -7760,12 +7472,6 @@ export interface ServicePrincipalAuthTypeConnectionProperties {
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "ServicePrincipal".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "ServicePrincipal";
   /**
@@ -7809,12 +7515,6 @@ export interface ServicePrincipalAuthTypeConnectionPropertiesInput extends Input
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "ServicePrincipal".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "ServicePrincipal";
   /**
@@ -7853,12 +7553,6 @@ export interface ServicePrincipalAuthTypeConnectionPropertiesView extends InputO
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "ServicePrincipal".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "ServicePrincipal";
   /**
@@ -7959,12 +7653,6 @@ export interface ServiceTagOutboundRule {
    * Type of a managed network Outbound Rule of a cognitive services account.
    *
    * Selects this variant. Must be "ServiceTag".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ServiceTag";
 }
@@ -7989,12 +7677,6 @@ export interface ServiceTagOutboundRuleInput extends InputOf<ServiceTagOutboundR
    * Type of a managed network Outbound Rule of a cognitive services account.
    *
    * Selects this variant. Must be "ServiceTag".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ServiceTag";
 }
@@ -8024,12 +7706,6 @@ export interface ServiceTagOutboundRuleView extends InputOf<ServiceTagOutboundRu
    * Type of a managed network Outbound Rule of a cognitive services account.
    *
    * Selects this variant. Must be "ServiceTag".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ServiceTag";
 }
@@ -8503,12 +8179,6 @@ export interface UsernamePasswordAuthTypeConnectionProperties {
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "UsernamePassword".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "UsernamePassword";
   /**
@@ -8552,12 +8222,6 @@ export interface UsernamePasswordAuthTypeConnectionPropertiesInput extends Input
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "UsernamePassword".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "UsernamePassword";
   /**
@@ -8596,12 +8260,6 @@ export interface UsernamePasswordAuthTypeConnectionPropertiesView extends InputO
    * Authentication type of the connection target
    *
    * Selects this variant. Must be "UsernamePassword".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * authType: asDiscriminator(authTypeParam),
-   * ```
    */
   authType: "UsernamePassword";
   /**

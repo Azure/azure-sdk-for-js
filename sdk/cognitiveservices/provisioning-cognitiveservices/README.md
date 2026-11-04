@@ -15,6 +15,33 @@ npm install @azure/provisioning-cognitiveservices @azure/provisioning-core
 2. Import resource classes from `@azure/provisioning-cognitiveservices` and add them to your definition with their required properties.
 3. Serialize the definition using `@azure/provisioning-core/serialization`.
 
+The following example defines a multi-service Cognitive Services account in a resource-group-scoped stack, then serializes the definition to JSON. Replace the custom subdomain name with a globally unique value.
+
+```ts snippet:ReadmeSampleCreateAccount
+import { Stack } from "@azure/provisioning-core";
+import { Account } from "@azure/provisioning-cognitiveservices";
+import { serialize } from "@azure/provisioning-core/serialization";
+
+const stack = new Stack("cognitive-services-deployment", {
+  targetScope: "resourceGroup",
+  location: "eastus",
+});
+const account = new Account(stack, {
+  name: "my-cognitive-services",
+  location: "eastus",
+  kind: "CognitiveServices",
+  sku: { name: "S0" },
+  properties: {
+    customSubDomainName: "my-unique-cognitive-services",
+    disableLocalAuth: true,
+  },
+});
+stack.outputs.add("accountId", "string", account.id);
+console.log(JSON.stringify(serialize(stack), null, 2));
+```
+
+This only produces an infrastructure definition; it does not deploy resources to Azure.
+
 See the [core library documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/provisioning-core/README.md) for the authoring model and serialization APIs.
 
 ## Resource types
