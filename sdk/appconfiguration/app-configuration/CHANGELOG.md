@@ -11,6 +11,7 @@
 ### Other Changes
 
 - Removed the direct dependency on `@azure/core-client` while preserving the existing client options. [#40645](https://github.com/Azure/azure-sdk-for-js/pull/40645)
+- Removed the direct dependency on `@azure/core-http-compat` by defining structurally compatible legacy `_response` types in this package. Follow-up to [#40645](https://github.com/Azure/azure-sdk-for-js/pull/40645).
 
 ## 1.13.1 (2026-10-27)
 
