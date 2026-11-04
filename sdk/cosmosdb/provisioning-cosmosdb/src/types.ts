@@ -2136,12 +2136,6 @@ export interface ContinuousModeBackupPolicy {
    * Describes the mode of backups.
    *
    * Selects this variant. Must be "Continuous".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "Continuous";
 }
@@ -2162,12 +2156,6 @@ export interface ContinuousModeBackupPolicyInput extends InputOf<ContinuousModeB
    * Describes the mode of backups.
    *
    * Selects this variant. Must be "Continuous".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "Continuous";
 }
@@ -3376,12 +3364,6 @@ export interface DataTransferServiceResourceProperties {
    * ServiceType for the service.
    *
    * Selects this variant. Must be "DataTransfer".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * serviceType: asDiscriminator(serviceTypeParam),
-   * ```
    */
   serviceType: "DataTransfer";
   /**
@@ -3406,12 +3388,6 @@ export interface DataTransferServiceResourcePropertiesInput extends InputOf<Data
    * ServiceType for the service.
    *
    * Selects this variant. Must be "DataTransfer".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * serviceType: asDiscriminator(serviceTypeParam),
-   * ```
    */
   serviceType: "DataTransfer";
 }
@@ -3440,12 +3416,6 @@ export interface DataTransferServiceResourcePropertiesView extends InputOf<DataT
    * ServiceType for the service.
    *
    * Selects this variant. Must be "DataTransfer".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * serviceType: asDiscriminator(serviceTypeParam),
-   * ```
    */
   serviceType: "DataTransfer";
   /**
@@ -4166,12 +4136,6 @@ export interface GraphApiComputeServiceResourceProperties {
    * ServiceType for the service.
    *
    * Selects this variant. Must be "GraphAPICompute".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * serviceType: asDiscriminator(serviceTypeParam),
-   * ```
    */
   serviceType: "GraphAPICompute";
   /**
@@ -4196,12 +4160,6 @@ export interface GraphApiComputeServiceResourcePropertiesInput extends InputOf<G
    * ServiceType for the service.
    *
    * Selects this variant. Must be "GraphAPICompute".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * serviceType: asDiscriminator(serviceTypeParam),
-   * ```
    */
   serviceType: "GraphAPICompute";
 }
@@ -4234,12 +4192,6 @@ export interface GraphApiComputeServiceResourcePropertiesView extends InputOf<Gr
    * ServiceType for the service.
    *
    * Selects this variant. Must be "GraphAPICompute".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * serviceType: asDiscriminator(serviceTypeParam),
-   * ```
    */
   serviceType: "GraphAPICompute";
   /**
@@ -5504,12 +5456,6 @@ export interface MaterializedViewsBuilderServiceResourceProperties {
    * ServiceType for the service.
    *
    * Selects this variant. Must be "MaterializedViewsBuilder".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * serviceType: asDiscriminator(serviceTypeParam),
-   * ```
    */
   serviceType: "MaterializedViewsBuilder";
   /**
@@ -5534,12 +5480,6 @@ export interface MaterializedViewsBuilderServiceResourcePropertiesInput extends 
    * ServiceType for the service.
    *
    * Selects this variant. Must be "MaterializedViewsBuilder".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * serviceType: asDiscriminator(serviceTypeParam),
-   * ```
    */
   serviceType: "MaterializedViewsBuilder";
 }
@@ -5568,12 +5508,6 @@ export interface MaterializedViewsBuilderServiceResourcePropertiesView extends I
    * ServiceType for the service.
    *
    * Selects this variant. Must be "MaterializedViewsBuilder".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * serviceType: asDiscriminator(serviceTypeParam),
-   * ```
    */
   serviceType: "MaterializedViewsBuilder";
   /**
@@ -6461,12 +6395,6 @@ export interface PeriodicModeBackupPolicy {
    * Describes the mode of backups.
    *
    * Selects this variant. Must be "Periodic".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "Periodic";
 }
@@ -6487,12 +6415,6 @@ export interface PeriodicModeBackupPolicyInput extends InputOf<PeriodicModeBacku
    * Describes the mode of backups.
    *
    * Selects this variant. Must be "Periodic".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "Periodic";
 }
@@ -8015,12 +7937,6 @@ export interface SqlDedicatedGatewayServiceResourceProperties {
    * ServiceType for the service.
    *
    * Selects this variant. Must be "SqlDedicatedGateway".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * serviceType: asDiscriminator(serviceTypeParam),
-   * ```
    */
   serviceType: "SqlDedicatedGateway";
   /**
@@ -8053,12 +7969,6 @@ export interface SqlDedicatedGatewayServiceResourcePropertiesInput extends Input
    * ServiceType for the service.
    *
    * Selects this variant. Must be "SqlDedicatedGateway".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * serviceType: asDiscriminator(serviceTypeParam),
-   * ```
    */
   serviceType: "SqlDedicatedGateway";
 }
@@ -8091,12 +8001,6 @@ export interface SqlDedicatedGatewayServiceResourcePropertiesView extends InputO
    * ServiceType for the service.
    *
    * Selects this variant. Must be "SqlDedicatedGateway".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * serviceType: asDiscriminator(serviceTypeParam),
-   * ```
    */
   serviceType: "SqlDedicatedGateway";
   /**

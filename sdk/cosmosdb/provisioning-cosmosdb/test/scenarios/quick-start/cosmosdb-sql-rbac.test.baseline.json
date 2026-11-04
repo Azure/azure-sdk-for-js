@@ -1,0 +1,437 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "parameters": {
+        "location": {
+          "bicepIdentifier": "location",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "property-access",
+            "base": {
+              "kind": "function-call",
+              "target": "resourceGroup",
+              "args": []
+            },
+            "property": "location",
+            "nullish": false
+          },
+          "decorators": {
+            "description": "Location for all resources."
+          }
+        },
+        "accountName": {
+          "bicepIdentifier": "accountName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "function-call",
+            "target": "toLower",
+            "args": [
+              {
+                "kind": "function-call",
+                "target": "format",
+                "args": [
+                  {
+                    "kind": "string",
+                    "value": "sql-rbac-{0}"
+                  },
+                  {
+                    "kind": "function-call",
+                    "target": "uniqueString",
+                    "args": [
+                      {
+                        "kind": "property-access",
+                        "base": {
+                          "kind": "function-call",
+                          "target": "resourceGroup",
+                          "args": []
+                        },
+                        "property": "id",
+                        "nullish": false
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "decorators": {
+            "description": "Cosmos DB account name, max length 44 characters"
+          }
+        },
+        "roleDefinitionName": {
+          "bicepIdentifier": "roleDefinitionName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "string",
+            "value": "My Read Write Role"
+          },
+          "decorators": {
+            "description": "Friendly name for the SQL Role Definition"
+          }
+        },
+        "dataActions": {
+          "bicepIdentifier": "dataActions",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "array"
+          },
+          "defaultValue": {
+            "kind": "array",
+            "items": [
+              {
+                "kind": "string",
+                "value": "Microsoft.DocumentDB/databaseAccounts/readMetadata"
+              },
+              {
+                "kind": "string",
+                "value": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/*"
+              }
+            ]
+          },
+          "decorators": {
+            "description": "Data actions permitted by the Role Definition"
+          }
+        },
+        "principalId": {
+          "bicepIdentifier": "principalId",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "Object ID of the AAD identity. Must be a GUID."
+          }
+        }
+      },
+      "variables": {
+        "locations": {
+          "bicepIdentifier": "locations",
+          "value": {
+            "kind": "array",
+            "items": [
+              {
+                "kind": "object",
+                "value": {
+                  "locationName": {
+                    "kind": "identifier",
+                    "id": "location"
+                  },
+                  "failoverPriority": {
+                    "kind": "integer",
+                    "value": "0"
+                  },
+                  "isZoneRedundant": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "roleDefinitionId": {
+          "bicepIdentifier": "roleDefinitionId",
+          "value": {
+            "kind": "function-call",
+            "target": "guid",
+            "args": [
+              {
+                "kind": "string",
+                "value": "sql-role-definition-"
+              },
+              {
+                "kind": "identifier",
+                "id": "principalId"
+              },
+              {
+                "kind": "function-call",
+                "target": "resourceId",
+                "args": [
+                  {
+                    "kind": "string",
+                    "value": "Microsoft.DocumentDB/databaseAccounts"
+                  },
+                  {
+                    "kind": "identifier",
+                    "id": "accountName"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "roleAssignmentId": {
+          "bicepIdentifier": "roleAssignmentId",
+          "value": {
+            "kind": "function-call",
+            "target": "guid",
+            "args": [
+              {
+                "kind": "identifier",
+                "id": "roleDefinitionId"
+              },
+              {
+                "kind": "identifier",
+                "id": "principalId"
+              },
+              {
+                "kind": "function-call",
+                "target": "resourceId",
+                "args": [
+                  {
+                    "kind": "string",
+                    "value": "Microsoft.DocumentDB/databaseAccounts"
+                  },
+                  {
+                    "kind": "identifier",
+                    "id": "accountName"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "accountName"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "GlobalDocumentDB"
+              },
+              "location": {
+                "kind": "identifier",
+                "id": "location"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "consistencyPolicy": {
+                    "kind": "object",
+                    "value": {
+                      "defaultConsistencyLevel": {
+                        "kind": "string",
+                        "value": "Session"
+                      }
+                    }
+                  },
+                  "locations": {
+                    "kind": "identifier",
+                    "id": "locations"
+                  },
+                  "databaseAccountOfferType": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "enableAutomaticFailover": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableMultipleWriteLocations": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "sqlRoleDefinition": {
+          "bicepIdentifier": "sqlRoleDefinition",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "roleDefinitionId"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "roleName": {
+                    "kind": "identifier",
+                    "id": "roleDefinitionName"
+                  },
+                  "type": {
+                    "kind": "string",
+                    "value": "CustomRole"
+                  },
+                  "assignableScopes": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "function-call",
+                        "target": "resourceId",
+                        "args": [
+                          {
+                            "kind": "string",
+                            "value": "Microsoft.DocumentDB/databaseAccounts"
+                          },
+                          {
+                            "kind": "identifier",
+                            "id": "accountName"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "permissions": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "dataActions": {
+                            "kind": "identifier",
+                            "id": "dataActions"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "sqlRoleAssignment": {
+          "bicepIdentifier": "sqlRoleAssignment",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "roleAssignmentId"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "roleDefinitionId": {
+                    "kind": "function-call",
+                    "target": "resourceId",
+                    "args": [
+                      {
+                        "kind": "string",
+                        "value": "Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions"
+                      },
+                      {
+                        "kind": "identifier",
+                        "id": "accountName"
+                      },
+                      {
+                        "kind": "identifier",
+                        "id": "roleDefinitionId"
+                      }
+                    ]
+                  },
+                  "principalId": {
+                    "kind": "identifier",
+                    "id": "principalId"
+                  },
+                  "scope": {
+                    "kind": "function-call",
+                    "target": "resourceId",
+                    "args": [
+                      {
+                        "kind": "string",
+                        "value": "Microsoft.DocumentDB/databaseAccounts"
+                      },
+                      {
+                        "kind": "identifier",
+                        "id": "accountName"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource0Id": {
+          "bicepIdentifier": "resource0Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "databaseAccount"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "sqlRoleDefinition"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource2Id": {
+          "bicepIdentifier": "resource2Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "sqlRoleAssignment"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

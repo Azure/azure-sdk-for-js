@@ -15,6 +15,29 @@ npm install @azure/provisioning-cosmosdb @azure/provisioning-core
 2. Import resource classes from `@azure/provisioning-cosmosdb` and add them to your definition with their required properties.
 3. Serialize the definition using `@azure/provisioning-core/serialization`.
 
+```ts snippet:ReadmeSampleCreateDatabaseAccount
+import { Stack } from "@azure/provisioning-core";
+import { DatabaseAccount } from "@azure/provisioning-cosmosdb";
+import { serialize } from "@azure/provisioning-core/serialization";
+
+const stack = new Stack("cosmosdb-deployment", {
+  targetScope: "resourceGroup",
+  location: "eastus",
+});
+const account = new DatabaseAccount(stack, {
+  name: "my-unique-cosmosdb-account",
+  location: "eastus",
+  kind: "GlobalDocumentDB",
+  properties: {
+    databaseAccountOfferType: "Standard",
+    locations: [{ locationName: "eastus", failoverPriority: 0 }],
+    disableLocalAuth: true,
+  },
+});
+stack.outputs.add("accountId", "string", account.id);
+console.log(JSON.stringify(serialize(stack), null, 2));
+```
+
 See the [core library documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/provisioning-core/README.md) for the authoring model and serialization APIs.
 
 ## Resource types
