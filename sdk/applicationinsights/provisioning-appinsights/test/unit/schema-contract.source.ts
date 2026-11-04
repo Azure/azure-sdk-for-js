@@ -5,7 +5,7 @@
  * Scenario: schema contract source probes for @azure/provisioning-appinsights.
  * Provisioning API: @azure/provisioning-appinsights root types namespace.
  * Source contracts: exact-version Microsoft Learn/Bicep reference.
- * Typecheck command: pnpm run typecheck
+ * Typecheck command: pnpm exec tsc --project config/tsconfig.test.node.json --noEmit
  */
 
 import type {
