@@ -9,6 +9,7 @@
 
 ### Other Changes
 
+- Regenerate from azure-rest-api-specs commit `ef1f55a194fedc8de81a785d685bd2749e6cc72c` to restore released tool names in generated output. Preserve `Tool*` compatibility aliases and customized converter behavior through explicit historical identity mappings. [Upstream change](https://github.com/Azure/azure-rest-api-specs/pull/47872). [#40636](https://github.com/Azure/azure-sdk-for-js/pull/40636)
 - Regenerate the client from azure-rest-api-specs commit `f5ead4e289e118a0037dabc893316670e5435850`, exposing the emitted `Tool*` names as aliases while preserving existing tool shapes and serializer dispatch. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f5ead4e289e118a0037dabc893316670e5435850). [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
 
 ## 2.10.0 (2026-10-30)
