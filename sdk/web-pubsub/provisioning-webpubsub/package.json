@@ -62,12 +62,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js",
-    "directory": "sdk/webpubsub/provisioning-webpubsub"
+    "directory": "sdk/web-pubsub/provisioning-webpubsub"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/webpubsub/provisioning-webpubsub/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/provisioning-webpubsub/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/provisioning-core": "catalog:",
