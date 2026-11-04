@@ -976,4 +976,5 @@ export type {
   ToolToolSearchToolParam,
   ToolWebSearchPreviewTool,
   ToolApplyPatchToolParam,
+  FileSearchToolFiltersValue,
 } from "./models.js";

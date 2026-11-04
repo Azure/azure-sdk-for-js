@@ -7952,7 +7952,7 @@ export function codeInterpreterToolboxToolSerializer(item: CodeInterpreterToolbo
         }),
     container: !item["container"]
       ? item["container"]
-      : _codeInterpreterToolContainerSerializer(item["container"]),
+      : _codeInterpreterToolboxToolContainerSerializer(item["container"]),
   };
 }
 
@@ -7971,7 +7971,7 @@ export function codeInterpreterToolboxToolDeserializer(item: any): CodeInterpret
         }),
     container: !item["container"]
       ? item["container"]
-      : _codeInterpreterToolContainerDeserializer(item["container"]),
+      : _codeInterpreterToolboxToolContainerDeserializer(item["container"]),
   };
 }
 
@@ -8170,7 +8170,7 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
     headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+      : _voiceAgentMcpToolAllowedToolsSerializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p: any) => {
@@ -8178,7 +8178,7 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+      : _voiceAgentMcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
   };
@@ -8205,7 +8205,7 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
         ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+      : _voiceAgentMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p1: any) => {
@@ -8213,7 +8213,7 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+      : _voiceAgentMcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
   };
@@ -17143,7 +17143,7 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
     headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+      : _voiceAgentMcpToolAllowedToolsSerializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p: any) => {
@@ -17151,7 +17151,7 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+      : _voiceAgentMcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -17175,7 +17175,7 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
         ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+      : _voiceAgentMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p1: any) => {
@@ -17183,7 +17183,7 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+      : _voiceAgentMcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -28653,98 +28653,208 @@ export type VoiceAgentPostCallIncludeOption = "audio";
 
 /** Alias for FunctionTool. */
 export type ToolFunctionTool = FunctionTool;
+
 export const toolFunctionToolSerializer = functionToolSerializer;
+
 export const toolFunctionToolDeserializer = functionToolDeserializer;
+
 /** Alias for FileSearchTool. */
 export type ToolFileSearchTool = FileSearchTool;
+
 export const toolFileSearchToolSerializer = fileSearchToolSerializer;
+
 export const toolFileSearchToolDeserializer = fileSearchToolDeserializer;
+
 /** Alias for ComputerTool. */
 export type ToolComputerTool = ComputerTool;
+
 export const toolComputerToolSerializer = computerToolSerializer;
+
 export const toolComputerToolDeserializer = computerToolDeserializer;
+
 /** Alias for ComputerUsePreviewTool. */
 export type ToolComputerUsePreviewTool = ComputerUsePreviewTool;
+
 export const toolComputerUsePreviewToolSerializer = computerUsePreviewToolSerializer;
+
 export const toolComputerUsePreviewToolDeserializer = computerUsePreviewToolDeserializer;
+
 /** Alias for WebSearchTool. */
 export type ToolWebSearchTool = WebSearchTool;
+
 export const toolWebSearchToolSerializer = webSearchToolSerializer;
+
 export const toolWebSearchToolDeserializer = webSearchToolDeserializer;
+
 /** Alias for MCPTool. */
 export type ToolMcpTool = MCPTool;
+
 export const toolMcpToolSerializer = mcpToolSerializer;
+
 export const toolMcpToolDeserializer = mcpToolDeserializer;
+
 /** Alias for CodeInterpreterTool. */
 export type ToolCodeInterpreterTool = CodeInterpreterTool;
+
 export const toolCodeInterpreterToolSerializer = codeInterpreterToolSerializer;
+
 export const toolCodeInterpreterToolDeserializer = codeInterpreterToolDeserializer;
+
 /** Alias for ProgrammaticToolCallingParam. */
 export type ToolProgrammaticToolCallingParam = ProgrammaticToolCallingParam;
+
 export const toolProgrammaticToolCallingParamSerializer = programmaticToolCallingParamSerializer;
+
 export const toolProgrammaticToolCallingParamDeserializer =
   programmaticToolCallingParamDeserializer;
+
 /** Alias for ImageGenTool. */
 export type ToolImageGenTool = ImageGenTool;
+
 export const toolImageGenToolSerializer = imageGenToolSerializer;
+
 export const toolImageGenToolDeserializer = imageGenToolDeserializer;
+
 /** Alias for LocalShellToolParam. */
 export type ToolLocalShellToolParam = LocalShellToolParam;
+
 export const toolLocalShellToolParamSerializer = localShellToolParamSerializer;
+
 export const toolLocalShellToolParamDeserializer = localShellToolParamDeserializer;
+
 /** Alias for FunctionShellToolParam. */
 export type ToolFunctionShellToolParam = FunctionShellToolParam;
+
 export const toolFunctionShellToolParamSerializer = functionShellToolParamSerializer;
+
 export const toolFunctionShellToolParamDeserializer = functionShellToolParamDeserializer;
+
 /** Alias for CustomToolParam. */
 export type ToolCustomToolParam = CustomToolParam;
+
 export const toolCustomToolParamSerializer = customToolParamSerializer;
+
 export const toolCustomToolParamDeserializer = customToolParamDeserializer;
+
 /** Alias for ToolSearchToolParam. */
 export type ToolToolSearchToolParam = ToolSearchToolParam;
+
 export const toolToolSearchToolParamSerializer = toolSearchToolParamSerializer;
+
 export const toolToolSearchToolParamDeserializer = toolSearchToolParamDeserializer;
+
 /** Alias for WebSearchPreviewTool. */
 export type ToolWebSearchPreviewTool = WebSearchPreviewTool;
+
 export const toolWebSearchPreviewToolSerializer = webSearchPreviewToolSerializer;
+
 export const toolWebSearchPreviewToolDeserializer = webSearchPreviewToolDeserializer;
+
 /** Alias for ApplyPatchToolParam. */
 export type ToolApplyPatchToolParam = ApplyPatchToolParam;
+
 export const toolApplyPatchToolParamSerializer = applyPatchToolParamSerializer;
+
 export const toolApplyPatchToolParamDeserializer = applyPatchToolParamDeserializer;
 
 /** Alias for _CodeInterpreterToolContainer. */
 export type _ToolCodeInterpreterToolContainer = _CodeInterpreterToolContainer;
+
 export const _toolCodeInterpreterToolContainerSerializer = _codeInterpreterToolContainerSerializer;
+
 export const _toolCodeInterpreterToolContainerDeserializer =
   _codeInterpreterToolContainerDeserializer;
+
 /** Alias for FileSearchToolFiltersValue. */
 export type _ToolFileSearchToolFiltersValue = string | number | boolean | (string | number)[];
+
 export const _toolFileSearchToolFiltersValueSerializer = _fileSearchToolFiltersValueSerializer;
+
 export const _toolFileSearchToolFiltersValueDeserializer = _fileSearchToolFiltersValueDeserializer;
+
 /** Alias for _FileSearchToolFiltersValue. */
 export type _ToolFileSearchToolFiltersValue1 = _FileSearchToolFiltersValue;
+
 export const _toolFileSearchToolFiltersValue1Serializer = _fileSearchToolFiltersValue1Serializer;
+
 export const _toolFileSearchToolFiltersValue1Deserializer =
   _fileSearchToolFiltersValue1Deserializer;
+
 export const _toolFileSearchToolFiltersValue1ArraySerializer =
   _fileSearchToolFiltersValue1ArraySerializer;
+
 export const _toolFileSearchToolFiltersValue1ArrayDeserializer =
   _fileSearchToolFiltersValue1ArrayDeserializer;
+
 /** Alias for _FileSearchToolFiltersFilter. */
 export type _ToolFileSearchToolFiltersFilter = _FileSearchToolFiltersFilter;
+
 export const _toolFileSearchToolFiltersFilterSerializer = _fileSearchToolFiltersFilterSerializer;
+
 export const _toolFileSearchToolFiltersFilterDeserializer =
   _fileSearchToolFiltersFilterDeserializer;
+
 export const _toolFileSearchToolFiltersFilterArraySerializer =
   _fileSearchToolFiltersFilterArraySerializer;
+
 export const _toolFileSearchToolFiltersFilterArrayDeserializer =
   _fileSearchToolFiltersFilterArrayDeserializer;
+
 /** Alias for _MCPToolAllowedTools. */
 export type _ToolMcpToolAllowedTools = _MCPToolAllowedTools;
+
 export const _toolMcpToolAllowedToolsSerializer = _mcpToolAllowedToolsSerializer;
+
 export const _toolMcpToolAllowedToolsDeserializer = _mcpToolAllowedToolsDeserializer;
+
 /** Alias for _MCPToolRequireApproval. */
 export type _ToolMcpToolRequireApproval = _MCPToolRequireApproval;
+
 export const _toolMcpToolRequireApprovalSerializer = _mcpToolRequireApprovalSerializer;
+
 export const _toolMcpToolRequireApprovalDeserializer = _mcpToolRequireApprovalDeserializer;
+
+/** Alias for _CodeInterpreterToolboxToolContainer */
+export type _CodeInterpreterToolboxToolContainer = string | AutoCodeInterpreterToolParam;
+
+export function _codeInterpreterToolboxToolContainerSerializer(
+  item: _CodeInterpreterToolboxToolContainer,
+): any {
+  return item;
+}
+
+export function _codeInterpreterToolboxToolContainerDeserializer(
+  item: any,
+): _CodeInterpreterToolboxToolContainer {
+  return item;
+}
+
+/** Alias for _VoiceAgentMcpToolAllowedTools */
+export type _VoiceAgentMcpToolAllowedTools = string[] | MCPToolFilter;
+
+export function _voiceAgentMcpToolAllowedToolsSerializer(
+  item: _VoiceAgentMcpToolAllowedTools,
+): any {
+  return item;
+}
+
+export function _voiceAgentMcpToolAllowedToolsDeserializer(
+  item: any,
+): _VoiceAgentMcpToolAllowedTools {
+  return item;
+}
+
+/** Alias for _VoiceAgentMcpToolRequireApproval */
+export type _VoiceAgentMcpToolRequireApproval = MCPToolRequireApproval | "always" | "never";
+
+export function _voiceAgentMcpToolRequireApprovalSerializer(
+  item: _VoiceAgentMcpToolRequireApproval,
+): any {
+  return item;
+}
+
+export function _voiceAgentMcpToolRequireApprovalDeserializer(
+  item: any,
+): _VoiceAgentMcpToolRequireApproval {
+  return item;
+}
