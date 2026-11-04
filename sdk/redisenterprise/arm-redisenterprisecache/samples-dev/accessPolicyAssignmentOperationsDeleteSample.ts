@@ -8,13 +8,18 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a single access policy assignment.
  *
  * @summary deletes a single access policy assignment.
- * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseAccessPolicyAssignmentDelete.json
+ * x-ms-original-file: 2026-10-01-preview/RedisEnterpriseAccessPolicyAssignmentDelete.json
  */
 async function redisEnterpriseAccessPolicyAssignmentDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
-  await client.accessPolicyAssignment.delete("rg1", "cache1", "default", "defaultTestEntraApp1");
+  await client.accessPolicyAssignmentOperations.delete(
+    "rg1",
+    "cache1",
+    "default",
+    "defaultTestEntraApp1",
+  );
 }
 
 async function main(): Promise<void> {

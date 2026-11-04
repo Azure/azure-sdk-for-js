@@ -4,16 +4,19 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AccessPolicyAssignmentListOptionalParams extends OperationOptions {}
+export interface AccessPolicyAssignmentOperationsListOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
-export interface AccessPolicyAssignmentDeleteOptionalParams extends OperationOptions {
+export interface AccessPolicyAssignmentOperationsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
-export interface AccessPolicyAssignmentCreateUpdateOptionalParams extends OperationOptions {
+export interface AccessPolicyAssignmentOperationsCreateUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
-export interface AccessPolicyAssignmentGetOptionalParams extends OperationOptions {}
+export interface AccessPolicyAssignmentOperationsGetOptionalParams extends OperationOptions {}
