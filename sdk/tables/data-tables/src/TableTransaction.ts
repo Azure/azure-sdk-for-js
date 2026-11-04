@@ -12,7 +12,6 @@ import type {
 } from "./models.js";
 import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import type { OperationOptions } from "@azure/core-client";
-import { serializationPolicy, serializationPolicyName } from "@azure/core-client";
 import type {
   HttpClient,
   Pipeline,
@@ -452,13 +451,12 @@ export function prepateTransactionPipeline(
   // With the clear state we now initialize the pipelines required for intercepting the requests.
   // Use transaction assemble policy to assemble request and intercept request from going to wire
 
-  pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
   pipeline.addPolicy(transactionHeaderFilterPolicy());
   pipeline.addPolicy(transactionRequestAssemblePolicy(bodyParts, changesetId));
   if (isCosmos) {
     pipeline.addPolicy(cosmosPatchPolicy(), {
       afterPolicies: [transactionHeaderFilterPolicyName],
-      beforePolicies: [serializationPolicyName, transactionRequestAssemblePolicyName],
+      beforePolicies: [transactionRequestAssemblePolicyName],
     });
   }
 }
