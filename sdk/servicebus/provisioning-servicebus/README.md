@@ -15,6 +15,35 @@ npm install @azure/provisioning-servicebus @azure/provisioning-core
 2. Import resource classes from `@azure/provisioning-servicebus` and add them to your definition with their required properties.
 3. Serialize the definition using `@azure/provisioning-core/serialization`.
 
+The following example defines a Service Bus namespace and queue in a resource-group-scoped stack, then serializes the definition to JSON. The namespace name must be globally unique.
+
+```ts snippet:ReadmeSampleCreateQueue
+import { Stack } from "@azure/provisioning-core";
+import { Namespace, Queue } from "@azure/provisioning-servicebus";
+import { serialize } from "@azure/provisioning-core/serialization";
+
+const stack = new Stack("servicebus-deployment", {
+  targetScope: "resourceGroup",
+  location: "eastus",
+});
+const namespace = new Namespace(stack, {
+  name: "my-unique-servicebus-namespace",
+  location: "eastus",
+  sku: { name: "Standard" },
+});
+const queue = new Queue(namespace, {
+  name: "my-queue",
+  properties: {
+    maxDeliveryCount: 10,
+    deadLetteringOnMessageExpiration: true,
+  },
+});
+stack.outputs.add("queueId", "string", queue.id);
+console.log(JSON.stringify(serialize(stack), null, 2));
+```
+
+This only produces an infrastructure definition; it does not deploy resources to Azure.
+
 See the [core library documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/provisioning-core/README.md) for the authoring model and serialization APIs.
 
 ## Resource types
