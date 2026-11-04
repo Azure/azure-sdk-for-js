@@ -15,6 +15,25 @@ npm install @azure/provisioning-appinsights @azure/provisioning-core
 2. Import resource classes from `@azure/provisioning-appinsights` and add them to your definition with their required properties.
 3. Serialize the definition using `@azure/provisioning-core/serialization`.
 
+The following example defines a web Application Insights component.
+
+```ts snippet:ReadmeSampleCreateComponent
+import { Stack } from "@azure/provisioning-core";
+import { Component } from "@azure/provisioning-appinsights";
+
+const stack = new Stack("application-insights", {
+  targetScope: "resourceGroup",
+  location: "eastus",
+});
+new Component(stack, {
+  name: "example-appinsights",
+  kind: "web",
+  properties: {
+    applicationType: "web",
+  },
+});
+```
+
 See the [core library documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/provisioning-core/README.md) for the authoring model and serialization APIs.
 
 ## Resource types
